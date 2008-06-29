@@ -129,7 +129,6 @@ Partial Class ConfigForm
         Me.BlockReason = New System.Windows.Forms.TextBox
         Me.PromptForBlock = New System.Windows.Forms.CheckBox
         Me.UseAdminFunctions = New System.Windows.Forms.CheckBox
-        Me.PageBox = New System.Windows.Forms.ListBox
         Me.Tabs.SuspendLayout()
         Me.GeneralTab.SuspendLayout()
         Me.KeyboardTab.SuspendLayout()
@@ -147,7 +146,7 @@ Partial Class ConfigForm
         'Cancel
         '
         Me.Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Cancel.Location = New System.Drawing.Point(557, 333)
+        Me.Cancel.Location = New System.Drawing.Point(399, 334)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
         Me.Cancel.TabIndex = 1
@@ -157,7 +156,7 @@ Partial Class ConfigForm
         'OK
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.OK.Location = New System.Drawing.Point(476, 333)
+        Me.OK.Location = New System.Drawing.Point(318, 334)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
         Me.OK.TabIndex = 0
@@ -166,9 +165,7 @@ Partial Class ConfigForm
         '
         'Tabs
         '
-        Me.Tabs.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Tabs.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Tabs.Controls.Add(Me.GeneralTab)
         Me.Tabs.Controls.Add(Me.KeyboardTab)
         Me.Tabs.Controls.Add(Me.QueueTab)
@@ -179,7 +176,7 @@ Partial Class ConfigForm
         Me.Tabs.Controls.Add(Me.EditorTab)
         Me.Tabs.Controls.Add(Me.AdminTab)
         Me.Tabs.ItemSize = New System.Drawing.Size(49, 19)
-        Me.Tabs.Location = New System.Drawing.Point(162, 12)
+        Me.Tabs.Location = New System.Drawing.Point(8, 12)
         Me.Tabs.Name = "Tabs"
         Me.Tabs.SelectedIndex = 0
         Me.Tabs.Size = New System.Drawing.Size(470, 315)
@@ -214,7 +211,7 @@ Partial Class ConfigForm
         'LogFileBrowse
         '
         Me.LogFileBrowse.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.LogFileBrowse.Location = New System.Drawing.Point(372, 240)
+        Me.LogFileBrowse.Location = New System.Drawing.Point(371, 240)
         Me.LogFileBrowse.Name = "LogFileBrowse"
         Me.LogFileBrowse.Size = New System.Drawing.Size(75, 23)
         Me.LogFileBrowse.TabIndex = 29
@@ -227,7 +224,7 @@ Partial Class ConfigForm
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.LogFile.Location = New System.Drawing.Point(56, 242)
         Me.LogFile.Name = "LogFile"
-        Me.LogFile.Size = New System.Drawing.Size(310, 20)
+        Me.LogFile.Size = New System.Drawing.Size(309, 20)
         Me.LogFile.TabIndex = 28
         '
         'Label17
@@ -1249,25 +1246,12 @@ Partial Class ConfigForm
         Me.UseAdminFunctions.Text = "Use administrator functions if available"
         Me.UseAdminFunctions.UseVisualStyleBackColor = True
         '
-        'PageBox
-        '
-        Me.PageBox.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.PageBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.PageBox.FormattingEnabled = True
-        Me.PageBox.IntegralHeight = False
-        Me.PageBox.Items.AddRange(New Object() {"General", "Keyboard shortcuts", "Queue", "Editing", "Reverting", "Reporting", "Templates", "Administrator functions"})
-        Me.PageBox.Location = New System.Drawing.Point(12, 19)
-        Me.PageBox.Name = "PageBox"
-        Me.PageBox.Size = New System.Drawing.Size(144, 308)
-        Me.PageBox.TabIndex = 9
-        '
         'ConfigForm
         '
+        Me.AcceptButton = Me.OK
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(644, 368)
-        Me.Controls.Add(Me.PageBox)
+        Me.ClientSize = New System.Drawing.Size(491, 369)
         Me.Controls.Add(Me.Tabs)
         Me.Controls.Add(Me.OK)
         Me.Controls.Add(Me.Cancel)
@@ -1386,7 +1370,6 @@ Partial Class ConfigForm
     Friend WithEvents ConfirmSelfRevert As System.Windows.Forms.CheckBox
     Friend WithEvents ClearRevertSummaries As System.Windows.Forms.Button
     Friend WithEvents Label19 As System.Windows.Forms.Label
-    Friend WithEvents PageBox As System.Windows.Forms.ListBox
     Friend WithEvents EditorTab As System.Windows.Forms.TabPage
     Friend WithEvents GroupBox2 As System.Windows.Forms.GroupBox
     Friend WithEvents ColorComment As System.Windows.Forms.Button

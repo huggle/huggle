@@ -3,10 +3,6 @@ Class ConfigForm
     Private ShortcutKeysClone As Dictionary(Of String, Shortcut)
 
     Private Sub ConfigForm_Load(ByVal s As Object, ByVal e As EventArgs) Handles MyBase.Load
-        Tabs.DrawMode = TabDrawMode.OwnerDrawFixed
-        Tabs.ItemSize = New Size(1, 1)
-        PageBox.SelectedIndex = 0
-
         AutoWhitelist.Checked = Config.AutoWhitelist
         TrayIcon.Checked = Config.TrayIcon
         ShowQueue.Checked = Config.ShowQueue
@@ -344,12 +340,6 @@ Class ConfigForm
         ManualRevertSummaries.Clear()
     End Sub
 
-    Private Sub PageBox_SelectedIndexChanged(ByVal s As Object, ByVal e As EventArgs) _
-        Handles PageBox.SelectedIndexChanged
-
-        Tabs.SelectedIndex = PageBox.SelectedIndex
-    End Sub
-
     Private Sub SetColor(ByVal sender As Object, ByVal e As EventArgs) Handles ColorComment.Click, _
         ColorExternalLink.Click, ColorHtmlTag.Click, ColorImage.Click, ColorLink.Click, ColorMagicWord.Click, _
         ColorParam.Click, ColorParamCall.Click, ColorParamName.Click, ColorReference.Click, ColorTemplate.Click
@@ -361,5 +351,4 @@ Class ConfigForm
         NewColorDialog.Color = Control.BackColor
         If NewColorDialog.ShowDialog = DialogResult.OK Then Control.BackColor = NewColorDialog.Color
     End Sub
-
 End Class
