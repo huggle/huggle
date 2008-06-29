@@ -64,7 +64,7 @@ Partial Class AboutForm
         Me.Credit.Size = New System.Drawing.Size(107, 17)
         Me.Credit.TabIndex = 2
         Me.Credit.TabStop = True
-        Me.Credit.Text = "Developed by Gurch"
+        Me.Credit.Text = "Created by Gurch"
         Me.Credit.UseCompatibleTextRendering = True
         '
         'Version

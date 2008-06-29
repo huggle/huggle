@@ -5,7 +5,7 @@ Module Config
 
     'Configuration
 
-    Public Version As New Version(0, 8, 0)
+    Public Version As New Version(0, 7, 10)
     Public Debug As Boolean = True
 
     Public ConfigChanged As Boolean = False

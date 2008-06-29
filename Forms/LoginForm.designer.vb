@@ -177,14 +177,14 @@ Partial Class LoginForm
         '
         Me.Credit.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Credit.AutoSize = True
-        Me.Credit.LinkArea = New System.Windows.Forms.LinkArea(13, 5)
+        Me.Credit.LinkArea = New System.Windows.Forms.LinkArea(11, 5)
         Me.Credit.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline
         Me.Credit.Location = New System.Drawing.Point(224, 51)
         Me.Credit.Name = "Credit"
         Me.Credit.Size = New System.Drawing.Size(107, 17)
         Me.Credit.TabIndex = 7
         Me.Credit.TabStop = True
-        Me.Credit.Text = "Developed by Gurch"
+        Me.Credit.Text = "Created by Gurch"
         Me.Credit.UseCompatibleTextRendering = True
         '
         'Version
