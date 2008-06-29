@@ -204,11 +204,10 @@ Module Requests
             Try
                 Result = UTF8.GetString(Client.UploadData(SitePath & _
                     "w/index.php?title=" & UrlEncode(Data.Page.Name.Replace(" ", "_")) & _
-                    "&action=submit", UTF8.GetBytes(PostString)))
+                    "&action=submit", "POST", UTF8.GetBytes(PostString)))
             Catch ex As Exception
                 Callback(AddressOf PostEditException, CObj(Data))
             End Try
-
         Loop Until IsWikiPage(Result) OrElse Retries = 0
 
         Data.Result = Result
