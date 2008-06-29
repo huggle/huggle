@@ -106,8 +106,14 @@ Partial Class Main
         Me.Splitter = New System.Windows.Forms.SplitContainer
         Me.QueueScroll = New System.Windows.Forms.VScrollBar
         Me.QueueSource = New System.Windows.Forms.ComboBox
+        Me.EditInfo = New huggle.EditInfoPanel
+        Me.Queue = New huggle.QueuePanel
         Me.Tabs = New System.Windows.Forms.TabControl
         Me.TabPage1 = New System.Windows.Forms.TabPage
+        Me.InitialTab = New huggle.BrowserTab
+        Me.Status = New huggle.ListView2
+        Me.Url = New System.Windows.Forms.ColumnHeader
+        Me.Details = New System.Windows.Forms.ColumnHeader
         Me.ToolContainer = New System.Windows.Forms.ToolStripContainer
         Me.MainStrip = New System.Windows.Forms.ToolStrip
         Me.RevertWarnB = New System.Windows.Forms.ToolStripSplitButton
@@ -193,12 +199,8 @@ Partial Class Main
         Me.UserReportB = New System.Windows.Forms.ToolStripButton
         Me.RateUpdateTimer = New System.Windows.Forms.Timer(Me.components)
         Me.DrawTimer = New System.Windows.Forms.Timer(Me.components)
-        Me.EditInfo = New huggle.EditInfoPanel
-        Me.Queue = New huggle.QueuePanel
-        Me.InitialTab = New huggle.BrowserTab
-        Me.Status = New huggle.ListView2
-        Me.Url = New System.Windows.Forms.ColumnHeader
-        Me.Details = New System.Windows.Forms.ColumnHeader
+        Me.ToolStripSeparator6 = New System.Windows.Forms.ToolStripSeparator
+        Me.HuggleSandboxToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.LogMenu.SuspendLayout()
         Me.TrayMenu.SuspendLayout()
         Me.TopMenu.SuspendLayout()
@@ -236,12 +238,12 @@ Partial Class Main
         '
         Me.LogMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LogContextCopy})
         Me.LogMenu.Name = "LogContext"
-        Me.LogMenu.Size = New System.Drawing.Size(111, 26)
+        Me.LogMenu.Size = New System.Drawing.Size(103, 26)
         '
         'LogContextCopy
         '
         Me.LogContextCopy.Name = "LogContextCopy"
-        Me.LogContextCopy.Size = New System.Drawing.Size(110, 22)
+        Me.LogContextCopy.Size = New System.Drawing.Size(102, 22)
         Me.LogContextCopy.Text = "Copy"
         '
         'BlockReqTimer
@@ -260,18 +262,18 @@ Partial Class Main
         '
         Me.TrayMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TrayRestore, Me.TrayExit})
         Me.TrayMenu.Name = "TrayContext"
-        Me.TrayMenu.Size = New System.Drawing.Size(125, 48)
+        Me.TrayMenu.Size = New System.Drawing.Size(124, 48)
         '
         'TrayRestore
         '
         Me.TrayRestore.Name = "TrayRestore"
-        Me.TrayRestore.Size = New System.Drawing.Size(124, 22)
+        Me.TrayRestore.Size = New System.Drawing.Size(123, 22)
         Me.TrayRestore.Text = "Minimize"
         '
         'TrayExit
         '
         Me.TrayExit.Name = "TrayExit"
-        Me.TrayExit.Size = New System.Drawing.Size(124, 22)
+        Me.TrayExit.Size = New System.Drawing.Size(123, 22)
         Me.TrayExit.Text = "Exit"
         '
         'TopMenu
@@ -298,14 +300,14 @@ Partial Class Main
         Me.SystemShowNewMessages.Enabled = False
         Me.SystemShowNewMessages.Name = "SystemShowNewMessages"
         Me.SystemShowNewMessages.ShortcutKeyDisplayString = ""
-        Me.SystemShowNewMessages.Size = New System.Drawing.Size(184, 22)
+        Me.SystemShowNewMessages.Size = New System.Drawing.Size(173, 22)
         Me.SystemShowNewMessages.Text = "Show new messages"
         '
         'SystemReconnectIRC
         '
         Me.SystemReconnectIRC.Enabled = False
         Me.SystemReconnectIRC.Name = "SystemReconnectIRC"
-        Me.SystemReconnectIRC.Size = New System.Drawing.Size(184, 22)
+        Me.SystemReconnectIRC.Size = New System.Drawing.Size(173, 22)
         Me.SystemReconnectIRC.Text = "Reconnect IRC feed"
         '
         'SystemShowLog
@@ -314,48 +316,48 @@ Partial Class Main
         Me.SystemShowLog.CheckOnClick = True
         Me.SystemShowLog.CheckState = System.Windows.Forms.CheckState.Checked
         Me.SystemShowLog.Name = "SystemShowLog"
-        Me.SystemShowLog.Size = New System.Drawing.Size(184, 22)
+        Me.SystemShowLog.Size = New System.Drawing.Size(173, 22)
         Me.SystemShowLog.Text = "Show log"
         '
         'SystemShowQueue
         '
         Me.SystemShowQueue.CheckOnClick = True
         Me.SystemShowQueue.Name = "SystemShowQueue"
-        Me.SystemShowQueue.Size = New System.Drawing.Size(184, 22)
+        Me.SystemShowQueue.Size = New System.Drawing.Size(173, 22)
         Me.SystemShowQueue.Text = "Show queue"
         '
         'SystemSaveLog
         '
         Me.SystemSaveLog.Name = "SystemSaveLog"
-        Me.SystemSaveLog.Size = New System.Drawing.Size(184, 22)
+        Me.SystemSaveLog.Size = New System.Drawing.Size(173, 22)
         Me.SystemSaveLog.Text = "Save log..."
         '
         'Separator18
         '
         Me.Separator18.Name = "Separator18"
-        Me.Separator18.Size = New System.Drawing.Size(181, 6)
+        Me.Separator18.Size = New System.Drawing.Size(170, 6)
         '
         'SystemStats
         '
         Me.SystemStats.Name = "SystemStats"
-        Me.SystemStats.Size = New System.Drawing.Size(184, 22)
+        Me.SystemStats.Size = New System.Drawing.Size(173, 22)
         Me.SystemStats.Text = "Statistics..."
         '
         'SystemOptions
         '
         Me.SystemOptions.Name = "SystemOptions"
-        Me.SystemOptions.Size = New System.Drawing.Size(184, 22)
+        Me.SystemOptions.Size = New System.Drawing.Size(173, 22)
         Me.SystemOptions.Text = "Options..."
         '
         'Separator3
         '
         Me.Separator3.Name = "Separator3"
-        Me.Separator3.Size = New System.Drawing.Size(181, 6)
+        Me.Separator3.Size = New System.Drawing.Size(170, 6)
         '
         'SystemExit
         '
         Me.SystemExit.Name = "SystemExit"
-        Me.SystemExit.Size = New System.Drawing.Size(184, 22)
+        Me.SystemExit.Size = New System.Drawing.Size(173, 22)
         Me.SystemExit.Text = "Exit"
         '
         'MenuQueue
@@ -370,30 +372,30 @@ Partial Class Main
         '
         Me.QueueNext.Name = "QueueNext"
         Me.QueueNext.ShortcutKeyDisplayString = ""
-        Me.QueueNext.Size = New System.Drawing.Size(135, 22)
+        Me.QueueNext.Size = New System.Drawing.Size(124, 22)
         Me.QueueNext.Text = "Next"
         '
         'Separator1
         '
         Me.Separator1.Name = "Separator1"
-        Me.Separator1.Size = New System.Drawing.Size(132, 6)
+        Me.Separator1.Size = New System.Drawing.Size(121, 6)
         '
         'QueueEditSources
         '
         Me.QueueEditSources.Name = "QueueEditSources"
-        Me.QueueEditSources.Size = New System.Drawing.Size(135, 22)
+        Me.QueueEditSources.Size = New System.Drawing.Size(124, 22)
         Me.QueueEditSources.Text = "Sources..."
         '
         'QueueTrim
         '
         Me.QueueTrim.Name = "QueueTrim"
-        Me.QueueTrim.Size = New System.Drawing.Size(135, 22)
+        Me.QueueTrim.Size = New System.Drawing.Size(124, 22)
         Me.QueueTrim.Text = "Trim..."
         '
         'QueueClear
         '
         Me.QueueClear.Name = "QueueClear"
-        Me.QueueClear.Size = New System.Drawing.Size(135, 22)
+        Me.QueueClear.Size = New System.Drawing.Size(124, 22)
         Me.QueueClear.Text = "Clear"
         '
         'MenuPage
@@ -408,60 +410,60 @@ Partial Class Main
         '
         Me.PageView.Name = "PageView"
         Me.PageView.ShortcutKeyDisplayString = ""
-        Me.PageView.Size = New System.Drawing.Size(189, 22)
+        Me.PageView.Size = New System.Drawing.Size(178, 22)
         Me.PageView.Text = "View this revision"
         '
         'PageViewLatest
         '
         Me.PageViewLatest.Name = "PageViewLatest"
         Me.PageViewLatest.ShortcutKeyDisplayString = ""
-        Me.PageViewLatest.Size = New System.Drawing.Size(189, 22)
+        Me.PageViewLatest.Size = New System.Drawing.Size(178, 22)
         Me.PageViewLatest.Text = "View latest revision"
         '
         'PageHistory
         '
         Me.PageHistory.Name = "PageHistory"
         Me.PageHistory.ShortcutKeyDisplayString = ""
-        Me.PageHistory.Size = New System.Drawing.Size(189, 22)
+        Me.PageHistory.Size = New System.Drawing.Size(178, 22)
         Me.PageHistory.Text = "Retrieve history"
         '
         'PageShowHistoryPage
         '
         Me.PageShowHistoryPage.Name = "PageShowHistoryPage"
-        Me.PageShowHistoryPage.Size = New System.Drawing.Size(189, 22)
+        Me.PageShowHistoryPage.Size = New System.Drawing.Size(178, 22)
         Me.PageShowHistoryPage.Text = "Show history page"
         '
         'Separator4
         '
         Me.Separator4.Name = "Separator4"
-        Me.Separator4.Size = New System.Drawing.Size(186, 6)
+        Me.Separator4.Size = New System.Drawing.Size(175, 6)
         '
         'PageEdit
         '
         Me.PageEdit.Name = "PageEdit"
         Me.PageEdit.ShortcutKeyDisplayString = ""
-        Me.PageEdit.Size = New System.Drawing.Size(189, 22)
+        Me.PageEdit.Size = New System.Drawing.Size(178, 22)
         Me.PageEdit.Text = "Edit"
         '
         'PageTag
         '
         Me.PageTag.Name = "PageTag"
         Me.PageTag.ShortcutKeyDisplayString = ""
-        Me.PageTag.Size = New System.Drawing.Size(189, 22)
+        Me.PageTag.Size = New System.Drawing.Size(178, 22)
         Me.PageTag.Text = "Tag..."
         '
         'PageTagDelete
         '
         Me.PageTagDelete.DropDown = Me.TagDeleteMenu
         Me.PageTagDelete.Name = "PageTagDelete"
-        Me.PageTagDelete.Size = New System.Drawing.Size(189, 22)
+        Me.PageTagDelete.Size = New System.Drawing.Size(178, 22)
         Me.PageTagDelete.Text = "Request deletion"
         '
         'TagDeleteMenu
         '
         Me.TagDeleteMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PageNominate, Me.PageProd, Me.PageTagSpeedy, Me.ToolStripSeparator2})
         Me.TagDeleteMenu.Name = "SpeedyMenu"
-        Me.TagDeleteMenu.OwnerItem = Me.PageTagDelete
+        Me.TagDeleteMenu.OwnerItem = Me.PageTagDeleteB
         Me.TagDeleteMenu.Size = New System.Drawing.Size(201, 76)
         '
         'PageNominate
@@ -493,43 +495,43 @@ Partial Class Main
         'ToolStripSeparator5
         '
         Me.ToolStripSeparator5.Name = "ToolStripSeparator5"
-        Me.ToolStripSeparator5.Size = New System.Drawing.Size(186, 6)
+        Me.ToolStripSeparator5.Size = New System.Drawing.Size(175, 6)
         '
         'PageWatch
         '
         Me.PageWatch.Name = "PageWatch"
         Me.PageWatch.ShortcutKeyDisplayString = ""
-        Me.PageWatch.Size = New System.Drawing.Size(189, 22)
+        Me.PageWatch.Size = New System.Drawing.Size(178, 22)
         Me.PageWatch.Text = "Watch"
         '
         'PagePurge
         '
         Me.PagePurge.Name = "PagePurge"
-        Me.PagePurge.Size = New System.Drawing.Size(189, 22)
+        Me.PagePurge.Size = New System.Drawing.Size(178, 22)
         Me.PagePurge.Text = "Purge"
         '
         'PageMove
         '
         Me.PageMove.Name = "PageMove"
-        Me.PageMove.Size = New System.Drawing.Size(189, 22)
+        Me.PageMove.Size = New System.Drawing.Size(178, 22)
         Me.PageMove.Text = "Move..."
         '
         'PageMarkPatrolled
         '
         Me.PageMarkPatrolled.Name = "PageMarkPatrolled"
-        Me.PageMarkPatrolled.Size = New System.Drawing.Size(189, 22)
+        Me.PageMarkPatrolled.Size = New System.Drawing.Size(178, 22)
         Me.PageMarkPatrolled.Text = "Mark patrolled"
         '
         'PageRequestProtection
         '
         Me.PageRequestProtection.Name = "PageRequestProtection"
-        Me.PageRequestProtection.Size = New System.Drawing.Size(189, 22)
+        Me.PageRequestProtection.Size = New System.Drawing.Size(178, 22)
         Me.PageRequestProtection.Text = "Request protection..."
         '
         'PageProtect
         '
         Me.PageProtect.Name = "PageProtect"
-        Me.PageProtect.Size = New System.Drawing.Size(189, 22)
+        Me.PageProtect.Size = New System.Drawing.Size(178, 22)
         Me.PageProtect.Text = "Protect..."
         Me.PageProtect.Visible = False
         '
@@ -537,7 +539,7 @@ Partial Class Main
         '
         Me.PageDelete.Name = "PageDelete"
         Me.PageDelete.ShortcutKeyDisplayString = ""
-        Me.PageDelete.Size = New System.Drawing.Size(189, 22)
+        Me.PageDelete.Size = New System.Drawing.Size(178, 22)
         Me.PageDelete.Text = "Delete..."
         Me.PageDelete.Visible = False
         '
@@ -553,61 +555,61 @@ Partial Class Main
         '
         Me.UserInfo.Name = "UserInfo"
         Me.UserInfo.ShortcutKeyDisplayString = ""
-        Me.UserInfo.Size = New System.Drawing.Size(191, 22)
+        Me.UserInfo.Size = New System.Drawing.Size(180, 22)
         Me.UserInfo.Text = "Show user info"
         '
         'UserIgnore
         '
         Me.UserIgnore.Name = "UserIgnore"
         Me.UserIgnore.ShortcutKeyDisplayString = ""
-        Me.UserIgnore.Size = New System.Drawing.Size(191, 22)
+        Me.UserIgnore.Size = New System.Drawing.Size(180, 22)
         Me.UserIgnore.Text = "Ignore"
         '
         'UserContribs
         '
         Me.UserContribs.Name = "UserContribs"
         Me.UserContribs.ShortcutKeyDisplayString = ""
-        Me.UserContribs.Size = New System.Drawing.Size(191, 22)
+        Me.UserContribs.Size = New System.Drawing.Size(180, 22)
         Me.UserContribs.Text = "Retrieve contributions"
         '
         'UserTalk
         '
         Me.UserTalk.Name = "UserTalk"
         Me.UserTalk.ShortcutKeyDisplayString = ""
-        Me.UserTalk.Size = New System.Drawing.Size(191, 22)
+        Me.UserTalk.Size = New System.Drawing.Size(180, 22)
         Me.UserTalk.Text = "View talk page"
         '
         'Separator5
         '
         Me.Separator5.Name = "Separator5"
-        Me.Separator5.Size = New System.Drawing.Size(188, 6)
+        Me.Separator5.Size = New System.Drawing.Size(177, 6)
         '
         'UserMessage
         '
         Me.UserMessage.Name = "UserMessage"
         Me.UserMessage.ShortcutKeyDisplayString = ""
-        Me.UserMessage.Size = New System.Drawing.Size(191, 22)
+        Me.UserMessage.Size = New System.Drawing.Size(180, 22)
         Me.UserMessage.Text = "Message..."
         '
         'UserWarn
         '
         Me.UserWarn.Name = "UserWarn"
         Me.UserWarn.ShortcutKeyDisplayString = ""
-        Me.UserWarn.Size = New System.Drawing.Size(191, 22)
+        Me.UserWarn.Size = New System.Drawing.Size(180, 22)
         Me.UserWarn.Text = "Warn..."
         '
         'UserReport
         '
         Me.UserReport.Name = "UserReport"
         Me.UserReport.ShortcutKeyDisplayString = ""
-        Me.UserReport.Size = New System.Drawing.Size(191, 22)
+        Me.UserReport.Size = New System.Drawing.Size(180, 22)
         Me.UserReport.Text = "Report..."
         '
         'UserBlock
         '
         Me.UserBlock.Name = "UserBlock"
         Me.UserBlock.ShortcutKeyDisplayString = ""
-        Me.UserBlock.Size = New System.Drawing.Size(191, 22)
+        Me.UserBlock.Size = New System.Drawing.Size(180, 22)
         Me.UserBlock.Text = "Block..."
         Me.UserBlock.Visible = False
         '
@@ -623,14 +625,14 @@ Partial Class Main
         '
         Me.BrowserNewTab.Name = "BrowserNewTab"
         Me.BrowserNewTab.ShortcutKeyDisplayString = ""
-        Me.BrowserNewTab.Size = New System.Drawing.Size(238, 22)
+        Me.BrowserNewTab.Size = New System.Drawing.Size(227, 22)
         Me.BrowserNewTab.Text = "New tab"
         '
         'BrowserCloseTab
         '
         Me.BrowserCloseTab.Name = "BrowserCloseTab"
         Me.BrowserCloseTab.ShortcutKeyDisplayString = ""
-        Me.BrowserCloseTab.Size = New System.Drawing.Size(238, 22)
+        Me.BrowserCloseTab.Size = New System.Drawing.Size(227, 22)
         Me.BrowserCloseTab.Text = "Close tab"
         '
         'BrowserCloseOthers
@@ -638,63 +640,63 @@ Partial Class Main
         Me.BrowserCloseOthers.Enabled = False
         Me.BrowserCloseOthers.Name = "BrowserCloseOthers"
         Me.BrowserCloseOthers.ShortcutKeyDisplayString = ""
-        Me.BrowserCloseOthers.Size = New System.Drawing.Size(238, 22)
+        Me.BrowserCloseOthers.Size = New System.Drawing.Size(227, 22)
         Me.BrowserCloseOthers.Text = "Close other tabs"
         '
         'Separator2
         '
         Me.Separator2.Name = "Separator2"
-        Me.Separator2.Size = New System.Drawing.Size(235, 6)
+        Me.Separator2.Size = New System.Drawing.Size(224, 6)
         '
         'BrowserBack
         '
         Me.BrowserBack.Name = "BrowserBack"
         Me.BrowserBack.ShortcutKeyDisplayString = ""
-        Me.BrowserBack.Size = New System.Drawing.Size(238, 22)
+        Me.BrowserBack.Size = New System.Drawing.Size(227, 22)
         Me.BrowserBack.Text = "Back"
         '
         'BrowserForward
         '
         Me.BrowserForward.Name = "BrowserForward"
         Me.BrowserForward.ShortcutKeyDisplayString = ""
-        Me.BrowserForward.Size = New System.Drawing.Size(238, 22)
+        Me.BrowserForward.Size = New System.Drawing.Size(227, 22)
         Me.BrowserForward.Text = "Forward"
         '
         'Separator6
         '
         Me.Separator6.Name = "Separator6"
-        Me.Separator6.Size = New System.Drawing.Size(235, 6)
+        Me.Separator6.Size = New System.Drawing.Size(224, 6)
         '
         'BrowserOpen
         '
         Me.BrowserOpen.Name = "BrowserOpen"
         Me.BrowserOpen.ShortcutKeyDisplayString = ""
-        Me.BrowserOpen.Size = New System.Drawing.Size(238, 22)
+        Me.BrowserOpen.Size = New System.Drawing.Size(227, 22)
         Me.BrowserOpen.Text = "View this in external browser"
         '
         'Separator7
         '
         Me.Separator7.Name = "Separator7"
-        Me.Separator7.Size = New System.Drawing.Size(235, 6)
+        Me.Separator7.Size = New System.Drawing.Size(224, 6)
         '
         'BrowserNewEdits
         '
         Me.BrowserNewEdits.CheckOnClick = True
         Me.BrowserNewEdits.Name = "BrowserNewEdits"
-        Me.BrowserNewEdits.Size = New System.Drawing.Size(238, 22)
+        Me.BrowserNewEdits.Size = New System.Drawing.Size(227, 22)
         Me.BrowserNewEdits.Text = "Show new edits to page"
         '
         'BrowserNewContribs
         '
         Me.BrowserNewContribs.CheckOnClick = True
         Me.BrowserNewContribs.Name = "BrowserNewContribs"
-        Me.BrowserNewContribs.Size = New System.Drawing.Size(238, 22)
+        Me.BrowserNewContribs.Size = New System.Drawing.Size(227, 22)
         Me.BrowserNewContribs.Text = "Show new contributions by user"
         '
         'MenuHelp
         '
         Me.MenuHelp.AutoSize = False
-        Me.MenuHelp.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.HelpDocs, Me.HelpFeedback, Me.Separator8, Me.HelpAbout})
+        Me.MenuHelp.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.HelpDocs, Me.HelpFeedback, Me.Separator8, Me.HuggleSandboxToolStripMenuItem, Me.ToolStripSeparator6, Me.HelpAbout})
         Me.MenuHelp.Name = "MenuHelp"
         Me.MenuHelp.Size = New System.Drawing.Size(40, 24)
         Me.MenuHelp.Text = "&Help"
@@ -703,24 +705,24 @@ Partial Class Main
         '
         Me.HelpDocs.Name = "HelpDocs"
         Me.HelpDocs.ShortcutKeyDisplayString = ""
-        Me.HelpDocs.Size = New System.Drawing.Size(161, 22)
+        Me.HelpDocs.Size = New System.Drawing.Size(152, 22)
         Me.HelpDocs.Text = "Documentation"
         '
         'HelpFeedback
         '
         Me.HelpFeedback.Name = "HelpFeedback"
-        Me.HelpFeedback.Size = New System.Drawing.Size(161, 22)
+        Me.HelpFeedback.Size = New System.Drawing.Size(152, 22)
         Me.HelpFeedback.Text = "Feedback"
         '
         'Separator8
         '
         Me.Separator8.Name = "Separator8"
-        Me.Separator8.Size = New System.Drawing.Size(158, 6)
+        Me.Separator8.Size = New System.Drawing.Size(149, 6)
         '
         'HelpAbout
         '
         Me.HelpAbout.Name = "HelpAbout"
-        Me.HelpAbout.Size = New System.Drawing.Size(161, 22)
+        Me.HelpAbout.Size = New System.Drawing.Size(152, 22)
         Me.HelpAbout.Text = "About huggle..."
         '
         'Stats
@@ -789,6 +791,24 @@ Partial Class Main
         Me.QueueSource.Size = New System.Drawing.Size(159, 21)
         Me.QueueSource.TabIndex = 7
         '
+        'EditInfo
+        '
+        Me.EditInfo.Location = New System.Drawing.Point(3, 84)
+        Me.EditInfo.Name = "EditInfo"
+        Me.EditInfo.Size = New System.Drawing.Size(353, 78)
+        Me.EditInfo.TabIndex = 45
+        Me.EditInfo.Visible = False
+        '
+        'Queue
+        '
+        Me.Queue.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.Queue.BackColor = System.Drawing.SystemColors.Control
+        Me.Queue.Location = New System.Drawing.Point(0, 32)
+        Me.Queue.Name = "Queue"
+        Me.Queue.Size = New System.Drawing.Size(162, 135)
+        Me.Queue.TabIndex = 47
+        '
         'Tabs
         '
         Me.Tabs.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
@@ -814,6 +834,39 @@ Partial Class Main
         Me.TabPage1.Size = New System.Drawing.Size(601, 158)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.UseVisualStyleBackColor = True
+        '
+        'InitialTab
+        '
+        Me.InitialTab.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.InitialTab.Location = New System.Drawing.Point(0, 0)
+        Me.InitialTab.Name = "InitialTab"
+        Me.InitialTab.Size = New System.Drawing.Size(601, 158)
+        Me.InitialTab.TabIndex = 0
+        '
+        'Status
+        '
+        Me.Status.Activation = System.Windows.Forms.ItemActivation.OneClick
+        Me.Status.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.Url, Me.Details})
+        Me.Status.ContextMenuStrip = Me.LogMenu
+        Me.Status.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Status.FullRowSelect = True
+        Me.Status.GridLines = True
+        Me.Status.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
+        Me.Status.Location = New System.Drawing.Point(0, 0)
+        Me.Status.MultiSelect = False
+        Me.Status.Name = "Status"
+        Me.Status.Size = New System.Drawing.Size(792, 89)
+        Me.Status.TabIndex = 0
+        Me.Status.UseCompatibleStateImageBehavior = False
+        Me.Status.View = System.Windows.Forms.View.Details
+        '
+        'Url
+        '
+        Me.Url.Width = 0
+        '
+        'Details
+        '
+        Me.Details.Width = 770
         '
         'ToolContainer
         '
@@ -866,60 +919,60 @@ Partial Class Main
         'RevertWarnVandalism
         '
         Me.RevertWarnVandalism.Name = "RevertWarnVandalism"
-        Me.RevertWarnVandalism.Size = New System.Drawing.Size(179, 22)
+        Me.RevertWarnVandalism.Size = New System.Drawing.Size(178, 22)
         Me.RevertWarnVandalism.Text = "&Vandalism"
         '
         'RevertWarnSpam
         '
         Me.RevertWarnSpam.Name = "RevertWarnSpam"
-        Me.RevertWarnSpam.Size = New System.Drawing.Size(179, 22)
+        Me.RevertWarnSpam.Size = New System.Drawing.Size(178, 22)
         Me.RevertWarnSpam.Text = "&Spam"
         '
         'RevertWarnTest
         '
         Me.RevertWarnTest.Name = "RevertWarnTest"
-        Me.RevertWarnTest.Size = New System.Drawing.Size(179, 22)
+        Me.RevertWarnTest.Size = New System.Drawing.Size(178, 22)
         Me.RevertWarnTest.Text = "&Editing tests"
         '
         'RevertWarnDelete
         '
         Me.RevertWarnDelete.Name = "RevertWarnDelete"
-        Me.RevertWarnDelete.Size = New System.Drawing.Size(179, 22)
+        Me.RevertWarnDelete.Size = New System.Drawing.Size(178, 22)
         Me.RevertWarnDelete.Text = "&Removal of content"
         '
         'RevertWarnAttack
         '
         Me.RevertWarnAttack.Name = "RevertWarnAttack"
-        Me.RevertWarnAttack.Size = New System.Drawing.Size(179, 22)
+        Me.RevertWarnAttack.Size = New System.Drawing.Size(178, 22)
         Me.RevertWarnAttack.Text = "&Personal attacks"
         '
         'RevertWarnError
         '
         Me.RevertWarnError.Name = "RevertWarnError"
-        Me.RevertWarnError.Size = New System.Drawing.Size(179, 22)
+        Me.RevertWarnError.Size = New System.Drawing.Size(178, 22)
         Me.RevertWarnError.Text = "&Factual errors"
         '
         'RevertWarnNpov
         '
         Me.RevertWarnNpov.Name = "RevertWarnNpov"
-        Me.RevertWarnNpov.Size = New System.Drawing.Size(179, 22)
+        Me.RevertWarnNpov.Size = New System.Drawing.Size(178, 22)
         Me.RevertWarnNpov.Text = "&Biased material"
         '
         'RevertWarnUnsourced
         '
         Me.RevertWarnUnsourced.Name = "RevertWarnUnsourced"
-        Me.RevertWarnUnsourced.Size = New System.Drawing.Size(179, 22)
+        Me.RevertWarnUnsourced.Size = New System.Drawing.Size(178, 22)
         Me.RevertWarnUnsourced.Text = "&Unsourced material"
         '
         'ToolStripSeparator3
         '
         Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
-        Me.ToolStripSeparator3.Size = New System.Drawing.Size(176, 6)
+        Me.ToolStripSeparator3.Size = New System.Drawing.Size(175, 6)
         '
         'RevertWarnAdvanced
         '
         Me.RevertWarnAdvanced.Name = "RevertWarnAdvanced"
-        Me.RevertWarnAdvanced.Size = New System.Drawing.Size(179, 22)
+        Me.RevertWarnAdvanced.Size = New System.Drawing.Size(178, 22)
         Me.RevertWarnAdvanced.Text = "&Advanced..."
         '
         'DiffNextB
@@ -968,18 +1021,18 @@ Partial Class Main
         Me.RevertMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.Separator20, Me.DiffRevertSummary})
         Me.RevertMenu.Name = "RevertMenu"
         Me.RevertMenu.OwnerItem = Me.DiffRevertB
-        Me.RevertMenu.Size = New System.Drawing.Size(185, 32)
+        Me.RevertMenu.Size = New System.Drawing.Size(181, 32)
         '
         'Separator20
         '
         Me.Separator20.Name = "Separator20"
-        Me.Separator20.Size = New System.Drawing.Size(181, 6)
+        Me.Separator20.Size = New System.Drawing.Size(177, 6)
         '
         'DiffRevertSummary
         '
         Me.DiffRevertSummary.Name = "DiffRevertSummary"
         Me.DiffRevertSummary.ShortcutKeyDisplayString = "Y"
-        Me.DiffRevertSummary.Size = New System.Drawing.Size(184, 22)
+        Me.DiffRevertSummary.Size = New System.Drawing.Size(180, 22)
         Me.DiffRevertSummary.Text = "Other summary..."
         '
         'UserTemplateB
@@ -1001,29 +1054,29 @@ Partial Class Main
         Me.TemplateMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.UserMessageWelcome, Me.ToolStripSeparator4, Me.Separator21, Me.UserMessageOther})
         Me.TemplateMenu.Name = "TemplateMenu"
         Me.TemplateMenu.OwnerItem = Me.UserTemplateB
-        Me.TemplateMenu.Size = New System.Drawing.Size(185, 60)
+        Me.TemplateMenu.Size = New System.Drawing.Size(179, 60)
         '
         'UserMessageWelcome
         '
         Me.UserMessageWelcome.Name = "UserMessageWelcome"
-        Me.UserMessageWelcome.Size = New System.Drawing.Size(184, 22)
+        Me.UserMessageWelcome.Size = New System.Drawing.Size(178, 22)
         Me.UserMessageWelcome.Text = "Welcome"
         '
         'ToolStripSeparator4
         '
         Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
-        Me.ToolStripSeparator4.Size = New System.Drawing.Size(181, 6)
+        Me.ToolStripSeparator4.Size = New System.Drawing.Size(175, 6)
         '
         'Separator21
         '
         Me.Separator21.Name = "Separator21"
-        Me.Separator21.Size = New System.Drawing.Size(181, 6)
+        Me.Separator21.Size = New System.Drawing.Size(175, 6)
         '
         'UserMessageOther
         '
         Me.UserMessageOther.Name = "UserMessageOther"
         Me.UserMessageOther.ShortcutKeyDisplayString = "N"
-        Me.UserMessageOther.Size = New System.Drawing.Size(184, 22)
+        Me.UserMessageOther.Size = New System.Drawing.Size(178, 22)
         Me.UserMessageOther.Text = "Other message..."
         '
         'WarnB
@@ -1045,74 +1098,74 @@ Partial Class Main
         Me.WarnMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.WarnVandalism, Me.WarnSpam, Me.WarnTest, Me.WarnDelete, Me.WarnAttack, Me.WarnError, Me.WarnUnsourced, Me.WarnNpov, Me.ToolStripSeparator1, Me.WarnAdvanced})
         Me.WarnMenu.Name = "WarnMenu"
         Me.WarnMenu.OwnerItem = Me.WarnB
-        Me.WarnMenu.Size = New System.Drawing.Size(180, 208)
+        Me.WarnMenu.Size = New System.Drawing.Size(179, 208)
         '
         'WarnVandalism
         '
         Me.WarnVandalism.Name = "WarnVandalism"
         Me.WarnVandalism.ShortcutKeyDisplayString = ""
-        Me.WarnVandalism.Size = New System.Drawing.Size(179, 22)
+        Me.WarnVandalism.Size = New System.Drawing.Size(178, 22)
         Me.WarnVandalism.Text = "&Vandalism"
         '
         'WarnSpam
         '
         Me.WarnSpam.Name = "WarnSpam"
         Me.WarnSpam.ShortcutKeyDisplayString = ""
-        Me.WarnSpam.Size = New System.Drawing.Size(179, 22)
+        Me.WarnSpam.Size = New System.Drawing.Size(178, 22)
         Me.WarnSpam.Text = "&Spam"
         '
         'WarnTest
         '
         Me.WarnTest.Name = "WarnTest"
         Me.WarnTest.ShortcutKeyDisplayString = ""
-        Me.WarnTest.Size = New System.Drawing.Size(179, 22)
+        Me.WarnTest.Size = New System.Drawing.Size(178, 22)
         Me.WarnTest.Text = "&Editing tests"
         '
         'WarnDelete
         '
         Me.WarnDelete.Name = "WarnDelete"
         Me.WarnDelete.ShortcutKeyDisplayString = ""
-        Me.WarnDelete.Size = New System.Drawing.Size(179, 22)
+        Me.WarnDelete.Size = New System.Drawing.Size(178, 22)
         Me.WarnDelete.Text = "&Removal of content"
         '
         'WarnAttack
         '
         Me.WarnAttack.Name = "WarnAttack"
         Me.WarnAttack.ShortcutKeyDisplayString = ""
-        Me.WarnAttack.Size = New System.Drawing.Size(179, 22)
+        Me.WarnAttack.Size = New System.Drawing.Size(178, 22)
         Me.WarnAttack.Text = "&Personal attacks"
         '
         'WarnError
         '
         Me.WarnError.Name = "WarnError"
         Me.WarnError.ShortcutKeyDisplayString = ""
-        Me.WarnError.Size = New System.Drawing.Size(179, 22)
+        Me.WarnError.Size = New System.Drawing.Size(178, 22)
         Me.WarnError.Text = "&Factual errors"
         '
         'WarnUnsourced
         '
         Me.WarnUnsourced.Name = "WarnUnsourced"
         Me.WarnUnsourced.ShortcutKeyDisplayString = ""
-        Me.WarnUnsourced.Size = New System.Drawing.Size(179, 22)
+        Me.WarnUnsourced.Size = New System.Drawing.Size(178, 22)
         Me.WarnUnsourced.Text = "&Unsourced material"
         '
         'WarnNpov
         '
         Me.WarnNpov.Name = "WarnNpov"
         Me.WarnNpov.ShortcutKeyDisplayString = ""
-        Me.WarnNpov.Size = New System.Drawing.Size(179, 22)
+        Me.WarnNpov.Size = New System.Drawing.Size(178, 22)
         Me.WarnNpov.Text = "&Biased material"
         '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(176, 6)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(175, 6)
         '
         'WarnAdvanced
         '
         Me.WarnAdvanced.Name = "WarnAdvanced"
         Me.WarnAdvanced.ShortcutKeyDisplayString = ""
-        Me.WarnAdvanced.Size = New System.Drawing.Size(179, 22)
+        Me.WarnAdvanced.Size = New System.Drawing.Size(178, 22)
         Me.WarnAdvanced.Text = "&Advanced..."
         '
         'Separator9
@@ -1592,56 +1645,16 @@ Partial Class Main
         Me.DrawTimer.Enabled = True
         Me.DrawTimer.Interval = 1000
         '
-        'EditInfo
+        'ToolStripSeparator6
         '
-        Me.EditInfo.Location = New System.Drawing.Point(3, 84)
-        Me.EditInfo.Name = "EditInfo"
-        Me.EditInfo.Size = New System.Drawing.Size(353, 78)
-        Me.EditInfo.TabIndex = 45
-        Me.EditInfo.Visible = False
+        Me.ToolStripSeparator6.Name = "ToolStripSeparator6"
+        Me.ToolStripSeparator6.Size = New System.Drawing.Size(149, 6)
         '
-        'Queue
+        'HuggleSandboxToolStripMenuItem
         '
-        Me.Queue.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.Queue.BackColor = System.Drawing.SystemColors.Control
-        Me.Queue.Location = New System.Drawing.Point(0, 32)
-        Me.Queue.Name = "Queue"
-        Me.Queue.Size = New System.Drawing.Size(162, 135)
-        Me.Queue.TabIndex = 47
-        '
-        'InitialTab
-        '
-        Me.InitialTab.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.InitialTab.Location = New System.Drawing.Point(0, 0)
-        Me.InitialTab.Name = "InitialTab"
-        Me.InitialTab.Size = New System.Drawing.Size(601, 158)
-        Me.InitialTab.TabIndex = 0
-        '
-        'Status
-        '
-        Me.Status.Activation = System.Windows.Forms.ItemActivation.OneClick
-        Me.Status.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.Url, Me.Details})
-        Me.Status.ContextMenuStrip = Me.LogMenu
-        Me.Status.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Status.FullRowSelect = True
-        Me.Status.GridLines = True
-        Me.Status.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
-        Me.Status.Location = New System.Drawing.Point(0, 0)
-        Me.Status.MultiSelect = False
-        Me.Status.Name = "Status"
-        Me.Status.Size = New System.Drawing.Size(792, 89)
-        Me.Status.TabIndex = 0
-        Me.Status.UseCompatibleStateImageBehavior = False
-        Me.Status.View = System.Windows.Forms.View.Details
-        '
-        'Url
-        '
-        Me.Url.Width = 0
-        '
-        'Details
-        '
-        Me.Details.Width = 770
+        Me.HuggleSandboxToolStripMenuItem.Name = "HuggleSandboxToolStripMenuItem"
+        Me.HuggleSandboxToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.HuggleSandboxToolStripMenuItem.Text = "huggle Sandbox"
         '
         'Main
         '
@@ -1861,4 +1874,6 @@ Partial Class Main
     Friend WithEvents RevertWarnAdvanced As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents QueueScroll As System.Windows.Forms.VScrollBar
     Friend WithEvents PagePurge As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents HuggleSandboxToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator6 As System.Windows.Forms.ToolStripSeparator
 End Class
