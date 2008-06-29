@@ -5,8 +5,7 @@ Module Config
 
     'Configuration
 
-    Public Version As New Version(0, 7, 10)
-    Public Debug As Boolean = True
+    Public Version As Version = New Version(Application.ProductVersion)
 
     Public ConfigChanged As Boolean = False
     Public ConfigVersion As New Version(0, 0, 0)
@@ -256,8 +255,7 @@ Module Config
     Private Function LocalConfigPath() As String
         Dim Path As String = Application.UserAppDataPath
         Path = Path.Substring(0, Path.LastIndexOf("\"))
-        Path = Path.Substring(0, Path.LastIndexOf("\"))
-        Return Path
+        Return Path.Substring(0, Path.LastIndexOf("\"))
     End Function
 
     Private Sub SetShortcutsFromConfig(ByVal Value As String)

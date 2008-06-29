@@ -9,7 +9,7 @@ Class LoginForm
         UseRecentchanges.Checked = Not Config.IrcMode
         If RememberMe Then Username.Text = Config.Username
 
-        Version.Text = "Version " & Config.Version.ToString
+        Version.Text = "Version " & Config.Version.Major & "." & Config.Version.Minor & "." & Config.Version.MinorRevision
 
         For Each Item As String In Config.Projects
             If Item.Contains(";") Then Project.Items.Add(Item.Substring(0, Item.IndexOf(";")))

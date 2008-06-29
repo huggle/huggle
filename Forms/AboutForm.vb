@@ -1,7 +1,7 @@
 Class AboutForm
 
     Private Sub AboutForm_Load(ByVal s As Object, ByVal e As EventArgs) Handles Me.Load
-        Version.Text = "Version " & Config.Version.ToString
+        Version.Text = "Version " & Config.Version.Major & "." & Config.Version.Minor & "." & Config.Version.MinorRevision
     End Sub
 
     Private Sub AboutForm_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles MyBase.KeyDown

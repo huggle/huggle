@@ -635,7 +635,9 @@ Module ConfigRequests
                 Config.Projects.Add(Item.Trim(" "c).Replace(Chr(1), ","))
             Next Item
 
-            If Debug Then Config.Projects.Add("localhost;localhost")
+#If DEBUG Then
+            Config.Projects.Add("localhost;localhost")
+#End If
         End Sub
 
         Private Sub Done(ByVal O As Object)
