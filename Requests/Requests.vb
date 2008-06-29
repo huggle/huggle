@@ -202,8 +202,9 @@ Module Requests
             If Data.CaptchaWord IsNot Nothing Then PostString &= "&wpCaptchaWord=" & UrlEncode(Data.CaptchaWord)
 
             Try
+                'Special:Mypage doesnt work in postbacks
                 Result = UTF8.GetString(Client.UploadData(SitePath & _
-                    "w/index.php?title=" & UrlEncode(Data.Page.Name.Replace(" ", "_")) & _
+                    "w/index.php?title=" & UrlEncode(Data.Page.Name.Replace("Special:Mypage", "User:" + Username).Replace(" ", "_")) & _
                     "&action=submit", "POST", UTF8.GetBytes(PostString)))
             Catch ex As Exception
                 Callback(AddressOf PostEditException, CObj(Data))
