@@ -73,7 +73,7 @@ Module XfdRequests
                 NewRequest.Title = Config.XfdMessageTitle.Replace("$1", Page.Name)
                 NewRequest.Summary = Config.XfdMessageSummary.Replace("$1", Page.Name)
                 NewRequest.Message = Config.XfdMessage.Replace("$1", Page.Name) _
-                    .Replace("$2", Location & "/" & LogDate() & "#" & Page.Name)
+                    .Replace("$2", Location & "/Log/" & LogDate() & "#" & Page.Name)
                 NewRequest.Start()
             End If
         End Sub
