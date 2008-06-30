@@ -35,7 +35,7 @@ Partial Class AddTemplateForm
         'Cancel
         '
         Me.Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Cancel.Location = New System.Drawing.Point(260, 69)
+        Me.Cancel.Location = New System.Drawing.Point(261, 61)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
         Me.Cancel.TabIndex = 5
@@ -46,7 +46,7 @@ Partial Class AddTemplateForm
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.OK.Enabled = False
-        Me.OK.Location = New System.Drawing.Point(179, 69)
+        Me.OK.Location = New System.Drawing.Point(180, 61)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
         Me.OK.TabIndex = 4
@@ -59,7 +59,7 @@ Partial Class AddTemplateForm
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.DisplayTextBox.Location = New System.Drawing.Point(82, 12)
         Me.DisplayTextBox.Name = "DisplayTextBox"
-        Me.DisplayTextBox.Size = New System.Drawing.Size(253, 20)
+        Me.DisplayTextBox.Size = New System.Drawing.Size(254, 20)
         Me.DisplayTextBox.TabIndex = 1
         '
         'TemplateBox
@@ -68,7 +68,7 @@ Partial Class AddTemplateForm
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TemplateBox.Location = New System.Drawing.Point(125, 38)
         Me.TemplateBox.Name = "TemplateBox"
-        Me.TemplateBox.Size = New System.Drawing.Size(194, 20)
+        Me.TemplateBox.Size = New System.Drawing.Size(195, 20)
         Me.TemplateBox.TabIndex = 3
         '
         'Label1
@@ -102,7 +102,7 @@ Partial Class AddTemplateForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(347, 104)
+        Me.ClientSize = New System.Drawing.Size(348, 96)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Label1)

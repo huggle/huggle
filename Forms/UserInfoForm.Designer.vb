@@ -53,7 +53,7 @@ Partial Class UserInfoForm
         Me.WarnLog.MultiSelect = False
         Me.WarnLog.Name = "WarnLog"
         Me.WarnLog.ShowGroups = False
-        Me.WarnLog.Size = New System.Drawing.Size(518, 135)
+        Me.WarnLog.Size = New System.Drawing.Size(518, 136)
         Me.WarnLog.TabIndex = 9
         Me.WarnLog.UseCompatibleStateImageBehavior = False
         Me.WarnLog.View = System.Windows.Forms.View.Details
@@ -95,7 +95,7 @@ Partial Class UserInfoForm
         'OK
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.OK.Location = New System.Drawing.Point(455, 338)
+        Me.OK.Location = New System.Drawing.Point(455, 339)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
         Me.OK.TabIndex = 10
@@ -196,7 +196,7 @@ Partial Class UserInfoForm
         '
         Me.Collapse.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Collapse.Image = Global.huggle.My.Resources.Resources.up_gray
-        Me.Collapse.Location = New System.Drawing.Point(12, 337)
+        Me.Collapse.Location = New System.Drawing.Point(12, 338)
         Me.Collapse.Name = "Collapse"
         Me.Collapse.Size = New System.Drawing.Size(27, 27)
         Me.Collapse.TabIndex = 15
@@ -206,7 +206,7 @@ Partial Class UserInfoForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(542, 373)
+        Me.ClientSize = New System.Drawing.Size(542, 374)
         Me.Controls.Add(Me.Collapse)
         Me.Controls.Add(Me.SessionEditCount)
         Me.Controls.Add(Me.Anonymous)

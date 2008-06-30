@@ -47,7 +47,7 @@ Partial Class BlockForm
         'Cancel
         '
         Me.Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Cancel.Location = New System.Drawing.Point(507, 396)
+        Me.Cancel.Location = New System.Drawing.Point(507, 380)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
         Me.Cancel.TabIndex = 18
@@ -57,7 +57,7 @@ Partial Class BlockForm
         'OK
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.OK.Location = New System.Drawing.Point(426, 396)
+        Me.OK.Location = New System.Drawing.Point(426, 380)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
         Me.OK.TabIndex = 17
@@ -150,7 +150,7 @@ Partial Class BlockForm
         Me.SharedIPWarning.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.SharedIPWarning.AutoSize = True
         Me.SharedIPWarning.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.SharedIPWarning.Location = New System.Drawing.Point(7, 399)
+        Me.SharedIPWarning.Location = New System.Drawing.Point(7, 383)
         Me.SharedIPWarning.Name = "SharedIPWarning"
         Me.SharedIPWarning.Size = New System.Drawing.Size(409, 16)
         Me.SharedIPWarning.TabIndex = 16
@@ -200,7 +200,7 @@ Partial Class BlockForm
         Me.WarnLog.MultiSelect = False
         Me.WarnLog.Name = "WarnLog"
         Me.WarnLog.ShowGroups = False
-        Me.WarnLog.Size = New System.Drawing.Size(572, 137)
+        Me.WarnLog.Size = New System.Drawing.Size(572, 121)
         Me.WarnLog.TabIndex = 15
         Me.WarnLog.UseCompatibleStateImageBehavior = False
         Me.WarnLog.View = System.Windows.Forms.View.Details
@@ -246,7 +246,7 @@ Partial Class BlockForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(594, 428)
+        Me.ClientSize = New System.Drawing.Size(594, 412)
         Me.Controls.Add(Me.Label5)
         Me.Controls.Add(Me.BlockMessage)
         Me.Controls.Add(Me.Label4)
