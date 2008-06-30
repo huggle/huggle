@@ -34,7 +34,7 @@ Partial Class AboutForm
         'OK
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.OK.Location = New System.Drawing.Point(226, 195)
+        Me.OK.Location = New System.Drawing.Point(235, 183)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
         Me.OK.TabIndex = 5
@@ -48,7 +48,7 @@ Partial Class AboutForm
         Me.Logo.Font = New System.Drawing.Font("Tahoma", 27.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Logo.Location = New System.Drawing.Point(12, 9)
         Me.Logo.Name = "Logo"
-        Me.Logo.Size = New System.Drawing.Size(289, 50)
+        Me.Logo.Size = New System.Drawing.Size(298, 50)
         Me.Logo.TabIndex = 0
         Me.Logo.Text = "huggle"
         Me.Logo.TextAlign = System.Drawing.ContentAlignment.TopCenter
@@ -59,9 +59,9 @@ Partial Class AboutForm
         Me.Credit.AutoSize = True
         Me.Credit.LinkArea = New System.Windows.Forms.LinkArea(13, 5)
         Me.Credit.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline
-        Me.Credit.Location = New System.Drawing.Point(194, 68)
+        Me.Credit.Location = New System.Drawing.Point(203, 68)
         Me.Credit.Name = "Credit"
-        Me.Credit.Size = New System.Drawing.Size(107, 17)
+        Me.Credit.Size = New System.Drawing.Size(93, 17)
         Me.Credit.TabIndex = 2
         Me.Credit.TabStop = True
         Me.Credit.Text = "Created by Gurch"
@@ -85,7 +85,7 @@ Partial Class AboutForm
         Me.Disclaimer.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline
         Me.Disclaimer.Location = New System.Drawing.Point(12, 94)
         Me.Disclaimer.Name = "Disclaimer"
-        Me.Disclaimer.Size = New System.Drawing.Size(289, 51)
+        Me.Disclaimer.Size = New System.Drawing.Size(298, 51)
         Me.Disclaimer.TabIndex = 3
         Me.Disclaimer.TabStop = True
         Me.Disclaimer.Text = "Use of this application is subject to Wikipedia policies and guidelines. Responsi" & _
@@ -100,9 +100,9 @@ Partial Class AboutForm
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Icons.LinkArea = New System.Windows.Forms.LinkArea(84, 11)
         Me.Icons.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline
-        Me.Icons.Location = New System.Drawing.Point(12, 161)
+        Me.Icons.Location = New System.Drawing.Point(12, 156)
         Me.Icons.Name = "Icons"
-        Me.Icons.Size = New System.Drawing.Size(289, 22)
+        Me.Icons.Size = New System.Drawing.Size(298, 22)
         Me.Icons.TabIndex = 4
         Me.Icons.TabStop = True
         Me.Icons.Text = "Contains images available under the terms of the GNU Lesser General Public Licens" & _
@@ -114,7 +114,7 @@ Partial Class AboutForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(313, 230)
+        Me.ClientSize = New System.Drawing.Size(322, 218)
         Me.Controls.Add(Me.Credit)
         Me.Controls.Add(Me.Version)
         Me.Controls.Add(Me.Disclaimer)
