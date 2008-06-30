@@ -63,7 +63,12 @@ Module XfdRequests
             If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
         End Sub
 
-        Protected Sub DoNotify(ByVal Success As Boolean)
+        Protected Overridable Sub DoNotify(ByVal Success As Boolean)
+            DoNotify(Success, Config.XfdMessage.Replace("$1", Page.Name) _
+                                .Replace("$2", Location & "/" & LogDate() & "#" & Page.Name))
+        End Sub
+
+        Protected Overridable Sub DoNotify(ByVal Success As Boolean, ByVal Message As String)
             If Page.FirstEdit IsNot Nothing AndAlso Page.FirstEdit.User IsNot Nothing Then
                 Dim NewRequest As New UserMessageRequest
                 NewRequest.Avoid = Page.Name
@@ -72,8 +77,7 @@ Module XfdRequests
                 NewRequest.ThisUser = Page.FirstEdit.User
                 NewRequest.Title = Config.XfdMessageTitle.Replace("$1", Page.Name)
                 NewRequest.Summary = Config.XfdMessageSummary.Replace("$1", Page.Name)
-                NewRequest.Message = Config.XfdMessage.Replace("$1", Page.Name) _
-                    .Replace("$2", Location & "/Log/" & LogDate() & "#" & Page.Name)
+                NewRequest.Message = Message
                 NewRequest.Start()
             End If
         End Sub
@@ -219,6 +223,11 @@ Module XfdRequests
             Delog(Page)
             Log("Failed to update AfD log for nomination of '" & Page.Name & "'")
             If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+        End Sub
+
+        Protected Overrides Sub DoNotify(ByVal Success As Boolean)
+            DoNotify(Success, Config.XfdMessage.Replace("$1", Page.Name) _
+                    .Replace("$2", Location & "/Log/" & LogDate() & "#" & Page.Name))
         End Sub
 
     End Class
