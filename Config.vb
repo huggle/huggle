@@ -5,7 +5,7 @@ Module Config
 
     'Configuration
 
-    Public Version As Version = New Version(Application.ProductVersion)
+    Public Version As New Version(Application.ProductVersion)
 
     Public ConfigChanged As Boolean = False
     Public ConfigVersion As New Version(0, 0, 0)
