@@ -10,7 +10,7 @@ Module XfdRequests
         Protected Location As String
 
         Protected Function LogDate() As String
-            Return CStr(Date.UtcNow.Year) & " " & MonthName(Date.UtcNow.Month) & " " & CStr(Date.UtcNow.Day)
+            Return CStr(Date.UtcNow.Year) & " " & GetMonthName(Date.UtcNow.Month) & " " & CStr(Date.UtcNow.Day)
         End Function
 
         Protected Function GetNominationSubpage(ByVal Name As String, ByVal Path As String) As String
