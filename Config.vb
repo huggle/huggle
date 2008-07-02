@@ -31,6 +31,10 @@ Module Config
 
     Public IrcMode As Boolean = True
     Public Project As String
+    Public ProxyUsername As String
+    Public ProxyUserDomain As String
+    Public ProxyServer As String
+    Public ProxyPort As String
     Public Username As String
     Public WindowMaximize As Boolean = True
     Public WindowPosition As New Point
@@ -224,6 +228,10 @@ Module Config
             LocalConfigItems.Add("irc:" & CStr(Config.IrcMode).ToLower)
             LocalConfigItems.Add("log-file:" & Config.LogFile)
             LocalConfigItems.Add("project:" & Config.Project)
+            LocalConfigItems.Add("proxy-username:" & Config.ProxyUsername)
+            LocalConfigItems.Add("proxy-userDomain:" & Config.ProxyUserDomain)
+            LocalConfigItems.Add("proxy-server:" & Config.ProxyServer)
+            LocalConfigItems.Add("proxy-port:" & Config.ProxyPort)
             LocalConfigItems.Add("username:" & Config.Username)
             LocalConfigItems.Add("window-height:" & CStr(Main.Height))
             LocalConfigItems.Add("window-left:" & CStr(Main.Left))

@@ -6,7 +6,11 @@ Imports System.Web.HttpUtility
 
 Module Login
 
-    Private CaptchaId, CaptchaWord, SessionCookie As String, Form As LoginForm
+    Private Form As LoginForm
+    Private CaptchaId, CaptchaWord, SessionCookie As String
+    Private ProxyAddress, ProxyUser, ProxyPassword, ProxyDomain As String, ProxyPort As Integer
+    Private ProxyIsNeeded As Boolean
+
     Public Password As String
 
     Public Sub StartLogin(ByVal _Form As LoginForm)
@@ -25,6 +29,8 @@ Module Login
             Do
                 Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
                 Client.Headers.Add(HttpRequestHeader.ContentType, "application/x-www-form-urlencoded")
+                Client.Proxy = Login.GetProxy
+
                 If Cookie IsNot Nothing Then Client.Headers.Add(HttpRequestHeader.Cookie, Cookie)
 
                 Retries -= 1
@@ -57,6 +63,7 @@ Module Login
             Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
             Client.Headers.Add(HttpRequestHeader.ContentType, "application/x-www-form-urlencoded")
             Client.Headers.Add(HttpRequestHeader.Cookie, SessionCookie)
+            Client.Proxy = Login.GetProxy
 
             Retries -= 1
 
@@ -381,6 +388,52 @@ Module Login
 
         Callback(AddressOf Form.Done)
     End Sub
+
+    Public Sub ConfigureProxy(ByVal Address As String, ByVal Port As String, ByVal Username As String, _
+        ByVal Password As String, ByVal Domain As String)
+
+        Login.ProxyPassword = Password
+        Login.ProxyUser = Username
+        Login.ProxyAddress = Address
+        Login.ProxyDomain = Domain
+
+        If (Address = "") Then
+            Login.ProxyPort = 80
+        Else
+            Login.ProxyPort = CInt(Port)
+            Login.ProxyIsNeeded = True
+        End If
+    End Sub
+
+    Public Function GetProxy() As IWebProxy
+        If (Login.ProxyIsNeeded) Then
+            Dim ProxyString As String
+            ProxyString = "http://" & Login.ProxyAddress & ":" & Login.ProxyPort & "/"
+            Dim wp As New WebProxy(ProxyString, True)
+            wp.Credentials = New NetworkCredential(Login.ProxyUser, Login.ProxyPassword, Login.ProxyDomain)
+            wp.UseDefaultCredentials = True
+            Return wp
+        Else
+            Dim wp As WebProxy
+            Dim proxyString As String
+
+            Dim readValue As Object
+            readValue = My.Computer.Registry.GetValue("HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings", "ProxyServer", "")
+
+            proxyString = CType(readValue, String)
+
+            If (proxyString = "") Then
+                wp = New WebProxy
+            Else
+                proxyString = "http://" & proxyString & "/"
+                wp = New WebProxy(proxyString, True)
+            End If
+
+            wp.Credentials = CredentialCache.DefaultCredentials
+            wp.UseDefaultCredentials = True
+            Return wp
+        End If
+    End Function
 
     Function CompareUsernames(ByVal a As String, ByVal b As String) As Integer
         Return String.Compare(a, b, System.StringComparison.OrdinalIgnoreCase)

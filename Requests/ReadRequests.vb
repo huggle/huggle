@@ -116,6 +116,7 @@ Module ReadRequests
             Do
                 Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
                 Client.Headers.Add(HttpRequestHeader.Cookie, Cookie)
+                Client.Proxy = Login.GetProxy
 
                 If Retries < 3 Then Thread.Sleep(1000)
                 Retries -= 1
@@ -241,6 +242,7 @@ Module ReadRequests
             Do
                 Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
                 Client.Headers.Add(HttpRequestHeader.Cookie, Cookie)
+                Client.Proxy = Login.GetProxy
 
                 Retries -= 1
 
@@ -326,6 +328,7 @@ Module ReadRequests
 
             Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
             Client.Headers.Add(HttpRequestHeader.Cookie, Cookie)
+            Client.Proxy = Login.GetProxy
 
             Dim Retries As Integer = 3, Result As String = ""
 
@@ -394,6 +397,7 @@ Module ReadRequests
                 Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
                 Client.Headers.Add(HttpRequestHeader.Cookie, Cookie)
                 Client.Headers.Add(HttpRequestHeader.ContentType, "application/x-www-form-urlencoded")
+                Client.Proxy = Login.GetProxy
 
                 Retries -= 1
 
@@ -432,20 +436,11 @@ Module ReadRequests
         End Sub
 
         Private Sub Process()
-            Dim Client As New WebClient, Retries As Integer = 3, Result As String
-
-            Do
-                Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
-                Client.Headers.Add(HttpRequestHeader.Cookie, Cookie)
-
-                Retries -= 1
-                Result = UTF8.GetString(Client.DownloadData _
-                    (SitePath & "w/api.php?action=query&format=xml&list=recentchanges&rclimit=" & _
-                    CStr(Config.RcBlockSize) & "&rcprop=user|comment|flags|timestamp|title|ids|sizes"))
-
-            Loop Until Result.Contains("<recentchanges>") OrElse Retries = 0
-
-            If Retries > 0 Then Callback(AddressOf Done, CObj(Result))
+            Dim Result As String = GetText(SitePath & "w/api.php?action=query&format=xml&list=recentchanges" & _
+                "&rclimit=" & CStr(Config.RcBlockSize) & "&rcprop=user|comment|flags|timestamp|title|ids|sizes", _
+                "<recentchanges>")
+            
+            If Result IsNot Nothing Then Callback(AddressOf Done, CObj(Result))
         End Sub
 
         Private Sub Done(ByVal ResultObject As Object)

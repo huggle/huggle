@@ -27,6 +27,7 @@ Module ActionRequests
             Do
                 Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
                 Client.Headers.Add(HttpRequestHeader.Cookie, Cookie)
+                Client.Proxy = Login.GetProxy
 
                 Retries -= 1
                 Try
@@ -52,6 +53,7 @@ Module ActionRequests
                 Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
                 Client.Headers.Add(HttpRequestHeader.Cookie, Cookie)
                 Client.Headers.Add(HttpRequestHeader.ContentType, "application/x-www-form-urlencoded")
+                Client.Proxy = Login.GetProxy
 
                 Retries -= 1
 
@@ -226,6 +228,7 @@ Module ActionRequests
             Do
                 Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
                 Client.Headers.Add(HttpRequestHeader.Cookie, Cookie)
+                Client.Proxy = Login.GetProxy
 
                 Retries -= 1
                 Result = UTF8.GetString(Client.DownloadData _
@@ -249,6 +252,7 @@ Module ActionRequests
                 Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
                 Client.Headers.Add(HttpRequestHeader.ContentType, "application/x-www-form-urlencoded")
                 Client.Headers.Add(HttpRequestHeader.Cookie, Cookie)
+                Client.Proxy = Login.GetProxy
 
                 Retries -= 1
 
@@ -305,6 +309,7 @@ Module ActionRequests
             Do
                 Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
                 Client.Headers.Add(HttpRequestHeader.Cookie, Cookie)
+                Client.Proxy = Login.GetProxy
 
                 Retries -= 1
                 Try
@@ -337,6 +342,7 @@ Module ActionRequests
                 Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
                 Client.Headers.Add(HttpRequestHeader.Cookie, Cookie)
                 Client.Headers.Add(HttpRequestHeader.ContentType, "application/x-www-form-urlencoded")
+                Client.Proxy = Login.GetProxy
 
                 Retries -= 1
 
@@ -393,6 +399,7 @@ Module ActionRequests
             Do
                 Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
                 Client.Headers.Add(HttpRequestHeader.Cookie, Cookie)
+                Client.Proxy = Login.GetProxy
 
                 Retries -= 1
                 Try
@@ -418,6 +425,7 @@ Module ActionRequests
                 Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
                 Client.Headers.Add(HttpRequestHeader.Cookie, Cookie)
                 Client.Headers.Add(HttpRequestHeader.ContentType, "application/x-www-form-urlencoded")
+                Client.Proxy = Login.GetProxy
 
                 Retries -= 1
 

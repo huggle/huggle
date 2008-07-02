@@ -9,13 +9,19 @@ Class LoginForm
         UseRecentchanges.Checked = Not Config.IrcMode
         If RememberMe Then Username.Text = Config.Username
 
-        Version.Text = "Version " & Config.Version.Major & "." & Config.Version.Minor & "." & Config.Version.MinorRevision
+        Version.Text = "Version " & Config.Version.Major & "." & Config.Version.Minor & "." & Config.Version.Build
 
         For Each Item As String In Config.Projects
             If Item.Contains(";") Then Project.Items.Add(Item.Substring(0, Item.IndexOf(";")))
         Next Item
 
         If Project.Items.Count > 0 Then Project.SelectedIndex = 0
+
+        ProxyPort.Text = Config.ProxyPort
+        If ProxyPort.Text.Length = 0 Then ProxyPort.Text = "80"
+        ProxyAddress.Text = Config.ProxyServer
+        ProxyDomain.Text = Config.ProxyUserDomain
+        ProxyUsername.Text = Config.ProxyUsername
     End Sub
 
     Private Sub LoginForm_Shown(ByVal s As Object, ByVal e As EventArgs) Handles Me.Shown
@@ -66,10 +72,20 @@ Class LoginForm
         Progress.Enabled = True
 
         Config.IrcMode = UseIrc.Checked
+        Config.ProxyPort = ProxyPort.Text
+        Config.ProxyServer = ProxyAddress.Text
+        Config.ProxyUserDomain = ProxyDomain.Text
+        Config.ProxyUsername = ProxyUsername.Text
         Config.Username = Username.Text.Substring(0, 1).ToUpper & Username.Text.Substring(1)
 
         Login.Password = Password.Text
+        Login.ConfigureProxy(ProxyAddress.Text, ProxyPort.Text, ProxyUsername.Text, ProxyPassword.Text, ProxyDomain.Text)
         Login.StartLogin(Me)
+    End Sub
+
+    Private Sub ShowProxySettings_Click(ByVal s As Object, ByVal e As EventArgs) Handles ShowProxySettings.Click
+        Me.Height += 145
+        ShowProxySettings.Enabled = False
     End Sub
 
     Private Sub Cancel_Click(ByVal s As Object, ByVal e As EventArgs) Handles Cancel.Click
@@ -95,4 +111,5 @@ Class LoginForm
         Progress.Value = 0
         Refresh()
     End Sub
+
 End Class

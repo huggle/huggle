@@ -26,6 +26,17 @@ Partial Class LoginForm
         Me.OK = New System.Windows.Forms.Button
         Me.Cancel = New System.Windows.Forms.Button
         Me.Options = New System.Windows.Forms.GroupBox
+        Me.ProxyDomain = New System.Windows.Forms.TextBox
+        Me.Label6 = New System.Windows.Forms.Label
+        Me.Label5 = New System.Windows.Forms.Label
+        Me.Label3 = New System.Windows.Forms.Label
+        Me.Label4 = New System.Windows.Forms.Label
+        Me.ProxyPassword = New System.Windows.Forms.TextBox
+        Me.ProxyUsername = New System.Windows.Forms.TextBox
+        Me.Label2 = New System.Windows.Forms.Label
+        Me.ProxyPort = New System.Windows.Forms.TextBox
+        Me.Label1 = New System.Windows.Forms.Label
+        Me.ProxyAddress = New System.Windows.Forms.TextBox
         Me.Project = New System.Windows.Forms.ComboBox
         Me.ProjectLabel = New System.Windows.Forms.Label
         Me.UseIrc = New System.Windows.Forms.RadioButton
@@ -39,14 +50,15 @@ Partial Class LoginForm
         Me.Version = New System.Windows.Forms.Label
         Me.Status = New System.Windows.Forms.Label
         Me.Progress = New System.Windows.Forms.ProgressBar
+        Me.ShowProxySettings = New System.Windows.Forms.Button
         Me.Options.SuspendLayout()
         Me.SuspendLayout()
         '
         'OK
         '
-        Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.OK.Enabled = False
-        Me.OK.Location = New System.Drawing.Point(174, 220)
+        Me.OK.Location = New System.Drawing.Point(215, 231)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
         Me.OK.TabIndex = 1
@@ -55,8 +67,8 @@ Partial Class LoginForm
         '
         'Cancel
         '
-        Me.Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Cancel.Location = New System.Drawing.Point(256, 220)
+        Me.Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Cancel.Location = New System.Drawing.Point(297, 231)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
         Me.Cancel.TabIndex = 2
@@ -65,8 +77,20 @@ Partial Class LoginForm
         '
         'Options
         '
-        Me.Options.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.Options.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Options.Controls.Add(Me.ProxyDomain)
+        Me.Options.Controls.Add(Me.Label6)
+        Me.Options.Controls.Add(Me.Label5)
+        Me.Options.Controls.Add(Me.Label3)
+        Me.Options.Controls.Add(Me.Label4)
+        Me.Options.Controls.Add(Me.ProxyPassword)
+        Me.Options.Controls.Add(Me.ProxyUsername)
+        Me.Options.Controls.Add(Me.Label2)
+        Me.Options.Controls.Add(Me.ProxyPort)
+        Me.Options.Controls.Add(Me.Label1)
+        Me.Options.Controls.Add(Me.ProxyAddress)
         Me.Options.Controls.Add(Me.Project)
         Me.Options.Controls.Add(Me.ProjectLabel)
         Me.Options.Controls.Add(Me.UseIrc)
@@ -77,24 +101,125 @@ Partial Class LoginForm
         Me.Options.Controls.Add(Me.Username)
         Me.Options.Location = New System.Drawing.Point(10, 71)
         Me.Options.Name = "Options"
-        Me.Options.Size = New System.Drawing.Size(321, 143)
+        Me.Options.Size = New System.Drawing.Size(362, 154)
         Me.Options.TabIndex = 0
         Me.Options.TabStop = False
+        '
+        'ProxyDomain
+        '
+        Me.ProxyDomain.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ProxyDomain.Location = New System.Drawing.Point(185, 213)
+        Me.ProxyDomain.Name = "ProxyDomain"
+        Me.ProxyDomain.Size = New System.Drawing.Size(122, 20)
+        Me.ProxyDomain.TabIndex = 17
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Location = New System.Drawing.Point(133, 216)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(46, 13)
+        Me.Label6.TabIndex = 16
+        Me.Label6.Text = "Domain:"
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label5.Location = New System.Drawing.Point(8, 162)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(86, 13)
+        Me.Label5.TabIndex = 8
+        Me.Label5.Text = "Proxy settings"
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Location = New System.Drawing.Point(8, 268)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(56, 13)
+        Me.Label3.TabIndex = 14
+        Me.Label3.Text = "Password:"
+        '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.Location = New System.Drawing.Point(6, 242)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(58, 13)
+        Me.Label4.TabIndex = 12
+        Me.Label4.Text = "Username:"
+        '
+        'ProxyPassword
+        '
+        Me.ProxyPassword.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ProxyPassword.Location = New System.Drawing.Point(70, 265)
+        Me.ProxyPassword.Name = "ProxyPassword"
+        Me.ProxyPassword.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
+        Me.ProxyPassword.Size = New System.Drawing.Size(237, 20)
+        Me.ProxyPassword.TabIndex = 15
+        '
+        'ProxyUsername
+        '
+        Me.ProxyUsername.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ProxyUsername.Location = New System.Drawing.Point(70, 239)
+        Me.ProxyUsername.Name = "ProxyUsername"
+        Me.ProxyUsername.Size = New System.Drawing.Size(237, 20)
+        Me.ProxyUsername.TabIndex = 13
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(8, 216)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(29, 13)
+        Me.Label2.TabIndex = 10
+        Me.Label2.Text = "Port:"
+        '
+        'ProxyPort
+        '
+        Me.ProxyPort.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ProxyPort.Location = New System.Drawing.Point(70, 213)
+        Me.ProxyPort.Name = "ProxyPort"
+        Me.ProxyPort.Size = New System.Drawing.Size(53, 20)
+        Me.ProxyPort.TabIndex = 11
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(8, 190)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(45, 13)
+        Me.Label1.TabIndex = 8
+        Me.Label1.Text = "Address"
+        '
+        'ProxyAddress
+        '
+        Me.ProxyAddress.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ProxyAddress.Location = New System.Drawing.Point(70, 187)
+        Me.ProxyAddress.Name = "ProxyAddress"
+        Me.ProxyAddress.Size = New System.Drawing.Size(237, 20)
+        Me.ProxyAddress.TabIndex = 9
         '
         'Project
         '
         Me.Project.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.Project.FormattingEnabled = True
-        Me.Project.Location = New System.Drawing.Point(91, 16)
+        Me.Project.Location = New System.Drawing.Point(70, 15)
         Me.Project.Name = "Project"
-        Me.Project.Size = New System.Drawing.Size(196, 21)
+        Me.Project.Size = New System.Drawing.Size(143, 21)
         Me.Project.TabIndex = 7
         Me.Project.TabStop = False
         '
         'ProjectLabel
         '
         Me.ProjectLabel.AutoSize = True
-        Me.ProjectLabel.Location = New System.Drawing.Point(42, 19)
+        Me.ProjectLabel.Location = New System.Drawing.Point(21, 18)
         Me.ProjectLabel.Name = "ProjectLabel"
         Me.ProjectLabel.Size = New System.Drawing.Size(43, 13)
         Me.ProjectLabel.TabIndex = 6
@@ -105,9 +230,9 @@ Partial Class LoginForm
         Me.UseIrc.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.UseIrc.Checked = True
-        Me.UseIrc.Location = New System.Drawing.Point(32, 94)
+        Me.UseIrc.Location = New System.Drawing.Point(10, 100)
         Me.UseIrc.Name = "UseIrc"
-        Me.UseIrc.Size = New System.Drawing.Size(258, 20)
+        Me.UseIrc.Size = New System.Drawing.Size(299, 20)
         Me.UseIrc.TabIndex = 4
         Me.UseIrc.TabStop = True
         Me.UseIrc.Text = "Use the IRC recent changes feed"
@@ -117,9 +242,9 @@ Partial Class LoginForm
         '
         Me.UseRecentchanges.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.UseRecentchanges.Location = New System.Drawing.Point(32, 117)
+        Me.UseRecentchanges.Location = New System.Drawing.Point(10, 123)
         Me.UseRecentchanges.Name = "UseRecentchanges"
-        Me.UseRecentchanges.Size = New System.Drawing.Size(258, 19)
+        Me.UseRecentchanges.Size = New System.Drawing.Size(299, 19)
         Me.UseRecentchanges.TabIndex = 5
         Me.UseRecentchanges.Text = "Use Special:Recentchanges"
         Me.UseRecentchanges.UseVisualStyleBackColor = True
@@ -127,7 +252,7 @@ Partial Class LoginForm
         'PasswordLabel
         '
         Me.PasswordLabel.AutoSize = True
-        Me.PasswordLabel.Location = New System.Drawing.Point(29, 72)
+        Me.PasswordLabel.Location = New System.Drawing.Point(8, 71)
         Me.PasswordLabel.Name = "PasswordLabel"
         Me.PasswordLabel.Size = New System.Drawing.Size(56, 13)
         Me.PasswordLabel.TabIndex = 2
@@ -136,7 +261,7 @@ Partial Class LoginForm
         'UsernameLabel
         '
         Me.UsernameLabel.AutoSize = True
-        Me.UsernameLabel.Location = New System.Drawing.Point(27, 46)
+        Me.UsernameLabel.Location = New System.Drawing.Point(6, 45)
         Me.UsernameLabel.Name = "UsernameLabel"
         Me.UsernameLabel.Size = New System.Drawing.Size(58, 13)
         Me.UsernameLabel.TabIndex = 0
@@ -146,19 +271,19 @@ Partial Class LoginForm
         '
         Me.Password.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Password.Location = New System.Drawing.Point(91, 69)
+        Me.Password.Location = New System.Drawing.Point(70, 68)
         Me.Password.Name = "Password"
         Me.Password.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
-        Me.Password.Size = New System.Drawing.Size(196, 20)
+        Me.Password.Size = New System.Drawing.Size(237, 20)
         Me.Password.TabIndex = 3
         '
         'Username
         '
         Me.Username.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Username.Location = New System.Drawing.Point(91, 43)
+        Me.Username.Location = New System.Drawing.Point(70, 42)
         Me.Username.Name = "Username"
-        Me.Username.Size = New System.Drawing.Size(196, 20)
+        Me.Username.Size = New System.Drawing.Size(237, 20)
         Me.Username.TabIndex = 1
         '
         'TitleLabel
@@ -168,7 +293,7 @@ Partial Class LoginForm
         Me.TitleLabel.Font = New System.Drawing.Font("Tahoma", 27.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TitleLabel.Location = New System.Drawing.Point(10, -4)
         Me.TitleLabel.Name = "TitleLabel"
-        Me.TitleLabel.Size = New System.Drawing.Size(321, 55)
+        Me.TitleLabel.Size = New System.Drawing.Size(362, 55)
         Me.TitleLabel.TabIndex = 5
         Me.TitleLabel.Text = "huggle"
         Me.TitleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -177,14 +302,14 @@ Partial Class LoginForm
         '
         Me.Credit.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Credit.AutoSize = True
-        Me.Credit.LinkArea = New System.Windows.Forms.LinkArea(11, 5)
+        Me.Credit.LinkArea = New System.Windows.Forms.LinkArea(13, 5)
         Me.Credit.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline
-        Me.Credit.Location = New System.Drawing.Point(224, 51)
+        Me.Credit.Location = New System.Drawing.Point(265, 51)
         Me.Credit.Name = "Credit"
         Me.Credit.Size = New System.Drawing.Size(107, 17)
         Me.Credit.TabIndex = 7
         Me.Credit.TabStop = True
-        Me.Credit.Text = "Created by Gurch"
+        Me.Credit.Text = "Developed by Gurch"
         Me.Credit.UseCompatibleTextRendering = True
         '
         'Version
@@ -199,34 +324,45 @@ Partial Class LoginForm
         '
         'Status
         '
-        Me.Status.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.Status.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Status.Location = New System.Drawing.Point(11, 246)
+        Me.Status.Location = New System.Drawing.Point(10, 261)
         Me.Status.Name = "Status"
-        Me.Status.Size = New System.Drawing.Size(319, 31)
+        Me.Status.Size = New System.Drawing.Size(360, 31)
         Me.Status.TabIndex = 3
         Me.Status.Text = " "
         '
         'Progress
         '
-        Me.Progress.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.Progress.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Progress.Enabled = False
-        Me.Progress.Location = New System.Drawing.Point(12, 261)
+        Me.Progress.Location = New System.Drawing.Point(10, 295)
         Me.Progress.Maximum = 10
         Me.Progress.Name = "Progress"
-        Me.Progress.Size = New System.Drawing.Size(319, 19)
+        Me.Progress.Size = New System.Drawing.Size(360, 19)
         Me.Progress.Step = 1
         Me.Progress.Style = System.Windows.Forms.ProgressBarStyle.Continuous
         Me.Progress.TabIndex = 4
+        '
+        'ShowProxySettings
+        '
+        Me.ShowProxySettings.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.ShowProxySettings.Location = New System.Drawing.Point(12, 231)
+        Me.ShowProxySettings.Name = "ShowProxySettings"
+        Me.ShowProxySettings.Size = New System.Drawing.Size(109, 23)
+        Me.ShowProxySettings.TabIndex = 18
+        Me.ShowProxySettings.Text = "Proxy settings >>"
+        Me.ShowProxySettings.UseVisualStyleBackColor = True
         '
         'LoginForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(343, 296)
-        Me.Controls.Add(Me.Progress)
+        Me.ClientSize = New System.Drawing.Size(384, 326)
+        Me.Controls.Add(Me.ShowProxySettings)
         Me.Controls.Add(Me.Status)
+        Me.Controls.Add(Me.Progress)
         Me.Controls.Add(Me.TitleLabel)
         Me.Controls.Add(Me.Credit)
         Me.Controls.Add(Me.Version)
@@ -263,4 +399,16 @@ Partial Class LoginForm
     Friend WithEvents Progress As System.Windows.Forms.ProgressBar
     Friend WithEvents Project As System.Windows.Forms.ComboBox
     Friend WithEvents ProjectLabel As System.Windows.Forms.Label
+    Friend WithEvents Label2 As System.Windows.Forms.Label
+    Friend WithEvents ProxyPort As System.Windows.Forms.TextBox
+    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents ProxyAddress As System.Windows.Forms.TextBox
+    Friend WithEvents Label5 As System.Windows.Forms.Label
+    Friend WithEvents Label3 As System.Windows.Forms.Label
+    Friend WithEvents Label4 As System.Windows.Forms.Label
+    Friend WithEvents ProxyPassword As System.Windows.Forms.TextBox
+    Friend WithEvents ProxyUsername As System.Windows.Forms.TextBox
+    Friend WithEvents ProxyDomain As System.Windows.Forms.TextBox
+    Friend WithEvents Label6 As System.Windows.Forms.Label
+    Friend WithEvents ShowProxySettings As System.Windows.Forms.Button
 End Class

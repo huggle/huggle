@@ -9,6 +9,7 @@ Class CaptchaForm
 
         Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
         Client.Headers.Add(HttpRequestHeader.Cookie, Cookie)
+        Client.Proxy = Login.GetProxy
 
         Client.DownloadFile(SitePath & "w/index.php?title=Special:Captcha/image&wpCaptchaId=" & CaptchaId, TempFileName)
         Captcha.Image = New Bitmap(TempFileName)
