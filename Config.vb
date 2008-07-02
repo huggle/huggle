@@ -206,6 +206,10 @@ Module Config
                         Case "irc" : Config.IrcMode = CBool(OptionValue)
                         Case "log-file" : Config.LogFile = OptionValue
                         Case "project" : Config.Project = OptionValue
+                        Case "proxy-port" : Config.ProxyPort = OptionValue
+                        Case "proxy-server" : Config.ProxyServer = OptionValue
+                        Case "proxy-userdomain" : Config.ProxyUserDomain = OptionValue
+                        Case "proxy-username" : Config.ProxyUsername = OptionValue
                         Case "username" : Config.Username = OptionValue
                         Case "window-height" : Config.WindowSize.Height = CInt(OptionValue)
                         Case "window-left" : Config.WindowPosition.X = CInt(OptionValue)
@@ -228,10 +232,10 @@ Module Config
             LocalConfigItems.Add("irc:" & CStr(Config.IrcMode).ToLower)
             LocalConfigItems.Add("log-file:" & Config.LogFile)
             LocalConfigItems.Add("project:" & Config.Project)
-            LocalConfigItems.Add("proxy-username:" & Config.ProxyUsername)
-            LocalConfigItems.Add("proxy-userDomain:" & Config.ProxyUserDomain)
-            LocalConfigItems.Add("proxy-server:" & Config.ProxyServer)
             LocalConfigItems.Add("proxy-port:" & Config.ProxyPort)
+            LocalConfigItems.Add("proxy-server:" & Config.ProxyServer)
+            LocalConfigItems.Add("proxy-userdomain:" & Config.ProxyUserDomain)
+            LocalConfigItems.Add("proxy-username:" & Config.ProxyUsername)
             LocalConfigItems.Add("username:" & Config.Username)
             LocalConfigItems.Add("window-height:" & CStr(Main.Height))
             LocalConfigItems.Add("window-left:" & CStr(Main.Left))

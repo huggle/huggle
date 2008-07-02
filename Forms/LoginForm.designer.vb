@@ -112,7 +112,7 @@ Partial Class LoginForm
         Me.ProxyDomain.Location = New System.Drawing.Point(185, 213)
         Me.ProxyDomain.Name = "ProxyDomain"
         Me.ProxyDomain.Size = New System.Drawing.Size(122, 20)
-        Me.ProxyDomain.TabIndex = 17
+        Me.ProxyDomain.TabIndex = 14
         '
         'Label6
         '
@@ -120,7 +120,7 @@ Partial Class LoginForm
         Me.Label6.Location = New System.Drawing.Point(133, 216)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(46, 13)
-        Me.Label6.TabIndex = 16
+        Me.Label6.TabIndex = 13
         Me.Label6.Text = "Domain:"
         '
         'Label5
@@ -139,7 +139,7 @@ Partial Class LoginForm
         Me.Label3.Location = New System.Drawing.Point(8, 268)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(56, 13)
-        Me.Label3.TabIndex = 14
+        Me.Label3.TabIndex = 17
         Me.Label3.Text = "Password:"
         '
         'Label4
@@ -148,7 +148,7 @@ Partial Class LoginForm
         Me.Label4.Location = New System.Drawing.Point(6, 242)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(58, 13)
-        Me.Label4.TabIndex = 12
+        Me.Label4.TabIndex = 15
         Me.Label4.Text = "Username:"
         '
         'ProxyPassword
@@ -159,7 +159,7 @@ Partial Class LoginForm
         Me.ProxyPassword.Name = "ProxyPassword"
         Me.ProxyPassword.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
         Me.ProxyPassword.Size = New System.Drawing.Size(237, 20)
-        Me.ProxyPassword.TabIndex = 15
+        Me.ProxyPassword.TabIndex = 18
         '
         'ProxyUsername
         '
@@ -168,7 +168,7 @@ Partial Class LoginForm
         Me.ProxyUsername.Location = New System.Drawing.Point(70, 239)
         Me.ProxyUsername.Name = "ProxyUsername"
         Me.ProxyUsername.Size = New System.Drawing.Size(237, 20)
-        Me.ProxyUsername.TabIndex = 13
+        Me.ProxyUsername.TabIndex = 16
         '
         'Label2
         '
@@ -176,7 +176,7 @@ Partial Class LoginForm
         Me.Label2.Location = New System.Drawing.Point(8, 216)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(29, 13)
-        Me.Label2.TabIndex = 10
+        Me.Label2.TabIndex = 11
         Me.Label2.Text = "Port:"
         '
         'ProxyPort
@@ -186,7 +186,7 @@ Partial Class LoginForm
         Me.ProxyPort.Location = New System.Drawing.Point(70, 213)
         Me.ProxyPort.Name = "ProxyPort"
         Me.ProxyPort.Size = New System.Drawing.Size(53, 20)
-        Me.ProxyPort.TabIndex = 11
+        Me.ProxyPort.TabIndex = 12
         '
         'Label1
         '
@@ -194,7 +194,7 @@ Partial Class LoginForm
         Me.Label1.Location = New System.Drawing.Point(8, 190)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(45, 13)
-        Me.Label1.TabIndex = 8
+        Me.Label1.TabIndex = 9
         Me.Label1.Text = "Address"
         '
         'ProxyAddress
@@ -204,7 +204,7 @@ Partial Class LoginForm
         Me.ProxyAddress.Location = New System.Drawing.Point(70, 187)
         Me.ProxyAddress.Name = "ProxyAddress"
         Me.ProxyAddress.Size = New System.Drawing.Size(237, 20)
-        Me.ProxyAddress.TabIndex = 9
+        Me.ProxyAddress.TabIndex = 10
         '
         'Project
         '
@@ -213,7 +213,7 @@ Partial Class LoginForm
         Me.Project.Location = New System.Drawing.Point(70, 15)
         Me.Project.Name = "Project"
         Me.Project.Size = New System.Drawing.Size(143, 21)
-        Me.Project.TabIndex = 7
+        Me.Project.TabIndex = 5
         Me.Project.TabStop = False
         '
         'ProjectLabel
@@ -222,7 +222,7 @@ Partial Class LoginForm
         Me.ProjectLabel.Location = New System.Drawing.Point(21, 18)
         Me.ProjectLabel.Name = "ProjectLabel"
         Me.ProjectLabel.Size = New System.Drawing.Size(43, 13)
-        Me.ProjectLabel.TabIndex = 6
+        Me.ProjectLabel.TabIndex = 4
         Me.ProjectLabel.Text = "Project:"
         '
         'UseIrc
@@ -233,7 +233,7 @@ Partial Class LoginForm
         Me.UseIrc.Location = New System.Drawing.Point(10, 100)
         Me.UseIrc.Name = "UseIrc"
         Me.UseIrc.Size = New System.Drawing.Size(299, 20)
-        Me.UseIrc.TabIndex = 4
+        Me.UseIrc.TabIndex = 6
         Me.UseIrc.TabStop = True
         Me.UseIrc.Text = "Use the IRC recent changes feed"
         Me.UseIrc.UseVisualStyleBackColor = True
@@ -245,7 +245,7 @@ Partial Class LoginForm
         Me.UseRecentchanges.Location = New System.Drawing.Point(10, 123)
         Me.UseRecentchanges.Name = "UseRecentchanges"
         Me.UseRecentchanges.Size = New System.Drawing.Size(299, 19)
-        Me.UseRecentchanges.TabIndex = 5
+        Me.UseRecentchanges.TabIndex = 7
         Me.UseRecentchanges.Text = "Use Special:Recentchanges"
         Me.UseRecentchanges.UseVisualStyleBackColor = True
         '
@@ -294,7 +294,7 @@ Partial Class LoginForm
         Me.TitleLabel.Location = New System.Drawing.Point(10, -4)
         Me.TitleLabel.Name = "TitleLabel"
         Me.TitleLabel.Size = New System.Drawing.Size(362, 55)
-        Me.TitleLabel.TabIndex = 5
+        Me.TitleLabel.TabIndex = 6
         Me.TitleLabel.Text = "huggle"
         Me.TitleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
@@ -307,7 +307,7 @@ Partial Class LoginForm
         Me.Credit.Location = New System.Drawing.Point(265, 51)
         Me.Credit.Name = "Credit"
         Me.Credit.Size = New System.Drawing.Size(107, 17)
-        Me.Credit.TabIndex = 7
+        Me.Credit.TabIndex = 8
         Me.Credit.TabStop = True
         Me.Credit.Text = "Developed by Gurch"
         Me.Credit.UseCompatibleTextRendering = True
@@ -319,7 +319,7 @@ Partial Class LoginForm
         Me.Version.Location = New System.Drawing.Point(9, 51)
         Me.Version.Name = "Version"
         Me.Version.Size = New System.Drawing.Size(49, 13)
-        Me.Version.TabIndex = 6
+        Me.Version.TabIndex = 7
         Me.Version.Text = "Version"
         '
         'Status
@@ -329,7 +329,7 @@ Partial Class LoginForm
         Me.Status.Location = New System.Drawing.Point(10, 261)
         Me.Status.Name = "Status"
         Me.Status.Size = New System.Drawing.Size(360, 31)
-        Me.Status.TabIndex = 3
+        Me.Status.TabIndex = 4
         Me.Status.Text = " "
         '
         'Progress
@@ -343,7 +343,7 @@ Partial Class LoginForm
         Me.Progress.Size = New System.Drawing.Size(360, 19)
         Me.Progress.Step = 1
         Me.Progress.Style = System.Windows.Forms.ProgressBarStyle.Continuous
-        Me.Progress.TabIndex = 4
+        Me.Progress.TabIndex = 5
         '
         'ShowProxySettings
         '
@@ -351,7 +351,7 @@ Partial Class LoginForm
         Me.ShowProxySettings.Location = New System.Drawing.Point(12, 231)
         Me.ShowProxySettings.Name = "ShowProxySettings"
         Me.ShowProxySettings.Size = New System.Drawing.Size(109, 23)
-        Me.ShowProxySettings.TabIndex = 18
+        Me.ShowProxySettings.TabIndex = 3
         Me.ShowProxySettings.Text = "Proxy settings >>"
         Me.ShowProxySettings.UseVisualStyleBackColor = True
         '
