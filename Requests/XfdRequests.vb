@@ -24,7 +24,7 @@ Module XfdRequests
                 Result = Result.Substring(Result.IndexOf("<allpages>") + 10)
                 Result = Result.Substring(0, Result.IndexOf("</allpages>"))
 
-                If Result.Contains(Path & "/" & Name) Then
+                If Result.Contains(Path & "/" & Name & """") Then
                     Subpage = Name & " (2nd nomination)"
 
                     Dim i As Integer = 2
@@ -65,7 +65,7 @@ Module XfdRequests
 
         Protected Overridable Sub DoNotify(ByVal Success As Boolean)
             DoNotify(Success, Config.XfdMessage.Replace("$1", Page.Name) _
-                                .Replace("$2", Location & "/" & LogDate() & "#" & Page.Name))
+                .Replace("$2", Location & "/" & LogDate() & "#" & Page.Name))
         End Sub
 
         Protected Overridable Sub DoNotify(ByVal Success As Boolean, ByVal Message As String)
