@@ -61,10 +61,10 @@ Partial Class AboutForm
         Me.Credit.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline
         Me.Credit.Location = New System.Drawing.Point(203, 68)
         Me.Credit.Name = "Credit"
-        Me.Credit.Size = New System.Drawing.Size(93, 17)
+        Me.Credit.Size = New System.Drawing.Size(107, 17)
         Me.Credit.TabIndex = 2
         Me.Credit.TabStop = True
-        Me.Credit.Text = "Created by Gurch"
+        Me.Credit.Text = "Developed by Gurch"
         Me.Credit.UseCompatibleTextRendering = True
         '
         'Version
