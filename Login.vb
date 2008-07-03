@@ -459,6 +459,7 @@ Module Login
     End Sub
 
     Private Sub Abort(ByVal Message As String)
+        Cookie = Nothing
         Callback(AddressOf Form.Abort, CObj(Message))
     End Sub
 
