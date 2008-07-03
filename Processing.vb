@@ -255,7 +255,10 @@ Module Processing
         End Select
 
         AllEditsByTime.Insert(0, Edit)
-        If Edit.NewPage Then NewPageQueue.Insert(0, Edit)
+
+        'Add new pages to new pages queue
+        If Edit.NewPage AndAlso ((Edit.Page.Namespace = "" AndAlso Config.NamespacesChecked.Contains("article")) _
+            OrElse (Config.NamespacesChecked.Contains(Edit.Page.Namespace.ToLower))) Then NewPageQueue.Insert(0, Edit)
 
         'Remove old edits from queue
         Dim j As Integer = 0
@@ -366,10 +369,9 @@ Module Processing
             AndAlso Edit.Type >= EditType.None _
             AndAlso Not Math.Abs(Edit.Size) > 100000 Then
 
-            Dim LCSpace As String = Edit.Page.Namespace.ToLower
-            If LCSpace = "" Then LCSpace = "article"
+            If (Edit.Page.Namespace = "" AndAlso Config.NamespacesChecked.Contains("article")) _
+                OrElse (Config.NamespacesChecked.Contains(Edit.Page.Namespace.ToLower)) Then
 
-            If Config.NamespacesChecked.Contains(LCSpace) Then
                 EditQueue.Add(Edit)
                 Edit.Added = True
                 Main.DiffNextB.Enabled = True
