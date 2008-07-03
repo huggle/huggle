@@ -455,6 +455,7 @@ Module Login
     End Sub
 
     Private Sub UpdateStatus(ByVal Message As String)
+        If Not Form.LoggingIn Then Thread.CurrentThread.Abort()
         Callback(AddressOf Form.UpdateStatus, CObj(Message))
     End Sub
 

@@ -211,6 +211,7 @@ Partial Class LoginForm
         Me.Project.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.Project.FormattingEnabled = True
         Me.Project.Location = New System.Drawing.Point(70, 15)
+        Me.Project.MaxDropDownItems = 20
         Me.Project.Name = "Project"
         Me.Project.Size = New System.Drawing.Size(143, 21)
         Me.Project.TabIndex = 5

@@ -2,6 +2,8 @@ Imports System.Threading
 
 Class LoginForm
 
+    Public LoggingIn As Boolean
+
     Private Sub LoginForm_Load(ByVal s As Object, ByVal e As EventArgs) Handles Me.Load
         GetLocalConfig()
 
@@ -57,6 +59,8 @@ Class LoginForm
     Private Sub OK_Click(Optional ByVal s As Object = Nothing, Optional ByVal e As EventArgs = Nothing) _
         Handles OK.Click
 
+        LoggingIn = True
+
         For Each Item As String In Config.Projects
             If Item.StartsWith(Project.Text) AndAlso Item.Contains(";") _
                 Then Config.Project = Item.Substring(Item.IndexOf(";") + 1)
@@ -69,7 +73,9 @@ Class LoginForm
 
         Options.Enabled = False
         OK.Enabled = False
+        ShowProxySettings.Enabled = False
         Progress.Enabled = True
+        Cancel.Text = "Cancel"
 
         Config.IrcMode = UseIrc.Checked
         Config.ProxyPort = ProxyPort.Text
@@ -89,7 +95,7 @@ Class LoginForm
     End Sub
 
     Private Sub Cancel_Click(ByVal s As Object, ByVal e As EventArgs) Handles Cancel.Click
-        End
+        If LoggingIn Then Abort("Cancelled.") Else End
     End Sub
 
     Sub Done(ByVal O As Object)
@@ -100,16 +106,16 @@ Class LoginForm
     Sub UpdateStatus(ByVal MessageObject As Object)
         Status.Text = CStr(MessageObject)
         If Progress.Value <= Progress.Maximum - 1 Then Progress.Value += 1
-        Refresh()
     End Sub
 
     Sub Abort(ByVal MessageObject As Object)
+        LoggingIn = False
         Status.Text = CStr(MessageObject)
         Options.Enabled = True
         OK.Enabled = True
+        Cancel.Text = "Exit"
         Progress.Enabled = False
         Progress.Value = 0
-        Refresh()
     End Sub
 
 End Class
