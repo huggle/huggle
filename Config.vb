@@ -96,7 +96,7 @@ Module Config
     Public MinorWarnings As Boolean = False
     Public MinVersion As String
     Public MinWarningWait As Integer = 10
-    Public MonthHeadings As Boolean = True
+    Public MonthHeadings As Boolean = False
     Public NamespacesChecked As New List(Of String)(New String() {"article", "talk", "user", "user talk", "help", _
         "help talk", "portal", "portal talk", "template", "template talk", "mediawiki", "mediawiki talk", "image", _
         "image talk", "category", "category talk", "wikipedia", "wikipedia talk"})

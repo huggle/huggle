@@ -168,6 +168,7 @@ Module ConfigRequests
                                 Case "version" : If VersionOK Then CheckVersion(OptionValue)
                                 Case "warning-im-level" : Config.WarningImLevel = CBool(OptionValue)
                                 Case "warning-mode" : Config.WarningMode = OptionValue
+                                Case "warning-month-headings" : Config.MonthHeadings = CBool(OptionValue)
                                 Case "warning-series" : SetWarningSeries(OptionValue)
                                 Case "welcome-summary" : Config.WelcomeSummary = OptionValue
                                 Case "whitelist" : Config.WhitelistLocation = OptionValue
