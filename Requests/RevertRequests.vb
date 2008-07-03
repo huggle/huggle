@@ -185,23 +185,24 @@ Module RevertRequests
 
             Dim SomeEdit As Edit = ThisEdit
 
-            While True
-                If SomeEdit.User IsNot ThisEdit.User Then
-                    If Config.RollbackSummary IsNot Nothing Then Summary = Config.RollbackSummary.Replace _
-                        ("$1", ThisEdit.User.Name).Replace("$2", SomeEdit.User.Name)
-                    If Config.Summary IsNot Nothing Then Summary &= " " & Config.Summary
-                    Exit While
-                End If
+            'Set automatic summary
+            If Summary Is Nothing Then
+                While True
+                    If SomeEdit.User IsNot ThisEdit.User Then
+                        If Config.RollbackSummary IsNot Nothing Then Summary = Config.RollbackSummary.Replace _
+                            ("$1", ThisEdit.User.Name).Replace("$2", SomeEdit.User.Name)
+                        Exit While
+                    End If
 
-                If SomeEdit.Prev Is Nothing OrElse SomeEdit.Prev Is NullEdit Then
-                    If Config.RollbackSummaryUnknown IsNot Nothing Then _
-                        Summary = Config.RollbackSummaryUnknown.Replace("$1", ThisEdit.User.Name)
-                    If Config.Summary IsNot Nothing Then Summary &= " " & Config.Summary
-                    Exit While
-                End If
+                    If SomeEdit.Prev Is Nothing OrElse SomeEdit.Prev Is NullEdit Then
+                        If Config.RollbackSummaryUnknown IsNot Nothing Then _
+                            Summary = Config.RollbackSummaryUnknown.Replace("$1", ThisEdit.User.Name)
+                        Exit While
+                    End If
 
-                SomeEdit = SomeEdit.Prev
-            End While
+                    SomeEdit = SomeEdit.Prev
+                End While
+            End If
 
             Do
                 Dim LoggingIn As Boolean = False
@@ -215,6 +216,7 @@ Module RevertRequests
 
                     Dim GetString As String = SitePath & ThisEdit.RollbackUrl.Substring(1)
                     If Summary IsNot Nothing AndAlso Summary <> "" Then GetString &= "&summary=" & UrlEncode(Summary)
+                    If Config.Summary IsNot Nothing Then GetString &= UrlEncode(" " & Config.Summary)
 
                     Try
                         Result = UTF8.GetString(Client.DownloadData(GetString))
