@@ -75,7 +75,7 @@ Module Config
     Public EnabledForAll As Boolean = False
     Public ExtendReports As Boolean = True
     Public FeedbackLocation As String
-    Public ProjectConfigLocation As String
+    Public GoToPages As New List(Of String)
     Public IconsLocation As String = "http://en.wikipedia.org/wiki/Wikipedia:Huggle/Icons"
     Public IfdLocation As String
     Public IgnoredPages As New List(Of String)
@@ -109,6 +109,7 @@ Module Config
     Public ProdMessageSummary As String
     Public ProdMessageTitle As String
     Public ProdSummary As String
+    Public ProjectConfigLocation As String
     Public Projects As New List(Of String)
     Public PromptForBlock As Boolean = True
     Public PromptForReport As Boolean = False

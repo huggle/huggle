@@ -967,13 +967,6 @@ Class Main
         AboutForm.ShowDialog()
     End Sub
 
-    Private Sub HuggleSandboxToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HuggleSandboxToolStripMenuItem.Click
-        'Dim NewBrowserRequest As New BrowserRequest
-        'NewBrowserRequest.Tab = CurrentTab
-        'NewBrowserRequest.Url = SitePath & "w/index.php?title=Wikipedia:Huggle/Sandbox"
-        'NewBrowserRequest.Start()
-    End Sub
-
     Private Sub Tabs_DrawItem(ByVal s As Object, ByVal e As DrawItemEventArgs) Handles Tabs.DrawItem
         If e.Bounds.Width > 100 Then
             If CBool(e.State And DrawItemState.Selected) _
@@ -1245,14 +1238,6 @@ Class Main
         NewRequest.Start()
     End Sub
 
-    Private Sub WarnBlatantVandalism_Click(ByVal s As Object, ByVal e As EventArgs)
-        Dim NewRequest As New WarningRequest
-        NewRequest.Level = 4
-        NewRequest.ThisEdit = CurrentEdit
-        NewRequest.Type = "warning"
-        NewRequest.Start()
-    End Sub
-
     Private Sub WarnSpam_Click(ByVal s As Object, ByVal e As EventArgs) Handles WarnSpam.Click
         Dim NewRequest As New WarningRequest
         NewRequest.Level = 0
@@ -1317,6 +1302,13 @@ Class Main
             NewRequest.Minor = Config.MinorNotifications
             NewRequest.Avoid = "<!-- Template:" & CStr(MenuItem.Tag)
             NewRequest.Start()
+        End If
+    End Sub
+
+    Private Sub GoToItem_Click(ByVal Sender As Object, ByVal e As EventArgs)
+        If CurrentUser IsNot Nothing Then
+            Dim MenuItem As ToolStripItem = CType(Sender, ToolStripItem)
+            SetCurrentPage(GetPage(CStr(MenuItem.Tag)), True)
         End If
     End Sub
 
@@ -1595,4 +1587,13 @@ Class Main
             NewRequest.Start()
         End If
     End Sub
+
+    Private Sub GoMyTalk_Click(ByVal s As Object, ByVal e As EventArgs) Handles GoMyTalk.Click
+        SetCurrentPage(GetPage("User talk:" & Config.Username), True)
+    End Sub
+
+    Private Sub GoMyContribs_Click(ByVal s As Object, ByVal e As EventArgs) Handles GoMyContribs.Click
+        SetCurrentUser(GetUser(Config.Username), True)
+    End Sub
+
 End Class

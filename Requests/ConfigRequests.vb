@@ -135,6 +135,7 @@ Module ConfigRequests
                                 Case "delete" : Config.Delete = CBool(OptionValue)
                                 Case "enable-all" : Config.EnabledForAll = CBool(OptionValue)
                                 Case "feedback" : Config.FeedbackLocation = OptionValue
+                                Case "go" : SetGo(OptionValue)
                                 Case "ifd" : Config.IfdLocation = OptionValue
                                 Case "ignore" : SetIgnore(OptionValue)
                                 Case "manual-revert-summary" : Config.ManualRevertSummary = OptionValue
@@ -276,6 +277,15 @@ Module ConfigRequests
             For Each Item As String In Value.Split(","c)
                 Item = Item.Trim(","c, " "c, CChar(vbLf)).Replace(Chr(1), ",")
                 If Not Config.WarningSeries.Contains(Item) Then Config.WarningSeries.Add(Item)
+            Next Item
+        End Sub
+
+        Private Sub SetGo(ByVal Value As String)
+            Value = Value.Replace("\,", Chr(1))
+
+            For Each Item As String In Value.Split(","c)
+                Item = Item.Trim(","c, " "c, CChar(vbLf)).Replace(Chr(1), ",")
+                If Not Config.GoToPages.Contains(Item) Then Config.GoToPages.Add(Item)
             Next Item
         End Sub
 

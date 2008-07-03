@@ -82,6 +82,21 @@ Partial Class Main
             End If
         Next Item
 
+        'Add pages to 'go to' menu
+        GoSeparator.Visible = (Config.GoToPages.Count > 0)
+
+        For Each Item As String In Config.GoToPages
+            Dim NewItem As New ToolStripMenuItem
+            Item = Item.Replace("\;", Chr(1))
+
+            If Item.Contains(";") Then
+                NewItem.Text = Item.Substring(Item.IndexOf(";") + 1).Replace(Chr(1), ";")
+                NewItem.Tag = CObj(Item.Substring(0, Item.IndexOf(";")).Replace(Chr(1), ";"))
+                AddHandler NewItem.Click, AddressOf GoToItem_Click
+                GoToMenu.DropDownItems.Add(NewItem)
+            End If
+        Next Item
+
         'Add speedy deletion criteria to menu
         For Each Item As SpeedyCriterion In SpeedyCriteria.Values
             Dim NewItem As New ToolStripMenuItem
