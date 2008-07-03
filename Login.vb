@@ -179,7 +179,7 @@ Module Login
 
         Dim UserConfigResult As Boolean = NewConfigRequest.GetConfig(False)
 
-        If Config.RequireConfig AndAlso Not UserConfigResult Then
+        If Config.RequireConfig AndAlso (Not UserConfigResult OrElse Not Config.Enabled) Then
             ConfigChanged = True
             Abort("Huggle is not enabled for your account, check configuration subpage.")
             Exit Sub
