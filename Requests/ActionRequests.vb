@@ -21,6 +21,36 @@ Module ActionRequests
         End Sub
 
         Private Sub Process()
+            'Check for range block already affecting IP address
+            If ThisUser.Anonymous Then
+                Dim Rangeblocks As String = _
+                    GetText(SitePath & "w/api.php?format=xml&action=query&list=blocks&bkip=" & ThisUser.Name)
+
+                If Rangeblocks.Contains("<blocks>") Then
+                    Rangeblocks = Rangeblocks.Substring(Rangeblocks.IndexOf("<blocks>") + 8)
+                    Rangeblocks = Rangeblocks.Substring(0, Rangeblocks.IndexOf("</blocks>"))
+
+                    For Each Item As String In Rangeblocks.Split(New String() {"<block "}, StringSplitOptions.RemoveEmptyEntries)
+                        Dim User As String = Item.Substring(Item.IndexOf("user=""") + 6)
+                        User = User.Substring(0, User.IndexOf(""""))
+                        User = HtmlDecode(User)
+
+                        If User.Contains("/") Then
+                            If MsgBox(ThisUser.Name & " is already affected by a rangeblock on " & User & _
+                                "." & vbCrLf & "This block will override the effect of the rangeblock. Continue?", _
+                                MsgBoxStyle.YesNo Or MsgBoxStyle.Exclamation Or MsgBoxStyle.DefaultButton2, _
+                                "Block " & ThisUser.Name) = MsgBoxResult.No Then
+
+                                Callback(AddressOf Failed)
+                                Exit Sub
+                            End If
+
+                            Exit For
+                        End If
+                    Next Item
+                End If
+            End If
+
             Dim Client As New WebClient, Retries As Integer = 3, Result As String = ""
             Dim EditTokenMatch As Match
 
