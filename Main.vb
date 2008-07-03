@@ -1090,7 +1090,7 @@ Class Main
     Public Sub SetCurrentUser(ByVal User As User, ByVal DisplayLast As Boolean)
         If User IsNot Nothing Then
             If DisplayLast AndAlso User IsNot CurrentUser Then
-                If User.LastEdit Is Nothing Then
+                If User.LastEdit Is Nothing OrElse User.LastEdit.User Is Nothing Then
                     CurrentEdit = New Edit
                     CurrentEdit.Page = GetPage(PageB.Text)
                     CurrentEdit.User = User

@@ -133,6 +133,7 @@ Module Config
     Public RfdLocation As String
     Public RollbackSummary As String
     Public RollbackSummaryUnknown As String
+    Public SensitiveAddresses As New List(Of String)
     Public ShowAnonymous As Boolean = True
     Public ShowRegistered As Boolean = True
     Public ShowNewEdits As Boolean = True

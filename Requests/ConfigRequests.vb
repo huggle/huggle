@@ -625,6 +625,7 @@ Module ConfigRequests
                             Case "user-agent" : Config.UserAgent = OptionValue.Replace("$1", Config.Version.ToString)
                             Case "user-config" : Config.UserConfigLocation = OptionValue
                             Case "projects" : SetProjects(OptionValue)
+                            Case "sensitive-addresses" : SetSensitiveAddresses(OptionValue)
                         End Select
 
                     Catch ex As Exception
@@ -648,6 +649,16 @@ Module ConfigRequests
 #If DEBUG Then
             Config.Projects.Add("localhost;localhost")
 #End If
+        End Sub
+
+        Private Sub SetSensitiveAddresses(ByVal Value As String)
+            Config.SensitiveAddresses.Clear()
+
+            For Each Item As String In Value.Replace(vbLf, "").Replace(vbCr, "").Replace("\,", Chr(1)).Split _
+                (New String() {","}, StringSplitOptions.RemoveEmptyEntries)
+
+                If Item.Contains(";") Then Config.SensitiveAddresses.Add(Item.Trim(" "c).Replace(Chr(1), ","))
+            Next Item
         End Sub
 
         Private Sub Done(ByVal O As Object)

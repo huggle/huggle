@@ -1,3 +1,5 @@
+Imports System.Text.RegularExpressions
+
 Class BlockForm
 
     Public ThisUser As User
@@ -13,6 +15,24 @@ Class BlockForm
             Reason.SelectedIndex = 2
         Else
             SharedIPWarning.Visible = False
+        End If
+
+        'Check sensitive IP addresses list
+        If ThisUser.Anonymous Then
+            For Each Item As String In Config.SensitiveAddresses
+                If New Regex(Item.Substring(0, Item.IndexOf(";"))).IsMatch(ThisUser.Name) Then
+                    If MsgBox("This IP address is listed as 'sensitive' for the following reason:" & vbCrLf & vbCrLf & _
+                        "   " & Item.Substring(Item.IndexOf(";") + 1) & vbCrLf & vbCrLf & "Continue anyway?", _
+                        MsgBoxStyle.YesNo Or MsgBoxStyle.Exclamation Or MsgBoxStyle.DefaultButton2, _
+                        "Block " & ThisUser.Name) = MsgBoxResult.No Then
+
+                        DialogResult = DialogResult.Cancel
+                        Close()
+                    End If
+
+                    Exit For
+                End If
+            Next Item
         End If
 
         BlockLog.Columns.Add("", 300)
