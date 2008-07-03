@@ -191,12 +191,11 @@ Module Requests
             If Retries < 3 Then Thread.Sleep(1000)
             Retries -= 1
 
-            If Config.Summary IsNot Nothing Then Data.Summary &= " " & Config.Summary
-
             Dim PostString As String = "wpTextbox1=" & UrlEncode(Data.Text) _
-                & "&wpSummary=" & UrlEncode(Data.Summary) & "&wpStarttime=" & UrlEncode(Data.StartTime) _
-                & "&wpEdittime=" & UrlEncode(Data.EditTime) & "&wpEditToken=" & UrlEncode(Data.Token)
+                & "&wpEditToken=" & UrlEncode(Data.Token) & "&wpStarttime=" & UrlEncode(Data.StartTime) _
+                & "&wpEdittime=" & UrlEncode(Data.EditTime) & "&wpSummary=" & UrlEncode(Data.Summary)
 
+            If Config.Summary IsNot Nothing Then PostString &= UrlEncode(" " & Config.Summary)
             If Data.Section IsNot Nothing Then PostString &= "&section=" & UrlEncode(Data.Section)
             If Data.Minor Then PostString &= "&wpMinoredit=0"
             If Data.Watch OrElse Watchlist.Contains(SubjectPage(Data.Page)) Then PostString &= "&wpWatchthis=0"
