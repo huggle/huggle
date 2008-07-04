@@ -565,7 +565,7 @@ Module Misc
 
     <DebuggerStepThrough()> Function IsWikiPage(ByVal Text As String) As Boolean
         'Unfortunately there is no one element common to all skins
-        Return Not Text.Contains("id=""wpTextbox1""") 'Regex.Match(Text, "<div id=['""](mw[-_])?content['""]>").Success
+        Return Regex.Match(Text, "<div id=['""](mw[-_])?content['""]>").Success
     End Function
 
     <DebuggerStepThrough()> Function TalkPageName(ByVal PageName As String) As String

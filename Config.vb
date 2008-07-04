@@ -166,7 +166,8 @@ Module Config
     Public UndoSummary As String
     Public UpdateWhitelist As Boolean = False
     Public UseAdminFunctions As Boolean = True
-    Public UserAgent As String
+    Public UserAgent As String = "Huggle/" & Version.Major.ToString & "." & Version.Minor.ToString & "." & _
+        Version.Build & " http://en.wikipedia.org/wiki/Huggle"
     Public UserConfigLocation As String
     Public UserListLocation As String
     Public UserListUpdateSummary As String
