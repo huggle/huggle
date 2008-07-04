@@ -8,8 +8,8 @@ Module Login
 
     Private Form As LoginForm
     Private CaptchaId, CaptchaWord, SessionCookie As String
-    Private ProxyAddress, ProxyUser, ProxyPassword, ProxyDomain As String, ProxyPort As Integer
     Private ProxyIsNeeded As Boolean
+    Public Proxy As IWebProxy
 
     Public Password As String
 
@@ -29,7 +29,7 @@ Module Login
             Do
                 Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
                 Client.Headers.Add(HttpRequestHeader.ContentType, "application/x-www-form-urlencoded")
-                Client.Proxy = Login.GetProxy
+                Client.Proxy = Login.Proxy
 
                 If Cookie IsNot Nothing Then Client.Headers.Add(HttpRequestHeader.Cookie, Cookie)
 
@@ -39,7 +39,11 @@ Module Login
                     Result = UTF8.GetString(Client.DownloadData(SitePath & "w/index.php?title=Special:Userlogin"))
 
                 Catch ex As WebException
-                    Thread.Sleep(1000)
+                    If ex.Status = WebExceptionStatus.ProxyNameResolutionFailure Then
+                        Throw ex
+                    Else
+                        Thread.Sleep(1000)
+                    End If
                 End Try
 
             Loop Until IsWikiPage(Result) OrElse Retries = 0
@@ -50,7 +54,7 @@ Module Login
                 SessionCookie = Client.ResponseHeaders(HttpResponseHeader.SetCookie)
                 SessionCookie = SessionCookie.Substring(0, SessionCookie.IndexOf(";") + 1)
             End If
-            
+
             If Result.Contains("<div class='captcha'>") Then
                 CaptchaId = Result.Substring(Result.IndexOf("id=""wpCaptchaId"" value=""") + 24)
                 CaptchaId = CaptchaId.Substring(0, CaptchaId.IndexOf(""""))
@@ -63,7 +67,7 @@ Module Login
             Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
             Client.Headers.Add(HttpRequestHeader.ContentType, "application/x-www-form-urlencoded")
             Client.Headers.Add(HttpRequestHeader.Cookie, SessionCookie)
-            Client.Proxy = Login.GetProxy
+            Client.Proxy = Login.Proxy
 
             Retries -= 1
 
@@ -136,26 +140,48 @@ Module Login
         'Log in... can't use the API here because it locks you out after a wrong password
         UpdateStatus("Logging in...")
 
-        Select Case DoLogin()
-            Case "failed"
-                Abort("Unable to log in.")
-                Exit Sub
+        Try
+            Select Case DoLogin()
+                Case "failed"
+                    Abort("Unable to log in.")
+                    Exit Sub
 
-            Case "captcha-needed"
-                Callback(AddressOf CaptchaNeeded)
-                Exit Sub
+                Case "captcha-needed"
+                    Callback(AddressOf CaptchaNeeded)
+                    Exit Sub
 
-            Case "wrong-password"
-                If CaptchaId Is Nothing Then Abort("Incorrect password.") _
-                    Else Abort("Incorrect password or confirmation code.")
-                CaptchaId = Nothing
-                Exit Sub
-        End Select
+                Case "wrong-password"
+                    If CaptchaId Is Nothing Then Abort("Incorrect password.") _
+                        Else Abort("Incorrect password or confirmation code.")
+                    CaptchaId = Nothing
+                    Exit Sub
+            End Select
+
+        Catch ex As Exception
+            'Trap errors resulting from incorrect proxy settings
+            Abort(ex.Message)
+            Exit Sub
+        End Try
 
         'Connect to IRC, if required (on separate thread)
         If Config.IrcMode AndAlso (Config.IrcChannel IsNot Nothing) Then IrcConnect()
 
         'Get global configuration
+        UpdateStatus("Checking global configuration...")
+
+        Dim GlobalConfigRequest As New GlobalConfigRequest
+
+        If Not GlobalConfigRequest.GetConfig Then
+            Abort("Failed to load global configuration page.")
+            Exit Sub
+        End If
+
+        If Not Config.EnabledForAll Then
+            Abort("Huggle is currently disabled on all projects.")
+            Exit Sub
+        End If
+
+        'Get project configuration
         UpdateStatus("Checking project configuration...")
 
         Dim NewConfigRequest As New GetConfigRequest
@@ -314,7 +340,7 @@ Module Login
                 Next Item
 
                 Data.Minor = True
-                Data.Summary = Config.UserlistUpdateSummary.Replace("$1", MyUser.Name)
+                Data.Summary = Config.UserListUpdateSummary.Replace("$1", MyUser.Name)
                 PostEdit(Data)
             End If
         End If
@@ -392,48 +418,34 @@ Module Login
     Public Sub ConfigureProxy(ByVal Address As String, ByVal Port As String, ByVal Username As String, _
         ByVal Password As String, ByVal Domain As String)
 
-        Login.ProxyPassword = Password
-        Login.ProxyUser = Username
-        Login.ProxyAddress = Address
-        Login.ProxyDomain = Domain
-
         If (Address = "") Then
-            Login.ProxyPort = 80
+            Port = "80"
         Else
-            Login.ProxyPort = CInt(Port)
             Login.ProxyIsNeeded = True
         End If
-    End Sub
 
-    Public Function GetProxy() As IWebProxy
         If (Login.ProxyIsNeeded) Then
-            Dim ProxyString As String
-            ProxyString = "http://" & Login.ProxyAddress & ":" & Login.ProxyPort & "/"
-            Dim wp As New WebProxy(ProxyString, True)
-            wp.Credentials = New NetworkCredential(Login.ProxyUser, Login.ProxyPassword, Login.ProxyDomain)
+            Dim wp As New WebProxy("http://" & Address & ":" & Port & "/", True)
+
+            wp.Credentials = New NetworkCredential(Username, Password, Domain)
             wp.UseDefaultCredentials = True
-            Return wp
+            Login.Proxy = wp
         Else
             Dim wp As WebProxy
-            Dim proxyString As String
+            Dim ProxyString As String = CStr(My.Computer.Registry.GetValue _
+                ("HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings", "ProxyServer", ""))
 
-            Dim readValue As Object
-            readValue = My.Computer.Registry.GetValue("HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings", "ProxyServer", "")
-
-            proxyString = CType(readValue, String)
-
-            If (proxyString = "") Then
+            If (ProxyString = "") Then
                 wp = New WebProxy
             Else
-                proxyString = "http://" & proxyString & "/"
-                wp = New WebProxy(proxyString, True)
+                wp = New WebProxy("http://" & ProxyString & "/", True)
             End If
 
             wp.Credentials = CredentialCache.DefaultCredentials
             wp.UseDefaultCredentials = True
-            Return wp
+            Login.Proxy = wp
         End If
-    End Function
+    End Sub
 
     Function CompareUsernames(ByVal a As String, ByVal b As String) As Integer
         Return String.Compare(a, b, System.StringComparison.OrdinalIgnoreCase)

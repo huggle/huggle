@@ -210,7 +210,7 @@ Module RevertRequests
                 Do
                     Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
                     Client.Headers.Add(HttpRequestHeader.Cookie, Cookie)
-                    Client.Proxy = Login.GetProxy
+                    Client.Proxy = Login.Proxy
 
                     Retries -= 1
 

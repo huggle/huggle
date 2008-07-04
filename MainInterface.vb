@@ -109,16 +109,12 @@ Partial Class Main
 
     Public Sub RefreshInterface()
         If CurrentEdit IsNot Nothing AndAlso CurrentPage IsNot Nothing AndAlso CurrentUser IsNot Nothing Then
-            If config.ShowQueue Then
+            If Config.ShowQueue Then
                 Tabs.Left = QueueWidth + 20
                 Tabs.Width = Width - QueueWidth - 30
-                QueueSource.Show()
-                QueueScroll.Show()
             Else
                 Tabs.Left = 0
                 Tabs.Width = Width - 10
-                QueueSource.Hide()
-                QueueScroll.Hide()
             End If
 
             Dim Editable As Boolean = (CurrentPage.EditLevel <> "sysop" OrElse Administrator)
@@ -180,6 +176,8 @@ Partial Class Main
             PageWatch.Enabled = True
             PageWatchB.Enabled = True
             Queue.Visible = Config.ShowQueue
+            QueueScroll.Visible = Config.ShowQueue
+            QueueSource.Visible = Config.ShowQueue
             SystemShowQueue.Checked = Config.ShowQueue
             SystemShowLog.Checked = Config.ShowLog
             UndoB.Enabled = (Undo.Count > 0)

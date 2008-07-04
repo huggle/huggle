@@ -3,6 +3,7 @@ Imports System.Threading
 Class LoginForm
 
     Public LoggingIn As Boolean
+    Private ProxySettingsVisible As Boolean
 
     Private Sub LoginForm_Load(ByVal s As Object, ByVal e As EventArgs) Handles Me.Load
         GetLocalConfig()
@@ -91,6 +92,7 @@ Class LoginForm
 
     Private Sub ShowProxySettings_Click(ByVal s As Object, ByVal e As EventArgs) Handles ShowProxySettings.Click
         Me.Height += 145
+        ProxySettingsVisible = True
         ShowProxySettings.Enabled = False
     End Sub
 
@@ -113,6 +115,7 @@ Class LoginForm
         Status.Text = CStr(MessageObject)
         Options.Enabled = True
         OK.Enabled = True
+        If Not ProxySettingsVisible Then ShowProxySettings.Enabled = True
         Cancel.Text = "Exit"
         Progress.Enabled = False
         Progress.Value = 0

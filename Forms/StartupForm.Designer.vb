@@ -29,15 +29,13 @@ Partial Class StartupForm
         Me.DocsLink = New System.Windows.Forms.LinkLabel
         Me.LinkLabel3 = New System.Windows.Forms.LinkLabel
         Me.LinkLabel2 = New System.Windows.Forms.LinkLabel
-        Me.Progress = New System.Windows.Forms.ProgressBar
         Me.Status = New System.Windows.Forms.Label
         Me.SuspendLayout()
         '
         'OK
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.OK.Enabled = False
-        Me.OK.Location = New System.Drawing.Point(494, 275)
+        Me.OK.Location = New System.Drawing.Point(498, 249)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(88, 23)
         Me.OK.TabIndex = 0
@@ -113,15 +111,6 @@ Partial Class StartupForm
         Me.LinkLabel2.Text = "Responsibility for edits rests with the owner of the account with which they are " & _
             "made." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Use of an automated tool is not an excuse."
         '
-        'Progress
-        '
-        Me.Progress.Anchor = System.Windows.Forms.AnchorStyles.Bottom
-        Me.Progress.Location = New System.Drawing.Point(15, 275)
-        Me.Progress.Maximum = 2
-        Me.Progress.Name = "Progress"
-        Me.Progress.Size = New System.Drawing.Size(473, 23)
-        Me.Progress.TabIndex = 6
-        '
         'Status
         '
         Me.Status.AutoSize = True
@@ -135,9 +124,8 @@ Partial Class StartupForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(594, 310)
+        Me.ClientSize = New System.Drawing.Size(594, 284)
         Me.Controls.Add(Me.Status)
-        Me.Controls.Add(Me.Progress)
         Me.Controls.Add(Me.OK)
         Me.Controls.Add(Me.LinkLabel2)
         Me.Controls.Add(Me.LinkLabel3)
@@ -162,6 +150,5 @@ Partial Class StartupForm
     Friend WithEvents DocsLink As System.Windows.Forms.LinkLabel
     Friend WithEvents LinkLabel3 As System.Windows.Forms.LinkLabel
     Friend WithEvents LinkLabel2 As System.Windows.Forms.LinkLabel
-    Friend WithEvents Progress As System.Windows.Forms.ProgressBar
     Friend WithEvents Status As System.Windows.Forms.Label
 End Class

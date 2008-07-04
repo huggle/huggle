@@ -587,19 +587,10 @@ Module ConfigRequests
 
         'Process global configuration page
 
-        Public Sub Start()
-            Dim RequestThread As New Thread(AddressOf Process)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
-        End Sub
-
-        Private Sub Process()
+        Public Function GetConfig() As Boolean
             Dim Result As String = GetText(Config.GlobalConfigLocation)
 
-            If Result Is Nothing Then
-                Callback(AddressOf Failed)
-                Exit Sub
-            End If
+            If Result Is Nothing Then Return False
 
             Dim i As Integer = 1, ConfigItems As New List(Of String)(Result.Split(CChar(vbLf)))
 
@@ -638,8 +629,8 @@ Module ConfigRequests
                 End If
             Next Item
 
-            If Not EnabledForAll Then Callback(AddressOf Disabled) Else Callback(AddressOf Done)
-        End Sub
+            Return True
+        End Function
 
         Private Sub SetProjects(ByVal Value As String)
             Config.Projects.Clear()
@@ -663,18 +654,6 @@ Module ConfigRequests
 
                 If Item.Contains(";") Then Config.SensitiveAddresses.Add(Item.Trim(" "c).Replace(Chr(1), ","))
             Next Item
-        End Sub
-
-        Private Sub Done(ByVal O As Object)
-            StartupForm.GlobalConfigDone()
-        End Sub
-
-        Private Sub Failed(ByVal O As Object)
-            StartupForm.GlobalConfigFailed()
-        End Sub
-
-        Private Sub Disabled(ByVal O As Object)
-            StartupForm.GlobalConfigDisabled()
         End Sub
 
     End Class

@@ -116,7 +116,7 @@ Module ReadRequests
             Do
                 Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
                 Client.Headers.Add(HttpRequestHeader.Cookie, Cookie)
-                Client.Proxy = Login.GetProxy
+                Client.Proxy = Login.Proxy
 
                 If Retries < 3 Then Thread.Sleep(1000)
                 Retries -= 1
@@ -242,7 +242,7 @@ Module ReadRequests
             Do
                 Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
                 Client.Headers.Add(HttpRequestHeader.Cookie, Cookie)
-                Client.Proxy = Login.GetProxy
+                Client.Proxy = Login.Proxy
 
                 Retries -= 1
 
@@ -328,7 +328,7 @@ Module ReadRequests
 
             Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
             Client.Headers.Add(HttpRequestHeader.Cookie, Cookie)
-            Client.Proxy = Login.GetProxy
+            Client.Proxy = Login.Proxy
 
             Dim Retries As Integer = 3, Result As String = ""
 
@@ -397,7 +397,7 @@ Module ReadRequests
                 Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
                 Client.Headers.Add(HttpRequestHeader.Cookie, Cookie)
                 Client.Headers.Add(HttpRequestHeader.ContentType, "application/x-www-form-urlencoded")
-                Client.Proxy = Login.GetProxy
+                Client.Proxy = Login.Proxy
 
                 Retries -= 1
 

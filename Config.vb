@@ -110,7 +110,16 @@ Module Config
     Public ProdMessageTitle As String
     Public ProdSummary As String
     Public ProjectConfigLocation As String
-    Public Projects As New List(Of String)
+    Public Projects As New List(Of String)(New String() { _
+        "en.wikipedia;en.wikipedia.org", _
+        "bg.wikipedia;bg.wikipedia.org", _
+        "es.wikipedia;es.wikipedia.org", _
+        "pt.wikipedia;pt.wikipedia.org", _
+        "ru.wikipedia;ru.wikipedia.org", _
+        "commons;commons.wikimedia.org", _
+        "meta;meta.wikimedia.org", _
+        "test wiki;test.wikipedia.org" _
+        })
     Public PromptForBlock As Boolean = True
     Public PromptForReport As Boolean = False
     Public Protect As Boolean = False
