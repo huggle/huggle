@@ -596,7 +596,10 @@ Module ConfigRequests
         Private Sub Process()
             Dim Result As String = GetText(Config.GlobalConfigLocation)
 
-            If Result Is Nothing Then Callback(AddressOf Failed)
+            If Result Is Nothing Then
+                Callback(AddressOf Failed)
+                Exit Sub
+            End If
 
             Dim i As Integer = 1, ConfigItems As New List(Of String)(Result.Split(CChar(vbLf)))
 
