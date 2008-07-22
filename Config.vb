@@ -115,6 +115,7 @@ Module Config
         "en.wikipedia;en.wikipedia.org", _
         "bg.wikipedia;bg.wikipedia.org", _
         "es.wikipedia;es.wikipedia.org", _
+        "no.wikipedia;no.wikipedia.org", _
         "pt.wikipedia;pt.wikipedia.org", _
         "ru.wikipedia;ru.wikipedia.org", _
         "commons;commons.wikimedia.org", _
