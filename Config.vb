@@ -70,7 +70,7 @@ Module Config
     Public DefaultSummary As String = ""
     Public Delete As Boolean = False
     Public DiffFontSize As String = "8"
-    Public DocsLocation As String
+    Public DocsLocation As String = "http://en.wikipedia.org/wiki/Wikipedia:Huggle"
     Public Enabled As Boolean = False
     Public EnabledForAll As Boolean = False
     Public ExtendReports As Boolean = True
@@ -168,7 +168,7 @@ Module Config
     Public UseAdminFunctions As Boolean = True
     Public UserAgent As String = "Huggle/" & Version.Major.ToString & "." & Version.Minor.ToString & "." & _
         Version.Build & " http://en.wikipedia.org/wiki/Huggle"
-    Public UserConfigLocation As String
+    Public UserConfigLocation As String = "Special:Mypage/huggle.css"
     Public UserListLocation As String
     Public UserListUpdateSummary As String
     Public UseRollback As Boolean = True

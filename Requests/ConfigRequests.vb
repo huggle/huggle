@@ -481,7 +481,8 @@ Module ConfigRequests
             Dim ConfigItems As New List(Of String)
 
             ConfigItems.Add("enable:true")
-            ConfigItems.Add("version:" & Version.ToString)
+            ConfigItems.Add("version:" & _
+                Version.Major.ToString & "." & Version.Minor.ToString & "." & Version.Build.ToString)
             ConfigItems.Add("")
 
             If Not Config.ShowRegistered Then
