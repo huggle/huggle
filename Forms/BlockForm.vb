@@ -9,6 +9,8 @@ Class BlockForm
 
         If Config.BlockMessageDefault Then BlockMessage.SelectedIndex = 1 Else BlockMessage.SelectedIndex = 0
 
+        Expiry.Items.AddRange(Config.BlockExpiryOptions.ToArray)
+
         If ThisUser.Anonymous AndAlso ThisUser.SharedIP Then
             SharedIPWarning.Text = "Note: " & ThisUser.Name & " is tagged as a dynamic or shared IP address."
             SharedIPWarning.Visible = True

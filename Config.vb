@@ -53,6 +53,7 @@ Module Config
     Public AutoWarn As Boolean = True
     Public AutoWhitelist As Boolean = True
     Public Block As Boolean = False
+    Public BlockExpiryOptions As New List(Of String)
     Public BlockMessage As String
     Public BlockMessageDefault As Boolean = True
     Public BlockMessageIndef As String

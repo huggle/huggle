@@ -54,7 +54,7 @@ Module ConfigRequests
                     Dim OptionValue As String = Item.Substring(Item.IndexOf(":") + 1).Trim(CChar(vbLf)).Replace("\n", vbLf)
 
                     Try
-                        'Global and user config
+                        'Project and user config
                         Select Case OptionName
                             Case "enable" : Config.Enabled = CBool(OptionValue)
                             Case "admin" : Config.UseAdminFunctions = CBool(OptionValue)
@@ -120,7 +120,7 @@ Module ConfigRequests
                             End Select
                         End If
 
-                        'Global config only
+                        'Project config only
                         If _ProjectConfig Then
                             Select Case OptionName
                                 Case "afd" : Config.AfdLocation = OptionValue
@@ -130,6 +130,7 @@ Module ConfigRequests
                                 Case "aiv-single-note" : Config.AivSingleNote = OptionValue
                                 Case "approval" : Config.Approval = CBool(OptionValue)
                                 Case "block" : Config.Block = CBool(OptionValue)
+                                Case "block-expiry-options" : SetBlockExpiryOptions(OptionValue)
                                 Case "cfd" : Config.CfdLocation = OptionValue
                                 Case "config-summary" : Config.ConfigSummary = OptionValue
                                 Case "delete" : Config.Delete = CBool(OptionValue)
@@ -269,6 +270,15 @@ Module ConfigRequests
             For Each Item As String In Value.Split(","c)
                 Item = Item.Trim(","c, " "c, CChar(vbLf)).Replace(Chr(1), ",")
                 If Not Config.IgnoredPages.Contains(Item) Then Config.IgnoredPages.Add(Item)
+            Next Item
+        End Sub
+
+        Private Sub SetBlockExpiryOptions(ByVal Value As String)
+            Value = Value.Replace("\,", Chr(1))
+
+            For Each Item As String In Value.Split(","c)
+                Item = Item.Trim(","c, " "c, CChar(vbLf)).Replace(Chr(1), ",")
+                If Not Config.BlockExpiryOptions.Contains(Item) Then Config.BlockExpiryOptions.Add(Item)
             Next Item
         End Sub
 
@@ -641,10 +651,6 @@ Module ConfigRequests
 
                 Config.Projects.Add(Item.Trim(" "c).Replace(Chr(1), ","))
             Next Item
-
-#If DEBUG Then
-            Config.Projects.Add("localhost;localhost")
-#End If
         End Sub
 
         Private Sub SetSensitiveAddresses(ByVal Value As String)

@@ -31,7 +31,6 @@ Partial Class BlockForm
         Me.EnableAutoblock = New System.Windows.Forms.CheckBox
         Me.AnonOnly = New System.Windows.Forms.CheckBox
         Me.Label3 = New System.Windows.Forms.Label
-        Me.Expiry = New System.Windows.Forms.TextBox
         Me.Label2 = New System.Windows.Forms.Label
         Me.SharedIPWarning = New System.Windows.Forms.Label
         Me.Reason = New System.Windows.Forms.ComboBox
@@ -42,6 +41,7 @@ Partial Class BlockForm
         Me.Label4 = New System.Windows.Forms.Label
         Me.BlockMessage = New System.Windows.Forms.ComboBox
         Me.Label5 = New System.Windows.Forms.Label
+        Me.Expiry = New System.Windows.Forms.ComboBox
         Me.SuspendLayout()
         '
         'Cancel
@@ -128,13 +128,6 @@ Partial Class BlockForm
         Me.Label3.Size = New System.Drawing.Size(38, 13)
         Me.Label3.TabIndex = 2
         Me.Label3.Text = "Expiry:"
-        '
-        'Expiry
-        '
-        Me.Expiry.Location = New System.Drawing.Point(65, 39)
-        Me.Expiry.Name = "Expiry"
-        Me.Expiry.Size = New System.Drawing.Size(180, 20)
-        Me.Expiry.TabIndex = 3
         '
         'Label2
         '
@@ -242,11 +235,20 @@ Partial Class BlockForm
         Me.Label5.TabIndex = 4
         Me.Label5.Text = "Talk page message:"
         '
+        'Expiry
+        '
+        Me.Expiry.FormattingEnabled = True
+        Me.Expiry.Location = New System.Drawing.Point(65, 38)
+        Me.Expiry.Name = "Expiry"
+        Me.Expiry.Size = New System.Drawing.Size(178, 21)
+        Me.Expiry.TabIndex = 19
+        '
         'BlockForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(594, 412)
+        Me.Controls.Add(Me.Expiry)
         Me.Controls.Add(Me.Label5)
         Me.Controls.Add(Me.BlockMessage)
         Me.Controls.Add(Me.Label4)
@@ -261,7 +263,6 @@ Partial Class BlockForm
         Me.Controls.Add(Me.EnableAutoblock)
         Me.Controls.Add(Me.AnonOnly)
         Me.Controls.Add(Me.Label3)
-        Me.Controls.Add(Me.Expiry)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.BlockLog)
         Me.Controls.Add(Me.OK)
@@ -287,7 +288,6 @@ Partial Class BlockForm
     Friend WithEvents EnableAutoblock As System.Windows.Forms.CheckBox
     Friend WithEvents AnonOnly As System.Windows.Forms.CheckBox
     Friend WithEvents Label3 As System.Windows.Forms.Label
-    Friend WithEvents Expiry As System.Windows.Forms.TextBox
     Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents SharedIPWarning As System.Windows.Forms.Label
     Friend WithEvents Reason As System.Windows.Forms.ComboBox
@@ -298,4 +298,5 @@ Partial Class BlockForm
     Friend WithEvents Label4 As System.Windows.Forms.Label
     Friend WithEvents BlockMessage As System.Windows.Forms.ComboBox
     Friend WithEvents Label5 As System.Windows.Forms.Label
+    Friend WithEvents Expiry As System.Windows.Forms.ComboBox
 End Class
