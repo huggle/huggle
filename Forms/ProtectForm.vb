@@ -2,7 +2,7 @@ Class ProtectForm
 
     Public ThisPage As Page
 
-    Private Sub ProtectForm_Load(ByVal s As Object, ByVal e As EventArgs) Handles Me.Load
+    Private Sub ProtectForm_Load() Handles Me.Load
         Text = "Protect " & ThisPage.Name
         Reason.Text = Config.ProtectionReason
 
@@ -19,7 +19,7 @@ Class ProtectForm
         If e.KeyCode = Keys.Escape Then Close()
     End Sub
 
-    Private Sub OK_Click(ByVal s As Object, ByVal e As EventArgs) Handles OK.Click
+    Private Sub OK_Click() Handles OK.Click
         Dim NewRequest As New ProtectRequest
         NewRequest.ThisPage = ThisPage
         NewRequest.Summary = Reason.Text
@@ -34,15 +34,15 @@ Class ProtectForm
         Close()
     End Sub
 
-    Private Sub Cancel_Click(ByVal s As Object, ByVal e As EventArgs) Handles Cancel.Click
+    Private Sub Cancel_Click() Handles Cancel.Click
         Close()
     End Sub
 
-    Private Sub Reason_TextChanged(ByVal s As Object, ByVal e As EventArgs) Handles Reason.TextChanged
+    Private Sub Reason_TextChanged() Handles Reason.TextChanged
         OK.Enabled = (Reason.Text <> "")
     End Sub
 
-    Private Sub ProtectionLog_EnabledChanged(ByVal s As Object, ByVal e As EventArgs) _
+    Private Sub ProtectionLog_EnabledChanged() _
         Handles ProtectionLog.EnabledChanged
 
         CurrentLevel.Text = "Current protection level: "
@@ -52,13 +52,13 @@ Class ProtectForm
         If ThisPage.MoveLevel <> "" Then CurrentLevel.Text &= "move:" & ThisPage.MoveLevel
     End Sub
 
-    Private Sub SemiProtection_CheckedChanged(ByVal s As Object, ByVal e As EventArgs) _
+    Private Sub SemiProtection_CheckedChanged() _
         Handles SemiProtection.CheckedChanged
 
         If SemiProtection.Checked Then MoveProtection.Checked = False
     End Sub
 
-    Private Sub FullProtection_CheckedChanged(ByVal s As Object, ByVal e As EventArgs) _
+    Private Sub FullProtection_CheckedChanged() _
         Handles FullProtection.CheckedChanged
 
         If FullProtection.Checked Then MoveProtection.Checked = True

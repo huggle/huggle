@@ -274,85 +274,85 @@ Partial Class Main
                 AboutForm.ShowDialog()
 
             Case Is = ShortcutKeys("Cancel")
-                If CancelB.Enabled Then CancelB_Click(Nothing, Nothing)
+                If CancelB.Enabled Then CancelB_Click()
 
             Case Is = ShortcutKeys("Help")
-                HelpDocs_Click(Nothing, Nothing)
+                HelpDocs_Click()
 
             Case Is = ShortcutKeys("User information")
-                UserInfo_Click(Nothing, Nothing)
+                UserInfo_Click()
 
             Case Is = ShortcutKeys("Clear queue")
-                If QueueClear.Enabled Then QueueClear_Click(Nothing, Nothing)
+                If QueueClear.Enabled Then QueueClear_Click()
 
             Case Is = ShortcutKeys("Show next diff")
-                If DiffNextB.Enabled Then DiffNextB_Click(Nothing, Nothing)
+                If DiffNextB.Enabled Then DiffNextB_Click()
 
             Case Is = ShortcutKeys("View user talk page")
-                If UserTalkB.Enabled Then UserTalk_Click(Nothing, Nothing)
+                If UserTalkB.Enabled Then UserTalk_Click()
 
             Case Is = ShortcutKeys("Report / block user")
-                If UserReportB.Enabled AndAlso UserReportB.Visible Then UserReport_Click(Nothing, Nothing)
+                If UserReportB.Enabled AndAlso UserReportB.Visible Then UserReport_Click()
 
             Case Is = ShortcutKeys("Latest contribution")
-                If ContribsLastB.Enabled Then ContribsLast_Click(Nothing, Nothing)
+                If ContribsLastB.Enabled Then ContribsLast_Click()
 
             Case Is = ShortcutKeys("Current revision")
-                If HistoryLastB.Enabled Then HistoryLast_Click(Nothing, Nothing)
+                If HistoryLastB.Enabled Then HistoryLast_Click()
 
             Case Is = ShortcutKeys("Delete page")
                 If PageDeleteB.Enabled AndAlso PageDeleteB.Visible AndAlso Administrator _
-                    Then PageDelete_Click(Nothing, Nothing)
+                    Then PageDelete_Click()
 
             Case Is = ShortcutKeys("Diff to current revision")
-                If HistoryDiffToCurB.Enabled Then HistoryDiffToCur_Click(Nothing, Nothing)
+                If HistoryDiffToCurB.Enabled Then HistoryDiffToCur_Click()
 
             Case Is = ShortcutKeys("Edit page")
-                If PageEditB.Enabled Then EditPage_Click(Nothing, Nothing)
+                If PageEditB.Enabled Then EditPage_Click()
 
             Case Is = ShortcutKeys("Tag page")
-                If PageTagB.Enabled Then TagPage_Click(Nothing, Nothing)
+                If PageTagB.Enabled Then TagPage_Click()
 
             Case Is = ShortcutKeys("Retrieve page history")
-                If HistoryB.Enabled Then ViewHistory_Click(Nothing, Nothing)
+                If HistoryB.Enabled Then ViewHistory_Click()
 
             Case Is = ShortcutKeys("Ignore user")
                 If UserIgnoreB.Enabled AndAlso CurrentEdit IsNot Nothing AndAlso CurrentEdit.User IsNot Nothing _
-                    AndAlso CurrentEdit.User.Level <> UserL.Ignore Then UserIgnore_Click(Nothing, Nothing)
+                    AndAlso CurrentEdit.User.Level <> UserL.Ignore Then UserIgnore_Click()
 
             Case Is = ShortcutKeys("Unignore user")
                 If UserIgnoreB.Enabled AndAlso CurrentEdit IsNot Nothing AndAlso CurrentEdit.User IsNot Nothing _
-                    AndAlso CurrentEdit.User.Level = UserL.Ignore Then UserIgnore_Click(Nothing, Nothing)
+                    AndAlso CurrentEdit.User.Level = UserL.Ignore Then UserIgnore_Click()
 
             Case Is = ShortcutKeys("Toggle 'show new edits'")
-                ShowNewEdits_Click(Nothing, Nothing)
+                ShowNewEdits_Click()
 
             Case Is = ShortcutKeys("Watch page")
-                If PageWatchB.Enabled Then WatchPage_Click(Nothing, Nothing)
+                If PageWatchB.Enabled Then WatchPage_Click()
 
             Case Is = ShortcutKeys("Show new messages")
-                If SystemShowNewMessages.Enabled Then SystemShowNewMessages_Click(Nothing, Nothing)
+                If SystemShowNewMessages.Enabled Then SystemShowNewMessages_Click()
 
             Case Is = ShortcutKeys("Message user")
-                If UserMessageB.Enabled Then UserMessage_Click(Nothing, Nothing)
+                If UserMessageB.Enabled Then UserMessage_Click()
 
             Case Is = ShortcutKeys("Open page in external browser")
-                BrowserOpen_Click(Nothing, Nothing)
+                BrowserOpen_Click()
 
             Case Is = ShortcutKeys("Mark page as patrolled")
-                If PageMarkPatrolled.Enabled AndAlso Config.Patrol Then PageMarkPatrolled_Click(Nothing, Nothing)
+                If PageMarkPatrolled.Enabled AndAlso Config.Patrol Then PageMarkPatrolled_Click()
 
             Case Is = ShortcutKeys("Proposed deletion")
-                If PageProd.Enabled AndAlso Config.Prod Then PageTagProd_Click(Nothing, Nothing)
+                If PageProd.Enabled AndAlso Config.Prod Then PageTagProd_Click()
 
             Case Is = ShortcutKeys("Revert and warn")
-                If RevertWarnB.Enabled Then RevertWarnB_ButtonClick(Nothing, Nothing)
+                If RevertWarnB.Enabled Then RevertWarnB_ButtonClick()
 
             Case Is = ShortcutKeys("Revert")
-                If DiffRevertB.Enabled Then Revert_Click(Nothing, Nothing)
+                If DiffRevertB.Enabled Then Revert_Click()
 
             Case Is = ShortcutKeys("Nominate for deletion")
-                If PageNominate.Enabled Then PageNominate_Click(Nothing, Nothing)
+                If PageNominate.Enabled Then PageNominate_Click()
 
             Case Is = ShortcutKeys("Request deletion")
                 If PageTagDeleteB.Enabled Then PageTagDeleteB.ShowDropDown()
@@ -361,43 +361,43 @@ Partial Class Main
                 If UserTemplateB.Enabled Then UserTemplateB.ShowDropDown()
 
             Case Is = ShortcutKeys("Retrieve user contributions")
-                If ContribsB.Enabled Then UserContribs_Click(Nothing, Nothing)
+                If ContribsB.Enabled Then UserContribs_Click()
 
             Case Is = ShortcutKeys("View current revision")
-                If PageViewLatest.Enabled Then PageViewLatest_Click(Nothing, Nothing)
+                If PageViewLatest.Enabled Then PageViewLatest_Click()
 
             Case Is = ShortcutKeys("View this revision")
-                If PageViewB.Enabled Then PageView_Click(Nothing, Nothing)
+                If PageViewB.Enabled Then PageView_Click()
 
             Case Is = ShortcutKeys("Warn")
                 If WarnB.Enabled Then WarnB.ShowDropDown()
 
             Case Is = ShortcutKeys("Next contribution")
-                If ContribsNextB.Enabled Then ContribsNext_Click(Nothing, Nothing)
+                If ContribsNextB.Enabled Then ContribsNext_Click()
 
             Case Is = ShortcutKeys("Next revision")
-                If HistoryNextB.Enabled Then HistoryNext_Click(Nothing, Nothing)
+                If HistoryNextB.Enabled Then HistoryNext_Click()
 
             Case Is = ShortcutKeys("Revert with custom summary")
-                If DiffRevertB.Enabled Then DiffRevertSummary_Click(Nothing, Nothing)
+                If DiffRevertB.Enabled Then DiffRevertSummary_Click()
 
             Case Is = ShortcutKeys("Previous contribution")
-                If ContribsPrevB.Enabled Then ContribsPrev_Click(Nothing, Nothing)
+                If ContribsPrevB.Enabled Then ContribsPrev_Click()
 
             Case Is = ShortcutKeys("Previous revision")
-                If HistoryPrevB.Enabled Then HistoryPrev_Click(Nothing, Nothing)
+                If HistoryPrevB.Enabled Then HistoryPrev_Click()
 
             Case Is = ShortcutKeys("Browse back")
-                If BrowserBackB.Enabled Then GoBack_Click(Nothing, Nothing)
+                If BrowserBackB.Enabled Then GoBack_Click()
 
             Case Is = ShortcutKeys("Browse forward")
-                If BrowserForwardB.Enabled Then GoForward_Click(Nothing, Nothing)
+                If BrowserForwardB.Enabled Then GoForward_Click()
 
             Case Is = ShortcutKeys("New tab")
-                NewTab_Click(Nothing, Nothing)
+                NewTab_Click()
 
             Case Is = ShortcutKeys("Close tab")
-                If Tabs.TabPages.Count > 1 Then CloseTab_Click(Nothing, Nothing)
+                If Tabs.TabPages.Count > 1 Then CloseTab_Click()
 
             Case Is = ShortcutKeys("Next tab")
                 Tabs.SelectedIndex = (Tabs.SelectedIndex + 1) Mod Tabs.TabCount
@@ -406,28 +406,28 @@ Partial Class Main
                 Tabs.SelectedIndex = (Tabs.SelectedIndex - 1) Mod Tabs.TabCount
 
             Case Is = ShortcutKeys("Warn - vandalism")
-                If WarnVandalism.Visible Then WarnVandalism_Click(Nothing, Nothing)
+                If WarnVandalism.Visible Then WarnVandalism_Click()
 
             Case Is = ShortcutKeys("Warn - spam")
-                If WarnSpam.Visible Then WarnSpam_Click(Nothing, Nothing)
+                If WarnSpam.Visible Then WarnSpam_Click()
 
             Case Is = ShortcutKeys("Warn - editing tests")
-                If WarnTest.Visible Then WarnTest_Click(Nothing, Nothing)
+                If WarnTest.Visible Then WarnTest_Click()
 
             Case Is = ShortcutKeys("Warn - removing content")
-                If WarnDelete.Visible Then WarnDelete_Click(Nothing, Nothing)
+                If WarnDelete.Visible Then WarnDelete_Click()
 
             Case Is = ShortcutKeys("Warn - personal attacks")
-                If WarnAttack.Visible Then WarnAttacks_Click(Nothing, Nothing)
+                If WarnAttack.Visible Then WarnAttacks_Click()
 
             Case Is = ShortcutKeys("Warn - factual errors")
-                If WarnError.Visible Then WarnError_Click(Nothing, Nothing)
+                If WarnError.Visible Then WarnError_Click()
 
             Case Is = ShortcutKeys("Warn - unsourced content")
-                If WarnUnsourced.Visible Then WarnUnsourced_Click(Nothing, Nothing)
+                If WarnUnsourced.Visible Then WarnUnsourced_Click()
 
             Case Is = ShortcutKeys("Warn - biased content")
-                If WarnNpov.Visible Then WarnNpov_Click(Nothing, Nothing)
+                If WarnNpov.Visible Then WarnNpov_Click()
 
             Case Is = ShortcutKeys("Revert and warn - spam")
                 If Config.WarningSeries.Contains("spam") Then RevertAndWarn("spam")
@@ -451,7 +451,7 @@ Partial Class Main
                 If Config.WarningSeries.Contains("unsourced") Then RevertAndWarn("unsourced")
 
             Case Is = ShortcutKeys("Request protection")
-                If PageRequestProtection.Enabled Then PageRequestProtection_Click(Nothing, Nothing)
+                If PageRequestProtection.Enabled Then PageRequestProtection_Click()
         End Select
 
         e.Handled = True

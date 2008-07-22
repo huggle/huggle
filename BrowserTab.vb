@@ -132,7 +132,7 @@ Class BrowserTab
         End If
     End Sub
 
-    Private Sub BrowserTab_Paint(ByVal s As Object, ByVal e As PaintEventArgs) Handles Me.Paint
+    Private Sub BrowserTab_Paint() Handles Me.Paint
         If NewTab Then
             NewTab = False
             DisplayEdit(Edit, False, CurrentTab)

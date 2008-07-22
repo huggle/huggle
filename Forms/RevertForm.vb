@@ -3,7 +3,7 @@ Class RevertForm
     Public ThisPage As Page
     Private Shared LastSummary As String
 
-    Private Sub RevertForm_Load(ByVal s As Object, ByVal e As EventArgs) Handles Me.Load
+    Private Sub RevertForm_Load() Handles Me.Load
         Text = "Revert " & ThisPage.Name
         Summary.Items.AddRange(ManualRevertSummaries.ToArray)
         Summary.Text = LastSummary
@@ -11,7 +11,7 @@ Class RevertForm
         Summary.SelectAll()
     End Sub
 
-    Private Sub RevertForm_FormClosing(ByVal s As Object, ByVal e As FormClosingEventArgs) Handles Me.FormClosing
+    Private Sub RevertForm_FormClosing() Handles Me.FormClosing
         If DialogResult = DialogResult.OK Then
             If Not Summary.Items.Contains(Summary.Text) Then ManualRevertSummaries.Add(Summary.Text)
             LastSummary = Summary.Text
@@ -28,14 +28,14 @@ Class RevertForm
         End If
     End Sub
 
-    Private Sub OK_Click(ByVal s As Object, ByVal e As EventArgs) Handles OK.Click
+    Private Sub OK_Click() Handles OK.Click
         If Summary.Text <> "" Then
             DialogResult = DialogResult.OK
             Close()
         End If
     End Sub
 
-    Private Sub Cancel_Click(ByVal s As Object, ByVal e As EventArgs) Handles Cancel.Click
+    Private Sub Cancel_Click() Handles Cancel.Click
         DialogResult = DialogResult.Cancel
         Close()
     End Sub
@@ -54,7 +54,7 @@ Class RevertForm
         End If
     End Sub
 
-    Private Sub Summary_TextChanged(ByVal s As Object, ByVal e As EventArgs) Handles Summary.TextChanged
+    Private Sub Summary_TextChanged() Handles Summary.TextChanged
         OK.Enabled = (Summary.Text <> "")
     End Sub
 

@@ -7,7 +7,7 @@ Class Main
 
     Public Reverting As Boolean
 
-    Private Sub Main_Load(ByVal s As Object, ByVal e As EventArgs) Handles Me.Load
+    Private Sub Main_Load() Handles Me.Load
         InitialTab.Parent = Tabs.TabPages(0)
         CurrentTab = InitialTab
         CurrentQueue = EditQueue
@@ -103,7 +103,7 @@ Class Main
         Queue.Draw(CurrentQueue)
     End Sub
 
-    Private Sub Main_ResizeShown(ByVal s As Object, ByVal e As EventArgs) Handles Me.Resize, Me.Shown
+    Private Sub Main_ResizeShown() Handles Me.Resize, Me.Shown
         HistoryStrip.Size = New Size(Math.Max(300, Width - 371), 55)
         History.Width = Math.Max(1, Width - 726)
         Contribs.Width = Math.Max(1, Width - 726)
@@ -115,22 +115,22 @@ Class Main
         End If
     End Sub
 
-    Private Sub Main_FormClosing(ByVal s As Object, ByVal e As FormClosingEventArgs) Handles Me.FormClosing
+    Private Sub Main_FormClosing() Handles Me.FormClosing
         TrayIcon.Visible = False
         Visible = False
         ClosingForm.ShowDialog()
         Close()
     End Sub
 
-    Private Sub Revert_Click(ByVal s As Object, ByVal e As EventArgs) Handles DiffRevertB.ButtonClick
+    Private Sub Revert_Click() Handles DiffRevertB.ButtonClick
         DoRevert(CurrentEdit)
     End Sub
 
-    Sub DiffNextB_Click(ByVal s As Object, ByVal e As EventArgs) Handles QueueNext.Click, DiffNextB.Click
+    Sub DiffNextB_Click() Handles QueueNext.Click, DiffNextB.Click
         ShowNextEdit()
     End Sub
 
-    Private Sub UserIgnore_Click(ByVal s As Object, ByVal e As EventArgs) Handles UserIgnore.Click, UserIgnoreB.Click
+    Private Sub UserIgnore_Click() Handles UserIgnore.Click, UserIgnoreB.Click
         If CurrentUser IsNot Nothing _
             Then If CurrentUser.Level = UserL.Ignore Then UnignoreUser(CurrentUser) Else IgnoreUser(CurrentUser)
     End Sub
@@ -195,7 +195,7 @@ Class Main
         End If
     End Sub
 
-    Private Sub HistoryPrev_Click(ByVal s As Object, ByVal e As EventArgs) Handles HistoryPrevB.Click
+    Private Sub HistoryPrev_Click() Handles HistoryPrevB.Click
         If CurrentEdit IsNot Nothing Then
             If CurrentEdit.Prev Is Nothing Then
                 Dim PreviousEdit As New Edit
@@ -211,7 +211,7 @@ Class Main
         End If
     End Sub
 
-    Private Sub HistoryNext_Click(ByVal s As Object, ByVal e As EventArgs) Handles HistoryNextB.Click
+    Private Sub HistoryNext_Click() Handles HistoryNextB.Click
         If CurrentEdit IsNot Nothing Then
             If CurrentEdit.Multiple Then
                 DisplayEdit(CurrentEdit.Prev.Next.Next)
@@ -231,7 +231,7 @@ Class Main
         End If
     End Sub
 
-    Private Sub HistoryLast_Click(ByVal s As Object, ByVal e As EventArgs) Handles HistoryLastB.Click
+    Private Sub HistoryLast_Click() Handles HistoryLastB.Click
         If CurrentPage IsNot Nothing Then
             If CurrentPage.LastEdit IsNot Nothing Then
                 DisplayEdit(CurrentPage.LastEdit)
@@ -245,17 +245,17 @@ Class Main
         End If
     End Sub
 
-    Private Sub ContribsPrev_Click(ByVal s As Object, ByVal e As EventArgs) Handles ContribsPrevB.Click
+    Private Sub ContribsPrev_Click() Handles ContribsPrevB.Click
         If CurrentEdit IsNot Nothing AndAlso CurrentEdit.PrevByUser IsNot Nothing _
             AndAlso CurrentEdit.PrevByUser IsNot NullEdit Then DisplayEdit(CurrentEdit.PrevByUser)
     End Sub
 
-    Private Sub ContribsNext_Click(ByVal s As Object, ByVal e As EventArgs) Handles ContribsNextB.Click
+    Private Sub ContribsNext_Click() Handles ContribsNextB.Click
         If CurrentEdit IsNot Nothing AndAlso CurrentEdit.NextByUser IsNot Nothing _
             Then DisplayEdit(CurrentEdit.NextByUser)
     End Sub
 
-    Private Sub ContribsLast_Click(ByVal s As Object, ByVal e As EventArgs) Handles ContribsLastB.Click
+    Private Sub ContribsLast_Click() Handles ContribsLastB.Click
         If CurrentUser IsNot Nothing AndAlso CurrentEdit IsNot CurrentUser.LastEdit _
             Then DisplayEdit(CurrentUser.LastEdit)
     End Sub
@@ -312,7 +312,7 @@ Class Main
         End If
     End Sub
 
-    Private Sub HistoryContribs_MouseLeave(ByVal s As Object, ByVal e As EventArgs) _
+    Private Sub HistoryContribs_MouseLeave() _
         Handles History.MouseLeave, Contribs.MouseLeave
 
         EditInfo.Visible = False
@@ -345,7 +345,7 @@ Class Main
         End If
     End Sub
 
-    Private Sub ViewHistory_Click(ByVal s As Object, ByVal e As EventArgs) Handles PageHistory.Click, HistoryB.Click
+    Private Sub ViewHistory_Click() Handles PageHistory.Click, HistoryB.Click
         If CurrentEdit IsNot Nothing AndAlso CurrentEdit.Page IsNot Nothing Then
             Dim NewHistoryRequest As New HistoryRequest
             NewHistoryRequest.ThisPage = CurrentEdit.Page
@@ -353,7 +353,7 @@ Class Main
         End If
     End Sub
 
-    Private Sub UserContribs_Click(ByVal s As Object, ByVal e As EventArgs) Handles UserContribs.Click, ContribsB.Click
+    Private Sub UserContribs_Click() Handles UserContribs.Click, ContribsB.Click
         If CurrentEdit IsNot Nothing Then
             Dim NewContribsRequest As New ContribsRequest
             NewContribsRequest.ThisUser = CurrentEdit.User
@@ -361,7 +361,7 @@ Class Main
         End If
     End Sub
 
-    Private Sub HistoryScrollTimer_Tick(ByVal s As Object, ByVal e As EventArgs) Handles ScrollTimer.Tick
+    Private Sub HistoryScrollTimer_Tick() Handles ScrollTimer.Tick
         If ScrollTimer.Tag Is HistoryScrollLB Then HistoryLeft()
         If ScrollTimer.Tag Is HistoryScrollRB Then HistoryRight()
         If ScrollTimer.Tag Is ContribsScrollLB Then ContribsLeft()
@@ -434,17 +434,17 @@ Class Main
         End If
     End Sub
 
-    Sub PageViewLatest_Click(ByVal s As Object, ByVal e As EventArgs) Handles PageViewLatest.Click
+    Sub PageViewLatest_Click() Handles PageViewLatest.Click
         If CurrentPage IsNot Nothing Then DisplayUrl(SitePath & "w/index.php?title=" & _
             UrlEncode(CurrentPage.Name.Replace(" ", "_")))
     End Sub
 
-    Sub PageView_Click(ByVal s As Object, ByVal e As EventArgs) Handles PageView.Click, PageViewB.Click
+    Sub PageView_Click() Handles PageView.Click, PageViewB.Click
         If CurrentEdit IsNot Nothing Then DisplayUrl(SitePath & "w/index.php?title=" & _
             UrlEncode(CurrentPage.Name) & "&oldid=" & CurrentEdit.Id)
     End Sub
 
-    Private Sub DiffRevertSummary_Click(ByVal s As Object, ByVal e As EventArgs) Handles DiffRevertSummary.Click
+    Private Sub DiffRevertSummary_Click() Handles DiffRevertSummary.Click
         If CurrentEdit IsNot Nothing AndAlso CurrentEdit.Prev IsNot Nothing Then
             Dim NewRevertForm As New RevertForm
 
@@ -460,7 +460,7 @@ Class Main
         End If
     End Sub
 
-    Private Sub RevertTimer_Tick(ByVal s As Object, ByVal e As EventArgs) Handles RevertTimer.Tick
+    Private Sub RevertTimer_Tick() Handles RevertTimer.Tick
         RevertTimer.Stop()
         Reverting = False
 
@@ -471,11 +471,11 @@ Class Main
         End If
     End Sub
 
-    Private Sub SystemExit_Click(ByVal s As Object, ByVal e As EventArgs) Handles SystemExit.Click
+    Private Sub SystemExit_Click() Handles SystemExit.Click
         Close()
     End Sub
 
-    Private Sub UserTalk_Click(ByVal s As Object, ByVal e As EventArgs) Handles UserTalk.Click, UserTalkB.Click
+    Private Sub UserTalk_Click() Handles UserTalk.Click, UserTalkB.Click
         If CurrentEdit IsNot Nothing AndAlso CurrentEdit.User IsNot Nothing Then
             Dim NewBrowserRequest As New BrowserRequest
             NewBrowserRequest.Tab = CurrentTab
@@ -488,7 +488,7 @@ Class Main
         End If
     End Sub
 
-    Private Sub UserReport_Click(ByVal s As Object, ByVal e As EventArgs) _
+    Private Sub UserReport_Click() _
         Handles UserReport.Click, UserBlock.Click, UserReportB.Click
 
         If CurrentEdit IsNot Nothing AndAlso CurrentEdit.User IsNot Nothing _
@@ -498,28 +498,28 @@ Class Main
         End If
     End Sub
 
-    Private Sub HistoryScrollLast_Click(ByVal s As Object, ByVal e As EventArgs)
+    Private Sub HistoryScrollLast_Click()
         If HistoryOffset > 0 Then
             HistoryOffset = 0
             DrawHistory()
         End If
     End Sub
 
-    Private Sub ContribsScrollLast_Click(ByVal s As Object, ByVal e As EventArgs)
+    Private Sub ContribsScrollLast_Click()
         If ContribsOffset > 0 Then
             ContribsOffset = 0
             DrawContribs()
         End If
     End Sub
 
-    Private Sub RcReqTimer_Tick(ByVal s As Object, ByVal e As EventArgs) Handles RcReqTimer.Tick
+    Private Sub RcReqTimer_Tick() Handles RcReqTimer.Tick
         RcReqTimer.Stop()
 
         Dim NewRcApiRequest As New RcApiRequest
         NewRcApiRequest.Start()
     End Sub
 
-    Private Sub UserMessage_Click(ByVal s As Object, ByVal e As EventArgs) _
+    Private Sub UserMessage_Click() _
         Handles UserMessage.Click, UserMessageB.Click, UserMessageOther.Click
 
         If CurrentUser IsNot Nothing Then
@@ -529,7 +529,7 @@ Class Main
         End If
     End Sub
 
-    Private Sub Warn_Click(ByVal s As Object, ByVal e As EventArgs) Handles UserWarn.Click, WarnAdvanced.Click
+    Private Sub Warn_Click() Handles UserWarn.Click, WarnAdvanced.Click
         If CurrentUser IsNot Nothing Then
             Dim NewWarningForm As New WarningForm
             NewWarningForm.ThisUser = CurrentUser
@@ -538,7 +538,7 @@ Class Main
         End If
     End Sub
 
-    Private Sub RevertWarnB_ButtonClick(ByVal s As Object, ByVal e As EventArgs) Handles RevertWarnB.ButtonClick
+    Private Sub RevertWarnB_ButtonClick() Handles RevertWarnB.ButtonClick
         RevertAndWarn()
     End Sub
 
@@ -571,7 +571,7 @@ Class Main
         End If
     End Sub
 
-    Private Sub EditPage_Click(ByVal s As Object, ByVal e As EventArgs) Handles PageEdit.Click, PageEditB.Click
+    Private Sub EditPage_Click() Handles PageEdit.Click, PageEditB.Click
         If CurrentPage IsNot Nothing Then
             Dim NewEditForm As New EditForm
             NewEditForm.Page = CurrentPage
@@ -579,7 +579,7 @@ Class Main
         End If
     End Sub
 
-    Private Sub TagPage_Click(ByVal s As Object, ByVal e As EventArgs) Handles PageTagB.Click
+    Private Sub TagPage_Click() Handles PageTagB.Click
         If CurrentEdit.Page IsNot Nothing Then
             Dim NewTagForm As New TagForm
 
@@ -590,7 +590,7 @@ Class Main
         End If
     End Sub
 
-    Sub TagSpeedy_Click(ByVal s As Object, ByVal e As EventArgs) Handles PageTagSpeedy.Click
+    Sub TagSpeedy_Click() Handles PageTagSpeedy.Click
         If CurrentPage IsNot Nothing Then
             Dim NewSpeedyTagForm As New SpeedyForm
             NewSpeedyTagForm.ThisPage = CurrentPage
@@ -598,7 +598,7 @@ Class Main
         End If
     End Sub
 
-    Sub PageDelete_Click(ByVal s As Object, ByVal e As EventArgs) Handles PageDelete.Click, PageDeleteB.Click
+    Sub PageDelete_Click() Handles PageDelete.Click, PageDeleteB.Click
         If CurrentPage IsNot Nothing Then
             Dim NewDeleteForm As New DeleteForm
             NewDeleteForm.ThisPage = CurrentPage
@@ -610,7 +610,7 @@ Class Main
         End If
     End Sub
 
-    Sub PageTagProd_Click(ByVal s As Object, ByVal e As EventArgs) Handles PageProd.Click
+    Sub PageTagProd_Click() Handles PageProd.Click
         If CurrentEdit IsNot Nothing AndAlso CurrentEdit.Page IsNot Nothing Then
 
             Dim NewProdTagForm As New ProdForm
@@ -639,7 +639,7 @@ Class Main
         End If
     End Sub
 
-    Private Sub PageMove_Click(ByVal s As Object, ByVal e As EventArgs) Handles PageMove.Click
+    Private Sub PageMove_Click() Handles PageMove.Click
         If CurrentEdit IsNot Nothing AndAlso CurrentEdit.Page IsNot Nothing Then
 
             Dim NewMovePageForm As New MoveForm
@@ -701,26 +701,26 @@ Class Main
             & CStr(TimeZone.CurrentTimeZone.GetUtcOffset(Date.Now).Minutes).PadLeft(2, "0"c) & ")"
     End Function
 
-    Private Sub GoBack_Click(ByVal s As Object, ByVal e As EventArgs) _
+    Private Sub GoBack_Click() _
         Handles BrowserBack.Click, BrowserBackB.ButtonClick
 
         CurrentTab.HistoryBack()
     End Sub
 
-    Private Sub GoForward_Click(ByVal s As Object, ByVal e As EventArgs) _
+    Private Sub GoForward_Click() _
         Handles BrowserForward.Click, BrowserForwardB.ButtonClick
 
         CurrentTab.HistoryForward()
     End Sub
 
-    Private Sub SystemShowNewMessages_Click(ByVal s As Object, ByVal e As EventArgs) _
+    Private Sub SystemShowNewMessages_Click() _
         Handles SystemShowNewMessages.Click
 
         DisplayEdit(GetPage("User talk:" & MyUser.Name).LastEdit)
         SystemShowNewMessages.Enabled = False
     End Sub
 
-    Private Sub BlockRequestTimer_Tick(ByVal s As Object, ByVal e As EventArgs) Handles BlockReqTimer.Tick
+    Private Sub BlockRequestTimer_Tick() Handles BlockReqTimer.Tick
         BlockReqTimer.Stop()
 
         Dim NewBlockApiRequest As New BlockApiRequest
@@ -788,11 +788,11 @@ Class Main
         End If
     End Sub
 
-    Private Sub HistoryDiffToCur_Click(ByVal s As Object, ByVal e As EventArgs) Handles HistoryDiffToCurB.Click
+    Private Sub HistoryDiffToCur_Click() Handles HistoryDiffToCurB.Click
         If CurrentEdit IsNot Nothing AndAlso CurrentEdit.Prev IsNot Nothing Then ShowDiffToCur(CurrentEdit.Prev)
     End Sub
 
-    Private Sub WatchPage_Click(ByVal s As Object, ByVal e As EventArgs) Handles PageWatch.Click, PageWatchB.Click
+    Private Sub WatchPage_Click() Handles PageWatch.Click, PageWatchB.Click
         If CurrentEdit IsNot Nothing AndAlso CurrentEdit.Page IsNot Nothing Then
             If Watchlist.Contains(SubjectPage(CurrentEdit.Page)) Then
                 Dim NewRequest As New UnwatchRequest
@@ -808,30 +808,30 @@ Class Main
         End If
     End Sub
 
-    Private Sub LogContextCopy_Click(ByVal s As Object, ByVal e As EventArgs) Handles LogContextCopy.Click
+    Private Sub LogContextCopy_Click() Handles LogContextCopy.Click
         If Status.SelectedIndices.Count > 0 _
             Then Clipboard.SetText(Status.Items(Status.SelectedIndices(0)).SubItems(1).Text)
     End Sub
 
-    Private Sub TrayRestore_Click(ByVal s As Object, ByVal e As EventArgs) Handles TrayRestore.Click
+    Private Sub TrayRestore_Click() Handles TrayRestore.Click
         Visible = Not Visible
         If Visible Then TrayRestore.Text = "Minimize" Else TrayRestore.Text = "Restore"
     End Sub
 
-    Private Sub TrayExit_Click(ByVal s As Object, ByVal e As EventArgs) Handles TrayExit.Click
+    Private Sub TrayExit_Click() Handles TrayExit.Click
         Close()
     End Sub
 
-    Private Sub TrayIcon_DoubleClick(ByVal s As Object, ByVal e As EventArgs) Handles TrayIcon.DoubleClick
-        TrayRestore_Click(Nothing, Nothing)
+    Private Sub TrayIcon_DoubleClick() Handles TrayIcon.DoubleClick
+        TrayRestore_Click()
     End Sub
 
-    Private Sub TrayIcon_BalloonTipClicked(ByVal s As Object, ByVal e As EventArgs) Handles TrayIcon.BalloonTipClicked
-        If SystemShowNewMessages.Enabled Then SystemShowNewMessages_Click(Nothing, Nothing)
-        If Not Visible Then TrayRestore_Click(Nothing, Nothing)
+    Private Sub TrayIcon_BalloonTipClicked() Handles TrayIcon.BalloonTipClicked
+        If SystemShowNewMessages.Enabled Then SystemShowNewMessages_Click()
+        If Not Visible Then TrayRestore_Click()
     End Sub
 
-    Private Sub Tabs_SelectedIndexChanged(ByVal s As Object, ByVal e As EventArgs) Handles Tabs.SelectedIndexChanged
+    Private Sub Tabs_SelectedIndexChanged() Handles Tabs.SelectedIndexChanged
         If Tabs.SelectedTab IsNot Nothing Then
             CType(Tabs.SelectedTab.Controls(0), BrowserTab).Highlight = False
             CurrentTab = CType(Tabs.SelectedTab.Controls(0), BrowserTab)
@@ -847,7 +847,7 @@ Class Main
         End If
     End Sub
 
-    Private Sub NewTab_Click(ByVal s As Object, ByVal e As EventArgs) _
+    Private Sub NewTab_Click() _
         Handles BrowserNewTab.Click, BrowserNewTabB.Click
 
         If CurrentEdit IsNot Nothing AndAlso CurrentEdit.Page IsNot Nothing Then
@@ -871,7 +871,7 @@ Class Main
         End If
     End Sub
 
-    Private Sub CloseTab_Click(ByVal s As Object, ByVal e As EventArgs) _
+    Private Sub CloseTab_Click() _
         Handles BrowserCloseTab.Click, BrowserCloseTabB.Click
 
         Dim SelectedIndex As Integer = Tabs.SelectedIndex
@@ -890,11 +890,11 @@ Class Main
         End If
     End Sub
 
-    Private Sub HelpDocs_Click(ByVal s As Object, ByVal e As EventArgs) Handles HelpDocs.Click
+    Private Sub HelpDocs_Click() Handles HelpDocs.Click
         Process.Start(Config.DocsLocation)
     End Sub
 
-    Private Sub QueueTrim_Click(ByVal s As Object, ByVal e As EventArgs) Handles QueueTrim.Click
+    Private Sub QueueTrim_Click() Handles QueueTrim.Click
         Dim NewQueueTrimForm As New QueueTrimForm
 
         If NewQueueTrimForm.ShowDialog = DialogResult.OK AndAlso NewQueueTrimForm.DiscardTime > 0 Then
@@ -913,13 +913,13 @@ Class Main
         End If
     End Sub
 
-    Private Sub QueueClear_Click(ByVal s As Object, ByVal e As EventArgs) Handles QueueClear.Click
+    Private Sub QueueClear_Click() Handles QueueClear.Click
         CurrentQueue.Clear()
         DrawQueue()
         DiffNextB.Enabled = False
     End Sub
 
-    Private Sub BrowserCloseOtherTabs_Click(ByVal s As Object, ByVal e As EventArgs) Handles BrowserCloseOthers.Click
+    Private Sub BrowserCloseOtherTabs_Click() Handles BrowserCloseOthers.Click
         If CurrentTab IsNot Nothing Then
             For Each Item As TabPage In Tabs.TabPages
                 If Item IsNot CurrentTab.Parent Then Tabs.TabPages.Remove(Item)
@@ -927,7 +927,7 @@ Class Main
         End If
     End Sub
 
-    Private Sub PageRequestProtection_Click(ByVal s As Object, ByVal e As EventArgs) _
+    Private Sub PageRequestProtection_Click() _
         Handles PageRequestProtection.Click
 
         If CurrentEdit IsNot Nothing AndAlso CurrentEdit.Page IsNot Nothing Then
@@ -945,7 +945,7 @@ Class Main
         End If
     End Sub
 
-    Private Sub ShowNewEdits_Click(ByVal s As Object, ByVal e As EventArgs) Handles BrowserNewEdits.Click
+    Private Sub ShowNewEdits_Click() Handles BrowserNewEdits.Click
         CurrentTab.ShowNewEdits = BrowserNewEdits.Checked
 
         If CurrentTab.ShowNewEdits Then
@@ -954,7 +954,7 @@ Class Main
         End If
     End Sub
 
-    Private Sub ShowNewContribs_Click(ByVal s As Object, ByVal e As EventArgs) Handles BrowserNewContribs.Click
+    Private Sub ShowNewContribs_Click() Handles BrowserNewContribs.Click
         CurrentTab.ShowNewContribs = BrowserNewContribs.Checked
 
         If CurrentTab.ShowNewContribs Then
@@ -963,7 +963,7 @@ Class Main
         End If
     End Sub
 
-    Private Sub HelpAbout_Click(ByVal s As Object, ByVal e As EventArgs) Handles HelpAbout.Click
+    Private Sub HelpAbout_Click() Handles HelpAbout.Click
         AboutForm.ShowDialog()
     End Sub
 
@@ -1008,29 +1008,29 @@ Class Main
         End If
     End Sub
 
-    Private Sub BrowserOpen_Click(ByVal s As Object, ByVal e As EventArgs) _
+    Private Sub BrowserOpen_Click() _
         Handles BrowserOpen.Click, BrowserOpenB.Click
 
         If CurrentTab IsNot Nothing AndAlso CurrentTab.CurrentUrl IsNot Nothing _
             Then Process.Start(CurrentTab.CurrentUrl)
     End Sub
 
-    Private Sub SystemReloadConfig_Click(ByVal s As Object, ByVal e As EventArgs)
+    Private Sub SystemReloadConfig_Click()
         Dim NewGetConfigRequest As New GetConfigRequest
         NewGetConfigRequest.StartInThread(False)
     End Sub
 
-    Private Sub ShowLog_Click(ByVal s As Object, ByVal e As EventArgs) Handles SystemShowLog.Click
+    Private Sub ShowLog_Click() Handles SystemShowLog.Click
         Splitter.Panel2Collapsed = Not SystemShowLog.Checked
         Config.ShowLog = SystemShowLog.Checked
     End Sub
 
-    Private Sub ShowQueue_Click(ByVal s As Object, ByVal e As EventArgs) Handles SystemShowQueue.Click
+    Private Sub ShowQueue_Click() Handles SystemShowQueue.Click
         Config.ShowQueue = SystemShowQueue.Checked
         RefreshInterface()
     End Sub
 
-    Private Sub RateUpdateTimer_Tick(ByVal s As Object, ByVal e As EventArgs) Handles RateUpdateTimer.Tick
+    Private Sub RateUpdateTimer_Tick() Handles RateUpdateTimer.Tick
         Dim FirstTime As Date = Date.UtcNow, Edits, Reverts As Integer
 
         For Each Item As Edit In AllEditsById.Values
@@ -1055,16 +1055,16 @@ Class Main
         End If
     End Sub
 
-    Private Sub UserToPage_Click(ByVal s As Object, ByVal e As EventArgs)
+    Private Sub UserToPage_Click()
         If UserB.Text <> "" Then SetCurrentPage(GetPage("User talk:" & UserB.Text), True)
     End Sub
 
-    Private Sub PageToUser_Click(ByVal s As Object, ByVal e As EventArgs)
+    Private Sub PageToUser_Click()
         If PageB.Text.StartsWith("User:") Then SetCurrentUser(GetUser(PageB.Text.Substring(5)), True) _
             Else If PageB.Text.StartsWith("User talk:") Then SetCurrentUser(GetUser(PageB.Text.Substring(10)), True)
     End Sub
 
-    Private Sub UserInfo_Click(ByVal s As Object, ByVal e As EventArgs) Handles UserInfo.Click, UserInfoB.Click
+    Private Sub UserInfo_Click() Handles UserInfo.Click, UserInfoB.Click
         If CurrentUser IsNot Nothing Then
             Dim NewUserInfoForm As New UserInfoForm
             NewUserInfoForm.ThisUser = CurrentUser
@@ -1072,7 +1072,7 @@ Class Main
         End If
     End Sub
 
-    Private Sub PageProtect_Click(ByVal s As Object, ByVal e As EventArgs) Handles PageProtect.Click
+    Private Sub PageProtect_Click() Handles PageProtect.Click
         If CurrentPage IsNot Nothing Then
             Dim NewProtectForm As New ProtectForm
             NewProtectForm.ThisPage = CurrentPage
@@ -1080,7 +1080,7 @@ Class Main
         End If
     End Sub
 
-    Private Sub DrawTimer_Tick(ByVal s As Object, ByVal e As EventArgs) Handles DrawTimer.Tick
+    Private Sub DrawTimer_Tick() Handles DrawTimer.Tick
         DrawHistory()
         DrawContribs()
         DrawQueue()
@@ -1144,7 +1144,7 @@ Class Main
         End If
     End Sub
 
-    Private Sub PageB_ForeColorChanged(ByVal s As Object, ByVal e As EventArgs) Handles PageB.ForeColorChanged
+    Private Sub PageB_ForeColorChanged() Handles PageB.ForeColorChanged
         If PageB.ForeColor = Color.Red AndAlso PageB.Items.Contains(PageB.Text) Then
             Dim Text As String = PageB.Text
             PageB.Items.Remove(PageB.Text)
@@ -1152,7 +1152,7 @@ Class Main
         End If
     End Sub
 
-    Private Sub UserB_ForeColorChanged(ByVal s As Object, ByVal e As EventArgs) Handles UserB.ForeColorChanged
+    Private Sub UserB_ForeColorChanged() Handles UserB.ForeColorChanged
         If UserB.ForeColor = Color.Red AndAlso UserB.Items.Contains(UserB.Text) Then
             Dim Text As String = UserB.Text
             UserB.Items.Remove(UserB.Text)
@@ -1160,25 +1160,25 @@ Class Main
         End If
     End Sub
 
-    Private Sub PageB_Leave(ByVal s As Object, ByVal e As EventArgs) Handles PageB.Leave
+    Private Sub PageB_Leave() Handles PageB.Leave
         If (PageB.Text = "" AndAlso CurrentPage IsNot Nothing) _
             Then PageB.Text = CurrentPage.Name _
             Else If (CurrentPage Is Nothing OrElse PageB.Text <> CurrentPage.Name) _
             Then SetCurrentPage(GetPage(PageB.Text), True)
     End Sub
 
-    Private Sub UserB_Leave(ByVal s As Object, ByVal e As EventArgs) Handles UserB.Leave
+    Private Sub UserB_Leave() Handles UserB.Leave
         If (UserB.Text = "" AndAlso CurrentUser IsNot Nothing) _
             Then UserB.Text = CurrentUser.Name _
             Else If (CurrentUser Is Nothing OrElse UserB.Text <> CurrentUser.Name) _
             Then SetCurrentUser(GetUser(UserB.Text), True)
     End Sub
 
-    Private Sub PageB_SelectedIndexChanged(ByVal s As Object, ByVal e As EventArgs) Handles PageB.SelectedIndexChanged
+    Private Sub PageB_SelectedIndexChanged() Handles PageB.SelectedIndexChanged
         If CurrentPage Is Nothing OrElse PageB.Text <> CurrentPage.Name Then SetCurrentPage(GetPage(PageB.Text), True)
     End Sub
 
-    Private Sub UserB_SelectedIndexChanged(ByVal s As Object, ByVal e As EventArgs) Handles UserB.SelectedIndexChanged
+    Private Sub UserB_SelectedIndexChanged() Handles UserB.SelectedIndexChanged
         If CurrentUser Is Nothing OrElse UserB.Text <> CurrentUser.Name Then SetCurrentUser(GetUser(UserB.Text), True)
     End Sub
 
@@ -1230,7 +1230,7 @@ Class Main
         Next Item
     End Sub
 
-    Private Sub WarnVandalism_Click(ByVal s As Object, ByVal e As EventArgs) Handles WarnVandalism.Click
+    Private Sub WarnVandalism_Click() Handles WarnVandalism.Click
         Dim NewRequest As New WarningRequest
         NewRequest.Level = 0
         NewRequest.ThisEdit = CurrentEdit
@@ -1238,7 +1238,7 @@ Class Main
         NewRequest.Start()
     End Sub
 
-    Private Sub WarnSpam_Click(ByVal s As Object, ByVal e As EventArgs) Handles WarnSpam.Click
+    Private Sub WarnSpam_Click() Handles WarnSpam.Click
         Dim NewRequest As New WarningRequest
         NewRequest.Level = 0
         NewRequest.ThisEdit = CurrentEdit
@@ -1246,7 +1246,7 @@ Class Main
         NewRequest.Start()
     End Sub
 
-    Private Sub WarnTest_Click(ByVal s As Object, ByVal e As EventArgs) Handles WarnTest.Click
+    Private Sub WarnTest_Click() Handles WarnTest.Click
         Dim NewRequest As New WarningRequest
         NewRequest.Level = 0
         NewRequest.ThisEdit = CurrentEdit
@@ -1254,7 +1254,7 @@ Class Main
         NewRequest.Start()
     End Sub
 
-    Private Sub WarnDelete_Click(ByVal s As Object, ByVal e As EventArgs) Handles WarnDelete.Click
+    Private Sub WarnDelete_Click() Handles WarnDelete.Click
         Dim NewRequest As New WarningRequest
         NewRequest.Level = 0
         NewRequest.ThisEdit = CurrentEdit
@@ -1262,7 +1262,7 @@ Class Main
         NewRequest.Start()
     End Sub
 
-    Private Sub WarnAttacks_Click(ByVal s As Object, ByVal e As EventArgs) Handles WarnAttack.Click
+    Private Sub WarnAttacks_Click() Handles WarnAttack.Click
         Dim NewRequest As New WarningRequest
         NewRequest.Level = 0
         NewRequest.ThisEdit = CurrentEdit
@@ -1270,7 +1270,7 @@ Class Main
         NewRequest.Start()
     End Sub
 
-    Private Sub UserMessageWelcome_Click(ByVal s As Object, ByVal e As EventArgs) Handles UserMessageWelcome.Click
+    Private Sub UserMessageWelcome_Click() Handles UserMessageWelcome.Click
         If CurrentUser IsNot Nothing Then
             Dim NewRequest As New UserMessageRequest
             NewRequest.ThisUser = CurrentUser
@@ -1312,20 +1312,20 @@ Class Main
         End If
     End Sub
 
-    Private Sub Status_ItemActivate(ByVal s As Object, ByVal e As EventArgs) Handles Status.ItemActivate
+    Private Sub Status_ItemActivate() Handles Status.ItemActivate
         If Status.SelectedItems.Count > 0 AndAlso Status.SelectedItems(0).Tag IsNot Nothing _
             AndAlso TypeOf Status.SelectedItems(0).Tag Is Edit _
             Then DisplayEdit(CType(Status.SelectedItems(0).Tag, Edit))
     End Sub
 
-    Private Sub SystemReconnectIRC_Click(ByVal s As Object, ByVal e As EventArgs) Handles SystemReconnectIRC.Click
+    Private Sub SystemReconnectIRC_Click() Handles SystemReconnectIRC.Click
         EditQueue.Clear()
         DrawQueue()
         DiffNextB.Enabled = False
         Irc.Reconnect = True
     End Sub
 
-    Private Sub HelpFeedback_Click(ByVal s As Object, ByVal e As EventArgs) Handles HelpFeedback.Click
+    Private Sub HelpFeedback_Click() Handles HelpFeedback.Click
         Process.Start(Config.FeedbackLocation)
     End Sub
 
@@ -1365,26 +1365,26 @@ Class Main
             Then e.SuppressKeyPress = True
     End Sub
 
-    Private Sub SystemOptions_Click(ByVal s As Object, ByVal e As EventArgs) Handles SystemOptions.Click
+    Private Sub SystemOptions_Click() Handles SystemOptions.Click
         Dim NewConfigForm As New ConfigForm
         NewConfigForm.ShowDialog()
     End Sub
 
-    Private Sub Stats_Click(ByVal s As Object, ByVal e As EventArgs) Handles Stats.Click, SystemStats.Click
+    Private Sub Stats_Click() Handles Stats.Click, SystemStats.Click
         StatsForm.Show()
     End Sub
 
-    Private Sub PageB_TextChanged(ByVal s As Object, ByVal e As EventArgs) Handles PageB.TextChanged
+    Private Sub PageB_TextChanged() Handles PageB.TextChanged
         PageB.ForeColor = Color.Black
         HistoryOffset = 0
     End Sub
 
-    Private Sub UserB_TextChanged(ByVal s As Object, ByVal e As EventArgs) Handles UserB.TextChanged
+    Private Sub UserB_TextChanged() Handles UserB.TextChanged
         UserB.ForeColor = Color.Black
         ContribsOffset = 0
     End Sub
 
-    Private Sub PageMarkPatrolled_Click(ByVal s As Object, ByVal e As EventArgs) Handles PageMarkPatrolled.Click
+    Private Sub PageMarkPatrolled_Click() Handles PageMarkPatrolled.Click
         If CurrentPage IsNot Nothing Then
             Dim NewPatrolRequest As New PatrolRequest
             NewPatrolRequest.Page = CurrentPage()
@@ -1392,7 +1392,7 @@ Class Main
         End If
     End Sub
 
-    Private Sub CancelB_Click(ByVal s As Object, ByVal e As EventArgs) Handles CancelB.Click
+    Private Sub CancelB_Click() Handles CancelB.Click
         Dim i As Integer = 0
 
         While i < PendingRequests.Count
@@ -1412,7 +1412,7 @@ Class Main
         NewSpeedyRequest.Start()
     End Sub
 
-    Private Sub PageNominate_Click(ByVal s As Object, ByVal e As EventArgs) Handles PageNominate.Click
+    Private Sub PageNominate_Click() Handles PageNominate.Click
         If CurrentPage IsNot Nothing Then
             Dim NewXfdForm As New XfdForm
             NewXfdForm.Page = CurrentPage
@@ -1420,7 +1420,7 @@ Class Main
         End If
     End Sub
 
-    Private Sub SystemSaveLog_Click(ByVal s As Object, ByVal e As EventArgs) Handles SystemSaveLog.Click
+    Private Sub SystemSaveLog_Click() Handles SystemSaveLog.Click
         Dim Dialog As New SaveFileDialog, LogItems As New List(Of String)
 
         For Each Item As ListViewItem In Status.Items
@@ -1437,12 +1437,12 @@ Class Main
         End If
     End Sub
 
-    Private Sub PageShowHistoryPage_Click(ByVal s As Object, ByVal e As EventArgs) Handles PageShowHistoryPage.Click
+    Private Sub PageShowHistoryPage_Click() Handles PageShowHistoryPage.Click
         If CurrentPage IsNot Nothing Then DisplayUrl(Config.SitePath & "w/index.php?title=" & _
             UrlEncode(CurrentPage.Name.Replace(" ", "_")) & "&action=history")
     End Sub
 
-    Private Sub WarnError_Click(ByVal s As Object, ByVal e As EventArgs) Handles WarnError.Click
+    Private Sub WarnError_Click() Handles WarnError.Click
         Dim NewRequest As New WarningRequest
         NewRequest.Level = 0
         NewRequest.ThisEdit = CurrentEdit
@@ -1450,7 +1450,7 @@ Class Main
         NewRequest.Start()
     End Sub
 
-    Private Sub WarnUnsourced_Click(ByVal s As Object, ByVal e As EventArgs) Handles WarnUnsourced.Click
+    Private Sub WarnUnsourced_Click() Handles WarnUnsourced.Click
         Dim NewRequest As New WarningRequest
         NewRequest.Level = 0
         NewRequest.ThisEdit = CurrentEdit
@@ -1458,7 +1458,7 @@ Class Main
         NewRequest.Start()
     End Sub
 
-    Private Sub WarnNpov_Click(ByVal s As Object, ByVal e As EventArgs) Handles WarnNpov.Click
+    Private Sub WarnNpov_Click() Handles WarnNpov.Click
         Dim NewRequest As New WarningRequest
         NewRequest.Level = 0
         NewRequest.ThisEdit = CurrentEdit
@@ -1480,7 +1480,7 @@ Class Main
         End If
     End Sub
 
-    Private Sub QueueSource_SelectedIndexChanged(ByVal s As Object, ByVal e As EventArgs) _
+    Private Sub QueueSource_SelectedIndexChanged() _
         Handles QueueSource.SelectedIndexChanged
 
         Select Case QueueSource.SelectedItem.ToString
@@ -1533,44 +1533,44 @@ Class Main
         DrawQueue()
     End Sub
 
-    Private Sub QueueEditSources_Click(ByVal s As Object, ByVal e As EventArgs) Handles QueueEditSources.Click
+    Private Sub QueueEditSources_Click() Handles QueueEditSources.Click
         Dim NewQueueForm As New QueueForm
         NewQueueForm.ShowDialog()
     End Sub
 
-    Private Sub RevertWarnVandalism_Click(ByVal s As Object, ByVal e As EventArgs) Handles RevertWarnVandalism.Click
+    Private Sub RevertWarnVandalism_Click() Handles RevertWarnVandalism.Click
         RevertAndWarn("warning")
     End Sub
 
-    Private Sub RevertWarnSpam_Click(ByVal s As Object, ByVal e As EventArgs) Handles RevertWarnSpam.Click
+    Private Sub RevertWarnSpam_Click() Handles RevertWarnSpam.Click
         RevertAndWarn("spam")
     End Sub
 
-    Private Sub RevertWarnTest_Click(ByVal s As Object, ByVal e As EventArgs) Handles RevertWarnTest.Click
+    Private Sub RevertWarnTest_Click() Handles RevertWarnTest.Click
         RevertAndWarn("test")
     End Sub
 
-    Private Sub RevertWarnDelete_Click(ByVal s As Object, ByVal e As EventArgs) Handles RevertWarnDelete.Click
+    Private Sub RevertWarnDelete_Click() Handles RevertWarnDelete.Click
         RevertAndWarn("delete")
     End Sub
 
-    Private Sub RevertWarnAttack_Click(ByVal s As Object, ByVal e As EventArgs) Handles RevertWarnAttack.Click
+    Private Sub RevertWarnAttack_Click() Handles RevertWarnAttack.Click
         RevertAndWarn("attack")
     End Sub
 
-    Private Sub RevertWarnError_Click(ByVal s As Object, ByVal e As EventArgs) Handles RevertWarnError.Click
+    Private Sub RevertWarnError_Click() Handles RevertWarnError.Click
         RevertAndWarn("error")
     End Sub
 
-    Private Sub RevertWarnNpov_Click(ByVal s As Object, ByVal e As EventArgs) Handles RevertWarnNpov.Click
+    Private Sub RevertWarnNpov_Click() Handles RevertWarnNpov.Click
         RevertAndWarn("npov")
     End Sub
 
-    Private Sub RevertWarnUnsourced_Click(ByVal s As Object, ByVal e As EventArgs) Handles RevertWarnUnsourced.Click
+    Private Sub RevertWarnUnsourced_Click() Handles RevertWarnUnsourced.Click
         RevertAndWarn("unsourced")
     End Sub
 
-    Private Sub RevertAndWarnAdvanced_Click(ByVal s As Object, ByVal e As EventArgs) Handles RevertWarnAdvanced.Click
+    Private Sub RevertAndWarnAdvanced_Click() Handles RevertWarnAdvanced.Click
         Dim NewRevertAndWarnForm As New RevertAndWarnForm
         NewRevertAndWarnForm.User = CurrentUser
         NewRevertAndWarnForm.ShowDialog()
@@ -1580,7 +1580,7 @@ Class Main
         DrawQueue()
     End Sub
 
-    Private Sub PagePurge_Click(ByVal s As Object, ByVal e As EventArgs) Handles PagePurge.Click
+    Private Sub PagePurge_Click() Handles PagePurge.Click
         If CurrentPage IsNot Nothing Then
             Dim NewRequest As New PurgeRequest
             NewRequest.Page = CurrentPage
@@ -1588,11 +1588,11 @@ Class Main
         End If
     End Sub
 
-    Private Sub GoMyTalk_Click(ByVal s As Object, ByVal e As EventArgs) Handles GoMyTalk.Click
+    Private Sub GoMyTalk_Click() Handles GoMyTalk.Click
         SetCurrentPage(GetPage("User talk:" & Config.Username), True)
     End Sub
 
-    Private Sub GoMyContribs_Click(ByVal s As Object, ByVal e As EventArgs) Handles GoMyContribs.Click
+    Private Sub GoMyContribs_Click() Handles GoMyContribs.Click
         SetCurrentUser(GetUser(Config.Username), True)
     End Sub
 

@@ -2,7 +2,7 @@ Class QueuePanel
 
     Private Buffer As BufferedGraphics
 
-    Private Sub QueuePanel_Load(ByVal s As Object, ByVal e As EventArgs) Handles Me.Load
+    Private Sub QueuePanel_Load() Handles Me.Load
         Buffer = BufferedGraphicsManager.Current.Allocate(CreateGraphics, _
             New Rectangle(0, 0, QueueWidth, Main.Height))
     End Sub

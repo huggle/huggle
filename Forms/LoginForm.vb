@@ -5,7 +5,7 @@ Class LoginForm
     Public LoggingIn As Boolean
     Private ProxySettingsVisible As Boolean
 
-    Private Sub LoginForm_Load(ByVal s As Object, ByVal e As EventArgs) Handles Me.Load
+    Private Sub LoginForm_Load() Handles Me.Load
         GetLocalConfig()
 
         UseIrc.Checked = Config.IrcMode
@@ -13,6 +13,10 @@ Class LoginForm
         If RememberMe Then Username.Text = Config.Username
 
         Version.Text = "Version " & Config.Version.Major & "." & Config.Version.Minor & "." & Config.Version.Build
+
+#If DEBUG Then
+        Config.Projects.Add("localhost;localhost")
+#End If
 
         For Each Item As String In Config.Projects
             If Item.Contains(";") Then Project.Items.Add(Item.Substring(0, Item.IndexOf(";")))
@@ -27,7 +31,7 @@ Class LoginForm
         ProxyUsername.Text = Config.ProxyUsername
     End Sub
 
-    Private Sub LoginForm_Shown(ByVal s As Object, ByVal e As EventArgs) Handles Me.Shown
+    Private Sub LoginForm_Shown() Handles Me.Shown
         If Username.Text = "" Then Username.Focus() Else Password.Focus()
     End Sub
 
@@ -43,21 +47,21 @@ Class LoginForm
         If e.KeyCode = Keys.Enter Then OK_Click()
     End Sub
 
-    Private Sub Password_TextChanged(ByVal s As Object, ByVal e As EventArgs) Handles Password.TextChanged
+    Private Sub Password_TextChanged() Handles Password.TextChanged
         OK.Enabled = (Username.Text <> "" AndAlso Password.Text <> "")
     End Sub
 
-    Private Sub Username_TextChanged(ByVal s As Object, ByVal e As EventArgs) Handles Username.TextChanged
+    Private Sub Username_TextChanged() Handles Username.TextChanged
         OK.Enabled = (Username.Text <> "" AndAlso Password.Text <> "")
     End Sub
 
-    Private Sub Credit_LinkClicked(ByVal s As Object, ByVal e As LinkLabelLinkClickedEventArgs) _
+    Private Sub Credit_LinkClicked() _
         Handles Credit.LinkClicked
 
         Process.Start(Config.CreditUrl)
     End Sub
 
-    Private Sub OK_Click(Optional ByVal s As Object = Nothing, Optional ByVal e As EventArgs = Nothing) _
+    Private Sub OK_Click() _
         Handles OK.Click
 
         LoggingIn = True
@@ -90,13 +94,13 @@ Class LoginForm
         Login.StartLogin(Me)
     End Sub
 
-    Private Sub ShowProxySettings_Click(ByVal s As Object, ByVal e As EventArgs) Handles ShowProxySettings.Click
+    Private Sub ShowProxySettings_Click() Handles ShowProxySettings.Click
         Me.Height += 145
         ProxySettingsVisible = True
         ShowProxySettings.Enabled = False
     End Sub
 
-    Private Sub Cancel_Click(ByVal s As Object, ByVal e As EventArgs) Handles Cancel.Click
+    Private Sub Cancel_Click() Handles Cancel.Click
         If LoggingIn Then Abort("Cancelled.") Else End
     End Sub
 

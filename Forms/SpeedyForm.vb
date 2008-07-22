@@ -2,7 +2,7 @@ Class SpeedyForm
 
     Public ThisPage As Page
 
-    Private Sub SpeedyForm_Load(ByVal s As Object, ByVal e As EventArgs) Handles Me.Load
+    Private Sub SpeedyForm_Load() Handles Me.Load
         Text = "Speedy tag " & ThisPage.Name
 
         For Each Item As SpeedyCriterion In SpeedyCriteria.Values
@@ -18,19 +18,19 @@ Class SpeedyForm
         Next Item
     End Sub
 
-    Private Sub OK_Click(ByVal s As Object, ByVal e As EventArgs) Handles OK.Click
+    Private Sub OK_Click() Handles OK.Click
         If Criterion.SelectedIndex > -1 Then
             Me.DialogResult = DialogResult.OK
             Me.Close()
         End If
     End Sub
 
-    Private Sub Cancel_Click(ByVal s As Object, ByVal e As EventArgs) Handles Cancel.Click
+    Private Sub Cancel_Click() Handles Cancel.Click
         Me.DialogResult = DialogResult.Cancel
         Me.Close()
     End Sub
 
-    Private Sub SpeedyTagForm_FormClosing(ByVal s As Object, ByVal e As FormClosingEventArgs) Handles Me.FormClosing
+    Private Sub SpeedyTagForm_FormClosing() Handles Me.FormClosing
         If Me.DialogResult = DialogResult.OK Then
 
             Dim NewSpeedyRequest As New SpeedyRequest
@@ -50,7 +50,7 @@ Class SpeedyForm
         End If
     End Sub
 
-    Private Sub Criterion_TextChanged(ByVal s As Object, ByVal e As EventArgs) Handles Criterion.TextChanged
+    Private Sub Criterion_TextChanged() Handles Criterion.TextChanged
         If Criterion.SelectedIndex > -1 _
             Then NotifyCreator.Checked = SpeedyCriteria(Criterion.Text.Substring(0, Criterion.Text.IndexOf(" "))).Notify
     End Sub
@@ -59,7 +59,7 @@ Class SpeedyForm
         If e.KeyCode = Keys.Escape Then Close()
     End Sub
 
-    Private Sub Criterion_SelectedIndexChanged(ByVal s As Object, ByVal e As EventArgs) _
+    Private Sub Criterion_SelectedIndexChanged() _
         Handles Criterion.SelectedIndexChanged
 
         If Criterion.SelectedIndex > -1 _

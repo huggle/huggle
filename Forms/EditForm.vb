@@ -1,3 +1,5 @@
+Imports System.IO
+
 Class EditForm
 
     Public Page As Page
@@ -5,7 +7,7 @@ Class EditForm
     Private Declare Function LockWindowUpdate Lib "user32" (ByVal hWnd As IntPtr) As Integer
     Private PreviewCurrent, SettingText As Boolean
 
-    Private Sub EditForm_Load(ByVal s As Object, ByVal e As EventArgs) Handles Me.Load
+    Private Sub EditForm_Load() Handles Me.Load
         Text = "Editing " & Page.Name
         Summary.Text = Config.DefaultSummary
         Minor.Checked = Config.MinorOther
@@ -25,7 +27,7 @@ Class EditForm
         NewGetTextRequest.Start(AddressOf GotText)
     End Sub
 
-    Private Sub EditForm_FormClosing(ByVal s As Object, ByVal e As FormClosingEventArgs) Handles Me.FormClosing
+    Private Sub EditForm_FormClosing() Handles Me.FormClosing
         If DialogResult <> DialogResult.OK Then DialogResult = DialogResult.Cancel
     End Sub
 
@@ -55,7 +57,7 @@ Class EditForm
         End If
     End Sub
 
-    Private Sub SavePage()
+    Private Sub SavePage() Handles Save.Click, PageSave.Click
         PageText.Enabled = False
         Summary.Enabled = False
         Minor.Enabled = False
@@ -74,10 +76,6 @@ Class EditForm
         NewEditRequest.Start(AddressOf Saved)
     End Sub
 
-    Private Sub Save_Click(ByVal s As Object, ByVal e As EventArgs) Handles Save.Click
-        SavePage()
-    End Sub
-
     Private Sub Saved(ByVal Result As Boolean)
         If Result Then
             DialogResult = DialogResult.OK
@@ -91,12 +89,12 @@ Class EditForm
         If e.KeyCode = Keys.Enter Then SavePage()
     End Sub
 
-    Private Sub Cancel_Click(ByVal s As Object, ByVal e As EventArgs) Handles Cancel.Click
+    Private Sub Cancel_Click() Handles Cancel.Click
         DialogResult = DialogResult.Cancel
         Close()
     End Sub
 
-    Private Sub Tabs_SelectedIndexChanged(ByVal s As Object, ByVal e As EventArgs) Handles Tabs.SelectedIndexChanged
+    Private Sub Tabs_SelectedIndexChanged() Handles Tabs.SelectedIndexChanged
         If Tabs.SelectedIndex = 1 AndAlso Not PreviewCurrent Then
             Preview.DocumentText = "<div style=""font-family: Arial"">Retrieving preview...</div>"
 
@@ -125,7 +123,7 @@ Class EditForm
         End If
     End Sub
 
-    Private Sub PageText_TextChanged(ByVal s As Object, ByVal e As EventArgs) Handles PageText.TextChanged
+    Private Sub PageText_TextChanged() Handles PageText.TextChanged
         If Not SettingText Then
             PreviewCurrent = False
             KeystrokeTimer.Stop()
@@ -142,7 +140,7 @@ Class EditForm
         NewHighlightRequest.Start(PageText.Text, AddressOf HighlightDone)
     End Sub
 
-    Private Sub KeystrokeTimer_Tick(ByVal s As Object, ByVal e As EventArgs) Handles KeystrokeTimer.Tick
+    Private Sub KeystrokeTimer_Tick() Handles KeystrokeTimer.Tick
         KeystrokeTimer.Stop()
         DoHighlight()
     End Sub
@@ -164,7 +162,7 @@ Class EditForm
         LockWindowUpdate(IntPtr.Zero)
     End Sub
 
-    Private Sub Apply_Click(ByVal s As Object, ByVal e As EventArgs)
+    Private Sub Apply_Click()
         Cancel.Text = "Close"
 
         Dim NewEditRequest As New EditRequest

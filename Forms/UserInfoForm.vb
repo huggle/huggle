@@ -2,7 +2,7 @@ Class UserInfoForm
 
     Public ThisUser As User
 
-    Private Sub UserInfoForm_Load(ByVal s As Object, ByVal e As EventArgs) Handles Me.Load
+    Private Sub UserInfoForm_Load() Handles Me.Load
         Text = "User:" & ThisUser.Name
         SessionEditCount.Text = CStr(ThisUser.SessionEditCount)
 
@@ -36,7 +36,7 @@ Class UserInfoForm
         End If
     End Sub
 
-    Private Sub OK_Click(ByVal s As Object, ByVal e As EventArgs) Handles OK.Click, OK.Click
+    Private Sub OK_Click() Handles OK.Click, OK.Click
         Close()
     End Sub
 

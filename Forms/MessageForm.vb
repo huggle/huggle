@@ -2,11 +2,11 @@ Class MessageForm
 
     Public User As User
 
-    Private Sub MessageForm_Load(ByVal s As Object, ByVal e As EventArgs) Handles Me.Load
+    Private Sub MessageForm_Load() Handles Me.Load
         Text = "Message " & User.Name
     End Sub
 
-    Private Sub OK_Click(ByVal s As Object, ByVal e As EventArgs) Handles OK.Click
+    Private Sub OK_Click() Handles OK.Click
         If Message.Text <> "" Then
             DialogResult = DialogResult.OK
 
@@ -25,15 +25,15 @@ Class MessageForm
         End If
     End Sub
 
-    Private Sub Cancel_Click(ByVal s As Object, ByVal e As EventArgs) Handles Cancel.Click
+    Private Sub Cancel_Click() Handles Cancel.Click
         DialogResult = DialogResult.Cancel
     End Sub
 
-    Private Sub NewMessageForm_FormClosing(ByVal s As Object, ByVal e As FormClosingEventArgs) Handles Me.FormClosing
+    Private Sub NewMessageForm_FormClosing() Handles Me.FormClosing
         If DialogResult <> DialogResult.OK Then DialogResult = DialogResult.Cancel
     End Sub
 
-    Private Sub Message_TextChanged(ByVal s As Object, ByVal e As EventArgs) _
+    Private Sub Message_TextChanged() _
         Handles Message.TextChanged, Summary.TextChanged, Subject.TextChanged
 
         OK.Enabled = (Message.Text.Length > 0) AndAlso (Subject.Text <> "" OrElse Summary.Text <> "")

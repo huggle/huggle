@@ -12,9 +12,7 @@ Class AddTemplateForm
         End Get
     End Property
 
-    Private Sub AddTemplateForm_FormClosing(ByVal s As Object, ByVal e As FormClosingEventArgs) _
-        Handles MyBase.FormClosing
-
+    Private Sub AddTemplateForm_FormClosing() Handles MyBase.FormClosing
         If DialogResult <> DialogResult.OK Then DialogResult = DialogResult.Cancel
     End Sub
 
@@ -25,22 +23,20 @@ Class AddTemplateForm
         End If
     End Sub
 
-    Private Sub OK_Click(ByVal s As Object, ByVal e As EventArgs) Handles OK.Click
-        If DisplayTextBox.Text <> "" AndAlso TemplateBox.Text <> "" Then
-            DialogResult = DialogResult.OK
-            Close()
-        End If
-    End Sub
-
-    Private Sub Cancel_Click(ByVal s As Object, ByVal e As EventArgs) Handles Cancel.Click
+    Private Sub Cancel_Click() Handles Cancel.Click
         DialogResult = DialogResult.Cancel
         Close()
     End Sub
 
-    Private Sub ItemTextChanged(ByVal s As Object, ByVal e As EventArgs) _
-        Handles DisplayTextBox.TextChanged, TemplateBox.TextChanged
-
+    Private Sub ItemTextChanged() Handles DisplayTextBox.TextChanged, TemplateBox.TextChanged
         OK.Enabled = (DisplayTextBox.Text <> "" AndAlso TemplateBox.Text <> "")
+    End Sub
+
+    Private Sub OK_Click() Handles OK.Click
+        If DisplayTextBox.Text <> "" AndAlso TemplateBox.Text <> "" Then
+            DialogResult = DialogResult.OK
+            Close()
+        End If
     End Sub
 
     Private Sub Template_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles TemplateBox.KeyDown

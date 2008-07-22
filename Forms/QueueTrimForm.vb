@@ -2,7 +2,7 @@ Class QueueTrimForm
 
     Public DiscardTime As Double
 
-    Private Sub QueueTrimForm_FormClosing(ByVal s As Object, ByVal e As FormClosingEventArgs) Handles Me.FormClosing
+    Private Sub QueueTrimForm_FormClosing() Handles Me.FormClosing
         If DialogResult <> DialogResult.OK Then DialogResult = DialogResult.Cancel
     End Sub
 
@@ -13,7 +13,7 @@ Class QueueTrimForm
         End If
     End Sub
 
-    Private Sub OK_Click(ByVal s As Object, ByVal e As EventArgs) Handles OK.Click
+    Private Sub OK_Click() Handles OK.Click
         If Val(DiscardTimeInput.Text) > 0 Then
             DiscardTime = Val(DiscardTimeInput.Text)
             DialogResult = DialogResult.OK
@@ -24,7 +24,7 @@ Class QueueTrimForm
         End If
     End Sub
 
-    Private Sub Cancel_Click(ByVal s As Object, ByVal e As EventArgs) Handles Cancel.Click
+    Private Sub Cancel_Click() Handles Cancel.Click
         DialogResult = DialogResult.Cancel
         Close()
     End Sub

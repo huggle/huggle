@@ -3,7 +3,7 @@ Class ProtectionForm
     Public Type As ProtectionType
     Public ThisPage As Page
 
-    Private Sub ReqProtectionForm_Load(ByVal s As Object, ByVal e As EventArgs) Handles Me.Load
+    Private Sub ReqProtectionForm_Load() Handles Me.Load
         Text = "Request protection of " & ThisPage.Name
         Reason.Text = Config.ProtectionRequestReason
         TypeSelect.SelectedIndex = 0
@@ -18,7 +18,7 @@ Class ProtectionForm
         NewRequest.Start()
     End Sub
 
-    Private Sub ReqProtectionForm_FormClosing(ByVal s As Object, ByVal e As FormClosingEventArgs) Handles Me.FormClosing
+    Private Sub ReqProtectionForm_FormClosing() Handles Me.FormClosing
         If DialogResult <> DialogResult.OK Then DialogResult = DialogResult.Cancel
     End Sub
 
@@ -29,7 +29,7 @@ Class ProtectionForm
         End If
     End Sub
 
-    Private Sub OK_Click(ByVal s As Object, ByVal e As EventArgs) Handles OK.Click
+    Private Sub OK_Click() Handles OK.Click
         If Reason.Text <> "" Then
             Select Case TypeSelect.Text
                 Case "Semi-protection" : Type = ProtectionType.Semi
@@ -42,16 +42,16 @@ Class ProtectionForm
         End If
     End Sub
 
-    Private Sub Cancel_Click(ByVal s As Object, ByVal e As EventArgs) Handles Cancel.Click
+    Private Sub Cancel_Click() Handles Cancel.Click
         DialogResult = DialogResult.Cancel
         Close()
     End Sub
 
-    Private Sub Reason_TextChanged(ByVal s As Object, ByVal e As EventArgs) Handles Reason.TextChanged
+    Private Sub Reason_TextChanged() Handles Reason.TextChanged
         OK.Enabled = (Reason.Text <> "")
     End Sub
 
-    Private Sub ProtectionLog_EnabledChanged(ByVal s As Object, ByVal e As EventArgs) _
+    Private Sub ProtectionLog_EnabledChanged() _
         Handles ProtectionLog.EnabledChanged
 
         CurrentLevel.Text = "Current protection level: "

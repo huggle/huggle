@@ -2,7 +2,7 @@ Class ConfigForm
 
     Private ShortcutKeysClone As Dictionary(Of String, Shortcut)
 
-    Private Sub ConfigForm_Load(ByVal s As Object, ByVal e As EventArgs) Handles MyBase.Load
+    Private Sub ConfigForm_Load() Handles MyBase.Load
         AutoWhitelist.Checked = Config.AutoWhitelist
         TrayIcon.Checked = Config.TrayIcon
         ShowQueue.Checked = Config.ShowQueue
@@ -110,7 +110,7 @@ Class ConfigForm
         ShortcutList.EndUpdate()
     End Sub
 
-    Private Sub ConfigForm_FormClosing(ByVal s As Object, ByVal e As FormClosingEventArgs) Handles Me.FormClosing
+    Private Sub ConfigForm_FormClosing() Handles Me.FormClosing
         If DialogResult = DialogResult.OK Then
             ShortcutKeys = ShortcutKeysClone
 
@@ -194,7 +194,7 @@ Class ConfigForm
         End If
     End Sub
 
-    Private Sub OK_Click(ByVal s As Object, ByVal e As EventArgs) Handles OK.Click
+    Private Sub OK_Click() Handles OK.Click
         Dim NewConfigRequest As New WriteConfigRequest
         NewConfigRequest.Start()
 
@@ -202,12 +202,12 @@ Class ConfigForm
         Close()
     End Sub
 
-    Private Sub Cancel_Click(ByVal s As Object, ByVal e As EventArgs) Handles Cancel.Click
+    Private Sub Cancel_Click() Handles Cancel.Click
         DialogResult = DialogResult.Cancel
         Close()
     End Sub
 
-    Private Sub AddTemplate_Click(ByVal s As Object, ByVal e As EventArgs) Handles AddTemplate.Click
+    Private Sub AddTemplate_Click() Handles AddTemplate.Click
         Dim NewAddTemplateForm As New AddTemplateForm
 
         If NewAddTemplateForm.ShowDialog = DialogResult.OK Then
@@ -217,54 +217,54 @@ Class ConfigForm
         End If
     End Sub
 
-    Private Sub RemoveTemplate_Click(ByVal s As Object, ByVal e As EventArgs) Handles RemoveTemplate.Click
+    Private Sub RemoveTemplate_Click() Handles RemoveTemplate.Click
         If Templates.SelectedItems.Count > 0 Then Templates.Items.Remove(Templates.SelectedItems(0))
     End Sub
 
-    Private Sub Templates_SelectedIndexChanged(ByVal s As Object, ByVal e As EventArgs) _
+    Private Sub Templates_SelectedIndexChanged() _
         Handles Templates.SelectedIndexChanged
 
         RemoveTemplate.Enabled = (Templates.SelectedItems.Count > 0)
     End Sub
 
-    Private Sub RevertSummaries_SelectedIndexChanged(ByVal s As Object, ByVal e As EventArgs) _
+    Private Sub RevertSummaries_SelectedIndexChanged() _
         Handles RevertSummaries.SelectedIndexChanged
 
         RemoveSummary.Enabled = (RevertSummaries.SelectedIndex > -1)
     End Sub
 
-    Private Sub AddSummary_Click(ByVal s As Object, ByVal e As EventArgs) Handles AddSummary.Click
+    Private Sub AddSummary_Click() Handles AddSummary.Click
         Dim Item As String = InputBox("Enter summary", "Add summary")
         If Item <> "" Then RevertSummaries.Items.Add(Item)
     End Sub
 
-    Private Sub RemoveSummary_Click(ByVal s As Object, ByVal e As EventArgs) Handles RemoveSummary.Click
+    Private Sub RemoveSummary_Click() Handles RemoveSummary.Click
         If RevertSummaries.SelectedIndex > -1 Then RevertSummaries.Items.RemoveAt(RevertSummaries.SelectedIndex)
     End Sub
 
-    Private Sub ShowAnonymous_CheckedChanged(ByVal s As Object, ByVal e As EventArgs) _
+    Private Sub ShowAnonymous_CheckedChanged() _
         Handles ShowAnonymous.CheckedChanged
 
         If Not ShowAnonymous.Checked Then ShowRegistered.Checked = True
     End Sub
 
-    Private Sub ShowRegistered_CheckedChanged(ByVal s As Object, ByVal e As EventArgs) _
+    Private Sub ShowRegistered_CheckedChanged() _
         Handles ShowRegistered.CheckedChanged
 
         If Not ShowRegistered.Checked Then ShowAnonymous.Checked = True
     End Sub
 
-    Private Sub Preloading_CheckedChanged(ByVal s As Object, ByVal e As EventArgs) Handles Preloading.CheckedChanged
+    Private Sub Preloading_CheckedChanged() Handles Preloading.CheckedChanged
         Preloads.Enabled = (Preloading.Checked)
     End Sub
 
-    Private Sub ReportLinkExamples_CheckedChanged(ByVal s As Object, ByVal e As EventArgs) _
+    Private Sub ReportLinkExamples_CheckedChanged() _
         Handles ReportLinkExamples.CheckedChanged
 
         ExtendReports.Enabled = ReportLinkExamples.Checked
     End Sub
 
-    Private Sub LogFileBrowse_Click(ByVal s As Object, ByVal e As EventArgs) Handles LogFileBrowse.Click
+    Private Sub LogFileBrowse_Click() Handles LogFileBrowse.Click
         Dim Dialog As New SaveFileDialog
 
         Dialog.Title = "Log file location"
@@ -274,15 +274,15 @@ Class ConfigForm
         If Dialog.ShowDialog = DialogResult.OK Then LogFile.Text = Dialog.FileName
     End Sub
 
-    Private Sub NewShortcut_GotFocus(ByVal s As Object, ByVal e As EventArgs) Handles ChangeShortcut.GotFocus
+    Private Sub NewShortcut_GotFocus() Handles ChangeShortcut.GotFocus
         ChangeShortcut.Clear()
     End Sub
 
-    Private Sub Shortcuts_MouseUp(ByVal s As Object, ByVal e As MouseEventArgs) Handles ShortcutList.MouseUp
+    Private Sub Shortcuts_MouseUp() Handles ShortcutList.MouseUp
         ChangeShortcut.Focus()
     End Sub
 
-    Private Sub Shortcuts_SelectedIndexChanged(ByVal s As Object, ByVal e As EventArgs) _
+    Private Sub Shortcuts_SelectedIndexChanged() _
         Handles ShortcutList.SelectedIndexChanged
 
         If ShortcutList.SelectedItems.Count > 0 Then
@@ -319,7 +319,7 @@ Class ConfigForm
         End If
     End Sub
 
-    Private Sub NoShortcut_Click(ByVal s As Object, ByVal e As EventArgs) Handles NoShortcut.Click
+    Private Sub NoShortcut_Click() Handles NoShortcut.Click
         If ShortcutList.SelectedItems.Count > 0 Then
             ShortcutKeysClone(ShortcutList.SelectedItems(0).Text) = New Shortcut(Keys.None)
             ShortcutList.SelectedItems(0).SubItems(1).Text = "None"
@@ -328,7 +328,7 @@ Class ConfigForm
         End If
     End Sub
 
-    Private Sub Defaults_Click(ByVal s As Object, ByVal e As EventArgs) Handles Defaults.Click
+    Private Sub Defaults_Click() Handles Defaults.Click
         If MsgBox("Restore defaults?", MsgBoxStyle.Question Or MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
             InitialiseShortcuts()
             InitialiseShortcutList()
@@ -336,7 +336,7 @@ Class ConfigForm
         End If
     End Sub
 
-    Private Sub ClearRevertSummaries_Click(ByVal s As Object, ByVal e As EventArgs) Handles ClearRevertSummaries.Click
+    Private Sub ClearRevertSummaries_Click() Handles ClearRevertSummaries.Click
         ManualRevertSummaries.Clear()
     End Sub
 

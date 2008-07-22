@@ -1,6 +1,6 @@
 Class StatsForm
 
-    Private Sub StatsForm_Load(ByVal s As Object, ByVal e As EventArgs) Handles Me.Load
+    Private Sub StatsForm_Load() Handles Me.Load
         For i As Integer = 0 To 3
             Actions.Items(i).SubItems.Add("0")
             Actions.Items(i).SubItems.Add("0")
@@ -21,7 +21,7 @@ Class StatsForm
         Actions.Items(3).SubItems(2).Text = CStr(Stats.BlocksMe)
     End Sub
 
-    Private Sub StatsTimer_Tick(ByVal s As Object, ByVal e As EventArgs) Handles StatsTimer.Tick
+    Private Sub StatsTimer_Tick() Handles StatsTimer.Tick
         RefreshStats()
     End Sub
 
@@ -29,7 +29,7 @@ Class StatsForm
         If e.KeyCode = Keys.Escape Then Close()
     End Sub
 
-    Private Sub CloseButton_Click(ByVal s As Object, ByVal e As EventArgs) Handles CloseButton.Click
+    Private Sub CloseButton_Click() Handles CloseButton.Click
         Close()
     End Sub
 

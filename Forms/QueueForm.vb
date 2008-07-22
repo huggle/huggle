@@ -4,11 +4,11 @@ Class QueueForm
 
     Public Mode As String
 
-    Private Sub QueueForm_FormClosing(ByVal s As Object, ByVal e As FormClosingEventArgs) Handles Me.FormClosing
+    Private Sub QueueForm_FormClosing() Handles Me.FormClosing
         Main.SetQueueSources()
     End Sub
 
-    Private Sub QueueForm_Load(ByVal s As Object, ByVal e As EventArgs) Handles MyBase.Load
+    Private Sub QueueForm_Load() Handles MyBase.Load
         SourceType.SelectedIndex = 0
 
         QueueSourcesList.BeginUpdate()
@@ -20,7 +20,7 @@ Class QueueForm
         QueueSourcesList.EndUpdate()
     End Sub
 
-    Private Sub QueueSourcesList_SelectedIndexChanged(ByVal s As Object, ByVal e As EventArgs) _
+    Private Sub QueueSourcesList_SelectedIndexChanged() _
         Handles QueueSourcesList.SelectedIndexChanged
 
         RemoveQueue.Enabled = (QueueSourcesList.SelectedIndex > -1)
@@ -47,11 +47,11 @@ Class QueueForm
         RefreshInterface()
     End Sub
 
-    Private Sub Close_Click(ByVal s As Object, ByVal e As EventArgs) Handles OK.Click
+    Private Sub Close_Click() Handles OK.Click
         Close()
     End Sub
 
-    Private Sub Browse_Click(ByVal s As Object, ByVal e As EventArgs) Handles Browse.Click
+    Private Sub Browse_Click() Handles Browse.Click
         Dim Dialog As New OpenFileDialog
         Dialog.Title = "Add text file to queue"
         Dialog.Filter = "All files|*.*"
@@ -59,9 +59,7 @@ Class QueueForm
         If Dialog.ShowDialog() = DialogResult.OK Then Source.Text = Dialog.FileName
     End Sub
 
-    Private Sub SourceType_SelectedIndexChanged(ByVal s As Object, ByVal e As System.EventArgs) _
-        Handles SourceType.SelectedIndexChanged
-
+    Private Sub SourceType_SelectedIndexChanged() Handles SourceType.SelectedIndexChanged
         Browse.Visible = (SourceType.Text = "File")
 
         Select Case SourceType.Text
@@ -72,7 +70,7 @@ Class QueueForm
         Source.Clear()
     End Sub
 
-    Private Sub Sort_Click(ByVal s As Object, ByVal e As EventArgs) Handles Sort.Click
+    Private Sub Sort_Click() Handles Sort.Click
         QueueItems.BeginUpdate()
         QueueItems.Sorted = True
         QueueItems.Sorted = False
@@ -80,7 +78,7 @@ Class QueueForm
         QueueItems.EndUpdate()
     End Sub
 
-    Private Sub AddQueue_Click(ByVal s As Object, ByVal e As EventArgs) Handles AddQueue.Click
+    Private Sub AddQueue_Click() Handles AddQueue.Click
         Dim Input As String = InputBox("Enter queue name:", "huggle", "Queue" & CStr(QueueSources.Count + 1))
 
         If Input.Length > 0 Then
@@ -98,7 +96,7 @@ Class QueueForm
         End If
     End Sub
 
-    Private Sub RemoveQueue_Click(ByVal s As Object, ByVal e As EventArgs) Handles RemoveQueue.Click
+    Private Sub RemoveQueue_Click() Handles RemoveQueue.Click
         If QueueSourcesList.SelectedIndex > -1 Then
             QueueSources.Remove(QueueSourcesList.SelectedItem.ToString)
             QueueSourcesList.Items.Remove(QueueSourcesList.SelectedItem)
@@ -106,7 +104,7 @@ Class QueueForm
         End If
     End Sub
 
-    Private Sub Source_TextChanged(ByVal s As Object, ByVal e As EventArgs) Handles Source.TextChanged
+    Private Sub Source_TextChanged() Handles Source.TextChanged
         RefreshInterface()
     End Sub
 
@@ -123,7 +121,7 @@ Class QueueForm
         Count.Text = CStr(QueueItems.Items.Count) & " items"
     End Sub
 
-    Private Sub Combine_Click(ByVal s As Object, ByVal e As EventArgs) Handles Combine.Click
+    Private Sub Combine_Click() Handles Combine.Click
         Mode = "combine"
 
         Select Case SourceType.Text
@@ -132,7 +130,7 @@ Class QueueForm
         End Select
     End Sub
 
-    Private Sub Intersect_Click(ByVal s As Object, ByVal e As EventArgs) Handles Intersect.Click
+    Private Sub Intersect_Click() Handles Intersect.Click
         Mode = "intersect"
 
         Select Case SourceType.Text
@@ -141,7 +139,7 @@ Class QueueForm
         End Select
     End Sub
 
-    Private Sub Replace_Click(ByVal s As Object, ByVal e As EventArgs) Handles Replace.Click
+    Private Sub Replace_Click() Handles Replace.Click
         Mode = "replace"
 
         Select Case SourceType.Text
@@ -235,13 +233,13 @@ Class QueueForm
         Source.Enabled = True
     End Sub
 
-    Private Sub QueueItems_SelectedIndexChanged(ByVal s As Object, ByVal e As EventArgs) _
+    Private Sub QueueItems_SelectedIndexChanged() _
         Handles QueueItems.SelectedIndexChanged
 
         RemoveItem.Enabled = (QueueItems.SelectedIndex > -1)
     End Sub
 
-    Private Sub AddItem_Click(ByVal s As Object, ByVal e As EventArgs) Handles AddItem.Click
+    Private Sub AddItem_Click() Handles AddItem.Click
         Dim Input As String = InputBox("Enter page name:", "huggle")
 
         If Input.Length > 0 AndAlso Not QueueItems.Items.Contains(Input) Then
@@ -254,7 +252,7 @@ Class QueueForm
         End If
     End Sub
 
-    Private Sub RemoveItem_Click(ByVal s As Object, ByVal e As EventArgs) Handles RemoveItem.Click
+    Private Sub RemoveItem_Click() Handles RemoveItem.Click
         If QueueItems.SelectedIndex > -1 Then
             QueueSources(QueueSourcesList.SelectedItem.ToString).Remove(QueueItems.SelectedItem.ToString)
             QueueItems.Items.Remove(QueueItems.SelectedItem)
@@ -263,7 +261,7 @@ Class QueueForm
         End If
     End Sub
 
-    Private Sub Clear_Click(ByVal s As Object, ByVal e As EventArgs) Handles Clear.Click
+    Private Sub Clear_Click() Handles Clear.Click
         QueueSources(QueueSourcesList.SelectedItem.ToString).Clear()
         QueueItems.Items.Clear()
         RefreshInterface()
@@ -277,7 +275,7 @@ Class QueueForm
         End If
     End Sub
 
-    Private Sub ArticlesOnly_Click(ByVal s As Object, ByVal e As EventArgs) Handles ArticlesOnly.Click
+    Private Sub ArticlesOnly_Click() Handles ArticlesOnly.Click
         Dim i As Integer = 0
 
         While i < QueueItems.Items.Count
@@ -298,7 +296,7 @@ Class QueueForm
         RefreshInterface()
     End Sub
 
-    Private Sub Rename_Click(ByVal s As Object, ByVal e As EventArgs) Handles Rename.Click
+    Private Sub Rename_Click() Handles Rename.Click
         Dim NewName As String = InputBox("Enter new name:", "huggle", QueueSourcesList.SelectedItem.ToString)
 
         If NewName.Length > -1 Then
@@ -309,7 +307,7 @@ Class QueueForm
         End If
     End Sub
 
-    Private Sub Save_Click(ByVal s As Object, ByVal e As EventArgs) Handles Save.Click
+    Private Sub Save_Click() Handles Save.Click
         Dim Dialog As New SaveFileDialog
         Dialog.FileName = QueueSourcesList.SelectedItem.ToString & ".txt"
         Dialog.Filter = "Text file|*.txt"
@@ -326,7 +324,7 @@ Class QueueForm
         End If
     End Sub
 
-    Private Sub Copy_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Copy.Click
+    Private Sub Copy_Click() Handles Copy.Click
         Dim NewName As String = InputBox("Copy to:", "huggle", "Queue" & CStr(QueueSources.Count + 1))
 
         If NewName.Length > 0 Then

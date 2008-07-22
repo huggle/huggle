@@ -2,7 +2,7 @@ Class XfdForm
 
     Public Page As Page
 
-    Private Sub XfdForm_Load(ByVal s As Object, ByVal e As EventArgs) Handles Me.Load
+    Private Sub XfdForm_Load() Handles Me.Load
         Text = "Nominate '" & Page.Name & "' for deletion"
         Category.Visible = (Page.Namespace = "")
         CategoryLabel.Visible = (Page.Namespace = "")
@@ -17,7 +17,7 @@ Class XfdForm
         End Select
     End Sub
 
-    Private Sub XfdForm_FormClosing(ByVal s As Object, ByVal e As FormClosingEventArgs) Handles MyBase.FormClosing
+    Private Sub XfdForm_FormClosing() Handles MyBase.FormClosing
         If DialogResult <> DialogResult.OK Then DialogResult = DialogResult.Cancel
     End Sub
 
@@ -28,11 +28,11 @@ Class XfdForm
         End If
     End Sub
 
-    Private Sub Reason_TextChanged(ByVal s As Object, ByVal e As EventArgs) Handles Reason.TextChanged
+    Private Sub Reason_TextChanged() Handles Reason.TextChanged
         OK.Enabled = (Reason.Text <> "")
     End Sub
 
-    Private Sub OK_Click(ByVal s As Object, ByVal e As EventArgs) Handles OK.Click
+    Private Sub OK_Click() Handles OK.Click
         Select Case Page.Namespace
             Case ""
                 Dim NewRequest As New AfdRequest
@@ -75,7 +75,7 @@ Class XfdForm
         Close()
     End Sub
 
-    Private Sub Cancel_Click(ByVal s As Object, ByVal e As EventArgs) Handles Cancel.Click
+    Private Sub Cancel_Click() Handles Cancel.Click
         DialogResult = DialogResult.Cancel
         Close()
     End Sub

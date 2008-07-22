@@ -2,7 +2,7 @@ Class DeleteForm
 
     Public ThisPage As Page
 
-    Private Sub DeleteForm_Load(ByVal s As Object, ByVal e As EventArgs) Handles Me.Load
+    Private Sub DeleteForm_Load() Handles Me.Load
 
         If Config.Speedy Then
             For Each Item As SpeedyCriterion In SpeedyCriteria.Values
@@ -28,11 +28,11 @@ Class DeleteForm
         NewRequest.Start()
     End Sub
 
-    Private Sub DeleteForm_FormClosing(ByVal s As Object, ByVal e As FormClosingEventArgs) Handles Me.FormClosing
+    Private Sub DeleteForm_FormClosing() Handles Me.FormClosing
         If DialogResult <> DialogResult.OK Then DialogResult = DialogResult.Cancel
     End Sub
 
-    Private Sub OK_Click(ByVal s As Object, ByVal e As EventArgs) Handles OK.Click
+    Private Sub OK_Click() Handles OK.Click
         DialogResult = DialogResult.OK
 
         Dim Summary As String
@@ -53,7 +53,7 @@ Class DeleteForm
         Close()
     End Sub
 
-    Private Sub Cancel_Click(ByVal s As Object, ByVal e As EventArgs) Handles Cancel.Click
+    Private Sub Cancel_Click() Handles Cancel.Click
         DialogResult = DialogResult.Cancel
         Close()
     End Sub

@@ -2,7 +2,7 @@ Class RevertAndWarnForm
 
     Public User As User
 
-    Private Sub WarningForm_Load(ByVal s As Object, ByVal e As EventArgs) Handles Me.Load
+    Private Sub WarningForm_Load() Handles Me.Load
         Text = "Revert and warn " & User.Name
 
         Summary.Items.AddRange(ManualRevertSummaries.ToArray)
@@ -24,12 +24,12 @@ Class RevertAndWarnForm
         NewWarnLogRequest.Start()
     End Sub
 
-    Private Sub Close_Click(ByVal s As Object, ByVal e As EventArgs) Handles Cancel.Click
+    Private Sub Close_Click() Handles Cancel.Click
         DialogResult = DialogResult.Cancel
         Close()
     End Sub
 
-    Private Sub OK_Click(ByVal s As Object, ByVal e As EventArgs) Handles OK.Click
+    Private Sub OK_Click() Handles OK.Click
         Dim Level As UserL
 
         If LevelAuto.Checked Then Level = UserL.None
@@ -43,14 +43,14 @@ Class RevertAndWarnForm
         Close()
     End Sub
 
-    Private Sub WarningForm_FormClosing(ByVal s As Object, ByVal e As FormClosingEventArgs) Handles Me.FormClosing
+    Private Sub WarningForm_FormClosing() Handles Me.FormClosing
         If DialogResult <> DialogResult.OK Then DialogResult = DialogResult.Cancel
     End Sub
 
     Private Sub WarningForm_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles Me.KeyDown
         Select Case e.KeyCode
-            Case Keys.Escape : Close_Click(Nothing, Nothing)
-            Case Keys.Enter : OK_Click(Nothing, Nothing)
+            Case Keys.Escape : Close_Click()
+            Case Keys.Enter : OK_Click()
         End Select
     End Sub
 

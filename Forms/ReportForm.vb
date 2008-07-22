@@ -6,7 +6,7 @@ Class ReportForm
         If e.KeyCode = Keys.Escape Then Close()
     End Sub
 
-    Private Sub UserReportForm_Load(ByVal s As Object, ByVal e As EventArgs) Handles Me.Load
+    Private Sub UserReportForm_Load() Handles Me.Load
         Text = "Report " & ThisUser.Name
         ReportTo.SelectedIndex = 0
         Message.Focus()
@@ -20,21 +20,21 @@ Class ReportForm
         NewWarnLogRequest.Start()
     End Sub
 
-    Private Sub UserReportForm_FormClosing(ByVal s As Object, ByVal e As FormClosingEventArgs) Handles Me.FormClosing
+    Private Sub UserReportForm_FormClosing() Handles Me.FormClosing
         If Me.DialogResult <> DialogResult.OK Then Me.DialogResult = DialogResult.Cancel
     End Sub
 
-    Private Sub Cancel_Click(ByVal s As Object, ByVal e As EventArgs) Handles Cancel.Click
+    Private Sub Cancel_Click() Handles Cancel.Click
         Me.DialogResult = DialogResult.Cancel
         Me.Close()
     End Sub
 
-    Private Sub OK_Click(ByVal s As Object, ByVal e As EventArgs) Handles OK.Click
+    Private Sub OK_Click() Handles OK.Click
         Me.DialogResult = DialogResult.OK
         Me.Close()
     End Sub
 
-    Private Sub ReportTo_SelectedIndexChanged(ByVal s As Object, ByVal e As EventArgs) _
+    Private Sub ReportTo_SelectedIndexChanged() _
         Handles ReportTo.SelectedIndexChanged
 
         Select Case ReportTo.Text
@@ -45,7 +45,7 @@ Class ReportForm
         End Select
     End Sub
 
-    Private Sub Message_TextChanged(ByVal s As Object, ByVal e As EventArgs) Handles Message.TextChanged
+    Private Sub Message_TextChanged() Handles Message.TextChanged
         OK.Enabled = (Message.Text <> "")
     End Sub
 

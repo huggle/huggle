@@ -7,7 +7,7 @@ Class EditInfoPanel
         UserName
     End Enum
 
-    Private Sub EditInfo_Load(ByVal s As Object, ByVal e As EventArgs) Handles Me.Load
+    Private Sub EditInfo_Load() Handles Me.Load
         Buffer = BufferedGraphicsManager.Current.Allocate(CreateGraphics, DisplayRectangle)
     End Sub
 
@@ -31,7 +31,7 @@ Class EditInfoPanel
         End If
     End Sub
 
-    Private Sub EditInfo_Paint(ByVal s As Object, ByVal e As PaintEventArgs) Handles Me.Paint
+    Private Sub EditInfo_Paint() Handles Me.Paint
         Buffer.Graphics.Clear(Color.FromKnownColor(KnownColor.Control))
         Buffer.Graphics.DrawRectangle(Pens.DarkGray, 0, 0, Width - 1, Height - 2)
         Buffer.Render()

@@ -2,23 +2,21 @@ Imports System.Threading
 
 Class StartupForm
 
-    Private Sub StartupForm_Load(ByVal s As Object, ByVal e As EventArgs) Handles Me.Load
+    Private Sub StartupForm_Load() Handles Me.Load
+        Me.Icon = My.Resources.icon_red_button
         SyncContext = SynchronizationContext.Current
     End Sub
 
-    Private Sub OK_Click(ByVal s As Object, ByVal e As EventArgs) Handles OK.Click
+    Private Sub OK_Click() Handles OK.Click
         LoginForm.Show()
         Close()
     End Sub
 
-    Private Sub DocsLink_LinkClicked(ByVal s As Object, ByVal e As LinkLabelLinkClickedEventArgs) _
-        Handles DocsLink.LinkClicked
-
+    Private Sub DocsLink_LinkClicked() Handles DocsLink.LinkClicked
         Process.Start(Config.DocsLocation)
     End Sub
 
-    Private Sub ConfigLink_LinkClicked(ByVal s As Object, ByVal e As LinkLabelLinkClickedEventArgs) _
-        Handles ConfigLink.LinkClicked
+    Private Sub ConfigLink_LinkClicked() Handles ConfigLink.LinkClicked
 
         Process.Start(SitePath & "w/index.php?title=" & Config.UserConfigLocation)
     End Sub
@@ -26,7 +24,7 @@ Class StartupForm
     Private Sub StartupForm_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles MyBase.KeyDown
         Select Case e.KeyCode
             Case Keys.Escape : Close()
-            Case Keys.Enter : OK_Click(Nothing, Nothing)
+            Case Keys.Enter : OK_Click()
         End Select
     End Sub
 

@@ -4,7 +4,7 @@ Class BlockForm
 
     Public ThisUser As User
 
-    Private Sub BlockForm_Load(ByVal s As Object, ByVal e As EventArgs) Handles Me.Load
+    Private Sub BlockForm_Load() Handles Me.Load
         Text = "Block " & ThisUser.Name
 
         If Config.BlockMessageDefault Then BlockMessage.SelectedIndex = 1 Else BlockMessage.SelectedIndex = 0
@@ -54,16 +54,16 @@ Class BlockForm
         NewWarnLogRequest.Start()
     End Sub
 
-    Private Sub BlockForm_FormClosing(ByVal s As Object, ByVal e As FormClosingEventArgs) Handles Me.FormClosing
+    Private Sub BlockForm_FormClosing() Handles Me.FormClosing
         If DialogResult <> DialogResult.OK Then DialogResult = DialogResult.Cancel
     End Sub
 
-    Private Sub Cancel_Click(ByVal s As Object, ByVal e As EventArgs) Handles Cancel.Click
+    Private Sub Cancel_Click() Handles Cancel.Click
         DialogResult = DialogResult.Cancel
         Close()
     End Sub
 
-    Private Sub OK_Click(ByVal s As Object, ByVal e As EventArgs) Handles OK.Click
+    Private Sub OK_Click() Handles OK.Click
         DialogResult = DialogResult.OK
         Close()
     End Sub
@@ -72,15 +72,15 @@ Class BlockForm
         If e.KeyCode = Keys.Escape Then Close()
     End Sub
 
-    Private Sub UserTalk_Click(ByVal s As Object, ByVal e As EventArgs) Handles UserTalk.Click
+    Private Sub UserTalk_Click() Handles UserTalk.Click
         Process.Start(SitePath & "w/index.php?title=User_talk:" & ThisUser.Name)
     End Sub
 
-    Private Sub UserContribs_Click(ByVal s As Object, ByVal e As EventArgs) Handles UserContribs.Click
+    Private Sub UserContribs_Click() Handles UserContribs.Click
         Process.Start(SitePath & "w/index.php?title=Special:Contributions/" & ThisUser.Name)
     End Sub
 
-    Private Sub Reason_SelectedIndexChanged(ByVal s As Object, ByVal e As EventArgs) _
+    Private Sub Reason_SelectedIndexChanged() _
         Handles Reason.SelectedIndexChanged
 
         If Reason.Text.StartsWith("{{") Then BlockMessage.Text = Reason.Text

@@ -2,11 +2,11 @@ Imports System.IO
 
 Class ClosingForm
 
-    Private Sub ClosingForm_FormClosing(ByVal s As Object, ByVal e As FormClosingEventArgs) Handles Me.FormClosing
+    Private Sub ClosingForm_FormClosing() Handles Me.FormClosing
         End
     End Sub
 
-    Private Sub ClosingForm_Load(ByVal s As Object, ByVal e As EventArgs) Handles Me.Load
+    Private Sub ClosingForm_Load() Handles Me.Load
         WriteLocalConfig()
 
         If Config.LogFile IsNot Nothing AndAlso Config.LogFile.Length > 0 Then

@@ -4,7 +4,7 @@ Class CaptchaForm
 
     Public CaptchaId As String
 
-    Private Sub CaptchaForm_Load(ByVal s As Object, ByVal e As EventArgs) Handles Me.Load
+    Private Sub CaptchaForm_Load() Handles Me.Load
         Dim Client As New WebClient, TempFileName As String = System.IO.Path.GetTempFileName
 
         Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
@@ -18,7 +18,7 @@ Class CaptchaForm
         Height += (Captcha.Image.Height - Captcha.Height)
     End Sub
 
-    Private Sub OK_Click(ByVal s As Object, ByVal e As EventArgs) Handles OK.Click
+    Private Sub OK_Click() Handles OK.Click
         If Answer.Text <> "" Then
             DialogResult = DialogResult.OK
             Close()
@@ -39,7 +39,7 @@ Class CaptchaForm
         End If
     End Sub
 
-    Private Sub Answer_TextChanged(ByVal s As Object, ByVal e As EventArgs) Handles Answer.TextChanged
+    Private Sub Answer_TextChanged() Handles Answer.TextChanged
         OK.Enabled = (Answer.Text <> "")
     End Sub
 
