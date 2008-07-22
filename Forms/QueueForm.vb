@@ -246,10 +246,15 @@ Class QueueForm
         If Input.Length > 0 AndAlso Not QueueItems.Items.Contains(Input) Then
             If Input.Length = 1 Then Input = Input.ToUpper
             If Input.Length >= 1 Then Input = Input.Substring(0, 1).ToUpper & Input.Substring(1)
-            QueueItems.Items.Add(Input)
-            QueueSources(QueueSourcesList.SelectedItem.ToString).Add(Input)
-            QueueItems.SelectedIndex = QueueItems.Items.Count - 1
-            RefreshInterface()
+
+            If QueueItems.Items.Contains(Input) Then
+                MsgBox("This queue already contains the page '" & Input & "'.", MsgBoxStyle.Exclamation, "huggle")
+            Else
+                QueueItems.Items.Add(Input)
+                QueueSources(QueueSourcesList.SelectedItem.ToString).Add(Input)
+                QueueItems.SelectedIndex = QueueItems.Items.Count - 1
+                RefreshInterface()
+            End If
         End If
     End Sub
 
