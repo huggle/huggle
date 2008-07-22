@@ -771,11 +771,11 @@ Module Misc
         If Administrator Then Return 5000 Else Return 500
     End Function
 
-End Module
+    Class Stats
 
-Module Stats
+        Public Shared Edits, EditsMe, Reverts, RevertsMe, Warnings, WarningsMe, Blocks, BlocksMe As Integer
 
-    Public Edits, EditsMe, Reverts, RevertsMe, Warnings, WarningsMe, Blocks, BlocksMe As Integer
+    End Class
 
 End Module
 
