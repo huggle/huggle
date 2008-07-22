@@ -93,7 +93,7 @@ Module ConfigRequests
                             Case "report" : SetReport(OptionValue)
                             Case "report-extend-summary" : Config.ReportExtendSummary = OptionValue
                             Case "report-summary" : Config.ReportSummary = OptionValue
-                            Case "revert-summaries" : SetRevertSummaries(OptionValue)
+                            Case "revert-summaries" : Config.CustomRevertSummaries = GetList(OptionValue)
                             Case "rollback" : Config.UseRollback = CBool(OptionValue)
                             Case "show-log" : Config.ShowLog = CBool(OptionValue)
                             Case "show-new-edits" : Config.ShowNewEdits = CBool(OptionValue)
@@ -115,7 +115,7 @@ Module ConfigRequests
                         'User config only
                         If Not _ProjectConfig Then
                             Select Case OptionName
-                                Case "templates" : Config.TemplateMessages = SetTemplateMessages(OptionValue)
+                                Case "templates" : Config.TemplateMessages = GetList(OptionValue)
                                 Case "version" : CheckConfigVersion(OptionValue)
                             End Select
                         End If
@@ -130,15 +130,14 @@ Module ConfigRequests
                                 Case "aiv-single-note" : Config.AivSingleNote = OptionValue
                                 Case "approval" : Config.Approval = CBool(OptionValue)
                                 Case "block" : Config.Block = CBool(OptionValue)
-                                Case "block-expiry-options" : SetBlockExpiryOptions(OptionValue)
+                                Case "block-expiry-options" : Config.BlockExpiryOptions = GetList(OptionValue)
                                 Case "cfd" : Config.CfdLocation = OptionValue
                                 Case "config-summary" : Config.ConfigSummary = OptionValue
                                 Case "delete" : Config.Delete = CBool(OptionValue)
                                 Case "enable-all" : Config.EnabledForAll = CBool(OptionValue)
-                                Case "feedback" : Config.FeedbackLocation = OptionValue
-                                Case "go" : SetGo(OptionValue)
+                                Case "go" : Config.GoToPages = GetList(OptionValue)
                                 Case "ifd" : Config.IfdLocation = OptionValue
-                                Case "ignore" : SetIgnore(OptionValue)
+                                Case "ignore" : Config.IgnoredPages = GetList(OptionValue)
                                 Case "manual-revert-summary" : Config.ManualRevertSummary = OptionValue
                                 Case "mfd" : Config.MfdLocation = OptionValue
                                 Case "min-version" : VersionOK = CheckMinVersion(OptionValue)
@@ -160,7 +159,7 @@ Module ConfigRequests
                                 Case "speedy-delete-summary" : Config.SpeedyDeleteSummary = OptionValue
                                 Case "speedy-options" : SetSpeedyOptions(OptionValue)
                                 Case "summary" : Config.Summary = OptionValue
-                                Case "templates" : Config.TemplateMessagesGlobal = SetTemplateMessages(OptionValue)
+                                Case "templates" : Config.TemplateMessagesGlobal = GetList(OptionValue)
                                 Case "tfd" : Config.TfdLocation = OptionValue
                                 Case "uaa" : Config.UAALocation = OptionValue
                                 Case "uaabot" : Config.UAABotLocation = OptionValue
@@ -170,7 +169,7 @@ Module ConfigRequests
                                 Case "warning-im-level" : Config.WarningImLevel = CBool(OptionValue)
                                 Case "warning-mode" : Config.WarningMode = OptionValue
                                 Case "warning-month-headings" : Config.MonthHeadings = CBool(OptionValue)
-                                Case "warning-series" : SetWarningSeries(OptionValue)
+                                Case "warning-series" : Config.WarningSeries = GetList(OptionValue)
                                 Case "welcome-summary" : Config.WelcomeSummary = OptionValue
                                 Case "whitelist" : Config.WhitelistLocation = OptionValue
                                 Case "whitelist-edit-count" : Config.WhitelistEditCount = CInt(OptionValue)
@@ -264,41 +263,17 @@ Module ConfigRequests
             Return MinVersion <= Version
         End Function
 
-        Private Sub SetIgnore(ByVal Value As String)
-            Value = Value.Replace("\,", Chr(1))
+        Private Function GetList(ByVal Value As String) As List(Of String)
+            'Converts a comma-separated list to a List(Of String)
+            Dim List As New List(Of String)
 
-            For Each Item As String In Value.Split(","c)
-                Item = Item.Trim(","c, " "c, CChar(vbLf)).Replace(Chr(1), ",")
-                If Not Config.IgnoredPages.Contains(Item) Then Config.IgnoredPages.Add(Item)
+            For Each Item As String In Value.Replace("\,", Chr(1)).Split(","c)
+                Item = Item.Trim(" "c, CChar(vbTab), CChar(vbCr), CChar(vbLf)).Replace(Chr(1), ",")
+                If Not List.Contains(Item) AndAlso Item.Length > 0 Then List.Add(Item)
             Next Item
-        End Sub
 
-        Private Sub SetBlockExpiryOptions(ByVal Value As String)
-            Value = Value.Replace("\,", Chr(1))
-
-            For Each Item As String In Value.Split(","c)
-                Item = Item.Trim(","c, " "c, CChar(vbLf)).Replace(Chr(1), ",")
-                If Not Config.BlockExpiryOptions.Contains(Item) Then Config.BlockExpiryOptions.Add(Item)
-            Next Item
-        End Sub
-
-        Private Sub SetWarningSeries(ByVal Value As String)
-            Value = Value.Replace("\,", Chr(1))
-
-            For Each Item As String In Value.Split(","c)
-                Item = Item.Trim(","c, " "c, CChar(vbLf)).Replace(Chr(1), ",")
-                If Not Config.WarningSeries.Contains(Item) Then Config.WarningSeries.Add(Item)
-            Next Item
-        End Sub
-
-        Private Sub SetGo(ByVal Value As String)
-            Value = Value.Replace("\,", Chr(1))
-
-            For Each Item As String In Value.Split(","c)
-                Item = Item.Trim(","c, " "c, CChar(vbLf)).Replace(Chr(1), ",")
-                If Not Config.GoToPages.Contains(Item) Then Config.GoToPages.Add(Item)
-            Next Item
-        End Sub
+            Return List
+        End Function
 
         Private Sub SetNamespaces(ByVal Value As String)
             Config.NamespacesChecked = New List(Of String)
@@ -394,28 +369,6 @@ Module ConfigRequests
                 End Select
             Next Item
         End Sub
-
-        Private Sub SetRevertSummaries(ByVal Value As String)
-            Config.CustomRevertSummaries.Clear()
-
-            For Each Item As String In Value.Replace(vbLf, "").Replace(vbCr, "").Replace("\,", Chr(1)).Split _
-                (New String() {","}, StringSplitOptions.RemoveEmptyEntries)
-
-                Config.CustomRevertSummaries.Add(Item.Trim(" "c).Replace(Chr(1), ","))
-            Next Item
-        End Sub
-
-        Private Function SetTemplateMessages(ByVal Value As String) As List(Of String)
-            Dim Result As New List(Of String)
-
-            For Each Item As String In Value.Replace(vbLf, "").Replace(vbCr, "").Replace("\,", Chr(1)).Split _
-                (New String() {","}, StringSplitOptions.RemoveEmptyEntries)
-
-                If Not (Item.Trim(" "c) = "") Then Result.Add(Item.Trim(" "c).Replace(Chr(1), ","))
-            Next Item
-
-            Return Result
-        End Function
 
         Private Sub SetTags(ByVal Value As String)
             Config.Tags.Clear()
