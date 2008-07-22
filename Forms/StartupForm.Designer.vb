@@ -27,9 +27,8 @@ Partial Class StartupForm
         Me.Label1 = New System.Windows.Forms.Label
         Me.ConfigLink = New System.Windows.Forms.LinkLabel
         Me.DocsLink = New System.Windows.Forms.LinkLabel
-        Me.LinkLabel3 = New System.Windows.Forms.LinkLabel
-        Me.LinkLabel2 = New System.Windows.Forms.LinkLabel
-        Me.Status = New System.Windows.Forms.Label
+        Me.Label2 = New System.Windows.Forms.LinkLabel
+        Me.Label3 = New System.Windows.Forms.LinkLabel
         Me.SuspendLayout()
         '
         'OK
@@ -84,56 +83,45 @@ Partial Class StartupForm
             "uggle."
         Me.DocsLink.UseCompatibleTextRendering = True
         '
-        'LinkLabel3
+        'Label2
         '
-        Me.LinkLabel3.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.Label2.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.LinkLabel3.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LinkLabel3.LinkArea = New System.Windows.Forms.LinkArea(0, 0)
-        Me.LinkLabel3.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline
-        Me.LinkLabel3.Location = New System.Drawing.Point(12, 48)
-        Me.LinkLabel3.Name = "LinkLabel3"
-        Me.LinkLabel3.Size = New System.Drawing.Size(570, 88)
-        Me.LinkLabel3.TabIndex = 2
-        Me.LinkLabel3.Text = resources.GetString("LinkLabel3.Text")
+        Me.Label2.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label2.LinkArea = New System.Windows.Forms.LinkArea(0, 0)
+        Me.Label2.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline
+        Me.Label2.Location = New System.Drawing.Point(12, 48)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(570, 88)
+        Me.Label2.TabIndex = 2
+        Me.Label2.Text = resources.GetString("Label2.Text")
         '
-        'LinkLabel2
+        'Label3
         '
-        Me.LinkLabel2.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.Label3.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.LinkLabel2.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LinkLabel2.LinkArea = New System.Windows.Forms.LinkArea(0, 0)
-        Me.LinkLabel2.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline
-        Me.LinkLabel2.Location = New System.Drawing.Point(12, 141)
-        Me.LinkLabel2.Name = "LinkLabel2"
-        Me.LinkLabel2.Size = New System.Drawing.Size(570, 51)
-        Me.LinkLabel2.TabIndex = 3
-        Me.LinkLabel2.Text = "Responsibility for edits rests with the owner of the account with which they are " & _
+        Me.Label3.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label3.LinkArea = New System.Windows.Forms.LinkArea(0, 0)
+        Me.Label3.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline
+        Me.Label3.Location = New System.Drawing.Point(12, 141)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(570, 51)
+        Me.Label3.TabIndex = 3
+        Me.Label3.Text = "Responsibility for edits rests with the owner of the account with which they are " & _
             "made." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Use of an automated tool is not an excuse."
-        '
-        'Status
-        '
-        Me.Status.AutoSize = True
-        Me.Status.Location = New System.Drawing.Point(12, 257)
-        Me.Status.Name = "Status"
-        Me.Status.Size = New System.Drawing.Size(10, 13)
-        Me.Status.TabIndex = 7
-        Me.Status.Text = " "
         '
         'StartupForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(594, 284)
-        Me.Controls.Add(Me.Status)
         Me.Controls.Add(Me.OK)
-        Me.Controls.Add(Me.LinkLabel2)
-        Me.Controls.Add(Me.LinkLabel3)
+        Me.Controls.Add(Me.Label3)
+        Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.DocsLink)
         Me.Controls.Add(Me.ConfigLink)
         Me.Controls.Add(Me.Label1)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
-        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.KeyPreview = True
         Me.MaximizeBox = False
         Me.MinimizeBox = False
@@ -141,14 +129,12 @@ Partial Class StartupForm
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Huggle"
         Me.ResumeLayout(False)
-        Me.PerformLayout()
 
     End Sub
     Friend WithEvents OK As System.Windows.Forms.Button
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents ConfigLink As System.Windows.Forms.LinkLabel
     Friend WithEvents DocsLink As System.Windows.Forms.LinkLabel
-    Friend WithEvents LinkLabel3 As System.Windows.Forms.LinkLabel
-    Friend WithEvents LinkLabel2 As System.Windows.Forms.LinkLabel
-    Friend WithEvents Status As System.Windows.Forms.Label
+    Friend WithEvents Label2 As System.Windows.Forms.LinkLabel
+    Friend WithEvents Label3 As System.Windows.Forms.LinkLabel
 End Class

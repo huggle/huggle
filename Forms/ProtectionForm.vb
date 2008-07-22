@@ -4,6 +4,7 @@ Class ProtectionForm
     Public ThisPage As Page
 
     Private Sub ReqProtectionForm_Load() Handles Me.Load
+        Icon = My.Resources.icon_red_button
         Text = "Request protection of " & ThisPage.Name
         Reason.Text = Config.ProtectionRequestReason
         TypeSelect.SelectedIndex = 0

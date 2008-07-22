@@ -3,6 +3,7 @@ Class ProtectForm
     Public ThisPage As Page
 
     Private Sub ProtectForm_Load() Handles Me.Load
+        Icon = My.Resources.icon_red_button
         Text = "Protect " & ThisPage.Name
         Reason.Text = Config.ProtectionReason
 

@@ -23,7 +23,6 @@ Partial Class EditForm
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(EditForm))
         Me.Summary = New System.Windows.Forms.TextBox
         Me.SummaryLabel = New System.Windows.Forms.Label
         Me.Minor = New System.Windows.Forms.CheckBox
@@ -258,58 +257,58 @@ Partial Class EditForm
         '
         Me.EditUndo.Enabled = False
         Me.EditUndo.Name = "EditUndo"
-        Me.EditUndo.Size = New System.Drawing.Size(152, 22)
+        Me.EditUndo.Size = New System.Drawing.Size(117, 22)
         Me.EditUndo.Text = "Undo"
         '
         'EditRedo
         '
         Me.EditRedo.Enabled = False
         Me.EditRedo.Name = "EditRedo"
-        Me.EditRedo.Size = New System.Drawing.Size(152, 22)
+        Me.EditRedo.Size = New System.Drawing.Size(117, 22)
         Me.EditRedo.Text = "Redo"
         '
         'ToolStripSeparator3
         '
         Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
-        Me.ToolStripSeparator3.Size = New System.Drawing.Size(149, 6)
+        Me.ToolStripSeparator3.Size = New System.Drawing.Size(114, 6)
         '
         'EditCut
         '
         Me.EditCut.Enabled = False
         Me.EditCut.Name = "EditCut"
-        Me.EditCut.Size = New System.Drawing.Size(152, 22)
+        Me.EditCut.Size = New System.Drawing.Size(117, 22)
         Me.EditCut.Text = "Cut"
         '
         'EditCopy
         '
         Me.EditCopy.Enabled = False
         Me.EditCopy.Name = "EditCopy"
-        Me.EditCopy.Size = New System.Drawing.Size(152, 22)
+        Me.EditCopy.Size = New System.Drawing.Size(117, 22)
         Me.EditCopy.Text = "Copy"
         '
         'EditPaste
         '
         Me.EditPaste.Enabled = False
         Me.EditPaste.Name = "EditPaste"
-        Me.EditPaste.Size = New System.Drawing.Size(152, 22)
+        Me.EditPaste.Size = New System.Drawing.Size(117, 22)
         Me.EditPaste.Text = "Paste"
         '
         'EditDelete
         '
         Me.EditDelete.Enabled = False
         Me.EditDelete.Name = "EditDelete"
-        Me.EditDelete.Size = New System.Drawing.Size(152, 22)
+        Me.EditDelete.Size = New System.Drawing.Size(117, 22)
         Me.EditDelete.Text = "Delete"
         '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(149, 6)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(114, 6)
         '
         'EditSelectAll
         '
         Me.EditSelectAll.Name = "EditSelectAll"
-        Me.EditSelectAll.Size = New System.Drawing.Size(152, 22)
+        Me.EditSelectAll.Size = New System.Drawing.Size(117, 22)
         Me.EditSelectAll.Text = "Select All"
         '
         'ViewToolStripMenuItem
@@ -341,7 +340,6 @@ Partial Class EditForm
         Me.Controls.Add(Me.Minor)
         Me.Controls.Add(Me.SummaryLabel)
         Me.Controls.Add(Me.Summary)
-        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.KeyPreview = True
         Me.MainMenuStrip = Me.MenuBar
         Me.MinimumSize = New System.Drawing.Size(430, 300)

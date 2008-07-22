@@ -3,6 +3,7 @@ Class TagForm
     Public ThisPage As Page
 
     Private Sub TagForm_Load() Handles Me.Load
+        Icon = My.Resources.icon_red_button
         Text = "Tag " & ThisPage.Name
 
         ToSpeedy.Visible = Config.Speedy

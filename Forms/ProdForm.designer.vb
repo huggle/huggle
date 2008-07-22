@@ -83,7 +83,6 @@ Partial Class ProdForm
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "ProdForm"
-        Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "Proposed deletion"
         Me.ResumeLayout(False)

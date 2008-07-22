@@ -3,6 +3,7 @@ Class ProdForm
     Public ThisPage As Page
 
     Private Sub ProdForm_Load() Handles Me.Load
+        Icon = My.Resources.icon_red_button
         Text = "Proposed deletion of " & ThisPage.Name
     End Sub
 

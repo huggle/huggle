@@ -1,6 +1,7 @@
 Class AboutForm
 
     Private Sub AboutForm_Load() Handles Me.Load
+        Icon = My.Resources.icon_red_button
         Version.Text = "Version " & Config.Version.Major & "." & Config.Version.Minor & "." & Config.Version.MinorRevision
     End Sub
 

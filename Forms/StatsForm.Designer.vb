@@ -27,7 +27,6 @@ Partial Class StatsForm
         Dim ListViewItem2 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Reverts")
         Dim ListViewItem3 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Warnings")
         Dim ListViewItem4 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Blocks")
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(StatsForm))
         Me.CloseButton = New System.Windows.Forms.Button
         Me.Label1 = New System.Windows.Forms.Label
         Me.StatsTimer = New System.Windows.Forms.Timer(Me.components)
@@ -102,7 +101,6 @@ Partial Class StatsForm
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.CloseButton)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
-        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.KeyPreview = True
         Me.MaximizeBox = False
         Me.Name = "StatsForm"

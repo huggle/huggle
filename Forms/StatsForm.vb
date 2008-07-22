@@ -1,11 +1,12 @@
 Class StatsForm
 
     Private Sub StatsForm_Load() Handles Me.Load
+        Icon = My.Resources.icon_red_button
+
         For i As Integer = 0 To 3
             Actions.Items(i).SubItems.Add("0")
             Actions.Items(i).SubItems.Add("0")
         Next i
-
 
         RefreshStats()
     End Sub

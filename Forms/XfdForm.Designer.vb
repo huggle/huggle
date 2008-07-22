@@ -22,7 +22,6 @@ Partial Class XfdForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(XfdForm))
         Me.Cancel = New System.Windows.Forms.Button
         Me.OK = New System.Windows.Forms.Button
         Me.Reason = New System.Windows.Forms.TextBox
@@ -144,12 +143,10 @@ Partial Class XfdForm
         Me.Controls.Add(Me.OK)
         Me.Controls.Add(Me.Cancel)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
-        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.KeyPreview = True
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "XfdForm"
-        Me.ShowIcon = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "Nominate for deletion"
         Me.ResumeLayout(False)

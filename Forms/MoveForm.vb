@@ -3,6 +3,7 @@ Class MoveForm
     Public ThisPage As Page
 
     Private Sub MoveForm_Load() Handles Me.Load
+        Icon = My.Resources.icon_red_button
         Text = "Move " & ThisPage.Name
         Target.Text = ThisPage.Name
     End Sub

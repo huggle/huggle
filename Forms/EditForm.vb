@@ -71,6 +71,7 @@ Class EditForm
     End Class
 
     Private Sub EditForm_Load() Handles Me.Load
+        Icon = My.Resources.icon_red_button
         Text = "Editing " & Page.Name
         Summary.Text = Config.DefaultSummary
         Minor.Checked = Config.MinorOther

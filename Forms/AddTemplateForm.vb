@@ -12,6 +12,10 @@ Class AddTemplateForm
         End Get
     End Property
 
+    Private Sub AddTemplateForm_Load() Handles Me.Load
+        Icon = My.Resources.icon_red_button
+    End Sub
+
     Private Sub AddTemplateForm_FormClosing() Handles MyBase.FormClosing
         If DialogResult <> DialogResult.OK Then DialogResult = DialogResult.Cancel
     End Sub

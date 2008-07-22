@@ -3,6 +3,7 @@ Class UserInfoForm
     Public ThisUser As User
 
     Private Sub UserInfoForm_Load() Handles Me.Load
+        Icon = My.Resources.icon_red_button
         Text = "User:" & ThisUser.Name
         SessionEditCount.Text = CStr(ThisUser.SessionEditCount)
 
@@ -54,11 +55,11 @@ Class UserInfoForm
         NewBlockLogRequest.Start()
     End Sub
 
-    Private Sub UserInfoForm_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles MyBase.KeyDown
+    Private Sub UserInfoForm_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles Me.KeyDown
         If e.KeyCode = Keys.Escape Then Close()
     End Sub
 
-    Private Sub Collapse_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Collapse.Click
+    Private Sub Collapse_Click() Handles Collapse.Click
         WarnLog.Visible = Not WarnLog.Visible
         BlockLog.Visible = WarnLog.Visible
         WarnLabel.Visible = WarnLog.Visible

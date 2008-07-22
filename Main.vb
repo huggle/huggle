@@ -8,6 +8,7 @@ Class Main
     Public Reverting As Boolean
 
     Private Sub Main_Load() Handles Me.Load
+        Icon = My.Resources.icon_red_button
         InitialTab.Parent = Tabs.TabPages(0)
         CurrentTab = InitialTab
         CurrentQueue = EditQueue

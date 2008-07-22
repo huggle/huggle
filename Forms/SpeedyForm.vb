@@ -3,6 +3,7 @@ Class SpeedyForm
     Public ThisPage As Page
 
     Private Sub SpeedyForm_Load() Handles Me.Load
+        Icon = My.Resources.icon_red_button
         Text = "Speedy tag " & ThisPage.Name
 
         For Each Item As SpeedyCriterion In SpeedyCriteria.Values

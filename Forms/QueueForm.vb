@@ -4,11 +4,8 @@ Class QueueForm
 
     Public Mode As String
 
-    Private Sub QueueForm_FormClosing() Handles Me.FormClosing
-        Main.SetQueueSources()
-    End Sub
-
     Private Sub QueueForm_Load() Handles MyBase.Load
+        Icon = My.Resources.icon_red_button
         SourceType.SelectedIndex = 0
 
         QueueSourcesList.BeginUpdate()
@@ -18,6 +15,10 @@ Class QueueForm
         Next Item
 
         QueueSourcesList.EndUpdate()
+    End Sub
+
+    Private Sub QueueForm_FormClosing() Handles Me.FormClosing
+        Main.SetQueueSources()
     End Sub
 
     Private Sub QueueSourcesList_SelectedIndexChanged() _

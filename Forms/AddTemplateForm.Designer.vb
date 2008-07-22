@@ -22,7 +22,6 @@ Partial Class AddTemplateForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(AddTemplateForm))
         Me.Cancel = New System.Windows.Forms.Button
         Me.OK = New System.Windows.Forms.Button
         Me.DisplayTextBox = New System.Windows.Forms.TextBox
@@ -111,12 +110,10 @@ Partial Class AddTemplateForm
         Me.Controls.Add(Me.OK)
         Me.Controls.Add(Me.Cancel)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
-        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.KeyPreview = True
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "AddTemplateForm"
-        Me.ShowIcon = False
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "Add template"

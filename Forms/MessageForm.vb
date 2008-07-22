@@ -3,6 +3,7 @@ Class MessageForm
     Public User As User
 
     Private Sub MessageForm_Load() Handles Me.Load
+        Icon = My.Resources.icon_red_button
         Text = "Message " & User.Name
     End Sub
 

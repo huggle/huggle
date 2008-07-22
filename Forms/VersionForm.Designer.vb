@@ -22,7 +22,6 @@ Partial Class VersionForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(VersionForm))
         Me.VersionMessage = New System.Windows.Forms.Label
         Me.OK = New System.Windows.Forms.Button
         Me.SuspendLayout()
@@ -55,11 +54,10 @@ Partial Class VersionForm
         Me.Controls.Add(Me.OK)
         Me.Controls.Add(Me.VersionMessage)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
-        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.KeyPreview = True
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "VersionForm"
-        Me.ShowIcon = False
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "New version available"

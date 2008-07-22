@@ -5,6 +5,8 @@ Class CaptchaForm
     Public CaptchaId As String
 
     Private Sub CaptchaForm_Load() Handles Me.Load
+        Icon = My.Resources.icon_red_button
+
         Dim Client As New WebClient, TempFileName As String = System.IO.Path.GetTempFileName
 
         Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)

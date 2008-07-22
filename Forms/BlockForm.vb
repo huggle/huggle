@@ -5,6 +5,7 @@ Class BlockForm
     Public ThisUser As User
 
     Private Sub BlockForm_Load() Handles Me.Load
+        Icon = My.Resources.icon_red_button
         Text = "Block " & ThisUser.Name
 
         If Config.BlockMessageDefault Then BlockMessage.SelectedIndex = 1 Else BlockMessage.SelectedIndex = 0

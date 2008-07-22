@@ -22,7 +22,6 @@ Partial Class ClosingForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ClosingForm))
         Me.Status = New System.Windows.Forms.Label
         Me.Logo = New System.Windows.Forms.Label
         Me.Progress = New System.Windows.Forms.ProgressBar
@@ -67,7 +66,6 @@ Partial Class ClosingForm
         Me.Controls.Add(Me.Logo)
         Me.Controls.Add(Me.Status)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
-        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "ClosingForm"

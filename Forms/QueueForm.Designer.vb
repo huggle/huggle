@@ -22,7 +22,6 @@ Partial Class QueueForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(QueueForm))
         Me.QueueSourcesList = New System.Windows.Forms.ListBox
         Me.QueueItems = New System.Windows.Forms.ListBox
         Me.Source = New System.Windows.Forms.TextBox
@@ -325,7 +324,6 @@ Partial Class QueueForm
         Me.Controls.Add(Me.QueueItems)
         Me.Controls.Add(Me.QueueSourcesList)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
-        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False
         Me.Name = "QueueForm"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent

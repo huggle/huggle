@@ -22,7 +22,6 @@ Partial Class UserInfoForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(UserInfoForm))
         Me.WarnLog = New System.Windows.Forms.ListView
         Me.BlockLog = New System.Windows.Forms.ListView
         Me.BlockLabel = New System.Windows.Forms.Label
@@ -223,7 +222,6 @@ Partial Class UserInfoForm
         Me.Controls.Add(Me.BlockLabel)
         Me.Controls.Add(Me.WarnLog)
         Me.Controls.Add(Me.BlockLog)
-        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.KeyPreview = True
         Me.MaximizeBox = False
         Me.MinimumSize = New System.Drawing.Size(550, 120)

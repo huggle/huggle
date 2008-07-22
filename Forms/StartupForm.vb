@@ -3,7 +3,7 @@ Imports System.Threading
 Class StartupForm
 
     Private Sub StartupForm_Load() Handles Me.Load
-        Me.Icon = My.Resources.icon_red_button
+        Icon = My.Resources.icon_red_button
         SyncContext = SynchronizationContext.Current
     End Sub
 

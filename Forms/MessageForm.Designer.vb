@@ -22,7 +22,6 @@ Partial Class MessageForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MessageForm))
         Me.Subject = New System.Windows.Forms.TextBox
         Me.Message = New System.Windows.Forms.TextBox
         Me.Label1 = New System.Windows.Forms.Label
@@ -153,12 +152,10 @@ Partial Class MessageForm
         Me.Controls.Add(Me.Message)
         Me.Controls.Add(Me.Subject)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
-        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.KeyPreview = True
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "MessageForm"
-        Me.ShowIcon = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "New message"
         Me.ResumeLayout(False)

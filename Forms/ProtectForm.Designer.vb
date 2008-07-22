@@ -22,7 +22,6 @@ Partial Class ProtectForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ProtectForm))
         Me.OK = New System.Windows.Forms.Button
         Me.Cancel = New System.Windows.Forms.Button
         Me.Reason = New System.Windows.Forms.TextBox
@@ -206,12 +205,10 @@ Partial Class ProtectForm
         Me.Controls.Add(Me.Cancel)
         Me.Controls.Add(Me.OK)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
-        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.KeyPreview = True
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "ProtectForm"
-        Me.ShowIcon = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Protect page"
         Me.ProtectType.ResumeLayout(False)

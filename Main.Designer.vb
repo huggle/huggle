@@ -71,7 +71,6 @@ Partial Class Main
         Me.PageProd = New System.Windows.Forms.ToolStripMenuItem
         Me.PageTagSpeedy = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator
-        Me.PageTagDeleteB = New System.Windows.Forms.ToolStripDropDownButton
         Me.ToolStripSeparator5 = New System.Windows.Forms.ToolStripSeparator
         Me.PageWatch = New System.Windows.Forms.ToolStripMenuItem
         Me.PagePurge = New System.Windows.Forms.ToolStripMenuItem
@@ -108,6 +107,7 @@ Partial Class Main
         Me.ToolStripSeparator6 = New System.Windows.Forms.ToolStripSeparator
         Me.HelpAbout = New System.Windows.Forms.ToolStripMenuItem
         Me.Stats = New System.Windows.Forms.ToolStripMenuItem
+        Me.PageTagDeleteB = New System.Windows.Forms.ToolStripDropDownButton
         Me.Splitter = New System.Windows.Forms.SplitContainer
         Me.QueueScroll = New System.Windows.Forms.VScrollBar
         Me.QueueSource = New System.Windows.Forms.ComboBox
@@ -496,7 +496,7 @@ Partial Class Main
         '
         Me.TagDeleteMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PageNominate, Me.PageProd, Me.PageTagSpeedy, Me.ToolStripSeparator2})
         Me.TagDeleteMenu.Name = "SpeedyMenu"
-        Me.TagDeleteMenu.OwnerItem = Me.PageTagDelete
+        Me.TagDeleteMenu.OwnerItem = Me.PageTagDeleteB
         Me.TagDeleteMenu.Size = New System.Drawing.Size(190, 76)
         '
         'PageNominate
@@ -524,18 +524,6 @@ Partial Class Main
         '
         Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
         Me.ToolStripSeparator2.Size = New System.Drawing.Size(186, 6)
-        '
-        'PageTagDeleteB
-        '
-        Me.PageTagDeleteB.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.PageTagDeleteB.DropDown = Me.TagDeleteMenu
-        Me.PageTagDeleteB.Enabled = False
-        Me.PageTagDeleteB.Image = Global.huggle.My.Resources.Resources.page_speedy
-        Me.PageTagDeleteB.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.PageTagDeleteB.Name = "PageTagDeleteB"
-        Me.PageTagDeleteB.ShowDropDownArrow = False
-        Me.PageTagDeleteB.Size = New System.Drawing.Size(32, 32)
-        Me.PageTagDeleteB.ToolTipText = "Tag this page for deletion [S]"
         '
         'ToolStripSeparator5
         '
@@ -776,6 +764,18 @@ Partial Class Main
         Me.Stats.Name = "Stats"
         Me.Stats.Size = New System.Drawing.Size(22, 24)
         Me.Stats.Text = " "
+        '
+        'PageTagDeleteB
+        '
+        Me.PageTagDeleteB.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.PageTagDeleteB.DropDown = Me.TagDeleteMenu
+        Me.PageTagDeleteB.Enabled = False
+        Me.PageTagDeleteB.Image = Global.huggle.My.Resources.Resources.page_speedy
+        Me.PageTagDeleteB.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.PageTagDeleteB.Name = "PageTagDeleteB"
+        Me.PageTagDeleteB.ShowDropDownArrow = False
+        Me.PageTagDeleteB.Size = New System.Drawing.Size(32, 32)
+        Me.PageTagDeleteB.ToolTipText = "Tag this page for deletion [S]"
         '
         'Splitter
         '
@@ -1683,7 +1683,6 @@ Partial Class Main
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
         Me.ClientSize = New System.Drawing.Size(792, 434)
         Me.Controls.Add(Me.ToolContainer)
-        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.KeyPreview = True
         Me.MainMenuStrip = Me.TopMenu
         Me.MinimumSize = New System.Drawing.Size(800, 400)

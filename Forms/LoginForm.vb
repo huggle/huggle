@@ -6,8 +6,9 @@ Class LoginForm
     Private ProxySettingsVisible As Boolean
 
     Private Sub LoginForm_Load() Handles Me.Load
-        GetLocalConfig()
+        Icon = My.Resources.icon_red_button
 
+        GetLocalConfig()
         UseIrc.Checked = Config.IrcMode
         UseRecentchanges.Checked = Not Config.IrcMode
         If RememberMe Then Username.Text = Config.Username

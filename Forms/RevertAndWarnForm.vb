@@ -2,7 +2,8 @@ Class RevertAndWarnForm
 
     Public User As User
 
-    Private Sub WarningForm_Load() Handles Me.Load
+    Private Sub RevertAndWarnForm_Load() Handles Me.Load
+        Icon = My.Resources.icon_red_button
         Text = "Revert and warn " & User.Name
 
         Summary.Items.AddRange(ManualRevertSummaries.ToArray)
@@ -43,11 +44,11 @@ Class RevertAndWarnForm
         Close()
     End Sub
 
-    Private Sub WarningForm_FormClosing() Handles Me.FormClosing
+    Private Sub RevertAndWarnForm_FormClosing() Handles Me.FormClosing
         If DialogResult <> DialogResult.OK Then DialogResult = DialogResult.Cancel
     End Sub
 
-    Private Sub WarningForm_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles Me.KeyDown
+    Private Sub RevertAndWarnForm_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles Me.KeyDown
         Select Case e.KeyCode
             Case Keys.Escape : Close_Click()
             Case Keys.Enter : OK_Click()

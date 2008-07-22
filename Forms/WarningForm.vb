@@ -3,6 +3,7 @@ Class WarningForm
     Public ThisUser As User
 
     Private Sub WarningForm_Load() Handles Me.Load
+        Icon = My.Resources.icon_red_button
         Text = "Warn " & ThisUser.Name
 
         WarnLog.Columns.Add("", 300)

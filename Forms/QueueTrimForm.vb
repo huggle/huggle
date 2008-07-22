@@ -2,6 +2,10 @@ Class QueueTrimForm
 
     Public DiscardTime As Double
 
+    Private Sub QueueTrimForm_Load() Handles Me.Load
+        Icon = My.Resources.icon_red_button
+    End Sub
+
     Private Sub QueueTrimForm_FormClosing() Handles Me.FormClosing
         If DialogResult <> DialogResult.OK Then DialogResult = DialogResult.Cancel
     End Sub

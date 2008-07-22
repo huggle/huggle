@@ -3,6 +3,8 @@ Class ConfigForm
     Private ShortcutKeysClone As Dictionary(Of String, Shortcut)
 
     Private Sub ConfigForm_Load() Handles MyBase.Load
+        Icon = My.Resources.icon_red_button
+
         AutoWhitelist.Checked = Config.AutoWhitelist
         TrayIcon.Checked = Config.TrayIcon
         ShowQueue.Checked = Config.ShowQueue

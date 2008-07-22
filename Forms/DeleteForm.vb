@@ -3,6 +3,7 @@ Class DeleteForm
     Public ThisPage As Page
 
     Private Sub DeleteForm_Load() Handles Me.Load
+        Icon = My.Resources.icon_red_button
 
         If Config.Speedy Then
             For Each Item As SpeedyCriterion In SpeedyCriteria.Values

@@ -2,11 +2,8 @@ Class ReportForm
 
     Public ThisUser As User
 
-    Private Sub UserReportForm_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles Me.KeyDown
-        If e.KeyCode = Keys.Escape Then Close()
-    End Sub
-
     Private Sub UserReportForm_Load() Handles Me.Load
+        Icon = My.Resources.icon_red_button
         Text = "Report " & ThisUser.Name
         ReportTo.SelectedIndex = 0
         Message.Focus()
@@ -18,6 +15,10 @@ Class ReportForm
         NewWarnLogRequest.Target = WarnLog
         NewWarnLogRequest.ThisUser = ThisUser
         NewWarnLogRequest.Start()
+    End Sub
+
+    Private Sub UserReportForm_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles Me.KeyDown
+        If e.KeyCode = Keys.Escape Then Close()
     End Sub
 
     Private Sub UserReportForm_FormClosing() Handles Me.FormClosing

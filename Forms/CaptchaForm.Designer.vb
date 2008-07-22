@@ -22,7 +22,6 @@ Partial Class CaptchaForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(CaptchaForm))
         Me.Answer = New System.Windows.Forms.TextBox
         Me.OK = New System.Windows.Forms.Button
         Me.Captcha = New System.Windows.Forms.PictureBox
@@ -70,12 +69,10 @@ Partial Class CaptchaForm
         Me.Controls.Add(Me.OK)
         Me.Controls.Add(Me.Answer)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
-        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.KeyPreview = True
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "CaptchaForm"
-        Me.ShowIcon = False
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Captcha required to log in"

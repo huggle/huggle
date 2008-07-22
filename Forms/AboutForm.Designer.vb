@@ -22,7 +22,6 @@ Partial Class AboutForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(AboutForm))
         Me.OK = New System.Windows.Forms.Button
         Me.Logo = New System.Windows.Forms.Label
         Me.Credit = New System.Windows.Forms.LinkLabel
@@ -122,12 +121,10 @@ Partial Class AboutForm
         Me.Controls.Add(Me.Logo)
         Me.Controls.Add(Me.OK)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
-        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.KeyPreview = True
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "AboutForm"
-        Me.ShowIcon = False
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "About huggle"

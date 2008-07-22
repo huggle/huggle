@@ -4,6 +4,7 @@ Class RevertForm
     Private Shared LastSummary As String
 
     Private Sub RevertForm_Load() Handles Me.Load
+        Icon = My.Resources.icon_red_button
         Text = "Revert " & ThisPage.Name
         Summary.Items.AddRange(ManualRevertSummaries.ToArray)
         Summary.Text = LastSummary

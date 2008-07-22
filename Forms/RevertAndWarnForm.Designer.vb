@@ -22,7 +22,6 @@ Partial Class RevertAndWarnForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(RevertAndWarnForm))
         Me.Label1 = New System.Windows.Forms.Label
         Me.Summary = New System.Windows.Forms.ComboBox
         Me.OK = New System.Windows.Forms.Button
@@ -205,7 +204,6 @@ Partial Class RevertAndWarnForm
         Me.Controls.Add(Me.Summary)
         Me.Controls.Add(Me.Label1)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
-        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.KeyPreview = True
         Me.MaximizeBox = False
         Me.Name = "RevertAndWarnForm"
