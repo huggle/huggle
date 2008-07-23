@@ -264,12 +264,17 @@ Module ActionRequests
                 Result = UTF8.GetString(Client.DownloadData _
                     (SitePath & "w/index.php?title=Special:Movepage/" & UrlEncode(ThisPage.Name)))
 
+                If Result.Contains("<div class=""permissions-errors"">") Then
+                    Callback(AddressOf PermissionDenied)
+                    Exit Sub
+                End If
+
                 EditTokenMatch = Regex.Match(Result, _
-                    "<input type='hidden' name='wpEditToken' value=""(.*?)"" />", RegexOptions.Compiled)
+                    "<input name=""wpEditToken"" type=""hidden"" value=""(.*?)"" />", RegexOptions.Compiled)
 
             Loop Until EditTokenMatch.Success OrElse Retries = 0
 
-            If Retries > 0 Then
+            If Retries = 0 Then
                 Callback(AddressOf Failed, CObj(Result))
                 Exit Sub
             End If
@@ -300,20 +305,26 @@ Module ActionRequests
 
             Loop Until IsWikiPage(Result) OrElse Retries = 0
 
-            If Result.Contains("<div id=""contentSub"">Move succeeded</div>") _
+            If Result.Contains("<h1 class=""firstHeading"">Move succeeded</h1>") _
                 Then Callback(AddressOf Done, CObj(Result)) Else Callback(AddressOf Failed, CObj(Result))
         End Sub
 
-        Private Sub Done(ByVal ResultObject As Object)
+        Private Sub Done(ByVal O As Object)
             Delog(ThisPage)
             Log("Moved '" & ThisPage.Name & "' to '" & Target & "'")
             Main.PageB.Text = Target
             If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
         End Sub
 
-        Private Sub Failed(ByVal ResultObject As Object)
+        Private Sub Failed(ByVal O As Object)
             Delog(ThisPage)
             Log("Did not move '" & ThisPage.Name & "' to '" & Target & "'; the target might already exist")
+            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+        End Sub
+
+        Private Sub PermissionDenied(ByVal O As Object)
+            Delog(ThisPage)
+            Log("Did not move '" & ThisPage.Name & "' to '" & Target & "' – permission denied.")
             If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
         End Sub
 

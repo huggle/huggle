@@ -710,6 +710,7 @@ Module Processing
 
         RedirectEdit.Type = EditType.Redirect
         RedirectEdit.User = ThisPageMove.User
+        RedirectEdit.Prev = NullEdit
 
         GetPage(ThisPageMove.Source).FirstEdit = RedirectEdit
         GetPage(ThisPageMove.Source).LastEdit = RedirectEdit
