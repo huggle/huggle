@@ -52,9 +52,13 @@ Partial Class Main
             Item.ShowItemToolTips = Config.ShowToolTips
         Next Item
 
-        For i As Integer = 0 To RevertMenu.Items.Count - 3
-            RevertMenu.Items.RemoveAt(i)
-        Next i
+        'Clear custom revert summaries menu
+        Dim j As Integer = 0
+
+        While j < RevertMenu.Items.Count
+            If RevertMenu.Items(j) IsNot Separator20 AndAlso RevertMenu.Items(j) IsNot DiffRevertSummary _
+                Then RevertMenu.Items.RemoveAt(j) Else j += 1
+        End While
 
         'Add custom revert summaries to menu
         For Each Item As String In Config.CustomRevertSummaries
