@@ -23,9 +23,11 @@ Module Config
     Public GlobalConfigLocation As String = "http://meta.wikimedia.org/w/index.php?title=Huggle/GlobalConfig&action=raw"
     Public HistoryBlockSize As Integer = 100
     Public LocalConfigLocation As String = "\config.txt"
+    Public ProtectedNamespaces As String() = {"MediaWiki"}
     Public QueueWidth As Integer = 160
     Public RememberMe As Boolean = True
     Public SitePath As String = "http://en.wikipedia.org/"
+    Public UnmovableNamespaces As String() = {"Category", "Image"}
 
     'Values stored in local config file
 

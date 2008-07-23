@@ -149,13 +149,15 @@ Partial Class Main
                 AndAlso CurrentEdit.Prev IsNot CurrentPage.FirstEdit
             HistoryNextB.Enabled = (Not CurrentEdit Is CurrentPage.LastEdit)
             HistoryLastB.Enabled = (Not CurrentEdit Is CurrentPage.LastEdit)
+            MenuPage.Enabled = (CurrentPage IsNot Nothing)
+            MenuUser.Enabled = (CurrentUser IsNot Nothing)
             PageDelete.Enabled = True
             PageDeleteB.Enabled = True
             PageEdit.Enabled = Editable
             PageEditB.Enabled = Editable
             PageHistory.Enabled = HistoryB.Enabled
             PageMarkPatrolled.Enabled = (Not CurrentPage.Patrolled)
-            PageMove.Enabled = (CurrentPage.MoveLevel <> "sysop" OrElse Administrator)
+            PageMove.Enabled = CurrentPage.IsMovable
 
             Select Case CurrentPage.Namespace
                 Case "" : PageNominate.Enabled = (Config.AfdLocation IsNot Nothing)

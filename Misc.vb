@@ -216,6 +216,17 @@ Module Misc
         Public Rcid As String
         Public EditLevel As String
         Public MoveLevel As String
+
+        Public ReadOnly Property IsMovable() As Boolean
+            Get
+                If ArrayContains(Config.UnmovableNamespaces, [Namespace]) Then Return False
+                If MoveLevel = "sysop" AndAlso Not Administrator Then Return False
+                If ArrayContains(Config.ProtectedNamespaces, [Namespace]) AndAlso Not Administrator Then Return False
+
+                Return True
+            End Get
+        End Property
+
     End Class
 
     <DebuggerDisplay("{Name}")> _
@@ -769,6 +780,14 @@ Module Misc
 
     <DebuggerStepThrough()> Function ApiLimit() As Integer
         If Administrator Then Return 5000 Else Return 500
+    End Function
+
+    <DebuggerStepThrough()> Function ArrayContains(Of T)(ByVal Array As T(), ByVal Value As T) As Boolean
+        For Each Item As T In Array
+            If Item.Equals(Value) Then Return True
+        Next Item
+
+        Return False
     End Function
 
     Class Stats
