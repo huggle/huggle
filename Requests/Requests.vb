@@ -289,7 +289,7 @@ Namespace Requests
             If Retries = 0 Then
                 Data.Error = True
 
-            ElseIf Result.Contains("<div class=""permissions-errors"">") Then
+            ElseIf Result.Contains("<div id=""mw-blocked-text"">") Then
                 Callback(AddressOf Blocked)
                 Data.Error = True
 
