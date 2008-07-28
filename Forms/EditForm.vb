@@ -259,7 +259,8 @@ Class EditForm
     Private Sub PageSaveToFile_Click() Handles PageSaveToFile.Click
         Dim NewSaveFileDialog As New SaveFileDialog
         NewSaveFileDialog.Title = "Save " & Page.Name & " to file"
-        NewSaveFileDialog.FileName = Page.Name & ".txt"
+        NewSaveFileDialog.FileName = Page.Name.Replace(":", "-").Replace("/", "-").Replace("\", "-") _
+            .Replace("*", "").Replace("?", "").Replace("""", "'") & ".txt"
         NewSaveFileDialog.Filter = "Text file|*.txt"
 
         If NewSaveFileDialog.ShowDialog = DialogResult.OK _
