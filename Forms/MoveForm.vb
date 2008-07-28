@@ -34,11 +34,11 @@ Class MoveForm
     End Sub
 
     Private Sub Target_TextChanged() Handles Target.TextChanged
-        OK.Enabled = (Target.Text <> ThisPage.Name AndAlso Target.Text <> "" AndAlso Reason.Text <> "")
+        OK.Enabled = (Target.Text <> "" AndAlso Reason.Text <> "")
     End Sub
 
     Private Sub Reason_TextChanged() Handles Reason.TextChanged
-        OK.Enabled = (Target.Text <> ThisPage.Name AndAlso Target.Text <> "" AndAlso Reason.Text <> "")
+        OK.Enabled = (Target.Text <> "" AndAlso Reason.Text <> "")
     End Sub
 
 End Class
