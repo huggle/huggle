@@ -1640,4 +1640,14 @@ Class Main
         End If
     End Sub
 
+    Private Sub PageSwitchTalk_Click() Handles PageSwitchTalk.Click
+        If CurrentPage IsNot Nothing Then
+            If SubjectPage(CurrentPage) Is CurrentPage Then
+                SetCurrentPage(GetPage(TalkPageName(CurrentPage.Name)), True)
+            Else
+                SetCurrentPage(SubjectPage(CurrentPage), True)
+            End If
+        End If
+    End Sub
+
 End Class

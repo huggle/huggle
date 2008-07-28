@@ -162,6 +162,14 @@ Partial Class Main
             PageMarkPatrolled.Enabled = (Not CurrentPage.Patrolled)
             PageMove.Enabled = CurrentPage.IsMovable
 
+            If CurrentPage.Namespace = "Talk" Then
+                PageSwitchTalk.Text = "Switch to article"
+            ElseIf CurrentPage.Namespace.Contains("talk") Then
+                PageSwitchTalk.Text = "Switch to subject page"
+            Else
+                PageSwitchTalk.Text = "Switch to talk page"
+            End If
+
             Select Case CurrentPage.Namespace
                 Case "" : PageNominate.Enabled = (Config.AfdLocation IsNot Nothing)
                 Case "Category" : PageNominate.Enabled = (Config.CfdLocation IsNot Nothing)

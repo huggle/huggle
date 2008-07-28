@@ -60,6 +60,8 @@ Partial Class Main
         Me.GoMyContribs = New System.Windows.Forms.ToolStripMenuItem
         Me.GoSeparator = New System.Windows.Forms.ToolStripSeparator
         Me.MenuPage = New System.Windows.Forms.ToolStripMenuItem
+        Me.PageSwitchTalk = New System.Windows.Forms.ToolStripMenuItem
+        Me.Separator27 = New System.Windows.Forms.ToolStripSeparator
         Me.PageView = New System.Windows.Forms.ToolStripMenuItem
         Me.PageViewLatest = New System.Windows.Forms.ToolStripMenuItem
         Me.PageHistory = New System.Windows.Forms.ToolStripMenuItem
@@ -73,12 +75,14 @@ Partial Class Main
         Me.PageProd = New System.Windows.Forms.ToolStripMenuItem
         Me.PageTagSpeedy = New System.Windows.Forms.ToolStripMenuItem
         Me.Separator23 = New System.Windows.Forms.ToolStripSeparator
+        Me.PageTagDeleteB = New System.Windows.Forms.ToolStripDropDownButton
+        Me.PageRequestProtection = New System.Windows.Forms.ToolStripMenuItem
         Me.Separator14 = New System.Windows.Forms.ToolStripSeparator
         Me.PageWatch = New System.Windows.Forms.ToolStripMenuItem
         Me.PagePurge = New System.Windows.Forms.ToolStripMenuItem
-        Me.PageMove = New System.Windows.Forms.ToolStripMenuItem
+        Me.Separator26 = New System.Windows.Forms.ToolStripSeparator
         Me.PageMarkPatrolled = New System.Windows.Forms.ToolStripMenuItem
-        Me.PageRequestProtection = New System.Windows.Forms.ToolStripMenuItem
+        Me.PageMove = New System.Windows.Forms.ToolStripMenuItem
         Me.PageProtect = New System.Windows.Forms.ToolStripMenuItem
         Me.PageDelete = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuUser = New System.Windows.Forms.ToolStripMenuItem
@@ -88,6 +92,8 @@ Partial Class Main
         Me.UserTalk = New System.Windows.Forms.ToolStripMenuItem
         Me.Separator5 = New System.Windows.Forms.ToolStripSeparator
         Me.UserMessage = New System.Windows.Forms.ToolStripMenuItem
+        Me.UserEmail = New System.Windows.Forms.ToolStripMenuItem
+        Me.Separator25 = New System.Windows.Forms.ToolStripSeparator
         Me.UserWarn = New System.Windows.Forms.ToolStripMenuItem
         Me.UserReport = New System.Windows.Forms.ToolStripMenuItem
         Me.UserBlock = New System.Windows.Forms.ToolStripMenuItem
@@ -109,7 +115,6 @@ Partial Class Main
         Me.Separator16 = New System.Windows.Forms.ToolStripSeparator
         Me.HelpAbout = New System.Windows.Forms.ToolStripMenuItem
         Me.Stats = New System.Windows.Forms.ToolStripMenuItem
-        Me.PageTagDeleteB = New System.Windows.Forms.ToolStripDropDownButton
         Me.Splitter = New System.Windows.Forms.SplitContainer
         Me.QueueScroll = New System.Windows.Forms.VScrollBar
         Me.QueueSource = New System.Windows.Forms.ComboBox
@@ -206,9 +211,6 @@ Partial Class Main
         Me.UserReportB = New System.Windows.Forms.ToolStripButton
         Me.RateUpdateTimer = New System.Windows.Forms.Timer(Me.components)
         Me.DrawTimer = New System.Windows.Forms.Timer(Me.components)
-        Me.UserEmail = New System.Windows.Forms.ToolStripMenuItem
-        Me.Separator25 = New System.Windows.Forms.ToolStripSeparator
-        Me.Separator26 = New System.Windows.Forms.ToolStripSeparator
         Me.LogMenu.SuspendLayout()
         Me.TrayMenu.SuspendLayout()
         Me.TopMenu.SuspendLayout()
@@ -397,30 +399,30 @@ Partial Class Main
         '
         Me.QueueNext.Name = "QueueNext"
         Me.QueueNext.ShortcutKeyDisplayString = ""
-        Me.QueueNext.Size = New System.Drawing.Size(152, 22)
+        Me.QueueNext.Size = New System.Drawing.Size(124, 22)
         Me.QueueNext.Text = "Next"
         '
         'Separator1
         '
         Me.Separator1.Name = "Separator1"
-        Me.Separator1.Size = New System.Drawing.Size(149, 6)
+        Me.Separator1.Size = New System.Drawing.Size(121, 6)
         '
         'QueueEditSources
         '
         Me.QueueEditSources.Name = "QueueEditSources"
-        Me.QueueEditSources.Size = New System.Drawing.Size(152, 22)
+        Me.QueueEditSources.Size = New System.Drawing.Size(124, 22)
         Me.QueueEditSources.Text = "Sources..."
         '
         'QueueTrim
         '
         Me.QueueTrim.Name = "QueueTrim"
-        Me.QueueTrim.Size = New System.Drawing.Size(152, 22)
+        Me.QueueTrim.Size = New System.Drawing.Size(124, 22)
         Me.QueueTrim.Text = "Trim..."
         '
         'QueueClear
         '
         Me.QueueClear.Name = "QueueClear"
-        Me.QueueClear.Size = New System.Drawing.Size(152, 22)
+        Me.QueueClear.Size = New System.Drawing.Size(124, 22)
         Me.QueueClear.Text = "Clear"
         '
         'GoToMenu
@@ -446,14 +448,24 @@ Partial Class Main
         '
         Me.GoSeparator.Name = "GoSeparator"
         Me.GoSeparator.Size = New System.Drawing.Size(150, 6)
-        Me.GoSeparator.Visible = False
         '
         'MenuPage
         '
-        Me.MenuPage.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PageView, Me.PageViewLatest, Me.PageHistory, Me.PageShowHistoryPage, Me.Separator4, Me.PageEdit, Me.PageTag, Me.PageTagDelete, Me.PageRequestProtection, Me.Separator14, Me.PageWatch, Me.PagePurge, Me.Separator26, Me.PageMarkPatrolled, Me.PageMove, Me.PageProtect, Me.PageDelete})
+        Me.MenuPage.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PageSwitchTalk, Me.Separator27, Me.PageView, Me.PageViewLatest, Me.PageHistory, Me.PageShowHistoryPage, Me.Separator4, Me.PageEdit, Me.PageTag, Me.PageTagDelete, Me.PageRequestProtection, Me.Separator14, Me.PageWatch, Me.PagePurge, Me.Separator26, Me.PageMarkPatrolled, Me.PageMove, Me.PageProtect, Me.PageDelete})
         Me.MenuPage.Name = "MenuPage"
         Me.MenuPage.Size = New System.Drawing.Size(43, 24)
         Me.MenuPage.Text = "&Page"
+        '
+        'PageSwitchTalk
+        '
+        Me.PageSwitchTalk.Name = "PageSwitchTalk"
+        Me.PageSwitchTalk.Size = New System.Drawing.Size(178, 22)
+        Me.PageSwitchTalk.Text = "Switch to talk page"
+        '
+        'Separator27
+        '
+        Me.Separator27.Name = "Separator27"
+        Me.Separator27.Size = New System.Drawing.Size(175, 6)
         '
         'PageView
         '
@@ -512,6 +524,7 @@ Partial Class Main
         '
         Me.TagDeleteMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PageNominate, Me.PageProd, Me.PageTagSpeedy, Me.Separator23})
         Me.TagDeleteMenu.Name = "SpeedyMenu"
+        Me.TagDeleteMenu.OwnerItem = Me.PageTagDelete
         Me.TagDeleteMenu.Size = New System.Drawing.Size(190, 76)
         '
         'PageNominate
@@ -540,6 +553,24 @@ Partial Class Main
         Me.Separator23.Name = "Separator23"
         Me.Separator23.Size = New System.Drawing.Size(186, 6)
         '
+        'PageTagDeleteB
+        '
+        Me.PageTagDeleteB.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.PageTagDeleteB.DropDown = Me.TagDeleteMenu
+        Me.PageTagDeleteB.Enabled = False
+        Me.PageTagDeleteB.Image = Global.huggle.My.Resources.Resources.page_speedy
+        Me.PageTagDeleteB.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.PageTagDeleteB.Name = "PageTagDeleteB"
+        Me.PageTagDeleteB.ShowDropDownArrow = False
+        Me.PageTagDeleteB.Size = New System.Drawing.Size(32, 32)
+        Me.PageTagDeleteB.ToolTipText = "Tag this page for deletion [S]"
+        '
+        'PageRequestProtection
+        '
+        Me.PageRequestProtection.Name = "PageRequestProtection"
+        Me.PageRequestProtection.Size = New System.Drawing.Size(178, 22)
+        Me.PageRequestProtection.Text = "Request protection..."
+        '
         'Separator14
         '
         Me.Separator14.Name = "Separator14"
@@ -558,11 +589,10 @@ Partial Class Main
         Me.PagePurge.Size = New System.Drawing.Size(178, 22)
         Me.PagePurge.Text = "Purge"
         '
-        'PageMove
+        'Separator26
         '
-        Me.PageMove.Name = "PageMove"
-        Me.PageMove.Size = New System.Drawing.Size(178, 22)
-        Me.PageMove.Text = "Move..."
+        Me.Separator26.Name = "Separator26"
+        Me.Separator26.Size = New System.Drawing.Size(175, 6)
         '
         'PageMarkPatrolled
         '
@@ -570,11 +600,11 @@ Partial Class Main
         Me.PageMarkPatrolled.Size = New System.Drawing.Size(178, 22)
         Me.PageMarkPatrolled.Text = "Mark patrolled"
         '
-        'PageRequestProtection
+        'PageMove
         '
-        Me.PageRequestProtection.Name = "PageRequestProtection"
-        Me.PageRequestProtection.Size = New System.Drawing.Size(178, 22)
-        Me.PageRequestProtection.Text = "Request protection..."
+        Me.PageMove.Name = "PageMove"
+        Me.PageMove.Size = New System.Drawing.Size(178, 22)
+        Me.PageMove.Text = "Move..."
         '
         'PageProtect
         '
@@ -638,6 +668,17 @@ Partial Class Main
         Me.UserMessage.ShortcutKeyDisplayString = ""
         Me.UserMessage.Size = New System.Drawing.Size(180, 22)
         Me.UserMessage.Text = "Message..."
+        '
+        'UserEmail
+        '
+        Me.UserEmail.Name = "UserEmail"
+        Me.UserEmail.Size = New System.Drawing.Size(180, 22)
+        Me.UserEmail.Text = "E-mail..."
+        '
+        'Separator25
+        '
+        Me.Separator25.Name = "Separator25"
+        Me.Separator25.Size = New System.Drawing.Size(177, 6)
         '
         'UserWarn
         '
@@ -753,24 +794,24 @@ Partial Class Main
         '
         Me.HelpDocs.Name = "HelpDocs"
         Me.HelpDocs.ShortcutKeyDisplayString = ""
-        Me.HelpDocs.Size = New System.Drawing.Size(152, 22)
+        Me.HelpDocs.Size = New System.Drawing.Size(150, 22)
         Me.HelpDocs.Text = "Documentation"
         '
         'HelpFeedback
         '
         Me.HelpFeedback.Name = "HelpFeedback"
-        Me.HelpFeedback.Size = New System.Drawing.Size(152, 22)
+        Me.HelpFeedback.Size = New System.Drawing.Size(150, 22)
         Me.HelpFeedback.Text = "Feedback"
         '
         'Separator16
         '
         Me.Separator16.Name = "Separator16"
-        Me.Separator16.Size = New System.Drawing.Size(149, 6)
+        Me.Separator16.Size = New System.Drawing.Size(147, 6)
         '
         'HelpAbout
         '
         Me.HelpAbout.Name = "HelpAbout"
-        Me.HelpAbout.Size = New System.Drawing.Size(152, 22)
+        Me.HelpAbout.Size = New System.Drawing.Size(150, 22)
         Me.HelpAbout.Text = "About huggle..."
         '
         'Stats
@@ -779,18 +820,6 @@ Partial Class Main
         Me.Stats.Name = "Stats"
         Me.Stats.Size = New System.Drawing.Size(22, 24)
         Me.Stats.Text = " "
-        '
-        'PageTagDeleteB
-        '
-        Me.PageTagDeleteB.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.PageTagDeleteB.DropDown = Me.TagDeleteMenu
-        Me.PageTagDeleteB.Enabled = False
-        Me.PageTagDeleteB.Image = Global.huggle.My.Resources.Resources.page_speedy
-        Me.PageTagDeleteB.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.PageTagDeleteB.Name = "PageTagDeleteB"
-        Me.PageTagDeleteB.ShowDropDownArrow = False
-        Me.PageTagDeleteB.Size = New System.Drawing.Size(32, 32)
-        Me.PageTagDeleteB.ToolTipText = "Tag this page for deletion [S]"
         '
         'Splitter
         '
@@ -1693,22 +1722,6 @@ Partial Class Main
         Me.DrawTimer.Enabled = True
         Me.DrawTimer.Interval = 1000
         '
-        'UserEmail
-        '
-        Me.UserEmail.Name = "UserEmail"
-        Me.UserEmail.Size = New System.Drawing.Size(180, 22)
-        Me.UserEmail.Text = "E-mail..."
-        '
-        'Separator25
-        '
-        Me.Separator25.Name = "Separator25"
-        Me.Separator25.Size = New System.Drawing.Size(177, 6)
-        '
-        'Separator26
-        '
-        Me.Separator26.Name = "Separator26"
-        Me.Separator26.Size = New System.Drawing.Size(175, 6)
-        '
         'Main
         '
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
@@ -1930,10 +1943,12 @@ Partial Class Main
     Friend WithEvents GoToMenu As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents GoMyTalk As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents GoMyContribs As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents GoSeparator As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents SystemRequests As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents SystemLogOut As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents UserEmail As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents Separator25 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents Separator26 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents GoSeparator As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents PageSwitchTalk As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents Separator27 As System.Windows.Forms.ToolStripSeparator
 End Class
