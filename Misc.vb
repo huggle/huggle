@@ -667,7 +667,7 @@ Module Misc
         Return (Url.StartsWith(SitePath & "w/index.php?") OrElse Url.StartsWith("wiki/"))
     End Function
 
-    <DebuggerStepThrough()> Function ParseUrl(ByVal Url As String) As Dictionary(Of String, String)
+    Function ParseUrl(ByVal Url As String) As Dictionary(Of String, String)
         Dim Params As New Dictionary(Of String, String)
 
         If Url.Contains("wiki/") OrElse Url.Contains("w/index.php/") Then
@@ -689,6 +689,9 @@ Module Misc
 
         ElseIf Url.Contains("w/index.php?") Then
             Url = Url.Substring(Url.IndexOf("w/index.php?") + 12)
+
+        ElseIf Url.Contains("w/wiki.phtml?") Then
+            Url = Url.Substring(Url.IndexOf("w/wiki.phtml?") + 13)
         End If
 
         For Each Item As String In Url.Split("&"c)
