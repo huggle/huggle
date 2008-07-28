@@ -8,6 +8,10 @@ Class LoginForm
     Private Sub LoginForm_Load() Handles Me.Load
         Icon = My.Resources.icon_red_button
 
+        'Clear various things that may still be set if we've just logged out
+        EditQueue.Clear()
+        Cookie = Nothing
+
         GetLocalConfig()
         UseIrc.Checked = Config.IrcMode
         UseRecentchanges.Checked = Not Config.IrcMode
@@ -56,14 +60,11 @@ Class LoginForm
         OK.Enabled = (Username.Text <> "" AndAlso Password.Text <> "")
     End Sub
 
-    Private Sub Credit_LinkClicked() _
-        Handles Credit.LinkClicked
-
+    Private Sub Credit_LinkClicked() Handles Credit.LinkClicked
         Process.Start(Config.CreditUrl)
     End Sub
 
-    Private Sub OK_Click() _
-        Handles OK.Click
+    Private Sub OK_Click() Handles OK.Click
 
         LoggingIn = True
 

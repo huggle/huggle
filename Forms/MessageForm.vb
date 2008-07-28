@@ -28,6 +28,7 @@ Class MessageForm
 
     Private Sub Cancel_Click() Handles Cancel.Click
         DialogResult = DialogResult.Cancel
+        Close()
     End Sub
 
     Private Sub NewMessageForm_FormClosing() Handles Me.FormClosing

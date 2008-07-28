@@ -380,7 +380,7 @@ Namespace Requests
                     ListedUsers.Add(MyUser.Name)
                     ListedUsers.Sort(AddressOf CompareUsernames)
 
-                    Dim Data As EditData = GetEditData(GetPage(Config.UserListLocation))
+                    Dim Data As EditData = GetEditData(Config.UserListLocation)
                     Data.Text = "{{/Header}}" & vbCrLf
 
                     For Each Item As String In ListedUsers

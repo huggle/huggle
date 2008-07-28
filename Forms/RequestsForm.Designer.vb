@@ -40,7 +40,7 @@ Partial Class RequestsForm
         Me.List.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
         Me.List.Location = New System.Drawing.Point(12, 12)
         Me.List.Name = "List"
-        Me.List.Size = New System.Drawing.Size(454, 231)
+        Me.List.Size = New System.Drawing.Size(568, 242)
         Me.List.TabIndex = 0
         Me.List.UseCompatibleStateImageBehavior = False
         Me.List.View = System.Windows.Forms.View.Details
@@ -68,10 +68,10 @@ Partial Class RequestsForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(478, 255)
+        Me.ClientSize = New System.Drawing.Size(592, 266)
         Me.Controls.Add(Me.List)
         Me.Name = "RequestsForm"
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Requests"
         Me.ResumeLayout(False)
 
