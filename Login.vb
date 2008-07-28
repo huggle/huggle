@@ -18,21 +18,9 @@ Module Login
     Public Sub ConfigureProxy(ByVal Address As String, ByVal Port As String, ByVal Username As String, _
             ByVal Password As String, ByVal Domain As String)
 
-        Dim ProxyIsNeeded As Boolean
-
         If (Address = "") Then
             Port = "80"
-        Else
-            ProxyIsNeeded = True
-        End If
 
-        If ProxyIsNeeded Then
-            Dim wp As New WebProxy("http://" & Address & ":" & Port & "/", True)
-
-            wp.Credentials = New NetworkCredential(Username, Password, Domain)
-            wp.UseDefaultCredentials = True
-            Proxy = wp
-        Else
             Dim wp As WebProxy
             Dim ProxyString As String = CStr(My.Computer.Registry.GetValue _
                 ("HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings", "ProxyServer", ""))
@@ -46,9 +34,14 @@ Module Login
             wp.Credentials = CredentialCache.DefaultCredentials
             wp.UseDefaultCredentials = True
             Proxy = wp
+        Else
+            Dim wp As New WebProxy("http://" & Address & ":" & Port & "/", True)
+
+            wp.Credentials = New NetworkCredential(Username, Password, Domain)
+            wp.UseDefaultCredentials = True
+            Proxy = wp
         End If
     End Sub
-
 End Module
 
 Namespace Requests
