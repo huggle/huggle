@@ -86,7 +86,7 @@ Partial Class QueueForm
         Me.SourceType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.SourceType.Enabled = False
         Me.SourceType.FormattingEnabled = True
-        Me.SourceType.Items.AddRange(New Object() {"File", "Category"})
+        Me.SourceType.Items.AddRange(New Object() {"Category", "File", "Watchlist"})
         Me.SourceType.Location = New System.Drawing.Point(257, 12)
         Me.SourceType.Name = "SourceType"
         Me.SourceType.Size = New System.Drawing.Size(155, 21)

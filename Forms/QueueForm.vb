@@ -21,8 +21,7 @@ Class QueueForm
         Main.SetQueueSources()
     End Sub
 
-    Private Sub QueueSourcesList_SelectedIndexChanged() _
-        Handles QueueSourcesList.SelectedIndexChanged
+    Private Sub QueueSourcesList_SelectedIndexChanged() Handles QueueSourcesList.SelectedIndexChanged
 
         RemoveQueue.Enabled = (QueueSourcesList.SelectedIndex > -1)
         Rename.Enabled = (QueueSourcesList.SelectedIndex > -1)
@@ -62,13 +61,16 @@ Class QueueForm
 
     Private Sub SourceType_SelectedIndexChanged() Handles SourceType.SelectedIndexChanged
         Browse.Visible = (SourceType.Text = "File")
+        Source.Visible = (SourceType.Text <> "Watchlist")
 
         Select Case SourceType.Text
-            Case "File" : SourceLabel.Text = "File:"
             Case "Category" : SourceLabel.Text = "Category:"
+            Case "File" : SourceLabel.Text = "File:"
+            Case "Watchlist" : SourceLabel.Text = ""
         End Select
 
         Source.Clear()
+        RefreshInterface()
     End Sub
 
     Private Sub Sort_Click() Handles Sort.Click
@@ -112,9 +114,9 @@ Class QueueForm
     Private Sub RefreshInterface()
         If QueueItems.Items.Count = 0 Then Combine.Text = "Add" Else Combine.Text = "Combine"
         Clear.Enabled = (QueueSourcesList.SelectedIndex > -1 AndAlso QueueItems.Items.Count > 0)
-        Combine.Enabled = (Source.Text.Length > 0)
-        Intersect.Enabled = (Source.Text.Length > 0 AndAlso QueueItems.Items.Count > 0)
-        Replace.Enabled = (Source.Text.Length > 0 AndAlso QueueItems.Items.Count > 0)
+        Combine.Enabled = (Source.Text.Length > 0 OrElse SourceType.Text = "Watchlist")
+        Intersect.Enabled = ((Source.Text.Length > 0 OrElse SourceType.Text = "Watchlist") AndAlso QueueItems.Items.Count > 0)
+        Replace.Enabled = ((Source.Text.Length > 0 OrElse SourceType.Text = "Watchlist") AndAlso QueueItems.Items.Count > 0)
         RemoveItem.Enabled = (QueueItems.Items.Count > 0)
         Sort.Enabled = (QueueItems.Items.Count > 0)
         ArticlesOnly.Enabled = (QueueItems.Items.Count > 0)
@@ -126,8 +128,9 @@ Class QueueForm
         Mode = "combine"
 
         Select Case SourceType.Text
-            Case "File" : CombineItems(GetFile(Source.Text))
             Case "Category" : GetCategory(Source.Text)
+            Case "File" : CombineItems(GetFile(Source.Text))
+            Case "Watchlist" : CombineItems(PageNames(Watchlist))
         End Select
     End Sub
 
@@ -135,8 +138,9 @@ Class QueueForm
         Mode = "intersect"
 
         Select Case SourceType.Text
-            Case "File" : IntersectItems(GetFile(Source.Text))
             Case "Category" : GetCategory(Source.Text)
+            Case "File" : IntersectItems(GetFile(Source.Text))
+            Case "Watchlist" : IntersectItems(PageNames(Watchlist))
         End Select
     End Sub
 
@@ -144,8 +148,9 @@ Class QueueForm
         Mode = "replace"
 
         Select Case SourceType.Text
-            Case "File" : ReplaceItems(GetFile(Source.Text))
             Case "Category" : GetCategory(Source.Text)
+            Case "File" : ReplaceItems(GetFile(Source.Text))
+            Case "Watchlist" : ReplaceItems(PageNames(Watchlist))
         End Select
     End Sub
 

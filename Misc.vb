@@ -789,6 +789,17 @@ Module Misc
         Return False
     End Function
 
+    <DebuggerStepThrough()> Function PageNames(ByVal Pages As List(Of Page)) As List(Of String)
+        'Convert a list of pages to a list of their names
+        Dim Names As New List(Of String)
+
+        For Each Item As Page In Pages
+            If Not Names.Contains(Item.Name) Then Names.Add(Item.Name)
+        Next Item
+
+        Return Names
+    End Function
+
     Class Stats
 
         Public Shared Edits, EditsMe, Reverts, RevertsMe, Warnings, WarningsMe, Blocks, BlocksMe As Integer
