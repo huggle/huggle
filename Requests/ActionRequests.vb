@@ -362,4 +362,102 @@ Namespace Requests
 
     End Class
 
+    Class EmailRequest : Inherits Request
+
+        'E-mail a user
+
+        Public User As User, Subject As String = Config.EmailSubject, Message As String, ShowForm As Boolean
+        Private Token As String
+
+        Public Sub GetForm()
+            LogProgress("Getting e-mail form for '" & User.Name & "'...")
+
+            Dim RequestThread As New Thread(AddressOf GetProcess)
+            RequestThread.IsBackground = True
+            RequestThread.Start()
+        End Sub
+
+        Private Sub GetProcess()
+            Dim Result As String = GetText("title=Special:EmailUser&target=" & UrlEncode(User.Name))
+
+            If IsWikiPage(Result) AndAlso Not Result.Contains("<form id=""emailuser""") Then
+                Callback(AddressOf NoEmail)
+                Exit Sub
+            End If
+
+            Dim EditTokenMatch As Match = Regex.Match(Result, _
+                "<input type='hidden' name='wpEditToken' value=""(.*?)"" />", RegexOptions.Compiled)
+
+            If Not EditTokenMatch.Success Then
+                Callback(AddressOf Failed)
+                Exit Sub
+            End If
+
+            Token = EditTokenMatch.Groups(1).Value
+            Callback(AddressOf Done)
+        End Sub
+
+        Private Sub Done(ByVal O As Object)
+            If ShowForm Then
+                DelogProgress()
+
+                Dim NewEmailForm As New EmailForm
+                NewEmailForm.User = User
+                NewEmailForm.Subject.Text = Subject
+                NewEmailForm.Message.Text = Message
+                NewEmailForm.Request = Me
+                NewEmailForm.Show()
+            Else
+                PostForm()
+            End If
+        End Sub
+
+        Private Sub Failed(ByVal O As Object)
+            Log("Failed to retrieve e-mail form for '" & User.Name & "'")
+            Fail()
+        End Sub
+
+        Private Sub NoEmail(ByVal O As Object)
+            If MsgBox("The user '" & User.Name & "' does not have e-mail enabled." & vbCrLf & _
+                "Post a discussion page message instead?", MsgBoxStyle.YesNo Or MsgBoxStyle.Exclamation, "huggle") _
+                = MsgBoxResult.Yes Then
+
+                Dim NewMessageForm As New MessageForm
+                NewMessageForm.User = User
+                NewMessageForm.Show()
+            End If
+
+            Fail()
+        End Sub
+
+        Public Sub PostForm()
+            LogProgress("Submitting e-mail form for '" & User.Name & "'...")
+
+            Dim RequestThread As New Thread(AddressOf PostProcess)
+            RequestThread.IsBackground = True
+            RequestThread.Start()
+        End Sub
+
+        Private Sub PostProcess()
+            Dim PostString As String = "wpSubject=" & UrlEncode(Subject) & _
+                "&wpText=" & UrlEncode(Message) & "&wpEditToken=" & UrlEncode(Token)
+
+            Dim Result As String = PostData("title=Special:EmailUser&target=" & UrlEncode(User.Name) & _
+                "&action=submit", PostString)
+
+            If IsWikiPage(Result) Then Callback(AddressOf PostDone) Else Callback(AddressOf PostFailed)
+        End Sub
+
+        Private Sub PostDone(ByVal O As Object)
+            Log("Sent e-mail to '" & User.Name & "'")
+            Complete()
+        End Sub
+
+        Private Sub PostFailed(ByVal O As Object)
+            Log("Failed to submit e-mail form for '" & User.Name & "'")
+            Fail()
+        End Sub
+
+    End Class
+
 End Namespace

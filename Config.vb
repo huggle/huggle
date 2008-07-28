@@ -74,6 +74,8 @@ Module Config
     Public Delete As Boolean = False
     Public DiffFontSize As String = "8"
     Public DocsLocation As String = "http://en.wikipedia.org/wiki/Wikipedia:Huggle"
+    Public Email As Boolean = False
+    Public EmailSubject As String
     Public Enabled As Boolean = False
     Public EnabledForAll As Boolean = False
     Public ExtendReports As Boolean = True

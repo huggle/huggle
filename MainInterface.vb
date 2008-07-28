@@ -25,6 +25,7 @@ Partial Class Main
         PageProd.Visible = Config.Prod
 
         UserBlock.Visible = (Administrator AndAlso Config.Block)
+        UserEmail.Visible = Config.Email
         UserMessageWelcome.Visible = (Config.Welcome IsNot Nothing)
         UserReport.Visible = Config.AIV
         UserReportB.Visible = Config.AIV OrElse (Administrator AndAlso Config.Block)
@@ -190,6 +191,7 @@ Partial Class Main
             SystemShowLog.Checked = Config.ShowLog
             UndoB.Enabled = (Undo.Count > 0)
             UserContribs.Enabled = ContribsB.Enabled
+            UserEmail.Enabled = (Not CurrentUser.Anonymous)
             UserIgnore.Enabled = True
             UserIgnoreB.Enabled = True
             UserInfo.Enabled = True

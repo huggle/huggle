@@ -119,7 +119,6 @@ Class Main
     Private Sub Main_FormClosing() Handles Me.FormClosing
         TrayIcon.Visible = False
         Visible = False
-        EditQueue.Clear()
 
         If Not LoggingOut Then ClosingForm.ShowDialog()
     End Sub
@@ -665,8 +664,6 @@ Class Main
             & "-" & Date.Now.Day.ToString.PadLeft(2, "0"c) & " " & Date.Now.ToLongTimeString _
             & UtcOffset() & " -- " & Message)
 
-        Status.BeginUpdate()
-
         If InProgress Then
             Status.Items.Insert(0, NewListViewItem)
         Else
@@ -684,7 +681,6 @@ Class Main
             Status.Items.Insert(0, NewListViewItem)
         End If
 
-        Status.EndUpdate()
         UpdateCancelButton()
     End Sub
 
@@ -1633,6 +1629,15 @@ Class Main
         Dim NewLoginForm As New LoginForm
         NewLoginForm.Show()
         Close()
+    End Sub
+
+    Private Sub UserEmail_Click() Handles UserEmail.Click
+        If CurrentUser IsNot Nothing Then
+            Dim NewEmailRequest As New EmailRequest
+            NewEmailRequest.User = CurrentUser
+            NewEmailRequest.ShowForm = True
+            NewEmailRequest.GetForm()
+        End If
     End Sub
 
 End Class
