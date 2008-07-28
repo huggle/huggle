@@ -31,7 +31,7 @@ Class WarningForm
         DialogResult = DialogResult.OK
 
         Dim NewWarningRequest As New WarningRequest
-        NewWarningRequest.ThisEdit = CurrentEdit
+        NewWarningRequest.Edit = CurrentEdit
 
         If LevelAuto.Checked Then NewWarningRequest.Level = 0
         If Level1.Checked Then NewWarningRequest.Level = 1

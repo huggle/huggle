@@ -26,7 +26,7 @@ Class UserInfoForm
             'and if we're going to do that, might as well parse their contributions too
 
             Dim NewContribsRequest As New ContribsRequest
-            NewContribsRequest.ThisUser = ThisUser
+            NewContribsRequest.User = ThisUser
             NewContribsRequest.BlockSize = 500
             NewContribsRequest.Start()
 

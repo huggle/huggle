@@ -25,7 +25,7 @@ Class DeleteForm
 
         Dim NewRequest As New DeleteLogRequest
         NewRequest.Target = DeleteLog
-        NewRequest.ThisPage = ThisPage
+        NewRequest.Page = ThisPage
         NewRequest.Start()
     End Sub
 
@@ -47,7 +47,7 @@ Class DeleteForm
         End If
 
         Dim NewDeleteRequest As New DeleteRequest
-        NewDeleteRequest.ThisPage = ThisPage
+        NewDeleteRequest.Page = ThisPage
         NewDeleteRequest.Summary = Summary
         NewDeleteRequest.Start()
 

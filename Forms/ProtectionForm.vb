@@ -15,7 +15,7 @@ Class ProtectionForm
 
         Dim NewRequest As New ProtectionLogRequest
         NewRequest.Target = ProtectionLog
-        NewRequest.ThisPage = ThisPage
+        NewRequest.Page = ThisPage
         NewRequest.Start()
     End Sub
 

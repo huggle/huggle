@@ -90,9 +90,8 @@ Class LoginForm
         Config.ProxyUsername = ProxyUsername.Text
         Config.Username = Username.Text.Substring(0, 1).ToUpper & Username.Text.Substring(1)
 
-        Login.Password = Password.Text
         Login.ConfigureProxy(ProxyAddress.Text, ProxyPort.Text, ProxyUsername.Text, ProxyPassword.Text, ProxyDomain.Text)
-        Login.StartLogin(Me)
+        Login.Start(Password.Text, Me)
     End Sub
 
     Private Sub ShowProxySettings_Click() Handles ShowProxySettings.Click
@@ -107,6 +106,7 @@ Class LoginForm
 
     Sub Done(ByVal O As Object)
         Main.Show()
+        Main.Initialize()
         Close()
     End Sub
 

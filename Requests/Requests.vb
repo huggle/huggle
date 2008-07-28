@@ -4,75 +4,89 @@ Imports System.Text.RegularExpressions
 Imports System.Threading
 Imports System.Web.HttpUtility
 
-Module Requests
+Namespace Requests
 
-    Class Request
+    MustInherit Class Request
 
-        Protected Cancelled As Boolean
+        'Base class of all Web requests
+
+        Public Query As String, Mode As RequestMode, StartTime As Date
+        Public Completed, Cancelled As Boolean, Success As Boolean = True
+
+        Public Enum RequestMode As Integer
+            : None : [Get] : Post
+        End Enum
+
+        Public Sub New()
+            StartTime = Date.Now
+            PendingRequests.Add(Me)
+            AllRequests.Add(Me)
+        End Sub
+
+        Protected Sub Complete()
+            Completed = True
+            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            If Main IsNot Nothing Then Main.Delog(Me)
+        End Sub
 
         Public Sub Cancel()
             Cancelled = True
+            Success = False
+            Complete()
         End Sub
 
-        Protected Sub New()
-            PendingRequests.Add(Me)
-            If Main IsNot Nothing Then Main.CancelB.Enabled = True
+        Protected Sub Fail()
+            Success = False
+            Complete()
         End Sub
 
-    End Class
+        Protected Sub LogProgress(ByVal Message As String)
+            If Main IsNot Nothing Then
+                Main.Delog(Me)
+                Main.Log(Message, Me, True)
+            End If
+        End Sub
 
-    Public Sub UndoEdit(ByVal Page As Page)
-        If Page.LastEdit IsNot Nothing AndAlso Page.LastEdit.User Is MyUser _
-            Then DoRevert(Page.LastEdit, False, Config.UndoSummary, True)
-    End Sub
+        Protected Sub DelogProgress()
+            If Main IsNot Nothing Then
+                Main.Delog(Me)
+            End If
+        End Sub
 
-    Public Function GetText(ByVal Page As Page) As String
-        Return GetText(SitePath & "w/index.php?title=" & UrlEncode(Page.Name) & "&action=raw")
-    End Function
+        Protected Sub UndoEdit(ByVal Page As Page)
+            If Page.LastEdit IsNot Nothing AndAlso Page.LastEdit.User Is MyUser _
+                Then DoRevert(Page.LastEdit, False, Config.UndoSummary, True)
+        End Sub
 
-    Public Function GetText(ByVal Url As String, Optional ByVal TextNeeded As String = Nothing) As String
+        Protected Sub UndoEdit(ByVal Page As String)
+            UndoEdit(GetPage(Page))
+        End Sub
 
-        Dim Client As New WebClient, Retries As Integer = 3, Result As String = Nothing
+        Protected Function GetPageText(ByVal Page As String) As String
+            Return GetUrl(SitePath & "w/index.php?title=" & UrlEncode(Page) & "&action=raw", "page '" & Page & "'")
+        End Function
 
-        Do
-            Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
-            Client.Headers.Add(HttpRequestHeader.Cookie, Cookie)
-            Client.Proxy = Login.Proxy
+        Protected Function GetPageText(ByVal Page As Page) As String
+            Return GetUrl(SitePath & "w/index.php?title=" & UrlEncode(Page.Name) & "&action=raw", _
+                "page '" & Page.Name & "'")
+        End Function
 
-            If Retries < 3 Then Thread.Sleep(1000)
-            Retries -= 1
+        Protected Function GetText(ByVal QueryString As String) As String
+            Return GetUrl(SitePath & "w/index.php?" & QueryString, "'" & QueryString & "'")
+        End Function
 
-            Try
-                Result = UTF8.GetString(Client.DownloadData(Url))
-            Catch ex As Exception
-                Callback(AddressOf GetTextException, CObj(Url))
-            End Try
+        Protected Function GetApi(ByVal QueryString As String) As String
+            Return GetUrl(SitePath & "w/api.php?" & QueryString, "API query '" & QueryString & "'")
+        End Function
 
-        Loop Until (TextNeeded Is Nothing OrElse (Result IsNot Nothing AndAlso Result.Contains(TextNeeded))) _
-            OrElse Retries = 0
+        Protected Function GetUrl(ByVal Url As String, Optional ByVal QueryDescription As String = Nothing) As String
 
-        If Retries = 0 Then Return Nothing Else Return Result
-    End Function
+            If Url.Contains("?") Then Query = Url.Substring(Url.IndexOf("?") + 1) Else Query = Url
+            Mode = RequestMode.Get
 
-    Private Sub GetTextException(ByVal UrlObject As Object)
-        Dim Url As String = CStr(UrlObject)
-        Log("Service unavailable when requesting " & Url & ", retrying in 3 seconds.")
-    End Sub
-
-    Public Function GetEdit(ByVal Page As Page, Optional ByVal Rev As String = Nothing, _
-        Optional ByVal Section As String = Nothing) As EditData
-
-        Dim Retries As Integer = 3, Result As String = Nothing
-        Dim TimeMatch, TokenMatch As Match, Data As New EditData
-
-        Data.Page = Page
-        Data.Section = Section
-
-        Do
-            Dim LoggingIn As Boolean
+            Dim Client As New WebClient, Retries As Integer = 3, Result As String = Nothing
 
             Do
-                Dim Client As New WebClient
                 Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
                 Client.Headers.Add(HttpRequestHeader.Cookie, Cookie)
                 Client.Proxy = Login.Proxy
@@ -80,116 +94,162 @@ Module Requests
                 If Retries < 3 Then Thread.Sleep(1000)
                 Retries -= 1
 
-                Dim GetString As String = SitePath & "w/index.php?title=" & _
-                    UrlEncode(Data.Page.Name.Replace(" ", "_")) & "&action=edit"
-                If Rev IsNot Nothing Then GetString &= "&oldid=" & Rev
-                If Section IsNot Nothing Then GetString &= "&section=" & Section
-
                 Try
-                    Result = UTF8.GetString(Client.DownloadData(GetString))
+                    Result = UTF8.GetString(Client.DownloadData(Url))
                 Catch ex As Exception
-                    Callback(AddressOf GetEditException, CObj(Data))
+                    Callback(AddressOf GetUrlException, CObj(QueryDescription))
                 End Try
 
-                If Result.Contains("<li id=""pt-login"">") Then
-                    If Retries = 0 Then Exit Do
-                    Callback(AddressOf LoginNeeded)
+                If Cancelled Then Thread.CurrentThread.Abort()
 
-                    Select Case DoLogin()
-                        Case "failed", "captcha-needed", "wrong-password"
-                            Callback(AddressOf LoginFailed)
-                            Data.Error = True
-                            Return Data
+            Loop Until Retries = 0 OrElse Result IsNot Nothing
 
-                        Case Else
-                            Callback(AddressOf LoginDone)
-                    End Select
+            If Retries = 0 Then Return Nothing Else Return Result
+        End Function
 
-                    LoggingIn = True
-                Else
-                    LoggingIn = False
+        Private Sub GetUrlException(ByVal QueryDescription As Object)
+            Log("Error when requesting " & CStr(QueryDescription) & ", retrying in 3 seconds.")
+        End Sub
+
+        Protected Function GetEditData(ByVal Page As String, Optional ByVal Rev As String = Nothing, _
+            Optional ByVal Section As Integer = -1) As EditData
+
+            Return GetEditData(GetPage(Page), Rev, Section)
+        End Function
+
+        Protected Function GetEditData(ByVal Page As Page, Optional ByVal Rev As String = Nothing, _
+            Optional ByVal Section As Integer = -1) As EditData
+
+            Dim Retries As Integer = 3, Result As String = Nothing
+            Dim TimeMatch, TokenMatch As Match, Data As New EditData
+
+            Data.Page = Page
+            If Section > -1 Then Data.Section = CStr(Section)
+
+            Dim QueryString As String = SitePath & "w/index.php?title=" & UrlEncode(Data.Page.Name) & "&action=edit"
+            If Rev IsNot Nothing Then QueryString &= "&oldid=" & Rev
+            If Data.Section IsNot Nothing Then QueryString &= "&section=" & Data.Section
+
+            Mode = RequestMode.Get
+            Query = QueryString.Substring(QueryString.IndexOf("?") + 1)
+
+            Do
+                Dim LoggingIn As Boolean
+
+                Do
+                    Dim Client As New WebClient
+                    Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
+                    Client.Headers.Add(HttpRequestHeader.Cookie, Cookie)
+                    Client.Proxy = Login.Proxy
+
+                    If Retries < 3 Then Thread.Sleep(1000)
+                    Retries -= 1
+
+                    Try
+                        Result = UTF8.GetString(Client.DownloadData(QueryString))
+                    Catch ex As Exception
+                        Callback(AddressOf GetEditDataException, CObj(Data))
+                    End Try
+
+                    If Result.Contains("<li id=""pt-login"">") Then
+                        If Retries = 0 Then Exit Do
+                        Callback(AddressOf LoginNeeded)
+
+                        Dim NewLoginRequest As New LoginRequest
+
+                        Select Case NewLoginRequest.DoLogin
+                            Case "failed", "captcha-needed", "wrong-password"
+                                Callback(AddressOf LoginFailed)
+                                Data.Error = True
+                                Return Data
+
+                            Case Else
+                                Callback(AddressOf LoginDone)
+                        End Select
+
+                        LoggingIn = True
+                    Else
+                        LoggingIn = False
+                    End If
+                Loop Until Not LoggingIn
+
+                If Result.Contains("<div class=""permissions-errors"">") Then
+                    Callback(AddressOf Blocked)
+                    Data.Error = True
+                    Return Data
                 End If
-            Loop Until Not LoggingIn
 
-            If Result.Contains("<div class=""permissions-errors"">") Then
-                Callback(AddressOf Blocked)
+                TimeMatch = Regex.Match(Result, "<input type='hidden' value=""(.*?)"" name=""wpEdittime"" />")
+                TokenMatch = Regex.Match(Result, "<input type='hidden' value=""(.*?)"" name=""wpEditToken"" />")
+
+            Loop Until (TimeMatch.Success AndAlso TokenMatch.Success) OrElse Retries = 0
+
+            If Retries = 0 Then
                 Data.Error = True
                 Return Data
             End If
 
-            TimeMatch = Regex.Match(Result, "<input type='hidden' value=""(.*?)"" name=""wpEdittime"" />")
-            TokenMatch = Regex.Match(Result, "<input type='hidden' value=""(.*?)"" name=""wpEditToken"" />")
+            If Result.Contains("class=""selected new""><a ") Then Data.Creating = True
 
-        Loop Until (TimeMatch.Success AndAlso TokenMatch.Success) OrElse Retries = 0
+            If Not Result.Contains("<textarea") Then
+                Data.Error = True
+                Return Data
+            End If
 
-        If Retries = 0 Then
-            Data.Error = True
+            Result = Result.Substring(Result.IndexOf("<textarea"))
+            Result = Result.Substring(Result.IndexOf(">") + 1)
+            Result = HtmlDecode(Result.Substring(0, Result.IndexOf("</textarea>")))
+
+            Data.StartTime = CStr(Date.UtcNow.Year) & CStr(Date.UtcNow.Month).PadLeft(2, "0"c) & _
+                CStr(Date.UtcNow.Day).PadLeft(2, "0"c) & CStr(Date.UtcNow.Hour).PadLeft(2, "0"c) & _
+                CStr(Date.UtcNow.Minute).PadLeft(2, "0"c) & CStr(Date.UtcNow.Second).PadLeft(2, "0"c)
+            Data.EditTime = TimeMatch.Groups(1).Value
+            Data.Text = Result
+            Data.Token = TokenMatch.Groups(1).Value
+
             Return Data
-        End If
+        End Function
 
-        If Result.Contains("class=""selected new""><a ") Then Data.Creating = True
+        Private Sub GetEditDataException(ByVal EditDataObject As Object)
+            Dim Data As EditData = CType(EditDataObject, EditData)
+            Log("Service unavailable when editing '" & Data.Page.Name & "', retrying in 3 seconds.")
+        End Sub
 
-        If Not Result.Contains("<textarea") Then
-            Data.Error = True
-            Return Data
-        End If
+        Private Sub LoginNeeded(ByVal O As Object)
+            LogProgress("User has been logged out, logging in...")
+        End Sub
 
-        Result = Result.Substring(Result.IndexOf("<textarea"))
-        Result = Result.Substring(Result.IndexOf(">") + 1)
-        Result = HtmlDecode(Result.Substring(0, Result.IndexOf("</textarea>")))
+        Private Sub LoginDone(ByVal O As Object)
+            Log("Logged in")
+            Complete()
+        End Sub
 
-        Data.StartTime = CStr(Date.UtcNow.Year) & CStr(Date.UtcNow.Month).PadLeft(2, "0"c) & _
-            CStr(Date.UtcNow.Day).PadLeft(2, "0"c) & CStr(Date.UtcNow.Hour).PadLeft(2, "0"c) & _
-            CStr(Date.UtcNow.Minute).PadLeft(2, "0"c) & CStr(Date.UtcNow.Second).PadLeft(2, "0"c)
-        Data.EditTime = TimeMatch.Groups(1).Value
-        Data.Text = Result
-        Data.Token = TokenMatch.Groups(1).Value
+        Private Sub LoginFailed(ByVal O As Object)
+            Log("Failed to log in")
+            MsgBox("Failed to log in. You may need to restart Huggle in order to edit.", MsgBoxStyle.Critical, "huggle")
+            Complete()
+        End Sub
 
-        Return Data
-    End Function
+        Private Sub Blocked(ByVal O As Object)
+            Log("User is blocked")
+            MsgBox("Your user account has been blocked from editing.", MsgBoxStyle.Critical, "huggle")
+            Complete()
+        End Sub
 
-    Private Sub GetEditException(ByVal DataObject As Object)
-        Dim Data As EditData = CType(DataObject, EditData)
-        Log("Service unavailable when editing '" & Data.Page.Name & "', retrying in 3 seconds.")
-    End Sub
+        Private Sub LoggedOut(ByVal O As Object)
+            Log("Failed to save page - user is not logged in.")
+            MsgBox("Your user account has been logged out. You may need to restart Huggle in order to edit.", _
+                MsgBoxStyle.Critical, "huggle")
+            Complete()
+        End Sub
 
-    Private Sub LoginNeeded(ByVal O As Object)
-        Log("User has been logged out, logging in...", MyUser, True)
-    End Sub
+        Protected Function PostEdit(ByVal Data As EditData) As EditData
 
-    Private Sub LoginDone(ByVal O As Object)
-        Delog(MyUser)
-        Log("Logged in")
-    End Sub
+            'Special pages don't work in post requests
+            Data.Page.Name = Data.Page.Name.Replace("Special:Mypage", "User:" & Config.Username) _
+                .Replace("Special:Mytalk", "User talk:" & Config.Username)
 
-    Private Sub LoginFailed(ByVal O As Object)
-        Delog(MyUser)
-        Log("Failed to log in")
-        MsgBox("Failed to log in. You may need to restart Huggle in order to edit.", MsgBoxStyle.Critical, "huggle")
-    End Sub
-
-    Private Sub Blocked(ByVal O As Object)
-        Log("User is blocked")
-        MsgBox("Your user account has been blocked from editing.", MsgBoxStyle.Critical, "huggle")
-    End Sub
-
-    Private Sub LoggedOut(ByVal O As Object)
-        Log("Failed to save page - user is not logged in.")
-        MsgBox("Your user account has been logged out. You may need to restart Huggle in order to edit.", _
-            MsgBoxStyle.Critical, "huggle")
-    End Sub
-
-    Public Function PostEdit(ByVal Data As EditData) As EditData
-        Dim Client As New WebClient, Retries As Integer = 3, Result As String = ""
-
-        Do
-            Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
-            Client.Headers.Add(HttpRequestHeader.Cookie, Cookie)
-            Client.Headers.Add(HttpRequestHeader.ContentType, "application/x-www-form-urlencoded")
-            Client.Proxy = Login.Proxy
-
-            If Retries < 3 Then Thread.Sleep(1000)
-            Retries -= 1
+            Dim Client As New WebClient, Retries As Integer = 3, Result As String = ""
 
             Dim PostString As String = "wpTextbox1=" & UrlEncode(Data.Text) _
                 & "&wpEditToken=" & UrlEncode(Data.Token) & "&wpStarttime=" & UrlEncode(Data.StartTime) _
@@ -203,64 +263,82 @@ Module Requests
             If Data.CaptchaId IsNot Nothing Then PostString &= "&wpCaptchaId=" & UrlEncode(Data.CaptchaId)
             If Data.CaptchaWord IsNot Nothing Then PostString &= "&wpCaptchaWord=" & UrlEncode(Data.CaptchaWord)
 
-            Try
-                'Special:Mypage doesnt work in postbacks
-                Result = UTF8.GetString(Client.UploadData(SitePath & _
-                    "w/index.php?title=" & UrlEncode(Data.Page.Name.Replace("Special:Mypage", "User:" + Username).Replace(" ", "_")) & _
-                    "&action=submit", "POST", UTF8.GetBytes(PostString)))
-            Catch ex As Exception
-                Callback(AddressOf PostEditException, CObj(Data))
-            End Try
-        Loop Until IsWikiPage(Result) OrElse Retries = 0
+            Query = "title=" & UrlEncode(Data.Page.Name) & "&action=submit"
+            Mode = RequestMode.Post
 
-        Data.Result = Result
+            Do
+                Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
+                Client.Headers.Add(HttpRequestHeader.Cookie, Cookie)
+                Client.Headers.Add(HttpRequestHeader.ContentType, "application/x-www-form-urlencoded")
+                Client.Proxy = Login.Proxy
 
-        If Retries = 0 Then
-            Data.Error = True
+                If Retries < 3 Then Thread.Sleep(1000)
+                Retries -= 1
 
-        ElseIf Result.Contains("<div class=""permissions-errors"">") Then
-            Callback(AddressOf Blocked)
-            Data.Error = True
+                Try
+                    Result = UTF8.GetString(Client.UploadData(SitePath & "w/index.php?title=" & _
+                        UrlEncode(Data.Page.Name) & "&action=submit", UTF8.GetBytes(PostString)))
+                Catch ex As Exception
+                    Callback(AddressOf PostEditException, CObj(Data))
+                End Try
 
-        ElseIf Result.Contains("<div class='previewnote'>") Then
-            Callback(AddressOf LoggedOut)
-            Data.Error = True
-        End If
+            Loop Until IsWikiPage(Result) OrElse Retries = 0
 
-        Return Data
-    End Function
+            Data.Result = Result
 
-    Private Sub PostEditException(ByVal DataObject As Object)
-        Dim Data As EditData = CType(DataObject, EditData)
-        Log("Service unavailable when saving '" & Data.Page.Name & "', retrying in 3 seconds.")
-    End Sub
+            If Retries = 0 Then
+                Data.Error = True
 
-    Public Function PostData(ByVal Url As String, ByVal Data As String) As String
+            ElseIf Result.Contains("<div class=""permissions-errors"">") Then
+                Callback(AddressOf Blocked)
+                Data.Error = True
 
-        Dim Client As New WebClient, Retries As Integer = 3, Result As String = ""
+            ElseIf Result.Contains("<div class='previewnote'>") Then
+                Callback(AddressOf LoggedOut)
+                Data.Error = True
+            End If
 
-        Do
-            Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
-            Client.Headers.Add(HttpRequestHeader.Cookie, Cookie)
-            Client.Headers.Add(HttpRequestHeader.ContentType, "application/x-www-form-urlencoded")
-            Client.Proxy = Login.Proxy
+            Return Data
+        End Function
 
-            If Retries < 3 Then Thread.Sleep(1000)
-            Retries -= 1
+        Private Sub PostEditException(ByVal DataObject As Object)
+            Dim Data As EditData = CType(DataObject, EditData)
+            Log("Service unavailable when saving '" & Data.Page.Name & "', retrying in 3 seconds.")
+        End Sub
 
-            Try
-                Result = UTF8.GetString(Client.UploadData(Url, UTF8.GetBytes(Data)))
-            Catch ex As Exception
-                Callback(AddressOf PostDataException, CObj(Url))
-            End Try
+        Protected Function PostData(ByVal QueryString As String, ByVal Data As String) As String
 
-        Loop Until Result <> "" OrElse Retries = 0
+            Dim Url As String = SitePath & "w/index.php?" & QueryString
 
-        Return Result
-    End Function
+            Query = QueryString
+            Mode = RequestMode.Post
 
-    Private Sub PostDataException(ByVal UrlObject As Object)
-        Log("Service unavailable when requesting '" & CStr(UrlObject) & "', retrying in 3 seconds.")
-    End Sub
+            Dim Client As New WebClient, Retries As Integer = 3, Result As String = ""
 
-End Module
+            Do
+                Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
+                Client.Headers.Add(HttpRequestHeader.Cookie, Cookie)
+                Client.Headers.Add(HttpRequestHeader.ContentType, "application/x-www-form-urlencoded")
+                Client.Proxy = Login.Proxy
+
+                If Retries < 3 Then Thread.Sleep(1000)
+                Retries -= 1
+
+                Try
+                    Result = UTF8.GetString(Client.UploadData(Url, UTF8.GetBytes(Data)))
+                Catch ex As Exception
+                    Callback(AddressOf PostDataException, CObj(QueryString))
+                End Try
+
+            Loop Until Result <> "" OrElse Retries = 0
+
+            Return Result
+        End Function
+
+        Private Sub PostDataException(ByVal RequestedItem As Object)
+            Log("Service unavailable when posting '" & CStr(RequestedItem) & "', retrying in 3 seconds.")
+        End Sub
+
+    End Class
+
+End Namespace

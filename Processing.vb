@@ -292,7 +292,7 @@ Module Processing
                     Else
 
                         Dim NewWarningRequest As New WarningRequest
-                        NewWarningRequest.ThisEdit = PendingWarnings(i)
+                        NewWarningRequest.Edit = PendingWarnings(i)
                         NewWarningRequest.Start()
                     End If
                 End If
@@ -435,7 +435,7 @@ Module Processing
         For l As Integer = 0 To Math.Min(EditQueue.Count, Config.Preloads) - 1
             If EditQueue(l).CacheState = CacheState.Uncached Then
                 Dim NewDiffRequest As New DiffRequest
-                NewDiffRequest.ThisEdit = EditQueue(l)
+                NewDiffRequest.Edit = EditQueue(l)
                 NewDiffRequest.Start()
             End If
         Next l
@@ -495,7 +495,7 @@ Module Processing
             NewDeleteForm.ShowDialog()
         Else
             Dim NewTagRequest As New TagRequest
-            NewTagRequest.ThisPage = Page
+            NewTagRequest.Page = Page
             NewTagRequest.Tag = "{{db-g7}}"
             NewTagRequest.Summary = Config.SpeedySummary.Replace("$1", "[[WP:SD#G7|requested by page creator]]")
             NewTagRequest.Start()
@@ -584,7 +584,7 @@ Module Processing
             End If
 
             Dim NewRollbackRequest As New RollbackRequest
-            NewRollbackRequest.ThisEdit = Edit
+            NewRollbackRequest.Edit = Edit
             NewRollbackRequest.Summary = Summary
             NewRollbackRequest.Start()
             Return True
@@ -601,7 +601,7 @@ Module Processing
             End If
 
             Dim NewFakeRollbackRequest As New FakeRollbackRequest
-            NewFakeRollbackRequest.ThisPage = Edit.Page
+            NewFakeRollbackRequest.Page = Edit.Page
             NewFakeRollbackRequest.ExcludeUser = Edit.User
             NewFakeRollbackRequest.Summary = Summary
             NewFakeRollbackRequest.Start()
@@ -625,7 +625,7 @@ Module Processing
 
         'Plain old reversion
         Dim NewRequest As New RevertRequest
-        NewRequest.ThisEdit = Edit.Prev
+        NewRequest.Edit = Edit.Prev
         NewRequest.Summary = Summary
         NewRequest.Start()
         Return True
@@ -1053,7 +1053,7 @@ Module Processing
         For j As Integer = 0 To Math.Min(EditQueue.Count - 1, Config.Preloads - 1)
             If EditQueue(j).CacheState = CacheState.Uncached Then
                 Dim NewGetDiffRequest As New DiffRequest
-                NewGetDiffRequest.ThisEdit = EditQueue(j)
+                NewGetDiffRequest.Edit = EditQueue(j)
                 NewGetDiffRequest.Start()
             End If
         Next j
@@ -1168,7 +1168,7 @@ Module Processing
 
                     If Not ChangeCurrentEdit Then HidingEdit = True
                     LatestDiffRequest = New DiffRequest
-                    LatestDiffRequest.ThisEdit = Edit
+                    LatestDiffRequest.Edit = Edit
                     LatestDiffRequest.Tab = Tab
                     LatestDiffRequest.Start()
                 End If
@@ -1184,7 +1184,7 @@ Module Processing
 
             Dim NewHistoryRequest As New HistoryRequest
             NewHistoryRequest.DisplayWhenDone = True
-            NewHistoryRequest.ThisPage = Edit.Page
+            NewHistoryRequest.Page = Edit.Page
             NewHistoryRequest.Start()
         End If
     End Sub

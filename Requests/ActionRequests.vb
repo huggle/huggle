@@ -4,17 +4,18 @@ Imports System.Text.RegularExpressions
 Imports System.Threading
 Imports System.Web.HttpUtility
 
-Module ActionRequests
+Namespace Requests
 
     Class BlockRequest : Inherits Request
 
         'Block a user
 
-        Public ThisUser As User, Reason, Expiry, Template As String
+        Public User As User, Reason, Expiry, NotifyTemplate As String
         Public AnonOnly, Autoblock, BlockEmail, BlockCreation, Notify As Boolean
 
         Public Sub Start()
-            Log("Blocking '" & ThisUser.Name & "'...", ThisUser, True)
+            LogProgress("Blocking '" & User.Name & "'...")
+
             Dim RequestThread As New Thread(AddressOf Process)
             RequestThread.IsBackground = True
             RequestThread.Start()
@@ -22,24 +23,24 @@ Module ActionRequests
 
         Private Sub Process()
             'Check for range block already affecting IP address
-            If ThisUser.Anonymous Then
+            If User.Anonymous Then
                 Dim Rangeblocks As String = _
-                    GetText(SitePath & "w/api.php?format=xml&action=query&list=blocks&bkip=" & ThisUser.Name)
+                    GetApi("format=xml&action=query&list=blocks&bkip=" & UrlEncode(User.Name))
 
                 If Rangeblocks.Contains("<blocks>") Then
                     Rangeblocks = Rangeblocks.Substring(Rangeblocks.IndexOf("<blocks>") + 8)
                     Rangeblocks = Rangeblocks.Substring(0, Rangeblocks.IndexOf("</blocks>"))
 
                     For Each Item As String In Rangeblocks.Split(New String() {"<block "}, StringSplitOptions.RemoveEmptyEntries)
-                        Dim User As String = Item.Substring(Item.IndexOf("user=""") + 6)
-                        User = User.Substring(0, User.IndexOf(""""))
-                        User = HtmlDecode(User)
+                        Dim BlockedUser As String = Item.Substring(Item.IndexOf("user=""") + 6)
+                        BlockedUser = BlockedUser.Substring(0, BlockedUser.IndexOf(""""))
+                        BlockedUser = HtmlDecode(BlockedUser)
 
-                        If User.Contains("/") Then
-                            If MsgBox(ThisUser.Name & " is already affected by a rangeblock on " & User & _
+                        If BlockedUser.Contains("/") Then
+                            If MsgBox(User.Name & " is already affected by a rangeblock on " & BlockedUser & _
                                 "." & vbCrLf & "This block will override the effect of the rangeblock. Continue?", _
                                 MsgBoxStyle.YesNo Or MsgBoxStyle.Exclamation Or MsgBoxStyle.DefaultButton2, _
-                                "Block " & ThisUser.Name) = MsgBoxResult.No Then
+                                "Block " & User.Name) = MsgBoxResult.No Then
 
                                 Callback(AddressOf Failed)
                                 Exit Sub
@@ -51,84 +52,49 @@ Module ActionRequests
                 End If
             End If
 
-            Dim Client As New WebClient, Retries As Integer = 3, Result As String = ""
-            Dim EditTokenMatch As Match
+            Dim Result As String = GetText("title=Special:Blockip/" & UrlEncode(User.Name))
+            Dim EditTokenMatch As Match = Regex.Match(Result, _
+                "<input name=""wpEditToken"" type=""hidden"" value=""(.*?)"" />", RegexOptions.Compiled)
 
-            Do
-                Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
-                Client.Headers.Add(HttpRequestHeader.Cookie, Cookie)
-                Client.Proxy = Login.Proxy
-
-                Retries -= 1
-                Try
-                    Result = UTF8.GetString(Client.DownloadData(SitePath & "w/index.php?title=Special:Blockip/" _
-                        & UrlEncode(ThisUser.Name)))
-
-                Catch ex As WebException
-                End Try
-
-                EditTokenMatch = Regex.Match(Result, _
-                    "<input name=""wpEditToken"" type=""hidden"" value=""(.*?)"" />", RegexOptions.Compiled)
-
-            Loop Until EditTokenMatch.Success OrElse Retries = 0
-
-            Dim EditToken As String = EditTokenMatch.Groups(1).Value
-
-            If Retries = 0 Then
+            If Not EditTokenMatch.Success Then
                 Callback(AddressOf Failed)
                 Exit Sub
             End If
 
-            Do
-                Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
-                Client.Headers.Add(HttpRequestHeader.Cookie, Cookie)
-                Client.Headers.Add(HttpRequestHeader.ContentType, "application/x-www-form-urlencoded")
-                Client.Proxy = Login.Proxy
+            Dim EditToken As String = EditTokenMatch.Groups(1).Value
 
-                Retries -= 1
+            Dim PostString As String = "wpBlockAddress=" & UrlEncode(User.Name) & _
+                "&wpBlockReasonList=other" & "&wpBlockReason=" & UrlEncode(Reason) & _
+                "&wpBlockExpiry=" & UrlEncode(Expiry) & "&wpEditToken=" & UrlEncode(EditToken)
 
-                Dim PostString As String = "wpBlockAddress=" & UrlEncode(ThisUser.Name) & _
-                    "&wpBlockReasonList=other" & "&wpBlockReason=" & UrlEncode(Reason) & _
-                    "&wpBlockExpiry=" & UrlEncode(Expiry) & "&wpEditToken=" & UrlEncode(EditToken)
+            If BlockCreation Then PostString &= "&wpCreateAccount=1"
+            If BlockEmail Then PostString &= "&wpEmailBan=1"
+            If Autoblock Then PostString &= "&wpEnableAutoblock=1"
+            If AnonOnly Then PostString &= "&wpAnonOnly=1"
 
-                If BlockCreation Then PostString &= "&wpCreateAccount=1"
-                If BlockEmail Then PostString &= "&wpEmailBan=1"
-                If Autoblock Then PostString &= "&wpEnableAutoblock=1"
-                If AnonOnly Then PostString &= "&wpAnonOnly=1"
+            Result = PostData("title=Special:Blockip&action=submit", PostString)
 
-                If Cancelled Then Exit Sub
-                Try
-                    Result = UTF8.GetString(Client.UploadData(SitePath & _
-                        "w/index.php?title=Special:Blockip&action=submit", UTF8.GetBytes(PostString)))
-                Catch ex As Exception
-                End Try
-
-            Loop Until IsWikiPage(Result) OrElse Retries = 0
-
-            If Retries > 0 Then Callback(AddressOf Done) Else Callback(AddressOf Failed)
+            If IsWikiPage(Result) Then Callback(AddressOf Done) Else Callback(AddressOf Failed)
         End Sub
 
         Private Sub Done(ByVal O As Object)
             If Notify Then
                 Dim NewRequest As New BlockNotificationRequest
 
-                NewRequest.ThisUser = ThisUser
+                NewRequest.User = User
                 NewRequest.Expiry = Expiry
                 NewRequest.Reason = Reason
-                NewRequest.Template = Template
+                NewRequest.Template = NotifyTemplate
                 NewRequest.Start()
             End If
 
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
-            Delog(ThisUser)
+            Complete()
         End Sub
 
         Private Sub Failed(ByVal O As Object)
-            Log("Failed to block '" & ThisUser.Name & "'")
-            If CurrentEdit.User Is ThisUser Then Main.UserReportB.Enabled = True
-
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
-            Delog(ThisUser)
+            Log("Failed to block '" & User.Name & "'")
+            If CurrentEdit.User Is User Then Main.UserReportB.Enabled = True
+            Fail()
         End Sub
 
     End Class
@@ -140,7 +106,8 @@ Module ActionRequests
         Public Page As Page
 
         Public Sub Start()
-            Log("Marking '" & Page.Name & "' as patrolled...", Page, True)
+            LogProgress("Marking '" & Page.Name & "' as patrolled...")
+
             Dim RequestThread As New Thread(AddressOf Process)
             RequestThread.IsBackground = True
             RequestThread.Start()
@@ -156,8 +123,10 @@ Module ActionRequests
                 Exit Sub
             End If
 
+            Dim Result As String
+
             If Page.Rcid Is Nothing Then
-                Dim Result As String = GetText(SitePath & "w/index.php?title=Special:Newpages&namespace=all&limit=500")
+                Result = GetText("title=Special:Newpages&namespace=all&limit=500")
 
                 If Result Is Nothing Then
                     Callback(AddressOf Failed)
@@ -197,43 +166,32 @@ Module ActionRequests
                 Exit Sub
             End If
 
-            If Cancelled Then Exit Sub
-            Dim Result2 As String = GetText(SitePath & "w/index.php?title=" & UrlEncode(Page.Name.Replace(" ", "_")) & _
-                "&action=markpatrolled&rcid=" & Page.Rcid)
+            Result = GetText("title=" & UrlEncode(Page.Name) & "&action=markpatrolled&rcid=" & UrlEncode(Page.Rcid))
 
-            If Not Result2.Contains("Marked as patrolled</h1>") Then
-                Callback(AddressOf Failed)
-                Exit Sub
-            End If
-
-            Callback(AddressOf Done)
+            If Result.Contains("Marked as patrolled") Then Callback(AddressOf Done) Else Callback(AddressOf Failed)
         End Sub
 
         Private Sub Done(ByVal O As Object)
-            Delog(Page)
             Page.Patrolled = True
             Log("Marked '" & Page.Name & "' as patrolled")
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            Complete()
         End Sub
 
         Private Sub NotFound(ByVal O As Object)
-            Delog(Page)
             Page.Patrolled = True
             Log("Did not mark '" & Page.Name & "' as patrolled; cannot find it in the new page log")
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            Fail()
         End Sub
 
         Private Sub AlreadyPatrolled(ByVal O As Object)
-            Delog(Page)
             Page.Patrolled = True
             Log("'" & Page.Name & "' has already been patrolled")
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            Complete()
         End Sub
 
         Private Sub Failed(ByVal O As Object)
-            Delog(Page)
             Log("Failed to mark '" & Page.Name & "' as patrolled")
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            Fail()
         End Sub
 
     End Class
@@ -242,90 +200,57 @@ Module ActionRequests
 
         'Move a page
 
-        Public ThisPage As Page, Target, Reason As String
+        Public Page As Page, Target, Reason As String
 
         Public Sub Start()
-            Log("Moving '" & ThisPage.Name & "'...", ThisPage, True)
+            LogProgress("Moving '" & Page.Name & "'...")
+
             Dim RequestThread As New Thread(AddressOf Process)
             RequestThread.IsBackground = True
             RequestThread.Start()
         End Sub
 
         Private Sub Process()
-            Dim Client As New WebClient, Retries As Integer = 3, Result As String
-            Dim EditTokenMatch As Match
 
-            Do
-                Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
-                Client.Headers.Add(HttpRequestHeader.Cookie, Cookie)
-                Client.Proxy = Login.Proxy
+            Dim Result As String = GetText("title=Special:MovePage&target=" & UrlEncode(Page.Name))
 
-                Retries -= 1
-                Result = UTF8.GetString(Client.DownloadData _
-                    (SitePath & "w/index.php?title=Special:Movepage/" & UrlEncode(ThisPage.Name)))
+            If Result.Contains("<div class=""permissions-errors"">") Then
+                Callback(AddressOf PermissionDenied)
+                Exit Sub
+            End If
 
-                If Result.Contains("<div class=""permissions-errors"">") Then
-                    Callback(AddressOf PermissionDenied)
-                    Exit Sub
-                End If
+            Dim EditTokenMatch As Match = Regex.Match(Result, _
+                "<input name=""wpEditToken"" type=""hidden"" value=""(.*?)"" />", RegexOptions.Compiled)
 
-                EditTokenMatch = Regex.Match(Result, _
-                    "<input name=""wpEditToken"" type=""hidden"" value=""(.*?)"" />", RegexOptions.Compiled)
-
-            Loop Until EditTokenMatch.Success OrElse Retries = 0
-
-            If Retries = 0 Then
-                Callback(AddressOf Failed, CObj(Result))
+            If Not EditTokenMatch.Success Then
+                Callback(AddressOf Failed)
                 Exit Sub
             End If
 
             Dim EditToken As String = EditTokenMatch.Groups(1).Value
+            Dim PostString As String = "wpOldTitle=" & UrlEncode(Page.Name) & "&wpNewTitle=" & UrlEncode(Target) & _
+                "&wpReason=" & UrlEncode(Reason) & "&wpEditToken=" & UrlEncode(EditToken)
 
-            Retries = 3
-
-            Do
-                Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
-                Client.Headers.Add(HttpRequestHeader.ContentType, "application/x-www-form-urlencoded")
-                Client.Headers.Add(HttpRequestHeader.Cookie, Cookie)
-                Client.Proxy = Login.Proxy
-
-                Retries -= 1
-
-                Dim PostString As String = "wpOldTitle=" & UrlEncode(ThisPage.Name) & _
-                    "&wpNewTitle=" & UrlEncode(Target) & "&wpReason=" & UrlEncode(Reason) & _
-                    "&wpEditToken=" & UrlEncode(EditToken)
-
-                If Cancelled Then Exit Sub
-                Try
-                    Result = UTF8.GetString(Client.UploadData(SitePath & _
-                        "w/index.php?title=Special:Movepage/" & UrlEncode(ThisPage.Name) & _
-                        "&action=submit", UTF8.GetBytes(PostString)))
-                Catch ex As Exception
-                End Try
-
-            Loop Until IsWikiPage(Result) OrElse Retries = 0
+            Result = PostData("title=Special:MovePage&target=" & UrlEncode(Page.Name) & "&action=submit", PostString)
 
             If Result.Contains("<h1 class=""firstHeading"">Move succeeded</h1>") _
-                Then Callback(AddressOf Done, CObj(Result)) Else Callback(AddressOf Failed, CObj(Result))
+                Then Callback(AddressOf Done) Else Callback(AddressOf Failed)
         End Sub
 
         Private Sub Done(ByVal O As Object)
-            Delog(ThisPage)
-            Log("Moved '" & ThisPage.Name & "' to '" & Target & "'")
+            Log("Moved '" & Page.Name & "' to '" & Target & "'")
             Main.PageB.Text = Target
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            Complete()
         End Sub
 
         Private Sub Failed(ByVal O As Object)
-            Delog(ThisPage)
-            Log("Did not move '" & ThisPage.Name & "' to '" & Target & "'; the target might already exist")
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            Log("Did not move '" & Page.Name & "' to '" & Target & "'; the target might already exist")
+            Fail()
         End Sub
 
         Private Sub PermissionDenied(ByVal O As Object)
-            Delog(ThisPage)
-            Log("Did not move '" & ThisPage.Name & "' to '" & Target & "' – permission denied.")
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            Log("Did not move '" & Page.Name & "' to '" & Target & "' – permission denied.")
+            Fail()
         End Sub
 
     End Class
@@ -334,42 +259,28 @@ Module ActionRequests
 
         'Delete a page
 
-        Public ThisPage As Page, Summary As String
+        Public Page As Page, Summary As String
 
         Public Sub Start()
-            Log("Deleting '" & ThisPage.Name & "'...", ThisPage, True)
+            Log("Deleting '" & Page.Name & "'...")
+
             Dim RequestThread As New Thread(AddressOf Process)
             RequestThread.IsBackground = True
             RequestThread.Start()
         End Sub
 
         Private Sub Process()
-            Dim Client As New WebClient, Retries As Integer = 3, Result As String = ""
-            Dim EditTokenMatch As Match
+            Dim Result As String = GetText("title=" & UrlEncode(Page.Name) & "&action=delete")
 
-            Do
-                Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
-                Client.Headers.Add(HttpRequestHeader.Cookie, Cookie)
-                Client.Proxy = Login.Proxy
+            Dim EditTokenMatch As Match = Regex.Match(Result, _
+                "<input name=""wpEditToken"" type=""hidden"" value=""(.*?)"" />", RegexOptions.Compiled)
 
-                Retries -= 1
-                Try
-                    Result = UTF8.GetString(Client.DownloadData(SitePath & "w/index.php?title=" & _
-                        UrlEncode(ThisPage.Name) & "&action=delete"))
-
-                Catch ex As WebException
-                End Try
-
-                EditTokenMatch = Regex.Match(Result, _
-                    "<input name=""wpEditToken"" type=""hidden"" value=""(.*?)"" />", RegexOptions.Compiled)
-
-            Loop Until EditTokenMatch.Success OrElse Retries = 0
-
-            If Retries = 0 Then
+            If Not EditTokenMatch.Success Then
                 Callback(AddressOf Failed)
                 Exit Sub
             End If
 
+            'Use default summary if none supplied
             If Summary = "" AndAlso Result.Contains("<input name=""wpReason""") Then
                 Summary = Result.Substring(Result.IndexOf("<input name=""wpReason"""))
                 Summary = Summary.Substring(Summary.IndexOf(" value=""") + 8)
@@ -378,44 +289,24 @@ Module ActionRequests
             End If
 
             Dim EditToken As String = EditTokenMatch.Groups(1).Value
+            Dim PostString As String = "wpReason=" & UrlEncode(Summary) & "&wpEditToken=" & UrlEncode(EditToken)
 
-            Do
-                Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
-                Client.Headers.Add(HttpRequestHeader.Cookie, Cookie)
-                Client.Headers.Add(HttpRequestHeader.ContentType, "application/x-www-form-urlencoded")
-                Client.Proxy = Login.Proxy
+            Result = PostData("title=" & UrlEncode(Page.Name) & "&action=delete", PostString)
 
-                Retries -= 1
-
-                Dim PostString As String = "wpReason=" & UrlEncode(Summary) & "&wpEditToken=" & UrlEncode(EditToken)
-
-                If Cancelled Then Exit Sub
-                Try
-                    Result = UTF8.GetString(Client.UploadData(SitePath & "w/index.php?title=" & _
-                        UrlEncode(ThisPage.Name) & "&action=delete", UTF8.GetBytes(PostString)))
-
-                Catch ex As Exception
-                End Try
-
-            Loop Until IsWikiPage(Result) OrElse Retries = 0
-
-            If Retries > 0 Then Callback(AddressOf Done) Else Callback(AddressOf Failed)
+            If Result.Contains("<h1 class=""firstHeading"">Action complete</h1>") _
+                Then Callback(AddressOf Done) Else Callback(AddressOf Failed)
         End Sub
 
         Private Sub Done(ByVal O As Object)
-            Log("Deleted '" & ThisPage.Name & "'")
-            ThisPage.DeletesCurrent = False
-
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
-            Delog(ThisPage)
+            Log("Deleted '" & Page.Name & "'")
+            Page.DeletesCurrent = False
+            Complete()
         End Sub
 
         Private Sub Failed(ByVal O As Object)
-            Log("Failed to delete '" & ThisPage.Name & "'")
-            If CurrentEdit.Page Is ThisPage Then Main.PageDeleteB.Enabled = True
-
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
-            Delog(ThisPage)
+            Log("Failed to delete '" & Page.Name & "'")
+            If CurrentEdit.Page Is Page Then Main.PageDeleteB.Enabled = True
+            Fail()
         End Sub
 
     End Class
@@ -424,86 +315,51 @@ Module ActionRequests
 
         'Protect a page
 
-        Public ThisPage As Page, EditLevel, MoveLevel, Expiry, Summary As String, Cascade As Boolean
+        Public Page As Page, EditLevel, MoveLevel, Expiry, Summary As String, Cascade As Boolean
 
         Public Sub Start()
-            Log("Protecting '" & ThisPage.Name & "'...", ThisPage, True)
+            LogProgress("Protecting '" & Page.Name & "'...")
+
             Dim RequestThread As New Thread(AddressOf Process)
             RequestThread.IsBackground = True
             RequestThread.Start()
         End Sub
 
         Private Sub Process()
-            Dim Client As New WebClient, Retries As Integer = 3, Result As String = ""
-            Dim EditTokenMatch As Match
+            Dim Result As String = GetText("title=" & UrlEncode(Page.Name) & "&action=protect")
 
-            Do
-                Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
-                Client.Headers.Add(HttpRequestHeader.Cookie, Cookie)
-                Client.Proxy = Login.Proxy
+            Dim EditTokenMatch As Match = Regex.Match(Result, _
+                "<input type=""hidden"" name=""wpEditToken"" value=""(.*?)"" />", RegexOptions.Compiled)
 
-                Retries -= 1
-                Try
-                    Result = UTF8.GetString(Client.DownloadData(SitePath & "w/index.php?title=" & _
-                        UrlEncode(ThisPage.Name) & "&action=protect"))
-
-                Catch ex As WebException
-                End Try
-
-                EditTokenMatch = Regex.Match(Result, _
-                    "<input type=""hidden"" name=""wpEditToken"" value=""(.*?)"" />", RegexOptions.Compiled)
-
-            Loop Until EditTokenMatch.Success OrElse Retries = 0
-
-            If Retries = 0 Then
+            If Not EditTokenMatch.Success Then
                 Callback(AddressOf Failed)
                 Exit Sub
             End If
 
             Dim EditToken As String = EditTokenMatch.Groups(1).Value
 
-            Do
-                Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
-                Client.Headers.Add(HttpRequestHeader.Cookie, Cookie)
-                Client.Headers.Add(HttpRequestHeader.ContentType, "application/x-www-form-urlencoded")
-                Client.Proxy = Login.Proxy
+            Dim PostString As String = "mwProtect-reason=" & UrlEncode(Summary) _
+                    & "&wpEditToken=" & UrlEncode(EditToken) & "&mwProtect-level-edit=" & UrlEncode(EditLevel) _
+                    & "&mwProtect-level-move=" & UrlEncode(MoveLevel) & "&mwProtect-expiry=" & UrlEncode(Expiry)
 
-                Retries -= 1
+            If Cascade Then PostString &= "&mwProtect-cascade=1"
 
-                Dim PostString As String = "mwProtect-reason=" & UrlEncode(Summary) _
-                    & "&wpEditToken=" & UrlEncode(EditToken) & "&mwProtect-level-edit=" & EditLevel _
-                    & "&mwProtect-level-move=" & MoveLevel & "&mwProtect-expiry=" & Expiry
+            Result = PostData("title=" & UrlEncode(Page.Name) & "&action=protect", PostString)
 
-                If Cascade Then PostString &= "&mwProtect-cascade=1"
-
-                If Cancelled Then Exit Sub
-                Try
-                    Result = UTF8.GetString(Client.UploadData(SitePath & "w/index.php?title=" & _
-                        UrlEncode(ThisPage.Name) & "&action=protect", UTF8.GetBytes(PostString)))
-
-                Catch ex As Exception
-                End Try
-
-            Loop Until IsWikiPage(Result) OrElse Retries = 0
-
-            If Retries > 0 Then Callback(AddressOf Done) Else Callback(AddressOf Failed)
+            If Result IsNot Nothing Then Callback(AddressOf Done) Else Callback(AddressOf Failed)
         End Sub
 
         Private Sub Done(ByVal O As Object)
-            Log("Protected '" & ThisPage.Name & "'")
-            ThisPage.ProtectionsCurrent = False
-
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
-            Delog(ThisPage)
+            Log("Protected '" & Page.Name & "'")
+            Page.ProtectionsCurrent = False
+            Complete()
         End Sub
 
         Private Sub Failed(ByVal O As Object)
-            Log("Failed to protect '" & ThisPage.Name & "'")
-
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
-            Delog(ThisPage)
+            Log("Failed to protect '" & Page.Name & "'")
+            Fail()
         End Sub
 
     End Class
 
-End Module
+End Namespace

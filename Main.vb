@@ -6,8 +6,9 @@ Imports System.Web.HttpUtility
 Class Main
 
     Public Reverting As Boolean
+    Private LoggingOut As Boolean
 
-    Private Sub Main_Load() Handles Me.Load
+    Public Sub Initialize()
         Icon = My.Resources.icon_red_button
         InitialTab.Parent = Tabs.TabPages(0)
         CurrentTab = InitialTab
@@ -37,7 +38,6 @@ Class Main
         End If
 
         Configure()
-        RefreshInterface()
     End Sub
 
     Sub DrawHistory()
@@ -119,8 +119,9 @@ Class Main
     Private Sub Main_FormClosing() Handles Me.FormClosing
         TrayIcon.Visible = False
         Visible = False
-        ClosingForm.ShowDialog()
-        Close()
+        EditQueue.Clear()
+
+        If Not LoggingOut Then ClosingForm.ShowDialog()
     End Sub
 
     Private Sub Revert_Click() Handles DiffRevertB.ButtonClick
@@ -349,7 +350,7 @@ Class Main
     Private Sub ViewHistory_Click() Handles PageHistory.Click, HistoryB.Click
         If CurrentEdit IsNot Nothing AndAlso CurrentEdit.Page IsNot Nothing Then
             Dim NewHistoryRequest As New HistoryRequest
-            NewHistoryRequest.ThisPage = CurrentEdit.Page
+            NewHistoryRequest.Page = CurrentEdit.Page
             NewHistoryRequest.Start()
         End If
     End Sub
@@ -357,7 +358,7 @@ Class Main
     Private Sub UserContribs_Click() Handles UserContribs.Click, ContribsB.Click
         If CurrentEdit IsNot Nothing Then
             Dim NewContribsRequest As New ContribsRequest
-            NewContribsRequest.ThisUser = CurrentEdit.User
+            NewContribsRequest.User = CurrentEdit.User
             NewContribsRequest.Start()
         End If
     End Sub
@@ -620,19 +621,19 @@ Class Main
             If NewProdTagForm.ShowDialog = DialogResult.OK Then
                 Dim NewTagRequest As New TagRequest
 
-                NewTagRequest.ThisPage = CurrentEdit.Page
+                NewTagRequest.Page = CurrentEdit.Page
                 NewTagRequest.Tag = "{{subst:prod|" & NewProdTagForm.Reason.Text & "}}"
                 NewTagRequest.Summary = Config.ProdSummary.Replace("$1", NewProdTagForm.Reason.Text)
-                NewTagRequest.Avoid = "{{dated prod|"
+                NewTagRequest.AvoidText = "{{dated prod|"
 
                 If CurrentEdit.Page.FirstEdit IsNot Nothing Then
                     NewTagRequest.NotifyRequest = New UserMessageRequest
                     NewTagRequest.NotifyRequest.Message = Config.ProdMessage.Replace("$1", CurrentEdit.Page.Name) _
                         .Replace("$2", NewProdTagForm.Reason.Text)
                     NewTagRequest.NotifyRequest.Title = Config.ProdMessageTitle.Replace("$1", CurrentEdit.Page.Name)
-                    NewTagRequest.NotifyRequest.Avoid = CurrentEdit.Page.Name
+                    NewTagRequest.NotifyRequest.AvoidText = CurrentEdit.Page.Name
                     NewTagRequest.NotifyRequest.Summary = Config.ProdMessageSummary.Replace("$1", CurrentEdit.Page.Name)
-                    NewTagRequest.NotifyRequest.ThisUser = CurrentEdit.Page.FirstEdit.User
+                    NewTagRequest.NotifyRequest.User = CurrentEdit.Page.FirstEdit.User
                 End If
 
                 NewTagRequest.Start()
@@ -648,7 +649,7 @@ Class Main
 
             If NewMovePageForm.ShowDialog = DialogResult.OK Then
                 Dim NewMoveRequest As New MoveRequest
-                NewMoveRequest.ThisPage = CurrentEdit.Page
+                NewMoveRequest.Page = CurrentEdit.Page
                 NewMoveRequest.Target = NewMovePageForm.Target.Text
                 NewMoveRequest.Reason = NewMovePageForm.Reason.Text
                 NewMoveRequest.Start()
@@ -663,6 +664,8 @@ Class Main
         NewListViewItem.SubItems.Add(Date.Now.Year.ToString & "-" & Date.Now.Month.ToString.PadLeft(2, "0"c) _
             & "-" & Date.Now.Day.ToString.PadLeft(2, "0"c) & " " & Date.Now.ToLongTimeString _
             & UtcOffset() & " -- " & Message)
+
+        Status.BeginUpdate()
 
         If InProgress Then
             Status.Items.Insert(0, NewListViewItem)
@@ -680,19 +683,36 @@ Class Main
 
             Status.Items.Insert(0, NewListViewItem)
         End If
+
+        Status.EndUpdate()
+        UpdateCancelButton()
     End Sub
 
-    Sub Delog(ByVal Tag As Object)
+    Sub Delog(ByVal Request As Request)
         Dim i As Integer = 0
 
         Status.BeginUpdate()
 
         While i < Status.Items.Count
-            If Status.Items(i).ForeColor = Color.Red AndAlso Status.Items(i).Tag Is Tag _
+            If Status.Items(i).ForeColor = Color.Red AndAlso Status.Items(i).Tag Is Request _
                 Then Status.Items.RemoveAt(i) Else i += 1
         End While
 
         Status.EndUpdate()
+        UpdateCancelButton()
+    End Sub
+
+    Private Sub UpdateCancelButton()
+        Dim CancellableRequests As Boolean
+
+        For Each Item As ListViewItem In Status.Items
+            If Item.ForeColor = Color.Red Then
+                CancellableRequests = True
+                Exit For
+            End If
+        Next Item
+
+        CancelB.Enabled = CancellableRequests
     End Sub
 
     Function UtcOffset() As String
@@ -751,7 +771,7 @@ Class Main
             UserReportB.Enabled = False
 
             Dim NewBlockRequest As New BlockRequest
-            NewBlockRequest.ThisUser = NewBlockForm.ThisUser
+            NewBlockRequest.User = NewBlockForm.ThisUser
             NewBlockRequest.Reason = NewBlockForm.Reason.Text
             NewBlockRequest.AnonOnly = NewBlockForm.AnonOnly.Checked
             NewBlockRequest.BlockCreation = NewBlockForm.BlockCreation.Checked
@@ -761,7 +781,7 @@ Class Main
                 AndAlso NewBlockForm.BlockMessage.Text <> "(none)")
             NewBlockRequest.Expiry = NewBlockForm.Expiry.Text
             If NewBlockForm.BlockMessage.Text <> "(standard block message)" _
-                Then NewBlockRequest.Template = NewBlockForm.BlockMessage.Text
+                Then NewBlockRequest.NotifyTemplate = NewBlockForm.BlockMessage.Text
             NewBlockRequest.Start()
         End If
     End Sub
@@ -775,14 +795,14 @@ Class Main
             If NewUserReport.ReportTo.SelectedIndex = 0 Then
 
                 Dim NewRequest As New AIVReportRequest
-                NewRequest.ThisUser = ThisUser
-                NewRequest.ThisEdit = ThisEdit
+                NewRequest.User = ThisUser
+                NewRequest.Edit = ThisEdit
                 NewRequest.Reason = NewUserReport.Message.Text
                 NewRequest.Start()
 
             Else
                 Dim NewRequest As New UAAReportRequest
-                NewRequest.ThisUser = ThisUser
+                NewRequest.User = ThisUser
                 NewRequest.Reason = NewUserReport.Message.Text
                 NewRequest.Start()
             End If
@@ -797,12 +817,12 @@ Class Main
         If CurrentEdit IsNot Nothing AndAlso CurrentEdit.Page IsNot Nothing Then
             If Watchlist.Contains(SubjectPage(CurrentEdit.Page)) Then
                 Dim NewRequest As New UnwatchRequest
-                NewRequest.ThisPage = SubjectPage(CurrentEdit.Page)
+                NewRequest.Page = SubjectPage(CurrentEdit.Page)
                 NewRequest.Manual = True
                 NewRequest.Start()
             Else
                 Dim NewRequest As New WatchRequest
-                NewRequest.ThisPage = SubjectPage(CurrentEdit.Page)
+                NewRequest.Page = SubjectPage(CurrentEdit.Page)
                 NewRequest.Manual = True
                 NewRequest.Start()
             End If
@@ -938,7 +958,7 @@ Class Main
 
             If NewReqProtectionForm.ShowDialog = DialogResult.OK Then
                 Dim NewRequest As New ReqProtectionRequest
-                NewRequest.ThisPage = CurrentEdit.Page
+                NewRequest.Page = CurrentEdit.Page
                 NewRequest.Reason = NewReqProtectionForm.Reason.Text
                 NewRequest.Type = NewReqProtectionForm.Type
                 NewRequest.Start()
@@ -1017,8 +1037,8 @@ Class Main
     End Sub
 
     Private Sub SystemReloadConfig_Click()
-        Dim NewGetConfigRequest As New GetConfigRequest
-        NewGetConfigRequest.StartInThread(False)
+        Dim NewGetConfigRequest As New ConfigRequest
+        NewGetConfigRequest.GetUserConfigInThread()
     End Sub
 
     Private Sub ShowLog_Click() Handles SystemShowLog.Click
@@ -1085,7 +1105,6 @@ Class Main
         DrawHistory()
         DrawContribs()
         DrawQueue()
-        CancelB.Enabled = (PendingRequests.Count > 0)
     End Sub
 
     Public Sub SetCurrentUser(ByVal User As User, ByVal DisplayLast As Boolean)
@@ -1097,7 +1116,7 @@ Class Main
                     CurrentEdit.User = User
 
                     Dim NewContribsRequest As New ContribsRequest
-                    NewContribsRequest.ThisUser = User
+                    NewContribsRequest.User = User
                     NewContribsRequest.DisplayWhenDone = True
                     NewContribsRequest.Start()
                 Else
@@ -1125,7 +1144,7 @@ Class Main
                     CurrentEdit.User = GetUser(UserB.Text)
 
                     Dim NewHistoryRequest As New HistoryRequest
-                    NewHistoryRequest.ThisPage = Page
+                    NewHistoryRequest.Page = Page
                     NewHistoryRequest.DisplayWhenDone = True
                     NewHistoryRequest.Start()
                 Else
@@ -1201,7 +1220,7 @@ Class Main
         For Each Item As ToolStripItem In UndoMenu.Items
             If CType(Item.Tag, Command) Is ThisCommand Then
                 UndoMenu.Items.Remove(Item)
-                If UndoMenu.Items.Count = 0 Then CancelB.Enabled = False
+                If UndoMenu.Items.Count = 0 Then UndoMenu.Enabled = False
                 Exit For
             End If
         Next Item
@@ -1214,7 +1233,7 @@ Class Main
             If CType(MenuItem.Tag, Command) Is Item Then
                 Undo.Remove(Item)
                 UndoMenu.Items.Remove(MenuItem)
-                If UndoMenu.Items.Count = 0 Then CancelB.Enabled = False
+                If UndoMenu.Items.Count = 0 Then UndoMenu.Enabled = False
 
                 Select Case Item.Type
                     Case CommandType.Edit, CommandType.Revert, CommandType.Warning, CommandType.Report
@@ -1234,7 +1253,7 @@ Class Main
     Private Sub WarnVandalism_Click() Handles WarnVandalism.Click
         Dim NewRequest As New WarningRequest
         NewRequest.Level = 0
-        NewRequest.ThisEdit = CurrentEdit
+        NewRequest.Edit = CurrentEdit
         NewRequest.Type = "warning"
         NewRequest.Start()
     End Sub
@@ -1242,7 +1261,7 @@ Class Main
     Private Sub WarnSpam_Click() Handles WarnSpam.Click
         Dim NewRequest As New WarningRequest
         NewRequest.Level = 0
-        NewRequest.ThisEdit = CurrentEdit
+        NewRequest.Edit = CurrentEdit
         NewRequest.Type = "spam"
         NewRequest.Start()
     End Sub
@@ -1250,7 +1269,7 @@ Class Main
     Private Sub WarnTest_Click() Handles WarnTest.Click
         Dim NewRequest As New WarningRequest
         NewRequest.Level = 0
-        NewRequest.ThisEdit = CurrentEdit
+        NewRequest.Edit = CurrentEdit
         NewRequest.Type = "test"
         NewRequest.Start()
     End Sub
@@ -1258,7 +1277,7 @@ Class Main
     Private Sub WarnDelete_Click() Handles WarnDelete.Click
         Dim NewRequest As New WarningRequest
         NewRequest.Level = 0
-        NewRequest.ThisEdit = CurrentEdit
+        NewRequest.Edit = CurrentEdit
         NewRequest.Type = "delete"
         NewRequest.Start()
     End Sub
@@ -1266,7 +1285,7 @@ Class Main
     Private Sub WarnAttacks_Click() Handles WarnAttack.Click
         Dim NewRequest As New WarningRequest
         NewRequest.Level = 0
-        NewRequest.ThisEdit = CurrentEdit
+        NewRequest.Edit = CurrentEdit
         NewRequest.Type = "attack"
         NewRequest.Start()
     End Sub
@@ -1274,13 +1293,13 @@ Class Main
     Private Sub UserMessageWelcome_Click() Handles UserMessageWelcome.Click
         If CurrentUser IsNot Nothing Then
             Dim NewRequest As New UserMessageRequest
-            NewRequest.ThisUser = CurrentUser
+            NewRequest.User = CurrentUser
             If CurrentUser.Anonymous Then NewRequest.Message = Config.WelcomeAnon _
                 Else NewRequest.Message = Config.Welcome
             NewRequest.AutoSign = True
             NewRequest.Summary = Config.WelcomeSummary
             NewRequest.Minor = Config.MinorNotifications
-            NewRequest.Avoid = "<!-- Template:Welcome"
+            NewRequest.AvoidText = "<!-- Template:Welcome"
             NewRequest.Start()
         End If
     End Sub
@@ -1296,12 +1315,12 @@ Class Main
         If CurrentUser IsNot Nothing Then
             Dim MenuItem As ToolStripItem = CType(Sender, ToolStripItem)
             Dim NewRequest As New UserMessageRequest
-            NewRequest.ThisUser = CurrentUser
+            NewRequest.User = CurrentUser
             NewRequest.Message = "{{subst:" & CStr(MenuItem.Tag) & "}}"
             NewRequest.AutoSign = True
             NewRequest.Summary = "Notification: {{[[Template:" & CStr(MenuItem.Tag) & "|" & CStr(MenuItem.Tag) & "]]}}"
             NewRequest.Minor = Config.MinorNotifications
-            NewRequest.Avoid = "<!-- Template:" & CStr(MenuItem.Tag)
+            NewRequest.AvoidText = "<!-- Template:" & CStr(MenuItem.Tag)
             NewRequest.Start()
         End If
     End Sub
@@ -1394,15 +1413,21 @@ Class Main
     End Sub
 
     Private Sub CancelB_Click() Handles CancelB.Click
-        Dim i As Integer = 0
+        Dim i, CancelledRequests As Integer
 
-        While i < PendingRequests.Count
-            PendingRequests(i).Cancel()
-            PendingRequests.RemoveAt(i)
+        While i < Status.Items.Count
+            If Status.Items(i).ForeColor = Color.Red AndAlso TypeOf Status.Items(i).Tag Is Request Then
+                CType(Status.Items(i).Tag, Request).Cancel()
+                CancelledRequests += 1
+            Else
+                i += 1
+            End If
         End While
 
+        If CancelledRequests = 1 Then Log("Cancelled 1 request") _
+            Else Log("Cancelled " & CStr(CancelledRequests) & " requests")
+
         PendingWarnings.Clear()
-        CancelB.Enabled = False
     End Sub
 
     Private Sub Speedy_Click(ByVal sender As Object, ByVal e As EventArgs)
@@ -1446,7 +1471,7 @@ Class Main
     Private Sub WarnError_Click() Handles WarnError.Click
         Dim NewRequest As New WarningRequest
         NewRequest.Level = 0
-        NewRequest.ThisEdit = CurrentEdit
+        NewRequest.Edit = CurrentEdit
         NewRequest.Type = "error"
         NewRequest.Start()
     End Sub
@@ -1454,7 +1479,7 @@ Class Main
     Private Sub WarnUnsourced_Click() Handles WarnUnsourced.Click
         Dim NewRequest As New WarningRequest
         NewRequest.Level = 0
-        NewRequest.ThisEdit = CurrentEdit
+        NewRequest.Edit = CurrentEdit
         NewRequest.Type = "unsourced"
         NewRequest.Start()
     End Sub
@@ -1462,7 +1487,7 @@ Class Main
     Private Sub WarnNpov_Click() Handles WarnNpov.Click
         Dim NewRequest As New WarningRequest
         NewRequest.Level = 0
-        NewRequest.ThisEdit = CurrentEdit
+        NewRequest.Edit = CurrentEdit
         NewRequest.Type = "npov"
         NewRequest.Start()
     End Sub
@@ -1500,7 +1525,7 @@ Class Main
 
                     If i < Config.ContribsBlockSize Then
                         Dim NewContribsRequest As New ContribsRequest
-                        NewContribsRequest.ThisUser = CurrentUser
+                        NewContribsRequest.User = CurrentUser
                         NewContribsRequest.Start(AddressOf CreateContribsQueue)
                     Else
                         CreateContribsQueue(True)
@@ -1577,7 +1602,7 @@ Class Main
         NewRevertAndWarnForm.ShowDialog()
     End Sub
 
-    Private Sub QueueScroll_Scroll(ByVal s As Object, ByVal e As ScrollEventArgs) Handles QueueScroll.Scroll
+    Private Sub QueueScroll_Scroll() Handles QueueScroll.Scroll
         DrawQueue()
     End Sub
 
@@ -1595,6 +1620,19 @@ Class Main
 
     Private Sub GoMyContribs_Click() Handles GoMyContribs.Click
         SetCurrentUser(GetUser(Config.Username), True)
+    End Sub
+
+    Private Sub SystemRequests_Click() Handles SystemRequests.Click
+        RequestsForm.Show()
+    End Sub
+
+    Private Sub SystemLogOut_Click() Handles SystemLogOut.Click
+        LoggingOut = True
+        Irc.Disconnect()
+
+        Dim NewLoginForm As New LoginForm
+        NewLoginForm.Show()
+        Close()
     End Sub
 
 End Class

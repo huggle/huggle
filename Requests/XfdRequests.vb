@@ -1,7 +1,7 @@
 Imports System.Threading
 Imports System.Web.HttpUtility
 
-Module XfdRequests
+Namespace Requests
 
     Class XfdRequest : Inherits Request
 
@@ -16,8 +16,7 @@ Module XfdRequests
         Protected Function GetNominationSubpage(ByVal Name As String, ByVal Path As String) As String
             'Check for previous nominations of the same page
             Dim Subpage As String = Name
-            Dim Result As String = GetText(Config.SitePath & _
-                "w/api.php?action=query&format=xml&list=allpages&apnamespace=4&apprefix=" & _
+            Dim Result As String = GetApi("action=query&format=xml&list=allpages&apnamespace=4&apprefix=" & _
                 UrlEncode((Path.Substring(Path.IndexOf(":") + 1) & "/" & Name).Replace(" ", "_")))
 
             If Result IsNot Nothing AndAlso Result.Contains("<allpages>") Then
@@ -40,27 +39,24 @@ Module XfdRequests
         End Function
 
         Protected Sub RfdNeeded(ByVal DataObject As Object)
-            Delog(Page)
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
-
             Dim NewRfdRequest As New RfdRequest
             NewRfdRequest.Page = Page
             NewRfdRequest.Data = CType(DataObject, EditData)
             NewRfdRequest.Reason = Reason
             NewRfdRequest.Notify = Notify
             NewRfdRequest.Start()
+
+            Complete()
         End Sub
 
         Protected Sub PageDeleted(ByVal O As Object)
-            Delog(Page)
-            Log("Did not tag '" & Page.Name & "' for deletion discussion, because the page was deleted")
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            Log("Did not tag '" & Page.Name & "' for deletion discussion, because the page does not exist")
+            Fail()
         End Sub
 
-        Protected Sub AlreadyNominated(ByVal O As Object)
-            Delog(Page)
+        Protected Sub AlreadyTagged(ByVal O As Object)
             Log("Did not tag '" & Page.Name & "' for deletion discussion, because it has already been tagged.")
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            Fail()
         End Sub
 
         Protected Overridable Sub DoNotify(ByVal Success As Boolean)
@@ -71,10 +67,10 @@ Module XfdRequests
         Protected Overridable Sub DoNotify(ByVal Success As Boolean, ByVal Message As String)
             If Page.FirstEdit IsNot Nothing AndAlso Page.FirstEdit.User IsNot Nothing Then
                 Dim NewRequest As New UserMessageRequest
-                NewRequest.Avoid = Page.Name
+                NewRequest.AvoidText = Page.Name
                 NewRequest.Minor = Config.MinorNotifications
                 NewRequest.Watch = Config.WatchNotifications
-                NewRequest.ThisUser = Page.FirstEdit.User
+                NewRequest.User = Page.FirstEdit.User
                 NewRequest.Title = Config.XfdMessageTitle.Replace("$1", Page.Name)
                 NewRequest.Summary = Config.XfdMessageSummary.Replace("$1", Page.Name)
                 NewRequest.Message = Message
@@ -92,15 +88,16 @@ Module XfdRequests
         Private Subpage As String
 
         Public Sub Start()
-            Log("Tagging '" & Page.Name & "' for deletion discussion...", Page, True)
+            LogProgress("Tagging '" & Page.Name & "' for deletion discussion...")
             Location = Config.AfdLocation
+
             Dim RequestThread As New Thread(AddressOf TagPage)
             RequestThread.IsBackground = True
             RequestThread.Start()
         End Sub
 
         Private Sub TagPage()
-            Dim Data As EditData = GetEdit(Page)
+            Dim Data As EditData = GetEditData(Page)
 
             If Data.Error Then
                 Callback(AddressOf TagPageFailed)
@@ -115,7 +112,7 @@ Module XfdRequests
                 Exit Sub
 
             ElseIf Data.Text.Contains("{{AfDM|") Then
-                Callback(AddressOf AlreadyNominated)
+                Callback(AddressOf AlreadyTagged)
                 Exit Sub
             End If
 
@@ -134,20 +131,20 @@ Module XfdRequests
         End Sub
 
         Private Sub TagPageDone(ByVal O As Object)
-            Log("Creating deletion discussion subpage for '" & Page.Name & "'...", Page, True)
+            LogProgress("Creating deletion discussion subpage for '" & Page.Name & "'...")
+
             Dim RequestThread As New Thread(AddressOf CreateSubpage)
             RequestThread.IsBackground = True
             RequestThread.Start()
         End Sub
 
         Private Sub TagPageFailed(ByVal O As Object)
-            Delog(Page)
             Log("Failed to tag '" & Page.Name & "' for deletion discussion")
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            Fail()
         End Sub
 
         Private Sub CreateSubpage()
-            Dim Data As EditData = GetEdit(GetPage(Config.AfdLocation & "/" & Subpage))
+            Dim Data As EditData = GetEditData(Config.AfdLocation & "/" & Subpage)
 
             If Data.Error Then
                 Callback(AddressOf CreateSubpageFailed)
@@ -166,20 +163,20 @@ Module XfdRequests
         End Sub
 
         Private Sub CreateSubpageDone(ByVal O As Object)
-            Log("Updating AfD log for nomination of '" & Page.Name & "'...", Page, True)
+            LogProgress("Updating AfD log for nomination of '" & Page.Name & "'...")
+
             Dim RequestThread As New Thread(AddressOf UpdateLog)
             RequestThread.IsBackground = True
             RequestThread.Start()
         End Sub
 
         Private Sub CreateSubpageFailed(ByVal O As Object)
-            Delog(Page)
             Log("Failed to create deletion discussion subpage for '" & Page.Name & "'")
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            Fail()
         End Sub
 
         Private Sub UpdateLog()
-            Dim Data As EditData = GetEdit(GetPage(Config.AfdLocation & "/Log/" & LogDate()))
+            Dim Data As EditData = GetEditData(Config.AfdLocation & "/Log/" & LogDate())
 
             If Data.Error Then
                 Callback(AddressOf UpdateLogFailed)
@@ -205,29 +202,27 @@ Module XfdRequests
         End Sub
 
         Private Sub UpdateLogDone(ByVal O As Object)
-            Delog(Page)
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
-
             If Notify Then
                 If Page.FirstEdit IsNot Nothing AndAlso Page.FirstEdit.User IsNot Nothing Then
                     DoNotify(True)
                 Else
                     Dim NewHistoryRequest As New HistoryRequest
-                    NewHistoryRequest.ThisPage = Page
+                    NewHistoryRequest.Page = Page
                     NewHistoryRequest.Start(AddressOf DoNotify)
                 End If
             End If
+
+            Complete()
         End Sub
 
         Private Sub UpdateLogFailed(ByVal O As Object)
-            Delog(Page)
             Log("Failed to update AfD log for nomination of '" & Page.Name & "'")
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            Fail()
         End Sub
 
         Protected Overrides Sub DoNotify(ByVal Success As Boolean)
             DoNotify(Success, Config.XfdMessage.Replace("$1", Page.Name) _
-                    .Replace("$2", Location & "/Log/" & LogDate() & "#" & Page.Name))
+                .Replace("$2", Location & "/Log/" & LogDate() & "#" & Page.Name))
         End Sub
 
     End Class
@@ -237,15 +232,16 @@ Module XfdRequests
         'Nominate a category for deletion
 
         Public Sub Start()
-            Log("Tagging '" & Page.Name & "' for deletion discussion...", Page, True)
+            LogProgress("Tagging '" & Page.Name & "' for deletion discussion...")
             Location = Config.CfdLocation
+
             Dim RequestThread As New Thread(AddressOf TagPage)
             RequestThread.IsBackground = True
             RequestThread.Start()
         End Sub
 
         Private Sub TagPage()
-            Dim Data As EditData = GetEdit(Page)
+            Dim Data As EditData = GetEditData(Page)
 
             If Data.Error Then
                 Callback(AddressOf TagPageFailed)
@@ -260,7 +256,7 @@ Module XfdRequests
                 Exit Sub
 
             ElseIf Data.Text.Contains("<!--BEGIN CFD TEMPLATE-->") Then
-                Callback(AddressOf AlreadyNominated)
+                Callback(AddressOf AlreadyTagged)
                 Exit Sub
             End If
 
@@ -276,21 +272,20 @@ Module XfdRequests
         End Sub
 
         Private Sub TagPageDone(ByVal O As Object)
-            Log("Creating deletion discussion section for '" & Page.Name & "'...", _
-                GetPage(Config.CfdLocation & "/Log/" & LogDate()), True)
+            LogProgress("Creating deletion discussion section for '" & Page.Name & "'...")
+
             Dim RequestThread As New Thread(AddressOf CreateDiscussion)
             RequestThread.IsBackground = True
             RequestThread.Start()
         End Sub
 
         Private Sub TagPageFailed(ByVal O As Object)
-            Delog(Page)
             Log("Failed to tag '" & Page.Name & "' for deletion discussion")
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            Fail()
         End Sub
 
         Private Sub CreateDiscussion()
-            Dim Data As EditData = GetEdit(GetPage(Config.CfdLocation & "/Log/" & LogDate()), , "2")
+            Dim Data As EditData = GetEditData(Config.CfdLocation & "/Log/" & LogDate(), Section:=2)
 
             If Data.Error Then
                 Callback(AddressOf CreateDiscussionFailed)
@@ -310,24 +305,22 @@ Module XfdRequests
         End Sub
 
         Private Sub CreateDiscussionDone(ByVal O As Object)
-            Delog(GetPage(Config.CfdLocation & "/Log/" & LogDate()))
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
-
             If Notify Then
                 If Page.FirstEdit IsNot Nothing AndAlso Page.FirstEdit.User IsNot Nothing Then
                     DoNotify(True)
                 Else
                     Dim NewHistoryRequest As New HistoryRequest
-                    NewHistoryRequest.ThisPage = Page
+                    NewHistoryRequest.Page = Page
                     NewHistoryRequest.Start(AddressOf DoNotify)
                 End If
             End If
+
+            Complete()
         End Sub
 
         Private Sub CreateDiscussionFailed(ByVal O As Object)
-            Delog(GetPage(Config.CfdLocation & "/Log/" & LogDate()))
             Log("Failed to create deletion discussion section for '" & Page.Name & "'")
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            Fail()
         End Sub
 
     End Class
@@ -339,15 +332,16 @@ Module XfdRequests
         Private Subpage As String
 
         Public Sub Start()
-            Log("Tagging '" & Page.Name & "' for deletion discussion...", Page, True)
+            LogProgress("Tagging '" & Page.Name & "' for deletion discussion...")
             Location = Config.MfdLocation
+
             Dim RequestThread As New Thread(AddressOf TagPage)
             RequestThread.IsBackground = True
             RequestThread.Start()
         End Sub
 
         Private Sub TagPage()
-            Dim Data As EditData = GetEdit(Page)
+            Dim Data As EditData = GetEditData(Page)
 
             If Data.Error Then
                 Callback(AddressOf TagPageFailed)
@@ -362,7 +356,7 @@ Module XfdRequests
                 Exit Sub
 
             ElseIf Data.Text.Contains("{{mfdtag|") Then
-                Callback(AddressOf AlreadyNominated)
+                Callback(AddressOf AlreadyTagged)
                 Exit Sub
             End If
 
@@ -381,20 +375,20 @@ Module XfdRequests
         End Sub
 
         Private Sub TagPageDone(ByVal O As Object)
-            Log("Creating deletion discussion subpage for '" & Page.Name & "'...", Page, True)
+            LogProgress("Creating deletion discussion subpage for '" & Page.Name & "'...")
+
             Dim RequestThread As New Thread(AddressOf CreateSubpage)
             RequestThread.IsBackground = True
             RequestThread.Start()
         End Sub
 
         Private Sub TagPageFailed(ByVal O As Object)
-            Delog(Page)
             Log("Failed to tag '" & Page.Name & "' for deletion discussion")
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            Fail()
         End Sub
 
         Private Sub CreateSubpage()
-            Dim Data As EditData = GetEdit(GetPage(Config.MfdLocation & "/" & Subpage))
+            Dim Data As EditData = GetEditData(GetPage(Config.MfdLocation & "/" & Subpage))
 
             If Data.Error Then
                 Callback(AddressOf CreateSubpageFailed)
@@ -413,20 +407,20 @@ Module XfdRequests
         End Sub
 
         Private Sub CreateSubpageDone(ByVal O As Object)
-            Log("Updating MfD log for nomination of '" & Page.Name & "'...", Page, True)
+            LogProgress("Updating MfD log for nomination of '" & Page.Name & "'...")
+
             Dim RequestThread As New Thread(AddressOf UpdateLog)
             RequestThread.IsBackground = True
             RequestThread.Start()
         End Sub
 
         Private Sub CreateSubpageFailed(ByVal O As Object)
-            Delog(Page)
             Log("Failed to create deletion discussion subpage for '" & Page.Name & "'")
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            Fail()
         End Sub
 
         Private Sub UpdateLog()
-            Dim Data As EditData = GetEdit(GetPage(Config.MfdLocation))
+            Dim Data As EditData = GetEditData(Config.MfdLocation)
 
             If Data.Error Then
                 Callback(AddressOf UpdateLogFailed)
@@ -477,16 +471,15 @@ Module XfdRequests
                     DoNotify(True)
                 Else
                     Dim NewHistoryRequest As New HistoryRequest
-                    NewHistoryRequest.ThisPage = Page
+                    NewHistoryRequest.Page = Page
                     NewHistoryRequest.Start(AddressOf DoNotify)
                 End If
             End If
         End Sub
 
         Private Sub UpdateLogFailed(ByVal O As Object)
-            Delog(Page)
             Log("Failed to update MfD log for nomination of '" & Page.Name & "'")
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            Fail()
         End Sub
 
     End Class
@@ -496,15 +489,16 @@ Module XfdRequests
         'Nominate an image for deletion
 
         Public Sub Start()
-            Log("Tagging '" & Page.Name & "' for deletion discussion...", Page, True)
+            LogProgress("Tagging '" & Page.Name & "' for deletion discussion...")
             Location = Config.IfdLocation
+
             Dim RequestThread As New Thread(AddressOf TagPage)
             RequestThread.IsBackground = True
             RequestThread.Start()
         End Sub
 
         Private Sub TagPage()
-            Dim Data As EditData = GetEdit(Page)
+            Dim Data As EditData = GetEditData(Page)
 
             If Data.Error Then
                 Callback(AddressOf TagPageFailed)
@@ -519,7 +513,7 @@ Module XfdRequests
                 Exit Sub
 
             ElseIf Data.Text.Contains("{{IfD doc}}") Then
-                Callback(AddressOf AlreadyNominated)
+                Callback(AddressOf AlreadyTagged)
                 Exit Sub
             End If
 
@@ -536,20 +530,22 @@ Module XfdRequests
 
         Private Sub TagPageDone(ByVal O As Object)
             If Page.FirstEdit IsNot Nothing AndAlso Page.FirstEdit.User IsNot Nothing Then
-                Log("Creating deletion discussion section for '" & Page.Name & "'...", Page, True)
+                LogProgress("Creating deletion discussion section for '" & Page.Name & "'...")
+
                 Dim RequestThread As New Thread(AddressOf CreateDiscussion)
                 RequestThread.IsBackground = True
                 RequestThread.Start()
             Else
                 Dim NewHistoryRequest As New HistoryRequest
-                NewHistoryRequest.ThisPage = Page
+                NewHistoryRequest.Page = Page
                 NewHistoryRequest.Start(AddressOf GotHistory)
             End If
         End Sub
 
         Private Sub GotHistory(ByVal Success As Boolean)
             If Page.FirstEdit IsNot Nothing AndAlso Page.FirstEdit.User IsNot Nothing Then
-                Log("Creating deletion discussion section for '" & Page.Name & "'...", Page, True)
+                LogProgress("Creating deletion discussion section for '" & Page.Name & "'...")
+
                 Dim RequestThread As New Thread(AddressOf CreateDiscussion)
                 RequestThread.IsBackground = True
                 RequestThread.Start()
@@ -559,13 +555,12 @@ Module XfdRequests
         End Sub
 
         Private Sub TagPageFailed(ByVal O As Object)
-            Delog(Page)
             Log("Failed to tag '" & Page.Name & "' for deletion discussion")
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            Fail()
         End Sub
 
         Private Sub CreateDiscussion()
-            Dim Data As EditData = GetEdit(GetPage(Location & "/" & LogDate()))
+            Dim Data As EditData = GetEditData(Location & "/" & LogDate())
 
             If Data.Error Then
                 Callback(AddressOf CreateDiscussionFailed)
@@ -585,15 +580,13 @@ Module XfdRequests
         End Sub
 
         Private Sub CreateDiscussionDone(ByVal O As Object)
-            Delog(Page)
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
             If Notify Then DoNotify(True)
+            Complete()
         End Sub
 
         Private Sub CreateDiscussionFailed(ByVal O As Object)
-            Delog(Page)
             Log("Failed to create deletion discussion section for '" & Page.Name & "'")
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            Fail()
         End Sub
 
     End Class
@@ -603,15 +596,16 @@ Module XfdRequests
         'Nominate a template for deletion
 
         Public Sub Start()
-            Log("Tagging '" & Page.Name & "' for deletion discussion...", Page, True)
+            LogProgress("Tagging '" & Page.Name & "' for deletion discussion...")
             Location = Config.TfdLocation
+
             Dim RequestThread As New Thread(AddressOf TagPage)
             RequestThread.IsBackground = True
             RequestThread.Start()
         End Sub
 
         Private Sub TagPage()
-            Dim Data As EditData = GetEdit(Page)
+            Dim Data As EditData = GetEditData(Page)
 
             If Data.Error Then
                 Callback(AddressOf TagPageFailed)
@@ -626,7 +620,7 @@ Module XfdRequests
                 Exit Sub
 
             ElseIf Data.Text.Contains("{{tfd|") Then
-                Callback(AddressOf AlreadyNominated)
+                Callback(AddressOf AlreadyTagged)
                 Exit Sub
             End If
 
@@ -642,20 +636,20 @@ Module XfdRequests
         End Sub
 
         Private Sub TagPageDone(ByVal O As Object)
-            Log("Creating deletion discussion section for '" & Page.Name & "'...", Page, True)
+            LogProgress("Creating deletion discussion section for '" & Page.Name & "'...")
+
             Dim RequestThread As New Thread(AddressOf CreateDiscussion)
             RequestThread.IsBackground = True
             RequestThread.Start()
         End Sub
 
         Private Sub TagPageFailed(ByVal O As Object)
-            Delog(Page)
             Log("Failed to tag '" & Page.Name & "' for deletion discussion")
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            Fail()
         End Sub
 
         Private Sub CreateDiscussion()
-            Dim Data As EditData = GetEdit(GetPage(Config.CfdLocation & "/Log/" & LogDate()), , "1")
+            Dim Data As EditData = GetEditData(Config.CfdLocation & "/Log/" & LogDate(), Section:=1)
 
             If Data.Error Then
                 Callback(AddressOf CreateDiscussionFailed)
@@ -687,16 +681,15 @@ Module XfdRequests
                     DoNotify(True)
                 Else
                     Dim NewHistoryRequest As New HistoryRequest
-                    NewHistoryRequest.ThisPage = Page
+                    NewHistoryRequest.Page = Page
                     NewHistoryRequest.Start(AddressOf DoNotify)
                 End If
             End If
         End Sub
 
         Private Sub CreateDiscussionFailed(ByVal O As Object)
-            Delog(Page)
             Log("Failed to create deletion discussion section for '" & Page.Name & "'")
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            Fail()
         End Sub
 
     End Class
@@ -710,7 +703,8 @@ Module XfdRequests
 
         Public Sub Start()
             If Config.RfdLocation IsNot Nothing Then
-                Log("Tagging '" & Page.Name & "' for deletion discussion...", Page, True)
+                LogProgress("Tagging '" & Page.Name & "' for deletion discussion...")
+
                 Dim RequestThread As New Thread(AddressOf TagPage)
                 RequestThread.IsBackground = True
                 RequestThread.Start()
@@ -727,7 +721,7 @@ Module XfdRequests
                 Exit Sub
 
             ElseIf Data.Text.Contains("{{rfd}}") Then
-                Callback(AddressOf AlreadyNominated)
+                Callback(AddressOf AlreadyTagged)
                 Exit Sub
             End If
 
@@ -747,21 +741,21 @@ Module XfdRequests
         End Sub
 
         Private Sub TagPageDone(ByVal O As Object)
-            Log("Creating deletion discussion section for '" & Page.Name & "'...", Page, True)
+            LogProgress("Creating deletion discussion section for '" & Page.Name & "'...")
             Location = Config.RfdLocation
+
             Dim RequestThread As New Thread(AddressOf CreateDiscussion)
             RequestThread.IsBackground = True
             RequestThread.Start()
         End Sub
 
         Private Sub TagPageFailed(ByVal O As Object)
-            Delog(Page)
             Log("Failed to tag '" & Page.Name & "' for deletion discussion")
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            Fail()
         End Sub
 
         Private Sub CreateDiscussion()
-            Dim Data As EditData = GetEdit(GetPage(Config.CfdLocation & "/Log/" & LogDate()))
+            Dim Data As EditData = GetEditData(Config.CfdLocation & "/Log/" & LogDate())
 
             If Data.Error Then
                 Callback(AddressOf CreateDiscussionFailed)
@@ -795,18 +789,17 @@ Module XfdRequests
                     DoNotify(True)
                 Else
                     Dim NewHistoryRequest As New HistoryRequest
-                    NewHistoryRequest.ThisPage = Page
+                    NewHistoryRequest.Page = Page
                     NewHistoryRequest.Start(AddressOf DoNotify)
                 End If
             End If
         End Sub
 
         Private Sub CreateDiscussionFailed(ByVal O As Object)
-            Delog(Page)
             Log("Failed to create deletion discussion section for '" & Page.Name & "'")
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            Fail()
         End Sub
 
     End Class
 
-End Module
+End Namespace

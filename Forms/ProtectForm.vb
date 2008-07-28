@@ -12,7 +12,7 @@ Class ProtectForm
 
         Dim NewRequest As New ProtectionLogRequest
         NewRequest.Target = ProtectionLog
-        NewRequest.ThisPage = ThisPage
+        NewRequest.Page = ThisPage
         NewRequest.Start()
     End Sub
 
@@ -22,7 +22,7 @@ Class ProtectForm
 
     Private Sub OK_Click() Handles OK.Click
         Dim NewRequest As New ProtectRequest
-        NewRequest.ThisPage = ThisPage
+        NewRequest.Page = ThisPage
         NewRequest.Summary = Reason.Text
         If SemiProtection.Checked Then NewRequest.EditLevel = "autoconfirmed" _
             Else If FullProtection.Checked Then NewRequest.EditLevel = "sysop"

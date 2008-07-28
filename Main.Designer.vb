@@ -43,9 +43,11 @@ Partial Class Main
         Me.SystemShowLog = New System.Windows.Forms.ToolStripMenuItem
         Me.SystemShowQueue = New System.Windows.Forms.ToolStripMenuItem
         Me.Separator8 = New System.Windows.Forms.ToolStripSeparator
+        Me.SystemRequests = New System.Windows.Forms.ToolStripMenuItem
         Me.SystemStats = New System.Windows.Forms.ToolStripMenuItem
         Me.SystemOptions = New System.Windows.Forms.ToolStripMenuItem
         Me.Separator3 = New System.Windows.Forms.ToolStripSeparator
+        Me.SystemLogOut = New System.Windows.Forms.ToolStripMenuItem
         Me.SystemExit = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuQueue = New System.Windows.Forms.ToolStripMenuItem
         Me.QueueNext = New System.Windows.Forms.ToolStripMenuItem
@@ -293,7 +295,7 @@ Partial Class Main
         '
         'MenuSystem
         '
-        Me.MenuSystem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SystemShowNewMessages, Me.SystemReconnectIRC, Me.SystemSaveLog, Me.Separator18, Me.SystemShowLog, Me.SystemShowQueue, Me.Separator8, Me.SystemStats, Me.SystemOptions, Me.Separator3, Me.SystemExit})
+        Me.MenuSystem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SystemShowNewMessages, Me.SystemReconnectIRC, Me.SystemSaveLog, Me.Separator18, Me.SystemShowLog, Me.SystemShowQueue, Me.Separator8, Me.SystemRequests, Me.SystemStats, Me.SystemOptions, Me.Separator3, Me.SystemLogOut, Me.SystemExit})
         Me.MenuSystem.Name = "MenuSystem"
         Me.MenuSystem.Size = New System.Drawing.Size(54, 24)
         Me.MenuSystem.Text = "&System"
@@ -345,6 +347,12 @@ Partial Class Main
         Me.Separator8.Name = "Separator8"
         Me.Separator8.Size = New System.Drawing.Size(170, 6)
         '
+        'SystemRequests
+        '
+        Me.SystemRequests.Name = "SystemRequests"
+        Me.SystemRequests.Size = New System.Drawing.Size(173, 22)
+        Me.SystemRequests.Text = "Requests..."
+        '
         'SystemStats
         '
         Me.SystemStats.Name = "SystemStats"
@@ -361,6 +369,12 @@ Partial Class Main
         '
         Me.Separator3.Name = "Separator3"
         Me.Separator3.Size = New System.Drawing.Size(170, 6)
+        '
+        'SystemLogOut
+        '
+        Me.SystemLogOut.Name = "SystemLogOut"
+        Me.SystemLogOut.Size = New System.Drawing.Size(173, 22)
+        Me.SystemLogOut.Text = "Log out"
         '
         'SystemExit
         '
@@ -496,6 +510,7 @@ Partial Class Main
         '
         Me.TagDeleteMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PageNominate, Me.PageProd, Me.PageTagSpeedy, Me.Separator23})
         Me.TagDeleteMenu.Name = "SpeedyMenu"
+        Me.TagDeleteMenu.OwnerItem = Me.PageTagDelete
         Me.TagDeleteMenu.Size = New System.Drawing.Size(190, 76)
         '
         'PageNominate
@@ -749,24 +764,24 @@ Partial Class Main
         '
         Me.HelpDocs.Name = "HelpDocs"
         Me.HelpDocs.ShortcutKeyDisplayString = ""
-        Me.HelpDocs.Size = New System.Drawing.Size(152, 22)
+        Me.HelpDocs.Size = New System.Drawing.Size(150, 22)
         Me.HelpDocs.Text = "Documentation"
         '
         'HelpFeedback
         '
         Me.HelpFeedback.Name = "HelpFeedback"
-        Me.HelpFeedback.Size = New System.Drawing.Size(152, 22)
+        Me.HelpFeedback.Size = New System.Drawing.Size(150, 22)
         Me.HelpFeedback.Text = "Feedback"
         '
         'Separator16
         '
         Me.Separator16.Name = "Separator16"
-        Me.Separator16.Size = New System.Drawing.Size(149, 6)
+        Me.Separator16.Size = New System.Drawing.Size(147, 6)
         '
         'HelpAbout
         '
         Me.HelpAbout.Name = "HelpAbout"
-        Me.HelpAbout.Size = New System.Drawing.Size(152, 22)
+        Me.HelpAbout.Size = New System.Drawing.Size(150, 22)
         Me.HelpAbout.Text = "About huggle..."
         '
         'Stats
@@ -1052,6 +1067,7 @@ Partial Class Main
         '
         Me.RevertMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.Separator20, Me.DiffRevertSummary})
         Me.RevertMenu.Name = "RevertMenu"
+        Me.RevertMenu.OwnerItem = Me.DiffRevertB
         Me.RevertMenu.Size = New System.Drawing.Size(174, 32)
         '
         'Separator20
@@ -1084,6 +1100,7 @@ Partial Class Main
         '
         Me.TemplateMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.UserMessageWelcome, Me.Separator13, Me.Separator21, Me.UserMessageOther})
         Me.TemplateMenu.Name = "TemplateMenu"
+        Me.TemplateMenu.OwnerItem = Me.UserTemplateB
         Me.TemplateMenu.Size = New System.Drawing.Size(174, 60)
         '
         'UserMessageWelcome
@@ -1127,6 +1144,7 @@ Partial Class Main
         '
         Me.WarnMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.WarnVandalism, Me.WarnSpam, Me.WarnTest, Me.WarnDelete, Me.WarnAttack, Me.WarnError, Me.WarnUnsourced, Me.WarnNpov, Me.Separator22, Me.WarnAdvanced})
         Me.WarnMenu.Name = "WarnMenu"
+        Me.WarnMenu.OwnerItem = Me.WarnB
         Me.WarnMenu.Size = New System.Drawing.Size(169, 208)
         '
         'WarnVandalism
@@ -1896,4 +1914,6 @@ Partial Class Main
     Friend WithEvents GoMyTalk As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents GoMyContribs As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents GoSeparator As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents SystemRequests As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents SystemLogOut As System.Windows.Forms.ToolStripMenuItem
 End Class

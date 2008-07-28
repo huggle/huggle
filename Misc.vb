@@ -11,6 +11,7 @@ Module Misc
     Public AllEditsById As New Dictionary(Of String, Edit)
     Public AllEditsByTime As New List(Of Edit)
     Public AllPages As New Dictionary(Of String, Page)
+    Public AllRequests As New List(Of Request)
     Public AllUsers As New Dictionary(Of String, User)
     Public ContribsOffset As Integer
     Public Cookie As String
@@ -576,6 +577,7 @@ Module Misc
 
     <DebuggerStepThrough()> Function IsWikiPage(ByVal Text As String) As Boolean
         'Unfortunately there is no one element common to all skins
+        If Text Is Nothing Then Return False
         Return Regex.Match(Text, "<div id=['""](mw[-_])?content['""]>").Success
     End Function
 
@@ -745,14 +747,8 @@ Module Misc
         SyncContext.Post(Target, PostData)
     End Sub
 
-    <DebuggerStepThrough()> Sub Log(ByVal Message As String, Optional ByVal Tag As Object = Nothing, _
-        Optional ByVal InProgress As Boolean = False)
-
-        If Main IsNot Nothing Then Main.Log(Message, Tag, InProgress)
-    End Sub
-
-    <DebuggerStepThrough()> Sub Delog(ByVal Tag As Object)
-        If Main IsNot Nothing Then Main.Delog(Tag)
+    <DebuggerStepThrough()> Sub Log(ByVal Message As String, Optional ByVal Tag As Object = Nothing)
+        If Main IsNot Nothing Then Main.Log(Message, Tag)
     End Sub
 
     <DebuggerStepThrough()> Function TrimSummary(ByVal Summary As String) As String

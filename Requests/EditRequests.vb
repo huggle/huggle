@@ -2,7 +2,7 @@ Imports System.Text.RegularExpressions
 Imports System.Threading
 Imports System.Web.HttpUtility
 
-Module EditRequests
+Namespace Requests
 
     Class EditRequest : Inherits Request
 
@@ -14,14 +14,15 @@ Module EditRequests
         Public Sub Start(Optional ByVal Done As CallbackDelegate = Nothing)
             _Done = Done
 
-            Log("Editing '" & Page.Name & "'...", Page, True)
+            LogProgress("Editing '" & Page.Name & "'...")
+
             Dim RequestThread As New Thread(AddressOf Process)
             RequestThread.IsBackground = True
             RequestThread.Start()
         End Sub
 
         Private Sub Process()
-            Dim Data As EditData = GetEdit(Page)
+            Dim Data As EditData = GetEditData(Page)
 
             If Data.Error Then
                 Callback(AddressOf Failed)
@@ -36,20 +37,18 @@ Module EditRequests
             If Cancelled Then Exit Sub
             Data = PostEdit(Data)
 
-            If Data.Error Then Callback(AddressOf Failed) Else Callback(AddressOf Success)
+            If Data.Error Then Callback(AddressOf Failed) Else Callback(AddressOf Done)
         End Sub
 
-        Private Sub Success(ByVal O As Object)
-            Delog(Page)
+        Private Sub Done(ByVal O As Object)
             If _Done IsNot Nothing Then _Done(True)
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            Complete()
             If Cancelled Then UndoEdit(Page)
         End Sub
 
         Private Sub Failed(ByVal O As Object)
-            Delog(Page)
             If _Done IsNot Nothing Then _Done(False)
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            Fail()
         End Sub
 
     End Class
@@ -58,18 +57,20 @@ Module EditRequests
 
         'Tag a page
 
-        Public ThisPage As Page, NotifyRequest As UserMessageRequest
-        Public Tag, Summary, Avoid As String, BlankPage, Patrol, InsertAtEnd As Boolean
+        Public Page As Page, NotifyRequest As UserMessageRequest
+        Public Tag, Summary, AvoidText As String
+        Public ReplacePage, Patrol, InsertAtEnd As Boolean
 
         Public Sub Start()
-            Log("Tagging '" & ThisPage.Name & "'...", ThisPage, True)
+            LogProgress("Tagging '" & Page.Name & "'...")
+
             Dim RequestThread As New Thread(AddressOf Process)
             RequestThread.IsBackground = True
             RequestThread.Start()
         End Sub
 
         Private Sub Process()
-            Dim Data As EditData = GetEdit(ThisPage)
+            Dim Data As EditData = GetEditData(Page)
 
             If Data.Error Then
                 Callback(AddressOf Failed)
@@ -79,7 +80,7 @@ Module EditRequests
                 Callback(AddressOf PageDeleted)
                 Exit Sub
 
-            ElseIf Avoid IsNot Nothing AndAlso Data.Text.Contains(Avoid) Then
+            ElseIf AvoidText IsNot Nothing AndAlso Data.Text.Contains(AvoidText) Then
                 Callback(AddressOf AlreadyTagged)
                 Exit Sub
             End If
@@ -88,7 +89,7 @@ Module EditRequests
             Data.Minor = Config.MinorTags
             Data.Summary = Summary
 
-            If BlankPage Then
+            If ReplacePage Then
                 Data.Text = Tag
             ElseIf InsertAtEnd Then
                 Data.Text &= vbLf & Tag
@@ -104,39 +105,35 @@ Module EditRequests
 
         Private Sub Done(ByVal O As Object)
             If Config.WatchTags Then
-                If Not Watchlist.Contains(SubjectPage(ThisPage)) Then Watchlist.Add(SubjectPage(ThisPage))
+                If Not Watchlist.Contains(SubjectPage(Page)) Then Watchlist.Add(SubjectPage(Page))
                 Main.UpdateWatchButton()
             End If
 
             If Patrol Then
                 Dim NewPatrolRequest As New PatrolRequest
-                NewPatrolRequest.Page = ThisPage
+                NewPatrolRequest.Page = Page
                 NewPatrolRequest.Start()
             End If
 
             If NotifyRequest IsNot Nothing Then NotifyRequest.Start()
 
-            Delog(ThisPage)
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
-            If Cancelled Then UndoEdit(ThisPage)
+            Complete()
+            If Cancelled Then UndoEdit(Page)
         End Sub
 
         Private Sub AlreadyTagged(ByVal O As Object)
-            Log("Did not tag '" & ThisPage.Name & "', as the page was already tagged")
-            Delog(ThisPage)
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            Log("Did not tag '" & Page.Name & "', as the page was already tagged")
+            Fail()
         End Sub
 
         Private Sub PageDeleted(ByVal O As Object)
-            Log("Did not tag '" & ThisPage.Name & "', as the page was deleted")
-            Delog(ThisPage)
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            Log("Did not tag '" & Page.Name & "', as the page was deleted")
+            Fail()
         End Sub
 
         Private Sub Failed(ByVal O As Object)
-            Log("Failed to tag '" & ThisPage.Name & "'")
-            Delog(ThisPage)
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            Log("Failed to tag '" & Page.Name & "'")
+            Fail()
         End Sub
 
     End Class
@@ -145,17 +142,19 @@ Module EditRequests
 
         'Tag a page for speedy deletion
 
-        Public Page As Page, Criterion As SpeedyCriterion, AutoNotify, Notify As Boolean, Parameter As String
+        Public Page As Page, Criterion As SpeedyCriterion, Parameter As String
+        Public AutoNotify, Notify As Boolean
 
         Public Sub Start()
-            Log("Tagging '" & Page.Name & "' for speedy deletion...", Page, True)
+            LogProgress("Tagging '" & Page.Name & "' for speedy deletion...")
+
             Dim RequestThread As New Thread(AddressOf Process)
             RequestThread.IsBackground = True
             RequestThread.Start()
         End Sub
 
         Private Sub Process()
-            Dim Data As EditData = GetEdit(Page)
+            Dim Data As EditData = GetEditData(Page)
 
             If Data.Error Then
                 Callback(AddressOf Failed)
@@ -193,8 +192,7 @@ Module EditRequests
                 Main.UpdateWatchButton()
             End If
 
-            Delog(Page)
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            Complete()
 
             If Cancelled Then
                 UndoEdit(Page)
@@ -214,7 +212,7 @@ Module EditRequests
                     DoNotify(True)
                 Else
                     Dim NewHistoryRequest As New HistoryRequest
-                    NewHistoryRequest.ThisPage = Page
+                    NewHistoryRequest.Page = Page
                     NewHistoryRequest.Start(AddressOf DoNotify)
                 End If
             End If
@@ -225,29 +223,26 @@ Module EditRequests
                 Dim NotifyRequest As New UserMessageRequest
                 NotifyRequest.Message = Criterion.Message.Replace("$1", Page.Name)
                 NotifyRequest.Title = Config.SpeedyMessageTitle.Replace("$1", Page.Name)
-                NotifyRequest.Avoid = Page.Name
+                NotifyRequest.AvoidText = Page.Name
                 NotifyRequest.Summary = Config.SpeedyMessageSummary.Replace("$1", Page.Name)
-                NotifyRequest.ThisUser = Page.FirstEdit.User
+                NotifyRequest.User = Page.FirstEdit.User
                 NotifyRequest.Start()
             End If
         End Sub
 
         Private Sub PageDeleted(ByVal O As Object)
-            Delog(Page)
             Log("Did not tag '" & Page.Name & "' for speedy deletion, as the page was deleted")
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            Fail()
         End Sub
 
         Private Sub AlreadyTagged(ByVal O As Object)
-            Delog(Page)
             Log("Did not tag '" & Page.Name & "' for speedy deletion, as the page was already tagged")
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            Fail()
         End Sub
 
         Private Sub Failed(ByVal O As Object)
-            Delog(Page)
             Log("Failed to tag '" & Page.Name & "' for speedy deletion")
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            Fail()
         End Sub
 
     End Class
@@ -256,40 +251,39 @@ Module EditRequests
 
         'Request page protection
 
-        Public ThisPage As Page
-        Public Reason As String
-        Public Type As ProtectionType
+        Public Page As Page, Reason As String, Type As ProtectionType
 
         Public Sub Start()
-            Log("Requesting protection of '" & ThisPage.Name & "'...", GetPage(Config.ProtectionRequestPage), True)
+            LogProgress("Requesting protection of '" & Page.Name & "'...")
+
             Dim RequestThread As New Thread(AddressOf Process)
             RequestThread.IsBackground = True
             RequestThread.Start()
         End Sub
 
         Private Sub Process()
-            Dim Data As EditData = GetEdit(GetPage(Config.ProtectionRequestPage), , "1")
+            Dim Data As EditData = GetEditData(Config.ProtectionRequestPage, Section:=1)
 
             If Data.Error OrElse Not Data.Text.Contains("{{" & Config.ProtectionRequestPage & "/PRheading}}") Then
                 Callback(AddressOf Failed)
                 Exit Sub
             End If
 
-            If Data.Text.Contains("|" & ThisPage.Name & "}}") Then
+            If Data.Text.Contains("|" & Page.Name & "}}") Then
                 Callback(AddressOf AlreadyRequested)
                 Exit Sub
             End If
 
             Dim Header As String
 
-            If ThisPage.Namespace.ToLower = "talk" Then
-                Header = "===={{lat|" & ThisPage.Name & "}}====" & vbLf
-            ElseIf ThisPage.Namespace.ToLower.EndsWith("talk") Then
-                Header = "===={{lnt|" & ThisPage.Namespace & "|" & ThisPage.Name & "}}====" & vbLf
-            ElseIf ThisPage.Namespace = "" Then
-                Header = "===={{la|" & ThisPage.Name & "}}====" & vbLf
+            If Page.Namespace.ToLower = "talk" Then
+                Header = "===={{lat|" & Page.Name & "}}====" & vbLf
+            ElseIf Page.Namespace.ToLower.EndsWith("talk") Then
+                Header = "===={{lnt|" & Page.Namespace & "|" & Page.Name & "}}====" & vbLf
+            ElseIf Page.Namespace = "" Then
+                Header = "===={{la|" & Page.Name & "}}====" & vbLf
             Else
-                Header = "===={{ln|" & ThisPage.Namespace & "|" & ThisPage.Name & "}}====" & vbLf
+                Header = "===={{ln|" & Page.Namespace & "|" & Page.Name & "}}====" & vbLf
             End If
 
             Select Case Type
@@ -307,7 +301,7 @@ Module EditRequests
                 Case ProtectionType.Semi : Data.Summary = "semi-protection"
             End Select
 
-            Data.Summary = Config.ProtectionRequestSummary.Replace("$1", Data.Summary).Replace("$2", ThisPage.Name)
+            Data.Summary = Config.ProtectionRequestSummary.Replace("$1", Data.Summary).Replace("$2", Page.Name)
 
             Data.Minor = Config.MinorReports
             Data.Watch = Config.WatchReports
@@ -325,40 +319,36 @@ Module EditRequests
                 Main.UpdateWatchButton()
             End If
 
-            Delog(GetPage(Config.ProtectionRequestPage))
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
-            If Cancelled Then UndoEdit(GetPage(Config.ProtectionRequestPage))
+            Complete()
+            If Cancelled Then UndoEdit(Config.ProtectionRequestPage)
         End Sub
 
         Private Sub AlreadyRequested(ByVal O As Object)
-            Delog(GetPage(Config.ProtectionRequestPage))
-            'Protection was already requested
-            Log("Did not request protection of '" & ThisPage.Name & _
+            Log("Did not request protection of '" & Page.Name & _
                 "' because there is already a protection request for that page")
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            Fail()
         End Sub
 
         Private Sub Failed(ByVal O As Object)
-            Delog(GetPage(Config.ProtectionRequestPage))
-            Log("Failed to request protection of '" & ThisPage.Name & "'")
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            Log("Failed to request protection of '" & Page.Name & "'")
+            Fail()
         End Sub
 
     End Class
 
     Class AIVReportRequest : Inherits Request
 
-        Public ThisUser As User, ThisEdit As Edit, Reason As String
+        Public User As User, Edit As Edit, Reason As String
 
         Public Sub Start()
             If Config.AIVLocation IsNot Nothing AndAlso Config.AIVLocation.Length > 0 Then
                 Dim GotContribs As Boolean
 
-                If ThisUser.FirstEdit IsNot Nothing Then
+                If User.FirstEdit IsNot Nothing Then
                     GotContribs = True
 
-                ElseIf ThisUser.LastEdit IsNot Nothing Then
-                    Dim Contrib As Edit = ThisUser.LastEdit, i As Integer = 0
+                ElseIf User.LastEdit IsNot Nothing Then
+                    Dim Contrib As Edit = User.LastEdit, i As Integer = 0
 
                     While Contrib.PrevByUser IsNot Nothing AndAlso Contrib.PrevByUser IsNot NullEdit
                         If Contrib.Time.AddHours(Config.WarningAge) < Date.UtcNow Then
@@ -374,13 +364,14 @@ Module EditRequests
                 End If
 
                 If GotContribs Then
-                    Log("Reporting '" & ThisUser.Name & "'...", GetPage(Config.AIVLocation), True)
+                    LogProgress("Reporting '" & User.Name & "'...")
+
                     Dim RequestThread As New Thread(AddressOf Process)
                     RequestThread.IsBackground = True
                     RequestThread.Start()
                 Else
                     Dim NewRequest As New ContribsRequest
-                    NewRequest.ThisUser = ThisUser
+                    NewRequest.User = User
                     NewRequest.ReportWhenDone = Me
                     NewRequest.Start()
                 End If
@@ -388,33 +379,33 @@ Module EditRequests
         End Sub
 
         Private Sub Process()
-            Dim BotPageText As String = GetText(GetPage(Config.AIVBotLocation))
+            Dim BotPageText As String = GetPageText(Config.AIVBotLocation)
 
-            If BotPageText.ToLower.Contains("{{vandal|" & ThisUser.Name.ToLower & "}}") _
-                OrElse BotPageText.ToLower.Contains("{{ipvandal|" & ThisUser.Name.ToLower & "}}") Then
+            If BotPageText.ToLower.Contains("{{vandal|" & User.Name.ToLower & "}}") _
+                OrElse BotPageText.ToLower.Contains("{{ipvandal|" & User.Name.ToLower & "}}") Then
 
-                If ThisUser.Level < UserL.ReportedAIV Then ThisUser.Level = UserL.ReportedAIV
+                If User.Level < UserL.ReportedAIV Then User.Level = UserL.ReportedAIV
                 Callback(AddressOf AlreadyReported)
                 Exit Sub
             End If
 
-            Dim Data As EditData = GetEdit(GetPage(Config.AIVLocation))
+            Dim Data As EditData = GetEditData(GetPage(Config.AIVLocation))
 
             If Data.Error Then
                 Callback(AddressOf Failed)
                 Exit Sub
             End If
 
-            If Data.Text.ToLower.Contains("{{vandal|" & ThisUser.Name.ToLower & "}}") _
-                OrElse Data.Text.ToLower.Contains("{{ipvandal|" & ThisUser.Name.ToLower & "}}") Then
+            If Data.Text.ToLower.Contains("{{vandal|" & User.Name.ToLower & "}}") _
+                OrElse Data.Text.ToLower.Contains("{{ipvandal|" & User.Name.ToLower & "}}") Then
 
                 Data.Text = ExtendReport(Data.Text)
-                Data.Summary = Config.ReportExtendSummary.Replace("$1", ThisUser.Name)
+                Data.Summary = Config.ReportExtendSummary.Replace("$1", User.Name)
                 Data.Minor = Config.MinorReports
                 Data.Watch = Config.WatchReports
 
                 If Data.Text Is Nothing Then
-                    If ThisUser.Level < UserL.ReportedAIV Then ThisUser.Level = UserL.ReportedAIV
+                    If User.Level < UserL.ReportedAIV Then User.Level = UserL.ReportedAIV
                     Callback(AddressOf AlreadyReported)
                     Exit Sub
                 End If
@@ -426,15 +417,15 @@ Module EditRequests
                 Exit Sub
             End If
 
-            If ThisUser.Anonymous _
-                Then Reason = "* {{IPvandal|" & ThisUser.Name & "}} – " & Reason _
-                Else Reason = "* {{Vandal|" & ThisUser.Name & "}} – " & Reason
+            If User.Anonymous _
+                Then Reason = "* {{IPvandal|" & User.Name & "}} – " & Reason _
+                Else Reason = "* {{Vandal|" & User.Name & "}} – " & Reason
 
             If Config.ReportLinkDiffs Then Reason &= LinkDiffs()
-            If ThisUser.Level = UserL.Warn4im Then Reason &= " – " & Config.AivSingleNote
+            If User.Level = UserL.Warn4im Then Reason &= " – " & Config.AivSingleNote
 
             Data.Text &= Reason & " – ~~~~"
-            Data.Summary = Config.ReportSummary.Replace("$1", ThisUser.Name)
+            Data.Summary = Config.ReportSummary.Replace("$1", User.Name)
             Data.Minor = Config.MinorReports
             Data.Watch = Config.WatchReports
 
@@ -450,43 +441,39 @@ Module EditRequests
                 Main.UpdateWatchButton()
             End If
 
-            Delog(GetPage(Config.AIVLocation))
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
             If Cancelled Then UndoEdit(GetPage(Config.AIVLocation))
+            Complete()
         End Sub
 
         Private Sub AlreadyReported(ByVal O As Object)
-            Delog(GetPage(Config.AIVLocation))
-            Log("Did not report '" & ThisUser.Name & "' because they have already been reported")
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            Log("Did not report '" & User.Name & "' because they have already been reported")
+            Fail()
         End Sub
 
         Private Sub Failed(ByVal O As Object)
-            Delog(GetPage(Config.AIVLocation))
-            Log("Failed to report '" & ThisUser.Name & "' to AIV")
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            Log("Failed to report '" & User.Name & "' to AIV")
+            Fail()
         End Sub
 
         Private Sub AppendFailed(ByVal O As Object)
-            Delog(GetPage(Config.AIVLocation))
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            Fail()
         End Sub
 
         Private Function ExtendReport(ByVal Text As String) As String
 
             Dim ReportIndex As Integer, ReportLine As String = ""
 
-            If Text.Contains("{{vandal|" & ThisUser.Name & "}}") _
-                Then ReportIndex = Text.IndexOf("{{vandal|" & ThisUser.Name & "}}")
-            If Text.Contains("{{IPvandal|" & ThisUser.Name & "}}") _
-                Then ReportIndex = Text.IndexOf("{{IPvandal|" & ThisUser.Name & "}}")
+            If Text.Contains("{{vandal|" & User.Name & "}}") _
+                Then ReportIndex = Text.IndexOf("{{vandal|" & User.Name & "}}")
+            If Text.Contains("{{IPvandal|" & User.Name & "}}") _
+                Then ReportIndex = Text.IndexOf("{{IPvandal|" & User.Name & "}}")
 
             If ReportIndex > 0 Then ReportLine = Text.Substring(ReportIndex)
             If ReportLine.Contains(vbLf) Then ReportLine = ReportLine.Substring(0, ReportLine.IndexOf(vbLf))
 
             If Not (Config.ExtendReports AndAlso ReportLine.Contains("]</span>") AndAlso _
                 ReportLine.Contains("vandalism, including <span class=""plainlinks"">") AndAlso _
-                ThisEdit IsNot Nothing AndAlso Not ReportLine.Contains("?diff=" & ThisEdit.Id)) Then Return Nothing
+                Edit IsNot Nothing AndAlso Not ReportLine.Contains("?diff=" & Edit.Id)) Then Return Nothing
 
             Dim DiffNumber As String = ReportLine.Substring(ReportLine.Substring(0, _
                 ReportLine.IndexOf("]</span>")).LastIndexOf(" ") + 1)
@@ -496,8 +483,8 @@ Module EditRequests
             If Not (diffnextbNumber > 1 AndAlso diffnextbNumber <= Config.MaxAIVDiffs) Then Return Nothing
 
             ReportLine = ReportLine.Substring(0, ReportLine.IndexOf("]</span>") + 1) & ", [" _
-                & SitePath & "wiki/" & UrlEncode(ThisEdit.Page.Name.Replace(" ", "_")) & "?diff=" _
-                & ThisEdit.Id & " " & CStr(diffnextbNumber) & "]" & _
+                & SitePath & "wiki/" & UrlEncode(Edit.Page.Name.Replace(" ", "_")) & "?diff=" _
+                & Edit.Id & " " & CStr(diffnextbNumber) & "]" & _
                 ReportLine.Substring(ReportLine.IndexOf("]</span>") + 1)
 
             Dim AfterReport As String = Text.Substring(ReportIndex)
@@ -509,7 +496,7 @@ Module EditRequests
 
         Private Function LinkDiffs() As String
 
-            Dim RevertedEdits As New List(Of Edit), Edit As Edit = ThisUser.LastEdit
+            Dim RevertedEdits As New List(Of Edit), Edit As Edit = User.LastEdit
 
             While Edit IsNot Nothing AndAlso Edit IsNot NullEdit AndAlso Edit.Time.AddHours(3) > Date.UtcNow
 
@@ -539,11 +526,12 @@ Module EditRequests
 
         'Post a UAA report
 
-        Public ThisUser As User, Reason As String
+        Public User As User, Reason As String
 
         Public Sub Start()
             If Config.UAALocation IsNot Nothing AndAlso Config.UAALocation.Length > 0 Then
-                Log("Reporting '" & ThisUser.Name & "'...", GetPage(Config.UAALocation), True)
+                LogProgress("Reporting '" & User.Name & "'...")
+
                 Dim RequestThread As New Thread(AddressOf Process)
                 RequestThread.IsBackground = True
                 RequestThread.Start()
@@ -553,30 +541,30 @@ Module EditRequests
         Private Sub Process()
 
             If Config.UAABotLocation IsNot Nothing Then
-                Dim BotPageText As String = GetText(GetPage(Config.UAABotLocation))
+                Dim BotPageText As String = GetPageText(Config.UAABotLocation)
 
-                If BotPageText.ToLower.Contains("{{userlinks|" & ThisUser.Name.ToLower & "}}") Then
-                    If ThisUser.Level < UserL.ReportedUAA Then ThisUser.Level = UserL.ReportedUAA
+                If BotPageText.ToLower.Contains("{{userlinks|" & User.Name.ToLower & "}}") Then
+                    If User.Level < UserL.ReportedUAA Then User.Level = UserL.ReportedUAA
                     Callback(AddressOf AlreadyReported)
                     Exit Sub
                 End If
             End If
 
-            Dim Data As EditData = GetEdit(GetPage(Config.UAALocation))
+            Dim Data As EditData = GetEditData(GetPage(Config.UAALocation))
 
             If Data.Error Then
                 Callback(AddressOf Failed)
                 Exit Sub
             End If
 
-            If Data.Text.ToLower.Contains("{{userlinks|" & ThisUser.Name & "}}") Then
-                If ThisUser.Level < UserL.ReportedUAA Then ThisUser.Level = UserL.ReportedUAA
+            If Data.Text.ToLower.Contains("{{userlinks|" & User.Name & "}}") Then
+                If User.Level < UserL.ReportedUAA Then User.Level = UserL.ReportedUAA
                 Callback(AddressOf AlreadyReported)
                 Exit Sub
             End If
 
-            Data.Text &= vbLf & "* {{userlinks|" & ThisUser.Name & "}} – " & Reason & " – ~~~~"
-            Data.Summary = Config.ReportSummary.Replace("$1", ThisUser.Name)
+            Data.Text &= vbLf & "* {{userlinks|" & User.Name & "}} – " & Reason & " – ~~~~"
+            Data.Summary = Config.ReportSummary.Replace("$1", User.Name)
 
             If Cancelled Then Exit Sub
             Data = PostEdit(Data)
@@ -590,21 +578,18 @@ Module EditRequests
                 Main.UpdateWatchButton()
             End If
 
-            Delog(GetPage(Config.UAALocation))
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
-            If Cancelled Then UndoEdit(GetPage(Config.UAALocation))
+            If Cancelled Then UndoEdit(Config.UAALocation)
+            Complete()
         End Sub
 
         Private Sub AlreadyReported(ByVal O As Object)
-            Delog(GetPage(Config.UAALocation))
-            Log("Did not post UAA report for '" & ThisUser.Name & "' because they have already been reported")
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            Log("Did not post UAA report for '" & User.Name & "' because they have already been reported")
+            Fail()
         End Sub
 
         Private Sub Failed(ByVal O As Object)
-            Delog(GetPage(Config.UAALocation))
-            Log("Failed to report '" & ThisUser.Name & "' to UAA")
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            Log("Failed to report '" & User.Name & "' to UAA")
+            Fail()
         End Sub
 
     End Class
@@ -614,14 +599,15 @@ Module EditRequests
         'Update the user whitelist
 
         Public Sub Start()
-            Log("Updating whitelist...", GetPage(Config.WhitelistLocation), True)
+            LogProgress("Updating whitelist...")
+
             Dim RequestThread As New Thread(AddressOf Process)
             RequestThread.IsBackground = True
             RequestThread.Start()
         End Sub
 
         Private Sub Process()
-            Dim Data As EditData = GetEdit(GetPage(Config.WhitelistLocation))
+            Dim Data As EditData = GetEditData(Config.WhitelistLocation)
 
             If Data.Error Then
                 Callback(AddressOf Done)
@@ -650,17 +636,19 @@ Module EditRequests
             If Cancelled Then Exit Sub
             Data = PostEdit(Data)
 
-            Callback(AddressOf Done)
+            If Data.Error Then Callback(AddressOf Done) Else Callback(AddressOf Failed)
         End Sub
 
         Private Sub Done(ByVal O As Object)
-            Delog(GetPage(Config.WhitelistLocation))
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
-            If Cancelled Then UndoEdit(GetPage(Config.WhitelistLocation))
-
+            If Cancelled Then UndoEdit(Config.WhitelistLocation)
             ClosingForm.WhitelistDone()
+            Complete()
+        End Sub
+
+        Private Sub Failed(ByVal O As Object)
+            Fail()
         End Sub
 
     End Class
 
-End Module
+End Namespace

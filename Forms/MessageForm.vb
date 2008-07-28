@@ -12,7 +12,7 @@ Class MessageForm
             DialogResult = DialogResult.OK
 
             Dim NewRequest As New UserMessageRequest
-            NewRequest.ThisUser = User
+            NewRequest.User = User
             NewRequest.Message = Message.Text
             NewRequest.Title = Subject.Text
             If Summary.Text = "" Then NewRequest.Summary = "/* " & Subject.Text & " */ - new section" _

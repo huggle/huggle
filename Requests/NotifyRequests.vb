@@ -1,30 +1,31 @@
 Imports System.Threading
 Imports System.Web.HttpUtility
 
-Module NotifyRequests
+Namespace Requests
 
     Class UserMessageRequest : Inherits Request
 
-        Public ThisUser As User
-        Public Summary, Message, Title, Avoid As String
+        Public User As User
+        Public Summary, Message, Title, AvoidText As String
         Public Watch, Minor, AutoSign As Boolean
 
         Public Sub Start()
-            Log("Messaging '" & ThisUser.Name & "'...", GetPage("User talk:" & ThisUser.Name), True)
+            LogProgress("Messaging '" & User.Name & "'...")
+
             Dim RequestThread As New Thread(AddressOf Process)
             RequestThread.IsBackground = True
             RequestThread.Start()
         End Sub
 
         Private Sub Process()
-            Dim Data As EditData = GetEdit(GetPage("User talk:" & ThisUser.Name))
+            Dim Data As EditData = GetEditData("User talk:" & User.Name)
 
             If Data.Error Then
                 Callback(AddressOf Failed)
                 Exit Sub
             End If
 
-            If Avoid IsNot Nothing AndAlso Data.Text.ToLower.Contains(Avoid.ToLower) Then
+            If AvoidText IsNot Nothing AndAlso Data.Text.ToLower.Contains(AvoidText.ToLower) Then
                 Callback(AddressOf ExistingMessage)
                 Exit Sub
             End If
@@ -45,42 +46,39 @@ Module NotifyRequests
 
         Private Sub Done(ByVal O As Object)
             If Config.WatchOther Then
-                If Not Watchlist.Contains(GetPage("User:" & ThisUser.Name)) _
-                    Then Watchlist.Add(GetPage("User:" & ThisUser.Name))
+                If Not Watchlist.Contains(GetPage("User:" & User.Name)) Then Watchlist.Add(GetPage("User:" & User.Name))
                 Main.UpdateWatchButton()
             End If
 
-            Delog(GetPage("User talk:" & ThisUser.Name))
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
-            If Cancelled Then UndoEdit(GetPage("User talk:" & ThisUser.Name))
+            If Cancelled Then UndoEdit("User talk:" & User.Name)
+            Complete()
         End Sub
 
         Private Sub ExistingMessage(ByVal O As Object)
-            Log("Did not post message for '" & ThisUser.Name & "', as a message about the same thing was already present")
-            Delog(GetPage("User talk:" & ThisUser.Name))
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            Log("Did not post message '" & Title & "' for '" & User.Name & _
+                "', as a message about the same thing was already present")
+            Fail()
         End Sub
 
         Private Sub Failed(ByVal O As Object)
-            Log("Failed to post message '" & Title & "' for & '" & ThisUser.Name & "'")
-            Delog(GetPage("User talk:" & ThisUser.Name))
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            Log("Failed to post message '" & Title & "' for & '" & User.Name & "'")
+            Fail()
         End Sub
 
     End Class
 
     Class WarningRequest : Inherits Request
 
-        Public ThisEdit As Edit, Type As String = "warning", Level As Integer
+        Public Edit As Edit, Type As String = "warning", Level As Integer
 
         Public Sub Start()
-            If ThisEdit IsNot Nothing AndAlso ThisEdit.User.Level <> UserL.Ignore Then
-                If ThisEdit.User.Level = UserL.ReportedAIV Then
+            If Edit IsNot Nothing AndAlso Edit.User.Level <> UserL.Ignore Then
+                If Edit.User.Level = UserL.ReportedAIV Then
                     AlreadyReported(Nothing)
-                ElseIf ThisEdit.User.Level = UserL.Blocked Then
+                ElseIf Edit.User.Level = UserL.Blocked Then
                     AlreadyBlocked(Nothing)
                 Else
-                    Log("Warning '" & ThisEdit.User.Name & "'...", GetPage("User talk:" & ThisEdit.User.Name), True)
+                    LogProgress("Warning '" & Edit.User.Name & "'...")
                     Dim RequestThread As New Thread(AddressOf Process)
                     RequestThread.IsBackground = True
                     RequestThread.Start()
@@ -89,7 +87,7 @@ Module NotifyRequests
         End Sub
 
         Private Sub Process()
-            Dim Data As EditData = GetEdit(GetPage("User talk:" & ThisEdit.User.Name))
+            Dim Data As EditData = GetEditData(GetPage("User talk:" & Edit.User.Name))
 
             If Data.Error Then
                 Callback(AddressOf Failed)
@@ -100,28 +98,30 @@ Module NotifyRequests
             Data.Watch = Config.WatchWarnings
             If Data.Text.Length > 1 Then Data.Text &= vbLf
 
-            Dim ExistingWarnings As List(Of Warning) = ProcessUserTalk(Data.Text, ThisEdit.User)
+            Dim ExistingWarnings As List(Of Warning) = ProcessUserTalk(Data.Text, Edit.User)
             Dim ExistingWarnLevel As UserL = UserL.None
 
             For Each Item As Warning In ExistingWarnings
-                If Item.Time.AddHours(Config.WarningAge) > My.Computer.Clock.GmtTime AndAlso Item.Level > ExistingWarnLevel Then
+                If Item.Time.AddHours(Config.WarningAge) > My.Computer.Clock.GmtTime _
+                    AndAlso Item.Level > ExistingWarnLevel Then
+
                     ExistingWarnLevel = Item.Level
-                    If ThisEdit.User.WarnTime < Item.Time Then ThisEdit.User.WarnTime = Item.Time
+                    If Edit.User.WarnTime < Item.Time Then Edit.User.WarnTime = Item.Time
                 End If
             Next Item
 
-            If ThisEdit.User.LastEdit IsNot Nothing AndAlso ThisEdit.User.WarnTime > ThisEdit.User.LastEdit.Time Then
+            If Edit.User.LastEdit IsNot Nothing AndAlso Edit.User.WarnTime > Edit.User.LastEdit.Time Then
                 Callback(AddressOf OldEdit)
                 Exit Sub
             End If
 
-            If ThisEdit.TypeToWarn IsNot Nothing Then Type = ThisEdit.TypeToWarn
+            If Edit.TypeToWarn IsNot Nothing Then Type = Edit.TypeToWarn
 
             If ExistingWarnings.Count = 1 AndAlso ExistingWarnLevel = UserL.WarnFinal _
                 Then ExistingWarnLevel = UserL.Warn4im
 
-            If ThisEdit.User.Level < ExistingWarnLevel OrElse ExistingWarnLevel = UserL.Warn4im _
-                Then ThisEdit.User.Level = ExistingWarnLevel
+            If Edit.User.Level < ExistingWarnLevel OrElse ExistingWarnLevel = UserL.Warn4im _
+                Then Edit.User.Level = ExistingWarnLevel
 
             Dim LevelNeeded As UserL, WarningNeeded As String = ""
 
@@ -129,7 +129,7 @@ Module NotifyRequests
 
                 Dim FinalLevelReached As Boolean
 
-                Select Case ThisEdit.User.Level
+                Select Case Edit.User.Level
                     Case UserL.None, UserL.Message, UserL.Notification, UserL.Reverted, UserL.ReportedUAA
                         LevelNeeded = UserL.Warn1
 
@@ -167,8 +167,8 @@ Module NotifyRequests
             ElseIf Me.Level = 4 Then : LevelNeeded = UserL.WarnFinal
             End If
 
-            If ThisEdit.LevelToWarn > LevelNeeded Then LevelNeeded = ThisEdit.LevelToWarn
-            If ThisEdit.User.Level < LevelNeeded Then ThisEdit.User.Level = LevelNeeded
+            If Edit.LevelToWarn > LevelNeeded Then LevelNeeded = Edit.LevelToWarn
+            If Edit.User.Level < LevelNeeded Then Edit.User.Level = LevelNeeded
 
             Dim WarnLevelName As String = "", WarnSummary As String = ""
 
@@ -182,7 +182,7 @@ Module NotifyRequests
             End Select
 
             WarningNeeded = WarningMessages(Type & WarnLevelName)
-            Data.Summary = WarnSummary.Replace("$1", ThisEdit.Page.Name)
+            Data.Summary = WarnSummary.Replace("$1", Edit.Page.Name)
 
             If Config.MonthHeadings AndAlso Not (Data.Text.ToLower.Contains("== " & _
                 GetMonthName(Date.UtcNow.Month).ToLower & " " & CStr(Date.UtcNow.Year) & " ==")) _
@@ -191,8 +191,8 @@ Module NotifyRequests
                 GetMonthName(Date.UtcNow.Month) & " " & CStr(Date.UtcNow.Year) & " ==" & vbCrLf & vbCrLf
 
             Data.Text &= _
-                WarningNeeded.Replace("$1", ThisEdit.Page.Name).Replace("$2", _
-                SitePath & "wiki/" & ThisEdit.Page.Name.Replace(" ", "_") & "?diff=" & ThisEdit.Id)
+                WarningNeeded.Replace("$1", Edit.Page.Name).Replace("$2", _
+                SitePath & "wiki/" & Edit.Page.Name.Replace(" ", "_") & "?diff=" & Edit.Id)
 
             If Cancelled Then Exit Sub
             If WarningNeeded.Length > 0 Then Data = PostEdit(Data)
@@ -201,86 +201,85 @@ Module NotifyRequests
         End Sub
 
         Private Sub ReportNeeded(ByVal O As Object)
-            Delog(GetPage("User talk:" & ThisEdit.User.Name))
-            Log("Did not warn '" & ThisEdit.User.Name & "' because they already have a final warning")
+            Log("Did not warn '" & Edit.User.Name & "' because they already have a final warning")
 
             If Administrator AndAlso Config.Block Then
-                If Config.PromptForBlock Then Main.BlockUser(ThisEdit.User)
+                If Config.PromptForBlock Then Main.BlockUser(Edit.User)
 
             ElseIf Config.AIV AndAlso Config.AutoReport Then
                 Dim NewReportRequest As New AIVReportRequest
-                NewReportRequest.ThisUser = ThisEdit.User
+                NewReportRequest.User = Edit.User
                 NewReportRequest.Reason = Config.ReportReason
                 NewReportRequest.Start()
 
             ElseIf Config.AIV AndAlso Config.PromptForReport Then
-                Main.ReportUser(ThisEdit.User, ThisEdit)
+                Main.ReportUser(Edit.User, Edit)
             End If
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+
+            Complete()
         End Sub
 
-        Private Sub Done(ByVal ResultObject As Object)
+        Private Sub Done(ByVal O As Object)
             If Config.WatchWarnings Then
-                If Not Watchlist.Contains(GetPage("User:" & ThisEdit.User.Name)) _
-                    Then Watchlist.Add(GetPage("User:" & ThisEdit.User.Name))
+                If Not Watchlist.Contains(GetPage("User:" & Edit.User.Name)) _
+                    Then Watchlist.Add(GetPage("User:" & Edit.User.Name))
                 Main.UpdateWatchButton()
             End If
 
-            Delog(GetPage("User talk:" & ThisEdit.User.Name))
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
-            If Cancelled Then UndoEdit(GetPage("User talk:" & ThisEdit.User.Name))
+            If Cancelled Then UndoEdit("User talk:" & Edit.User.Name)
+            Complete()
         End Sub
 
         Private Sub AlreadyReported(ByVal O As Object)
-            Delog(GetPage("User talk:" & ThisEdit.User.Name))
-
-            If Administrator Then
-                Main.BlockUser(ThisEdit.User)
+            If Administrator AndAlso Config.Block Then
+                If Config.PromptForBlock Then Main.BlockUser(Edit.User)
             Else
                 'Already reported... but do we want it extended?
                 If Config.AutoReport AndAlso Config.ReportLinkDiffs AndAlso Config.ExtendReports Then
                     Dim NewRequest As New AIVReportRequest
-                    NewRequest.ThisUser = ThisEdit.User
-                    NewRequest.ThisEdit = ThisEdit
+                    NewRequest.User = Edit.User
+                    NewRequest.Edit = Edit
                     NewRequest.Reason = Config.ReportReason
                     NewRequest.Start()
+                Else
+                    Log("Did not warn '" & Edit.User.Name & "' because they have already been reported.")
                 End If
             End If
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+
+            Fail()
         End Sub
 
         Private Sub AlreadyBlocked(ByVal O As Object)
-            Delog(GetPage("User talk:" & ThisEdit.User.Name))
-            Log("Did not warn '" & ThisEdit.User.Name & "' because they have already been blocked.")
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            Log("Did not warn '" & Edit.User.Name & "' because they have already been blocked.")
+            Fail()
         End Sub
 
         Private Sub Failed(ByVal O As Object)
-            Delog(GetPage("User talk:" & ThisEdit.User.Name))
-            Log("Failed to warn '" & ThisEdit.User.Name & "'.")
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            Log("Failed to warn '" & Edit.User.Name & "'.")
+            Fail()
         End Sub
 
         Private Sub OldEdit(ByVal O As Object)
-            Delog(GetPage("User talk:" & ThisEdit.User.Name))
-            Log("Did not warn '" & ThisEdit.User.Name & "', because they have not edited since their latest warning")
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            Log("Did not warn '" & Edit.User.Name & "', because they have not edited since their latest warning")
+            Fail()
         End Sub
+
     End Class
 
     Class BlockNotificationRequest : Inherits Request
 
-        Public ThisUser As User, Expiry, Reason, Template As String
+        Public User As User, Expiry, Reason, Template As String
 
         Public Sub Start()
-            Log("Notifying '" & ThisUser.Name & "' of block...", GetPage("User talk:" & ThisUser.Name), True)
+            LogProgress("Notifying '" & User.Name & "' of block...")
+
             Dim RequestThread As New Thread(AddressOf Process)
             RequestThread.IsBackground = True
             RequestThread.Start()
         End Sub
 
         Private Sub Process()
-            Dim Data As EditData = GetEdit(GetPage("User talk:" & ThisUser.Name))
+            Dim Data As EditData = GetEditData("User talk:" & User.Name)
 
             If Data.Error Then
                 Callback(AddressOf Failed)
@@ -307,16 +306,14 @@ Module NotifyRequests
         End Sub
 
         Private Sub Done(ByVal O As Object)
-            Delog(GetPage("User talk:" & ThisUser.Name))
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            Complete()
         End Sub
 
         Private Sub Failed(ByVal O As Object)
-            Delog(GetPage("User talk:" & ThisUser.Name))
-            Log("Failed to post block notification for '" & ThisUser.Name & "'")
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            Log("Failed to post block notification for '" & User.Name & "'")
+            Fail()
         End Sub
 
     End Class
 
-End Module
+End Namespace

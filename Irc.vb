@@ -5,15 +5,15 @@ Imports System.Threading
 
 Module Irc
 
-    Public Reconnect As Boolean
+    Public Reconnect, Disconnecting As Boolean
 
-    Sub IrcConnect(Optional ByVal O As Object = Nothing)
+    Public Sub IrcConnect(Optional ByVal O As Object = Nothing)
         Dim IrcThread As New Thread(AddressOf IrcProcess)
         IrcThread.IsBackground = True
         IrcThread.Start()
     End Sub
 
-    Sub IrcProcess()
+    Private Sub IrcProcess()
         Dim EditMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07([^]*)14\]\]4 B?(M?)B?10 02.*di" & _
             "ff=([^&]*)&oldid=([^]*) 5\* 03([^]*) 5\* \(?([^]*)?\) 10([^]*)", RegexOptions.Compiled)
 
@@ -249,12 +249,22 @@ Module Irc
                         Dim Match As Match = CreateUserMatch.Match(Message)
 
                     End If
+
+                    If Disconnecting Then
+                        Reader.Close()
+                        Writer.Close()
+                        Stream.Close()
+                        Exit Sub
+                    End If
                 End While
 
                 Thread.Sleep(50)
 
                 If Reconnect Then
                     Reconnect = False
+                    Reader.Close()
+                    Writer.Close()
+                    Stream.Close()
                     Callback(AddressOf IrcConnect)
                     Exit Sub
                 End If
@@ -267,14 +277,18 @@ Module Irc
     End Sub
 
     <DebuggerStepThrough()> _
-    Sub ProcessIrcEdit(ByVal EditObject As Object)
+    Private Sub ProcessIrcEdit(ByVal EditObject As Object)
         Dim Edit As Edit = CType(EditObject, Edit)
         ProcessEdit(Edit)
         ProcessNewEdit(Edit)
     End Sub
 
-    Sub LogIrc(ByVal MessageObject As Object)
+    Private Sub LogIrc(ByVal MessageObject As Object)
         Log(CStr(MessageObject))
+    End Sub
+
+    Public Sub Disconnect()
+        Disconnecting = True
     End Sub
 
 End Module

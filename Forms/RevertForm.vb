@@ -22,7 +22,7 @@ Class RevertForm
 
             Dim NewRevertRequest As New RevertRequest
             NewRevertRequest.Summary = Summary.Text
-            NewRevertRequest.ThisEdit = CurrentEdit.Prev
+            NewRevertRequest.Edit = CurrentEdit.Prev
             NewRevertRequest.Start()
         Else
             DialogResult = DialogResult.Cancel

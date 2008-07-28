@@ -36,7 +36,7 @@ Class TagForm
 
             Dim NewRequest As New TagRequest
 
-            NewRequest.ThisPage = CurrentEdit.Page
+            NewRequest.Page = CurrentEdit.Page
             NewRequest.Summary = Summary.Text
             NewRequest.Tag = TagText.Text
             NewRequest.InsertAtEnd = InsertAtEnd.Checked

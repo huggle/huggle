@@ -1,40 +1,17 @@
 Imports System.Threading
 
-Module ConfigRequests
+Namespace Requests
 
-    Class GetConfigRequest
+    Class ConfigRequest : Inherits Request
 
-        'Read per-user and project config pages
+        Public Function GetProjectConfig() As Boolean
+            'Read project config page
+            Dim Result As String = GetPageText(Config.ProjectConfigLocation)
 
-        Private _ProjectConfig As Boolean
-
-        Public Function GetConfig(ByVal ProjectConfig As Boolean) As Boolean
-            _ProjectConfig = ProjectConfig
-            Return Process()
-        End Function
-
-        Public Sub StartInThread(ByVal ProjectConfig As Boolean)
-            _ProjectConfig = ProjectConfig
-
-            Dim RequestThread As New Thread(AddressOf GetConfigInThread)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
-        End Sub
-
-        Private Sub GetConfigInThread()
-            Process()
-            If Config.Enabled Then Callback(AddressOf GetUserConfigDone) Else Callback(AddressOf GetUserConfigFailed)
-        End Sub
-
-        Public Function Process() As Boolean
-            Dim Result As String
-
-            If _ProjectConfig Then Result = GetText(GetPage(Config.ProjectConfigLocation)) _
-                Else Result = GetText(GetPage(Config.UserConfigLocation))
-
-            If Result Is Nothing Then Return False
-
-            If Not _ProjectConfig Then Config.Enabled = (Not Config.RequireConfig)
+            If Result Is Nothing Then
+                Fail()
+                Return False
+            End If
 
             Dim i As Integer = 1, ConfigItems As New List(Of String)(Result.Split(CChar(vbLf)))
 
@@ -54,153 +31,8 @@ Module ConfigRequests
                     Dim OptionValue As String = Item.Substring(Item.IndexOf(":") + 1).Trim(CChar(vbLf)).Replace("\n", vbLf)
 
                     Try
-                        'Project and user config
-                        Select Case OptionName
-                            Case "enable" : Config.Enabled = CBool(OptionValue)
-                            Case "admin" : Config.UseAdminFunctions = CBool(OptionValue)
-                            Case "anonymous" : SetAnonymous(OptionValue)
-                            Case "auto-advance" : Config.AutoAdvance = CBool(OptionValue)
-                            Case "auto-whitelist" : Config.AutoWhitelist = CBool(OptionValue)
-                            Case "blocktime" : Config.BlockTime = OptionValue
-                            Case "blocktime-anon" : Config.BlockTimeAnon = OptionValue
-                            Case "block-message" : Config.BlockMessage = OptionValue
-                            Case "block-message-default" : Config.BlockMessageDefault = CBool(OptionValue)
-                            Case "block-message-indef" : Config.BlockMessageIndef = OptionValue
-                            Case "block-prompt" : Config.PromptForBlock = CBool(OptionValue)
-                            Case "block-reason" : Config.BlockReason = OptionValue
-                            Case "block-summary" : Config.BlockSummary = "Notification: Blocked"
-                            Case "confirm-ignored" : Config.ConfirmIgnored = CBool(OptionValue)
-                            Case "confirm-multiple" : Config.ConfirmMultiple = CBool(OptionValue)
-                            Case "confirm-same" : Config.ConfirmSame = CBool(OptionValue)
-                            Case "confirm-self-revert" : Config.ConfirmSelfRevert = CBool(OptionValue)
-                            Case "default-summary" : Config.DefaultSummary = OptionValue
-                            Case "diff-font-size" : Config.DiffFontSize = OptionValue
-                            Case "extend-reports" : Config.ExtendReports = CBool(OptionValue)
-                            Case "irc-port" : Config.IrcPort = CInt(OptionValue)
-                            Case "minor" : SetMinor(OptionValue)
-                            Case "namespaces" : SetNamespaces(OptionValue)
-                            Case "new-pages" : Config.ShowNewPages = CBool(OptionValue)
-                            Case "open-in-browser" : Config.OpenInBrowser = CBool(OptionValue)
-                            Case "patrol-speedy" : Config.PatrolSpeedy = CBool(OptionValue)
-                            Case "preload" : Config.Preloads = CInt(OptionValue)
-                            Case "prod" : Config.Prod = CBool(OptionValue)
-                            Case "prod-message" : Config.ProdMessage = OptionValue
-                            Case "prod-message-summary" : Config.ProdMessageSummary = OptionValue
-                            Case "prod-message-title" : Config.ProdMessageTitle = OptionValue
-                            Case "prod-summary" : Config.ProdSummary = OptionValue
-                            Case "protection-reason" : Config.ProtectionReason = OptionValue
-                            Case "protection-requests" : Config.ProtectionRequests = CBool(OptionValue)
-                            Case "report" : SetReport(OptionValue)
-                            Case "report-extend-summary" : Config.ReportExtendSummary = OptionValue
-                            Case "report-summary" : Config.ReportSummary = OptionValue
-                            Case "revert-summaries" : Config.CustomRevertSummaries = GetList(OptionValue)
-                            Case "rollback" : Config.UseRollback = CBool(OptionValue)
-                            Case "show-log" : Config.ShowLog = CBool(OptionValue)
-                            Case "show-new-edits" : Config.ShowNewEdits = CBool(OptionValue)
-                            Case "show-queue" : Config.ShowQueue = CBool(OptionValue)
-                            Case "show-tool-tips" : Config.ShowToolTips = CBool(OptionValue)
-                            Case "speedy" : Config.Speedy = CBool(OptionValue)
-                            Case "speedy-message-summary" : Config.SpeedyMessageSummary = OptionValue
-                            Case "speedy-message-title" : Config.SpeedyMessageTitle = OptionValue
-                            Case "speedy-summary" : Config.SpeedySummary = OptionValue
-                            Case "tags" : SetTags(OptionValue)
-                            Case "tray-icon" : Config.TrayIcon = CBool(OptionValue)
-                            Case "undo-summary" : Config.UndoSummary = OptionValue
-                            Case "update-whitelist" : Config.UpdateWhitelist = CBool(OptionValue)
-                            Case "watchlist" : SetWatch(OptionValue)
-                            Case "welcome" : Config.Welcome = OptionValue
-                            Case "welcome-anon" : Config.WelcomeAnon = OptionValue
-                        End Select
-
-                        'User config only
-                        If Not _ProjectConfig Then
-                            Select Case OptionName
-                                Case "templates" : Config.TemplateMessages = GetList(OptionValue)
-                                Case "version" : CheckConfigVersion(OptionValue)
-                            End Select
-                        End If
-
-                        'Project config only
-                        If _ProjectConfig Then
-                            Select Case OptionName
-                                Case "afd" : Config.AfdLocation = OptionValue
-                                Case "aiv" : Config.AIVLocation = OptionValue
-                                Case "aivbot" : Config.AIVBotLocation = OptionValue
-                                Case "aiv-reports" : Config.AIV = CBool(OptionValue)
-                                Case "aiv-single-note" : Config.AivSingleNote = OptionValue
-                                Case "approval" : Config.Approval = CBool(OptionValue)
-                                Case "block" : Config.Block = CBool(OptionValue)
-                                Case "block-expiry-options" : Config.BlockExpiryOptions = GetList(OptionValue)
-                                Case "cfd" : Config.CfdLocation = OptionValue
-                                Case "config-summary" : Config.ConfigSummary = OptionValue
-                                Case "delete" : Config.Delete = CBool(OptionValue)
-                                Case "enable-all" : Config.EnabledForAll = CBool(OptionValue)
-                                Case "go" : Config.GoToPages = GetList(OptionValue)
-                                Case "ifd" : Config.IfdLocation = OptionValue
-                                Case "ignore" : Config.IgnoredPages = GetList(OptionValue)
-                                Case "manual-revert-summary" : Config.ManualRevertSummary = OptionValue
-                                Case "mfd" : Config.MfdLocation = OptionValue
-                                Case "min-version" : VersionOK = CheckMinVersion(OptionValue)
-                                Case "patrol" : Config.Patrol = CBool(OptionValue)
-                                Case "protect" : Config.Protect = CBool(OptionValue)
-                                Case "protection-request-page" : Config.ProtectionRequestPage = OptionValue
-                                Case "protection-request-reason" : Config.ProtectionRequestReason = OptionValue
-                                Case "protection-request-summary" : Config.ProtectionRequestSummary = OptionValue
-                                Case "rc-block-size" : Config.RcBlockSize = CInt(OptionValue)
-                                Case "report-link-diffs" : Config.ReportLinkDiffs = CBool(OptionValue)
-                                Case "require-admin" : Config.RequireAdmin = CBool(OptionValue)
-                                Case "require-config" : Config.RequireConfig = CBool(OptionValue)
-                                Case "require-edits" : Config.RequireEdits = CInt(OptionValue)
-                                Case "require-rollback" : Config.RequireRollback = CBool(OptionValue)
-                                Case "require-time" : Config.RequireTime = CInt(OptionValue)
-                                Case "rollback-summary" : Config.RollbackSummary = OptionValue
-                                Case "rollback-summary-unknown" : Config.RollbackSummaryUnknown = OptionValue
-                                Case "rfd" : Config.RfdLocation = OptionValue
-                                Case "speedy-delete-summary" : Config.SpeedyDeleteSummary = OptionValue
-                                Case "speedy-options" : SetSpeedyOptions(OptionValue)
-                                Case "summary" : Config.Summary = OptionValue
-                                Case "templates" : Config.TemplateMessagesGlobal = GetList(OptionValue)
-                                Case "tfd" : Config.TfdLocation = OptionValue
-                                Case "uaa" : Config.UAALocation = OptionValue
-                                Case "uaabot" : Config.UAABotLocation = OptionValue
-                                Case "userlist" : Config.UserListLocation = OptionValue
-                                Case "userlist-update-summary" : Config.UserListUpdateSummary = OptionValue
-                                Case "version" : If VersionOK Then CheckVersion(OptionValue)
-                                Case "warning-im-level" : Config.WarningImLevel = CBool(OptionValue)
-                                Case "warning-mode" : Config.WarningMode = OptionValue
-                                Case "warning-month-headings" : Config.MonthHeadings = CBool(OptionValue)
-                                Case "warning-series" : Config.WarningSeries = GetList(OptionValue)
-                                Case "welcome-summary" : Config.WelcomeSummary = OptionValue
-                                Case "whitelist" : Config.WhitelistLocation = OptionValue
-                                Case "whitelist-edit-count" : Config.WhitelistEditCount = CInt(OptionValue)
-                                Case "whitelist-enabled" : Config.WhitelistEnabled = CBool(OptionValue)
-                                Case "whitelist-update-summary" : Config.WhitelistUpdateSummary = OptionValue
-                                Case "xfd" : Config.Xfd = CBool(OptionValue)
-                                Case "xfd-discussion-summary" : Config.XfdDiscussionSummary = OptionValue
-                                Case "xfd-log-summary" : Config.XfdLogSummary = OptionValue
-                                Case "xfd-message" : Config.XfdMessage = OptionValue
-                                Case "xfd-message-summary" : Config.XfdMessageSummary = OptionValue
-                                Case "xfd-message-title" : Config.XfdMessageTitle = OptionValue
-                                Case "xfd-summary" : Config.XfdSummary = OptionValue
-
-                                Case "warn-summary" : Config.WarnSummary = OptionValue
-                                Case "warn-summary-2" : Config.WarnSummary2 = OptionValue
-                                Case "warn-summary-3" : Config.WarnSummary3 = OptionValue
-                                Case "warn-summary-4" : Config.WarnSummary4 = OptionValue
-
-                                Case Else
-                                    For Each Item2 As String In Config.WarningSeries
-                                        If OptionName.StartsWith(Item2) Then
-                                            Select Case OptionName.Substring(Item2.Length)
-                                                Case "1", "2", "3", "4", "4im"
-                                                    WarningMessages.Add(OptionName, OptionValue)
-                                            End Select
-
-                                            Exit For
-                                        End If
-                                    Next Item2
-                            End Select
-                        End If
+                        SetSharedConfigOption(OptionName, OptionValue)
+                        SetProjectConfigOption(OptionName, OptionValue)
 
                     Catch ex As Exception
                         'Ignore malformed config entries
@@ -208,8 +40,62 @@ Module ConfigRequests
                 End If
             Next Item
 
+            Complete()
             Return True
         End Function
+
+        Public Function GetUserConfig() As Boolean
+            'Read user config page
+            Dim Result As String = GetPageText(Config.UserConfigLocation)
+
+            If Result Is Nothing Then
+                Fail()
+                Return False
+            End If
+
+            Config.Enabled = (Not Config.RequireConfig)
+
+            Dim i As Integer = 1, ConfigItems As New List(Of String)(Result.Split(CChar(vbLf)))
+
+            While i < ConfigItems.Count
+                If ConfigItems(i).StartsWith(" ") Then
+                    ConfigItems(i - 1) &= ConfigItems(i)
+                    ConfigItems.RemoveAt(i)
+                Else
+                    i += 1
+                End If
+            End While
+
+            For Each Item As String In ConfigItems
+
+                If (Not Item.StartsWith("#")) AndAlso Item.Contains(":") Then
+                    Dim OptionName As String = Item.Substring(0, Item.IndexOf(":")).ToLower
+                    Dim OptionValue As String = Item.Substring(Item.IndexOf(":") + 1).Trim(CChar(vbLf)).Replace("\n", vbLf)
+
+                    Try
+                        SetUserConfigOption(OptionName, OptionValue)
+                        SetSharedConfigOption(OptionName, OptionValue)
+
+                    Catch ex As Exception
+                        'Ignore malformed config entries
+                    End Try
+                End If
+            Next Item
+
+            Complete()
+            Return True
+        End Function
+
+        Public Sub GetUserConfigInThread()
+            Dim RequestThread As New Thread(AddressOf UserConfigThread)
+            RequestThread.IsBackground = True
+            RequestThread.Start()
+        End Sub
+
+        Private Sub UserConfigThread()
+            GetUserConfig()
+            If Config.Enabled Then Callback(AddressOf GetUserConfigDone) Else Callback(AddressOf GetUserConfigFailed)
+        End Sub
 
         Private Sub GetUserConfigDone(ByVal O As Object)
             If Config.UseAdminFunctions AndAlso Administrator Then
@@ -228,15 +114,165 @@ Module ConfigRequests
 
             Main.TrayIcon.Visible = Config.TrayIcon
             Log("Loaded configuration page.")
+            Complete()
         End Sub
 
         Private Sub GetUserConfigFailed(ByVal O As Object)
             Log("Failed to load configuration page.")
+            Fail()
         End Sub
 
-        Private Sub CheckConfigVersion(ByVal VersionString As String)
-            Config.ConfigVersion = New Version(CInt(VersionString.Substring(0, 1)), _
-                CInt(VersionString.Substring(2, 1)), CInt(VersionString.Substring(4)))
+        Private Sub SetSharedConfigOption(ByVal Name As String, ByVal Value As String)
+            'Project and user config
+            Select Case Name
+                Case "enable" : Config.Enabled = CBool(Value)
+                Case "admin" : Config.UseAdminFunctions = CBool(Value)
+                Case "anonymous" : SetAnonymous(Value)
+                Case "auto-advance" : Config.AutoAdvance = CBool(Value)
+                Case "auto-whitelist" : Config.AutoWhitelist = CBool(Value)
+                Case "blocktime" : Config.BlockTime = Value
+                Case "blocktime-anon" : Config.BlockTimeAnon = Value
+                Case "block-message" : Config.BlockMessage = Value
+                Case "block-message-default" : Config.BlockMessageDefault = CBool(Value)
+                Case "block-message-indef" : Config.BlockMessageIndef = Value
+                Case "block-prompt" : Config.PromptForBlock = CBool(Value)
+                Case "block-reason" : Config.BlockReason = Value
+                Case "block-summary" : Config.BlockSummary = "Notification: Blocked"
+                Case "confirm-ignored" : Config.ConfirmIgnored = CBool(Value)
+                Case "confirm-multiple" : Config.ConfirmMultiple = CBool(Value)
+                Case "confirm-same" : Config.ConfirmSame = CBool(Value)
+                Case "confirm-self-revert" : Config.ConfirmSelfRevert = CBool(Value)
+                Case "default-summary" : Config.DefaultSummary = Value
+                Case "diff-font-size" : Config.DiffFontSize = Value
+                Case "extend-reports" : Config.ExtendReports = CBool(Value)
+                Case "irc-port" : Config.IrcPort = CInt(Value)
+                Case "minor" : SetMinor(Value)
+                Case "namespaces" : SetNamespaces(Value)
+                Case "new-pages" : Config.ShowNewPages = CBool(Value)
+                Case "open-in-browser" : Config.OpenInBrowser = CBool(Value)
+                Case "patrol-speedy" : Config.PatrolSpeedy = CBool(Value)
+                Case "preload" : Config.Preloads = CInt(Value)
+                Case "prod" : Config.Prod = CBool(Value)
+                Case "prod-message" : Config.ProdMessage = Value
+                Case "prod-message-summary" : Config.ProdMessageSummary = Value
+                Case "prod-message-title" : Config.ProdMessageTitle = Value
+                Case "prod-summary" : Config.ProdSummary = Value
+                Case "protection-reason" : Config.ProtectionReason = Value
+                Case "protection-requests" : Config.ProtectionRequests = CBool(Value)
+                Case "report" : SetReport(Value)
+                Case "report-extend-summary" : Config.ReportExtendSummary = Value
+                Case "report-summary" : Config.ReportSummary = Value
+                Case "revert-summaries" : Config.CustomRevertSummaries = GetList(Value)
+                Case "rollback" : Config.UseRollback = CBool(Value)
+                Case "show-log" : Config.ShowLog = CBool(Value)
+                Case "show-new-edits" : Config.ShowNewEdits = CBool(Value)
+                Case "show-queue" : Config.ShowQueue = CBool(Value)
+                Case "show-tool-tips" : Config.ShowToolTips = CBool(Value)
+                Case "speedy" : Config.Speedy = CBool(Value)
+                Case "speedy-message-summary" : Config.SpeedyMessageSummary = Value
+                Case "speedy-message-title" : Config.SpeedyMessageTitle = Value
+                Case "speedy-summary" : Config.SpeedySummary = Value
+                Case "tags" : SetTags(Value)
+                Case "tray-icon" : Config.TrayIcon = CBool(Value)
+                Case "undo-summary" : Config.UndoSummary = Value
+                Case "update-whitelist" : Config.UpdateWhitelist = CBool(Value)
+                Case "watchlist" : SetWatch(Value)
+                Case "welcome" : Config.Welcome = Value
+                Case "welcome-anon" : Config.WelcomeAnon = Value
+            End Select
+        End Sub
+
+        Private Sub SetProjectConfigOption(ByVal Name As String, ByVal Value As String)
+            'Project config only
+            Select Case Name
+                Case "afd" : Config.AfdLocation = Value
+                Case "aiv" : Config.AIVLocation = Value
+                Case "aivbot" : Config.AIVBotLocation = Value
+                Case "aiv-reports" : Config.AIV = CBool(Value)
+                Case "aiv-single-note" : Config.AivSingleNote = Value
+                Case "approval" : Config.Approval = CBool(Value)
+                Case "block" : Config.Block = CBool(Value)
+                Case "block-expiry-options" : Config.BlockExpiryOptions = GetList(Value)
+                Case "cfd" : Config.CfdLocation = Value
+                Case "config-summary" : Config.ConfigSummary = Value
+                Case "delete" : Config.Delete = CBool(Value)
+                Case "email" : Config.Email = CBool(Value)
+                Case "email-subject" : Config.EmailSubject = Value
+                Case "enable-all" : Config.EnabledForAll = CBool(Value)
+                Case "go" : Config.GoToPages = GetList(Value)
+                Case "ifd" : Config.IfdLocation = Value
+                Case "ignore" : Config.IgnoredPages = GetList(Value)
+                Case "manual-revert-summary" : Config.ManualRevertSummary = Value
+                Case "mfd" : Config.MfdLocation = Value
+                Case "min-version" : VersionOK = CheckMinVersion(Value)
+                Case "patrol" : Config.Patrol = CBool(Value)
+                Case "protect" : Config.Protect = CBool(Value)
+                Case "protection-request-page" : Config.ProtectionRequestPage = Value
+                Case "protection-request-reason" : Config.ProtectionRequestReason = Value
+                Case "protection-request-summary" : Config.ProtectionRequestSummary = Value
+                Case "rc-block-size" : Config.RcBlockSize = CInt(Value)
+                Case "report-link-diffs" : Config.ReportLinkDiffs = CBool(Value)
+                Case "require-admin" : Config.RequireAdmin = CBool(Value)
+                Case "require-config" : Config.RequireConfig = CBool(Value)
+                Case "require-edits" : Config.RequireEdits = CInt(Value)
+                Case "require-rollback" : Config.RequireRollback = CBool(Value)
+                Case "require-time" : Config.RequireTime = CInt(Value)
+                Case "rollback-summary" : Config.RollbackSummary = Value
+                Case "rollback-summary-unknown" : Config.RollbackSummaryUnknown = Value
+                Case "rfd" : Config.RfdLocation = Value
+                Case "speedy-delete-summary" : Config.SpeedyDeleteSummary = Value
+                Case "speedy-options" : SetSpeedyOptions(Value)
+                Case "summary" : Config.Summary = Value
+                Case "templates" : Config.TemplateMessagesGlobal = GetList(Value)
+                Case "tfd" : Config.TfdLocation = Value
+                Case "uaa" : Config.UAALocation = Value
+                Case "uaabot" : Config.UAABotLocation = Value
+                Case "userlist" : Config.UserListLocation = Value
+                Case "userlist-update-summary" : Config.UserListUpdateSummary = Value
+                Case "version" : If VersionOK Then CheckVersion(Value)
+                Case "warning-im-level" : Config.WarningImLevel = CBool(Value)
+                Case "warning-mode" : Config.WarningMode = Value
+                Case "warning-month-headings" : Config.MonthHeadings = CBool(Value)
+                Case "warning-series" : Config.WarningSeries = GetList(Value)
+                Case "welcome-summary" : Config.WelcomeSummary = Value
+                Case "whitelist" : Config.WhitelistLocation = Value
+                Case "whitelist-edit-count" : Config.WhitelistEditCount = CInt(Value)
+                Case "whitelist-enabled" : Config.WhitelistEnabled = CBool(Value)
+                Case "whitelist-update-summary" : Config.WhitelistUpdateSummary = Value
+                Case "xfd" : Config.Xfd = CBool(Value)
+                Case "xfd-discussion-summary" : Config.XfdDiscussionSummary = Value
+                Case "xfd-log-summary" : Config.XfdLogSummary = Value
+                Case "xfd-message" : Config.XfdMessage = Value
+                Case "xfd-message-summary" : Config.XfdMessageSummary = Value
+                Case "xfd-message-title" : Config.XfdMessageTitle = Value
+                Case "xfd-summary" : Config.XfdSummary = Value
+
+                Case "warn-summary" : Config.WarnSummary = Value
+                Case "warn-summary-2" : Config.WarnSummary2 = Value
+                Case "warn-summary-3" : Config.WarnSummary3 = Value
+                Case "warn-summary-4" : Config.WarnSummary4 = Value
+
+                Case Else
+                    For Each Item2 As String In Config.WarningSeries
+                        If Name.StartsWith(Item2) Then
+                            Select Case Name.Substring(Item2.Length)
+                                Case "1", "2", "3", "4", "4im"
+                                    WarningMessages.Add(Name, Value)
+                            End Select
+
+                            Exit For
+                        End If
+                    Next Item2
+            End Select
+        End Sub
+
+        Private Sub SetUserConfigOption(ByVal Name As String, ByVal Value As String)
+            'User config only
+            Select Case Name
+                Case "templates" : Config.TemplateMessages = GetList(Value)
+                Case "version" : Config.ConfigVersion = New Version(CInt(Value.Substring(0, 1)), _
+                    CInt(Value.Substring(2, 1)), CInt(Value.Substring(4)))
+            End Select
         End Sub
 
         Private Sub CheckVersion(ByVal VersionString As String)
@@ -244,13 +280,13 @@ Module ConfigRequests
                 CInt(VersionString.Substring(2, 1)), CInt(VersionString.Substring(4)))
 
             If NewVersion > Version Then
-                Dim NewNewVersionForm As New VersionForm
+                Dim NewVersionForm As New VersionForm
 
-                NewNewVersionForm.VersionMessage.Text = "You are currently using version " & _
+                NewVersionForm.VersionMessage.Text = "You are currently using version " & _
                     Version.ToString & " of huggle. The latest available version is " & _
                     NewVersion.ToString & "." & vbCrLf & vbCrLf & "See the documentation page for details of how to " & _
                     "obtain the most recent version. This version will continue to function."
-                NewNewVersionForm.ShowDialog()
+                NewVersionForm.ShowDialog()
             End If
         End Sub
 
@@ -426,7 +462,7 @@ Module ConfigRequests
         Public Closing As Boolean
 
         Public Sub Start()
-            Log("Updating configuration page...", GetPage(Config.UserConfigLocation), True)
+            LogProgress("Updating configuration page...")
 
             Dim RequestThread As New Thread(AddressOf Process)
             RequestThread.IsBackground = True
@@ -434,7 +470,7 @@ Module ConfigRequests
         End Sub
 
         Private Sub Process()
-            Dim Data As EditData = GetEdit(GetPage(Config.UserConfigLocation))
+            Dim Data As EditData = GetEditData(Config.UserConfigLocation)
 
             If Data.Error Then
                 Callback(AddressOf Failed)
@@ -533,28 +569,29 @@ Module ConfigRequests
         End Sub
 
         Private Sub Done(ByVal O As Object)
-            Delog(GetPage(Config.UserConfigLocation))
             If Closing Then ClosingForm.Close()
             If Main IsNot Nothing Then Main.Configure()
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            Complete()
         End Sub
 
         Private Sub Failed(ByVal O As Object)
-            Delog(GetPage(Config.UserConfigLocation))
-            Log("Failed to update configuration")
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            Log("Failed to update user configuration subpage")
+            Fail()
         End Sub
 
     End Class
 
-    Class GlobalConfigRequest
+    Class GlobalConfigRequest : Inherits Request
 
         'Process global configuration page
 
-        Public Function GetConfig() As Boolean
-            Dim Result As String = GetText(Config.GlobalConfigLocation)
+        Public Function Process() As Boolean
+            Dim Result As String = GetUrl(Config.GlobalConfigLocation)
 
-            If Result Is Nothing Then Return False
+            If Result Is Nothing Then
+                Fail()
+                Return False
+            End If
 
             Dim i As Integer = 1, ConfigItems As New List(Of String)(Result.Split(CChar(vbLf)))
 
@@ -593,6 +630,7 @@ Module ConfigRequests
                 End If
             Next Item
 
+            Complete()
             Return True
         End Function
 
@@ -618,4 +656,4 @@ Module ConfigRequests
 
     End Class
 
-End Module
+End Namespace

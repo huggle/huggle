@@ -109,9 +109,14 @@ Partial Class Main
             AddHandler NewItem.Click, AddressOf Speedy_Click
             TagDeleteMenu.Items.Add(NewItem)
         Next Item
+
+        RefreshInterface()
     End Sub
 
     Public Sub RefreshInterface()
+        MenuPage.Enabled = (CurrentPage IsNot Nothing)
+        MenuUser.Enabled = (CurrentUser IsNot Nothing)
+
         If CurrentEdit IsNot Nothing AndAlso CurrentPage IsNot Nothing AndAlso CurrentUser IsNot Nothing Then
             If Config.ShowQueue Then
                 Tabs.Left = QueueWidth + 20
@@ -131,7 +136,6 @@ Partial Class Main
             BrowserNewEdits.Checked = CurrentTab.ShowNewEdits
             BrowserNewTabB.Enabled = True
             BrowserOpenB.Enabled = (CurrentTab.CurrentUrl IsNot Nothing)
-            CancelB.Enabled = (PendingRequests.Count > 0)
             ContribsB.Enabled = (CurrentEdit.User.FirstEdit Is Nothing)
             ContribsPrevB.Enabled = (CurrentEdit.PrevByUser IsNot Nothing)
             ContribsNextB.Enabled = (CurrentEdit.NextByUser IsNot Nothing)
@@ -149,8 +153,6 @@ Partial Class Main
                 AndAlso CurrentEdit.Prev IsNot CurrentPage.FirstEdit
             HistoryNextB.Enabled = (Not CurrentEdit Is CurrentPage.LastEdit)
             HistoryLastB.Enabled = (Not CurrentEdit Is CurrentPage.LastEdit)
-            MenuPage.Enabled = (CurrentPage IsNot Nothing)
-            MenuUser.Enabled = (CurrentUser IsNot Nothing)
             PageDelete.Enabled = True
             PageDeleteB.Enabled = True
             PageEdit.Enabled = Editable
