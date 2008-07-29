@@ -177,7 +177,7 @@ Namespace Requests
         End Function
 
         Private Sub Process()
-            Dim Client As New WebClient, Retries As Integer = 3, Result As String = ""
+            Dim Result As String = ""
 
             'Log in... can't use the API here because it locks you out after a wrong password
             UpdateStatus("Logging in...")

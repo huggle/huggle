@@ -227,8 +227,7 @@ Namespace Requests
         End Sub
 
         Private Sub Process()
-            Dim Client As New WebClient
-            Dim Retries As Integer = 3, Result As String = ""
+            Dim Result As String = ""
 
             Dim QueryString As String = "format=xml&action=query&prop=revisions&titles=" & _
                 UrlEncode(Page.Name) & "&rvlimit=" & CStr(HistoryBlockSize) & "&rvprop=ids|timestamp|user|comment"

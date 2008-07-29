@@ -117,7 +117,7 @@ Module Drawing
         Gfx.DrawRectangle(Pens.DarkGray, 1, 1, Result.Width - 3, Result.Height - 3)
 
         If User IsNot Nothing Then
-            Dim CurrentPosition As Integer = 0, DisableScroll As Boolean = True
+            Dim CurrentPosition As Integer = 0
             Dim ThisEdit As Edit = User.LastEdit
             Dim X As Integer = Result.Width - 18 + (ContribsOffset * 17)
 

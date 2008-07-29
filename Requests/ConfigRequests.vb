@@ -425,9 +425,7 @@ Namespace Requests
                 Dim Subitems As New List(Of String)(Item.Trim(" "c).Replace(Chr(1), ",") _
                     .Split(New String() {";"}, StringSplitOptions.RemoveEmptyEntries))
 
-                For Each Subitem As String In Subitems
-                    Item = Item.Trim(" "c).Replace(Chr(2), ";")
-                Next Subitem
+                Item = Item.Trim(" "c).Replace(Chr(2), ";")
 
                 If Subitems.Count >= 4 Then
                     Dim NewOption As New SpeedyCriterion

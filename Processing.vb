@@ -721,7 +721,6 @@ Module Processing
 
         If ThisProtection IsNot Nothing AndAlso ThisProtection.Page IsNot Nothing Then
             Dim ThisPage As Page = ThisProtection.Page
-            Dim ThisEdit As Edit = ThisPage.LastEdit
 
             If ThisProtection.Page.ProtectionsCurrent Then
                 If ThisProtection.Page.Protections Is Nothing _
@@ -735,7 +734,6 @@ Module Processing
     End Sub
 
     Sub ProcessUpload(ByVal UploadObject As Object)
-        Dim ThisUpload As Upload = CType(UploadObject, Upload)
     End Sub
 
     Sub ProcessDiff(ByVal PreloadDataObject As Object, ByVal Tab As BrowserTab)
