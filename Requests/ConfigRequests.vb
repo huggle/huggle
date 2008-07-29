@@ -271,7 +271,7 @@ Namespace Requests
             Select Case Name
                 Case "templates" : Config.TemplateMessages = GetList(Value)
                 Case "version" : Config.ConfigVersion = New Version(CInt(Value.Substring(0, 1)), _
-                    CInt(Value.Substring(2, 1)), CInt(Value.Substring(4)))
+                    CInt(Value.Substring(2, 1)), CInt(Value.Substring(4)), 0)
             End Select
         End Sub
 
