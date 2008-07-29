@@ -10,7 +10,7 @@ Module Config
     Public ConfigChanged As Boolean
     Public ConfigVersion As New Version(0, 0, 0)
     Public ContribsBlockSize As Integer = 100
-    Public CreditUrl As String = "http://en.wikipedia.org/wiki/User:Gurch"
+    Public CreditUrl As String = "http://en.wikipedia.org/wiki/User:$1"
     Public DiffCss As String = "* {text-decoration: none;} :hover {text-decoration: underline;} " & _
         ".new {color: red;} table.diff {table-layout: fixed} table.diff col.diff-content {width: 50%;} " & _
         ".diff-otitle, .diff-ntitle {font-size: 120%;} td.diff-marker {font-size: 0px; color: white;} " & _
