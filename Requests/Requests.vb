@@ -13,6 +13,10 @@ Namespace Requests
         Public Query As String, Mode As RequestMode, StartTime As Date
         Public Completed, Cancelled As Boolean, Success As Boolean = True
 
+        Public Enum LoginResult As Integer
+            : WrongPassword : NoUser : InvalidUsername : CaptchaNeeded : Failed : Success
+        End Enum
+
         Public Enum RequestMode As Integer
             : None : [Get] : Post
         End Enum
@@ -158,13 +162,13 @@ Namespace Requests
                         Dim NewLoginRequest As New LoginRequest
 
                         Select Case NewLoginRequest.DoLogin
-                            Case "failed", "captcha-needed", "wrong-password"
+                            Case LoginResult.Success
+                                Callback(AddressOf LoginDone)
+
+                            Case Else
                                 Callback(AddressOf LoginFailed)
                                 Data.Error = True
                                 Return Data
-
-                            Case Else
-                                Callback(AddressOf LoginDone)
                         End Select
 
                         LoggingIn = True

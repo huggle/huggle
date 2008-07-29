@@ -89,6 +89,12 @@ Module Irc
 
                     If Message = "" Then
 
+                    ElseIf Message.StartsWith(":" & Config.IrcServer & " 403") _
+                        AndAlso Message.EndsWith("No such channel") Then
+
+                        IrcMode = False
+                        Exit Sub
+
                     ElseIf Message.StartsWith("PING ") Then
                         Writer.WriteLine("PONG " & Message.Substring(5))
                         Writer.Flush()
@@ -269,9 +275,9 @@ Module Irc
                 End If
             End While
 
-        Catch ex As Exception
-            Thread.Sleep(1000)
-            Callback(AddressOf IrcConnect)
+        Catch ex As SocketException
+            'Server didn't like the connection; give up and fall back to API queries
+            IrcMode = False
         End Try
     End Sub
 

@@ -228,12 +228,11 @@ Namespace Requests
                         Dim NewLoginRequest As New LoginRequest
 
                         Select Case NewLoginRequest.DoLogin
-                            Case "failed", "captcha-needed", "wrong-password"
-                                Callback(AddressOf LoginFailed)
-                                Exit Sub
+                            Case LoginResult.Success
+                                Callback(AddressOf LoginDone)
 
                             Case Else
-                                Callback(AddressOf LoginDone)
+                                Callback(AddressOf LoginFailed)
                                 Exit Sub
                         End Select
 

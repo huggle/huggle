@@ -34,10 +34,7 @@ Class Main
         NavigationStrip.Location = New Point(3, 79)
         ActionsStrip.Location = New Point(434, 79)
 
-        If Not Config.IrcMode Then
-            RcReqTimer.Start()
-            BlockReqTimer.Start()
-        End If
+        If Not Config.IrcMode Then BlockReqTimer.Start()
 
         Configure()
     End Sub
@@ -516,10 +513,12 @@ Class Main
     End Sub
 
     Private Sub RcReqTimer_Tick() Handles RcReqTimer.Tick
-        RcReqTimer.Stop()
+        If Not IrcMode Then
+            RcReqTimer.Stop()
 
-        Dim NewRcApiRequest As New RcApiRequest
-        NewRcApiRequest.Start()
+            Dim NewRcApiRequest As New RcApiRequest
+            NewRcApiRequest.Start()
+        End If
     End Sub
 
     Private Sub UserMessage_Click() _

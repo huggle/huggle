@@ -22,6 +22,7 @@ Module Config
         "font-weight: bold; margin: 2em 0 1em; padding: 0.5em 1em; vertical-align: middle;}"
     Public GlobalConfigLocation As String = "http://meta.wikimedia.org/w/index.php?title=Huggle/GlobalConfig&action=raw"
     Public HistoryBlockSize As Integer = 100
+    Public IrcMode As Boolean = True
     Public LocalConfigLocation As String = "\config.txt"
     Public ProtectedNamespaces As String() = {"MediaWiki"}
     Public QueueWidth As Integer = 160
@@ -31,7 +32,6 @@ Module Config
 
     'Values stored in local config file
 
-    Public IrcMode As Boolean = True
     Public Project As String
     Public ProxyUsername As String
     Public ProxyUserDomain As String
@@ -221,7 +221,6 @@ Module Config
                         OptionValue As String = Item.Substring(Item.IndexOf(":") + 1)
 
                     Select Case OptionName
-                        Case "irc" : Config.IrcMode = CBool(OptionValue)
                         Case "log-file" : Config.LogFile = OptionValue
                         Case "project" : Config.Project = OptionValue
                         Case "proxy-port" : Config.ProxyPort = OptionValue
@@ -247,7 +246,6 @@ Module Config
         If Main IsNot Nothing Then
             Dim LocalConfigItems As New List(Of String)
 
-            LocalConfigItems.Add("irc:" & CStr(Config.IrcMode).ToLower)
             LocalConfigItems.Add("log-file:" & Config.LogFile)
             LocalConfigItems.Add("project:" & Config.Project)
             LocalConfigItems.Add("proxy-port:" & Config.ProxyPort)

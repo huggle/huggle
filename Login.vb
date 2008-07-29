@@ -7,18 +7,11 @@ Imports System.Web.HttpUtility
 Module Login
 
     Public Proxy As IWebProxy
-    
-    Public Sub Start(ByVal Password As String, ByVal Form As LoginForm)
-        Dim NewLoginRequest As New LoginRequest
-        NewLoginRequest.Form = Form
-        NewLoginRequest.Password = Password
-        NewLoginRequest.Start()
-    End Sub
 
     Public Sub ConfigureProxy(ByVal Address As String, ByVal Port As String, ByVal Username As String, _
             ByVal Password As String, ByVal Domain As String)
 
-        Dim wp As WebProxy
+        Dim Wp As WebProxy
 
         If (Address = "") Then
             Port = "80"
@@ -27,21 +20,23 @@ Module Login
                 ("HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings", "ProxyServer", ""))
 
             Dim ProxyEnabled As Boolean = CBool(My.Computer.Registry.GetValue _
-            ("HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings", "ProxyEnable", False))
+                ("HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings", "ProxyEnable", False))
 
             If (Not ProxyEnabled Or ProxyString = "") Then
-                wp = New WebProxy
+                Wp = New WebProxy
             Else
-                wp = New WebProxy("http://" & ProxyString & "/", True)
+                Wp = New WebProxy("http://" & ProxyString & "/", True)
             End If
         Else
-            If CInt(Val(Port)) = 0 Then Port = "80"
-            wp = New WebProxy("http://" & Address & ":" & Port & "/", True)
+            Dim PortNumber As Integer = CInt(Val(Port))
+            If PortNumber <= 0 Or PortNumber >= 65536 Then Port = "80" Else Port = CStr(PortNumber)
+
+            Wp = New WebProxy("http://" & Address & ":" & Port & "/", True)
         End If
 
-        wp.Credentials = New NetworkCredential(Username, Password, Domain)
-        wp.UseDefaultCredentials = True
-        Proxy = wp
+        Wp.Credentials = New NetworkCredential(Username, Password, Domain)
+        Wp.UseDefaultCredentials = True
+        Proxy = Wp
     End Sub
 End Module
 
@@ -58,7 +53,7 @@ Namespace Requests
             RequestThread.Start()
         End Sub
 
-        Public Function DoLogin() As String
+        Public Function DoLogin() As LoginResult
             Dim Client As New WebClient, Result As String = "", Retries As Integer = 3
 
             Mode = RequestMode.Get
@@ -77,14 +72,15 @@ Namespace Requests
 
                     Try
                         Result = UTF8.GetString(Client.DownloadData(SitePath & "w/index.php?title=Special:Userlogin"))
+                        If Cancelled Then Return LoginResult.Failed
 
                     Catch ex As WebException
-                        Throw
+                        If Cancelled Then Return LoginResult.Failed Else Throw
                     End Try
 
                 Loop Until IsWikiPage(Result) OrElse Retries = 0
 
-                If Retries = 0 Then Return "failed"
+                If Retries = 0 Then Return LoginResult.Failed
 
                 If Client.ResponseHeaders(HttpResponseHeader.SetCookie) IsNot Nothing Then
                     SessionCookie = Client.ResponseHeaders(HttpResponseHeader.SetCookie)
@@ -95,7 +91,7 @@ Namespace Requests
                     CaptchaId = Result.Substring(Result.IndexOf("id=""wpCaptchaId"" value=""") + 24)
                     CaptchaId = CaptchaId.Substring(0, CaptchaId.IndexOf(""""))
 
-                    Return "captcha-needed"
+                    Return LoginResult.CaptchaNeeded
                 End If
             End If
 
@@ -120,14 +116,20 @@ Namespace Requests
                         "&wpCaptchaId=" & CaptchaId & _
                         "&wpCaptchaWord=" & CaptchaWord)))
 
+                    If Cancelled Then Return LoginResult.Failed
+
                 Catch ex As WebException
                     Thread.Sleep(1000)
                 End Try
 
             Loop Until IsWikiPage(Result) OrElse Retries = 0
 
-            If Retries = 0 Then Return "failed"
-            If Result.Contains("<div id=""userloginForm"">") Then Return "wrong-password"
+            If Retries = 0 Then Return LoginResult.Failed
+
+            If Result.Contains("<span id=""mw-noname"">") Then Return LoginResult.InvalidUsername
+            If Result.Contains("<span id=""mw-nosuchuser"">") Then Return LoginResult.NoUser
+            If Result.Contains("<span id=""mw-wrongpassword"">") Then Return LoginResult.WrongPassword
+            If Result.Contains("<div id=""userloginForm"">") Then Return LoginResult.Failed
 
             Dim CookiePrefix As String, LoginCookie As String = Client.ResponseHeaders(HttpResponseHeader.SetCookie)
 
@@ -170,7 +172,7 @@ Namespace Requests
 
             MyUser = GetUser(Config.Username)
 
-            Return "success"
+            Return LoginResult.Success
         End Function
 
         Private Sub Process()
@@ -181,15 +183,23 @@ Namespace Requests
 
             Try
                 Select Case DoLogin()
-                    Case "failed"
-                        Abort("Unable to log in.")
+                    Case LoginResult.Failed
+                        If Not Cancelled Then Abort("Unable to log in.")
                         Exit Sub
 
-                    Case "captcha-needed"
+                    Case LoginResult.NoUser
+                        Abort("User does not exist.")
+                        Exit Sub
+
+                    Case LoginResult.InvalidUsername
+                        Abort("Invalid username.")
+                        Exit Sub
+
+                    Case LoginResult.CaptchaNeeded
                         Callback(AddressOf CaptchaNeeded)
                         Exit Sub
 
-                    Case "wrong-password"
+                    Case LoginResult.WrongPassword
                         If CaptchaId Is Nothing Then Abort("Incorrect password.") _
                             Else Abort("Incorrect password or confirmation code.")
                         CaptchaId = Nothing
@@ -201,9 +211,6 @@ Namespace Requests
                 Abort(ex.Message)
                 Exit Sub
             End Try
-
-            'Connect to IRC, if required (on separate thread)
-            If Config.IrcMode AndAlso (Config.IrcChannel IsNot Nothing) Then IrcConnect()
 
             'Get global configuration
             UpdateStatus("Checking global configuration...")
@@ -219,6 +226,9 @@ Namespace Requests
                 Abort("Huggle is currently disabled on all projects.")
                 Exit Sub
             End If
+
+            'Connect to IRC, if required (on separate thread)
+            If Config.IrcMode AndAlso (Config.IrcChannel IsNot Nothing) Then IrcConnect()
 
             'Get project configuration
             UpdateStatus("Checking project configuration...")
