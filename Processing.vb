@@ -407,7 +407,7 @@ Module Processing
 
                 'Refresh any open user info form
                 For Each Item As Form In Application.OpenForms
-                    Dim uif As UserInfoForm = CType(Item, UserInfoForm)
+                    Dim uif As UserInfoForm = TryCast(Item, UserInfoForm)
 
                     If uif IsNot Nothing AndAlso uif.ThisUser Is PageOwner Then
                         uif.RefreshWarnings()
@@ -655,7 +655,7 @@ Module Processing
 
             'Refresh any open user info form
             For Each Item As Form In Application.OpenForms
-                Dim uif As UserInfoForm = CType(Item, UserInfoForm)
+                Dim uif As UserInfoForm = TryCast(Item, UserInfoForm)
 
                 If uif IsNot Nothing AndAlso uif.ThisUser Is ThisBlock.User Then
                     uif.RefreshBlocks()

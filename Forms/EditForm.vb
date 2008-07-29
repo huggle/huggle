@@ -238,17 +238,17 @@ Class EditForm
         LockWindowUpdate(IntPtr.Zero)
     End Sub
 
-    Private Sub Apply_Click()
-        Cancel.Text = "Close"
+    'Private Sub Apply_Click()
+    '    Cancel.Text = "Close"
 
-        Dim NewEditRequest As New EditRequest
-        NewEditRequest.Minor = Minor.Checked
-        NewEditRequest.Watch = Watch.Checked
-        NewEditRequest.Summary = Summary.Text
-        NewEditRequest.Page = Page
-        NewEditRequest.Text = PageText.Text
-        NewEditRequest.Start()
-    End Sub
+    '    Dim NewEditRequest As New EditRequest
+    '    NewEditRequest.Minor = Minor.Checked
+    '    NewEditRequest.Watch = Watch.Checked
+    '    NewEditRequest.Summary = Summary.Text
+    '    NewEditRequest.Page = Page
+    '    NewEditRequest.Text = PageText.Text
+    '    NewEditRequest.Start()
+    'End Sub
 
     Private Sub Preview_Navigating(ByVal s As Object, ByVal e As WebBrowserNavigatingEventArgs) _
         Handles Preview.Navigating

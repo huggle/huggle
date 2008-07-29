@@ -235,7 +235,7 @@ Module Misc
         Private _Level As UserL
         Private _SharedIP As Boolean
         Private _EditCount As Integer = -1
-        Private _SessionEditCount As Integer = 0
+        Private _SessionEditCount As Integer
 
         Public AutoRevert As Boolean
         Public Name As String
@@ -292,7 +292,7 @@ Module Misc
                 End If
 
                 For Each Item As Form In Application.OpenForms
-                    Dim uif As UserInfoForm = CType(Item, UserInfoForm)
+                    Dim uif As UserInfoForm = TryCast(Item, UserInfoForm)
 
                     If uif IsNot Nothing AndAlso uif.ThisUser Is Me _
                         Then If _Level = UserL.Ignore Then uif.Whitelisted.Text = "Yes" _
@@ -327,7 +327,7 @@ Module Misc
                 _SharedIP = value
 
                 For Each Item As Form In Application.OpenForms
-                    Dim uif As UserInfoForm = CType(Item, UserInfoForm)
+                    Dim uif As UserInfoForm = TryCast(Item, UserInfoForm)
 
                     If uif IsNot Nothing AndAlso uif.ThisUser Is Me _
                         Then If _SharedIP Then uif.SharedIP.Text = "Yes" _
@@ -344,7 +344,7 @@ Module Misc
                 _EditCount = value
 
                 For Each Item As Form In Application.OpenForms
-                    Dim uif As UserInfoForm = CType(Item, UserInfoForm)
+                    Dim uif As UserInfoForm = TryCast(Item, UserInfoForm)
 
                     If uif IsNot Nothing AndAlso uif.ThisUser Is Me _
                         Then uif.EditCount.Text = CStr(_EditCount)
@@ -360,7 +360,7 @@ Module Misc
                 _SessionEditCount = value
 
                 For Each Item As Form In Application.OpenForms
-                    Dim uif As UserInfoForm = CType(Item, UserInfoForm)
+                    Dim uif As UserInfoForm = TryCast(Item, UserInfoForm)
 
                     If uif IsNot Nothing AndAlso uif.ThisUser Is Me _
                         Then uif.SessionEditCount.Text = CStr(_SessionEditCount)
