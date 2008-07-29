@@ -98,7 +98,15 @@ Class LoginForm
     Private Sub ShowProxySettings_Click() Handles ShowProxySettings.Click
         Me.Height += 145
         ProxySettingsVisible = True
-        ShowProxySettings.Enabled = False
+        HideProxySettings.Visible = True
+        ShowProxySettings.Visible = False
+    End Sub
+
+    Private Sub HideProxySettings_Click() Handles HideProxySettings.Click
+        Me.Height -= 145
+        ProxySettingsVisible = False
+        HideProxySettings.Visible = False
+        ShowProxySettings.Visible = True
     End Sub
 
     Private Sub Cancel_Click() Handles Cancel.Click
