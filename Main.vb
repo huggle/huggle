@@ -10,6 +10,8 @@ Class Main
 
     Public Sub Initialize()
         Icon = My.Resources.icon_red_button
+        TrayIcon.Icon = My.Resources.icon_red_button
+
         InitialTab.Parent = Tabs.TabPages(0)
         CurrentTab = InitialTab
         CurrentQueue = EditQueue
