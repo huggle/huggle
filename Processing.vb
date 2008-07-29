@@ -655,12 +655,10 @@ Module Processing
 
             'Refresh any open user info form
             For Each Item As Form In Application.OpenForms
-                If TypeOf Item Is UserInfoForm Then
-                    Dim uif As UserInfoForm = CType(Item, UserInfoForm)
+                Dim uif As UserInfoForm = CType(Item, UserInfoForm)
 
-                    If uif IsNot Nothing AndAlso uif.ThisUser Is ThisBlock.User Then
-                        uif.RefreshBlocks()
-                    End If
+                If uif IsNot Nothing AndAlso uif.ThisUser Is ThisBlock.User Then
+                    uif.RefreshBlocks()
                 End If
             Next Item
         End If
