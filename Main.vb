@@ -910,7 +910,7 @@ Class Main
     End Sub
 
     Private Sub HelpDocs_Click() Handles HelpDocs.Click
-        Tools.OpenUrlInBrowser(Config.DocsLocation)
+        OpenUrlInBrowser(Config.DocsLocation)
     End Sub
 
     Private Sub QueueTrim_Click() Handles QueueTrim.Click
@@ -1031,7 +1031,7 @@ Class Main
         Handles BrowserOpen.Click, BrowserOpenB.Click
 
         If CurrentTab IsNot Nothing AndAlso CurrentTab.CurrentUrl IsNot Nothing _
-            Then Tools.OpenUrlInBrowser(CurrentTab.CurrentUrl)
+            Then OpenUrlInBrowser(CurrentTab.CurrentUrl)
     End Sub
 
     Private Sub SystemReloadConfig_Click()
@@ -1344,7 +1344,7 @@ Class Main
     End Sub
 
     Private Sub HelpFeedback_Click() Handles HelpFeedback.Click
-        Tools.OpenUrlInBrowser(Config.FeedbackLocation)
+        OpenUrlInBrowser(Config.FeedbackLocation)
     End Sub
 
     Private Sub PageB_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles PageB.KeyDown
