@@ -1047,6 +1047,7 @@ Namespace Requests
 
         Private QueryParams, TypeName, TypePrefix, Page As String
         Private _Done As ListRequestCallback, Items As New List(Of String)
+        Public Limit As Integer = ApiLimit()
 
         Public Sub New(ByVal _TypeName As String, ByVal _TypePrefix As String, ByVal _QueryParams As String)
             TypeName = _TypeName
@@ -1063,13 +1064,11 @@ Namespace Requests
         End Sub
 
         Private Sub Process()
-            Dim ContinueFrom As String = Nothing, Calls As Integer = 0
+            Dim ContinueFrom As String = Nothing, Remaining As Integer = Limit
 
             Do
-                Calls += 1
-
                 Dim QueryString As String = "action=query&format=xml&list=" & TypeName & "&" & TypePrefix & _
-                    "limit=" & ApiLimit() & "&" & QueryParams
+                    "limit=" & Math.Min(Remaining, ApiLimit()) & "&" & QueryParams
                 If ContinueFrom IsNot Nothing Then QueryString &= "&" & TypePrefix & "continue=" & ContinueFrom
 
                 Dim Result As String = GetApi(QueryString)
@@ -1101,9 +1100,12 @@ Namespace Requests
                         Item = Item.Substring(0, Item.IndexOf(""""))
                         Item = HtmlDecode(Item)
                         Items.Add(Item)
+
+                        Remaining -= 1
+                        If Remaining <= 0 Then Exit Do
                     End If
                 Next Item
-            Loop Until ContinueFrom Is Nothing OrElse Calls >= Config.QueueBuilderLimit
+            Loop Until ContinueFrom Is Nothing
 
             Callback(AddressOf Done)
         End Sub

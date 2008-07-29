@@ -68,6 +68,12 @@
     <Compile Include="Forms\AddTemplateForm.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Throbber.Designer.vb">
+      <DependentUpon>Throbber.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Throbber.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Requests\ActionRequests.vb" />
     <Compile Include="Forms\BlockForm.Designer.vb">
       <DependentUpon>BlockForm.vb</DependentUpon>

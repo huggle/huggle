@@ -22,20 +22,19 @@ Partial Class QueueForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.QueueSourcesList = New System.Windows.Forms.ListBox
+        Me.Queues = New System.Windows.Forms.ListBox
         Me.QueueItems = New System.Windows.Forms.ListBox
         Me.Source = New System.Windows.Forms.TextBox
         Me.SourceType = New System.Windows.Forms.ComboBox
-        Me.Label1 = New System.Windows.Forms.Label
+        Me.SourceTypeLabel = New System.Windows.Forms.Label
         Me.Intersect = New System.Windows.Forms.Button
         Me.Combine = New System.Windows.Forms.Button
         Me.Replace = New System.Windows.Forms.Button
         Me.SourceLabel = New System.Windows.Forms.Label
-        Me.Label3 = New System.Windows.Forms.Label
+        Me.QueuesLabel = New System.Windows.Forms.Label
         Me.AddQueue = New System.Windows.Forms.Button
         Me.RemoveQueue = New System.Windows.Forms.Button
         Me.OK = New System.Windows.Forms.Button
-        Me.Browse = New System.Windows.Forms.Button
         Me.Sort = New System.Windows.Forms.Button
         Me.RemoveItem = New System.Windows.Forms.Button
         Me.AddItem = New System.Windows.Forms.Button
@@ -45,114 +44,114 @@ Partial Class QueueForm
         Me.Rename = New System.Windows.Forms.Button
         Me.Save = New System.Windows.Forms.Button
         Me.Copy = New System.Windows.Forms.Button
+        Me.Limit = New System.Windows.Forms.NumericUpDown
+        Me.LimitLabel = New System.Windows.Forms.Label
+        Me.Cancel = New System.Windows.Forms.Button
+        Me.Browse = New System.Windows.Forms.Button
+        Me.Throbber = New huggle.Throbber
+        CType(Me.Limit, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
-        'QueueSourcesList
+        'Queues
         '
-        Me.QueueSourcesList.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+        Me.Queues.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.QueueSourcesList.FormattingEnabled = True
-        Me.QueueSourcesList.IntegralHeight = False
-        Me.QueueSourcesList.Location = New System.Drawing.Point(12, 28)
-        Me.QueueSourcesList.Name = "QueueSourcesList"
-        Me.QueueSourcesList.Size = New System.Drawing.Size(156, 270)
-        Me.QueueSourcesList.Sorted = True
-        Me.QueueSourcesList.TabIndex = 1
+        Me.Queues.FormattingEnabled = True
+        Me.Queues.IntegralHeight = False
+        Me.Queues.Location = New System.Drawing.Point(12, 28)
+        Me.Queues.Name = "Queues"
+        Me.Queues.Size = New System.Drawing.Size(156, 270)
+        Me.Queues.Sorted = True
+        Me.Queues.TabIndex = 1
         '
         'QueueItems
         '
-        Me.QueueItems.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+        Me.QueueItems.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.QueueItems.Enabled = False
         Me.QueueItems.FormattingEnabled = True
         Me.QueueItems.IntegralHeight = False
-        Me.QueueItems.Location = New System.Drawing.Point(187, 94)
+        Me.QueueItems.Location = New System.Drawing.Point(186, 92)
         Me.QueueItems.Name = "QueueItems"
-        Me.QueueItems.Size = New System.Drawing.Size(298, 204)
+        Me.QueueItems.Size = New System.Drawing.Size(282, 206)
         Me.QueueItems.TabIndex = 15
         '
         'Source
         '
-        Me.Source.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Source.Enabled = False
-        Me.Source.Location = New System.Drawing.Point(257, 38)
+        Me.Source.Location = New System.Drawing.Point(247, 38)
         Me.Source.Name = "Source"
-        Me.Source.Size = New System.Drawing.Size(155, 20)
+        Me.Source.Size = New System.Drawing.Size(221, 20)
         Me.Source.TabIndex = 9
         '
         'SourceType
         '
-        Me.SourceType.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.SourceType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.SourceType.Enabled = False
         Me.SourceType.FormattingEnabled = True
-        Me.SourceType.Location = New System.Drawing.Point(257, 12)
+        Me.SourceType.Location = New System.Drawing.Point(247, 12)
         Me.SourceType.MaxDropDownItems = 20
         Me.SourceType.Name = "SourceType"
-        Me.SourceType.Size = New System.Drawing.Size(155, 21)
+        Me.SourceType.Size = New System.Drawing.Size(125, 21)
         Me.SourceType.TabIndex = 7
         '
-        'Label1
+        'SourceTypeLabel
         '
-        Me.Label1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(184, 15)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(67, 13)
-        Me.Label1.TabIndex = 6
-        Me.Label1.Text = "Source type:"
+        Me.SourceTypeLabel.AutoSize = True
+        Me.SourceTypeLabel.Location = New System.Drawing.Point(179, 15)
+        Me.SourceTypeLabel.Name = "SourceTypeLabel"
+        Me.SourceTypeLabel.Size = New System.Drawing.Size(67, 13)
+        Me.SourceTypeLabel.TabIndex = 6
+        Me.SourceTypeLabel.Text = "Source type:"
         '
         'Intersect
         '
-        Me.Intersect.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Intersect.Enabled = False
-        Me.Intersect.Location = New System.Drawing.Point(345, 65)
+        Me.Intersect.Location = New System.Drawing.Point(322, 63)
         Me.Intersect.Name = "Intersect"
-        Me.Intersect.Size = New System.Drawing.Size(67, 23)
+        Me.Intersect.Size = New System.Drawing.Size(70, 23)
         Me.Intersect.TabIndex = 12
         Me.Intersect.Text = "Intersect"
         Me.Intersect.UseVisualStyleBackColor = True
         '
         'Combine
         '
-        Me.Combine.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Combine.Enabled = False
-        Me.Combine.Location = New System.Drawing.Point(272, 65)
+        Me.Combine.Location = New System.Drawing.Point(246, 63)
         Me.Combine.Name = "Combine"
-        Me.Combine.Size = New System.Drawing.Size(67, 23)
+        Me.Combine.Size = New System.Drawing.Size(70, 23)
         Me.Combine.TabIndex = 11
         Me.Combine.Text = "Combine"
         Me.Combine.UseVisualStyleBackColor = True
         '
         'Replace
         '
-        Me.Replace.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Replace.Enabled = False
-        Me.Replace.Location = New System.Drawing.Point(418, 65)
+        Me.Replace.Location = New System.Drawing.Point(398, 63)
         Me.Replace.Name = "Replace"
-        Me.Replace.Size = New System.Drawing.Size(67, 23)
+        Me.Replace.Size = New System.Drawing.Size(70, 23)
         Me.Replace.TabIndex = 13
         Me.Replace.Text = "Replace"
         Me.Replace.UseVisualStyleBackColor = True
         '
         'SourceLabel
         '
-        Me.SourceLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.SourceLabel.Location = New System.Drawing.Point(171, 41)
+        Me.SourceLabel.Location = New System.Drawing.Point(174, 41)
         Me.SourceLabel.Name = "SourceLabel"
-        Me.SourceLabel.Size = New System.Drawing.Size(80, 16)
+        Me.SourceLabel.Size = New System.Drawing.Size(72, 16)
         Me.SourceLabel.TabIndex = 8
         Me.SourceLabel.Text = "Source:"
         Me.SourceLabel.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
-        'Label3
+        'QueuesLabel
         '
-        Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(9, 12)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(47, 13)
-        Me.Label3.TabIndex = 0
-        Me.Label3.Text = "Queues:"
+        Me.QueuesLabel.AutoSize = True
+        Me.QueuesLabel.Location = New System.Drawing.Point(9, 12)
+        Me.QueuesLabel.Name = "QueuesLabel"
+        Me.QueuesLabel.Size = New System.Drawing.Size(47, 13)
+        Me.QueuesLabel.TabIndex = 0
+        Me.QueuesLabel.Text = "Queues:"
         '
         'AddQueue
         '
@@ -178,74 +177,62 @@ Partial Class QueueForm
         'OK
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.OK.Location = New System.Drawing.Point(410, 333)
+        Me.OK.Location = New System.Drawing.Point(393, 333)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
         Me.OK.TabIndex = 22
         Me.OK.Text = "Close"
         Me.OK.UseVisualStyleBackColor = True
         '
-        'Browse
-        '
-        Me.Browse.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Browse.Enabled = False
-        Me.Browse.Location = New System.Drawing.Point(418, 36)
-        Me.Browse.Name = "Browse"
-        Me.Browse.Size = New System.Drawing.Size(67, 23)
-        Me.Browse.TabIndex = 10
-        Me.Browse.Text = "Browse..."
-        Me.Browse.UseVisualStyleBackColor = True
-        Me.Browse.Visible = False
-        '
         'Sort
         '
-        Me.Sort.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Sort.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Sort.Enabled = False
-        Me.Sort.Location = New System.Drawing.Point(319, 304)
+        Me.Sort.Location = New System.Drawing.Point(330, 304)
         Me.Sort.Name = "Sort"
-        Me.Sort.Size = New System.Drawing.Size(60, 23)
+        Me.Sort.Size = New System.Drawing.Size(66, 23)
         Me.Sort.TabIndex = 18
         Me.Sort.Text = "Sort"
         Me.Sort.UseVisualStyleBackColor = True
         '
         'RemoveItem
         '
-        Me.RemoveItem.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.RemoveItem.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.RemoveItem.Enabled = False
-        Me.RemoveItem.Location = New System.Drawing.Point(253, 304)
+        Me.RemoveItem.Location = New System.Drawing.Point(258, 304)
         Me.RemoveItem.Name = "RemoveItem"
-        Me.RemoveItem.Size = New System.Drawing.Size(60, 23)
+        Me.RemoveItem.Size = New System.Drawing.Size(66, 23)
         Me.RemoveItem.TabIndex = 17
         Me.RemoveItem.Text = "Remove"
         Me.RemoveItem.UseVisualStyleBackColor = True
         '
         'AddItem
         '
-        Me.AddItem.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.AddItem.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.AddItem.Enabled = False
-        Me.AddItem.Location = New System.Drawing.Point(187, 304)
+        Me.AddItem.Location = New System.Drawing.Point(186, 304)
         Me.AddItem.Name = "AddItem"
-        Me.AddItem.Size = New System.Drawing.Size(60, 23)
+        Me.AddItem.Size = New System.Drawing.Size(66, 23)
         Me.AddItem.TabIndex = 16
         Me.AddItem.Text = "Add"
         Me.AddItem.UseVisualStyleBackColor = True
         '
         'Clear
         '
-        Me.Clear.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Clear.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Clear.Enabled = False
-        Me.Clear.Location = New System.Drawing.Point(385, 304)
+        Me.Clear.Location = New System.Drawing.Point(402, 304)
         Me.Clear.Name = "Clear"
-        Me.Clear.Size = New System.Drawing.Size(60, 23)
+        Me.Clear.Size = New System.Drawing.Size(66, 23)
         Me.Clear.TabIndex = 19
         Me.Clear.Text = "Clear"
         Me.Clear.UseVisualStyleBackColor = True
         '
         'ArticlesOnly
         '
-        Me.ArticlesOnly.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ArticlesOnly.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.ArticlesOnly.Enabled = False
-        Me.ArticlesOnly.Location = New System.Drawing.Point(187, 333)
+        Me.ArticlesOnly.Location = New System.Drawing.Point(186, 333)
         Me.ArticlesOnly.Name = "ArticlesOnly"
         Me.ArticlesOnly.Size = New System.Drawing.Size(75, 23)
         Me.ArticlesOnly.TabIndex = 20
@@ -254,9 +241,8 @@ Partial Class QueueForm
         '
         'Count
         '
-        Me.Count.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Count.AutoSize = True
-        Me.Count.Location = New System.Drawing.Point(184, 75)
+        Me.Count.Location = New System.Drawing.Point(183, 73)
         Me.Count.Name = "Count"
         Me.Count.Size = New System.Drawing.Size(40, 13)
         Me.Count.TabIndex = 14
@@ -275,9 +261,9 @@ Partial Class QueueForm
         '
         'Save
         '
-        Me.Save.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Save.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Save.Enabled = False
-        Me.Save.Location = New System.Drawing.Point(268, 333)
+        Me.Save.Location = New System.Drawing.Point(267, 333)
         Me.Save.Name = "Save"
         Me.Save.Size = New System.Drawing.Size(75, 23)
         Me.Save.TabIndex = 21
@@ -295,11 +281,66 @@ Partial Class QueueForm
         Me.Copy.Text = "Copy"
         Me.Copy.UseVisualStyleBackColor = True
         '
+        'Limit
+        '
+        Me.Limit.Enabled = False
+        Me.Limit.Increment = New Decimal(New Integer() {100, 0, 0, 0})
+        Me.Limit.Location = New System.Drawing.Point(416, 12)
+        Me.Limit.Maximum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.Limit.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.Limit.Name = "Limit"
+        Me.Limit.Size = New System.Drawing.Size(52, 20)
+        Me.Limit.TabIndex = 25
+        Me.Limit.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.Limit.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
+        'LimitLabel
+        '
+        Me.LimitLabel.AutoSize = True
+        Me.LimitLabel.Location = New System.Drawing.Point(379, 15)
+        Me.LimitLabel.Name = "LimitLabel"
+        Me.LimitLabel.Size = New System.Drawing.Size(36, 13)
+        Me.LimitLabel.TabIndex = 26
+        Me.LimitLabel.Text = "Up to:"
+        '
+        'Cancel
+        '
+        Me.Cancel.Location = New System.Drawing.Point(392, 101)
+        Me.Cancel.Name = "Cancel"
+        Me.Cancel.Size = New System.Drawing.Size(70, 23)
+        Me.Cancel.TabIndex = 27
+        Me.Cancel.Text = "Cancel"
+        Me.Cancel.UseVisualStyleBackColor = True
+        Me.Cancel.Visible = False
+        '
+        'Browse
+        '
+        Me.Browse.Enabled = False
+        Me.Browse.Location = New System.Drawing.Point(398, 36)
+        Me.Browse.Name = "Browse"
+        Me.Browse.Size = New System.Drawing.Size(70, 23)
+        Me.Browse.TabIndex = 10
+        Me.Browse.Text = "Browse..."
+        Me.Browse.UseVisualStyleBackColor = True
+        Me.Browse.Visible = False
+        '
+        'Throbber
+        '
+        Me.Throbber.BackColor = System.Drawing.Color.White
+        Me.Throbber.Location = New System.Drawing.Point(186, 62)
+        Me.Throbber.Name = "Throbber"
+        Me.Throbber.Size = New System.Drawing.Size(54, 10)
+        Me.Throbber.TabIndex = 23
+        '
         'QueueForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(494, 368)
+        Me.ClientSize = New System.Drawing.Size(480, 368)
+        Me.Controls.Add(Me.Cancel)
+        Me.Controls.Add(Me.LimitLabel)
+        Me.Controls.Add(Me.Limit)
+        Me.Controls.Add(Me.Throbber)
         Me.Controls.Add(Me.Copy)
         Me.Controls.Add(Me.Rename)
         Me.Controls.Add(Me.Count)
@@ -313,40 +354,40 @@ Partial Class QueueForm
         Me.Controls.Add(Me.OK)
         Me.Controls.Add(Me.RemoveQueue)
         Me.Controls.Add(Me.AddQueue)
-        Me.Controls.Add(Me.Label3)
+        Me.Controls.Add(Me.QueuesLabel)
         Me.Controls.Add(Me.SourceLabel)
         Me.Controls.Add(Me.Replace)
         Me.Controls.Add(Me.Combine)
         Me.Controls.Add(Me.Intersect)
         Me.Controls.Add(Me.Source)
         Me.Controls.Add(Me.SourceType)
-        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.SourceTypeLabel)
         Me.Controls.Add(Me.QueueItems)
-        Me.Controls.Add(Me.QueueSourcesList)
+        Me.Controls.Add(Me.Queues)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.KeyPreview = True
         Me.MaximizeBox = False
         Me.Name = "QueueForm"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "Queues"
+        CType(Me.Limit, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
     End Sub
-    Friend WithEvents QueueSourcesList As System.Windows.Forms.ListBox
+    Friend WithEvents Queues As System.Windows.Forms.ListBox
     Friend WithEvents QueueItems As System.Windows.Forms.ListBox
     Friend WithEvents Source As System.Windows.Forms.TextBox
     Friend WithEvents SourceType As System.Windows.Forms.ComboBox
-    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents SourceTypeLabel As System.Windows.Forms.Label
     Friend WithEvents Intersect As System.Windows.Forms.Button
     Friend WithEvents Combine As System.Windows.Forms.Button
     Friend WithEvents Replace As System.Windows.Forms.Button
     Friend WithEvents SourceLabel As System.Windows.Forms.Label
-    Friend WithEvents Label3 As System.Windows.Forms.Label
+    Friend WithEvents QueuesLabel As System.Windows.Forms.Label
     Friend WithEvents AddQueue As System.Windows.Forms.Button
     Friend WithEvents RemoveQueue As System.Windows.Forms.Button
     Friend WithEvents OK As System.Windows.Forms.Button
-    Friend WithEvents Browse As System.Windows.Forms.Button
     Friend WithEvents Sort As System.Windows.Forms.Button
     Friend WithEvents RemoveItem As System.Windows.Forms.Button
     Friend WithEvents AddItem As System.Windows.Forms.Button
@@ -356,4 +397,9 @@ Partial Class QueueForm
     Friend WithEvents Rename As System.Windows.Forms.Button
     Friend WithEvents Save As System.Windows.Forms.Button
     Friend WithEvents Copy As System.Windows.Forms.Button
+    Friend WithEvents Throbber As huggle.Throbber
+    Friend WithEvents Limit As System.Windows.Forms.NumericUpDown
+    Friend WithEvents LimitLabel As System.Windows.Forms.Label
+    Friend WithEvents Cancel As System.Windows.Forms.Button
+    Friend WithEvents Browse As System.Windows.Forms.Button
 End Class
