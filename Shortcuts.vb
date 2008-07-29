@@ -23,6 +23,21 @@ Module Shortcuts
             Return Not (a = b)
         End Operator
 
+        Public Overrides Function Equals(ByVal obj As Object) As Boolean
+            Dim shortc As Shortcut = TryCast(obj, Shortcut)
+
+            If shortc Is Nothing Then
+                Return False
+            Else
+                Return (Me = shortc) '(shortc.Alt = Me.Alt AndAlso shortc.Control = Me.Control AndAlso shortc.Key = Me.Key AndAlso shortc.Shift = Me.Shift)
+            End If
+
+        End Function
+
+        Public Overrides Function GetHashCode() As Integer
+            Return MyBase.GetHashCode()
+        End Function
+
         Public Overrides Function ToString() As String
             Dim Name As String = Key.ToString
 
