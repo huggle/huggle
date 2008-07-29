@@ -21,7 +21,7 @@ Class ClosingForm
         End If
 
         If WhitelistChanged AndAlso Config.UpdateWhitelist Then
-            Status.Text = "Updating whitelist..."
+            Status.Text = "Updating user whitelist..."
             Progress.Value = 1
             Dim NewUpdateWhitelistRequest As New UpdateWhitelistRequest
             NewUpdateWhitelistRequest.Start()

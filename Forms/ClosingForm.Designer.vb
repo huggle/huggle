@@ -42,7 +42,7 @@ Partial Class ClosingForm
         Me.Logo.Font = New System.Drawing.Font("Tahoma", 27.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Logo.Location = New System.Drawing.Point(12, 2)
         Me.Logo.Name = "Logo"
-        Me.Logo.Size = New System.Drawing.Size(268, 50)
+        Me.Logo.Size = New System.Drawing.Size(262, 50)
         Me.Logo.TabIndex = 0
         Me.Logo.Text = "huggle"
         Me.Logo.TextAlign = System.Drawing.ContentAlignment.TopCenter
@@ -61,7 +61,7 @@ Partial Class ClosingForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(292, 118)
+        Me.ClientSize = New System.Drawing.Size(286, 115)
         Me.Controls.Add(Me.Progress)
         Me.Controls.Add(Me.Logo)
         Me.Controls.Add(Me.Status)
