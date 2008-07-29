@@ -35,6 +35,7 @@ Module Login
                 wp = New WebProxy("http://" & ProxyString & "/", True)
             End If
         Else
+            If CInt(Val(Port)) = 0 Then Port = "80"
             wp = New WebProxy("http://" & Address & ":" & Port & "/", True)
         End If
 
@@ -78,11 +79,7 @@ Namespace Requests
                         Result = UTF8.GetString(Client.DownloadData(SitePath & "w/index.php?title=Special:Userlogin"))
 
                     Catch ex As WebException
-                        If ex.Status = WebExceptionStatus.ProxyNameResolutionFailure Then
-                            Throw
-                        Else
-                            Thread.Sleep(1000)
-                        End If
+                        Throw
                     End Try
 
                 Loop Until IsWikiPage(Result) OrElse Retries = 0

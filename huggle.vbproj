@@ -671,23 +671,5 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\s5.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\s0.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\s1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\s2.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\s3.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\s4.png" />
-  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
 </Project>
