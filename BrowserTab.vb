@@ -102,12 +102,12 @@ Class BrowserTab
         If Url = "about:blank" Then Exit Sub Else e.Cancel = True
 
         If Config.OpenInBrowser Then
-            Process.Start(Url)
+            Tools.OpenUrlInBrowser(Url)
         Else
             Dim Params As Dictionary(Of String, String) = ParseUrl(Url)
 
             If Not Params.ContainsKey("title") Then
-                Process.Start(Url)
+                Tools.OpenUrlInBrowser(Url)
 
             ElseIf Params("title").StartsWith("Special:Blockip") Then
                 Dim UserName As String = Nothing

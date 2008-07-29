@@ -330,6 +330,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Shortcuts.vb" />
+    <Compile Include="Tools.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Forms\EmailForm.resx">

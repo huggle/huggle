@@ -13,12 +13,16 @@ Class AboutForm
         If e.KeyCode = Keys.Escape Then Close()
     End Sub
 
+    Private Sub Credit_LinkClicked() Handles Credit.LinkClicked
+        Tools.OpenUrlInBrowser(CreditUrl)
+    End Sub
+
     Private Sub Disclaimer_LinkClicked() Handles Disclaimer.LinkClicked
-        Process.Start(Config.DocsLocation)
+        Tools.OpenUrlInBrowser(Config.DocsLocation)
     End Sub
 
     Private Sub Icons_LinkClicked() Handles Icons.LinkClicked
-        Process.Start(Config.IconsLocation)
+        Tools.OpenUrlInBrowser(Config.IconsLocation)
     End Sub
 
     Private Sub OK_Click() Handles OK.Click
@@ -26,7 +30,7 @@ Class AboutForm
     End Sub
 
     Private Sub ContributorLinkClicked(ByVal sender As Object, ByVal e As LinkLabelLinkClickedEventArgs)
-        Process.Start(Config.CreditUrl.Replace("$1", CStr(CType(sender, LinkLabel).Tag)))
+        Tools.OpenUrlInBrowser(Config.CreditUrl.Replace("$1", CStr(CType(sender, LinkLabel).Tag)))
     End Sub
 
 End Class

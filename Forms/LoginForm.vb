@@ -61,7 +61,7 @@ Class LoginForm
     End Sub
 
     Private Sub Credit_LinkClicked() Handles Credit.LinkClicked
-        Process.Start(Config.CreditUrl.Replace("$1", "Gurch"))
+        Tools.OpenUrlInBrowser(Config.CreditUrl)
     End Sub
 
     Private Sub OK_Click() Handles OK.Click
