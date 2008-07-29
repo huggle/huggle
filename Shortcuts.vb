@@ -34,10 +34,6 @@ Module Shortcuts
 
         End Function
 
-        Public Overrides Function GetHashCode() As Integer
-            Return MyBase.GetHashCode()
-        End Function
-
         Public Overrides Function ToString() As String
             Dim Name As String = Key.ToString
 
