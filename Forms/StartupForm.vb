@@ -13,11 +13,11 @@ Class StartupForm
     End Sub
 
     Private Sub DocsLink_LinkClicked() Handles DocsLink.LinkClicked
-        Tools.OpenUrlInBrowser(Config.DocsLocation)
+        OpenUrlInBrowser(Config.DocsLocation)
     End Sub
 
     Private Sub ConfigLink_LinkClicked() Handles ConfigLink.LinkClicked
-        Tools.OpenUrlInBrowser(SitePath & "w/index.php?title=" & Config.UserConfigLocation)
+        OpenUrlInBrowser(SitePath & "w/index.php?title=" & Config.UserConfigLocation)
     End Sub
 
     Private Sub StartupForm_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles MyBase.KeyDown

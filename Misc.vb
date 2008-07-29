@@ -808,6 +808,13 @@ Module Misc
         Return Names
     End Function
 
+    <DebuggerStepThrough()> Sub OpenUrlInBrowser(ByVal Url As String)
+        Try
+            Process.Start(Url)
+        Catch
+        End Try
+    End Sub
+
     Class Stats
 
         Public Shared Edits, EditsMe, Reverts, RevertsMe, Warnings, WarningsMe, Blocks, BlocksMe As Integer

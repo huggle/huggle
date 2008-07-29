@@ -206,7 +206,7 @@ Class EditForm
     End Sub
 
     Private Sub PageText_LinkClicked(ByVal s As Object, ByVal e As LinkClickedEventArgs) Handles PageText.LinkClicked
-        Tools.OpenUrlInBrowser(e.LinkText)
+        OpenUrlInBrowser(e.LinkText)
     End Sub
 
     Private Sub DoHighlight()

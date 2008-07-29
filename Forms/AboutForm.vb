@@ -14,11 +14,11 @@ Class AboutForm
     End Sub
 
     Private Sub Disclaimer_LinkClicked() Handles Disclaimer.LinkClicked
-        Tools.OpenUrlInBrowser(Config.DocsLocation)
+        OpenUrlInBrowser(Config.DocsLocation)
     End Sub
 
     Private Sub Icons_LinkClicked() Handles Icons.LinkClicked
-        Tools.OpenUrlInBrowser(Config.IconsLocation)
+        OpenUrlInBrowser(Config.IconsLocation)
     End Sub
 
     Private Sub OK_Click() Handles OK.Click
@@ -26,7 +26,7 @@ Class AboutForm
     End Sub
 
     Private Sub ContributorLinkClicked(ByVal sender As Object, ByVal e As LinkLabelLinkClickedEventArgs)
-        Tools.OpenUrlInBrowser(Config.CreditUrl.Replace("$1", CStr(CType(sender, LinkLabel).Tag)))
+        OpenUrlInBrowser(Config.CreditUrl.Replace("$1", CStr(CType(sender, LinkLabel).Tag)))
     End Sub
 
 End Class

@@ -61,7 +61,7 @@ Class LoginForm
     End Sub
 
     Private Sub Credit_LinkClicked() Handles Credit.LinkClicked
-        Tools.OpenUrlInBrowser(Config.CreditUrl)
+        OpenUrlInBrowser(Config.CreditUrl)
     End Sub
 
     Private Sub OK_Click() Handles OK.Click

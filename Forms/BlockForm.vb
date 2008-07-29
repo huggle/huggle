@@ -74,11 +74,11 @@ Class BlockForm
     End Sub
 
     Private Sub UserTalk_Click() Handles UserTalk.Click
-        Tools.OpenUrlInBrowser(SitePath & "w/index.php?title=User_talk:" & ThisUser.Name)
+        OpenUrlInBrowser(SitePath & "w/index.php?title=User_talk:" & ThisUser.Name)
     End Sub
 
     Private Sub UserContribs_Click() Handles UserContribs.Click
-        Tools.OpenUrlInBrowser(SitePath & "w/index.php?title=Special:Contributions/" & ThisUser.Name)
+        OpenUrlInBrowser(SitePath & "w/index.php?title=Special:Contributions/" & ThisUser.Name)
     End Sub
 
     Private Sub Reason_SelectedIndexChanged() _
