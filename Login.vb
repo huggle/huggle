@@ -25,7 +25,10 @@ Module Login
             Dim ProxyString As String = CStr(My.Computer.Registry.GetValue _
                 ("HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings", "ProxyServer", ""))
 
-            If (ProxyString = "") Then
+            Dim ProxyEnabled As Boolean = CBool(My.Computer.Registry.GetValue _
+            ("HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings", "ProxyEnable", False))
+
+            If (Not ProxyEnabled Or ProxyString = "") Then
                 wp = New WebProxy
             Else
                 wp = New WebProxy("http://" & ProxyString & "/", True)
