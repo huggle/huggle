@@ -79,7 +79,7 @@ Namespace Requests
 
                     Catch ex As WebException
                         If ex.Status = WebExceptionStatus.ProxyNameResolutionFailure Then
-                            Throw ex
+                            Throw
                         Else
                             Thread.Sleep(1000)
                         End If
