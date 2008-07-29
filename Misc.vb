@@ -292,9 +292,11 @@ Module Misc
                 End If
 
                 For Each Item As Form In Application.OpenForms
-                    If TypeOf Item Is UserInfoForm AndAlso CType(Item, UserInfoForm).ThisUser Is Me _
-                        Then If _Level = UserL.Ignore Then CType(Item, UserInfoForm).Whitelisted.Text = "Yes" _
-                        Else CType(Item, UserInfoForm).Whitelisted.Text = "No"
+                    Dim uif As UserInfoForm = CType(Item, UserInfoForm)
+
+                    If uif IsNot Nothing AndAlso uif.ThisUser Is Me _
+                        Then If _Level = UserL.Ignore Then uif.Whitelisted.Text = "Yes" _
+                        Else uif.Whitelisted.Text = "No"
                 Next Item
 
                 'Redraw contribs and queue if necessary
@@ -325,9 +327,11 @@ Module Misc
                 _SharedIP = value
 
                 For Each Item As Form In Application.OpenForms
-                    If TypeOf Item Is UserInfoForm AndAlso CType(Item, UserInfoForm).ThisUser Is Me _
-                        Then If _SharedIP Then CType(Item, UserInfoForm).SharedIP.Text = "Yes" _
-                        Else CType(Item, UserInfoForm).SharedIP.Text = "No"
+                    Dim uif As UserInfoForm = CType(Item, UserInfoForm)
+
+                    If uif IsNot Nothing AndAlso uif.ThisUser Is Me _
+                        Then If _SharedIP Then uif.SharedIP.Text = "Yes" _
+                        Else uif.SharedIP.Text = "No"
                 Next Item
             End Set
         End Property
@@ -340,8 +344,10 @@ Module Misc
                 _EditCount = value
 
                 For Each Item As Form In Application.OpenForms
-                    If TypeOf Item Is UserInfoForm AndAlso CType(Item, UserInfoForm).ThisUser Is Me _
-                        Then CType(Item, UserInfoForm).EditCount.Text = CStr(_EditCount)
+                    Dim uif As UserInfoForm = CType(Item, UserInfoForm)
+
+                    If uif IsNot Nothing AndAlso uif.ThisUser Is Me _
+                        Then uif.EditCount.Text = CStr(_EditCount)
                 Next Item
             End Set
         End Property
@@ -354,8 +360,10 @@ Module Misc
                 _SessionEditCount = value
 
                 For Each Item As Form In Application.OpenForms
-                    If TypeOf Item Is UserInfoForm AndAlso CType(Item, UserInfoForm).ThisUser Is Me _
-                        Then CType(Item, UserInfoForm).SessionEditCount.Text = CStr(_SessionEditCount)
+                    Dim uif As UserInfoForm = CType(Item, UserInfoForm)
+
+                    If uif IsNot Nothing AndAlso uif.ThisUser Is Me _
+                        Then uif.SessionEditCount.Text = CStr(_SessionEditCount)
                 Next Item
             End Set
         End Property
