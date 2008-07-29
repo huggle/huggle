@@ -6,6 +6,8 @@ Imports System.Web.HttpUtility
 
 Namespace Requests
 
+    Public Delegate Sub ListRequestCallback(ByVal Result As List(Of String))
+
     Class BlockLogRequest : Inherits Request
 
         Public ThisUser As User, Target As ListView
@@ -1009,81 +1011,6 @@ Namespace Requests
 
     End Class
 
-    Class CategoryRequest : Inherits Request
-
-        'Get the contents of a category
-
-        Public Category As String
-
-        Public Delegate Sub CategoryRequestCallback(ByVal Result As List(Of String))
-        Private _Done As CategoryRequestCallback, Items As New List(Of String)
-
-        Public Sub Start(ByVal Done As CategoryRequestCallback)
-            _Done = Done
-
-            Dim RequestThread As New Thread(AddressOf Process)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
-        End Sub
-
-        Private Sub Process()
-            Dim ContinueFrom As String = Nothing, Calls As Integer = 0
-
-            Do
-                Calls += 1
-
-                Dim QueryString As String = "action=query&format=xml&list=categorymembers&cmlimit=" & _
-                    CStr(ApiLimit()) & "&cmprop=title&cmtitle=" & UrlEncode("Category:" & Category)
-
-                If ContinueFrom IsNot Nothing Then QueryString &= "&cmcontinue=" & ContinueFrom
-
-                Dim Result As String = GetApi(QueryString)
-
-                If Result Is Nothing Then
-                    Callback(AddressOf Failed)
-                    Exit Sub
-
-                ElseIf Result.Contains("<categorymembers />") Then
-                    Callback(AddressOf Done)
-                    Exit Sub
-                End If
-
-                If Result.Contains("<query-continue>") Then
-                    ContinueFrom = Result.Substring(Result.IndexOf("cmcontinue=""") + 12)
-                    ContinueFrom = ContinueFrom.Substring(0, ContinueFrom.IndexOf(""""))
-                    ContinueFrom = HtmlDecode(ContinueFrom)
-                Else
-                    ContinueFrom = Nothing
-                End If
-
-                Result = Result.Substring(Result.IndexOf("<categorymembers>") + 17)
-                Result = Result.Substring(0, Result.IndexOf("</categorymembers>"))
-
-                For Each Item As String In Result.Split(New String() {"<cm"}, StringSplitOptions.RemoveEmptyEntries)
-                    If Item.Contains("title=""") Then
-                        Item = Item.Substring(Item.IndexOf("title=""") + 7)
-                        Item = Item.Substring(0, Item.IndexOf(""""))
-                        Item = HtmlDecode(Item)
-                        Items.Add(Item)
-                    End If
-                Next Item
-            Loop Until ContinueFrom Is Nothing OrElse Calls >= Config.QueueBuilderLimit
-
-            Callback(AddressOf Done)
-        End Sub
-
-        Private Sub Done(ByVal O As Object)
-            Complete()
-            _Done(Items)
-        End Sub
-
-        Private Sub Failed(ByVal O As Object)
-            Fail()
-            _Done(Nothing)
-        End Sub
-
-    End Class
-
     Class PurgeRequest : Inherits Request
 
         'Purge a page
@@ -1110,6 +1037,155 @@ Namespace Requests
         Private Sub Failed(ByVal O As Object)
             Log("Failed to purge '" & Page.Name & "'")
             Fail()
+        End Sub
+
+    End Class
+
+    MustInherit Class ListRequest : Inherits Request
+
+        'Abstract class for getting a list of pages through the API
+
+        Private QueryParams, TypeName, TypePrefix, Page As String
+        Private _Done As ListRequestCallback, Items As New List(Of String)
+
+        Public Sub New(ByVal _TypeName As String, ByVal _TypePrefix As String, ByVal _QueryParams As String)
+            TypeName = _TypeName
+            TypePrefix = _TypePrefix
+            QueryParams = _QueryParams
+        End Sub
+
+        Public Sub Start(ByVal Done As ListRequestCallback)
+            _Done = Done
+
+            Dim RequestThread As New Thread(AddressOf Process)
+            RequestThread.IsBackground = True
+            RequestThread.Start()
+        End Sub
+
+        Private Sub Process()
+            Dim ContinueFrom As String = Nothing, Calls As Integer = 0
+
+            Do
+                Calls += 1
+
+                Dim QueryString As String = "action=query&format=xml&list=" & TypeName & "&" & TypePrefix & _
+                    "limit=" & ApiLimit() & "&" & QueryParams
+                If ContinueFrom IsNot Nothing Then QueryString &= "&" & TypePrefix & "continue=" & ContinueFrom
+
+                Dim Result As String = GetApi(QueryString)
+
+                If Result Is Nothing Then
+                    Callback(AddressOf Failed)
+                    Exit Sub
+
+                ElseIf Result.Contains("<" & TypeName & " />") Then
+                    Callback(AddressOf Done)
+                    Exit Sub
+                End If
+
+                If Result.Contains("<query-continue>") Then
+                    ContinueFrom = Result.Substring(Result.IndexOf(TypePrefix & "continue=""") + 12)
+                    ContinueFrom = ContinueFrom.Substring(0, ContinueFrom.IndexOf(""""))
+                    ContinueFrom = HtmlDecode(ContinueFrom)
+                Else
+                    ContinueFrom = Nothing
+                End If
+
+                Result = Result.Substring(Result.IndexOf("<" & TypeName & ">") + 17)
+                Result = Result.Substring(0, Result.IndexOf("</" & TypeName & ">"))
+
+                For Each Item As String In Result.Split("<"c)
+
+                    If Item.Contains("title=""") Then
+                        Item = Item.Substring(Item.IndexOf("title=""") + 7)
+                        Item = Item.Substring(0, Item.IndexOf(""""))
+                        Item = HtmlDecode(Item)
+                        Items.Add(Item)
+                    End If
+                Next Item
+            Loop Until ContinueFrom Is Nothing OrElse Calls >= Config.QueueBuilderLimit
+
+            Callback(AddressOf Done)
+        End Sub
+
+        Private Sub Done(ByVal O As Object)
+            Complete()
+            _Done(Items)
+        End Sub
+
+        Private Sub Failed(ByVal O As Object)
+            Fail()
+            _Done(Nothing)
+        End Sub
+
+    End Class
+
+    Class CategoryRequest : Inherits ListRequest
+
+        'Get the contents of a category
+
+        Sub New(ByVal Category As String)
+            MyBase.New("categorymembers", "cm", "&cmprop=title&cmtitle=" & UrlEncode("Category:" & Category))
+        End Sub
+
+    End Class
+
+    Class BacklinksRequest : Inherits ListRequest
+
+        'Get pages that link to another page
+
+        Sub New(ByVal Page As String)
+            MyBase.New("backlinks", "bl", "blfilterredir=nonredirects&bltitle=" & UrlEncode(Page))
+        End Sub
+
+    End Class
+
+    Class TransclusionsRequest : Inherits ListRequest
+
+        'Get pages that transclude another page
+
+        Sub New(ByVal Page As String)
+            MyBase.New("embeddedin", "ei", "eititle=" & UrlEncode(Page))
+        End Sub
+
+    End Class
+
+    Class ImageUsageRequest : Inherits ListRequest
+
+        'Get pages that include an image
+
+        Sub New(ByVal ImageName As String)
+            MyBase.New("imageusage", "iu", "iutitle=" & UrlEncode("Image:" & ImageName))
+        End Sub
+
+    End Class
+
+    Class SearchRequest : Inherits ListRequest
+
+        'Get search results
+
+        Sub New(ByVal Page As String)
+            MyBase.New("search", "sr", "srsearch=" & UrlEncode(Page) & "&srwhat=text")
+        End Sub
+
+    End Class
+
+    Class ContribsListRequest : Inherits ListRequest
+
+        'Get pages edited by a user
+
+        Sub New(ByVal User As String)
+            MyBase.New("usercontribs", "uc", "ucuser=" & UrlEncode(User))
+        End Sub
+
+    End Class
+
+    Class ExternalLinkUsageRequest : Inherits ListRequest
+
+        'Get pages that use an external link
+
+        Sub New(ByVal Link As String)
+            MyBase.New("exturlusage", "eu", "euquery=" & UrlEncode(Link))
         End Sub
 
     End Class

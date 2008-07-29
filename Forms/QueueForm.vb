@@ -6,6 +6,10 @@ Class QueueForm
 
     Private Sub QueueForm_Load() Handles MyBase.Load
         Icon = My.Resources.icon_red_button
+
+        SourceType.Items.AddRange(New String() {"Backlinks", "Category", "External link uses", "File", "Image uses", _
+            "Search", "Transclusions", "User contributions", "Watchlist"})
+        
         SourceType.SelectedIndex = 0
 
         QueueSourcesList.BeginUpdate()
@@ -64,8 +68,13 @@ Class QueueForm
         Source.Visible = (SourceType.Text <> "Watchlist")
 
         Select Case SourceType.Text
+            Case "Backlinks", "Transclusions" : SourceLabel.Text = "Page:"
             Case "Category" : SourceLabel.Text = "Category:"
+            Case "External link uses" : SourceLabel.Text = "URL:"
             Case "File" : SourceLabel.Text = "File:"
+            Case "Image uses" : SourceLabel.Text = "Image:"
+            Case "Search" : SourceLabel.Text = "Search terms:"
+            Case "User contributions" : SourceLabel.Text = "User:"
             Case "Watchlist" : SourceLabel.Text = ""
         End Select
 
@@ -111,136 +120,22 @@ Class QueueForm
         RefreshInterface()
     End Sub
 
-    Private Sub RefreshInterface()
-        If QueueItems.Items.Count = 0 Then Combine.Text = "Add" Else Combine.Text = "Combine"
-        Clear.Enabled = (QueueSourcesList.SelectedIndex > -1 AndAlso QueueItems.Items.Count > 0)
-        Combine.Enabled = (Source.Text.Length > 0 OrElse SourceType.Text = "Watchlist")
-        Intersect.Enabled = ((Source.Text.Length > 0 OrElse SourceType.Text = "Watchlist") AndAlso QueueItems.Items.Count > 0)
-        Replace.Enabled = ((Source.Text.Length > 0 OrElse SourceType.Text = "Watchlist") AndAlso QueueItems.Items.Count > 0)
-        RemoveItem.Enabled = (QueueItems.Items.Count > 0)
-        Sort.Enabled = (QueueItems.Items.Count > 0)
-        ArticlesOnly.Enabled = (QueueItems.Items.Count > 0)
-        Save.Enabled = (QueueItems.Items.Count > 0)
-        Count.Text = CStr(QueueItems.Items.Count) & " items"
-    End Sub
-
     Private Sub Combine_Click() Handles Combine.Click
         Mode = "combine"
-
-        Select Case SourceType.Text
-            Case "Category" : GetCategory(Source.Text)
-            Case "File" : CombineItems(GetFile(Source.Text))
-            Case "Watchlist" : CombineItems(PageNames(Watchlist))
-        End Select
+        SelectList()
     End Sub
 
     Private Sub Intersect_Click() Handles Intersect.Click
         Mode = "intersect"
-
-        Select Case SourceType.Text
-            Case "Category" : GetCategory(Source.Text)
-            Case "File" : IntersectItems(GetFile(Source.Text))
-            Case "Watchlist" : IntersectItems(PageNames(Watchlist))
-        End Select
+        SelectList()
     End Sub
 
     Private Sub Replace_Click() Handles Replace.Click
         Mode = "replace"
-
-        Select Case SourceType.Text
-            Case "Category" : GetCategory(Source.Text)
-            Case "File" : ReplaceItems(GetFile(Source.Text))
-            Case "Watchlist" : ReplaceItems(PageNames(Watchlist))
-        End Select
+        SelectList()
     End Sub
 
-    Private Sub CombineItems(ByVal Items As List(Of String))
-        QueueItems.BeginUpdate()
-
-        For Each Item As String In Items
-            If Not QueueSources(QueueSourcesList.SelectedItem.ToString).Contains(Item) Then
-                QueueSources(QueueSourcesList.SelectedItem.ToString).Add(Item)
-                QueueItems.Items.Add(Item)
-            End If
-        Next Item
-
-        QueueItems.EndUpdate()
-        RefreshInterface()
-    End Sub
-
-    Private Sub IntersectItems(ByVal Items As List(Of String))
-        QueueItems.BeginUpdate()
-
-        Dim i As Integer = 0
-
-        While i < QueueSources(QueueSourcesList.SelectedItem.ToString).Count
-            If Not Items.Contains(QueueSources(QueueSourcesList.SelectedItem.ToString)(i)) Then
-                QueueSources(QueueSourcesList.SelectedItem.ToString).RemoveAt(i)
-                QueueItems.Items.RemoveAt(i)
-            Else
-                i += 1
-            End If
-        End While
-
-        QueueItems.EndUpdate()
-        RefreshInterface()
-    End Sub
-
-    Private Sub ReplaceItems(ByVal Items As List(Of String))
-        QueueItems.Items.Clear()
-        QueueSources(QueueSourcesList.SelectedItem.ToString).Clear()
-        QueueItems.BeginUpdate()
-
-        For Each Item As String In Items
-            QueueSources(QueueSourcesList.SelectedItem.ToString).Add(Item)
-            QueueItems.Items.Add(Item)
-        Next Item
-
-        QueueItems.EndUpdate()
-        RefreshInterface()
-    End Sub
-
-    Private Function GetFile(ByVal FileName As String) As List(Of String)
-        Dim Items As New List(Of String)
-
-        For Each Item As String In File.ReadAllLines(FileName)
-            If Item.StartsWith("*[[") OrElse Item.StartsWith("#[[") OrElse Item.StartsWith("* [[") _
-                OrElse Item.StartsWith("# [[") Then Item = Item.Substring(1)
-            Item = Item.Replace("[", "").Replace("]", "").Replace("{", "").Replace("}", "").Trim(" "c)
-            If Item.Length = 1 Then Item = Item.ToUpper
-            If Item.Length >= 1 Then Item = Item.Substring(0, 1).ToUpper & Item.Substring(1)
-            If Item.Length > 0 Then Items.Add(Item)
-        Next Item
-
-        Return Items
-    End Function
-
-    Private Sub GetCategory(ByVal CategoryName As String)
-        Source.Enabled = False
-
-        Dim NewCategoryRequest As New CategoryRequest
-        NewCategoryRequest.Category = Source.Text
-        NewCategoryRequest.Start(AddressOf GetCategoryDone)
-    End Sub
-
-    Private Sub GetCategoryDone(ByVal Items As List(Of String))
-        If Items Is Nothing Then
-            MsgBox("Failed to retrieve contents of Category:" & Source.Text & ".", MsgBoxStyle.Critical, "huggle")
-        ElseIf Items.Count = 0 Then
-            MsgBox("Category:" & Source.Text & " is empty or does not exist", MsgBoxStyle.Critical, "huggle")
-        Else
-            Select Case Mode
-                Case "combine" : CombineItems(Items)
-                Case "intersect" : IntersectItems(Items)
-                Case "replace" : ReplaceItems(Items)
-            End Select
-        End If
-
-        Source.Enabled = True
-    End Sub
-
-    Private Sub QueueItems_SelectedIndexChanged() _
-        Handles QueueItems.SelectedIndexChanged
+    Private Sub QueueItems_SelectedIndexChanged() Handles QueueItems.SelectedIndexChanged
 
         RemoveItem.Enabled = (QueueItems.SelectedIndex > -1)
     End Sub
@@ -352,5 +247,122 @@ Class QueueForm
             QueueSourcesList.SelectedItem = NewName
         End If
     End Sub
+
+    Private Sub Source_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles Source.KeyDown
+        If e.KeyCode = Keys.Enter AndAlso Source.Text <> "" Then Combine_Click()
+    End Sub
+
+    Private Sub QueueForm_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles MyBase.KeyDown
+        If e.KeyCode = Keys.Escape Then Close()
+    End Sub
+
+    Private Sub RefreshInterface()
+        If QueueItems.Items.Count = 0 Then Combine.Text = "Add" Else Combine.Text = "Combine"
+        Clear.Enabled = (QueueSourcesList.SelectedIndex > -1 AndAlso QueueItems.Items.Count > 0)
+        Combine.Enabled = (Source.Text.Length > 0 OrElse SourceType.Text = "Watchlist")
+        Intersect.Enabled = ((Source.Text.Length > 0 OrElse SourceType.Text = "Watchlist") AndAlso QueueItems.Items.Count > 0)
+        Replace.Enabled = ((Source.Text.Length > 0 OrElse SourceType.Text = "Watchlist") AndAlso QueueItems.Items.Count > 0)
+        RemoveItem.Enabled = (QueueItems.SelectedIndex > -1)
+        Sort.Enabled = (QueueItems.Items.Count > 1)
+        ArticlesOnly.Enabled = (QueueItems.Items.Count > 0)
+        Save.Enabled = (QueueItems.Items.Count > 0)
+        Count.Text = CStr(QueueItems.Items.Count) & " items"
+    End Sub
+
+    Private Sub SelectList()
+        Select Case SourceType.Text
+            Case "Backlinks" : GetList(New BacklinksRequest(Source.Text))
+            Case "Category" : GetList(New CategoryRequest(Source.Text.Replace("Category:", "")))
+            Case "External link uses" : GetList(New ExternalLinkUsageRequest(Source.Text.Replace("http://", "")))
+            Case "File" : GotList(GetFile(Source.Text))
+            Case "Image uses" : GetList(New ImageUsageRequest(Source.Text.Replace("Image:", "")))
+            Case "Search" : GetList(New SearchRequest(Source.Text))
+            Case "Transclusions" : GetList(New TransclusionsRequest(Source.Text))
+            Case "User contributions" : GetList(New ContribsListRequest(Source.Text))
+            Case "Watchlist" : GotList(PageNames(Watchlist))
+        End Select
+    End Sub
+
+    Private Sub GetList(ByVal Request As ListRequest)
+        Source.Enabled = False
+        Request.Start(AddressOf GotList)
+    End Sub
+
+    Private Sub GotList(ByVal Items As List(Of String))
+        If Items Is Nothing Then
+            MsgBox("Failed to retrieve items.", MsgBoxStyle.Critical, "huggle")
+        ElseIf Items.Count = 0 Then
+            MsgBox("Specified query returned no results.", MsgBoxStyle.Exclamation, "huggle")
+        Else
+            Select Case Mode
+                Case "combine" : CombineItems(Items)
+                Case "intersect" : IntersectItems(Items)
+                Case "replace" : ReplaceItems(Items)
+            End Select
+        End If
+
+        Source.Enabled = True
+    End Sub
+
+    Private Sub CombineItems(ByVal Items As List(Of String))
+        QueueItems.BeginUpdate()
+
+        For Each Item As String In Items
+            If Not QueueSources(QueueSourcesList.SelectedItem.ToString).Contains(Item) Then
+                QueueSources(QueueSourcesList.SelectedItem.ToString).Add(Item)
+                QueueItems.Items.Add(Item)
+            End If
+        Next Item
+
+        QueueItems.EndUpdate()
+        RefreshInterface()
+    End Sub
+
+    Private Sub IntersectItems(ByVal Items As List(Of String))
+        QueueItems.BeginUpdate()
+
+        Dim i As Integer = 0
+
+        While i < QueueSources(QueueSourcesList.SelectedItem.ToString).Count
+            If Not Items.Contains(QueueSources(QueueSourcesList.SelectedItem.ToString)(i)) Then
+                QueueSources(QueueSourcesList.SelectedItem.ToString).RemoveAt(i)
+                QueueItems.Items.RemoveAt(i)
+            Else
+                i += 1
+            End If
+        End While
+
+        QueueItems.EndUpdate()
+        RefreshInterface()
+    End Sub
+
+    Private Sub ReplaceItems(ByVal Items As List(Of String))
+        QueueItems.Items.Clear()
+        QueueSources(QueueSourcesList.SelectedItem.ToString).Clear()
+        QueueItems.BeginUpdate()
+
+        For Each Item As String In Items
+            QueueSources(QueueSourcesList.SelectedItem.ToString).Add(Item)
+            QueueItems.Items.Add(Item)
+        Next Item
+
+        QueueItems.EndUpdate()
+        RefreshInterface()
+    End Sub
+
+    Private Function GetFile(ByVal FileName As String) As List(Of String)
+        Dim Items As New List(Of String)
+
+        For Each Item As String In File.ReadAllLines(FileName)
+            If Item.StartsWith("*[[") OrElse Item.StartsWith("#[[") OrElse Item.StartsWith("* [[") _
+                OrElse Item.StartsWith("# [[") Then Item = Item.Substring(1)
+            Item = Item.Replace("[", "").Replace("]", "").Replace("{", "").Replace("}", "").Trim(" "c)
+            If Item.Length = 1 Then Item = Item.ToUpper
+            If Item.Length >= 1 Then Item = Item.Substring(0, 1).ToUpper & Item.Substring(1)
+            If Item.Length > 0 Then Items.Add(Item)
+        Next Item
+
+        Return Items
+    End Function
 
 End Class
