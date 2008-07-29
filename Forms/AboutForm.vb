@@ -13,10 +13,6 @@ Class AboutForm
         If e.KeyCode = Keys.Escape Then Close()
     End Sub
 
-    Private Sub Credit_LinkClicked() Handles Credit.LinkClicked
-        Tools.OpenUrlInBrowser(CreditUrl)
-    End Sub
-
     Private Sub Disclaimer_LinkClicked() Handles Disclaimer.LinkClicked
         Tools.OpenUrlInBrowser(Config.DocsLocation)
     End Sub
