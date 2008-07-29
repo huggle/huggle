@@ -407,8 +407,11 @@ Module Processing
 
                 'Refresh any open user info form
                 For Each Item As Form In Application.OpenForms
-                    If TypeOf Item Is UserInfoForm AndAlso CType(Item, UserInfoForm).ThisUser Is PageOwner _
-                        Then CType(Item, UserInfoForm).RefreshWarnings()
+                    Dim uif As UserInfoForm = CType(Item, UserInfoForm)
+
+                    If uif IsNot Nothing AndAlso uif.ThisUser Is PageOwner Then
+                        uif.RefreshWarnings()
+                    End If
                 Next Item
             End If
         End If
@@ -652,8 +655,13 @@ Module Processing
 
             'Refresh any open user info form
             For Each Item As Form In Application.OpenForms
-                If TypeOf Item Is UserInfoForm AndAlso CType(Item, UserInfoForm).ThisUser Is ThisBlock.User _
-                    Then CType(Item, UserInfoForm).RefreshBlocks()
+                If TypeOf Item Is UserInfoForm Then
+                    Dim uif As UserInfoForm = CType(Item, UserInfoForm)
+
+                    If uif IsNot Nothing AndAlso uif.ThisUser Is ThisBlock.User Then
+                        uif.RefreshBlocks()
+                    End If
+                End If
             Next Item
         End If
     End Sub
