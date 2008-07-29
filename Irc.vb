@@ -13,61 +13,61 @@ Module Irc
         IrcThread.Start()
     End Sub
 
+    Dim EditMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07([^]*)14\]\]4 B?(M?)B?10 02.*di" & _
+    "ff=([^&]*)&oldid=([^]*) 5\* 03([^]*) 5\* \(?([^]*)?\) 10([^]*)", RegexOptions.Compiled)
+
+    Dim NewPageMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07([^]*)14\]\]4 (M?)N" & _
+        "10 02[^ ]* 5\* 03([^]*) 5\* \(([^\)]*)\) 10([^]*)", RegexOptions.Compiled)
+
+    Dim BlockMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/block" & _
+        "14\]\]4 block10 02 5\* 03([^]*?) 5\*  10blocked ""02User:([^]*?)10"" \([^\)]*\) " & _
+        "with an expiry time of ([^:]*?): ([^]*?)", RegexOptions.Compiled)
+
+    Dim UnblockMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/block" & _
+        "14\]\]4 unblock10 02 5\* 03([^]*) 5\*  10unblocked 02([^]*)10: ([^]*)?", _
+        RegexOptions.Compiled)
+
+    Dim DeleteMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/del" & _
+        "ete14\]\]4 delete10 02 5\* 03([^]*?) 5\*  10deleted ""\[\[02([^]*?)10\]" & _
+        "\]"": ([^]*)", RegexOptions.Compiled)
+
+    Dim RestoreMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/delete" & _
+        "14\]\]4 restore10 02 5\* 03([^]*) 5\*  10restored ""\[\[02([^]*)10\]\]""" & _
+        ": ([^]*)?", RegexOptions.Compiled)
+
+    Dim MoveMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/move" & _
+        "14\]\]4 move(?:_redir)?10 02 5\* 03([^]*?) 5\*  10moved \[\[02([^]*?)10\]\] to " & _
+        "\[\[([^\]]*)\]\](?: over redirect)?(: ([^]*))?", RegexOptions.Compiled)
+
+    Dim NewUserMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/newusers" & _
+        "14\]\]4 create10 02 5\* 03([^]*?) 5\*  10New user account", RegexOptions.Compiled)
+
+    Dim CreateUserMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/newusers" & _
+        "14\]\]4 create210 02 5\* 03([^]*?) 5\*  10created new account 02User:([^]*)10", _
+        RegexOptions.Compiled)
+
+    Dim UploadMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/upload" & _
+       "14\]\]4 upload10 02 5\* 03([^]*) 5\*  10uploaded ""\[\[02([^]*?)10\]\]""" & _
+       "(: ([^]*))??", RegexOptions.Compiled)
+
+    Dim OverwriteMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/upload" & _
+        "14\]\]4 overwrite10 02 5\* 03([^]*) 5\*  10uploaded a new version of """ & _
+        "\[\[02([^]*)10\]\]""(?:: )?([^]*)?", RegexOptions.Compiled)
+
+    Dim ProtectMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/protect" & _
+        "14\]\]4 protect10 02 5\* 03([^]*) 5\*  10protected 02([^]*)10:([^\[]*)?(?:" & _
+        "\[edit=([a-z]*):move=([a-z]*)\] )?(?:\(expires ([^\(]*) \(UTC\)\))??", RegexOptions.Compiled)
+
+    Dim ModifyMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/protect" & _
+        "14\]\]4 modify10 02 5\* 03([^]*) 5\*  10changed protection level for ""\[\[02([^]*)" & _
+        "10\]\]"":([^\[]*)?(?:\[edit=([a-z]*):move=([a-z]*)\])? \(expires ([^\(]*) \(UTC\)\)", _
+        RegexOptions.Compiled)
+
+    Dim UnprotectMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/protect" & _
+        "14\]\]4 unprotect10 02 5\* 03([^]*) 5\*  10unprotected 02([^]*)10: ([^]*)?", _
+        RegexOptions.Compiled)
+
     Private Sub IrcProcess()
-        Dim EditMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07([^]*)14\]\]4 B?(M?)B?10 02.*di" & _
-            "ff=([^&]*)&oldid=([^]*) 5\* 03([^]*) 5\* \(?([^]*)?\) 10([^]*)", RegexOptions.Compiled)
-
-        Dim NewPageMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07([^]*)14\]\]4 (M?)N" & _
-            "10 02[^ ]* 5\* 03([^]*) 5\* \(([^\)]*)\) 10([^]*)", RegexOptions.Compiled)
-
-        Dim BlockMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/block" & _
-            "14\]\]4 block10 02 5\* 03([^]*?) 5\*  10blocked ""02User:([^]*?)10"" \([^\)]*\) " & _
-            "with an expiry time of ([^:]*?): ([^]*?)", RegexOptions.Compiled)
-
-        Dim UnblockMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/block" & _
-            "14\]\]4 unblock10 02 5\* 03([^]*) 5\*  10unblocked 02([^]*)10: ([^]*)?", _
-            RegexOptions.Compiled)
-
-        Dim DeleteMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/del" & _
-            "ete14\]\]4 delete10 02 5\* 03([^]*?) 5\*  10deleted ""\[\[02([^]*?)10\]" & _
-            "\]"": ([^]*)", RegexOptions.Compiled)
-
-        Dim RestoreMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/delete" & _
-            "14\]\]4 restore10 02 5\* 03([^]*) 5\*  10restored ""\[\[02([^]*)10\]\]""" & _
-            ": ([^]*)?", RegexOptions.Compiled)
-
-        Dim MoveMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/move" & _
-            "14\]\]4 move(?:_redir)?10 02 5\* 03([^]*?) 5\*  10moved \[\[02([^]*?)10\]\] to " & _
-            "\[\[([^\]]*)\]\](?: over redirect)?(: ([^]*))?", RegexOptions.Compiled)
-
-        Dim NewUserMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/newusers" & _
-            "14\]\]4 create10 02 5\* 03([^]*?) 5\*  10New user account", RegexOptions.Compiled)
-
-        Dim CreateUserMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/newusers" & _
-            "14\]\]4 create210 02 5\* 03([^]*?) 5\*  10created new account 02User:([^]*)10", _
-            RegexOptions.Compiled)
-
-        Dim UploadMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/upload" & _
-           "14\]\]4 upload10 02 5\* 03([^]*) 5\*  10uploaded ""\[\[02([^]*?)10\]\]""" & _
-           "(: ([^]*))??", RegexOptions.Compiled)
-
-        Dim OverwriteMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/upload" & _
-            "14\]\]4 overwrite10 02 5\* 03([^]*) 5\*  10uploaded a new version of """ & _
-            "\[\[02([^]*)10\]\]""(?:: )?([^]*)?", RegexOptions.Compiled)
-
-        Dim ProtectMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/protect" & _
-            "14\]\]4 protect10 02 5\* 03([^]*) 5\*  10protected 02([^]*)10:([^\[]*)?(?:" & _
-            "\[edit=([a-z]*):move=([a-z]*)\] )?(?:\(expires ([^\(]*) \(UTC\)\))??", RegexOptions.Compiled)
-
-        Dim ModifyMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/protect" & _
-            "14\]\]4 modify10 02 5\* 03([^]*) 5\*  10changed protection level for ""\[\[02([^]*)" & _
-            "10\]\]"":([^\[]*)?(?:\[edit=([a-z]*):move=([a-z]*)\])? \(expires ([^\(]*) \(UTC\)\)", _
-            RegexOptions.Compiled)
-
-        Dim UnprotectMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/protect" & _
-            "14\]\]4 unprotect10 02 5\* 03([^]*) 5\*  10unprotected 02([^]*)10: ([^]*)?", _
-            RegexOptions.Compiled)
-
         'Username in RC feed IRC channels is "h_" followed by random 6-digit number
         Config.IrcUsername = "h_" & New Random(Date.UtcNow.Millisecond).NextDouble.ToString.Substring(2, 6)
 
@@ -92,7 +92,6 @@ Module Irc
                     ElseIf Message.StartsWith("PING ") Then
                         Writer.WriteLine("PONG " & Message.Substring(5))
                         Writer.Flush()
-
 
                     ElseIf EditMatch.IsMatch(Message) Then
                         Dim NewEdit As New Edit
@@ -123,7 +122,7 @@ Module Irc
                         Callback(AddressOf ProcessIrcEdit, CObj(NewEdit))
 
                     ElseIf NewUserMatch.IsMatch(Message) Then
-                        Dim Match As Match = NewUserMatch.Match(Message)
+                        'Dim Match As Match = NewUserMatch.Match(Message)
 
                     ElseIf DeleteMatch.IsMatch(Message) Then
                         Dim NewDelete As New Delete
@@ -246,7 +245,7 @@ Module Irc
                         Callback(AddressOf ProcessUpload, CObj(NewUpload))
 
                     ElseIf CreateUserMatch.IsMatch(Message) Then
-                        Dim Match As Match = CreateUserMatch.Match(Message)
+                        'Dim Match As Match = CreateUserMatch.Match(Message)
 
                     End If
 
