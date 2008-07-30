@@ -39,7 +39,7 @@ Partial Class StatsForm
         'CloseButton
         '
         Me.CloseButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.CloseButton.Location = New System.Drawing.Point(167, 118)
+        Me.CloseButton.Location = New System.Drawing.Point(161, 115)
         Me.CloseButton.Name = "CloseButton"
         Me.CloseButton.Size = New System.Drawing.Size(75, 23)
         Me.CloseButton.TabIndex = 0
@@ -72,7 +72,7 @@ Partial Class StatsForm
         Me.Actions.Location = New System.Drawing.Point(12, 25)
         Me.Actions.MultiSelect = False
         Me.Actions.Name = "Actions"
-        Me.Actions.Size = New System.Drawing.Size(230, 87)
+        Me.Actions.Size = New System.Drawing.Size(224, 84)
         Me.Actions.TabIndex = 2
         Me.Actions.UseCompatibleStateImageBehavior = False
         Me.Actions.View = System.Windows.Forms.View.Details
@@ -96,7 +96,7 @@ Partial Class StatsForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(254, 153)
+        Me.ClientSize = New System.Drawing.Size(248, 150)
         Me.Controls.Add(Me.Actions)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.CloseButton)
