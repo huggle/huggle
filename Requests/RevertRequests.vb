@@ -1,4 +1,3 @@
-Imports System.Net
 Imports System.Text.Encoding
 Imports System.Threading
 Imports System.Web.HttpUtility
@@ -37,7 +36,6 @@ Namespace Requests
             Data.Minor = Config.MinorReverts
             Data.Watch = Config.WatchReverts
 
-            If Cancelled Then Exit Sub
             Data = PostEdit(Data)
 
             If Data.Error Then
@@ -54,11 +52,10 @@ Namespace Requests
         Private Sub Done(ByVal O As Object)
             If Config.WatchReverts Then
                 If Not Watchlist.Contains(SubjectPage(Edit.Page)) Then Watchlist.Add(SubjectPage(Edit.Page))
-                Main.UpdateWatchButton()
+                MainForm.UpdateWatchButton()
             End If
 
-            If Cancelled Then UndoEdit(Edit.Page)
-            Complete()
+            If State = RequestState.Cancelled Then UndoEdit(Edit.Page) Else Complete()
         End Sub
 
         Private Sub NoPage(ByVal O As Object)
@@ -198,73 +195,32 @@ Namespace Requests
                 End While
             End If
 
-            Dim Client As New WebClient, Retries As Integer = 3, Result As String = ""
+            Dim QueryString As String = Edit.RollbackUrl.Substring(1)
+            QueryString &= "&summary=" & UrlEncode(Summary)
+            If Config.Summary IsNot Nothing Then QueryString &= UrlEncode(" " & Config.Summary)
 
-            Do
-                Dim LoggingIn As Boolean = False
+            Dim Result As String = GetText(QueryString)
 
-                Do
-                    Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
-                    Client.Headers.Add(HttpRequestHeader.Cookie, Cookie)
-                    Client.Proxy = Login.Proxy
+            If Result Is Nothing Then
+                Callback(AddressOf Failed)
 
-                    Retries -= 1
-
-                    Dim GetString As String = SitePath & Edit.RollbackUrl.Substring(1)
-                    If Summary IsNot Nothing AndAlso Summary <> "" Then GetString &= "&summary=" & UrlEncode(Summary)
-                    If Config.Summary IsNot Nothing Then GetString &= UrlEncode(" " & Config.Summary)
-
-                    Try
-                        Result = UTF8.GetString(Client.DownloadData(GetString))
-                    Catch ex As Exception
-                        Callback(AddressOf Exc)
-                        Exit Sub
-                    End Try
-
-                    If Result.Contains("<li id=""pt-login"">") Then
-                        If Retries = 0 Then Exit Do
-                        Callback(AddressOf LoginNeeded)
-
-                        Dim NewLoginRequest As New LoginRequest
-
-                        Select Case NewLoginRequest.DoLogin
-                            Case LoginResult.Success
-                                Callback(AddressOf LoginDone)
-
-                            Case Else
-                                Callback(AddressOf LoginFailed)
-                                Exit Sub
-                        End Select
-
-                        LoggingIn = True
-                    Else
-                        LoggingIn = False
-                    End If
-
-                Loop Until Not LoggingIn
-
-            Loop Until IsWikiPage(result) OrElse retries = 0
-
-            If result.Contains("<h1 class=""firstHeading"">Action throttled</h1>") Then
+            ElseIf Result.Contains("<h1 class=""firstHeading"">Action throttled</h1>") Then
                 Callback(AddressOf Throttled)
 
-            ElseIf result.Contains("<h1 class=""firstHeading"">Error: unable to proceed</h1") _
-                AndAlso result.Contains("contributor is the only author of this page") Then
+            ElseIf Result.Contains("<h1 class=""firstHeading"">Error: unable to proceed</h1") _
+                AndAlso Result.Contains("contributor is the only author of this page") Then
                 Callback(AddressOf NoOtherEditors)
 
-            ElseIf result.Contains("<h1 class=""firstHeading"">Error: unable to proceed</h1>") _
-                AndAlso result.Contains("because someone else has edited the page") Then
+            ElseIf Result.Contains("<h1 class=""firstHeading"">Error: unable to proceed</h1>") _
+                AndAlso Result.Contains("because someone else has edited the page") Then
                 Callback(AddressOf Beaten)
 
-            ElseIf result.Contains("<h1 class=""firstHeading"">Error: unable to proceed</h1>") _
-                AndAlso result.Contains("There seems to be a problem with your login session") Then
+            ElseIf Result.Contains("<h1 class=""firstHeading"">Error: unable to proceed</h1>") _
+                AndAlso Result.Contains("There seems to be a problem with your login session") Then
                 Callback(AddressOf WrongData)
 
-            ElseIf result.Contains("<h1 class=""firstHeading"">Error: unable to proceed</h1>") Then
+            ElseIf Result.Contains("<h1 class=""firstHeading"">Error: unable to proceed</h1>") Then
                 Callback(AddressOf Unauthorized)
-
-            ElseIf Retries = 0 Then
-                Callback(AddressOf ServerUnavailable)
 
             Else
                 Callback(AddressOf Done)
@@ -278,8 +234,7 @@ Namespace Requests
                 NewWatchPageRequest.Start()
             End If
 
-            If Cancelled Then UndoEdit(Edit.Page)
-            Complete()
+            If State = RequestState.Cancelled Then UndoEdit(Edit.Page) Else Complete()
         End Sub
 
         Private Sub WrongData(ByVal O As Object)
@@ -307,29 +262,9 @@ Namespace Requests
             Fail()
         End Sub
 
-        Private Sub ServerUnavailable(ByVal O As Object)
-            Log("Did not rollback '" & Edit.Page.Name & "' - server unavailable")
-            Fail()
-        End Sub
-
-        Private Sub Exc(ByVal O As Object)
+        Private Sub Failed(ByVal O As Object)
+            Log("Failed to rollback '" & Edit.Page.Name & "', trying manual reversion")
             DoRevert(Edit, False)
-            Complete()
-        End Sub
-
-        Private Sub LoginNeeded(ByVal O As Object)
-            LogProgress("User has been logged out; logging in...")
-        End Sub
-
-        Private Sub LoginDone(ByVal O As Object)
-            Log("Logged in")
-            MsgBox("Rollback failed as user was logged out; you may wish to retry.", MsgBoxStyle.Exclamation, "huggle")
-            Fail()
-        End Sub
-
-        Private Sub LoginFailed(ByVal O As Object)
-            Log("Failed to log in")
-            MsgBox("Failed to log in. You may need to restart Huggle in order to edit.", MsgBoxStyle.Critical, "huggle")
             Fail()
         End Sub
 
@@ -419,15 +354,13 @@ Namespace Requests
             Data.Minor = Config.MinorReverts
             Data.Watch = Config.WatchReverts
 
-            If Cancelled Then Exit Sub
             Data = PostEdit(Data)
 
             If Data.Error Then Callback(AddressOf Failed) Else Callback(AddressOf Done)
         End Sub
 
         Private Sub Done(ByVal O As Object)
-            If Cancelled Then UndoEdit(Page)
-            Complete()
+            If State = RequestState.Cancelled Then UndoEdit(Page) Else Complete()
         End Sub
 
         Private Sub NoOtherUser(ByVal O As Object)

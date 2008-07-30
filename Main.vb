@@ -1339,7 +1339,7 @@ Class Main
         EditQueue.Clear()
         DrawQueue()
         DiffNextB.Enabled = False
-        Irc.Reconnect = True
+        Irc.Reconnect()
     End Sub
 
     Private Sub HelpFeedback_Click() Handles HelpFeedback.Click
@@ -1626,6 +1626,22 @@ Class Main
     Private Sub SystemLogOut_Click() Handles SystemLogOut.Click
         LoggingOut = True
         Irc.Disconnect()
+
+        'Clear various things
+        AllEditsById.Clear()
+        AllEditsByTime.Clear()
+        AllPages.Clear()
+        AllRequests.Clear()
+        AllUsers.Clear()
+        DiffCache.Clear()
+        EditQueue.Clear()
+        NewPageQueue.Clear()
+        PendingRequests.Clear()
+        PendingWarnings.Clear()
+        QueueSources.Clear()
+        Undo.Clear()
+        Watchlist.Clear()
+        Whitelist.Clear()
 
         Dim NewLoginForm As New LoginForm
         NewLoginForm.Show()

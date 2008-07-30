@@ -24,7 +24,7 @@ Class QueueForm
     End Sub
 
     Private Sub QueueForm_FormClosing() Handles Me.FormClosing
-        Main.SetQueueSources()
+        MainForm.SetQueueSources()
     End Sub
 
     Private Sub QueueSourcesList_SelectedIndexChanged() Handles Queues.SelectedIndexChanged

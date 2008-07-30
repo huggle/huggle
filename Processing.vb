@@ -306,7 +306,7 @@ Module Processing
         'Refresh undo information
         For Each Item As Command In Undo
             If Item.Edit IsNot Nothing AndAlso Item.Edit.Page Is Edit.Page Then
-                Main.RemoveFromUndoList(Item)
+                MainForm.RemoveFromUndoList(Item)
                 Exit For
             End If
         Next Item
@@ -314,9 +314,9 @@ Module Processing
         'Remove in-progress log entries
         Dim k As Integer = 0
 
-        While k < Main.Status.Items.Count
-            If TypeOf Main.Status.Items(k).Tag Is Page AndAlso CType(Main.Status.Items(k).Tag, Page) Is Edit.Page _
-                Then Main.Status.Items.RemoveAt(k) Else k += 1
+        While k < MainForm.Status.Items.Count
+            If TypeOf MainForm.Status.Items(k).Tag Is Page AndAlso CType(MainForm.Status.Items(k).Tag, Page) _
+                Is Edit.Page Then MainForm.Status.Items.RemoveAt(k) Else k += 1
         End While
 
         If Edit.User Is MyUser Then
@@ -351,13 +351,13 @@ Module Processing
                     NewCommand.Description = "Edit " & Edit.Page.Name
             End Select
 
-            If Main IsNot Nothing Then Main.AddToUndoList(NewCommand)
+            If MainForm IsNot Nothing Then MainForm.AddToUndoList(NewCommand)
         End If
 
         'Check for new messages
         If Edit.Page Is GetPage("User talk:" & MyUser.Name) Then
-            Main.SystemShowNewMessages.Enabled = Not (Edit.User Is MyUser)
-            If Main.SystemShowNewMessages.Enabled AndAlso Config.TrayIcon Then Main.TrayIcon.ShowBalloonTip(10000)
+            MainForm.SystemShowNewMessages.Enabled = Not (Edit.User Is MyUser)
+            If MainForm.SystemShowNewMessages.Enabled AndAlso Config.TrayIcon Then MainForm.TrayIcon.ShowBalloonTip(10000)
         End If
 
         'Add to the queue
@@ -374,7 +374,7 @@ Module Processing
 
                 EditQueue.Add(Edit)
                 Edit.Added = True
-                Main.DiffNextB.Enabled = True
+                MainForm.DiffNextB.Enabled = True
                 If CurrentEdit Is Nothing Then DisplayEdit(Edit)
                 If EditQueue.Count > 5000 Then EditQueue.RemoveAt(5000)
                 Redraw = True
@@ -444,15 +444,15 @@ Module Processing
         Next l
 
         'Refresh the interface
-        If Main IsNot Nothing Then
+        If MainForm IsNot Nothing Then
             If CurrentEdit IsNot Nothing Then
-                If CurrentEdit.Page Is Edit.Page Then Main.DrawHistory()
-                If CurrentEdit.User Is Edit.User Then Main.DrawContribs()
+                If CurrentEdit.Page Is Edit.Page Then MainForm.DrawHistory()
+                If CurrentEdit.User Is Edit.User Then MainForm.DrawContribs()
             End If
 
-            If Config.ShowQueue AndAlso Redraw Then Main.DrawQueue()
+            If Config.ShowQueue AndAlso Redraw Then MainForm.DrawQueue()
 
-            For Each Item As TabPage In Main.Tabs.TabPages
+            For Each Item As TabPage In MainForm.Tabs.TabPages
                 Dim ThisTab As BrowserTab = CType(Item.Controls(0), BrowserTab)
 
                 If ThisTab.Edit IsNot Nothing Then
@@ -461,12 +461,12 @@ Module Processing
                         DisplayEdit(Edit, False, ThisTab, Not (Edit.User Is MyUser))
 
                         If ThisTab Is CurrentTab Then
-                            Main.DiffRevertB.Enabled = False
-                            Main.RevertWarnB.Enabled = False
-                            Main.Reverting = False
-                            Main.RevertTimer.Stop()
-                            Main.RevertTimer.Interval = 3000
-                            Main.RevertTimer.Start()
+                            MainForm.DiffRevertB.Enabled = False
+                            MainForm.RevertWarnB.Enabled = False
+                            MainForm.Reverting = False
+                            MainForm.RevertTimer.Stop()
+                            MainForm.RevertTimer.Interval = 3000
+                            MainForm.RevertTimer.Start()
                         Else
                             ThisTab.Highlight = True
                         End If
@@ -476,9 +476,9 @@ Module Processing
                         DisplayEdit(Edit, False, ThisTab)
 
                         If ThisTab Is CurrentTab Then
-                            Main.DiffRevertB.Enabled = False
-                            Main.RevertWarnB.Enabled = False
-                            Main.RevertTimer.Start()
+                            MainForm.DiffRevertB.Enabled = False
+                            MainForm.RevertWarnB.Enabled = False
+                            MainForm.RevertTimer.Start()
                         Else
                             ThisTab.Highlight = True
                         End If
@@ -486,7 +486,7 @@ Module Processing
                 End If
             Next Item
 
-            Main.RefreshInterface()
+            MainForm.RefreshInterface()
         End If
     End Sub
 
@@ -579,11 +579,11 @@ Module Processing
             AndAlso (Edit Is Edit.Page.LastEdit) AndAlso (Edit.RollbackUrl IsNot Nothing) Then
 
             If Edit Is CurrentEdit Then
-                Main.DiffRevertB.Enabled = False
-                Main.RevertWarnB.Enabled = False
-                Main.Reverting = True
-                Main.RevertTimer.Interval = 5000
-                Main.RevertTimer.Start()
+                MainForm.DiffRevertB.Enabled = False
+                MainForm.RevertWarnB.Enabled = False
+                MainForm.Reverting = True
+                MainForm.RevertTimer.Interval = 5000
+                MainForm.RevertTimer.Start()
             End If
 
             Dim NewRollbackRequest As New RollbackRequest
@@ -596,11 +596,11 @@ Module Processing
         'Revert all edits by the last editor of the page, if possible
         If Edit Is Edit.Page.LastEdit AndAlso Not Undoing Then
             If Edit Is CurrentEdit Then
-                Main.DiffRevertB.Enabled = False
-                Main.RevertWarnB.Enabled = False
-                Main.Reverting = True
-                Main.RevertTimer.Interval = 5000
-                Main.RevertTimer.Start()
+                MainForm.DiffRevertB.Enabled = False
+                MainForm.RevertWarnB.Enabled = False
+                MainForm.Reverting = True
+                MainForm.RevertTimer.Interval = 5000
+                MainForm.RevertTimer.Start()
             End If
 
             Dim NewFakeRollbackRequest As New FakeRollbackRequest
@@ -619,11 +619,11 @@ Module Processing
             "huggle") = MsgBoxResult.Cancel Then Return False
 
         If Edit Is CurrentEdit Then
-            Main.DiffRevertB.Enabled = False
-            Main.RevertWarnB.Enabled = False
-            Main.Reverting = True
-            Main.RevertTimer.Interval = 5000
-            Main.RevertTimer.Start()
+            MainForm.DiffRevertB.Enabled = False
+            MainForm.RevertWarnB.Enabled = False
+            MainForm.Reverting = True
+            MainForm.RevertTimer.Interval = 5000
+            MainForm.RevertTimer.Start()
         End If
 
         'Plain old reversion
@@ -687,7 +687,7 @@ Module Processing
                 ThisEdit = ThisEdit.Prev
             End While
 
-            For Each Item As TabPage In Main.Tabs.TabPages
+            For Each Item As TabPage In MainForm.Tabs.TabPages
                 Dim ThisTab As BrowserTab = CType(Item.Controls(0), BrowserTab)
 
                 If ThisTab.Edit IsNot Nothing AndAlso ThisTab.Edit.Page Is ThisPage _
@@ -930,7 +930,7 @@ Module Processing
             ThisPage.FirstEdit = NextEdit
         End If
 
-        Main.RefreshInterface()
+        MainForm.RefreshInterface()
     End Sub
 
     Sub ProcessContribs(ByVal Result As String, ByVal ThisUser As User)
@@ -992,7 +992,7 @@ Module Processing
             End If
         End If
 
-        Main.RefreshInterface()
+        MainForm.RefreshInterface()
     End Sub
 
     Sub ProcessRcApi(ByVal Result As String)
@@ -1062,7 +1062,7 @@ Module Processing
             End If
         Next j
 
-        Main.RcReqTimer.Start()
+        MainForm.RcReqTimer.Start()
     End Sub
 
     Function CompareEdits(ByVal X As Edit, ByVal Y As Edit) As Integer
@@ -1103,13 +1103,13 @@ Module Processing
             'Remove edit from queue
             If CurrentQueue IsNot Nothing AndAlso CurrentQueue.Contains(Edit) Then
                 CurrentQueue.Remove(Edit)
-                Main.DrawQueue()
+                MainForm.DrawQueue()
             End If
 
             If Tab Is CurrentTab AndAlso ChangeCurrentEdit Then
                 Tab.Edit = Edit
-                Main.SetCurrentPage(Edit.Page, False)
-                Main.SetCurrentUser(Edit.User, False)
+                MainForm.SetCurrentPage(Edit.Page, False)
+                MainForm.SetCurrentUser(Edit.User, False)
             End If
 
             If Edit.Deleted Then
@@ -1132,7 +1132,7 @@ Module Processing
                         DiffText = DiffCache(Edit.Id & " " & Edit.Oldid)
 
                         'Notify user of new messages
-                        If Main.SystemShowNewMessages.Enabled _
+                        If MainForm.SystemShowNewMessages.Enabled _
                             AndAlso (Not Edit.Page.Name = "User talk:" & MyUser.Name) _
                             Then DiffText = "<div class=""usermessage"">You have new messages; select " & _
                             "System -> Show new messages or press M to view them.</div>" & DiffText
@@ -1153,18 +1153,18 @@ Module Processing
 
                     Edit.CacheState = CacheState.Viewed
 
-                    Main.PageB.ForeColor = Color.Black
-                    Main.RevertTimer.Stop()
-                    Main.Reverting = False
+                    MainForm.PageB.ForeColor = Color.Black
+                    MainForm.RevertTimer.Stop()
+                    MainForm.Reverting = False
                     HidingEdit = False
 
                 ElseIf Edit.CacheState = CacheState.Uncached Then
                     If Tab Is CurrentTab Then
                         For Each Item As ToolStripItem In New ToolStripItem() _
-                            {Main.RevertWarnB, Main.DiffRevertB, Main.WarnB, _
-                            Main.UserReportB, Main.PageDeleteB, Main.PageTagB, Main.ContribsPrevB, _
-                            Main.ContribsNextB, Main.ContribsLastB, Main.HistoryPrevB, Main.HistoryNextB, _
-                            Main.HistoryLastB, Main.HistoryDiffToCurB, Main.PageWatchB}
+                            {MainForm.RevertWarnB, MainForm.DiffRevertB, MainForm.WarnB, _
+                            MainForm.UserReportB, MainForm.PageDeleteB, MainForm.PageTagB, MainForm.ContribsPrevB, _
+                            MainForm.ContribsNextB, MainForm.ContribsLastB, MainForm.HistoryPrevB, MainForm.HistoryNextB, _
+                            MainForm.HistoryLastB, MainForm.HistoryDiffToCurB, MainForm.PageWatchB}
 
                             Item.Enabled = False
                         Next Item
@@ -1178,12 +1178,12 @@ Module Processing
                 End If
             End If
 
-            Main.RefreshInterface()
+            MainForm.RefreshInterface()
 
         ElseIf Edit IsNot Nothing AndAlso Edit.Page IsNot Nothing Then
             If CurrentQueue IsNot Nothing AndAlso CurrentQueue.Contains(Edit) Then
                 CurrentQueue.Remove(Edit)
-                Main.DrawQueue()
+                MainForm.DrawQueue()
             End If
 
             Dim NewHistoryRequest As New HistoryRequest
@@ -1232,10 +1232,10 @@ Module Processing
 
             If EditQueue.Contains(ThisEdit) Then
                 EditQueue.Remove(ThisEdit)
-                Main.DrawQueue()
+                MainForm.DrawQueue()
             End If
 
-            If CurrentQueue.Count = 0 Then Main.DiffNextB.Enabled = False
+            If CurrentQueue.Count = 0 Then MainForm.DiffNextB.Enabled = False
         End If
     End Sub
 

@@ -23,6 +23,7 @@ Module Misc
     Public HistoryOffset As Integer
     Public LastTagText As String = ""
     Public LatestDiffRequest As DiffRequest
+    Public MainForm As Main
     Public ManualRevertSummaries As New List(Of String)
     Public MyUser As User
     Public NextCount As New List(Of User)
@@ -73,7 +74,7 @@ Module Misc
 
     Public Property CurrentEdit() As Edit
         <DebuggerStepThrough()> Get
-            If CurrentTab Is Nothing Then CurrentTab = CType(Main.Tabs.TabPages(0).Controls(0), BrowserTab)
+            If CurrentTab Is Nothing Then CurrentTab = CType(MainForm.Tabs.TabPages(0).Controls(0), BrowserTab)
             Return CurrentTab.Edit
         End Get
 
@@ -279,7 +280,7 @@ Module Misc
                                 If Config.NamespacesChecked.Contains(LCSpace) Then
                                     EditQueue.Add(ThisEdit)
                                     ThisEdit.Added = True
-                                    Main.DiffNextB.Enabled = True
+                                    MainForm.DiffNextB.Enabled = True
                                     If EditQueue.Count > 5000 Then EditQueue.RemoveAt(5000)
                                     Redraw = True
                                     Sort = True
@@ -300,11 +301,11 @@ Module Misc
                 Next Item
 
                 'Redraw contribs and queue if necessary
-                If Main IsNot Nothing Then
-                    If CurrentEdit IsNot Nothing AndAlso CurrentEdit.User Is Me Then Main.DrawContribs()
+                If MainForm IsNot Nothing Then
+                    If CurrentEdit IsNot Nothing AndAlso CurrentEdit.User Is Me Then MainForm.DrawContribs()
 
                     If Config.ShowQueue Then
-                        For i As Integer = 0 To Math.Min(EditQueue.Count - 1, (Main.Queue.Height \ 20) - 2)
+                        For i As Integer = 0 To Math.Min(EditQueue.Count - 1, (MainForm.Queue.Height \ 20) - 2)
                             If EditQueue(i).User Is Me Then
                                 Redraw = True
                                 Exit For
@@ -312,7 +313,7 @@ Module Misc
                         Next i
                     End If
 
-                    If Redraw Then Main.DrawQueue()
+                    If Redraw Then MainForm.DrawQueue()
                 End If
 
                 If Sort Then EditQueue.Sort(AddressOf CompareEdits)
@@ -759,7 +760,7 @@ Module Misc
     End Sub
 
     <DebuggerStepThrough()> Sub Log(ByVal Message As String, Optional ByVal Tag As Object = Nothing)
-        If Main IsNot Nothing Then Main.Log(Message, Tag)
+        If MainForm IsNot Nothing Then MainForm.Log(Message, Tag)
     End Sub
 
     <DebuggerStepThrough()> Function TrimSummary(ByVal Summary As String) As String

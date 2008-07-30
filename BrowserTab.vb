@@ -22,8 +22,8 @@ Class BrowserTab
         HistoryIndex = 0
 
         If CurrentTab Is Me Then
-            Main.BrowserBackB.DropDown = BackMenu
-            Main.BrowserForwardB.DropDown = ForwardMenu
+            MainForm.BrowserBackB.DropDown = BackMenu
+            MainForm.BrowserForwardB.DropDown = ForwardMenu
         End If
     End Sub
 
@@ -35,7 +35,7 @@ Class BrowserTab
             If History(HistoryIndex).Edit IsNot Nothing _
                 Then DisplayEdit(History(HistoryIndex).Edit, True, Me) _
                 Else DisplayHistoryItem(History(HistoryIndex), Me)
-            Main.RefreshInterface()
+            MainForm.RefreshInterface()
         End If
     End Sub
 
@@ -47,7 +47,7 @@ Class BrowserTab
             If History(HistoryIndex).Edit IsNot Nothing _
                 Then DisplayEdit(History(HistoryIndex).Edit, True, Me) _
                 Else DisplayHistoryItem(History(HistoryIndex), Me)
-            Main.RefreshInterface()
+            MainForm.RefreshInterface()
         End If
     End Sub
 
@@ -115,19 +115,19 @@ Class BrowserTab
                 If Params("title").Contains("/") _
                     Then UserName = Params("title").Substring(Params("title").IndexOf("/") + 1) _
                     Else If Params.ContainsKey("user") Then UserName = Params("user")
-                If UserName IsNot Nothing AndAlso Administrator Then Main.BlockUser(GetUser(UserName))
+                If UserName IsNot Nothing AndAlso Administrator Then MainForm.BlockUser(GetUser(UserName))
 
             ElseIf Params("title") = "Special:Contributions" AndAlso Params.ContainsKey("target") Then
-                Main.SetCurrentUser(GetUser(Params("target")), True)
+                MainForm.SetCurrentUser(GetUser(Params("target")), True)
 
             ElseIf Params("title").StartsWith("Special:Contributions/") Then
-                Main.SetCurrentUser(GetUser(Params("title").Substring(22)), True)
+                MainForm.SetCurrentUser(GetUser(Params("title").Substring(22)), True)
 
             ElseIf Params("title").StartsWith("User:") Then
-                Main.SetCurrentUser(GetUser(Params("title").Substring(5)), True)
+                MainForm.SetCurrentUser(GetUser(Params("title").Substring(5)), True)
 
             Else
-                Main.SetCurrentPage(GetPage(Params("title")), True)
+                MainForm.SetCurrentPage(GetPage(Params("title")), True)
             End If
         End If
     End Sub

@@ -10,15 +10,18 @@ Namespace Requests
 
         'Base class of all Web requests
 
-        Public Query As String, Mode As RequestMode, StartTime As Date
-        Public Completed, Cancelled As Boolean, Success As Boolean = True
+        Public Query As String, Mode As RequestMode, State As RequestState, StartTime As Date
 
-        Public Enum LoginResult As Integer
-            : WrongPassword : NoUser : InvalidUsername : CaptchaNeeded : Failed : Success
+        Public Enum RequestState As Integer
+            : None : InProgress : Complete : Failed : Cancelled
         End Enum
 
         Public Enum RequestMode As Integer
             : None : [Get] : Post
+        End Enum
+
+        Protected Enum LoginResult As Integer
+            : None : WrongPassword : NoUser : InvalidUsername : CaptchaNeeded : Failed : Cancelled : Success
         End Enum
 
         Public Sub New()
@@ -28,33 +31,32 @@ Namespace Requests
         End Sub
 
         Protected Sub Complete()
-            Completed = True
+            State = RequestState.Complete
             If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
-            If Main IsNot Nothing Then Main.Delog(Me)
+            If MainForm IsNot Nothing Then MainForm.Delog(Me)
         End Sub
 
         Public Sub Cancel()
-            Cancelled = True
-            Success = False
-            Complete()
+            State = RequestState.Cancelled
+            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            If MainForm IsNot Nothing Then MainForm.Delog(Me)
         End Sub
 
         Protected Sub Fail()
-            Success = False
-            Complete()
+            State = RequestState.Failed
+            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            If MainForm IsNot Nothing Then MainForm.Delog(Me)
         End Sub
 
         Protected Sub LogProgress(ByVal Message As String)
-            If Main IsNot Nothing Then
-                Main.Delog(Me)
-                Main.Log(Message, Me, True)
+            If MainForm IsNot Nothing Then
+                MainForm.Delog(Me)
+                MainForm.Log(Message, Me, True)
             End If
         End Sub
 
         Protected Sub DelogProgress()
-            If Main IsNot Nothing Then
-                Main.Delog(Me)
-            End If
+            If MainForm IsNot Nothing Then MainForm.Delog(Me)
         End Sub
 
         Protected Sub UndoEdit(ByVal Page As Page)
@@ -66,13 +68,128 @@ Namespace Requests
             UndoEdit(GetPage(Page))
         End Sub
 
-        Protected Function GetPageText(ByVal Page As String) As String
-            Return GetUrl(SitePath & "w/index.php?title=" & UrlEncode(Page) & "&action=raw", "page '" & Page & "'")
+        Protected Function DoLogin() As LoginResult
+            Dim Client As New WebClient, Result As String = "", Retries As Integer = 3
+
+            Mode = RequestMode.Get
+            Query = "title=Special:Userlogin"
+
+            If Login.CaptchaId Is Nothing Then
+                'Get login form, to check whether captcha is needed
+                Do
+                    Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
+                    Client.Headers.Add(HttpRequestHeader.ContentType, "application/x-www-form-urlencoded")
+                    Client.Proxy = Proxy
+
+                    Retries -= 1
+
+                    Try
+                        Result = UTF8.GetString(Client.DownloadData(SitePath & "w/index.php?title=Special:Userlogin"))
+                        If State = RequestState.Cancelled Then Return LoginResult.Cancelled
+
+                    Catch ex As WebException
+                        If State = RequestState.Cancelled Then Return LoginResult.Cancelled Else Throw
+                    End Try
+
+                Loop Until IsWikiPage(Result) OrElse Retries = 0
+
+                If Retries = 0 Then Return LoginResult.Failed
+
+                If Client.ResponseHeaders(HttpResponseHeader.SetCookie) IsNot Nothing Then
+                    SessionCookie = Client.ResponseHeaders(HttpResponseHeader.SetCookie)
+                    SessionCookie = SessionCookie.Substring(0, SessionCookie.IndexOf(";") + 1)
+                End If
+
+                If Result.Contains("<div class='captcha'>") Then
+                    Login.CaptchaId = Result.Substring(Result.IndexOf("id=""wpCaptchaId"" value=""") + 24)
+                    Login.CaptchaId = Login.CaptchaId.Substring(0, Login.CaptchaId.IndexOf(""""))
+
+                    Return LoginResult.CaptchaNeeded
+                End If
+            End If
+
+            Mode = RequestMode.Post
+            Query = "title=Special:Userlogin&action=submitlogin&type=login"
+
+            Do
+                Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
+                Client.Headers.Add(HttpRequestHeader.ContentType, "application/x-www-form-urlencoded")
+                Client.Headers.Add(HttpRequestHeader.Cookie, SessionCookie)
+                Client.Proxy = Login.Proxy
+
+                Retries -= 1
+
+                Dim PostString As String = "wpName=" & UrlEncode(Config.Username) & "&wpRemember=1" & _
+                    "&wpPassword=" & UrlEncode(Login.Password) & "&wpCaptchaId=" & Login.CaptchaId & _
+                    "&wpCaptchaWord=" & Login.CaptchaWord
+
+                Try
+                    'Pass username/password in post data
+                    Result = UTF8.GetString(Client.UploadData(Config.SitePath & _
+                        "w/index.php?title=Special:Userlogin&action=submitlogin&type=login", UTF8.GetBytes(PostString)))
+
+                    If State = RequestState.Cancelled Then Return LoginResult.Cancelled
+
+                Catch ex As WebException
+                    Thread.Sleep(1000)
+                End Try
+
+            Loop Until IsWikiPage(Result) OrElse Retries = 0
+
+            If Retries = 0 Then Return LoginResult.Failed
+
+            If Result.Contains("<span id=""mw-noname"">") Then Return LoginResult.InvalidUsername
+            If Result.Contains("<span id=""mw-nosuchuser"">") Then Return LoginResult.NoUser
+            If Result.Contains("<span id=""mw-wrongpasswordempty"">") Then Return LoginResult.WrongPassword
+            If Result.Contains("<span id=""mw-wrongpassword"">") Then Return LoginResult.WrongPassword
+            If Result.Contains("<div id=""userloginForm"">") Then Return LoginResult.Failed
+
+            Dim CookiePrefix As String, LoginCookie As String = Client.ResponseHeaders(HttpResponseHeader.SetCookie)
+
+            If Config.Project = "localhost" Then CookiePrefix = "wikidb" _
+                Else CookiePrefix = Config.Project.Substring(0, Config.Project.IndexOf(".")) & "wiki"
+
+            Dim Userid As String = LoginCookie.Substring(LoginCookie.IndexOf(CookiePrefix & "UserID=") _
+                + CookiePrefix.Length + 7)
+            Userid = Userid.Substring(0, Userid.IndexOf(";"))
+
+            'SUL-enabled accounts work differently
+            If LoginCookie.Contains("centralauth_User=") Then
+
+                Dim CaUserName As String = LoginCookie.Substring(LoginCookie.IndexOf("centralauth_User=") + 17)
+                CaUserName = CaUserName.Substring(0, CaUserName.IndexOf(";"))
+
+                Dim CaToken As String = LoginCookie.Substring(LoginCookie.IndexOf("centralauth_Token=") + 18)
+                CaToken = CaToken.Substring(0, CaToken.IndexOf(";"))
+
+                Cookie = CookiePrefix & "UserID=" & UrlEncode(Userid) & "; " & CookiePrefix & "UserName=" & _
+                    UrlEncode(Config.Username) & "; " & "centralauth_User=" & UrlEncode(Config.Username) & "; " & _
+                    "centralauth_Token=" & UrlEncode(CaToken) & ";"
+
+                If SessionCookie IsNot Nothing Then Cookie &= " " & SessionCookie
+
+                If LoginCookie.Contains("centralauth_Session=") Then
+                    Dim CaSession As String = LoginCookie.Substring(LoginCookie.IndexOf("centralauth_Session=") + 20)
+                    CaSession = CaSession.Substring(0, CaSession.IndexOf(";"))
+                    Cookie &= " centralauth_Session=" & UrlEncode(CaSession) & ";"
+                End If
+
+            Else
+                Dim Token As String = LoginCookie.Substring(LoginCookie.IndexOf(CookiePrefix & "Token=") _
+                    + CookiePrefix.Length + 6)
+                Token = Token.Substring(0, Token.IndexOf(";"))
+
+                Cookie = CookiePrefix & "UserID=" & UrlEncode(Userid) & "; " & CookiePrefix & "UserName=" & _
+                UrlEncode(Config.Username) & "; " & CookiePrefix & "Token=" & UrlEncode(Token) & "; " & SessionCookie
+            End If
+
+            MyUser = GetUser(Config.Username)
+
+            Return LoginResult.Success
         End Function
 
-        Protected Function GetPageText(ByVal Page As Page) As String
-            Return GetUrl(SitePath & "w/index.php?title=" & UrlEncode(Page.Name) & "&action=raw", _
-                "page '" & Page.Name & "'")
+        Protected Function GetPageText(ByVal Page As String) As String
+            Return GetUrl(SitePath & "w/index.php?title=" & UrlEncode(Page) & "&action=raw", "page '" & Page & "'")
         End Function
 
         Protected Function GetText(ByVal QueryString As String) As String
@@ -101,10 +218,10 @@ Namespace Requests
                 Try
                     Result = UTF8.GetString(Client.DownloadData(Url))
                 Catch ex As Exception
-                    Callback(AddressOf GetUrlException, CObj(QueryDescription))
+                    Callback(AddressOf GetUrlException, QueryDescription)
                 End Try
 
-                If Cancelled Then Thread.CurrentThread.Abort()
+                If State = RequestState.Cancelled Then Thread.CurrentThread.Abort()
 
             Loop Until Retries = 0 OrElse Result IsNot Nothing
 
@@ -159,9 +276,7 @@ Namespace Requests
                         If Retries = 0 Then Exit Do
                         Callback(AddressOf LoginNeeded)
 
-                        Dim NewLoginRequest As New LoginRequest
-
-                        Select Case NewLoginRequest.DoLogin
+                        Select Case DoLogin()
                             Case LoginResult.Success
                                 Callback(AddressOf LoginDone)
 
@@ -214,9 +329,8 @@ Namespace Requests
             Return Data
         End Function
 
-        Private Sub GetEditDataException(ByVal EditDataObject As Object)
-            Dim Data As EditData = CType(EditDataObject, EditData)
-            Log("Service unavailable when editing '" & Data.Page.Name & "', retrying in 3 seconds.")
+        Private Sub GetEditDataException(ByVal DataObject As Object)
+            Log("Error when editing '" & CType(DataObject, EditData).Page.Name & "', retrying in 3 seconds.")
         End Sub
 
         Private Sub LoginNeeded(ByVal O As Object)
@@ -307,7 +421,7 @@ Namespace Requests
 
         Private Sub PostEditException(ByVal DataObject As Object)
             Dim Data As EditData = CType(DataObject, EditData)
-            Log("Service unavailable when saving '" & Data.Page.Name & "', retrying in 3 seconds.")
+            Log("Error saving '" & Data.Page.Name & "', retrying in 3 seconds.")
         End Sub
 
         Protected Function PostData(ByVal QueryString As String, ByVal Data As String) As String
@@ -340,7 +454,7 @@ Namespace Requests
         End Function
 
         Private Sub PostDataException(ByVal RequestedItem As Object)
-            Log("Service unavailable when posting '" & CStr(RequestedItem) & "', retrying in 3 seconds.")
+            Log("Error posting '" & CStr(RequestedItem) & "', retrying in 3 seconds.")
         End Sub
 
     End Class

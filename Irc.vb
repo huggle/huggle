@@ -4,7 +4,7 @@ Imports System.Text.RegularExpressions
 Imports System.Threading
 
 Module Irc
-    Public Reconnect, Disconnecting As Boolean
+    Private Reconnecting, Disconnecting As Boolean
 
     Public Sub IrcConnect(Optional ByVal O As Object = Nothing)
         Dim IrcThread As New Thread(AddressOf IrcProcess)
@@ -67,6 +67,8 @@ Module Irc
         RegexOptions.Compiled)
 
     Private Sub IrcProcess()
+        Disconnecting = False
+
         'Username in RC feed IRC channels is "h_" followed by random 6-digit number
         Config.IrcUsername = "h_" & New Random(Date.UtcNow.Millisecond).NextDouble.ToString.Substring(2, 6)
 
@@ -262,16 +264,16 @@ Module Irc
                     End If
                 End While
 
-                Thread.Sleep(50)
-
-                If Reconnect Then
-                    Reconnect = False
+                If Reconnecting Then
+                    Reconnecting = False
                     Reader.Close()
                     Writer.Close()
                     Stream.Close()
                     Callback(AddressOf IrcConnect)
                     Exit Sub
                 End If
+
+                Thread.Sleep(50)
             End While
 
         Catch ex As SocketException
@@ -292,6 +294,10 @@ Module Irc
     End Sub
 
     Public Sub Disconnect()
+        Disconnecting = True
+    End Sub
+
+    Public Sub Reconnect()
         Disconnecting = True
     End Sub
 

@@ -84,13 +84,13 @@ Class TagForm
     Private Sub ToSpeedy_Click() Handles ToSpeedy.Click
         DialogResult = DialogResult.Cancel
         Close()
-        Main.TagSpeedy_Click()
+        MainForm.TagSpeedy_Click()
     End Sub
 
     Private Sub ToProd_Click() Handles ToProd.Click
         DialogResult = DialogResult.Cancel
         Close()
-        Main.PageTagProd_Click()
+        MainForm.PageTagProd_Click()
     End Sub
 
 End Class

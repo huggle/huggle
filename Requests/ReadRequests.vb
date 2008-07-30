@@ -186,7 +186,7 @@ Namespace Requests
             Edit.CacheState = CacheState.Cached
 
             If LatestDiffRequest Is Me Then
-                Main.HistoryPrevB.Enabled = False
+                MainForm.HistoryPrevB.Enabled = False
                 If Edit.Next IsNot Nothing Then Tab.Edit = Edit.Next
                 DisplayEdit(CurrentEdit, False, Tab)
             End If
@@ -253,7 +253,7 @@ Namespace Requests
 
         Private Sub Done(ByVal ResultObject As Object)
             ProcessHistory(CStr(ResultObject), Page)
-            Main.DrawHistory()
+            MainForm.DrawHistory()
 
             If DisplayWhenDone AndAlso Page.LastEdit IsNot Nothing Then
                 DisplayEdit(Page.LastEdit)
@@ -270,14 +270,14 @@ Namespace Requests
         End Sub
 
         Private Sub BadTitle(ByVal O As Object)
-            Main.PageB.ForeColor = Color.Red
+            MainForm.PageB.ForeColor = Color.Red
             Fail()
             If _Done IsNot Nothing Then _Done(False)
         End Sub
 
         Private Sub NoPage(ByVal O As Object)
             Page.LastEdit = NullEdit
-            Main.PageB.ForeColor = Color.Red
+            MainForm.PageB.ForeColor = Color.Red
             Fail()
             If _Done IsNot Nothing Then _Done(False)
         End Sub
@@ -324,7 +324,7 @@ Namespace Requests
 
         Private Sub Done(ByVal ResultObject As Object)
             ProcessContribs(CStr(ResultObject), User)
-            Main.DrawContribs()
+            MainForm.DrawContribs()
 
             If DisplayWhenDone AndAlso User.LastEdit IsNot Nothing Then
                 DisplayEdit(User.LastEdit)
@@ -343,7 +343,7 @@ Namespace Requests
 
         Private Sub NoContribs(ByVal O As Object)
             User.LastEdit = NullEdit
-            Main.UserB.ForeColor = Color.Red
+            MainForm.UserB.ForeColor = Color.Red
             Complete()
             If _Done IsNot Nothing Then _Done(True)
         End Sub
@@ -374,7 +374,7 @@ Namespace Requests
             Dim Result As String = CStr(ResultObject)
 
             Dim PageName As String = ParseUrl(Url)("title")
-            Main.PageB.Text = PageName
+            MainForm.PageB.Text = PageName
             Result = FormatPageHtml(GetPage(PageName), Result)
             Tab.Browser.DocumentText = Result
             Tab.CurrentUrl = Url
@@ -449,7 +449,7 @@ Namespace Requests
                 If BlockedUser.Level <> UserL.Blocked Then BlockedUser.Level = UserL.Blocked
             Next Item
 
-            Main.BlockReqTimer.Start()
+            MainForm.BlockReqTimer.Start()
             Complete()
         End Sub
 
@@ -519,7 +519,7 @@ Namespace Requests
                     WhitelistChanged = True
 
                     If CurrentEdit IsNot Nothing AndAlso Item.Key Is CurrentEdit.User Then
-                        Main.UserIgnoreB.Image = My.Resources.user_unwhitelist
+                        MainForm.UserIgnoreB.Image = My.Resources.user_unwhitelist
                     End If
 
                     Dim i As Integer = 0
@@ -560,7 +560,7 @@ Namespace Requests
         Private Sub Done(ByVal O As Object)
             If Manual Then Log("Added '" & Page.Name & "' to watchlist")
             If Not Watchlist.Contains(SubjectPage(Page)) Then Watchlist.Add(SubjectPage(Page))
-            If CurrentEdit IsNot Nothing AndAlso Page Is CurrentEdit.Page Then Main.UpdateWatchButton()
+            If CurrentEdit IsNot Nothing AndAlso Page Is CurrentEdit.Page Then MainForm.UpdateWatchButton()
 
             Complete()
         End Sub
@@ -592,7 +592,7 @@ Namespace Requests
         Private Sub Done(ByVal O As Object)
             If Manual Then Log("Removed '" & Page.Name & "' from watchlist")
             If Watchlist.Contains(SubjectPage(Page)) Then Watchlist.Remove(SubjectPage(Page))
-            If CurrentEdit IsNot Nothing AndAlso Page Is CurrentEdit.Page Then Main.UpdateWatchButton()
+            If CurrentEdit IsNot Nothing AndAlso Page Is CurrentEdit.Page Then MainForm.UpdateWatchButton()
 
             Complete()
         End Sub
@@ -628,12 +628,15 @@ Namespace Requests
                 Exit Sub
             End If
 
-            Result = Result.Substring(Result.IndexOf("<revisions><rev>") + 16)
-            Result = Result.Substring(0, Result.IndexOf("</rev>"))
-            Result = HtmlDecode(Result)
+            If Result.Contains("<revisions><rev>") Then
+                Result = Result.Substring(Result.IndexOf("<revisions><rev>") + 16)
+                Result = Result.Substring(0, Result.IndexOf("</rev>"))
+                Result = HtmlDecode(Result)
 
-            ThisUser.Warnings = ProcessUserTalk(Result, ThisUser)
-            If ThisUser.Warnings IsNot Nothing Then ThisUser.Warnings.Sort(AddressOf SortWarningsByDate)
+                ThisUser.Warnings = ProcessUserTalk(Result, ThisUser)
+                If ThisUser.Warnings IsNot Nothing Then ThisUser.Warnings.Sort(AddressOf SortWarningsByDate)
+            End If
+
             ThisUser.WarningsCurrent = True
 
             Callback(AddressOf Done)
@@ -717,7 +720,7 @@ Namespace Requests
         End Sub
 
         Private Sub Process()
-            Dim Result As String = GetPageText(Page)
+            Dim Result As String = GetPageText(Page.Name)
 
             If Result IsNot Nothing Then
                 Result = Result.Replace(vbLf, vbCrLf)

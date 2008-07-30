@@ -1,8 +1,8 @@
 Module Drawing
 
     Public Function History(ByVal Page As Page) As Image
-        If Main.History.Width < 0 Then Return Nothing
-        Dim Result As New Bitmap(Main.History.Width, 20)
+        If MainForm.History.Width < 0 Then Return Nothing
+        Dim Result As New Bitmap(MainForm.History.Width, 20)
         Dim Gfx As Graphics = Graphics.FromImage(Result)
 
         Gfx.Clear(Color.FromKnownColor(KnownColor.Control))
@@ -32,10 +32,10 @@ Module Drawing
 
                             Select Case ThisEdit.WarningLevel
                                 Case UserL.Warning : Gfx.DrawImage(My.Resources.blob_warning, X, 2)
-                                Case UserL.Warn1 : Gfx.DrawString("!1", Main.Font, Brushes.Black, X + 2, 3)
-                                Case UserL.Warn2 : Gfx.DrawString("!2", Main.Font, Brushes.Black, X + 2, 3)
-                                Case UserL.Warn3 : Gfx.DrawString("!3", Main.Font, Brushes.Black, X + 2, 3)
-                                Case UserL.WarnFinal : Gfx.DrawString("!4", Main.Font, Brushes.Black, X + 2, 3)
+                                Case UserL.Warn1 : Gfx.DrawString("!1", MainForm.Font, Brushes.Black, X + 2, 3)
+                                Case UserL.Warn2 : Gfx.DrawString("!2", MainForm.Font, Brushes.Black, X + 2, 3)
+                                Case UserL.Warn3 : Gfx.DrawString("!3", MainForm.Font, Brushes.Black, X + 2, 3)
+                                Case UserL.WarnFinal : Gfx.DrawString("!4", MainForm.Font, Brushes.Black, X + 2, 3)
                                 Case UserL.Blocked : Gfx.DrawImage(My.Resources.blob_blocknote, X, 2)
                             End Select
 
@@ -108,8 +108,8 @@ Module Drawing
     End Function
 
     Public Function Contribs(ByVal User As User) As Image
-        If Main.Contribs.Width < 0 Then Return Nothing
-        Dim Result As New Bitmap(Main.Contribs.Width, 20)
+        If MainForm.Contribs.Width < 0 Then Return Nothing
+        Dim Result As New Bitmap(MainForm.Contribs.Width, 20)
         Dim Gfx As Graphics = Graphics.FromImage(Result)
 
         Gfx.Clear(Color.FromKnownColor(KnownColor.Control))
@@ -141,10 +141,10 @@ Module Drawing
 
                             Select Case ThisEdit.WarningLevel
                                 Case UserL.Warning : Gfx.DrawImage(My.Resources.blob_warning, X, 2)
-                                Case UserL.Warn1 : Gfx.DrawString("!1", Main.Font, Brushes.Black, X + 2, 3)
-                                Case UserL.Warn2 : Gfx.DrawString("!2", Main.Font, Brushes.Black, X + 2, 3)
-                                Case UserL.Warn3 : Gfx.DrawString("!3", Main.Font, Brushes.Black, X + 2, 3)
-                                Case UserL.WarnFinal : Gfx.DrawString("!4", Main.Font, Brushes.Black, X + 2, 3)
+                                Case UserL.Warn1 : Gfx.DrawString("!1", MainForm.Font, Brushes.Black, X + 2, 3)
+                                Case UserL.Warn2 : Gfx.DrawString("!2", MainForm.Font, Brushes.Black, X + 2, 3)
+                                Case UserL.Warn3 : Gfx.DrawString("!3", MainForm.Font, Brushes.Black, X + 2, 3)
+                                Case UserL.WarnFinal : Gfx.DrawString("!4", MainForm.Font, Brushes.Black, X + 2, 3)
                                 Case UserL.Blocked : Gfx.DrawImage(My.Resources.blob_blocknote, X, 2)
                             End Select
 

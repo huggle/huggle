@@ -31,6 +31,8 @@ Class RevertAndWarnForm
     End Sub
 
     Private Sub OK_Click() Handles OK.Click
+        If Not ManualRevertSummaries.Contains(Summary.Text) Then ManualRevertSummaries.Add(Summary.Text)
+
         Dim Level As UserL
 
         If LevelAuto.Checked Then Level = UserL.None
@@ -39,7 +41,7 @@ Class RevertAndWarnForm
         If Level3.Checked Then Level = UserL.Warn3
         If LevelFinal.Checked Then Level = UserL.WarnFinal
 
-        Main.RevertAndWarn(WarnType.Text, Level)
+        MainForm.RevertAndWarn(WarnType.Text, Level)
         DialogResult = DialogResult.OK
         Close()
     End Sub

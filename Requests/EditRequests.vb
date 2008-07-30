@@ -34,7 +34,6 @@ Namespace Requests
             Data.Text = Text
             Data.Summary = Summary
 
-            If Cancelled Then Exit Sub
             Data = PostEdit(Data)
 
             If Data.Error Then Callback(AddressOf Failed) Else Callback(AddressOf Done)
@@ -42,8 +41,7 @@ Namespace Requests
 
         Private Sub Done(ByVal O As Object)
             If _Done IsNot Nothing Then _Done(True)
-            Complete()
-            If Cancelled Then UndoEdit(Page)
+            If State = RequestState.Cancelled Then UndoEdit(Page) Else Complete()
         End Sub
 
         Private Sub Failed(ByVal O As Object)
@@ -97,7 +95,6 @@ Namespace Requests
                 Data.Text = Tag & vbLf & Data.Text
             End If
 
-            If Cancelled Then Exit Sub
             Data = PostEdit(Data)
 
             If Data.Error Then Callback(AddressOf Failed) Else Callback(AddressOf Done)
@@ -106,7 +103,7 @@ Namespace Requests
         Private Sub Done(ByVal O As Object)
             If Config.WatchTags Then
                 If Not Watchlist.Contains(SubjectPage(Page)) Then Watchlist.Add(SubjectPage(Page))
-                Main.UpdateWatchButton()
+                MainForm.UpdateWatchButton()
             End If
 
             If Patrol Then
@@ -117,8 +114,7 @@ Namespace Requests
 
             If NotifyRequest IsNot Nothing Then NotifyRequest.Start()
 
-            Complete()
-            If Cancelled Then UndoEdit(Page)
+            If State = RequestState.Cancelled Then UndoEdit(Page) Else Complete()
         End Sub
 
         Private Sub AlreadyTagged(ByVal O As Object)
@@ -180,7 +176,6 @@ Namespace Requests
 
             If Criterion.DisplayCode = "G10" Then Data.Text = Tag Else Data.Text = Tag & vbLf & Data.Text
 
-            If Cancelled Then Exit Sub
             Data = PostEdit(Data)
 
             If Data.Error Then Callback(AddressOf Failed) Else Callback(AddressOf Done)
@@ -189,31 +184,30 @@ Namespace Requests
         Private Sub Done(ByVal O As Object)
             If Config.WatchTags Then
                 If Not Watchlist.Contains(SubjectPage(Page)) Then Watchlist.Add(SubjectPage(Page))
-                Main.UpdateWatchButton()
+                MainForm.UpdateWatchButton()
             End If
 
-            Complete()
-
-            If Cancelled Then
+            If State = RequestState.Cancelled Then
                 UndoEdit(Page)
-                Exit Sub
-            End If
+            Else
+                Complete()
 
-            If Config.PatrolSpeedy Then
-                Dim NewPatrolRequest As New PatrolRequest
-                NewPatrolRequest.Page = Page
-                NewPatrolRequest.Start()
-            End If
+                If Config.PatrolSpeedy Then
+                    Dim NewPatrolRequest As New PatrolRequest
+                    NewPatrolRequest.Page = Page
+                    NewPatrolRequest.Start()
+                End If
 
-            If AutoNotify Then Notify = Criterion.Notify
+                If AutoNotify Then Notify = Criterion.Notify
 
-            If Notify Then
-                If Page.FirstEdit IsNot Nothing AndAlso Page.FirstEdit.User IsNot Nothing Then
-                    DoNotify(True)
-                Else
-                    Dim NewHistoryRequest As New HistoryRequest
-                    NewHistoryRequest.Page = Page
-                    NewHistoryRequest.Start(AddressOf DoNotify)
+                If Notify Then
+                    If Page.FirstEdit IsNot Nothing AndAlso Page.FirstEdit.User IsNot Nothing Then
+                        DoNotify(True)
+                    Else
+                        Dim NewHistoryRequest As New HistoryRequest
+                        NewHistoryRequest.Page = Page
+                        NewHistoryRequest.Start(AddressOf DoNotify)
+                    End If
                 End If
             End If
         End Sub
@@ -306,7 +300,6 @@ Namespace Requests
             Data.Minor = Config.MinorReports
             Data.Watch = Config.WatchReports
 
-            If Cancelled Then Exit Sub
             Data = PostEdit(Data)
 
             If Data.Error Then Callback(AddressOf Failed) Else Callback(AddressOf Done)
@@ -316,11 +309,11 @@ Namespace Requests
             If Config.WatchReports Then
                 If Not Watchlist.Contains(GetPage(Config.ProtectionRequestPage)) _
                     Then Watchlist.Add(GetPage(Config.ProtectionRequestPage))
-                Main.UpdateWatchButton()
+                MainForm.UpdateWatchButton()
             End If
 
             Complete()
-            If Cancelled Then UndoEdit(Config.ProtectionRequestPage)
+            If State = RequestState.Cancelled Then UndoEdit(Config.ProtectionRequestPage) Else Complete()
         End Sub
 
         Private Sub AlreadyRequested(ByVal O As Object)
@@ -410,8 +403,6 @@ Namespace Requests
                     Exit Sub
                 End If
 
-                If Cancelled Then Exit Sub
-
                 Data = PostEdit(Data)
                 If Data.Error Then Callback(AddressOf AppendFailed) Else Callback(AddressOf Done)
                 Exit Sub
@@ -429,8 +420,6 @@ Namespace Requests
             Data.Minor = Config.MinorReports
             Data.Watch = Config.WatchReports
 
-            If Cancelled Then Exit Sub
-
             Data = PostEdit(Data)
             If Data.Error Then Callback(AddressOf Failed) Else Callback(AddressOf Done)
         End Sub
@@ -438,11 +427,10 @@ Namespace Requests
         Private Sub Done(ByVal O As Object)
             If Config.WatchReports Then
                 If Not Watchlist.Contains(GetPage(Config.AIVLocation)) Then Watchlist.Add(GetPage(Config.AIVLocation))
-                Main.UpdateWatchButton()
+                MainForm.UpdateWatchButton()
             End If
 
-            If Cancelled Then UndoEdit(GetPage(Config.AIVLocation))
-            Complete()
+            If State = RequestState.Cancelled Then UndoEdit(Config.AIVLocation) Else Complete()
         End Sub
 
         Private Sub AlreadyReported(ByVal O As Object)
@@ -566,7 +554,6 @@ Namespace Requests
             Data.Text &= vbLf & "* {{userlinks|" & User.Name & "}} – " & Reason & " – ~~~~"
             Data.Summary = Config.ReportSummary.Replace("$1", User.Name)
 
-            If Cancelled Then Exit Sub
             Data = PostEdit(Data)
 
             If Data.Error Then Callback(AddressOf Failed) Else Callback(AddressOf Done)
@@ -575,11 +562,10 @@ Namespace Requests
         Private Sub Done(ByVal O As Object)
             If Config.WatchReports Then
                 If Not Watchlist.Contains(GetPage(Config.UAALocation)) Then Watchlist.Add(GetPage(Config.UAALocation))
-                Main.UpdateWatchButton()
+                MainForm.UpdateWatchButton()
             End If
 
-            If Cancelled Then UndoEdit(Config.UAALocation)
-            Complete()
+            If State = RequestState.Cancelled Then UndoEdit(Config.UAALocation) Else Complete()
         End Sub
 
         Private Sub AlreadyReported(ByVal O As Object)
@@ -633,16 +619,14 @@ Namespace Requests
             Data.Summary = Config.WhitelistUpdateSummary
             Data.Minor = True
 
-            If Cancelled Then Exit Sub
             Data = PostEdit(Data)
 
             If Data.Error Then Callback(AddressOf Done) Else Callback(AddressOf Failed)
         End Sub
 
         Private Sub Done(ByVal O As Object)
-            If Cancelled Then UndoEdit(Config.WhitelistLocation)
+            If State = RequestState.Cancelled Then UndoEdit(Config.WhitelistLocation) Else Complete()
             ClosingForm.WhitelistDone()
-            Complete()
         End Sub
 
         Private Sub Failed(ByVal O As Object)

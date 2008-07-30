@@ -99,20 +99,20 @@ Namespace Requests
 
         Private Sub GetUserConfigDone(ByVal O As Object)
             If Config.UseAdminFunctions AndAlso Administrator Then
-                Main.PageTagSpeedy.ShortcutKeyDisplayString = ""
-                Main.UserReport.ShortcutKeyDisplayString = ""
-                Main.PageDeleteB.Image = My.Resources.page_delete
-                Main.UserBlock.Visible = True
-                Main.PageDelete.Visible = False
+                MainForm.PageTagSpeedy.ShortcutKeyDisplayString = ""
+                MainForm.UserReport.ShortcutKeyDisplayString = ""
+                MainForm.PageDeleteB.Image = My.Resources.page_delete
+                MainForm.UserBlock.Visible = True
+                MainForm.PageDelete.Visible = False
             Else
-                Main.PageTagSpeedy.ShortcutKeyDisplayString = "S"
-                Main.UserReport.ShortcutKeyDisplayString = "B"
-                Main.PageDeleteB.Image = My.Resources.page_speedy
-                Main.UserBlock.Visible = False
-                Main.PageDelete.Visible = False
+                MainForm.PageTagSpeedy.ShortcutKeyDisplayString = "S"
+                MainForm.UserReport.ShortcutKeyDisplayString = "B"
+                MainForm.PageDeleteB.Image = My.Resources.page_speedy
+                MainForm.UserBlock.Visible = False
+                MainForm.PageDelete.Visible = False
             End If
 
-            Main.TrayIcon.Visible = Config.TrayIcon
+            MainForm.TrayIcon.Visible = Config.TrayIcon
             Log("Loaded configuration page.")
             Complete()
         End Sub
@@ -560,7 +560,6 @@ Namespace Requests
             Data.Minor = True
             Data.Summary = Config.ConfigSummary
 
-            If Cancelled Then Exit Sub
             Data = PostEdit(Data)
 
             If Data.Error Then Callback(AddressOf Failed) Else Callback(AddressOf Done)
@@ -568,7 +567,7 @@ Namespace Requests
 
         Private Sub Done(ByVal O As Object)
             If Closing Then ClosingForm.Close()
-            If Main IsNot Nothing Then Main.Configure()
+            If MainForm IsNot Nothing Then MainForm.Configure()
             Complete()
         End Sub
 
@@ -616,10 +615,9 @@ Namespace Requests
                             Case "documentation" : Config.DocsLocation = OptionValue
                             Case "feedback" : Config.FeedbackLocation = OptionValue
                             Case "irc-server" : Config.IrcServer = OptionValue
+                            Case "sensitive-addresses" : SetSensitiveAddresses(OptionValue)
                             Case "user-agent" : Config.UserAgent = OptionValue.Replace("$1", Config.Version.ToString)
                             Case "user-config" : Config.UserConfigLocation = OptionValue
-                            Case "projects" : SetProjects(OptionValue)
-                            Case "sensitive-addresses" : SetSensitiveAddresses(OptionValue)
                         End Select
 
                     Catch ex As Exception
@@ -631,16 +629,6 @@ Namespace Requests
             Complete()
             Return True
         End Function
-
-        Private Sub SetProjects(ByVal Value As String)
-            Config.Projects.Clear()
-
-            For Each Item As String In Value.Replace(vbLf, "").Replace(vbCr, "").Replace("\,", Chr(1)).Split _
-                (New String() {","}, StringSplitOptions.RemoveEmptyEntries)
-
-                Config.Projects.Add(Item.Trim(" "c).Replace(Chr(1), ","))
-            Next Item
-        End Sub
 
         Private Sub SetSensitiveAddresses(ByVal Value As String)
             Config.SensitiveAddresses.Clear()

@@ -6,10 +6,10 @@ Imports System.Web.HttpUtility
 
 Module Login
 
-    Public Proxy As IWebProxy
+    Public CaptchaId, CaptchaWord, Password, SessionCookie As String, Proxy As IWebProxy
 
     Public Sub ConfigureProxy(ByVal Address As String, ByVal Port As String, ByVal Username As String, _
-            ByVal Password As String, ByVal Domain As String)
+        ByVal Password As String, ByVal Domain As String)
 
         Dim Wp As WebProxy
 
@@ -38,14 +38,14 @@ Module Login
         Wp.UseDefaultCredentials = True
         Proxy = Wp
     End Sub
+
 End Module
 
 Namespace Requests
 
     Class LoginRequest : Inherits Request
 
-        Public Form As LoginForm, Password As String
-        Private SessionCookie, CaptchaId, CaptchaWord As String
+        Public LoginForm As LoginForm
 
         Public Sub Start()
             Dim RequestThread As New Thread(AddressOf Process)
@@ -53,157 +53,30 @@ Namespace Requests
             RequestThread.Start()
         End Sub
 
-        Public Function DoLogin() As LoginResult
-            Dim Client As New WebClient, Result As String = "", Retries As Integer = 3
-
-            Mode = RequestMode.Get
-            Query = "title=Special:Userlogin"
-
-            If CaptchaId Is Nothing Then
-                'Get login form, to check whether captcha is needed
-                Do
-                    Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
-                    Client.Headers.Add(HttpRequestHeader.ContentType, "application/x-www-form-urlencoded")
-                    Client.Proxy = Proxy
-
-                    If Cookie IsNot Nothing Then Client.Headers.Add(HttpRequestHeader.Cookie, Cookie)
-
-                    Retries -= 1
-
-                    Try
-                        Result = UTF8.GetString(Client.DownloadData(SitePath & "w/index.php?title=Special:Userlogin"))
-                        If Cancelled Then Return LoginResult.Failed
-
-                    Catch ex As WebException
-                        If Cancelled Then Return LoginResult.Failed Else Throw
-                    End Try
-
-                Loop Until IsWikiPage(Result) OrElse Retries = 0
-
-                If Retries = 0 Then Return LoginResult.Failed
-
-                If Client.ResponseHeaders(HttpResponseHeader.SetCookie) IsNot Nothing Then
-                    SessionCookie = Client.ResponseHeaders(HttpResponseHeader.SetCookie)
-                    SessionCookie = SessionCookie.Substring(0, SessionCookie.IndexOf(";") + 1)
-                End If
-
-                If Result.Contains("<div class='captcha'>") Then
-                    CaptchaId = Result.Substring(Result.IndexOf("id=""wpCaptchaId"" value=""") + 24)
-                    CaptchaId = CaptchaId.Substring(0, CaptchaId.IndexOf(""""))
-
-                    Return LoginResult.CaptchaNeeded
-                End If
-            End If
-
-            Mode = RequestMode.Post
-            Query = "title=Special:Userlogin&action=submitlogin&type=login"
-
-            Do
-                Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
-                Client.Headers.Add(HttpRequestHeader.ContentType, "application/x-www-form-urlencoded")
-                Client.Headers.Add(HttpRequestHeader.Cookie, SessionCookie)
-                Client.Proxy = Login.Proxy
-
-                Retries -= 1
-
-                Try
-                    'Pass username/password in post data
-                    Result = UTF8.GetString(Client.UploadData(SitePath & _
-                        "w/index.php?title=Special:Userlogin&action=submitlogin&type=login", UTF8.GetBytes( _
-                        "wpName=" & UrlEncode(Config.Username) & _
-                        "&wpRemember=1" & _
-                        "&wpPassword=" & UrlEncode(Password) & _
-                        "&wpCaptchaId=" & CaptchaId & _
-                        "&wpCaptchaWord=" & CaptchaWord)))
-
-                    If Cancelled Then Return LoginResult.Failed
-
-                Catch ex As WebException
-                    Thread.Sleep(1000)
-                End Try
-
-            Loop Until IsWikiPage(Result) OrElse Retries = 0
-
-            If Retries = 0 Then Return LoginResult.Failed
-
-            If Result.Contains("<span id=""mw-noname"">") Then Return LoginResult.InvalidUsername
-            If Result.Contains("<span id=""mw-nosuchuser"">") Then Return LoginResult.NoUser
-            If Result.Contains("<span id=""mw-wrongpassword"">") Then Return LoginResult.WrongPassword
-            If Result.Contains("<div id=""userloginForm"">") Then Return LoginResult.Failed
-
-            Dim CookiePrefix As String, LoginCookie As String = Client.ResponseHeaders(HttpResponseHeader.SetCookie)
-
-            If Config.Project = "localhost" Then CookiePrefix = "wikidb" _
-                Else CookiePrefix = Config.Project.Substring(0, Config.Project.IndexOf(".")) & "wiki"
-
-            Dim Userid As String = LoginCookie.Substring(LoginCookie.IndexOf(CookiePrefix & "UserID=") _
-                + CookiePrefix.Length + 7)
-            Userid = Userid.Substring(0, Userid.IndexOf(";"))
-
-            'SUL-enabled accounts work differently
-            If LoginCookie.Contains("centralauth_User=") Then
-
-                Dim CaUserName As String = LoginCookie.Substring(LoginCookie.IndexOf("centralauth_User=") + 17)
-                CaUserName = CaUserName.Substring(0, CaUserName.IndexOf(";"))
-
-                Dim CaToken As String = LoginCookie.Substring(LoginCookie.IndexOf("centralauth_Token=") + 18)
-                CaToken = CaToken.Substring(0, CaToken.IndexOf(";"))
-
-                Cookie = CookiePrefix & "UserID=" & UrlEncode(Userid) & "; " & CookiePrefix & "UserName=" & _
-                    UrlEncode(Config.Username) & "; " & "centralauth_User=" & UrlEncode(Config.Username) & "; " & _
-                    "centralauth_Token=" & UrlEncode(CaToken) & ";"
-
-                If SessionCookie IsNot Nothing Then Cookie &= " " & SessionCookie
-
-                If LoginCookie.Contains("centralauth_Session=") Then
-                    Dim CaSession As String = LoginCookie.Substring(LoginCookie.IndexOf("centralauth_Session=") + 20)
-                    CaSession = CaSession.Substring(0, CaSession.IndexOf(";"))
-                    Cookie &= " centralauth_Session=" & UrlEncode(CaSession) & ";"
-                End If
-
-            Else
-                Dim Token As String = LoginCookie.Substring(LoginCookie.IndexOf(CookiePrefix & "Token=") _
-                    + CookiePrefix.Length + 6)
-                Token = Token.Substring(0, Token.IndexOf(";"))
-
-                Cookie = CookiePrefix & "UserID=" & UrlEncode(Userid) & "; " & CookiePrefix & "UserName=" & _
-                UrlEncode(Config.Username) & "; " & CookiePrefix & "Token=" & UrlEncode(Token) & "; " & SessionCookie
-            End If
-
-            MyUser = GetUser(Config.Username)
-
-            Return LoginResult.Success
-        End Function
-
         Private Sub Process()
-            Dim Result As String = ""
-
             'Log in... can't use the API here because it locks you out after a wrong password
             UpdateStatus("Logging in...")
 
+            Dim LoginResult As LoginResult = DoLogin()
+
             Try
-                Select Case DoLogin()
+                Select Case LoginResult
                     Case LoginResult.Failed
-                        If Not Cancelled Then Abort("Unable to log in.")
-                        Exit Sub
+                        Abort("Unable to log in.")
 
                     Case LoginResult.NoUser
                         Abort("User does not exist.")
-                        Exit Sub
 
                     Case LoginResult.InvalidUsername
                         Abort("Invalid username.")
-                        Exit Sub
 
                     Case LoginResult.CaptchaNeeded
                         Callback(AddressOf CaptchaNeeded)
-                        Exit Sub
 
                     Case LoginResult.WrongPassword
                         If CaptchaId Is Nothing Then Abort("Incorrect password.") _
                             Else Abort("Incorrect password or confirmation code.")
                         CaptchaId = Nothing
-                        Exit Sub
                 End Select
 
             Catch ex As Exception
@@ -211,6 +84,8 @@ Namespace Requests
                 Abort(ex.Message)
                 Exit Sub
             End Try
+
+            If LoginResult <> LoginResult.Success Then Exit Sub
 
             'Get global configuration
             UpdateStatus("Checking global configuration...")
@@ -271,7 +146,7 @@ Namespace Requests
             'Get user information and groups
             UpdateStatus("Checking user rights...")
 
-            Result = GetApi("action=query&format=xml&meta=userinfo&uiprop=rights|editcount")
+            Dim Result As String = GetApi("action=query&format=xml&meta=userinfo&uiprop=rights|editcount")
 
             If Result.Contains("<userinfo ") AndAlso Result.Contains("<rights>") Then
                 Result = Result.Substring(Result.IndexOf("<userinfo "))
@@ -461,7 +336,7 @@ Namespace Requests
                     If Not Watchlist.Contains(ThisPage) Then Watchlist.Add(ThisPage)
                 Next Item
 
-                Callback(AddressOf Form.Done)
+                Callback(AddressOf LoginForm.Done)
                 Complete()
             Else
                 Fail()
@@ -472,29 +347,27 @@ Namespace Requests
             Dim NewCaptchaForm As New CaptchaForm
             NewCaptchaForm.CaptchaId = CaptchaId
 
-            If NewCaptchaForm.ShowDialog <> DialogResult.OK Then
+            If NewCaptchaForm.ShowDialog = DialogResult.OK Then
+                CaptchaWord = NewCaptchaForm.Answer.Text
+                Start()
+            Else
                 CaptchaId = Nothing
                 CaptchaWord = Nothing
                 Abort("Captcha not solved.")
-                Exit Sub
             End If
-
-            CaptchaWord = NewCaptchaForm.Answer.Text
-            Start()
         End Sub
 
         Private Function CompareUsernames(ByVal a As String, ByVal b As String) As Integer
-            Return String.Compare(a, b, System.StringComparison.OrdinalIgnoreCase)
+            Return String.Compare(a, b, StringComparison.OrdinalIgnoreCase)
         End Function
 
         Private Sub UpdateStatus(ByVal Message As String)
-            If Not Form.LoggingIn Then Thread.CurrentThread.Abort()
-            Callback(AddressOf Form.UpdateStatus, CObj(Message))
+            If Not LoginForm.LoggingIn Then Thread.CurrentThread.Abort()
+            Callback(AddressOf LoginForm.UpdateStatus, CObj(Message))
         End Sub
 
         Private Sub Abort(ByVal Message As String)
-            Cookie = Nothing
-            Callback(AddressOf Form.Abort, CObj(Message))
+            Callback(AddressOf LoginForm.Abort, CObj(Message))
             Fail()
         End Sub
 

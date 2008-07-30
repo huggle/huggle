@@ -4,22 +4,16 @@ Imports System.Threading
 Class LoginForm
 
     Public LoggingIn As Boolean
-    Private ProxySettingsVisible As Boolean, Request As LoginRequest
+    Private Request As LoginRequest
 
     Private Sub LoginForm_Load() Handles Me.Load
         Icon = My.Resources.icon_red_button
 
-        'Clear various things that may still be set if we've just logged out
-        EditQueue.Clear()
-        Cookie = Nothing
-
         GetLocalConfig()
-        If RememberMe Then Username.Text = Config.Username
-
         Version.Text = "Version " & Config.Version.Major & "." & Config.Version.Minor & "." & Config.Version.Build
 
 #If DEBUG Then
-        Config.Projects.Add("localhost;localhost")
+        If Not Config.Projects.Contains("localhost;localhost") Then Config.Projects.Add("localhost;localhost")
 #End If
 
         For Each Item As String In Config.Projects
@@ -33,6 +27,9 @@ Class LoginForm
         ProxyAddress.Text = Config.ProxyServer
         ProxyDomain.Text = Config.ProxyUserDomain
         ProxyUsername.Text = Config.ProxyUsername
+
+        If RememberMe Then Username.Text = Config.Username
+        If Username.Text = "" Then Username.Focus() Else Password.Focus()
     End Sub
 
     Private Sub LoginForm_Shown() Handles Me.Shown
@@ -60,19 +57,21 @@ Class LoginForm
     End Sub
 
     Private Sub Credit_LinkClicked() Handles Credit.LinkClicked
-        OpenUrlInBrowser(Config.CreditUrl)
+        OpenUrlInBrowser("http://en.wikipedia.org/wiki/User:Gurch")
     End Sub
 
     Private Sub OK_Click() Handles OK.Click
         LoggingIn = True
 
         For Each Item As String In Config.Projects
-            If Item.StartsWith(Project.Text) AndAlso Item.Contains(";") _
-                Then Config.Project = Item.Substring(Item.IndexOf(";") + 1)
+            If Item.StartsWith(Project.Text & ";") Then
+                Config.Project = Item.Substring(Item.IndexOf(";") + 1)
+                Exit For
+            End If
         Next Item
 
         Config.SitePath = "http://" & Config.Project & "/"
-
+        Config.IrcMode = (Config.Project <> "localhost")
         If Config.Project.Contains(".org") Then Config.IrcChannel = "#" & _
             Config.Project.Substring(0, Config.Project.IndexOf(".org"))
 
@@ -83,6 +82,7 @@ Class LoginForm
         Progress.Enabled = True
         Cancel.Text = "Cancel"
 
+        Login.Password = Password.Text
         Config.ProxyPort = ProxyPort.Text
         Config.ProxyServer = ProxyAddress.Text
         Config.ProxyUserDomain = ProxyDomain.Text
@@ -98,37 +98,37 @@ Class LoginForm
         End Try
 
         Request = New LoginRequest
-        Request.Form = Me
-        Request.Password = Password.Text
+        Request.LoginForm = Me
         Request.Start()
+    End Sub
+
+    Private Sub Cancel_Click() Handles Cancel.Click
+        If LoggingIn Then
+            Irc.Disconnect()
+            Request.Cancel()
+            Abort("Cancelled.")
+            OK.Focus()
+        Else
+            End
+        End If
     End Sub
 
     Private Sub ShowProxySettings_Click() Handles ShowProxySettings.Click
         Me.Height += 145
-        ProxySettingsVisible = True
         HideProxySettings.Visible = True
         ShowProxySettings.Visible = False
     End Sub
 
     Private Sub HideProxySettings_Click() Handles HideProxySettings.Click
         Me.Height -= 145
-        ProxySettingsVisible = False
         HideProxySettings.Visible = False
         ShowProxySettings.Visible = True
     End Sub
 
-    Private Sub Cancel_Click() Handles Cancel.Click
-        If LoggingIn Then
-            Request.Cancel()
-            Abort("Cancelled.")
-        Else
-            End
-        End If
-    End Sub
-
     Sub Done(ByVal O As Object)
-        Main.Show()
-        Main.Initialize()
+        MainForm = New Main
+        MainForm.Show()
+        MainForm.Initialize()
         Close()
     End Sub
 

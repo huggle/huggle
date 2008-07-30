@@ -124,7 +124,6 @@ Namespace Requests
             Data.Watch = Config.WatchTags
             Data.Summary = Config.XfdSummary.Replace("$1", Config.AfdLocation & "/" & Subpage)
 
-            If Cancelled Then Exit Sub
             Data = PostEdit(Data)
 
             If Data.Error Then Callback(AddressOf TagPageFailed) Else Callback(AddressOf TagPageDone)
@@ -156,7 +155,6 @@ Namespace Requests
             Data.Watch = Config.WatchOther
             Data.Summary = Config.XfdDiscussionSummary.Replace("$1", Page.Name)
 
-            If Cancelled Then Exit Sub
             Data = PostEdit(Data)
 
             If Data.Error Then Callback(AddressOf CreateSubpageFailed) Else Callback(AddressOf CreateSubpageDone)
@@ -195,7 +193,6 @@ Namespace Requests
             Data.Watch = Config.WatchOther
             Data.Summary = Config.XfdLogSummary.Replace("$1", Config.AfdLocation & "/" & Subpage)
 
-            If Cancelled Then Exit Sub
             Data = PostEdit(Data)
 
             If Data.Error Then Callback(AddressOf UpdateLogFailed) Else Callback(AddressOf UpdateLogDone)
@@ -265,7 +262,6 @@ Namespace Requests
             Data.Watch = Config.WatchTags
             Data.Summary = Config.XfdSummary.Replace("$1", Config.CfdLocation & "/Log/" & LogDate() & "#" & Page.Name)
 
-            If Cancelled Then Exit Sub
             Data = PostEdit(Data)
 
             If Data.Error Then Callback(AddressOf TagPageFailed) Else Callback(AddressOf TagPageDone)
@@ -298,7 +294,6 @@ Namespace Requests
             Data.Watch = Config.WatchOther
             Data.Summary = Config.XfdLogSummary.Replace("$1", Page.Name)
 
-            If Cancelled Then Exit Sub
             Data = PostEdit(Data)
 
             If Data.Error Then Callback(AddressOf CreateDiscussionFailed) Else Callback(AddressOf CreateDiscussionDone)
@@ -368,7 +363,6 @@ Namespace Requests
             Data.Watch = Config.WatchTags
             Data.Summary = Config.XfdSummary.Replace("$1", Config.MfdLocation & "/" & Subpage)
 
-            If Cancelled Then Exit Sub
             Data = PostEdit(Data)
 
             If Data.Error Then Callback(AddressOf TagPageFailed) Else Callback(AddressOf TagPageDone)
@@ -400,7 +394,6 @@ Namespace Requests
             Data.Watch = Config.WatchOther
             Data.Summary = Config.XfdDiscussionSummary.Replace("$1", Page.Name)
 
-            If Cancelled Then Exit Sub
             Data = PostEdit(Data)
 
             If Data.Error Then Callback(AddressOf CreateSubpageFailed) Else Callback(AddressOf CreateSubpageDone)
@@ -457,7 +450,6 @@ Namespace Requests
             Data.Watch = Config.WatchOther
             Data.Summary = Config.XfdLogSummary.Replace("$1", Config.MfdLocation & "/" & Subpage)
 
-            If Cancelled Then Exit Sub
             Data = PostEdit(Data)
 
             If Data.Error Then Callback(AddressOf UpdateLogFailed) Else Callback(AddressOf UpdateLogDone)
@@ -522,7 +514,6 @@ Namespace Requests
             Data.Watch = Config.WatchTags
             Data.Summary = Config.XfdSummary.Replace("$1", Location & "/" & LogDate() & "#" & Page.Name)
 
-            If Cancelled Then Exit Sub
             Data = PostEdit(Data)
 
             If Data.Error Then Callback(AddressOf TagPageFailed) Else Callback(AddressOf TagPageDone)
@@ -573,7 +564,6 @@ Namespace Requests
             Data.Watch = Config.WatchOther
             Data.Summary = Config.XfdLogSummary.Replace("$1", Page.Name)
 
-            If Cancelled Then Exit Sub
             Data = PostEdit(Data)
 
             If Data.Error Then Callback(AddressOf CreateDiscussionFailed) Else Callback(AddressOf CreateDiscussionDone)
@@ -629,7 +619,6 @@ Namespace Requests
             Data.Watch = Config.WatchTags
             Data.Summary = Config.XfdSummary.Replace("$1", Config.TfdLocation & "/Log/" & LogDate() & "#" & Page.Name)
 
-            If Cancelled Then Exit Sub
             Data = PostEdit(Data)
 
             If Data.Error Then Callback(AddressOf TagPageFailed) Else Callback(AddressOf TagPageDone)
@@ -667,7 +656,6 @@ Namespace Requests
             Data.Watch = Config.WatchOther
             Data.Summary = Config.XfdLogSummary.Replace("$1", Page.Name)
 
-            If Cancelled Then Exit Sub
             Data = PostEdit(Data)
 
             If Data.Error Then Callback(AddressOf CreateDiscussionFailed) Else Callback(AddressOf CreateDiscussionDone)
@@ -734,7 +722,6 @@ Namespace Requests
             Data.Summary = Config.XfdSummary.Replace("$1", Config.RfdLocation & "/Log/" & LogDate() & "#" & _
                 Page.Name & " .E2.86.92 " & Target)
 
-            If Cancelled Then Exit Sub
             Data = PostEdit(Data)
 
             If Data.Error Then Callback(AddressOf TagPageFailed) Else Callback(AddressOf TagPageDone)
@@ -775,7 +762,6 @@ Namespace Requests
             Data.Watch = Config.WatchOther
             Data.Summary = Config.XfdLogSummary.Replace("$1", Page.Name)
 
-            If Cancelled Then Exit Sub
             Data = PostEdit(Data)
 
             If Data.Error Then Callback(AddressOf CreateDiscussionFailed) Else Callback(AddressOf CreateDiscussionDone)

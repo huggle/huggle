@@ -38,7 +38,6 @@ Namespace Requests
             Data.Minor = Minor
             Data.Watch = Watch
 
-            If Cancelled Then Exit Sub
             Data = PostEdit(Data)
 
             If Data.Error Then Callback(AddressOf Failed) Else Callback(AddressOf Done)
@@ -47,11 +46,10 @@ Namespace Requests
         Private Sub Done(ByVal O As Object)
             If Config.WatchOther Then
                 If Not Watchlist.Contains(GetPage("User:" & User.Name)) Then Watchlist.Add(GetPage("User:" & User.Name))
-                Main.UpdateWatchButton()
+                MainForm.UpdateWatchButton()
             End If
 
-            If Cancelled Then UndoEdit("User talk:" & User.Name)
-            Complete()
+            If State = RequestState.Cancelled Then UndoEdit("User talk:" & User.Name) Else Complete()
         End Sub
 
         Private Sub ExistingMessage(ByVal O As Object)
@@ -194,7 +192,6 @@ Namespace Requests
                 WarningNeeded.Replace("$1", Edit.Page.Name).Replace("$2", _
                 SitePath & "wiki/" & Edit.Page.Name.Replace(" ", "_") & "?diff=" & Edit.Id)
 
-            If Cancelled Then Exit Sub
             If WarningNeeded.Length > 0 Then Data = PostEdit(Data)
 
             If Data.Error Then Callback(AddressOf Failed) Else Callback(AddressOf Done)
@@ -204,7 +201,7 @@ Namespace Requests
             Log("Did not warn '" & Edit.User.Name & "' because they already have a final warning")
 
             If Administrator AndAlso Config.Block Then
-                If Config.PromptForBlock Then Main.BlockUser(Edit.User)
+                If Config.PromptForBlock Then MainForm.BlockUser(Edit.User)
 
             ElseIf Config.AIV AndAlso Config.AutoReport Then
                 Dim NewReportRequest As New AIVReportRequest
@@ -213,7 +210,7 @@ Namespace Requests
                 NewReportRequest.Start()
 
             ElseIf Config.AIV AndAlso Config.PromptForReport Then
-                Main.ReportUser(Edit.User, Edit)
+                MainForm.ReportUser(Edit.User, Edit)
             End If
 
             Complete()
@@ -223,16 +220,15 @@ Namespace Requests
             If Config.WatchWarnings Then
                 If Not Watchlist.Contains(GetPage("User:" & Edit.User.Name)) _
                     Then Watchlist.Add(GetPage("User:" & Edit.User.Name))
-                Main.UpdateWatchButton()
+                MainForm.UpdateWatchButton()
             End If
 
-            If Cancelled Then UndoEdit("User talk:" & Edit.User.Name)
-            Complete()
+            If State = RequestState.Cancelled Then UndoEdit("User talk:" & Edit.User.Name) Else Complete()
         End Sub
 
         Private Sub AlreadyReported(ByVal O As Object)
             If Administrator AndAlso Config.Block Then
-                If Config.PromptForBlock Then Main.BlockUser(Edit.User)
+                If Config.PromptForBlock Then MainForm.BlockUser(Edit.User)
             Else
                 'Already reported... but do we want it extended?
                 If Config.AutoReport AndAlso Config.ReportLinkDiffs AndAlso Config.ExtendReports Then
@@ -299,14 +295,13 @@ Namespace Requests
             Data.Watch = Config.WatchReports
             Data.Summary = Config.BlockSummary
 
-            If Cancelled Then Exit Sub
             Data = PostEdit(Data)
 
             If Data.Error Then Callback(AddressOf Failed) Else Callback(AddressOf Done)
         End Sub
 
         Private Sub Done(ByVal O As Object)
-            Complete()
+            If State = RequestState.Cancelled Then UndoEdit("User talk:" & User.Name) Else Complete()
         End Sub
 
         Private Sub Failed(ByVal O As Object)

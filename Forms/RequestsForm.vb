@@ -16,8 +16,16 @@
         For i As Integer = AllRequests.Count - 1 To 0 Step -1
             Dim NewListViewItem As New ListViewItem
 
-            If Not AllRequests(i).Completed Then NewListViewItem.BackColor = Color.LightSteelBlue
-            If Not AllRequests(i).Success Then NewListViewItem.BackColor = Color.LightCoral
+            Select Case AllRequests(i).State
+                Case Request.RequestState.Cancelled
+                    NewListViewItem.BackColor = Color.DarkGray
+
+                Case Request.RequestState.Failed
+                    NewListViewItem.BackColor = Color.LightCoral
+
+                Case Request.RequestState.InProgress
+                    NewListViewItem.BackColor = Color.LightSteelBlue
+            End Select
 
             NewListViewItem.Text = AllRequests(i).StartTime.ToLongTimeString
             NewListViewItem.SubItems.Add(AllRequests(i).GetType.Name.Replace("Request", ""))

@@ -10,7 +10,6 @@ Module Config
     Public ConfigChanged As Boolean
     Public ConfigVersion As New Version(0, 0, 0)
     Public ContribsBlockSize As Integer = 100
-    Public CreditUrl As String = "http://en.wikipedia.org/wiki/User:$1"
     Public DiffCss As String = "* {text-decoration: none;} :hover {text-decoration: underline;} " & _
         ".new {color: red;} table.diff {table-layout: fixed} table.diff col.diff-content {width: 50%;} " & _
         ".diff-otitle, .diff-ntitle {font-size: 120%;} td.diff-marker {font-size: 0px; color: white;} " & _
@@ -243,7 +242,7 @@ Module Config
 
     Public Sub WriteLocalConfig()
         'Write to local configuration file
-        If Main IsNot Nothing Then
+        If MainForm IsNot Nothing Then
             Dim LocalConfigItems As New List(Of String)
 
             LocalConfigItems.Add("log-file:" & Config.LogFile)
@@ -253,11 +252,11 @@ Module Config
             LocalConfigItems.Add("proxy-userdomain:" & Config.ProxyUserDomain)
             LocalConfigItems.Add("proxy-username:" & Config.ProxyUsername)
             LocalConfigItems.Add("username:" & Config.Username)
-            LocalConfigItems.Add("window-height:" & CStr(Main.Height))
-            LocalConfigItems.Add("window-left:" & CStr(Main.Left))
-            LocalConfigItems.Add("window-maximize:" & CStr(Main.WindowState = FormWindowState.Maximized).ToLower)
-            LocalConfigItems.Add("window-top:" & CStr(Main.Top))
-            LocalConfigItems.Add("window-width:" & CStr(Main.Width))
+            LocalConfigItems.Add("window-height:" & CStr(MainForm.Height))
+            LocalConfigItems.Add("window-left:" & CStr(MainForm.Left))
+            LocalConfigItems.Add("window-maximize:" & CStr(MainForm.WindowState = FormWindowState.Maximized).ToLower)
+            LocalConfigItems.Add("window-top:" & CStr(MainForm.Top))
+            LocalConfigItems.Add("window-width:" & CStr(MainForm.Width))
 
             Dim Shortcuts As New List(Of String)
 

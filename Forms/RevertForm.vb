@@ -14,7 +14,7 @@ Class RevertForm
 
     Private Sub RevertForm_FormClosing() Handles Me.FormClosing
         If DialogResult = DialogResult.OK Then
-            If Not Summary.Items.Contains(Summary.Text) Then ManualRevertSummaries.Add(Summary.Text)
+            If Not ManualRevertSummaries.Contains(Summary.Text) Then ManualRevertSummaries.Add(Summary.Text)
             LastSummary = Summary.Text
 
             If CurrentEdit.User.Level = UserL.None Then CurrentEdit.User.Level = UserL.Reverted

@@ -1,14 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <OutputPath>bin\Debug\</OutputPath>
     <DebugType>Full</DebugType>
     <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <OutputPath>bin\Debug\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DebugType>pdbonly</DebugType>
   </PropertyGroup>
   <PropertyGroup>
     <ProjectGuid>{11AD90BE-245A-475B-9768-77BADF176824}</ProjectGuid>
@@ -446,230 +447,79 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\blob-blocked.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\blob-new.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\blob-redirect.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\blob-report.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\blob-reported.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\blob-warn-1.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\blob-warn-2.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\blob-warn-3.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\blob-warn-4.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\gradient.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\blob-anon.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\blob-blank.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\blob-blanked.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\blob-blocknote.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\blob-ignored.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\blob-me.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\blob-message.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\blob-none.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\blob-replaced.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\blob-revert.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\blob-reverted.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\blob-tag.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\blob-warning.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\browser-add-tab.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\browser-next.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\browser-open.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\browser-prev.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\browser-remove-tab.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\contribs-last.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\contribs-next.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\contribs-prev.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\diff-next.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\diff-revert.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\diff-revert-warn.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\gray-last.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\gray-next.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\gray-previous.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\history-last.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\history-next.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\history-previous.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\history-to-cur.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\page-delete.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\page-edit.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\page-history.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\page-move.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\page-prod.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\page-speedy.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\page-tag.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\page-unwatch.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\page-view.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\page-watch.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\user-contribs.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\user-ignore.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\user-message.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\user-report.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\user-talk.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\user-unignore.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\user-warn.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\diff-revert-custom.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\icon_red_button.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\up_gray.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\down_gray.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\user-info.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\user-whitelist.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\undo.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\revert-and-warn-2.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\arrow-2.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\user-unwhitelist.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\user-template.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\cancel.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\cancel-all.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\page-speedy-mid.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="My Project\app.manifest" />
     <None Include="Resources\blob-bot.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
 </Project>
