@@ -93,7 +93,7 @@ Namespace Requests
 
         Private Sub Failed(ByVal O As Object)
             Log("Failed to block '" & User.Name & "'")
-            If CurrentEdit.User Is User Then Main.UserReportB.Enabled = True
+            If CurrentEdit.User Is User Then MainForm.UserReportB.Enabled = True
             Fail()
         End Sub
 
@@ -239,7 +239,7 @@ Namespace Requests
 
         Private Sub Done(ByVal O As Object)
             Log("Moved '" & Page.Name & "' to '" & Target & "'")
-            Main.PageB.Text = Target
+            MainForm.PageB.Text = Target
             Complete()
         End Sub
 
@@ -305,7 +305,7 @@ Namespace Requests
 
         Private Sub Failed(ByVal O As Object)
             Log("Failed to delete '" & Page.Name & "'")
-            If CurrentEdit.Page Is Page Then Main.PageDeleteB.Enabled = True
+            If CurrentEdit.Page Is Page Then MainForm.PageDeleteB.Enabled = True
             Fail()
         End Sub
 
@@ -366,7 +366,7 @@ Namespace Requests
 
         'E-mail a user
 
-        Public User As User, Subject As String = Config.EmailSubject, Message As String, ShowForm As Boolean
+        Public User As User, Subject As String = Config.EmailSubject, Message As String, CcMe, ShowForm As Boolean
         Private Token As String
 
         Public Sub GetForm()
@@ -441,6 +441,8 @@ Namespace Requests
         Private Sub PostProcess()
             Dim PostString As String = "wpSubject=" & UrlEncode(Subject) & _
                 "&wpText=" & UrlEncode(Message) & "&wpEditToken=" & UrlEncode(Token)
+
+            If CcMe Then PostString &= "&wpCCMe=1"
 
             Dim Result As String = PostData("title=Special:EmailUser&target=" & UrlEncode(User.Name) & _
                 "&action=submit", PostString)

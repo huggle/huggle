@@ -18,6 +18,7 @@
     Private Sub OK_Click() Handles OK.Click
         Request.Message = Message.Text
         Request.Subject = Subject.Text
+        Request.CcMe = CcMe.Checked
         Request.PostForm()
 
         DialogResult = DialogResult.OK
