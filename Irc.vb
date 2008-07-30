@@ -4,6 +4,7 @@ Imports System.Text.RegularExpressions
 Imports System.Threading
 
 Module Irc
+
     Private Reconnecting, Disconnecting As Boolean
 
     Public Sub IrcConnect(Optional ByVal O As Object = Nothing)

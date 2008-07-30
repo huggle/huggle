@@ -736,6 +736,7 @@ Namespace Requests
         End Sub
 
         Private Sub Failed(ByVal O As Object)
+            _Done(False, Nothing)
             Fail()
         End Sub
 

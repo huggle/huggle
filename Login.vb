@@ -131,7 +131,7 @@ Namespace Requests
 
             If Config.RequireConfig AndAlso (Not UserConfigResult OrElse Not Config.Enabled) Then
                 ConfigChanged = True
-                Abort("Huggle is not enabled for your account, check configuration subpage.")
+                Abort("Huggle is not enabled for your account, check user configuration.")
                 Exit Sub
             End If
 

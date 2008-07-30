@@ -229,7 +229,8 @@ Module Processing
     End Sub
 
     Sub ProcessNewEdit(ByVal Edit As Edit)
-        If Edit.User Is Nothing OrElse Edit.Page Is Nothing Then Exit Sub
+        If Edit.User Is Nothing OrElse Edit.Page Is Nothing OrElse MainForm Is Nothing OrElse Not MainForm.Visible _
+            Then Exit Sub
 
         Dim Redraw As Boolean
 
@@ -444,50 +445,48 @@ Module Processing
         Next l
 
         'Refresh the interface
-        If MainForm IsNot Nothing Then
-            If CurrentEdit IsNot Nothing Then
-                If CurrentEdit.Page Is Edit.Page Then MainForm.DrawHistory()
-                If CurrentEdit.User Is Edit.User Then MainForm.DrawContribs()
-            End If
+        If CurrentEdit IsNot Nothing Then
+            If CurrentEdit.Page Is Edit.Page Then MainForm.DrawHistory()
+            If CurrentEdit.User Is Edit.User Then MainForm.DrawContribs()
+        End If
 
-            If Config.ShowQueue AndAlso Redraw Then MainForm.DrawQueue()
+        If Config.ShowQueue AndAlso Redraw Then MainForm.DrawQueue()
 
-            For Each Item As TabPage In MainForm.Tabs.TabPages
-                Dim ThisTab As BrowserTab = CType(Item.Controls(0), BrowserTab)
+        For Each Item As TabPage In MainForm.Tabs.TabPages
+            Dim ThisTab As BrowserTab = CType(Item.Controls(0), BrowserTab)
 
-                If ThisTab.Edit IsNot Nothing Then
-                    If ThisTab.Edit.Page Is Edit.Page AndAlso ThisTab.ShowNewEdits Then
-                        'Show new edits to page
-                        DisplayEdit(Edit, False, ThisTab, Not (Edit.User Is MyUser))
+            If ThisTab.Edit IsNot Nothing Then
+                If ThisTab.Edit.Page Is Edit.Page AndAlso ThisTab.ShowNewEdits Then
+                    'Show new edits to page
+                    DisplayEdit(Edit, False, ThisTab, Not (Edit.User Is MyUser))
 
-                        If ThisTab Is CurrentTab Then
-                            MainForm.DiffRevertB.Enabled = False
-                            MainForm.RevertWarnB.Enabled = False
-                            MainForm.Reverting = False
-                            MainForm.RevertTimer.Stop()
-                            MainForm.RevertTimer.Interval = 3000
-                            MainForm.RevertTimer.Start()
-                        Else
-                            ThisTab.Highlight = True
-                        End If
+                    If ThisTab Is CurrentTab Then
+                        MainForm.DiffRevertB.Enabled = False
+                        MainForm.RevertWarnB.Enabled = False
+                        MainForm.Reverting = False
+                        MainForm.RevertTimer.Stop()
+                        MainForm.RevertTimer.Interval = 3000
+                        MainForm.RevertTimer.Start()
+                    Else
+                        ThisTab.Highlight = True
+                    End If
 
-                    ElseIf ThisTab.Edit.User Is Edit.User AndAlso ThisTab.ShowNewContribs Then
-                        'Show new contribs by user
-                        DisplayEdit(Edit, False, ThisTab)
+                ElseIf ThisTab.Edit.User Is Edit.User AndAlso ThisTab.ShowNewContribs Then
+                    'Show new contribs by user
+                    DisplayEdit(Edit, False, ThisTab)
 
-                        If ThisTab Is CurrentTab Then
-                            MainForm.DiffRevertB.Enabled = False
-                            MainForm.RevertWarnB.Enabled = False
-                            MainForm.RevertTimer.Start()
-                        Else
-                            ThisTab.Highlight = True
-                        End If
+                    If ThisTab Is CurrentTab Then
+                        MainForm.DiffRevertB.Enabled = False
+                        MainForm.RevertWarnB.Enabled = False
+                        MainForm.RevertTimer.Start()
+                    Else
+                        ThisTab.Highlight = True
                     End If
                 End If
-            Next Item
+            End If
+        Next Item
 
-            MainForm.RefreshInterface()
-        End If
+        MainForm.RefreshInterface()
     End Sub
 
     Sub UserDeleteRequest(ByVal Page As Page)

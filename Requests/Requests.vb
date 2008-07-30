@@ -189,7 +189,24 @@ Namespace Requests
         End Function
 
         Protected Function GetPageText(ByVal Page As String) As String
-            Return GetUrl(SitePath & "w/index.php?title=" & UrlEncode(Page) & "&action=raw", "page '" & Page & "'")
+            Dim Result As String = GetUrl(SitePath & _
+                "w/api.php?action=query&format=xml&prop=revisions&rvprop=content&titles=" & UrlEncode(Page), _
+                "page '" & Page & "'")
+
+            If Result Is Nothing Then
+                Return Nothing
+
+            ElseIf Result.Contains("<rev>") Then
+                Result = Result.Substring(Result.IndexOf("<rev>") + 5)
+                Result = Result.Substring(0, Result.IndexOf("</rev>"))
+                Result = HtmlDecode(Result)
+                Return Result
+
+            ElseIf Result.Contains("missing=""""") Then
+                Return ""
+            End If
+            
+            Return Nothing
         End Function
 
         Protected Function GetText(ByVal QueryString As String) As String
@@ -217,7 +234,7 @@ Namespace Requests
 
                 Try
                     Result = UTF8.GetString(Client.DownloadData(Url))
-                Catch ex As Exception
+                Catch ex As WebException
                     Callback(AddressOf GetUrlException, QueryDescription)
                 End Try
 
@@ -229,7 +246,7 @@ Namespace Requests
         End Function
 
         Private Sub GetUrlException(ByVal QueryDescription As Object)
-            Log("Error when requesting " & CStr(QueryDescription) & ", retrying in 3 seconds.")
+            Log("Error when requesting " & CStr(QueryDescription) & ", retrying in 1 second.")
         End Sub
 
         Protected Function GetEditData(ByVal Page As String, Optional ByVal Rev As String = Nothing, _
@@ -268,7 +285,7 @@ Namespace Requests
 
                     Try
                         Result = UTF8.GetString(Client.DownloadData(QueryString))
-                    Catch ex As Exception
+                    Catch ex As WebException
                         Callback(AddressOf GetEditDataException, CObj(Data))
                     End Try
 
@@ -330,7 +347,7 @@ Namespace Requests
         End Function
 
         Private Sub GetEditDataException(ByVal DataObject As Object)
-            Log("Error when editing '" & CType(DataObject, EditData).Page.Name & "', retrying in 3 seconds.")
+            Log("Error when editing '" & CType(DataObject, EditData).Page.Name & "', retrying in 1 second.")
         End Sub
 
         Private Sub LoginNeeded(ByVal O As Object)
@@ -396,7 +413,7 @@ Namespace Requests
                 Try
                     Result = UTF8.GetString(Client.UploadData(SitePath & "w/index.php?title=" & _
                         UrlEncode(Data.Page.Name) & "&action=submit", UTF8.GetBytes(PostString)))
-                Catch ex As Exception
+                Catch ex As WebException
                     Callback(AddressOf PostEditException, CObj(Data))
                 End Try
 
@@ -421,7 +438,7 @@ Namespace Requests
 
         Private Sub PostEditException(ByVal DataObject As Object)
             Dim Data As EditData = CType(DataObject, EditData)
-            Log("Error saving '" & Data.Page.Name & "', retrying in 3 seconds.")
+            Log("Error saving '" & Data.Page.Name & "', retrying in 1 second.")
         End Sub
 
         Protected Function PostData(ByVal QueryString As String, ByVal Data As String) As String
@@ -444,7 +461,7 @@ Namespace Requests
 
                 Try
                     Result = UTF8.GetString(Client.UploadData(Url, UTF8.GetBytes(Data)))
-                Catch ex As Exception
+                Catch ex As WebException
                     Callback(AddressOf PostDataException, CObj(QueryString))
                 End Try
 
@@ -454,7 +471,7 @@ Namespace Requests
         End Function
 
         Private Sub PostDataException(ByVal RequestedItem As Object)
-            Log("Error posting '" & CStr(RequestedItem) & "', retrying in 3 seconds.")
+            Log("Error posting '" & CStr(RequestedItem) & "', retrying in 1 second.")
         End Sub
 
     End Class

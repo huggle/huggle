@@ -46,7 +46,8 @@ Namespace Requests
 
         Public Function GetUserConfig() As Boolean
             'Read user config page
-            Dim Result As String = GetPageText(Config.UserConfigLocation)
+            Dim Result As String = GetPageText _
+                (Config.UserConfigLocation.Replace("Special:Mypage", "User:" & Config.Username))
 
             If Result Is Nothing Then
                 Fail()
