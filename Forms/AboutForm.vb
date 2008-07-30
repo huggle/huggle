@@ -26,7 +26,7 @@ Class AboutForm
     End Sub
 
     Private Sub ContributorLinkClicked(ByVal sender As Object, ByVal e As LinkLabelLinkClickedEventArgs)
-        OpenUrlInBrowser(Config.CreditUrl.Replace("$1", CStr(CType(sender, LinkLabel).Tag)))
+        OpenUrlInBrowser(CStr(CType(sender, LinkLabel).Tag))
     End Sub
 
 End Class

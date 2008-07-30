@@ -123,7 +123,7 @@ Partial Class AboutForm
         Me.Contributor1.Size = New System.Drawing.Size(52, 13)
         Me.Contributor1.TabIndex = 8
         Me.Contributor1.TabStop = True
-        Me.Contributor1.Tag = "Addshore"
+        Me.Contributor1.Tag = "http://en.wikipedia.org/wiki/User:Addshore"
         Me.Contributor1.Text = "Addshore"
         '
         'Contributor7
@@ -136,7 +136,7 @@ Partial Class AboutForm
         Me.Contributor7.Size = New System.Drawing.Size(52, 13)
         Me.Contributor7.TabIndex = 8
         Me.Contributor7.TabStop = True
-        Me.Contributor7.Tag = "Soxred93"
+        Me.Contributor7.Tag = "http://en.wikipedia.org/wiki/User:Soxred93"
         Me.Contributor7.Text = "Soxred93"
         '
         'Contributor4
@@ -149,7 +149,7 @@ Partial Class AboutForm
         Me.Contributor4.Size = New System.Drawing.Size(59, 13)
         Me.Contributor4.TabIndex = 8
         Me.Contributor4.TabStop = True
-        Me.Contributor4.Tag = "CWii"
+        Me.Contributor4.Tag = "http://en.wikipedia.org/wiki/User:CWii"
         Me.Contributor4.Text = "Compwhizii"
         '
         'Contributor5
@@ -162,7 +162,7 @@ Partial Class AboutForm
         Me.Contributor5.Size = New System.Drawing.Size(36, 13)
         Me.Contributor5.TabIndex = 8
         Me.Contributor5.TabStop = True
-        Me.Contributor5.Tag = "Gurch"
+        Me.Contributor5.Tag = "http://en.wikipedia.org/wiki/User:Gurch"
         Me.Contributor5.Text = "Gurch"
         '
         'Contributor3
@@ -175,7 +175,7 @@ Partial Class AboutForm
         Me.Contributor3.Size = New System.Drawing.Size(63, 13)
         Me.Contributor3.TabIndex = 9
         Me.Contributor3.TabStop = True
-        Me.Contributor3.Tag = "Calvin 1998"
+        Me.Contributor3.Tag = "http://en.wikipedia.org/wiki/User:Calvin 1998"
         Me.Contributor3.Text = "Calvin 1998"
         '
         'ContributorsLayoutPanel
@@ -204,7 +204,7 @@ Partial Class AboutForm
         Me.Contributor2.Size = New System.Drawing.Size(52, 13)
         Me.Contributor2.TabIndex = 9
         Me.Contributor2.TabStop = True
-        Me.Contributor2.Tag = "Bartledan"
+        Me.Contributor2.Tag = "http://en.wikipedia.org/wiki/User:Bartledan"
         Me.Contributor2.Text = "Bartledan"
         '
         'Contributor6
@@ -217,7 +217,7 @@ Partial Class AboutForm
         Me.Contributor6.Size = New System.Drawing.Size(38, 13)
         Me.Contributor6.TabIndex = 9
         Me.Contributor6.TabStop = True
-        Me.Contributor6.Tag = "Reedy"
+        Me.Contributor6.Tag = "http://en.wikipedia.org/wiki/User:Reedy"
         Me.Contributor6.Text = "Reedy"
         '
         'AboutForm
