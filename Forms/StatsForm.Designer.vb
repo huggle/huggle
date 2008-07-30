@@ -39,7 +39,7 @@ Partial Class StatsForm
         'CloseButton
         '
         Me.CloseButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.CloseButton.Location = New System.Drawing.Point(164, 111)
+        Me.CloseButton.Location = New System.Drawing.Point(158, 110)
         Me.CloseButton.Name = "CloseButton"
         Me.CloseButton.Size = New System.Drawing.Size(75, 23)
         Me.CloseButton.TabIndex = 0
@@ -69,10 +69,10 @@ Partial Class StatsForm
         Me.Actions.GridLines = True
         Me.Actions.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
         Me.Actions.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem1, ListViewItem2, ListViewItem3, ListViewItem4})
-        Me.Actions.Location = New System.Drawing.Point(15, 26)
+        Me.Actions.Location = New System.Drawing.Point(12, 25)
         Me.Actions.MultiSelect = False
         Me.Actions.Name = "Actions"
-        Me.Actions.Size = New System.Drawing.Size(224, 80)
+        Me.Actions.Size = New System.Drawing.Size(221, 79)
         Me.Actions.TabIndex = 2
         Me.Actions.UseCompatibleStateImageBehavior = False
         Me.Actions.View = System.Windows.Forms.View.Details
@@ -80,7 +80,7 @@ Partial Class StatsForm
         'TypeColumn
         '
         Me.TypeColumn.Text = "Type"
-        Me.TypeColumn.Width = 77
+        Me.TypeColumn.Width = 74
         '
         'TotalColumn
         '
@@ -96,7 +96,7 @@ Partial Class StatsForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(251, 146)
+        Me.ClientSize = New System.Drawing.Size(245, 145)
         Me.Controls.Add(Me.Actions)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.CloseButton)
