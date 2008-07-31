@@ -418,7 +418,9 @@ Module Processing
         End If
 
         'Get edit counts for non-whitelisted registered users, in batches of 50, and whitelist if appropriate
-        If Config.AutoWhitelist AndAlso Not Edit.User.Anonymous AndAlso (Edit.User.Level <> UserL.Ignore) AndAlso Not Edit.User.EditCount > 0 AndAlso NextCount.Count < 50 Then
+        If Config.AutoWhitelist AndAlso Not Edit.User.Anonymous AndAlso (Edit.User.Level <> UserL.Ignore) _
+            AndAlso Not Edit.User.EditCount > 0 AndAlso NextCount.Count < 50 Then
+
             NextCount.Add(Edit.User)
 
             If NextCount.Count = 50 Then
@@ -683,12 +685,14 @@ Module Processing
                 ThisEdit = ThisEdit.Prev
             End While
 
-            For Each Item As TabPage In MainForm.Tabs.TabPages
-                Dim ThisTab As BrowserTab = CType(Item.Controls(0), BrowserTab)
+            If MainForm IsNot Nothing Then
+                For Each Item As TabPage In MainForm.Tabs.TabPages
+                    Dim ThisTab As BrowserTab = CType(Item.Controls(0), BrowserTab)
 
-                If ThisTab.Edit IsNot Nothing AndAlso ThisTab.Edit.Page Is ThisPage _
-                    Then DisplayEdit(ThisTab.Edit, False, ThisTab)
-            Next Item
+                    If ThisTab.Edit IsNot Nothing AndAlso ThisTab.Edit.Page Is ThisPage _
+                        Then DisplayEdit(ThisTab.Edit, False, ThisTab)
+                Next Item
+            End If
         End If
     End Sub
 
@@ -817,7 +821,8 @@ Module Processing
                 Time = Time.Substring(Time.IndexOf(">") + 1)
                 Time = Time.Substring(0, Time.IndexOf("<"))
                 Time = Time.Substring(Time.IndexOf(":") - 2)
-                If Date.TryParse(Time, ThisEdit.Prev.Time) Then ThisEdit.Prev.Time = Date.SpecifyKind(CDate(Time), DateTimeKind.Local).ToUniversalTime
+                If Date.TryParse(Time, ThisEdit.Prev.Time) _
+                    Then ThisEdit.Prev.Time = Date.SpecifyKind(CDate(Time), DateTimeKind.Local).ToUniversalTime
             End If
 
             If ThisEdit.Prev.User Is Nothing AndAlso DiffText.Contains("<div id=""mw-diff-otitle2"">") Then

@@ -319,7 +319,8 @@ Class EditForm
             If(MatchCase.Checked, StringComparison.Ordinal, StringComparison.OrdinalIgnoreCase))
 
         If Index = -1 Then
-            Index = PageText.Text.IndexOf(Find.Text)
+            Index = PageText.Text.IndexOf(Find.Text, _
+                If(MatchCase.Checked, StringComparison.Ordinal, StringComparison.OrdinalIgnoreCase))
             If Index > -1 Then FindInfo.Text = "Reached end of page, continued from top"
         Else
             FindInfo.Text = ""
@@ -334,7 +335,8 @@ Class EditForm
             If(MatchCase.Checked, StringComparison.Ordinal, StringComparison.OrdinalIgnoreCase))
 
         If Index = -1 Then
-            Index = PageText.Text.LastIndexOf(Find.Text)
+            Index = PageText.Text.LastIndexOf(Find.Text, _
+                If(MatchCase.Checked, StringComparison.Ordinal, StringComparison.OrdinalIgnoreCase))
             If Index > -1 Then FindInfo.Text = "Reached top of page, continued from end"
         Else
             FindInfo.Text = ""

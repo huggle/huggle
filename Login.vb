@@ -249,7 +249,7 @@ Namespace Requests
                     Dim ListedUsers As New List(Of String)
 
                     For Each Item As Match In Matches
-                        ListedUsers.Add(Item.Groups(1).Value)
+                        If Not ListedUsers.Contains(Item.Groups(1).Value) Then ListedUsers.Add(Item.Groups(1).Value)
                     Next Item
 
                     ListedUsers.Add(MyUser.Name)
