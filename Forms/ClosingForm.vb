@@ -25,21 +25,17 @@ Class ClosingForm
             Progress.Value = 1
             Dim NewUpdateWhitelistRequest As New UpdateWhitelistRequest
             NewUpdateWhitelistRequest.Start()
-        Else
-            WhitelistDone()
         End If
-    End Sub
 
-    Public Sub WhitelistDone()
         If ConfigChanged OrElse (ConfigVersion <> Version) Then
             Status.Text = "Updating configuration subpage..."
             Progress.Value = 2
             Dim NewWriteConfigRequest As New WriteConfigRequest
             NewWriteConfigRequest.Closing = True
             NewWriteConfigRequest.Start()
-        Else
-            Close()
+
         End If
+        Close()
     End Sub
 
 End Class

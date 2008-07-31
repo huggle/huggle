@@ -418,10 +418,7 @@ Module Processing
         End If
 
         'Get edit counts for non-whitelisted registered users, in batches of 50, and whitelist if appropriate
-        If Config.AutoWhitelist AndAlso Not Edit.User.Anonymous _
-            AndAlso (Edit.User.Level = UserL.None OrElse Edit.User.Level = UserL.Message) _
-            AndAlso Edit.User.EditCount = 0 AndAlso NextCount.Count < 50 Then
-
+        If Config.AutoWhitelist AndAlso Not Edit.User.Anonymous AndAlso (Edit.User.Level <> UserL.Ignore) AndAlso Not Edit.User.EditCount > 0 AndAlso NextCount.Count < 50 Then
             NextCount.Add(Edit.User)
 
             If NextCount.Count = 50 Then
