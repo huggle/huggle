@@ -17,19 +17,68 @@ Module Highlight
     Public ParameterHC As Color = Color.FromArgb(255, 255, 255, 160)
     Public ParamNameC As Color = Color.FromArgb(255, 128, 80, 0)
 
+    Public ReadOnly Property RtfHeader() As String
+        Get
+            Return "{\rtf1{\fonttbl{\f0 " & FontName & ";}}{\colortbl ;" & _
+                CS(CommentC) & CS(LinkC) & CS(MagicWordC) & CS(ExternalC) & CS(TemplateC) & CS(HtmlC) & _
+                CS(ParamCallC) & CS(ReferenceHC) & CS(ImageHC) & CS(ParameterHC) & CS(ParamNameC) & "}\f0\fs20 "
+        End Get
+    End Property
+
+    Public ReadOnly Property RtfFooter() As String
+        Get
+            Return "\par}"
+        End Get
+    End Property
+
+    Private Function CS(ByVal Color As Color) As String
+        Return "\red" & CStr(Color.R) & "\green" & CStr(Color.G) & "\blue" & CStr(Color.B) & ";"
+    End Function
+
+    Public Function RtfEscape(ByVal Text As String) As String
+        Text = Text.Replace("\", "\\").Replace("{", "\{").Replace("}", "\}").Replace(vbLf, "\par ")
+
+        Dim j As Integer = 0
+
+        While j < Text.Length
+            Dim a As Integer = AscW(Text(j))
+
+            If a > 127 Then
+                Text.Remove(j, 1)
+                Text.Insert(j, "\u" & CStr(a).PadLeft(5, "0"c) & "?")
+            End If
+
+            j += 1
+        End While
+
+        Return Text
+    End Function
+
     Class HighlightRequest
 
-        Private RtfHeader As String
-        Private RtfFooter As String = "\par}"
+        Private _Done As HighlightCallback, _Text As String, Thread As Thread
 
-        Private MagicWords() As String = {"NUMBEROFARTICLES", "PAGENAME", "FULLPAGENAME", "BASEPAGENAME", _
-            "TALKPAGENAME", "NAMESPACE", "CURRENTMONTH", "CURRENTMONTHNAME", "CURRENTDAY", "CURRENTDAY2", _
-            "CURRENTYEAR", "CURRENTMONTHNAMEGEN", "SUBPAGENAME"}
+        Private MagicWords() As String = {"ARTICLEPAGENAME", "ARTICLEPAGENAMEE", "ARTICLESPACE", "ARTICLESPACEE", _
+            "BASEPAGENAME", "BASEPAGENAMEE", "CONTENTLANGUAGE", "CURRENTDAY", "CURRENTDAY2", "CURRENTDAYNAME", _
+            "CURRENTDOW", "CURRENTHOUR", "CURRENTMONTH", "CURRENTMONTHABBREV", "CURRENTMONTHNAME", _
+            "CURRENTMONTHNAMEGEN", "CURRENTTIME", "CURRENTTIMESTAMP", "CURRENTVERSION", "CURRENTWEEK", "CURRENTYEAR", _
+            "DIRMARK", "DIRECTIONMARK", "DISPLAYTITLE", "FULLPAGENAME", "FULLPAGENAMEE", "LOCALDAY", "LOCALDAY2", _
+            "LOCALDAYNAME", "LOCALDOW", "LOCALHOUR", "LOCALMONTH", "LOCALMONTHABBREV", "LOCALMONTHNAME", _
+            "LOCALMONTHNAMEGEN", "LOCALTIME", "LOCALTIMESTAMP", "LOCALWEEK", "LOCALYEAR", "NAMESPACE", "NAMESPACEE", _
+            "NUMBEROFADMINS", "NUMBEROFARTICLES", "NUMBEROFEDITS", "NUMBEROFFILES", "NUMBEROFUSERS", "PAGENAME", _
+            "PAGENAMEE", "PAGESINCAT", "PAGESINCATEGORY", "REVISIONID", "REVISIONDAY", "REVISIONDAY", "REVISIONMONTH", _
+            "REVISIONTIMESTAMP", "REVISIONYEAR", "SITENAME", "SCRIPTPATH", "SERVER", "SERVERNAME", "SUBJECTSPACE", _
+            "SUBJECTSPACEE", "SUBPAGENAME", "SUBPAGENAMEE", "TALKPAGENAME", "TALKPAGENAMEE", "TALKSPACE", _
+            "TALKSPACEE", "anchorencode", "filepath", "formatnum", "fullurl", "fullurle", "grammar", "int", "lc", _
+            "lcfirst", "localurl", "localurle", "msg", "msgnw", "ns", "raw", "padleft", "padright", "plural", "uc", _
+            "ucfirst"}
 
-        Private _Done As HighlightCallback
-        Private _Text As String
+        Private Directives() As String = {"#REDIRECT", "__FORCETOC__", "__HIDDENCAT__", "__NEWSECTIONLINK__", _
+            "__NOCC__", "__NOCONTENTCONVERT__", "__NOEDITSECTION__", "__NOGALLERY__", "__NOTC__", _
+            "__NOTITLECONVERT__", "__NOTOC__", "__STATICREDIRECT__", "__TOC__"}
 
-        Delegate Sub HighlightCallback(ByVal Result As String)
+        Public Delegate Sub HighlightCallback(ByVal Result As String)
+        Public Timeout As Integer = 0
 
         Private Class TemplateData
 
@@ -42,21 +91,17 @@ Module Highlight
 
         End Class
 
-        Private Function CS(ByVal Color As Color) As String
-            Return "\red" & CStr(Color.R) & "\green" & CStr(Color.G) & "\blue" & CStr(Color.B) & ";"
-        End Function
-
         Public Sub Start(ByVal Text As String, ByVal Done As HighlightCallback)
             _Done = Done
             _Text = Text
 
-            RtfHeader = "{\rtf1{\fonttbl{\f0 " & FontName & ";}}{\colortbl ;" & _
-                CS(CommentC) & CS(LinkC) & CS(MagicWordC) & CS(ExternalC) & CS(TemplateC) & CS(HtmlC) & _
-                CS(ParamCallC) & CS(ReferenceHC) & CS(ImageHC) & CS(ParameterHC) & CS(ParamNameC) & "}\f0\fs20 "
+            Thread = New Thread(AddressOf HighlightThread)
+            Thread.IsBackground = True
+            Thread.Start()
+        End Sub
 
-            Dim NewThread As New Thread(AddressOf HighlightThread)
-            NewThread.IsBackground = True
-            NewThread.Start()
+        Public Sub Cancel()
+            Thread.Abort()
         End Sub
 
         Private Sub HighlightThread()
@@ -67,6 +112,10 @@ Module Highlight
             Dim Source As New StringBuilder(_Text, _Text.Length * 3)
 
             Source.Replace("\", "\\").Replace("{", "\{").Replace("}", "\}")
+
+            For Each Item As String In Directives
+                Source = Source.Replace(Item, "{\cf3 " & Item & "}")
+            Next Item
 
             While True
                 Dim Str As String = Source.ToString
@@ -525,7 +574,9 @@ Module Highlight
 
             Dim Params As String() = Data.Text.Split("|"c)
 
-            If Params(0).StartsWith("DEFAULTSORT:") OrElse (Params(0).Contains("#") AndAlso Params(0).Contains(":")) Then
+            If Params(0).Contains(":") AndAlso (Params(0).Contains("#") OrElse Array.IndexOf(MagicWords, _
+                Params(0).Substring(0, Params(0).IndexOf(":"))) > -1) Then
+
                 Params(0) = "{\cf3\b " & Params(0).Replace(":", "\cf0 :") & "}"
 
             ElseIf Array.IndexOf(MagicWords, Params(0)) > -1 Then

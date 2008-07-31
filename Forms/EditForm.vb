@@ -5,70 +5,9 @@ Class EditForm
     Public Page As Page
 
     Private Declare Function LockWindowUpdate Lib "user32" (ByVal hWnd As IntPtr) As Integer
-    Private PreviewCurrent, SettingText, Undoing As Boolean
-
-    'RichTextBox has a built-in undo stack, but setting the contents directly clears it
-    'Thus we need to use our own, in order that syntax highlighting can be done
-
-    Private UndoItems As New List(Of UndoItem)
-    Private UndoIndex As Integer = -1
-
-    Private Function CanUndo() As Boolean
-        Return (UndoIndex > 0)
-    End Function
-
-    Private Function CanRedo() As Boolean
-        Return (UndoIndex > 0 AndAlso UndoIndex < UndoItems.Count - 1)
-    End Function
-
-    Private Sub Undo()
-        UndoIndex -= 1
-        Undoing = True
-        PageText.Text = UndoItems(UndoIndex).Text
-        Undoing = False
-    End Sub
-
-    Private Sub Redo()
-        UndoIndex += 1
-        Undoing = True
-        PageText.Text = UndoItems(UndoIndex).Text
-        Undoing = False
-    End Sub
-
-    Private Function UndoActionName() As String
-        Return UndoItems(UndoIndex).ActionName
-    End Function
-
-    Private Function RedoActionName() As String
-        Return UndoItems(UndoIndex).ActionName
-    End Function
-
-    Private Sub AddUndoItem(ByVal Text As String, ByVal ActionName As String)
-        While UndoItems.Count > UndoIndex + 1
-            UndoItems.RemoveAt(UndoIndex + 1)
-        End While
-
-        Dim NewItem As New Undoitem
-        NewItem.Text = Text
-        NewItem.ActionName = ActionName
-        UndoItems.Add(NewItem)
-        UndoIndex += 1
-    End Sub
-
-    Private Sub ModifyUndoItem(ByVal Text As String)
-        While UndoItems.Count > UndoIndex + 1
-            UndoItems.RemoveAt(UndoIndex + 1)
-        End While
-
-        UndoItems(UndoIndex).Text = Text
-    End Sub
-
-    Private Class UndoItem
-
-        Public Text As String
-        Public ActionName As String
-
-    End Class
+    Private WithEvents Timer As New Timer
+    Private HighlightTimeout As Integer = 2000
+    Private PreviewCurrent, SettingText, Undoing As Boolean, CurrentRequest As HighlightRequest
 
     Private Sub EditForm_Load() Handles Me.Load
         Icon = My.Resources.icon_red_button
@@ -87,6 +26,8 @@ Class EditForm
             End If
         Next Item
 
+        PageText.Rtf = Highlight.RtfHeader & Highlight.RtfFooter
+
         Dim NewGetTextRequest As New GetTextRequest
         NewGetTextRequest.Page = Page
         NewGetTextRequest.Start(AddressOf GotText)
@@ -97,10 +38,12 @@ Class EditForm
     End Sub
 
     Private Sub EditForm_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles MyBase.KeyDown
-        If e.KeyCode = Keys.Escape Then
-            DialogResult = DialogResult.Cancel
-            Close()
-        End If
+        Select Case e.KeyCode
+            Case Keys.Escape : Close()
+            Case Keys.F : If e.Modifiers = Keys.Control Then EditFind_Click()
+            Case Keys.F6 : ViewSyntaxColoring_Click()
+            Case Keys.S : If e.Modifiers = Keys.Control Then SavePage()
+        End Select
     End Sub
 
     Private Sub GotText(ByVal Result As Boolean, ByVal Text As String)
@@ -112,8 +55,6 @@ Class EditForm
             Minor.Enabled = True
             Watch.Enabled = True
             Save.Enabled = True
-            UndoItems.Clear()
-            AddUndoItem(Text, "")
             SettingText = True
             PageText.Text = Text
             DoHighlight()
@@ -211,8 +152,11 @@ Class EditForm
 
     Private Sub DoHighlight()
         If ViewSyntaxColoring.Checked Then
-            Dim NewHighlightRequest As New HighlightRequest
-            NewHighlightRequest.Start(PageText.Text, AddressOf HighlightDone)
+            Timer.Interval = HighlightTimeout
+            Timer.Start()
+
+            CurrentRequest = New HighlightRequest
+            CurrentRequest.Start(PageText.Text, AddressOf HighlightDone)
         End If
     End Sub
 
@@ -222,6 +166,8 @@ Class EditForm
     End Sub
 
     Private Sub HighlightDone(ByVal Result As String)
+        Timer.Stop()
+
         Dim Pos As Integer = PageText.SelectionStart
         Dim Length As Integer = PageText.SelectionLength
         Dim StartOfLowestLine As Integer = PageText.GetFirstCharIndexFromLine(PageText.GetLineFromCharIndex _
@@ -238,21 +184,7 @@ Class EditForm
         LockWindowUpdate(IntPtr.Zero)
     End Sub
 
-    'Private Sub Apply_Click()
-    '    Cancel.Text = "Close"
-
-    '    Dim NewEditRequest As New EditRequest
-    '    NewEditRequest.Minor = Minor.Checked
-    '    NewEditRequest.Watch = Watch.Checked
-    '    NewEditRequest.Summary = Summary.Text
-    '    NewEditRequest.Page = Page
-    '    NewEditRequest.Text = PageText.Text
-    '    NewEditRequest.Start()
-    'End Sub
-
-    Private Sub Preview_Navigating(ByVal s As Object, ByVal e As WebBrowserNavigatingEventArgs) _
-        Handles Preview.Navigating
-
+    Private Sub Preview_Navigating(ByVal s As Object, ByVal e As WebBrowserNavigatingEventArgs) Handles Preview.Navigating
         e.Cancel = (e.Url.ToString <> "about:blank")
     End Sub
 
@@ -295,9 +227,19 @@ Class EditForm
     End Sub
 
     Private Sub ViewSyntaxColoring_Click() Handles ViewSyntaxColoring.Click
-        If ViewSyntaxColoring.Checked _
-            Then DoHighlight() _
-            Else PageText.Text = PageText.Text
+        If ViewSyntaxColoring.Checked Then
+            DoHighlight()
+        Else
+            SettingText = True
+
+            Dim Source As String = PageText.Text
+            Source = Highlight.RtfEscape(Source)
+            Source = Highlight.RtfHeader & Source
+            Source &= Highlight.RtfFooter
+            PageText.Rtf = Source
+
+            SettingText = False
+        End If
     End Sub
 
     Private Sub PageText_SelectionChanged() Handles PageText.SelectionChanged
@@ -343,5 +285,143 @@ Class EditForm
     Private Sub EditSelectAll_Click() Handles EditSelectAll.Click
         PageText.SelectAll()
     End Sub
+
+    Private Sub EditFind_Click() Handles EditFind.Click
+        Find.Focus()
+    End Sub
+
+    Private Sub Timer_Tick() Handles Timer.Tick
+        ViewSyntaxColoring.Checked = False
+        CurrentRequest.Cancel()
+        Timer.Stop()
+    End Sub
+
+    Private Sub FindText_TextChanged() Handles Find.TextChanged
+        Dim Index As Integer = -1
+
+        If Find.Text.Length > 0 Then
+            Index = PageText.Text.IndexOf(Find.Text, PageText.SelectionStart, _
+                If(MatchCase.Checked, StringComparison.Ordinal, StringComparison.OrdinalIgnoreCase))
+
+            If Index = -1 Then Index = PageText.Text.IndexOf(Find.Text)
+            If Index > -1 Then FindInfo.Text = ""
+        Else
+            FindInfo.Text = ""
+        End If
+
+        FindNext.Enabled = (Find.Text.Length > 0)
+        FindPrevious.Enabled = (Find.Text.Length > 0)
+        ShowFindResult(Index)
+    End Sub
+
+    Private Sub FindNext_Click() Handles FindNext.Click
+        Dim Index As Integer = PageText.Text.IndexOf(Find.Text, PageText.SelectionStart + 1, _
+            If(MatchCase.Checked, StringComparison.Ordinal, StringComparison.OrdinalIgnoreCase))
+
+        If Index = -1 Then
+            Index = PageText.Text.IndexOf(Find.Text)
+            If Index > -1 Then FindInfo.Text = "Reached end of page, continued from top"
+        Else
+            FindInfo.Text = ""
+        End If
+
+        ShowFindResult(Index)
+    End Sub
+
+    Private Sub FindPrevious_Click() Handles FindPrevious.Click
+        Dim Index As Integer = PageText.Text.LastIndexOf(Find.Text, _
+            If(PageText.SelectionStart = 0, PageText.Text.Length - 1, PageText.SelectionStart - 1), _
+            If(MatchCase.Checked, StringComparison.Ordinal, StringComparison.OrdinalIgnoreCase))
+
+        If Index = -1 Then
+            Index = PageText.Text.LastIndexOf(Find.Text)
+            If Index > -1 Then FindInfo.Text = "Reached top of page, continued from end"
+        Else
+            FindInfo.Text = ""
+        End If
+
+        ShowFindResult(Index)
+    End Sub
+
+    Private Sub ShowFindResult(ByVal Index As Integer)
+        If Index = -1 Then PageText.Select(0, 0) Else PageText.Select(Index, Find.Text.Length)
+
+        If Find.Text.Length = 0 Or Index > -1 Then
+            Find.BackColor = Color.FromKnownColor(KnownColor.Window)
+            Find.ForeColor = Color.FromKnownColor(KnownColor.WindowText)
+        Else
+            FindInfo.Text = "Phrase not found"
+            Find.BackColor = Color.LightCoral
+            Find.ForeColor = Color.White
+        End If
+    End Sub
+
+    'RichTextBox has a built-in undo stack, but setting the contents directly clears it
+    'Thus we need to use our own, in order that syntax highlighting can be done
+
+    Private UndoItems As New List(Of UndoItem), UndoIndex As Integer = -1
+
+    Private Function CanUndo() As Boolean
+        Return (UndoIndex > 0)
+    End Function
+
+    Private Function CanRedo() As Boolean
+        Return (UndoIndex > 0 AndAlso UndoIndex < UndoItems.Count - 1)
+    End Function
+
+    Private Sub Undo()
+        UndoIndex -= 1
+        Undoing = True
+        PageText.Text = UndoItems(UndoIndex).Text
+        Undoing = False
+    End Sub
+
+    Private Sub Redo()
+        UndoIndex += 1
+        Undoing = True
+        PageText.Text = UndoItems(UndoIndex).Text
+        Undoing = False
+    End Sub
+
+    Private Function UndoActionName() As String
+        If UndoIndex > UndoItems.Count - 1 Then UndoIndex = UndoItems.Count - 1
+        Return UndoItems(UndoIndex).ActionName
+    End Function
+
+    Private Function RedoActionName() As String
+        If UndoIndex > UndoItems.Count - 1 Then
+            UndoIndex = UndoItems.Count - 1
+            Return Nothing
+        End If
+
+        Return UndoItems(UndoIndex + 1).ActionName
+    End Function
+
+    Private Sub AddUndoItem(ByVal Text As String, ByVal ActionName As String)
+        While UndoItems.Count > UndoIndex + 1
+            UndoItems.RemoveAt(UndoIndex + 1)
+        End While
+
+        Dim NewItem As New Undoitem
+        NewItem.Text = Text
+        NewItem.ActionName = ActionName
+        UndoItems.Add(NewItem)
+        UndoIndex += 1
+    End Sub
+
+    Private Sub ModifyUndoItem(ByVal Text As String)
+        While UndoItems.Count > UndoIndex + 1
+            UndoItems.RemoveAt(UndoIndex + 1)
+        End While
+
+        UndoItems(UndoIndex).Text = Text
+    End Sub
+
+    Private Class UndoItem
+
+        Public Text As String
+        Public ActionName As String
+
+    End Class
 
 End Class
