@@ -626,6 +626,7 @@ Namespace Requests
 
         Private Sub Done(ByVal O As Object)
             If State = RequestState.Cancelled Then UndoEdit(Config.WhitelistLocation) Else Complete()
+            ClosingForm.WhitelistDone()
         End Sub
 
         Private Sub Failed(ByVal O As Object)
