@@ -4,14 +4,7 @@
 
     Private Sub ExceptionForm_Load() Handles Me.Load
         Icon = My.Resources.icon_red_button
-
-        Dim StackTrace As String = Exception.StackTrace
-
-        'Extract only the useful bit of the stack trace
-        If StackTrace.Contains("   at huggle.") _
-            Then StackTrace = StackTrace.Substring(StackTrace.IndexOf("   at huggle."))
-
-        Details.Text = Exception.GetType.Name & ": " & Exception.Message & vbCrLf & StackTrace
+        Details.Text = Exception.GetType.Name & ": " & Exception.Message & vbCrLf & Exception.StackTrace
     End Sub
 
     Private Sub ContinueButton_Click() Handles ContinueButton.Click

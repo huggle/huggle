@@ -581,7 +581,7 @@ Class Main
         End If
     End Sub
 
-    Private Sub TagPage_Click() Handles PageTagB.Click
+    Private Sub TagPage_Click() Handles PageTagB.Click, PageTag.Click
         If CurrentEdit.Page IsNot Nothing Then
             Dim NewTagForm As New TagForm
 

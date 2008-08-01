@@ -47,20 +47,22 @@ Class EditForm
     End Sub
 
     Private Sub GotText(ByVal Result As Boolean, ByVal Text As String)
-        If Result Then
-            PageText.Focus()
-            WaitMessage.Visible = False
-            PageText.Enabled = True
-            Summary.Enabled = True
-            Minor.Enabled = True
-            Watch.Enabled = True
-            Save.Enabled = True
-            SettingText = True
-            PageText.Text = Text
-            DoHighlight()
-            SettingText = False
-        Else
-            WaitMessage.Text = "Failed to retrieve page text"
+        If Visible Then
+            If Result Then
+                PageText.Focus()
+                WaitMessage.Visible = False
+                PageText.Enabled = True
+                Summary.Enabled = True
+                Minor.Enabled = True
+                Watch.Enabled = True
+                Save.Enabled = True
+                SettingText = True
+                PageText.Text = Text
+                DoHighlight()
+                SettingText = False
+            Else
+                WaitMessage.Text = "Failed to retrieve page text"
+            End If
         End If
     End Sub
 
@@ -346,7 +348,13 @@ Class EditForm
     End Sub
 
     Private Sub ShowFindResult(ByVal Index As Integer)
-        If Index = -1 Then PageText.Select(0, 0) Else PageText.Select(Index, Find.Text.Length)
+        If Index = -1 Then
+            PageText.Select(0, 0)
+            ReplaceB.Enabled = False
+        Else
+            PageText.Select(Index, Find.Text.Length)
+            ReplaceB.Enabled = True
+        End If
 
         If Find.Text.Length = 0 Or Index > -1 Then
             Find.BackColor = Color.FromKnownColor(KnownColor.Window)
@@ -421,19 +429,6 @@ Class EditForm
         End While
 
         UndoItems(UndoIndex).Text = Text
-    End Sub
-
-    Private Sub Tabs_Click() Handles Tabs.Click
-
-        Dim isEditTab As Boolean = (Tabs.SelectedTab.Name = "EditTab")
-
-        ReplaceB.Enabled = isEditTab
-        Find.Enabled = isEditTab
-        Replace.Enabled = isEditTab
-        MatchCase.Enabled = isEditTab
-        FindLabel.Enabled = isEditTab
-        ReplaceLabel.Enabled = isEditTab
-
     End Sub
 
     Private Class UndoItem

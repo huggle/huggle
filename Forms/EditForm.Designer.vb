@@ -31,6 +31,16 @@ Partial Class EditForm
         Me.Cancel = New System.Windows.Forms.Button
         Me.Tabs = New System.Windows.Forms.TabControl
         Me.EditTab = New System.Windows.Forms.TabPage
+        Me.FindGroup = New System.Windows.Forms.GroupBox
+        Me.ReplaceB = New System.Windows.Forms.Button
+        Me.ReplaceLabel = New System.Windows.Forms.Label
+        Me.Replace = New System.Windows.Forms.TextBox
+        Me.FindInfo = New System.Windows.Forms.Label
+        Me.MatchCase = New System.Windows.Forms.CheckBox
+        Me.FindPrevious = New System.Windows.Forms.Button
+        Me.FindNext = New System.Windows.Forms.Button
+        Me.Find = New System.Windows.Forms.TextBox
+        Me.FindLabel = New System.Windows.Forms.Label
         Me.WaitMessage = New System.Windows.Forms.Label
         Me.PageText = New System.Windows.Forms.RichTextBox
         Me.EditStrip = New System.Windows.Forms.ContextMenuStrip(Me.components)
@@ -48,16 +58,6 @@ Partial Class EditForm
         Me.EditMenu = New System.Windows.Forms.ToolStripMenuItem
         Me.PreviewTab = New System.Windows.Forms.TabPage
         Me.Preview = New System.Windows.Forms.WebBrowser
-        Me.FindGroup = New System.Windows.Forms.GroupBox
-        Me.ReplaceB = New System.Windows.Forms.Button
-        Me.ReplaceLabel = New System.Windows.Forms.Label
-        Me.Replace = New System.Windows.Forms.TextBox
-        Me.FindInfo = New System.Windows.Forms.Label
-        Me.MatchCase = New System.Windows.Forms.CheckBox
-        Me.FindPrevious = New System.Windows.Forms.Button
-        Me.FindNext = New System.Windows.Forms.Button
-        Me.Find = New System.Windows.Forms.TextBox
-        Me.FindLabel = New System.Windows.Forms.Label
         Me.KeystrokeTimer = New System.Windows.Forms.Timer(Me.components)
         Me.MenuBar = New System.Windows.Forms.MenuStrip
         Me.PageMenu = New System.Windows.Forms.ToolStripMenuItem
@@ -69,9 +69,9 @@ Partial Class EditForm
         Me.ViewSyntaxColoring = New System.Windows.Forms.ToolStripMenuItem
         Me.Tabs.SuspendLayout()
         Me.EditTab.SuspendLayout()
+        Me.FindGroup.SuspendLayout()
         Me.EditStrip.SuspendLayout()
         Me.PreviewTab.SuspendLayout()
-        Me.FindGroup.SuspendLayout()
         Me.MenuBar.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -152,21 +152,127 @@ Partial Class EditForm
         Me.Tabs.Location = New System.Drawing.Point(3, 27)
         Me.Tabs.Name = "Tabs"
         Me.Tabs.SelectedIndex = 0
-        Me.Tabs.Size = New System.Drawing.Size(775, 369)
+        Me.Tabs.Size = New System.Drawing.Size(775, 413)
         Me.Tabs.SizeMode = System.Windows.Forms.TabSizeMode.Fixed
         Me.Tabs.TabIndex = 0
         '
         'EditTab
         '
+        Me.EditTab.Controls.Add(Me.FindGroup)
         Me.EditTab.Controls.Add(Me.WaitMessage)
         Me.EditTab.Controls.Add(Me.PageText)
         Me.EditTab.Location = New System.Drawing.Point(4, 24)
         Me.EditTab.Name = "EditTab"
         Me.EditTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.EditTab.Size = New System.Drawing.Size(767, 341)
+        Me.EditTab.Size = New System.Drawing.Size(767, 385)
         Me.EditTab.TabIndex = 0
         Me.EditTab.Text = "Edit"
         Me.EditTab.UseVisualStyleBackColor = True
+        '
+        'FindGroup
+        '
+        Me.FindGroup.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.FindGroup.Controls.Add(Me.ReplaceB)
+        Me.FindGroup.Controls.Add(Me.ReplaceLabel)
+        Me.FindGroup.Controls.Add(Me.Replace)
+        Me.FindGroup.Controls.Add(Me.FindInfo)
+        Me.FindGroup.Controls.Add(Me.MatchCase)
+        Me.FindGroup.Controls.Add(Me.FindPrevious)
+        Me.FindGroup.Controls.Add(Me.FindNext)
+        Me.FindGroup.Controls.Add(Me.Find)
+        Me.FindGroup.Controls.Add(Me.FindLabel)
+        Me.FindGroup.Location = New System.Drawing.Point(6, 337)
+        Me.FindGroup.Name = "FindGroup"
+        Me.FindGroup.Size = New System.Drawing.Size(755, 42)
+        Me.FindGroup.TabIndex = 2
+        Me.FindGroup.TabStop = False
+        '
+        'ReplaceB
+        '
+        Me.ReplaceB.Enabled = False
+        Me.ReplaceB.Location = New System.Drawing.Point(674, 12)
+        Me.ReplaceB.Name = "ReplaceB"
+        Me.ReplaceB.Size = New System.Drawing.Size(75, 23)
+        Me.ReplaceB.TabIndex = 8
+        Me.ReplaceB.Text = "Replace all"
+        Me.ReplaceB.UseVisualStyleBackColor = True
+        '
+        'ReplaceLabel
+        '
+        Me.ReplaceLabel.AutoSize = True
+        Me.ReplaceLabel.Location = New System.Drawing.Point(452, 17)
+        Me.ReplaceLabel.Name = "ReplaceLabel"
+        Me.ReplaceLabel.Size = New System.Drawing.Size(50, 13)
+        Me.ReplaceLabel.TabIndex = 7
+        Me.ReplaceLabel.Text = "Replace:"
+        '
+        'Replace
+        '
+        Me.Replace.BackColor = System.Drawing.SystemColors.Window
+        Me.Replace.ForeColor = System.Drawing.SystemColors.WindowText
+        Me.Replace.Location = New System.Drawing.Point(508, 14)
+        Me.Replace.Name = "Replace"
+        Me.Replace.Size = New System.Drawing.Size(160, 20)
+        Me.Replace.TabIndex = 6
+        '
+        'FindInfo
+        '
+        Me.FindInfo.AutoSize = True
+        Me.FindInfo.Location = New System.Drawing.Point(477, 17)
+        Me.FindInfo.Name = "FindInfo"
+        Me.FindInfo.Size = New System.Drawing.Size(10, 13)
+        Me.FindInfo.TabIndex = 5
+        Me.FindInfo.Text = " "
+        Me.FindInfo.Visible = False
+        '
+        'MatchCase
+        '
+        Me.MatchCase.AutoSize = True
+        Me.MatchCase.Location = New System.Drawing.Point(367, 16)
+        Me.MatchCase.Name = "MatchCase"
+        Me.MatchCase.Size = New System.Drawing.Size(82, 17)
+        Me.MatchCase.TabIndex = 4
+        Me.MatchCase.Text = "Match case"
+        Me.MatchCase.UseVisualStyleBackColor = True
+        '
+        'FindPrevious
+        '
+        Me.FindPrevious.Enabled = False
+        Me.FindPrevious.Location = New System.Drawing.Point(294, 12)
+        Me.FindPrevious.Name = "FindPrevious"
+        Me.FindPrevious.Size = New System.Drawing.Size(63, 23)
+        Me.FindPrevious.TabIndex = 3
+        Me.FindPrevious.Text = "Previous"
+        Me.FindPrevious.UseVisualStyleBackColor = True
+        '
+        'FindNext
+        '
+        Me.FindNext.Enabled = False
+        Me.FindNext.Location = New System.Drawing.Point(225, 12)
+        Me.FindNext.Name = "FindNext"
+        Me.FindNext.Size = New System.Drawing.Size(63, 23)
+        Me.FindNext.TabIndex = 2
+        Me.FindNext.Text = "Next"
+        Me.FindNext.UseVisualStyleBackColor = True
+        '
+        'Find
+        '
+        Me.Find.BackColor = System.Drawing.SystemColors.Window
+        Me.Find.ForeColor = System.Drawing.SystemColors.WindowText
+        Me.Find.Location = New System.Drawing.Point(50, 14)
+        Me.Find.Name = "Find"
+        Me.Find.Size = New System.Drawing.Size(169, 20)
+        Me.Find.TabIndex = 1
+        '
+        'FindLabel
+        '
+        Me.FindLabel.AutoSize = True
+        Me.FindLabel.Location = New System.Drawing.Point(14, 17)
+        Me.FindLabel.Name = "FindLabel"
+        Me.FindLabel.Size = New System.Drawing.Size(30, 13)
+        Me.FindLabel.TabIndex = 0
+        Me.FindLabel.Text = "Find:"
         '
         'WaitMessage
         '
@@ -177,7 +283,7 @@ Partial Class EditForm
         Me.WaitMessage.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.WaitMessage.Location = New System.Drawing.Point(6, 8)
         Me.WaitMessage.Name = "WaitMessage"
-        Me.WaitMessage.Size = New System.Drawing.Size(755, 327)
+        Me.WaitMessage.Size = New System.Drawing.Size(755, 326)
         Me.WaitMessage.TabIndex = 1
         Me.WaitMessage.Text = " "
         Me.WaitMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -201,46 +307,46 @@ Partial Class EditForm
         Me.EditStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EditUndo, Me.EditRedo, Me.Separator1, Me.EditCut, Me.EditCopy, Me.EditPaste, Me.EditDelete, Me.Separator3, Me.EditSelectAll, Me.Separator4, Me.EditFind})
         Me.EditStrip.Name = "ContextMenu"
         Me.EditStrip.OwnerItem = Me.EditMenu
-        Me.EditStrip.Size = New System.Drawing.Size(129, 198)
+        Me.EditStrip.Size = New System.Drawing.Size(118, 198)
         '
         'EditUndo
         '
         Me.EditUndo.Enabled = False
         Me.EditUndo.Name = "EditUndo"
-        Me.EditUndo.Size = New System.Drawing.Size(128, 22)
+        Me.EditUndo.Size = New System.Drawing.Size(117, 22)
         Me.EditUndo.Text = "Undo"
         '
         'EditRedo
         '
         Me.EditRedo.Enabled = False
         Me.EditRedo.Name = "EditRedo"
-        Me.EditRedo.Size = New System.Drawing.Size(128, 22)
+        Me.EditRedo.Size = New System.Drawing.Size(117, 22)
         Me.EditRedo.Text = "Redo"
         '
         'Separator1
         '
         Me.Separator1.Name = "Separator1"
-        Me.Separator1.Size = New System.Drawing.Size(125, 6)
+        Me.Separator1.Size = New System.Drawing.Size(114, 6)
         '
         'EditCut
         '
         Me.EditCut.Enabled = False
         Me.EditCut.Name = "EditCut"
-        Me.EditCut.Size = New System.Drawing.Size(128, 22)
+        Me.EditCut.Size = New System.Drawing.Size(117, 22)
         Me.EditCut.Text = "Cut"
         '
         'EditCopy
         '
         Me.EditCopy.Enabled = False
         Me.EditCopy.Name = "EditCopy"
-        Me.EditCopy.Size = New System.Drawing.Size(128, 22)
+        Me.EditCopy.Size = New System.Drawing.Size(117, 22)
         Me.EditCopy.Text = "Copy"
         '
         'EditPaste
         '
         Me.EditPaste.Enabled = False
         Me.EditPaste.Name = "EditPaste"
-        Me.EditPaste.Size = New System.Drawing.Size(128, 22)
+        Me.EditPaste.Size = New System.Drawing.Size(117, 22)
         Me.EditPaste.Text = "Paste"
         '
         'EditDelete
@@ -248,29 +354,29 @@ Partial Class EditForm
         Me.EditDelete.Enabled = False
         Me.EditDelete.Name = "EditDelete"
         Me.EditDelete.ShortcutKeyDisplayString = ""
-        Me.EditDelete.Size = New System.Drawing.Size(128, 22)
+        Me.EditDelete.Size = New System.Drawing.Size(117, 22)
         Me.EditDelete.Text = "Delete"
         '
         'Separator3
         '
         Me.Separator3.Name = "Separator3"
-        Me.Separator3.Size = New System.Drawing.Size(125, 6)
+        Me.Separator3.Size = New System.Drawing.Size(114, 6)
         '
         'EditSelectAll
         '
         Me.EditSelectAll.Name = "EditSelectAll"
-        Me.EditSelectAll.Size = New System.Drawing.Size(128, 22)
+        Me.EditSelectAll.Size = New System.Drawing.Size(117, 22)
         Me.EditSelectAll.Text = "Select All"
         '
         'Separator4
         '
         Me.Separator4.Name = "Separator4"
-        Me.Separator4.Size = New System.Drawing.Size(125, 6)
+        Me.Separator4.Size = New System.Drawing.Size(114, 6)
         '
         'EditFind
         '
         Me.EditFind.Name = "EditFind"
-        Me.EditFind.Size = New System.Drawing.Size(128, 22)
+        Me.EditFind.Size = New System.Drawing.Size(117, 22)
         Me.EditFind.Text = "Find"
         '
         'EditMenu
@@ -286,7 +392,7 @@ Partial Class EditForm
         Me.PreviewTab.Location = New System.Drawing.Point(4, 24)
         Me.PreviewTab.Name = "PreviewTab"
         Me.PreviewTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.PreviewTab.Size = New System.Drawing.Size(773, 344)
+        Me.PreviewTab.Size = New System.Drawing.Size(767, 385)
         Me.PreviewTab.TabIndex = 1
         Me.PreviewTab.Text = "Preview"
         Me.PreviewTab.UseVisualStyleBackColor = True
@@ -300,112 +406,9 @@ Partial Class EditForm
         Me.Preview.MinimumSize = New System.Drawing.Size(20, 20)
         Me.Preview.Name = "Preview"
         Me.Preview.ScriptErrorsSuppressed = True
-        Me.Preview.Size = New System.Drawing.Size(767, 338)
+        Me.Preview.Size = New System.Drawing.Size(761, 379)
         Me.Preview.TabIndex = 0
         Me.Preview.WebBrowserShortcutsEnabled = False
-        '
-        'FindGroup
-        '
-        Me.FindGroup.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.FindGroup.Controls.Add(Me.ReplaceB)
-        Me.FindGroup.Controls.Add(Me.ReplaceLabel)
-        Me.FindGroup.Controls.Add(Me.Replace)
-        Me.FindGroup.Controls.Add(Me.FindInfo)
-        Me.FindGroup.Controls.Add(Me.MatchCase)
-        Me.FindGroup.Controls.Add(Me.FindPrevious)
-        Me.FindGroup.Controls.Add(Me.FindNext)
-        Me.FindGroup.Controls.Add(Me.Find)
-        Me.FindGroup.Controls.Add(Me.FindLabel)
-        Me.FindGroup.Location = New System.Drawing.Point(7, 397)
-        Me.FindGroup.Name = "FindGroup"
-        Me.FindGroup.Size = New System.Drawing.Size(767, 42)
-        Me.FindGroup.TabIndex = 1
-        Me.FindGroup.TabStop = False
-        '
-        'ReplaceB
-        '
-        Me.ReplaceB.Location = New System.Drawing.Point(683, 11)
-        Me.ReplaceB.Name = "ReplaceB"
-        Me.ReplaceB.Size = New System.Drawing.Size(75, 23)
-        Me.ReplaceB.TabIndex = 8
-        Me.ReplaceB.Text = "Replace all"
-        Me.ReplaceB.UseVisualStyleBackColor = True
-        '
-        'ReplaceLabel
-        '
-        Me.ReplaceLabel.AutoSize = True
-        Me.ReplaceLabel.Location = New System.Drawing.Point(452, 16)
-        Me.ReplaceLabel.Name = "ReplaceLabel"
-        Me.ReplaceLabel.Size = New System.Drawing.Size(50, 13)
-        Me.ReplaceLabel.TabIndex = 7
-        Me.ReplaceLabel.Text = "Replace:"
-        '
-        'Replace
-        '
-        Me.Replace.BackColor = System.Drawing.SystemColors.Window
-        Me.Replace.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.Replace.Location = New System.Drawing.Point(508, 13)
-        Me.Replace.Name = "Replace"
-        Me.Replace.Size = New System.Drawing.Size(169, 20)
-        Me.Replace.TabIndex = 6
-        '
-        'FindInfo
-        '
-        Me.FindInfo.AutoSize = True
-        Me.FindInfo.Location = New System.Drawing.Point(477, 16)
-        Me.FindInfo.Name = "FindInfo"
-        Me.FindInfo.Size = New System.Drawing.Size(10, 13)
-        Me.FindInfo.TabIndex = 5
-        Me.FindInfo.Text = " "
-        '
-        'MatchCase
-        '
-        Me.MatchCase.AutoSize = True
-        Me.MatchCase.Location = New System.Drawing.Point(367, 15)
-        Me.MatchCase.Name = "MatchCase"
-        Me.MatchCase.Size = New System.Drawing.Size(82, 17)
-        Me.MatchCase.TabIndex = 4
-        Me.MatchCase.Text = "Match case"
-        Me.MatchCase.UseVisualStyleBackColor = True
-        '
-        'FindPrevious
-        '
-        Me.FindPrevious.Enabled = False
-        Me.FindPrevious.Location = New System.Drawing.Point(294, 11)
-        Me.FindPrevious.Name = "FindPrevious"
-        Me.FindPrevious.Size = New System.Drawing.Size(63, 23)
-        Me.FindPrevious.TabIndex = 3
-        Me.FindPrevious.Text = "Previous"
-        Me.FindPrevious.UseVisualStyleBackColor = True
-        '
-        'FindNext
-        '
-        Me.FindNext.Enabled = False
-        Me.FindNext.Location = New System.Drawing.Point(225, 11)
-        Me.FindNext.Name = "FindNext"
-        Me.FindNext.Size = New System.Drawing.Size(63, 23)
-        Me.FindNext.TabIndex = 2
-        Me.FindNext.Text = "Next"
-        Me.FindNext.UseVisualStyleBackColor = True
-        '
-        'Find
-        '
-        Me.Find.BackColor = System.Drawing.SystemColors.Window
-        Me.Find.ForeColor = System.Drawing.SystemColors.WindowText
-        Me.Find.Location = New System.Drawing.Point(50, 13)
-        Me.Find.Name = "Find"
-        Me.Find.Size = New System.Drawing.Size(169, 20)
-        Me.Find.TabIndex = 1
-        '
-        'FindLabel
-        '
-        Me.FindLabel.AutoSize = True
-        Me.FindLabel.Location = New System.Drawing.Point(14, 16)
-        Me.FindLabel.Name = "FindLabel"
-        Me.FindLabel.Size = New System.Drawing.Size(30, 13)
-        Me.FindLabel.TabIndex = 0
-        Me.FindLabel.Text = "Find:"
         '
         'KeystrokeTimer
         '
@@ -431,25 +434,25 @@ Partial Class EditForm
         'PageSaveToFile
         '
         Me.PageSaveToFile.Name = "PageSaveToFile"
-        Me.PageSaveToFile.Size = New System.Drawing.Size(151, 22)
+        Me.PageSaveToFile.Size = New System.Drawing.Size(140, 22)
         Me.PageSaveToFile.Text = "Save to file..."
         '
         'Separator2
         '
         Me.Separator2.Name = "Separator2"
-        Me.Separator2.Size = New System.Drawing.Size(148, 6)
+        Me.Separator2.Size = New System.Drawing.Size(137, 6)
         '
         'PageSave
         '
         Me.PageSave.Name = "PageSave"
-        Me.PageSave.Size = New System.Drawing.Size(151, 22)
+        Me.PageSave.Size = New System.Drawing.Size(140, 22)
         Me.PageSave.Text = "Save"
         '
         'PageCancel
         '
         Me.PageCancel.Name = "PageCancel"
         Me.PageCancel.ShortcutKeyDisplayString = ""
-        Me.PageCancel.Size = New System.Drawing.Size(151, 22)
+        Me.PageCancel.Size = New System.Drawing.Size(140, 22)
         Me.PageCancel.Text = "Cancel"
         '
         'ViewMenu
@@ -465,7 +468,7 @@ Partial Class EditForm
         Me.ViewSyntaxColoring.CheckOnClick = True
         Me.ViewSyntaxColoring.CheckState = System.Windows.Forms.CheckState.Checked
         Me.ViewSyntaxColoring.Name = "ViewSyntaxColoring"
-        Me.ViewSyntaxColoring.Size = New System.Drawing.Size(159, 22)
+        Me.ViewSyntaxColoring.Size = New System.Drawing.Size(148, 22)
         Me.ViewSyntaxColoring.Text = "Syntax coloring"
         '
         'EditForm
@@ -473,7 +476,6 @@ Partial Class EditForm
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(781, 504)
-        Me.Controls.Add(Me.FindGroup)
         Me.Controls.Add(Me.MenuBar)
         Me.Controls.Add(Me.Tabs)
         Me.Controls.Add(Me.Cancel)
@@ -490,10 +492,10 @@ Partial Class EditForm
         Me.Text = "Edit"
         Me.Tabs.ResumeLayout(False)
         Me.EditTab.ResumeLayout(False)
-        Me.EditStrip.ResumeLayout(False)
-        Me.PreviewTab.ResumeLayout(False)
         Me.FindGroup.ResumeLayout(False)
         Me.FindGroup.PerformLayout()
+        Me.EditStrip.ResumeLayout(False)
+        Me.PreviewTab.ResumeLayout(False)
         Me.MenuBar.ResumeLayout(False)
         Me.MenuBar.PerformLayout()
         Me.ResumeLayout(False)
@@ -532,16 +534,16 @@ Partial Class EditForm
     Friend WithEvents EditCut As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents EditSelectAll As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents EditMenu As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents Separator4 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents EditFind As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents FindGroup As System.Windows.Forms.GroupBox
+    Friend WithEvents ReplaceB As System.Windows.Forms.Button
+    Friend WithEvents ReplaceLabel As System.Windows.Forms.Label
+    Friend WithEvents Replace As System.Windows.Forms.TextBox
+    Friend WithEvents FindInfo As System.Windows.Forms.Label
+    Friend WithEvents MatchCase As System.Windows.Forms.CheckBox
     Friend WithEvents FindPrevious As System.Windows.Forms.Button
     Friend WithEvents FindNext As System.Windows.Forms.Button
     Friend WithEvents Find As System.Windows.Forms.TextBox
     Friend WithEvents FindLabel As System.Windows.Forms.Label
-    Friend WithEvents MatchCase As System.Windows.Forms.CheckBox
-    Friend WithEvents FindInfo As System.Windows.Forms.Label
-    Friend WithEvents Separator4 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents EditFind As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ReplaceB As System.Windows.Forms.Button
-    Friend WithEvents ReplaceLabel As System.Windows.Forms.Label
-    Friend WithEvents Replace As System.Windows.Forms.TextBox
 End Class
