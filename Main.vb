@@ -935,6 +935,14 @@ Class Main
         DiffNextB.Enabled = False
     End Sub
 
+    Private Sub QueueClearAll_Click() Handles QueueClearAll.Click
+        EditQueue.Clear()
+        NewPageQueue.Clear()
+        AllEditsByTime.Clear()
+        DrawQueue()
+        DiffNextB.Enabled = False
+    End Sub
+
     Private Sub BrowserCloseOtherTabs_Click() Handles BrowserCloseOthers.Click
         If CurrentTab IsNot Nothing Then
             For Each Item As TabPage In Tabs.TabPages
@@ -1665,4 +1673,7 @@ Class Main
         End If
     End Sub
 
+    Private Sub QueueClear_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles QueueClear.Click
+
+    End Sub
 End Class

@@ -75,6 +75,7 @@ Partial Class Main
         Me.PageProd = New System.Windows.Forms.ToolStripMenuItem
         Me.PageTagSpeedy = New System.Windows.Forms.ToolStripMenuItem
         Me.Separator23 = New System.Windows.Forms.ToolStripSeparator
+        Me.PageTagDeleteB = New System.Windows.Forms.ToolStripDropDownButton
         Me.PageRequestProtection = New System.Windows.Forms.ToolStripMenuItem
         Me.Separator14 = New System.Windows.Forms.ToolStripSeparator
         Me.PageWatch = New System.Windows.Forms.ToolStripMenuItem
@@ -114,7 +115,6 @@ Partial Class Main
         Me.Separator16 = New System.Windows.Forms.ToolStripSeparator
         Me.HelpAbout = New System.Windows.Forms.ToolStripMenuItem
         Me.Stats = New System.Windows.Forms.ToolStripMenuItem
-        Me.PageTagDeleteB = New System.Windows.Forms.ToolStripDropDownButton
         Me.Splitter = New System.Windows.Forms.SplitContainer
         Me.QueueScroll = New System.Windows.Forms.VScrollBar
         Me.QueueSource = New System.Windows.Forms.ComboBox
@@ -211,6 +211,7 @@ Partial Class Main
         Me.UserReportB = New System.Windows.Forms.ToolStripButton
         Me.RateUpdateTimer = New System.Windows.Forms.Timer(Me.components)
         Me.DrawTimer = New System.Windows.Forms.Timer(Me.components)
+        Me.QueueClearAll = New System.Windows.Forms.ToolStripMenuItem
         Me.LogMenu.SuspendLayout()
         Me.TrayMenu.SuspendLayout()
         Me.TopMenu.SuspendLayout()
@@ -392,7 +393,7 @@ Partial Class Main
         'MenuQueue
         '
         Me.MenuQueue.AutoSize = False
-        Me.MenuQueue.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.QueueNext, Me.Separator1, Me.QueueEditSources, Me.QueueTrim, Me.QueueClear})
+        Me.MenuQueue.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.QueueNext, Me.Separator1, Me.QueueEditSources, Me.QueueTrim, Me.QueueClear, Me.QueueClearAll})
         Me.MenuQueue.Name = "MenuQueue"
         Me.MenuQueue.Size = New System.Drawing.Size(51, 24)
         Me.MenuQueue.Text = "&Queue"
@@ -401,30 +402,30 @@ Partial Class Main
         '
         Me.QueueNext.Name = "QueueNext"
         Me.QueueNext.ShortcutKeyDisplayString = ""
-        Me.QueueNext.Size = New System.Drawing.Size(135, 22)
+        Me.QueueNext.Size = New System.Drawing.Size(152, 22)
         Me.QueueNext.Text = "Next"
         '
         'Separator1
         '
         Me.Separator1.Name = "Separator1"
-        Me.Separator1.Size = New System.Drawing.Size(132, 6)
+        Me.Separator1.Size = New System.Drawing.Size(149, 6)
         '
         'QueueEditSources
         '
         Me.QueueEditSources.Name = "QueueEditSources"
-        Me.QueueEditSources.Size = New System.Drawing.Size(135, 22)
+        Me.QueueEditSources.Size = New System.Drawing.Size(152, 22)
         Me.QueueEditSources.Text = "Sources..."
         '
         'QueueTrim
         '
         Me.QueueTrim.Name = "QueueTrim"
-        Me.QueueTrim.Size = New System.Drawing.Size(135, 22)
+        Me.QueueTrim.Size = New System.Drawing.Size(152, 22)
         Me.QueueTrim.Text = "Trim..."
         '
         'QueueClear
         '
         Me.QueueClear.Name = "QueueClear"
-        Me.QueueClear.Size = New System.Drawing.Size(135, 22)
+        Me.QueueClear.Size = New System.Drawing.Size(152, 22)
         Me.QueueClear.Text = "Clear"
         '
         'GoToMenu
@@ -526,7 +527,7 @@ Partial Class Main
         '
         Me.TagDeleteMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PageNominate, Me.PageProd, Me.PageTagSpeedy, Me.Separator23})
         Me.TagDeleteMenu.Name = "SpeedyMenu"
-        Me.TagDeleteMenu.OwnerItem = Me.PageTagDeleteB
+        Me.TagDeleteMenu.OwnerItem = Me.PageTagDelete
         Me.TagDeleteMenu.Size = New System.Drawing.Size(201, 76)
         '
         'PageNominate
@@ -554,6 +555,18 @@ Partial Class Main
         '
         Me.Separator23.Name = "Separator23"
         Me.Separator23.Size = New System.Drawing.Size(197, 6)
+        '
+        'PageTagDeleteB
+        '
+        Me.PageTagDeleteB.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.PageTagDeleteB.DropDown = Me.TagDeleteMenu
+        Me.PageTagDeleteB.Enabled = False
+        Me.PageTagDeleteB.Image = Global.huggle.My.Resources.Resources.page_speedy
+        Me.PageTagDeleteB.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.PageTagDeleteB.Name = "PageTagDeleteB"
+        Me.PageTagDeleteB.ShowDropDownArrow = False
+        Me.PageTagDeleteB.Size = New System.Drawing.Size(32, 32)
+        Me.PageTagDeleteB.ToolTipText = "Tag this page for deletion [S]"
         '
         'PageRequestProtection
         '
@@ -812,18 +825,6 @@ Partial Class Main
         Me.Stats.Size = New System.Drawing.Size(22, 24)
         Me.Stats.Text = " "
         '
-        'PageTagDeleteB
-        '
-        Me.PageTagDeleteB.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.PageTagDeleteB.DropDown = Me.TagDeleteMenu
-        Me.PageTagDeleteB.Enabled = False
-        Me.PageTagDeleteB.Image = Global.huggle.My.Resources.Resources.page_speedy
-        Me.PageTagDeleteB.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.PageTagDeleteB.Name = "PageTagDeleteB"
-        Me.PageTagDeleteB.ShowDropDownArrow = False
-        Me.PageTagDeleteB.Size = New System.Drawing.Size(32, 32)
-        Me.PageTagDeleteB.ToolTipText = "Tag this page for deletion [S]"
-        '
         'Splitter
         '
         Me.Splitter.Dock = System.Windows.Forms.DockStyle.Fill
@@ -845,8 +846,8 @@ Partial Class Main
         '
         Me.Splitter.Panel2.Controls.Add(Me.Status)
         Me.Splitter.Panel2MinSize = 60
-        Me.Splitter.Size = New System.Drawing.Size(792, 254)
-        Me.Splitter.SplitterDistance = 163
+        Me.Splitter.Size = New System.Drawing.Size(792, 251)
+        Me.Splitter.SplitterDistance = 161
         Me.Splitter.TabIndex = 44
         '
         'QueueScroll
@@ -858,7 +859,7 @@ Partial Class Main
         Me.QueueScroll.Location = New System.Drawing.Point(160, 29)
         Me.QueueScroll.Maximum = 0
         Me.QueueScroll.Name = "QueueScroll"
-        Me.QueueScroll.Size = New System.Drawing.Size(17, 134)
+        Me.QueueScroll.Size = New System.Drawing.Size(17, 132)
         Me.QueueScroll.SmallChange = 0
         Me.QueueScroll.TabIndex = 48
         '
@@ -886,7 +887,7 @@ Partial Class Main
         Me.Queue.BackColor = System.Drawing.SystemColors.Control
         Me.Queue.Location = New System.Drawing.Point(0, 32)
         Me.Queue.Name = "Queue"
-        Me.Queue.Size = New System.Drawing.Size(162, 131)
+        Me.Queue.Size = New System.Drawing.Size(162, 129)
         Me.Queue.TabIndex = 47
         '
         'Tabs
@@ -902,7 +903,7 @@ Partial Class Main
         Me.Tabs.Name = "Tabs"
         Me.Tabs.Padding = New System.Drawing.Point(0, 0)
         Me.Tabs.SelectedIndex = 0
-        Me.Tabs.Size = New System.Drawing.Size(609, 163)
+        Me.Tabs.Size = New System.Drawing.Size(609, 161)
         Me.Tabs.SizeMode = System.Windows.Forms.TabSizeMode.Fixed
         Me.Tabs.TabIndex = 1
         '
@@ -911,7 +912,7 @@ Partial Class Main
         Me.TabPage1.Controls.Add(Me.InitialTab)
         Me.TabPage1.Location = New System.Drawing.Point(4, 5)
         Me.TabPage1.Name = "TabPage1"
-        Me.TabPage1.Size = New System.Drawing.Size(601, 154)
+        Me.TabPage1.Size = New System.Drawing.Size(601, 152)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.UseVisualStyleBackColor = True
         '
@@ -920,7 +921,7 @@ Partial Class Main
         Me.InitialTab.Dock = System.Windows.Forms.DockStyle.Fill
         Me.InitialTab.Location = New System.Drawing.Point(0, 0)
         Me.InitialTab.Name = "InitialTab"
-        Me.InitialTab.Size = New System.Drawing.Size(601, 154)
+        Me.InitialTab.Size = New System.Drawing.Size(601, 152)
         Me.InitialTab.TabIndex = 0
         '
         'Status
@@ -935,7 +936,7 @@ Partial Class Main
         Me.Status.Location = New System.Drawing.Point(0, 0)
         Me.Status.MultiSelect = False
         Me.Status.Name = "Status"
-        Me.Status.Size = New System.Drawing.Size(792, 87)
+        Me.Status.Size = New System.Drawing.Size(792, 86)
         Me.Status.TabIndex = 0
         Me.Status.UseCompatibleStateImageBehavior = False
         Me.Status.View = System.Windows.Forms.View.Details
@@ -955,13 +956,13 @@ Partial Class Main
         'ToolContainer.ContentPanel
         '
         Me.ToolContainer.ContentPanel.Controls.Add(Me.Splitter)
-        Me.ToolContainer.ContentPanel.Size = New System.Drawing.Size(792, 254)
+        Me.ToolContainer.ContentPanel.Size = New System.Drawing.Size(792, 251)
         Me.ToolContainer.Dock = System.Windows.Forms.DockStyle.Fill
         Me.ToolContainer.LeftToolStripPanelVisible = False
         Me.ToolContainer.Location = New System.Drawing.Point(0, 0)
         Me.ToolContainer.Name = "ToolContainer"
         Me.ToolContainer.RightToolStripPanelVisible = False
-        Me.ToolContainer.Size = New System.Drawing.Size(792, 428)
+        Me.ToolContainer.Size = New System.Drawing.Size(792, 425)
         Me.ToolContainer.TabIndex = 1
         Me.ToolContainer.Text = "ToolStripContainer1"
         '
@@ -1725,10 +1726,16 @@ Partial Class Main
         Me.DrawTimer.Enabled = True
         Me.DrawTimer.Interval = 1000
         '
+        'QueueClearAll
+        '
+        Me.QueueClearAll.Name = "QueueClearAll"
+        Me.QueueClearAll.Size = New System.Drawing.Size(152, 22)
+        Me.QueueClearAll.Text = "Clear all"
+        '
         'Main
         '
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
-        Me.ClientSize = New System.Drawing.Size(792, 428)
+        Me.ClientSize = New System.Drawing.Size(792, 425)
         Me.Controls.Add(Me.ToolContainer)
         Me.KeyPreview = True
         Me.MainMenuStrip = Me.TopMenu
@@ -1954,4 +1961,5 @@ Partial Class Main
     Friend WithEvents GoSeparator As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents PageSwitchTalk As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents Separator27 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents QueueClearAll As System.Windows.Forms.ToolStripMenuItem
 End Class
