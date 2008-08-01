@@ -423,6 +423,19 @@ Class EditForm
         UndoItems(UndoIndex).Text = Text
     End Sub
 
+    Private Sub Tabs_Click() Handles Tabs.Click
+
+        Dim isEditTab As Boolean = (Tabs.SelectedTab.Name = "EditTab")
+
+        ReplaceB.Enabled = isEditTab
+        Find.Enabled = isEditTab
+        Replace.Enabled = isEditTab
+        MatchCase.Enabled = isEditTab
+        FindLabel.Enabled = isEditTab
+        ReplaceLabel.Enabled = isEditTab
+
+    End Sub
+
     Private Class UndoItem
 
         Public Text As String
