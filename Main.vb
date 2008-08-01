@@ -929,12 +929,6 @@ Class Main
         End If
     End Sub
 
-    Private Sub ClearQueue_Click() Handles ClearQueue.Click
-        CurrentQueue.Clear()
-        DrawQueue()
-        DiffNextB.Enabled = False
-    End Sub
-
     Private Sub QueueClear_Click() Handles QueueClear.Click
         CurrentQueue.Clear()
         DrawQueue()
@@ -1516,8 +1510,7 @@ Class Main
         End If
     End Sub
 
-    Private Sub QueueSource_SelectedIndexChanged() _
-        Handles QueueSource.SelectedIndexChanged
+    Private Sub QueueSource_SelectedIndexChanged() Handles QueueSource.SelectedIndexChanged
 
         Select Case QueueSource.SelectedItem.ToString
             Case "Filtered changes" : CurrentQueue = EditQueue
