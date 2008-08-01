@@ -893,13 +893,9 @@ Class Main
         Handles BrowserCloseTab.Click, BrowserCloseTabB.Click
 
         Dim SelectedIndex As Integer = Tabs.SelectedIndex
-        If SelectedIndex > 0 Then Tabs.SelectedIndex = SelectedIndex - 1
+        If SelectedIndex > 0 Then Tabs.SelectedIndex = (SelectedIndex - 1)
 
-        If Tabs.TabPages.Count > 2 Then
-            Tabs.TabPages.RemoveAt(Tabs.SelectedIndex + 1)
-        ElseIf Tabs.TabPages.Count = 2 Then
-            Tabs.TabPages.RemoveAt(Tabs.SelectedIndex)
-        End If
+        Tabs.TabPages.RemoveAt(SelectedIndex)
 
         If Tabs.TabPages.Count = 1 Then
             Tabs.ItemSize = New Size(1, 1)
