@@ -118,8 +118,14 @@ Partial Class Main
         Me.Splitter = New System.Windows.Forms.SplitContainer
         Me.QueueScroll = New System.Windows.Forms.VScrollBar
         Me.QueueSource = New System.Windows.Forms.ComboBox
+        Me.EditInfo = New huggle.EditInfoPanel
+        Me.Queue = New huggle.QueuePanel
         Me.Tabs = New System.Windows.Forms.TabControl
         Me.TabPage1 = New System.Windows.Forms.TabPage
+        Me.InitialTab = New huggle.BrowserTab
+        Me.Status = New huggle.ListView2
+        Me.Url = New System.Windows.Forms.ColumnHeader
+        Me.Details = New System.Windows.Forms.ColumnHeader
         Me.ToolContainer = New System.Windows.Forms.ToolStripContainer
         Me.MainStrip = New System.Windows.Forms.ToolStrip
         Me.RevertWarnB = New System.Windows.Forms.ToolStripSplitButton
@@ -205,12 +211,6 @@ Partial Class Main
         Me.UserReportB = New System.Windows.Forms.ToolStripButton
         Me.RateUpdateTimer = New System.Windows.Forms.Timer(Me.components)
         Me.DrawTimer = New System.Windows.Forms.Timer(Me.components)
-        Me.EditInfo = New huggle.EditInfoPanel
-        Me.Queue = New huggle.QueuePanel
-        Me.InitialTab = New huggle.BrowserTab
-        Me.Status = New huggle.ListView2
-        Me.Url = New System.Windows.Forms.ColumnHeader
-        Me.Details = New System.Windows.Forms.ColumnHeader
         Me.LogMenu.SuspendLayout()
         Me.TrayMenu.SuspendLayout()
         Me.TopMenu.SuspendLayout()
@@ -526,7 +526,7 @@ Partial Class Main
         '
         Me.TagDeleteMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PageNominate, Me.PageProd, Me.PageTagSpeedy, Me.Separator23})
         Me.TagDeleteMenu.Name = "SpeedyMenu"
-        Me.TagDeleteMenu.OwnerItem = Me.PageTagDelete
+        Me.TagDeleteMenu.OwnerItem = Me.PageTagDeleteB
         Me.TagDeleteMenu.Size = New System.Drawing.Size(201, 76)
         '
         'PageNominate
@@ -709,6 +709,7 @@ Partial Class Main
         '
         'BrowserCloseTab
         '
+        Me.BrowserCloseTab.Enabled = False
         Me.BrowserCloseTab.Name = "BrowserCloseTab"
         Me.BrowserCloseTab.ShortcutKeyDisplayString = ""
         Me.BrowserCloseTab.Size = New System.Drawing.Size(238, 22)
@@ -844,8 +845,8 @@ Partial Class Main
         '
         Me.Splitter.Panel2.Controls.Add(Me.Status)
         Me.Splitter.Panel2MinSize = 60
-        Me.Splitter.Size = New System.Drawing.Size(792, 257)
-        Me.Splitter.SplitterDistance = 165
+        Me.Splitter.Size = New System.Drawing.Size(792, 254)
+        Me.Splitter.SplitterDistance = 163
         Me.Splitter.TabIndex = 44
         '
         'QueueScroll
@@ -857,7 +858,7 @@ Partial Class Main
         Me.QueueScroll.Location = New System.Drawing.Point(160, 29)
         Me.QueueScroll.Maximum = 0
         Me.QueueScroll.Name = "QueueScroll"
-        Me.QueueScroll.Size = New System.Drawing.Size(17, 136)
+        Me.QueueScroll.Size = New System.Drawing.Size(17, 134)
         Me.QueueScroll.SmallChange = 0
         Me.QueueScroll.TabIndex = 48
         '
@@ -869,6 +870,24 @@ Partial Class Main
         Me.QueueSource.Name = "QueueSource"
         Me.QueueSource.Size = New System.Drawing.Size(159, 21)
         Me.QueueSource.TabIndex = 7
+        '
+        'EditInfo
+        '
+        Me.EditInfo.Location = New System.Drawing.Point(3, 84)
+        Me.EditInfo.Name = "EditInfo"
+        Me.EditInfo.Size = New System.Drawing.Size(353, 78)
+        Me.EditInfo.TabIndex = 45
+        Me.EditInfo.Visible = False
+        '
+        'Queue
+        '
+        Me.Queue.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.Queue.BackColor = System.Drawing.SystemColors.Control
+        Me.Queue.Location = New System.Drawing.Point(0, 32)
+        Me.Queue.Name = "Queue"
+        Me.Queue.Size = New System.Drawing.Size(162, 131)
+        Me.Queue.TabIndex = 47
         '
         'Tabs
         '
@@ -883,7 +902,7 @@ Partial Class Main
         Me.Tabs.Name = "Tabs"
         Me.Tabs.Padding = New System.Drawing.Point(0, 0)
         Me.Tabs.SelectedIndex = 0
-        Me.Tabs.Size = New System.Drawing.Size(609, 165)
+        Me.Tabs.Size = New System.Drawing.Size(609, 163)
         Me.Tabs.SizeMode = System.Windows.Forms.TabSizeMode.Fixed
         Me.Tabs.TabIndex = 1
         '
@@ -892,9 +911,42 @@ Partial Class Main
         Me.TabPage1.Controls.Add(Me.InitialTab)
         Me.TabPage1.Location = New System.Drawing.Point(4, 5)
         Me.TabPage1.Name = "TabPage1"
-        Me.TabPage1.Size = New System.Drawing.Size(601, 156)
+        Me.TabPage1.Size = New System.Drawing.Size(601, 154)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.UseVisualStyleBackColor = True
+        '
+        'InitialTab
+        '
+        Me.InitialTab.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.InitialTab.Location = New System.Drawing.Point(0, 0)
+        Me.InitialTab.Name = "InitialTab"
+        Me.InitialTab.Size = New System.Drawing.Size(601, 154)
+        Me.InitialTab.TabIndex = 0
+        '
+        'Status
+        '
+        Me.Status.Activation = System.Windows.Forms.ItemActivation.OneClick
+        Me.Status.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.Url, Me.Details})
+        Me.Status.ContextMenuStrip = Me.LogMenu
+        Me.Status.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Status.FullRowSelect = True
+        Me.Status.GridLines = True
+        Me.Status.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
+        Me.Status.Location = New System.Drawing.Point(0, 0)
+        Me.Status.MultiSelect = False
+        Me.Status.Name = "Status"
+        Me.Status.Size = New System.Drawing.Size(792, 87)
+        Me.Status.TabIndex = 0
+        Me.Status.UseCompatibleStateImageBehavior = False
+        Me.Status.View = System.Windows.Forms.View.Details
+        '
+        'Url
+        '
+        Me.Url.Width = 0
+        '
+        'Details
+        '
+        Me.Details.Width = 770
         '
         'ToolContainer
         '
@@ -903,13 +955,13 @@ Partial Class Main
         'ToolContainer.ContentPanel
         '
         Me.ToolContainer.ContentPanel.Controls.Add(Me.Splitter)
-        Me.ToolContainer.ContentPanel.Size = New System.Drawing.Size(792, 257)
+        Me.ToolContainer.ContentPanel.Size = New System.Drawing.Size(792, 254)
         Me.ToolContainer.Dock = System.Windows.Forms.DockStyle.Fill
         Me.ToolContainer.LeftToolStripPanelVisible = False
         Me.ToolContainer.Location = New System.Drawing.Point(0, 0)
         Me.ToolContainer.Name = "ToolContainer"
         Me.ToolContainer.RightToolStripPanelVisible = False
-        Me.ToolContainer.Size = New System.Drawing.Size(792, 431)
+        Me.ToolContainer.Size = New System.Drawing.Size(792, 428)
         Me.ToolContainer.TabIndex = 1
         Me.ToolContainer.Text = "ToolStripContainer1"
         '
@@ -1673,61 +1725,10 @@ Partial Class Main
         Me.DrawTimer.Enabled = True
         Me.DrawTimer.Interval = 1000
         '
-        'EditInfo
-        '
-        Me.EditInfo.Location = New System.Drawing.Point(3, 84)
-        Me.EditInfo.Name = "EditInfo"
-        Me.EditInfo.Size = New System.Drawing.Size(353, 78)
-        Me.EditInfo.TabIndex = 45
-        Me.EditInfo.Visible = False
-        '
-        'Queue
-        '
-        Me.Queue.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.Queue.BackColor = System.Drawing.SystemColors.Control
-        Me.Queue.Location = New System.Drawing.Point(0, 32)
-        Me.Queue.Name = "Queue"
-        Me.Queue.Size = New System.Drawing.Size(162, 133)
-        Me.Queue.TabIndex = 47
-        '
-        'InitialTab
-        '
-        Me.InitialTab.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.InitialTab.Location = New System.Drawing.Point(0, 0)
-        Me.InitialTab.Name = "InitialTab"
-        Me.InitialTab.Size = New System.Drawing.Size(601, 156)
-        Me.InitialTab.TabIndex = 0
-        '
-        'Status
-        '
-        Me.Status.Activation = System.Windows.Forms.ItemActivation.OneClick
-        Me.Status.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.Url, Me.Details})
-        Me.Status.ContextMenuStrip = Me.LogMenu
-        Me.Status.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Status.FullRowSelect = True
-        Me.Status.GridLines = True
-        Me.Status.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
-        Me.Status.Location = New System.Drawing.Point(0, 0)
-        Me.Status.MultiSelect = False
-        Me.Status.Name = "Status"
-        Me.Status.Size = New System.Drawing.Size(792, 88)
-        Me.Status.TabIndex = 0
-        Me.Status.UseCompatibleStateImageBehavior = False
-        Me.Status.View = System.Windows.Forms.View.Details
-        '
-        'Url
-        '
-        Me.Url.Width = 0
-        '
-        'Details
-        '
-        Me.Details.Width = 770
-        '
         'Main
         '
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
-        Me.ClientSize = New System.Drawing.Size(792, 431)
+        Me.ClientSize = New System.Drawing.Size(792, 428)
         Me.Controls.Add(Me.ToolContainer)
         Me.KeyPreview = True
         Me.MainMenuStrip = Me.TopMenu
