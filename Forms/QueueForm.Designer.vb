@@ -421,7 +421,7 @@ Partial Class QueueForm
         Me.KeyPreview = True
         Me.MaximizeBox = False
         Me.Name = "QueueForm"
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Queues"
         CType(Me.Limit, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
