@@ -929,6 +929,12 @@ Class Main
         End If
     End Sub
 
+    Private Sub ClearQueue_Click() Handles ClearQueue.Click
+        CurrentQueue.Clear()
+        DrawQueue()
+        DiffNextB.Enabled = False
+    End Sub
+
     Private Sub QueueClear_Click() Handles QueueClear.Click
         CurrentQueue.Clear()
         DrawQueue()
@@ -936,6 +942,7 @@ Class Main
     End Sub
 
     Private Sub QueueClearAll_Click() Handles QueueClearAll.Click
+        CurrentQueue.Clear()
         EditQueue.Clear()
         NewPageQueue.Clear()
         AllEditsByTime.Clear()
@@ -1673,7 +1680,11 @@ Class Main
         End If
     End Sub
 
-    Private Sub QueueClear_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles QueueClear.Click
+    Private Sub QueueClear_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+
+    End Sub
+
+    Private Sub QueueClearAll_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
 
     End Sub
 End Class
