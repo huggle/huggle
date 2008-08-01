@@ -12,8 +12,10 @@ Namespace Requests
 
         Public Query As String, Mode As RequestMode, State As RequestState, StartTime As Date
 
+        Public Delegate Sub CallbackDelegate(ByVal Success As Boolean)
+
         Public Enum RequestState As Integer
-            : None : InProgress : Complete : Failed : Cancelled
+            : InProgress : Complete : Failed : Cancelled
         End Enum
 
         Public Enum RequestMode As Integer
@@ -28,27 +30,39 @@ Namespace Requests
             StartTime = Date.Now
             PendingRequests.Add(Me)
             AllRequests.Add(Me)
+            UpdateForm()
         End Sub
 
         Protected Sub Complete()
             State = RequestState.Complete
             If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
             If MainForm IsNot Nothing Then MainForm.Delog(Me)
+            UpdateForm()
         End Sub
 
         Public Sub Cancel()
             State = RequestState.Cancelled
             If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
             If MainForm IsNot Nothing Then MainForm.Delog(Me)
+            UpdateForm()
         End Sub
 
         Protected Sub Fail()
             State = RequestState.Failed
             If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
             If MainForm IsNot Nothing Then MainForm.Delog(Me)
+            UpdateForm()
+        End Sub
+
+        Private Sub UpdateForm()
+            For Each Item As Form In Application.OpenForms
+                If TypeOf Item Is RequestsForm Then CType(Item, RequestsForm).UpdateList(Me)
+            Next Item
         End Sub
 
         Protected Sub LogProgress(ByVal Message As String)
+            UpdateForm()
+
             If MainForm IsNot Nothing Then
                 MainForm.Delog(Me)
                 MainForm.Log(Message, Me, True)

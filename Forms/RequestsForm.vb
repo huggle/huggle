@@ -1,45 +1,66 @@
 ﻿Class RequestsForm
 
-    Private WithEvents Timer As New Timer
-
     Private Sub RequestsForm_Load() Handles Me.Load
         Icon = My.Resources.icon_red_button
-        Timer.Interval = 200
-        Timer.Start()
+
+        For Each Item As Request In AllRequests
+            AddRequest(Item)
+        Next Item
     End Sub
 
-    Private Sub RefreshList() Handles Timer.Tick
-        List.SelectedItems.Clear()
+    Private Sub AddRequest(ByVal Request As Request)
+        Dim NewItem As New ListViewItem
+
+        Select Case Request.State
+            Case Request.RequestState.Cancelled : NewItem.BackColor = Color.DarkGray
+            Case Request.RequestState.Failed : NewItem.BackColor = Color.LightCoral
+            Case Request.RequestState.InProgress : NewItem.BackColor = Color.LightSteelBlue
+        End Select
+
+        NewItem.Text = Request.StartTime.ToLongTimeString
+        NewItem.SubItems.Add(Request.GetType.Name.Replace("Request", ""))
+
+        Select Case Request.Mode
+            Case Request.RequestMode.Get : NewItem.SubItems.Add("Get")
+            Case Request.RequestMode.Post : NewItem.SubItems.Add("Post")
+            Case Else : NewItem.SubItems.Add("")
+        End Select
+
+        NewItem.SubItems.Add(Request.Query)
+
+        List.Items.Add(NewItem)
+    End Sub
+
+    Public Sub UpdateList(ByVal Request As Request)
         List.BeginUpdate()
-        List.Items.Clear()
 
-        For i As Integer = AllRequests.Count - 1 To 0 Step -1
-            Dim NewListViewItem As New ListViewItem
+        Dim Done As Boolean = False
 
-            Select Case AllRequests(i).State
-                Case Request.RequestState.Cancelled
-                    NewListViewItem.BackColor = Color.DarkGray
+        For Each Item As ListViewItem In List.Items
+            If Item.Tag Is Request Then
+                Select Case Request.State
+                    Case Request.RequestState.Cancelled : Item.BackColor = Color.DarkGray
+                    Case Request.RequestState.Failed : Item.BackColor = Color.LightCoral
+                    Case Request.RequestState.InProgress : Item.BackColor = Color.LightSteelBlue
+                End Select
 
-                Case Request.RequestState.Failed
-                    NewListViewItem.BackColor = Color.LightCoral
+                Item.Text = Request.StartTime.ToLongTimeString
+                Item.SubItems(0).Text = Request.GetType.Name.Replace("Request", "")
 
-                Case Request.RequestState.InProgress
-                    NewListViewItem.BackColor = Color.LightSteelBlue
-            End Select
+                Select Case Request.Mode
+                    Case Request.RequestMode.Get : Item.SubItems(1).Text = "Get"
+                    Case Request.RequestMode.Post : Item.SubItems(1).Text = "Post"
+                    Case Else : Item.SubItems(1).Text = ""
+                End Select
 
-            NewListViewItem.Text = AllRequests(i).StartTime.ToLongTimeString
-            NewListViewItem.SubItems.Add(AllRequests(i).GetType.Name.Replace("Request", ""))
+                Item.SubItems(2).Text = Request.Query
 
-            Select Case AllRequests(i).Mode
-                Case Request.RequestMode.Get : NewListViewItem.SubItems.Add("Get")
-                Case Request.RequestMode.Post : NewListViewItem.SubItems.Add("Post")
-                Case Else : Continue For
-            End Select
+                Done = True
+                Exit For
+            End If
+        Next Item
 
-            NewListViewItem.SubItems.Add(AllRequests(i).Query)
-
-            List.Items.Add(NewListViewItem)
-        Next i
+        If Not Done Then AddRequest(Request)
 
         List.EndUpdate()
     End Sub

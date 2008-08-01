@@ -69,6 +69,7 @@
     <Compile Include="Forms\AddTemplateForm.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Requests\ListRequests.vb" />
     <Compile Include="Throbber.Designer.vb">
       <DependentUpon>Throbber.vb</DependentUpon>
     </Compile>

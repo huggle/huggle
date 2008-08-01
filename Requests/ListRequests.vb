@@ -1,0 +1,270 @@
+﻿Imports System.Threading
+Imports System.Web.HttpUtility
+
+Namespace Requests
+
+    MustInherit Class ListRequest : Inherits Request
+
+        'Abstract class for getting a list of pages through the API
+
+        Protected QueryParams, TypeName, TypePrefix, Page As String
+        Protected Done As RequestCallback, Progress As ProgressCallback, Items As New List(Of String)
+
+        Public Delegate Sub RequestCallback(ByVal Result As List(Of String))
+        Public Delegate Sub ProgressCallback(ByVal State As String, ByVal PartialResult As List(Of String))
+
+        Public Limit As Integer = ApiLimit(), ArticlesOnly As Boolean
+
+        Public Sub New(ByVal _TypeName As String, ByVal _TypePrefix As String, ByVal _QueryParams As String)
+            TypeName = _TypeName
+            TypePrefix = _TypePrefix
+            QueryParams = _QueryParams
+        End Sub
+
+        Public Overridable Sub Start(ByVal _Done As RequestCallback, _
+            Optional ByVal _Progress As ProgressCallback = Nothing)
+
+            Done = _Done
+            If _Progress IsNot Nothing Then Progress = _Progress
+
+            Dim RequestThread As New Thread(AddressOf Process)
+            RequestThread.IsBackground = True
+            RequestThread.Start()
+        End Sub
+
+        Private Sub Process()
+            Dim ContinueFrom As String = Nothing, Remaining As Integer = Limit
+
+            Do
+                Dim QueryString As String = "action=query&format=xml&list=" & TypeName & "&" & TypePrefix & _
+                    "limit=" & Math.Min(Remaining, ApiLimit()) & "&" & QueryParams
+                If ContinueFrom IsNot Nothing Then QueryString &= "&" & TypePrefix & "continue=" & ContinueFrom
+
+                Dim Result As String = GetApi(QueryString)
+
+                If Result Is Nothing Then
+                    Callback(AddressOf Failed)
+                    Exit Sub
+
+                ElseIf Result.Contains("<" & TypeName & " />") Then
+                    Callback(AddressOf RequestDone)
+                    Exit Sub
+                End If
+
+                If Result.Contains("<query-continue>") Then
+                    ContinueFrom = Result.Substring(Result.IndexOf(TypePrefix & "continue=""") + 12)
+                    ContinueFrom = ContinueFrom.Substring(0, ContinueFrom.IndexOf(""""))
+                    ContinueFrom = HtmlDecode(ContinueFrom)
+                Else
+                    ContinueFrom = Nothing
+                End If
+
+                Result = Result.Substring(Result.IndexOf("<" & TypeName & ">") + 17)
+                Result = Result.Substring(0, Result.IndexOf("</" & TypeName & ">"))
+
+                Dim ItemsAdded As Boolean = False
+
+                For Each Item As String In Result.Split("<"c)
+                    If Item.Contains("title=""") Then
+                        Item = Item.Substring(Item.IndexOf("title=""") + 7)
+                        Item = Item.Substring(0, Item.IndexOf(""""))
+                        Item = HtmlDecode(Item)
+
+                        If Not Items.Contains(Item) AndAlso Not (ArticlesOnly AndAlso Item.Contains(":") _
+                            AndAlso ArrayContains(Namespaces, Item.Substring(0, Item.IndexOf(":")))) Then
+
+                            Items.Add(Item)
+                            Remaining -= 1
+                            If Remaining <= 0 Then Exit Do
+                            ItemsAdded = True
+                        End If
+                    End If
+                Next Item
+
+                If ContinueFrom IsNot Nothing AndAlso ItemsAdded Then Callback(AddressOf Progressed, CObj(Items))
+
+            Loop Until ContinueFrom Is Nothing
+
+            Callback(AddressOf RequestDone)
+        End Sub
+
+        Private Sub RequestDone(ByVal O As Object)
+            Complete()
+            Done(Items)
+        End Sub
+
+        Private Sub Progressed(ByVal ListObject As Object)
+            If Progress IsNot Nothing Then Progress("Running query...", CType(ListObject, List(Of String)))
+        End Sub
+
+        Private Sub Failed(ByVal O As Object)
+            Fail()
+            Done(Nothing)
+        End Sub
+
+    End Class
+
+    Class CategoryRequest : Inherits ListRequest
+
+        'Get the contents of a category
+
+        Sub New(ByVal Category As String)
+            MyBase.New("categorymembers", "cm", "&cmprop=title&cmtitle=" & UrlEncode("Category:" & Category))
+        End Sub
+
+    End Class
+
+    Class BacklinksRequest : Inherits ListRequest
+
+        'Get pages that link to another page
+
+        Sub New(ByVal Page As String)
+            MyBase.New("backlinks", "bl", "blfilterredir=nonredirects&bltitle=" & UrlEncode(Page))
+        End Sub
+
+    End Class
+
+    Class TransclusionsRequest : Inherits ListRequest
+
+        'Get pages that transclude another page
+
+        Sub New(ByVal Page As String)
+            MyBase.New("embeddedin", "ei", "eititle=" & UrlEncode(Page))
+        End Sub
+
+    End Class
+
+    Class ImageUsageRequest : Inherits ListRequest
+
+        'Get pages that include an image
+
+        Sub New(ByVal ImageName As String)
+            MyBase.New("imageusage", "iu", "iutitle=" & UrlEncode("Image:" & ImageName))
+        End Sub
+
+    End Class
+
+    Class SearchRequest : Inherits ListRequest
+
+        'Get search results
+
+        Sub New(ByVal Page As String)
+            MyBase.New("search", "sr", "srsearch=" & UrlEncode(Page) & "&srwhat=text")
+        End Sub
+
+    End Class
+
+    Class ContribsListRequest : Inherits ListRequest
+
+        'Get pages edited by a user
+
+        Sub New(ByVal User As String)
+            MyBase.New("usercontribs", "uc", "ucuser=" & UrlEncode(User))
+        End Sub
+
+    End Class
+
+    Class ExternalLinkUsageRequest : Inherits ListRequest
+
+        'Get pages that use an external link
+
+        Sub New(ByVal Link As String)
+            MyBase.New("exturlusage", "eu", "euquery=" & UrlEncode(Link))
+        End Sub
+
+    End Class
+
+    Class LinksRequest : Inherits ListRequest
+
+        'Get links on a page
+
+        Sub New(ByVal Page As String)
+            MyBase.New("links", "pl", "prop=links&titles=" & UrlEncode(Page))
+        End Sub
+
+    End Class
+
+    Class ImagesRequest : Inherits ListRequest
+
+        'Get images on a page
+
+        Sub New(ByVal Page As String)
+            MyBase.New("images", "im", "prop=images&titles=" & UrlEncode(Page))
+        End Sub
+
+    End Class
+
+    Class TemplatesRequest : Inherits ListRequest
+
+        'Get templates on a page
+
+        Sub New(ByVal Page As String)
+            MyBase.New("templates", "tl", "prop=templates&titles=" & UrlEncode(Page))
+        End Sub
+
+    End Class
+
+    Class RecursiveCategoryRequest : Inherits ListRequest
+
+        'Recursively get the contents of a category
+
+        Private AllItems As New List(Of String)
+        Private Category As String, CategoriesDone As New List(Of String), CategoriesRemaining As New List(Of String)
+        Private Shadows Done As RequestCallback, Progress As ProgressCallback
+        Public Shadows ArticlesOnly As Boolean
+
+        Sub New(ByVal _Category As String)
+            MyBase.New("categorymembers", "cm", "cmprop=title&cmtitle=" & UrlEncode("Category:" & _Category))
+            Category = _Category
+        End Sub
+
+        Public Overrides Sub Start(ByVal _Done As RequestCallback, _
+            Optional ByVal _Progress As ProgressCallback = Nothing)
+
+            _Done = Done
+            ArticlesOnly = MyBase.ArticlesOnly
+            MyBase.ArticlesOnly = False
+
+            If _Progress IsNot Nothing Then
+                Progress = _Progress
+                Progress("Getting Category:" & Category, Nothing)
+            End If
+
+            MyBase.Start(AddressOf CategoryDone)
+        End Sub
+
+        Sub CategoryDone(ByVal Items As List(Of String))
+            If Items Is Nothing Then
+                Done(Nothing)
+            Else
+                For Each Item As String In Items
+                    If Item.StartsWith("Category:") AndAlso Not CategoriesDone.Contains(Item) _
+                        AndAlso Not CategoriesRemaining.Contains(Item) Then CategoriesRemaining.Add(Item)
+
+                    If Not AllItems.Contains(Item) AndAlso Not (ArticlesOnly AndAlso Item.Contains(":") _
+                        AndAlso ArrayContains(Namespaces, Item.Substring(0, Item.IndexOf(":")))) Then
+
+                        AllItems.Add(Item)
+
+                        If AllItems.Count >= Limit Then
+                            Done(AllItems)
+                            Exit Sub
+                        End If
+                    End If
+                Next Item
+
+                If CategoriesRemaining.Count = 0 Then
+                    Done(AllItems)
+                Else
+                    If Progress IsNot Nothing Then Progress("Getting " & CategoriesRemaining(0) & "...", AllItems)
+                    MyBase.QueryParams = "cmprop=title&cmtitle=" & UrlEncode(CategoriesRemaining(0))
+                    CategoriesDone.Add(CategoriesRemaining(0))
+                    CategoriesRemaining.RemoveAt(0)
+                    MyBase.Start(AddressOf CategoryDone)
+                End If
+            End If
+        End Sub
+
+    End Class
+
+End Namespace

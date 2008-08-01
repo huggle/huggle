@@ -1532,7 +1532,7 @@ Class Main
             Case Else
                 Dim NewQueue As New List(Of Edit)
 
-                For Each Item As String In QueueSources(QueueSource.SelectedItem.ToString)
+                For Each Item As String In QueueSources(QueueSource.SelectedItem.ToString).Items
                     Dim Page As Page = GetPage(Item)
 
                     If Page.LastEdit IsNot Nothing Then

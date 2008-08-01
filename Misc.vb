@@ -30,7 +30,7 @@ Module Misc
     Public NullEdit As New Edit
     Public PendingRequests As New List(Of Request)
     Public PendingWarnings As New List(Of Edit)
-    Public QueueSources As New Dictionary(Of String, List(Of String))
+    Public QueueSources As New Dictionary(Of String, QueueSource)
     Public RollbackAvailable As Boolean
     Public SpeedyCriteria As New Dictionary(Of String, SpeedyCriterion)
     Public StartTime As Date
@@ -44,6 +44,10 @@ Module Misc
     Public WhitelistLoaded As Boolean
 
     Public Delegate Sub CallbackDelegate(ByVal Success As Boolean)
+
+    Class QueueSource
+        Public Items As New List(Of String)
+    End Class
 
     Class Command
         Public Description As String

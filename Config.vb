@@ -133,7 +133,7 @@ Module Config
     Public ProtectionRequestPage As String
     Public ProtectionRequestReason As String
     Public ProtectionRequestSummary As String
-    Public QueueBuilderLimit As Integer = 2
+    Public QueueBuilderLimit As Integer = 10
     Public RcBlockSize As Integer = 100
     Public ReportExtendSummary As String
     Public ReportLinkDiffs As Boolean
