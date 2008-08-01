@@ -290,21 +290,23 @@ Class QueueForm
         If SourceType.Text = "File" Then Source.Width = 145 Else Source.Width = 221
 
         AddItem.Enabled = (Queues.SelectedIndex > -1)
-        ArticlesOnly.Enabled = (Queues.SelectedIndex > -1)
+        AddQueue.Enabled = (Not Throbber.Active)
+        ArticlesOnly.Enabled = (Not Throbber.Active AndAlso Queues.SelectedIndex > -1)
         Browse.Enabled = (Queues.SelectedIndex > -1)
         Browse.Visible = (SourceType.Text = "File")
         Cancel.Visible = Throbber.Active
-        Clear.Enabled = (Queues.SelectedIndex > -1 AndAlso Queue.Items.Count > 0)
-        Copy.Enabled = (Queues.SelectedIndex > -1)
+        Clear.Enabled = (Not Throbber.Active AndAlso Queues.SelectedIndex > -1 AndAlso Queue.Items.Count > 0)
+        Copy.Enabled = (Not Throbber.Active AndAlso Queues.SelectedIndex > -1)
         Limit.Enabled = (Not Throbber.Active AndAlso Queues.SelectedIndex > -1)
         Queue.Enabled = (Queues.SelectedIndex > -1)
+        Queues.Enabled = (Not Throbber.Active)
         QueueSelector.Enabled = (Queues.SelectedIndex > -1)
         QueueSelector.Visible = (SourceType.Text = "Existing queue")
         RemoveItem.Enabled = (Queue.SelectedIndex > -1)
-        RemoveQueue.Enabled = (Queues.SelectedIndex > -1)
-        Rename.Enabled = (Queues.SelectedIndex > -1)
+        RemoveQueue.Enabled = (Not Throbber.Active AndAlso Queues.SelectedIndex > -1)
+        Rename.Enabled = (Not Throbber.Active AndAlso Queues.SelectedIndex > -1)
         Save.Enabled = (Queue.Items.Count > 0)
-        Sort.Enabled = (Queue.Items.Count > 1)
+        Sort.Enabled = (Not Throbber.Active AndAlso Queue.Items.Count > 1)
         Source.Enabled = Limit.Enabled
         Source.Visible = (SourceType.Text <> "Watchlist" AndAlso SourceType.Text <> "Existing queue")
         SourceType.Enabled = Limit.Enabled
