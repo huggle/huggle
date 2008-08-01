@@ -886,6 +886,7 @@ Class Main
             Tabs.SelectedTab = NewTabPage
             BrowserCloseTabB.Enabled = True
             BrowserCloseOthers.Enabled = True
+            BrowserCloseTab.Enabled = True
         End If
     End Sub
 
@@ -901,6 +902,7 @@ Class Main
             Tabs.ItemSize = New Size(1, 1)
             BrowserCloseTabB.Enabled = False
             BrowserCloseOthers.Enabled = False
+            BrowserCloseTab.Enabled = False
         End If
     End Sub
 
