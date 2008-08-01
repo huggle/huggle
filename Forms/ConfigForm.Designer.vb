@@ -52,6 +52,9 @@ Partial Class ConfigForm
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
         Me.QueueTab = New System.Windows.Forms.TabPage
+        Me.QueueMaxAge = New System.Windows.Forms.NumericUpDown
+        Me.Label32 = New System.Windows.Forms.Label
+        Me.Label31 = New System.Windows.Forms.Label
         Me.Label5 = New System.Windows.Forms.Label
         Me.ShowNewPages = New System.Windows.Forms.CheckBox
         Me.Namespaces = New System.Windows.Forms.CheckedListBox
@@ -128,13 +131,11 @@ Partial Class ConfigForm
         Me.BlockReason = New System.Windows.Forms.TextBox
         Me.PromptForBlock = New System.Windows.Forms.CheckBox
         Me.UseAdminFunctions = New System.Windows.Forms.CheckBox
-        Me.Label31 = New System.Windows.Forms.Label
-        Me.QueueMaxAge = New System.Windows.Forms.NumericUpDown
-        Me.Label32 = New System.Windows.Forms.Label
         Me.Tabs.SuspendLayout()
         Me.GeneralTab.SuspendLayout()
         Me.KeyboardTab.SuspendLayout()
         Me.QueueTab.SuspendLayout()
+        CType(Me.QueueMaxAge, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.EditingTab.SuspendLayout()
         Me.RevertTab.SuspendLayout()
         Me.ReportingTab.SuspendLayout()
@@ -143,13 +144,12 @@ Partial Class ConfigForm
         Me.EditorTab.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.AdminTab.SuspendLayout()
-        CType(Me.QueueMaxAge, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Cancel
         '
         Me.Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Cancel.Location = New System.Drawing.Point(399, 334)
+        Me.Cancel.Location = New System.Drawing.Point(453, 334)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
         Me.Cancel.TabIndex = 1
@@ -159,7 +159,7 @@ Partial Class ConfigForm
         'OK
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.OK.Location = New System.Drawing.Point(318, 334)
+        Me.OK.Location = New System.Drawing.Point(372, 334)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
         Me.OK.TabIndex = 0
@@ -179,10 +179,10 @@ Partial Class ConfigForm
         Me.Tabs.Controls.Add(Me.EditorTab)
         Me.Tabs.Controls.Add(Me.AdminTab)
         Me.Tabs.ItemSize = New System.Drawing.Size(49, 19)
-        Me.Tabs.Location = New System.Drawing.Point(8, 12)
+        Me.Tabs.Location = New System.Drawing.Point(11, 12)
         Me.Tabs.Name = "Tabs"
         Me.Tabs.SelectedIndex = 0
-        Me.Tabs.Size = New System.Drawing.Size(470, 315)
+        Me.Tabs.Size = New System.Drawing.Size(522, 315)
         Me.Tabs.TabIndex = 2
         '
         'GeneralTab
@@ -206,7 +206,7 @@ Partial Class ConfigForm
         Me.GeneralTab.Location = New System.Drawing.Point(4, 23)
         Me.GeneralTab.Name = "GeneralTab"
         Me.GeneralTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.GeneralTab.Size = New System.Drawing.Size(462, 288)
+        Me.GeneralTab.Size = New System.Drawing.Size(514, 288)
         Me.GeneralTab.TabIndex = 0
         Me.GeneralTab.Text = "General"
         Me.GeneralTab.UseVisualStyleBackColor = True
@@ -214,7 +214,7 @@ Partial Class ConfigForm
         'LogFileBrowse
         '
         Me.LogFileBrowse.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.LogFileBrowse.Location = New System.Drawing.Point(371, 240)
+        Me.LogFileBrowse.Location = New System.Drawing.Point(423, 240)
         Me.LogFileBrowse.Name = "LogFileBrowse"
         Me.LogFileBrowse.Size = New System.Drawing.Size(75, 23)
         Me.LogFileBrowse.TabIndex = 29
@@ -227,7 +227,7 @@ Partial Class ConfigForm
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.LogFile.Location = New System.Drawing.Point(56, 242)
         Me.LogFile.Name = "LogFile"
-        Me.LogFile.Size = New System.Drawing.Size(309, 20)
+        Me.LogFile.Size = New System.Drawing.Size(361, 20)
         Me.LogFile.TabIndex = 28
         '
         'Label17
@@ -473,6 +473,34 @@ Partial Class ConfigForm
         Me.QueueTab.TabIndex = 4
         Me.QueueTab.Text = "Queue"
         Me.QueueTab.UseVisualStyleBackColor = True
+        '
+        'QueueMaxAge
+        '
+        Me.QueueMaxAge.Increment = New Decimal(New Integer() {5, 0, 0, 0})
+        Me.QueueMaxAge.Location = New System.Drawing.Point(172, 207)
+        Me.QueueMaxAge.Maximum = New Decimal(New Integer() {1440, 0, 0, 0})
+        Me.QueueMaxAge.Name = "QueueMaxAge"
+        Me.QueueMaxAge.Size = New System.Drawing.Size(54, 20)
+        Me.QueueMaxAge.TabIndex = 23
+        Me.QueueMaxAge.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'Label32
+        '
+        Me.Label32.AutoSize = True
+        Me.Label32.Location = New System.Drawing.Point(232, 209)
+        Me.Label32.Name = "Label32"
+        Me.Label32.Size = New System.Drawing.Size(106, 13)
+        Me.Label32.TabIndex = 22
+        Me.Label32.Text = "minutes (0 to disable)"
+        '
+        'Label31
+        '
+        Me.Label31.AutoSize = True
+        Me.Label31.Location = New System.Drawing.Point(9, 209)
+        Me.Label31.Name = "Label31"
+        Me.Label31.Size = New System.Drawing.Size(157, 13)
+        Me.Label31.TabIndex = 22
+        Me.Label31.Text = "Remove queue items older than"
         '
         'Label5
         '
@@ -1252,40 +1280,12 @@ Partial Class ConfigForm
         Me.UseAdminFunctions.Text = "Use administrator functions if available"
         Me.UseAdminFunctions.UseVisualStyleBackColor = True
         '
-        'Label31
-        '
-        Me.Label31.AutoSize = True
-        Me.Label31.Location = New System.Drawing.Point(9, 209)
-        Me.Label31.Name = "Label31"
-        Me.Label31.Size = New System.Drawing.Size(157, 13)
-        Me.Label31.TabIndex = 22
-        Me.Label31.Text = "Remove queue items older than"
-        '
-        'QueueMaxAge
-        '
-        Me.QueueMaxAge.Increment = New Decimal(New Integer() {5, 0, 0, 0})
-        Me.QueueMaxAge.Location = New System.Drawing.Point(172, 207)
-        Me.QueueMaxAge.Maximum = New Decimal(New Integer() {1440, 0, 0, 0})
-        Me.QueueMaxAge.Name = "QueueMaxAge"
-        Me.QueueMaxAge.Size = New System.Drawing.Size(54, 20)
-        Me.QueueMaxAge.TabIndex = 23
-        Me.QueueMaxAge.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'Label32
-        '
-        Me.Label32.AutoSize = True
-        Me.Label32.Location = New System.Drawing.Point(232, 209)
-        Me.Label32.Name = "Label32"
-        Me.Label32.Size = New System.Drawing.Size(106, 13)
-        Me.Label32.TabIndex = 22
-        Me.Label32.Text = "minutes (0 to disable)"
-        '
         'ConfigForm
         '
         Me.AcceptButton = Me.OK
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(491, 369)
+        Me.ClientSize = New System.Drawing.Size(545, 369)
         Me.Controls.Add(Me.Tabs)
         Me.Controls.Add(Me.OK)
         Me.Controls.Add(Me.Cancel)
@@ -1302,6 +1302,7 @@ Partial Class ConfigForm
         Me.KeyboardTab.PerformLayout()
         Me.QueueTab.ResumeLayout(False)
         Me.QueueTab.PerformLayout()
+        CType(Me.QueueMaxAge, System.ComponentModel.ISupportInitialize).EndInit()
         Me.EditingTab.ResumeLayout(False)
         Me.EditingTab.PerformLayout()
         Me.RevertTab.ResumeLayout(False)
@@ -1317,7 +1318,6 @@ Partial Class ConfigForm
         Me.GroupBox2.PerformLayout()
         Me.AdminTab.ResumeLayout(False)
         Me.AdminTab.PerformLayout()
-        CType(Me.QueueMaxAge, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
