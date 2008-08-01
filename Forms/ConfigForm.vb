@@ -355,4 +355,5 @@ Class ConfigForm
         NewColorDialog.Color = Control.BackColor
         If NewColorDialog.ShowDialog = DialogResult.OK Then Control.BackColor = NewColorDialog.Color
     End Sub
+
 End Class

@@ -31,7 +31,7 @@ Partial Class RevertForm
         'Cancel
         '
         Me.Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Cancel.Location = New System.Drawing.Point(412, 41)
+        Me.Cancel.Location = New System.Drawing.Point(381, 41)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
         Me.Cancel.TabIndex = 3
@@ -42,7 +42,7 @@ Partial Class RevertForm
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.OK.Enabled = False
-        Me.OK.Location = New System.Drawing.Point(331, 41)
+        Me.OK.Location = New System.Drawing.Point(300, 41)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
         Me.OK.TabIndex = 2
@@ -67,14 +67,14 @@ Partial Class RevertForm
         Me.Summary.FormattingEnabled = True
         Me.Summary.Location = New System.Drawing.Point(91, 12)
         Me.Summary.Name = "Summary"
-        Me.Summary.Size = New System.Drawing.Size(396, 21)
+        Me.Summary.Size = New System.Drawing.Size(365, 21)
         Me.Summary.TabIndex = 1
         '
         'RevertForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(499, 74)
+        Me.ClientSize = New System.Drawing.Size(468, 74)
         Me.Controls.Add(Me.Summary)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.OK)

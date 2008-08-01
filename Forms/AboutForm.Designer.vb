@@ -42,7 +42,7 @@ Partial Class AboutForm
         'OK
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.OK.Location = New System.Drawing.Point(288, 211)
+        Me.OK.Location = New System.Drawing.Point(289, 211)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
         Me.OK.TabIndex = 5
@@ -56,7 +56,7 @@ Partial Class AboutForm
         Me.Logo.Font = New System.Drawing.Font("Tahoma", 27.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Logo.Location = New System.Drawing.Point(12, 9)
         Me.Logo.Name = "Logo"
-        Me.Logo.Size = New System.Drawing.Size(351, 50)
+        Me.Logo.Size = New System.Drawing.Size(352, 50)
         Me.Logo.TabIndex = 0
         Me.Logo.Text = "huggle"
         Me.Logo.TextAlign = System.Drawing.ContentAlignment.TopCenter
@@ -79,7 +79,7 @@ Partial Class AboutForm
         Me.Disclaimer.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline
         Me.Disclaimer.Location = New System.Drawing.Point(12, 131)
         Me.Disclaimer.Name = "Disclaimer"
-        Me.Disclaimer.Size = New System.Drawing.Size(351, 51)
+        Me.Disclaimer.Size = New System.Drawing.Size(352, 51)
         Me.Disclaimer.TabIndex = 3
         Me.Disclaimer.TabStop = True
         Me.Disclaimer.Text = "Use of this application is subject to Wikipedia policies and guidelines. Responsi" & _
@@ -96,7 +96,7 @@ Partial Class AboutForm
         Me.Icons.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline
         Me.Icons.Location = New System.Drawing.Point(12, 188)
         Me.Icons.Name = "Icons"
-        Me.Icons.Size = New System.Drawing.Size(351, 22)
+        Me.Icons.Size = New System.Drawing.Size(352, 22)
         Me.Icons.TabIndex = 4
         Me.Icons.TabStop = True
         Me.Icons.Text = "Contains images available under the terms of the GNU Lesser General Public Licens" & _
@@ -191,7 +191,7 @@ Partial Class AboutForm
         Me.ContributorsLayoutPanel.Controls.Add(Me.Contributor7)
         Me.ContributorsLayoutPanel.Location = New System.Drawing.Point(75, 89)
         Me.ContributorsLayoutPanel.Name = "ContributorsLayoutPanel"
-        Me.ContributorsLayoutPanel.Size = New System.Drawing.Size(288, 43)
+        Me.ContributorsLayoutPanel.Size = New System.Drawing.Size(289, 43)
         Me.ContributorsLayoutPanel.TabIndex = 10
         '
         'Contributor2
@@ -224,7 +224,7 @@ Partial Class AboutForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(375, 246)
+        Me.ClientSize = New System.Drawing.Size(376, 246)
         Me.Controls.Add(Me.ContributorsLayoutPanel)
         Me.Controls.Add(Me.ContributorsLabel)
         Me.Controls.Add(Me.Version)

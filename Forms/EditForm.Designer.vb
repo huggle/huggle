@@ -80,17 +80,17 @@ Partial Class EditForm
         Me.Summary.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Summary.Enabled = False
-        Me.Summary.Location = New System.Drawing.Point(57, 445)
+        Me.Summary.Location = New System.Drawing.Point(57, 439)
         Me.Summary.MaxLength = 250
         Me.Summary.Name = "Summary"
-        Me.Summary.Size = New System.Drawing.Size(549, 20)
+        Me.Summary.Size = New System.Drawing.Size(558, 20)
         Me.Summary.TabIndex = 3
         '
         'SummaryLabel
         '
         Me.SummaryLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.SummaryLabel.AutoSize = True
-        Me.SummaryLabel.Location = New System.Drawing.Point(4, 448)
+        Me.SummaryLabel.Location = New System.Drawing.Point(4, 442)
         Me.SummaryLabel.Name = "SummaryLabel"
         Me.SummaryLabel.Size = New System.Drawing.Size(53, 13)
         Me.SummaryLabel.TabIndex = 2
@@ -101,7 +101,7 @@ Partial Class EditForm
         Me.Minor.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Minor.AutoSize = True
         Me.Minor.Enabled = False
-        Me.Minor.Location = New System.Drawing.Point(57, 472)
+        Me.Minor.Location = New System.Drawing.Point(57, 466)
         Me.Minor.Name = "Minor"
         Me.Minor.Size = New System.Drawing.Size(72, 17)
         Me.Minor.TabIndex = 4
@@ -113,7 +113,7 @@ Partial Class EditForm
         Me.Watch.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Watch.AutoSize = True
         Me.Watch.Enabled = False
-        Me.Watch.Location = New System.Drawing.Point(135, 472)
+        Me.Watch.Location = New System.Drawing.Point(135, 466)
         Me.Watch.Name = "Watch"
         Me.Watch.Size = New System.Drawing.Size(104, 17)
         Me.Watch.TabIndex = 5
@@ -124,7 +124,7 @@ Partial Class EditForm
         '
         Me.Save.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Save.Enabled = False
-        Me.Save.Location = New System.Drawing.Point(612, 443)
+        Me.Save.Location = New System.Drawing.Point(621, 437)
         Me.Save.Name = "Save"
         Me.Save.Size = New System.Drawing.Size(75, 23)
         Me.Save.TabIndex = 6
@@ -134,7 +134,7 @@ Partial Class EditForm
         'Cancel
         '
         Me.Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Cancel.Location = New System.Drawing.Point(693, 443)
+        Me.Cancel.Location = New System.Drawing.Point(702, 437)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
         Me.Cancel.TabIndex = 7
@@ -152,7 +152,7 @@ Partial Class EditForm
         Me.Tabs.Location = New System.Drawing.Point(3, 27)
         Me.Tabs.Name = "Tabs"
         Me.Tabs.SelectedIndex = 0
-        Me.Tabs.Size = New System.Drawing.Size(769, 410)
+        Me.Tabs.Size = New System.Drawing.Size(778, 404)
         Me.Tabs.SizeMode = System.Windows.Forms.TabSizeMode.Fixed
         Me.Tabs.TabIndex = 0
         '
@@ -164,7 +164,7 @@ Partial Class EditForm
         Me.EditTab.Location = New System.Drawing.Point(4, 24)
         Me.EditTab.Name = "EditTab"
         Me.EditTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.EditTab.Size = New System.Drawing.Size(761, 382)
+        Me.EditTab.Size = New System.Drawing.Size(770, 376)
         Me.EditTab.TabIndex = 0
         Me.EditTab.Text = "Edit"
         Me.EditTab.UseVisualStyleBackColor = True
@@ -182,9 +182,9 @@ Partial Class EditForm
         Me.FindGroup.Controls.Add(Me.FindNext)
         Me.FindGroup.Controls.Add(Me.Find)
         Me.FindGroup.Controls.Add(Me.FindLabel)
-        Me.FindGroup.Location = New System.Drawing.Point(6, 334)
+        Me.FindGroup.Location = New System.Drawing.Point(6, 328)
         Me.FindGroup.Name = "FindGroup"
-        Me.FindGroup.Size = New System.Drawing.Size(749, 42)
+        Me.FindGroup.Size = New System.Drawing.Size(758, 42)
         Me.FindGroup.TabIndex = 2
         Me.FindGroup.TabStop = False
         '
@@ -283,7 +283,7 @@ Partial Class EditForm
         Me.WaitMessage.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.WaitMessage.Location = New System.Drawing.Point(6, 8)
         Me.WaitMessage.Name = "WaitMessage"
-        Me.WaitMessage.Size = New System.Drawing.Size(749, 323)
+        Me.WaitMessage.Size = New System.Drawing.Size(758, 317)
         Me.WaitMessage.TabIndex = 1
         Me.WaitMessage.Text = " "
         Me.WaitMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -298,7 +298,7 @@ Partial Class EditForm
         Me.PageText.HideSelection = False
         Me.PageText.Location = New System.Drawing.Point(6, 8)
         Me.PageText.Name = "PageText"
-        Me.PageText.Size = New System.Drawing.Size(749, 324)
+        Me.PageText.Size = New System.Drawing.Size(758, 318)
         Me.PageText.TabIndex = 0
         Me.PageText.Text = ""
         '
@@ -392,7 +392,7 @@ Partial Class EditForm
         Me.PreviewTab.Location = New System.Drawing.Point(4, 24)
         Me.PreviewTab.Name = "PreviewTab"
         Me.PreviewTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.PreviewTab.Size = New System.Drawing.Size(767, 385)
+        Me.PreviewTab.Size = New System.Drawing.Size(771, 379)
         Me.PreviewTab.TabIndex = 1
         Me.PreviewTab.Text = "Preview"
         Me.PreviewTab.UseVisualStyleBackColor = True
@@ -406,7 +406,7 @@ Partial Class EditForm
         Me.Preview.MinimumSize = New System.Drawing.Size(20, 20)
         Me.Preview.Name = "Preview"
         Me.Preview.ScriptErrorsSuppressed = True
-        Me.Preview.Size = New System.Drawing.Size(761, 379)
+        Me.Preview.Size = New System.Drawing.Size(765, 373)
         Me.Preview.TabIndex = 0
         Me.Preview.WebBrowserShortcutsEnabled = False
         '
@@ -420,7 +420,7 @@ Partial Class EditForm
         Me.MenuBar.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PageMenu, Me.EditMenu, Me.ViewMenu})
         Me.MenuBar.Location = New System.Drawing.Point(0, 0)
         Me.MenuBar.Name = "MenuBar"
-        Me.MenuBar.Size = New System.Drawing.Size(775, 24)
+        Me.MenuBar.Size = New System.Drawing.Size(784, 24)
         Me.MenuBar.TabIndex = 8
         Me.MenuBar.Text = "MenuStrip1"
         '
@@ -475,7 +475,7 @@ Partial Class EditForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(775, 501)
+        Me.ClientSize = New System.Drawing.Size(784, 495)
         Me.Controls.Add(Me.MenuBar)
         Me.Controls.Add(Me.Tabs)
         Me.Controls.Add(Me.Cancel)

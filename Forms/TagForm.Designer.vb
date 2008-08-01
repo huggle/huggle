@@ -39,7 +39,7 @@ Partial Class TagForm
         'Cancel
         '
         Me.Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Cancel.Location = New System.Drawing.Point(378, 235)
+        Me.Cancel.Location = New System.Drawing.Point(379, 235)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
         Me.Cancel.TabIndex = 9
@@ -50,7 +50,7 @@ Partial Class TagForm
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.OK.Enabled = False
-        Me.OK.Location = New System.Drawing.Point(297, 235)
+        Me.OK.Location = New System.Drawing.Point(298, 235)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
         Me.OK.TabIndex = 8
@@ -83,7 +83,7 @@ Partial Class TagForm
         Me.Summary.Location = New System.Drawing.Point(66, 183)
         Me.Summary.MaxLength = 250
         Me.Summary.Name = "Summary"
-        Me.Summary.Size = New System.Drawing.Size(387, 20)
+        Me.Summary.Size = New System.Drawing.Size(388, 20)
         Me.Summary.TabIndex = 6
         '
         'TagSelector
@@ -133,7 +133,7 @@ Partial Class TagForm
         Me.Explanation.LinkArea = New System.Windows.Forms.LinkArea(91, 22)
         Me.Explanation.Location = New System.Drawing.Point(12, 9)
         Me.Explanation.Name = "Explanation"
-        Me.Explanation.Size = New System.Drawing.Size(441, 35)
+        Me.Explanation.Size = New System.Drawing.Size(442, 35)
         Me.Explanation.TabIndex = 0
         Me.Explanation.TabStop = True
         Me.Explanation.Text = "Tags will be inserted at the start or end of the page." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "For anything more advance" & _
@@ -167,7 +167,7 @@ Partial Class TagForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(465, 270)
+        Me.ClientSize = New System.Drawing.Size(466, 270)
         Me.Controls.Add(Me.TagText)
         Me.Controls.Add(Me.InsertAtEnd)
         Me.Controls.Add(Me.Explanation)
