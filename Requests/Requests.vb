@@ -54,7 +54,7 @@ Namespace Requests
             UpdateForm()
         End Sub
 
-        Private Sub UpdateForm()
+        Private Sub UpdateForm(Optional ByVal O As Object = Nothing)
             For Each Item As Form In Application.OpenForms
                 If TypeOf Item Is RequestsForm Then CType(Item, RequestsForm).UpdateList(Me)
             Next Item
@@ -87,6 +87,7 @@ Namespace Requests
 
             Mode = RequestMode.Get
             Query = "title=Special:Userlogin"
+            Callback(AddressOf UpdateForm)
 
             If Login.CaptchaId Is Nothing Then
                 'Get login form, to check whether captcha is needed
@@ -124,6 +125,7 @@ Namespace Requests
 
             Mode = RequestMode.Post
             Query = "title=Special:Userlogin&action=submitlogin&type=login"
+            Callback(AddressOf UpdateForm)
 
             Do
                 Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
@@ -235,6 +237,7 @@ Namespace Requests
 
             If Url.Contains("?") Then Query = Url.Substring(Url.IndexOf("?") + 1) Else Query = Url
             Mode = RequestMode.Get
+            Callback(AddressOf UpdateForm)
 
             Dim Client As New WebClient, Retries As Integer = 3, Result As String = Nothing
 
@@ -284,6 +287,7 @@ Namespace Requests
 
             Mode = RequestMode.Get
             Query = QueryString.Substring(QueryString.IndexOf("?") + 1)
+            Callback(AddressOf UpdateForm)
 
             Do
                 Dim LoggingIn As Boolean
@@ -414,6 +418,7 @@ Namespace Requests
 
             Query = "title=" & UrlEncode(Data.Page.Name) & "&action=submit"
             Mode = RequestMode.Post
+            Callback(AddressOf UpdateForm)
 
             Do
                 Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
@@ -461,6 +466,7 @@ Namespace Requests
 
             Query = QueryString
             Mode = RequestMode.Post
+            Callback(AddressOf UpdateForm)
 
             Dim Client As New WebClient, Retries As Integer = 3, Result As String = ""
 

@@ -1571,7 +1571,7 @@ Class Main
 
     Private Sub QueueEditSources_Click() Handles QueueEditSources.Click
         Dim NewQueueForm As New QueueForm
-        NewQueueForm.ShowDialog()
+        NewQueueForm.Show()
     End Sub
 
     Private Sub RevertWarnVandalism_Click() Handles RevertWarnVandalism.Click
@@ -1680,11 +1680,4 @@ Class Main
         End If
     End Sub
 
-    Private Sub QueueClear_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
-    End Sub
-
-    Private Sub QueueClearAll_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
-    End Sub
 End Class

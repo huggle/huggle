@@ -26,9 +26,10 @@
             Case Else : NewItem.SubItems.Add("")
         End Select
 
+        NewItem.Tag = Request
         NewItem.SubItems.Add(Request.Query)
 
-        List.Items.Add(NewItem)
+        List.Items.Insert(0, NewItem)
     End Sub
 
     Public Sub UpdateList(ByVal Request As Request)
@@ -42,18 +43,19 @@
                     Case Request.RequestState.Cancelled : Item.BackColor = Color.DarkGray
                     Case Request.RequestState.Failed : Item.BackColor = Color.LightCoral
                     Case Request.RequestState.InProgress : Item.BackColor = Color.LightSteelBlue
+                    Case Else : Item.BackColor = Color.White
                 End Select
 
                 Item.Text = Request.StartTime.ToLongTimeString
-                Item.SubItems(0).Text = Request.GetType.Name.Replace("Request", "")
+                Item.SubItems(1).Text = Request.GetType.Name.Replace("Request", "")
 
                 Select Case Request.Mode
-                    Case Request.RequestMode.Get : Item.SubItems(1).Text = "Get"
-                    Case Request.RequestMode.Post : Item.SubItems(1).Text = "Post"
-                    Case Else : Item.SubItems(1).Text = ""
+                    Case Request.RequestMode.Get : Item.SubItems(2).Text = "Get"
+                    Case Request.RequestMode.Post : Item.SubItems(2).Text = "Post"
+                    Case Else : Item.SubItems(2).Text = ""
                 End Select
 
-                Item.SubItems(2).Text = Request.Query
+                Item.SubItems(3).Text = Request.Query
 
                 Done = True
                 Exit For

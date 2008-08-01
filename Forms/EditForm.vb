@@ -358,6 +358,10 @@ Class EditForm
         End If
     End Sub
 
+    Private Sub ReplaceB_Click() Handles ReplaceB.Click
+        PageText.Text = PageText.Text.Replace(Find.Text, Replace.Text)
+    End Sub
+
     'RichTextBox has a built-in undo stack, but setting the contents directly clears it
     'Thus we need to use our own, in order that syntax highlighting can be done
 
@@ -426,17 +430,4 @@ Class EditForm
 
     End Class
 
-    Private Sub FindPrevious_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FindPrevious.Click
-
-    End Sub
-    Private Sub FindText_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Find.TextChanged
-
-    End Sub
-    Private Sub EditForm_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-
-    End Sub
-
-    Private Sub ReplaceB_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ReplaceB.Click
-        PageText.Text = PageText.Text.Replace(Find.Text, Replace.Text)
-    End Sub
 End Class
