@@ -195,7 +195,7 @@ Namespace Requests
                 End While
             End If
 
-            Dim QueryString As String = Edit.RollbackUrl.Substring(1)
+            Dim QueryString As String = Edit.RollbackUrl
             QueryString &= "&summary=" & UrlEncode(Summary)
             If Config.Summary IsNot Nothing Then QueryString &= UrlEncode(" " & Config.Summary)
 

@@ -757,6 +757,7 @@ Module Processing
             If DiffText.Contains("<span class=""mw-rollback-link"">") Then
                 Dim RollbackUrl As String = DiffText.Substring(DiffText.IndexOf("<span class=""mw-rollback-link"">"))
                 RollbackUrl = RollbackUrl.Substring(RollbackUrl.IndexOf("<a href=""") + 9)
+                RollbackUrl = RollbackUrl.Substring(RollbackUrl.IndexOf("?") + 1)
                 RollbackUrl = RollbackUrl.Substring(0, RollbackUrl.IndexOf(""""))
                 RollbackUrl = HtmlDecode(RollbackUrl)
                 ThisEdit.RollbackUrl = RollbackUrl
