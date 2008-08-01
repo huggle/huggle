@@ -265,7 +265,9 @@ Module Processing
         Dim j As Integer = 0
 
         While j < EditQueue.Count - 1
-            If EditQueue(j) IsNot EditQueue(j).Page.LastEdit Then
+            If (EditQueue(j) IsNot EditQueue(j).Page.LastEdit) OrElse (Config.QueueMaxAge > 0 _
+                AndAlso EditQueue(j).Time.AddMinutes(Config.QueueMaxAge) < Date.UtcNow) Then
+
                 EditQueue.RemoveAt(j)
                 Redraw = True
             Else

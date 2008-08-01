@@ -26,6 +26,7 @@ Class ConfigForm
         Next i
 
         ShowNewPages.Checked = Config.ShowNewPages
+        QueueMaxAge.Value = Config.QueueMaxAge
 
         If Config.MinorReverts Then Minor.SetItemChecked(0, True)
         If Config.MinorWarnings Then Minor.SetItemChecked(1, True)
@@ -136,6 +137,7 @@ Class ConfigForm
             Next i
 
             Config.ShowNewPages = ShowNewPages.Checked
+            Config.QueueMaxAge = CInt(QueueMaxAge.Value)
 
             Config.MinorReverts = Minor.CheckedIndices.Contains(0)
             Config.MinorWarnings = Minor.CheckedIndices.Contains(1)

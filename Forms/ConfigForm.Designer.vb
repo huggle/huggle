@@ -128,6 +128,9 @@ Partial Class ConfigForm
         Me.BlockReason = New System.Windows.Forms.TextBox
         Me.PromptForBlock = New System.Windows.Forms.CheckBox
         Me.UseAdminFunctions = New System.Windows.Forms.CheckBox
+        Me.Label31 = New System.Windows.Forms.Label
+        Me.QueueMaxAge = New System.Windows.Forms.NumericUpDown
+        Me.Label32 = New System.Windows.Forms.Label
         Me.Tabs.SuspendLayout()
         Me.GeneralTab.SuspendLayout()
         Me.KeyboardTab.SuspendLayout()
@@ -140,6 +143,7 @@ Partial Class ConfigForm
         Me.EditorTab.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.AdminTab.SuspendLayout()
+        CType(Me.QueueMaxAge, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Cancel
@@ -453,6 +457,9 @@ Partial Class ConfigForm
         '
         'QueueTab
         '
+        Me.QueueTab.Controls.Add(Me.QueueMaxAge)
+        Me.QueueTab.Controls.Add(Me.Label32)
+        Me.QueueTab.Controls.Add(Me.Label31)
         Me.QueueTab.Controls.Add(Me.Label5)
         Me.QueueTab.Controls.Add(Me.ShowNewPages)
         Me.QueueTab.Controls.Add(Me.Namespaces)
@@ -1245,6 +1252,34 @@ Partial Class ConfigForm
         Me.UseAdminFunctions.Text = "Use administrator functions if available"
         Me.UseAdminFunctions.UseVisualStyleBackColor = True
         '
+        'Label31
+        '
+        Me.Label31.AutoSize = True
+        Me.Label31.Location = New System.Drawing.Point(9, 209)
+        Me.Label31.Name = "Label31"
+        Me.Label31.Size = New System.Drawing.Size(157, 13)
+        Me.Label31.TabIndex = 22
+        Me.Label31.Text = "Remove queue items older than"
+        '
+        'QueueMaxAge
+        '
+        Me.QueueMaxAge.Increment = New Decimal(New Integer() {5, 0, 0, 0})
+        Me.QueueMaxAge.Location = New System.Drawing.Point(172, 207)
+        Me.QueueMaxAge.Maximum = New Decimal(New Integer() {1440, 0, 0, 0})
+        Me.QueueMaxAge.Name = "QueueMaxAge"
+        Me.QueueMaxAge.Size = New System.Drawing.Size(54, 20)
+        Me.QueueMaxAge.TabIndex = 23
+        Me.QueueMaxAge.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'Label32
+        '
+        Me.Label32.AutoSize = True
+        Me.Label32.Location = New System.Drawing.Point(232, 209)
+        Me.Label32.Name = "Label32"
+        Me.Label32.Size = New System.Drawing.Size(106, 13)
+        Me.Label32.TabIndex = 22
+        Me.Label32.Text = "minutes (0 to disable)"
+        '
         'ConfigForm
         '
         Me.AcceptButton = Me.OK
@@ -1282,6 +1317,7 @@ Partial Class ConfigForm
         Me.GroupBox2.PerformLayout()
         Me.AdminTab.ResumeLayout(False)
         Me.AdminTab.PerformLayout()
+        CType(Me.QueueMaxAge, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -1391,4 +1427,7 @@ Partial Class ConfigForm
     Friend WithEvents ColorImage As System.Windows.Forms.Button
     Friend WithEvents Label27 As System.Windows.Forms.Label
     Friend WithEvents ColorReference As System.Windows.Forms.Button
+    Friend WithEvents QueueMaxAge As System.Windows.Forms.NumericUpDown
+    Friend WithEvents Label32 As System.Windows.Forms.Label
+    Friend WithEvents Label31 As System.Windows.Forms.Label
 End Class

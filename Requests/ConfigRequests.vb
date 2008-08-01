@@ -160,6 +160,7 @@ Namespace Requests
                 Case "prod-summary" : Config.ProdSummary = Value
                 Case "protection-reason" : Config.ProtectionReason = Value
                 Case "protection-requests" : Config.ProtectionRequests = CBool(Value)
+                Case "queue-max-age" : Config.QueueMaxAge = CInt(Value)
                 Case "report" : SetReport(Value)
                 Case "report-extend-summary" : Config.ReportExtendSummary = Value
                 Case "report-summary" : Config.ReportSummary = Value
@@ -518,6 +519,7 @@ Namespace Requests
             ConfigItems.Add("new-pages:" & CStr(Config.ShowNewPages).ToLower)
             ConfigItems.Add("open-in-browser:" & CStr(Config.OpenInBrowser).ToLower)
             ConfigItems.Add("preload:" & CStr(Config.Preloads))
+            ConfigItems.Add("queue-max-age:" & CStr(Config.QueueMaxAge))
 
             If Config.AutoReport Then
                 ConfigItems.Add("report:auto")
