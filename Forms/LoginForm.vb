@@ -151,8 +151,4 @@ Class LoginForm
         Progress.Enabled = False
         Progress.Value = 0
     End Sub
-
-    Private Sub HideProxySettings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HideProxySettings.Click
-
-    End Sub
 End Class
