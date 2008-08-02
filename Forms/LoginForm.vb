@@ -84,6 +84,7 @@ Class LoginForm
 
         Login.Password = Password.Text
         Config.ProxyPort = ProxyPort.Text
+        ProxyAddress.Text = ProxyAddress.Text.Replace("http://", "")
         Config.ProxyServer = ProxyAddress.Text
         Config.ProxyUserDomain = ProxyDomain.Text
         Config.ProxyUsername = ProxyUsername.Text
