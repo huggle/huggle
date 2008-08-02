@@ -118,6 +118,7 @@ Module Config
     Public Projects As New List(Of String)(New String() { _
         "en.wikipedia;en.wikipedia.org", _
         "bg.wikipedia;bg.wikipedia.org", _
+        "de.wikipedia;de.wikipedia.org", _
         "es.wikipedia;es.wikipedia.org", _
         "no.wikipedia;no.wikipedia.org", _
         "pt.wikipedia;pt.wikipedia.org", _
