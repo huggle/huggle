@@ -367,7 +367,12 @@ Class EditForm
     End Sub
 
     Private Sub ReplaceB_Click() Handles ReplaceB.Click
-        PageText.Text = PageText.Text.Replace(Find.Text, Replace.Text)
+
+        If MatchCase.Checked Then
+            PageText.Text = PageText.Text.Replace(Find.Text, Replace.Text) 'Case sensitive replace
+        Else
+            PageText.Text = Strings.Replace(PageText.Text, Find.Text, Replace.Text, , , CompareMethod.Text) 'Case insensitive replace
+        End If
     End Sub
 
     'RichTextBox has a built-in undo stack, but setting the contents directly clears it
