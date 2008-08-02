@@ -149,7 +149,7 @@ Partial Class ConfigForm
         'Cancel
         '
         Me.Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Cancel.Location = New System.Drawing.Point(447, 331)
+        Me.Cancel.Location = New System.Drawing.Point(447, 338)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
         Me.Cancel.TabIndex = 1
@@ -159,7 +159,7 @@ Partial Class ConfigForm
         'OK
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.OK.Location = New System.Drawing.Point(366, 331)
+        Me.OK.Location = New System.Drawing.Point(366, 338)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
         Me.OK.TabIndex = 0
@@ -179,10 +179,10 @@ Partial Class ConfigForm
         Me.Tabs.Controls.Add(Me.EditorTab)
         Me.Tabs.Controls.Add(Me.AdminTab)
         Me.Tabs.ItemSize = New System.Drawing.Size(49, 19)
-        Me.Tabs.Location = New System.Drawing.Point(8, 11)
+        Me.Tabs.Location = New System.Drawing.Point(8, 14)
         Me.Tabs.Name = "Tabs"
         Me.Tabs.SelectedIndex = 0
-        Me.Tabs.Size = New System.Drawing.Size(522, 314)
+        Me.Tabs.Size = New System.Drawing.Size(522, 318)
         Me.Tabs.TabIndex = 2
         '
         'GeneralTab
@@ -575,7 +575,7 @@ Partial Class ConfigForm
         Me.EditingTab.Location = New System.Drawing.Point(4, 23)
         Me.EditingTab.Name = "EditingTab"
         Me.EditingTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.EditingTab.Size = New System.Drawing.Size(514, 288)
+        Me.EditingTab.Size = New System.Drawing.Size(514, 287)
         Me.EditingTab.TabIndex = 2
         Me.EditingTab.Text = "Editing"
         Me.EditingTab.UseVisualStyleBackColor = True
@@ -664,7 +664,7 @@ Partial Class ConfigForm
         Me.RevertTab.Location = New System.Drawing.Point(4, 23)
         Me.RevertTab.Name = "RevertTab"
         Me.RevertTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.RevertTab.Size = New System.Drawing.Size(514, 287)
+        Me.RevertTab.Size = New System.Drawing.Size(514, 291)
         Me.RevertTab.TabIndex = 5
         Me.RevertTab.Text = "Reverting"
         Me.RevertTab.UseVisualStyleBackColor = True
@@ -673,7 +673,7 @@ Partial Class ConfigForm
         '
         Me.ClearRevertSummaries.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.ClearRevertSummaries.Enabled = False
-        Me.ClearRevertSummaries.Location = New System.Drawing.Point(433, 258)
+        Me.ClearRevertSummaries.Location = New System.Drawing.Point(433, 257)
         Me.ClearRevertSummaries.Name = "ClearRevertSummaries"
         Me.ClearRevertSummaries.Size = New System.Drawing.Size(75, 23)
         Me.ClearRevertSummaries.TabIndex = 36
@@ -684,7 +684,7 @@ Partial Class ConfigForm
         '
         Me.Label19.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Label19.AutoSize = True
-        Me.Label19.Location = New System.Drawing.Point(6, 263)
+        Me.Label19.Location = New System.Drawing.Point(6, 262)
         Me.Label19.Name = "Label19"
         Me.Label19.Size = New System.Drawing.Size(395, 13)
         Me.Label19.TabIndex = 35
@@ -703,7 +703,7 @@ Partial Class ConfigForm
         'AddSummary
         '
         Me.AddSummary.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.AddSummary.Location = New System.Drawing.Point(6, 237)
+        Me.AddSummary.Location = New System.Drawing.Point(6, 230)
         Me.AddSummary.Name = "AddSummary"
         Me.AddSummary.Size = New System.Drawing.Size(62, 23)
         Me.AddSummary.TabIndex = 33
@@ -714,7 +714,7 @@ Partial Class ConfigForm
         '
         Me.RemoveSummary.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.RemoveSummary.Enabled = False
-        Me.RemoveSummary.Location = New System.Drawing.Point(74, 237)
+        Me.RemoveSummary.Location = New System.Drawing.Point(74, 230)
         Me.RemoveSummary.Name = "RemoveSummary"
         Me.RemoveSummary.Size = New System.Drawing.Size(62, 23)
         Me.RemoveSummary.TabIndex = 32
@@ -739,7 +739,7 @@ Partial Class ConfigForm
         Me.RevertSummaries.IntegralHeight = False
         Me.RevertSummaries.Location = New System.Drawing.Point(6, 149)
         Me.RevertSummaries.Name = "RevertSummaries"
-        Me.RevertSummaries.Size = New System.Drawing.Size(393, 82)
+        Me.RevertSummaries.Size = New System.Drawing.Size(393, 75)
         Me.RevertSummaries.TabIndex = 30
         '
         'UseRollback
@@ -1285,7 +1285,7 @@ Partial Class ConfigForm
         Me.AcceptButton = Me.OK
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(539, 366)
+        Me.ClientSize = New System.Drawing.Size(539, 373)
         Me.Controls.Add(Me.Tabs)
         Me.Controls.Add(Me.OK)
         Me.Controls.Add(Me.Cancel)
