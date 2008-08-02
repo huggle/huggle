@@ -36,6 +36,7 @@ Module Config
     Public ProxyUserDomain As String
     Public ProxyServer As String
     Public ProxyPort As String
+    Public ProxyEnabled As Boolean
     Public Username As String
     Public WindowMaximize As Boolean = True
     Public WindowPosition As New Point
@@ -223,6 +224,7 @@ Module Config
                     Select Case OptionName
                         Case "log-file" : Config.LogFile = OptionValue
                         Case "project" : Config.Project = OptionValue
+                        Case "proxy-enabled" : Config.ProxyEnabled = CBool(OptionValue)
                         Case "proxy-port" : Config.ProxyPort = OptionValue
                         Case "proxy-server" : Config.ProxyServer = OptionValue
                         Case "proxy-userdomain" : Config.ProxyUserDomain = OptionValue
@@ -248,6 +250,7 @@ Module Config
 
             LocalConfigItems.Add("log-file:" & Config.LogFile)
             LocalConfigItems.Add("project:" & Config.Project)
+            LocalConfigItems.Add("proxy-enabled" & CStr(Config.ProxyEnabled))
             LocalConfigItems.Add("proxy-port:" & Config.ProxyPort)
             LocalConfigItems.Add("proxy-server:" & Config.ProxyServer)
             LocalConfigItems.Add("proxy-userdomain:" & Config.ProxyUserDomain)

@@ -22,6 +22,7 @@ Class LoginForm
 
         If Project.Items.Count > 0 Then Project.SelectedIndex = 0
 
+        ProxyEnabled.Checked = Config.ProxyEnabled
         ProxyPort.Text = Config.ProxyPort
         If ProxyPort.Text.Length = 0 Then ProxyPort.Text = "80"
         ProxyAddress.Text = Config.ProxyServer
@@ -83,6 +84,7 @@ Class LoginForm
         Cancel.Text = "Cancel"
 
         Login.Password = Password.Text
+        Config.ProxyEnabled = ProxyEnabled.Checked
         Config.ProxyPort = ProxyPort.Text
         ProxyAddress.Text = ProxyAddress.Text.Replace("http://", "")
         Config.ProxyServer = ProxyAddress.Text
@@ -91,7 +93,7 @@ Class LoginForm
         Config.Username = Username.Text.Substring(0, 1).ToUpper & Username.Text.Substring(1)
 
         Try
-            Login.ConfigureProxy(ProxyAddress.Text, ProxyPort.Text, ProxyUsername.Text, _
+            Login.ConfigureProxy(ProxyEnabled.Checked, ProxyAddress.Text, ProxyPort.Text, ProxyUsername.Text, _
                 ProxyPassword.Text, ProxyDomain.Text)
 
         Catch ex As Exception
@@ -115,13 +117,13 @@ Class LoginForm
     End Sub
 
     Private Sub ShowProxySettings_Click() Handles ShowProxySettings.Click
-        Me.Height += 145
+        Me.Height += 165
         HideProxySettings.Visible = True
         ShowProxySettings.Visible = False
     End Sub
 
     Private Sub HideProxySettings_Click() Handles HideProxySettings.Click
-        Me.Height -= 145
+        Me.Height -= 165
         HideProxySettings.Visible = False
         ShowProxySettings.Visible = True
     End Sub
@@ -150,4 +152,7 @@ Class LoginForm
         Progress.Value = 0
     End Sub
 
+    Private Sub HideProxySettings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HideProxySettings.Click
+
+    End Sub
 End Class

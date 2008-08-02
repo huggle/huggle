@@ -8,7 +8,7 @@ Module Login
 
     Public CaptchaId, CaptchaWord, Password, SessionCookie As String, Proxy As IWebProxy
 
-    Public Sub ConfigureProxy(ByVal Address As String, ByVal Port As String, ByVal Username As String, _
+    Public Sub ConfigureProxy(ByVal Enabled As Boolean, ByVal Address As String, ByVal Port As String, ByVal Username As String, _
         ByVal Password As String, ByVal Domain As String)
 
         Dim Wp As WebProxy
@@ -27,11 +27,13 @@ Module Login
             Else
                 Wp = New WebProxy("http://" & ProxyString & "/", True)
             End If
-        Else
+        ElseIf Enabled Then
             Dim PortNumber As Integer = CInt(Val(Port))
             If PortNumber <= 0 Or PortNumber >= 65536 Then Port = "80" Else Port = CStr(PortNumber)
 
             Wp = New WebProxy("http://" & Address & ":" & Port & "/", True)
+        Else
+            Wp = New WebProxy
         End If
 
         Wp.Credentials = New NetworkCredential(Username, Password, Domain)
