@@ -620,8 +620,8 @@ Namespace Requests
             Data.Minor = True
 
             Data = PostEdit(Data)
-
-            If Data.Error Then Callback(AddressOf Done) Else Callback(AddressOf Failed)
+            'If the edit fails call fail, if it is done call done
+            If Data.Error Then Callback(AddressOf Failed) Else Callback(AddressOf Done)
         End Sub
 
         Private Sub Done(ByVal O As Object)

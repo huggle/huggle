@@ -24,8 +24,10 @@ Class ClosingForm
             Status.Text = "Updating user whitelist..."
             Progress.Value = 1
             Dim NewUpdateWhitelistRequest As New UpdateWhitelistRequest
+            'Call the whitelist updating process
             NewUpdateWhitelistRequest.Start()
         Else
+            'Is the whitelist doesnt need to be updated go straight to the next task
             WhitelistDone()
         End If
     End Sub

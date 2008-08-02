@@ -423,8 +423,10 @@ Module Processing
         If Config.AutoWhitelist AndAlso Not Edit.User.Anonymous AndAlso (Edit.User.Level <> UserL.Ignore) _
             AndAlso Not Edit.User.EditCount > 0 AndAlso NextCount.Count < 50 Then
 
+            'Add the username that fits the criteria to the list
             NextCount.Add(Edit.User)
 
+            'If there are 50 usernames in the list run the count
             If NextCount.Count = 50 Then
                 Dim NewCountRequest As New CountRequest
                 NewCountRequest.Users.AddRange(NextCount)

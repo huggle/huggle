@@ -513,7 +513,9 @@ Namespace Requests
                 Item.Key.EditCount = Item.Value
 
                 If Item.Key.EditCount > Config.WhitelistEditCount Then
+                    'If the user has the ammount of edit given in config or more then the user is to be ignored
                     Item.Key.Level = UserL.Ignore
+                    'Changed so ClosingForm knows that the whitelist is in need of being updated
                     WhitelistChanged = True
 
                     If CurrentEdit IsNot Nothing AndAlso Item.Key Is CurrentEdit.User Then
