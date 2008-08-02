@@ -419,15 +419,15 @@ Module Processing
             End If
         End If
 
-        'Get edit counts for non-whitelisted registered users, in batches of 50, and whitelist if appropriate
+        'Get edit counts for non-whitelisted registered users, in batches of 25, and whitelist if appropriate
         If Config.AutoWhitelist AndAlso Not Edit.User.Anonymous AndAlso (Edit.User.Level <> UserL.Ignore) _
-            AndAlso Not Edit.User.EditCount > 0 AndAlso NextCount.Count < 50 Then
+            AndAlso Not Edit.User.EditCount > 0 AndAlso NextCount.Count < 25 Then
 
             'Add the username that fits the criteria to the list
             NextCount.Add(Edit.User)
 
-            'If there are 50 usernames in the list run the count
-            If NextCount.Count = 50 Then
+            'If there are 25 usernames in the list run the count
+            If NextCount.Count = 25 Then
                 Dim NewCountRequest As New CountRequest
                 NewCountRequest.Users.AddRange(NextCount)
                 NewCountRequest.Start()
