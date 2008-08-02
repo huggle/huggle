@@ -205,7 +205,7 @@ Partial Class UserInfoForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(542, 374)
+        Me.ClientSize = New System.Drawing.Size(542, 371)
         Me.Controls.Add(Me.Collapse)
         Me.Controls.Add(Me.SessionEditCount)
         Me.Controls.Add(Me.Anonymous)

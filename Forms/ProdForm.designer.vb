@@ -31,7 +31,7 @@ Partial Class ProdForm
         'Cancel
         '
         Me.Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Cancel.Location = New System.Drawing.Point(291, 99)
+        Me.Cancel.Location = New System.Drawing.Point(304, 91)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
         Me.Cancel.TabIndex = 3
@@ -42,7 +42,7 @@ Partial Class ProdForm
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.OK.Enabled = False
-        Me.OK.Location = New System.Drawing.Point(210, 99)
+        Me.OK.Location = New System.Drawing.Point(223, 91)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
         Me.OK.TabIndex = 2
@@ -66,14 +66,14 @@ Partial Class ProdForm
         Me.Reason.Location = New System.Drawing.Point(65, 12)
         Me.Reason.Multiline = True
         Me.Reason.Name = "Reason"
-        Me.Reason.Size = New System.Drawing.Size(301, 81)
+        Me.Reason.Size = New System.Drawing.Size(314, 73)
         Me.Reason.TabIndex = 1
         '
         'ProdForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(378, 134)
+        Me.ClientSize = New System.Drawing.Size(391, 126)
         Me.Controls.Add(Me.Reason)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.OK)

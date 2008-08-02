@@ -46,7 +46,7 @@ Partial Class EmailForm
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Subject.Location = New System.Drawing.Point(64, 12)
         Me.Subject.Name = "Subject"
-        Me.Subject.Size = New System.Drawing.Size(438, 20)
+        Me.Subject.Size = New System.Drawing.Size(440, 20)
         Me.Subject.TabIndex = 1
         '
         'Label2
@@ -66,13 +66,13 @@ Partial Class EmailForm
         Me.Message.Location = New System.Drawing.Point(64, 38)
         Me.Message.Multiline = True
         Me.Message.Name = "Message"
-        Me.Message.Size = New System.Drawing.Size(438, 257)
+        Me.Message.Size = New System.Drawing.Size(440, 244)
         Me.Message.TabIndex = 3
         '
         'Cancel
         '
         Me.Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Cancel.Location = New System.Drawing.Point(427, 325)
+        Me.Cancel.Location = New System.Drawing.Point(429, 312)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
         Me.Cancel.TabIndex = 4
@@ -83,7 +83,7 @@ Partial Class EmailForm
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.OK.Enabled = False
-        Me.OK.Location = New System.Drawing.Point(346, 325)
+        Me.OK.Location = New System.Drawing.Point(348, 312)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
         Me.OK.TabIndex = 4
@@ -95,7 +95,7 @@ Partial Class EmailForm
         Me.CcMe.AutoSize = True
         Me.CcMe.Checked = True
         Me.CcMe.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CcMe.Location = New System.Drawing.Point(64, 301)
+        Me.CcMe.Location = New System.Drawing.Point(64, 312)
         Me.CcMe.Name = "CcMe"
         Me.CcMe.Size = New System.Drawing.Size(182, 17)
         Me.CcMe.TabIndex = 5
@@ -106,7 +106,7 @@ Partial Class EmailForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(514, 360)
+        Me.ClientSize = New System.Drawing.Size(516, 347)
         Me.Controls.Add(Me.CcMe)
         Me.Controls.Add(Me.OK)
         Me.Controls.Add(Me.Cancel)

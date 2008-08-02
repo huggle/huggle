@@ -33,7 +33,7 @@ Partial Class MoveForm
         'Cancel
         '
         Me.Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Cancel.Location = New System.Drawing.Point(293, 108)
+        Me.Cancel.Location = New System.Drawing.Point(311, 108)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
         Me.Cancel.TabIndex = 5
@@ -44,7 +44,7 @@ Partial Class MoveForm
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.OK.Enabled = False
-        Me.OK.Location = New System.Drawing.Point(212, 108)
+        Me.OK.Location = New System.Drawing.Point(230, 108)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
         Me.OK.TabIndex = 4
@@ -75,7 +75,7 @@ Partial Class MoveForm
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Target.Location = New System.Drawing.Point(81, 12)
         Me.Target.Name = "Target"
-        Me.Target.Size = New System.Drawing.Size(287, 20)
+        Me.Target.Size = New System.Drawing.Size(305, 20)
         Me.Target.TabIndex = 1
         '
         'Reason
@@ -87,14 +87,14 @@ Partial Class MoveForm
         Me.Reason.MaxLength = 250
         Me.Reason.Multiline = True
         Me.Reason.Name = "Reason"
-        Me.Reason.Size = New System.Drawing.Size(287, 61)
+        Me.Reason.Size = New System.Drawing.Size(305, 61)
         Me.Reason.TabIndex = 3
         '
         'MoveForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(380, 143)
+        Me.ClientSize = New System.Drawing.Size(398, 143)
         Me.Controls.Add(Me.Reason)
         Me.Controls.Add(Me.Target)
         Me.Controls.Add(Me.Label2)

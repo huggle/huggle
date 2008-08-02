@@ -189,9 +189,9 @@ Partial Class AboutForm
         Me.ContributorsLayoutPanel.Controls.Add(Me.Contributor5)
         Me.ContributorsLayoutPanel.Controls.Add(Me.Contributor6)
         Me.ContributorsLayoutPanel.Controls.Add(Me.Contributor7)
-        Me.ContributorsLayoutPanel.Location = New System.Drawing.Point(75, 89)
+        Me.ContributorsLayoutPanel.Location = New System.Drawing.Point(84, 92)
         Me.ContributorsLayoutPanel.Name = "ContributorsLayoutPanel"
-        Me.ContributorsLayoutPanel.Size = New System.Drawing.Size(289, 43)
+        Me.ContributorsLayoutPanel.Size = New System.Drawing.Size(275, 43)
         Me.ContributorsLayoutPanel.TabIndex = 10
         '
         'Contributor2

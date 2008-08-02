@@ -36,7 +36,7 @@ Partial Class ProtectionForm
         'Cancel
         '
         Me.Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Cancel.Location = New System.Drawing.Point(507, 236)
+        Me.Cancel.Location = New System.Drawing.Point(470, 236)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
         Me.Cancel.TabIndex = 5
@@ -47,7 +47,7 @@ Partial Class ProtectionForm
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.OK.Enabled = False
-        Me.OK.Location = New System.Drawing.Point(426, 236)
+        Me.OK.Location = New System.Drawing.Point(389, 236)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
         Me.OK.TabIndex = 4
@@ -62,7 +62,7 @@ Partial Class ProtectionForm
         Me.Reason.Multiline = True
         Me.Reason.Name = "Reason"
         Me.Reason.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.Reason.Size = New System.Drawing.Size(517, 71)
+        Me.Reason.Size = New System.Drawing.Size(480, 71)
         Me.Reason.TabIndex = 3
         '
         'Label1
@@ -92,7 +92,7 @@ Partial Class ProtectionForm
         Me.TypeSelect.Items.AddRange(New Object() {"Semi-protection", "Full protection", "Move protection"})
         Me.TypeSelect.Location = New System.Drawing.Point(64, 12)
         Me.TypeSelect.Name = "TypeSelect"
-        Me.TypeSelect.Size = New System.Drawing.Size(208, 21)
+        Me.TypeSelect.Size = New System.Drawing.Size(209, 21)
         Me.TypeSelect.TabIndex = 1
         '
         'Label3
@@ -116,7 +116,7 @@ Partial Class ProtectionForm
         Me.ProtectionLog.MultiSelect = False
         Me.ProtectionLog.Name = "ProtectionLog"
         Me.ProtectionLog.ShowGroups = False
-        Me.ProtectionLog.Size = New System.Drawing.Size(570, 94)
+        Me.ProtectionLog.Size = New System.Drawing.Size(533, 94)
         Me.ProtectionLog.TabIndex = 15
         Me.ProtectionLog.UseCompatibleStateImageBehavior = False
         Me.ProtectionLog.View = System.Windows.Forms.View.Details
@@ -134,7 +134,7 @@ Partial Class ProtectionForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(594, 271)
+        Me.ClientSize = New System.Drawing.Size(557, 271)
         Me.Controls.Add(Me.CurrentLevel)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.ProtectionLog)

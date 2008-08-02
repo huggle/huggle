@@ -465,4 +465,7 @@ Class QueueForm
             .Replace("<", "").Replace(">", "").Replace("#", "").Replace(CChar(vbTab), "").Replace("_", " ").Trim(" "c)
     End Function
 
+    Private Sub Cancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Cancel.Click
+
+    End Sub
 End Class

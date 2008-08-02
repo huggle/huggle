@@ -32,7 +32,7 @@ Partial Class SpeedyForm
         'Cancel
         '
         Me.Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Cancel.Location = New System.Drawing.Point(289, 38)
+        Me.Cancel.Location = New System.Drawing.Point(263, 38)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
         Me.Cancel.TabIndex = 4
@@ -43,7 +43,7 @@ Partial Class SpeedyForm
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.OK.Enabled = False
-        Me.OK.Location = New System.Drawing.Point(208, 38)
+        Me.OK.Location = New System.Drawing.Point(182, 38)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
         Me.OK.TabIndex = 3
@@ -80,14 +80,14 @@ Partial Class SpeedyForm
         Me.Criterion.Location = New System.Drawing.Point(64, 12)
         Me.Criterion.MaxDropDownItems = 20
         Me.Criterion.Name = "Criterion"
-        Me.Criterion.Size = New System.Drawing.Size(300, 21)
+        Me.Criterion.Size = New System.Drawing.Size(274, 21)
         Me.Criterion.TabIndex = 1
         '
         'SpeedyForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(376, 73)
+        Me.ClientSize = New System.Drawing.Size(350, 73)
         Me.Controls.Add(Me.Criterion)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.NotifyCreator)

@@ -35,7 +35,7 @@ Partial Class ReportForm
         'Cancel
         '
         Me.Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Cancel.Location = New System.Drawing.Point(372, 274)
+        Me.Cancel.Location = New System.Drawing.Point(374, 274)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
         Me.Cancel.TabIndex = 7
@@ -46,7 +46,7 @@ Partial Class ReportForm
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.OK.Enabled = False
-        Me.OK.Location = New System.Drawing.Point(291, 274)
+        Me.OK.Location = New System.Drawing.Point(293, 274)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
         Me.OK.TabIndex = 6
@@ -69,7 +69,7 @@ Partial Class ReportForm
         Me.Message.Location = New System.Drawing.Point(72, 39)
         Me.Message.Multiline = True
         Me.Message.Name = "Message"
-        Me.Message.Size = New System.Drawing.Size(375, 67)
+        Me.Message.Size = New System.Drawing.Size(377, 67)
         Me.Message.TabIndex = 3
         '
         'Label1
@@ -90,7 +90,7 @@ Partial Class ReportForm
         Me.ReportTo.Items.AddRange(New Object() {"Administrator intervention against vandalism", "Usernames for administrator attention"})
         Me.ReportTo.Location = New System.Drawing.Point(72, 12)
         Me.ReportTo.Name = "ReportTo"
-        Me.ReportTo.Size = New System.Drawing.Size(375, 21)
+        Me.ReportTo.Size = New System.Drawing.Size(377, 21)
         Me.ReportTo.TabIndex = 1
         Me.ReportTo.TabStop = False
         '
@@ -106,7 +106,7 @@ Partial Class ReportForm
         Me.WarnLog.MultiSelect = False
         Me.WarnLog.Name = "WarnLog"
         Me.WarnLog.ShowGroups = False
-        Me.WarnLog.Size = New System.Drawing.Size(435, 139)
+        Me.WarnLog.Size = New System.Drawing.Size(437, 139)
         Me.WarnLog.TabIndex = 5
         Me.WarnLog.UseCompatibleStateImageBehavior = False
         Me.WarnLog.View = System.Windows.Forms.View.Details
@@ -124,7 +124,7 @@ Partial Class ReportForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(459, 309)
+        Me.ClientSize = New System.Drawing.Size(461, 309)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.WarnLog)
         Me.Controls.Add(Me.Message)

@@ -149,7 +149,7 @@ Partial Class ConfigForm
         'Cancel
         '
         Me.Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Cancel.Location = New System.Drawing.Point(453, 334)
+        Me.Cancel.Location = New System.Drawing.Point(447, 331)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
         Me.Cancel.TabIndex = 1
@@ -159,7 +159,7 @@ Partial Class ConfigForm
         'OK
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.OK.Location = New System.Drawing.Point(372, 334)
+        Me.OK.Location = New System.Drawing.Point(366, 331)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
         Me.OK.TabIndex = 0
@@ -179,10 +179,10 @@ Partial Class ConfigForm
         Me.Tabs.Controls.Add(Me.EditorTab)
         Me.Tabs.Controls.Add(Me.AdminTab)
         Me.Tabs.ItemSize = New System.Drawing.Size(49, 19)
-        Me.Tabs.Location = New System.Drawing.Point(11, 12)
+        Me.Tabs.Location = New System.Drawing.Point(8, 11)
         Me.Tabs.Name = "Tabs"
         Me.Tabs.SelectedIndex = 0
-        Me.Tabs.Size = New System.Drawing.Size(522, 315)
+        Me.Tabs.Size = New System.Drawing.Size(522, 314)
         Me.Tabs.TabIndex = 2
         '
         'GeneralTab
@@ -206,7 +206,7 @@ Partial Class ConfigForm
         Me.GeneralTab.Location = New System.Drawing.Point(4, 23)
         Me.GeneralTab.Name = "GeneralTab"
         Me.GeneralTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.GeneralTab.Size = New System.Drawing.Size(514, 288)
+        Me.GeneralTab.Size = New System.Drawing.Size(514, 287)
         Me.GeneralTab.TabIndex = 0
         Me.GeneralTab.Text = "General"
         Me.GeneralTab.UseVisualStyleBackColor = True
@@ -368,7 +368,7 @@ Partial Class ConfigForm
         Me.KeyboardTab.Location = New System.Drawing.Point(4, 23)
         Me.KeyboardTab.Name = "KeyboardTab"
         Me.KeyboardTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.KeyboardTab.Size = New System.Drawing.Size(462, 288)
+        Me.KeyboardTab.Size = New System.Drawing.Size(514, 287)
         Me.KeyboardTab.TabIndex = 7
         Me.KeyboardTab.Text = "Keyboard"
         Me.KeyboardTab.UseVisualStyleBackColor = True
@@ -376,7 +376,7 @@ Partial Class ConfigForm
         'Defaults
         '
         Me.Defaults.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Defaults.Location = New System.Drawing.Point(372, 233)
+        Me.Defaults.Location = New System.Drawing.Point(433, 232)
         Me.Defaults.Name = "Defaults"
         Me.Defaults.Size = New System.Drawing.Size(75, 23)
         Me.Defaults.TabIndex = 5
@@ -386,7 +386,7 @@ Partial Class ConfigForm
         'NoShortcut
         '
         Me.NoShortcut.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.NoShortcut.Location = New System.Drawing.Point(310, 233)
+        Me.NoShortcut.Location = New System.Drawing.Point(371, 232)
         Me.NoShortcut.Name = "NoShortcut"
         Me.NoShortcut.Size = New System.Drawing.Size(56, 23)
         Me.NoShortcut.TabIndex = 4
@@ -399,10 +399,10 @@ Partial Class ConfigForm
         Me.ChangeShortcut.AcceptsReturn = True
         Me.ChangeShortcut.AcceptsTab = True
         Me.ChangeShortcut.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ChangeShortcut.Location = New System.Drawing.Point(250, 235)
+        Me.ChangeShortcut.Location = New System.Drawing.Point(118, 234)
         Me.ChangeShortcut.Multiline = True
         Me.ChangeShortcut.Name = "ChangeShortcut"
-        Me.ChangeShortcut.Size = New System.Drawing.Size(54, 20)
+        Me.ChangeShortcut.Size = New System.Drawing.Size(76, 20)
         Me.ChangeShortcut.TabIndex = 3
         Me.ChangeShortcut.TabStop = False
         Me.ChangeShortcut.Visible = False
@@ -411,7 +411,7 @@ Partial Class ConfigForm
         '
         Me.ChangeShortcutLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.ChangeShortcutLabel.AutoSize = True
-        Me.ChangeShortcutLabel.Location = New System.Drawing.Point(6, 238)
+        Me.ChangeShortcutLabel.Location = New System.Drawing.Point(6, 237)
         Me.ChangeShortcutLabel.Name = "ChangeShortcutLabel"
         Me.ChangeShortcutLabel.Size = New System.Drawing.Size(106, 13)
         Me.ChangeShortcutLabel.TabIndex = 2
@@ -440,7 +440,7 @@ Partial Class ConfigForm
         Me.ShortcutList.Location = New System.Drawing.Point(6, 31)
         Me.ShortcutList.MultiSelect = False
         Me.ShortcutList.Name = "ShortcutList"
-        Me.ShortcutList.Size = New System.Drawing.Size(441, 192)
+        Me.ShortcutList.Size = New System.Drawing.Size(502, 191)
         Me.ShortcutList.TabIndex = 0
         Me.ShortcutList.UseCompatibleStateImageBehavior = False
         Me.ShortcutList.View = System.Windows.Forms.View.Details
@@ -469,7 +469,7 @@ Partial Class ConfigForm
         Me.QueueTab.Location = New System.Drawing.Point(4, 23)
         Me.QueueTab.Name = "QueueTab"
         Me.QueueTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.QueueTab.Size = New System.Drawing.Size(462, 288)
+        Me.QueueTab.Size = New System.Drawing.Size(514, 287)
         Me.QueueTab.TabIndex = 4
         Me.QueueTab.Text = "Queue"
         Me.QueueTab.UseVisualStyleBackColor = True
@@ -477,7 +477,7 @@ Partial Class ConfigForm
         'QueueMaxAge
         '
         Me.QueueMaxAge.Increment = New Decimal(New Integer() {5, 0, 0, 0})
-        Me.QueueMaxAge.Location = New System.Drawing.Point(172, 207)
+        Me.QueueMaxAge.Location = New System.Drawing.Point(172, 212)
         Me.QueueMaxAge.Maximum = New Decimal(New Integer() {1440, 0, 0, 0})
         Me.QueueMaxAge.Name = "QueueMaxAge"
         Me.QueueMaxAge.Size = New System.Drawing.Size(54, 20)
@@ -487,7 +487,7 @@ Partial Class ConfigForm
         'Label32
         '
         Me.Label32.AutoSize = True
-        Me.Label32.Location = New System.Drawing.Point(232, 209)
+        Me.Label32.Location = New System.Drawing.Point(232, 214)
         Me.Label32.Name = "Label32"
         Me.Label32.Size = New System.Drawing.Size(106, 13)
         Me.Label32.TabIndex = 22
@@ -496,7 +496,7 @@ Partial Class ConfigForm
         'Label31
         '
         Me.Label31.AutoSize = True
-        Me.Label31.Location = New System.Drawing.Point(9, 209)
+        Me.Label31.Location = New System.Drawing.Point(9, 214)
         Me.Label31.Name = "Label31"
         Me.Label31.Size = New System.Drawing.Size(157, 13)
         Me.Label31.TabIndex = 22
@@ -530,7 +530,7 @@ Partial Class ConfigForm
         Me.Namespaces.Items.AddRange(New Object() {"Article", "Talk", "User", "User talk", "Wikipedia", "Wikipedia talk", "Category", "Category talk", "Template", "Template talk", "Image", "Image talk", "Help", "Help talk", "MediaWiki", "MediaWiki talk", "Portal", "Portal talk"})
         Me.Namespaces.Location = New System.Drawing.Point(9, 75)
         Me.Namespaces.Name = "Namespaces"
-        Me.Namespaces.Size = New System.Drawing.Size(179, 94)
+        Me.Namespaces.Size = New System.Drawing.Size(217, 94)
         Me.Namespaces.TabIndex = 19
         '
         'Label4
@@ -545,7 +545,7 @@ Partial Class ConfigForm
         'ShowAnonymous
         '
         Me.ShowAnonymous.AutoSize = True
-        Me.ShowAnonymous.Location = New System.Drawing.Point(24, 29)
+        Me.ShowAnonymous.Location = New System.Drawing.Point(12, 29)
         Me.ShowAnonymous.Name = "ShowAnonymous"
         Me.ShowAnonymous.Size = New System.Drawing.Size(108, 17)
         Me.ShowAnonymous.TabIndex = 16
@@ -555,7 +555,7 @@ Partial Class ConfigForm
         'ShowRegistered
         '
         Me.ShowRegistered.AutoSize = True
-        Me.ShowRegistered.Location = New System.Drawing.Point(138, 29)
+        Me.ShowRegistered.Location = New System.Drawing.Point(126, 29)
         Me.ShowRegistered.Name = "ShowRegistered"
         Me.ShowRegistered.Size = New System.Drawing.Size(100, 17)
         Me.ShowRegistered.TabIndex = 17
@@ -575,7 +575,7 @@ Partial Class ConfigForm
         Me.EditingTab.Location = New System.Drawing.Point(4, 23)
         Me.EditingTab.Name = "EditingTab"
         Me.EditingTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.EditingTab.Size = New System.Drawing.Size(462, 288)
+        Me.EditingTab.Size = New System.Drawing.Size(514, 288)
         Me.EditingTab.TabIndex = 2
         Me.EditingTab.Text = "Editing"
         Me.EditingTab.UseVisualStyleBackColor = True
@@ -615,7 +615,7 @@ Partial Class ConfigForm
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(157, 15)
+        Me.Label2.Location = New System.Drawing.Point(167, 15)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(85, 13)
         Me.Label2.TabIndex = 11
@@ -634,9 +634,9 @@ Partial Class ConfigForm
         '
         Me.Watchlist.FormattingEnabled = True
         Me.Watchlist.Items.AddRange(New Object() {"Reverts", "Warnings", "Tags", "Reports", "Notifications", "Other"})
-        Me.Watchlist.Location = New System.Drawing.Point(160, 31)
+        Me.Watchlist.Location = New System.Drawing.Point(170, 31)
         Me.Watchlist.Name = "Watchlist"
-        Me.Watchlist.Size = New System.Drawing.Size(150, 94)
+        Me.Watchlist.Size = New System.Drawing.Size(155, 94)
         Me.Watchlist.TabIndex = 9
         '
         'Minor
@@ -645,7 +645,7 @@ Partial Class ConfigForm
         Me.Minor.Items.AddRange(New Object() {"Reverts", "Warnings", "Tags", "Reports", "Notifications", "Other"})
         Me.Minor.Location = New System.Drawing.Point(9, 31)
         Me.Minor.Name = "Minor"
-        Me.Minor.Size = New System.Drawing.Size(145, 94)
+        Me.Minor.Size = New System.Drawing.Size(155, 94)
         Me.Minor.TabIndex = 8
         '
         'RevertTab
@@ -664,7 +664,7 @@ Partial Class ConfigForm
         Me.RevertTab.Location = New System.Drawing.Point(4, 23)
         Me.RevertTab.Name = "RevertTab"
         Me.RevertTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.RevertTab.Size = New System.Drawing.Size(462, 288)
+        Me.RevertTab.Size = New System.Drawing.Size(514, 287)
         Me.RevertTab.TabIndex = 5
         Me.RevertTab.Text = "Reverting"
         Me.RevertTab.UseVisualStyleBackColor = True
@@ -673,7 +673,7 @@ Partial Class ConfigForm
         '
         Me.ClearRevertSummaries.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.ClearRevertSummaries.Enabled = False
-        Me.ClearRevertSummaries.Location = New System.Drawing.Point(381, 271)
+        Me.ClearRevertSummaries.Location = New System.Drawing.Point(433, 258)
         Me.ClearRevertSummaries.Name = "ClearRevertSummaries"
         Me.ClearRevertSummaries.Size = New System.Drawing.Size(75, 23)
         Me.ClearRevertSummaries.TabIndex = 36
@@ -684,7 +684,7 @@ Partial Class ConfigForm
         '
         Me.Label19.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Label19.AutoSize = True
-        Me.Label19.Location = New System.Drawing.Point(3, 276)
+        Me.Label19.Location = New System.Drawing.Point(6, 263)
         Me.Label19.Name = "Label19"
         Me.Label19.Size = New System.Drawing.Size(395, 13)
         Me.Label19.TabIndex = 35
@@ -703,7 +703,7 @@ Partial Class ConfigForm
         'AddSummary
         '
         Me.AddSummary.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.AddSummary.Location = New System.Drawing.Point(6, 239)
+        Me.AddSummary.Location = New System.Drawing.Point(6, 237)
         Me.AddSummary.Name = "AddSummary"
         Me.AddSummary.Size = New System.Drawing.Size(62, 23)
         Me.AddSummary.TabIndex = 33
@@ -714,7 +714,7 @@ Partial Class ConfigForm
         '
         Me.RemoveSummary.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.RemoveSummary.Enabled = False
-        Me.RemoveSummary.Location = New System.Drawing.Point(74, 239)
+        Me.RemoveSummary.Location = New System.Drawing.Point(74, 237)
         Me.RemoveSummary.Name = "RemoveSummary"
         Me.RemoveSummary.Size = New System.Drawing.Size(62, 23)
         Me.RemoveSummary.TabIndex = 32
@@ -739,7 +739,7 @@ Partial Class ConfigForm
         Me.RevertSummaries.IntegralHeight = False
         Me.RevertSummaries.Location = New System.Drawing.Point(6, 149)
         Me.RevertSummaries.Name = "RevertSummaries"
-        Me.RevertSummaries.Size = New System.Drawing.Size(393, 84)
+        Me.RevertSummaries.Size = New System.Drawing.Size(393, 82)
         Me.RevertSummaries.TabIndex = 30
         '
         'UseRollback
@@ -790,7 +790,7 @@ Partial Class ConfigForm
         Me.ReportingTab.Location = New System.Drawing.Point(4, 23)
         Me.ReportingTab.Name = "ReportingTab"
         Me.ReportingTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.ReportingTab.Size = New System.Drawing.Size(462, 288)
+        Me.ReportingTab.Size = New System.Drawing.Size(514, 287)
         Me.ReportingTab.TabIndex = 3
         Me.ReportingTab.Text = "Reporting"
         Me.ReportingTab.UseVisualStyleBackColor = True
@@ -825,7 +825,7 @@ Partial Class ConfigForm
         Me.GroupBox1.Controls.Add(Me.ReportPrompt)
         Me.GroupBox1.Location = New System.Drawing.Point(6, 69)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(295, 102)
+        Me.GroupBox1.Size = New System.Drawing.Size(302, 109)
         Me.GroupBox1.TabIndex = 2
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Auto-report"
@@ -881,7 +881,7 @@ Partial Class ConfigForm
         Me.TemplatesTab.Location = New System.Drawing.Point(4, 23)
         Me.TemplatesTab.Name = "TemplatesTab"
         Me.TemplatesTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.TemplatesTab.Size = New System.Drawing.Size(462, 288)
+        Me.TemplatesTab.Size = New System.Drawing.Size(514, 287)
         Me.TemplatesTab.TabIndex = 6
         Me.TemplatesTab.Text = "Templates"
         Me.TemplatesTab.UseVisualStyleBackColor = True
@@ -889,7 +889,7 @@ Partial Class ConfigForm
         'AddTemplate
         '
         Me.AddTemplate.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.AddTemplate.Location = New System.Drawing.Point(6, 250)
+        Me.AddTemplate.Location = New System.Drawing.Point(6, 249)
         Me.AddTemplate.Name = "AddTemplate"
         Me.AddTemplate.Size = New System.Drawing.Size(62, 23)
         Me.AddTemplate.TabIndex = 35
@@ -900,7 +900,7 @@ Partial Class ConfigForm
         '
         Me.RemoveTemplate.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.RemoveTemplate.Enabled = False
-        Me.RemoveTemplate.Location = New System.Drawing.Point(74, 250)
+        Me.RemoveTemplate.Location = New System.Drawing.Point(74, 249)
         Me.RemoveTemplate.Name = "RemoveTemplate"
         Me.RemoveTemplate.Size = New System.Drawing.Size(62, 23)
         Me.RemoveTemplate.TabIndex = 34
@@ -927,7 +927,7 @@ Partial Class ConfigForm
         Me.Templates.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
         Me.Templates.Location = New System.Drawing.Point(6, 28)
         Me.Templates.Name = "Templates"
-        Me.Templates.Size = New System.Drawing.Size(438, 216)
+        Me.Templates.Size = New System.Drawing.Size(502, 215)
         Me.Templates.TabIndex = 0
         Me.Templates.UseCompatibleStateImageBehavior = False
         Me.Templates.View = System.Windows.Forms.View.Details
@@ -948,7 +948,7 @@ Partial Class ConfigForm
         Me.EditorTab.Location = New System.Drawing.Point(4, 23)
         Me.EditorTab.Name = "EditorTab"
         Me.EditorTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.EditorTab.Size = New System.Drawing.Size(462, 288)
+        Me.EditorTab.Size = New System.Drawing.Size(514, 287)
         Me.EditorTab.TabIndex = 8
         Me.EditorTab.Text = "Editor"
         Me.EditorTab.UseVisualStyleBackColor = True
@@ -982,7 +982,7 @@ Partial Class ConfigForm
         Me.GroupBox2.Controls.Add(Me.ColorComment)
         Me.GroupBox2.Location = New System.Drawing.Point(15, 16)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(429, 266)
+        Me.GroupBox2.Size = New System.Drawing.Size(493, 265)
         Me.GroupBox2.TabIndex = 1
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Syntax highlight colors"
@@ -1198,7 +1198,7 @@ Partial Class ConfigForm
         Me.AdminTab.Controls.Add(Me.UseAdminFunctions)
         Me.AdminTab.Location = New System.Drawing.Point(4, 23)
         Me.AdminTab.Name = "AdminTab"
-        Me.AdminTab.Size = New System.Drawing.Size(462, 288)
+        Me.AdminTab.Size = New System.Drawing.Size(514, 287)
         Me.AdminTab.TabIndex = 1
         Me.AdminTab.Text = "Admin"
         Me.AdminTab.UseVisualStyleBackColor = True
@@ -1285,7 +1285,7 @@ Partial Class ConfigForm
         Me.AcceptButton = Me.OK
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(545, 369)
+        Me.ClientSize = New System.Drawing.Size(539, 366)
         Me.Controls.Add(Me.Tabs)
         Me.Controls.Add(Me.OK)
         Me.Controls.Add(Me.Cancel)

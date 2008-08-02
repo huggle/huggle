@@ -59,7 +59,7 @@ Partial Class QueueTrimForm
         'Cancel
         '
         Me.Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Cancel.Location = New System.Drawing.Point(239, 39)
+        Me.Cancel.Location = New System.Drawing.Point(216, 32)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
         Me.Cancel.TabIndex = 4
@@ -69,7 +69,7 @@ Partial Class QueueTrimForm
         'OK
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.OK.Location = New System.Drawing.Point(158, 39)
+        Me.OK.Location = New System.Drawing.Point(135, 32)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
         Me.OK.TabIndex = 3
@@ -80,7 +80,7 @@ Partial Class QueueTrimForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(326, 74)
+        Me.ClientSize = New System.Drawing.Size(303, 67)
         Me.Controls.Add(Me.OK)
         Me.Controls.Add(Me.Cancel)
         Me.Controls.Add(Me.Label2)
