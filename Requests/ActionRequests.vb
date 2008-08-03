@@ -214,6 +214,7 @@ Namespace Requests
 
             Dim Result As String = GetText("title=Special:MovePage&target=" & UrlEncode(Page.Name))
 
+            'If you see a page with permission errors stop the process
             If Result.Contains("<div class=""permissions-errors"">") Then
                 Callback(AddressOf PermissionDenied)
                 Exit Sub
@@ -222,6 +223,7 @@ Namespace Requests
             Dim EditTokenMatch As Match = Regex.Match(Result, _
                 "<input name=""wpEditToken"" type=""hidden"" value=""(.*?)"" />", RegexOptions.Compiled)
 
+            'If there is no success stop the process
             If Not EditTokenMatch.Success Then
                 Callback(AddressOf Failed)
                 Exit Sub
@@ -231,24 +233,34 @@ Namespace Requests
             Dim PostString As String = "wpOldTitle=" & UrlEncode(Page.Name) & "&wpNewTitle=" & UrlEncode(Target) & _
                 "&wpReason=" & UrlEncode(Reason) & "&wpEditToken=" & UrlEncode(EditToken)
 
+            'If the tickbox for moving page talk also is ticked append this.
+            If MoveForm.MoveTalk.Checked Then
+                PostString = PostString & "wpMovetalk=1"
+            End If
+
+            'Post the move request
             Result = PostData("title=Special:MovePage&target=" & UrlEncode(Page.Name) & "&action=submit", PostString)
 
+            'If the move has suceeded call done, if not call fail
             If Result.Contains("<h1 class=""firstHeading"">Move succeeded</h1>") _
                 Then Callback(AddressOf Done) Else Callback(AddressOf Failed)
         End Sub
 
         Private Sub Done(ByVal O As Object)
+            'When the page has been moved and done is called write to log
             Log("Moved '" & Page.Name & "' to '" & Target & "'")
             MainForm.PageB.Text = Target
             Complete()
         End Sub
 
         Private Sub Failed(ByVal O As Object)
+            'If the page move has failed write this to log
             Log("Did not move '" & Page.Name & "' to '" & Target & "'; the target might already exist")
             Fail()
         End Sub
 
         Private Sub PermissionDenied(ByVal O As Object)
+            'If the page move has failed due to permissions write this to log
             Log("Did not move '" & Page.Name & "' to '" & Target & "' – permission denied.")
             Fail()
         End Sub

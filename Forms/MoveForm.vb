@@ -1,3 +1,5 @@
+Imports System.Text.RegularExpressions
+
 Class MoveForm
 
     Public ThisPage As Page
@@ -6,6 +8,10 @@ Class MoveForm
         Icon = My.Resources.icon_red_button
         Text = "Move " & ThisPage.Name
         Target.Text = ThisPage.Name
+
+        'If the page namespace doesnt contain the word talk then display the MoveTalk also tickbox
+        MoveTalk.Visible = Not Regex.Match(ThisPage.Namespace, "talk", RegexOptions.IgnoreCase).Success
+
     End Sub
 
     Private Sub OK_Click() Handles OK.Click
@@ -14,6 +20,7 @@ Class MoveForm
     End Sub
 
     Private Sub Cancel_Click() Handles Cancel.Click
+        'If cancel is clicked close the form
         DialogResult = DialogResult.Cancel
         Close()
     End Sub
