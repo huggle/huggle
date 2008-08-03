@@ -542,8 +542,7 @@ Namespace Requests
                 If Not Config.TemplateMessagesGlobal.Contains(Item) Then Templates.Add(Item)
             Next Item
 
-            If Templates.Count > 0 Then _
-                ConfigItems.Add("templates:" & vbCrLf & "    " & Strings.Join(Templates.ToArray, "," & vbCrLf & "    "))
+            ConfigItems.Add("templates:" & vbCrLf & "    " & Strings.Join(Config.TemplateMessages.ToArray, "," & vbCrLf & "    ")) 'Addshore
 
             ConfigItems.Add("tray-icon:" & CStr(Config.TrayIcon).ToLower)
             ConfigItems.Add("undo-summary:" & Config.UndoSummary)

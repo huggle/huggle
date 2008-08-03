@@ -138,10 +138,6 @@ Namespace Requests
                 Exit Sub
             End If
 
-            For Each Item As String In Config.TemplateMessagesGlobal
-                If Not Config.TemplateMessages.Contains(Item) Then Config.TemplateMessages.Add(Item)
-            Next Item
-
             If Config.WarnSummary2 Is Nothing Then Config.WarnSummary2 = Config.WarnSummary
             If Config.WarnSummary3 Is Nothing Then Config.WarnSummary3 = Config.WarnSummary
             If Config.WarnSummary4 Is Nothing Then Config.WarnSummary4 = Config.WarnSummary
