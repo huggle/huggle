@@ -470,15 +470,12 @@ Namespace Requests
         End Sub
 
         Private Sub Process()
-            MessageBox.Show("In process sub...")
             Dim Data As EditData = GetEditData(Config.UserConfigLocation)
 
-            MessageBox.Show("Got data...")
             If Data.Error Then
                 Callback(AddressOf Failed)
                 Exit Sub
             End If
-            MessageBox.Show("No errors")
 
             Dim ConfigItems As New List(Of String)
 
@@ -547,6 +544,7 @@ Namespace Requests
 
             If Templates.Count > 0 Then _
                 ConfigItems.Add("templates:" & vbCrLf & "    " & Strings.Join(Templates.ToArray, "," & vbCrLf & "    "))
+
             ConfigItems.Add("tray-icon:" & CStr(Config.TrayIcon).ToLower)
             ConfigItems.Add("undo-summary:" & Config.UndoSummary)
             ConfigItems.Add("update-whitelist:" & CStr(Config.UpdateWhitelist).ToLower)
@@ -565,10 +563,7 @@ Namespace Requests
             Data.Text = Strings.Join(ConfigItems.ToArray, vbCrLf)
             Data.Minor = True
             Data.Summary = Config.ConfigSummary
-            MessageBox.Show("Data set")
-            MessageBox.Show("Not cancelled..")
             Data = PostEdit(Data)
-            MessageBox.Show("Saved")
             If Data.Error Then Callback(AddressOf Failed) Else Callback(AddressOf Done)
         End Sub
 
