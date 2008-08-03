@@ -129,6 +129,7 @@ Class LoginForm
     End Sub
 
     Sub Done(ByVal O As Object)
+
         MainForm = New Main
         MainForm.Show()
         MainForm.Initialize()

@@ -92,6 +92,7 @@ Module Config
     Public LogFile As String
     Public ManualRevertSummary As String
     Public MaxAIVDiffs As Integer = 8
+    Public Message As String 'MOTD
     Public MfdLocation As String
     Public MinorNotifications As Boolean
     Public MinorOther As Boolean

@@ -1673,4 +1673,7 @@ Class Main
         End If
     End Sub
 
+    Private Sub Status_ItemActivate(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Status.ItemActivate
+
+    End Sub
 End Class

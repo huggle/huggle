@@ -76,7 +76,6 @@ Partial Class Main
         Me.PageProd = New System.Windows.Forms.ToolStripMenuItem
         Me.PageTagSpeedy = New System.Windows.Forms.ToolStripMenuItem
         Me.Separator23 = New System.Windows.Forms.ToolStripSeparator
-        Me.PageTagDeleteB = New System.Windows.Forms.ToolStripDropDownButton
         Me.PageRequestProtection = New System.Windows.Forms.ToolStripMenuItem
         Me.Separator14 = New System.Windows.Forms.ToolStripSeparator
         Me.PageWatch = New System.Windows.Forms.ToolStripMenuItem
@@ -116,6 +115,7 @@ Partial Class Main
         Me.Separator16 = New System.Windows.Forms.ToolStripSeparator
         Me.HelpAbout = New System.Windows.Forms.ToolStripMenuItem
         Me.Stats = New System.Windows.Forms.ToolStripMenuItem
+        Me.PageTagDeleteB = New System.Windows.Forms.ToolStripDropDownButton
         Me.Splitter = New System.Windows.Forms.SplitContainer
         Me.QueueScroll = New System.Windows.Forms.VScrollBar
         Me.QueueSource = New System.Windows.Forms.ComboBox
@@ -533,7 +533,7 @@ Partial Class Main
         '
         Me.TagDeleteMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PageNominate, Me.PageProd, Me.PageTagSpeedy, Me.Separator23})
         Me.TagDeleteMenu.Name = "SpeedyMenu"
-        Me.TagDeleteMenu.OwnerItem = Me.PageTagDelete
+        Me.TagDeleteMenu.OwnerItem = Me.PageTagDeleteB
         Me.TagDeleteMenu.Size = New System.Drawing.Size(201, 76)
         '
         'PageNominate
@@ -561,18 +561,6 @@ Partial Class Main
         '
         Me.Separator23.Name = "Separator23"
         Me.Separator23.Size = New System.Drawing.Size(197, 6)
-        '
-        'PageTagDeleteB
-        '
-        Me.PageTagDeleteB.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.PageTagDeleteB.DropDown = Me.TagDeleteMenu
-        Me.PageTagDeleteB.Enabled = False
-        Me.PageTagDeleteB.Image = Global.huggle.My.Resources.Resources.page_speedy
-        Me.PageTagDeleteB.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.PageTagDeleteB.Name = "PageTagDeleteB"
-        Me.PageTagDeleteB.ShowDropDownArrow = False
-        Me.PageTagDeleteB.Size = New System.Drawing.Size(32, 32)
-        Me.PageTagDeleteB.ToolTipText = "Tag this page for deletion [S]"
         '
         'PageRequestProtection
         '
@@ -831,6 +819,18 @@ Partial Class Main
         Me.Stats.Size = New System.Drawing.Size(22, 24)
         Me.Stats.Text = " "
         '
+        'PageTagDeleteB
+        '
+        Me.PageTagDeleteB.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.PageTagDeleteB.DropDown = Me.TagDeleteMenu
+        Me.PageTagDeleteB.Enabled = False
+        Me.PageTagDeleteB.Image = Global.huggle.My.Resources.Resources.page_speedy
+        Me.PageTagDeleteB.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.PageTagDeleteB.Name = "PageTagDeleteB"
+        Me.PageTagDeleteB.ShowDropDownArrow = False
+        Me.PageTagDeleteB.Size = New System.Drawing.Size(32, 32)
+        Me.PageTagDeleteB.ToolTipText = "Tag this page for deletion [S]"
+        '
         'Splitter
         '
         Me.Splitter.Dock = System.Windows.Forms.DockStyle.Fill
@@ -852,8 +852,8 @@ Partial Class Main
         '
         Me.Splitter.Panel2.Controls.Add(Me.Status)
         Me.Splitter.Panel2MinSize = 60
-        Me.Splitter.Size = New System.Drawing.Size(792, 258)
-        Me.Splitter.SplitterDistance = 165
+        Me.Splitter.Size = New System.Drawing.Size(792, 249)
+        Me.Splitter.SplitterDistance = 159
         Me.Splitter.TabIndex = 44
         '
         'QueueScroll
@@ -865,7 +865,7 @@ Partial Class Main
         Me.QueueScroll.Location = New System.Drawing.Point(160, 29)
         Me.QueueScroll.Maximum = 0
         Me.QueueScroll.Name = "QueueScroll"
-        Me.QueueScroll.Size = New System.Drawing.Size(17, 136)
+        Me.QueueScroll.Size = New System.Drawing.Size(17, 130)
         Me.QueueScroll.SmallChange = 0
         Me.QueueScroll.TabIndex = 48
         '
@@ -893,7 +893,7 @@ Partial Class Main
         Me.Queue.BackColor = System.Drawing.SystemColors.Control
         Me.Queue.Location = New System.Drawing.Point(0, 32)
         Me.Queue.Name = "Queue"
-        Me.Queue.Size = New System.Drawing.Size(162, 133)
+        Me.Queue.Size = New System.Drawing.Size(162, 127)
         Me.Queue.TabIndex = 47
         '
         'Tabs
@@ -909,7 +909,7 @@ Partial Class Main
         Me.Tabs.Name = "Tabs"
         Me.Tabs.Padding = New System.Drawing.Point(0, 0)
         Me.Tabs.SelectedIndex = 0
-        Me.Tabs.Size = New System.Drawing.Size(609, 165)
+        Me.Tabs.Size = New System.Drawing.Size(609, 159)
         Me.Tabs.SizeMode = System.Windows.Forms.TabSizeMode.Fixed
         Me.Tabs.TabIndex = 1
         '
@@ -918,7 +918,7 @@ Partial Class Main
         Me.TabPage1.Controls.Add(Me.InitialTab)
         Me.TabPage1.Location = New System.Drawing.Point(4, 5)
         Me.TabPage1.Name = "TabPage1"
-        Me.TabPage1.Size = New System.Drawing.Size(601, 156)
+        Me.TabPage1.Size = New System.Drawing.Size(601, 150)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.UseVisualStyleBackColor = True
         '
@@ -927,7 +927,7 @@ Partial Class Main
         Me.InitialTab.Dock = System.Windows.Forms.DockStyle.Fill
         Me.InitialTab.Location = New System.Drawing.Point(0, 0)
         Me.InitialTab.Name = "InitialTab"
-        Me.InitialTab.Size = New System.Drawing.Size(601, 156)
+        Me.InitialTab.Size = New System.Drawing.Size(601, 150)
         Me.InitialTab.TabIndex = 0
         '
         'Status
@@ -942,7 +942,7 @@ Partial Class Main
         Me.Status.Location = New System.Drawing.Point(0, 0)
         Me.Status.MultiSelect = False
         Me.Status.Name = "Status"
-        Me.Status.Size = New System.Drawing.Size(792, 89)
+        Me.Status.Size = New System.Drawing.Size(792, 86)
         Me.Status.TabIndex = 0
         Me.Status.UseCompatibleStateImageBehavior = False
         Me.Status.View = System.Windows.Forms.View.Details
@@ -962,13 +962,13 @@ Partial Class Main
         'ToolContainer.ContentPanel
         '
         Me.ToolContainer.ContentPanel.Controls.Add(Me.Splitter)
-        Me.ToolContainer.ContentPanel.Size = New System.Drawing.Size(792, 258)
+        Me.ToolContainer.ContentPanel.Size = New System.Drawing.Size(792, 249)
         Me.ToolContainer.Dock = System.Windows.Forms.DockStyle.Fill
         Me.ToolContainer.LeftToolStripPanelVisible = False
         Me.ToolContainer.Location = New System.Drawing.Point(0, 0)
         Me.ToolContainer.Name = "ToolContainer"
         Me.ToolContainer.RightToolStripPanelVisible = False
-        Me.ToolContainer.Size = New System.Drawing.Size(792, 432)
+        Me.ToolContainer.Size = New System.Drawing.Size(792, 423)
         Me.ToolContainer.TabIndex = 1
         Me.ToolContainer.Text = "ToolStripContainer1"
         '
@@ -1735,7 +1735,7 @@ Partial Class Main
         'Main
         '
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
-        Me.ClientSize = New System.Drawing.Size(792, 432)
+        Me.ClientSize = New System.Drawing.Size(792, 423)
         Me.Controls.Add(Me.ToolContainer)
         Me.KeyPreview = True
         Me.MainMenuStrip = Me.TopMenu
