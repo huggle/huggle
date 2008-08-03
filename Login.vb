@@ -138,6 +138,11 @@ Namespace Requests
                 Exit Sub
             End If
 
+            'If there are no Templates in TemplateMessages(user templates) use the default TemplateMessagesGlobal
+            If TemplateMessages.Count = 0 Then
+                TemplateMessages = TemplateMessagesGlobal
+            End If
+
             If Config.WarnSummary2 Is Nothing Then Config.WarnSummary2 = Config.WarnSummary
             If Config.WarnSummary3 Is Nothing Then Config.WarnSummary3 = Config.WarnSummary
             If Config.WarnSummary4 Is Nothing Then Config.WarnSummary4 = Config.WarnSummary
