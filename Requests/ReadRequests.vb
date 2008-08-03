@@ -11,10 +11,6 @@ Namespace Requests
         Public ThisUser As User, Target As ListView
 
         Public Sub Start()
-            If ThisUser.BlocksCurrent Then
-                Done(Nothing)
-                Exit Sub
-            End If
 
             Dim RequestThread As New Thread(AddressOf Process)
             RequestThread.IsBackground = True
@@ -56,7 +52,6 @@ Namespace Requests
                 Next Item
             End If
 
-            ThisUser.BlocksCurrent = True
             Callback(AddressOf Done)
         End Sub
 
@@ -609,10 +604,6 @@ Namespace Requests
         Private Result As String
 
         Public Sub Start()
-            If ThisUser.WarningsCurrent Then
-                Done(Nothing)
-                Exit Sub
-            End If
 
             Dim RequestThread As New Thread(AddressOf Process)
             RequestThread.IsBackground = True
@@ -636,8 +627,6 @@ Namespace Requests
                 ThisUser.Warnings = ProcessUserTalk(Result, ThisUser)
                 If ThisUser.Warnings IsNot Nothing Then ThisUser.Warnings.Sort(AddressOf SortWarningsByDate)
             End If
-
-            ThisUser.WarningsCurrent = True
 
             Callback(AddressOf Done)
         End Sub
@@ -694,7 +683,6 @@ Namespace Requests
         Private Sub Failed(ByVal O As Object)
             If Target IsNot Nothing AndAlso Target.Items.Count > 0 Then
                 Target.Items(0).Text = "No warnings for this user."
-                ThisUser.WarningsCurrent = True
             End If
 
             Fail()
