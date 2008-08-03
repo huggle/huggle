@@ -17,6 +17,10 @@ Class SpeedyForm
                 OrElse (Item.Code.StartsWith("U") AndAlso ThisPage.Namespace.StartsWith("User")) _
                 Then Criterion.Items.Add(Item.Code & " - " & Item.Description)
         Next Item
+        Param.Visible = False
+        ParamLabel.Visible = False
+        Me.Height -= 30
+
     End Sub
 
     Private Sub OK_Click() Handles OK.Click
@@ -38,6 +42,7 @@ Class SpeedyForm
             NewSpeedyRequest.Page = ThisPage
             NewSpeedyRequest.Criterion = SpeedyCriteria(Criterion.Text.Substring(0, Criterion.Text.IndexOf(" ")))
             NewSpeedyRequest.Notify = NotifyCreator.Checked
+            NewSpeedyRequest.Parameter = Param.Text
             NewSpeedyRequest.Start()
         Else
             DialogResult = DialogResult.Cancel
@@ -66,6 +71,17 @@ Class SpeedyForm
         If Criterion.SelectedIndex > -1 _
             Then NotifyCreator.Checked = SpeedyCriteria(Criterion.Text.Substring(0, Criterion.Text.IndexOf(" "))).Notify
         OK.Enabled = (Criterion.SelectedIndex <> -1)
+
+        If Criterion.Text.Substring(0, Criterion.Text.IndexOf(" ")) = "G12" Then
+            Param.Visible = True
+            ParamLabel.Visible = True
+            Me.Height += 30
+            Param.Text = "url="
+        Else
+            Param.Visible = False
+            ParamLabel.Visible = False
+            Me.Height -= 30
+        End If
     End Sub
 
 End Class
