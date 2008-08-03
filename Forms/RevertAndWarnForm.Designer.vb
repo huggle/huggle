@@ -55,13 +55,13 @@ Partial Class RevertAndWarnForm
         Me.Summary.FormattingEnabled = True
         Me.Summary.Location = New System.Drawing.Point(15, 35)
         Me.Summary.Name = "Summary"
-        Me.Summary.Size = New System.Drawing.Size(403, 21)
+        Me.Summary.Size = New System.Drawing.Size(408, 21)
         Me.Summary.TabIndex = 1
         '
         'OK
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.OK.Location = New System.Drawing.Point(262, 322)
+        Me.OK.Location = New System.Drawing.Point(267, 322)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
         Me.OK.TabIndex = 7
@@ -71,7 +71,7 @@ Partial Class RevertAndWarnForm
         'Cancel
         '
         Me.Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Cancel.Location = New System.Drawing.Point(343, 322)
+        Me.Cancel.Location = New System.Drawing.Point(348, 322)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
         Me.Cancel.TabIndex = 8
@@ -107,7 +107,7 @@ Partial Class RevertAndWarnForm
         Me.WarnLog.MultiSelect = False
         Me.WarnLog.Name = "WarnLog"
         Me.WarnLog.ShowGroups = False
-        Me.WarnLog.Size = New System.Drawing.Size(403, 136)
+        Me.WarnLog.Size = New System.Drawing.Size(408, 136)
         Me.WarnLog.TabIndex = 6
         Me.WarnLog.UseCompatibleStateImageBehavior = False
         Me.WarnLog.View = System.Windows.Forms.View.Details
@@ -123,7 +123,7 @@ Partial Class RevertAndWarnForm
         Me.Level.Controls.Add(Me.LevelAuto)
         Me.Level.Location = New System.Drawing.Point(15, 102)
         Me.Level.Name = "Level"
-        Me.Level.Size = New System.Drawing.Size(403, 50)
+        Me.Level.Size = New System.Drawing.Size(408, 50)
         Me.Level.TabIndex = 4
         Me.Level.TabStop = False
         Me.Level.Text = "Warning level"
@@ -193,7 +193,7 @@ Partial Class RevertAndWarnForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(430, 357)
+        Me.ClientSize = New System.Drawing.Size(435, 357)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.WarnType)
         Me.Controls.Add(Me.WarnLog)

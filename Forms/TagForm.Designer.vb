@@ -88,6 +88,8 @@ Partial Class TagForm
         '
         'TagSelector
         '
+        Me.TagSelector.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TagSelector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.TagSelector.FormattingEnabled = True
         Me.TagSelector.Location = New System.Drawing.Point(66, 47)
@@ -154,6 +156,8 @@ Partial Class TagForm
         'TagText
         '
         Me.TagText.AcceptsTab = True
+        Me.TagText.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TagText.DetectUrls = False
         Me.TagText.Font = New System.Drawing.Font("Courier New", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TagText.Location = New System.Drawing.Point(66, 73)

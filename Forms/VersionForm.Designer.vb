@@ -39,6 +39,7 @@ Partial Class VersionForm
         '
         'OK
         '
+        Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.OK.Location = New System.Drawing.Point(346, 84)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)

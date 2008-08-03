@@ -64,7 +64,7 @@ Partial Class QueueForm
         Me.Queues.IntegralHeight = False
         Me.Queues.Location = New System.Drawing.Point(12, 28)
         Me.Queues.Name = "Queues"
-        Me.Queues.Size = New System.Drawing.Size(156, 287)
+        Me.Queues.Size = New System.Drawing.Size(156, 284)
         Me.Queues.Sorted = True
         Me.Queues.TabIndex = 1
         '
@@ -78,7 +78,7 @@ Partial Class QueueForm
         Me.Queue.IntegralHeight = False
         Me.Queue.Location = New System.Drawing.Point(186, 111)
         Me.Queue.Name = "Queue"
-        Me.Queue.Size = New System.Drawing.Size(281, 204)
+        Me.Queue.Size = New System.Drawing.Size(282, 201)
         Me.Queue.TabIndex = 21
         '
         'Source
@@ -88,7 +88,7 @@ Partial Class QueueForm
         Me.Source.Enabled = False
         Me.Source.Location = New System.Drawing.Point(247, 38)
         Me.Source.Name = "Source"
-        Me.Source.Size = New System.Drawing.Size(220, 20)
+        Me.Source.Size = New System.Drawing.Size(221, 20)
         Me.Source.TabIndex = 11
         '
         'SourceType
@@ -101,7 +101,7 @@ Partial Class QueueForm
         Me.SourceType.Location = New System.Drawing.Point(247, 12)
         Me.SourceType.MaxDropDownItems = 20
         Me.SourceType.Name = "SourceType"
-        Me.SourceType.Size = New System.Drawing.Size(124, 21)
+        Me.SourceType.Size = New System.Drawing.Size(125, 21)
         Me.SourceType.TabIndex = 7
         Me.Tip.SetToolTip(Me.SourceType, "Type of query to make")
         '
@@ -116,6 +116,7 @@ Partial Class QueueForm
         '
         'Intersect
         '
+        Me.Intersect.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Intersect.Enabled = False
         Me.Intersect.Location = New System.Drawing.Point(322, 63)
         Me.Intersect.Name = "Intersect"
@@ -128,6 +129,7 @@ Partial Class QueueForm
         '
         'Combine
         '
+        Me.Combine.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Combine.Enabled = False
         Me.Combine.Location = New System.Drawing.Point(246, 63)
         Me.Combine.Name = "Combine"
@@ -139,6 +141,7 @@ Partial Class QueueForm
         '
         'Exclude
         '
+        Me.Exclude.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Exclude.Enabled = False
         Me.Exclude.Location = New System.Drawing.Point(398, 63)
         Me.Exclude.Name = "Exclude"
@@ -170,7 +173,7 @@ Partial Class QueueForm
         'AddQueue
         '
         Me.AddQueue.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.AddQueue.Location = New System.Drawing.Point(12, 321)
+        Me.AddQueue.Location = New System.Drawing.Point(12, 318)
         Me.AddQueue.Name = "AddQueue"
         Me.AddQueue.Size = New System.Drawing.Size(75, 23)
         Me.AddQueue.TabIndex = 2
@@ -182,7 +185,7 @@ Partial Class QueueForm
         '
         Me.RemoveQueue.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.RemoveQueue.Enabled = False
-        Me.RemoveQueue.Location = New System.Drawing.Point(93, 321)
+        Me.RemoveQueue.Location = New System.Drawing.Point(93, 318)
         Me.RemoveQueue.Name = "RemoveQueue"
         Me.RemoveQueue.Size = New System.Drawing.Size(75, 23)
         Me.RemoveQueue.TabIndex = 3
@@ -193,9 +196,9 @@ Partial Class QueueForm
         'OK
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.OK.Location = New System.Drawing.Point(392, 350)
+        Me.OK.Location = New System.Drawing.Point(402, 347)
         Me.OK.Name = "OK"
-        Me.OK.Size = New System.Drawing.Size(75, 23)
+        Me.OK.Size = New System.Drawing.Size(66, 23)
         Me.OK.TabIndex = 28
         Me.OK.Text = "Close"
         Me.Tip.SetToolTip(Me.OK, "Close window")
@@ -203,9 +206,9 @@ Partial Class QueueForm
         '
         'Sort
         '
-        Me.Sort.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.Sort.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Sort.Enabled = False
-        Me.Sort.Location = New System.Drawing.Point(330, 321)
+        Me.Sort.Location = New System.Drawing.Point(330, 318)
         Me.Sort.Name = "Sort"
         Me.Sort.Size = New System.Drawing.Size(66, 23)
         Me.Sort.TabIndex = 24
@@ -215,9 +218,9 @@ Partial Class QueueForm
         '
         'RemoveItem
         '
-        Me.RemoveItem.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.RemoveItem.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.RemoveItem.Enabled = False
-        Me.RemoveItem.Location = New System.Drawing.Point(258, 321)
+        Me.RemoveItem.Location = New System.Drawing.Point(258, 318)
         Me.RemoveItem.Name = "RemoveItem"
         Me.RemoveItem.Size = New System.Drawing.Size(66, 23)
         Me.RemoveItem.TabIndex = 23
@@ -227,9 +230,9 @@ Partial Class QueueForm
         '
         'AddItem
         '
-        Me.AddItem.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.AddItem.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.AddItem.Enabled = False
-        Me.AddItem.Location = New System.Drawing.Point(186, 321)
+        Me.AddItem.Location = New System.Drawing.Point(186, 318)
         Me.AddItem.Name = "AddItem"
         Me.AddItem.Size = New System.Drawing.Size(66, 23)
         Me.AddItem.TabIndex = 22
@@ -239,9 +242,9 @@ Partial Class QueueForm
         '
         'Clear
         '
-        Me.Clear.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.Clear.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Clear.Enabled = False
-        Me.Clear.Location = New System.Drawing.Point(402, 321)
+        Me.Clear.Location = New System.Drawing.Point(402, 318)
         Me.Clear.Name = "Clear"
         Me.Clear.Size = New System.Drawing.Size(66, 23)
         Me.Clear.TabIndex = 25
@@ -262,7 +265,7 @@ Partial Class QueueForm
         '
         Me.Rename.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Rename.Enabled = False
-        Me.Rename.Location = New System.Drawing.Point(93, 350)
+        Me.Rename.Location = New System.Drawing.Point(93, 347)
         Me.Rename.Name = "Rename"
         Me.Rename.Size = New System.Drawing.Size(75, 23)
         Me.Rename.TabIndex = 5
@@ -272,11 +275,11 @@ Partial Class QueueForm
         '
         'Save
         '
-        Me.Save.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.Save.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Save.Enabled = False
-        Me.Save.Location = New System.Drawing.Point(274, 350)
+        Me.Save.Location = New System.Drawing.Point(330, 347)
         Me.Save.Name = "Save"
-        Me.Save.Size = New System.Drawing.Size(75, 23)
+        Me.Save.Size = New System.Drawing.Size(67, 23)
         Me.Save.TabIndex = 27
         Me.Save.Text = "Save..."
         Me.Tip.SetToolTip(Me.Save, "Save queue to file")
@@ -286,7 +289,7 @@ Partial Class QueueForm
         '
         Me.Copy.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Copy.Enabled = False
-        Me.Copy.Location = New System.Drawing.Point(12, 350)
+        Me.Copy.Location = New System.Drawing.Point(12, 347)
         Me.Copy.Name = "Copy"
         Me.Copy.Size = New System.Drawing.Size(75, 23)
         Me.Copy.TabIndex = 4
@@ -299,7 +302,7 @@ Partial Class QueueForm
         Me.Limit.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Limit.Enabled = False
         Me.Limit.Increment = New Decimal(New Integer() {100, 0, 0, 0})
-        Me.Limit.Location = New System.Drawing.Point(415, 12)
+        Me.Limit.Location = New System.Drawing.Point(416, 12)
         Me.Limit.Maximum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.Limit.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.Limit.Name = "Limit"
@@ -313,7 +316,7 @@ Partial Class QueueForm
         '
         Me.LimitLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.LimitLabel.AutoSize = True
-        Me.LimitLabel.Location = New System.Drawing.Point(378, 15)
+        Me.LimitLabel.Location = New System.Drawing.Point(379, 15)
         Me.LimitLabel.Name = "LimitLabel"
         Me.LimitLabel.Size = New System.Drawing.Size(36, 13)
         Me.LimitLabel.TabIndex = 8
@@ -321,6 +324,7 @@ Partial Class QueueForm
         '
         'Cancel
         '
+        Me.Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Cancel.Location = New System.Drawing.Point(398, 87)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(70, 23)
@@ -334,7 +338,7 @@ Partial Class QueueForm
         '
         Me.Browse.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Browse.Enabled = False
-        Me.Browse.Location = New System.Drawing.Point(397, 37)
+        Me.Browse.Location = New System.Drawing.Point(398, 37)
         Me.Browse.Name = "Browse"
         Me.Browse.Size = New System.Drawing.Size(70, 23)
         Me.Browse.TabIndex = 12
@@ -355,7 +359,7 @@ Partial Class QueueForm
         '
         Me.ArticlesOnly.AutoSize = True
         Me.ArticlesOnly.Enabled = False
-        Me.ArticlesOnly.Location = New System.Drawing.Point(186, 357)
+        Me.ArticlesOnly.Location = New System.Drawing.Point(186, 351)
         Me.ArticlesOnly.Name = "ArticlesOnly"
         Me.ArticlesOnly.Size = New System.Drawing.Size(82, 17)
         Me.ArticlesOnly.TabIndex = 26
@@ -379,7 +383,7 @@ Partial Class QueueForm
         Me.QueueSelector.FormattingEnabled = True
         Me.QueueSelector.Location = New System.Drawing.Point(247, 38)
         Me.QueueSelector.Name = "QueueSelector"
-        Me.QueueSelector.Size = New System.Drawing.Size(221, 21)
+        Me.QueueSelector.Size = New System.Drawing.Size(222, 21)
         Me.QueueSelector.Sorted = True
         Me.QueueSelector.TabIndex = 13
         '
@@ -387,7 +391,7 @@ Partial Class QueueForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(479, 385)
+        Me.ClientSize = New System.Drawing.Size(480, 382)
         Me.Controls.Add(Me.QueueSelector)
         Me.Controls.Add(Me.ArticlesOnly)
         Me.Controls.Add(Me.Progress)

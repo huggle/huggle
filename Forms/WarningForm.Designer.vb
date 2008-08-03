@@ -41,7 +41,7 @@ Partial Class WarningForm
         '
         Me.OK.AllowDrop = True
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.OK.Location = New System.Drawing.Point(252, 260)
+        Me.OK.Location = New System.Drawing.Point(255, 260)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
         Me.OK.TabIndex = 4
@@ -52,7 +52,7 @@ Partial Class WarningForm
         '
         Me.Cancel.AllowDrop = True
         Me.Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Cancel.Location = New System.Drawing.Point(333, 260)
+        Me.Cancel.Location = New System.Drawing.Point(336, 260)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
         Me.Cancel.TabIndex = 5
@@ -70,7 +70,7 @@ Partial Class WarningForm
         Me.Level.Controls.Add(Me.LevelAuto)
         Me.Level.Location = New System.Drawing.Point(12, 12)
         Me.Level.Name = "Level"
-        Me.Level.Size = New System.Drawing.Size(396, 46)
+        Me.Level.Size = New System.Drawing.Size(399, 46)
         Me.Level.TabIndex = 0
         Me.Level.TabStop = False
         Me.Level.Text = "Warning level"
@@ -139,7 +139,7 @@ Partial Class WarningForm
         Me.WarnLog.MultiSelect = False
         Me.WarnLog.Name = "WarnLog"
         Me.WarnLog.ShowGroups = False
-        Me.WarnLog.Size = New System.Drawing.Size(396, 138)
+        Me.WarnLog.Size = New System.Drawing.Size(399, 138)
         Me.WarnLog.TabIndex = 3
         Me.WarnLog.UseCompatibleStateImageBehavior = False
         Me.WarnLog.View = System.Windows.Forms.View.Details
@@ -175,7 +175,7 @@ Partial Class WarningForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(420, 295)
+        Me.ClientSize = New System.Drawing.Size(423, 295)
         Me.Controls.Add(Me.WarnType)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Label1)

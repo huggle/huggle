@@ -49,6 +49,8 @@ Partial Class ClosingForm
         '
         'Progress
         '
+        Me.Progress.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Progress.Location = New System.Drawing.Point(15, 85)
         Me.Progress.Maximum = 3
         Me.Progress.Name = "Progress"

@@ -97,6 +97,8 @@ Partial Class SpeedyForm
         '
         'Param
         '
+        Me.Param.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Param.Location = New System.Drawing.Point(128, 42)
         Me.Param.Name = "Param"
         Me.Param.Size = New System.Drawing.Size(168, 20)

@@ -33,7 +33,7 @@ Partial Class DeleteForm
         'Cancel
         '
         Me.Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Cancel.Location = New System.Drawing.Point(507, 181)
+        Me.Cancel.Location = New System.Drawing.Point(488, 178)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
         Me.Cancel.TabIndex = 5
@@ -43,7 +43,7 @@ Partial Class DeleteForm
         'OK
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.OK.Location = New System.Drawing.Point(426, 181)
+        Me.OK.Location = New System.Drawing.Point(407, 178)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
         Me.OK.TabIndex = 4
@@ -67,7 +67,7 @@ Partial Class DeleteForm
         Me.Reason.Location = New System.Drawing.Point(182, 12)
         Me.Reason.MaxDropDownItems = 20
         Me.Reason.Name = "Reason"
-        Me.Reason.Size = New System.Drawing.Size(400, 21)
+        Me.Reason.Size = New System.Drawing.Size(381, 21)
         Me.Reason.TabIndex = 1
         '
         'DeleteLog
@@ -82,7 +82,7 @@ Partial Class DeleteForm
         Me.DeleteLog.MultiSelect = False
         Me.DeleteLog.Name = "DeleteLog"
         Me.DeleteLog.ShowGroups = False
-        Me.DeleteLog.Size = New System.Drawing.Size(569, 111)
+        Me.DeleteLog.Size = New System.Drawing.Size(550, 108)
         Me.DeleteLog.TabIndex = 3
         Me.DeleteLog.UseCompatibleStateImageBehavior = False
         Me.DeleteLog.View = System.Windows.Forms.View.Details
@@ -100,7 +100,7 @@ Partial Class DeleteForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(594, 216)
+        Me.ClientSize = New System.Drawing.Size(575, 213)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.DeleteLog)
         Me.Controls.Add(Me.Reason)

@@ -48,7 +48,7 @@ Partial Class RequestsForm
         Me.List.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
         Me.List.Location = New System.Drawing.Point(12, 12)
         Me.List.Name = "List"
-        Me.List.Size = New System.Drawing.Size(558, 307)
+        Me.List.Size = New System.Drawing.Size(565, 307)
         Me.List.TabIndex = 0
         Me.List.UseCompatibleStateImageBehavior = False
         Me.List.View = System.Windows.Forms.View.Details
@@ -162,7 +162,7 @@ Partial Class RequestsForm
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoScroll = True
-        Me.ClientSize = New System.Drawing.Size(582, 356)
+        Me.ClientSize = New System.Drawing.Size(589, 356)
         Me.Controls.Add(Me.Label8)
         Me.Controls.Add(Me.Label7)
         Me.Controls.Add(Me.Label6)

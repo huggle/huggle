@@ -40,7 +40,7 @@ Partial Class MessageForm
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Subject.Location = New System.Drawing.Point(73, 51)
         Me.Subject.Name = "Subject"
-        Me.Subject.Size = New System.Drawing.Size(442, 20)
+        Me.Subject.Size = New System.Drawing.Size(445, 20)
         Me.Subject.TabIndex = 2
         '
         'Message
@@ -53,7 +53,7 @@ Partial Class MessageForm
         Me.Message.Multiline = True
         Me.Message.Name = "Message"
         Me.Message.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.Message.Size = New System.Drawing.Size(442, 133)
+        Me.Message.Size = New System.Drawing.Size(445, 133)
         Me.Message.TabIndex = 4
         '
         'Label1
@@ -77,7 +77,7 @@ Partial Class MessageForm
         'Cancel
         '
         Me.Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Cancel.Location = New System.Drawing.Point(440, 265)
+        Me.Cancel.Location = New System.Drawing.Point(443, 265)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
         Me.Cancel.TabIndex = 9
@@ -88,7 +88,7 @@ Partial Class MessageForm
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.OK.Enabled = False
-        Me.OK.Location = New System.Drawing.Point(359, 265)
+        Me.OK.Location = New System.Drawing.Point(362, 265)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
         Me.OK.TabIndex = 8
@@ -114,7 +114,7 @@ Partial Class MessageForm
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Summary.Location = New System.Drawing.Point(73, 239)
         Me.Summary.Name = "Summary"
-        Me.Summary.Size = New System.Drawing.Size(442, 20)
+        Me.Summary.Size = New System.Drawing.Size(445, 20)
         Me.Summary.TabIndex = 7
         '
         'Label3
@@ -140,7 +140,7 @@ Partial Class MessageForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(527, 300)
+        Me.ClientSize = New System.Drawing.Size(530, 300)
         Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.Summary)
