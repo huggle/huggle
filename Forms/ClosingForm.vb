@@ -33,6 +33,7 @@ Class ClosingForm
     End Sub
 
     Public Sub WhitelistDone()
+        'If the config has been changed when running huggle or the version number is incorrect update the config
         If ConfigChanged OrElse (ConfigVersion <> Version) Then
             Status.Text = "Updating configuration subpage..."
             Progress.Value = 2

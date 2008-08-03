@@ -63,6 +63,7 @@ Namespace Requests
 
             Try
                 Select Case LoginResult
+                    'Outcomes for what posibly could go wrong when logging in
                     Case LoginResult.Failed
                         Abort("Unable to log in.")
 
