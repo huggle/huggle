@@ -34,7 +34,7 @@ Partial Class StartupForm
         'OK
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.OK.Location = New System.Drawing.Point(472, 234)
+        Me.OK.Location = New System.Drawing.Point(474, 234)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(88, 23)
         Me.OK.TabIndex = 0
@@ -60,7 +60,7 @@ Partial Class StartupForm
         Me.ConfigLink.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline
         Me.ConfigLink.Location = New System.Drawing.Point(12, 212)
         Me.ConfigLink.Name = "ConfigLink"
-        Me.ConfigLink.Size = New System.Drawing.Size(548, 34)
+        Me.ConfigLink.Size = New System.Drawing.Size(550, 34)
         Me.ConfigLink.TabIndex = 5
         Me.ConfigLink.TabStop = True
         Me.ConfigLink.Text = "If you have not used Huggle before, you must create a configuration page on Wikip" & _
@@ -76,7 +76,7 @@ Partial Class StartupForm
         Me.DocsLink.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline
         Me.DocsLink.Location = New System.Drawing.Point(12, 192)
         Me.DocsLink.Name = "DocsLink"
-        Me.DocsLink.Size = New System.Drawing.Size(548, 20)
+        Me.DocsLink.Size = New System.Drawing.Size(550, 20)
         Me.DocsLink.TabIndex = 4
         Me.DocsLink.TabStop = True
         Me.DocsLink.Text = "If you have not already done so, read the documentation thoroughly before using H" & _
@@ -92,7 +92,7 @@ Partial Class StartupForm
         Me.Label2.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline
         Me.Label2.Location = New System.Drawing.Point(12, 48)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(548, 88)
+        Me.Label2.Size = New System.Drawing.Size(550, 88)
         Me.Label2.TabIndex = 2
         Me.Label2.Text = resources.GetString("Label2.Text")
         '
@@ -105,7 +105,7 @@ Partial Class StartupForm
         Me.Label3.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline
         Me.Label3.Location = New System.Drawing.Point(12, 141)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(548, 51)
+        Me.Label3.Size = New System.Drawing.Size(550, 51)
         Me.Label3.TabIndex = 3
         Me.Label3.Text = "Responsibility for edits rests with the owner of the account with which they are " & _
             "made." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Use of an automated tool is not an excuse."
@@ -114,7 +114,7 @@ Partial Class StartupForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(572, 269)
+        Me.ClientSize = New System.Drawing.Size(574, 269)
         Me.Controls.Add(Me.OK)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.Label2)
