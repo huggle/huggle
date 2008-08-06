@@ -367,7 +367,6 @@ Class EditForm
     End Sub
 
     Private Sub ReplaceB_Click() Handles ReplaceB.Click
-
         If MatchCase.Checked Then
             PageText.Text = PageText.Text.Replace(Find.Text, Replace.Text) 'Case sensitive replace
         Else

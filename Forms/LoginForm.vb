@@ -98,6 +98,7 @@ Class LoginForm
         Config.ProxyUserDomain = ProxyDomain.Text
         Config.ProxyUsername = ProxyUsername.Text
         Config.Username = Username.Text.Substring(0, 1).ToUpper & Username.Text.Substring(1)
+        Config.Username = Config.Username.Replace("_", " ")
 
         Try
             Login.ConfigureProxy(ProxyEnabled.Checked, ProxyAddress.Text, ProxyPort.Text, ProxyUsername.Text, _
