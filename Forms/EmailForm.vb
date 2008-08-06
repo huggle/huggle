@@ -16,6 +16,7 @@
     End Sub
 
     Private Sub OK_Click() Handles OK.Click
+        'When ok is clicked send all of the information gathered
         Request.Message = Message.Text
         Request.Subject = Subject.Text
         Request.CcMe = CcMe.Checked
@@ -31,6 +32,7 @@
     End Sub
 
     Private Sub Message_TextChanged() Handles Subject.TextChanged, Message.TextChanged
+        'When there is something in the message and subject enable the ok button
         OK.Enabled = (Message.Text <> "" AndAlso Subject.Text <> "")
     End Sub
 

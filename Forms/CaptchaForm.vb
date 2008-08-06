@@ -13,9 +13,11 @@ Class CaptchaForm
         Client.Headers.Add(HttpRequestHeader.Cookie, Cookie)
         Client.Proxy = Login.Proxy
 
+        'Get the captcha
         Client.DownloadFile(SitePath & "w/index.php?title=Special:Captcha/image&wpCaptchaId=" & CaptchaId, TempFileName)
         Captcha.Image = New Bitmap(TempFileName)
 
+        'Size the captcha in form correctly
         Width += (Captcha.Image.Width - Captcha.Width)
         Height += (Captcha.Image.Height - Captcha.Height)
     End Sub
@@ -23,12 +25,14 @@ Class CaptchaForm
     Private Sub OK_Click() Handles OK.Click
         If Answer.Text <> "" Then
             DialogResult = DialogResult.OK
+            'If captcha is done and correct then close huggle
             Close()
         End If
     End Sub
 
     Private Sub CaptchaForm_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles MyBase.KeyDown
         If e.KeyCode = Keys.Escape Then
+            'If captcha canceled then close
             DialogResult = DialogResult.Cancel
             Close()
         End If
@@ -42,6 +46,7 @@ Class CaptchaForm
     End Sub
 
     Private Sub Answer_TextChanged() Handles Answer.TextChanged
+        'When captcha text is changed enable the ok button
         OK.Enabled = (Answer.Text <> "")
     End Sub
 
