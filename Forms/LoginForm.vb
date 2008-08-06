@@ -10,8 +10,10 @@ Class LoginForm
         Icon = My.Resources.icon_red_button
 
         GetLocalConfig()
+        'Set the version number on form to the current version number
         Version.Text = "Version " & Config.Version.Major & "." & Config.Version.Minor & "." & Config.Version.Build
 
+        'If the app is in debug mode add a localhost wiki to the project list
 #If DEBUG Then
         If Not Config.Projects.Contains("localhost;localhost") Then Config.Projects.Add("localhost;localhost")
 #End If
@@ -50,14 +52,19 @@ Class LoginForm
     End Sub
 
     Private Sub Password_TextChanged() Handles Password.TextChanged
+        'When password text is changed enable the ok button
+        'Username text must also be changed
         OK.Enabled = (Username.Text <> "" AndAlso Password.Text <> "")
     End Sub
 
     Private Sub Username_TextChanged() Handles Username.TextChanged
+        'When username text is changed enable the ok button
+        'Password text must also be changed
         OK.Enabled = (Username.Text <> "" AndAlso Password.Text <> "")
     End Sub
 
     Private Sub Credit_LinkClicked() Handles Credit.LinkClicked
+        'If the credit link is clicked load gurchs userpage in default browser
         OpenUrlInBrowser("http://en.wikipedia.org/wiki/User:Gurch")
     End Sub
 
@@ -117,13 +124,17 @@ Class LoginForm
     End Sub
 
     Private Sub ShowProxySettings_Click() Handles ShowProxySettings.Click
+        'When proxysettings are needed make the form big enough so they fit and can be seen
         Me.Height += 165
+        'Switch the show proxy button for a hide proxy button
         HideProxySettings.Visible = True
         ShowProxySettings.Visible = False
     End Sub
 
     Private Sub HideProxySettings_Click() Handles HideProxySettings.Click
+        'When proxysettings are not needed make the form smaller to knock them off the edge
         Me.Height -= 165
+        'Switch the hide proxy button for a show proxy button
         HideProxySettings.Visible = False
         ShowProxySettings.Visible = True
     End Sub
