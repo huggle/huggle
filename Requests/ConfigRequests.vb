@@ -616,7 +616,6 @@ Namespace Requests
                             Case "documentation" : Config.DocsLocation = OptionValue
                             Case "feedback" : Config.FeedbackLocation = OptionValue
                             Case "irc-server" : Config.IrcServer = OptionValue
-                            Case "message" : Config.Message = OptionValue 'MOTD
                             Case "sensitive-addresses" : SetSensitiveAddresses(OptionValue)
                             Case "user-agent" : Config.UserAgent = OptionValue.Replace("$1", Config.Version.ToString)
                             Case "user-config" : Config.UserConfigLocation = OptionValue
