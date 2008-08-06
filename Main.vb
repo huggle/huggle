@@ -133,6 +133,7 @@ Class Main
     Private Sub UserIgnore_Click() Handles UserIgnore.Click, UserIgnoreB.Click
         If CurrentUser IsNot Nothing _
             Then If CurrentUser.Level = UserL.Ignore Then UnignoreUser(CurrentUser) Else IgnoreUser(CurrentUser)
+
     End Sub
 
     Public Sub IgnoreUser(ByVal User As User)
@@ -174,6 +175,7 @@ Class Main
 
     Public Sub UnignoreUser(ByVal User As User)
         User.Level = UserL.None
+        WhitelistChanged = True
         Log("Unignored user '" & User.Name & "'")
 
         For Each Item As Command In Undo
