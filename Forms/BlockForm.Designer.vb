@@ -46,7 +46,7 @@ Partial Class BlockForm
         'Cancel
         '
         Me.Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Cancel.Location = New System.Drawing.Point(500, 380)
+        Me.Cancel.Location = New System.Drawing.Point(507, 380)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
         Me.Cancel.TabIndex = 18
@@ -56,7 +56,7 @@ Partial Class BlockForm
         'OK
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.OK.Location = New System.Drawing.Point(419, 380)
+        Me.OK.Location = New System.Drawing.Point(426, 380)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
         Me.OK.TabIndex = 17
@@ -74,7 +74,7 @@ Partial Class BlockForm
         Me.BlockLog.MultiSelect = False
         Me.BlockLog.Name = "BlockLog"
         Me.BlockLog.ShowGroups = False
-        Me.BlockLog.Size = New System.Drawing.Size(565, 84)
+        Me.BlockLog.Size = New System.Drawing.Size(572, 84)
         Me.BlockLog.TabIndex = 13
         Me.BlockLog.UseCompatibleStateImageBehavior = False
         Me.BlockLog.View = System.Windows.Forms.View.Details
@@ -157,13 +157,13 @@ Partial Class BlockForm
         Me.Reason.Items.AddRange(New Object() {"[[Wikipedia:Vandalism|Vandalism]]", "[[Wikipedia:Username policy|Inappropriate username]]", "{{anonblock}}", "{{schoolblock}}"})
         Me.Reason.Location = New System.Drawing.Point(65, 12)
         Me.Reason.Name = "Reason"
-        Me.Reason.Size = New System.Drawing.Size(510, 21)
+        Me.Reason.Size = New System.Drawing.Size(517, 21)
         Me.Reason.TabIndex = 1
         '
         'UserTalk
         '
         Me.UserTalk.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.UserTalk.Location = New System.Drawing.Point(419, 73)
+        Me.UserTalk.Location = New System.Drawing.Point(426, 73)
         Me.UserTalk.Name = "UserTalk"
         Me.UserTalk.Size = New System.Drawing.Size(75, 23)
         Me.UserTalk.TabIndex = 10
@@ -173,7 +173,7 @@ Partial Class BlockForm
         'UserContribs
         '
         Me.UserContribs.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.UserContribs.Location = New System.Drawing.Point(500, 73)
+        Me.UserContribs.Location = New System.Drawing.Point(507, 73)
         Me.UserContribs.Name = "UserContribs"
         Me.UserContribs.Size = New System.Drawing.Size(75, 23)
         Me.UserContribs.TabIndex = 11
@@ -192,7 +192,7 @@ Partial Class BlockForm
         Me.WarnLog.MultiSelect = False
         Me.WarnLog.Name = "WarnLog"
         Me.WarnLog.ShowGroups = False
-        Me.WarnLog.Size = New System.Drawing.Size(565, 121)
+        Me.WarnLog.Size = New System.Drawing.Size(572, 121)
         Me.WarnLog.TabIndex = 15
         Me.WarnLog.UseCompatibleStateImageBehavior = False
         Me.WarnLog.View = System.Windows.Forms.View.Details
@@ -224,7 +224,7 @@ Partial Class BlockForm
         Me.BlockMessage.Items.AddRange(New Object() {"(none)", "(standard block message)", "{{anonblock}}", "{{schoolblock}}"})
         Me.BlockMessage.Location = New System.Drawing.Point(373, 38)
         Me.BlockMessage.Name = "BlockMessage"
-        Me.BlockMessage.Size = New System.Drawing.Size(201, 21)
+        Me.BlockMessage.Size = New System.Drawing.Size(208, 21)
         Me.BlockMessage.TabIndex = 5
         '
         'Label5
@@ -248,7 +248,7 @@ Partial Class BlockForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(587, 412)
+        Me.ClientSize = New System.Drawing.Size(594, 412)
         Me.Controls.Add(Me.Expiry)
         Me.Controls.Add(Me.Label5)
         Me.Controls.Add(Me.BlockMessage)
