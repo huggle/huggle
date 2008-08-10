@@ -30,7 +30,7 @@ Class LoginForm
         ProxyDomain.Text = Config.ProxyUserDomain
         ProxyUsername.Text = Config.ProxyUsername
 
-        Version.Text = "Version " & VersionString()
+        Version.Text = "Version " & VersionString(Config.Version)
         If Config.RememberMe Then Username.Text = Config.Username
         If Username.Text = "" Then Username.Focus() Else Password.Focus()
     End Sub

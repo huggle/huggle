@@ -36,7 +36,6 @@ Module Misc
     Public StartTime As Date
     Public SyncContext As Threading.SynchronizationContext
     Public Undo As New List(Of Command)
-    Public VersionOK As Boolean
     Public WarningMessages As New Dictionary(Of String, String)
     Public Watchlist As New List(Of Page)
     Public Whitelist As New List(Of String)
@@ -820,8 +819,8 @@ Module Misc
         End Try
     End Sub
 
-    Function VersionString() As String
-        Return Config.Version.Major & "." & Config.Version.Minor & "." & Config.Version.Build
+    Function VersionString(ByVal Version As Version) As String
+        Return Version.Major & "." & Version.Minor & "." & Version.Build
     End Function
 
     Class Stats

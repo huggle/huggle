@@ -22,6 +22,7 @@ Module Config
     Public GlobalConfigLocation As String = "http://meta.wikimedia.org/w/index.php?title=Huggle/GlobalConfig&action=raw"
     Public HistoryBlockSize As Integer = 100
     Public IrcMode As Boolean = True
+    Public LatestVersion As New Version(0, 0, 0)
     Public LocalConfigLocation As String = "\config.txt"
     Public ProtectedNamespaces As String() = {"MediaWiki"}
     Public QueueWidth As Integer = 160
@@ -74,6 +75,7 @@ Module Config
     Public Delete As Boolean
     Public DiffFontSize As String = "8"
     Public DocsLocation As String = "http://en.wikipedia.org/wiki/Wikipedia:Huggle"
+    Public DownloadLocation As String = "http://huggle.googlecode.com/files/huggle $1.exe"
     Public Email As Boolean
     Public EmailSubject As String
     Public Enabled As Boolean
@@ -99,7 +101,7 @@ Module Config
     Public MinorReverts As Boolean = True
     Public MinorTags As Boolean
     Public MinorWarnings As Boolean
-    Public MinVersion As String
+    Public MinVersion As Version
     Public MinWarningWait As Integer = 10
     Public MonthHeadings As Boolean
     Public NamespacesChecked As New List(Of String)(New String() {"article", "talk", "user", "user talk", "help", _

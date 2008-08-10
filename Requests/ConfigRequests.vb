@@ -206,7 +206,7 @@ Namespace Requests
                 Case "ignore" : Config.IgnoredPages = GetList(Value)
                 Case "manual-revert-summary" : Config.ManualRevertSummary = Value
                 Case "mfd" : Config.MfdLocation = Value
-                Case "min-version" : VersionOK = CheckMinVersion(Value)
+                Case "min-version" : SetMinVersion(Value)
                 Case "patrol" : Config.Patrol = CBool(Value)
                 Case "protect" : Config.Protect = CBool(Value)
                 Case "protection-request-page" : Config.ProtectionRequestPage = Value
@@ -231,7 +231,7 @@ Namespace Requests
                 Case "uaabot" : Config.UAABotLocation = Value
                 Case "userlist" : Config.UserListLocation = Value
                 Case "userlist-update-summary" : Config.UserListUpdateSummary = Value
-                Case "version" : If VersionOK Then CheckVersion(Value)
+                Case "version" : SetLatestVersion(Value)
                 Case "warning-im-level" : Config.WarningImLevel = CBool(Value)
                 Case "warning-mode" : Config.WarningMode = Value
                 Case "warning-month-headings" : Config.MonthHeadings = CBool(Value)
@@ -277,29 +277,15 @@ Namespace Requests
             End Select
         End Sub
 
-        Private Sub CheckVersion(ByVal VersionString As String)
-            Dim NewVersion As New Version(CInt(VersionString.Substring(0, 1)), _
-                CInt(VersionString.Substring(2, 1)), CInt(VersionString.Substring(4)))
-
-            If NewVersion > Version Then
-                Dim NewVersionForm As New VersionForm
-
-                NewVersionForm.VersionMessage.Text = "You are currently using version " & _
-                    Version.ToString & " of huggle. The latest available version is " & _
-                    NewVersion.ToString & "." & vbCrLf & vbCrLf & "See the documentation page for details of how to " & _
-                    "obtain the most recent version. This version will continue to function."
-                NewVersionForm.ShowDialog()
-            End If
+        Private Sub SetLatestVersion(ByVal VersionString As String)
+            Config.LatestVersion = New Version(CInt(VersionString.Substring(0, 1)), _
+                CInt(VersionString.Substring(2, 1)), CInt(VersionString.Substring(4)), 0)
         End Sub
 
-        Private Function CheckMinVersion(ByVal VersionString As String) As Boolean
-            Dim MinVersion As New Version(CInt(VersionString.Substring(0, 1)), _
-                        CInt(VersionString.Substring(2, 1)), CInt(VersionString.Substring(4)))
-
-            Config.MinVersion = MinVersion.ToString
-
-            Return MinVersion <= Version
-        End Function
+        Private Sub SetMinVersion(ByVal VersionString As String)
+            Config.MinVersion = New Version(CInt(VersionString.Substring(0, 1)), _
+                CInt(VersionString.Substring(2, 1)), CInt(VersionString.Substring(4)), 0)
+        End Sub
 
         Private Function GetList(ByVal Value As String) As List(Of String)
             'Converts a comma-separated list to a List(Of String)

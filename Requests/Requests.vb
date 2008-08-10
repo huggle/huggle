@@ -496,4 +496,47 @@ Namespace Requests
 
     End Class
 
+    Class UpdateRequest : Inherits Request
+
+        'Download latest version of the application
+
+        Public FileName As String
+        Private _Done As CallbackDelegate
+
+        Public Sub Start(Optional ByVal Done As CallbackDelegate = Nothing)
+            _Done = Done
+
+            Dim RequestThread As New Thread(AddressOf Process)
+            RequestThread.IsBackground = True
+            RequestThread.Start()
+        End Sub
+
+        Private Sub Process()
+            Dim Client As New WebClient
+
+            Client.Headers.Add(HttpRequestHeader.UserAgent, Config.UserAgent)
+
+            Try
+                Client.DownloadFile(Config.DownloadLocation.Replace("$1", VersionString(Config.LatestVersion)), FileName)
+            Catch ex As WebException
+                If State = RequestState.Cancelled Then Thread.CurrentThread.Abort()
+                Callback(AddressOf Failed)
+            End Try
+
+            If State = RequestState.Cancelled Then Thread.CurrentThread.Abort()
+            Callback(AddressOf Done)
+        End Sub
+
+        Private Sub Done(ByVal O As Object)
+            Complete()
+            _Done(True)
+        End Sub
+
+        Private Sub Failed(ByVal O As Object)
+            Fail()
+            _Done(False)
+        End Sub
+
+    End Class
+
 End Namespace

@@ -118,12 +118,18 @@ Namespace Requests
                 Exit Sub
             End If
 
+            'Notify user of new version
+            If Config.LatestVersion > Config.Version Then
+                Dim NewVersionForm As New VersionForm
+
+                If NewVersionForm.ShowDialog() = DialogResult.Cancel AndAlso Config.MinVersion > Config.Version Then
+                    Abort("Version is out of date. Update to the latest version.")
+                    Exit Sub
+                End If
+            End If
+
             If Not Config.EnabledForAll Then
                 Abort("Huggle is currently disabled on this project.")
-                Exit Sub
-
-            ElseIf Not VersionOK Then
-                Abort("Version is too old. " & Config.MinVersion & " or later required.")
                 Exit Sub
             End If
 
