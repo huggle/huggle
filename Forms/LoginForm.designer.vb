@@ -42,7 +42,7 @@ Partial Class LoginForm
         Me.UsernameLabel = New System.Windows.Forms.Label
         Me.Password = New System.Windows.Forms.TextBox
         Me.Username = New System.Windows.Forms.TextBox
-        Me.TitleLabel = New System.Windows.Forms.Label
+        Me.Title = New System.Windows.Forms.Label
         Me.Version = New System.Windows.Forms.Label
         Me.Status = New System.Windows.Forms.Label
         Me.Progress = New System.Windows.Forms.ProgressBar
@@ -263,17 +263,17 @@ Partial Class LoginForm
         Me.Username.Size = New System.Drawing.Size(177, 20)
         Me.Username.TabIndex = 5
         '
-        'TitleLabel
+        'Title
         '
-        Me.TitleLabel.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.Title.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TitleLabel.Font = New System.Drawing.Font("Tahoma", 27.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TitleLabel.Location = New System.Drawing.Point(10, -4)
-        Me.TitleLabel.Name = "TitleLabel"
-        Me.TitleLabel.Size = New System.Drawing.Size(267, 55)
-        Me.TitleLabel.TabIndex = 0
-        Me.TitleLabel.Text = "huggle"
-        Me.TitleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.Title.Font = New System.Drawing.Font("Tahoma", 27.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Title.Location = New System.Drawing.Point(10, -4)
+        Me.Title.Name = "Title"
+        Me.Title.Size = New System.Drawing.Size(267, 55)
+        Me.Title.TabIndex = 0
+        Me.Title.Text = "huggle"
+        Me.Title.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'Version
         '
@@ -338,7 +338,7 @@ Partial Class LoginForm
         Me.Controls.Add(Me.ShowProxySettings)
         Me.Controls.Add(Me.Status)
         Me.Controls.Add(Me.Progress)
-        Me.Controls.Add(Me.TitleLabel)
+        Me.Controls.Add(Me.Title)
         Me.Controls.Add(Me.Version)
         Me.Controls.Add(Me.ProxyGroup)
         Me.Controls.Add(Me.Cancel)
@@ -370,7 +370,7 @@ Partial Class LoginForm
     Friend WithEvents UsernameLabel As System.Windows.Forms.Label
     Friend WithEvents Password As System.Windows.Forms.TextBox
     Friend WithEvents Username As System.Windows.Forms.TextBox
-    Friend WithEvents TitleLabel As System.Windows.Forms.Label
+    Friend WithEvents Title As System.Windows.Forms.Label
     Friend WithEvents Version As System.Windows.Forms.Label
     Friend WithEvents Status As System.Windows.Forms.Label
     Friend WithEvents Progress As System.Windows.Forms.ProgressBar

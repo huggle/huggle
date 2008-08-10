@@ -820,6 +820,10 @@ Module Misc
         End Try
     End Sub
 
+    Function VersionString() As String
+        Return Config.Version.Major & "." & Config.Version.Minor & "." & Config.Version.Build
+    End Function
+
     Class Stats
 
         Public Shared Edits, EditsMe, Reverts, RevertsMe, Warnings, WarningsMe, Blocks, BlocksMe As Integer

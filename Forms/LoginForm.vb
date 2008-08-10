@@ -11,11 +11,9 @@ Class LoginForm
         Height = 270
 
         GetLocalConfig()
-        'Set the version number on form to the current version number
-        Version.Text = "Version " & Config.Version.Major & "." & Config.Version.Minor & "." & Config.Version.Build
 
-        'If the app is in debug mode add a localhost wiki to the project list
 #If DEBUG Then
+        'If the app is in debug mode add a localhost wiki to the project list
         If Not Config.Projects.Contains("localhost;localhost") Then Config.Projects.Add("localhost;localhost")
 #End If
 
@@ -32,7 +30,8 @@ Class LoginForm
         ProxyDomain.Text = Config.ProxyUserDomain
         ProxyUsername.Text = Config.ProxyUsername
 
-        If RememberMe Then Username.Text = Config.Username
+        Version.Text = "Version " & VersionString()
+        If Config.RememberMe Then Username.Text = Config.Username
         If Username.Text = "" Then Username.Focus() Else Password.Focus()
     End Sub
 
@@ -53,14 +52,10 @@ Class LoginForm
     End Sub
 
     Private Sub Password_TextChanged() Handles Password.TextChanged
-        'When password text is changed enable the ok button
-        'Username text must also be changed
         OK.Enabled = (Username.Text <> "" AndAlso Password.Text <> "")
     End Sub
 
     Private Sub Username_TextChanged() Handles Username.TextChanged
-        'When username text is changed enable the ok button
-        'Password text must also be changed
         OK.Enabled = (Username.Text <> "" AndAlso Password.Text <> "")
     End Sub
 
@@ -79,11 +74,11 @@ Class LoginForm
         If Config.Project.Contains(".org") Then Config.IrcChannel = "#" & _
             Config.Project.Substring(0, Config.Project.IndexOf(".org"))
 
-        ProxyGroup.Enabled = False
-        OK.Enabled = False
-        ShowProxySettings.Enabled = False
-        HideProxySettings.Enabled = False
-        Progress.Enabled = True
+        For Each Item As Control In Controls
+            If Not ArrayContains(New Control() {Title, Version, Status, Progress, Cancel}, Item) _
+                Then Item.Enabled = False
+        Next Item
+
         Cancel.Text = "Cancel"
 
         Login.Password = Password.Text
@@ -93,8 +88,7 @@ Class LoginForm
         Config.ProxyServer = ProxyAddress.Text
         Config.ProxyUserDomain = ProxyDomain.Text
         Config.ProxyUsername = ProxyUsername.Text
-        Config.Username = Username.Text.Substring(0, 1).ToUpper & Username.Text.Substring(1)
-        Config.Username = Config.Username.Replace("_", " ")
+        Config.Username = (Username.Text.Substring(0, 1).ToUpper & Username.Text.Substring(1)).Replace("_", " ")
 
         Try
             Login.ConfigureProxy(Proxy.Checked, ProxyAddress.Text, ProxyPort.Text, ProxyUsername.Text, _
@@ -121,18 +115,18 @@ Class LoginForm
     End Sub
 
     Private Sub ShowProxySettings_Click() Handles ShowProxySettings.Click
-        'When proxysettings are needed make the form big enough so they fit and can be seen
-        Height += 160
+        Height += 160 'Resize form
         ProxyGroup.Visible = True
+
         'Switch the show proxy button for a hide proxy button
         HideProxySettings.Visible = True
         ShowProxySettings.Visible = False
     End Sub
 
     Private Sub HideProxySettings_Click() Handles HideProxySettings.Click
-        'When proxysettings are not needed make the form smaller to knock them off the edge
-        Height -= 160
+        Height -= 160 'Resize form
         ProxyGroup.Visible = False
+
         'Switch the hide proxy button for a show proxy button
         HideProxySettings.Visible = False
         ShowProxySettings.Visible = True
@@ -159,16 +153,13 @@ Class LoginForm
     Sub Abort(ByVal MessageObject As Object)
         LoggingIn = False
         Status.Text = CStr(MessageObject)
-        ProxyGroup.Enabled = True
-        OK.Enabled = True
-        ShowProxySettings.Enabled = True
-        HideProxySettings.Enabled = True
         Cancel.Text = "Exit"
-        Progress.Enabled = False
         Progress.Value = 0
+
+        For Each Item As Control In Controls
+            If Not ArrayContains(New Control() {Title, Version, Status, Progress, Cancel}, Item) _
+                Then Item.Enabled = True
+        Next Item
     End Sub
 
-    Private Sub ShowProxySettings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowProxySettings.Click
-
-    End Sub
 End Class
