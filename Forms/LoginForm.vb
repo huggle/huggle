@@ -8,6 +8,7 @@ Class LoginForm
 
     Private Sub LoginForm_Load() Handles Me.Load
         Icon = My.Resources.icon_red_button
+        Height = 270
 
         GetLocalConfig()
         'Set the version number on form to the current version number
@@ -24,7 +25,7 @@ Class LoginForm
 
         If Project.Items.Count > 0 Then Project.SelectedIndex = 0
 
-        ProxyEnabled.Checked = Config.ProxyEnabled
+        Proxy.Checked = Config.ProxyEnabled
         ProxyPort.Text = Config.ProxyPort
         If ProxyPort.Text.Length = 0 Then ProxyPort.Text = "80"
         ProxyAddress.Text = Config.ProxyServer
@@ -63,11 +64,6 @@ Class LoginForm
         OK.Enabled = (Username.Text <> "" AndAlso Password.Text <> "")
     End Sub
 
-    Private Sub Credit_LinkClicked() Handles Credit.LinkClicked
-        'If the credit link is clicked load gurchs userpage in default browser
-        OpenUrlInBrowser("http://en.wikipedia.org/wiki/User:Gurch")
-    End Sub
-
     Private Sub OK_Click() Handles OK.Click
         LoggingIn = True
 
@@ -83,7 +79,7 @@ Class LoginForm
         If Config.Project.Contains(".org") Then Config.IrcChannel = "#" & _
             Config.Project.Substring(0, Config.Project.IndexOf(".org"))
 
-        Options.Enabled = False
+        ProxyGroup.Enabled = False
         OK.Enabled = False
         ShowProxySettings.Enabled = False
         HideProxySettings.Enabled = False
@@ -91,7 +87,7 @@ Class LoginForm
         Cancel.Text = "Cancel"
 
         Login.Password = Password.Text
-        Config.ProxyEnabled = ProxyEnabled.Checked
+        Config.ProxyEnabled = Proxy.Checked
         Config.ProxyPort = ProxyPort.Text
         ProxyAddress.Text = ProxyAddress.Text.Replace("http://", "")
         Config.ProxyServer = ProxyAddress.Text
@@ -101,7 +97,7 @@ Class LoginForm
         Config.Username = Config.Username.Replace("_", " ")
 
         Try
-            Login.ConfigureProxy(ProxyEnabled.Checked, ProxyAddress.Text, ProxyPort.Text, ProxyUsername.Text, _
+            Login.ConfigureProxy(Proxy.Checked, ProxyAddress.Text, ProxyPort.Text, ProxyUsername.Text, _
                 ProxyPassword.Text, ProxyDomain.Text)
 
         Catch ex As Exception
@@ -126,7 +122,8 @@ Class LoginForm
 
     Private Sub ShowProxySettings_Click() Handles ShowProxySettings.Click
         'When proxysettings are needed make the form big enough so they fit and can be seen
-        Me.Height += 165
+        Height += 160
+        ProxyGroup.Visible = True
         'Switch the show proxy button for a hide proxy button
         HideProxySettings.Visible = True
         ShowProxySettings.Visible = False
@@ -134,14 +131,20 @@ Class LoginForm
 
     Private Sub HideProxySettings_Click() Handles HideProxySettings.Click
         'When proxysettings are not needed make the form smaller to knock them off the edge
-        Me.Height -= 165
+        Height -= 160
+        ProxyGroup.Visible = False
         'Switch the hide proxy button for a show proxy button
         HideProxySettings.Visible = False
         ShowProxySettings.Visible = True
     End Sub
 
-    Sub Done(ByVal O As Object)
+    Private Sub Proxy_CheckedChanged() Handles Proxy.CheckedChanged
+        For Each Item As Control In ProxyGroup.Controls
+            If Item IsNot Proxy Then Item.Enabled = Proxy.Checked
+        Next Item
+    End Sub
 
+    Sub Done(ByVal O As Object)
         MainForm = New Main
         MainForm.Show()
         MainForm.Initialize()
@@ -156,12 +159,16 @@ Class LoginForm
     Sub Abort(ByVal MessageObject As Object)
         LoggingIn = False
         Status.Text = CStr(MessageObject)
-        Options.Enabled = True
+        ProxyGroup.Enabled = True
         OK.Enabled = True
         ShowProxySettings.Enabled = True
         HideProxySettings.Enabled = True
         Cancel.Text = "Exit"
         Progress.Enabled = False
         Progress.Value = 0
+    End Sub
+
+    Private Sub ShowProxySettings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowProxySettings.Click
+
     End Sub
 End Class
