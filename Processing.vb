@@ -745,13 +745,7 @@ Module Processing
     Sub ProcessUpload(ByVal UploadObject As Object)
     End Sub
 
-    Sub ProcessDiff(ByVal PreloadDataObject As Object, ByVal Tab As BrowserTab)
-
-        If PreloadDataObject Is Nothing Then Exit Sub
-
-        Dim CacheData As CacheData = CType(PreloadDataObject, CacheData)
-        Dim DiffText As String = CacheData.Text
-        Dim ThisEdit As Edit = CacheData.Edit
+    Sub ProcessDiff(ByVal ThisEdit As Edit, ByVal DiffText As String, ByVal Tab As BrowserTab)
 
         If Not ThisEdit.Multiple Then
             If DiffText.Contains("<span class=""mw-rollback-link"">") Then

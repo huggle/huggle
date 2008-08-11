@@ -10,51 +10,91 @@ Namespace Requests
 
         'Base class of all Web requests
 
-        Public Query As String, Mode As RequestMode, State As RequestState, StartTime As Date
+        Private _Query As String, _StartTime As Date, _Mode As Modes, _State As States
+        Protected _Done As RequestCallback, Result As String
 
-        Public Delegate Sub CallbackDelegate(ByVal Success As Boolean)
+        Public Delegate Sub RequestCallback(ByVal Result As Output)
 
-        Public Enum RequestState As Integer
-            : InProgress : Complete : Failed : Cancelled
-        End Enum
+        Public ReadOnly Property StartTime() As Date
+            Get
+                Return _StartTime
+            End Get
+        End Property
 
-        Public Enum RequestMode As Integer
-            : None : [Get] : Post
-        End Enum
+        Public Property Mode() As Modes
+            Get
+                Return _Mode
+            End Get
+            Set(ByVal value As Modes)
+                _Mode = value
+            End Set
+        End Property
 
-        Protected Enum LoginResult As Integer
+        Public Property Query() As String
+            Get
+                Return _Query
+            End Get
+            Set(ByVal value As String)
+                _Query = value
+            End Set
+        End Property
+
+        Property State() As States
+            Get
+                Return _State
+            End Get
+            Set(ByVal value As States)
+                _State = value
+            End Set
+        End Property
+
+        Protected Enum LoginResults As Integer
             : None : WrongPassword : NoUser : InvalidUsername : CaptchaNeeded : Failed : Cancelled : Success
         End Enum
 
+        Public Enum Modes As Integer
+            : None : [Get] : Post
+        End Enum
+
+        Public Enum States As Integer
+            : InProgress : Complete : Failed : Cancelled : SpamFilter
+        End Enum
+
         Public Sub New()
-            StartTime = Date.Now
+            _StartTime = Date.Now
             PendingRequests.Add(Me)
             AllRequests.Add(Me)
             UpdateForm()
         End Sub
 
         Protected Sub Complete()
-            State = RequestState.Complete
+            State = States.Complete
             If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
             If MainForm IsNot Nothing Then MainForm.Delog(Me)
             UpdateForm()
+            SendResult()
         End Sub
 
         Public Sub Cancel()
-            State = RequestState.Cancelled
+            State = States.Cancelled
             If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
             If MainForm IsNot Nothing Then MainForm.Delog(Me)
             UpdateForm()
         End Sub
 
-        Protected Sub Fail()
-            State = RequestState.Failed
+        Protected Sub Fail(Optional ByVal Reason As States = States.Failed)
+            State = Reason
             If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
             If MainForm IsNot Nothing Then MainForm.Delog(Me)
             UpdateForm()
+            SendResult()
         End Sub
 
-        Private Sub UpdateForm(Optional ByVal O As Object = Nothing)
+        Protected Sub SendResult()
+            If _Done IsNot Nothing Then _Done(New Output(State, Result))
+        End Sub
+
+        Private Sub UpdateForm()
             For Each Item As Form In Application.OpenForms
                 If TypeOf Item Is RequestsForm Then CType(Item, RequestsForm).UpdateList(Me)
             Next Item
@@ -82,10 +122,10 @@ Namespace Requests
             UndoEdit(GetPage(Page))
         End Sub
 
-        Protected Function DoLogin() As LoginResult
+        Protected Function DoLogin() As LoginResults
             Dim Client As New WebClient, Result As String = "", Retries As Integer = 3
 
-            Mode = RequestMode.Get
+            Mode = Modes.Get
             Query = "title=Special:Userlogin"
             Callback(AddressOf UpdateForm)
 
@@ -100,15 +140,15 @@ Namespace Requests
 
                     Try
                         Result = UTF8.GetString(Client.DownloadData(SitePath & "w/index.php?title=Special:Userlogin"))
-                        If State = RequestState.Cancelled Then Return LoginResult.Cancelled
+                        If State = States.Cancelled Then Return LoginResults.Cancelled
 
                     Catch ex As WebException
-                        If State = RequestState.Cancelled Then Return LoginResult.Cancelled Else Throw
+                        If State = States.Cancelled Then Return LoginResults.Cancelled Else Throw
                     End Try
 
                 Loop Until IsWikiPage(Result) OrElse Retries = 0
 
-                If Retries = 0 Then Return LoginResult.Failed
+                If Retries = 0 Then Return LoginResults.Failed
 
                 If Client.ResponseHeaders(HttpResponseHeader.SetCookie) IsNot Nothing Then
                     SessionCookie = Client.ResponseHeaders(HttpResponseHeader.SetCookie)
@@ -119,11 +159,11 @@ Namespace Requests
                     Login.CaptchaId = Result.Substring(Result.IndexOf("id=""wpCaptchaId"" value=""") + 24)
                     Login.CaptchaId = Login.CaptchaId.Substring(0, Login.CaptchaId.IndexOf(""""))
 
-                    Return LoginResult.CaptchaNeeded
+                    Return LoginResults.CaptchaNeeded
                 End If
             End If
 
-            Mode = RequestMode.Post
+            Mode = Modes.Post
             Query = "title=Special:Userlogin&action=submitlogin&type=login"
             Callback(AddressOf UpdateForm)
 
@@ -144,7 +184,7 @@ Namespace Requests
                     Result = UTF8.GetString(Client.UploadData(Config.SitePath & _
                         "w/index.php?title=Special:Userlogin&action=submitlogin&type=login", UTF8.GetBytes(PostString)))
 
-                    If State = RequestState.Cancelled Then Return LoginResult.Cancelled
+                    If State = States.Cancelled Then Return LoginResults.Cancelled
 
                 Catch ex As WebException
                     Thread.Sleep(1000)
@@ -152,13 +192,13 @@ Namespace Requests
 
             Loop Until IsWikiPage(Result) OrElse Retries = 0
 
-            If Retries = 0 Then Return LoginResult.Failed
+            If Retries = 0 Then Return LoginResults.Failed
 
-            If Result.Contains("<span id=""mw-noname"">") Then Return LoginResult.InvalidUsername
-            If Result.Contains("<span id=""mw-nosuchuser"">") Then Return LoginResult.NoUser
-            If Result.Contains("<span id=""mw-wrongpasswordempty"">") Then Return LoginResult.WrongPassword
-            If Result.Contains("<span id=""mw-wrongpassword"">") Then Return LoginResult.WrongPassword
-            If Result.Contains("<div id=""userloginForm"">") Then Return LoginResult.Failed
+            If Result.Contains("<span id=""mw-noname"">") Then Return LoginResults.InvalidUsername
+            If Result.Contains("<span id=""mw-nosuchuser"">") Then Return LoginResults.NoUser
+            If Result.Contains("<span id=""mw-wrongpasswordempty"">") Then Return LoginResults.WrongPassword
+            If Result.Contains("<span id=""mw-wrongpassword"">") Then Return LoginResults.WrongPassword
+            If Result.Contains("<div id=""userloginForm"">") Then Return LoginResults.Failed
 
             Dim CookiePrefix As String, LoginCookie As String = Client.ResponseHeaders(HttpResponseHeader.SetCookie)
 
@@ -201,7 +241,7 @@ Namespace Requests
 
             MyUser = GetUser(Config.Username)
 
-            Return LoginResult.Success
+            Return LoginResults.Success
         End Function
 
         Protected Function GetPageText(ByVal Page As String) As String
@@ -216,12 +256,13 @@ Namespace Requests
                 Result = Result.Substring(Result.IndexOf("<rev>") + 5)
                 Result = Result.Substring(0, Result.IndexOf("</rev>"))
                 Result = HtmlDecode(Result)
+                Result = Result.Replace(vbLf, vbCrLf)
                 Return Result
 
             ElseIf Result.Contains("missing=""""") Then
                 Return ""
             End If
-            
+
             Return Nothing
         End Function
 
@@ -236,7 +277,7 @@ Namespace Requests
         Protected Function GetUrl(ByVal Url As String, Optional ByVal QueryDescription As String = Nothing) As String
 
             If Url.Contains("?") Then Query = Url.Substring(Url.IndexOf("?") + 1) Else Query = Url
-            Mode = RequestMode.Get
+            Mode = Modes.Get
             Callback(AddressOf UpdateForm)
 
             Dim Client As New WebClient, Retries As Integer = 3, Result As String = Nothing
@@ -255,7 +296,7 @@ Namespace Requests
                     Callback(AddressOf GetUrlException, QueryDescription)
                 End Try
 
-                If State = RequestState.Cancelled Then Thread.CurrentThread.Abort()
+                If State = States.Cancelled Then Thread.CurrentThread.Abort()
 
             Loop Until Retries = 0 OrElse Result IsNot Nothing
 
@@ -285,7 +326,7 @@ Namespace Requests
             If Rev IsNot Nothing Then QueryString &= "&oldid=" & Rev
             If Data.Section IsNot Nothing Then QueryString &= "&section=" & Data.Section
 
-            Mode = RequestMode.Get
+            Mode = Modes.Get
             Query = QueryString.Substring(QueryString.IndexOf("?") + 1)
             Callback(AddressOf UpdateForm)
 
@@ -312,7 +353,7 @@ Namespace Requests
                         Callback(AddressOf LoginNeeded)
 
                         Select Case DoLogin()
-                            Case LoginResult.Success
+                            Case LoginResults.Success
                                 Callback(AddressOf LoginDone)
 
                             Case Else
@@ -368,28 +409,28 @@ Namespace Requests
             Log("Error when editing '" & CType(DataObject, EditData).Page.Name & "', retrying in 1 second.")
         End Sub
 
-        Private Sub LoginNeeded(ByVal O As Object)
+        Private Sub LoginNeeded()
             LogProgress("User has been logged out, logging in...")
         End Sub
 
-        Private Sub LoginDone(ByVal O As Object)
+        Private Sub LoginDone()
             Log("Logged in")
             Complete()
         End Sub
 
-        Private Sub LoginFailed(ByVal O As Object)
+        Private Sub LoginFailed()
             Log("Failed to log in")
             MsgBox("Failed to log in. You may need to restart Huggle in order to edit.", MsgBoxStyle.Critical, "huggle")
             Complete()
         End Sub
 
-        Private Sub Blocked(ByVal O As Object)
+        Private Sub Blocked()
             Log("User is blocked")
             MsgBox("Your user account has been blocked from editing.", MsgBoxStyle.Critical, "huggle")
             Complete()
         End Sub
 
-        Private Sub LoggedOut(ByVal O As Object)
+        Private Sub LoggedOut()
             Log("Failed to save page - user is not logged in.")
             MsgBox("Your user account has been logged out. You may need to restart Huggle in order to edit.", _
                 MsgBoxStyle.Critical, "huggle")
@@ -397,6 +438,7 @@ Namespace Requests
         End Sub
 
         Private Sub SpamFilter(ByVal PageNameObject As Object)
+            State = States.SpamFilter
             Log("Failed to save '" & CStr(PageNameObject) & "' - blocked by spam filter.")
             MsgBox("Edit to '" & CStr(PageNameObject) & "' was blocked by the spam filter.", _
                 MsgBoxStyle.Critical, "huggle")
@@ -423,7 +465,7 @@ Namespace Requests
             If Data.CaptchaWord IsNot Nothing Then PostString &= "&wpCaptchaWord=" & UrlEncode(Data.CaptchaWord)
 
             Query = "title=" & UrlEncode(Data.Page.Name) & "&action=submit"
-            Mode = RequestMode.Post
+            Mode = Modes.Post
             Callback(AddressOf UpdateForm)
 
             Do
@@ -475,7 +517,7 @@ Namespace Requests
             Dim Url As String = SitePath & "w/index.php?" & QueryString
 
             Query = QueryString
-            Mode = RequestMode.Post
+            Mode = Modes.Post
             Callback(AddressOf UpdateForm)
 
             Dim Client As New WebClient, Retries As Integer = 3, Result As String = ""
@@ -504,48 +546,36 @@ Namespace Requests
             Log("Error posting '" & CStr(RequestedItem) & "', retrying in 1 second.")
         End Sub
 
-    End Class
+        Class Output
 
-    Class UpdateRequest : Inherits Request
+            'Represents the output of a Request
 
-        'Download latest version of the application
+            Private _State As States, _Text As String
 
-        Public FileName As String
-        Private _Done As CallbackDelegate
+            Public Sub New(ByVal State As States, ByVal Text As String)
+                _State = State
+                _Text = Text
+            End Sub
 
-        Public Sub Start(Optional ByVal Done As CallbackDelegate = Nothing)
-            _Done = Done
+            Public ReadOnly Property State() As States
+                Get
+                    Return _State
+                End Get
+            End Property
 
-            Dim RequestThread As New Thread(AddressOf Process)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
-        End Sub
+            Public ReadOnly Property Success() As Boolean
+                Get
+                    Return (_State = States.Complete)
+                End Get
+            End Property
 
-        Private Sub Process()
-            Dim Client As New WebClient
+            Public ReadOnly Property Text() As String
+                Get
+                    Return _Text
+                End Get
+            End Property
 
-            Client.Headers.Add(HttpRequestHeader.UserAgent, Config.UserAgent)
-
-            Try
-                Client.DownloadFile(Config.DownloadLocation.Replace("$1", VersionString(Config.LatestVersion)), FileName)
-            Catch ex As WebException
-                If State = RequestState.Cancelled Then Thread.CurrentThread.Abort()
-                Callback(AddressOf Failed)
-            End Try
-
-            If State = RequestState.Cancelled Then Thread.CurrentThread.Abort()
-            Callback(AddressOf Done)
-        End Sub
-
-        Private Sub Done(ByVal O As Object)
-            Complete()
-            _Done(True)
-        End Sub
-
-        Private Sub Failed(ByVal O As Object)
-            Fail()
-            _Done(False)
-        End Sub
+        End Class
 
     End Class
 

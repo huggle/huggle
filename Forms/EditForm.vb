@@ -46,9 +46,9 @@ Class EditForm
         End Select
     End Sub
 
-    Private Sub GotText(ByVal Result As Boolean, ByVal Text As String)
+    Private Sub GotText(ByVal Result As Request.Output)
         If Visible Then
-            If Result Then
+            If Result.Success Then
                 PageText.Focus()
                 WaitMessage.Visible = False
                 PageText.Enabled = True
@@ -85,8 +85,8 @@ Class EditForm
         NewEditRequest.Start(AddressOf Saved)
     End Sub
 
-    Private Sub Saved(ByVal Result As Boolean)
-        If Result Then
+    Private Sub Saved(ByVal Result As Request.Output)
+        If Result.Success Then
             DialogResult = DialogResult.OK
             Close()
         Else
@@ -114,9 +114,9 @@ Class EditForm
         End If
     End Sub
 
-    Private Sub GotPreview(ByVal Result As Boolean, ByVal Text As String)
+    Private Sub GotPreview(ByVal Result As Request.Output)
         If Preview IsNot Nothing Then
-            If Result Then
+            If Result.Success Then
                 Preview.DocumentText = FormatPageHtml(Page, Text)
                 PreviewCurrent = True
             Else

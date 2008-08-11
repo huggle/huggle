@@ -11,14 +11,13 @@ Namespace Requests
         Public ThisUser As User, Target As ListView
 
         Public Sub Start()
-
             Dim RequestThread As New Thread(AddressOf Process)
             RequestThread.IsBackground = True
             RequestThread.Start()
         End Sub
 
         Private Sub Process()
-            Dim Result As String = GetApi("format=xml&action=query&list=logevents&letype=block&letitle=User:" & _
+            Result = GetApi("format=xml&action=query&list=logevents&letype=block&letitle=User:" & _
                 UrlEncode(ThisUser.Name) & "&lelimit=50").Replace(vbLf, "")
 
             Dim LogMatches As MatchCollection = _
@@ -55,7 +54,7 @@ Namespace Requests
             Callback(AddressOf Done)
         End Sub
 
-        Private Sub Done(ByVal O As Object)
+        Private Sub Done()
             If Target IsNot Nothing Then
                 If ThisUser.Blocks Is Nothing OrElse ThisUser.Blocks.Count = 0 Then
                     If Target.Items.Count > 0 Then Target.Items(0).Text = "No block log for this user."
@@ -86,7 +85,7 @@ Namespace Requests
             Complete()
         End Sub
 
-        Private Sub Failed(ByVal O As Object)
+        Private Sub Failed()
             If Target IsNot Nothing AndAlso Target.Items.Count > 0 _
                 Then Target.Items(0).Text = "Failed to retrieve block log."
             Fail()
@@ -108,14 +107,12 @@ Namespace Requests
         End Sub
 
         Private Sub Process()
-
-            Dim Oldid As String = Edit.Oldid
-            If Oldid = "-1" Then Oldid = "prev"
+            Dim Oldid As String = If(Edit.Oldid = "-1", "prev", Edit.Oldid)
 
             'Using &action=render here would make things far simpler; unfortunately, that was broken for
             'image diff pages in 2007 and it would appear that nobody cares.
 
-            Dim Result As String = GetText("title=" & UrlEncode(Edit.Page.Name) _
+            Result = GetText("title=" & UrlEncode(Edit.Page.Name) _
                 & "&diff=" & Edit.Id & "&oldid=" & Oldid & "&diffonly=1&uselang=en")
 
             If Result Is Nothing Then
@@ -126,9 +123,6 @@ Namespace Requests
                 Callback(AddressOf Deleted)
                 Exit Sub
             End If
-
-            Dim CacheData As New CacheData
-            CacheData.Edit = Edit
 
             If Result.Contains(">undo</a>)") Then
                 Dim Result2 As String = Result.Substring(0, Result.IndexOf(">undo</a>)"))
@@ -155,8 +149,7 @@ Namespace Requests
                         EditChange & "</div>" & Result
                 End If
 
-                CacheData.Text = Result
-                Callback(AddressOf Done, CObj(CacheData))
+                Callback(AddressOf Done)
 
             ElseIf Result.Contains("<div class=""firstrevisionheader""") Then
                 'This is the first revision to the page... so no diff
@@ -167,16 +160,16 @@ Namespace Requests
             End If
         End Sub
 
-        Private Sub Done(ByVal CacheDataObject As Object)
-            ProcessDiff(CacheDataObject, Tab)
+        Private Sub Done()
+            ProcessDiff(Edit, Result, Tab)
             Complete()
         End Sub
 
-        Private Sub ReachedEnd(ByVal O As Object)
+        Private Sub ReachedEnd()
             'Mark this as the start of the history
             Edit.Prev = NullEdit
             Edit.Oldid = "-1"
-            edit.cached = Edit.CacheState.Cached
+            Edit.Cached = Edit.CacheState.Cached
 
             If LatestDiffRequest Is Me Then
                 MainForm.HistoryPrevB.Enabled = False
@@ -187,7 +180,7 @@ Namespace Requests
             Complete()
         End Sub
 
-        Private Sub Deleted(ByVal O As Object)
+        Private Sub Deleted()
             If LatestDiffRequest Is Me Then CurrentTab.Browser.DocumentText = _
                 "<div style=""font-family: Arial"">" & _
                 "This revision has been deleted, never existed, or exists " & _
@@ -196,8 +189,8 @@ Namespace Requests
             Complete()
         End Sub
 
-        Private Sub Failed(ByVal O As Object)
-            edit.cached = Edit.CacheState.Uncached
+        Private Sub Failed()
+            Edit.Cached = Edit.CacheState.Uncached
             Fail()
         End Sub
 
@@ -207,11 +200,9 @@ Namespace Requests
 
         'Fetch page history
 
-        Public Page As Page, BlockSize As Integer
-        Public DisplayWhenDone As Boolean
-        Private _Done As CallbackDelegate
+        Public Page As Page, BlockSize As Integer, DisplayWhenDone As Boolean
 
-        Public Sub Start(Optional ByVal Done As CallbackDelegate = Nothing)
+        Public Sub Start(Optional ByVal Done As RequestCallback = Nothing)
             _Done = Done
             BlockSize = HistoryBlockSize
             If Page.HistoryOffset Is Nothing Then Page.HistoryOffset = ""
@@ -222,8 +213,6 @@ Namespace Requests
         End Sub
 
         Private Sub Process()
-            Dim Result As String = ""
-
             Dim QueryString As String = "format=xml&action=query&prop=revisions&titles=" & _
                 UrlEncode(Page.Name) & "&rvlimit=" & CStr(HistoryBlockSize) & "&rvprop=ids|timestamp|user|comment"
 
@@ -234,7 +223,7 @@ Namespace Requests
             If Result Is Nothing Then
                 Callback(AddressOf Failed)
             ElseIf Result.Contains("<revisions") Then
-                Callback(AddressOf Done, CObj(Result))
+                Callback(AddressOf Done)
             ElseIf Result.Contains("missing="""" />") Then
                 Callback(AddressOf NoPage)
             ElseIf Result.Contains("invalid="""" />") Then
@@ -244,8 +233,8 @@ Namespace Requests
             End If
         End Sub
 
-        Private Sub Done(ByVal ResultObject As Object)
-            ProcessHistory(CStr(ResultObject), Page)
+        Private Sub Done()
+            ProcessHistory(Result, Page)
             MainForm.DrawHistory()
 
             If DisplayWhenDone AndAlso Page.LastEdit IsNot Nothing Then
@@ -259,25 +248,21 @@ Namespace Requests
             End If
 
             Complete()
-            If _Done IsNot Nothing Then _Done(True)
         End Sub
 
-        Private Sub BadTitle(ByVal O As Object)
+        Private Sub BadTitle()
             MainForm.PageB.ForeColor = Color.Red
             Fail()
-            If _Done IsNot Nothing Then _Done(False)
         End Sub
 
-        Private Sub NoPage(ByVal O As Object)
+        Private Sub NoPage()
             Page.LastEdit = NullEdit
             MainForm.PageB.ForeColor = Color.Red
             Fail()
-            If _Done IsNot Nothing Then _Done(False)
         End Sub
 
-        Private Sub Failed(ByVal O As Object)
+        Private Sub Failed()
             Fail()
-            If _Done IsNot Nothing Then _Done(False)
         End Sub
 
     End Class
@@ -289,34 +274,31 @@ Namespace Requests
         Public User As User
         Public DisplayWhenDone As Boolean, ReportWhenDone As AIVReportRequest
         Public BlockSize As Integer = ContribsBlockSize
-        Private _Done As CallbackDelegate
 
-        Public Sub Start(Optional ByVal Done As CallbackDelegate = Nothing)
-            If User IsNot Nothing Then
-                If Done IsNot Nothing Then _Done = Done
-                If User.ContribsOffset Is Nothing Then User.ContribsOffset = ""
+        Public Sub Start(Optional ByVal Done As RequestCallback = Nothing)
+            _Done = Done
+            If User.ContribsOffset Is Nothing Then User.ContribsOffset = ""
 
-                Dim RequestThread As New Thread(AddressOf Process)
-                RequestThread.IsBackground = True
-                RequestThread.Start()
-            End If
+            Dim RequestThread As New Thread(AddressOf Process)
+            RequestThread.IsBackground = True
+            RequestThread.Start()
         End Sub
 
         Private Sub Process()
-            Dim Result As String = GetApi("action=query&format=xml&list=usercontribs&ucuser=" & _
+            Result = GetApi("action=query&format=xml&list=usercontribs&ucuser=" & _
                 UrlEncode(User.Name) & "&uclimit=" & CStr(BlockSize) & "&ucstart=" & User.ContribsOffset)
 
             If Result.Contains("<usercontribs />") Then
                 Callback(AddressOf NoContribs)
             ElseIf Result.Contains("<usercontribs") Then
-                Callback(AddressOf Done, CObj(Result))
+                Callback(AddressOf Done)
             Else
                 Callback(AddressOf Failed)
             End If
         End Sub
 
-        Private Sub Done(ByVal ResultObject As Object)
-            ProcessContribs(CStr(ResultObject), User)
+        Private Sub Done()
+            ProcessContribs(Result, User)
             MainForm.DrawContribs()
 
             If DisplayWhenDone AndAlso User.LastEdit IsNot Nothing Then
@@ -331,19 +313,16 @@ Namespace Requests
 
             If ReportWhenDone IsNot Nothing Then ReportWhenDone.Start()
             Complete()
-            If _Done IsNot Nothing Then _Done(True)
         End Sub
 
-        Private Sub NoContribs(ByVal O As Object)
+        Private Sub NoContribs()
             User.LastEdit = NullEdit
             MainForm.UserB.ForeColor = Color.Red
             Complete()
-            If _Done IsNot Nothing Then _Done(True)
         End Sub
 
-        Private Sub Failed(ByVal O As Object)
+        Private Sub Failed()
             Fail()
-            If _Done IsNot Nothing Then _Done(False)
         End Sub
 
     End Class
@@ -359,13 +338,11 @@ Namespace Requests
         End Sub
 
         Private Sub Process()
-            Dim Result As String = GetUrl(Url)
-            If Result IsNot Nothing Then Callback(AddressOf Done, CObj(Result)) Else Callback(AddressOf Failed)
+            Result = GetUrl(Url)
+            If Result IsNot Nothing Then Callback(AddressOf Done) Else Callback(AddressOf Failed)
         End Sub
 
-        Private Sub Done(ByVal ResultObject As Object)
-            Dim Result As String = CStr(ResultObject)
-
+        Private Sub Done()
             Dim PageName As String = ParseUrl(Url)("title")
             MainForm.PageB.Text = PageName
             Result = FormatPageHtml(GetPage(PageName), Result)
@@ -375,7 +352,7 @@ Namespace Requests
             Complete()
         End Sub
 
-        Private Sub Failed(ByVal O As Object)
+        Private Sub Failed()
             Fail()
         End Sub
 
@@ -393,19 +370,18 @@ Namespace Requests
         End Sub
 
         Private Sub Process()
-            Dim Result As String = GetApi("action=query&format=xml&list=recentchanges" & _
+            Result = GetApi("action=query&format=xml&list=recentchanges" & _
                 "&rclimit=" & CStr(Config.RcBlockSize) & "&rcprop=user|comment|flags|timestamp|title|ids|sizes")
 
-            If Result IsNot Nothing Then Callback(AddressOf Done, CObj(Result)) Else Callback(AddressOf Failed)
+            If Result IsNot Nothing Then Callback(AddressOf Done) Else Callback(AddressOf Failed)
         End Sub
 
-        Private Sub Done(ByVal ResultObject As Object)
-            Dim Result As String = CStr(ResultObject)
+        Private Sub Done()
             ProcessRcApi(Result)
             Complete()
         End Sub
 
-        Private Sub Failed(ByVal O As Object)
+        Private Sub Failed()
             Fail()
         End Sub
 
@@ -422,17 +398,15 @@ Namespace Requests
         End Sub
 
         Private Sub Process()
-            Dim Result As String = GetApi("action=query&format=xml&list=blocks&bklimit=50&bkstart=" & Date.UtcNow.Year & _
+            Result = GetApi("action=query&format=xml&list=blocks&bklimit=50&bkstart=" & Date.UtcNow.Year & _
                 CStr(Date.UtcNow.Month).PadLeft(2, "0"c) & CStr(Date.UtcNow.Day).PadLeft(2, "0"c) & _
                 CStr(Date.UtcNow.Hour).PadLeft(2, "0"c) & CStr(Date.UtcNow.Minute).PadLeft(2, "0"c) & _
                 CStr(Date.UtcNow.Second).PadLeft(2, "0"c))
 
-            If Result IsNot Nothing Then Callback(AddressOf Done, CObj(Result)) Else Callback(AddressOf Failed)
+            If Result IsNot Nothing Then Callback(AddressOf Done) Else Callback(AddressOf Failed)
         End Sub
 
-        Private Sub Done(ByVal ResultObject As Object)
-            Dim Result As String = CStr(ResultObject)
-
+        Private Sub Done()
             Dim BlockMatches As MatchCollection = Regex.Matches(Result, "<block id=""[0-9]+"" user=""([^""]+)""", _
                 RegexOptions.Compiled)
 
@@ -446,7 +420,7 @@ Namespace Requests
             Complete()
         End Sub
 
-        Private Sub Failed(ByVal O As Object)
+        Private Sub Failed()
             Fail()
         End Sub
 
@@ -466,15 +440,15 @@ Namespace Requests
         End Sub
 
         Private Sub Process()
-            Dim GetString As String = ""
+            Dim Query As String = ""
 
             For Each Item As User In Users
-                GetString &= UrlEncode(Item.Name) & "|"
+                Query &= UrlEncode(Item.Name) & "|"
             Next Item
 
-            GetString = GetString.Substring(0, GetString.Length - 1)
+            Query = Query.Substring(0, Query.Length - 1)
 
-            Dim Result As String = GetApi("format=xml&action=query&list=users&usprop=editcount&ususers=" & GetString)
+            Result = GetApi("format=xml&action=query&list=users&usprop=editcount&ususers=" & Query)
 
             If Result Is Nothing Then
                 Callback(AddressOf Failed)
@@ -527,7 +501,7 @@ Namespace Requests
             Complete()
         End Sub
 
-        Private Sub Failed(ByVal O As Object)
+        Private Sub Failed()
             Fail()
         End Sub
 
@@ -546,12 +520,11 @@ Namespace Requests
         End Sub
 
         Private Sub Process()
-            Dim Result As String = GetText("title=" & UrlEncode(Page.Name) & "&action=watch")
-
-            If Result IsNot Nothing Then Callback(AddressOf Done, Nothing) Else Callback(AddressOf Failed, Nothing)
+            Result = GetText("title=" & UrlEncode(Page.Name) & "&action=watch")
+            If Result IsNot Nothing Then Callback(AddressOf Done) Else Callback(AddressOf Failed)
         End Sub
 
-        Private Sub Done(ByVal O As Object)
+        Private Sub Done()
             If Manual Then Log("Added '" & Page.Name & "' to watchlist")
             If Not Watchlist.Contains(SubjectPage(Page)) Then Watchlist.Add(SubjectPage(Page))
             If CurrentEdit IsNot Nothing AndAlso Page Is CurrentEdit.Page Then MainForm.UpdateWatchButton()
@@ -559,7 +532,7 @@ Namespace Requests
             Complete()
         End Sub
 
-        Private Sub Failed(ByVal O As Object)
+        Private Sub Failed()
             Fail()
         End Sub
 
@@ -578,12 +551,11 @@ Namespace Requests
         End Sub
 
         Private Sub Process()
-            Dim Result As String = GetText("title=" & UrlEncode(Page.Name) & "&action=unwatch")
-
-            If Result IsNot Nothing Then Callback(AddressOf Done, Nothing) Else Callback(AddressOf Failed, Nothing)
+            Result = GetText("title=" & UrlEncode(Page.Name) & "&action=unwatch")
+            If Result IsNot Nothing Then Callback(AddressOf Done) Else Callback(AddressOf Failed)
         End Sub
 
-        Private Sub Done(ByVal O As Object)
+        Private Sub Done()
             If Manual Then Log("Removed '" & Page.Name & "' from watchlist")
             If Watchlist.Contains(SubjectPage(Page)) Then Watchlist.Remove(SubjectPage(Page))
             If CurrentEdit IsNot Nothing AndAlso Page Is CurrentEdit.Page Then MainForm.UpdateWatchButton()
@@ -591,7 +563,7 @@ Namespace Requests
             Complete()
         End Sub
 
-        Private Sub Failed(ByVal O As Object)
+        Private Sub Failed()
             Fail()
         End Sub
 
@@ -600,7 +572,6 @@ Namespace Requests
     Class WarningLogRequest : Inherits Request
 
         Public ThisUser As User, Target As ListView
-        Private Result As String
 
         Public Sub Start()
 
@@ -630,7 +601,7 @@ Namespace Requests
             Callback(AddressOf Done)
         End Sub
 
-        Private Sub Done(ByVal O As Object)
+        Private Sub Done()
             If Target IsNot Nothing Then
                 If ThisUser.Warnings Is Nothing OrElse ThisUser.Warnings.Count = 0 Then
                     If Target.Items.Count > 0 Then Target.Items(0).Text = "No warnings for this user."
@@ -679,7 +650,7 @@ Namespace Requests
             Complete()
         End Sub
 
-        Private Sub Failed(ByVal O As Object)
+        Private Sub Failed()
             If Target IsNot Nothing AndAlso Target.Items.Count > 0 Then
                 Target.Items(0).Text = "No warnings for this user."
             End If
@@ -695,10 +666,7 @@ Namespace Requests
 
         Public Page As Page
 
-        Public Delegate Sub GetTextCallback(ByVal Result As Boolean, ByVal Text As String)
-        Private _Done As GetTextCallback
-
-        Public Sub Start(Optional ByVal Done As GetTextCallback = Nothing)
+        Public Sub Start(Optional ByVal Done As RequestCallback = Nothing)
             _Done = Done
 
             Dim RequestThread As New Thread(AddressOf Process)
@@ -707,23 +675,15 @@ Namespace Requests
         End Sub
 
         Private Sub Process()
-            Dim Result As String = GetPageText(Page.Name)
-
-            If Result IsNot Nothing Then
-                Result = Result.Replace(vbLf, vbCrLf)
-                Callback(AddressOf Done, CObj(Result))
-            Else
-                Callback(AddressOf Failed)
-            End If
+            Result = GetPageText(Page.Name)
+            If Result IsNot Nothing Then Callback(AddressOf Done) Else Callback(AddressOf Failed)
         End Sub
 
-        Private Sub Done(ByVal ResultObject As Object)
-            If _Done IsNot Nothing Then _Done((ResultObject IsNot Nothing), CStr(ResultObject))
+        Private Sub Done()
             Complete()
         End Sub
 
-        Private Sub Failed(ByVal O As Object)
-            _Done(False, Nothing)
+        Private Sub Failed()
             Fail()
         End Sub
 
@@ -734,10 +694,7 @@ Namespace Requests
         'Get preview
         Public Page As Page, Text As String
 
-        Public Delegate Sub PreviewCallback(ByVal Result As Boolean, ByVal Text As String)
-        Public _Done As PreviewCallback
-
-        Public Sub Start(Optional ByVal Done As PreviewCallback = Nothing)
+        Public Sub Start(Optional ByVal Done As RequestCallback = Nothing)
             _Done = Done
 
             Dim RequestThread As New Thread(AddressOf Process)
@@ -746,26 +703,25 @@ Namespace Requests
         End Sub
 
         Private Sub Process()
-            Dim Result As String = PostData("title=" & UrlEncode(Page.Name) & _
-                "&action=submit", "wpTextbox1=" & UrlEncode(Text) & "&wpPreview=1&live=1")
+            Result = PostData("title=" & UrlEncode(Page.Name) & "&action=submit", _
+                "wpTextbox1=" & UrlEncode(Text) & "&wpPreview=1&live=1")
 
             If Result IsNot Nothing Then
                 Result = Result.Substring(Result.IndexOf("<preview>") + 9)
                 Result = Result.Substring(0, Result.IndexOf("</preview>"))
                 Result = HtmlDecode(Result)
                 Result = Result.Substring(Result.IndexOf("</div>") + 6)
-                Callback(AddressOf Done, CObj(Result))
+                Callback(AddressOf Done)
             Else
                 Callback(AddressOf Failed)
             End If
         End Sub
 
-        Private Sub Done(ByVal ResultObject As Object)
-            If _Done IsNot Nothing Then _Done((ResultObject IsNot Nothing), CStr(ResultObject))
+        Private Sub Done()
             Complete()
         End Sub
 
-        Private Sub Failed(ByVal O As Object)
+        Private Sub Failed()
             Fail()
         End Sub
 
@@ -776,10 +732,7 @@ Namespace Requests
         'Get preview of changes
         Public Page As Page, Text As String
 
-        Public Delegate Sub PreviewDiffCallback(ByVal Result As Boolean, ByVal Text As String)
-        Public _Done As PreviewDiffCallback
-
-        Public Sub Start(Optional ByVal Done As PreviewDiffCallback = Nothing)
+        Public Sub Start(Optional ByVal Done As RequestCallback = Nothing)
             _Done = Done
 
             Dim RequestThread As New Thread(AddressOf Process)
@@ -788,17 +741,16 @@ Namespace Requests
         End Sub
 
         Private Sub Process()
-            Dim Result As String = PostData("title=" & UrlEncode(Page.Name) & "&action=submit", _
+            Result = PostData("title=" & UrlEncode(Page.Name) & "&action=submit", _
                 "wpTextbox1=" & UrlEncode(Text) & "&wpDiff=1")
-            If Result IsNot Nothing Then Callback(AddressOf Done, CObj(Result)) Else Callback(AddressOf Failed)
+            If Result IsNot Nothing Then Callback(AddressOf Done) Else Callback(AddressOf Failed)
         End Sub
 
-        Private Sub Done(ByVal ResultObject As Object)
-            If _Done IsNot Nothing Then _Done((ResultObject IsNot Nothing), CStr(ResultObject))
+        Private Sub Done()
             Complete()
         End Sub
 
-        Private Sub Failed(ByVal O As Object)
+        Private Sub Failed()
             Fail()
         End Sub
 
@@ -810,7 +762,7 @@ Namespace Requests
 
         Public Sub Start()
             If Page.ProtectionsCurrent Then
-                Done(Nothing)
+                Done()
                 Exit Sub
             End If
 
@@ -820,7 +772,7 @@ Namespace Requests
         End Sub
 
         Private Sub Process()
-            Dim Result As String = GetApi("format=xml&action=query&list=logevents" & _
+            Result = GetApi("format=xml&action=query&list=logevents" & _
                 "&letype=protect&lelimit=100&letitle=" & UrlEncode(Page.Name))
 
             If Result Is Nothing Then
@@ -869,7 +821,7 @@ Namespace Requests
             Callback(AddressOf Done)
         End Sub
 
-        Private Sub Done(ByVal O As Object)
+        Private Sub Done()
             If Target IsNot Nothing Then
                 If Page.Protections Is Nothing OrElse Page.Protections.Count = 0 Then
                     Target.Items(0).Text = "No protection log for this page."
@@ -905,7 +857,7 @@ Namespace Requests
             Complete()
         End Sub
 
-        Private Sub Failed(ByVal O As Object)
+        Private Sub Failed()
             If Target IsNot Nothing AndAlso Target.Items.Count > 0 _
                 Then Target.Items(0).Text = "Failed to retrieve protection log."
             Fail()
@@ -919,7 +871,7 @@ Namespace Requests
 
         Public Sub Start()
             If Page.DeletesCurrent Then
-                Done(Nothing)
+                Done()
                 Exit Sub
             End If
 
@@ -929,7 +881,7 @@ Namespace Requests
         End Sub
 
         Private Sub Process()
-            Dim Result As String = GetApi("format=xml&action=query&list=logevents" & _
+            Result = GetApi("format=xml&action=query&list=logevents" & _
                 "&letype=delete&lelimit=50&letitle=" & UrlEncode(Page.Name))
 
             If Result Is Nothing Then
@@ -966,7 +918,7 @@ Namespace Requests
             Callback(AddressOf Done)
         End Sub
 
-        Private Sub Done(ByVal O As Object)
+        Private Sub Done()
             If Target IsNot Nothing Then
                 If Page.Deletes Is Nothing OrElse Page.Deletes.Count = 0 Then
                     Target.Items(0).Text = "No deletion log for this page."
@@ -994,7 +946,7 @@ Namespace Requests
             Complete()
         End Sub
 
-        Private Sub Failed(ByVal O As Object)
+        Private Sub Failed()
             If Target IsNot Nothing AndAlso Target.Items.Count > 0 _
                 Then Target.Items(0).Text = "Failed to retrieve deletion log."
             Fail()
@@ -1015,17 +967,16 @@ Namespace Requests
         End Sub
 
         Private Sub Process()
-            Dim Result As String = GetText("title=" & UrlEncode(Page.Name) & "&action=purge")
-
-            If Not IsWikiPage(Result) Then Callback(AddressOf Failed) Else Callback(AddressOf Done)
+            Result = GetText("title=" & UrlEncode(Page.Name) & "&action=purge")
+            If IsWikiPage(Result) Then Callback(AddressOf Done) Else Callback(AddressOf Failed)
         End Sub
 
-        Private Sub Done(ByVal O As Object)
+        Private Sub Done()
             Log("Purged '" & Page.Name & "'")
             Complete()
         End Sub
 
-        Private Sub Failed(ByVal O As Object)
+        Private Sub Failed()
             Log("Failed to purge '" & Page.Name & "'")
             Fail()
         End Sub
@@ -1036,11 +987,7 @@ Namespace Requests
 
         'Get message shown to user when logging in
 
-        Public Delegate Sub StartupMessageCallback(ByVal Result As Boolean, ByVal Text As String)
-        Private _Done As StartupMessageCallback
-        Private Result As String
-
-        Public Sub Start(Optional ByVal Done As StartupMessageCallback = Nothing)
+        Public Sub Start(Optional ByVal Done As RequestCallback = Nothing)
             _Done = Done
 
             Dim RequestThread As New Thread(AddressOf Process)
@@ -1063,14 +1010,12 @@ Namespace Requests
             Callback(AddressOf Done)
         End Sub
 
-        Private Sub Done(ByVal O As Object)
+        Private Sub Done()
             Complete()
-            If _Done IsNot Nothing Then _Done(True, Result)
         End Sub
 
-        Private Sub Failed(ByVal O As Object)
+        Private Sub Failed()
             Fail()
-            If _Done IsNot Nothing Then _Done(False, Nothing)
         End Sub
 
     End Class

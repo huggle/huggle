@@ -77,7 +77,7 @@ Namespace Requests
             If IsWikiPage(Result) Then Callback(AddressOf Done) Else Callback(AddressOf Failed)
         End Sub
 
-        Private Sub Done(ByVal O As Object)
+        Private Sub Done()
             If Notify Then
                 Dim NewRequest As New BlockNotificationRequest
 
@@ -91,7 +91,7 @@ Namespace Requests
             Complete()
         End Sub
 
-        Private Sub Failed(ByVal O As Object)
+        Private Sub Failed()
             Log("Failed to block '" & User.Name & "'")
             If CurrentEdit.User Is User Then MainForm.UserReportB.Enabled = True
             Fail()
@@ -171,25 +171,25 @@ Namespace Requests
             If Result.Contains("Marked as patrolled") Then Callback(AddressOf Done) Else Callback(AddressOf Failed)
         End Sub
 
-        Private Sub Done(ByVal O As Object)
+        Private Sub Done()
             Page.Patrolled = True
             Log("Marked '" & Page.Name & "' as patrolled")
             Complete()
         End Sub
 
-        Private Sub NotFound(ByVal O As Object)
+        Private Sub NotFound()
             Page.Patrolled = True
             Log("Did not mark '" & Page.Name & "' as patrolled; cannot find it in the new page log")
             Fail()
         End Sub
 
-        Private Sub AlreadyPatrolled(ByVal O As Object)
+        Private Sub AlreadyPatrolled()
             Page.Patrolled = True
             Log("'" & Page.Name & "' has already been patrolled")
             Complete()
         End Sub
 
-        Private Sub Failed(ByVal O As Object)
+        Private Sub Failed()
             Log("Failed to mark '" & Page.Name & "' as patrolled")
             Fail()
         End Sub
@@ -246,20 +246,20 @@ Namespace Requests
                 Then Callback(AddressOf Done) Else Callback(AddressOf Failed)
         End Sub
 
-        Private Sub Done(ByVal O As Object)
+        Private Sub Done()
             'When the page has been moved and done is called write to log
             Log("Moved '" & Page.Name & "' to '" & Target & "'")
             MainForm.PageB.Text = Target
             Complete()
         End Sub
 
-        Private Sub Failed(ByVal O As Object)
+        Private Sub Failed()
             'If the page move has failed write this to log
             Log("Did not move '" & Page.Name & "' to '" & Target & "'; the target might already exist")
             Fail()
         End Sub
 
-        Private Sub PermissionDenied(ByVal O As Object)
+        Private Sub PermissionDenied()
             'If the page move has failed due to permissions write this to log
             Log("Did not move '" & Page.Name & "' to '" & Target & "' – permission denied.")
             Fail()
@@ -309,13 +309,13 @@ Namespace Requests
                 Then Callback(AddressOf Done) Else Callback(AddressOf Failed)
         End Sub
 
-        Private Sub Done(ByVal O As Object)
+        Private Sub Done()
             Log("Deleted '" & Page.Name & "'")
             Page.DeletesCurrent = False
             Complete()
         End Sub
 
-        Private Sub Failed(ByVal O As Object)
+        Private Sub Failed()
             Log("Failed to delete '" & Page.Name & "'")
             If CurrentEdit.Page Is Page Then MainForm.PageDeleteB.Enabled = True
             Fail()
@@ -361,13 +361,13 @@ Namespace Requests
             If Result IsNot Nothing Then Callback(AddressOf Done) Else Callback(AddressOf Failed)
         End Sub
 
-        Private Sub Done(ByVal O As Object)
+        Private Sub Done()
             Log("Protected '" & Page.Name & "'")
             Page.ProtectionsCurrent = False
             Complete()
         End Sub
 
-        Private Sub Failed(ByVal O As Object)
+        Private Sub Failed()
             Log("Failed to protect '" & Page.Name & "'")
             Fail()
         End Sub
@@ -409,7 +409,7 @@ Namespace Requests
             Callback(AddressOf Done)
         End Sub
 
-        Private Sub Done(ByVal O As Object)
+        Private Sub Done()
             If ShowForm Then
                 DelogProgress()
 
@@ -424,12 +424,12 @@ Namespace Requests
             End If
         End Sub
 
-        Private Sub Failed(ByVal O As Object)
+        Private Sub Failed()
             Log("Failed to retrieve e-mail form for '" & User.Name & "'")
             Fail()
         End Sub
 
-        Private Sub NoEmail(ByVal O As Object)
+        Private Sub NoEmail()
             If MsgBox("The user '" & User.Name & "' does not have e-mail enabled." & vbCrLf & _
                 "Post a discussion page message instead?", MsgBoxStyle.YesNo Or MsgBoxStyle.Exclamation, "huggle") _
                 = MsgBoxResult.Yes Then
@@ -462,13 +462,53 @@ Namespace Requests
             If IsWikiPage(Result) Then Callback(AddressOf PostDone) Else Callback(AddressOf PostFailed)
         End Sub
 
-        Private Sub PostDone(ByVal O As Object)
+        Private Sub PostDone()
             Log("Sent e-mail to '" & User.Name & "'")
             Complete()
         End Sub
 
-        Private Sub PostFailed(ByVal O As Object)
+        Private Sub PostFailed()
             Log("Failed to submit e-mail form for '" & User.Name & "'")
+            Fail()
+        End Sub
+
+    End Class
+
+    Class UpdateRequest : Inherits Request
+
+        'Download latest version of the application
+
+        Public FileName As String
+
+        Public Sub Start(Optional ByVal Done As RequestCallback = Nothing)
+            _Done = Done
+
+            Dim RequestThread As New Thread(AddressOf Process)
+            RequestThread.IsBackground = True
+            RequestThread.Start()
+        End Sub
+
+        Private Sub Process()
+            Dim Client As New WebClient
+
+            Client.Headers.Add(HttpRequestHeader.UserAgent, Config.UserAgent)
+
+            Try
+                Client.DownloadFile(Config.DownloadLocation.Replace("$1", VersionString(Config.LatestVersion)), FileName)
+            Catch ex As WebException
+                If State = States.Cancelled Then Thread.CurrentThread.Abort()
+                Callback(AddressOf Failed)
+            End Try
+
+            If State = States.Cancelled Then Thread.CurrentThread.Abort()
+            Callback(AddressOf Done)
+        End Sub
+
+        Private Sub Done()
+            Complete()
+        End Sub
+
+        Private Sub Failed()
             Fail()
         End Sub
 

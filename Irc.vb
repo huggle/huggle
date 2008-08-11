@@ -7,7 +7,7 @@ Module Irc
 
     Private Reconnecting, Disconnecting As Boolean
 
-    Public Sub IrcConnect(Optional ByVal O As Object = Nothing)
+    Public Sub IrcConnect()
         Dim IrcThread As New Thread(AddressOf IrcProcess)
         IrcThread.IsBackground = True
         IrcThread.Start()

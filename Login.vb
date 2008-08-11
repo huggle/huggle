@@ -59,24 +59,24 @@ Namespace Requests
             'Log in... can't use the API here because it locks you out after a wrong password
             UpdateStatus("Logging in...")
 
-            Dim LoginResult As LoginResult = DoLogin()
+            Dim LoginResult As LoginResults = DoLogin()
 
             Try
                 Select Case LoginResult
                     'Outcomes for what posibly could go wrong when logging in
-                    Case LoginResult.Failed
+                    Case LoginResults.Failed
                         Abort("Unable to log in.")
 
-                    Case LoginResult.NoUser
+                    Case LoginResults.NoUser
                         Abort("User does not exist.")
 
-                    Case LoginResult.InvalidUsername
+                    Case LoginResults.InvalidUsername
                         Abort("Invalid username.")
 
-                    Case LoginResult.CaptchaNeeded
+                    Case LoginResults.CaptchaNeeded
                         Callback(AddressOf CaptchaNeeded)
 
-                    Case LoginResult.WrongPassword
+                    Case LoginResults.WrongPassword
                         If CaptchaId Is Nothing Then Abort("Incorrect password.") _
                             Else Abort("Incorrect password or confirmation code.")
                         CaptchaId = Nothing
@@ -88,7 +88,7 @@ Namespace Requests
                 Exit Sub
             End Try
 
-            If LoginResult <> LoginResult.Success Then Exit Sub
+            If LoginResult <> LoginResults.Success Then Exit Sub
 
             'Get global configuration
             UpdateStatus("Checking global configuration...")
@@ -353,7 +353,7 @@ Namespace Requests
             End If
         End Sub
 
-        Private Sub CaptchaNeeded(ByVal O As Object)
+        Private Sub CaptchaNeeded()
             Dim NewCaptchaForm As New CaptchaForm
             NewCaptchaForm.CaptchaId = CaptchaId
 

@@ -98,7 +98,7 @@ Namespace Requests
             If Config.Enabled Then Callback(AddressOf GetUserConfigDone) Else Callback(AddressOf GetUserConfigFailed)
         End Sub
 
-        Private Sub GetUserConfigDone(ByVal O As Object)
+        Private Sub GetUserConfigDone()
             If Config.UseAdminFunctions AndAlso Administrator Then
                 MainForm.PageTagSpeedy.ShortcutKeyDisplayString = ""
                 MainForm.UserReport.ShortcutKeyDisplayString = ""
@@ -118,7 +118,7 @@ Namespace Requests
             Complete()
         End Sub
 
-        Private Sub GetUserConfigFailed(ByVal O As Object)
+        Private Sub GetUserConfigFailed()
             Log("Failed to load configuration page.")
             Fail()
         End Sub
@@ -553,13 +553,13 @@ Namespace Requests
             If Data.Error Then Callback(AddressOf Failed) Else Callback(AddressOf Done)
         End Sub
 
-        Private Sub Done(ByVal O As Object)
+        Private Sub Done()
             If Closing Then ClosingForm.Close()
             If MainForm IsNot Nothing Then MainForm.Configure()
             Complete()
         End Sub
 
-        Private Sub Failed(ByVal O As Object)
+        Private Sub Failed()
             Log("Failed to update user configuration subpage")
             Fail()
         End Sub

@@ -43,8 +43,8 @@ Class VersionForm
         Request.Start(AddressOf UpdateDone)
     End Sub
 
-    Private Sub UpdateDone(ByVal Success As Boolean)
-        If Success Then
+    Private Sub UpdateDone(ByVal Result As Request.Output)
+        If Result.Success Then
             Process.Start(FileName)
             End
         Else

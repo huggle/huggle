@@ -139,7 +139,7 @@ Class LoginForm
         Next Item
     End Sub
 
-    Sub Done(ByVal O As Object)
+    Sub Done()
         If Config.StartupMessage AndAlso Config.StartupMessageLocation IsNot Nothing Then
             Dim NewStartupForm As New StartupForm
             NewStartupForm.Show()

@@ -512,8 +512,22 @@ Module Misc
             .Replace("$USER", Username) & "<body>" & Text & "</body></html>"
     End Function
 
-    <DebuggerStepThrough()> Sub Callback(ByVal Target As Threading.SendOrPostCallback, Optional ByVal PostData As Object = Nothing)
+    Public Delegate Sub Action()
+
+    <DebuggerStepThrough()> Sub Callback(ByVal Target As Threading.SendOrPostCallback, _
+        Optional ByVal PostData As Object = Nothing)
+        'Invoke a method on the main thread
         SyncContext.Post(Target, PostData)
+    End Sub
+
+    <DebuggerStepThrough()> Sub Callback(ByVal Target As Action)
+        'As above, but invoked method does not need to take a parameter
+        SyncContext.Post(AddressOf CallbackInvoke, CObj(Target))
+    End Sub
+
+    <DebuggerStepThrough()> Sub CallbackInvoke(ByVal TargetObject As Object)
+        'We're back on the main thread, now invoke the method
+        CType(TargetObject, Action)()
     End Sub
 
     <DebuggerStepThrough()> Sub Log(ByVal Message As String, Optional ByVal Tag As Object = Nothing)

@@ -9,11 +9,9 @@ Namespace Requests
         'Make an arbitrary edit
 
         Public Page As Page, Text, Summary As String, Minor, Watch As Boolean
-        Private _Done As CallbackDelegate
 
-        Public Sub Start(Optional ByVal Done As CallbackDelegate = Nothing)
+        Public Sub Start(Optional ByVal Done As RequestCallback = Nothing)
             _Done = Done
-
             LogProgress("Editing '" & Page.Name & "'...")
 
             Dim RequestThread As New Thread(AddressOf Process)
@@ -39,13 +37,11 @@ Namespace Requests
             If Data.Error Then Callback(AddressOf Failed) Else Callback(AddressOf Done)
         End Sub
 
-        Private Sub Done(ByVal O As Object)
-            If _Done IsNot Nothing Then _Done(True)
-            If State = RequestState.Cancelled Then UndoEdit(Page) Else Complete()
+        Private Sub Done()
+            If State = States.Cancelled Then UndoEdit(Page) Else Complete()
         End Sub
 
-        Private Sub Failed(ByVal O As Object)
-            If _Done IsNot Nothing Then _Done(False)
+        Private Sub Failed()
             Fail()
         End Sub
 
@@ -100,7 +96,7 @@ Namespace Requests
             If Data.Error Then Callback(AddressOf Failed) Else Callback(AddressOf Done)
         End Sub
 
-        Private Sub Done(ByVal O As Object)
+        Private Sub Done()
             If Config.WatchTags Then
                 If Not Watchlist.Contains(SubjectPage(Page)) Then Watchlist.Add(SubjectPage(Page))
                 MainForm.UpdateWatchButton()
@@ -114,20 +110,20 @@ Namespace Requests
 
             If NotifyRequest IsNot Nothing Then NotifyRequest.Start()
 
-            If State = RequestState.Cancelled Then UndoEdit(Page) Else Complete()
+            If State = States.Cancelled Then UndoEdit(Page) Else Complete()
         End Sub
 
-        Private Sub AlreadyTagged(ByVal O As Object)
+        Private Sub AlreadyTagged()
             Log("Did not tag '" & Page.Name & "', as the page was already tagged")
             Fail()
         End Sub
 
-        Private Sub PageDeleted(ByVal O As Object)
+        Private Sub PageDeleted()
             Log("Did not tag '" & Page.Name & "', as the page was deleted")
             Fail()
         End Sub
 
-        Private Sub Failed(ByVal O As Object)
+        Private Sub Failed()
             Log("Failed to tag '" & Page.Name & "'")
             Fail()
         End Sub
@@ -181,13 +177,13 @@ Namespace Requests
             If Data.Error Then Callback(AddressOf Failed) Else Callback(AddressOf Done)
         End Sub
 
-        Private Sub Done(ByVal O As Object)
+        Private Sub Done()
             If Config.WatchTags Then
                 If Not Watchlist.Contains(SubjectPage(Page)) Then Watchlist.Add(SubjectPage(Page))
                 MainForm.UpdateWatchButton()
             End If
 
-            If State = RequestState.Cancelled Then
+            If State = States.Cancelled Then
                 UndoEdit(Page)
             Else
                 Complete()
@@ -202,7 +198,7 @@ Namespace Requests
 
                 If Notify Then
                     If Page.FirstEdit IsNot Nothing AndAlso Page.FirstEdit.User IsNot Nothing Then
-                        DoNotify(True)
+                        DoNotify()
                     Else
                         Dim NewHistoryRequest As New HistoryRequest
                         NewHistoryRequest.Page = Page
@@ -212,7 +208,7 @@ Namespace Requests
             End If
         End Sub
 
-        Private Sub DoNotify(ByVal Success As Boolean)
+        Private Sub DoNotify(Optional ByVal Result As Request.Output = Nothing)
             If Page.FirstEdit IsNot Nothing AndAlso Page.FirstEdit.User IsNot Nothing Then
                 Dim NotifyRequest As New UserMessageRequest
                 NotifyRequest.Message = Criterion.Message.Replace("$1", Page.Name)
@@ -224,17 +220,17 @@ Namespace Requests
             End If
         End Sub
 
-        Private Sub PageDeleted(ByVal O As Object)
+        Private Sub PageDeleted()
             Log("Did not tag '" & Page.Name & "' for speedy deletion, as the page was deleted")
             Fail()
         End Sub
 
-        Private Sub AlreadyTagged(ByVal O As Object)
+        Private Sub AlreadyTagged()
             Log("Did not tag '" & Page.Name & "' for speedy deletion, as the page was already tagged")
             Fail()
         End Sub
 
-        Private Sub Failed(ByVal O As Object)
+        Private Sub Failed()
             Log("Failed to tag '" & Page.Name & "' for speedy deletion")
             Fail()
         End Sub
@@ -305,7 +301,7 @@ Namespace Requests
             If Data.Error Then Callback(AddressOf Failed) Else Callback(AddressOf Done)
         End Sub
 
-        Private Sub Done(ByVal O As Object)
+        Private Sub Done()
             If Config.WatchReports Then
                 If Not Watchlist.Contains(GetPage(Config.ProtectionRequestPage)) _
                     Then Watchlist.Add(GetPage(Config.ProtectionRequestPage))
@@ -313,16 +309,16 @@ Namespace Requests
             End If
 
             Complete()
-            If State = RequestState.Cancelled Then UndoEdit(Config.ProtectionRequestPage) Else Complete()
+            If State = States.Cancelled Then UndoEdit(Config.ProtectionRequestPage) Else Complete()
         End Sub
 
-        Private Sub AlreadyRequested(ByVal O As Object)
+        Private Sub AlreadyRequested()
             Log("Did not request protection of '" & Page.Name & _
                 "' because there is already a protection request for that page")
             Fail()
         End Sub
 
-        Private Sub Failed(ByVal O As Object)
+        Private Sub Failed()
             Log("Failed to request protection of '" & Page.Name & "'")
             Fail()
         End Sub
@@ -424,26 +420,26 @@ Namespace Requests
             If Data.Error Then Callback(AddressOf Failed) Else Callback(AddressOf Done)
         End Sub
 
-        Private Sub Done(ByVal O As Object)
+        Private Sub Done()
             If Config.WatchReports Then
                 If Not Watchlist.Contains(GetPage(Config.AIVLocation)) Then Watchlist.Add(GetPage(Config.AIVLocation))
                 MainForm.UpdateWatchButton()
             End If
 
-            If State = RequestState.Cancelled Then UndoEdit(Config.AIVLocation) Else Complete()
+            If State = States.Cancelled Then UndoEdit(Config.AIVLocation) Else Complete()
         End Sub
 
-        Private Sub AlreadyReported(ByVal O As Object)
+        Private Sub AlreadyReported()
             Log("Did not report '" & User.Name & "' because they have already been reported")
             Fail()
         End Sub
 
-        Private Sub Failed(ByVal O As Object)
+        Private Sub Failed()
             Log("Failed to report '" & User.Name & "' to AIV")
             Fail()
         End Sub
 
-        Private Sub AppendFailed(ByVal O As Object)
+        Private Sub AppendFailed()
             Fail()
         End Sub
 
@@ -557,21 +553,21 @@ Namespace Requests
             If Data.Error Then Callback(AddressOf Failed) Else Callback(AddressOf Done)
         End Sub
 
-        Private Sub Done(ByVal O As Object)
+        Private Sub Done()
             If Config.WatchReports Then
                 If Not Watchlist.Contains(GetPage(Config.UAALocation)) Then Watchlist.Add(GetPage(Config.UAALocation))
                 MainForm.UpdateWatchButton()
             End If
 
-            If State = RequestState.Cancelled Then UndoEdit(Config.UAALocation) Else Complete()
+            If State = States.Cancelled Then UndoEdit(Config.UAALocation) Else Complete()
         End Sub
 
-        Private Sub AlreadyReported(ByVal O As Object)
+        Private Sub AlreadyReported()
             Log("Did not post UAA report for '" & User.Name & "' because they have already been reported")
             Fail()
         End Sub
 
-        Private Sub Failed(ByVal O As Object)
+        Private Sub Failed()
             Log("Failed to report '" & User.Name & "' to UAA")
             Fail()
         End Sub
@@ -628,12 +624,12 @@ Namespace Requests
             If Data.Error Then Callback(AddressOf Failed) Else Callback(AddressOf Done)
         End Sub
 
-        Private Sub Done(ByVal O As Object)
-            If State = RequestState.Cancelled Then UndoEdit(Config.WhitelistLocation) Else Complete()
+        Private Sub Done()
+            If State = States.Cancelled Then UndoEdit(Config.WhitelistLocation) Else Complete()
             ClosingForm.WhitelistDone()
         End Sub
 
-        Private Sub Failed(ByVal O As Object)
+        Private Sub Failed()
             Fail()
         End Sub
 

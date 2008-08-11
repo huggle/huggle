@@ -12,17 +12,17 @@
         Dim NewItem As New ListViewItem
 
         Select Case Request.State
-            Case Request.RequestState.Cancelled : NewItem.BackColor = Color.DarkGray
-            Case Request.RequestState.Failed : NewItem.BackColor = Color.LightCoral
-            Case Request.RequestState.InProgress : NewItem.BackColor = Color.LightSteelBlue
+            Case Request.States.Cancelled : NewItem.BackColor = Color.DarkGray
+            Case Request.States.Failed : NewItem.BackColor = Color.LightCoral
+            Case Request.States.InProgress : NewItem.BackColor = Color.LightSteelBlue
         End Select
 
         NewItem.Text = Request.StartTime.ToLongTimeString
         NewItem.SubItems.Add(Request.GetType.Name.Replace("Request", ""))
 
         Select Case Request.Mode
-            Case Request.RequestMode.Get : NewItem.SubItems.Add("Get")
-            Case Request.RequestMode.Post : NewItem.SubItems.Add("Post")
+            Case Request.Modes.Get : NewItem.SubItems.Add("Get")
+            Case Request.Modes.Post : NewItem.SubItems.Add("Post")
             Case Else : NewItem.SubItems.Add("")
         End Select
 
@@ -40,9 +40,9 @@
         For Each Item As ListViewItem In List.Items
             If Item.Tag Is Request Then
                 Select Case Request.State
-                    Case Request.RequestState.Cancelled : Item.BackColor = Color.DarkGray
-                    Case Request.RequestState.Failed : Item.BackColor = Color.LightCoral
-                    Case Request.RequestState.InProgress : Item.BackColor = Color.LightSteelBlue
+                    Case Request.States.Cancelled : Item.BackColor = Color.DarkGray
+                    Case Request.States.Failed : Item.BackColor = Color.LightCoral
+                    Case Request.States.InProgress : Item.BackColor = Color.LightSteelBlue
                     Case Else : Item.BackColor = Color.White
                 End Select
 
@@ -50,8 +50,8 @@
                 Item.SubItems(1).Text = Request.GetType.Name.Replace("Request", "")
 
                 Select Case Request.Mode
-                    Case Request.RequestMode.Get : Item.SubItems(2).Text = "Get"
-                    Case Request.RequestMode.Post : Item.SubItems(2).Text = "Post"
+                    Case Request.Modes.Get : Item.SubItems(2).Text = "Get"
+                    Case Request.Modes.Post : Item.SubItems(2).Text = "Post"
                     Case Else : Item.SubItems(2).Text = ""
                 End Select
 

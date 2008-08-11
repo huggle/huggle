@@ -49,21 +49,21 @@ Namespace Requests
             End If
         End Sub
 
-        Private Sub Done(ByVal O As Object)
+        Private Sub Done()
             If Config.WatchReverts Then
                 If Not Watchlist.Contains(SubjectPage(Edit.Page)) Then Watchlist.Add(SubjectPage(Edit.Page))
                 MainForm.UpdateWatchButton()
             End If
 
-            If State = RequestState.Cancelled Then UndoEdit(Edit.Page) Else Complete()
+            If State = States.Cancelled Then UndoEdit(Edit.Page) Else Complete()
         End Sub
 
-        Private Sub NoPage(ByVal O As Object)
+        Private Sub NoPage()
             Log("Did not revert edit to '" & Edit.Page.Name & "' because the page does not exist")
             Fail()
         End Sub
 
-        Private Sub SpamBlacklist(ByVal O As Object)
+        Private Sub SpamBlacklist()
             If MsgBox("Edit to '" & Edit.Page.Name & "' was blocked by the spam blacklist." & vbCrLf & _
                 "Edit page manually?", MsgBoxStyle.YesNo Or MsgBoxStyle.Exclamation) = MsgBoxResult.Yes Then
 
@@ -77,7 +77,7 @@ Namespace Requests
             Fail()
         End Sub
 
-        Private Sub Failed(ByVal O As Object)
+        Private Sub Failed()
             Log("Failed to revert '" & Edit.Page.Name & "'")
             Fail()
         End Sub
@@ -227,42 +227,42 @@ Namespace Requests
             End If
         End Sub
 
-        Sub Done(ByVal O As Object)
+        Sub Done()
             If Config.WatchReverts AndAlso Not Watchlist.Contains(SubjectPage(Edit.Page)) Then
                 Dim NewWatchPageRequest As New WatchRequest
                 NewWatchPageRequest.Page = Edit.Page
                 NewWatchPageRequest.Start()
             End If
 
-            If State = RequestState.Cancelled Then UndoEdit(Edit.Page) Else Complete()
+            If State = States.Cancelled Then UndoEdit(Edit.Page) Else Complete()
         End Sub
 
-        Private Sub WrongData(ByVal O As Object)
+        Private Sub WrongData()
             Log("Did not rollback '" & Edit.Page.Name & "' – token or other data incorrect")
             Fail()
         End Sub
 
-        Private Sub Throttled(ByVal O As Object)
+        Private Sub Throttled()
             Log("Did not rollback '" & Edit.Page.Name & "' – rate limit exceeded")
             Fail()
         End Sub
 
-        Private Sub Unauthorized(ByVal O As Object)
+        Private Sub Unauthorized()
             Log("Did not rollback '" & Edit.Page.Name & "' – returned ""unauthorized""")
             Fail()
         End Sub
 
-        Private Sub Beaten(ByVal O As Object)
+        Private Sub Beaten()
             Log("Did not rollback '" & Edit.Page.Name & "' - page was edited first")
             Fail()
         End Sub
 
-        Private Sub NoOtherEditors(ByVal O As Object)
+        Private Sub NoOtherEditors()
             Log("Did not rollback '" & Edit.Page.Name & "' - only one user has edited the page")
             Fail()
         End Sub
 
-        Private Sub Failed(ByVal O As Object)
+        Private Sub Failed()
             Log("Failed to rollback '" & Edit.Page.Name & "', trying manual reversion")
             DoRevert(Edit, False)
             Fail()
@@ -359,21 +359,21 @@ Namespace Requests
             If Data.Error Then Callback(AddressOf Failed) Else Callback(AddressOf Done)
         End Sub
 
-        Private Sub Done(ByVal O As Object)
-            If State = RequestState.Cancelled Then UndoEdit(Page) Else Complete()
+        Private Sub Done()
+            If State = States.Cancelled Then UndoEdit(Page) Else Complete()
         End Sub
 
-        Private Sub NoOtherUser(ByVal O As Object)
+        Private Sub NoOtherUser()
             Log("Did not revert edits to '" & Page.Name & "', because only one user has edited the page")
             Fail()
         End Sub
 
-        Private Sub PageMissing(ByVal O As Object)
+        Private Sub PageMissing()
             Log("Did not revert edits to '" & Page.Name & "', because the page does not exist")
             Fail()
         End Sub
 
-        Private Sub Failed(ByVal O As Object)
+        Private Sub Failed()
             Log("Failed to revert edits to '" & Page.Name & "'")
             Fail()
         End Sub

@@ -8,10 +8,11 @@ Namespace Requests
         'Abstract class for getting a list of pages through the API
 
         Protected QueryParams, TypeName, TypePrefix, Page As String
-        Protected Done As RequestCallback, Progress As ProgressCallback, Items As New List(Of String)
+        Protected Shadows _Done As ListRequestCallback
+        Protected Progress As ListProgressCallback, Items As New List(Of String)
 
-        Public Delegate Sub RequestCallback(ByVal Result As List(Of String))
-        Public Delegate Sub ProgressCallback(ByVal State As String, ByVal PartialResult As List(Of String))
+        Public Delegate Sub ListRequestCallback(ByVal Result As List(Of String))
+        Public Delegate Sub ListProgressCallback(ByVal State As String, ByVal PartialResult As List(Of String))
 
         Public Limit As Integer = ApiLimit(), ArticlesOnly As Boolean
 
@@ -21,10 +22,10 @@ Namespace Requests
             QueryParams = _QueryParams
         End Sub
 
-        Public Overridable Sub Start(ByVal _Done As RequestCallback, _
-            Optional ByVal _Progress As ProgressCallback = Nothing)
+        Public Overridable Sub Start(ByVal Done As ListRequestCallback, _
+            Optional ByVal _Progress As ListProgressCallback = Nothing)
 
-            Done = _Done
+            _Done = Done
             If _Progress IsNot Nothing Then Progress = _Progress
 
             Dim RequestThread As New Thread(AddressOf Process)
@@ -88,18 +89,18 @@ Namespace Requests
             Callback(AddressOf RequestDone)
         End Sub
 
-        Private Sub RequestDone(ByVal O As Object)
+        Private Sub RequestDone()
             Complete()
-            Done(Items)
+            _Done(Items)
         End Sub
 
         Private Sub Progressed(ByVal ListObject As Object)
             If Progress IsNot Nothing Then Progress("Running query...", CType(ListObject, List(Of String)))
         End Sub
 
-        Private Sub Failed(ByVal O As Object)
+        Private Sub Failed()
             Fail()
-            Done(Nothing)
+            _Done(Nothing)
         End Sub
 
     End Class
@@ -210,7 +211,7 @@ Namespace Requests
 
         Private AllItems As New List(Of String)
         Private Category As String, CategoriesDone As New List(Of String), CategoriesRemaining As New List(Of String)
-        Private Shadows Done As RequestCallback, Progress As ProgressCallback
+        Private Shadows _Done As ListRequestCallback, Progress As ListProgressCallback
         Public Shadows ArticlesOnly As Boolean
 
         Sub New(ByVal _Category As String)
@@ -218,8 +219,8 @@ Namespace Requests
             Category = _Category
         End Sub
 
-        Public Overrides Sub Start(ByVal _Done As RequestCallback, _
-            Optional ByVal _Progress As ProgressCallback = Nothing)
+        Public Overrides Sub Start(ByVal Done As ListRequestCallback, _
+            Optional ByVal _Progress As ListProgressCallback = Nothing)
 
             _Done = Done
             ArticlesOnly = MyBase.ArticlesOnly
@@ -235,7 +236,7 @@ Namespace Requests
 
         Sub CategoryDone(ByVal Items As List(Of String))
             If Items Is Nothing Then
-                Done(Nothing)
+                _Done(Nothing)
             Else
                 For Each Item As String In Items
                     If Item.StartsWith("Category:") AndAlso Not CategoriesDone.Contains(Item) _
@@ -247,14 +248,14 @@ Namespace Requests
                         AllItems.Add(Item)
 
                         If AllItems.Count >= Limit Then
-                            Done(AllItems)
+                            _Done(AllItems)
                             Exit Sub
                         End If
                     End If
                 Next Item
 
                 If CategoriesRemaining.Count = 0 Then
-                    Done(AllItems)
+                    _Done(AllItems)
                 Else
                     If Progress IsNot Nothing Then Progress("Getting " & CategoriesRemaining(0) & "...", AllItems)
                     MyBase.QueryParams = "cmprop=title&cmtitle=" & UrlEncode(CategoriesRemaining(0))

@@ -43,22 +43,22 @@ Namespace Requests
             If Data.Error Then Callback(AddressOf Failed) Else Callback(AddressOf Done)
         End Sub
 
-        Private Sub Done(ByVal O As Object)
+        Private Sub Done()
             If Config.WatchOther Then
                 If Not Watchlist.Contains(GetPage("User:" & User.Name)) Then Watchlist.Add(GetPage("User:" & User.Name))
                 MainForm.UpdateWatchButton()
             End If
 
-            If State = RequestState.Cancelled Then UndoEdit("User talk:" & User.Name) Else Complete()
+            If State = States.Cancelled Then UndoEdit("User talk:" & User.Name) Else Complete()
         End Sub
 
-        Private Sub ExistingMessage(ByVal O As Object)
+        Private Sub ExistingMessage()
             Log("Did not post message '" & Title & "' for '" & User.Name & _
                 "', as a message about the same thing was already present")
             Fail()
         End Sub
 
-        Private Sub Failed(ByVal O As Object)
+        Private Sub Failed()
             Log("Failed to post message '" & Title & "' for & '" & User.Name & "'")
             Fail()
         End Sub
@@ -72,9 +72,9 @@ Namespace Requests
         Public Sub Start()
             If Edit IsNot Nothing AndAlso Edit.User.Level <> UserL.Ignore Then
                 If Edit.User.Level = UserL.ReportedAIV Then
-                    AlreadyReported(Nothing)
+                    AlreadyReported()
                 ElseIf Edit.User.Level = UserL.Blocked Then
-                    AlreadyBlocked(Nothing)
+                    AlreadyBlocked()
                 Else
                     LogProgress("Warning '" & Edit.User.Name & "'...")
                     Dim RequestThread As New Thread(AddressOf Process)
@@ -197,7 +197,7 @@ Namespace Requests
             If Data.Error Then Callback(AddressOf Failed) Else Callback(AddressOf Done)
         End Sub
 
-        Private Sub ReportNeeded(ByVal O As Object)
+        Private Sub ReportNeeded()
             Log("Did not warn '" & Edit.User.Name & "' because they already have a final warning")
 
             If Administrator AndAlso Config.Block Then
@@ -216,17 +216,17 @@ Namespace Requests
             Complete()
         End Sub
 
-        Private Sub Done(ByVal O As Object)
+        Private Sub Done()
             If Config.WatchWarnings Then
                 If Not Watchlist.Contains(GetPage("User:" & Edit.User.Name)) _
                     Then Watchlist.Add(GetPage("User:" & Edit.User.Name))
                 MainForm.UpdateWatchButton()
             End If
 
-            If State = RequestState.Cancelled Then UndoEdit("User talk:" & Edit.User.Name) Else Complete()
+            If State = States.Cancelled Then UndoEdit("User talk:" & Edit.User.Name) Else Complete()
         End Sub
 
-        Private Sub AlreadyReported(ByVal O As Object)
+        Private Sub AlreadyReported()
             If Administrator AndAlso Config.Block Then
                 If Config.PromptForBlock Then MainForm.BlockUser(Edit.User)
             Else
@@ -245,17 +245,17 @@ Namespace Requests
             Fail()
         End Sub
 
-        Private Sub AlreadyBlocked(ByVal O As Object)
+        Private Sub AlreadyBlocked()
             Log("Did not warn '" & Edit.User.Name & "' because they have already been blocked.")
             Fail()
         End Sub
 
-        Private Sub Failed(ByVal O As Object)
+        Private Sub Failed()
             Log("Failed to warn '" & Edit.User.Name & "'.")
             Fail()
         End Sub
 
-        Private Sub OldEdit(ByVal O As Object)
+        Private Sub OldEdit()
             Log("Did not warn '" & Edit.User.Name & "', because they have not edited since their latest warning")
             Fail()
         End Sub
@@ -300,11 +300,11 @@ Namespace Requests
             If Data.Error Then Callback(AddressOf Failed) Else Callback(AddressOf Done)
         End Sub
 
-        Private Sub Done(ByVal O As Object)
-            If State = RequestState.Cancelled Then UndoEdit("User talk:" & User.Name) Else Complete()
+        Private Sub Done()
+            If State = States.Cancelled Then UndoEdit("User talk:" & User.Name) Else Complete()
         End Sub
 
-        Private Sub Failed(ByVal O As Object)
+        Private Sub Failed()
             Log("Failed to post block notification for '" & User.Name & "'")
             Fail()
         End Sub

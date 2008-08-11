@@ -1528,7 +1528,7 @@ Class Main
         NewRequest.Start()
     End Sub
 
-    Private Sub CreateContribsQueue(ByVal Result As Boolean)
+    Private Sub CreateContribsQueue(Optional ByVal Result As Request.Output = Nothing)
         If CurrentUser IsNot Nothing Then
             Dim ThisEdit As Edit = CurrentUser.LastEdit, NewQueue As New List(Of Edit), i As Integer
 
@@ -1563,7 +1563,7 @@ Class Main
                         NewContribsRequest.User = CurrentUser
                         NewContribsRequest.Start(AddressOf CreateContribsQueue)
                     Else
-                        CreateContribsQueue(True)
+                        CreateContribsQueue()
                     End If
                 End If
 
