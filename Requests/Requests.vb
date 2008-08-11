@@ -396,6 +396,12 @@ Namespace Requests
             Complete()
         End Sub
 
+        Private Sub SpamFilter(ByVal PageNameObject As Object)
+            Log("Failed to save '" & CStr(PageNameObject) & "' - blocked by spam filter.")
+            MsgBox("Edit to '" & CStr(PageNameObject) & "' was blocked by the spam filter.", _
+                MsgBoxStyle.Critical, "huggle")
+        End Sub
+
         Protected Function PostEdit(ByVal Data As EditData) As EditData
 
             'Special pages don't work in post requests
@@ -430,8 +436,8 @@ Namespace Requests
                 Retries -= 1
 
                 Try
-                    Result = UTF8.GetString(Client.UploadData(SitePath & "w/index.php?title=" & _
-                        UrlEncode(Data.Page.Name) & "&action=submit", UTF8.GetBytes(PostString)))
+                    Result = UTF8.GetString(Client.UploadData(SitePath & "w/index.php?" & Query, _
+                        UTF8.GetBytes(PostString)))
                 Catch ex As WebException
                     Callback(AddressOf PostEditException, CObj(Data))
                 End Try
@@ -441,6 +447,10 @@ Namespace Requests
             Data.Result = Result
 
             If Retries = 0 Then
+                Data.Error = True
+
+            ElseIf Result.Contains("<div id=""mw-spamprotectiontext"">") Then
+                Callback(AddressOf SpamFilter, Data.Page.Name)
                 Data.Error = True
 
             ElseIf Result.Contains("<div id=""mw-blocked-text"">") Then
