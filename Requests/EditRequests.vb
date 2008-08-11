@@ -488,9 +488,7 @@ Namespace Requests
 
             While Edit IsNot Nothing AndAlso Edit IsNot NullEdit AndAlso Edit.Time.AddHours(3) > Date.UtcNow
 
-                If Edit.[Next] IsNot Nothing AndAlso Edit.[Next].Type = EditType.Revert _
-                    Then RevertedEdits.Add(Edit)
-
+                If Edit.Next IsNot Nothing AndAlso Edit.Next.Type = Edit.Types.Revert Then RevertedEdits.Add(Edit)
                 Edit = Edit.PrevByUser
             End While
 

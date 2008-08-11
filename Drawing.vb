@@ -19,15 +19,15 @@ Module Drawing
 
                 If X < Result.Width Then
                     Select Case ThisEdit.Type
-                        Case EditType.Blanked : Gfx.DrawImage(My.Resources.blob_blanked, X, 2)
-                        Case EditType.ReplacedWith : Gfx.DrawImage(My.Resources.blob_replaced, X, 2)
-                        Case EditType.Redirect : Gfx.DrawImage(My.Resources.blob_redirect, X, 2)
-                        Case EditType.Revert : Gfx.DrawImage(My.Resources.blob_revert, X, 2)
-                        Case EditType.Report : Gfx.DrawImage(My.Resources.blob_report, X, 2)
-                        Case EditType.Message : Gfx.DrawImage(My.Resources.blob_message, X, 2)
-                        Case EditType.Tag : Gfx.DrawImage(My.Resources.blob_tag, X, 2)
+                        Case Edit.Types.Blanked : Gfx.DrawImage(My.Resources.blob_blanked, X, 2)
+                        Case Edit.Types.ReplacedWith : Gfx.DrawImage(My.Resources.blob_replaced, X, 2)
+                        Case Edit.Types.Redirect : Gfx.DrawImage(My.Resources.blob_redirect, X, 2)
+                        Case Edit.Types.Revert : Gfx.DrawImage(My.Resources.blob_revert, X, 2)
+                        Case Edit.Types.Report : Gfx.DrawImage(My.Resources.blob_report, X, 2)
+                        Case Edit.Types.Message : Gfx.DrawImage(My.Resources.blob_message, X, 2)
+                        Case Edit.Types.Tag : Gfx.DrawImage(My.Resources.blob_tag, X, 2)
 
-                        Case EditType.Warning
+                        Case Edit.Types.Warning
                             Gfx.DrawImage(My.Resources.blob_blank, X, 2)
 
                             Select Case ThisEdit.WarningLevel
@@ -128,15 +128,15 @@ Module Drawing
 
                     'Draw icon
                     Select Case ThisEdit.Type
-                        Case EditType.Blanked : Gfx.DrawImage(My.Resources.blob_blanked, X, 2)
-                        Case EditType.ReplacedWith : Gfx.DrawImage(My.Resources.blob_replaced, X, 2)
-                        Case EditType.Redirect : Gfx.DrawImage(My.Resources.blob_redirect, X, 2)
-                        Case EditType.Revert : Gfx.DrawImage(My.Resources.blob_revert, X, 2)
-                        Case EditType.Report : Gfx.DrawImage(My.Resources.blob_report, X, 2)
-                        Case EditType.Message : Gfx.DrawImage(My.Resources.blob_message, X, 2)
-                        Case EditType.Tag : Gfx.DrawImage(My.Resources.blob_tag, X, 2)
+                        Case Edit.Types.Blanked : Gfx.DrawImage(My.Resources.blob_blanked, X, 2)
+                        Case Edit.Types.ReplacedWith : Gfx.DrawImage(My.Resources.blob_replaced, X, 2)
+                        Case Edit.Types.Redirect : Gfx.DrawImage(My.Resources.blob_redirect, X, 2)
+                        Case Edit.Types.Revert : Gfx.DrawImage(My.Resources.blob_revert, X, 2)
+                        Case Edit.Types.Report : Gfx.DrawImage(My.Resources.blob_report, X, 2)
+                        Case Edit.Types.Message : Gfx.DrawImage(My.Resources.blob_message, X, 2)
+                        Case Edit.Types.Tag : Gfx.DrawImage(My.Resources.blob_tag, X, 2)
 
-                        Case EditType.Warning
+                        Case Edit.Types.Warning
                             Gfx.DrawImage(My.Resources.blob_blank, X, 2)
 
                             Select Case ThisEdit.WarningLevel

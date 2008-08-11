@@ -17,7 +17,6 @@ Module Misc
     Public Cookie As String
     Public CurrentQueue As New List(Of Edit)
     Public CurrentTab As BrowserTab
-    Public DiffCache As New Dictionary(Of String, String)
     Public EditQueue As New List(Of Edit), NewPageQueue As New List(Of Edit)
     Public HidingEdit As Boolean = True
     Public HistoryOffset As Integer
@@ -65,16 +64,6 @@ Module Misc
         Ignore
         Unignore
     End Enum
-
-    Class SpeedyCriterion
-        Public Code As String
-        Public DisplayCode As String
-        Public Description As String
-        Public Template As String
-        Public Parameter As String
-        Public Message As String
-        Public Notify As Boolean
-    End Class
 
     Public Property CurrentEdit() As Edit
         <DebuggerStepThrough()> Get
@@ -173,208 +162,6 @@ Module Misc
         "mediawiki talk" _
     }
 
-    <DebuggerDisplay("{Description}")> _
-    Class Edit
-        Public Added As Boolean
-        Public CacheState As CacheState
-        Public Deleted As Boolean
-        Public Id As String
-        Public LevelToWarn As UserL
-        Public Multiple As Boolean
-        Public NewPage As Boolean
-        Public [Next] As Edit
-        Public NextByUser As Edit
-        Public Oldid As String
-        Public Page As Page
-        Public Prev As Edit
-        Public PrevByUser As Edit
-        Public Processed As Boolean
-        Public Random As Double
-        Public RollbackUrl As String
-        Public Size As Integer
-        Public Summary As String
-        Public Time As Date
-        Public Type As EditType
-        Public TypeToWarn As String
-        Public User As User
-        Public WarningLevel As UserL
-
-        Public ReadOnly Property Description() As String
-            Get
-                Return Time.ToLongTimeString & " -- " & Page.Name & " -- " & User.Name
-            End Get
-        End Property
-    End Class
-
-    <DebuggerDisplay("{Name}")> _
-    Class Page
-        Public Name As String
-        Public FirstEdit As Edit
-        Public LastEdit As Edit
-        Public Level As PageL
-        Public [Namespace] As String
-        Public Deletes As List(Of Delete)
-        Public DeletesCurrent As Boolean
-        Public Protections As List(Of Protection)
-        Public ProtectionsCurrent As Boolean
-        Public HistoryOffset As String
-        Public Patrolled As Boolean
-        Public Rcid As String
-        Public EditLevel As String
-        Public MoveLevel As String
-
-        Public ReadOnly Property IsMovable() As Boolean
-            Get
-                If ArrayContains(Config.UnmovableNamespaces, [Namespace]) Then Return False
-                If MoveLevel = "sysop" AndAlso Not Administrator Then Return False
-                If ArrayContains(Config.ProtectedNamespaces, [Namespace]) AndAlso Not Administrator Then Return False
-
-                Return True
-            End Get
-        End Property
-
-    End Class
-
-    <DebuggerDisplay("{Name}")> _
-    Class User
-        Private _Level As UserL
-        Private _SharedIP As Boolean
-        Private _EditCount As Integer = -1
-        Private _SessionEditCount As Integer
-
-        Public AutoRevert As Boolean
-        Public Name As String
-        Public FirstEdit As Edit
-        Public LastEdit As Edit
-        Public Anonymous As Boolean
-        Public WarnTime As Date
-        Public Warnings As List(Of Warning)
-        Public WarningsCurrent As Boolean
-        Public Blocks As List(Of Block)
-        Public BlocksCurrent As Boolean
-        Public Bot As Boolean
-        Public ContribsOffset As String
-
-        Public Property Level() As UserL
-            <DebuggerStepThrough()> Get
-                Return _Level
-            End Get
-            <DebuggerStepThrough()> Set(ByVal value As UserL)
-                _Level = value
-
-                Dim Redraw, Sort As Boolean
-
-                If value > UserL.Ignore Then
-                    Dim ThisEdit As Edit = LastEdit
-
-                    While ThisEdit IsNot Nothing AndAlso ThisEdit IsNot NullEdit
-                        If ThisEdit Is ThisEdit.Page.LastEdit AndAlso Not ThisEdit.Added _
-                            AndAlso Not EditQueue.Contains(ThisEdit) Then
-
-                            If ThisEdit.User.Level <> UserL.Ignore _
-                                AndAlso (Config.ShowNewPages OrElse Not ThisEdit.NewPage) _
-                                AndAlso ThisEdit.Page.Level <> PageL.Ignore _
-                                AndAlso Not OwnUserspace(ThisEdit) _
-                                AndAlso ThisEdit.Type >= EditType.None _
-                                AndAlso Not Math.Abs(ThisEdit.Size) > 100000 Then
-
-                                Dim LCSpace As String = ThisEdit.Page.Namespace.ToLower
-                                If LCSpace = "" Then LCSpace = "article"
-
-                                If Config.NamespacesChecked.Contains(LCSpace) Then
-                                    EditQueue.Add(ThisEdit)
-                                    ThisEdit.Added = True
-                                    MainForm.DiffNextB.Enabled = True
-                                    If EditQueue.Count > 5000 Then EditQueue.RemoveAt(5000)
-                                    Redraw = True
-                                    Sort = True
-                                End If
-                            End If
-                        End If
-
-                        ThisEdit = ThisEdit.PrevByUser
-                    End While
-                End If
-
-                For Each Item As Form In Application.OpenForms
-                    Dim uif As UserInfoForm = TryCast(Item, UserInfoForm)
-
-                    If uif IsNot Nothing AndAlso uif.ThisUser Is Me _
-                        Then If _Level = UserL.Ignore Then uif.Whitelisted.Text = "Yes" _
-                        Else uif.Whitelisted.Text = "No"
-                Next Item
-
-                'Redraw contribs and queue if necessary
-                If MainForm IsNot Nothing Then
-                    If CurrentEdit IsNot Nothing AndAlso CurrentEdit.User Is Me Then MainForm.DrawContribs()
-
-                    If Config.ShowQueue Then
-                        For i As Integer = 0 To Math.Min(EditQueue.Count - 1, (MainForm.Queue.Height \ 20) - 2)
-                            If EditQueue(i).User Is Me Then
-                                Redraw = True
-                                Exit For
-                            End If
-                        Next i
-                    End If
-
-                    If Redraw Then MainForm.DrawQueue()
-                End If
-
-                If Sort Then EditQueue.Sort(AddressOf CompareEdits)
-            End Set
-        End Property
-
-        Public Property SharedIP() As Boolean
-            Get
-                Return _SharedIP
-            End Get
-            Set(ByVal value As Boolean)
-                _SharedIP = value
-
-                For Each Item As Form In Application.OpenForms
-                    Dim uif As UserInfoForm = TryCast(Item, UserInfoForm)
-
-                    If uif IsNot Nothing AndAlso uif.ThisUser Is Me _
-                        Then If _SharedIP Then uif.SharedIP.Text = "Yes" _
-                        Else uif.SharedIP.Text = "No"
-                Next Item
-            End Set
-        End Property
-
-        Public Property EditCount() As Integer
-            Get
-                Return _EditCount
-            End Get
-            Set(ByVal value As Integer)
-                _EditCount = value
-
-                For Each Item As Form In Application.OpenForms
-                    Dim uif As UserInfoForm = TryCast(Item, UserInfoForm)
-
-                    If uif IsNot Nothing AndAlso uif.ThisUser Is Me _
-                        Then uif.EditCount.Text = CStr(_EditCount)
-                Next Item
-            End Set
-        End Property
-
-        Public Property SessionEditCount() As Integer
-            Get
-                Return _SessionEditCount
-            End Get
-            Set(ByVal value As Integer)
-                _SessionEditCount = value
-
-                For Each Item As Form In Application.OpenForms
-                    Dim uif As UserInfoForm = TryCast(Item, UserInfoForm)
-
-                    If uif IsNot Nothing AndAlso uif.ThisUser Is Me _
-                        Then uif.SessionEditCount.Text = CStr(_SessionEditCount)
-                Next Item
-            End Set
-        End Property
-
-    End Class
-
     Class CacheData
         Public Edit As Edit
         Public Text As String
@@ -407,6 +194,22 @@ Module Misc
         Public Cascading As Boolean
         Public Expiry As Date
         Public Summary As String
+    End Class
+
+    Enum ProtectionType As Integer
+        Semi
+        Full
+        Move
+    End Enum
+
+    Class SpeedyCriterion
+        Public Code As String
+        Public DisplayCode As String
+        Public Description As String
+        Public Template As String
+        Public Parameter As String
+        Public Message As String
+        Public Notify As Boolean
     End Class
 
     Class Upload
@@ -457,13 +260,6 @@ Module Misc
 
     End Class
 
-    Enum PageL As Integer
-        None = 0
-        Ignore = -1
-        Watch = 1
-        Bad = 2
-    End Enum
-
     Enum UserL As Integer
         None = 0
         Ignore = -1
@@ -481,37 +277,6 @@ Module Misc
         Blocked = 12
     End Enum
 
-    Enum EditType As Integer
-        Blanked = 2
-        ReplacedWith = 1
-        None = 0
-        Revert = -1
-        Message = -2
-        Tag = -3
-        Warning = -4
-        Report = -5
-        Redirect = -6
-    End Enum
-
-    Enum CacheState As Integer
-        Uncached
-        Caching
-        Cached
-        Viewed
-    End Enum
-
-    Enum RemoveState As Integer
-        None
-        Removing
-        Removed
-    End Enum
-
-    Enum ProtectionType As Integer
-        Semi
-        Full
-        Move
-    End Enum
-
     <DebuggerStepThrough()> Function GetPage(ByVal PageName As String) As Page
         If PageName = "" Then Return Nothing
         PageName = PageName.Replace("_", " ").Trim(" "c)
@@ -526,7 +291,7 @@ Module Misc
             NewPage.Name = PageName
 
             For Each Item As String In Config.IgnoredPages
-                If Item = PageName OrElse Item = TalkPageName(PageName) Then NewPage.Level = PageL.Ignore
+                If Item = PageName OrElse Item = TalkPageName(PageName) Then NewPage.Level = Page.Levels.Ignore
             Next Item
 
             NewPage.Namespace = ""

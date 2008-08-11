@@ -46,15 +46,15 @@ Class QueuePanel
 
             'Draw icon
             Select Case ThisEdit.Type
-                Case EditType.Blanked : Gfx.Graphics.DrawImage(My.Resources.blob_blanked, X, Y)
-                Case EditType.ReplacedWith : Gfx.Graphics.DrawImage(My.Resources.blob_replaced, X, Y)
-                Case EditType.Redirect : Gfx.Graphics.DrawImage(My.Resources.blob_redirect, X, Y)
-                Case EditType.Revert : Gfx.Graphics.DrawImage(My.Resources.blob_revert, X, Y)
-                Case EditType.Report : Gfx.Graphics.DrawImage(My.Resources.blob_report, X, Y)
-                Case EditType.Message : Gfx.Graphics.DrawImage(My.Resources.blob_message, X, Y)
-                Case EditType.Tag : Gfx.Graphics.DrawImage(My.Resources.blob_tag, X, Y)
+                Case Edit.Types.Blanked : Gfx.Graphics.DrawImage(My.Resources.blob_blanked, X, Y)
+                Case Edit.Types.ReplacedWith : Gfx.Graphics.DrawImage(My.Resources.blob_replaced, X, Y)
+                Case Edit.Types.Redirect : Gfx.Graphics.DrawImage(My.Resources.blob_redirect, X, Y)
+                Case Edit.Types.Revert : Gfx.Graphics.DrawImage(My.Resources.blob_revert, X, Y)
+                Case Edit.Types.Report : Gfx.Graphics.DrawImage(My.Resources.blob_report, X, Y)
+                Case Edit.Types.Message : Gfx.Graphics.DrawImage(My.Resources.blob_message, X, Y)
+                Case Edit.Types.Tag : Gfx.Graphics.DrawImage(My.Resources.blob_tag, X, Y)
 
-                Case EditType.Warning
+                Case Edit.Types.Warning
                     Gfx.Graphics.DrawImage(My.Resources.blob_blank, X, Y)
 
                     Select Case ThisEdit.WarningLevel

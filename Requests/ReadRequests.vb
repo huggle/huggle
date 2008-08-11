@@ -100,7 +100,7 @@ Namespace Requests
 
         Public Sub Start()
             If Tab Is Nothing Then Tab = CurrentTab
-            Edit.CacheState = CacheState.Caching
+            Edit.Cached = Edit.CacheState.Caching
 
             Dim RequestThread As New Thread(AddressOf Process)
             RequestThread.IsBackground = True
@@ -176,7 +176,7 @@ Namespace Requests
             'Mark this as the start of the history
             Edit.Prev = NullEdit
             Edit.Oldid = "-1"
-            Edit.CacheState = CacheState.Cached
+            edit.cached = Edit.CacheState.Cached
 
             If LatestDiffRequest Is Me Then
                 MainForm.HistoryPrevB.Enabled = False
@@ -197,7 +197,7 @@ Namespace Requests
         End Sub
 
         Private Sub Failed(ByVal O As Object)
-            Edit.CacheState = CacheState.Uncached
+            edit.cached = Edit.CacheState.Uncached
             Fail()
         End Sub
 

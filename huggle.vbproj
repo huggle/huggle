@@ -39,6 +39,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationEvents.vb" />
+    <Compile Include="Edit.vb" />
     <Compile Include="Forms\ExceptionForm.Designer.vb">
       <DependentUpon>ExceptionForm.vb</DependentUpon>
     </Compile>
@@ -69,6 +70,7 @@
     <Compile Include="Forms\AddTemplateForm.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Page.vb" />
     <Compile Include="Requests\ListRequests.vb" />
     <Compile Include="Throbber.Designer.vb">
       <DependentUpon>Throbber.vb</DependentUpon>
@@ -286,6 +288,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Shortcuts.vb" />
+    <Compile Include="User.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Forms\EmailForm.resx">

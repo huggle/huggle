@@ -7,20 +7,19 @@ Module Processing
         If Edit Is Nothing Then Exit Sub
 
         'Random value to vary sort order
-        Edit.Random = (New Random(Date.UtcNow.Millisecond)).NextDouble
 
         If Edit.Time = Date.MinValue Then Edit.Time = Date.SpecifyKind(Date.UtcNow, DateTimeKind.Utc)
         If Edit.Oldid Is Nothing Then Edit.Oldid = "prev"
 
         'Auto summaries
         If Edit.Summary.StartsWith("[[WP:AES|←]]Replaced") OrElse Edit.Summary.StartsWith("←Replaced") _
-            OrElse Edit.Summary.StartsWith("[[WP:Automatic edit summaries|←]]Replaced") Then Edit.Type = EditType.ReplacedWith
+            OrElse Edit.Summary.StartsWith("[[WP:Automatic edit summaries|←]]Replaced") Then Edit.Type = Edit.Types.ReplacedWith
         If Edit.Summary.StartsWith("[[WP:AES|←]]Blanked") OrElse Edit.Summary.StartsWith("←Blanked") _
-            OrElse Edit.Summary.StartsWith("[[WP:Automatic edit summaries|←]]Blanked") Then Edit.Type = EditType.Blanked
+            OrElse Edit.Summary.StartsWith("[[WP:Automatic edit summaries|←]]Blanked") Then Edit.Type = Edit.Types.Blanked
         If Edit.Summary.StartsWith("[[WP:AES|←]]Redirected") OrElse Edit.Summary.StartsWith("←Redirected") _
             OrElse Edit.Summary.ToLower.StartsWith("redirected page to ") _
             OrElse Edit.Summary.ToLower.StartsWith("redirected to ") _
-            OrElse Edit.Summary.StartsWith("[[WP:Automatic edit summaries|←]]Redirected") Then Edit.Type = EditType.Redirect
+            OrElse Edit.Summary.StartsWith("[[WP:Automatic edit summaries|←]]Redirected") Then Edit.Type = Edit.Types.Redirect
 
         If Edit.User IsNot Nothing AndAlso Edit.Page IsNot Nothing Then
             If Edit.NewPage Then
@@ -31,9 +30,9 @@ Module Processing
             'Reverts
             For Each Item As String In RevertSummaries
                 If Edit.Summary.ToLower.StartsWith(Item) Then
-                    Edit.Type = EditType.Revert
+                    Edit.Type = Edit.Types.Revert
 
-                    If Edit.Page.Level = PageL.None Then Edit.Page.Level = PageL.Watch
+                    If Edit.Page.Level = Page.Levels.None Then Edit.Page.Level = Page.Levels.Watch
 
                     If Edit.Prev IsNot Nothing AndAlso Edit.Prev.User IsNot Nothing _
                         AndAlso Edit.Prev.User IsNot Edit.User AndAlso Edit.Prev.User.Level = UserL.None _
@@ -44,7 +43,7 @@ Module Processing
             Next Item
 
             'Reverted users
-            If Edit.Type <> EditType.Revert AndAlso Edit.Summary.ToLower.Contains("[[special:contributions/") Then
+            If Edit.Type <> Edit.Types.Revert AndAlso Edit.Summary.ToLower.Contains("[[special:contributions/") Then
                 Dim Username As String = Edit.Summary.Substring(Edit.Summary.ToLower.IndexOf _
                     ("[[special:contributions/") + 24)
 
@@ -61,7 +60,7 @@ Module Processing
             End If
 
             'Reverted edits
-            If Edit.Next IsNot Nothing AndAlso Edit.Next.Type = EditType.Revert _
+            If Edit.Next IsNot Nothing AndAlso Edit.Next.Type = Edit.Types.Revert _
                 AndAlso Edit.User.Level = UserL.None Then Edit.User.Level = UserL.Reverted
 
             'Warnings / block notifications
@@ -72,7 +71,7 @@ Module Processing
                 If SummaryLevel >= UserL.Warning AndAlso PageOwner.Level > UserL.Ignore _
                     AndAlso Edit.Time.AddHours(Config.WarningAge) > Date.UtcNow Then
 
-                    Edit.Type = EditType.Warning
+                    Edit.Type = Edit.Types.Warning
                     Edit.WarningLevel = SummaryLevel
                     If Edit.User.WarnTime < Edit.Time Then Edit.User.WarnTime = Edit.Time
 
@@ -80,7 +79,7 @@ Module Processing
                         AndAlso SummaryLevel < UserL.Warn4im Then PageOwner.Level = SummaryLevel
 
                 ElseIf SummaryLevel = UserL.Notification Then
-                    Edit.Type = EditType.Message
+                    Edit.Type = Edit.Types.Message
 
                     If PageOwner.Level < SummaryLevel AndAlso PageOwner.Level > UserL.Ignore _
                         Then PageOwner.Level = SummaryLevel
@@ -92,7 +91,7 @@ Module Processing
 
                 If Edit.Summary.Contains("User-reported") _
                     AndAlso Not (Edit.Summary.Contains(" rm ") OrElse Edit.Summary.Contains("remove")) Then
-                    Edit.Type = EditType.Report
+                    Edit.Type = Edit.Types.Report
 
                     If Edit.Summary.Contains("User-reported - ") _
                         OrElse Edit.Summary.Contains("User-reported */ ") Then
@@ -147,7 +146,7 @@ Module Processing
                     If ReportedUser.Level < UserL.ReportedAIV AndAlso ReportedUser.Level > UserL.Ignore Then _
                         ReportedUser.Level = UserL.ReportedAIV
 
-                    Edit.Type = EditType.Report
+                    Edit.Type = Edit.Types.Report
 
                 ElseIf Edit.Summary.ToLower.StartsWith("reporting ") AndAlso Edit.Summary.Length > 10 Then
                     Dim ReportedUser As User = GetUser(Edit.Summary.Substring(10))
@@ -155,11 +154,11 @@ Module Processing
                     If ReportedUser.Level < UserL.ReportedAIV AndAlso ReportedUser.Level > UserL.Ignore Then _
                         ReportedUser.Level = UserL.ReportedAIV
 
-                    Edit.Type = EditType.Report
+                    Edit.Type = Edit.Types.Report
                 End If
 
                 If Edit.Summary.ToLower.StartsWith("added report") _
-                    OrElse Edit.Summary.ToLower.StartsWith("reporting") Then Edit.Type = EditType.Report
+                    OrElse Edit.Summary.ToLower.StartsWith("reporting") Then Edit.Type = Edit.Types.Report
             End If
 
             'Bot AIV reports
@@ -180,7 +179,7 @@ Module Processing
                     If ReportedUser.Level < UserL.ReportedAIV AndAlso ReportedUser.Level > UserL.Ignore _
                         Then ReportedUser.Level = UserL.ReportedAIV
 
-                    Edit.Type = EditType.Report
+                    Edit.Type = Edit.Types.Report
 
                 ElseIf Edit.Summary.ToLower.StartsWith("bot - reporting apparent vandalism by ") Then
 
@@ -194,7 +193,7 @@ Module Processing
                     If ReportedUser.Level < UserL.ReportedAIV AndAlso ReportedUser.Level > UserL.Ignore _
                         Then ReportedUser.Level = UserL.ReportedAIV
 
-                    Edit.Type = EditType.Report
+                    Edit.Type = Edit.Types.Report
                 End If
             End If
 
@@ -213,13 +212,13 @@ Module Processing
                     If ReportedUser.Level < UserL.ReportedUAA AndAlso ReportedUser.Level > UserL.Ignore Then _
                         ReportedUser.Level = UserL.ReportedUAA
 
-                    Edit.Type = EditType.Report
+                    Edit.Type = Edit.Types.Report
                 End If
             End If
 
             'Tagging
-            If IsTagFromSummary(Edit) AndAlso Edit.Type <= 0 AndAlso Edit.Type <> EditType.Tag _
-                Then Edit.Type = EditType.Tag
+            If IsTagFromSummary(Edit) AndAlso Edit.Type <= 0 AndAlso Edit.Type <> Edit.Types.Tag _
+                Then Edit.Type = Edit.Types.Tag
         End If
 
         If Edit.Id IsNot Nothing AndAlso Not AllEditsById.ContainsKey(Edit.Id) _
@@ -251,8 +250,8 @@ Module Processing
         Edit.User.SessionEditCount += 1
 
         Select Case Edit.Type
-            Case EditType.Revert : Stats.Reverts += 1
-            Case EditType.Warning : Stats.Warnings += 1
+            Case Edit.Types.Revert : Stats.Reverts += 1
+            Case Edit.Types.Warning : Stats.Warnings += 1
         End Select
 
         AllEditsByTime.Insert(0, Edit)
@@ -335,17 +334,17 @@ Module Processing
             NewCommand.Edit = Edit
 
             Select Case Edit.Type
-                Case EditType.Warning
+                Case Edit.Types.Warning
                     Stats.WarningsMe += 1
                     NewCommand.Type = CommandType.Warning
                     NewCommand.Description = "Warn " & Edit.Page.Name.Substring(10)
 
-                Case EditType.Revert
+                Case Edit.Types.Revert
                     Stats.RevertsMe += 1
                     NewCommand.Type = CommandType.Revert
                     NewCommand.Description = "Revert on " & Edit.Page.Name
 
-                Case EditType.Report
+                Case Edit.Types.Report
                     NewCommand.Type = CommandType.Report
                     NewCommand.Description = "Report " & TrimSummary(Edit.Summary).Substring(10)
 
@@ -367,9 +366,9 @@ Module Processing
         If WhitelistLoaded _
             AndAlso Edit.User.Level <> UserL.Ignore _
             AndAlso (Config.ShowNewPages OrElse Not Edit.NewPage) _
-            AndAlso Edit.Page.Level <> PageL.Ignore _
+            AndAlso Edit.Page.Level <> Page.Levels.Ignore _
             AndAlso Not OwnUserspace(Edit) _
-            AndAlso Edit.Type >= EditType.None _
+            AndAlso Edit.Type >= Edit.Types.None _
             AndAlso Not Math.Abs(Edit.Size) > 100000 Then
 
             If (Edit.Page.Namespace = "" AndAlso Config.NamespacesChecked.Contains("article")) _
@@ -436,11 +435,11 @@ Module Processing
         End If
 
         'Sort the queue
-        EditQueue.Sort(AddressOf CompareEdits)
+        EditQueue.Sort(AddressOf Edit.Compare)
 
         'Preload diffs
         For l As Integer = 0 To Math.Min(EditQueue.Count, Config.Preloads) - 1
-            If EditQueue(l).CacheState = CacheState.Uncached Then
+            If EditQueue(l).Cached = Edit.CacheState.Uncached Then
                 Dim NewDiffRequest As New DiffRequest
                 NewDiffRequest.Edit = EditQueue(l)
                 NewDiffRequest.Start()
@@ -529,7 +528,7 @@ Module Processing
             Edit.User.Name & "'.", MsgBoxStyle.OkCancel, "Revert") <> MsgBoxResult.Ok Then Return False
 
         If Not Undoing AndAlso Edit.User.Level = UserL.None Then Edit.User.Level = UserL.Reverted
-        If Not Undoing AndAlso Edit.Page.Level = PageL.None Then Edit.Page.Level = PageL.Watch
+        If Not Undoing AndAlso Edit.Page.Level = Page.Levels.None Then Edit.Page.Level = Page.Levels.Watch
 
         'If reverting first edit to user talk page, blank it
         If Edit.Page.FirstEdit IsNot Nothing AndAlso Edit.Id = Edit.Page.FirstEdit.Id _
@@ -718,7 +717,7 @@ Module Processing
 
         Dim RedirectEdit As New Edit
 
-        RedirectEdit.Type = EditType.Redirect
+        RedirectEdit.Type = Edit.Types.Redirect
         RedirectEdit.User = ThisPageMove.User
         RedirectEdit.Prev = NullEdit
 
@@ -748,14 +747,11 @@ Module Processing
 
     Sub ProcessDiff(ByVal PreloadDataObject As Object, ByVal Tab As BrowserTab)
 
-        If PreloadDataObject Is Nothing Then
-            Exit Sub
-        End If
+        If PreloadDataObject Is Nothing Then Exit Sub
 
-        Dim PDO As CacheData = CType(PreloadDataObject, CacheData)
-
-        Dim DiffText As String = PDO.Text
-        Dim ThisEdit As Edit = PDO.Edit
+        Dim CacheData As CacheData = CType(PreloadDataObject, CacheData)
+        Dim DiffText As String = CacheData.Text
+        Dim ThisEdit As Edit = CacheData.Edit
 
         If Not ThisEdit.Multiple Then
             If DiffText.Contains("<span class=""mw-rollback-link"">") Then
@@ -882,10 +878,8 @@ Module Processing
             If Not ThisEdit.Prev.Processed Then ProcessEdit(ThisEdit.Prev)
         End If
 
-        If Not DiffCache.ContainsKey(ThisEdit.Id & " " & ThisEdit.Oldid) _
-            Then DiffCache.Add(ThisEdit.Id & " " & ThisEdit.Oldid, DiffText)
-
-        ThisEdit.CacheState = CacheState.Cached
+        ThisEdit.Diff = DiffText
+        ThisEdit.Cached = Edit.CacheState.Cached
 
         If Tab.Edit Is ThisEdit OrElse (Tab.Edit.Next Is ThisEdit AndAlso HidingEdit) _
             Then DisplayEdit(ThisEdit, False, Tab, ThisEdit.User IsNot MyUser)
@@ -1061,7 +1055,7 @@ Module Processing
         End If
 
         For j As Integer = 0 To Math.Min(EditQueue.Count - 1, Config.Preloads - 1)
-            If EditQueue(j).CacheState = CacheState.Uncached Then
+            If EditQueue(j).Cached = Edit.CacheState.Uncached Then
                 Dim NewGetDiffRequest As New DiffRequest
                 NewGetDiffRequest.Edit = EditQueue(j)
                 NewGetDiffRequest.Start()
@@ -1070,30 +1064,6 @@ Module Processing
 
         MainForm.RcReqTimer.Start()
     End Sub
-
-    Function CompareEdits(ByVal X As Edit, ByVal Y As Edit) As Integer
-        If X.Type > Y.Type AndAlso X.Type >= EditType.ReplacedWith Then Return -1
-        If Y.Type > X.Type AndAlso Y.Type >= EditType.ReplacedWith Then Return 1
-
-        If X.User.Level > Y.User.Level AndAlso X.User.Level >= UserL.Reverted Then Return -1
-        If Y.User.Level > X.User.Level AndAlso Y.User.Level >= UserL.Reverted Then Return 1
-
-        If X.Page.Level > Y.Page.Level Then Return -1
-        If Y.Page.Level > X.Page.Level Then Return 1
-
-        If X.NewPage AndAlso Not Y.NewPage Then Return -1
-        If Y.NewPage AndAlso Not X.NewPage Then Return 1
-
-        If X.User.Anonymous AndAlso Not Y.User.Anonymous Then Return -1
-        If Y.User.Anonymous AndAlso Not X.User.Anonymous Then Return 1
-
-        If X.Page.Namespace = "" AndAlso Not Y.Page.Namespace = "" Then Return -1
-        If Y.Page.Namespace = "" AndAlso Not X.Page.Namespace = "" Then Return 1
-
-        If X.Random <> Y.Random Then Return Math.Sign(Y.Random - X.Random)
-
-        Return String.Compare(X.Page.Name, Y.Page.Name)
-    End Function
 
     Sub DisplayEdit(ByVal Edit As Edit, Optional ByVal InBrowsingHistory As Boolean = False, _
         Optional ByVal Tab As BrowserTab = Nothing, Optional ByVal ChangeCurrentEdit As Boolean = True)
@@ -1120,7 +1090,7 @@ Module Processing
 
             If Edit.Deleted Then
                 Tab.Browser.DocumentText = "<div style=""font-family: Arial"">This revision has been deleted.</div>"
-                Edit.CacheState = CacheState.Viewed
+                Edit.Cached = Edit.CacheState.Viewed
 
             ElseIf Edit.Prev Is NullEdit Then
                 'For the first revision to the page, show the revision
@@ -1130,12 +1100,12 @@ Module Processing
                 NewRequest.Start()
 
             Else
-                If Edit.CacheState = CacheState.Cached OrElse Edit.CacheState = CacheState.Viewed Then
+                If Edit.Cached = Edit.CacheState.Cached OrElse Edit.Cached = Edit.CacheState.Viewed Then
 
-                    If DiffCache.ContainsKey(Edit.Id & " " & Edit.Oldid) Then
+                    If Edit.Diff IsNot Nothing Then
                         Dim DocumentText, DiffText As String
 
-                        DiffText = DiffCache(Edit.Id & " " & Edit.Oldid)
+                        DiffText = Edit.Diff
 
                         'Notify user of new messages
                         If MainForm.SystemShowNewMessages.Enabled _
@@ -1152,19 +1122,19 @@ Module Processing
                         DocumentText = "<html><head><title>" & Edit.Page.Name & "</title></head><body>" & _
                             DiffText & "</body></html>"
 
-                        Tab.CurrentUrl = SitePath & "w/index.php?title=" & UrlEncode(Edit.Page.Name.Replace(" ", "_")) & _
+                        Tab.CurrentUrl = SitePath & "w/index.php?title=" & UrlEncode(Edit.Page.Name) & _
                             "&diff=" & Edit.Id & "&oldid=" & Edit.Oldid
                         Tab.Browser.DocumentText = DocumentText
                     End If
 
-                    Edit.CacheState = CacheState.Viewed
+                    Edit.Cached = Edit.CacheState.Viewed
 
                     MainForm.PageB.ForeColor = Color.Black
                     MainForm.RevertTimer.Stop()
                     MainForm.Reverting = False
                     HidingEdit = False
 
-                ElseIf Edit.CacheState = CacheState.Uncached Then
+                ElseIf Edit.Cached = Edit.CacheState.Uncached Then
                     If Tab Is CurrentTab Then
                         For Each Item As ToolStripItem In New ToolStripItem() _
                             {MainForm.RevertWarnB, MainForm.DiffRevertB, MainForm.WarnB, _

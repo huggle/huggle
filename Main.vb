@@ -1094,7 +1094,7 @@ Class Main
             If Item.Time > StartTime AndAlso Item.Time.AddMinutes(10) > Date.UtcNow Then
                 Edits += 1
                 If Item.Time < FirstTime Then FirstTime = Item.Time
-                If Item.Type = EditType.Revert Then Reverts += 1
+                If Item.Type = Edit.Types.Revert Then Reverts += 1
             End If
         Next Item
 
@@ -1671,7 +1671,6 @@ Class Main
         AllPages.Clear()
         AllRequests.Clear()
         AllUsers.Clear()
-        DiffCache.Clear()
         EditQueue.Clear()
         NewPageQueue.Clear()
         PendingRequests.Clear()
