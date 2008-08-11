@@ -39,8 +39,9 @@ Module Misc
     Public WarningMessages As New Dictionary(Of String, String)
     Public Watchlist As New List(Of Page)
     Public Whitelist As New List(Of String)
-    Public WhitelistChanged As Boolean
+    Public WhitelistAutoChanges As New List(Of String)
     Public WhitelistLoaded As Boolean
+    Public WhitelistManualChanges As New List(Of String)
 
     Public Delegate Sub CallbackDelegate(ByVal Success As Boolean)
 

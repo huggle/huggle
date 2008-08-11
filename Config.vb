@@ -177,6 +177,7 @@ Module Config
     Public UAABotLocation As String
     Public UndoSummary As String
     Public UpdateWhitelist As Boolean
+    Public UpdateWhitelistManual As Boolean
     Public UseAdminFunctions As Boolean = True
     Public UserAgent As String = "Huggle/" & Version.Major.ToString & "." & Version.Minor.ToString & "." & _
         Version.Build & " http://en.wikipedia.org/wiki/Huggle"
@@ -194,7 +195,6 @@ Module Config
     Public WatchReverts As Boolean
     Public WatchTags As Boolean
     Public WatchWarnings As Boolean
-    Public WhitelistEnabled As Boolean
     Public WhitelistEditCount As Integer = 500
     Public WhitelistLocation As String
     Public WhitelistUpdateSummary As String

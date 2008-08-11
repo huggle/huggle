@@ -600,22 +600,28 @@ Namespace Requests
                 Exit Sub
             End If
 
+            Dim IgnoredUsernames As New List(Of String)
+
             Dim Items As String() = Data.Text.Split(CChar(vbLf))
 
             For Each Item As String In Items
                 If Item.Length > 0 AndAlso Not (Item.Contains("{") OrElse Item.Contains("<")) _
-                    AndAlso Not GetUser(Item).Level = UserL.Ignore Then GetUser(Item).Level = UserL.Ignore
+                    AndAlso Not IgnoredUsernames.Contains(Item) Then IgnoredUsernames.Add(Item)
             Next Item
 
-            Dim IgnoredUserNames As New List(Of String)
-
-            For Each Item As User In AllUsers.Values
-                If Item.Level = UserL.Ignore AndAlso Not Item.Anonymous Then IgnoredUserNames.Add(Item.Name)
+            For Each Item As String In WhitelistAutoChanges
+                If Not IgnoredUsernames.Contains(Item) Then IgnoredUsernames.Add(Item)
             Next Item
 
-            IgnoredUserNames.Sort()
+            If Config.UpdateWhitelistManual Then
+                For Each Item As String In WhitelistManualChanges
+                    If Not IgnoredUsernames.Contains(Item) Then IgnoredUsernames.Add(Item)
+                Next Item
+            End If
 
-            Data.Text = "{{/Header}}" & vbLf & "<pre>" & vbLf & Join(IgnoredUserNames.ToArray, vbLf) & vbLf & "</pre>"
+            IgnoredUsernames.Sort()
+
+            Data.Text = "{{/Header}}" & vbLf & "<pre>" & vbLf & Join(IgnoredUsernames.ToArray, vbLf) & vbLf & "</pre>"
             Data.Summary = Config.WhitelistUpdateSummary
             Data.Minor = True
 

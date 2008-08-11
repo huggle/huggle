@@ -20,7 +20,9 @@ Class ClosingForm
             File.AppendAllText(Config.LogFile, vbCrLf & Strings.Join(LogItems.ToArray, vbCrLf))
         End If
 
-        If WhitelistChanged AndAlso Config.UpdateWhitelist Then
+        If Config.UpdateWhitelist AndAlso (WhitelistAutoChanges.Count > 0 _
+            OrElse (Config.UpdateWhitelistManual AndAlso WhitelistManualChanges.Count > 0)) Then
+
             Status.Text = "Updating user whitelist..."
             Progress.Value = 1
             Dim NewUpdateWhitelistRequest As New UpdateWhitelistRequest

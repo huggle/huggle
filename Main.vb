@@ -138,7 +138,7 @@ Class Main
 
     Public Sub IgnoreUser(ByVal User As User)
         User.Level = UserL.Ignore
-        WhitelistChanged = True
+        If Not WhitelistManualChanges.Contains(User.Name) Then WhitelistManualChanges.Add(User.Name)
         Log("Ignored user '" & User.Name & "'")
 
         For Each Item As Command In Undo
@@ -175,7 +175,8 @@ Class Main
 
     Public Sub UnignoreUser(ByVal User As User)
         User.Level = UserL.None
-        WhitelistChanged = True
+        If WhitelistManualChanges.Contains(User.Name) Then WhitelistManualChanges.Remove(User.Name)
+        If WhitelistAutoChanges.Contains(User.Name) Then WhitelistAutoChanges.Remove(User.Name)
         Log("Unignored user '" & User.Name & "'")
 
         For Each Item As Command In Undo

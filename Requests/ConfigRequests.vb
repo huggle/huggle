@@ -230,6 +230,7 @@ Namespace Requests
                 Case "tfd" : Config.TfdLocation = Value
                 Case "uaa" : Config.UAALocation = Value
                 Case "uaabot" : Config.UAABotLocation = Value
+                Case "update-whitelist-manual" : Config.UpdateWhitelistManual = CBool(Value)
                 Case "userlist" : Config.UserListLocation = Value
                 Case "userlist-update-summary" : Config.UserListUpdateSummary = Value
                 Case "version" : SetLatestVersion(Value)
@@ -240,7 +241,6 @@ Namespace Requests
                 Case "welcome-summary" : Config.WelcomeSummary = Value
                 Case "whitelist" : Config.WhitelistLocation = Value
                 Case "whitelist-edit-count" : Config.WhitelistEditCount = CInt(Value)
-                Case "whitelist-enabled" : Config.WhitelistEnabled = CBool(Value)
                 Case "whitelist-update-summary" : Config.WhitelistUpdateSummary = Value
                 Case "xfd" : Config.Xfd = CBool(Value)
                 Case "xfd-discussion-summary" : Config.XfdDiscussionSummary = Value

@@ -501,7 +501,6 @@ Namespace Requests
         End Sub
 
         Private Sub Done(ByVal ResultObject As Object)
-
             Dim EditCounts As Dictionary(Of User, Integer) = CType(ResultObject, Dictionary(Of User, Integer))
 
             For Each Item As KeyValuePair(Of User, Integer) In EditCounts
@@ -510,8 +509,8 @@ Namespace Requests
                 If Item.Key.EditCount > Config.WhitelistEditCount Then
                     'If the user has the ammount of edit given in config or more then the user is to be ignored
                     Item.Key.Level = UserL.Ignore
-                    'Changed so ClosingForm knows that the whitelist is in need of being updated
-                    WhitelistChanged = True
+
+                    WhitelistAutoChanges.Add(Item.Key.Name)
 
                     If CurrentEdit IsNot Nothing AndAlso Item.Key Is CurrentEdit.User Then
                         MainForm.UserIgnoreB.Image = My.Resources.user_unwhitelist
