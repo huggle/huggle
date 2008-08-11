@@ -7,6 +7,7 @@ Class LoginForm
     Private Request As LoginRequest
 
     Private Sub LoginForm_Load() Handles Me.Load
+        SyncContext = SynchronizationContext.Current
         Icon = My.Resources.icon_red_button
         Height = 270
 
@@ -139,10 +140,16 @@ Class LoginForm
     End Sub
 
     Sub Done(ByVal O As Object)
-        MainForm = New Main
-        MainForm.Show()
-        MainForm.Initialize()
-        Close()
+        If Config.StartupMessage AndAlso Config.StartupMessageLocation IsNot Nothing Then
+            Dim NewStartupForm As New StartupForm
+            NewStartupForm.Show()
+            Close()
+        Else
+            MainForm = New Main
+            MainForm.Show()
+            MainForm.Initialize()
+            Close()
+        End If
     End Sub
 
     Sub UpdateStatus(ByVal MessageObject As Object)

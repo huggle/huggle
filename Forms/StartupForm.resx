@@ -117,8 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Label2.Text" xml:space="preserve">
-    <value>Huggle is a tool for dealing with vandalism. Its nature requires that it is capable of editing pages quickly, and of making many edits in a short space of time. Such features must be used with caution. Use of Huggle by new or inexperienced users is not recommended. Use of Huggle is subject to Wikipedia policies and guidelines. Abuse or inappropriate use can and will be dealt with by removal of access or blocking of your user account.
-</value>
-  </data>
 </root>

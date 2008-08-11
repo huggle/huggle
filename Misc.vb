@@ -737,25 +737,13 @@ Module Misc
             Then Text = Text.Substring(0, Text.IndexOf("<script ")) & Text.Substring(Text.IndexOf("</script>") + 9)
 
         Text = "<h1>" & Page.Name & "</h1>" & Text
-
-        Text = "<style type=""text/css""> * {background-image: none !important} " & _
-            ".historysubmit {display: none}</style>" & vbCrLf & Text
-
-        'Yes, the style version is out of date. It doesn't matter; nothing is cached between huggle sessions
-        Text = "<style type=""text/css"">/*<![CDATA[*/" & vbCrLf & _
-            "@import ""/w/index.php?title=MediaWiki:Common.css&usemsgcache=yes&action=raw&ctype=text/css " & _
-            "&smaxage=2678400"";" & vbCrLf & "@import ""/w/index.php?title=MediaWiki:Monobook.css&usemsgcache=yes" & _
-            "&action=raw&ctype=text/css&smaxage=2678400"";" & vbCrLf & "@import ""/w/index.php?title=-&action=raw" & _
-            "&gen=css&maxage=2678400&smaxage=0&ts=20071017064247"";" & vbCrLf & _
-            "@import ""/skins-1.5/common/shared.css?100"";" & vbCrLf & _
-            "@import ""/skins-1.5/monobook/main.css?100"";" & vbCrLf & "/*]]>*/</style>" & Text
-
-        Text = "<html><head><title>" & Page.Name & "</title></head><body>" & Text & "</body></html>"
-
-        Text = Text.Replace("@import ""/skins-1.5/", "@import """ & SitePath & "skins-1.5/")
-        Text = Text.Replace("@import ""/w/index.php?", "@import """ & SitePath & "w/index.php?")
-        Text = Text.Replace("src=""/skins-1.5/", "src=""" & SitePath & "skins-1.5/")
+        Text = MakeHtmlWikiPage(Page.Name, Text)
         Return Text
+    End Function
+
+    Function MakeHtmlWikiPage(ByVal Page As String, ByVal Text As String) As String
+        Return My.Resources.WikiPageHtml.Replace("$PATH", SitePath).Replace("$PAGE", Page) _
+            .Replace("$USER", Username) & "<body>" & Text & "</body></html>"
     End Function
 
     <DebuggerStepThrough()> Sub Callback(ByVal Target As Threading.SendOrPostCallback, Optional ByVal PostData As Object = Nothing)

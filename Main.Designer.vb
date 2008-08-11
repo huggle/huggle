@@ -1066,7 +1066,7 @@ Partial Class Main
         '
         Me.DiffNextB.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
         Me.DiffNextB.Enabled = False
-        Me.DiffNextB.Image = Global.huggle.My.Resources.Resources.arrow_2
+        Me.DiffNextB.Image = Global.huggle.My.Resources.Resources.arrow
         Me.DiffNextB.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.DiffNextB.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.DiffNextB.Name = "DiffNextB"

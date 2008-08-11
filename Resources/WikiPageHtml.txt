@@ -1,0 +1,12 @@
+<html>
+<head>
+<title>$PAGE</title>
+<link rel="stylesheet" href="$PATHskins-1.5/common/shared.css" type="text/css" />
+<link rel="stylesheet" href="$PATHskins-1.5/monobook/main.css" type="text/css" />
+<link rel="stylesheet" href="$PATHw/index.php?title=MediaWiki:Common.css&usemsgcache=yes&ctype=text/css&action=raw" type="text/css" />
+<link rel="stylesheet" href="$PATHw/index.php?title=MediaWiki:Monobook.css&usemsgcache=yes&ctype=text/css&action=raw" type="text/css" />
+<link rel="stylesheet" href="$PATHw/index.php?title=-&action=raw&gen=css" type="text/css" />
+<link rel="stylesheet" href="$PATHw/index.php?title=User:$USER/monobook.css&action=raw&ctype=text/css" type="text/css" />
+<link rel="stylesheet" href="$PATHskins-1.5/monobook/IE70Fixes.css" type="text/css" media="screen" />
+<style type="text/css"> * {background-image: none !important} .historysubmit {display: none}</style>
+</head>

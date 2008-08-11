@@ -7,6 +7,7 @@ Class ConfigForm
 
         AutoWhitelist.Checked = Config.AutoWhitelist
         TrayIcon.Checked = Config.TrayIcon
+        StartupMessage.Checked = Config.StartupMessage
         ShowQueue.Checked = Config.ShowQueue
         ShowToolTips.Checked = Config.ShowToolTips
         OpenInBrowser.Checked = Config.OpenInBrowser
@@ -120,6 +121,7 @@ Class ConfigForm
             Config.AutoWhitelist = AutoWhitelist.Checked
             Config.TrayIcon = TrayIcon.Checked
             Config.ShowQueue = ShowQueue.Checked
+            Config.StartupMessage = StartupMessage.Checked
             Config.ShowToolTips = ShowToolTips.Checked
             Config.OpenInBrowser = OpenInBrowser.Checked
             Config.ShowNewEdits = ShowNewEdits.Checked

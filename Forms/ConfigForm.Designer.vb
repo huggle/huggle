@@ -35,7 +35,6 @@ Partial Class ConfigForm
         Me.DiffFontSize = New System.Windows.Forms.TextBox
         Me.Label13 = New System.Windows.Forms.Label
         Me.ShowNewEdits = New System.Windows.Forms.CheckBox
-        Me.ShowQueue = New System.Windows.Forms.CheckBox
         Me.Preloading = New System.Windows.Forms.CheckBox
         Me.Preloads = New System.Windows.Forms.TextBox
         Me.Label6 = New System.Windows.Forms.Label
@@ -131,6 +130,8 @@ Partial Class ConfigForm
         Me.BlockReason = New System.Windows.Forms.TextBox
         Me.PromptForBlock = New System.Windows.Forms.CheckBox
         Me.UseAdminFunctions = New System.Windows.Forms.CheckBox
+        Me.ShowQueue = New System.Windows.Forms.CheckBox
+        Me.StartupMessage = New System.Windows.Forms.CheckBox
         Me.Tabs.SuspendLayout()
         Me.GeneralTab.SuspendLayout()
         Me.KeyboardTab.SuspendLayout()
@@ -149,7 +150,7 @@ Partial Class ConfigForm
         'Cancel
         '
         Me.Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Cancel.Location = New System.Drawing.Point(439, 326)
+        Me.Cancel.Location = New System.Drawing.Point(446, 334)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
         Me.Cancel.TabIndex = 1
@@ -159,7 +160,7 @@ Partial Class ConfigForm
         'OK
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.OK.Location = New System.Drawing.Point(358, 326)
+        Me.OK.Location = New System.Drawing.Point(365, 334)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
         Me.OK.TabIndex = 0
@@ -168,7 +169,8 @@ Partial Class ConfigForm
         '
         'Tabs
         '
-        Me.Tabs.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.Tabs.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Tabs.Controls.Add(Me.GeneralTab)
         Me.Tabs.Controls.Add(Me.KeyboardTab)
@@ -188,6 +190,7 @@ Partial Class ConfigForm
         '
         'GeneralTab
         '
+        Me.GeneralTab.Controls.Add(Me.StartupMessage)
         Me.GeneralTab.Controls.Add(Me.LogFileBrowse)
         Me.GeneralTab.Controls.Add(Me.LogFile)
         Me.GeneralTab.Controls.Add(Me.Label17)
@@ -197,7 +200,6 @@ Partial Class ConfigForm
         Me.GeneralTab.Controls.Add(Me.DiffFontSize)
         Me.GeneralTab.Controls.Add(Me.Label13)
         Me.GeneralTab.Controls.Add(Me.ShowNewEdits)
-        Me.GeneralTab.Controls.Add(Me.ShowQueue)
         Me.GeneralTab.Controls.Add(Me.Preloading)
         Me.GeneralTab.Controls.Add(Me.Preloads)
         Me.GeneralTab.Controls.Add(Me.Label6)
@@ -294,16 +296,6 @@ Partial Class ConfigForm
         Me.ShowNewEdits.TabIndex = 21
         Me.ShowNewEdits.Text = "Show new edits to the selected page as they are made"
         Me.ShowNewEdits.UseVisualStyleBackColor = True
-        '
-        'ShowQueue
-        '
-        Me.ShowQueue.AutoSize = True
-        Me.ShowQueue.Location = New System.Drawing.Point(9, 61)
-        Me.ShowQueue.Name = "ShowQueue"
-        Me.ShowQueue.Size = New System.Drawing.Size(125, 17)
-        Me.ShowQueue.TabIndex = 16
-        Me.ShowQueue.Text = "Show revision queue"
-        Me.ShowQueue.UseVisualStyleBackColor = True
         '
         'Preloading
         '
@@ -457,6 +449,7 @@ Partial Class ConfigForm
         '
         'QueueTab
         '
+        Me.QueueTab.Controls.Add(Me.ShowQueue)
         Me.QueueTab.Controls.Add(Me.QueueMaxAge)
         Me.QueueTab.Controls.Add(Me.Label32)
         Me.QueueTab.Controls.Add(Me.Label31)
@@ -469,7 +462,7 @@ Partial Class ConfigForm
         Me.QueueTab.Location = New System.Drawing.Point(4, 23)
         Me.QueueTab.Name = "QueueTab"
         Me.QueueTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.QueueTab.Size = New System.Drawing.Size(517, 291)
+        Me.QueueTab.Size = New System.Drawing.Size(511, 291)
         Me.QueueTab.TabIndex = 4
         Me.QueueTab.Text = "Queue"
         Me.QueueTab.UseVisualStyleBackColor = True
@@ -477,7 +470,7 @@ Partial Class ConfigForm
         'QueueMaxAge
         '
         Me.QueueMaxAge.Increment = New Decimal(New Integer() {5, 0, 0, 0})
-        Me.QueueMaxAge.Location = New System.Drawing.Point(172, 212)
+        Me.QueueMaxAge.Location = New System.Drawing.Point(172, 256)
         Me.QueueMaxAge.Maximum = New Decimal(New Integer() {1440, 0, 0, 0})
         Me.QueueMaxAge.Name = "QueueMaxAge"
         Me.QueueMaxAge.Size = New System.Drawing.Size(54, 20)
@@ -487,7 +480,7 @@ Partial Class ConfigForm
         'Label32
         '
         Me.Label32.AutoSize = True
-        Me.Label32.Location = New System.Drawing.Point(232, 214)
+        Me.Label32.Location = New System.Drawing.Point(232, 258)
         Me.Label32.Name = "Label32"
         Me.Label32.Size = New System.Drawing.Size(106, 13)
         Me.Label32.TabIndex = 22
@@ -496,7 +489,7 @@ Partial Class ConfigForm
         'Label31
         '
         Me.Label31.AutoSize = True
-        Me.Label31.Location = New System.Drawing.Point(9, 214)
+        Me.Label31.Location = New System.Drawing.Point(9, 258)
         Me.Label31.Name = "Label31"
         Me.Label31.Size = New System.Drawing.Size(157, 13)
         Me.Label31.TabIndex = 22
@@ -505,7 +498,7 @@ Partial Class ConfigForm
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(6, 59)
+        Me.Label5.Location = New System.Drawing.Point(6, 103)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(186, 13)
         Me.Label5.TabIndex = 21
@@ -514,7 +507,7 @@ Partial Class ConfigForm
         'ShowNewPages
         '
         Me.ShowNewPages.AutoSize = True
-        Me.ShowNewPages.Location = New System.Drawing.Point(12, 179)
+        Me.ShowNewPages.Location = New System.Drawing.Point(12, 223)
         Me.ShowNewPages.Name = "ShowNewPages"
         Me.ShowNewPages.Size = New System.Drawing.Size(240, 17)
         Me.ShowNewPages.TabIndex = 20
@@ -528,7 +521,7 @@ Partial Class ConfigForm
         Me.Namespaces.CheckOnClick = True
         Me.Namespaces.FormattingEnabled = True
         Me.Namespaces.Items.AddRange(New Object() {"Article", "Talk", "User", "User talk", "Wikipedia", "Wikipedia talk", "Category", "Category talk", "Template", "Template talk", "Image", "Image talk", "Help", "Help talk", "MediaWiki", "MediaWiki talk", "Portal", "Portal talk"})
-        Me.Namespaces.Location = New System.Drawing.Point(9, 75)
+        Me.Namespaces.Location = New System.Drawing.Point(9, 119)
         Me.Namespaces.Name = "Namespaces"
         Me.Namespaces.Size = New System.Drawing.Size(217, 94)
         Me.Namespaces.TabIndex = 19
@@ -536,7 +529,7 @@ Partial Class ConfigForm
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(6, 13)
+        Me.Label4.Location = New System.Drawing.Point(6, 57)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(114, 13)
         Me.Label4.TabIndex = 18
@@ -545,7 +538,7 @@ Partial Class ConfigForm
         'ShowAnonymous
         '
         Me.ShowAnonymous.AutoSize = True
-        Me.ShowAnonymous.Location = New System.Drawing.Point(12, 29)
+        Me.ShowAnonymous.Location = New System.Drawing.Point(12, 73)
         Me.ShowAnonymous.Name = "ShowAnonymous"
         Me.ShowAnonymous.Size = New System.Drawing.Size(108, 17)
         Me.ShowAnonymous.TabIndex = 16
@@ -555,7 +548,7 @@ Partial Class ConfigForm
         'ShowRegistered
         '
         Me.ShowRegistered.AutoSize = True
-        Me.ShowRegistered.Location = New System.Drawing.Point(126, 29)
+        Me.ShowRegistered.Location = New System.Drawing.Point(126, 73)
         Me.ShowRegistered.Name = "ShowRegistered"
         Me.ShowRegistered.Size = New System.Drawing.Size(100, 17)
         Me.ShowRegistered.TabIndex = 17
@@ -575,7 +568,7 @@ Partial Class ConfigForm
         Me.EditingTab.Location = New System.Drawing.Point(4, 23)
         Me.EditingTab.Name = "EditingTab"
         Me.EditingTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.EditingTab.Size = New System.Drawing.Size(517, 291)
+        Me.EditingTab.Size = New System.Drawing.Size(511, 291)
         Me.EditingTab.TabIndex = 2
         Me.EditingTab.Text = "Editing"
         Me.EditingTab.UseVisualStyleBackColor = True
@@ -664,7 +657,7 @@ Partial Class ConfigForm
         Me.RevertTab.Location = New System.Drawing.Point(4, 23)
         Me.RevertTab.Name = "RevertTab"
         Me.RevertTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.RevertTab.Size = New System.Drawing.Size(517, 291)
+        Me.RevertTab.Size = New System.Drawing.Size(511, 291)
         Me.RevertTab.TabIndex = 5
         Me.RevertTab.Text = "Reverting"
         Me.RevertTab.UseVisualStyleBackColor = True
@@ -790,7 +783,7 @@ Partial Class ConfigForm
         Me.ReportingTab.Location = New System.Drawing.Point(4, 23)
         Me.ReportingTab.Name = "ReportingTab"
         Me.ReportingTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.ReportingTab.Size = New System.Drawing.Size(517, 291)
+        Me.ReportingTab.Size = New System.Drawing.Size(511, 291)
         Me.ReportingTab.TabIndex = 3
         Me.ReportingTab.Text = "Reporting"
         Me.ReportingTab.UseVisualStyleBackColor = True
@@ -881,7 +874,7 @@ Partial Class ConfigForm
         Me.TemplatesTab.Location = New System.Drawing.Point(4, 23)
         Me.TemplatesTab.Name = "TemplatesTab"
         Me.TemplatesTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.TemplatesTab.Size = New System.Drawing.Size(517, 291)
+        Me.TemplatesTab.Size = New System.Drawing.Size(511, 291)
         Me.TemplatesTab.TabIndex = 6
         Me.TemplatesTab.Text = "Templates"
         Me.TemplatesTab.UseVisualStyleBackColor = True
@@ -948,7 +941,7 @@ Partial Class ConfigForm
         Me.EditorTab.Location = New System.Drawing.Point(4, 23)
         Me.EditorTab.Name = "EditorTab"
         Me.EditorTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.EditorTab.Size = New System.Drawing.Size(517, 291)
+        Me.EditorTab.Size = New System.Drawing.Size(511, 291)
         Me.EditorTab.TabIndex = 8
         Me.EditorTab.Text = "Editor"
         Me.EditorTab.UseVisualStyleBackColor = True
@@ -1198,7 +1191,7 @@ Partial Class ConfigForm
         Me.AdminTab.Controls.Add(Me.UseAdminFunctions)
         Me.AdminTab.Location = New System.Drawing.Point(4, 23)
         Me.AdminTab.Name = "AdminTab"
-        Me.AdminTab.Size = New System.Drawing.Size(517, 291)
+        Me.AdminTab.Size = New System.Drawing.Size(511, 291)
         Me.AdminTab.TabIndex = 1
         Me.AdminTab.Text = "Admin"
         Me.AdminTab.UseVisualStyleBackColor = True
@@ -1280,12 +1273,32 @@ Partial Class ConfigForm
         Me.UseAdminFunctions.Text = "Use administrator functions if available"
         Me.UseAdminFunctions.UseVisualStyleBackColor = True
         '
+        'ShowQueue
+        '
+        Me.ShowQueue.AutoSize = True
+        Me.ShowQueue.Location = New System.Drawing.Point(12, 15)
+        Me.ShowQueue.Name = "ShowQueue"
+        Me.ShowQueue.Size = New System.Drawing.Size(125, 17)
+        Me.ShowQueue.TabIndex = 24
+        Me.ShowQueue.Text = "Show revision queue"
+        Me.ShowQueue.UseVisualStyleBackColor = True
+        '
+        'StartupMessage
+        '
+        Me.StartupMessage.AutoSize = True
+        Me.StartupMessage.Location = New System.Drawing.Point(9, 61)
+        Me.StartupMessage.Name = "StartupMessage"
+        Me.StartupMessage.Size = New System.Drawing.Size(133, 17)
+        Me.StartupMessage.TabIndex = 30
+        Me.StartupMessage.Text = "Show startup message"
+        Me.StartupMessage.UseVisualStyleBackColor = True
+        '
         'ConfigForm
         '
         Me.AcceptButton = Me.OK
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(531, 361)
+        Me.ClientSize = New System.Drawing.Size(531, 367)
         Me.Controls.Add(Me.Tabs)
         Me.Controls.Add(Me.OK)
         Me.Controls.Add(Me.Cancel)
@@ -1345,7 +1358,6 @@ Partial Class ConfigForm
     Friend WithEvents Preloads As System.Windows.Forms.TextBox
     Friend WithEvents Label6 As System.Windows.Forms.Label
     Friend WithEvents IrcPort As System.Windows.Forms.TextBox
-    Friend WithEvents ShowQueue As System.Windows.Forms.CheckBox
     Friend WithEvents ShowNewEdits As System.Windows.Forms.CheckBox
     Friend WithEvents QueueTab As System.Windows.Forms.TabPage
     Friend WithEvents Label5 As System.Windows.Forms.Label
@@ -1430,4 +1442,6 @@ Partial Class ConfigForm
     Friend WithEvents QueueMaxAge As System.Windows.Forms.NumericUpDown
     Friend WithEvents Label32 As System.Windows.Forms.Label
     Friend WithEvents Label31 As System.Windows.Forms.Label
+    Friend WithEvents ShowQueue As System.Windows.Forms.CheckBox
+    Friend WithEvents StartupMessage As System.Windows.Forms.CheckBox
 End Class

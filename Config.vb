@@ -165,6 +165,8 @@ Module Config
     Public SpeedyMessageSummary As String
     Public SpeedyMessageTitle As String
     Public SpeedySummary As String
+    Public StartupMessage As Boolean = True
+    Public StartupMessageLocation As String
     Public Summary As String
     Public Tags As New List(Of String)
     Public TemplateMessages As New List(Of String)
@@ -232,6 +234,7 @@ Module Config
                         Case "proxy-server" : Config.ProxyServer = OptionValue
                         Case "proxy-userdomain" : Config.ProxyUserDomain = OptionValue
                         Case "proxy-username" : Config.ProxyUsername = OptionValue
+                        Case "startup-message" : Config.StartupMessage = CBool(OptionValue)
                         Case "username" : Config.Username = OptionValue
                         Case "window-height" : Config.WindowSize.Height = CInt(OptionValue)
                         Case "window-left" : Config.WindowPosition.X = CInt(OptionValue)
@@ -258,6 +261,7 @@ Module Config
             LocalConfigItems.Add("proxy-server:" & Config.ProxyServer)
             LocalConfigItems.Add("proxy-userdomain:" & Config.ProxyUserDomain)
             LocalConfigItems.Add("proxy-username:" & Config.ProxyUsername)
+            LocalConfigItems.Add("startup-message:" & CStr(Config.StartupMessage))
             LocalConfigItems.Add("username:" & Config.Username)
             LocalConfigItems.Add("window-height:" & CStr(MainForm.Height))
             LocalConfigItems.Add("window-left:" & CStr(MainForm.Left))

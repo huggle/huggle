@@ -60,9 +60,9 @@ Namespace My.Resources
             End Set
         End Property
         
-        Friend ReadOnly Property arrow_2() As System.Drawing.Bitmap
+        Friend ReadOnly Property arrow() As System.Drawing.Bitmap
             Get
-                Dim obj As Object = ResourceManager.GetObject("arrow_2", resourceCulture)
+                Dim obj As Object = ResourceManager.GetObject("arrow", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
@@ -554,6 +554,22 @@ Namespace My.Resources
             Get
                 Dim obj As Object = ResourceManager.GetObject("user_whitelist", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to &lt;html&gt;
+        '''&lt;head&gt;
+        '''&lt;title&gt;$PAGE&lt;/title&gt;
+        '''&lt;link rel=&quot;stylesheet&quot; href=&quot;$PATHskins-1.5/common/shared.css&quot; type=&quot;text/css&quot; /&gt;
+        '''&lt;link rel=&quot;stylesheet&quot; href=&quot;$PATHskins-1.5/monobook/main.css&quot; type=&quot;text/css&quot; /&gt;
+        '''&lt;link rel=&quot;stylesheet&quot; href=&quot;$PATHw/index.php?title=MediaWiki:Common.css&amp;usemsgcache=yes&amp;ctype=text/css&amp;action=raw&quot; type=&quot;text/css&quot; /&gt;
+        '''&lt;link rel=&quot;stylesheet&quot; href=&quot;$PATHw/index.php?title=MediaWiki:Monobook.css&amp;usemsgcache=yes&amp;ctype=text/css&amp;action=raw&quot; type=&quot;text/css&quot; /&gt;
+        '''&lt;link rel=&quot;stylesheet&quot; href=&quot;$PATH [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend ReadOnly Property WikiPageHtml() As String
+            Get
+                Return ResourceManager.GetString("WikiPageHtml", resourceCulture)
             End Get
         End Property
     End Module

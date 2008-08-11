@@ -1033,4 +1033,47 @@ Namespace Requests
 
     End Class
 
+    Class StartupMessageRequest : Inherits Request
+
+        'Get message shown to user when logging in
+
+        Public Delegate Sub StartupMessageCallback(ByVal Result As Boolean, ByVal Text As String)
+        Private _Done As StartupMessageCallback
+        Private Result As String
+
+        Public Sub Start(Optional ByVal Done As StartupMessageCallback = Nothing)
+            _Done = Done
+
+            Dim RequestThread As New Thread(AddressOf Process)
+            RequestThread.IsBackground = True
+            RequestThread.Start()
+        End Sub
+
+        Private Sub Process()
+            Result = GetApi("action=parse&format=xml&text={{" & Config.StartupMessageLocation & "}}")
+
+            If Result Is Nothing OrElse Not Result.Contains("<text>") Then
+                Callback(AddressOf Failed)
+                Exit Sub
+            End If
+
+            Result = Result.Substring(Result.IndexOf("<text>") + 6)
+            Result = Result.Substring(0, Result.IndexOf("</text>"))
+            Result = HtmlDecode(Result)
+
+            Callback(AddressOf Done)
+        End Sub
+
+        Private Sub Done(ByVal O As Object)
+            Complete()
+            If _Done IsNot Nothing Then _Done(True, Result)
+        End Sub
+
+        Private Sub Failed(ByVal O As Object)
+            Fail()
+            If _Done IsNot Nothing Then _Done(False, Nothing)
+        End Sub
+
+    End Class
+
 End Namespace

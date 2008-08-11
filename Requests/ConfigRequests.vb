@@ -224,6 +224,7 @@ Namespace Requests
                 Case "rfd" : Config.RfdLocation = Value
                 Case "speedy-delete-summary" : Config.SpeedyDeleteSummary = Value
                 Case "speedy-options" : SetSpeedyOptions(Value)
+                Case "startup-message-location" : Config.StartupMessageLocation = Value
                 Case "summary" : Config.Summary = Value
                 Case "templates" : Config.TemplateMessagesGlobal = GetList(Value)
                 Case "tfd" : Config.TfdLocation = Value
