@@ -273,16 +273,18 @@ Class Main
         Then DisplayEdit(CurrentPage.FirstEdit)
     End Sub
 
+    Public HistorySelectionStart As Integer
+
     Private Sub History_MouseDown(ByVal s As Object, ByVal e As MouseEventArgs) Handles History.MouseDown
-        Dim Position As Integer = CInt((History.Width - e.X - 10) / 17) + HistoryOffset
+        HistorySelectionStart = CInt((History.Width - e.X - 10) / 17) + HistoryOffset
 
         If e.Button = MouseButtons.Left Then
-            DisplayHistoryItem(Position)
+            DisplayHistoryItem(HistorySelectionStart)
 
         ElseIf e.Button = MouseButtons.Right Then
             Dim ThisEdit As Edit = CurrentEdit.Page.LastEdit
 
-            For i As Integer = 0 To Position - 1
+            For i As Integer = 0 To HistorySelectionStart - 1
                 If ThisEdit.Prev Is Nothing OrElse ThisEdit.Prev Is NullEdit Then Exit Sub
                 ThisEdit = ThisEdit.Prev
             Next i
@@ -291,6 +293,33 @@ Class Main
         End If
 
         DrawHistory()
+    End Sub
+
+    Private Sub History_MouseUp(ByVal s As Object, ByVal e As MouseEventArgs) Handles History.MouseUp
+        If HistorySelectionStart > 0 AndAlso e.Button = MouseButtons.Left Then
+            Dim Position As Integer = CInt((History.Width - e.X - 10) / 17) + HistoryOffset
+
+            If Position <> HistorySelectionStart Then
+                Dim OlderEdit As Edit = CurrentEdit.Page.LastEdit
+
+                For i As Integer = 0 To Math.Max(Position, HistorySelectionStart) - 1
+                    If OlderEdit.Prev Is Nothing OrElse OlderEdit.Prev Is NullEdit Then Exit Sub
+                    OlderEdit = OlderEdit.Prev
+                Next i
+
+                Dim NewerEdit As Edit = CurrentEdit.Page.LastEdit
+
+                For i As Integer = 0 To Math.Min(Position, HistorySelectionStart) - 1
+                    If NewerEdit.Prev Is Nothing OrElse NewerEdit.Prev Is NullEdit Then Exit Sub
+                    NewerEdit = NewerEdit.Prev
+                Next i
+
+                ShowDiffBetween(OlderEdit, NewerEdit)
+
+            End If
+
+            HistorySelectionStart = 0
+        End If
     End Sub
 
     Private Sub History_MouseMove(ByVal s As Object, ByVal e As MouseEventArgs) Handles History.MouseMove
@@ -1676,7 +1705,4 @@ Class Main
         End If
     End Sub
 
-    Private Sub Status_ItemActivate(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Status.ItemActivate
-
-    End Sub
 End Class

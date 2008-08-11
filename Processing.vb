@@ -1277,6 +1277,23 @@ Module Processing
         End If
     End Sub
 
+    Sub ShowDiffBetween(ByVal OlderEdit As Edit, ByVal NewerEdit As Edit)
+        Dim Edit As New Edit
+        Edit.Page = NewerEdit.Page
+        Edit.User = NewerEdit.User
+        Edit.Id = NewerEdit.Id
+        Edit.Oldid = OlderEdit.Id
+        Edit.Time = NewerEdit.Time
+        Edit.Summary = NewerEdit.Summary
+        Edit.Prev = OlderEdit.Prev
+        Edit.Next = NewerEdit.Next
+        Edit.PrevByUser = NewerEdit.PrevByUser
+        Edit.NextByUser = NewerEdit.Next
+        Edit.Multiple = True
+
+        DisplayEdit(Edit)
+    End Sub
+
     Sub DisplayContribsItem(ByVal Index As Integer)
         If CurrentEdit IsNot Nothing AndAlso CurrentEdit.User IsNot Nothing _
             AndAlso CurrentEdit.User.LastEdit IsNot Nothing Then
