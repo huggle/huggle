@@ -35,6 +35,7 @@ Partial Class RequestsForm
         Me.Label6 = New System.Windows.Forms.Label
         Me.Label7 = New System.Windows.Forms.Label
         Me.Label8 = New System.Windows.Forms.Label
+        Me.CancelAll = New System.Windows.Forms.Button
         Me.SuspendLayout()
         '
         'List
@@ -157,12 +158,23 @@ Partial Class RequestsForm
         Me.Label8.TabIndex = 2
         Me.Label8.Text = "   "
         '
+        'CancelAll
+        '
+        Me.CancelAll.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.CancelAll.Location = New System.Drawing.Point(502, 326)
+        Me.CancelAll.Name = "CancelAll"
+        Me.CancelAll.Size = New System.Drawing.Size(75, 23)
+        Me.CancelAll.TabIndex = 3
+        Me.CancelAll.Text = "Cancel all"
+        Me.CancelAll.UseVisualStyleBackColor = True
+        '
         'RequestsForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoScroll = True
         Me.ClientSize = New System.Drawing.Size(589, 356)
+        Me.Controls.Add(Me.CancelAll)
         Me.Controls.Add(Me.Label8)
         Me.Controls.Add(Me.Label7)
         Me.Controls.Add(Me.Label6)
@@ -192,4 +204,5 @@ Partial Class RequestsForm
     Friend WithEvents Label6 As System.Windows.Forms.Label
     Friend WithEvents Label7 As System.Windows.Forms.Label
     Friend WithEvents Label8 As System.Windows.Forms.Label
+    Friend WithEvents CancelAll As System.Windows.Forms.Button
 End Class

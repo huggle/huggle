@@ -8,6 +8,12 @@
         Next Item
     End Sub
 
+    Private Sub CancelAll_Click() Handles CancelAll.Click
+        While PendingRequests.Count > 0
+            PendingRequests(0).Cancel()
+        End While
+    End Sub
+
     Private Sub AddRequest(ByVal Request As Request)
         Dim NewItem As New ListViewItem
 
