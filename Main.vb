@@ -14,7 +14,7 @@ Class Main
 
         InitialTab.Parent = Tabs.TabPages(0)
         CurrentTab = InitialTab
-        CurrentQueue = EditQueue
+        CurrentQueue = FilteredEdits
 
         Location = New Point(Math.Max(32, Config.WindowPosition.X), Math.Max(32, Config.WindowPosition.Y))
         Size = New Size(Math.Max(Config.WindowSize.Width, MinimumSize.Width), _
@@ -88,11 +88,11 @@ Class Main
     End Sub
 
     Sub DrawQueue()
-        Dim QueueHeight As Integer = (Queue.Height \ 20) - 2
+        Dim QueueHeight As Integer = (QueuePanel.Height \ 20) - 2
 
-        If QueueHeight < CurrentQueue.Count Then
+        If QueueHeight < CurrentQueue.Items.Count Then
             QueueScroll.Enabled = True
-            QueueScroll.Maximum = CurrentQueue.Count - 2
+            QueueScroll.Maximum = CurrentQueue.Items.Count - 2
             QueueScroll.SmallChange = 1
             QueueScroll.LargeChange = QueueHeight
         Else
@@ -100,7 +100,7 @@ Class Main
             QueueScroll.Value = 0
         End If
 
-        Queue.Draw(CurrentQueue)
+        QueuePanel.Draw(CurrentQueue.Items)
     End Sub
 
     Private Sub Main_ResizeShown() Handles Me.Resize, Me.Shown
@@ -156,9 +156,9 @@ Class Main
 
         Dim i As Integer = 0, Redraw As Boolean
 
-        Do While i < EditQueue.Count - 1
-            If EditQueue(i).User Is User Then
-                EditQueue.RemoveAt(i)
+        Do While i < FilteredEdits.Items.Count - 1
+            If FilteredEdits.Items(i).User Is User Then
+                FilteredEdits.Items.RemoveAt(i)
                 Redraw = True
             Else
                 i += 1
@@ -948,9 +948,9 @@ Class Main
         If NewQueueTrimForm.ShowDialog = DialogResult.OK AndAlso NewQueueTrimForm.DiscardTime > 0 Then
             Dim i As Integer, Redraw As Boolean
 
-            While i < CurrentQueue.Count
-                If CurrentQueue(i).Time.AddMinutes(NewQueueTrimForm.DiscardTime) < Date.UtcNow Then
-                    CurrentQueue.RemoveAt(i)
+            While i < CurrentQueue.Items.Count
+                If CurrentQueue.Items(i).Time.AddMinutes(NewQueueTrimForm.DiscardTime) < Date.UtcNow Then
+                    CurrentQueue.Items.RemoveAt(i)
                     Redraw = True
                 Else
                     i += 1
@@ -962,16 +962,17 @@ Class Main
     End Sub
 
     Private Sub QueueClear_Click() Handles QueueClear.Click
-        CurrentQueue.Clear()
+        CurrentQueue.Items.Clear()
+        If CurrentQueue.Type = EditQueue.Types.Fixed Then CurrentQueue.Initialise()
         DrawQueue()
         DiffNextB.Enabled = False
     End Sub
 
     Private Sub QueueClearAll_Click() Handles QueueClearAll.Click
-        CurrentQueue.Clear()
-        EditQueue.Clear()
-        NewPageQueue.Clear()
-        AllEditsByTime.Clear()
+        CurrentQueue.Items.Clear()
+        FilteredEdits.Items.Clear()
+        NewPages.Items.Clear()
+        AllEdits.Items.Clear()
         DrawQueue()
         DiffNextB.Enabled = False
     End Sub
@@ -1103,11 +1104,11 @@ Class Main
             & CStr(CInt(Reverts / (Date.UtcNow - FirstTime).TotalMinutes)) & " reversions per minute"
     End Sub
 
-    Private Sub Queue_MouseDown(ByVal s As Object, ByVal e As MouseEventArgs) Handles Queue.MouseDown
+    Private Sub Queue_MouseDown(ByVal s As Object, ByVal e As MouseEventArgs) Handles QueuePanel.MouseDown
         Dim Index As Integer = CInt((e.Y - 26) / 20) + QueueScroll.Value
 
-        If Index > -1 AndAlso Index < CurrentQueue.Count Then
-            DisplayEdit(CurrentQueue(Index))
+        If Index > -1 AndAlso Index < CurrentQueue.Items.Count Then
+            DisplayEdit(CurrentQueue.Items(Index))
             DrawQueue()
         End If
     End Sub
@@ -1375,7 +1376,7 @@ Class Main
     End Sub
 
     Private Sub SystemReconnectIRC_Click() Handles SystemReconnectIRC.Click
-        EditQueue.Clear()
+        FilteredEdits.Items.Clear()
         DrawQueue()
         DiffNextB.Enabled = False
         Irc.Reconnect()
@@ -1390,12 +1391,12 @@ Class Main
             AndAlso (CurrentPage Is Nothing OrElse CurrentPage.Name <> PageB.Text) Then
 
             SetCurrentPage(GetPage(PageB.Text), True)
-            Queue.Focus()
+            QueuePanel.Focus()
         End If
 
         If e.KeyCode = Keys.Escape Then
             PageB.Text = CurrentPage.Name
-            Queue.Focus()
+            QueuePanel.Focus()
         End If
 
         If e.KeyCode = Keys.OemOpenBrackets OrElse e.KeyCode = Keys.OemCloseBrackets _
@@ -1408,12 +1409,12 @@ Class Main
             AndAlso (CurrentUser Is Nothing OrElse CurrentUser.Name <> UserB.Text) Then
 
             SetCurrentUser(GetUser(UserB.Text), True)
-            Queue.Focus()
+            QueuePanel.Focus()
         End If
 
         If e.KeyCode = Keys.Escape Then
             UserB.Text = CurrentUser.Name
-            Queue.Focus()
+            QueuePanel.Focus()
         End If
 
         If e.KeyCode = Keys.OemOpenBrackets OrElse e.KeyCode = Keys.OemCloseBrackets _
@@ -1530,10 +1531,12 @@ Class Main
 
     Private Sub CreateContribsQueue(Optional ByVal Result As Request.Output = Nothing)
         If CurrentUser IsNot Nothing Then
-            Dim ThisEdit As Edit = CurrentUser.LastEdit, NewQueue As New List(Of Edit), i As Integer
+            Dim ThisEdit As Edit = CurrentUser.LastEdit, NewQueue As New EditQueue, i As Integer
+
+            NewQueue.Type = EditQueue.Types.Fixed
 
             While i < Config.ContribsBlockSize AndAlso ThisEdit IsNot Nothing AndAlso ThisEdit IsNot NullEdit
-                NewQueue.Add(ThisEdit)
+                NewQueue.Items.Add(ThisEdit)
                 ThisEdit = ThisEdit.PrevByUser
                 i += 1
             End While
@@ -1542,16 +1545,16 @@ Class Main
         End If
     End Sub
 
-    Private Sub QueueSource_SelectedIndexChanged() Handles QueueSource.SelectedIndexChanged
+    Private Sub QueueSelector_SelectedIndexChanged() Handles QueueSelector.SelectedIndexChanged
 
-        Select Case QueueSource.SelectedItem.ToString
-            Case "Filtered changes" : CurrentQueue = EditQueue
-            Case "New pages" : CurrentQueue = NewPageQueue
-            Case "All changes" : CurrentQueue = AllEditsByTime
+        Select Case QueueSelector.SelectedItem.ToString
+            Case "Filtered changes" : CurrentQueue = FilteredEdits
+            Case "New pages" : CurrentQueue = NewPages
+            Case "All changes" : CurrentQueue = AllEdits
 
             Case "Recent user contribs"
                 If CurrentUser IsNot Nothing Then
-                    Dim i As Integer = 0, ThisEdit As Edit = CurrentUser.LastEdit
+                    Dim i As Integer, ThisEdit As Edit = CurrentUser.LastEdit
 
                     While i < Config.ContribsBlockSize AndAlso ThisEdit IsNot Nothing AndAlso ThisEdit IsNot NullEdit
                         ThisEdit = ThisEdit.PrevByUser
@@ -1572,23 +1575,8 @@ Class Main
                 NewQueueForm.ShowDialog()
 
             Case Else
-                Dim NewQueue As New List(Of Edit)
-
-                For Each Item As String In QueueSources(QueueSource.SelectedItem.ToString).Items
-                    Dim Page As Page = GetPage(Item)
-
-                    If Page.LastEdit IsNot Nothing Then
-                        NewQueue.Add(Page.LastEdit)
-                    Else
-                        Dim NewEdit As New Edit
-                        NewEdit.Page = Page
-                        NewEdit.Id = "cur"
-                        NewEdit.Oldid = "prev"
-                        NewQueue.Add(NewEdit)
-                    End If
-                Next Item
-
-                CurrentQueue = NewQueue
+                CurrentQueue = EditQueues(QueueSelector.SelectedItem.ToString)
+                If Not CurrentQueue.Initialised Then CurrentQueue.Initialise()
         End Select
 
         DrawQueue()
@@ -1667,15 +1655,15 @@ Class Main
 
         'Clear various things
         AllEditsById.Clear()
-        AllEditsByTime.Clear()
+        AllEdits.Items.Clear()
         AllPages.Clear()
         AllRequests.Clear()
         AllUsers.Clear()
-        EditQueue.Clear()
-        NewPageQueue.Clear()
+        FilteredEdits.Items.Clear()
+        NewPages.Items.Clear()
         PendingRequests.Clear()
         PendingWarnings.Clear()
-        QueueSources.Clear()
+        EditQueues.Clear()
         Undo.Clear()
         Watchlist.Clear()
         Whitelist.Clear()

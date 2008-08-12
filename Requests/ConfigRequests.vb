@@ -13,11 +13,15 @@ Namespace Requests
                 Return False
             End If
 
-            Dim i As Integer = 1, ConfigItems As New List(Of String)(Result.Split(CChar(vbLf)))
+            Dim i As Integer, ConfigItems As New List(Of String)(Result.Split(New String() {vbCrLf}, _
+                StringSplitOptions.RemoveEmptyEntries))
 
+            'Combine options broken across several lines into one option
             While i < ConfigItems.Count
-                If ConfigItems(i).StartsWith(" ") Then
+                If i > 0 AndAlso ConfigItems(i).StartsWith(" ") Then
                     ConfigItems(i - 1) &= ConfigItems(i)
+                    ConfigItems.RemoveAt(i)
+                ElseIf ConfigItems(i).StartsWith("#") OrElse Not ConfigItems(i).Contains(":") Then
                     ConfigItems.RemoveAt(i)
                 Else
                     i += 1
@@ -25,19 +29,17 @@ Namespace Requests
             End While
 
             For Each Item As String In ConfigItems
+                Dim OptionName As String = Item.Substring(0, Item.IndexOf(":")).ToLower.Trim(" "c)
+                Dim OptionValue As String = Item.Substring(Item.IndexOf(":") + 1) _
+                    .Trim(CChar(vbCrLf)).Replace("\n", vbCrLf).Trim(" "c)
 
-                If (Not Item.StartsWith("#")) AndAlso Item.Contains(":") Then
-                    Dim OptionName As String = Item.Substring(0, Item.IndexOf(":")).ToLower
-                    Dim OptionValue As String = Item.Substring(Item.IndexOf(":") + 1).Trim(CChar(vbLf)).Replace("\n", vbLf)
+                Try
+                    SetSharedConfigOption(OptionName, OptionValue)
+                    SetProjectConfigOption(OptionName, OptionValue)
 
-                    Try
-                        SetSharedConfigOption(OptionName, OptionValue)
-                        SetProjectConfigOption(OptionName, OptionValue)
-
-                    Catch ex As Exception
-                        'Ignore malformed config entries
-                    End Try
-                End If
+                Catch ex As Exception
+                    'Ignore malformed config entries
+                End Try
             Next Item
 
             Complete()
@@ -56,11 +58,15 @@ Namespace Requests
 
             Config.Enabled = (Not Config.RequireConfig)
 
-            Dim i As Integer = 1, ConfigItems As New List(Of String)(Result.Split(CChar(vbLf)))
+            Dim i As Integer, ConfigItems As New List(Of String)(Result.Split(New String() {vbCrLf}, _
+                StringSplitOptions.RemoveEmptyEntries))
 
+            'Combine options broken across several lines into one option
             While i < ConfigItems.Count
-                If ConfigItems(i).StartsWith(" ") Then
+                If i > 0 AndAlso ConfigItems(i).StartsWith(" ") Then
                     ConfigItems(i - 1) &= ConfigItems(i)
+                    ConfigItems.RemoveAt(i)
+                ElseIf ConfigItems(i).StartsWith("#") OrElse Not ConfigItems(i).Contains(":") Then
                     ConfigItems.RemoveAt(i)
                 Else
                     i += 1
@@ -68,19 +74,17 @@ Namespace Requests
             End While
 
             For Each Item As String In ConfigItems
+                Dim OptionName As String = Item.Substring(0, Item.IndexOf(":")).ToLower.Trim(" "c)
+                Dim OptionValue As String = Item.Substring(Item.IndexOf(":") + 1) _
+                    .Trim(CChar(vbCrLf)).Replace("\n", vbCrLf).Trim(" "c)
 
-                If (Not Item.StartsWith("#")) AndAlso Item.Contains(":") Then
-                    Dim OptionName As String = Item.Substring(0, Item.IndexOf(":")).ToLower
-                    Dim OptionValue As String = Item.Substring(Item.IndexOf(":") + 1).Trim(CChar(vbLf)).Replace("\n", vbLf)
+                Try
+                    SetUserConfigOption(OptionName, OptionValue)
+                    SetSharedConfigOption(OptionName, OptionValue)
 
-                    Try
-                        SetUserConfigOption(OptionName, OptionValue)
-                        SetSharedConfigOption(OptionName, OptionValue)
-
-                    Catch ex As Exception
-                        'Ignore malformed config entries
-                    End Try
-                End If
+                Catch ex As Exception
+                    'Ignore malformed config entries
+                End Try
             Next Item
 
             Complete()

@@ -245,9 +245,8 @@ Namespace Requests
         End Function
 
         Protected Function GetPageText(ByVal Page As String) As String
-            Dim Result As String = GetUrl(SitePath & _
-                "w/api.php?action=query&format=xml&prop=revisions&rvprop=content&titles=" & UrlEncode(Page), _
-                "page '" & Page & "'")
+            Dim Result As String = GetUrl(SitePath & "w/api.php?action=query&format=xml&prop=revisions" & _
+                "&rvprop=content&titles=" & UrlEncode(Page), "page '" & Page & "'")
 
             If Result Is Nothing Then
                 Return Nothing

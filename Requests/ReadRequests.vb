@@ -492,8 +492,8 @@ Namespace Requests
 
                     Dim i As Integer = 0
 
-                    While i < EditQueue.Count - 1
-                        If EditQueue(i).User Is Item.Key Then EditQueue.RemoveAt(i) Else i += 1
+                    While i < FilteredEdits.Items.Count - 1
+                        If FilteredEdits.Items(i).User Is Item.Key Then FilteredEdits.Items.RemoveAt(i) Else i += 1
                     End While
                 End If
             Next Item

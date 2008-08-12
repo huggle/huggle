@@ -111,9 +111,9 @@ Namespace Requests
             'Get project configuration
             UpdateStatus("Checking project configuration...")
 
-            Dim NewConfigRequest As New ConfigRequest
+            Dim ConfigRequest As New ConfigRequest
 
-            If Not NewConfigRequest.GetProjectConfig Then
+            If Not ConfigRequest.GetProjectConfig Then
                 Abort("Failed to load project configuration page.")
                 Exit Sub
             End If
@@ -136,18 +136,16 @@ Namespace Requests
             'Get user configuration
             UpdateStatus("Checking user configuration...")
 
-            Dim UserConfigResult As Boolean = NewConfigRequest.GetUserConfig
+            Dim UserConfigResult As Boolean = ConfigRequest.GetUserConfig
 
             If Config.RequireConfig AndAlso (Not UserConfigResult OrElse Not Config.Enabled) Then
                 ConfigChanged = True
-                Abort("Huggle is not enabled for your account, check user configuration.")
+                Abort("Huggle is not enabled for your account, check user config.")
                 Exit Sub
             End If
 
             'If there are no Templates in TemplateMessages(user templates) use the default TemplateMessagesGlobal
-            If TemplateMessages.Count = 0 Then
-                TemplateMessages = TemplateMessagesGlobal
-            End If
+            If TemplateMessages.Count = 0 Then TemplateMessages = TemplateMessagesGlobal
 
             If Config.WarnSummary2 Is Nothing Then Config.WarnSummary2 = Config.WarnSummary
             If Config.WarnSummary3 Is Nothing Then Config.WarnSummary3 = Config.WarnSummary
@@ -245,9 +243,8 @@ Namespace Requests
                     Exit Sub
                 End If
 
-                If UserList Is Nothing Then UserList = ""
-
-                If Not UserList.Contains("[[Special:Contributions/" & MyUser.Name & "|" & MyUser.Name & "]]") Then
+                If UserList IsNot Nothing AndAlso Not _
+                    UserList.Contains("[[Special:Contributions/" & MyUser.Name & "|" & MyUser.Name & "]]") Then
 
                     If Config.Approval Then
                         Abort("User is not approved to use Huggle.")

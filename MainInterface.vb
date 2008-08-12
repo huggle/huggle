@@ -5,12 +5,12 @@ Partial Class Main
 
         SetShortcutDisplayText()
         SetTooltipText()
-        SetQueueSources()
+        SetQueueSelector()
 
         CurrentTab.ShowNewEdits = Config.ShowNewEdits
         TrayIcon.Visible = Config.TrayIcon
-        Queue.Width = QueueWidth
-        QueueSource.Width = Queue.Width - 8
+        QueuePanel.Width = QueueWidth
+        QueueSelector.Width = QueuePanel.Width - 8
         Splitter.Panel2Collapsed = Not Config.ShowLog
 
         PageDelete.Visible = (Administrator AndAlso Config.Delete)
@@ -127,6 +127,25 @@ Partial Class Main
                 Tabs.Width = Width - 10
             End If
 
+            If CurrentPage.Namespace = "Talk" Then
+                PageSwitchTalk.Text = "Switch to article"
+            ElseIf CurrentPage.Namespace.Contains("talk") Then
+                PageSwitchTalk.Text = "Switch to subject page"
+            Else
+                PageSwitchTalk.Text = "Switch to talk page"
+            End If
+
+            Select Case CurrentPage.Namespace
+                Case "" : PageNominate.Enabled = (Config.AfdLocation IsNot Nothing)
+                Case "Category" : PageNominate.Enabled = (Config.CfdLocation IsNot Nothing)
+                Case "Image" : PageNominate.Enabled = (Config.IfdLocation IsNot Nothing)
+                Case "Template" : PageNominate.Enabled = (Config.TfdLocation IsNot Nothing)
+                Case Else : PageNominate.Enabled = (Config.MfdLocation IsNot Nothing)
+            End Select
+
+            If CurrentQueue.Type = EditQueue.Types.Fixed _
+                Then QueueClear.Text = "Clear current" Else QueueClear.Text = "Reset"
+
             Dim Editable As Boolean = (CurrentPage.EditLevel <> "sysop" OrElse Administrator)
 
             BrowserBackB.Enabled = (CurrentTab.HistoryIndex < CurrentTab.History.Count - 1)
@@ -142,7 +161,7 @@ Partial Class Main
             ContribsNextB.Enabled = (CurrentEdit.NextByUser IsNot Nothing)
             ContribsLastB.Enabled = (CurrentEdit.User.LastEdit IsNot Nothing _
                 AndAlso CurrentEdit.User.LastEdit IsNot CurrentEdit)
-            DiffNextB.Enabled = (CurrentQueue.Count > 0)
+            DiffNextB.Enabled = (CurrentQueue.Items.Count > 0)
             DiffRevertB.Enabled = (CurrentEdit IsNot CurrentPage.FirstEdit AndAlso Not RevertTimer.Enabled _
                 AndAlso Editable)
             RevertWarnB.Enabled = (DiffRevertB.Enabled AndAlso CurrentUser.Level <> UserL.Ignore AndAlso Editable _
@@ -161,23 +180,6 @@ Partial Class Main
             PageHistory.Enabled = HistoryB.Enabled
             PageMarkPatrolled.Enabled = (Not CurrentPage.Patrolled)
             PageMove.Enabled = CurrentPage.IsMovable
-
-            If CurrentPage.Namespace = "Talk" Then
-                PageSwitchTalk.Text = "Switch to article"
-            ElseIf CurrentPage.Namespace.Contains("talk") Then
-                PageSwitchTalk.Text = "Switch to subject page"
-            Else
-                PageSwitchTalk.Text = "Switch to talk page"
-            End If
-
-            Select Case CurrentPage.Namespace
-                Case "" : PageNominate.Enabled = (Config.AfdLocation IsNot Nothing)
-                Case "Category" : PageNominate.Enabled = (Config.CfdLocation IsNot Nothing)
-                Case "Image" : PageNominate.Enabled = (Config.IfdLocation IsNot Nothing)
-                Case "Template" : PageNominate.Enabled = (Config.TfdLocation IsNot Nothing)
-                Case Else : PageNominate.Enabled = (Config.MfdLocation IsNot Nothing)
-            End Select
-
             PageNominate.Enabled = Editable
             PageProtect.Enabled = True
             PageRequestProtection.Enabled = True
@@ -192,9 +194,12 @@ Partial Class Main
             PageViewLatest.Enabled = True
             PageWatch.Enabled = True
             PageWatchB.Enabled = True
-            Queue.Visible = Config.ShowQueue
+            QueueClear.Enabled = (CurrentQueue.Items.Count > 0)
+            QueueNext.Enabled = (CurrentQueue.Items.Count > 0)
+            QueuePanel.Visible = Config.ShowQueue
             QueueScroll.Visible = Config.ShowQueue
-            QueueSource.Visible = Config.ShowQueue
+            QueueSelector.Visible = Config.ShowQueue
+            QueueTrim.Enabled = (CurrentQueue.Items.Count > 0)
             SystemShowQueue.Checked = Config.ShowQueue
             SystemShowLog.Checked = Config.ShowLog
             UndoB.Enabled = (Undo.Count > 0)
@@ -230,26 +235,14 @@ Partial Class Main
                 If Item.Name.StartsWith("Speedy") Then
                     Dim Code As String = Item.Name.ToUpper.Substring(6)
 
-                    If Code = "G8" Then
-                        Item.Visible = (CurrentPage.Namespace.ToLower.EndsWith("talk"))
+                    If Code = "G8" Then : Item.Visible = (CurrentPage.Namespace.ToLower.EndsWith("talk"))
 
-                    ElseIf Code.StartsWith("A") Then
-                        Item.Visible = (CurrentPage.Namespace = "")
-
-                    ElseIf Code.StartsWith("C") Then
-                        Item.Visible = (CurrentPage.Namespace = "Category")
-
-                    ElseIf Code.StartsWith("I") Then
-                        Item.Visible = (CurrentPage.Namespace = "Image")
-
-                    ElseIf Code.StartsWith("P") Then
-                        Item.Visible = (CurrentPage.Namespace = "Portal")
-
-                    ElseIf Code.StartsWith("T") Then
-                        Item.Visible = (CurrentPage.Namespace = "Template")
-
-                    ElseIf Code.StartsWith("U") Then
-                        Item.Visible = (CurrentPage.Namespace.StartsWith("User"))
+                    ElseIf Code.StartsWith("A") Then : Item.Visible = (CurrentPage.Namespace = "")
+                    ElseIf Code.StartsWith("C") Then : Item.Visible = (CurrentPage.Namespace = "Category")
+                    ElseIf Code.StartsWith("I") Then : Item.Visible = (CurrentPage.Namespace = "Image")
+                    ElseIf Code.StartsWith("P") Then : Item.Visible = (CurrentPage.Namespace = "Portal")
+                    ElseIf Code.StartsWith("T") Then : Item.Visible = (CurrentPage.Namespace = "Template")
+                    ElseIf Code.StartsWith("U") Then : Item.Visible = (CurrentPage.Namespace.StartsWith("User"))
 
                     Else
                         Item.Visible = True
@@ -575,17 +568,32 @@ Partial Class Main
         End If
     End Sub
 
-    Public Sub SetQueueSources()
-        QueueSource.Items.Clear()
-        QueueSource.Items.AddRange(New String() _
+    Public Sub SetQueueSelector()
+        QueueSelector.Items.Clear()
+        QueueSelector.Items.AddRange(New String() _
             {"Filtered changes", "New pages", "All changes", "Recent user contribs"})
 
-        For Each Item As String In QueueSources.Keys
-            QueueSource.Items.Add(Item)
+        For Each Item As String In EditQueues.Keys
+            QueueSelector.Items.Add(Item)
         Next Item
 
-        QueueSource.Items.Add("Add...")
-        QueueSource.SelectedIndex = 0
+        QueueSelector.Items.Add("Add...")
+
+        Select Case CurrentQueue
+            Case FilteredEdits : QueueSelector.SelectedItem = "Filtered changes"
+            Case AllEdits : QueueSelector.SelectedItem = "All changes"
+            Case NewPages : QueueSelector.SelectedItem = "New pages"
+
+            Case Else
+                For Each Item As KeyValuePair(Of String, EditQueue) In EditQueues
+                    If Item.Value Is CurrentQueue Then
+                        QueueSelector.SelectedItem = Item.Key
+                        Exit Sub
+                    End If
+                Next Item
+
+                QueueSelector.SelectedItem = 0
+        End Select
     End Sub
 
 End Class

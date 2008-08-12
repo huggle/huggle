@@ -32,14 +32,12 @@ Class Throbber
                 Gfx.Graphics.FillRectangle(If(i Mod 2 = 0, Brush1, Brush2), _
                     Value + (i * (Height - 1)), 1, Height - 1, Height - 1)
             Next i
-
-            Gfx.Graphics.DrawRectangle(Pens.DarkGray, 0, 0, Width - 1, Height - 1)
-            Gfx.Render()
         Else
             Gfx.Graphics.Clear(BackColor)
-            Gfx.Graphics.DrawRectangle(Pens.DarkGray, 0, 0, Width - 1, Height - 1)
-            If CanRender Then Gfx.Render()
         End If
+
+        Gfx.Graphics.DrawRectangle(Pens.DarkGray, 0, 0, Width - 1, Height - 1)
+        If CanRender Then Gfx.Render()
     End Sub
 
     Public Sub Start()

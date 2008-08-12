@@ -35,7 +35,7 @@ Class User
 
                 While ThisEdit IsNot Nothing AndAlso ThisEdit IsNot NullEdit
                     If ThisEdit Is ThisEdit.Page.LastEdit AndAlso Not ThisEdit.Added _
-                        AndAlso Not EditQueue.Contains(ThisEdit) Then
+                        AndAlso Not FilteredEdits.Items.Contains(ThisEdit) Then
 
                         If ThisEdit.User.Level <> UserL.Ignore _
                             AndAlso (Config.ShowNewPages OrElse Not ThisEdit.NewPage) _
@@ -48,10 +48,10 @@ Class User
                             If LCSpace = "" Then LCSpace = "article"
 
                             If Config.NamespacesChecked.Contains(LCSpace) Then
-                                EditQueue.Add(ThisEdit)
+                                FilteredEdits.Items.Add(ThisEdit)
                                 ThisEdit.Added = True
                                 MainForm.DiffNextB.Enabled = True
-                                If EditQueue.Count > 5000 Then EditQueue.RemoveAt(5000)
+                                If FilteredEdits.Items.Count > 5000 Then FilteredEdits.Items.RemoveAt(5000)
                                 Redraw = True
                                 Sort = True
                             End If
@@ -75,8 +75,8 @@ Class User
                 If CurrentEdit IsNot Nothing AndAlso CurrentEdit.User Is Me Then MainForm.DrawContribs()
 
                 If Config.ShowQueue Then
-                    For i As Integer = 0 To Math.Min(EditQueue.Count - 1, (MainForm.Queue.Height \ 20) - 2)
-                        If EditQueue(i).User Is Me Then
+                    For i As Integer = 0 To Math.Min(FilteredEdits.Items.Count - 1, (MainForm.QueuePanel.Height \ 20) - 2)
+                        If FilteredEdits.Items(i).User Is Me Then
                             Redraw = True
                             Exit For
                         End If
@@ -86,7 +86,7 @@ Class User
                 If Redraw Then MainForm.DrawQueue()
             End If
 
-            If Sort Then EditQueue.Sort(AddressOf Edit.Compare)
+            If Sort Then FilteredEdits.Items.Sort(AddressOf Edit.Compare)
         End Set
     End Property
 

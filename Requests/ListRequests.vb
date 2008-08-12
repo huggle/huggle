@@ -14,7 +14,7 @@ Namespace Requests
         Public Delegate Sub ListRequestCallback(ByVal Result As List(Of String))
         Public Delegate Sub ListProgressCallback(ByVal State As String, ByVal PartialResult As List(Of String))
 
-        Public Limit As Integer = ApiLimit(), ArticlesOnly As Boolean
+        Public Limit As Integer = ApiLimit(), From As String = "", Queue As EditQueue
 
         Public Sub New(ByVal _TypeName As String, ByVal _TypePrefix As String, ByVal _QueryParams As String)
             TypeName = _TypeName
@@ -71,9 +71,7 @@ Namespace Requests
                         Item = Item.Substring(0, Item.IndexOf(""""))
                         Item = HtmlDecode(Item)
 
-                        If Not Items.Contains(Item) AndAlso Not (ArticlesOnly AndAlso Item.Contains(":") _
-                            AndAlso ArrayContains(Namespaces, Item.Substring(0, Item.IndexOf(":")))) Then
-
+                        If Not Items.Contains(Item) AndAlso Item >= From AndAlso Queue.MatchesFilter(Item) Then
                             Items.Add(Item)
                             Remaining -= 1
                             If Remaining <= 0 Then Exit Do
@@ -212,7 +210,7 @@ Namespace Requests
         Private AllItems As New List(Of String)
         Private Category As String, CategoriesDone As New List(Of String), CategoriesRemaining As New List(Of String)
         Private Shadows _Done As ListRequestCallback, Progress As ListProgressCallback
-        Public Shadows ArticlesOnly As Boolean
+        Public Shadows From As String = "", Queue As EditQueue
 
         Sub New(ByVal _Category As String)
             MyBase.New("categorymembers", "cm", "cmprop=title&cmtitle=" & UrlEncode("Category:" & _Category))
@@ -223,8 +221,15 @@ Namespace Requests
             Optional ByVal _Progress As ListProgressCallback = Nothing)
 
             _Done = Done
-            ArticlesOnly = MyBase.ArticlesOnly
-            MyBase.ArticlesOnly = False
+
+            'Use a dummy queue with the same page list in the base class, to make sure we always get categories back
+            From = MyBase.From
+            MyBase.From = ""
+            Queue = MyBase.Queue
+            MyBase.Queue = New EditQueue
+            MyBase.Queue.Pages.AddRange(Queue.Pages)
+            MyBase.Queue.ArticlesOnly = False
+            MyBase.Queue.TitleRegex = Nothing
 
             If _Progress IsNot Nothing Then
                 Progress = _Progress
@@ -242,9 +247,7 @@ Namespace Requests
                     If Item.StartsWith("Category:") AndAlso Not CategoriesDone.Contains(Item) _
                         AndAlso Not CategoriesRemaining.Contains(Item) Then CategoriesRemaining.Add(Item)
 
-                    If Not AllItems.Contains(Item) AndAlso Not (ArticlesOnly AndAlso Item.Contains(":") _
-                        AndAlso ArrayContains(Namespaces, Item.Substring(0, Item.IndexOf(":")))) Then
-
+                    If Not AllItems.Contains(Item) AndAlso Queue.MatchesFilter(Item) AndAlso Item >= From Then
                         AllItems.Add(Item)
 
                         If AllItems.Count >= Limit Then

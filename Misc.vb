@@ -9,15 +9,15 @@ Module Misc
 
     Public Administrator As Boolean
     Public AllEditsById As New Dictionary(Of String, Edit)
-    Public AllEditsByTime As New List(Of Edit)
+    Public AllEdits As New EditQueue
     Public AllPages As New Dictionary(Of String, Page)
     Public AllRequests As New List(Of Request)
     Public AllUsers As New Dictionary(Of String, User)
     Public ContribsOffset As Integer
     Public Cookie As String
-    Public CurrentQueue As New List(Of Edit)
+    Public CurrentQueue As EditQueue
     Public CurrentTab As BrowserTab
-    Public EditQueue As New List(Of Edit), NewPageQueue As New List(Of Edit)
+    Public FilteredEdits As New EditQueue
     Public HidingEdit As Boolean = True
     Public HistoryOffset As Integer
     Public LastTagText As String = ""
@@ -25,11 +25,12 @@ Module Misc
     Public MainForm As Main
     Public ManualRevertSummaries As New List(Of String)
     Public MyUser As User
+    Public NewPages As New EditQueue
     Public NextCount As New List(Of User)
     Public NullEdit As New Edit
     Public PendingRequests As New List(Of Request)
     Public PendingWarnings As New List(Of Edit)
-    Public QueueSources As New Dictionary(Of String, QueueSource)
+    Public EditQueues As New Dictionary(Of String, EditQueue)
     Public RollbackAvailable As Boolean
     Public SpeedyCriteria As New Dictionary(Of String, SpeedyCriterion)
     Public StartTime As Date
@@ -44,8 +45,68 @@ Module Misc
 
     Public Delegate Sub CallbackDelegate(ByVal Success As Boolean)
 
-    Class QueueSource
-        Public Items As New List(Of String)
+    Class EditQueue
+
+        Public Pages As New List(Of String)
+        Public Items As New List(Of Edit)
+        Public Type As Types
+        Public Initialised As Boolean
+        Public ArticlesOnly As Boolean
+        Public TitleRegex As Regex
+
+        Public Enum Types As Integer
+            : Fixed : Live
+        End Enum
+
+        Public Shared Operator =(ByVal a As EditQueue, ByVal b As EditQueue) As Boolean
+            Return (a Is b)
+        End Operator
+
+        Public Shared Operator <>(ByVal a As EditQueue, ByVal b As EditQueue) As Boolean
+            Return (a IsNot b)
+        End Operator
+
+        Public Sub Initialise()
+            Items.Clear()
+
+            If Type = Types.Fixed Then
+                For Each Item As String In Pages
+                    Dim Page As Page = GetPage(Item)
+
+                    If Page.LastEdit IsNot Nothing Then
+                        CurrentQueue.Items.Add(Page.LastEdit)
+                    Else
+                        Dim NewEdit As New Edit
+                        NewEdit.Page = Page
+                        NewEdit.Id = "cur"
+                        NewEdit.Oldid = "prev"
+                        CurrentQueue.Items.Add(NewEdit)
+                    End If
+                Next Item
+            End If
+
+            Initialised = True
+        End Sub
+
+        Public Function MatchesFilter(ByVal PageName As String) As Boolean
+            Dim Page As Page = GetPage(PageName)
+
+            If Page.Namespace <> "" AndAlso ArticlesOnly = True Then Return False
+
+            If TitleRegex IsNot Nothing Then
+                Dim a As String = TitleRegex.ToString
+                If Not TitleRegex.IsMatch(Page.Name) Then Return False
+            End If
+
+            Return True
+        End Function
+
+        Public Function MatchesFilter(ByVal Edit As Edit) As Boolean
+            If Type = Types.Fixed Then Return False
+            If Not Pages.Contains(Edit.Page.Name) Then Return False
+            Return True
+        End Function
+
     End Class
 
     Class Command
@@ -371,6 +432,25 @@ Module Misc
 
         ElseIf Not PageNamespace.Contains(" talk") AndAlso Not PageNamespace = "Talk" Then
             Return PageNamespace & " talk" & PageName.Substring(PageName.IndexOf(":"))
+
+        Else
+            Return PageName
+        End If
+    End Function
+
+    <DebuggerStepThrough()> Function SubjectPageName(ByVal PageName As String) As String
+        Dim PageNamespace As String = ""
+
+        For Each Item As String In Namespaces
+            If PageName.StartsWith(Item & ":") Then PageNamespace = Item
+        Next Item
+
+        If PageNamespace = "Talk" AndAlso PageName.Contains(":") Then
+            Return PageName.Substring(PageName.IndexOf(":") + 1)
+
+        ElseIf PageNamespace.Contains(" talk") AndAlso PageName.Contains(":") Then
+            Return PageNamespace.Substring(0, PageNamespace.Length - 5) & _
+                PageName.Substring(PageName.IndexOf(":"))
 
         Else
             Return PageName

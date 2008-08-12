@@ -246,41 +246,67 @@ Module Processing
         Edit.Page.LastEdit = Edit
         Edit.User.LastEdit = Edit
 
+        'Update statistics and edit counts
         Stats.Edits += 1
         Edit.User.SessionEditCount += 1
+        If Edit.User.EditCount > -1 Then Edit.User.EditCount += 1
 
         Select Case Edit.Type
             Case Edit.Types.Revert : Stats.Reverts += 1
             Case Edit.Types.Warning : Stats.Warnings += 1
         End Select
 
-        AllEditsByTime.Insert(0, Edit)
+        'Add edit to "all edits" queue
+        AllEdits.Items.Insert(0, Edit)
 
         'Add new pages to new pages queue
         If Edit.NewPage AndAlso ((Edit.Page.Namespace = "" AndAlso Config.NamespacesChecked.Contains("article")) _
-            OrElse (Config.NamespacesChecked.Contains(Edit.Page.Namespace.ToLower))) Then NewPageQueue.Insert(0, Edit)
+            OrElse (Config.NamespacesChecked.Contains(Edit.Page.Namespace.ToLower))) Then NewPages.Items.Insert(0, Edit)
 
-        'Remove old edits from queue
+        'Remove old edits from filtered edits queue
         Dim j As Integer = 0
 
-        While j < EditQueue.Count - 1
-            If (EditQueue(j) IsNot EditQueue(j).Page.LastEdit) OrElse (Config.QueueMaxAge > 0 _
-                AndAlso EditQueue(j).Time.AddMinutes(Config.QueueMaxAge) < Date.UtcNow) Then
+        While j < FilteredEdits.Items.Count - 1
+            If (FilteredEdits.Items(j) IsNot FilteredEdits.Items(j).Page.LastEdit) OrElse (Config.QueueMaxAge > 0 _
+                AndAlso FilteredEdits.Items(j).Time.AddMinutes(Config.QueueMaxAge) < Date.UtcNow) Then
 
-                EditQueue.RemoveAt(j)
+                FilteredEdits.Items.RemoveAt(j)
                 Redraw = True
             Else
                 j += 1
             End If
         End While
 
-        'Edit count, if known
-        If Edit.User.EditCount > -1 Then Edit.User.EditCount += 1
+        'Add edit to the filtered edits queue
+        If WhitelistLoaded _
+            AndAlso Edit.User.Level <> UserL.Ignore _
+            AndAlso (Config.ShowNewPages OrElse Not Edit.NewPage) _
+            AndAlso Edit.Page.Level <> Page.Levels.Ignore _
+            AndAlso Not OwnUserspace(Edit) _
+            AndAlso Edit.Type >= Edit.Types.None _
+            AndAlso Not Math.Abs(Edit.Size) > 100000 Then
+
+            If (Edit.Page.Namespace = "" AndAlso Config.NamespacesChecked.Contains("article")) _
+                OrElse (Config.NamespacesChecked.Contains(Edit.Page.Namespace.ToLower)) Then
+
+                FilteredEdits.Items.Add(Edit)
+                Edit.Added = True
+                MainForm.DiffNextB.Enabled = True
+                If CurrentEdit Is Nothing Then DisplayEdit(Edit)
+                If FilteredEdits.Items.Count > 5000 Then FilteredEdits.Items.RemoveAt(5000)
+                Redraw = True
+            End If
+        End If
+
+        'Add edit to other queues
+        For Each Queue As EditQueue In EditQueues.Values
+            If Queue.MatchesFilter(Edit) Then Queue.Items.Add(Edit)
+        Next Queue
 
         'Issue warnings
         Dim i As Integer = 0
 
-        Do While i < PendingWarnings.Count
+        While i < PendingWarnings.Count
             If PendingWarnings(i).Page Is Edit.Page Then
                 If Edit.User Is MyUser Then
                     Dim Last As Edit = GetPage("User talk:" & PendingWarnings(i).User.Name).LastEdit
@@ -300,10 +326,10 @@ Module Processing
                 End If
 
                 PendingWarnings.RemoveAt(i)
+            Else
+                i += 1
             End If
-
-            i += 1
-        Loop
+        End While
 
         'Refresh undo information
         For Each Item As Command In Undo
@@ -359,28 +385,8 @@ Module Processing
         'Check for new messages
         If Edit.Page Is GetPage("User talk:" & MyUser.Name) Then
             MainForm.SystemShowNewMessages.Enabled = Not (Edit.User Is MyUser)
-            If MainForm.SystemShowNewMessages.Enabled AndAlso Config.TrayIcon Then MainForm.TrayIcon.ShowBalloonTip(10000)
-        End If
-
-        'Add to the queue
-        If WhitelistLoaded _
-            AndAlso Edit.User.Level <> UserL.Ignore _
-            AndAlso (Config.ShowNewPages OrElse Not Edit.NewPage) _
-            AndAlso Edit.Page.Level <> Page.Levels.Ignore _
-            AndAlso Not OwnUserspace(Edit) _
-            AndAlso Edit.Type >= Edit.Types.None _
-            AndAlso Not Math.Abs(Edit.Size) > 100000 Then
-
-            If (Edit.Page.Namespace = "" AndAlso Config.NamespacesChecked.Contains("article")) _
-                OrElse (Config.NamespacesChecked.Contains(Edit.Page.Namespace.ToLower)) Then
-
-                EditQueue.Add(Edit)
-                Edit.Added = True
-                MainForm.DiffNextB.Enabled = True
-                If CurrentEdit Is Nothing Then DisplayEdit(Edit)
-                If EditQueue.Count > 5000 Then EditQueue.RemoveAt(5000)
-                Redraw = True
-            End If
+            If MainForm.SystemShowNewMessages.Enabled AndAlso Config.TrayIcon _
+                Then MainForm.TrayIcon.ShowBalloonTip(10000)
         End If
 
         'Warnings
@@ -411,9 +417,7 @@ Module Processing
                 For Each Item As Form In Application.OpenForms
                     Dim uif As UserInfoForm = TryCast(Item, UserInfoForm)
 
-                    If uif IsNot Nothing AndAlso uif.ThisUser Is PageOwner Then
-                        uif.RefreshWarnings()
-                    End If
+                    If uif IsNot Nothing AndAlso uif.ThisUser Is PageOwner Then uif.RefreshWarnings()
                 Next Item
             End If
         End If
@@ -435,13 +439,13 @@ Module Processing
         End If
 
         'Sort the queue
-        EditQueue.Sort(AddressOf Edit.Compare)
+        FilteredEdits.Items.Sort(AddressOf Edit.Compare)
 
         'Preload diffs
-        For l As Integer = 0 To Math.Min(EditQueue.Count, Config.Preloads) - 1
-            If EditQueue(l).Cached = Edit.CacheState.Uncached Then
+        For l As Integer = 0 To Math.Min(FilteredEdits.Items.Count, Config.Preloads) - 1
+            If FilteredEdits.Items(l).Cached = Edit.CacheState.Uncached Then
                 Dim NewDiffRequest As New DiffRequest
-                NewDiffRequest.Edit = EditQueue(l)
+                NewDiffRequest.Edit = FilteredEdits.Items(l)
                 NewDiffRequest.Start()
             End If
         Next l
@@ -682,7 +686,7 @@ Module Processing
                 If ThisEdit.Next IsNot Nothing Then ThisEdit.Next.Prev = ThisEdit.Prev
                 If ThisEdit.PrevByUser IsNot Nothing Then ThisEdit.PrevByUser.NextByUser = ThisEdit.NextByUser
                 If ThisEdit.NextByUser IsNot Nothing Then ThisEdit.NextByUser.PrevByUser = ThisEdit.PrevByUser
-                If EditQueue.Contains(ThisEdit) Then EditQueue.Remove(ThisEdit)
+                If FilteredEdits.Items.Contains(ThisEdit) Then FilteredEdits.Items.Remove(ThisEdit)
 
                 ThisEdit.Deleted = True
                 ThisEdit = ThisEdit.Prev
@@ -1048,10 +1052,10 @@ Module Processing
             Next i
         End If
 
-        For j As Integer = 0 To Math.Min(EditQueue.Count - 1, Config.Preloads - 1)
-            If EditQueue(j).Cached = Edit.CacheState.Uncached Then
+        For j As Integer = 0 To Math.Min(FilteredEdits.Items.Count - 1, Config.Preloads - 1)
+            If FilteredEdits.Items(j).Cached = Edit.CacheState.Uncached Then
                 Dim NewGetDiffRequest As New DiffRequest
-                NewGetDiffRequest.Edit = EditQueue(j)
+                NewGetDiffRequest.Edit = FilteredEdits.Items(j)
                 NewGetDiffRequest.Start()
             End If
         Next j
@@ -1071,8 +1075,8 @@ Module Processing
                 Then Tab.AddHistoryItem(New HistoryItem(Edit))
 
             'Remove edit from queue
-            If CurrentQueue IsNot Nothing AndAlso CurrentQueue.Contains(Edit) Then
-                CurrentQueue.Remove(Edit)
+            If CurrentQueue IsNot Nothing AndAlso CurrentQueue.Items.Contains(Edit) Then
+                CurrentQueue.Items.Remove(Edit)
                 MainForm.DrawQueue()
             End If
 
@@ -1151,8 +1155,8 @@ Module Processing
             MainForm.RefreshInterface()
 
         ElseIf Edit IsNot Nothing AndAlso Edit.Page IsNot Nothing Then
-            If CurrentQueue IsNot Nothing AndAlso CurrentQueue.Contains(Edit) Then
-                CurrentQueue.Remove(Edit)
+            If CurrentQueue IsNot Nothing AndAlso CurrentQueue.Items.Contains(Edit) Then
+                CurrentQueue.Items.Remove(Edit)
                 MainForm.DrawQueue()
             End If
 
@@ -1196,16 +1200,16 @@ Module Processing
     End Sub
 
     Sub ShowNextEdit()
-        If CurrentQueue.Count > 0 Then
-            Dim ThisEdit As Edit = CurrentQueue(0)
+        If CurrentQueue.Items.Count > 0 Then
+            Dim ThisEdit As Edit = CurrentQueue.Items(0)
             DisplayEdit(ThisEdit, , CurrentTab)
 
-            If EditQueue.Contains(ThisEdit) Then
-                EditQueue.Remove(ThisEdit)
+            If FilteredEdits.Items.Contains(ThisEdit) Then
+                FilteredEdits.Items.Remove(ThisEdit)
                 MainForm.DrawQueue()
             End If
 
-            If CurrentQueue.Count = 0 Then MainForm.DiffNextB.Enabled = False
+            If CurrentQueue.Items.Count = 0 Then MainForm.DiffNextB.Enabled = False
         End If
     End Sub
 

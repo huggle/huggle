@@ -70,6 +70,12 @@
     <Compile Include="Forms\AddTemplateForm.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\QueueFiltersForm.Designer.vb">
+      <DependentUpon>QueueFiltersForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\QueueFiltersForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Page.vb" />
     <Compile Include="Requests\ListRequests.vb" />
     <Compile Include="Throbber.Designer.vb">
@@ -329,6 +335,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ExceptionForm.resx">
       <DependentUpon>ExceptionForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\QueueFiltersForm.resx">
+      <DependentUpon>QueueFiltersForm.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\StartupForm.resx">
