@@ -57,7 +57,7 @@ Class EditForm
                 Watch.Enabled = True
                 Save.Enabled = True
                 SettingText = True
-                PageText.Text = Text
+                PageText.Text = Result.Text
                 DoHighlight()
                 SettingText = False
             Else
