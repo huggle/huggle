@@ -613,7 +613,7 @@ Namespace Requests
                 Next Item
             End If
 
-            IgnoredUsernames.Sort()
+            IgnoredUsernames.Sort(AddressOf CompareUsernames)
 
             Data.Text = "{{/Header}}" & vbLf & "<pre>" & vbLf & Join(IgnoredUsernames.ToArray, vbLf) & vbLf & "</pre>"
             Data.Summary = Config.WhitelistUpdateSummary

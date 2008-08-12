@@ -364,10 +364,6 @@ Namespace Requests
             End If
         End Sub
 
-        Private Function CompareUsernames(ByVal a As String, ByVal b As String) As Integer
-            Return String.Compare(a, b, StringComparison.OrdinalIgnoreCase)
-        End Function
-
         Private Sub UpdateStatus(ByVal Message As String)
             If Not LoginForm.LoggingIn Then Thread.CurrentThread.Abort()
             Callback(AddressOf LoginForm.UpdateStatus, CObj(Message))
