@@ -963,7 +963,7 @@ Class Main
 
     Private Sub QueueClear_Click() Handles QueueClear.Click
         CurrentQueue.Items.Clear()
-        If CurrentQueue.Type = EditQueue.Types.Fixed Then CurrentQueue.Initialise()
+        If CurrentQueue.Type = Queue.Types.FixedList Then CurrentQueue.Initialise()
         DrawQueue()
         DiffNextB.Enabled = False
     End Sub
@@ -1531,9 +1531,9 @@ Class Main
 
     Private Sub CreateContribsQueue(Optional ByVal Result As Request.Output = Nothing)
         If CurrentUser IsNot Nothing Then
-            Dim ThisEdit As Edit = CurrentUser.LastEdit, NewQueue As New EditQueue, i As Integer
+            Dim ThisEdit As Edit = CurrentUser.LastEdit, NewQueue As New Queue, i As Integer
 
-            NewQueue.Type = EditQueue.Types.Fixed
+            NewQueue.Type = Queue.Types.FixedList
 
             While i < Config.ContribsBlockSize AndAlso ThisEdit IsNot Nothing AndAlso ThisEdit IsNot NullEdit
                 NewQueue.Items.Add(ThisEdit)

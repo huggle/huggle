@@ -14,7 +14,7 @@ Namespace Requests
         Public Delegate Sub ListRequestCallback(ByVal Result As List(Of String))
         Public Delegate Sub ListProgressCallback(ByVal State As String, ByVal PartialResult As List(Of String))
 
-        Public Limit As Integer = ApiLimit(), From As String = "", Queue As EditQueue
+        Public Limit As Integer = ApiLimit(), From As String = "", Queue As Queue
 
         Public Sub New(ByVal _TypeName As String, ByVal _TypePrefix As String, ByVal _QueryParams As String)
             TypeName = _TypeName
@@ -210,7 +210,7 @@ Namespace Requests
         Private AllItems As New List(Of String)
         Private Category As String, CategoriesDone As New List(Of String), CategoriesRemaining As New List(Of String)
         Private Shadows _Done As ListRequestCallback, Progress As ListProgressCallback
-        Public Shadows From As String = "", Queue As EditQueue
+        Public Shadows From As String = "", Queue As Queue
 
         Sub New(ByVal _Category As String)
             MyBase.New("categorymembers", "cm", "cmprop=title&cmtitle=" & UrlEncode("Category:" & _Category))
@@ -226,10 +226,10 @@ Namespace Requests
             From = MyBase.From
             MyBase.From = ""
             Queue = MyBase.Queue
-            MyBase.Queue = New EditQueue
+            MyBase.Queue = New Queue
             MyBase.Queue.Pages.AddRange(Queue.Pages)
             MyBase.Queue.ArticlesOnly = False
-            MyBase.Queue.TitleRegex = Nothing
+            MyBase.Queue.PageRegex = Nothing
 
             If _Progress IsNot Nothing Then
                 Progress = _Progress

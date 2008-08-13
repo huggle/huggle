@@ -299,7 +299,7 @@ Module Processing
         End If
 
         'Add edit to other queues
-        For Each Queue As EditQueue In EditQueues.Values
+        For Each Queue As Queue In EditQueues.Values
             If Queue.MatchesFilter(Edit) Then Queue.Items.Add(Edit)
         Next Queue
 

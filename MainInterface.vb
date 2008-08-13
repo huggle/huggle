@@ -143,8 +143,8 @@ Partial Class Main
                 Case Else : PageNominate.Enabled = (Config.MfdLocation IsNot Nothing)
             End Select
 
-            If CurrentQueue.Type = EditQueue.Types.Fixed _
-                Then QueueClear.Text = "Clear current" Else QueueClear.Text = "Reset"
+            If CurrentQueue.Type = Queue.Types.FixedList _
+                Then QueueClear.Text = "Reset" Else QueueClear.Text = "Clear current"
 
             Dim Editable As Boolean = (CurrentPage.EditLevel <> "sysop" OrElse Administrator)
 
@@ -585,7 +585,7 @@ Partial Class Main
             Case NewPages : QueueSelector.SelectedItem = "New pages"
 
             Case Else
-                For Each Item As KeyValuePair(Of String, EditQueue) In EditQueues
+                For Each Item As KeyValuePair(Of String, Queue) In EditQueues
                     If Item.Value Is CurrentQueue Then
                         QueueSelector.SelectedItem = Item.Key
                         Exit Sub

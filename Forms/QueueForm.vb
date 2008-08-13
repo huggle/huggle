@@ -1,22 +1,17 @@
 Imports System.IO
+Imports System.Text.RegularExpressions
 Imports System.Web.HttpUtility
 
 Class QueueForm
 
     Private Mode As String, CurrentRequest As ListRequest
 
-    Private ReadOnly Property CurrentQueue() As EditQueue
+    Private ReadOnly Property CurrentQueue() As Queue
         Get
             If QueueList.SelectedIndex = -1 OrElse Not EditQueues.ContainsKey(QueueList.SelectedItem.ToString) _
                 Then Return Nothing Else Return EditQueues(QueueList.SelectedItem.ToString)
         End Get
     End Property
-
-    Private Sub QueueForm_FormClosing() Handles Me.FormClosing
-        If CurrentRequest IsNot Nothing AndAlso CurrentRequest.State <> Request.States.Cancelled _
-            Then CurrentRequest.Cancel()
-        If QueueList.SelectedIndex > -1 Then MainForm.QueueSelector.SelectedItem = QueueList.SelectedItem.ToString
-    End Sub
 
     Private Sub QueueForm_Load() Handles MyBase.Load
         Icon = My.Resources.icon_red_button
@@ -40,6 +35,12 @@ Class QueueForm
         If QueueList.Items.Count > 0 Then QueueList.SelectedIndex = 0
     End Sub
 
+    Private Sub QueueForm_FormClosing() Handles Me.FormClosing
+        If CurrentRequest IsNot Nothing AndAlso CurrentRequest.State <> Request.States.Cancelled _
+            Then CurrentRequest.Cancel()
+        If QueueList.SelectedIndex > -1 Then MainForm.QueueSelector.SelectedItem = QueueList.SelectedItem.ToString
+    End Sub
+
     Private Sub QueueForm_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles MyBase.KeyDown
         If e.KeyCode = Keys.Escape Then Close()
     End Sub
@@ -53,10 +54,22 @@ Class QueueForm
 
         Dim Name As String = "Queue" & CStr(i)
 
-        EditQueues.Add(Name, New EditQueue)
+        EditQueues.Add(Name, New Queue)
         QueueList.Items.Add(Name)
         QueueList.SelectedItem = Name
         MainForm.SetQueueSelector()
+    End Sub
+
+    Private Sub ApplyFilters_Click() Handles ApplyFilters.Click
+        Dim i As Integer
+
+        While i < CurrentQueue.Pages.Count
+            If CurrentQueue.MatchesFilter(CurrentQueue.Pages(i)) Then i += 1 Else CurrentQueue.Pages.RemoveAt(i)
+        End While
+    End Sub
+
+    Private Sub ArticlesOnly_CheckedChanged() Handles ArticlesOnly.CheckedChanged
+        CurrentQueue.ArticlesOnly = ArticlesOnly.Checked
     End Sub
 
     Private Sub Browse_Click() Handles Browse.Click
@@ -82,10 +95,6 @@ Class QueueForm
         RefreshInterface()
     End Sub
 
-    Private Sub Close_Click() Handles OK.Click
-        Close()
-    End Sub
-
     Private Sub Combine_Click() Handles Combine.Click
         Mode = "combine"
         Cancel.Location = Combine.Location
@@ -100,7 +109,7 @@ Class QueueForm
                 MsgBox("A queue with the name '" & NewName & "' already exists. Choose another name.", _
                     MsgBoxStyle.Exclamation, "huggle")
             Else
-                Dim NewQueue As New EditQueue
+                Dim NewQueue As New Queue
                 NewQueue.Pages.AddRange(CurrentQueue.Pages)
                 EditQueues.Add(NewName, NewQueue)
                 QueueList.Items.Add(NewName)
@@ -124,13 +133,10 @@ Class QueueForm
         SelectList()
     End Sub
 
-    Private Sub Filters_Click() Handles Filters.Click
-        Dim NewForm As New QueueFiltersForm
-        NewForm.Queue = CurrentQueue
-        NewForm.ShowDialog()
-
-        QueueList_SelectedIndexChanged()
+    Private Sub FilterNewPage_CheckStateChanged() Handles FilterNewPage.CheckStateChanged
+        CurrentQueue.FilterNewPage = FilterNewPage.State
     End Sub
+
 
     Private Sub Intersect_Click() Handles Intersect.Click
         Mode = "intersect"
@@ -143,11 +149,23 @@ Class QueueForm
             Then OpenUrlInBrowser(SitePath & "w/index.php?title=" & UrlEncode(QueuePages.SelectedItem.ToString))
     End Sub
 
-    Private Sub QueuePages_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles QueuePages.KeyDown
+    Private Sub PageRegex_Leave() Handles PageRegex.Leave
+        Try
+            If PageRegex.Text = "" Then CurrentQueue.PageRegex = Nothing _
+                Else CurrentQueue.PageRegex = New Regex(PageRegex.Text, RegexOptions.Compiled)
+
+        Catch ex As ArgumentException
+            MsgBox("Value entered for page filter is not a valid regular expression.", MsgBoxStyle.Exclamation, "huggle")
+            PageRegex.Text = ""
+            CurrentQueue.PageRegex = Nothing
+        End Try
+    End Sub
+
+    Private Sub QueuePages_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs)
         If e.KeyCode = Keys.Delete AndAlso QueuePages.SelectedIndex > -1 Then RemovePage()
     End Sub
 
-    Private Sub QueuePages_MouseDown(ByVal s As Object, ByVal e As MouseEventArgs) Handles QueuePages.MouseDown
+    Private Sub QueuePages_MouseDown(ByVal s As Object, ByVal e As MouseEventArgs)
         QueuePages.SelectedIndex = QueuePages.IndexFromPoint(e.Location)
     End Sub
 
@@ -167,7 +185,11 @@ Class QueueForm
 
             QueuePages.EndUpdate()
 
-            If CurrentQueue.Type = EditQueue.Types.Fixed Then FixedType.Checked = True Else LiveType.Checked = True
+            Select Case CurrentQueue.Type
+                Case Queue.Types.FixedList : FixedList.Checked = True
+                Case Queue.Types.LiveList : LiveList.Checked = True
+                Case Queue.Types.Live : Live.Checked = True
+            End Select
         End If
 
         Progress.Text = ""
@@ -208,7 +230,7 @@ Class QueueForm
                 MsgBox("A queue with the name '" & NewName & "' already exists. Choose another name.", _
                     MsgBoxStyle.Exclamation, "huggle")
             Else
-                Dim NewEditQueue As New EditQueue
+                Dim NewEditQueue As New Queue
                 NewEditQueue.Pages.AddRange(EditQueues(OldName).Pages)
                 EditQueues.Remove(OldName)
                 EditQueues.Add(NewName, NewEditQueue)
@@ -244,7 +266,7 @@ Class QueueForm
         CurrentQueue.Initialised = False
     End Sub
 
-    Private Sub Source_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles Source.KeyDown
+    Private Sub Source_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs)
         If e.KeyCode = Keys.Enter AndAlso Source.Text <> "" Then
             Combine_Click()
             If SourceType.Text = "Manually add pages" Then Source.Clear()
@@ -279,9 +301,34 @@ Class QueueForm
         End If
     End Sub
 
-    Private Sub TypeGroup_CheckedChanged() Handles FixedType.CheckedChanged, LiveType.CheckedChanged
-        If CurrentQueue IsNot Nothing _
-            Then CurrentQueue.Type = If(FixedType.Checked, EditQueue.Types.Fixed, EditQueue.Types.Live)
+    Private Sub TypeGroup_CheckedChanged() _
+        Handles FixedList.CheckedChanged, LiveList.CheckedChanged, Live.CheckedChanged
+
+        If CurrentQueue IsNot Nothing Then
+            If FixedList.Checked Then : CurrentQueue.Type = Queue.Types.FixedList
+            ElseIf LiveList.Checked Then : CurrentQueue.Type = Queue.Types.LiveList
+            ElseIf Live.Checked Then : CurrentQueue.Type = Queue.Types.Live
+            End If
+        End If
+
+        RefreshInterface()
+    End Sub
+
+    Private Sub Tabs_DrawItem(ByVal s As Object, ByVal e As DrawItemEventArgs) Handles Tabs.DrawItem
+        e.Graphics.DrawString(Tabs.TabPages(e.Index).Name, Tabs.Font, _
+            New Pen(Color.FromKnownColor(KnownColor.WindowText)).Brush, 1, 1)
+    End Sub
+
+    Private Sub UserRegex_Leave() Handles UserRegex.Leave
+        Try
+            If UserRegex.Text = "" Then CurrentQueue.UserRegex = Nothing _
+                Else CurrentQueue.UserRegex = New Regex(UserRegex.Text, RegexOptions.Compiled)
+
+        Catch ex As ArgumentException
+            MsgBox("Value entered for user filter is not a valid regular expression.", MsgBoxStyle.Exclamation, "huggle")
+            UserRegex.Text = ""
+            CurrentQueue.UserRegex = Nothing
+        End Try
     End Sub
 
     Private Sub RefreshInterface()
@@ -291,29 +338,33 @@ Class QueueForm
         Source.Width = If(SourceType.Text = "File", 137, 210)
 
         For Each Item As Control In New Control() _
-            {Copy, Filters, FromLabel, Limit, LimitLabel, RemoveQueue, Rename, SourceLabel, SourceTypeLabel}
-            Item.Enabled = (Not Throbber.Active AndAlso QueueList.SelectedIndex > -1)
+            {Copy, FromLabel, Limit, LimitLabel, RemoveQueue, Rename, SourceLabel, SourceTypeLabel}
+            Item.Enabled = Not Throbber.Active
         Next Item
 
+        If CurrentQueue IsNot Nothing Then
+            PagesTab.Visible = (CurrentQueue.Type <> Queue.Types.Live)
+            EditFiltersTab.Visible = (CurrentQueue.Type <> Queue.Types.FixedList)
+            ApplyFilters.Visible = (CurrentQueue.Type <> Queue.Types.Live)
+            ApplyFiltersLabel.Visible = (CurrentQueue.Type <> Queue.Types.Live)
+        End If
+
         AddQueue.Enabled = (Not Throbber.Active)
-        Browse.Enabled = (QueueList.SelectedIndex > -1)
         Browse.Visible = (SourceType.Text = "File")
         Cancel.Visible = Throbber.Active
-        Clear.Enabled = (Not Throbber.Active AndAlso QueueList.SelectedIndex > -1 AndAlso QueuePages.Items.Count > 0)
+        Clear.Enabled = (Not Throbber.Active AndAlso QueuePages.Items.Count > 0)
         Count.Visible = (QueueList.SelectedIndex > -1)
-        From.Enabled = (Not Throbber.Active AndAlso QueueList.SelectedIndex > -1 _
-            AndAlso SourceType.Text <> "Manually add pages")
-        QueuePages.Enabled = (QueueList.SelectedIndex > -1)
+        From.Enabled = (Not Throbber.Active AndAlso SourceType.Text <> "Manually add pages")
         QueueEmpty.Visible = (QueueList.SelectedIndex > -1 AndAlso QueuePages.Items.Count = 0)
         QueueList.Enabled = (Not Throbber.Active)
         QueuesEmpty.Visible = (QueueList.Items.Count = 0)
-        QueueSelector.Enabled = (QueueList.SelectedIndex > -1)
         QueueSelector.Visible = (SourceType.Text = "Existing queue")
         Save.Enabled = (QueuePages.Items.Count > 0)
         Sort.Enabled = (Not Throbber.Active AndAlso QueuePages.Items.Count > 1)
         Source.Enabled = Limit.Enabled
         Source.Visible = (SourceType.Text <> "Watchlist" AndAlso SourceType.Text <> "Existing queue")
         SourceType.Enabled = Limit.Enabled
+        Tabs.Enabled = (QueueList.SelectedIndex > -1)
         TypeGroup.Enabled = (QueueList.SelectedIndex > -1)
 
         If QueueSelector.Visible Then

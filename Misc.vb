@@ -9,15 +9,15 @@ Module Misc
 
     Public Administrator As Boolean
     Public AllEditsById As New Dictionary(Of String, Edit)
-    Public AllEdits As New EditQueue
+    Public AllEdits As New Queue
     Public AllPages As New Dictionary(Of String, Page)
     Public AllRequests As New List(Of Request)
     Public AllUsers As New Dictionary(Of String, User)
     Public ContribsOffset As Integer
     Public Cookie As String
-    Public CurrentQueue As EditQueue
+    Public CurrentQueue As Queue
     Public CurrentTab As BrowserTab
-    Public FilteredEdits As New EditQueue
+    Public FilteredEdits As New Queue
     Public HidingEdit As Boolean = True
     Public HistoryOffset As Integer
     Public LastTagText As String = ""
@@ -25,12 +25,12 @@ Module Misc
     Public MainForm As Main
     Public ManualRevertSummaries As New List(Of String)
     Public MyUser As User
-    Public NewPages As New EditQueue
+    Public NewPages As New Queue
     Public NextCount As New List(Of User)
     Public NullEdit As New Edit
     Public PendingRequests As New List(Of Request)
     Public PendingWarnings As New List(Of Edit)
-    Public EditQueues As New Dictionary(Of String, EditQueue)
+    Public EditQueues As New Dictionary(Of String, Queue)
     Public RollbackAvailable As Boolean
     Public SpeedyCriteria As New Dictionary(Of String, SpeedyCriterion)
     Public StartTime As Date
@@ -45,31 +45,35 @@ Module Misc
 
     Public Delegate Sub CallbackDelegate(ByVal Success As Boolean)
 
-    Class EditQueue
+    Class Queue
+
+        'Represents a queue of edits
 
         Public Pages As New List(Of String)
         Public Items As New List(Of Edit)
         Public Type As Types
         Public Initialised As Boolean
+
         Public ArticlesOnly As Boolean
-        Public TitleRegex As Regex
+        Public FilterNewPage As CheckState
+        Public PageRegex, UserRegex As Regex
 
         Public Enum Types As Integer
-            : Fixed : Live
+            : FixedList : LiveList : Live
         End Enum
 
-        Public Shared Operator =(ByVal a As EditQueue, ByVal b As EditQueue) As Boolean
+        Public Shared Operator =(ByVal a As Queue, ByVal b As Queue) As Boolean
             Return (a Is b)
         End Operator
 
-        Public Shared Operator <>(ByVal a As EditQueue, ByVal b As EditQueue) As Boolean
+        Public Shared Operator <>(ByVal a As Queue, ByVal b As Queue) As Boolean
             Return (a IsNot b)
         End Operator
 
         Public Sub Initialise()
             Items.Clear()
 
-            If Type = Types.Fixed Then
+            If Type = Types.FixedList Then
                 For Each Item As String In Pages
                     Dim Page As Page = GetPage(Item)
 
@@ -89,22 +93,33 @@ Module Misc
         End Sub
 
         Public Function MatchesFilter(ByVal PageName As String) As Boolean
+            'Determines whether a page name matches this queue's filter
             Dim Page As Page = GetPage(PageName)
 
             If Page.Namespace <> "" AndAlso ArticlesOnly = True Then Return False
-
-            If TitleRegex IsNot Nothing Then
-                Dim a As String = TitleRegex.ToString
-                If Not TitleRegex.IsMatch(Page.Name) Then Return False
-            End If
+            If PageRegex IsNot Nothing AndAlso Not PageRegex.IsMatch(Page.Name) Then Return False
 
             Return True
         End Function
 
         Public Function MatchesFilter(ByVal Edit As Edit) As Boolean
-            If Type = Types.Fixed Then Return False
-            If Not Pages.Contains(Edit.Page.Name) Then Return False
-            Return True
+            'Determines whether an edit matches this queue's filter
+            If Type = Types.FixedList Then Return False
+            If Type = Types.LiveList AndAlso Not Pages.Contains(Edit.Page.Name) Then Return False
+            If ArticlesOnly AndAlso Edit.Page.Namespace <> "" Then Return False
+            If PageRegex IsNot Nothing AndAlso Not PageRegex.IsMatch(Edit.Page.Name) Then Return False
+            If UserRegex IsNot Nothing AndAlso Not UserRegex.IsMatch(Edit.User.Name) Then Return False
+
+            Return CSMatch(FilterNewPage, Edit.NewPage)
+        End Function
+
+        Private Function CSMatch(ByVal Filter As CheckState, ByVal Value As Boolean) As Boolean
+            'Helper function for above
+            Select Case Filter
+                Case CheckState.Indeterminate : Return True
+                Case CheckState.Checked : Return Value
+                Case CheckState.Unchecked : Return Not Value
+            End Select
         End Function
 
     End Class

@@ -39,25 +39,39 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationEvents.vb" />
+    <Compile Include="Config.vb" />
+    <Compile Include="Controls\BrowserTab.Designer.vb">
+      <DependentUpon>BrowserTab.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\BrowserTab.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\EditInfoPanel.Designer.vb">
+      <DependentUpon>EditInfoPanel.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\EditInfoPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\QueuePanel.Designer.vb">
+      <DependentUpon>QueuePanel.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\QueuePanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Throbber.Designer.vb">
+      <DependentUpon>Throbber.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Throbber.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\TriState.Designer.vb">
+      <DependentUpon>TriState.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TriState.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Drawing.vb" />
     <Compile Include="Edit.vb" />
-    <Compile Include="Forms\ExceptionForm.Designer.vb">
-      <DependentUpon>ExceptionForm.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\ExceptionForm.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\EmailForm.designer.vb">
-      <DependentUpon>EmailForm.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\EmailForm.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\CaptchaForm.Designer.vb">
-      <DependentUpon>CaptchaForm.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\CaptchaForm.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Forms\AboutForm.Designer.vb">
       <DependentUpon>AboutForm.vb</DependentUpon>
     </Compile>
@@ -70,32 +84,17 @@
     <Compile Include="Forms\AddTemplateForm.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\QueueFiltersForm.Designer.vb">
-      <DependentUpon>QueueFiltersForm.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\QueueFiltersForm.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Page.vb" />
-    <Compile Include="Requests\ListRequests.vb" />
-    <Compile Include="Throbber.Designer.vb">
-      <DependentUpon>Throbber.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Throbber.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Requests\ActionRequests.vb" />
     <Compile Include="Forms\BlockForm.Designer.vb">
       <DependentUpon>BlockForm.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\BlockForm.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="BrowserTab.Designer.vb">
-      <DependentUpon>BrowserTab.vb</DependentUpon>
+    <Compile Include="Forms\CaptchaForm.Designer.vb">
+      <DependentUpon>CaptchaForm.vb</DependentUpon>
     </Compile>
-    <Compile Include="BrowserTab.vb">
-      <SubType>UserControl</SubType>
+    <Compile Include="Forms\CaptchaForm.vb">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\ClosingForm.Designer.vb">
       <DependentUpon>ClosingForm.vb</DependentUpon>
@@ -103,7 +102,6 @@
     <Compile Include="Forms\ClosingForm.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Config.vb" />
     <Compile Include="Forms\ConfigForm.Designer.vb">
       <DependentUpon>ConfigForm.vb</DependentUpon>
     </Compile>
@@ -116,44 +114,28 @@
     <Compile Include="Forms\DeleteForm.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Drawing.vb" />
-    <Compile Include="Forms\StartupForm.Designer.vb">
-      <DependentUpon>StartupForm.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\StartupForm.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Forms\EditForm.Designer.vb">
       <DependentUpon>EditForm.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\EditForm.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="EditInfoPanel.Designer.vb">
-      <DependentUpon>EditInfoPanel.vb</DependentUpon>
+    <Compile Include="Forms\EmailForm.designer.vb">
+      <DependentUpon>EmailForm.vb</DependentUpon>
     </Compile>
-    <Compile Include="EditInfoPanel.vb">
-      <SubType>UserControl</SubType>
+    <Compile Include="Forms\EmailForm.vb">
+      <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Login.vb" />
-    <Compile Include="Highlight.vb" />
-    <Compile Include="Irc.vb" />
-    <Compile Include="QueuePanel.Designer.vb">
-      <DependentUpon>QueuePanel.vb</DependentUpon>
+    <Compile Include="Forms\ExceptionForm.Designer.vb">
+      <DependentUpon>ExceptionForm.vb</DependentUpon>
     </Compile>
-    <Compile Include="QueuePanel.vb">
-      <SubType>UserControl</SubType>
+    <Compile Include="Forms\ExceptionForm.vb">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\LoginForm.designer.vb">
       <DependentUpon>LoginForm.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\LoginForm.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Main.Designer.vb">
-      <DependentUpon>Main.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Main.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\MessageForm.Designer.vb">
@@ -162,31 +144,12 @@
     <Compile Include="Forms\MessageForm.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Misc.vb">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Forms\MoveForm.Designer.vb">
       <DependentUpon>MoveForm.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\MoveForm.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="My Project\AssemblyInfo.vb" />
-    <Compile Include="My Project\Application.Designer.vb">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Application.myapp</DependentUpon>
-    </Compile>
-    <Compile Include="My Project\Resources.Designer.vb">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="My Project\Settings.Designer.vb">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="Processing.vb" />
     <Compile Include="Forms\ProdForm.designer.vb">
       <DependentUpon>ProdForm.vb</DependentUpon>
     </Compile>
@@ -205,6 +168,18 @@
     <Compile Include="Forms\ProtectionForm.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\QueueForm.Designer.vb">
+      <DependentUpon>QueueForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\QueueForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\QueueActionsForm.Designer.vb">
+      <DependentUpon>QueueActionsForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\QueueActionsForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\QueueTrimForm.Designer.vb">
       <DependentUpon>QueueTrimForm.vb</DependentUpon>
     </Compile>
@@ -217,24 +192,34 @@
     <Compile Include="Forms\ReportForm.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Requests\ConfigRequests.vb" />
-    <Compile Include="Forms\QueueForm.Designer.vb">
-      <DependentUpon>QueueForm.vb</DependentUpon>
+    <Compile Include="Forms\RequestsForm.Designer.vb">
+      <DependentUpon>RequestsForm.vb</DependentUpon>
     </Compile>
-    <Compile Include="Forms\QueueForm.vb">
+    <Compile Include="Forms\RequestsForm.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Requests\ReadRequests.vb" />
     <Compile Include="Forms\RevertForm.Designer.vb">
       <DependentUpon>RevertForm.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\RevertForm.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\RevertAndWarnForm.Designer.vb">
+      <DependentUpon>RevertAndWarnForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\RevertAndWarnForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\SpeedyForm.Designer.vb">
       <DependentUpon>SpeedyForm.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\SpeedyForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\StartupForm.Designer.vb">
+      <DependentUpon>StartupForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\StartupForm.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\StatsForm.Designer.vb">
@@ -267,38 +252,75 @@
     <Compile Include="Forms\WarningForm.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Requests\EditRequests.vb" />
-    <Compile Include="Requests\Requests.vb" />
     <Compile Include="Forms\XfdForm.Designer.vb">
       <DependentUpon>XfdForm.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\XfdForm.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Highlight.vb" />
+    <Compile Include="Irc.vb" />
+    <Compile Include="Login.vb" />
+    <Compile Include="Main.Designer.vb">
+      <DependentUpon>Main.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Main.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="MainInterface.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\RequestsForm.Designer.vb">
-      <DependentUpon>RequestsForm.vb</DependentUpon>
+    <Compile Include="Misc.vb">
+      <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Forms\RequestsForm.vb">
-      <SubType>Form</SubType>
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
     </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Page.vb" />
+    <Compile Include="Processing.vb" />
+    <Compile Include="Requests\ActionRequests.vb" />
+    <Compile Include="Requests\ConfigRequests.vb" />
+    <Compile Include="Requests\EditRequests.vb" />
+    <Compile Include="Requests\ListRequests.vb" />
+    <Compile Include="Requests\NotifyRequests.vb" />
+    <Compile Include="Requests\ReadRequests.vb" />
+    <Compile Include="Requests\Requests.vb" />
     <Compile Include="Requests\RevertRequests.vb" />
     <Compile Include="Requests\XfdRequests.vb" />
-    <Compile Include="Requests\NotifyRequests.vb" />
-    <Compile Include="Forms\RevertAndWarnForm.Designer.vb">
-      <DependentUpon>RevertAndWarnForm.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\RevertAndWarnForm.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Shortcuts.vb" />
     <Compile Include="User.vb" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Forms\EmailForm.resx">
-      <DependentUpon>EmailForm.vb</DependentUpon>
+    <EmbeddedResource Include="Controls\BrowserTab.resx">
+      <DependentUpon>BrowserTab.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\EditInfoPanel.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>EditInfoPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\QueuePanel.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>QueuePanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Throbber.resx">
+      <DependentUpon>Throbber.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\TriState.resx">
+      <DependentUpon>TriState.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AboutForm.resx">
@@ -311,10 +333,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\BlockForm.resx">
       <DependentUpon>BlockForm.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BrowserTab.resx">
-      <DependentUpon>BrowserTab.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\CaptchaForm.resx">
@@ -333,40 +351,20 @@
       <DependentUpon>DeleteForm.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ExceptionForm.resx">
-      <DependentUpon>ExceptionForm.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\QueueFiltersForm.resx">
-      <DependentUpon>QueueFiltersForm.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\StartupForm.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>StartupForm.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\EditForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>EditForm.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="EditInfoPanel.resx">
+    <EmbeddedResource Include="Forms\EmailForm.resx">
+      <DependentUpon>EmailForm.vb</DependentUpon>
       <SubType>Designer</SubType>
-      <DependentUpon>EditInfoPanel.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\QueueForm.resx">
+    <EmbeddedResource Include="Forms\ExceptionForm.resx">
+      <DependentUpon>ExceptionForm.vb</DependentUpon>
       <SubType>Designer</SubType>
-      <DependentUpon>QueueForm.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="QueuePanel.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>QueuePanel.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\LoginForm.resx">
       <DependentUpon>LoginForm.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Main.resx">
-      <DependentUpon>Main.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MessageForm.resx">
@@ -375,12 +373,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MoveForm.resx">
       <DependentUpon>MoveForm.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="My Project\Resources.resx">
-      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
-      <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ProdForm.resx">
@@ -395,6 +387,14 @@
       <DependentUpon>ProtectionForm.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\QueueForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>QueueForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\QueueActionsForm.resx">
+      <DependentUpon>QueueActionsForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\QueueTrimForm.resx">
       <DependentUpon>QueueTrimForm.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -403,13 +403,25 @@
       <DependentUpon>ReportForm.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\RequestsForm.resx">
+      <DependentUpon>RequestsForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\RevertForm.resx">
       <DependentUpon>RevertForm.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\RevertAndWarnForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>RevertAndWarnForm.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\SpeedyForm.resx">
       <DependentUpon>SpeedyForm.vb</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\StartupForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>StartupForm.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\StatsForm.resx">
       <SubType>Designer</SubType>
@@ -435,16 +447,14 @@
       <SubType>Designer</SubType>
       <DependentUpon>XfdForm.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\RevertAndWarnForm.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>RevertAndWarnForm.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\RequestsForm.resx">
-      <DependentUpon>RequestsForm.vb</DependentUpon>
+    <EmbeddedResource Include="Main.resx">
+      <DependentUpon>Main.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Throbber.resx">
-      <DependentUpon>Throbber.vb</DependentUpon>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>

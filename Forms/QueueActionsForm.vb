@@ -1,20 +1,12 @@
 ﻿Imports System.Text.RegularExpressions
 
-Class QueueFiltersForm
+Class QueueActionsForm
 
-    Public Queue As EditQueue
+    Public Queue As Queue
 
     Private Sub QueueFiltersForm_Load() Handles Me.Load
         Icon = My.Resources.icon_red_button
-
-        ArticlesOnly.Checked = Queue.ArticlesOnly
-        If Queue.TitleRegex IsNot Nothing Then TitleRegex.Text = Queue.TitleRegex.ToString
-
         NamespaceTransformSelector.SelectedIndex = 0
-    End Sub
-
-    Private Sub QueueFiltersForm_FormClosing() Handles Me.FormClosing
-        If DialogResult <> DialogResult.OK Then DialogResult = DialogResult.Cancel
     End Sub
 
     Private Sub QueueFiltersForm_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles Me.KeyDown
@@ -49,28 +41,6 @@ Class QueueFiltersForm
     End Sub
 
     Private Sub OK_Click() Handles OK.Click
-        Queue.ArticlesOnly = ArticlesOnly.Checked
-
-        Try
-            If TitleRegex.Text = "" Then Queue.TitleRegex = Nothing _
-                Else Queue.TitleRegex = New Regex(TitleRegex.Text, RegexOptions.Compiled)
-        Catch ex As ArgumentException
-            MsgBox("Value entered for title filter is not a valid regular expression.", _
-                MsgBoxStyle.Exclamation, "huggle")
-            Exit Sub
-        End Try
-
-        Dim i As Integer
-
-        While i < Queue.Pages.Count
-            If Queue.MatchesFilter(Queue.Pages(i)) Then i += 1 Else Queue.Pages.RemoveAt(i)
-        End While
-
-        DialogResult = DialogResult.OK
-        Close()
-    End Sub
-
-    Private Sub Cancel_Click() Handles Cancel.Click
         Close()
     End Sub
 
