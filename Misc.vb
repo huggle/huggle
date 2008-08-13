@@ -235,6 +235,7 @@ Module Misc
         Public CaptchaId, CaptchaWord As String
         Public Minor, Watch, Creating As Boolean
         Public [Error] As Boolean
+        Public NoAutoSummary As Boolean
     End Class
 
     Class PageMove

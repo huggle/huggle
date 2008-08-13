@@ -8,7 +8,7 @@ Namespace Requests
 
         'Make an arbitrary edit
 
-        Public Page As Page, Text, Summary As String, Minor, Watch As Boolean
+        Public Page As Page, Text, Summary As String, Minor, Watch, NoAutoSummary As Boolean
 
         Public Sub Start(Optional ByVal Done As RequestCallback = Nothing)
             _Done = Done
@@ -31,6 +31,7 @@ Namespace Requests
             Data.Watch = Watch
             Data.Text = Text
             Data.Summary = Summary
+            Data.NoAutoSummary = NoAutoSummary
 
             Data = PostEdit(Data)
 

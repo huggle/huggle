@@ -455,7 +455,7 @@ Namespace Requests
                 & "&wpEditToken=" & UrlEncode(Data.Token) & "&wpStarttime=" & UrlEncode(Data.StartTime) _
                 & "&wpEdittime=" & UrlEncode(Data.EditTime) & "&wpSummary=" & UrlEncode(Data.Summary)
 
-            If Config.Summary IsNot Nothing Then PostString &= UrlEncode(" " & Config.Summary)
+            If Not Data.NoAutoSummary Then PostString &= UrlEncode(" " & Config.Summary)
             If Data.Section IsNot Nothing Then PostString &= "&section=" & UrlEncode(Data.Section)
             If Data.Minor Then PostString &= "&wpMinoredit=0"
             If Data.Watch OrElse Watchlist.Contains(SubjectPage(Data.Page)) Then PostString &= "&wpWatchthis=0"

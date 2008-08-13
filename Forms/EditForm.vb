@@ -82,6 +82,7 @@ Class EditForm
         NewEditRequest.Summary = Summary.Text
         NewEditRequest.Page = Page
         NewEditRequest.Text = PageText.Text
+        NewEditRequest.NoAutoSummary = True
         NewEditRequest.Start(AddressOf Saved)
     End Sub
 
