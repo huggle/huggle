@@ -280,6 +280,10 @@ Module Irc
         Catch ex As SocketException
             'Server didn't like the connection; give up and fall back to API queries
             IrcMode = False
+
+        Catch ex As IOException
+            'Feed was disconnected; retry
+            Callback(AddressOf IrcConnect)
         End Try
     End Sub
 
