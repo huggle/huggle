@@ -590,7 +590,8 @@ Module Misc
 
     Function MakeHtmlWikiPage(ByVal Page As String, ByVal Text As String) As String
         Return My.Resources.WikiPageHtml.Replace("$PATH", SitePath).Replace("$PAGE", Page) _
-            .Replace("$USER", Username) & "<body>" & Text & "</body></html>"
+            .Replace("$USER", Username).Replace("$FONTSIZE", CStr(CInt((CInt(DiffFontSize) * 1.2)))) & _
+            "<body>" & Text & "</body></html>"
     End Function
 
     Public Delegate Sub Action()

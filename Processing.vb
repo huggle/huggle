@@ -1117,8 +1117,7 @@ Module Processing
                         DiffText = DiffText.Replace("href=""/w/", "href=""" & Config.SitePath & "w/")
                         DiffText = DiffText.Replace("href='/w/", "href='" & Config.SitePath & "w/")
 
-                        DocumentText = "<html><head><title>" & Edit.Page.Name & "</title></head><body>" & _
-                            DiffText & "</body></html>"
+                        DocumentText = MakeHtmlWikiPage(Edit.Page.Name, DiffText)
 
                         Tab.CurrentUrl = SitePath & "w/index.php?title=" & UrlEncode(Edit.Page.Name) & _
                             "&diff=" & Edit.Id & "&oldid=" & Edit.Oldid

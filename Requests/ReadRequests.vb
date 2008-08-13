@@ -133,11 +133,6 @@ Namespace Requests
             If Result.Contains("<table class='diff'>") Then
                 Result = Result.Substring(Result.IndexOf("<table class='diff'>"))
                 Result = Result.Substring(0, Result.IndexOf("</table>") + 8)
-
-                'Style the diffs
-                Result = "<style type=""text/css"">" & " table.diff {font-size: " & Config.DiffFontSize & "pt} " & _
-                    DiffCss & "</style>" & Result
-
                 Result = "<div style=""font-size: 160%; font-family: Arial"">" & Edit.Page.Name & "</div>" & Result
 
                 'Add the change size in the top-right corner
@@ -691,7 +686,8 @@ Namespace Requests
 
     Class PreviewRequest : Inherits Request
 
-        'Get preview
+        'Get preview of unsaved changes
+
         Public Page As Page, Text As String
 
         Public Sub Start(Optional ByVal Done As RequestCallback = Nothing)
@@ -727,9 +723,10 @@ Namespace Requests
 
     End Class
 
-    Class PreviewDiffRequest : Inherits Request
+    Class ChangesRequest : Inherits Request
 
-        'Get preview of changes
+        'Get diff of unsaved changes
+
         Public Page As Page, Text As String
 
         Public Sub Start(Optional ByVal Done As RequestCallback = Nothing)
@@ -742,8 +739,15 @@ Namespace Requests
 
         Private Sub Process()
             Result = PostData("title=" & UrlEncode(Page.Name) & "&action=submit", _
-                "wpTextbox1=" & UrlEncode(Text) & "&wpDiff=1")
-            If Result IsNot Nothing Then Callback(AddressOf Done) Else Callback(AddressOf Failed)
+                "&wpDiff=0&wpEdittime=&wpTextbox1=" & UrlEncode(Text))
+
+            If Result Is Nothing OrElse Not IsWikiPage(Result) Then
+                Callback(AddressOf Failed)
+            Else
+                Result = Result.Substring(Result.IndexOf("<div id=""wikiDiff"">"))
+                Result = Result.Substring(0, Result.IndexOf("<form"))
+                Callback(AddressOf Done)
+            End If
         End Sub
 
         Private Sub Done()

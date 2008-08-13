@@ -10,15 +10,6 @@ Module Config
     Public ConfigChanged As Boolean
     Public ConfigVersion As New Version(0, 0, 0)
     Public ContribsBlockSize As Integer = 100
-    Public DiffCss As String = "* {text-decoration: none;} :hover {text-decoration: underline;} " & _
-        ".new {color: red;} table.diff {table-layout: fixed} table.diff col.diff-content {width: 50%;} " & _
-        ".diff-otitle, .diff-ntitle {font-size: 120%;} td.diff-marker {font-size: 0px; color: white;} " & _
-        "#differences-nextlink, #differences-prevlink, .diff-lineno, #mw-diff-otitle4, #mw-diff-ntitle4 " & _
-        "{display: none;} .diff td div {overflow: scroll;} .diff {width: 98%; font-family: arial; font-size: 8pt;} " & _
-        ".diff-addedline {background: #CCFFCC;} .diff-deletedline {background: #FFFFCC;} .diffchange {color: red; " & _
-        "font-weight: bold;} .diff-multi {font-size: 120%; font-weight: bold;} .mw-rollback-link {display: none;} " & _
-        ".usermessage {font-family: arial; background-color: #ffce7b; border: 1px solid #ffa500; color: black; " & _
-        "font-weight: bold; margin: 2em 0 1em; padding: 0.5em 1em; vertical-align: middle;}"
     Public GlobalConfigLocation As String = "http://meta.wikimedia.org/w/index.php?title=Huggle/GlobalConfig&action=raw"
     Public HistoryBlockSize As Integer = 100
     Public IrcMode As Boolean = True

@@ -7,7 +7,7 @@ Class EditForm
     Private Declare Function LockWindowUpdate Lib "user32" (ByVal hWnd As IntPtr) As Integer
     Private WithEvents Timer As New Timer
     Private HighlightTimeout As Integer = 2000
-    Private PreviewCurrent, SettingText, Undoing As Boolean, CurrentRequest As HighlightRequest
+    Private PreviewCurrent, DiffCurrent, SettingText, Undoing As Boolean, CurrentRequest As HighlightRequest
 
     Private Sub EditForm_Load() Handles Me.Load
         Icon = My.Resources.icon_red_button
@@ -112,16 +112,35 @@ Class EditForm
             NewPreviewRequest.Page = Page
             NewPreviewRequest.Text = PageText.Text
             NewPreviewRequest.Start(AddressOf GotPreview)
+
+        ElseIf Tabs.SelectedIndex = 2 AndAlso Not DiffCurrent Then
+            Diff.DocumentText = "<div style=""font-family: Arial"">Retrieving diff...</div>"
+
+            Dim NewPreviewRequest As New ChangesRequest
+            NewPreviewRequest.Page = Page
+            NewPreviewRequest.Text = PageText.Text
+            NewPreviewRequest.Start(AddressOf GotDiff)
         End If
     End Sub
 
     Private Sub GotPreview(ByVal Result As Request.Output)
         If Preview IsNot Nothing Then
             If Result.Success Then
-                Preview.DocumentText = FormatPageHtml(Page, Text)
+                Preview.DocumentText = MakeHtmlWikiPage(Page.Name, Result.Text)
                 PreviewCurrent = True
             Else
                 Preview.DocumentText = "<div style=""font-family: Arial"">Failed to retrieve preview</div>"
+            End If
+        End If
+    End Sub
+
+    Private Sub GotDiff(ByVal Result As Request.Output)
+        If Diff IsNot Nothing Then
+            If Result.Success Then
+                Diff.DocumentText = MakeHtmlWikiPage(Page.Name, Result.Text)
+                DiffCurrent = True
+            Else
+                Diff.DocumentText = "<div style=""font-family: Arial"">Failed to retrieve diff</div>"
             End If
         End If
     End Sub
@@ -136,6 +155,7 @@ Class EditForm
     Private Sub PageText_TextChanged() Handles PageText.TextChanged
         If Not SettingText Then
             PreviewCurrent = False
+            DiffCurrent = False
             KeystrokeTimer.Stop()
             KeystrokeTimer.Start()
 
@@ -187,7 +207,9 @@ Class EditForm
         LockWindowUpdate(IntPtr.Zero)
     End Sub
 
-    Private Sub Preview_Navigating(ByVal s As Object, ByVal e As WebBrowserNavigatingEventArgs) Handles Preview.Navigating
+    Private Sub Browser_Navigating(ByVal s As Object, ByVal e As WebBrowserNavigatingEventArgs) _
+        Handles Preview.Navigating, Diff.Navigating
+
         e.Cancel = (e.Url.ToString <> "about:blank")
     End Sub
 

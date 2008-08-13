@@ -8,5 +8,23 @@
 <link rel="stylesheet" href="$PATHw/index.php?title=-&action=raw&gen=css" type="text/css" />
 <link rel="stylesheet" href="$PATHw/index.php?title=User:$USER/monobook.css&action=raw&ctype=text/css" type="text/css" />
 <link rel="stylesheet" href="$PATHskins-1.5/monobook/IE70Fixes.css" type="text/css" media="screen" />
-<style type="text/css"> * {background-image: none !important} .historysubmit {display: none}</style>
+<style type="text/css">
+  * {background-image: none !important}
+  .historysubmit {display: none}
+  * {text-decoration: none;}
+  :hover {text-decoration: underline;}
+  .new {color: red;}
+  table.diff {table-layout: fixed; font-size: $FONTSIZEpt}
+  table.diff col.diff-content {width: 50%;}
+  td.diff-marker {font-size: 0px; color: white;}
+  #differences-nextlink, #differences-prevlink, .diff-lineno, #mw-diff-otitle4, #mw-diff-ntitle4 {display: none;}
+  .diff td div {overflow: scroll;}
+  .diff {width: 98%; font-family: arial}
+  .diff-addedline {background: #CCFFCC;}
+  .diff-deletedline {background: #FFFFCC;}
+  .diffchange {color: red; font-weight: bold;}
+  .diff-multi {font-size: 120%; font-weight: bold;}
+  .mw-rollback-link {display: none;}
+  .usermessage {font-family: arial; background-color: #ffce7b; border: 1px solid #ffa500; color: black; font-weight: bold; margin: 2em 0 1em; padding: 0.5em 1em; vertical-align: middle;}
+</style>
 </head>
