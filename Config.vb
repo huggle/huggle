@@ -15,11 +15,9 @@ Module Config
     Public IrcMode As Boolean = True
     Public LatestVersion As New Version(0, 0, 0)
     Public LocalConfigLocation As String = "\config.txt"
-    Public ProtectedNamespaces As String() = {"MediaWiki"}
     Public QueueWidth As Integer = 160
     Public RememberMe As Boolean = True
     Public SitePath As String = "http://en.wikipedia.org/"
-    Public UnmovableNamespaces As String() = {"Category", "Image"}
 
     'Values stored in local config file
 
@@ -95,9 +93,6 @@ Module Config
     Public MinVersion As Version
     Public MinWarningWait As Integer = 10
     Public MonthHeadings As Boolean
-    Public NamespacesChecked As New List(Of String)(New String() {"article", "talk", "user", "user talk", "help", _
-        "help talk", "portal", "portal talk", "template", "template talk", "mediawiki", "mediawiki talk", "image", _
-        "image talk", "category", "category talk", "wikipedia", "wikipedia talk"})
     Public OpenInBrowser As Boolean
     Public Patrol As Boolean
     Public PatrolSpeedy As Boolean
@@ -280,12 +275,6 @@ Module Config
             File.WriteAllLines(LocalConfigPath() & LocalConfigLocation, LocalConfigItems.ToArray)
         End If
     End Sub
-
-    Private Function LocalConfigPath() As String
-        Dim Path As String = Application.UserAppDataPath
-        Path = Path.Substring(0, Path.LastIndexOf("\"))
-        Return Path.Substring(0, Path.LastIndexOf("\"))
-    End Function
 
     Private Sub SetShortcutsFromConfig(ByVal Value As String)
         For Each Item As String In Value.Replace(vbLf, "").Replace(vbCr, "").Replace("\,", Chr(1)).Split _

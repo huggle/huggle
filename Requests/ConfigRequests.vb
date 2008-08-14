@@ -152,7 +152,6 @@ Namespace Requests
                 Case "extend-reports" : Config.ExtendReports = CBool(Value)
                 Case "irc-port" : Config.IrcPort = CInt(Value)
                 Case "minor" : SetMinor(Value)
-                Case "namespaces" : SetNamespaces(Value)
                 Case "new-pages" : Config.ShowNewPages = CBool(Value)
                 Case "open-in-browser" : Config.OpenInBrowser = CBool(Value)
                 Case "patrol-speedy" : Config.PatrolSpeedy = CBool(Value)
@@ -211,6 +210,8 @@ Namespace Requests
                 Case "manual-revert-summary" : Config.ManualRevertSummary = Value
                 Case "mfd" : Config.MfdLocation = Value
                 Case "min-version" : SetMinVersion(Value)
+                Case "namespace-aliases" : SetNamespaceAliases(GetList(Value))
+                Case "namespace-names" : SetNamespaceNames(GetList(Value))
                 Case "patrol" : Config.Patrol = CBool(Value)
                 Case "protect" : Config.Protect = CBool(Value)
                 Case "protection-request-page" : Config.ProtectionRequestPage = Value
@@ -282,6 +283,21 @@ Namespace Requests
             End Select
         End Sub
 
+        Private Sub SetNamespaceNames(ByVal Items As List(Of String))
+            For Each Item As String In Items
+                If Item.Contains(";") Then Space.SetName(CInt(Item.Split(";"c)(0)), Item.Split(";"c)(1))
+            Next Item
+        End Sub
+
+        Private Sub SetNamespaceAliases(ByVal Items As List(Of String))
+            For Each Item As String In Items
+                If Item.Contains(";") Then
+                    Dim Key As String = Item.Split(";"c)(0), Value As Integer = CInt(Item.Split(";"c)(1))
+                    If Not Space.Aliases.ContainsKey(Key) Then Space.Aliases.Add(Key, Value)
+                End If
+            Next Item
+        End Sub
+
         Private Sub SetLatestVersion(ByVal VersionString As String)
             Config.LatestVersion = New Version(CInt(VersionString.Substring(0, 1)), _
                 CInt(VersionString.Substring(2, 1)), CInt(VersionString.Substring(4)), 0)
@@ -303,47 +319,6 @@ Namespace Requests
 
             Return List
         End Function
-
-        Private Sub SetNamespaces(ByVal Value As String)
-            Config.NamespacesChecked = New List(Of String)
-
-            For Each Item As String In Value.Split(","c)
-                Item = Item.Trim(","c, " "c, CChar(vbLf)).ToLower
-                If Item = "main" OrElse Item = "(main)" Then Item = "article"
-
-                If Item = "all" Then
-                    Config.NamespacesChecked.AddRange(ConfigNamespaces)
-
-                ElseIf Item = "-all" Then
-                    Config.NamespacesChecked.Clear()
-
-                ElseIf Item = "alltalk" Then
-                    For Each Item2 As String In New String() _
-                        {"talk", "user talk", "help talk", "portal talk", "template talk", _
-                        "mediawiki talk", "image talk", "category talk", "wikipedia talk"}
-
-                        If Not Config.NamespacesChecked.Contains(Item2) Then Config.NamespacesChecked.Add(Item2)
-                    Next Item2
-
-                ElseIf Item = "-alltalk" Then
-                    For Each Item2 As String In New String() _
-                        {"talk", "user talk", "help talk", "portal talk", "template talk", _
-                        "mediawiki talk", "image talk", "category talk", "wikipedia talk"}
-
-                        If Config.NamespacesChecked.Contains(Item2) Then Config.NamespacesChecked.Remove(Item2)
-                    Next Item2
-
-                ElseIf Item.StartsWith("-") Then
-                    Item = Item.Substring(1)
-                    If Config.NamespacesChecked.Contains(Item) Then Config.NamespacesChecked.Remove(Item)
-
-                ElseIf New List(Of String)(ConfigNamespaces).Contains(Item) Then
-                    Config.NamespacesChecked.Add(Item)
-                End If
-            Next Item
-
-            If Config.NamespacesChecked.Count = 0 Then Config.NamespacesChecked.AddRange(ConfigNamespaces)
-        End Sub
 
         Private Sub SetReport(ByVal Value As String)
             Config.AutoReport = (Value = "auto")
@@ -503,10 +478,6 @@ Namespace Requests
             If Config.MinorOther Then MinorItems.Add("other")
             If MinorItems.Count = 0 Then MinorItems.Add("none")
             ConfigItems.Add("minor:" & Strings.Join(MinorItems.ToArray, ","))
-
-            If Config.NamespacesChecked.Count = 18 Then ConfigItems.Add("namespaces:all") _
-                Else ConfigItems.Add("namespaces:" & Strings.Join(Config.NamespacesChecked.ToArray, ","))
-
             ConfigItems.Add("new-pages:" & CStr(Config.ShowNewPages).ToLower)
             ConfigItems.Add("open-in-browser:" & CStr(Config.OpenInBrowser).ToLower)
             ConfigItems.Add("preload:" & CStr(Config.Preloads))

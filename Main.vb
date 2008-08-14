@@ -12,6 +12,8 @@ Class Main
         Icon = My.Resources.icon_red_button
         TrayIcon.Icon = My.Resources.icon_red_button
 
+        Queue.LoadQueues()
+
         InitialTab.Parent = Tabs.TabPages(0)
         CurrentTab = InitialTab
         CurrentQueue = FilteredEdits
@@ -627,7 +629,7 @@ Class Main
     Sub TagSpeedy_Click() Handles PageTagSpeedy.Click
         If CurrentPage IsNot Nothing Then
             Dim NewSpeedyTagForm As New SpeedyForm
-            NewSpeedyTagForm.ThisPage = CurrentPage
+            NewSpeedyTagForm.Page = CurrentPage
             NewSpeedyTagForm.ShowDialog()
         End If
     End Sub
@@ -635,7 +637,7 @@ Class Main
     Sub PageDelete_Click() Handles PageDelete.Click, PageDeleteB.Click
         If CurrentPage IsNot Nothing Then
             Dim NewDeleteForm As New DeleteForm
-            NewDeleteForm.ThisPage = CurrentPage
+            NewDeleteForm.Page = CurrentPage
 
             If NewDeleteForm.ShowDialog = DialogResult.OK Then
                 PageDelete.Enabled = False
@@ -677,7 +679,7 @@ Class Main
         If CurrentEdit IsNot Nothing AndAlso CurrentEdit.Page IsNot Nothing Then
 
             Dim NewMovePageForm As New MoveForm
-            NewMovePageForm.ThisPage = CurrentEdit.Page
+            NewMovePageForm.Page = CurrentEdit.Page
 
             If NewMovePageForm.ShowDialog = DialogResult.OK Then
                 Dim NewMoveRequest As New MoveRequest
@@ -844,14 +846,14 @@ Class Main
 
     Private Sub WatchPage_Click() Handles PageWatch.Click, PageWatchB.Click
         If CurrentEdit IsNot Nothing AndAlso CurrentEdit.Page IsNot Nothing Then
-            If Watchlist.Contains(SubjectPage(CurrentEdit.Page)) Then
+            If Watchlist.Contains(CurrentEdit.Page.SubjectPage) Then
                 Dim NewRequest As New UnwatchRequest
-                NewRequest.Page = SubjectPage(CurrentEdit.Page)
+                NewRequest.Page = CurrentEdit.Page.SubjectPage
                 NewRequest.Manual = True
                 NewRequest.Start()
             Else
                 Dim NewRequest As New WatchRequest
-                NewRequest.Page = SubjectPage(CurrentEdit.Page)
+                NewRequest.Page = CurrentEdit.Page.SubjectPage
                 NewRequest.Manual = True
                 NewRequest.Start()
             End If
@@ -1575,7 +1577,7 @@ Class Main
                 NewQueueForm.ShowDialog()
 
             Case Else
-                CurrentQueue = EditQueues(QueueSelector.SelectedItem.ToString)
+                CurrentQueue = AllQueues(QueueSelector.SelectedItem.ToString)
                 If Not CurrentQueue.Initialised Then CurrentQueue.Initialise()
         End Select
 
@@ -1656,14 +1658,14 @@ Class Main
         'Clear various things
         AllEditsById.Clear()
         AllEdits.Items.Clear()
-        AllPages.Clear()
+        Page.ClearAll()
         AllRequests.Clear()
         AllUsers.Clear()
         FilteredEdits.Items.Clear()
         NewPages.Items.Clear()
         PendingRequests.Clear()
         PendingWarnings.Clear()
-        EditQueues.Clear()
+        AllQueues.Clear()
         Undo.Clear()
         Watchlist.Clear()
         Whitelist.Clear()
@@ -1683,13 +1685,9 @@ Class Main
     End Sub
 
     Private Sub PageSwitchTalk_Click() Handles PageSwitchTalk.Click
-        If CurrentPage IsNot Nothing Then
-            If SubjectPage(CurrentPage) Is CurrentPage Then
-                SetCurrentPage(GetPage(TalkPageName(CurrentPage.Name)), True)
-            Else
-                SetCurrentPage(SubjectPage(CurrentPage), True)
-            End If
-        End If
+        If CurrentPage IsNot Nothing Then If CurrentPage.IsTalkPage _
+            Then SetCurrentPage(CurrentPage.TalkPage, True) _
+            Else SetCurrentPage(CurrentPage.SubjectPage, True)
     End Sub
 
 End Class

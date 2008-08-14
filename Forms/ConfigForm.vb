@@ -20,12 +20,6 @@ Class ConfigForm
         ShowAnonymous.Checked = Config.ShowAnonymous
         ShowRegistered.Checked = Config.ShowRegistered
         LogFile.Text = Config.LogFile
-
-        For i As Integer = 0 To Namespaces.Items.Count - 1
-            If Config.NamespacesChecked.Contains(CStr(Namespaces.Items(i)).ToLower) _
-                Then Namespaces.SetItemChecked(i, True)
-        Next i
-
         ShowNewPages.Checked = Config.ShowNewPages
         QueueMaxAge.Value = Config.QueueMaxAge
 
@@ -131,13 +125,6 @@ Class ConfigForm
             Config.ShowAnonymous = ShowAnonymous.Checked
             Config.ShowRegistered = ShowRegistered.Checked
             Config.LogFile = LogFile.Text
-
-            Config.NamespacesChecked.Clear()
-
-            For i As Integer = 0 To Namespaces.CheckedItems.Count - 1
-                Config.NamespacesChecked.Add(Namespaces.CheckedItems(i).ToString.ToLower)
-            Next i
-
             Config.ShowNewPages = ShowNewPages.Checked
             Config.QueueMaxAge = CInt(QueueMaxAge.Value)
 

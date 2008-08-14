@@ -10,7 +10,7 @@ Module Misc
     Public Administrator As Boolean
     Public AllEditsById As New Dictionary(Of String, Edit)
     Public AllEdits As New Queue
-    Public AllPages As New Dictionary(Of String, Page)
+    Public AllQueues As New Dictionary(Of String, Queue)
     Public AllRequests As New List(Of Request)
     Public AllUsers As New Dictionary(Of String, User)
     Public ContribsOffset As Integer
@@ -30,7 +30,6 @@ Module Misc
     Public NullEdit As New Edit
     Public PendingRequests As New List(Of Request)
     Public PendingWarnings As New List(Of Edit)
-    Public EditQueues As New Dictionary(Of String, Queue)
     Public RollbackAvailable As Boolean
     Public SpeedyCriteria As New Dictionary(Of String, SpeedyCriterion)
     Public StartTime As Date
@@ -44,85 +43,6 @@ Module Misc
     Public WhitelistManualChanges As New List(Of String)
 
     Public Delegate Sub CallbackDelegate(ByVal Success As Boolean)
-
-    Class Queue
-
-        'Represents a queue of edits
-
-        Public Pages As New List(Of String)
-        Public Items As New List(Of Edit)
-        Public Type As Types
-        Public Initialised As Boolean
-
-        Public ArticlesOnly As Boolean
-        Public FilterNewPage As CheckState
-        Public PageRegex, UserRegex As Regex
-
-        Public Enum Types As Integer
-            : FixedList : LiveList : Live
-        End Enum
-
-        Public Shared Operator =(ByVal a As Queue, ByVal b As Queue) As Boolean
-            Return (a Is b)
-        End Operator
-
-        Public Shared Operator <>(ByVal a As Queue, ByVal b As Queue) As Boolean
-            Return (a IsNot b)
-        End Operator
-
-        Public Sub Initialise()
-            Items.Clear()
-
-            If Type = Types.FixedList Then
-                For Each Item As String In Pages
-                    Dim Page As Page = GetPage(Item)
-
-                    If Page.LastEdit IsNot Nothing Then
-                        CurrentQueue.Items.Add(Page.LastEdit)
-                    Else
-                        Dim NewEdit As New Edit
-                        NewEdit.Page = Page
-                        NewEdit.Id = "cur"
-                        NewEdit.Oldid = "prev"
-                        CurrentQueue.Items.Add(NewEdit)
-                    End If
-                Next Item
-            End If
-
-            Initialised = True
-        End Sub
-
-        Public Function MatchesFilter(ByVal PageName As String) As Boolean
-            'Determines whether a page name matches this queue's filter
-            Dim Page As Page = GetPage(PageName)
-
-            If Page.Namespace <> "" AndAlso ArticlesOnly = True Then Return False
-            If PageRegex IsNot Nothing AndAlso Not PageRegex.IsMatch(Page.Name) Then Return False
-
-            Return True
-        End Function
-
-        Public Function MatchesFilter(ByVal Edit As Edit) As Boolean
-            'Determines whether an edit matches this queue's filter
-            If Type = Types.FixedList Then Return False
-            If Type = Types.LiveList AndAlso Not Pages.Contains(Edit.Page.Name) Then Return False
-            If ArticlesOnly AndAlso Edit.Page.Namespace <> "" Then Return False
-            If PageRegex IsNot Nothing AndAlso Not PageRegex.IsMatch(Edit.Page.Name) Then Return False
-            If UserRegex IsNot Nothing AndAlso Not UserRegex.IsMatch(Edit.User.Name) Then Return False
-
-            Return CSMatch(FilterNewPage, Edit.NewPage)
-        End Function
-
-        Private Function CSMatch(ByVal Filter As CheckState, ByVal Value As Boolean) As Boolean
-            'Helper function for above
-            Select Case Filter
-                Case CheckState.Indeterminate : Return True
-                Case CheckState.Checked : Return Value
-                Case CheckState.Unchecked : Return Not Value
-            End Select
-        End Function
-
-    End Class
 
     Class Command
         Public Description As String
@@ -193,49 +113,6 @@ Module Misc
         "sharedip us military", _
         "ipedu", _
         "aberwebcacheipaddress" _
-    }
-
-    Public Namespaces() As String = _
-    { _
-        "Talk", _
-        "Wikipedia", _
-        "Wikipedia talk", _
-        "Category", _
-        "Category talk", _
-        "Template", _
-        "Template talk", _
-        "Image", _
-        "Image talk", _
-        "User", _
-        "User talk", _
-        "Portal", _
-        "Portal talk", _
-        "Help", _
-        "Help talk", _
-        "MediaWiki", _
-        "MediaWiki talk" _
-    }
-
-    Public ConfigNamespaces() As String = _
-    { _
-        "article", _
-        "talk", _
-        "wikipedia", _
-        "wikipedia talk", _
-        "category", _
-        "category talk", _
-        "template", _
-        "template talk", _
-        "image", _
-        "image talk", _
-        "user", _
-        "user talk", _
-        "portal", _
-        "portal talk", _
-        "help", _
-        "help talk", _
-        "mediawiki", _
-        "mediawiki talk" _
     }
 
     Class CacheData
@@ -354,32 +231,8 @@ Module Misc
         Blocked = 12
     End Enum
 
-    <DebuggerStepThrough()> Function GetPage(ByVal PageName As String) As Page
-        If PageName = "" Then Return Nothing
-        PageName = PageName.Replace("_", " ").Trim(" "c)
-        If PageName.Contains("#") Then PageName = PageName.Substring(0, PageName.IndexOf("#"))
-        If PageName.Length > 1 Then PageName = PageName.Substring(0, 1).ToUpper & PageName.Substring(1) _
-            Else PageName = PageName.ToUpper
-
-        If AllPages.ContainsKey(PageName) Then
-            Return AllPages(PageName)
-        Else
-            Dim NewPage As New Page
-            NewPage.Name = PageName
-
-            For Each Item As String In Config.IgnoredPages
-                If Item = PageName OrElse Item = TalkPageName(PageName) Then NewPage.Level = Page.Levels.Ignore
-            Next Item
-
-            NewPage.Namespace = ""
-
-            For Each Item As String In Namespaces
-                If NewPage.Name.StartsWith(Item & ":") Then NewPage.Namespace = Item
-            Next Item
-
-            AllPages.Add(PageName, NewPage)
-            Return NewPage
-        End If
+    <DebuggerStepThrough()> Function GetPage(ByVal Name As String) As Page
+        Return Page.GetPage(Name)
     End Function
 
     <DebuggerStepThrough()> Function GetUser(ByVal UserName As String) As User
@@ -434,56 +287,6 @@ Module Misc
         'Unfortunately there is no one element common to all skins
         If Text Is Nothing Then Return False
         Return Regex.Match(Text, "<div id=['""](mw[-_])?content['""]>").Success
-    End Function
-
-    <DebuggerStepThrough()> Function TalkPageName(ByVal PageName As String) As String
-        Dim PageNamespace As String = ""
-
-        For Each Item As String In Namespaces
-            If PageName.StartsWith(Item & ":") Then PageNamespace = Item
-        Next Item
-
-        If PageNamespace = "" Then
-            Return "Talk:" & PageName
-
-        ElseIf Not PageNamespace.Contains(" talk") AndAlso Not PageNamespace = "Talk" Then
-            Return PageNamespace & " talk" & PageName.Substring(PageName.IndexOf(":"))
-
-        Else
-            Return PageName
-        End If
-    End Function
-
-    <DebuggerStepThrough()> Function SubjectPageName(ByVal PageName As String) As String
-        Dim PageNamespace As String = ""
-
-        For Each Item As String In Namespaces
-            If PageName.StartsWith(Item & ":") Then PageNamespace = Item
-        Next Item
-
-        If PageNamespace = "Talk" AndAlso PageName.Contains(":") Then
-            Return PageName.Substring(PageName.IndexOf(":") + 1)
-
-        ElseIf PageNamespace.Contains(" talk") AndAlso PageName.Contains(":") Then
-            Return PageNamespace.Substring(0, PageNamespace.Length - 5) & _
-                PageName.Substring(PageName.IndexOf(":"))
-
-        Else
-            Return PageName
-        End If
-    End Function
-
-    <DebuggerStepThrough()> Function SubjectPage(ByVal Page As Page) As Page
-        If Page.Namespace = "Talk" AndAlso Page.Name.Contains(":") Then
-            Return GetPage(Page.Name.Substring(Page.Name.IndexOf(":") + 1))
-
-        ElseIf Page.Namespace.Contains(" talk") AndAlso Page.Name.Contains(":") Then
-            Return GetPage(Page.Namespace.Substring(0, Page.Namespace.Length - 5) & _
-                Page.Name.Substring(Page.Name.IndexOf(":")))
-
-        Else
-            Return Page
-        End If
     End Function
 
     <DebuggerStepThrough()> Function GetMonthName(ByVal Number As Integer) As String
@@ -690,6 +493,12 @@ Module Misc
 
     Function CompareUsernames(ByVal a As String, ByVal b As String) As Integer
         Return String.Compare(a, b, StringComparison.OrdinalIgnoreCase)
+    End Function
+
+    Function LocalConfigPath() As String
+        Dim Path As String = Application.UserAppDataPath
+        Path = Path.Substring(0, Path.LastIndexOf("\"))
+        Return Path.Substring(0, Path.LastIndexOf("\"))
     End Function
 
     Class Stats

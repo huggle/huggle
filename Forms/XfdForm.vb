@@ -5,11 +5,11 @@ Class XfdForm
     Private Sub XfdForm_Load() Handles Me.Load
         Icon = My.Resources.icon_red_button
         Text = "Nominate '" & Page.Name & "' for deletion"
-        Category.Visible = (Page.Namespace = "")
-        CategoryLabel.Visible = (Page.Namespace = "")
+        Category.Visible = Page.IsArticle
+        CategoryLabel.Visible = Page.IsArticle
         If Category.Visible Then Category.SelectedIndex = 0
 
-        Select Case Page.Namespace
+        Select Case Page.Space.Name
             Case "" : NominationType.Text = "Article"
             Case "Category" : NominationType.Text = "Category"
             Case "Template" : NominationType.Text = "Template"
@@ -34,7 +34,7 @@ Class XfdForm
     End Sub
 
     Private Sub OK_Click() Handles OK.Click
-        Select Case Page.Namespace
+        Select Case Page.Space.Name
             Case ""
                 Dim NewRequest As New AfdRequest
                 NewRequest.Category = Category.Text.Substring(0, 1).Replace("(", "?")

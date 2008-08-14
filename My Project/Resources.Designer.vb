@@ -466,6 +466,27 @@ Namespace My.Resources
             End Get
         End Property
         
+        Friend ReadOnly Property tri_no() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("tri_no", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property tri_none() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("tri_none", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property tri_yes() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("tri_yes", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
         Friend ReadOnly Property undo() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("undo", resourceCulture)

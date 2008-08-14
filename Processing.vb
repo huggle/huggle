@@ -64,7 +64,7 @@ Module Processing
                 AndAlso Edit.User.Level = UserL.None Then Edit.User.Level = UserL.Reverted
 
             'Warnings / block notifications
-            If Edit.Page.Namespace = "User talk" AndAlso Not Edit.Page.Name.Contains("/") Then
+            If Edit.Page.Space.Name = "User talk" AndAlso Not Edit.Page.Name.Contains("/") Then
                 Dim PageOwner As User = GetUser(Edit.Page.Name.Substring(10))
                 Dim SummaryLevel As UserL = GetUserLevelFromSummary(Edit)
 
@@ -260,8 +260,7 @@ Module Processing
         AllEdits.Items.Insert(0, Edit)
 
         'Add new pages to new pages queue
-        If Edit.NewPage AndAlso ((Edit.Page.Namespace = "" AndAlso Config.NamespacesChecked.Contains("article")) _
-            OrElse (Config.NamespacesChecked.Contains(Edit.Page.Namespace.ToLower))) Then NewPages.Items.Insert(0, Edit)
+        If Edit.NewPage Then NewPages.Items.Insert(0, Edit)
 
         'Remove old edits from filtered edits queue
         Dim j As Integer = 0
@@ -286,20 +285,16 @@ Module Processing
             AndAlso Edit.Type >= Edit.Types.None _
             AndAlso Not Math.Abs(Edit.Size) > 100000 Then
 
-            If (Edit.Page.Namespace = "" AndAlso Config.NamespacesChecked.Contains("article")) _
-                OrElse (Config.NamespacesChecked.Contains(Edit.Page.Namespace.ToLower)) Then
-
-                FilteredEdits.Items.Add(Edit)
-                Edit.Added = True
-                MainForm.DiffNextB.Enabled = True
-                If CurrentEdit Is Nothing Then DisplayEdit(Edit)
-                If FilteredEdits.Items.Count > 5000 Then FilteredEdits.Items.RemoveAt(5000)
-                Redraw = True
-            End If
+            FilteredEdits.Items.Add(Edit)
+            Edit.Added = True
+            MainForm.DiffNextB.Enabled = True
+            If CurrentEdit Is Nothing Then DisplayEdit(Edit)
+            If FilteredEdits.Items.Count > 5000 Then FilteredEdits.Items.RemoveAt(5000)
+            Redraw = True
         End If
 
         'Add edit to other queues
-        For Each Queue As Queue In EditQueues.Values
+        For Each Queue As Queue In AllQueues.Values
             If Queue.MatchesFilter(Edit) Then Queue.Items.Add(Edit)
         Next Queue
 
@@ -390,7 +385,7 @@ Module Processing
         End If
 
         'Warnings
-        If Edit.Page.Namespace = "User talk" AndAlso Not Edit.Page.Name.Contains("/") Then
+        If Edit.Page.Space Is Space.UserTalk AndAlso Not Edit.Page.Name.Contains("/") Then
             Dim PageOwner As User = GetUser(Edit.Page.Name.Substring(10))
             Dim WarningLevel As UserL = GetUserLevelFromSummary(Edit)
 
@@ -498,7 +493,7 @@ Module Processing
     Sub UserDeleteRequest(ByVal Page As Page)
         If Administrator Then
             Dim NewDeleteForm As New DeleteForm
-            NewDeleteForm.ThisPage = Page
+            NewDeleteForm.Page = Page
             NewDeleteForm.Reason.Text = Config.SpeedySummary.Replace("$1", "[[WP:SD#G7|requested by page creator]]")
             NewDeleteForm.ShowDialog()
         Else
@@ -536,7 +531,7 @@ Module Processing
 
         'If reverting first edit to user talk page, blank it
         If Edit.Page.FirstEdit IsNot Nothing AndAlso Edit.Id = Edit.Page.FirstEdit.Id _
-            AndAlso Edit.Page.Namespace = "User talk" Then
+            AndAlso Edit.Page.Space Is Space.UserTalk Then
 
             Dim NewEditRequest As New EditRequest
             NewEditRequest.Text = ""
@@ -715,18 +710,19 @@ Module Processing
     End Sub
 
     Sub ProcessPageMove(ByVal PageMoveObject As Object)
-        Dim ThisPageMove As PageMove = CType(PageMoveObject, PageMove)
+        Dim PageMove As PageMove = CType(PageMoveObject, PageMove)
 
-        GetPage(ThisPageMove.Source).Name = ThisPageMove.Destination
+        GetPage(PageMove.Source).MovedTo(PageMove.Destination)
 
+        'Page move leaves a redirect behind
         Dim RedirectEdit As New Edit
 
         RedirectEdit.Type = Edit.Types.Redirect
-        RedirectEdit.User = ThisPageMove.User
+        RedirectEdit.User = PageMove.User
         RedirectEdit.Prev = NullEdit
 
-        GetPage(ThisPageMove.Source).FirstEdit = RedirectEdit
-        GetPage(ThisPageMove.Source).LastEdit = RedirectEdit
+        GetPage(PageMove.Source).FirstEdit = RedirectEdit
+        GetPage(PageMove.Source).LastEdit = RedirectEdit
     End Sub
 
     Sub ProcessProtection(ByVal ProtectionObject As Object)
@@ -1288,7 +1284,7 @@ Module Processing
             OrElse Summary.Contains(":prod") OrElse Summary.Contains("prod2") _
             OrElse Summary.Contains("prod-") OrElse Summary.Contains("prod:") _
             OrElse (Summary.Contains("prodding for deletion") OrElse Summary.Contains("proposed deletion") _
-            OrElse Summary.Contains("proposed for deletion")) AndAlso ThisEdit.Page.Namespace = "" Then Return True
+            OrElse Summary.Contains("proposed for deletion")) AndAlso ThisEdit.Page.IsArticle Then Return True
 
         If Summary.Contains("db-") OrElse Summary = "db" Then Return True
 
@@ -1302,7 +1298,7 @@ Module Processing
 
         If (Summary = "afd" OrElse Summary.Contains(":afd") OrElse Summary.Contains("{afd") _
             OrElse Summary.Contains("afd}") OrElse Summary.StartsWith("afd ")) _
-            AndAlso ThisEdit.Page.Namespace = "" AndAlso ThisEdit.Size > 0 Then Return True
+            AndAlso ThisEdit.Page.IsArticle AndAlso ThisEdit.Size > 0 Then Return True
 
         Return False
     End Function

@@ -51,7 +51,7 @@ Namespace Requests
 
         Private Sub Done()
             If Config.WatchReverts Then
-                If Not Watchlist.Contains(SubjectPage(Edit.Page)) Then Watchlist.Add(SubjectPage(Edit.Page))
+                If Not Watchlist.Contains(Edit.Page.SubjectPage) Then Watchlist.Add(Edit.Page.SubjectPage)
                 MainForm.UpdateWatchButton()
             End If
 
@@ -228,7 +228,7 @@ Namespace Requests
         End Sub
 
         Sub Done()
-            If Config.WatchReverts AndAlso Not Watchlist.Contains(SubjectPage(Edit.Page)) Then
+            If Config.WatchReverts AndAlso Not Watchlist.Contains(Edit.Page.SubjectPage) Then
                 Dim NewWatchPageRequest As New WatchRequest
                 NewWatchPageRequest.Page = Edit.Page
                 NewWatchPageRequest.Start()

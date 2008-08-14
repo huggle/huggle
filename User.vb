@@ -44,17 +44,12 @@ Class User
                             AndAlso ThisEdit.Type >= Edit.Types.None _
                             AndAlso Not Math.Abs(ThisEdit.Size) > 100000 Then
 
-                            Dim LCSpace As String = ThisEdit.Page.Namespace.ToLower
-                            If LCSpace = "" Then LCSpace = "article"
-
-                            If Config.NamespacesChecked.Contains(LCSpace) Then
-                                FilteredEdits.Items.Add(ThisEdit)
-                                ThisEdit.Added = True
-                                MainForm.DiffNextB.Enabled = True
-                                If FilteredEdits.Items.Count > 5000 Then FilteredEdits.Items.RemoveAt(5000)
-                                Redraw = True
-                                Sort = True
-                            End If
+                            FilteredEdits.Items.Add(ThisEdit)
+                            ThisEdit.Added = True
+                            MainForm.DiffNextB.Enabled = True
+                            If FilteredEdits.Items.Count > 5000 Then FilteredEdits.Items.RemoveAt(5000)
+                            Redraw = True
+                            Sort = True
                         End If
                     End If
 

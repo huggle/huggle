@@ -35,9 +35,9 @@
 
     Private Sub TriState_Paint(ByVal s As Object, ByVal e As PaintEventArgs) Handles Me.Paint
         Select Case State
-            Case CheckState.Indeterminate : e.Graphics.DrawImage(My.Resources.blob_none, 0, 0)
-            Case CheckState.Checked : e.Graphics.DrawImage(My.Resources.blob_ignored, 0, 0)
-            Case CheckState.Unchecked : e.Graphics.DrawImage(My.Resources.blob_blanked, 0, 0)
+            Case CheckState.Indeterminate : e.Graphics.DrawImage(My.Resources.tri_none, 0, 0)
+            Case CheckState.Checked : e.Graphics.DrawImage(My.Resources.tri_yes, 0, 0)
+            Case CheckState.Unchecked : e.Graphics.DrawImage(My.Resources.tri_no, 0, 0)
         End Select
     End Sub
 

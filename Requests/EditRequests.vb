@@ -99,7 +99,7 @@ Namespace Requests
 
         Private Sub Done()
             If Config.WatchTags Then
-                If Not Watchlist.Contains(SubjectPage(Page)) Then Watchlist.Add(SubjectPage(Page))
+                If Not Watchlist.Contains(Page.SubjectPage) Then Watchlist.Add(Page.SubjectPage)
                 MainForm.UpdateWatchButton()
             End If
 
@@ -180,7 +180,7 @@ Namespace Requests
 
         Private Sub Done()
             If Config.WatchTags Then
-                If Not Watchlist.Contains(SubjectPage(Page)) Then Watchlist.Add(SubjectPage(Page))
+                If Not Watchlist.Contains(Page.SubjectPage) Then Watchlist.Add(Page.SubjectPage)
                 MainForm.UpdateWatchButton()
             End If
 
@@ -267,14 +267,14 @@ Namespace Requests
 
             Dim Header As String
 
-            If Page.Namespace.ToLower = "talk" Then
+            If Page.IsArticleTalkPage Then
                 Header = "===={{lat|" & Page.Name & "}}====" & vbLf
-            ElseIf Page.Namespace.ToLower.EndsWith("talk") Then
-                Header = "===={{lnt|" & Page.Namespace & "|" & Page.Name & "}}====" & vbLf
-            ElseIf Page.Namespace = "" Then
+            ElseIf Page.IsTalkPage Then
+                Header = "===={{lnt|" & Page.Space.Name & "|" & Page.Name & "}}====" & vbLf
+            ElseIf Page.IsArticle Then
                 Header = "===={{la|" & Page.Name & "}}====" & vbLf
             Else
-                Header = "===={{ln|" & Page.Namespace & "|" & Page.Name & "}}====" & vbLf
+                Header = "===={{ln|" & Page.Space.Name & "|" & Page.Name & "}}====" & vbLf
             End If
 
             Select Case Type

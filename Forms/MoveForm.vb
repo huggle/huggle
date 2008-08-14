@@ -2,16 +2,13 @@ Imports System.Text.RegularExpressions
 
 Class MoveForm
 
-    Public ThisPage As Page
+    Public Page As Page
 
     Private Sub MoveForm_Load() Handles Me.Load
         Icon = My.Resources.icon_red_button
-        Text = "Move " & ThisPage.Name
-        Target.Text = ThisPage.Name
-
-        'If the page namespace doesnt contain the word talk then display the MoveTalk also tickbox
-        MoveTalk.Visible = Not Regex.Match(ThisPage.Namespace, "talk", RegexOptions.IgnoreCase).Success
-
+        Text = "Move " & Page.Name
+        Target.Text = Page.Name
+        MoveTalk.Visible = Page.IsTalkPage
     End Sub
 
     Private Sub OK_Click() Handles OK.Click

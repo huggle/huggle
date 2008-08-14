@@ -8,12 +8,12 @@ Class QueueForm
 
     Private ReadOnly Property CurrentQueue() As Queue
         Get
-            If QueueList.SelectedIndex = -1 OrElse Not EditQueues.ContainsKey(QueueList.SelectedItem.ToString) _
-                Then Return Nothing Else Return EditQueues(QueueList.SelectedItem.ToString)
+            If QueueList.SelectedIndex = -1 OrElse Not AllQueues.ContainsKey(QueueList.SelectedItem.ToString) _
+                Then Return Nothing Else Return AllQueues(QueueList.SelectedItem.ToString)
         End Get
     End Property
 
-    Private Sub QueueForm_Load() Handles MyBase.Load
+    Private Sub QueueForm_Load() Handles Me.Load
         Icon = My.Resources.icon_red_button
         Tip.Active = Config.ShowToolTips
 
@@ -23,11 +23,15 @@ Class QueueForm
 
         QueueList.BeginUpdate()
 
-        For Each Item As String In EditQueues.Keys
+        For Each Item As String In AllQueues.Keys
             QueueList.Items.Add(Item)
         Next Item
 
         QueueList.EndUpdate()
+
+        For Each Item As Space In Space.All
+            Namespaces.Items.Add(Item)
+        Next Item
 
         Limit.Maximum = ApiLimit() * QueueBuilderLimit
         Limit.Value = Math.Min(1000, Limit.Maximum)
@@ -46,15 +50,16 @@ Class QueueForm
     End Sub
 
     Private Sub AddQueue_Click() Handles AddQueue.Click
-        Dim i As Integer = EditQueues.Count + 1
+        Dim i As Integer = AllQueues.Count + 1
 
-        While EditQueues.ContainsKey("Queue" & CStr(i))
+        While AllQueues.ContainsKey("Queue" & CStr(i))
             i += 1
         End While
 
         Dim Name As String = "Queue" & CStr(i)
 
-        EditQueues.Add(Name, New Queue)
+        Dim NewQueue As New Queue
+        NewQueue.Spaces.Add(Space.Article)
         QueueList.Items.Add(Name)
         QueueList.SelectedItem = Name
         MainForm.SetQueueSelector()
@@ -66,10 +71,6 @@ Class QueueForm
         While i < CurrentQueue.Pages.Count
             If CurrentQueue.MatchesFilter(CurrentQueue.Pages(i)) Then i += 1 Else CurrentQueue.Pages.RemoveAt(i)
         End While
-    End Sub
-
-    Private Sub ArticlesOnly_CheckedChanged() Handles ArticlesOnly.CheckedChanged
-        CurrentQueue.ArticlesOnly = ArticlesOnly.Checked
     End Sub
 
     Private Sub Browse_Click() Handles Browse.Click
@@ -102,16 +103,16 @@ Class QueueForm
     End Sub
 
     Private Sub Copy_Click() Handles Copy.Click
-        Dim NewName As String = InputBox("Copy to:", "huggle", "Queue" & CStr(EditQueues.Count + 1))
+        Dim NewName As String = InputBox("Copy to:", "huggle", "Queue" & CStr(AllQueues.Count + 1))
 
         If NewName.Length > 0 Then
-            If EditQueues.ContainsKey(NewName) Then
+            If AllQueues.ContainsKey(NewName) Then
                 MsgBox("A queue with the name '" & NewName & "' already exists. Choose another name.", _
                     MsgBoxStyle.Exclamation, "huggle")
             Else
                 Dim NewQueue As New Queue
                 NewQueue.Pages.AddRange(CurrentQueue.Pages)
-                EditQueues.Add(NewName, NewQueue)
+                AllQueues.Add(NewName, NewQueue)
                 QueueList.Items.Add(NewName)
                 QueueList.SelectedItem = NewName
                 MainForm.SetQueueSelector()
@@ -137,11 +138,20 @@ Class QueueForm
         CurrentQueue.FilterNewPage = FilterNewPage.State
     End Sub
 
-
     Private Sub Intersect_Click() Handles Intersect.Click
         Mode = "intersect"
         Cancel.Location = Intersect.Location
         SelectList()
+    End Sub
+
+    Private Sub Namespaces_ItemCheck(ByVal s As Object, ByVal e As ItemCheckEventArgs) Handles Namespaces.ItemCheck
+        If e.NewValue = CheckState.Checked Then
+            If Not CurrentQueue.Spaces.Contains(CType(Namespaces.Items(e.Index), Space)) _
+                Then CurrentQueue.Spaces.Add(CType(Namespaces.Items(e.Index), Space))
+        Else
+            If CurrentQueue.Spaces.Contains(CType(Namespaces.Items(e.Index), Space)) _
+                Then CurrentQueue.Spaces.Remove(CType(Namespaces.Items(e.Index), Space))
+        End If
     End Sub
 
     Private Sub OpenPageInBrowser() Handles QueuePages.DoubleClick, QueueMenuView.Click
@@ -161,11 +171,11 @@ Class QueueForm
         End Try
     End Sub
 
-    Private Sub QueuePages_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs)
+    Private Sub QueuePages_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles QueuePages.KeyDown
         If e.KeyCode = Keys.Delete AndAlso QueuePages.SelectedIndex > -1 Then RemovePage()
     End Sub
 
-    Private Sub QueuePages_MouseDown(ByVal s As Object, ByVal e As MouseEventArgs)
+    Private Sub QueuePages_MouseDown(ByVal s As Object, ByVal e As MouseEventArgs) Handles QueuePages.MouseDown
         QueuePages.SelectedIndex = QueuePages.IndexFromPoint(e.Location)
     End Sub
 
@@ -190,6 +200,11 @@ Class QueueForm
                 Case Queue.Types.LiveList : LiveList.Checked = True
                 Case Queue.Types.Live : Live.Checked = True
             End Select
+
+            For i As Integer = 0 To Namespaces.Items.Count - 1
+                Namespaces.SetItemChecked(i, CurrentQueue.Spaces.Count = 0 _
+                    OrElse CurrentQueue.Spaces.Contains(CType(Namespaces.Items(i), Space)))
+            Next i
         End If
 
         Progress.Text = ""
@@ -212,7 +227,7 @@ Class QueueForm
     Private Sub RemoveQueue_Click() Handles RemoveQueue.Click
         If QueueList.SelectedIndex > -1 Then
             Dim Index As Integer = QueueList.SelectedIndex
-            EditQueues.Remove(QueueList.SelectedItem.ToString)
+            AllQueues.Remove(QueueList.SelectedItem.ToString)
             If Index > 0 Then QueueList.SelectedIndex -= 1
 
             QueueList.Items.RemoveAt(Index)
@@ -226,14 +241,14 @@ Class QueueForm
         Dim NewName As String = InputBox("Enter new name:", "huggle", OldName)
 
         If NewName.Length > 0 AndAlso NewName <> OldName Then
-            If EditQueues.ContainsKey(NewName) Then
+            If AllQueues.ContainsKey(NewName) Then
                 MsgBox("A queue with the name '" & NewName & "' already exists. Choose another name.", _
                     MsgBoxStyle.Exclamation, "huggle")
             Else
                 Dim NewEditQueue As New Queue
-                NewEditQueue.Pages.AddRange(EditQueues(OldName).Pages)
-                EditQueues.Remove(OldName)
-                EditQueues.Add(NewName, NewEditQueue)
+                NewEditQueue.Pages.AddRange(AllQueues(OldName).Pages)
+                AllQueues.Remove(OldName)
+                AllQueues.Add(NewName, NewEditQueue)
                 QueueList.Items(QueueList.SelectedIndex) = NewName
                 MainForm.SetQueueSelector()
             End If
@@ -266,7 +281,7 @@ Class QueueForm
         CurrentQueue.Initialised = False
     End Sub
 
-    Private Sub Source_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs)
+    Private Sub Source_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles Source.KeyDown
         If e.KeyCode = Keys.Enter AndAlso Source.Text <> "" Then
             Combine_Click()
             If SourceType.Text = "Manually add pages" Then Source.Clear()
@@ -312,11 +327,6 @@ Class QueueForm
         End If
 
         RefreshInterface()
-    End Sub
-
-    Private Sub Tabs_DrawItem(ByVal s As Object, ByVal e As DrawItemEventArgs) Handles Tabs.DrawItem
-        e.Graphics.DrawString(Tabs.TabPages(e.Index).Name, Tabs.Font, _
-            New Pen(Color.FromKnownColor(KnownColor.WindowText)).Brush, 1, 1)
     End Sub
 
     Private Sub UserRegex_Leave() Handles UserRegex.Leave
@@ -394,7 +404,7 @@ Class QueueForm
             Case "Backlinks" : GetList(New BacklinksRequest(Source.Text))
             Case "Category" : GetList(New CategoryRequest(Source.Text.Replace("Category:", "")))
             Case "Category (recursive)" : GetList(New RecursiveCategoryRequest(Source.Text.Replace("Category:", "")))
-            Case "Existing queue" : GotList(EditQueues(QueueSelector.Text).Pages)
+            Case "Existing queue" : GotList(AllQueues(QueueSelector.Text).Pages)
             Case "External link uses" : GetList(New ExternalLinkUsageRequest(Source.Text.Replace("http://", "")))
             Case "File" : GotList(GetFile(Source.Text))
             Case "Image uses" : GetList(New ImageUsageRequest(Source.Text.Replace("Image:", "")))
@@ -435,20 +445,18 @@ Class QueueForm
         RefreshInterface()
     End Sub
 
-    Private Sub GotList(ByVal Items As List(Of String))
-        If Items Is Nothing Then
+    Private Sub GotList(ByVal Titles As List(Of String))
+        If Titles Is Nothing Then
             Progress.Text = "Query failed."
             Exit Sub
         End If
 
         Dim ValidItems As New List(Of String)
 
-        For Each Item As String In Items
-            Item = StripIllegalCharacters(Item)
-            If Item.Length = 1 Then Item = Item.ToUpper
-            If Item.Length >= 1 Then Item = Item.Substring(0, 1).ToUpper & Item.Substring(1)
-            If Item.Length > 0 AndAlso Not ValidItems.Contains(Item) Then ValidItems.Add(Item)
-        Next Item
+        For Each Title As String In Titles
+            Title = Page.SanitizeTitle(Title)
+            If Title IsNot Nothing Then ValidItems.Add(Title)
+        Next Title
 
         If ValidItems.Count = 0 Then
             Progress.Text = "Query returned no results."
@@ -517,24 +525,19 @@ Class QueueForm
     End Sub
 
     Private Function GetFile(ByVal FileName As String) As List(Of String)
-        Dim Items As New List(Of String)
+        Dim Titles As New List(Of String)
 
         If File.Exists(FileName) Then
-            For Each Item As String In File.ReadAllLines(FileName)
-                If Item.StartsWith("*[[") OrElse Item.StartsWith("* [[") Then Item = Item.Substring(1)
-                Item = StripIllegalCharacters(Item)
-                If Item.Length > 0 Then Items.Add(Item)
-            Next Item
+            For Each Title As String In File.ReadAllLines(FileName)
+                If Title.StartsWith("*[[") OrElse Title.StartsWith("* [[") Then Title = Title.Substring(1)
+                Title = Page.SanitizeTitle(Title)
+                If Title.Length > 0 Then Titles.Add(Title)
+            Next Title
 
-            Return Items
+            Return Titles
         Else
             Return Nothing
         End If
-    End Function
-
-    Private Function StripIllegalCharacters(ByVal Text As String) As String
-        Return Text.Replace("[", "").Replace("]", "").Replace("{", "").Replace("}", "").Replace("|", "") _
-            .Replace("<", "").Replace(">", "").Replace("#", "").Replace(CChar(vbTab), "").Replace("_", " ").Trim(" "c)
     End Function
 
 End Class

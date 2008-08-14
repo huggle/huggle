@@ -445,10 +445,6 @@ Namespace Requests
 
         Protected Function PostEdit(ByVal Data As EditData) As EditData
 
-            'Special pages don't work in post requests
-            Data.Page.Name = Data.Page.Name.Replace("Special:Mypage", "User:" & Config.Username) _
-                .Replace("Special:Mytalk", "User talk:" & Config.Username)
-
             Dim Client As New WebClient, Retries As Integer = 3, Result As String = ""
 
             Dim PostString As String = "wpTextbox1=" & UrlEncode(Data.Text) _
@@ -458,7 +454,7 @@ Namespace Requests
             If Not Data.NoAutoSummary Then PostString &= UrlEncode(" " & Config.Summary)
             If Data.Section IsNot Nothing Then PostString &= "&section=" & UrlEncode(Data.Section)
             If Data.Minor Then PostString &= "&wpMinoredit=0"
-            If Data.Watch OrElse Watchlist.Contains(SubjectPage(Data.Page)) Then PostString &= "&wpWatchthis=0"
+            If Data.Watch OrElse Watchlist.Contains(Data.Page.SubjectPage) Then PostString &= "&wpWatchthis=0"
 
             If Data.CaptchaId IsNot Nothing Then PostString &= "&wpCaptchaId=" & UrlEncode(Data.CaptchaId)
             If Data.CaptchaWord IsNot Nothing Then PostString &= "&wpCaptchaWord=" & UrlEncode(Data.CaptchaWord)

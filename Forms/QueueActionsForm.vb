@@ -20,8 +20,8 @@ Class QueueActionsForm
             Dim Page As Page = GetPage(Queue.Pages(i))
 
             If NamespaceTransformSelector.SelectedIndex = 0 _
-                Then ChangeTitle(Not Page.Namespace.ToLower.Contains("talk"), TalkPageName(Queue.Pages(i)), i, Changes) _
-                Else ChangeTitle(Page.Namespace.ToLower.Contains("talk"), SubjectPageName(Queue.Pages(i)), i, Changes)
+                Then ChangeTitle(Not Page.IsTalkPage, Page.TalkPageName, i, Changes) _
+                Else ChangeTitle(Page.IsTalkPage, Page.SubjectPageName, i, Changes)
         End While
 
         MsgBox(CStr(Changes) & " titles changed.", MsgBoxStyle.Information, "huggle")

@@ -26,6 +26,7 @@ Partial Class ConfigForm
         Me.OK = New System.Windows.Forms.Button
         Me.Tabs = New System.Windows.Forms.TabControl
         Me.GeneralTab = New System.Windows.Forms.TabPage
+        Me.StartupMessage = New System.Windows.Forms.CheckBox
         Me.LogFileBrowse = New System.Windows.Forms.Button
         Me.LogFile = New System.Windows.Forms.TextBox
         Me.Label17 = New System.Windows.Forms.Label
@@ -51,12 +52,11 @@ Partial Class ConfigForm
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
         Me.QueueTab = New System.Windows.Forms.TabPage
+        Me.ShowQueue = New System.Windows.Forms.CheckBox
         Me.QueueMaxAge = New System.Windows.Forms.NumericUpDown
         Me.Label32 = New System.Windows.Forms.Label
         Me.Label31 = New System.Windows.Forms.Label
-        Me.Label5 = New System.Windows.Forms.Label
         Me.ShowNewPages = New System.Windows.Forms.CheckBox
-        Me.Namespaces = New System.Windows.Forms.CheckedListBox
         Me.Label4 = New System.Windows.Forms.Label
         Me.ShowAnonymous = New System.Windows.Forms.CheckBox
         Me.ShowRegistered = New System.Windows.Forms.CheckBox
@@ -130,8 +130,6 @@ Partial Class ConfigForm
         Me.BlockReason = New System.Windows.Forms.TextBox
         Me.PromptForBlock = New System.Windows.Forms.CheckBox
         Me.UseAdminFunctions = New System.Windows.Forms.CheckBox
-        Me.ShowQueue = New System.Windows.Forms.CheckBox
-        Me.StartupMessage = New System.Windows.Forms.CheckBox
         Me.Tabs.SuspendLayout()
         Me.GeneralTab.SuspendLayout()
         Me.KeyboardTab.SuspendLayout()
@@ -213,6 +211,16 @@ Partial Class ConfigForm
         Me.GeneralTab.TabIndex = 0
         Me.GeneralTab.Text = "General"
         Me.GeneralTab.UseVisualStyleBackColor = True
+        '
+        'StartupMessage
+        '
+        Me.StartupMessage.AutoSize = True
+        Me.StartupMessage.Location = New System.Drawing.Point(9, 61)
+        Me.StartupMessage.Name = "StartupMessage"
+        Me.StartupMessage.Size = New System.Drawing.Size(133, 17)
+        Me.StartupMessage.TabIndex = 30
+        Me.StartupMessage.Text = "Show startup message"
+        Me.StartupMessage.UseVisualStyleBackColor = True
         '
         'LogFileBrowse
         '
@@ -453,9 +461,7 @@ Partial Class ConfigForm
         Me.QueueTab.Controls.Add(Me.QueueMaxAge)
         Me.QueueTab.Controls.Add(Me.Label32)
         Me.QueueTab.Controls.Add(Me.Label31)
-        Me.QueueTab.Controls.Add(Me.Label5)
         Me.QueueTab.Controls.Add(Me.ShowNewPages)
-        Me.QueueTab.Controls.Add(Me.Namespaces)
         Me.QueueTab.Controls.Add(Me.Label4)
         Me.QueueTab.Controls.Add(Me.ShowAnonymous)
         Me.QueueTab.Controls.Add(Me.ShowRegistered)
@@ -466,6 +472,16 @@ Partial Class ConfigForm
         Me.QueueTab.TabIndex = 4
         Me.QueueTab.Text = "Queue"
         Me.QueueTab.UseVisualStyleBackColor = True
+        '
+        'ShowQueue
+        '
+        Me.ShowQueue.AutoSize = True
+        Me.ShowQueue.Location = New System.Drawing.Point(12, 15)
+        Me.ShowQueue.Name = "ShowQueue"
+        Me.ShowQueue.Size = New System.Drawing.Size(125, 17)
+        Me.ShowQueue.TabIndex = 24
+        Me.ShowQueue.Text = "Show revision queue"
+        Me.ShowQueue.UseVisualStyleBackColor = True
         '
         'QueueMaxAge
         '
@@ -495,15 +511,6 @@ Partial Class ConfigForm
         Me.Label31.TabIndex = 22
         Me.Label31.Text = "Remove queue items older than"
         '
-        'Label5
-        '
-        Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(6, 103)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(186, 13)
-        Me.Label5.TabIndex = 21
-        Me.Label5.Text = "Show contributions from namespaces:"
-        '
         'ShowNewPages
         '
         Me.ShowNewPages.AutoSize = True
@@ -513,18 +520,6 @@ Partial Class ConfigForm
         Me.ShowNewPages.TabIndex = 20
         Me.ShowNewPages.Text = "Show new pages in ""filtered changes"" queue"
         Me.ShowNewPages.UseVisualStyleBackColor = True
-        '
-        'Namespaces
-        '
-        Me.Namespaces.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Namespaces.CheckOnClick = True
-        Me.Namespaces.FormattingEnabled = True
-        Me.Namespaces.Items.AddRange(New Object() {"Article", "Talk", "User", "User talk", "Wikipedia", "Wikipedia talk", "Category", "Category talk", "Template", "Template talk", "Image", "Image talk", "Help", "Help talk", "MediaWiki", "MediaWiki talk", "Portal", "Portal talk"})
-        Me.Namespaces.Location = New System.Drawing.Point(9, 119)
-        Me.Namespaces.Name = "Namespaces"
-        Me.Namespaces.Size = New System.Drawing.Size(217, 94)
-        Me.Namespaces.TabIndex = 19
         '
         'Label4
         '
@@ -1273,26 +1268,6 @@ Partial Class ConfigForm
         Me.UseAdminFunctions.Text = "Use administrator functions if available"
         Me.UseAdminFunctions.UseVisualStyleBackColor = True
         '
-        'ShowQueue
-        '
-        Me.ShowQueue.AutoSize = True
-        Me.ShowQueue.Location = New System.Drawing.Point(12, 15)
-        Me.ShowQueue.Name = "ShowQueue"
-        Me.ShowQueue.Size = New System.Drawing.Size(125, 17)
-        Me.ShowQueue.TabIndex = 24
-        Me.ShowQueue.Text = "Show revision queue"
-        Me.ShowQueue.UseVisualStyleBackColor = True
-        '
-        'StartupMessage
-        '
-        Me.StartupMessage.AutoSize = True
-        Me.StartupMessage.Location = New System.Drawing.Point(9, 61)
-        Me.StartupMessage.Name = "StartupMessage"
-        Me.StartupMessage.Size = New System.Drawing.Size(133, 17)
-        Me.StartupMessage.TabIndex = 30
-        Me.StartupMessage.Text = "Show startup message"
-        Me.StartupMessage.UseVisualStyleBackColor = True
-        '
         'ConfigForm
         '
         Me.AcceptButton = Me.OK
@@ -1360,9 +1335,7 @@ Partial Class ConfigForm
     Friend WithEvents IrcPort As System.Windows.Forms.TextBox
     Friend WithEvents ShowNewEdits As System.Windows.Forms.CheckBox
     Friend WithEvents QueueTab As System.Windows.Forms.TabPage
-    Friend WithEvents Label5 As System.Windows.Forms.Label
     Friend WithEvents ShowNewPages As System.Windows.Forms.CheckBox
-    Friend WithEvents Namespaces As System.Windows.Forms.CheckedListBox
     Friend WithEvents Label4 As System.Windows.Forms.Label
     Friend WithEvents ShowAnonymous As System.Windows.Forms.CheckBox
     Friend WithEvents ShowRegistered As System.Windows.Forms.CheckBox

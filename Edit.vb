@@ -69,8 +69,8 @@ Class Edit
         If X.User.Anonymous AndAlso Not Y.User.Anonymous Then Return -1
         If Y.User.Anonymous AndAlso Not X.User.Anonymous Then Return 1
 
-        If X.Page.Namespace = "" AndAlso Not Y.Page.Namespace = "" Then Return -1
-        If Y.Page.Namespace = "" AndAlso Not X.Page.Namespace = "" Then Return 1
+        If X.Page.Space.Number = 0 AndAlso Y.Page.Space.Number > 0 Then Return -1
+        If Y.Page.Space.Number = 0 AndAlso X.Page.Space.Number > 0 Then Return 1
 
         If X.Random <> Y.Random Then Return Math.Sign(Y.Random - X.Random)
 

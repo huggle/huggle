@@ -228,7 +228,6 @@ Namespace Requests
             Queue = MyBase.Queue
             MyBase.Queue = New Queue
             MyBase.Queue.Pages.AddRange(Queue.Pages)
-            MyBase.Queue.ArticlesOnly = False
             MyBase.Queue.PageRegex = Nothing
 
             If _Progress IsNot Nothing Then

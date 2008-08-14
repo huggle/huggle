@@ -24,6 +24,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Core, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
@@ -290,6 +293,7 @@
     </Compile>
     <Compile Include="Page.vb" />
     <Compile Include="Processing.vb" />
+    <Compile Include="Queue.vb" />
     <Compile Include="Requests\ActionRequests.vb" />
     <Compile Include="Requests\ConfigRequests.vb" />
     <Compile Include="Requests\EditRequests.vb" />
@@ -300,6 +304,7 @@
     <Compile Include="Requests\RevertRequests.vb" />
     <Compile Include="Requests\XfdRequests.vb" />
     <Compile Include="Shortcuts.vb" />
+    <Compile Include="Space.vb" />
     <Compile Include="User.vb" />
   </ItemGroup>
   <ItemGroup>
@@ -531,6 +536,9 @@
     <None Include="Resources\icons\page-view.png" />
     <None Include="Resources\icons\page-watch.png" />
     <None Include="Resources\icons\revert-and-warn-2.png" />
+    <None Include="Resources\icons\tri_no.png" />
+    <None Include="Resources\icons\tri_none.png" />
+    <None Include="Resources\icons\tri_yes.png" />
     <None Include="Resources\icons\up_gray.png" />
     <None Include="Resources\icons\undo.png" />
     <None Include="Resources\icons\user-contribs.png" />

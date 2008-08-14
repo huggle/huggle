@@ -233,6 +233,15 @@
   <data name="revert_and_warn_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icons\revert-and-warn-2.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="tri_no" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icons\tri_no.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="tri_none" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icons\tri_none.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="tri_yes" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icons\tri_yes.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="undo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icons\undo.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

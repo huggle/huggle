@@ -506,7 +506,7 @@ Namespace Requests
 
         'Adds page to your watchlist
 
-        Public Page As New Page, Manual As Boolean
+        Public Page As Page, Manual As Boolean
 
         Public Sub Start()
             Dim RequestThread As New Thread(AddressOf Process)
@@ -521,7 +521,7 @@ Namespace Requests
 
         Private Sub Done()
             If Manual Then Log("Added '" & Page.Name & "' to watchlist")
-            If Not Watchlist.Contains(SubjectPage(Page)) Then Watchlist.Add(SubjectPage(Page))
+            If Not Watchlist.Contains(Page.SubjectPage) Then Watchlist.Add(Page.SubjectPage)
             If CurrentEdit IsNot Nothing AndAlso Page Is CurrentEdit.Page Then MainForm.UpdateWatchButton()
 
             Complete()
@@ -537,7 +537,7 @@ Namespace Requests
 
         'Removes page from your watchlist
 
-        Public Page As New Page, Manual As Boolean
+        Public Page As Page, Manual As Boolean
 
         Public Sub Start()
             Dim RequestThread As New Thread(AddressOf Process)
@@ -552,7 +552,7 @@ Namespace Requests
 
         Private Sub Done()
             If Manual Then Log("Removed '" & Page.Name & "' from watchlist")
-            If Watchlist.Contains(SubjectPage(Page)) Then Watchlist.Remove(SubjectPage(Page))
+            If Watchlist.Contains(Page.SubjectPage) Then Watchlist.Remove(Page.SubjectPage)
             If CurrentEdit IsNot Nothing AndAlso Page Is CurrentEdit.Page Then MainForm.UpdateWatchButton()
 
             Complete()

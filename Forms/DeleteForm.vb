@@ -1,31 +1,31 @@
 Class DeleteForm
 
-    Public ThisPage As Page
+    Public Page As Page
 
     Private Sub DeleteForm_Load() Handles Me.Load
         Icon = My.Resources.icon_red_button
 
         If Config.Speedy Then
             For Each Item As SpeedyCriterion In SpeedyCriteria.Values
-                If Item.Code = "G8" AndAlso ThisPage.Namespace.ToLower.EndsWith("talk") _
+                If Item.Code = "G8" AndAlso Page.IsTalkPage _
                     OrElse (Item.Code <> "G8" AndAlso Item.Code.StartsWith("G")) _
-                    OrElse (Item.Code.StartsWith("A") AndAlso ThisPage.Namespace = "") _
-                    OrElse (Item.Code.StartsWith("C") AndAlso ThisPage.Namespace = "Category") _
-                    OrElse (Item.Code.StartsWith("I") AndAlso ThisPage.Namespace = "Image") _
-                    OrElse (Item.Code.StartsWith("P") AndAlso ThisPage.Namespace = "Portal") _
-                    OrElse (Item.Code.StartsWith("T") AndAlso ThisPage.Namespace = "Template") _
-                    OrElse (Item.Code.StartsWith("U") AndAlso ThisPage.Namespace.StartsWith("User")) _
+                    OrElse (Item.Code.StartsWith("A") AndAlso Page.Space.Name = "") _
+                    OrElse (Item.Code.StartsWith("C") AndAlso Page.Space.Name = "Category") _
+                    OrElse (Item.Code.StartsWith("I") AndAlso Page.Space.Name = "Image") _
+                    OrElse (Item.Code.StartsWith("P") AndAlso Page.Space.Name = "Portal") _
+                    OrElse (Item.Code.StartsWith("T") AndAlso Page.Space.Name = "Template") _
+                    OrElse (Item.Code.StartsWith("U") AndAlso Page.Space.Name.StartsWith("User")) _
                     Then Reason.Items.Add(Item.Code & " - " & Item.Description)
             Next Item
         End If
 
-        Text = "Delete " & ThisPage.Name
+        Text = "Delete " & Page.Name
         DeleteLog.Columns.Add("", 300)
         DeleteLog.Items.Add("Retrieving deletion log, please wait...")
 
         Dim NewRequest As New DeleteLogRequest
         NewRequest.Target = DeleteLog
-        NewRequest.Page = ThisPage
+        NewRequest.Page = Page
         NewRequest.Start()
     End Sub
 
@@ -47,7 +47,7 @@ Class DeleteForm
         End If
 
         Dim NewDeleteRequest As New DeleteRequest
-        NewDeleteRequest.Page = ThisPage
+        NewDeleteRequest.Page = Page
         NewDeleteRequest.Summary = Summary
         NewDeleteRequest.Start()
 

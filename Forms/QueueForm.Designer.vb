@@ -70,10 +70,14 @@ Partial Class QueueForm
         Me.ApplyFilters = New System.Windows.Forms.Button
         Me.ApplyFiltersLabel = New System.Windows.Forms.Label
         Me.PageFiltersGroup = New System.Windows.Forms.GroupBox
+        Me.Label1 = New System.Windows.Forms.Label
+        Me.Namespaces = New System.Windows.Forms.CheckedListBox
         Me.PageRegexLabel = New System.Windows.Forms.Label
         Me.PageRegex = New System.Windows.Forms.TextBox
-        Me.ArticlesOnly = New System.Windows.Forms.CheckBox
         Me.EditFiltersTab = New System.Windows.Forms.TabPage
+        Me.Example3 = New huggle.TriState
+        Me.Example2 = New huggle.TriState
+        Me.Example1 = New huggle.TriState
         Me.EditFiltersGroup = New System.Windows.Forms.GroupBox
         Me.FilterNewPage = New huggle.TriState
         Me.UserRegexLabel = New System.Windows.Forms.Label
@@ -527,7 +531,6 @@ Partial Class QueueForm
         Me.QueuePages.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.QueuePages.Enabled = False
         Me.QueuePages.IntegralHeight = False
         Me.QueuePages.Location = New System.Drawing.Point(6, 105)
         Me.QueuePages.Name = "QueuePages"
@@ -567,7 +570,7 @@ Partial Class QueueForm
         Me.PageFiltersTab.Padding = New System.Windows.Forms.Padding(3)
         Me.PageFiltersTab.Size = New System.Drawing.Size(388, 322)
         Me.PageFiltersTab.TabIndex = 1
-        Me.PageFiltersTab.Text = "Page filters"
+        Me.PageFiltersTab.Text = "Page title filters"
         Me.PageFiltersTab.UseVisualStyleBackColor = True
         '
         'ApplyFilters
@@ -596,9 +599,10 @@ Partial Class QueueForm
         Me.PageFiltersGroup.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.PageFiltersGroup.Controls.Add(Me.Label1)
+        Me.PageFiltersGroup.Controls.Add(Me.Namespaces)
         Me.PageFiltersGroup.Controls.Add(Me.PageRegexLabel)
         Me.PageFiltersGroup.Controls.Add(Me.PageRegex)
-        Me.PageFiltersGroup.Controls.Add(Me.ArticlesOnly)
         Me.PageFiltersGroup.Location = New System.Drawing.Point(6, 6)
         Me.PageFiltersGroup.Name = "PageFiltersGroup"
         Me.PageFiltersGroup.Size = New System.Drawing.Size(376, 275)
@@ -606,10 +610,31 @@ Partial Class QueueForm
         Me.PageFiltersGroup.TabStop = False
         Me.PageFiltersGroup.Text = "Page filters"
         '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(6, 44)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(72, 13)
+        Me.Label1.TabIndex = 57
+        Me.Label1.Text = "Namespaces:"
+        '
+        'Namespaces
+        '
+        Me.Namespaces.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Namespaces.CheckOnClick = True
+        Me.Namespaces.FormattingEnabled = True
+        Me.Namespaces.Location = New System.Drawing.Point(6, 60)
+        Me.Namespaces.MultiColumn = True
+        Me.Namespaces.Name = "Namespaces"
+        Me.Namespaces.Size = New System.Drawing.Size(364, 124)
+        Me.Namespaces.TabIndex = 56
+        '
         'PageRegexLabel
         '
         Me.PageRegexLabel.AutoSize = True
-        Me.PageRegexLabel.Location = New System.Drawing.Point(6, 45)
+        Me.PageRegexLabel.Location = New System.Drawing.Point(6, 22)
         Me.PageRegexLabel.Name = "PageRegexLabel"
         Me.PageRegexLabel.Size = New System.Drawing.Size(161, 13)
         Me.PageRegexLabel.TabIndex = 55
@@ -619,23 +644,16 @@ Partial Class QueueForm
         '
         Me.PageRegex.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.PageRegex.Location = New System.Drawing.Point(173, 42)
+        Me.PageRegex.Location = New System.Drawing.Point(173, 19)
         Me.PageRegex.Name = "PageRegex"
         Me.PageRegex.Size = New System.Drawing.Size(197, 20)
         Me.PageRegex.TabIndex = 54
         '
-        'ArticlesOnly
-        '
-        Me.ArticlesOnly.AutoSize = True
-        Me.ArticlesOnly.Location = New System.Drawing.Point(9, 22)
-        Me.ArticlesOnly.Name = "ArticlesOnly"
-        Me.ArticlesOnly.Size = New System.Drawing.Size(82, 17)
-        Me.ArticlesOnly.TabIndex = 53
-        Me.ArticlesOnly.Text = "Articles only"
-        Me.ArticlesOnly.UseVisualStyleBackColor = True
-        '
         'EditFiltersTab
         '
+        Me.EditFiltersTab.Controls.Add(Me.Example3)
+        Me.EditFiltersTab.Controls.Add(Me.Example2)
+        Me.EditFiltersTab.Controls.Add(Me.Example1)
         Me.EditFiltersTab.Controls.Add(Me.EditFiltersGroup)
         Me.EditFiltersTab.Location = New System.Drawing.Point(4, 22)
         Me.EditFiltersTab.Name = "EditFiltersTab"
@@ -643,6 +661,45 @@ Partial Class QueueForm
         Me.EditFiltersTab.TabIndex = 2
         Me.EditFiltersTab.Text = "Filters"
         Me.EditFiltersTab.UseVisualStyleBackColor = True
+        '
+        'Example3
+        '
+        Me.Example3.BackColor = System.Drawing.SystemColors.Window
+        Me.Example3.Enabled = False
+        Me.Example3.Label = "Exclude this attribute"
+        Me.Example3.Location = New System.Drawing.Point(135, 294)
+        Me.Example3.MaximumSize = New System.Drawing.Size(640, 16)
+        Me.Example3.MinimumSize = New System.Drawing.Size(16, 16)
+        Me.Example3.Name = "Example3"
+        Me.Example3.Size = New System.Drawing.Size(124, 16)
+        Me.Example3.State = System.Windows.Forms.CheckState.Unchecked
+        Me.Example3.TabIndex = 61
+        '
+        'Example2
+        '
+        Me.Example2.BackColor = System.Drawing.SystemColors.Window
+        Me.Example2.Enabled = False
+        Me.Example2.Label = "Require this attribute"
+        Me.Example2.Location = New System.Drawing.Point(6, 294)
+        Me.Example2.MaximumSize = New System.Drawing.Size(640, 16)
+        Me.Example2.MinimumSize = New System.Drawing.Size(16, 16)
+        Me.Example2.Name = "Example2"
+        Me.Example2.Size = New System.Drawing.Size(123, 16)
+        Me.Example2.State = System.Windows.Forms.CheckState.Checked
+        Me.Example2.TabIndex = 60
+        '
+        'Example1
+        '
+        Me.Example1.BackColor = System.Drawing.SystemColors.Window
+        Me.Example1.Enabled = False
+        Me.Example1.Label = "Ignore this attribute"
+        Me.Example1.Location = New System.Drawing.Point(265, 294)
+        Me.Example1.MaximumSize = New System.Drawing.Size(640, 16)
+        Me.Example1.MinimumSize = New System.Drawing.Size(16, 16)
+        Me.Example1.Name = "Example1"
+        Me.Example1.Size = New System.Drawing.Size(116, 16)
+        Me.Example1.State = System.Windows.Forms.CheckState.Indeterminate
+        Me.Example1.TabIndex = 59
         '
         'EditFiltersGroup
         '
@@ -654,7 +711,7 @@ Partial Class QueueForm
         Me.EditFiltersGroup.Controls.Add(Me.UserRegex)
         Me.EditFiltersGroup.Location = New System.Drawing.Point(6, 6)
         Me.EditFiltersGroup.Name = "EditFiltersGroup"
-        Me.EditFiltersGroup.Size = New System.Drawing.Size(376, 309)
+        Me.EditFiltersGroup.Size = New System.Drawing.Size(376, 282)
         Me.EditFiltersGroup.TabIndex = 2
         Me.EditFiltersGroup.TabStop = False
         Me.EditFiltersGroup.Text = "Edit filters"
@@ -663,7 +720,7 @@ Partial Class QueueForm
         '
         Me.FilterNewPage.BackColor = System.Drawing.SystemColors.Window
         Me.FilterNewPage.Label = "New page"
-        Me.FilterNewPage.Location = New System.Drawing.Point(9, 64)
+        Me.FilterNewPage.Location = New System.Drawing.Point(9, 55)
         Me.FilterNewPage.MaximumSize = New System.Drawing.Size(640, 16)
         Me.FilterNewPage.MinimumSize = New System.Drawing.Size(16, 16)
         Me.FilterNewPage.Name = "FilterNewPage"
@@ -774,7 +831,6 @@ Partial Class QueueForm
     Friend WithEvents PageFiltersGroup As System.Windows.Forms.GroupBox
     Friend WithEvents PageRegexLabel As System.Windows.Forms.Label
     Friend WithEvents PageRegex As System.Windows.Forms.TextBox
-    Friend WithEvents ArticlesOnly As System.Windows.Forms.CheckBox
     Friend WithEvents ApplyFilters As System.Windows.Forms.Button
     Friend WithEvents ApplyFiltersLabel As System.Windows.Forms.Label
     Friend WithEvents EditFiltersTab As System.Windows.Forms.TabPage
@@ -782,4 +838,9 @@ Partial Class QueueForm
     Friend WithEvents UserRegexLabel As System.Windows.Forms.Label
     Friend WithEvents UserRegex As System.Windows.Forms.TextBox
     Friend WithEvents FilterNewPage As huggle.TriState
+    Friend WithEvents Example3 As huggle.TriState
+    Friend WithEvents Example2 As huggle.TriState
+    Friend WithEvents Example1 As huggle.TriState
+    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents Namespaces As System.Windows.Forms.CheckedListBox
 End Class

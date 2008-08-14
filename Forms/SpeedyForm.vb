@@ -1,20 +1,20 @@
 Class SpeedyForm
 
-    Public ThisPage As Page
+    Public Page As Page
 
     Private Sub SpeedyForm_Load() Handles Me.Load
         Icon = My.Resources.icon_red_button
-        Text = "Speedy tag " & ThisPage.Name
+        Text = "Speedy tag " & Page.Name
 
         For Each Item As SpeedyCriterion In SpeedyCriteria.Values
-            If Item.Code = "G8" AndAlso ThisPage.Namespace.ToLower.EndsWith("talk") _
+            If Item.Code = "G8" AndAlso Page.IsTalkPage _
                 OrElse (Item.Code <> "G8" AndAlso Item.Code.StartsWith("G")) _
-                OrElse (Item.Code.StartsWith("A") AndAlso ThisPage.Namespace = "") _
-                OrElse (Item.Code.StartsWith("C") AndAlso ThisPage.Namespace = "Category") _
-                OrElse (Item.Code.StartsWith("I") AndAlso ThisPage.Namespace = "Image") _
-                OrElse (Item.Code.StartsWith("P") AndAlso ThisPage.Namespace = "Portal") _
-                OrElse (Item.Code.StartsWith("T") AndAlso ThisPage.Namespace = "Template") _
-                OrElse (Item.Code.StartsWith("U") AndAlso ThisPage.Namespace.StartsWith("User")) _
+                OrElse (Item.Code.StartsWith("A") AndAlso Page.IsArticle) _
+                OrElse (Item.Code.StartsWith("C") AndAlso Page.Space.Name = "Category") _
+                OrElse (Item.Code.StartsWith("I") AndAlso Page.Space.Name = "Image") _
+                OrElse (Item.Code.StartsWith("P") AndAlso Page.Space.Name = "Portal") _
+                OrElse (Item.Code.StartsWith("T") AndAlso Page.Space.Name = "Template") _
+                OrElse (Item.Code.StartsWith("U") AndAlso Page.Space.Name.StartsWith("User")) _
                 Then Criterion.Items.Add(Item.Code & " - " & Item.Description)
         Next Item
         Param.Visible = False
@@ -39,7 +39,7 @@ Class SpeedyForm
         If Me.DialogResult = DialogResult.OK Then
 
             Dim NewSpeedyRequest As New SpeedyRequest
-            NewSpeedyRequest.Page = ThisPage
+            NewSpeedyRequest.Page = Page
             NewSpeedyRequest.Criterion = SpeedyCriteria(Criterion.Text.Substring(0, Criterion.Text.IndexOf(" ")))
             NewSpeedyRequest.Notify = NotifyCreator.Checked
             NewSpeedyRequest.Parameter = Param.Text

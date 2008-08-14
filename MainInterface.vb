@@ -127,15 +127,15 @@ Partial Class Main
                 Tabs.Width = Width - 10
             End If
 
-            If CurrentPage.Namespace = "Talk" Then
+            If CurrentPage.IsArticleTalkPage Then
                 PageSwitchTalk.Text = "Switch to article"
-            ElseIf CurrentPage.Namespace.Contains("talk") Then
+            ElseIf CurrentPage.IsTalkPage Then
                 PageSwitchTalk.Text = "Switch to subject page"
             Else
                 PageSwitchTalk.Text = "Switch to talk page"
             End If
 
-            Select Case CurrentPage.Namespace
+            Select Case CurrentPage.Space.Name
                 Case "" : PageNominate.Enabled = (Config.AfdLocation IsNot Nothing)
                 Case "Category" : PageNominate.Enabled = (Config.CfdLocation IsNot Nothing)
                 Case "Image" : PageNominate.Enabled = (Config.IfdLocation IsNot Nothing)
@@ -235,15 +235,15 @@ Partial Class Main
                 If Item.Name.StartsWith("Speedy") Then
                     Dim Code As String = Item.Name.ToUpper.Substring(6)
 
-                    If Code = "G8" Then : Item.Visible = (CurrentPage.Namespace.ToLower.EndsWith("talk"))
+                    If Code = "G8" Then : Item.Visible = CurrentPage.IsTalkPage
 
-                    ElseIf Code.StartsWith("A") Then : Item.Visible = (CurrentPage.Namespace = "")
-                    ElseIf Code.StartsWith("C") Then : Item.Visible = (CurrentPage.Namespace = "Category")
-                    ElseIf Code.StartsWith("I") Then : Item.Visible = (CurrentPage.Namespace = "Image")
-                    ElseIf Code.StartsWith("P") Then : Item.Visible = (CurrentPage.Namespace = "Portal")
-                    ElseIf Code.StartsWith("T") Then : Item.Visible = (CurrentPage.Namespace = "Template")
-                    ElseIf Code.StartsWith("U") Then : Item.Visible = (CurrentPage.Namespace.StartsWith("User"))
-
+                    ElseIf Code.StartsWith("A") Then : Item.Visible = (CurrentPage.IsArticle)
+                    ElseIf Code.StartsWith("C") Then : Item.Visible = (CurrentPage.Space Is Space.Category)
+                    ElseIf Code.StartsWith("I") Then : Item.Visible = (CurrentPage.Space Is Space.Image)
+                    ElseIf Code.StartsWith("P") Then : Item.Visible = (CurrentPage.Space.Name = "Portal")
+                    ElseIf Code.StartsWith("T") Then : Item.Visible = (CurrentPage.Space Is Space.Template)
+                    ElseIf Code.StartsWith("U") Then : Item.Visible = (CurrentPage.Space Is Space.User _
+                        OrElse CurrentPage.Space Is Space.UserTalk)
                     Else
                         Item.Visible = True
                     End If
@@ -256,10 +256,10 @@ Partial Class Main
     End Sub
 
     Sub UpdateWatchButton()
-        If Watchlist.Contains(SubjectPage(CurrentEdit.Page)) AndAlso PageWatch.Text = "Watch" Then
+        If Watchlist.Contains(CurrentEdit.Page.SubjectPage) AndAlso PageWatch.Text = "Watch" Then
             PageWatchB.Image = My.Resources.page_unwatch
             PageWatch.Text = "Unwatch"
-        ElseIf PageWatch.Text = "Unwatch" AndAlso Not Watchlist.Contains(SubjectPage(CurrentEdit.Page)) Then
+        ElseIf PageWatch.Text = "Unwatch" AndAlso Not Watchlist.Contains(CurrentEdit.Page.SubjectPage) Then
             PageWatchB.Image = My.Resources.page_watch
             PageWatch.Text = "Watch"
         End If
@@ -312,8 +312,7 @@ Partial Class Main
                 If HistoryLastB.Enabled Then HistoryLast_Click()
 
             Case Is = ShortcutKeys("Delete page")
-                If PageDeleteB.Enabled AndAlso PageDeleteB.Visible AndAlso Administrator _
-                    Then PageDelete_Click()
+                If PageDeleteB.Enabled AndAlso PageDeleteB.Visible AndAlso Administrator Then PageDelete_Click()
 
             Case Is = ShortcutKeys("Diff to current revision")
                 If HistoryDiffToCurB.Enabled Then HistoryDiffToCur_Click()
@@ -573,7 +572,7 @@ Partial Class Main
         QueueSelector.Items.AddRange(New String() _
             {"Filtered changes", "New pages", "All changes", "Recent user contribs"})
 
-        For Each Item As String In EditQueues.Keys
+        For Each Item As String In AllQueues.Keys
             QueueSelector.Items.Add(Item)
         Next Item
 
@@ -585,7 +584,7 @@ Partial Class Main
             Case NewPages : QueueSelector.SelectedItem = "New pages"
 
             Case Else
-                For Each Item As KeyValuePair(Of String, Queue) In EditQueues
+                For Each Item As KeyValuePair(Of String, Queue) In AllQueues
                     If Item.Value Is CurrentQueue Then
                         QueueSelector.SelectedItem = Item.Key
                         Exit Sub
