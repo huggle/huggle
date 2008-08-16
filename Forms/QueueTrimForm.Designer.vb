@@ -22,39 +22,31 @@ Partial Class QueueTrimForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.Label1 = New System.Windows.Forms.Label
-        Me.DiscardTimeInput = New System.Windows.Forms.TextBox
-        Me.Label2 = New System.Windows.Forms.Label
+        Me.AgeLabel1 = New System.Windows.Forms.Label
+        Me.AgeLabel2 = New System.Windows.Forms.Label
         Me.Cancel = New System.Windows.Forms.Button
         Me.OK = New System.Windows.Forms.Button
+        Me.Age = New System.Windows.Forms.NumericUpDown
+        CType(Me.Age, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
-        'Label1
+        'AgeLabel1
         '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(12, 9)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(192, 13)
-        Me.Label1.TabIndex = 0
-        Me.Label1.Text = "Discard all queued revisions older than "
+        Me.AgeLabel1.AutoSize = True
+        Me.AgeLabel1.Location = New System.Drawing.Point(12, 9)
+        Me.AgeLabel1.Name = "AgeLabel1"
+        Me.AgeLabel1.Size = New System.Drawing.Size(192, 13)
+        Me.AgeLabel1.TabIndex = 0
+        Me.AgeLabel1.Text = "Discard all queued revisions older than "
         '
-        'DiscardTimeInput
+        'AgeLabel2
         '
-        Me.DiscardTimeInput.Location = New System.Drawing.Point(204, 6)
-        Me.DiscardTimeInput.Name = "DiscardTimeInput"
-        Me.DiscardTimeInput.Size = New System.Drawing.Size(43, 20)
-        Me.DiscardTimeInput.TabIndex = 1
-        Me.DiscardTimeInput.Text = "10"
-        Me.DiscardTimeInput.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        '
-        'Label2
-        '
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(253, 9)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(46, 13)
-        Me.Label2.TabIndex = 2
-        Me.Label2.Text = "minutes."
+        Me.AgeLabel2.AutoSize = True
+        Me.AgeLabel2.Location = New System.Drawing.Point(253, 9)
+        Me.AgeLabel2.Name = "AgeLabel2"
+        Me.AgeLabel2.Size = New System.Drawing.Size(46, 13)
+        Me.AgeLabel2.TabIndex = 2
+        Me.AgeLabel2.Text = "minutes."
         '
         'Cancel
         '
@@ -76,16 +68,27 @@ Partial Class QueueTrimForm
         Me.OK.Text = "OK"
         Me.OK.UseVisualStyleBackColor = True
         '
+        'Age
+        '
+        Me.Age.Location = New System.Drawing.Point(203, 6)
+        Me.Age.Maximum = New Decimal(New Integer() {240, 0, 0, 0})
+        Me.Age.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.Age.Name = "Age"
+        Me.Age.Size = New System.Drawing.Size(44, 20)
+        Me.Age.TabIndex = 5
+        Me.Age.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.Age.Value = New Decimal(New Integer() {10, 0, 0, 0})
+        '
         'QueueTrimForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(303, 67)
+        Me.Controls.Add(Me.Age)
         Me.Controls.Add(Me.OK)
         Me.Controls.Add(Me.Cancel)
-        Me.Controls.Add(Me.Label2)
-        Me.Controls.Add(Me.DiscardTimeInput)
-        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.AgeLabel2)
+        Me.Controls.Add(Me.AgeLabel1)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.KeyPreview = True
         Me.MaximizeBox = False
@@ -94,13 +97,14 @@ Partial Class QueueTrimForm
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "Trim queue"
+        CType(Me.Age, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
     End Sub
-    Friend WithEvents Label1 As System.Windows.Forms.Label
-    Friend WithEvents DiscardTimeInput As System.Windows.Forms.TextBox
-    Friend WithEvents Label2 As System.Windows.Forms.Label
+    Friend WithEvents AgeLabel1 As System.Windows.Forms.Label
+    Friend WithEvents AgeLabel2 As System.Windows.Forms.Label
     Friend WithEvents Cancel As System.Windows.Forms.Button
     Friend WithEvents OK As System.Windows.Forms.Button
+    Friend WithEvents Age As System.Windows.Forms.NumericUpDown
 End Class

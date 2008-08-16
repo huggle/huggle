@@ -244,7 +244,7 @@ Namespace Requests
                 End If
 
                 If UserList IsNot Nothing AndAlso Not _
-                    UserList.Contains("[[Special:Contributions/" & MyUser.Name & "|" & MyUser.Name & "]]") Then
+                    UserList.Contains("[[Special:Contributions/" & Username & "|" & Username & "]]") Then
 
                     If Config.Approval Then
                         Abort("User is not approved to use Huggle.")
@@ -259,7 +259,7 @@ Namespace Requests
                         If Not ListedUsers.Contains(Item.Groups(1).Value) Then ListedUsers.Add(Item.Groups(1).Value)
                     Next Item
 
-                    ListedUsers.Add(MyUser.Name)
+                    ListedUsers.Add(Username)
                     ListedUsers.Sort(AddressOf CompareUsernames)
 
                     Dim Data As EditData = GetEditData(Config.UserListLocation)
@@ -270,7 +270,7 @@ Namespace Requests
                     Next Item
 
                     Data.Minor = True
-                    Data.Summary = Config.UserListUpdateSummary.Replace("$1", MyUser.Name)
+                    Data.Summary = Config.UserListUpdateSummary.Replace("$1", Username)
                     PostEdit(Data)
                 End If
             End If
@@ -299,7 +299,7 @@ Namespace Requests
             End If
 
             'In case user is not already on the whitelist (usually will be)
-            MyUser.Level = UserL.Ignore
+            User.Me.Ignored = True
 
             'Get bot list
             UpdateStatus("Retrieving bot list...")
@@ -316,7 +316,7 @@ Namespace Requests
                     If Item.Contains("""") Then
                         Dim Username As String = Item.Substring(Item.IndexOf("""") + 1)
                         Username = Username.Substring(0, Username.IndexOf(""""))
-                        GetUser(Username).Level = UserL.Ignore
+                        GetUser(Username).Ignored = True
                         GetUser(Username).Bot = True
                     End If
                 Next Item

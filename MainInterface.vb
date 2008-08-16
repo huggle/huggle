@@ -143,7 +143,7 @@ Partial Class Main
                 Case Else : PageNominate.Enabled = (Config.MfdLocation IsNot Nothing)
             End Select
 
-            If CurrentQueue.Type = Queue.Types.FixedList _
+            If CurrentQueue.Type = QueueType.FixedList _
                 Then QueueClear.Text = "Reset" Else QueueClear.Text = "Clear current"
 
             Dim Editable As Boolean = (CurrentPage.EditLevel <> "sysop" OrElse Administrator)
@@ -161,10 +161,10 @@ Partial Class Main
             ContribsNextB.Enabled = (CurrentEdit.NextByUser IsNot Nothing)
             ContribsLastB.Enabled = (CurrentEdit.User.LastEdit IsNot Nothing _
                 AndAlso CurrentEdit.User.LastEdit IsNot CurrentEdit)
-            DiffNextB.Enabled = (CurrentQueue.Items.Count > 0)
+            DiffNextB.Enabled = (CurrentQueue.Edits.Count > 0)
             DiffRevertB.Enabled = (CurrentEdit IsNot CurrentPage.FirstEdit AndAlso Not RevertTimer.Enabled _
                 AndAlso Editable)
-            RevertWarnB.Enabled = (DiffRevertB.Enabled AndAlso CurrentUser.Level <> UserL.Ignore AndAlso Editable _
+            RevertWarnB.Enabled = (DiffRevertB.Enabled AndAlso Not CurrentUser.Ignored AndAlso Editable _
                 AndAlso Config.WarningSeries.Count > 0)
             HistoryB.Enabled = (CurrentEdit.Page.FirstEdit Is Nothing)
             HistoryDiffToCurB.Enabled = (Not CurrentEdit Is CurrentPage.LastEdit) AndAlso (Not CurrentEdit.Multiple)
@@ -194,12 +194,12 @@ Partial Class Main
             PageViewLatest.Enabled = True
             PageWatch.Enabled = True
             PageWatchB.Enabled = True
-            QueueClear.Enabled = (CurrentQueue.Items.Count > 0)
-            QueueNext.Enabled = (CurrentQueue.Items.Count > 0)
+            QueueClear.Enabled = (CurrentQueue.Edits.Count > 0)
+            QueueNext.Enabled = (CurrentQueue.Edits.Count > 0)
             QueuePanel.Visible = Config.ShowQueue
             QueueScroll.Visible = Config.ShowQueue
             QueueSelector.Visible = Config.ShowQueue
-            QueueTrim.Enabled = (CurrentQueue.Items.Count > 0)
+            QueueTrim.Enabled = (CurrentQueue.Edits.Count > 0)
             SystemShowQueue.Checked = Config.ShowQueue
             SystemShowLog.Checked = Config.ShowLog
             UndoB.Enabled = (Undo.Count > 0)
@@ -211,13 +211,13 @@ Partial Class Main
             UserInfoB.Enabled = True
             UserMessage.Enabled = True
             UserMessageB.Enabled = True
-            UserReport.Enabled = (CurrentUser.Level > UserL.Ignore AndAlso CurrentUser.Level < UserL.Blocked)
+            UserReport.Enabled = (Not CurrentUser.Ignored AndAlso CurrentUser.WarningLevel < UserLevel.Blocked)
             UserReportB.Enabled = UserReport.Enabled
             UserTalk.Enabled = True
             UserTalkB.Enabled = True
-            UserTemplateB.Enabled = (CurrentUser.Level > UserL.Ignore)
-            UserWarn.Enabled = (CurrentUser.Level > UserL.Ignore AndAlso Config.WarningSeries.Count > 0)
-            WarnB.Enabled = (CurrentUser.Level > UserL.Ignore AndAlso Config.WarningSeries.Count > 0)
+            UserTemplateB.Enabled = (Not CurrentUser.Ignored)
+            UserWarn.Enabled = (Not CurrentUser.Ignored AndAlso Config.WarningSeries.Count > 0)
+            WarnB.Enabled = (Not CurrentUser.Ignored AndAlso Config.WarningSeries.Count > 0)
 
             For Each Item As ToolStripItem In WarnMenu.Items
                 Item.Enabled = WarnB.Enabled
@@ -266,10 +266,10 @@ Partial Class Main
     End Sub
 
     Sub UpdateIgnoreButton()
-        If CurrentUser.Level = UserL.Ignore AndAlso UserIgnore.Text = "Ignore" Then
+        If CurrentUser.Ignored AndAlso UserIgnore.Text = "Ignore" Then
             UserIgnoreB.Image = My.Resources.user_unwhitelist
             UserIgnore.Text = "Unignore"
-        ElseIf CurrentUser.Level <> UserL.Ignore AndAlso UserIgnore.Text = "Unignore" Then
+        ElseIf Not CurrentUser.Ignored AndAlso UserIgnore.Text = "Unignore" Then
             UserIgnoreB.Image = My.Resources.user_whitelist
             UserIgnore.Text = "Ignore"
         End If
@@ -328,11 +328,11 @@ Partial Class Main
 
             Case Is = ShortcutKeys("Ignore user")
                 If UserIgnoreB.Enabled AndAlso CurrentEdit IsNot Nothing AndAlso CurrentEdit.User IsNot Nothing _
-                    AndAlso CurrentEdit.User.Level <> UserL.Ignore Then UserIgnore_Click()
+                    AndAlso Not CurrentEdit.User.Ignored Then UserIgnore_Click()
 
             Case Is = ShortcutKeys("Unignore user")
                 If UserIgnoreB.Enabled AndAlso CurrentEdit IsNot Nothing AndAlso CurrentEdit.User IsNot Nothing _
-                    AndAlso CurrentEdit.User.Level = UserL.Ignore Then UserIgnore_Click()
+                    AndAlso Not CurrentEdit.User.Ignored Then UserIgnore_Click()
 
             Case Is = ShortcutKeys("Toggle 'show new edits'")
                 ShowNewEdits_Click()
@@ -569,30 +569,13 @@ Partial Class Main
 
     Public Sub SetQueueSelector()
         QueueSelector.Items.Clear()
-        QueueSelector.Items.AddRange(New String() _
-            {"Filtered changes", "New pages", "All changes", "Recent user contribs"})
 
-        For Each Item As String In AllQueues.Keys
-            QueueSelector.Items.Add(Item)
+        For Each Item As Queue In Queue.All.Values
+            QueueSelector.Items.Add(Item.Name)
         Next Item
 
         QueueSelector.Items.Add("Add...")
-
-        Select Case CurrentQueue
-            Case FilteredEdits : QueueSelector.SelectedItem = "Filtered changes"
-            Case AllEdits : QueueSelector.SelectedItem = "All changes"
-            Case NewPages : QueueSelector.SelectedItem = "New pages"
-
-            Case Else
-                For Each Item As KeyValuePair(Of String, Queue) In AllQueues
-                    If Item.Value Is CurrentQueue Then
-                        QueueSelector.SelectedItem = Item.Key
-                        Exit Sub
-                    End If
-                Next Item
-
-                QueueSelector.SelectedItem = 0
-        End Select
+        If CurrentQueue IsNot Nothing Then QueueSelector.SelectedItem = CurrentQueue.Name
     End Sub
 
 End Class

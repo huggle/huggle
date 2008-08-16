@@ -3,8 +3,7 @@ Class EditInfoPanel
     Private Buffer As BufferedGraphics
 
     Public Enum DisplayMode
-        PageName
-        UserName
+        : PageName : UserName
     End Enum
 
     Private Sub EditInfo_Load() Handles Me.Load
@@ -16,7 +15,7 @@ Class EditInfoPanel
             If Mode = DisplayMode.PageName Then PageUser.Text = Edit.User.Name Else PageUser.Text = Edit.Page.Name
             Change.Text = CStr(IIf(Edit.Size > 0, "+", "")) & CStr(Edit.Size)
             Change.Visible = (Not Edit.Size = 0)
-            Summary.Text = TrimSummary(Edit.Summary)
+            If Edit.Summary Is Nothing Then Summary.Text = "" Else Summary.Text = TrimSummary(Edit.Summary)
 
             Dim LocalTime As Date = Edit.Time.ToLocalTime
 

@@ -8,24 +8,17 @@ Module Misc
     'Globals
 
     Public Administrator As Boolean
-    Public AllEditsById As New Dictionary(Of String, Edit)
-    Public AllEdits As New Queue
-    Public AllQueues As New Dictionary(Of String, Queue)
     Public AllRequests As New List(Of Request)
-    Public AllUsers As New Dictionary(Of String, User)
     Public ContribsOffset As Integer
     Public Cookie As String
     Public CurrentQueue As Queue
     Public CurrentTab As BrowserTab
-    Public FilteredEdits As New Queue
     Public HidingEdit As Boolean = True
     Public HistoryOffset As Integer
     Public LastTagText As String = ""
     Public LatestDiffRequest As DiffRequest
     Public MainForm As Main
     Public ManualRevertSummaries As New List(Of String)
-    Public MyUser As User
-    Public NewPages As New Queue
     Public NextCount As New List(Of User)
     Public NullEdit As New Edit
     Public PendingRequests As New List(Of Request)
@@ -174,7 +167,7 @@ Module Misc
     End Class
 
     Class Warning
-        Public Level As UserL
+        Public Level As UserLevel
         Public Time As Date
         Public Type As String
         Public User As User
@@ -214,55 +207,12 @@ Module Misc
 
     End Class
 
-    Enum UserL As Integer
-        None = 0
-        Ignore = -1
-        Notification = 1
-        Reverted = 2
-        ReportedUAA = 3
-        Message = 4
-        Warning = 5
-        Warn1 = 6
-        Warn2 = 7
-        Warn3 = 8
-        Warn4im = 9
-        WarnFinal = 10
-        ReportedAIV = 11
-        Blocked = 12
-    End Enum
-
     <DebuggerStepThrough()> Function GetPage(ByVal Name As String) As Page
         Return Page.GetPage(Name)
     End Function
 
-    <DebuggerStepThrough()> Function GetUser(ByVal UserName As String) As User
-        If UserName = "" Then Return Nothing
-        UserName = UserName.Replace("_", " ").Trim(" "c)
-        If UserName.Contains("#") Then UserName = UserName.Substring(0, UserName.IndexOf("#"))
-        If UserName.Contains("/") Then UserName = UserName.Substring(0, UserName.IndexOf("/"))
-        If UserName.Length > 1 Then UserName = UserName.Substring(0, 1).ToUpper & UserName.Substring(1) _
-            Else UserName = UserName.ToUpper
-
-        If AllUsers.ContainsKey(UserName) Then
-            Return AllUsers(UserName)
-        Else
-            Dim NewUser As New User
-            NewUser.Name = UserName
-
-            'That regex there matches any IP address. Or so I'm told.
-
-            If Regex.IsMatch(NewUser.Name, "((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}" & _
-                "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)", RegexOptions.Compiled) Then
-                NewUser.Anonymous = True
-
-            ElseIf Whitelist.Contains(NewUser.Name) Then
-                NewUser.Level = UserL.Ignore
-            End If
-
-            AllUsers.Add(UserName, NewUser)
-
-            Return NewUser
-        End If
+    <DebuggerStepThrough()> Function GetUser(ByVal Name As String) As User
+        Return User.GetUser(Name)
     End Function
 
     <DebuggerStepThrough()> Function OwnUserspace(ByVal NewEdit As Edit) As Boolean
@@ -501,20 +451,4 @@ Module Misc
         Return Path.Substring(0, Path.LastIndexOf("\"))
     End Function
 
-    Class Stats
-
-        Public Shared Edits, EditsMe, Reverts, RevertsMe, Warnings, WarningsMe, Blocks, BlocksMe As Integer
-
-    End Class
-
 End Module
-
-Class ListView2
-
-    Inherits ListView
-
-    Sub New()
-        DoubleBuffered = True
-    End Sub
-
-End Class

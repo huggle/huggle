@@ -70,10 +70,10 @@ Namespace Requests
         Public Edit As Edit, Type As String = "warning", Level As Integer
 
         Public Sub Start()
-            If Edit IsNot Nothing AndAlso Edit.User.Level <> UserL.Ignore Then
-                If Edit.User.Level = UserL.ReportedAIV Then
+            If Edit IsNot Nothing AndAlso Not Edit.User.Ignored Then
+                If Edit.User.WarningLevel = UserLevel.ReportedAIV Then
                     AlreadyReported()
-                ElseIf Edit.User.Level = UserL.Blocked Then
+                ElseIf Edit.User.WarningLevel = UserLevel.Blocked Then
                     AlreadyBlocked()
                 Else
                     LogProgress("Warning '" & Edit.User.Name & "'...")
@@ -97,7 +97,7 @@ Namespace Requests
             If Data.Text.Length > 1 Then Data.Text &= vbLf
 
             Dim ExistingWarnings As List(Of Warning) = ProcessUserTalk(Data.Text, Edit.User)
-            Dim ExistingWarnLevel As UserL = UserL.None
+            Dim ExistingWarnLevel As UserLevel = UserLevel.None
 
             For Each Item As Warning In ExistingWarnings
                 If Item.Time.AddHours(Config.WarningAge) > My.Computer.Clock.GmtTime _
@@ -115,41 +115,41 @@ Namespace Requests
 
             If Edit.TypeToWarn IsNot Nothing Then Type = Edit.TypeToWarn
 
-            If ExistingWarnings.Count = 1 AndAlso ExistingWarnLevel = UserL.WarnFinal _
-                Then ExistingWarnLevel = UserL.Warn4im
+            If ExistingWarnings.Count = 1 AndAlso ExistingWarnLevel = UserLevel.WarnFinal _
+                Then ExistingWarnLevel = UserLevel.Warn4im
 
-            If Edit.User.Level < ExistingWarnLevel OrElse ExistingWarnLevel = UserL.Warn4im _
-                Then Edit.User.Level = ExistingWarnLevel
+            If Edit.User.WarningLevel < ExistingWarnLevel OrElse ExistingWarnLevel = UserLevel.Warn4im _
+                Then Edit.User.WarningLevel = ExistingWarnLevel
 
-            Dim LevelNeeded As UserL, WarningNeeded As String = ""
+            Dim LevelNeeded As UserLevel, WarningNeeded As String = ""
 
             If Level = 0 Then
 
                 Dim FinalLevelReached As Boolean
 
-                Select Case Edit.User.Level
-                    Case UserL.None, UserL.Message, UserL.Notification, UserL.Reverted, UserL.ReportedUAA
-                        LevelNeeded = UserL.Warn1
+                Select Case Edit.User.WarningLevel
+                    Case UserLevel.None, UserLevel.Message, UserLevel.Notification, UserLevel.Reverted, UserLevel.ReportedUAA
+                        LevelNeeded = UserLevel.Warn1
 
-                    Case UserL.Warning, UserL.Warn1
-                        If Config.WarningMode <> "1" Then LevelNeeded = UserL.Warn2 Else FinalLevelReached = True
+                    Case UserLevel.Warning, UserLevel.Warn1
+                        If Config.WarningMode <> "1" Then LevelNeeded = UserLevel.Warn2 Else FinalLevelReached = True
 
-                    Case UserL.Warn2
+                    Case UserLevel.Warn2
                         If Config.WarningMode <> "1" AndAlso Config.WarningMode <> "2" _
-                            Then LevelNeeded = UserL.Warn3 Else FinalLevelReached = True
+                            Then LevelNeeded = UserLevel.Warn3 Else FinalLevelReached = True
 
-                    Case UserL.Warn3
+                    Case UserLevel.Warn3
                         If Config.WarningMode <> "1" AndAlso Config.WarningMode <> "2" AndAlso Config.WarningMode <> "3" _
-                            Then LevelNeeded = UserL.WarnFinal Else FinalLevelReached = True
+                            Then LevelNeeded = UserLevel.WarnFinal Else FinalLevelReached = True
 
-                    Case UserL.Warn4im, UserL.WarnFinal
+                    Case UserLevel.Warn4im, UserLevel.WarnFinal
                         FinalLevelReached = True
 
-                    Case UserL.ReportedAIV
+                    Case UserLevel.ReportedAIV
                         Callback(AddressOf AlreadyReported)
                         Exit Sub
 
-                    Case UserL.Blocked
+                    Case UserLevel.Blocked
                         Callback(AddressOf AlreadyBlocked)
                         Exit Sub
                 End Select
@@ -159,23 +159,23 @@ Namespace Requests
                     Exit Sub
                 End If
 
-            ElseIf Me.Level = 1 Then : LevelNeeded = UserL.Warn1
-            ElseIf Me.Level = 2 Then : LevelNeeded = UserL.Warn2
-            ElseIf Me.Level = 3 Then : LevelNeeded = UserL.Warn3
-            ElseIf Me.Level = 4 Then : LevelNeeded = UserL.WarnFinal
+            ElseIf Me.Level = 1 Then : LevelNeeded = UserLevel.Warn1
+            ElseIf Me.Level = 2 Then : LevelNeeded = UserLevel.Warn2
+            ElseIf Me.Level = 3 Then : LevelNeeded = UserLevel.Warn3
+            ElseIf Me.Level = 4 Then : LevelNeeded = UserLevel.WarnFinal
             End If
 
             If Edit.LevelToWarn > LevelNeeded Then LevelNeeded = Edit.LevelToWarn
-            If Edit.User.Level < LevelNeeded Then Edit.User.Level = LevelNeeded
+            If Edit.User.WarningLevel < LevelNeeded Then Edit.User.WarningLevel = LevelNeeded
 
             Dim WarnLevelName As String = "", WarnSummary As String = ""
 
             Select Case LevelNeeded
-                Case UserL.Warn1 : WarnLevelName = "1" : WarnSummary = Config.WarnSummary
-                Case UserL.Warn2 : WarnLevelName = "2" : WarnSummary = Config.WarnSummary2
-                Case UserL.Warn3 : WarnLevelName = "3" : WarnSummary = Config.WarnSummary3
-                Case UserL.WarnFinal
-                    If ExistingWarnLevel < UserL.Warning Then WarnLevelName = "4im" Else WarnLevelName = "4"
+                Case UserLevel.Warn1 : WarnLevelName = "1" : WarnSummary = Config.WarnSummary
+                Case UserLevel.Warn2 : WarnLevelName = "2" : WarnSummary = Config.WarnSummary2
+                Case UserLevel.Warn3 : WarnLevelName = "3" : WarnSummary = Config.WarnSummary3
+                Case UserLevel.WarnFinal
+                    If ExistingWarnLevel < UserLevel.Warning Then WarnLevelName = "4im" Else WarnLevelName = "4"
                     WarnSummary = Config.WarnSummary4
             End Select
 

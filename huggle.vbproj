@@ -24,9 +24,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Core, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
@@ -263,6 +260,9 @@
     </Compile>
     <Compile Include="Highlight.vb" />
     <Compile Include="Irc.vb" />
+    <Compile Include="Controls\ListView2.vb">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Login.vb" />
     <Compile Include="Main.Designer.vb">
       <DependentUpon>Main.vb</DependentUpon>
@@ -274,7 +274,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Misc.vb">
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -305,6 +304,7 @@
     <Compile Include="Requests\XfdRequests.vb" />
     <Compile Include="Shortcuts.vb" />
     <Compile Include="Space.vb" />
+    <Compile Include="Stats.vb" />
     <Compile Include="User.vb" />
   </ItemGroup>
   <ItemGroup>

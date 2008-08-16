@@ -6,8 +6,6 @@ Module Processing
     Sub ProcessEdit(ByVal Edit As Edit)
         If Edit Is Nothing Then Exit Sub
 
-        'Random value to vary sort order
-
         If Edit.Time = Date.MinValue Then Edit.Time = Date.SpecifyKind(Date.UtcNow, DateTimeKind.Utc)
         If Edit.Oldid Is Nothing Then Edit.Oldid = "prev"
 
@@ -35,8 +33,8 @@ Module Processing
                     If Edit.Page.Level = Page.Levels.None Then Edit.Page.Level = Page.Levels.Watch
 
                     If Edit.Prev IsNot Nothing AndAlso Edit.Prev.User IsNot Nothing _
-                        AndAlso Edit.Prev.User IsNot Edit.User AndAlso Edit.Prev.User.Level = UserL.None _
-                        Then Edit.Prev.User.Level = UserL.Reverted
+                        AndAlso Edit.Prev.User IsNot Edit.User AndAlso Edit.Prev.User.WarningLevel = UserLevel.None _
+                        Then Edit.Prev.User.WarningLevel = UserLevel.Reverted
 
                     Exit For
                 End If
@@ -54,35 +52,35 @@ Module Processing
 
                     Dim RevertedUser As User = GetUser(Username)
 
-                    If (RevertedUser IsNot Edit.User) AndAlso RevertedUser.Level = UserL.None _
-                        Then RevertedUser.Level = UserL.Reverted
+                    If (RevertedUser IsNot Edit.User) AndAlso RevertedUser.WarningLevel = UserLevel.None _
+                        Then RevertedUser.WarningLevel = UserLevel.Reverted
                 End If
             End If
 
             'Reverted edits
             If Edit.Next IsNot Nothing AndAlso Edit.Next.Type = Edit.Types.Revert _
-                AndAlso Edit.User.Level = UserL.None Then Edit.User.Level = UserL.Reverted
+                AndAlso Edit.User.WarningLevel = UserLevel.None Then Edit.User.WarningLevel = UserLevel.Reverted
 
             'Warnings / block notifications
             If Edit.Page.Space.Name = "User talk" AndAlso Not Edit.Page.Name.Contains("/") Then
                 Dim PageOwner As User = GetUser(Edit.Page.Name.Substring(10))
-                Dim SummaryLevel As UserL = GetUserLevelFromSummary(Edit)
+                Dim SummaryLevel As UserLevel = GetUserLevelFromSummary(Edit)
 
-                If SummaryLevel >= UserL.Warning AndAlso PageOwner.Level > UserL.Ignore _
+                If SummaryLevel >= UserLevel.Warning AndAlso Not PageOwner.Ignored _
                     AndAlso Edit.Time.AddHours(Config.WarningAge) > Date.UtcNow Then
 
                     Edit.Type = Edit.Types.Warning
                     Edit.WarningLevel = SummaryLevel
                     If Edit.User.WarnTime < Edit.Time Then Edit.User.WarnTime = Edit.Time
 
-                    If PageOwner.Level < SummaryLevel AndAlso PageOwner.Level > UserL.Ignore _
-                        AndAlso SummaryLevel < UserL.Warn4im Then PageOwner.Level = SummaryLevel
+                    If PageOwner.WarningLevel < SummaryLevel AndAlso SummaryLevel < UserLevel.Warn4im _
+                        Then PageOwner.WarningLevel = SummaryLevel
 
-                ElseIf SummaryLevel = UserL.Notification Then
+                ElseIf SummaryLevel = UserLevel.Notification Then
                     Edit.Type = Edit.Types.Message
 
-                    If PageOwner.Level < SummaryLevel AndAlso PageOwner.Level > UserL.Ignore _
-                        Then PageOwner.Level = SummaryLevel
+                    If PageOwner.WarningLevel < SummaryLevel AndAlso Not PageOwner.Ignored _
+                        Then PageOwner.WarningLevel = SummaryLevel
                 End If
             End If
 
@@ -111,11 +109,11 @@ Module Processing
 
                             Dim ReportedUser As User = GetUser(Summary)
 
-                            If ReportedUser.Level > UserL.Ignore Then
-                                If Edit.Page.Name = Config.AIVLocation AndAlso ReportedUser.Level < UserL.ReportedAIV _
-                                    Then ReportedUser.Level = UserL.ReportedAIV
-                                If Edit.Page.Name = Config.UAALocation AndAlso ReportedUser.Level < UserL.ReportedUAA _
-                                    Then ReportedUser.Level = UserL.ReportedUAA
+                            If Not ReportedUser.Ignored Then
+                                If Edit.Page.Name = Config.AIVLocation AndAlso ReportedUser.WarningLevel < UserLevel.ReportedAIV _
+                                    Then ReportedUser.WarningLevel = UserLevel.ReportedAIV
+                                If Edit.Page.Name = Config.UAALocation AndAlso ReportedUser.WarningLevel < UserLevel.ReportedUAA _
+                                    Then ReportedUser.WarningLevel = UserLevel.ReportedUAA
                             End If
 
                         Else
@@ -124,10 +122,10 @@ Module Processing
 
                             Dim ReportedUser As User = GetUser(Summary)
 
-                            If ReportedUser.Anonymous AndAlso ReportedUser.Level < UserL.ReportedUAA _
-                                AndAlso ReportedUser.Level > UserL.Ignore Then
-                                If Edit.Page.Name = Config.AIVLocation Then ReportedUser.Level = UserL.ReportedAIV _
-                                    Else ReportedUser.Level = UserL.ReportedUAA
+                            If ReportedUser.Anonymous AndAlso ReportedUser.WarningLevel < UserLevel.ReportedUAA _
+                                AndAlso Not ReportedUser.Ignored Then
+                                If Edit.Page.Name = Config.AIVLocation Then ReportedUser.WarningLevel = UserLevel.ReportedAIV _
+                                    Else ReportedUser.WarningLevel = UserLevel.ReportedUAA
                             End If
                         End If
                     End If
@@ -143,16 +141,16 @@ Module Processing
 
                     Dim ReportedUser As User = GetUser(Summary)
 
-                    If ReportedUser.Level < UserL.ReportedAIV AndAlso ReportedUser.Level > UserL.Ignore Then _
-                        ReportedUser.Level = UserL.ReportedAIV
+                    If ReportedUser.WarningLevel < UserLevel.ReportedAIV AndAlso Not ReportedUser.Ignored Then _
+                        ReportedUser.WarningLevel = UserLevel.ReportedAIV
 
                     Edit.Type = Edit.Types.Report
 
                 ElseIf Edit.Summary.ToLower.StartsWith("reporting ") AndAlso Edit.Summary.Length > 10 Then
                     Dim ReportedUser As User = GetUser(Edit.Summary.Substring(10))
 
-                    If ReportedUser.Level < UserL.ReportedAIV AndAlso ReportedUser.Level > UserL.Ignore Then _
-                        ReportedUser.Level = UserL.ReportedAIV
+                    If ReportedUser.WarningLevel < UserLevel.ReportedAIV AndAlso Not ReportedUser.Ignored Then _
+                        ReportedUser.WarningLevel = UserLevel.ReportedAIV
 
                     Edit.Type = Edit.Types.Report
                 End If
@@ -176,8 +174,8 @@ Module Processing
 
                     Dim ReportedUser As User = GetUser(UserName)
 
-                    If ReportedUser.Level < UserL.ReportedAIV AndAlso ReportedUser.Level > UserL.Ignore _
-                        Then ReportedUser.Level = UserL.ReportedAIV
+                    If ReportedUser.WarningLevel < UserLevel.ReportedAIV AndAlso Not ReportedUser.Ignored _
+                        Then ReportedUser.WarningLevel = UserLevel.ReportedAIV
 
                     Edit.Type = Edit.Types.Report
 
@@ -190,8 +188,8 @@ Module Processing
 
                     Dim ReportedUser As User = GetUser(UserName)
 
-                    If ReportedUser.Level < UserL.ReportedAIV AndAlso ReportedUser.Level > UserL.Ignore _
-                        Then ReportedUser.Level = UserL.ReportedAIV
+                    If ReportedUser.WarningLevel < UserLevel.ReportedAIV AndAlso Not ReportedUser.Ignored _
+                        Then ReportedUser.WarningLevel = UserLevel.ReportedAIV
 
                     Edit.Type = Edit.Types.Report
                 End If
@@ -209,8 +207,8 @@ Module Processing
 
                     Dim ReportedUser As User = GetUser(UserName)
 
-                    If ReportedUser.Level < UserL.ReportedUAA AndAlso ReportedUser.Level > UserL.Ignore Then _
-                        ReportedUser.Level = UserL.ReportedUAA
+                    If ReportedUser.WarningLevel < UserLevel.ReportedUAA AndAlso Not ReportedUser.Ignored Then _
+                        ReportedUser.WarningLevel = UserLevel.ReportedUAA
 
                     Edit.Type = Edit.Types.Report
                 End If
@@ -221,9 +219,7 @@ Module Processing
                 Then Edit.Type = Edit.Types.Tag
         End If
 
-        If Edit.Id IsNot Nothing AndAlso Not AllEditsById.ContainsKey(Edit.Id) _
-            Then AllEditsById.Add(Edit.Id, Edit)
-
+        If Edit.Id IsNot Nothing AndAlso Not Edit.All.ContainsKey(Edit.Id) Then Edit.All.Add(Edit.Id, Edit)
         Edit.Processed = True
     End Sub
 
@@ -233,6 +229,7 @@ Module Processing
 
         Dim Redraw As Boolean
 
+        'Update edit properties
         If Edit.Page.LastEdit IsNot Nothing Then
             Edit.Prev = Edit.Page.LastEdit
             Edit.Prev.Next = Edit
@@ -247,63 +244,23 @@ Module Processing
         Edit.User.LastEdit = Edit
 
         'Update statistics and edit counts
-        Stats.Edits += 1
+        Stats.Update(Edit)
         Edit.User.SessionEditCount += 1
         If Edit.User.EditCount > -1 Then Edit.User.EditCount += 1
 
-        Select Case Edit.Type
-            Case Edit.Types.Revert : Stats.Reverts += 1
-            Case Edit.Types.Warning : Stats.Warnings += 1
-        End Select
+        'Add edit to queues
+        For Each Item As Queue In Queue.All.Values
+            If Item.Type <> QueueType.FixedList Then Item.AddEdit(Edit)
+        Next Item
 
-        'Add edit to "all edits" queue
-        AllEdits.Items.Insert(0, Edit)
-
-        'Add new pages to new pages queue
-        If Edit.NewPage Then NewPages.Items.Insert(0, Edit)
-
-        'Remove old edits from filtered edits queue
-        Dim j As Integer = 0
-
-        While j < FilteredEdits.Items.Count - 1
-            If (FilteredEdits.Items(j) IsNot FilteredEdits.Items(j).Page.LastEdit) OrElse (Config.QueueMaxAge > 0 _
-                AndAlso FilteredEdits.Items(j).Time.AddMinutes(Config.QueueMaxAge) < Date.UtcNow) Then
-
-                FilteredEdits.Items.RemoveAt(j)
-                Redraw = True
-            Else
-                j += 1
-            End If
-        End While
-
-        'Add edit to the filtered edits queue
-        If WhitelistLoaded _
-            AndAlso Edit.User.Level <> UserL.Ignore _
-            AndAlso (Config.ShowNewPages OrElse Not Edit.NewPage) _
-            AndAlso Edit.Page.Level <> Page.Levels.Ignore _
-            AndAlso Not OwnUserspace(Edit) _
-            AndAlso Edit.Type >= Edit.Types.None _
-            AndAlso Not Math.Abs(Edit.Size) > 100000 Then
-
-            FilteredEdits.Items.Add(Edit)
-            Edit.Added = True
-            MainForm.DiffNextB.Enabled = True
-            If CurrentEdit Is Nothing Then DisplayEdit(Edit)
-            If FilteredEdits.Items.Count > 5000 Then FilteredEdits.Items.RemoveAt(5000)
-            Redraw = True
-        End If
-
-        'Add edit to other queues
-        For Each Queue As Queue In AllQueues.Values
-            If Queue.MatchesFilter(Edit) Then Queue.Items.Add(Edit)
-        Next Queue
+        If CurrentEdit Is Nothing Then DisplayEdit(Edit)
 
         'Issue warnings
         Dim i As Integer = 0
 
         While i < PendingWarnings.Count
             If PendingWarnings(i).Page Is Edit.Page Then
-                If Edit.User Is MyUser Then
+                If Edit.User.IsMe Then
                     Dim Last As Edit = GetPage("User talk:" & PendingWarnings(i).User.Name).LastEdit
 
                     If Last IsNot Nothing AndAlso Last.Time.AddSeconds(Config.MinWarningWait) > Date.UtcNow Then
@@ -342,7 +299,7 @@ Module Processing
                 Is Edit.Page Then MainForm.Status.Items.RemoveAt(k) Else k += 1
         End While
 
-        If Edit.User Is MyUser Then
+        If Edit.User.IsMe Then
             Stats.EditsMe += 1
 
             'Log user's edits
@@ -378,8 +335,8 @@ Module Processing
         End If
 
         'Check for new messages
-        If Edit.Page Is GetPage("User talk:" & MyUser.Name) Then
-            MainForm.SystemShowNewMessages.Enabled = Not (Edit.User Is MyUser)
+        If Edit.Page Is GetPage("User talk:" & Username) Then
+            MainForm.SystemShowNewMessages.Enabled = Not Edit.User.IsMe
             If MainForm.SystemShowNewMessages.Enabled AndAlso Config.TrayIcon _
                 Then MainForm.TrayIcon.ShowBalloonTip(10000)
         End If
@@ -387,10 +344,10 @@ Module Processing
         'Warnings
         If Edit.Page.Space Is Space.UserTalk AndAlso Not Edit.Page.Name.Contains("/") Then
             Dim PageOwner As User = GetUser(Edit.Page.Name.Substring(10))
-            Dim WarningLevel As UserL = GetUserLevelFromSummary(Edit)
+            Dim WarningLevel As UserLevel = GetUserLevelFromSummary(Edit)
 
             If PageOwner IsNot Nothing Then
-                If Edit.User Is MyUser AndAlso PageOwner.WarningsCurrent AndAlso WarningLevel >= UserL.Warning Then
+                If Edit.User.IsMe AndAlso PageOwner.WarningsCurrent AndAlso WarningLevel >= UserLevel.Warning Then
 
                     'Add our own warnings straight to the list
                     Dim NewWarning As New Warning
@@ -398,7 +355,7 @@ Module Processing
                     NewWarning.Level = WarningLevel
                     NewWarning.Time = Edit.Time
                     NewWarning.Type = "huggle"
-                    NewWarning.User = MyUser
+                    NewWarning.User = User.Me
 
                     If PageOwner.Warnings Is Nothing Then PageOwner.Warnings = New List(Of Warning)
                     PageOwner.Warnings.Add(NewWarning)
@@ -412,20 +369,20 @@ Module Processing
                 For Each Item As Form In Application.OpenForms
                     Dim uif As UserInfoForm = TryCast(Item, UserInfoForm)
 
-                    If uif IsNot Nothing AndAlso uif.ThisUser Is PageOwner Then uif.RefreshWarnings()
+                    If uif IsNot Nothing AndAlso uif.User Is PageOwner Then uif.RefreshWarnings()
                 Next Item
             End If
         End If
 
         'Get edit counts for non-whitelisted registered users, in batches of 25, and whitelist if appropriate
-        If Config.AutoWhitelist AndAlso Not Edit.User.Anonymous AndAlso (Edit.User.Level <> UserL.Ignore) _
-            AndAlso Not Edit.User.EditCount > 0 AndAlso NextCount.Count < 25 Then
+        If Config.AutoWhitelist AndAlso Not Edit.User.Anonymous AndAlso Not Edit.User.Ignored _
+            AndAlso Not Edit.User.EditCount > 0 Then
 
             'Add the username that fits the criteria to the list
             NextCount.Add(Edit.User)
 
             'If there are 25 usernames in the list run the count
-            If NextCount.Count = 25 Then
+            If NextCount.Count >= 25 Then
                 Dim NewCountRequest As New CountRequest
                 NewCountRequest.Users.AddRange(NextCount)
                 NewCountRequest.Start()
@@ -433,14 +390,11 @@ Module Processing
             End If
         End If
 
-        'Sort the queue
-        FilteredEdits.Items.Sort(AddressOf Edit.Compare)
-
         'Preload diffs
-        For l As Integer = 0 To Math.Min(FilteredEdits.Items.Count, Config.Preloads) - 1
-            If FilteredEdits.Items(l).Cached = Edit.CacheState.Uncached Then
+        For l As Integer = 0 To Math.Min(CurrentQueue.Edits.Count, Config.Preloads) - 1
+            If CurrentQueue.Edits(l).Cached = Edit.CacheState.Uncached Then
                 Dim NewDiffRequest As New DiffRequest
-                NewDiffRequest.Edit = FilteredEdits.Items(l)
+                NewDiffRequest.Edit = CurrentQueue.Edits(l)
                 NewDiffRequest.Start()
             End If
         Next l
@@ -459,7 +413,7 @@ Module Processing
             If ThisTab.Edit IsNot Nothing Then
                 If ThisTab.Edit.Page Is Edit.Page AndAlso ThisTab.ShowNewEdits Then
                     'Show new edits to page
-                    DisplayEdit(Edit, False, ThisTab, Not (Edit.User Is MyUser))
+                    DisplayEdit(Edit, False, ThisTab, Not Edit.User.IsMe)
 
                     If ThisTab Is CurrentTab Then
                         MainForm.DiffRevertB.Enabled = False
@@ -511,22 +465,22 @@ Module Processing
         If Edit Is Nothing Then Return False
 
         'Confirm self-reversion
-        If Config.ConfirmSelfRevert AndAlso Not Undoing AndAlso Edit.User Is MyUser _
+        If Config.ConfirmSelfRevert AndAlso Not Undoing AndAlso Edit.User.IsMe _
             AndAlso (Edit.Page.FirstEdit Is Nothing OrElse Edit.Id <> Edit.Page.FirstEdit.Id) _
             AndAlso MsgBox("This will revert your own edit. Continue?", MsgBoxStyle.YesNo) = MsgBoxResult.No _
             Then Return False
 
         'Confirm reversion of whitelisted user
-        If Config.ConfirmIgnored AndAlso Edit.User IsNot MyUser AndAlso Edit.User.Level = UserL.Ignore _
+        If Config.ConfirmIgnored AndAlso Edit.User.Ignored AndAlso Not Edit.User.IsMe _
             AndAlso MsgBox("Revert edit by whitelisted user '" & _
-            Edit.User.Name & "'?", MsgBoxStyle.YesNo) = MsgBoxResult.No Then Return False
+            Edit.User.Name & "'?", MsgBoxStyle.YesNo, "huggle") = MsgBoxResult.No Then Return False
 
         'Confirm reversion of multiple edits
         If Config.ConfirmMultiple AndAlso Edit.Prev IsNot Nothing AndAlso Edit.User IsNot Nothing _
             AndAlso Edit.User Is Edit.Prev.User AndAlso MsgBox("This will revert multiple edits by '" & _
-            Edit.User.Name & "'.", MsgBoxStyle.OkCancel, "Revert") <> MsgBoxResult.Ok Then Return False
+            Edit.User.Name & "'.", MsgBoxStyle.OkCancel, "huggle") <> MsgBoxResult.Ok Then Return False
 
-        If Not Undoing AndAlso Edit.User.Level = UserL.None Then Edit.User.Level = UserL.Reverted
+        If Not Undoing AndAlso Edit.User.WarningLevel = UserLevel.None Then Edit.User.WarningLevel = UserLevel.Reverted
         If Not Undoing AndAlso Edit.Page.Level = Page.Levels.None Then Edit.Page.Level = Page.Levels.Watch
 
         'If reverting first edit to user talk page, blank it
@@ -640,7 +594,7 @@ Module Processing
 
         If ThisBlock IsNot Nothing AndAlso ThisBlock.User IsNot Nothing Then
             Stats.Blocks += 1
-            If ThisBlock.Admin Is MyUser Then Stats.BlocksMe += 1
+            If ThisBlock.Admin.IsMe Then Stats.BlocksMe += 1
 
             If ThisBlock.User.BlocksCurrent Then
                 If ThisBlock.User.Blocks Is Nothing Then ThisBlock.User.Blocks = New List(Of Block)
@@ -648,16 +602,16 @@ Module Processing
             End If
 
             If ThisBlock.Action = "block" Then
-                If ThisBlock.User.Level > UserL.Ignore Then ThisBlock.User.Level = UserL.Blocked
+                If Not ThisBlock.User.Ignored Then ThisBlock.User.WarningLevel = UserLevel.Blocked
             Else
-                ThisBlock.User.Level = UserL.None
+                ThisBlock.User.WarningLevel = UserLevel.None
             End If
 
             'Refresh any open user info form
             For Each Item As Form In Application.OpenForms
                 Dim uif As UserInfoForm = TryCast(Item, UserInfoForm)
 
-                If uif IsNot Nothing AndAlso uif.ThisUser Is ThisBlock.User Then
+                If uif IsNot Nothing AndAlso uif.User Is ThisBlock.User Then
                     uif.RefreshBlocks()
                 End If
             Next Item
@@ -681,7 +635,10 @@ Module Processing
                 If ThisEdit.Next IsNot Nothing Then ThisEdit.Next.Prev = ThisEdit.Prev
                 If ThisEdit.PrevByUser IsNot Nothing Then ThisEdit.PrevByUser.NextByUser = ThisEdit.NextByUser
                 If ThisEdit.NextByUser IsNot Nothing Then ThisEdit.NextByUser.PrevByUser = ThisEdit.PrevByUser
-                If FilteredEdits.Items.Contains(ThisEdit) Then FilteredEdits.Items.Remove(ThisEdit)
+
+                For Each Item As Queue In Queue.All.Values
+                    Item.RefreshEdit(ThisEdit)
+                Next Item
 
                 ThisEdit.Deleted = True
                 ThisEdit = ThisEdit.Prev
@@ -766,7 +723,7 @@ Module Processing
                 ThisEdit.Id = Diff
             End If
 
-            If AllEditsById.ContainsKey(ThisEdit.Id) Then ThisEdit = AllEditsById(ThisEdit.Id)
+            If Edit.All.ContainsKey(ThisEdit.Id) Then ThisEdit = Edit.All(ThisEdit.Id)
 
             If ThisEdit.Oldid = "prev" AndAlso DiffText.Contains("<div id=""mw-diff-otitle1""><strong><a") Then
                 Dim Oldid As String = DiffText.Substring(DiffText.IndexOf("<div id=""mw-diff-otitle1""><strong><a") _
@@ -876,16 +833,16 @@ Module Processing
         ThisEdit.Cached = Edit.CacheState.Cached
 
         If Tab.Edit Is ThisEdit OrElse (Tab.Edit.Next Is ThisEdit AndAlso HidingEdit) _
-            Then DisplayEdit(ThisEdit, False, Tab, ThisEdit.User IsNot MyUser)
+            Then DisplayEdit(ThisEdit, False, Tab, Not ThisEdit.User.IsMe)
     End Sub
 
-    Sub ProcessHistory(ByVal Result As String, ByVal ThisPage As Page)
+    Sub ProcessHistory(ByVal Result As String, ByVal Page As Page)
 
         Dim History As MatchCollection = New Regex("<rev revid=""([^""]+)"" user=""([^""]+)"" (anon="""" )" & _
             "?timestamp=""([^""]+)"" (comment=""([^""]+)"" )?/>", RegexOptions.Compiled).Matches(Result)
 
         If History.Count = 0 Then
-            If ThisPage.LastEdit Is Nothing Then ThisPage.LastEdit = NullEdit
+            If Page.LastEdit Is Nothing Then Page.LastEdit = NullEdit
             Exit Sub
         End If
 
@@ -895,18 +852,18 @@ Module Processing
             Dim ThisEdit As Edit
             Dim Diff As String = History(i).Groups(1).Value
 
-            If AllEditsById.ContainsKey(Diff) Then ThisEdit = AllEditsById(Diff) Else ThisEdit = New Edit
+            If Edit.All.ContainsKey(Diff) Then ThisEdit = Edit.All(Diff) Else ThisEdit = New Edit
 
             ThisEdit.Id = Diff
             If ThisEdit.Oldid Is Nothing Then ThisEdit.Oldid = "prev"
-            ThisEdit.Page = ThisPage
+            ThisEdit.Page = Page
 
             ThisEdit.User = GetUser(HtmlDecode(History(i).Groups(2).Value))
             If ThisEdit.Summary Is Nothing Then ThisEdit.Summary = HtmlDecode(History(i).Groups(6).Value)
             If ThisEdit.Time = Date.MinValue Then ThisEdit.Time = CDate(History(i).Groups(4).Value)
 
-            If ThisPage.LastEdit Is Nothing Then
-                ThisPage.LastEdit = ThisEdit
+            If Page.LastEdit Is Nothing Then
+                Page.LastEdit = ThisEdit
             ElseIf NextEdit IsNot Nothing Then
                 ThisEdit.Next = NextEdit
                 ThisEdit.Next.Oldid = ThisEdit.Id
@@ -918,10 +875,10 @@ Module Processing
         Next i
 
         If Result.Contains("<revisions rvstartid=""") Then
-            ThisPage.HistoryOffset = NextEdit.Id
+            Page.HistoryOffset = NextEdit.Id
         Else
             NextEdit.Prev = NullEdit
-            ThisPage.FirstEdit = NextEdit
+            Page.FirstEdit = NextEdit
         End If
 
         MainForm.RefreshInterface()
@@ -944,7 +901,7 @@ Module Processing
             Dim ThisEdit As Edit
             Dim Diff As String = Contribs(i).Groups(1).Value
 
-            If AllEditsById.ContainsKey(Diff) Then ThisEdit = AllEditsById(Diff) Else ThisEdit = New Edit
+            If Edit.All.ContainsKey(Diff) Then ThisEdit = Edit.All(Diff) Else ThisEdit = New Edit
 
             ThisEdit.Id = Diff
             If ThisEdit.Oldid Is Nothing Then ThisEdit.Oldid = "prev"
@@ -1018,7 +975,7 @@ Module Processing
                                 BlockSummary = BlockSummary.Substring(0, BlockSummary.IndexOf(""""))
 
                                 Dim BlockedUser As User = GetUser(BlockSummary)
-                                If BlockedUser.Level < UserL.Blocked Then BlockedUser.Level = UserL.Blocked
+                                If BlockedUser.WarningLevel < UserLevel.Blocked Then BlockedUser.WarningLevel = UserLevel.Blocked
                             End If
                         End If
                     Else
@@ -1039,7 +996,7 @@ Module Processing
                         NewEdit.Time = Date.SpecifyKind(CDate(RcLineMatch.Groups(11).Value).ToUniversalTime, DateTimeKind.Utc)
                         NewEdit.Summary = RcLineMatch.Groups(13).Value
 
-                        If Not AllEditsById.ContainsKey(NewEdit.Id) Then
+                        If Not Edit.All.ContainsKey(NewEdit.Id) Then
                             ProcessEdit(NewEdit)
                             ProcessNewEdit(NewEdit)
                         End If
@@ -1048,10 +1005,10 @@ Module Processing
             Next i
         End If
 
-        For j As Integer = 0 To Math.Min(FilteredEdits.Items.Count - 1, Config.Preloads - 1)
-            If FilteredEdits.Items(j).Cached = Edit.CacheState.Uncached Then
+        For j As Integer = 0 To Math.Min(CurrentQueue.Edits.Count - 1, Config.Preloads - 1)
+            If CurrentQueue.Edits(j).Cached = Edit.CacheState.Uncached Then
                 Dim NewGetDiffRequest As New DiffRequest
-                NewGetDiffRequest.Edit = FilteredEdits.Items(j)
+                NewGetDiffRequest.Edit = CurrentQueue.Edits(j)
                 NewGetDiffRequest.Start()
             End If
         Next j
@@ -1070,11 +1027,10 @@ Module Processing
             If Not InBrowsingHistory AndAlso (Tab.History.Count = 0 OrElse (Not Tab.History(0).Edit Is Edit)) _
                 Then Tab.AddHistoryItem(New HistoryItem(Edit))
 
-            'Remove edit from queue
-            If CurrentQueue IsNot Nothing AndAlso CurrentQueue.Items.Contains(Edit) Then
-                CurrentQueue.Items.Remove(Edit)
-                MainForm.DrawQueue()
-            End If
+            'Remove edit from queues
+            For Each Item As Queue In Queue.All.Values
+                Item.RemoveViewedEdit(Edit)
+            Next Item
 
             If Tab Is CurrentTab AndAlso ChangeCurrentEdit Then
                 Tab.Edit = Edit
@@ -1103,7 +1059,7 @@ Module Processing
 
                         'Notify user of new messages
                         If MainForm.SystemShowNewMessages.Enabled _
-                            AndAlso (Not Edit.Page.Name = "User talk:" & MyUser.Name) _
+                            AndAlso (Not Edit.Page.Name = "User talk:" & Username) _
                             Then DiffText = "<div class=""usermessage"">You have new messages; select " & _
                             "System -> Show new messages or press M to view them.</div>" & DiffText
 
@@ -1150,8 +1106,8 @@ Module Processing
             MainForm.RefreshInterface()
 
         ElseIf Edit IsNot Nothing AndAlso Edit.Page IsNot Nothing Then
-            If CurrentQueue IsNot Nothing AndAlso CurrentQueue.Items.Contains(Edit) Then
-                CurrentQueue.Items.Remove(Edit)
+            If CurrentQueue IsNot Nothing AndAlso CurrentQueue.Edits.Contains(Edit) Then
+                CurrentQueue.RemoveViewedEdit(Edit)
                 MainForm.DrawQueue()
             End If
 
@@ -1195,16 +1151,11 @@ Module Processing
     End Sub
 
     Sub ShowNextEdit()
-        If CurrentQueue.Items.Count > 0 Then
-            Dim ThisEdit As Edit = CurrentQueue.Items(0)
+        If CurrentQueue.Edits.Count > 0 Then
+            Dim ThisEdit As Edit = CurrentQueue.Edits(0)
             DisplayEdit(ThisEdit, , CurrentTab)
 
-            If FilteredEdits.Items.Contains(ThisEdit) Then
-                FilteredEdits.Items.Remove(ThisEdit)
-                MainForm.DrawQueue()
-            End If
-
-            If CurrentQueue.Items.Count = 0 Then MainForm.DiffNextB.Enabled = False
+            If CurrentQueue.Edits.Count = 0 Then MainForm.DiffNextB.Enabled = False
         End If
     End Sub
 
@@ -1303,285 +1254,286 @@ Module Processing
         Return False
     End Function
 
-    Function GetUserLevelFromSummary(ByVal ThisEdit As Edit) As UserL
+    Function GetUserLevelFromSummary(ByVal Edit As Edit) As UserLevel
         'Try to interpret as many styles of summary as possible without too many mistakes
 
-        Dim Summary As String = ThisEdit.Summary.ToLower
-        If Summary = "" OrElse Summary Is Nothing Then Return UserL.None
-        If ThisEdit.User.Name = ThisEdit.Page.Name.Substring(10) Then Return UserL.None
+        Dim Summary As String = Edit.Summary.ToLower
+        If Summary = "" OrElse Summary Is Nothing Then Return UserLevel.None
+        If Edit.User.Name = Edit.Page.Name.Substring(10) Then Return UserLevel.None
 
-        If ThisEdit.User.Level = UserL.Ignore Then
-            If Summary.EndsWith("v5") Then Return UserL.Blocked
-            If Summary.EndsWith("v6") Then Return UserL.Blocked
-            If Summary.EndsWith("v7") Then Return UserL.Blocked
-            If Summary.EndsWith("t5") Then Return UserL.Blocked
-            If Summary.EndsWith("t6") Then Return UserL.Blocked
-            If Summary.EndsWith("t7") Then Return UserL.Blocked
-            If Summary.EndsWith("d5") Then Return UserL.Blocked
-            If Summary.EndsWith("d6") Then Return UserL.Blocked
-            If Summary.EndsWith("d7") Then Return UserL.Blocked
+        'Only parse block notifications issued by ignored users, to avoid parsing vandalism
+        If Edit.User.Ignored Then
+            If Summary.EndsWith("v5") Then Return UserLevel.Blocked
+            If Summary.EndsWith("v6") Then Return UserLevel.Blocked
+            If Summary.EndsWith("v7") Then Return UserLevel.Blocked
+            If Summary.EndsWith("t5") Then Return UserLevel.Blocked
+            If Summary.EndsWith("t6") Then Return UserLevel.Blocked
+            If Summary.EndsWith("t7") Then Return UserLevel.Blocked
+            If Summary.EndsWith("d5") Then Return UserLevel.Blocked
+            If Summary.EndsWith("d6") Then Return UserLevel.Blocked
+            If Summary.EndsWith("d7") Then Return UserLevel.Blocked
 
-            If Summary.Contains("test 5") OrElse Summary.Contains("test5") Then Return UserL.Blocked
-            If Summary.Contains("test 6") OrElse Summary.Contains("test6") Then Return UserL.Blocked
-            If Summary.Contains("test 7") OrElse Summary.Contains("test7") Then Return UserL.Blocked
+            If Summary.Contains("test 5") OrElse Summary.Contains("test5") Then Return UserLevel.Blocked
+            If Summary.Contains("test 6") OrElse Summary.Contains("test6") Then Return UserLevel.Blocked
+            If Summary.Contains("test 7") OrElse Summary.Contains("test7") Then Return UserLevel.Blocked
 
-            If Summary.StartsWith("notification: blocked") Then Return UserL.Blocked
+            If Summary.StartsWith("notification: blocked") Then Return UserLevel.Blocked
 
             If Summary.Contains("you have been temporarily blocked") OrElse Summary.Contains("you have been blocked") _
                 OrElse Summary.Contains("temporary block") OrElse Summary.Contains("vandalblock") _
                 OrElse Summary.Contains("+block") OrElse Summary.Contains("+indefblock") _
                 OrElse Summary.Contains("+anonblock") OrElse Summary = "blocked" OrElse Summary = "block" _
-                OrElse Summary.Contains("indef blocked") Then Return UserL.Blocked
+                OrElse Summary.Contains("indef blocked") Then Return UserLevel.Blocked
         End If
 
         'Guest9999
-        If TrimSummary(Summary).Contains("informing of speedy delete nomination") Then Return UserL.Notification
+        If TrimSummary(Summary).Contains("informing of speedy delete nomination") Then Return UserLevel.Notification
 
         'BJBot
-        If Summary.Contains("orphaned fair use image tagging") Then Return UserL.Notification
+        If Summary.Contains("orphaned fair use image tagging") Then Return UserLevel.Notification
 
         'Mecu
-        If Summary.Contains("warning: image missing fair use rationale") Then Return UserL.Notification
+        If Summary.Contains("warning: image missing fair use rationale") Then Return UserLevel.Notification
 
         'ClueBot
         If Summary.StartsWith("warning ") Then
-            If Summary.EndsWith("#1") Then Return UserL.Warn1
-            If Summary.EndsWith("#2") Then Return UserL.Warn2
-            If Summary.EndsWith("#3") Then Return UserL.Warn3
-            If Summary.EndsWith("#4") Then Return UserL.WarnFinal
+            If Summary.EndsWith("#1") Then Return UserLevel.Warn1
+            If Summary.EndsWith("#2") Then Return UserLevel.Warn2
+            If Summary.EndsWith("#3") Then Return UserLevel.Warn3
+            If Summary.EndsWith("#4") Then Return UserLevel.WarnFinal
         End If
 
         '{{uw-vandalism1}}, {{uw-vandalism1|Foo}}, ...
-        If Summary.Contains("1}}") OrElse Summary.Contains("1|") Then Return UserL.Warn1
-        If Summary.Contains("2}}") OrElse Summary.Contains("2|") Then Return UserL.Warn2
-        If Summary.Contains("3}}") OrElse Summary.Contains("3|") Then Return UserL.Warn3
-        If Summary.Contains("4}}") OrElse Summary.Contains("4|") Then Return UserL.WarnFinal
+        If Summary.Contains("1}}") OrElse Summary.Contains("1|") Then Return UserLevel.Warn1
+        If Summary.Contains("2}}") OrElse Summary.Contains("2|") Then Return UserLevel.Warn2
+        If Summary.Contains("3}}") OrElse Summary.Contains("3|") Then Return UserLevel.Warn3
+        If Summary.Contains("4}}") OrElse Summary.Contains("4|") Then Return UserLevel.WarnFinal
 
         '{{test1-n}}
-        If Summary.Contains("1-n}}") Then Return UserL.Warn1
-        If Summary.Contains("2-n}}") Then Return UserL.Warn2
-        If Summary.Contains("3-n}}") Then Return UserL.Warn3
-        If Summary.Contains("4-n}}") Then Return UserL.WarnFinal
+        If Summary.Contains("1-n}}") Then Return UserLevel.Warn1
+        If Summary.Contains("2-n}}") Then Return UserLevel.Warn2
+        If Summary.Contains("3-n}}") Then Return UserLevel.Warn3
+        If Summary.Contains("4-n}}") Then Return UserLevel.WarnFinal
 
-        If Summary.Contains("warn1") Then Return UserL.Warn1
-        If Summary.Contains("warn2") Then Return UserL.Warn2
-        If Summary.Contains("warn3") Then Return UserL.Warn3
-        If Summary.Contains("warn4") Then Return UserL.WarnFinal
+        If Summary.Contains("warn1") Then Return UserLevel.Warn1
+        If Summary.Contains("warn2") Then Return UserLevel.Warn2
+        If Summary.Contains("warn3") Then Return UserLevel.Warn3
+        If Summary.Contains("warn4") Then Return UserLevel.WarnFinal
 
-        If Summary.Contains("warn 1") Then Return UserL.Warn1
-        If Summary.Contains("warn 2") Then Return UserL.Warn2
-        If Summary.Contains("warn 3") Then Return UserL.Warn3
-        If Summary.Contains("warn 4") Then Return UserL.WarnFinal
+        If Summary.Contains("warn 1") Then Return UserLevel.Warn1
+        If Summary.Contains("warn 2") Then Return UserLevel.Warn2
+        If Summary.Contains("warn 3") Then Return UserLevel.Warn3
+        If Summary.Contains("warn 4") Then Return UserLevel.WarnFinal
 
-        If Summary.Contains("test1") Then Return UserL.Warn1
-        If Summary.Contains("test2") Then Return UserL.Warn2
-        If Summary.Contains("test3") Then Return UserL.Warn3
-        If Summary.Contains("test4") Then Return UserL.WarnFinal
+        If Summary.Contains("test1") Then Return UserLevel.Warn1
+        If Summary.Contains("test2") Then Return UserLevel.Warn2
+        If Summary.Contains("test3") Then Return UserLevel.Warn3
+        If Summary.Contains("test4") Then Return UserLevel.WarnFinal
 
-        If Summary.Contains("test 1") Then Return UserL.Warn1
-        If Summary.Contains("test 2") Then Return UserL.Warn2
-        If Summary.Contains("test 3") Then Return UserL.Warn3
-        If Summary.Contains("test 4") Then Return UserL.WarnFinal
+        If Summary.Contains("test 1") Then Return UserLevel.Warn1
+        If Summary.Contains("test 2") Then Return UserLevel.Warn2
+        If Summary.Contains("test 3") Then Return UserLevel.Warn3
+        If Summary.Contains("test 4") Then Return UserLevel.WarnFinal
 
-        If Summary.Contains("vand1") Then Return UserL.Warn1
-        If Summary.Contains("vand2") Then Return UserL.Warn2
-        If Summary.Contains("vand3") Then Return UserL.Warn3
-        If Summary.Contains("vand4") Then Return UserL.WarnFinal
+        If Summary.Contains("vand1") Then Return UserLevel.Warn1
+        If Summary.Contains("vand2") Then Return UserLevel.Warn2
+        If Summary.Contains("vand3") Then Return UserLevel.Warn3
+        If Summary.Contains("vand4") Then Return UserLevel.WarnFinal
 
-        If Summary.Contains("vand 1") Then Return UserL.Warn1
-        If Summary.Contains("vand 2") Then Return UserL.Warn2
-        If Summary.Contains("vand 3") Then Return UserL.Warn3
-        If Summary.Contains("vand 4") Then Return UserL.WarnFinal
+        If Summary.Contains("vand 1") Then Return UserLevel.Warn1
+        If Summary.Contains("vand 2") Then Return UserLevel.Warn2
+        If Summary.Contains("vand 3") Then Return UserLevel.Warn3
+        If Summary.Contains("vand 4") Then Return UserLevel.WarnFinal
 
         'VirginiaProp
-        If Summary.Contains("vandal1") Then Return UserL.Warn1
-        If Summary.Contains("vandal2") Then Return UserL.Warn2
-        If Summary.Contains("vandal3") Then Return UserL.Warn3
-        If Summary.Contains("vandal4") Then Return UserL.WarnFinal
+        If Summary.Contains("vandal1") Then Return UserLevel.Warn1
+        If Summary.Contains("vandal2") Then Return UserLevel.Warn2
+        If Summary.Contains("vandal3") Then Return UserLevel.Warn3
+        If Summary.Contains("vandal4") Then Return UserLevel.WarnFinal
 
         'Oda Mari
-        If Summary.Contains("vandal 1") Then Return UserL.Warn1
-        If Summary.Contains("vandal 2") Then Return UserL.Warn2
-        If Summary.Contains("vandal 3") Then Return UserL.Warn3
-        If Summary.Contains("vandal 4") Then Return UserL.WarnFinal
+        If Summary.Contains("vandal 1") Then Return UserLevel.Warn1
+        If Summary.Contains("vandal 2") Then Return UserLevel.Warn2
+        If Summary.Contains("vandal 3") Then Return UserLevel.Warn3
+        If Summary.Contains("vandal 4") Then Return UserLevel.WarnFinal
 
-        If Summary.Contains("delete 1") Then Return UserL.Warn1
-        If Summary.Contains("delete 2") Then Return UserL.Warn2
-        If Summary.Contains("delete 3") Then Return UserL.Warn3
-        If Summary.Contains("delete 4") Then Return UserL.WarnFinal
+        If Summary.Contains("delete 1") Then Return UserLevel.Warn1
+        If Summary.Contains("delete 2") Then Return UserLevel.Warn2
+        If Summary.Contains("delete 3") Then Return UserLevel.Warn3
+        If Summary.Contains("delete 4") Then Return UserLevel.WarnFinal
 
-        If Summary.Contains("warning 1") Then Return UserL.Warn1
-        If Summary.Contains("warning 2") Then Return UserL.Warn2
-        If Summary.Contains("warning 3") Then Return UserL.Warn3
-        If Summary.Contains("warning 4") Then Return UserL.WarnFinal
+        If Summary.Contains("warning 1") Then Return UserLevel.Warn1
+        If Summary.Contains("warning 2") Then Return UserLevel.Warn2
+        If Summary.Contains("warning 3") Then Return UserLevel.Warn3
+        If Summary.Contains("warning 4") Then Return UserLevel.WarnFinal
 
-        If Summary.Contains("vandalism 1") Then Return UserL.Warn1
-        If Summary.Contains("vandalism 2") Then Return UserL.Warn2
-        If Summary.Contains("vandalism 3") Then Return UserL.Warn3
-        If Summary.Contains("vandalism 4") Then Return UserL.WarnFinal
+        If Summary.Contains("vandalism 1") Then Return UserLevel.Warn1
+        If Summary.Contains("vandalism 2") Then Return UserLevel.Warn2
+        If Summary.Contains("vandalism 3") Then Return UserLevel.Warn3
+        If Summary.Contains("vandalism 4") Then Return UserLevel.WarnFinal
 
-        If Summary.Contains("vandalism1") Then Return UserL.Warn1
-        If Summary.Contains("vandalism2") Then Return UserL.Warn2
-        If Summary.Contains("vandalism3") Then Return UserL.Warn3
-        If Summary.Contains("vandalism4") Then Return UserL.WarnFinal
+        If Summary.Contains("vandalism1") Then Return UserLevel.Warn1
+        If Summary.Contains("vandalism2") Then Return UserLevel.Warn2
+        If Summary.Contains("vandalism3") Then Return UserLevel.Warn3
+        If Summary.Contains("vandalism4") Then Return UserLevel.WarnFinal
 
         'Lradrama
-        If Summary.Contains("level 1") Then Return UserL.Warn1
-        If Summary.Contains("level 2") Then Return UserL.Warn2
-        If Summary.Contains("level 3") Then Return UserL.Warn3
-        If Summary.Contains("level 4") Then Return UserL.WarnFinal
+        If Summary.Contains("level 1") Then Return UserLevel.Warn1
+        If Summary.Contains("level 2") Then Return UserLevel.Warn2
+        If Summary.Contains("level 3") Then Return UserLevel.Warn3
+        If Summary.Contains("level 4") Then Return UserLevel.WarnFinal
 
         'Searchme
-        If Summary.Contains("test0") Then Return UserL.Warn1
-        If Summary.Contains("test 0") Then Return UserL.Warn1
+        If Summary.Contains("test0") Then Return UserLevel.Warn1
+        If Summary.Contains("test 0") Then Return UserLevel.Warn1
 
         ' Kbh3rd
         If Summary.StartsWith("vandalizing in") Then
             Select Case Right(Summary, 3)
-                Case "/4/" : Return UserL.WarnFinal
-                Case "/3/" : Return UserL.Warn3
-                Case "/2/" : Return UserL.Warn2
-                Case "/1/" : Return UserL.Warn1
-                Case Else : Return UserL.Warn1
+                Case "/4/" : Return UserLevel.WarnFinal
+                Case "/3/" : Return UserLevel.Warn3
+                Case "/2/" : Return UserLevel.Warn2
+                Case "/1/" : Return UserLevel.Warn1
+                Case Else : Return UserLevel.Warn1
             End Select
         End If
 
         'ArielGold
-        If Summary.StartsWith("1st blanking notice") Then Return UserL.Warn1
-        If Summary.StartsWith("1st notice") Then Return UserL.Warn1
-        If Summary.StartsWith("2nd warn") Then Return UserL.Warn2
-        If Summary.StartsWith("3rd warn") Then Return UserL.Warn3
-        If Summary.StartsWith("4th warn") Then Return UserL.WarnFinal
+        If Summary.StartsWith("1st blanking notice") Then Return UserLevel.Warn1
+        If Summary.StartsWith("1st notice") Then Return UserLevel.Warn1
+        If Summary.StartsWith("2nd warn") Then Return UserLevel.Warn2
+        If Summary.StartsWith("3rd warn") Then Return UserLevel.Warn3
+        If Summary.StartsWith("4th warn") Then Return UserLevel.WarnFinal
 
         'Katr67
-        If Summary.StartsWith("first warning") Then Return UserL.Warn1
-        If Summary.StartsWith("second warning") Then Return UserL.Warn2
-        If Summary.StartsWith("third warning") Then Return UserL.Warn3
-        If Summary.StartsWith("fourth warning") Then Return UserL.WarnFinal
-        If Summary.StartsWith("final warning") Then Return UserL.WarnFinal
+        If Summary.StartsWith("first warning") Then Return UserLevel.Warn1
+        If Summary.StartsWith("second warning") Then Return UserLevel.Warn2
+        If Summary.StartsWith("third warning") Then Return UserLevel.Warn3
+        If Summary.StartsWith("fourth warning") Then Return UserLevel.WarnFinal
+        If Summary.StartsWith("final warning") Then Return UserLevel.WarnFinal
 
-        If Summary.Contains("uw-selfrevert") Then Return UserL.Notification
-        If Summary.Contains("uw-unsourced") Then Return UserL.Notification
+        If Summary.Contains("uw-selfrevert") Then Return UserLevel.Notification
+        If Summary.Contains("uw-unsourced") Then Return UserLevel.Notification
 
         If Summary.Contains("uw-") Then
             Select Case Right(Summary, 1)
-                Case "4" : Return UserL.WarnFinal
-                Case "3" : Return UserL.Warn3
-                Case "2" : Return UserL.Warn2
-                Case "1" : Return UserL.Warn1
-                Case Else : Return UserL.Warn1
+                Case "4" : Return UserLevel.WarnFinal
+                Case "3" : Return UserLevel.Warn3
+                Case "2" : Return UserLevel.Warn2
+                Case "1" : Return UserLevel.Warn1
+                Case Else : Return UserLevel.Warn1
             End Select
         End If
 
-        If Summary.Contains("{{uw-") Then Return UserL.Warn1
+        If Summary.Contains("{{uw-") Then Return UserLevel.Warn1
 
         'Alison
-        If Summary.EndsWith("w1") Then Return UserL.Warn1
-        If Summary.EndsWith("w2") Then Return UserL.Warn2
-        If Summary.EndsWith("w3") Then Return UserL.Warn3
-        If Summary.EndsWith("w4") Then Return UserL.WarnFinal
+        If Summary.EndsWith("w1") Then Return UserLevel.Warn1
+        If Summary.EndsWith("w2") Then Return UserLevel.Warn2
+        If Summary.EndsWith("w3") Then Return UserLevel.Warn3
+        If Summary.EndsWith("w4") Then Return UserLevel.WarnFinal
 
-        If Summary.EndsWith("t1") Then Return UserL.Warn1
-        If Summary.EndsWith("t2") Then Return UserL.Warn2
-        If Summary.EndsWith("t3") Then Return UserL.Warn3
-        If Summary.EndsWith("t4") Then Return UserL.WarnFinal
+        If Summary.EndsWith("t1") Then Return UserLevel.Warn1
+        If Summary.EndsWith("t2") Then Return UserLevel.Warn2
+        If Summary.EndsWith("t3") Then Return UserLevel.Warn3
+        If Summary.EndsWith("t4") Then Return UserLevel.WarnFinal
 
-        If Summary.EndsWith("v1") Then Return UserL.Warn1
-        If Summary.EndsWith("v2") Then Return UserL.Warn2
-        If Summary.EndsWith("v3") Then Return UserL.Warn3
-        If Summary.EndsWith("v4") Then Return UserL.WarnFinal
+        If Summary.EndsWith("v1") Then Return UserLevel.Warn1
+        If Summary.EndsWith("v2") Then Return UserLevel.Warn2
+        If Summary.EndsWith("v3") Then Return UserLevel.Warn3
+        If Summary.EndsWith("v4") Then Return UserLevel.WarnFinal
 
-        If Summary.EndsWith("d1") Then Return UserL.Warn1
-        If Summary.EndsWith("d2") Then Return UserL.Warn2
-        If Summary.EndsWith("d3") Then Return UserL.Warn3
-        If Summary.EndsWith("d4") Then Return UserL.WarnFinal
+        If Summary.EndsWith("d1") Then Return UserLevel.Warn1
+        If Summary.EndsWith("d2") Then Return UserLevel.Warn2
+        If Summary.EndsWith("d3") Then Return UserLevel.Warn3
+        If Summary.EndsWith("d4") Then Return UserLevel.WarnFinal
 
-        If Summary.Contains("blank1") Then Return UserL.Warn1
-        If Summary.Contains("blank2") Then Return UserL.Warn2
-        If Summary.Contains("blank3") Then Return UserL.Warn3
-        If Summary.Contains("blank4") Then Return UserL.WarnFinal
+        If Summary.Contains("blank1") Then Return UserLevel.Warn1
+        If Summary.Contains("blank2") Then Return UserLevel.Warn2
+        If Summary.Contains("blank3") Then Return UserLevel.Warn3
+        If Summary.Contains("blank4") Then Return UserLevel.WarnFinal
 
-        If Summary = "+bv" Then Return UserL.WarnFinal
-        If Summary = "bv" Then Return UserL.WarnFinal
-        If Summary = "bv warning" Then Return UserL.WarnFinal
+        If Summary = "+bv" Then Return UserLevel.WarnFinal
+        If Summary = "bv" Then Return UserLevel.WarnFinal
+        If Summary = "bv warning" Then Return UserLevel.WarnFinal
 
         'D. Recorder
-        If Summary.EndsWith(" bv") Then Return UserL.WarnFinal
+        If Summary.EndsWith(" bv") Then Return UserLevel.WarnFinal
 
         'Excirial
-        If Summary.Contains("4im") Then Return UserL.WarnFinal
+        If Summary.Contains("4im") Then Return UserLevel.WarnFinal
 
         '"warnings" that shouldn't be
-        If Summary.StartsWith("general note: adding useless trivia") Then Return UserL.Notification
-        If Summary.StartsWith("warning: adding useless trivia") Then Return UserL.Notification
-        If Summary.StartsWith("general note: adding spam links") Then Return UserL.Notification
+        If Summary.StartsWith("general note: adding useless trivia") Then Return UserLevel.Notification
+        If Summary.StartsWith("warning: adding useless trivia") Then Return UserLevel.Notification
+        If Summary.StartsWith("general note: adding spam links") Then Return UserLevel.Notification
 
-        If Summary.StartsWith("message re.") Then Return UserL.Warn1
-        If Summary.StartsWith("general note: ") Then Return UserL.Warn1
-        If Summary.StartsWith("caution: ") Then Return UserL.Warn2
-        If Summary.StartsWith("warning: ") Then Return UserL.Warn3
+        If Summary.StartsWith("message re.") Then Return UserLevel.Warn1
+        If Summary.StartsWith("general note: ") Then Return UserLevel.Warn1
+        If Summary.StartsWith("caution: ") Then Return UserLevel.Warn2
+        If Summary.StartsWith("warning: ") Then Return UserLevel.Warn3
 
-        If Summary.Contains("final warn") Then Return UserL.WarnFinal
-        If Summary.Contains("only warn") Then Return UserL.WarnFinal
-        If Summary.Contains("first warn") Then Return UserL.Warn1
-        If Summary.Contains("second warn") Then Return UserL.Warn2
-        If Summary.Contains("third warn") Then Return UserL.Warn3
+        If Summary.Contains("final warn") Then Return UserLevel.WarnFinal
+        If Summary.Contains("only warn") Then Return UserLevel.WarnFinal
+        If Summary.Contains("first warn") Then Return UserLevel.Warn1
+        If Summary.Contains("second warn") Then Return UserLevel.Warn2
+        If Summary.Contains("third warn") Then Return UserLevel.Warn3
 
         'MWT
-        If Summary.Contains("message regarding") AndAlso Summary.Contains("article using") Then Return UserL.Warning
+        If Summary.Contains("message regarding") AndAlso Summary.Contains("article using") Then Return UserLevel.Warning
 
         'EWS23
-        If Summary.StartsWith("experimenting in") Then Return UserL.Warning
+        If Summary.StartsWith("experimenting in") Then Return UserLevel.Warning
 
         'Hgilbert
-        If Summary.Contains("avoid vandalising") Then Return UserL.Warning
+        If Summary.Contains("avoid vandalising") Then Return UserLevel.Warning
 
         'Derumi
-        If Summary.Contains("welcome/warn") OrElse Summary.Contains("welcome/minor warn") Then Return UserL.Warning
+        If Summary.Contains("welcome/warn") OrElse Summary.Contains("welcome/minor warn") Then Return UserLevel.Warning
 
         '(someone whose name I forgot...)
-        If Summary.Contains("repeated vandalism") Then Return UserL.Warning
+        If Summary.Contains("repeated vandalism") Then Return UserLevel.Warning
 
         'NawlinWiki
-        If Summary = "v" Then Return UserL.Warning
-        If Summary = "t" Then Return UserL.Warning
+        If Summary = "v" Then Return UserLevel.Warning
+        If Summary = "t" Then Return UserLevel.Warning
 
         'VoABot II
-        If Summary.StartsWith("bot - notifying user of reverted changes") Then Return UserL.Warn1
+        If Summary.StartsWith("bot - notifying user of reverted changes") Then Return UserLevel.Warn1
 
         'CounterVandalismBot
-        If Summary.StartsWith("automatic warning regarding") Then Return UserL.Warn1
+        If Summary.StartsWith("automatic warning regarding") Then Return UserLevel.Warn1
 
-        If Summary.StartsWith("your recent edit") Then Return UserL.Warning
-        If Summary.StartsWith("your edit") Then Return UserL.Warning
-        If Summary.StartsWith("regarding your change to") Then Return UserL.Warning
+        If Summary.StartsWith("your recent edit") Then Return UserLevel.Warning
+        If Summary.StartsWith("your edit") Then Return UserLevel.Warning
+        If Summary.StartsWith("regarding your change to") Then Return UserLevel.Warning
 
-        If Summary.Contains("vandalism to") Then Return UserL.Warning
-        If Summary.Contains("vandalism in") Then Return UserL.Warning
+        If Summary.Contains("vandalism to") Then Return UserLevel.Warning
+        If Summary.Contains("vandalism in") Then Return UserLevel.Warning
 
         'AlexiusHoratius
         If Summary = GetMonthName(My.Computer.Clock.GmtTime.Month) & " " & CStr(My.Computer.Clock.GmtTime.Year) _
-            Then Return UserL.Warning
+            Then Return UserLevel.Warning
 
         If Summary.Contains(GetMonthName(My.Computer.Clock.GmtTime.Month) & " " & CStr(My.Computer.Clock.GmtTime.Year)) _
-            AndAlso Summary.Contains("new section") Then Return UserL.Warning
+            AndAlso Summary.Contains("new section") Then Return UserLevel.Warning
 
-        If Summary.StartsWith("welcome") Then Return UserL.Notification
-        If Summary.StartsWith("prod nomination of") Then Return UserL.Notification
-        If Summary.StartsWith("notification: ") Then Return UserL.Notification
-        If Summary.Contains("nn-warn") Then Return UserL.Notification
+        If Summary.StartsWith("welcome") Then Return UserLevel.Notification
+        If Summary.StartsWith("prod nomination of") Then Return UserLevel.Notification
+        If Summary.StartsWith("notification: ") Then Return UserLevel.Notification
+        If Summary.Contains("nn-warn") Then Return UserLevel.Notification
 
-        If Summary.StartsWith("message from antispambot") Then Return UserL.Notification
-        If Summary.StartsWith("proposed deletion of article you created") Then Return UserL.Notification
-        If Summary.Contains("nonsensepage") Then Return UserL.Notification
-        If Summary.Contains("prodwarning") Then Return UserL.Notification
-        If Summary.Contains("nn") Then Return UserL.Notification
-        If Summary.Contains("notice of possible deletion") Then Return UserL.Notification
+        If Summary.StartsWith("message from antispambot") Then Return UserLevel.Notification
+        If Summary.StartsWith("proposed deletion of article you created") Then Return UserLevel.Notification
+        If Summary.Contains("nonsensepage") Then Return UserLevel.Notification
+        If Summary.Contains("prodwarning") Then Return UserLevel.Notification
+        If Summary.Contains("nn") Then Return UserLevel.Notification
+        If Summary.Contains("notice of possible deletion") Then Return UserLevel.Notification
 
-        If Summary.Contains("warning") Then Return UserL.Warning
-        If Summary.StartsWith("warn") Then Return UserL.Warning
+        If Summary.Contains("warning") Then Return UserLevel.Warning
+        If Summary.StartsWith("warn") Then Return UserLevel.Warning
 
-        Return UserL.None
+        Return UserLevel.None
     End Function
 
     Function ProcessUserTalk(ByVal Text As String, ByVal ThisUser As User) As List(Of Warning)
@@ -1602,15 +1554,15 @@ Module Processing
             If NewWarning.Type = "cluebotwarning" Then NewWarning.Type = "bot"
 
             Select Case Item.Groups(2).Value
-                Case "1" : NewWarning.Level = UserL.Warn1
-                Case "2" : NewWarning.Level = UserL.Warn2
-                Case "3" : NewWarning.Level = UserL.Warn3
-                Case "4" : NewWarning.Level = UserL.WarnFinal
-                Case Else : If Item.Groups(1).Value = "bv" Then NewWarning.Level = UserL.WarnFinal _
-                    Else NewWarning.Level = UserL.Warning
+                Case "1" : NewWarning.Level = UserLevel.Warn1
+                Case "2" : NewWarning.Level = UserLevel.Warn2
+                Case "3" : NewWarning.Level = UserLevel.Warn3
+                Case "4" : NewWarning.Level = UserLevel.WarnFinal
+                Case Else : If Item.Groups(1).Value = "bv" Then NewWarning.Level = UserLevel.WarnFinal _
+                    Else NewWarning.Level = UserLevel.Warning
             End Select
 
-            If Item.Groups(1).Value.Contains("block") Then NewWarning.Level = UserL.Blocked
+            If Item.Groups(1).Value.Contains("block") Then NewWarning.Level = UserLevel.Blocked
 
             Warnings.Add(NewWarning)
         Next Item
@@ -1628,15 +1580,15 @@ Module Processing
             NewWarning.Type = Item.Groups(3).Value.ToLower
 
             Select Case Item.Groups(4).Value
-                Case "1" : NewWarning.Level = UserL.Warn1
-                Case "2" : NewWarning.Level = UserL.Warn2
-                Case "3" : NewWarning.Level = UserL.Warn3
-                Case "4" : NewWarning.Level = UserL.WarnFinal
-                Case Else : If Item.Groups(1).Value = "bv" Then NewWarning.Level = UserL.WarnFinal _
-                    Else NewWarning.Level = UserL.Warning
+                Case "1" : NewWarning.Level = UserLevel.Warn1
+                Case "2" : NewWarning.Level = UserLevel.Warn2
+                Case "3" : NewWarning.Level = UserLevel.Warn3
+                Case "4" : NewWarning.Level = UserLevel.WarnFinal
+                Case Else : If Item.Groups(1).Value = "bv" Then NewWarning.Level = UserLevel.WarnFinal _
+                    Else NewWarning.Level = UserLevel.Warning
             End Select
 
-            If NewWarning.Type.Contains("block") Then NewWarning.Level = UserL.Blocked
+            If NewWarning.Type.Contains("block") Then NewWarning.Level = UserLevel.Blocked
 
             Warnings.Add(NewWarning)
         Next Item
@@ -1654,12 +1606,12 @@ Module Processing
             If NewWarning.Time.AddHours(Config.WarningAge) > Date.UtcNow Then RecentWarnings += 1
 
             Select Case Item.Groups(2).Value
-                Case "1" : NewWarning.Level = UserL.Warn1
-                Case "2" : NewWarning.Level = UserL.Warn2
-                Case "3" : NewWarning.Level = UserL.Warn3
-                Case "4" : NewWarning.Level = UserL.WarnFinal
-                Case Else : If Item.Groups(1).Value = "bv" Then NewWarning.Level = UserL.WarnFinal _
-                    Else NewWarning.Level = UserL.Warning
+                Case "1" : NewWarning.Level = UserLevel.Warn1
+                Case "2" : NewWarning.Level = UserLevel.Warn2
+                Case "3" : NewWarning.Level = UserLevel.Warn3
+                Case "4" : NewWarning.Level = UserLevel.WarnFinal
+                Case Else : If Item.Groups(1).Value = "bv" Then NewWarning.Level = UserLevel.WarnFinal _
+                    Else NewWarning.Level = UserLevel.Warning
             End Select
 
             Warnings.Add(NewWarning)
@@ -1681,13 +1633,13 @@ Module Processing
             If NewWarning.Type.Contains("-") _
                 Then NewWarning.Type = NewWarning.Type.Substring(0, NewWarning.Type.IndexOf("-"))
 
-            If NewWarning.Type.StartsWith("test2") Then NewWarning.Level = UserL.Warn2 _
-                Else If NewWarning.Type.StartsWith("test3") Then NewWarning.Level = UserL.Warn3 _
-                Else If NewWarning.Type.StartsWith("test4") Then NewWarning.Level = UserL.WarnFinal _
-                Else If NewWarning.Type.StartsWith("test5") Then NewWarning.Level = UserL.Blocked _
-                Else If NewWarning.Type.StartsWith("blatantvandal") Then NewWarning.Level = UserL.Warn4im _
-                Else If NewWarning.Type.Contains("block") Then NewWarning.Level = UserL.Blocked _
-                Else NewWarning.Level = UserL.Warn1
+            If NewWarning.Type.StartsWith("test2") Then NewWarning.Level = UserLevel.Warn2 _
+                Else If NewWarning.Type.StartsWith("test3") Then NewWarning.Level = UserLevel.Warn3 _
+                Else If NewWarning.Type.StartsWith("test4") Then NewWarning.Level = UserLevel.WarnFinal _
+                Else If NewWarning.Type.StartsWith("test5") Then NewWarning.Level = UserLevel.Blocked _
+                Else If NewWarning.Type.StartsWith("blatantvandal") Then NewWarning.Level = UserLevel.Warn4im _
+                Else If NewWarning.Type.Contains("block") Then NewWarning.Level = UserLevel.Blocked _
+                Else NewWarning.Level = UserLevel.Warn1
 
             If NewWarning.Type.StartsWith("test") Then NewWarning.Type = "test"
             If NewWarning.Time.AddHours(Config.WarningAge) > Date.UtcNow Then RecentWarnings += 1
@@ -1709,11 +1661,11 @@ Module Processing
             If NewWarning.Time.AddHours(Config.WarningAge) > Date.UtcNow Then RecentWarnings += 1
 
             Select Case Item.Groups(2).Value
-                Case "1" : NewWarning.Level = UserL.Warn1
-                Case "2" : NewWarning.Level = UserL.Warn2
-                Case "3" : NewWarning.Level = UserL.Warn3
-                Case "4" : NewWarning.Level = UserL.WarnFinal
-                Case Else : NewWarning.Level = UserL.Warn1
+                Case "1" : NewWarning.Level = UserLevel.Warn1
+                Case "2" : NewWarning.Level = UserLevel.Warn2
+                Case "3" : NewWarning.Level = UserLevel.Warn3
+                Case "4" : NewWarning.Level = UserLevel.WarnFinal
+                Case Else : NewWarning.Level = UserLevel.Warn1
             End Select
 
             Warnings.Add(NewWarning)
@@ -1729,11 +1681,11 @@ Module Processing
             If Item.Groups(3).Value <> "" Then NewWarning.User = GetUser(Item.Groups(3).Value) _
                 Else NewWarning.User = GetUser("VoABot II")
             NewWarning.Type = "bot"
-            NewWarning.Level = UserL.Warn1
+            NewWarning.Level = UserLevel.Warn1
 
             If NewWarning.Time.AddHours(Config.WarningAge) > Date.UtcNow Then RecentWarnings += 1
 
-            NewWarning.Level = UserL.Warn1
+            NewWarning.Level = UserLevel.Warn1
             Warnings.Add(NewWarning)
         Next Item
 

@@ -11,78 +11,40 @@ Module Drawing
 
         If Page IsNot Nothing Then
             Dim CurrentPosition As Integer = -1, OldPosition As Integer = -1
-            Dim ThisEdit As Edit = Page.LastEdit
+            Dim Edit As Edit = Page.LastEdit
             Dim X As Integer = Result.Width - 18 + (HistoryOffset * 17)
 
-            While ThisEdit IsNot Nothing AndAlso ThisEdit IsNot NullEdit
+            While Edit IsNot Nothing AndAlso Edit IsNot NullEdit
                 If X < 0 Then Exit While
 
                 If X < Result.Width Then
-                    Select Case ThisEdit.Type
-                        Case Edit.Types.Blanked : Gfx.DrawImage(My.Resources.blob_blanked, X, 2)
-                        Case Edit.Types.ReplacedWith : Gfx.DrawImage(My.Resources.blob_replaced, X, 2)
-                        Case Edit.Types.Redirect : Gfx.DrawImage(My.Resources.blob_redirect, X, 2)
-                        Case Edit.Types.Revert : Gfx.DrawImage(My.Resources.blob_revert, X, 2)
-                        Case Edit.Types.Report : Gfx.DrawImage(My.Resources.blob_report, X, 2)
-                        Case Edit.Types.Message : Gfx.DrawImage(My.Resources.blob_message, X, 2)
-                        Case Edit.Types.Tag : Gfx.DrawImage(My.Resources.blob_tag, X, 2)
+                    Gfx.DrawImage(Edit.Icon, X, 2)
 
-                        Case Edit.Types.Warning
-                            Gfx.DrawImage(My.Resources.blob_blank, X, 2)
-
-                            Select Case ThisEdit.WarningLevel
-                                Case UserL.Warning : Gfx.DrawImage(My.Resources.blob_warning, X, 2)
-                                Case UserL.Warn1 : Gfx.DrawString("!1", MainForm.Font, Brushes.Black, X + 2, 3)
-                                Case UserL.Warn2 : Gfx.DrawString("!2", MainForm.Font, Brushes.Black, X + 2, 3)
-                                Case UserL.Warn3 : Gfx.DrawString("!3", MainForm.Font, Brushes.Black, X + 2, 3)
-                                Case UserL.WarnFinal : Gfx.DrawString("!4", MainForm.Font, Brushes.Black, X + 2, 3)
-                                Case UserL.Blocked : Gfx.DrawImage(My.Resources.blob_blocknote, X, 2)
-                            End Select
-
-                        Case Else
-                            If ThisEdit.User IsNot Nothing Then
-                                If ThisEdit.User Is MyUser Then
-                                    Gfx.DrawImage(My.Resources.blob_me, X, 2)
-
-                                ElseIf ThisEdit.User.Bot Then
-                                    Gfx.DrawImage(My.Resources.blob_bot, X, 2)
-
-                                Else
-                                    Select Case ThisEdit.User.Level
-                                        Case UserL.Ignore : Gfx.DrawImage(My.Resources.blob_ignored, X, 2)
-                                        Case UserL.Blocked : Gfx.DrawImage(My.Resources.blob_blocked, X, 2)
-                                        Case UserL.ReportedAIV : Gfx.DrawImage(My.Resources.blob_reported, X, 2)
-                                        Case UserL.Warn1 : Gfx.DrawImage(My.Resources.blob_warn_1, X, 2)
-                                        Case UserL.Warn2 : Gfx.DrawImage(My.Resources.blob_warn_2, X, 2)
-                                        Case UserL.Warn3 : Gfx.DrawImage(My.Resources.blob_warn_3, X, 2)
-                                        Case UserL.WarnFinal : Gfx.DrawImage(My.Resources.blob_warn_4, X, 2)
-                                        Case UserL.Reverted : Gfx.DrawImage(My.Resources.blob_reverted, X, 2)
-                                        Case Else : If ThisEdit.User.Anonymous _
-                                            Then Gfx.DrawImage(My.Resources.blob_anon, X, 2) _
-                                            Else Gfx.DrawImage(My.Resources.blob_none, X, 2)
-                                    End Select
-                                End If
-                            End If
+                    Select Case Edit.WarningLevel
+                        Case UserLevel.Warn1 : Gfx.DrawString("!1", MainForm.Font, Brushes.Black, X + 2, 3)
+                        Case UserLevel.Warn2 : Gfx.DrawString("!2", MainForm.Font, Brushes.Black, X + 2, 3)
+                        Case UserLevel.Warn3 : Gfx.DrawString("!3", MainForm.Font, Brushes.Black, X + 2, 3)
+                        Case UserLevel.Warn4im, UserLevel.WarnFinal : Gfx.DrawString("!4", MainForm.Font, Brushes.Black, X + 2, 3)
                     End Select
 
-                    If ThisEdit.Id = CurrentEdit.Id Then
+                    If Edit.Id = CurrentEdit.Id Then
                         CurrentPosition = X - 1
                         If Not CurrentEdit.Multiple Then OldPosition = X - 18
                     End If
 
-                    If ThisEdit.Page IsNot Nothing AndAlso ThisEdit Is ThisEdit.Page.LastEdit _
+                    If Edit.Page IsNot Nothing AndAlso Edit Is Edit.Page.LastEdit _
                         Then Gfx.DrawRectangle(Pens.DarkBlue, X, 2, 15, 15)
-                    If CurrentEdit.Multiple AndAlso ThisEdit.Id = CurrentEdit.Oldid Then OldPosition = X - 1
+                    If CurrentEdit.Multiple AndAlso Edit.Id = CurrentEdit.Oldid Then OldPosition = X - 1
                     Gfx.DrawLine(Pens.DarkGray, X + 16, 2, X + 16, 17)
                 End If
 
                 X -= 17
-                ThisEdit = ThisEdit.Prev
+                Edit = Edit.Prev
             End While
 
-            If X < 0 AndAlso ThisEdit IsNot Nothing AndAlso (ThisEdit Is CurrentEdit _
-                OrElse ThisEdit.Id = CurrentEdit.Oldid) AndAlso Not (ThisEdit Is Page.LastEdit _
-                OrElse ThisEdit Is Page.LastEdit.Prev) Then
+            If X < 0 AndAlso Edit IsNot Nothing AndAlso (Edit Is CurrentEdit _
+                OrElse Edit.Id = CurrentEdit.Oldid) AndAlso Not (Edit Is Page.LastEdit _
+                OrElse Edit Is Page.LastEdit.Prev) Then
 
                 HistoryOffset += 1
                 Return History(Page)
@@ -101,7 +63,7 @@ Module Drawing
             End If
 
             'Draw end-of-history box
-            If ThisEdit Is NullEdit Then Gfx.FillRectangle(Brushes.Black, X, 2, 16, 16)
+            If Edit Is NullEdit Then Gfx.FillRectangle(Brushes.Black, X, 2, 16, 16)
         End If
 
         Return Result
@@ -124,48 +86,15 @@ Module Drawing
             While ThisEdit IsNot Nothing AndAlso ThisEdit IsNot NullEdit
                 If X < 0 Then Exit While
 
+                'Draw icon
                 If X < Result.Width Then
+                    Gfx.DrawImage(ThisEdit.Icon, X, 2)
 
-                    'Draw icon
-                    Select Case ThisEdit.Type
-                        Case Edit.Types.Blanked : Gfx.DrawImage(My.Resources.blob_blanked, X, 2)
-                        Case Edit.Types.ReplacedWith : Gfx.DrawImage(My.Resources.blob_replaced, X, 2)
-                        Case Edit.Types.Redirect : Gfx.DrawImage(My.Resources.blob_redirect, X, 2)
-                        Case Edit.Types.Revert : Gfx.DrawImage(My.Resources.blob_revert, X, 2)
-                        Case Edit.Types.Report : Gfx.DrawImage(My.Resources.blob_report, X, 2)
-                        Case Edit.Types.Message : Gfx.DrawImage(My.Resources.blob_message, X, 2)
-                        Case Edit.Types.Tag : Gfx.DrawImage(My.Resources.blob_tag, X, 2)
-
-                        Case Edit.Types.Warning
-                            Gfx.DrawImage(My.Resources.blob_blank, X, 2)
-
-                            Select Case ThisEdit.WarningLevel
-                                Case UserL.Warning : Gfx.DrawImage(My.Resources.blob_warning, X, 2)
-                                Case UserL.Warn1 : Gfx.DrawString("!1", MainForm.Font, Brushes.Black, X + 2, 3)
-                                Case UserL.Warn2 : Gfx.DrawString("!2", MainForm.Font, Brushes.Black, X + 2, 3)
-                                Case UserL.Warn3 : Gfx.DrawString("!3", MainForm.Font, Brushes.Black, X + 2, 3)
-                                Case UserL.WarnFinal : Gfx.DrawString("!4", MainForm.Font, Brushes.Black, X + 2, 3)
-                                Case UserL.Blocked : Gfx.DrawImage(My.Resources.blob_blocknote, X, 2)
-                            End Select
-
-                        Case Else
-                            If ThisEdit.User.Bot Then
-                                Gfx.DrawImage(My.Resources.blob_bot, X, 2)
-                            Else
-                                Select Case ThisEdit.User.Level
-                                    Case UserL.Ignore : Gfx.DrawImage(My.Resources.blob_ignored, X, 2)
-                                    Case UserL.Blocked : Gfx.DrawImage(My.Resources.blob_blocked, X, 2)
-                                    Case UserL.ReportedAIV : Gfx.DrawImage(My.Resources.blob_reported, X, 2)
-                                    Case UserL.Warn1 : Gfx.DrawImage(My.Resources.blob_warn_1, X, 2)
-                                    Case UserL.Warn2 : Gfx.DrawImage(My.Resources.blob_warn_2, X, 2)
-                                    Case UserL.Warn3 : Gfx.DrawImage(My.Resources.blob_warn_3, X, 2)
-                                    Case UserL.WarnFinal : Gfx.DrawImage(My.Resources.blob_warn_4, X, 2)
-                                    Case UserL.Reverted : Gfx.DrawImage(My.Resources.blob_reverted, X, 2)
-                                    Case Else : If ThisEdit.User.Anonymous _
-                                        Then Gfx.DrawImage(My.Resources.blob_anon, X, 2) _
-                                        Else Gfx.DrawImage(My.Resources.blob_none, X, 2)
-                                End Select
-                            End If
+                    Select Case ThisEdit.WarningLevel
+                        Case UserLevel.Warn1 : Gfx.DrawString("!1", MainForm.Font, Brushes.Black, X + 2, 3)
+                        Case UserLevel.Warn2 : Gfx.DrawString("!2", MainForm.Font, Brushes.Black, X + 2, 3)
+                        Case UserLevel.Warn3 : Gfx.DrawString("!3", MainForm.Font, Brushes.Black, X + 2, 3)
+                        Case UserLevel.Warn4im, UserLevel.WarnFinal : Gfx.DrawString("!4", MainForm.Font, Brushes.Black, X + 2, 3)
                     End Select
 
                     If ThisEdit Is ThisEdit.Page.LastEdit Then Gfx.DrawRectangle(Pens.DarkBlue, X, 2, 15, 15)

@@ -8,8 +8,7 @@ Class QueueForm
 
     Private ReadOnly Property CurrentQueue() As Queue
         Get
-            If QueueList.SelectedIndex = -1 OrElse Not AllQueues.ContainsKey(QueueList.SelectedItem.ToString) _
-                Then Return Nothing Else Return AllQueues(QueueList.SelectedItem.ToString)
+            If QueueList.SelectedIndex = -1 Then Return Nothing Else Return Queue.All(QueueList.SelectedItem.ToString)
         End Get
     End Property
 
@@ -23,7 +22,7 @@ Class QueueForm
 
         QueueList.BeginUpdate()
 
-        For Each Item As String In AllQueues.Keys
+        For Each Item As String In Queue.All.Keys
             QueueList.Items.Add(Item)
         Next Item
 
@@ -37,6 +36,7 @@ Class QueueForm
         Limit.Value = Math.Min(1000, Limit.Maximum)
         SourceType.SelectedIndex = 0
         If QueueList.Items.Count > 0 Then QueueList.SelectedIndex = 0
+        RefreshInterface()
     End Sub
 
     Private Sub QueueForm_FormClosing() Handles Me.FormClosing
@@ -50,19 +50,18 @@ Class QueueForm
     End Sub
 
     Private Sub AddQueue_Click() Handles AddQueue.Click
-        Dim i As Integer = AllQueues.Count + 1
+        Dim i As Integer = Queue.All.Count + 1
 
-        While AllQueues.ContainsKey("Queue" & CStr(i))
+        While Queue.All.ContainsKey("Queue" & CStr(i))
             i += 1
         End While
 
         Dim Name As String = "Queue" & CStr(i)
 
-        Dim NewQueue As New Queue
+        Dim NewQueue As New Queue(Name)
         NewQueue.Spaces.Add(Space.Article)
         QueueList.Items.Add(Name)
         QueueList.SelectedItem = Name
-        MainForm.SetQueueSelector()
     End Sub
 
     Private Sub ApplyFilters_Click() Handles ApplyFilters.Click
@@ -103,16 +102,15 @@ Class QueueForm
     End Sub
 
     Private Sub Copy_Click() Handles Copy.Click
-        Dim NewName As String = InputBox("Copy to:", "huggle", "Queue" & CStr(AllQueues.Count + 1))
+        Dim NewName As String = InputBox("Copy to:", "huggle", "Queue" & CStr(Queue.All.Count + 1))
 
         If NewName.Length > 0 Then
-            If AllQueues.ContainsKey(NewName) Then
+            If Queue.All.ContainsKey(NewName) Then
                 MsgBox("A queue with the name '" & NewName & "' already exists. Choose another name.", _
                     MsgBoxStyle.Exclamation, "huggle")
             Else
-                Dim NewQueue As New Queue
+                Dim NewQueue As New Queue(NewName)
                 NewQueue.Pages.AddRange(CurrentQueue.Pages)
-                AllQueues.Add(NewName, NewQueue)
                 QueueList.Items.Add(NewName)
                 QueueList.SelectedItem = NewName
                 MainForm.SetQueueSelector()
@@ -134,8 +132,16 @@ Class QueueForm
         SelectList()
     End Sub
 
+    Private Sub FilterAnonymous_CheckStateChanged() Handles FilterAnonymous.CheckStateChanged
+        CurrentQueue.FilterAnonymous = CType(CInt(FilterNewPage.State), QueueFilter)
+    End Sub
+
+    Private Sub FilterIgnoredUser_CheckStateChanged() Handles FilterIgnoredUser.CheckStateChanged
+        CurrentQueue.FilterNewPage = CType(CInt(FilterNewPage.State), QueueFilter)
+    End Sub
+
     Private Sub FilterNewPage_CheckStateChanged() Handles FilterNewPage.CheckStateChanged
-        CurrentQueue.FilterNewPage = FilterNewPage.State
+        CurrentQueue.FilterNewPage = CType(CInt(FilterNewPage.State), QueueFilter)
     End Sub
 
     Private Sub Intersect_Click() Handles Intersect.Click
@@ -196,10 +202,18 @@ Class QueueForm
             QueuePages.EndUpdate()
 
             Select Case CurrentQueue.Type
-                Case Queue.Types.FixedList : FixedList.Checked = True
-                Case Queue.Types.LiveList : LiveList.Checked = True
-                Case Queue.Types.Live : Live.Checked = True
+                Case QueueType.FixedList : FixedList.Checked = True
+                Case QueueType.LiveList : LiveList.Checked = True
+                Case QueueType.Live : Live.Checked = True
             End Select
+
+            FilterAnonymous.State = CType(CInt(CurrentQueue.FilterAnonymous), CheckState)
+            FilterIgnoredUser.State = CType(CInt(CurrentQueue.FilterIgnored), CheckState)
+            FilterNewPage.State = CType(CInt(CurrentQueue.FilterNewPage), CheckState)
+
+            RemoveAfter.Checked = (CurrentQueue.RemoveAfter > 0)
+            RemoveAfterTime.Value = CurrentQueue.RemoveAfter
+            RemoveOld.Checked = CurrentQueue.RemoveOld
 
             For i As Integer = 0 To Namespaces.Items.Count - 1
                 Namespaces.SetItemChecked(i, CurrentQueue.Spaces.Count = 0 _
@@ -211,6 +225,11 @@ Class QueueForm
         RefreshInterface()
     End Sub
 
+    Private Sub RemoveAfterChanged() Handles RemoveAfter.CheckedChanged, RemoveAfterTime.ValueChanged
+        If CurrentQueue IsNot Nothing Then If RemoveAfter.Checked _
+            Then CurrentQueue.RemoveAfter = CInt(RemoveAfterTime.Value) Else CurrentQueue.RemoveAfter = 0
+    End Sub
+
     Private Sub RemovePage() Handles QueueMenuRemove.Click
         If QueuePages.SelectedIndex > -1 Then
             Dim Index As Integer = QueuePages.SelectedIndex
@@ -219,7 +238,7 @@ Class QueueForm
             CurrentQueue.Pages.RemoveAt(Index)
             QueuePages.Items.RemoveAt(Index)
             QueuePages.SelectedIndex = QueuePages.Items.Count - 1
-            CurrentQueue.Initialised = False
+            CurrentQueue.NeedsReset = True
             RefreshInterface()
         End If
     End Sub
@@ -227,7 +246,7 @@ Class QueueForm
     Private Sub RemoveQueue_Click() Handles RemoveQueue.Click
         If QueueList.SelectedIndex > -1 Then
             Dim Index As Integer = QueueList.SelectedIndex
-            AllQueues.Remove(QueueList.SelectedItem.ToString)
+            Queue.All.Remove(QueueList.SelectedItem.ToString)
             If Index > 0 Then QueueList.SelectedIndex -= 1
 
             QueueList.Items.RemoveAt(Index)
@@ -241,16 +260,12 @@ Class QueueForm
         Dim NewName As String = InputBox("Enter new name:", "huggle", OldName)
 
         If NewName.Length > 0 AndAlso NewName <> OldName Then
-            If AllQueues.ContainsKey(NewName) Then
+            If Queue.All.ContainsKey(NewName) Then
                 MsgBox("A queue with the name '" & NewName & "' already exists. Choose another name.", _
                     MsgBoxStyle.Exclamation, "huggle")
             Else
-                Dim NewEditQueue As New Queue
-                NewEditQueue.Pages.AddRange(AllQueues(OldName).Pages)
-                AllQueues.Remove(OldName)
-                AllQueues.Add(NewName, NewEditQueue)
+                CurrentQueue.Name = NewName
                 QueueList.Items(QueueList.SelectedIndex) = NewName
-                MainForm.SetQueueSelector()
             End If
         End If
     End Sub
@@ -272,13 +287,11 @@ Class QueueForm
         End If
     End Sub
 
-    Private Sub SortPages() Handles Sort.Click, QueueMenuSort.Click
-        QueuePages.BeginUpdate()
-        QueuePages.Sorted = True
-        QueuePages.Sorted = False
-        CurrentQueue.Pages.Sort()
-        QueuePages.EndUpdate()
-        CurrentQueue.Initialised = False
+    Private Sub SortOrder_SelectedIndexChanged() Handles SortOrder.SelectedIndexChanged
+        If CurrentQueue IsNot Nothing Then
+            If SortOrder.SelectedIndex = 0 Then CurrentQueue.SortOrder = QueueSortOrder.Time _
+                Else CurrentQueue.SortOrder = QueueSortOrder.Quality
+        End If
     End Sub
 
     Private Sub Source_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles Source.KeyDown
@@ -320,9 +333,9 @@ Class QueueForm
         Handles FixedList.CheckedChanged, LiveList.CheckedChanged, Live.CheckedChanged
 
         If CurrentQueue IsNot Nothing Then
-            If FixedList.Checked Then : CurrentQueue.Type = Queue.Types.FixedList
-            ElseIf LiveList.Checked Then : CurrentQueue.Type = Queue.Types.LiveList
-            ElseIf Live.Checked Then : CurrentQueue.Type = Queue.Types.Live
+            If FixedList.Checked Then : CurrentQueue.Type = QueueType.FixedList
+            ElseIf LiveList.Checked Then : CurrentQueue.Type = QueueType.LiveList
+            ElseIf Live.Checked Then : CurrentQueue.Type = QueueType.Live
             End If
         End If
 
@@ -353,10 +366,23 @@ Class QueueForm
         Next Item
 
         If CurrentQueue IsNot Nothing Then
-            PagesTab.Visible = (CurrentQueue.Type <> Queue.Types.Live)
-            EditFiltersTab.Visible = (CurrentQueue.Type <> Queue.Types.FixedList)
-            ApplyFilters.Visible = (CurrentQueue.Type <> Queue.Types.Live)
-            ApplyFiltersLabel.Visible = (CurrentQueue.Type <> Queue.Types.Live)
+
+            If CurrentQueue.Type = QueueType.Live Then
+                If Tabs.TabPages.Contains(PagesTab) Then Tabs.TabPages.Remove(PagesTab)
+            Else
+                If Not Tabs.TabPages.Contains(PagesTab) Then Tabs.TabPages.Insert(1, PagesTab)
+            End If
+
+            If CurrentQueue.Type = QueueType.FixedList Then
+                If Tabs.TabPages.Contains(EditFiltersTab) Then Tabs.TabPages.Remove(EditFiltersTab)
+                If Tabs.TabPages.Contains(OptionsTab) Then Tabs.TabPages.Remove(OptionsTab)
+            Else
+                If Not Tabs.TabPages.Contains(EditFiltersTab) Then Tabs.TabPages.Add(EditFiltersTab)
+                If Not Tabs.TabPages.Contains(OptionsTab) Then Tabs.TabPages.Insert(0, OptionsTab)
+            End If
+
+            ApplyFilters.Visible = (CurrentQueue.Type <> QueueType.Live)
+            ApplyFiltersLabel.Visible = (CurrentQueue.Type <> QueueType.Live)
         End If
 
         AddQueue.Enabled = (Not Throbber.Active)
@@ -404,7 +430,7 @@ Class QueueForm
             Case "Backlinks" : GetList(New BacklinksRequest(Source.Text))
             Case "Category" : GetList(New CategoryRequest(Source.Text.Replace("Category:", "")))
             Case "Category (recursive)" : GetList(New RecursiveCategoryRequest(Source.Text.Replace("Category:", "")))
-            Case "Existing queue" : GotList(AllQueues(QueueSelector.Text).Pages)
+            Case "Existing queue" : GotList(Queue.All(QueueSelector.Text).Pages)
             Case "External link uses" : GetList(New ExternalLinkUsageRequest(Source.Text.Replace("http://", "")))
             Case "File" : GotList(GetFile(Source.Text))
             Case "Image uses" : GetList(New ImageUsageRequest(Source.Text.Replace("Image:", "")))
@@ -438,7 +464,7 @@ Class QueueForm
             If Mode = "combine" Then
                 Cancel.Text = "Stop"
                 CombineItems(PartialResult)
-                CurrentQueue.Initialised = False
+                CurrentQueue.NeedsReset = False
             End If
         End If
 
@@ -469,7 +495,7 @@ Class QueueForm
                 Case "exclude" : ExcludeItems(ValidItems)
             End Select
 
-            CurrentQueue.Initialised = False
+            CurrentQueue.NeedsReset = False
         End If
 
         Throbber.Stop()

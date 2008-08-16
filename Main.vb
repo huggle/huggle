@@ -16,7 +16,7 @@ Class Main
 
         InitialTab.Parent = Tabs.TabPages(0)
         CurrentTab = InitialTab
-        CurrentQueue = FilteredEdits
+        CurrentQueue = Queue.Default
 
         Location = New Point(Math.Max(32, Config.WindowPosition.X), Math.Max(32, Config.WindowPosition.Y))
         Size = New Size(Math.Max(Config.WindowSize.Width, MinimumSize.Width), _
@@ -92,9 +92,9 @@ Class Main
     Sub DrawQueue()
         Dim QueueHeight As Integer = (QueuePanel.Height \ 20) - 2
 
-        If QueueHeight < CurrentQueue.Items.Count Then
+        If QueueHeight < CurrentQueue.Edits.Count Then
             QueueScroll.Enabled = True
-            QueueScroll.Maximum = CurrentQueue.Items.Count - 2
+            QueueScroll.Maximum = CurrentQueue.Edits.Count - 2
             QueueScroll.SmallChange = 1
             QueueScroll.LargeChange = QueueHeight
         Else
@@ -102,7 +102,7 @@ Class Main
             QueueScroll.Value = 0
         End If
 
-        QueuePanel.Draw(CurrentQueue.Items)
+        QueuePanel.Draw(CurrentQueue)
     End Sub
 
     Private Sub Main_ResizeShown() Handles Me.Resize, Me.Shown
@@ -133,16 +133,17 @@ Class Main
     End Sub
 
     Private Sub UserIgnore_Click() Handles UserIgnore.Click, UserIgnoreB.Click
-        If CurrentUser IsNot Nothing _
-            Then If CurrentUser.Level = UserL.Ignore Then UnignoreUser(CurrentUser) Else IgnoreUser(CurrentUser)
-
+        If CurrentUser IsNot Nothing Then
+            If CurrentUser.Ignored Then UnignoreUser(CurrentUser) Else IgnoreUser(CurrentUser)
+        End If
     End Sub
 
     Public Sub IgnoreUser(ByVal User As User)
-        User.Level = UserL.Ignore
+        User.Ignored = True
         If Not WhitelistManualChanges.Contains(User.Name) Then WhitelistManualChanges.Add(User.Name)
         Log("Ignored user '" & User.Name & "'")
 
+        'Add undo menu item
         For Each Item As Command In Undo
             If Item.Type = CommandType.Unignore AndAlso Item.User Is User Then
                 RemoveFromUndoList(Item)
@@ -156,19 +157,6 @@ Class Main
         NewCommand.Type = CommandType.Ignore
         AddToUndoList(NewCommand)
 
-        Dim i As Integer = 0, Redraw As Boolean
-
-        Do While i < FilteredEdits.Items.Count - 1
-            If FilteredEdits.Items(i).User Is User Then
-                FilteredEdits.Items.RemoveAt(i)
-                Redraw = True
-            Else
-                i += 1
-            End If
-        Loop
-
-        If Redraw AndAlso Config.ShowQueue Then DrawQueue()
-
         If User Is CurrentUser Then
             RefreshInterface()
             DrawHistory()
@@ -176,11 +164,12 @@ Class Main
     End Sub
 
     Public Sub UnignoreUser(ByVal User As User)
-        User.Level = UserL.None
+        User.Ignored = False
         If WhitelistManualChanges.Contains(User.Name) Then WhitelistManualChanges.Remove(User.Name)
         If WhitelistAutoChanges.Contains(User.Name) Then WhitelistAutoChanges.Remove(User.Name)
         Log("Unignored user '" & User.Name & "'")
 
+        'Add undo menu item
         For Each Item As Command In Undo
             If Item.Type = CommandType.Ignore AndAlso Item.User Is User Then
                 RemoveFromUndoList(Item)
@@ -500,8 +489,7 @@ Class Main
 
         If CurrentEdit IsNot Nothing Then
             DiffRevertB.Enabled = True
-            If CurrentEdit.User IsNot Nothing AndAlso CurrentEdit.User.Level > UserL.Ignore _
-                Then RevertWarnB.Enabled = True
+            If CurrentEdit.User IsNot Nothing AndAlso Not CurrentEdit.User.Ignored Then RevertWarnB.Enabled = True
         End If
     End Sub
 
@@ -526,7 +514,7 @@ Class Main
         Handles UserReport.Click, UserBlock.Click, UserReportB.Click
 
         If CurrentEdit IsNot Nothing AndAlso CurrentEdit.User IsNot Nothing _
-            AndAlso CurrentEdit.User.Level >= UserL.None Then
+            AndAlso CurrentEdit.User.WarningLevel >= UserLevel.None Then
 
             If Administrator Then BlockUser(CurrentEdit.User) Else ReportUser(CurrentEdit.User, CurrentEdit)
         End If
@@ -579,7 +567,7 @@ Class Main
     End Sub
 
     Public Sub RevertAndWarn(Optional ByVal WarnType As String = "warning", _
-        Optional ByVal Level As UserL = UserL.None, Optional ByVal Summary As String = Nothing)
+        Optional ByVal Level As UserLevel = UserLevel.None, Optional ByVal Summary As String = Nothing)
 
         If CurrentEdit IsNot Nothing AndAlso CurrentEdit.Prev IsNot Nothing Then
 
@@ -597,7 +585,7 @@ Class Main
                     If PendingWarnings(i).Page Is CurrentEdit.Page Then PendingWarnings.RemoveAt(i) Else i += 1
                 End While
 
-                If Level <> UserL.None Then CurrentEdit.LevelToWarn = Level
+                If Level <> UserLevel.None Then CurrentEdit.LevelToWarn = Level
                 CurrentEdit.TypeToWarn = WarnType
 
                 PendingWarnings.Add(CurrentEdit)
@@ -765,10 +753,8 @@ Class Main
         CurrentTab.HistoryForward()
     End Sub
 
-    Private Sub SystemShowNewMessages_Click() _
-        Handles SystemShowNewMessages.Click
-
-        DisplayEdit(GetPage("User talk:" & MyUser.Name).LastEdit)
+    Private Sub SystemShowNewMessages_Click() Handles SystemShowNewMessages.Click
+        DisplayEdit(GetPage("User talk:" & Username).LastEdit)
         SystemShowNewMessages.Enabled = False
     End Sub
 
@@ -782,7 +768,7 @@ Class Main
     Sub BlockUser(ByVal ThisUser As User)
         Dim NewBlockForm As New BlockForm
 
-        NewBlockForm.ThisUser = ThisUser
+        NewBlockForm.User = ThisUser
         NewBlockForm.Reason.Text = Config.BlockReason
 
         If ThisUser.Anonymous Then
@@ -802,7 +788,7 @@ Class Main
             UserReportB.Enabled = False
 
             Dim NewBlockRequest As New BlockRequest
-            NewBlockRequest.User = NewBlockForm.ThisUser
+            NewBlockRequest.User = NewBlockForm.User
             NewBlockRequest.Reason = NewBlockForm.Reason.Text
             NewBlockRequest.AnonOnly = NewBlockForm.AnonOnly.Checked
             NewBlockRequest.BlockCreation = NewBlockForm.BlockCreation.Checked
@@ -946,35 +932,20 @@ Class Main
 
     Private Sub QueueTrim_Click() Handles QueueTrim.Click
         Dim NewQueueTrimForm As New QueueTrimForm
-
-        If NewQueueTrimForm.ShowDialog = DialogResult.OK AndAlso NewQueueTrimForm.DiscardTime > 0 Then
-            Dim i As Integer, Redraw As Boolean
-
-            While i < CurrentQueue.Items.Count
-                If CurrentQueue.Items(i).Time.AddMinutes(NewQueueTrimForm.DiscardTime) < Date.UtcNow Then
-                    CurrentQueue.Items.RemoveAt(i)
-                    Redraw = True
-                Else
-                    i += 1
-                End If
-            End While
-
-            If Redraw AndAlso Config.ShowQueue Then DrawQueue()
-        End If
+        NewQueueTrimForm.ShowDialog()
     End Sub
 
     Private Sub QueueClear_Click() Handles QueueClear.Click
-        CurrentQueue.Items.Clear()
-        If CurrentQueue.Type = Queue.Types.FixedList Then CurrentQueue.Initialise()
+        CurrentQueue.Reset()
         DrawQueue()
         DiffNextB.Enabled = False
     End Sub
 
     Private Sub QueueClearAll_Click() Handles QueueClearAll.Click
-        CurrentQueue.Items.Clear()
-        FilteredEdits.Items.Clear()
-        NewPages.Items.Clear()
-        AllEdits.Items.Clear()
+        For Each Item As Queue In Queue.All.Values
+            Item.Reset()
+        Next Item
+
         DrawQueue()
         DiffNextB.Enabled = False
     End Sub
@@ -1093,7 +1064,7 @@ Class Main
     Private Sub RateUpdateTimer_Tick() Handles RateUpdateTimer.Tick
         Dim FirstTime As Date = Date.UtcNow, Edits, Reverts As Integer
 
-        For Each Item As Edit In AllEditsById.Values
+        For Each Item As Edit In Edit.All.Values
             If Item.Time > StartTime AndAlso Item.Time.AddMinutes(10) > Date.UtcNow Then
                 Edits += 1
                 If Item.Time < FirstTime Then FirstTime = Item.Time
@@ -1109,8 +1080,8 @@ Class Main
     Private Sub Queue_MouseDown(ByVal s As Object, ByVal e As MouseEventArgs) Handles QueuePanel.MouseDown
         Dim Index As Integer = CInt((e.Y - 26) / 20) + QueueScroll.Value
 
-        If Index > -1 AndAlso Index < CurrentQueue.Items.Count Then
-            DisplayEdit(CurrentQueue.Items(Index))
+        If Index > -1 AndAlso Index < CurrentQueue.Edits.Count Then
+            DisplayEdit(CurrentQueue.Edits(Index))
             DrawQueue()
         End If
     End Sub
@@ -1127,7 +1098,7 @@ Class Main
     Private Sub UserInfo_Click() Handles UserInfo.Click, UserInfoB.Click
         If CurrentUser IsNot Nothing Then
             Dim NewUserInfoForm As New UserInfoForm
-            NewUserInfoForm.ThisUser = CurrentUser
+            NewUserInfoForm.User = CurrentUser
             NewUserInfoForm.Show()
         End If
     End Sub
@@ -1378,7 +1349,10 @@ Class Main
     End Sub
 
     Private Sub SystemReconnectIRC_Click() Handles SystemReconnectIRC.Click
-        FilteredEdits.Items.Clear()
+        For Each Item As Queue In Queue.All.Values
+            Item.Reset()
+        Next Item
+
         DrawQueue()
         DiffNextB.Enabled = False
         Irc.Reconnect()
@@ -1531,57 +1505,16 @@ Class Main
         NewRequest.Start()
     End Sub
 
-    Private Sub CreateContribsQueue(Optional ByVal Result As Request.Output = Nothing)
-        If CurrentUser IsNot Nothing Then
-            Dim ThisEdit As Edit = CurrentUser.LastEdit, NewQueue As New Queue, i As Integer
-
-            NewQueue.Type = Queue.Types.FixedList
-
-            While i < Config.ContribsBlockSize AndAlso ThisEdit IsNot Nothing AndAlso ThisEdit IsNot NullEdit
-                NewQueue.Items.Add(ThisEdit)
-                ThisEdit = ThisEdit.PrevByUser
-                i += 1
-            End While
-
-            CurrentQueue = NewQueue
-        End If
-    End Sub
-
     Private Sub QueueSelector_SelectedIndexChanged() Handles QueueSelector.SelectedIndexChanged
-
-        Select Case QueueSelector.SelectedItem.ToString
-            Case "Filtered changes" : CurrentQueue = FilteredEdits
-            Case "New pages" : CurrentQueue = NewPages
-            Case "All changes" : CurrentQueue = AllEdits
-
-            Case "Recent user contribs"
-                If CurrentUser IsNot Nothing Then
-                    Dim i As Integer, ThisEdit As Edit = CurrentUser.LastEdit
-
-                    While i < Config.ContribsBlockSize AndAlso ThisEdit IsNot Nothing AndAlso ThisEdit IsNot NullEdit
-                        ThisEdit = ThisEdit.PrevByUser
-                        i += 1
-                    End While
-
-                    If i < Config.ContribsBlockSize Then
-                        Dim NewContribsRequest As New ContribsRequest
-                        NewContribsRequest.User = CurrentUser
-                        NewContribsRequest.Start(AddressOf CreateContribsQueue)
-                    Else
-                        CreateContribsQueue()
-                    End If
-                End If
-
-            Case "Add..."
-                Dim NewQueueForm As New QueueForm
-                NewQueueForm.ShowDialog()
-
-            Case Else
-                CurrentQueue = AllQueues(QueueSelector.SelectedItem.ToString)
-                If Not CurrentQueue.Initialised Then CurrentQueue.Initialise()
-        End Select
+        If QueueSelector.SelectedItem.ToString = "Add..." Then
+            Dim NewQueueForm As New QueueForm
+            NewQueueForm.ShowDialog()
+        Else
+            CurrentQueue = Queue.All(QueueSelector.SelectedItem.ToString)
+        End If
 
         DrawQueue()
+        RefreshInterface()
     End Sub
 
     Private Sub QueueEditSources_Click() Handles QueueEditSources.Click
@@ -1656,16 +1589,13 @@ Class Main
         Irc.Disconnect()
 
         'Clear various things
-        AllEditsById.Clear()
-        AllEdits.Items.Clear()
+        Edit.All.Clear()
         Page.ClearAll()
+        Queue.All.Clear()
         AllRequests.Clear()
-        AllUsers.Clear()
-        FilteredEdits.Items.Clear()
-        NewPages.Items.Clear()
+        User.ClearAll()
         PendingRequests.Clear()
         PendingWarnings.Clear()
-        AllQueues.Clear()
         Undo.Clear()
         Watchlist.Clear()
         Whitelist.Clear()

@@ -17,7 +17,7 @@ Class RevertForm
             If Not ManualRevertSummaries.Contains(Summary.Text) Then ManualRevertSummaries.Add(Summary.Text)
             LastSummary = Summary.Text
 
-            If CurrentEdit.User.Level = UserL.None Then CurrentEdit.User.Level = UserL.Reverted
+            If CurrentEdit.User.WarningLevel = UserLevel.None Then CurrentEdit.User.WarningLevel = UserLevel.Reverted
             If CurrentEdit.Page.Level = Page.Levels.None Then CurrentEdit.Page.Level = Page.Levels.Watch
 
             Dim NewRevertRequest As New RevertRequest

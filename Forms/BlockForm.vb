@@ -2,18 +2,18 @@ Imports System.Text.RegularExpressions
 
 Class BlockForm
 
-    Public ThisUser As User
+    Public User As User
 
     Private Sub BlockForm_Load() Handles Me.Load
         Icon = My.Resources.icon_red_button
-        Text = "Block " & ThisUser.Name
+        Text = "Block " & User.Name
 
         If Config.BlockMessageDefault Then BlockMessage.SelectedIndex = 1 Else BlockMessage.SelectedIndex = 0
 
         Expiry.Items.AddRange(Config.BlockExpiryOptions.ToArray)
 
-        If ThisUser.Anonymous AndAlso ThisUser.SharedIP Then
-            SharedIPWarning.Text = "Note: " & ThisUser.Name & " is tagged as a dynamic or shared IP address."
+        If User.Anonymous AndAlso User.SharedIP Then
+            SharedIPWarning.Text = "Note: " & User.Name & " is tagged as a dynamic or shared IP address."
             SharedIPWarning.Visible = True
             Reason.SelectedIndex = 2
         Else
@@ -21,13 +21,13 @@ Class BlockForm
         End If
 
         'Check sensitive IP addresses list
-        If ThisUser.Anonymous Then
+        If User.Anonymous Then
             For Each Item As String In Config.SensitiveAddresses
-                If New Regex(Item.Substring(0, Item.IndexOf(";"))).IsMatch(ThisUser.Name) Then
+                If New Regex(Item.Substring(0, Item.IndexOf(";"))).IsMatch(User.Name) Then
                     If MsgBox("This IP address is listed as 'sensitive' for the following reason:" & vbCrLf & vbCrLf & _
                         "   " & Item.Substring(Item.IndexOf(";") + 1) & vbCrLf & vbCrLf & "Continue anyway?", _
                         MsgBoxStyle.YesNo Or MsgBoxStyle.Exclamation Or MsgBoxStyle.DefaultButton2, _
-                        "Block " & ThisUser.Name) = MsgBoxResult.No Then
+                        "Block " & User.Name) = MsgBoxResult.No Then
 
                         DialogResult = DialogResult.Cancel
                         Close()
@@ -43,7 +43,7 @@ Class BlockForm
 
         Dim NewBlockLogRequest As New BlockLogRequest
         NewBlockLogRequest.Target = BlockLog
-        NewBlockLogRequest.ThisUser = ThisUser
+        NewBlockLogRequest.ThisUser = User
         NewBlockLogRequest.Start()
 
         WarnLog.Columns.Add("", 300)
@@ -51,7 +51,7 @@ Class BlockForm
 
         Dim NewWarnLogRequest As New WarningLogRequest
         NewWarnLogRequest.Target = WarnLog
-        NewWarnLogRequest.ThisUser = ThisUser
+        NewWarnLogRequest.ThisUser = User
         NewWarnLogRequest.Start()
     End Sub
 
@@ -74,11 +74,11 @@ Class BlockForm
     End Sub
 
     Private Sub UserTalk_Click() Handles UserTalk.Click
-        OpenUrlInBrowser(SitePath & "w/index.php?title=User_talk:" & ThisUser.Name)
+        OpenUrlInBrowser(SitePath & "w/index.php?title=User_talk:" & User.Name)
     End Sub
 
     Private Sub UserContribs_Click() Handles UserContribs.Click
-        OpenUrlInBrowser(SitePath & "w/index.php?title=Special:Contributions/" & ThisUser.Name)
+        OpenUrlInBrowser(SitePath & "w/index.php?title=Special:Contributions/" & User.Name)
     End Sub
 
     Private Sub Reason_SelectedIndexChanged() _

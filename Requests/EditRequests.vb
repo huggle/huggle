@@ -374,7 +374,7 @@ Namespace Requests
             If BotPageText.ToLower.Contains("{{vandal|" & User.Name.ToLower & "}}") _
                 OrElse BotPageText.ToLower.Contains("{{ipvandal|" & User.Name.ToLower & "}}") Then
 
-                If User.Level < UserL.ReportedAIV Then User.Level = UserL.ReportedAIV
+                If User.WarningLevel < UserLevel.ReportedAIV Then User.WarningLevel = UserLevel.ReportedAIV
                 Callback(AddressOf AlreadyReported)
                 Exit Sub
             End If
@@ -395,7 +395,7 @@ Namespace Requests
                 Data.Watch = Config.WatchReports
 
                 If Data.Text Is Nothing Then
-                    If User.Level < UserL.ReportedAIV Then User.Level = UserL.ReportedAIV
+                    If User.WarningLevel < UserLevel.ReportedAIV Then User.WarningLevel = UserLevel.ReportedAIV
                     Callback(AddressOf AlreadyReported)
                     Exit Sub
                 End If
@@ -410,7 +410,7 @@ Namespace Requests
                 Else Reason = "* {{Vandal|" & User.Name & "}} – " & Reason
 
             If Config.ReportLinkDiffs Then Reason &= LinkDiffs()
-            If User.Level = UserL.Warn4im Then Reason &= " – " & Config.AivSingleNote
+            If User.WarningLevel = UserLevel.Warn4im Then Reason &= " – " & Config.AivSingleNote
 
             Data.Text &= Reason & " – ~~~~"
             Data.Summary = Config.ReportSummary.Replace("$1", User.Name)
@@ -527,7 +527,7 @@ Namespace Requests
                 Dim BotPageText As String = GetPageText(Config.UAABotLocation)
 
                 If BotPageText.ToLower.Contains("{{userlinks|" & User.Name.ToLower & "}}") Then
-                    If User.Level < UserL.ReportedUAA Then User.Level = UserL.ReportedUAA
+                    If User.WarningLevel < UserLevel.ReportedUAA Then User.WarningLevel = UserLevel.ReportedUAA
                     Callback(AddressOf AlreadyReported)
                     Exit Sub
                 End If
@@ -541,7 +541,7 @@ Namespace Requests
             End If
 
             If Data.Text.ToLower.Contains("{{userlinks|" & User.Name & "}}") Then
-                If User.Level < UserL.ReportedUAA Then User.Level = UserL.ReportedUAA
+                If User.WarningLevel < UserLevel.ReportedUAA Then User.WarningLevel = UserLevel.ReportedUAA
                 Callback(AddressOf AlreadyReported)
                 Exit Sub
             End If

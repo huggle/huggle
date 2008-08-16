@@ -15,6 +15,7 @@ Module Config
     Public IrcMode As Boolean = True
     Public LatestVersion As New Version(0, 0, 0)
     Public LocalConfigLocation As String = "\config.txt"
+    Public QueueSize As Integer = 5000
     Public QueueWidth As Integer = 160
     Public RememberMe As Boolean = True
     Public SitePath As String = "http://en.wikipedia.org/"

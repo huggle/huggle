@@ -408,7 +408,7 @@ Namespace Requests
             For Each Item As Match In BlockMatches
                 Dim BlockedUser As User = GetUser(Item.Groups(1).Value)
                 BlockedUser.BlocksCurrent = False
-                If BlockedUser.Level <> UserL.Blocked Then BlockedUser.Level = UserL.Blocked
+                If BlockedUser.WarningLevel <> UserLevel.Blocked Then BlockedUser.WarningLevel = UserLevel.Blocked
             Next Item
 
             MainForm.BlockReqTimer.Start()
@@ -476,20 +476,9 @@ Namespace Requests
                 Item.Key.EditCount = Item.Value
 
                 If Item.Key.EditCount > Config.WhitelistEditCount Then
-                    'If the user has the ammount of edit given in config or more then the user is to be ignored
-                    Item.Key.Level = UserL.Ignore
-
+                    'Ignore user
+                    Item.Key.Ignored = True
                     WhitelistAutoChanges.Add(Item.Key.Name)
-
-                    If CurrentEdit IsNot Nothing AndAlso Item.Key Is CurrentEdit.User Then
-                        MainForm.UserIgnoreB.Image = My.Resources.user_unwhitelist
-                    End If
-
-                    Dim i As Integer = 0
-
-                    While i < FilteredEdits.Items.Count - 1
-                        If FilteredEdits.Items(i).User Is Item.Key Then FilteredEdits.Items.RemoveAt(i) Else i += 1
-                    End While
                 End If
             Next Item
 
@@ -603,7 +592,7 @@ Namespace Requests
                 Else
                     For Each Item As Warning In ThisUser.Warnings
                         If Item.Time.AddHours(Config.WarningAge) > My.Computer.Clock.GmtTime Then
-                            If Item.Level > ThisUser.Level Then ThisUser.Level = Item.Level
+                            If Item.Level > ThisUser.WarningLevel Then ThisUser.WarningLevel = Item.Level
                             If ThisUser.WarnTime < Item.Time Then ThisUser.WarnTime = Item.Time
                         End If
                     Next Item
@@ -622,13 +611,13 @@ Namespace Requests
                         If Warning.Time.AddHours(36) > Date.UtcNow Then NewItem.ForeColor = Color.Blue
 
                         Select Case Warning.Level
-                            Case UserL.Notification : NewItem.SubItems.Add("--")
-                            Case UserL.Warn1 : NewItem.SubItems.Add("Level 1")
-                            Case UserL.Warn2 : NewItem.SubItems.Add("Level 2")
-                            Case UserL.Warn3 : NewItem.SubItems.Add("Level 3")
-                            Case UserL.Warn4im : NewItem.SubItems.Add("Level 4im")
-                            Case UserL.WarnFinal : NewItem.SubItems.Add("Level 4")
-                            Case UserL.Blocked : NewItem.SubItems.Add("Blocked")
+                            Case UserLevel.Notification : NewItem.SubItems.Add("--")
+                            Case UserLevel.Warn1 : NewItem.SubItems.Add("Level 1")
+                            Case UserLevel.Warn2 : NewItem.SubItems.Add("Level 2")
+                            Case UserLevel.Warn3 : NewItem.SubItems.Add("Level 3")
+                            Case UserLevel.Warn4im : NewItem.SubItems.Add("Level 4im")
+                            Case UserLevel.WarnFinal : NewItem.SubItems.Add("Level 4")
+                            Case UserLevel.Blocked : NewItem.SubItems.Add("Blocked")
                             Case Else : NewItem.SubItems.Add("--")
                         End Select
 

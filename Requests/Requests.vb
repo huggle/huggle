@@ -114,7 +114,7 @@ Namespace Requests
         End Sub
 
         Protected Sub UndoEdit(ByVal Page As Page)
-            If Page.LastEdit IsNot Nothing AndAlso Page.LastEdit.User Is MyUser _
+            If Page.LastEdit IsNot Nothing AndAlso Page.LastEdit.User.IsMe _
                 Then DoRevert(Page.LastEdit, False, Config.UndoSummary, True)
         End Sub
 
@@ -238,8 +238,6 @@ Namespace Requests
                 Cookie = CookiePrefix & "UserID=" & UrlEncode(Userid) & "; " & CookiePrefix & "UserName=" & _
                 UrlEncode(Config.Username) & "; " & CookiePrefix & "Token=" & UrlEncode(Token) & "; " & SessionCookie
             End If
-
-            MyUser = GetUser(Config.Username)
 
             Return LoginResults.Success
         End Function

@@ -1,7 +1,5 @@
 Class QueueTrimForm
 
-    Public DiscardTime As Double
-
     Private Sub QueueTrimForm_Load() Handles Me.Load
         Icon = My.Resources.icon_red_button
     End Sub
@@ -18,14 +16,9 @@ Class QueueTrimForm
     End Sub
 
     Private Sub OK_Click() Handles OK.Click
-        If Val(DiscardTimeInput.Text) > 0 Then
-            DiscardTime = Val(DiscardTimeInput.Text)
-            DialogResult = DialogResult.OK
-            Close()
-        Else
-            DialogResult = DialogResult.Cancel
-            Close()
-        End If
+        CurrentQueue.RemoveOldEdits(CInt(Age.Value))
+        DialogResult = DialogResult.OK
+        Close()
     End Sub
 
     Private Sub Cancel_Click() Handles Cancel.Click

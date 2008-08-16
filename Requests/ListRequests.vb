@@ -222,13 +222,13 @@ Namespace Requests
 
             _Done = Done
 
-            'Use a dummy queue with the same page list in the base class, to make sure we always get categories back
+            'Use a dummy queue with the same page list in the base class, but without filters
+            'to make sure we always get categories back
             From = MyBase.From
             MyBase.From = ""
             Queue = MyBase.Queue
-            MyBase.Queue = New Queue
+            MyBase.Queue = New Queue(Queue.Name & Chr(0))
             MyBase.Queue.Pages.AddRange(Queue.Pages)
-            MyBase.Queue.PageRegex = Nothing
 
             If _Progress IsNot Nothing Then
                 Progress = _Progress
@@ -240,7 +240,7 @@ Namespace Requests
 
         Sub CategoryDone(ByVal Items As List(Of String))
             If Items Is Nothing Then
-                _Done(Nothing)
+                AllDone()
             Else
                 For Each Item As String In Items
                     If Item.StartsWith("Category:") AndAlso Not CategoriesDone.Contains(Item) _
@@ -250,14 +250,14 @@ Namespace Requests
                         AllItems.Add(Item)
 
                         If AllItems.Count >= Limit Then
-                            _Done(AllItems)
+                            AllDone()
                             Exit Sub
                         End If
                     End If
                 Next Item
 
                 If CategoriesRemaining.Count = 0 Then
-                    _Done(AllItems)
+                    AllDone()
                 Else
                     If Progress IsNot Nothing Then Progress("Getting " & CategoriesRemaining(0) & "...", AllItems)
                     MyBase.QueryParams = "cmprop=title&cmtitle=" & UrlEncode(CategoriesRemaining(0))
@@ -266,6 +266,11 @@ Namespace Requests
                     MyBase.Start(AddressOf CategoryDone)
                 End If
             End If
+        End Sub
+
+        Sub AllDone()
+            Queue.All.Remove(MyBase.Queue.Name)
+            _Done(AllItems)
         End Sub
 
     End Class

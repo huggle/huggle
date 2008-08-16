@@ -28,7 +28,7 @@ Partial Class QueueForm
         Me.QueueMenuView = New System.Windows.Forms.ToolStripMenuItem
         Me.QueueMenuEdit = New System.Windows.Forms.ToolStripMenuItem
         Me.QueueMenuRemove = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator
+        Me.Separator1 = New System.Windows.Forms.ToolStripSeparator
         Me.QueueMenuSort = New System.Windows.Forms.ToolStripMenuItem
         Me.QueuesLabel = New System.Windows.Forms.Label
         Me.AddQueue = New System.Windows.Forms.Button
@@ -66,11 +66,18 @@ Partial Class QueueForm
         Me.QueuePages = New System.Windows.Forms.ListBox
         Me.Source = New System.Windows.Forms.TextBox
         Me.Browse = New System.Windows.Forms.Button
+        Me.OptionsTab = New System.Windows.Forms.TabPage
+        Me.RemoveAfter = New System.Windows.Forms.CheckBox
+        Me.RemoveAfterTime = New System.Windows.Forms.NumericUpDown
+        Me.RemoveAfterTimeLabel = New System.Windows.Forms.Label
+        Me.RemoveOld = New System.Windows.Forms.CheckBox
+        Me.SortOrderLabel = New System.Windows.Forms.Label
+        Me.SortOrder = New System.Windows.Forms.ComboBox
         Me.PageFiltersTab = New System.Windows.Forms.TabPage
         Me.ApplyFilters = New System.Windows.Forms.Button
         Me.ApplyFiltersLabel = New System.Windows.Forms.Label
         Me.PageFiltersGroup = New System.Windows.Forms.GroupBox
-        Me.Label1 = New System.Windows.Forms.Label
+        Me.NamespacesLabel = New System.Windows.Forms.Label
         Me.Namespaces = New System.Windows.Forms.CheckedListBox
         Me.PageRegexLabel = New System.Windows.Forms.Label
         Me.PageRegex = New System.Windows.Forms.TextBox
@@ -82,11 +89,15 @@ Partial Class QueueForm
         Me.FilterNewPage = New huggle.TriState
         Me.UserRegexLabel = New System.Windows.Forms.Label
         Me.UserRegex = New System.Windows.Forms.TextBox
+        Me.FilterAnonymous = New huggle.TriState
+        Me.FilterIgnoredUser = New huggle.TriState
         Me.QueueMenu.SuspendLayout()
         CType(Me.Limit, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TypeGroup.SuspendLayout()
         Me.Tabs.SuspendLayout()
         Me.PagesTab.SuspendLayout()
+        Me.OptionsTab.SuspendLayout()
+        CType(Me.RemoveAfterTime, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.PageFiltersTab.SuspendLayout()
         Me.PageFiltersGroup.SuspendLayout()
         Me.EditFiltersTab.SuspendLayout()
@@ -107,7 +118,7 @@ Partial Class QueueForm
         '
         'QueueMenu
         '
-        Me.QueueMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.QueueMenuView, Me.QueueMenuEdit, Me.QueueMenuRemove, Me.ToolStripSeparator1, Me.QueueMenuSort})
+        Me.QueueMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.QueueMenuView, Me.QueueMenuEdit, Me.QueueMenuRemove, Me.Separator1, Me.QueueMenuSort})
         Me.QueueMenu.Name = "QueueMenu"
         Me.QueueMenu.Size = New System.Drawing.Size(114, 98)
         '
@@ -129,10 +140,10 @@ Partial Class QueueForm
         Me.QueueMenuRemove.Size = New System.Drawing.Size(113, 22)
         Me.QueueMenuRemove.Text = "Remove"
         '
-        'ToolStripSeparator1
+        'Separator1
         '
-        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(110, 6)
+        Me.Separator1.Name = "Separator1"
+        Me.Separator1.Size = New System.Drawing.Size(110, 6)
         '
         'QueueMenuSort
         '
@@ -349,30 +360,30 @@ Partial Class QueueForm
         'Live
         '
         Me.Live.AutoSize = True
-        Me.Live.Location = New System.Drawing.Point(14, 65)
+        Me.Live.Location = New System.Drawing.Point(10, 65)
         Me.Live.Name = "Live"
         Me.Live.Size = New System.Drawing.Size(300, 17)
-        Me.Live.TabIndex = 2
+        Me.Live.TabIndex = 0
+        Me.Live.TabStop = True
         Me.Live.Text = "Live: Don't use a list; show any edit that matches the filters"
         Me.Live.UseVisualStyleBackColor = True
         '
         'LiveList
         '
         Me.LiveList.AutoSize = True
-        Me.LiveList.Location = New System.Drawing.Point(14, 42)
+        Me.LiveList.Location = New System.Drawing.Point(10, 42)
         Me.LiveList.Name = "LiveList"
         Me.LiveList.Size = New System.Drawing.Size(358, 17)
-        Me.LiveList.TabIndex = 1
+        Me.LiveList.TabIndex = 0
+        Me.LiveList.TabStop = True
         Me.LiveList.Text = "Live list: Use a list of pages, show edits to those pages as they happen"
         Me.LiveList.UseVisualStyleBackColor = True
         '
         'FixedList
         '
-        Me.FixedList.AutoSize = True
-        Me.FixedList.Checked = True
-        Me.FixedList.Location = New System.Drawing.Point(14, 19)
+        Me.FixedList.Location = New System.Drawing.Point(10, 19)
         Me.FixedList.Name = "FixedList"
-        Me.FixedList.Size = New System.Drawing.Size(345, 17)
+        Me.FixedList.Size = New System.Drawing.Size(356, 17)
         Me.FixedList.TabIndex = 0
         Me.FixedList.TabStop = True
         Me.FixedList.Text = "Fixed list: Use a list of pages, show the most recent edit to each one"
@@ -384,6 +395,7 @@ Partial Class QueueForm
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Tabs.Controls.Add(Me.PagesTab)
+        Me.Tabs.Controls.Add(Me.OptionsTab)
         Me.Tabs.Controls.Add(Me.PageFiltersTab)
         Me.Tabs.Controls.Add(Me.EditFiltersTab)
         Me.Tabs.Location = New System.Drawing.Point(186, 108)
@@ -531,6 +543,7 @@ Partial Class QueueForm
         Me.QueuePages.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.QueuePages.ContextMenuStrip = Me.QueueMenu
         Me.QueuePages.IntegralHeight = False
         Me.QueuePages.Location = New System.Drawing.Point(6, 105)
         Me.QueuePages.Name = "QueuePages"
@@ -558,6 +571,80 @@ Partial Class QueueForm
         Me.Browse.Text = "Browse..."
         Me.Browse.UseVisualStyleBackColor = True
         Me.Browse.Visible = False
+        '
+        'OptionsTab
+        '
+        Me.OptionsTab.Controls.Add(Me.RemoveAfter)
+        Me.OptionsTab.Controls.Add(Me.RemoveAfterTime)
+        Me.OptionsTab.Controls.Add(Me.RemoveAfterTimeLabel)
+        Me.OptionsTab.Controls.Add(Me.RemoveOld)
+        Me.OptionsTab.Controls.Add(Me.SortOrderLabel)
+        Me.OptionsTab.Controls.Add(Me.SortOrder)
+        Me.OptionsTab.Location = New System.Drawing.Point(4, 22)
+        Me.OptionsTab.Name = "OptionsTab"
+        Me.OptionsTab.Padding = New System.Windows.Forms.Padding(3)
+        Me.OptionsTab.Size = New System.Drawing.Size(388, 322)
+        Me.OptionsTab.TabIndex = 3
+        Me.OptionsTab.Text = "Queue options"
+        Me.OptionsTab.UseVisualStyleBackColor = True
+        '
+        'RemoveAfter
+        '
+        Me.RemoveAfter.AutoSize = True
+        Me.RemoveAfter.Location = New System.Drawing.Point(17, 73)
+        Me.RemoveAfter.Name = "RemoveAfter"
+        Me.RemoveAfter.Size = New System.Drawing.Size(115, 17)
+        Me.RemoveAfter.TabIndex = 8
+        Me.RemoveAfter.Text = "Remove edits after"
+        Me.RemoveAfter.UseVisualStyleBackColor = True
+        '
+        'RemoveAfterTime
+        '
+        Me.RemoveAfterTime.Enabled = False
+        Me.RemoveAfterTime.Location = New System.Drawing.Point(135, 72)
+        Me.RemoveAfterTime.Maximum = New Decimal(New Integer() {240, 0, 0, 0})
+        Me.RemoveAfterTime.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.RemoveAfterTime.Name = "RemoveAfterTime"
+        Me.RemoveAfterTime.Size = New System.Drawing.Size(53, 20)
+        Me.RemoveAfterTime.TabIndex = 7
+        Me.RemoveAfterTime.Value = New Decimal(New Integer() {10, 0, 0, 0})
+        '
+        'RemoveAfterTimeLabel
+        '
+        Me.RemoveAfterTimeLabel.AutoSize = True
+        Me.RemoveAfterTimeLabel.Location = New System.Drawing.Point(194, 74)
+        Me.RemoveAfterTimeLabel.Name = "RemoveAfterTimeLabel"
+        Me.RemoveAfterTimeLabel.Size = New System.Drawing.Size(43, 13)
+        Me.RemoveAfterTimeLabel.TabIndex = 6
+        Me.RemoveAfterTimeLabel.Text = "minutes"
+        '
+        'RemoveOld
+        '
+        Me.RemoveOld.AutoSize = True
+        Me.RemoveOld.Location = New System.Drawing.Point(17, 50)
+        Me.RemoveOld.Name = "RemoveOld"
+        Me.RemoveOld.Size = New System.Drawing.Size(202, 17)
+        Me.RemoveOld.TabIndex = 4
+        Me.RemoveOld.Text = "Remove older edits to the same page"
+        Me.RemoveOld.UseVisualStyleBackColor = True
+        '
+        'SortOrderLabel
+        '
+        Me.SortOrderLabel.AutoSize = True
+        Me.SortOrderLabel.Location = New System.Drawing.Point(14, 18)
+        Me.SortOrderLabel.Name = "SortOrderLabel"
+        Me.SortOrderLabel.Size = New System.Drawing.Size(56, 13)
+        Me.SortOrderLabel.TabIndex = 3
+        Me.SortOrderLabel.Text = "Sort order:"
+        '
+        'SortOrder
+        '
+        Me.SortOrder.FormattingEnabled = True
+        Me.SortOrder.Items.AddRange(New Object() {"Newest edits first", "Most suspicious edits first"})
+        Me.SortOrder.Location = New System.Drawing.Point(76, 15)
+        Me.SortOrder.Name = "SortOrder"
+        Me.SortOrder.Size = New System.Drawing.Size(143, 21)
+        Me.SortOrder.TabIndex = 2
         '
         'PageFiltersTab
         '
@@ -599,7 +686,7 @@ Partial Class QueueForm
         Me.PageFiltersGroup.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.PageFiltersGroup.Controls.Add(Me.Label1)
+        Me.PageFiltersGroup.Controls.Add(Me.NamespacesLabel)
         Me.PageFiltersGroup.Controls.Add(Me.Namespaces)
         Me.PageFiltersGroup.Controls.Add(Me.PageRegexLabel)
         Me.PageFiltersGroup.Controls.Add(Me.PageRegex)
@@ -610,14 +697,14 @@ Partial Class QueueForm
         Me.PageFiltersGroup.TabStop = False
         Me.PageFiltersGroup.Text = "Page filters"
         '
-        'Label1
+        'NamespacesLabel
         '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(6, 44)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(72, 13)
-        Me.Label1.TabIndex = 57
-        Me.Label1.Text = "Namespaces:"
+        Me.NamespacesLabel.AutoSize = True
+        Me.NamespacesLabel.Location = New System.Drawing.Point(6, 44)
+        Me.NamespacesLabel.Name = "NamespacesLabel"
+        Me.NamespacesLabel.Size = New System.Drawing.Size(72, 13)
+        Me.NamespacesLabel.TabIndex = 57
+        Me.NamespacesLabel.Text = "Namespaces:"
         '
         'Namespaces
         '
@@ -706,6 +793,8 @@ Partial Class QueueForm
         Me.EditFiltersGroup.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.EditFiltersGroup.Controls.Add(Me.FilterIgnoredUser)
+        Me.EditFiltersGroup.Controls.Add(Me.FilterAnonymous)
         Me.EditFiltersGroup.Controls.Add(Me.FilterNewPage)
         Me.EditFiltersGroup.Controls.Add(Me.UserRegexLabel)
         Me.EditFiltersGroup.Controls.Add(Me.UserRegex)
@@ -746,6 +835,30 @@ Partial Class QueueForm
         Me.UserRegex.Size = New System.Drawing.Size(169, 20)
         Me.UserRegex.TabIndex = 56
         '
+        'FilterAnonymous
+        '
+        Me.FilterAnonymous.BackColor = System.Drawing.SystemColors.Window
+        Me.FilterAnonymous.Label = "Anonymous user"
+        Me.FilterAnonymous.Location = New System.Drawing.Point(149, 55)
+        Me.FilterAnonymous.MaximumSize = New System.Drawing.Size(640, 16)
+        Me.FilterAnonymous.MinimumSize = New System.Drawing.Size(16, 16)
+        Me.FilterAnonymous.Name = "FilterAnonymous"
+        Me.FilterAnonymous.Size = New System.Drawing.Size(104, 16)
+        Me.FilterAnonymous.State = System.Windows.Forms.CheckState.Indeterminate
+        Me.FilterAnonymous.TabIndex = 58
+        '
+        'FilterIgnoredUser
+        '
+        Me.FilterIgnoredUser.BackColor = System.Drawing.SystemColors.Window
+        Me.FilterIgnoredUser.Label = "Ignored user"
+        Me.FilterIgnoredUser.Location = New System.Drawing.Point(149, 77)
+        Me.FilterIgnoredUser.MaximumSize = New System.Drawing.Size(640, 16)
+        Me.FilterIgnoredUser.MinimumSize = New System.Drawing.Size(16, 16)
+        Me.FilterIgnoredUser.Name = "FilterIgnoredUser"
+        Me.FilterIgnoredUser.Size = New System.Drawing.Size(85, 16)
+        Me.FilterIgnoredUser.State = System.Windows.Forms.CheckState.Indeterminate
+        Me.FilterIgnoredUser.TabIndex = 58
+        '
         'QueueForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -773,6 +886,9 @@ Partial Class QueueForm
         Me.Tabs.ResumeLayout(False)
         Me.PagesTab.ResumeLayout(False)
         Me.PagesTab.PerformLayout()
+        Me.OptionsTab.ResumeLayout(False)
+        Me.OptionsTab.PerformLayout()
+        CType(Me.RemoveAfterTime, System.ComponentModel.ISupportInitialize).EndInit()
         Me.PageFiltersTab.ResumeLayout(False)
         Me.PageFiltersTab.PerformLayout()
         Me.PageFiltersGroup.ResumeLayout(False)
@@ -796,15 +912,12 @@ Partial Class QueueForm
     Friend WithEvents Tip As System.Windows.Forms.ToolTip
     Friend WithEvents QueuesEmpty As System.Windows.Forms.Label
     Friend WithEvents TypeGroup As System.Windows.Forms.GroupBox
-    Friend WithEvents LiveList As System.Windows.Forms.RadioButton
-    Friend WithEvents FixedList As System.Windows.Forms.RadioButton
     Friend WithEvents QueueMenu As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents QueueMenuRemove As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents Separator1 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents QueueMenuSort As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents QueueMenuView As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents QueueMenuEdit As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents Live As System.Windows.Forms.RadioButton
     Friend WithEvents Tabs As System.Windows.Forms.TabControl
     Friend WithEvents PagesTab As System.Windows.Forms.TabPage
     Friend WithEvents QueueEmpty As System.Windows.Forms.Label
@@ -841,6 +954,18 @@ Partial Class QueueForm
     Friend WithEvents Example3 As huggle.TriState
     Friend WithEvents Example2 As huggle.TriState
     Friend WithEvents Example1 As huggle.TriState
-    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents NamespacesLabel As System.Windows.Forms.Label
     Friend WithEvents Namespaces As System.Windows.Forms.CheckedListBox
+    Friend WithEvents Live As System.Windows.Forms.RadioButton
+    Friend WithEvents LiveList As System.Windows.Forms.RadioButton
+    Friend WithEvents FixedList As System.Windows.Forms.RadioButton
+    Friend WithEvents OptionsTab As System.Windows.Forms.TabPage
+    Friend WithEvents RemoveOld As System.Windows.Forms.CheckBox
+    Friend WithEvents SortOrderLabel As System.Windows.Forms.Label
+    Friend WithEvents SortOrder As System.Windows.Forms.ComboBox
+    Friend WithEvents RemoveAfter As System.Windows.Forms.CheckBox
+    Friend WithEvents RemoveAfterTime As System.Windows.Forms.NumericUpDown
+    Friend WithEvents RemoveAfterTimeLabel As System.Windows.Forms.Label
+    Friend WithEvents FilterIgnoredUser As huggle.TriState
+    Friend WithEvents FilterAnonymous As huggle.TriState
 End Class
