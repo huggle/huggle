@@ -24,7 +24,7 @@ Class QueueActionsForm
                 Else ChangeTitle(Page.IsTalkPage, Page.SubjectPageName, i, Changes)
         End While
 
-        MsgBox(CStr(Changes) & " titles changed.", MsgBoxStyle.Information, "huggle")
+        MessageBox.Show(CStr(Changes) & " titles changed.", "Huggle", MessageBoxButtons.OK, MessageBoxIcon.Information)
     End Sub
 
     Private Sub ChangeTitle(ByVal Change As Boolean, ByVal NewTitle As String, _

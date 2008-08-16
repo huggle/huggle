@@ -18,7 +18,7 @@ Class ClosingForm
                 If Item.ForeColor <> Color.Red Then LogItems.Insert(0, Item.SubItems(1).Text)
             Next Item
 
-            File.AppendAllText(Config.LogFile, vbCrLf & Strings.Join(LogItems.ToArray, vbCrLf))
+            File.AppendAllText(Config.LogFile, LF & String.Join(LF, LogItems.ToArray))
         End If
 
         If Config.UpdateWhitelist AndAlso (WhitelistAutoChanges.Count > 0 _

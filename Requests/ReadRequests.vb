@@ -18,7 +18,7 @@ Namespace Requests
 
         Private Sub Process()
             Result = GetApi("format=xml&action=query&list=logevents&letype=block&letitle=User:" & _
-                UrlEncode(ThisUser.Name) & "&lelimit=50").Replace(vbLf, "")
+                UrlEncode(ThisUser.Name) & "&lelimit=50").Replace(LF, "")
 
             Dim LogMatches As MatchCollection = _
                 New Regex("<item logid=""[0-9]+"" pageid=""[0-9]+"" ns=""2"" title=""User:[^""]+"" " & _
@@ -773,7 +773,7 @@ Namespace Requests
                 Exit Sub
             End If
 
-            Result = Result.Replace(vbLf, "")
+            Result = Result.Replace(LF, "")
 
             If Page.Protections IsNot Nothing Then Page.Protections.Clear()
             Page.ProtectionsCurrent = True
@@ -882,7 +882,7 @@ Namespace Requests
                 Exit Sub
             End If
 
-            Result = Result.Replace(vbLf, "")
+            Result = Result.Replace(LF, "")
 
             If Page.Deletes IsNot Nothing Then Page.Deletes.Clear()
             Page.DeletesCurrent = True

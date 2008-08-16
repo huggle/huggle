@@ -140,8 +140,8 @@ Class Page
     Public Shared Function SanitizeTitle(ByVal Name As String) As String
         'Remove illegal characters
         Name = Name.Replace("[", "").Replace("]", "").Replace("{", "").Replace("}", "").Replace("|", "") _
-            .Replace("<", "").Replace(">", "").Replace("#", "").Replace(CChar(vbTab), "").Replace(CChar(vbLf), "") _
-            .Replace(CChar(vbCr), "").Replace("_", " ").Trim(" "c)
+            .Replace("<", "").Replace(">", "").Replace("#", "").Replace(Tab, "").Replace(LF, "") _
+            .Replace("_", " ").Trim(" "c)
         If Name.Contains("#") Then Name = Name.Substring(0, Name.IndexOf("#"))
         If Name Is Nothing OrElse Name.Length = 0 Then Return Nothing
 

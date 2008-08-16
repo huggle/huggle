@@ -391,13 +391,15 @@ Module Processing
         End If
 
         'Preload diffs
-        For l As Integer = 0 To Math.Min(CurrentQueue.Edits.Count, Config.Preloads) - 1
-            If CurrentQueue.Edits(l).Cached = Edit.CacheState.Uncached Then
-                Dim NewDiffRequest As New DiffRequest
-                NewDiffRequest.Edit = CurrentQueue.Edits(l)
-                NewDiffRequest.Start()
-            End If
-        Next l
+        If CurrentQueue IsNot Nothing Then
+            For l As Integer = 0 To Math.Min(CurrentQueue.Edits.Count, Config.Preloads) - 1
+                If CurrentQueue.Edits(l).Cached = Edit.CacheState.Uncached Then
+                    Dim NewDiffRequest As New DiffRequest
+                    NewDiffRequest.Edit = CurrentQueue.Edits(l)
+                    NewDiffRequest.Start()
+                End If
+            Next l
+        End If
 
         'Refresh the interface
         If CurrentEdit IsNot Nothing Then
@@ -467,18 +469,19 @@ Module Processing
         'Confirm self-reversion
         If Config.ConfirmSelfRevert AndAlso Not Undoing AndAlso Edit.User.IsMe _
             AndAlso (Edit.Page.FirstEdit Is Nothing OrElse Edit.Id <> Edit.Page.FirstEdit.Id) _
-            AndAlso MsgBox("This will revert your own edit. Continue?", MsgBoxStyle.YesNo) = MsgBoxResult.No _
-            Then Return False
+            AndAlso MessageBox.Show("This will revert your own edit. Continue?", "Huggle", _
+            MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.No Then Return False
 
         'Confirm reversion of whitelisted user
         If Config.ConfirmIgnored AndAlso Edit.User.Ignored AndAlso Not Edit.User.IsMe _
-            AndAlso MsgBox("Revert edit by whitelisted user '" & _
-            Edit.User.Name & "'?", MsgBoxStyle.YesNo, "huggle") = MsgBoxResult.No Then Return False
+            AndAlso MessageBox.Show("Revert edit by whitelisted user '" & Edit.User.Name & "'?", "Huggle", _
+            MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.No Then Return False
 
         'Confirm reversion of multiple edits
         If Config.ConfirmMultiple AndAlso Edit.Prev IsNot Nothing AndAlso Edit.User IsNot Nothing _
-            AndAlso Edit.User Is Edit.Prev.User AndAlso MsgBox("This will revert multiple edits by '" & _
-            Edit.User.Name & "'.", MsgBoxStyle.OkCancel, "huggle") <> MsgBoxResult.Ok Then Return False
+            AndAlso Edit.User Is Edit.Prev.User _
+            AndAlso MessageBox.Show("This will revert multiple edits by '" & Edit.User.Name & "'. Continue?", "Huggle", _
+            MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.No Then Return False
 
         If Not Undoing AndAlso Edit.User.WarningLevel = UserLevel.None Then Edit.User.WarningLevel = UserLevel.Reverted
         If Not Undoing AndAlso Edit.Page.Level = Page.Levels.None Then Edit.Page.Level = Page.Levels.Watch
@@ -500,14 +503,15 @@ Module Processing
         'If reverting first edit to page, offer to tag for speedy deletion
         If Edit.Page.FirstEdit IsNot Nothing AndAlso Edit.Id = Edit.Page.FirstEdit.Id Then
             If Not Config.Speedy Then
-                MsgBox("Edit is the first edit to the page; unable to revert.")
+                MessageBox.Show("Edit is the first edit to the page; unable to revert.")
                 Return False
             End If
 
             Dim Prompt As String = "Edit is the only edit to the page. "
 
             If Administrator Then Prompt &= "Delete page instead?" Else Prompt &= "Tag for speedy deletion instead?"
-            If MsgBox(Prompt, MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then UserDeleteRequest(Edit.Page)
+            If MessageBox.Show(Prompt, "Huggle", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes _
+                Then UserDeleteRequest(Edit.Page)
 
             Return False
         End If
@@ -517,13 +521,13 @@ Module Processing
             Dim Prompt As String = "Last edit was made by page creator, '" & Edit.User.Name & "'. "
             If Administrator Then Prompt &= "Delete page instead?" Else Prompt &= "Tag for speedy deletion instead?"
 
-            Select Case MsgBox(Prompt, MsgBoxStyle.YesNoCancel)
+            Select Case MessageBox.Show(Prompt, "Huggle", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
 
-                Case MsgBoxResult.Yes
+                Case DialogResult.Yes
                     UserDeleteRequest(Edit.Page)
                     Return False
 
-                Case MsgBoxResult.Cancel
+                Case DialogResult.Cancel
                     Return False
             End Select
         End If
@@ -568,9 +572,9 @@ Module Processing
         'Confirm revert to another revision by the same user
         If Not Undoing AndAlso Edit.Prev IsNot Nothing AndAlso Edit.Prev.User Is Edit.User _
             AndAlso Config.ConfirmSame AndAlso _
-            MsgBox("This will revert to another revision by the user that is being reverted, " _
-            & Edit.User.Name & "." & vbCrLf & "Continue with this?", MsgBoxStyle.OkCancel, _
-            "huggle") = MsgBoxResult.Cancel Then Return False
+            MessageBox.Show("This will revert to another revision by the user that is being reverted, " _
+            & Edit.User.Name & ". Continue with this?", "Huggle", _
+            MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.No Then Return False
 
         If Edit Is CurrentEdit Then
             MainForm.DiffRevertB.Enabled = False
@@ -586,7 +590,6 @@ Module Processing
         NewRequest.Summary = Summary
         NewRequest.Start()
         Return True
-
     End Function
 
     Sub ProcessBlock(ByVal BlockObject As Object)
@@ -1154,8 +1157,6 @@ Module Processing
         If CurrentQueue.Edits.Count > 0 Then
             Dim ThisEdit As Edit = CurrentQueue.Edits(0)
             DisplayEdit(ThisEdit, , CurrentTab)
-
-            If CurrentQueue.Edits.Count = 0 Then MainForm.DiffNextB.Enabled = False
         End If
     End Sub
 
@@ -1389,7 +1390,7 @@ Module Processing
 
         ' Kbh3rd
         If Summary.StartsWith("vandalizing in") Then
-            Select Case Right(Summary, 3)
+            Select Case Summary.Substring(Summary.Length - 3, 3)
                 Case "/4/" : Return UserLevel.WarnFinal
                 Case "/3/" : Return UserLevel.Warn3
                 Case "/2/" : Return UserLevel.Warn2
@@ -1416,7 +1417,7 @@ Module Processing
         If Summary.Contains("uw-unsourced") Then Return UserLevel.Notification
 
         If Summary.Contains("uw-") Then
-            Select Case Right(Summary, 1)
+            Select Case Summary.Substring(Summary.Length - 1, 1)
                 Case "4" : Return UserLevel.WarnFinal
                 Case "3" : Return UserLevel.Warn3
                 Case "2" : Return UserLevel.Warn2

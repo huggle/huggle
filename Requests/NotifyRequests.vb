@@ -30,8 +30,8 @@ Namespace Requests
                 Exit Sub
             End If
 
-            Data.Text &= vbLf
-            If Title <> "" Then Data.Text &= "== " & Title & " ==" & vbLf & vbLf
+            Data.Text &= LF
+            If Title <> "" Then Data.Text &= "== " & Title & " ==" & LF & LF
             Data.Text &= Message
             If AutoSign Then Data.Text &= " ~~~~"
             Data.Summary = Summary
@@ -94,7 +94,7 @@ Namespace Requests
 
             Data.Minor = Config.MinorWarnings
             Data.Watch = Config.WatchWarnings
-            If Data.Text.Length > 1 Then Data.Text &= vbLf
+            If Data.Text.Length > 1 Then Data.Text &= LF
 
             Dim ExistingWarnings As List(Of Warning) = ProcessUserTalk(Data.Text, Edit.User)
             Dim ExistingWarnLevel As UserLevel = UserLevel.None
@@ -186,7 +186,7 @@ Namespace Requests
                 GetMonthName(Date.UtcNow.Month).ToLower & " " & CStr(Date.UtcNow.Year) & " ==")) _
                 AndAlso Not (Data.Text.ToLower.Contains("==" & GetMonthName(Date.UtcNow.Month).ToLower _
                 & " " & CStr(Date.UtcNow.Year) & "==")) Then Data.Text &= "== " & _
-                GetMonthName(Date.UtcNow.Month) & " " & CStr(Date.UtcNow.Year) & " ==" & vbCrLf & vbCrLf
+                GetMonthName(Date.UtcNow.Month) & " " & CStr(Date.UtcNow.Year) & " ==" & LF & LF
 
             Data.Text &= _
                 WarningNeeded.Replace("$1", Edit.Page.Name).Replace("$2", _
@@ -284,11 +284,11 @@ Namespace Requests
 
             If Template Is Nothing Then
                 If (Expiry = "indefinite" OrElse Expiry = "infinite") _
-                    Then Data.Text &= vbLf & Config.BlockMessageIndef.Replace("$1", Reason) _
-                    Else Data.Text &= vbLf & Config.BlockMessage.Replace("$2", Reason).Replace("$1", Expiry)
+                    Then Data.Text &= LF & Config.BlockMessageIndef.Replace("$1", Reason) _
+                    Else Data.Text &= LF & Config.BlockMessage.Replace("$2", Reason).Replace("$1", Expiry)
             Else
 
-                Data.Text &= vbLf & Template & " ~~~~"
+                Data.Text &= LF & Template & " ~~~~"
             End If
 
             Data.Minor = Config.MinorReports

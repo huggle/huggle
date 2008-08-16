@@ -32,7 +32,7 @@ Class TagForm
 
         If DialogResult = DialogResult.OK Then
             LastTagText = TagText.Text
-            If Summary.Text = "" Then Summary.Text = TagText.Text.Replace(vbCrLf, " ")
+            If Summary.Text = "" Then Summary.Text = TagText.Text.Replace(LF, " ")
 
             Dim NewRequest As New TagRequest
 
@@ -57,7 +57,7 @@ Class TagForm
 
     Private Sub TagText_TextChanged() Handles TagText.TextChanged
         OK.Enabled = (TagText.Text <> "")
-        Summary.Text = TagText.Text.Replace(vbCrLf, " ")
+        Summary.Text = TagText.Text.Replace(LF, " ")
         If Summary.Text.Length > 250 Then Summary.Text = Summary.Text.Substring(0, 250)
     End Sub
 
@@ -65,7 +65,7 @@ Class TagForm
         Handles TagSelector.SelectedIndexChanged
 
         If Not TagText.Text.Contains(CStr(TagSelector.Items(TagSelector.SelectedIndex))) Then
-            If TagText.Text <> "" Then TagText.Text &= vbCrLf
+            If TagText.Text <> "" Then TagText.Text &= LF
             TagText.Text &= CStr(TagSelector.Items(TagSelector.SelectedIndex))
         End If
     End Sub

@@ -87,9 +87,9 @@ Namespace Requests
             If ReplacePage Then
                 Data.Text = Tag
             ElseIf InsertAtEnd Then
-                Data.Text &= vbLf & Tag
+                Data.Text &= LF & Tag
             Else
-                Data.Text = Tag & vbLf & Data.Text
+                Data.Text = Tag & LF & Data.Text
             End If
 
             Data = PostEdit(Data)
@@ -171,7 +171,7 @@ Namespace Requests
             Data.Summary = Config.SpeedySummary.Replace("$1", _
                 "[[WP:SD#" & Criterion.DisplayCode & "|" & SpeedyCriteria(Criterion.DisplayCode).Description & "]]")
 
-            If Criterion.DisplayCode = "G10" Then Data.Text = Tag Else Data.Text = Tag & vbLf & Data.Text
+            If Criterion.DisplayCode = "G10" Then Data.Text = Tag Else Data.Text = Tag & LF & Data.Text
 
             Data = PostEdit(Data)
 
@@ -268,13 +268,13 @@ Namespace Requests
             Dim Header As String
 
             If Page.IsArticleTalkPage Then
-                Header = "===={{lat|" & Page.Name & "}}====" & vbLf
+                Header = "===={{lat|" & Page.Name & "}}====" & LF
             ElseIf Page.IsTalkPage Then
-                Header = "===={{lnt|" & Page.Space.Name & "|" & Page.Name & "}}====" & vbLf
+                Header = "===={{lnt|" & Page.Space.Name & "|" & Page.Name & "}}====" & LF
             ElseIf Page.IsArticle Then
-                Header = "===={{la|" & Page.Name & "}}====" & vbLf
+                Header = "===={{la|" & Page.Name & "}}====" & LF
             Else
-                Header = "===={{ln|" & Page.Space.Name & "|" & Page.Name & "}}====" & vbLf
+                Header = "===={{ln|" & Page.Space.Name & "|" & Page.Name & "}}====" & LF
             End If
 
             Select Case Type
@@ -284,7 +284,7 @@ Namespace Requests
             End Select
 
             Data.Text = Data.Text.Substring(0, Data.Text.IndexOf("====")) & Header & Reason & " ~~~~" _
-                & vbLf & vbLf & Data.Text.Substring(Data.Text.IndexOf("===="))
+                & LF & LF & Data.Text.Substring(Data.Text.IndexOf("===="))
 
             Select Case Type
                 Case ProtectionType.Full : Data.Summary = "full protection"
@@ -454,7 +454,7 @@ Namespace Requests
                 Then ReportIndex = Text.IndexOf("{{IPvandal|" & User.Name & "}}")
 
             If ReportIndex > 0 Then ReportLine = Text.Substring(ReportIndex)
-            If ReportLine.Contains(vbLf) Then ReportLine = ReportLine.Substring(0, ReportLine.IndexOf(vbLf))
+            If ReportLine.Contains(LF) Then ReportLine = ReportLine.Substring(0, ReportLine.IndexOf(LF))
 
             If Not (Config.ExtendReports AndAlso ReportLine.Contains("]</span>") AndAlso _
                 ReportLine.Contains("vandalism, including <span class=""plainlinks"">") AndAlso _
@@ -464,16 +464,17 @@ Namespace Requests
                 ReportLine.IndexOf("]</span>")).LastIndexOf(" ") + 1)
             DiffNumber = DiffNumber.Substring(0, DiffNumber.IndexOf("]"))
 
-            Dim diffnextbNumber As Integer = CInt(Val(DiffNumber)) + 1
-            If Not (diffnextbNumber > 1 AndAlso diffnextbNumber <= Config.MaxAIVDiffs) Then Return Nothing
+            Dim Diffs As Integer
+            If Not Integer.TryParse(DiffNumber, Diffs) Then Return Nothing
+            If Diffs = 0 OrElse Diffs >= Config.MaxAIVDiffs Then Return Nothing
 
             ReportLine = ReportLine.Substring(0, ReportLine.IndexOf("]</span>") + 1) & ", [" _
                 & SitePath & "wiki/" & UrlEncode(Edit.Page.Name.Replace(" ", "_")) & "?diff=" _
-                & Edit.Id & " " & CStr(diffnextbNumber) & "]" & _
+                & Edit.Id & " " & CStr(Diffs) & "]" & _
                 ReportLine.Substring(ReportLine.IndexOf("]</span>") + 1)
 
             Dim AfterReport As String = Text.Substring(ReportIndex)
-            If AfterReport.Contains(vbLf) Then AfterReport = AfterReport.Substring(AfterReport.IndexOf(vbLf)) _
+            If AfterReport.Contains(LF) Then AfterReport = AfterReport.Substring(AfterReport.IndexOf(LF)) _
                 Else AfterReport = ""
 
             Return Text.Substring(0, ReportIndex) & ReportLine & AfterReport
@@ -546,7 +547,7 @@ Namespace Requests
                 Exit Sub
             End If
 
-            Data.Text &= vbLf & "* {{userlinks|" & User.Name & "}} – " & Reason & " – ~~~~"
+            Data.Text &= LF & "* {{userlinks|" & User.Name & "}} – " & Reason & " – ~~~~"
             Data.Summary = Config.ReportSummary.Replace("$1", User.Name)
 
             Data = PostEdit(Data)
@@ -597,7 +598,7 @@ Namespace Requests
 
             Dim IgnoredUsernames As New List(Of String)
 
-            Dim Items As String() = Data.Text.Split(CChar(vbLf))
+            Dim Items As String() = Data.Text.Split(LF)
 
             For Each Item As String In Items
                 If Item.Length > 0 AndAlso Not (Item.Contains("{") OrElse Item.Contains("<")) _
@@ -616,7 +617,8 @@ Namespace Requests
 
             IgnoredUsernames.Sort(AddressOf CompareUsernames)
 
-            Data.Text = "{{/Header}}" & vbLf & "<pre>" & vbLf & Join(IgnoredUsernames.ToArray, vbLf) & vbLf & "</pre>"
+            Data.Text = "{{/Header}}" & LF & "<pre>" & LF & _
+                String.Join(LF, IgnoredUsernames.ToArray) & LF & "</pre>"
             Data.Summary = Config.WhitelistUpdateSummary
             Data.Minor = True
 

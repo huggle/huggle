@@ -227,7 +227,7 @@ Namespace Requests
             From = MyBase.From
             MyBase.From = ""
             Queue = MyBase.Queue
-            MyBase.Queue = New Queue(Queue.Name & Chr(0))
+            MyBase.Queue = New Queue(Queue.Name & Convert.ToChar(0))
             MyBase.Queue.Pages.AddRange(Queue.Pages)
 
             If _Progress IsNot Nothing Then

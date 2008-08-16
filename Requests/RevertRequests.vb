@@ -64,8 +64,9 @@ Namespace Requests
         End Sub
 
         Private Sub SpamBlacklist()
-            If MsgBox("Edit to '" & Edit.Page.Name & "' was blocked by the spam blacklist." & vbCrLf & _
-                "Edit page manually?", MsgBoxStyle.YesNo Or MsgBoxStyle.Exclamation) = MsgBoxResult.Yes Then
+            If MessageBox.Show("Edit to '" & Edit.Page.Name & "' was blocked by the spam blacklist." & CRLF & _
+                "Edit page manually?", "Huggle", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) _
+                = DialogResult.Yes Then
 
                 Dim NewEditForm As New EditForm
                 NewEditForm.Page = Edit.Page

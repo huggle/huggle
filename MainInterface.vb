@@ -77,11 +77,11 @@ Partial Class Main
         'Add template messages to menu
         For Each Item As String In Config.TemplateMessages
             Dim NewItem As New ToolStripMenuItem
-            Item = Item.Replace("\;", Chr(1))
+            Item = Item.Replace("\;", Convert.ToChar(1))
 
             If Item.Contains(";") Then
-                NewItem.Text = Item.Substring(0, Item.IndexOf(";")).Replace(Chr(1), ";")
-                NewItem.Tag = CObj(Item.Substring(Item.IndexOf(";") + 1).Replace(Chr(1), ";"))
+                NewItem.Text = Item.Substring(0, Item.IndexOf(";")).Replace(Convert.ToChar(1), ";")
+                NewItem.Tag = CObj(Item.Substring(Item.IndexOf(";") + 1).Replace(Convert.ToChar(1), ";"))
                 AddHandler NewItem.Click, AddressOf TemplateItem_Click
                 TemplateMenu.Items.Insert(2, NewItem)
             End If
@@ -92,11 +92,11 @@ Partial Class Main
 
         For Each Item As String In Config.GoToPages
             Dim NewItem As New ToolStripMenuItem
-            Item = Item.Replace("\;", Chr(1))
+            Item = Item.Replace("\;", Convert.ToChar(1))
 
             If Item.Contains(";") Then
-                NewItem.Text = Item.Substring(Item.IndexOf(";") + 1).Replace(Chr(1), ";")
-                NewItem.Tag = CObj(Item.Substring(0, Item.IndexOf(";")).Replace(Chr(1), ";"))
+                NewItem.Text = Item.Substring(Item.IndexOf(";") + 1).Replace(Convert.ToChar(1), ";")
+                NewItem.Tag = CObj(Item.Substring(0, Item.IndexOf(";")).Replace(Convert.ToChar(1), ";"))
                 AddHandler NewItem.Click, AddressOf GoToItem_Click
                 GoToMenu.DropDownItems.Add(NewItem)
             End If
@@ -118,7 +118,9 @@ Partial Class Main
         MenuPage.Enabled = (CurrentPage IsNot Nothing)
         MenuUser.Enabled = (CurrentUser IsNot Nothing)
 
-        If CurrentEdit IsNot Nothing AndAlso CurrentPage IsNot Nothing AndAlso CurrentUser IsNot Nothing Then
+        If CurrentEdit IsNot Nothing AndAlso CurrentPage IsNot Nothing AndAlso CurrentUser IsNot Nothing _
+            AndAlso CurrentQueue IsNot Nothing Then
+
             If Config.ShowQueue Then
                 Tabs.Left = QueueWidth + 20
                 Tabs.Width = Width - QueueWidth - 30

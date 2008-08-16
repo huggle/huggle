@@ -37,10 +37,10 @@ Namespace Requests
                         BlockedUser = HtmlDecode(BlockedUser)
 
                         If BlockedUser.Contains("/") Then
-                            If MsgBox(User.Name & " is already affected by a rangeblock on " & BlockedUser & _
-                                "." & vbCrLf & "This block will override the effect of the rangeblock. Continue?", _
-                                MsgBoxStyle.YesNo Or MsgBoxStyle.Exclamation Or MsgBoxStyle.DefaultButton2, _
-                                "Block " & User.Name) = MsgBoxResult.No Then
+                            If MessageBox.Show(User.Name & " is already affected by a rangeblock on " & BlockedUser & _
+                                "." & LF & "This block will override the effect of the rangeblock. Continue?", _
+                                "Huggle", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, _
+                                MessageBoxDefaultButton.Button2) = DialogResult.No Then
 
                                 Callback(AddressOf Failed)
                                 Exit Sub
@@ -430,9 +430,9 @@ Namespace Requests
         End Sub
 
         Private Sub NoEmail()
-            If MsgBox("The user '" & User.Name & "' does not have e-mail enabled." & vbCrLf & _
-                "Post a discussion page message instead?", MsgBoxStyle.YesNo Or MsgBoxStyle.Exclamation, "huggle") _
-                = MsgBoxResult.Yes Then
+            If MessageBox.Show("The user '" & User.Name & "' does not have e-mail enabled." & LF & _
+                "Post a discussion page message instead?", "Huggle", MessageBoxButtons.YesNo, _
+                MessageBoxIcon.Exclamation) = DialogResult.Yes Then
 
                 Dim NewMessageForm As New MessageForm
                 NewMessageForm.User = User

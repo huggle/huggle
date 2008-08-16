@@ -4,7 +4,7 @@
 
     Private Sub ExceptionForm_Load() Handles Me.Load
         Icon = My.Resources.icon_red_button
-        Details.Text = Exception.GetType.Name & ": " & Exception.Message & vbCrLf & Exception.StackTrace
+        Details.Text = Exception.GetType.Name & ": " & Exception.Message & LF & Exception.StackTrace
     End Sub
 
     Private Sub ContinueButton_Click() Handles ContinueButton.Click

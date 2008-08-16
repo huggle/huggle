@@ -13,7 +13,7 @@ Class EditInfoPanel
     Public Sub SetEdit(ByVal Edit As Edit, ByVal Mode As DisplayMode)
         If Edit IsNot Nothing AndAlso Edit.Page IsNot Nothing AndAlso Edit.User IsNot Nothing Then
             If Mode = DisplayMode.PageName Then PageUser.Text = Edit.User.Name Else PageUser.Text = Edit.Page.Name
-            Change.Text = CStr(IIf(Edit.Size > 0, "+", "")) & CStr(Edit.Size)
+            Change.Text = CStr(If(Edit.Size > 0, "+", "")) & CStr(Edit.Size)
             Change.Visible = (Not Edit.Size = 0)
             If Edit.Summary Is Nothing Then Summary.Text = "" Else Summary.Text = TrimSummary(Edit.Summary)
 

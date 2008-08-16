@@ -90,19 +90,21 @@ Class Main
     End Sub
 
     Sub DrawQueue()
-        Dim QueueHeight As Integer = (QueuePanel.Height \ 20) - 2
+        If CurrentQueue IsNot Nothing Then
+            Dim QueueHeight As Integer = (QueuePanel.Height \ 20) - 2
 
-        If QueueHeight < CurrentQueue.Edits.Count Then
-            QueueScroll.Enabled = True
-            QueueScroll.Maximum = CurrentQueue.Edits.Count - 2
-            QueueScroll.SmallChange = 1
-            QueueScroll.LargeChange = QueueHeight
-        Else
-            QueueScroll.Enabled = False
-            QueueScroll.Value = 0
+            If QueueHeight < CurrentQueue.Edits.Count Then
+                QueueScroll.Enabled = True
+                QueueScroll.Maximum = CurrentQueue.Edits.Count - 2
+                QueueScroll.SmallChange = 1
+                QueueScroll.LargeChange = QueueHeight
+            Else
+                QueueScroll.Enabled = False
+                QueueScroll.Value = 0
+            End If
+
+            QueuePanel.Draw(CurrentQueue)
         End If
-
-        QueuePanel.Draw(CurrentQueue)
     End Sub
 
     Private Sub Main_ResizeShown() Handles Me.Resize, Me.Shown
@@ -574,8 +576,8 @@ Class Main
             'Get confirmation if needed
             If Config.ConfirmMultiple AndAlso CurrentEdit.User IsNot Nothing _
                 AndAlso CurrentEdit.User Is CurrentEdit.Prev.User _
-                AndAlso MsgBox("This will revert multiple edits by '" & CurrentEdit.User.Name & "'.", _
-                MsgBoxStyle.OkCancel, "Revert") <> MsgBoxResult.Ok Then Exit Sub
+                AndAlso MessageBox.Show("This will revert multiple edits by '" & CurrentEdit.User.Name & "'. Continue?", _
+                "Huggle", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.No Then Exit Sub
 
             If DoRevert(CurrentEdit, True, Summary) Then
                 'Be sure not to warn twice for the same edit
@@ -736,7 +738,7 @@ Class Main
 
     Function UtcOffset() As String
         If TimeZone.CurrentTimeZone.GetUtcOffset(Date.Now).TotalMinutes = 0 Then Return "" _
-            Else Return " (" & CStr(IIf(TimeZone.CurrentTimeZone.GetUtcOffset(Date.Now).Minutes < 0, "-", "+")) _
+            Else Return " (" & CStr(If(TimeZone.CurrentTimeZone.GetUtcOffset(Date.Now).Minutes < 0, "-", "+")) _
             & CStr(TimeZone.CurrentTimeZone.GetUtcOffset(Date.Now).Hours).PadLeft(2, "0"c) & ":" _
             & CStr(TimeZone.CurrentTimeZone.GetUtcOffset(Date.Now).Minutes).PadLeft(2, "0"c) & ")"
     End Function
@@ -938,7 +940,7 @@ Class Main
     Private Sub QueueClear_Click() Handles QueueClear.Click
         CurrentQueue.Reset()
         DrawQueue()
-        DiffNextB.Enabled = False
+        RefreshInterface()
     End Sub
 
     Private Sub QueueClearAll_Click() Handles QueueClearAll.Click
@@ -947,7 +949,7 @@ Class Main
         Next Item
 
         DrawQueue()
-        DiffNextB.Enabled = False
+        RefreshInterface()
     End Sub
 
     Private Sub BrowserCloseOtherTabs_Click() Handles BrowserCloseOthers.Click

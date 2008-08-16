@@ -36,12 +36,12 @@ Module Highlight
     End Function
 
     Public Function RtfEscape(ByVal Text As String) As String
-        Text = Text.Replace("\", "\\").Replace("{", "\{").Replace("}", "\}").Replace(vbLf, "\par ")
+        Text = Text.Replace("\", "\\").Replace("{", "\{").Replace("}", "\}").Replace(LF, "\par ")
 
         Dim j As Integer = 0
 
         While j < Text.Length
-            Dim a As Integer = AscW(Text(j))
+            Dim a As Integer = Convert.ToInt32(Text(j))
 
             If a > 127 Then
                 Text.Remove(j, 1)
@@ -127,7 +127,7 @@ Module Highlight
                 Comment.Add("{\cf1 " & Str.Substring(Open, Close - Open + 3) & "}")
 
                 Source.Remove(Open, Close - Open + 3)
-                Source.Insert(Open, Chr(0))
+                Source.Insert(Open, Convert.ToChar(0))
                 Close = Open + 1
             End While
 
@@ -143,7 +143,7 @@ Module Highlight
                 Nowiki.Add("{\cf0 " & Str.Substring(Open + 8, Close - Open - 8) & "}")
 
                 Source.Remove(Open + 8, Close - Open - 8)
-                Source.Insert(Open + 8, Chr(1))
+                Source.Insert(Open + 8, Convert.ToChar(1))
                 Close = Open + 1
             End While
 
@@ -274,7 +274,7 @@ Module Highlight
                 Dim Close1 As Integer = Str.IndexOf(" ", Open)
                 Dim Close2 As Integer = Str.IndexOf("|", Open)
                 Dim Close3 As Integer = Str.IndexOf("}", Open)
-                Dim Close4 As Integer = Str.IndexOf(vbLf, Open)
+                Dim Close4 As Integer = Str.IndexOf(LF, Open)
 
                 If Close1 > -1 Then Close = Close1
                 If Close2 > -1 AndAlso Close2 < Close Then Close = Close2
@@ -297,7 +297,7 @@ Module Highlight
                 Open = Str.IndexOf("'''''", Close)
                 If Open = -1 Then Exit While
 
-                Dim Close1 As Integer = Str.IndexOf(vbLf, Open + 2)
+                Dim Close1 As Integer = Str.IndexOf(LF, Open + 2)
                 Dim Close2 As Integer = Str.IndexOf("'''''", Open + 2) + 5
                 Close = -1
                 If Close1 > -1 Then Close = Close1
@@ -321,7 +321,7 @@ Module Highlight
                     Continue While
                 End If
 
-                Dim Close1 As Integer = Str.IndexOf(vbLf, Open + 3)
+                Dim Close1 As Integer = Str.IndexOf(LF, Open + 3)
                 Dim Close2 As Integer = Str.IndexOf("'''", Open + 3) + 3
                 Close = -1
                 If Close1 > -1 Then Close = Close1
@@ -345,7 +345,7 @@ Module Highlight
                     Continue While
                 End If
 
-                Dim Close1 As Integer = Str.IndexOf(vbLf, Open + 2)
+                Dim Close1 As Integer = Str.IndexOf(LF, Open + 2)
                 Dim Close2 As Integer = Str.IndexOf("''", Open + 2) + 2
                 Close = -1
                 If Close1 > -1 Then Close = Close1
@@ -405,7 +405,7 @@ Module Highlight
 
             While True
                 Dim Str As String = Source.ToString
-                If Str.StartsWith("==") Then Open = 0 Else Open = Str.IndexOf(vbLf & "==", Close)
+                If Str.StartsWith("==") Then Open = 0 Else Open = Str.IndexOf(LF & "==", Close)
                 If Open = -1 Then Exit While
                 Close = Str.IndexOf("==", Open + 4)
                 If Close = -1 Then Exit While
@@ -464,13 +464,13 @@ Module Highlight
                 ParseTemplate(TemplateItem)
 
                 Source.Remove(Open, Close - Open + 4)
-                Source.Insert(Open, Chr(14))
+                Source.Insert(Open, Convert.ToChar(14))
                 Close = Open + 1
             End While
 
             For Each Item As TemplateData In Templates
                 UnpackTemplates(Item)
-                Dim Index As Integer = Source.ToString.IndexOf(Chr(14))
+                Dim Index As Integer = Source.ToString.IndexOf(Convert.ToChar(14))
 
                 If Index > -1 Then
                     Source.Remove(Index, 1)
@@ -482,7 +482,7 @@ Module Highlight
 
             For i As Integer = 0 To Lists.Length - 1
                 For Each Item As String In Lists(i)
-                    Dim Index As Integer = Source.ToString.IndexOf(Chr(1 - i))
+                    Dim Index As Integer = Source.ToString.IndexOf(Convert.ToChar(1 - i))
 
                     If Index > -1 Then
                         Source.Remove(Index, 1)
@@ -491,12 +491,12 @@ Module Highlight
                 Next Item
             Next i
 
-            Source.Replace(vbLf, "\par ")
+            Source.Replace(LF, "\par ")
 
             Dim j As Integer = 0
 
             While j < Source.Length
-                Dim a As Integer = AscW(Source(j))
+                Dim a As Integer = Convert.ToInt32(Source(j))
 
                 If a > 127 Then
                     Source.Remove(j, 1)
@@ -566,7 +566,7 @@ Module Highlight
                 Data.Templates.Add(TemplateItem)
                 ParseTemplate(TemplateItem)
 
-                Data.Text = Data.Text.Substring(0, Open) & Chr(14) & Data.Text.Substring(Close + 4)
+                Data.Text = Data.Text.Substring(0, Open) & Convert.ToChar(14) & Data.Text.Substring(Close + 4)
                 Close = Open + 1
             End While
 
@@ -587,7 +587,7 @@ Module Highlight
 
                 Dim ValueIndex As Integer = Params(0).IndexOf("{\cf4 ")
                 Dim Value As String = Params(0).Substring(Params(0).IndexOf("{\cf4 "))
-                Dim Name As String = Value.Substring(5, Value.Length - 7).Replace(Chr(3), "").Trim(" "c)
+                Dim Name As String = Value.Substring(5, Value.Length - 7).Replace(Convert.ToChar(3), "").Trim(" "c)
 
                 If Value.Contains("#") AndAlso Value.Contains(":") Then
                     Dim Index As Integer = Value.IndexOf(":")
@@ -610,7 +610,7 @@ Module Highlight
                     & Params(i).Substring(Index2)
             Next i
 
-            Data.Text = Strings.Join(Params, "{\b |}")
+            Data.Text = String.Join("{\b |}", Params)
             Data.Text = "{\b0\cf0 \{\{" & Data.Text & "\}\}}"
         End Sub
 
@@ -618,7 +618,7 @@ Module Highlight
             For i As Integer = 0 To Data.Templates.Count - 1
                 UnpackTemplates(Data.Templates(i))
 
-                Dim Index As Integer = Data.Text.IndexOf(Chr(14))
+                Dim Index As Integer = Data.Text.IndexOf(Convert.ToChar(14))
                 If Index > -1 Then Data.Text = Data.Text.Substring(0, Index) _
                     & Data.Templates(i).Text & Data.Text.Substring(Index + 1)
             Next i

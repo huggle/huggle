@@ -60,10 +60,10 @@ Class ConfigForm
         ReportAuto.Checked = Config.AutoReport
 
         For Each Item As String In Config.TemplateMessages
-            Item = Item.Replace("\;", Chr(1))
+            Item = Item.Replace("\;", Convert.ToChar(1))
             If Item <> "" Then
-                Dim NewListItem As New ListViewItem(Item.Substring(0, Item.IndexOf(";")).Replace(Chr(1), ";"))
-                NewListItem.SubItems.Add(Item.Substring(Item.IndexOf(";") + 1).Replace(Chr(1), ";"))
+                Dim NewListItem As New ListViewItem(Item.Substring(0, Item.IndexOf(";")).Replace(Convert.ToChar(1), ";"))
+                NewListItem.SubItems.Add(Item.Substring(Item.IndexOf(";") + 1).Replace(Convert.ToChar(1), ";"))
                 Templates.Items.Add(NewListItem)
             End If
         Next Item
@@ -214,20 +214,16 @@ Class ConfigForm
         If Templates.SelectedItems.Count > 0 Then Templates.Items.Remove(Templates.SelectedItems(0))
     End Sub
 
-    Private Sub Templates_SelectedIndexChanged() _
-        Handles Templates.SelectedIndexChanged
-
+    Private Sub Templates_SelectedIndexChanged() Handles Templates.SelectedIndexChanged
         RemoveTemplate.Enabled = (Templates.SelectedItems.Count > 0)
     End Sub
 
-    Private Sub RevertSummaries_SelectedIndexChanged() _
-        Handles RevertSummaries.SelectedIndexChanged
-
+    Private Sub RevertSummaries_SelectedIndexChanged() Handles RevertSummaries.SelectedIndexChanged
         RemoveSummary.Enabled = (RevertSummaries.SelectedIndex > -1)
     End Sub
 
     Private Sub AddSummary_Click() Handles AddSummary.Click
-        Dim Item As String = InputBox("Enter summary", "Add summary")
+        Dim Item As String = InputBox.Show("Enter summary")
         If Item <> "" Then RevertSummaries.Items.Add(Item)
     End Sub
 
@@ -235,15 +231,11 @@ Class ConfigForm
         If RevertSummaries.SelectedIndex > -1 Then RevertSummaries.Items.RemoveAt(RevertSummaries.SelectedIndex)
     End Sub
 
-    Private Sub ShowAnonymous_CheckedChanged() _
-        Handles ShowAnonymous.CheckedChanged
-
+    Private Sub ShowAnonymous_CheckedChanged() Handles ShowAnonymous.CheckedChanged
         If Not ShowAnonymous.Checked Then ShowRegistered.Checked = True
     End Sub
 
-    Private Sub ShowRegistered_CheckedChanged() _
-        Handles ShowRegistered.CheckedChanged
-
+    Private Sub ShowRegistered_CheckedChanged() Handles ShowRegistered.CheckedChanged
         If Not ShowRegistered.Checked Then ShowAnonymous.Checked = True
     End Sub
 
@@ -251,9 +243,7 @@ Class ConfigForm
         Preloads.Enabled = (Preloading.Checked)
     End Sub
 
-    Private Sub ReportLinkExamples_CheckedChanged() _
-        Handles ReportLinkExamples.CheckedChanged
-
+    Private Sub ReportLinkExamples_CheckedChanged() Handles ReportLinkExamples.CheckedChanged
         ExtendReports.Enabled = ReportLinkExamples.Checked
     End Sub
 
@@ -275,9 +265,7 @@ Class ConfigForm
         ChangeShortcut.Focus()
     End Sub
 
-    Private Sub Shortcuts_SelectedIndexChanged() _
-        Handles ShortcutList.SelectedIndexChanged
-
+    Private Sub Shortcuts_SelectedIndexChanged() Handles ShortcutList.SelectedIndexChanged
         If ShortcutList.SelectedItems.Count > 0 Then
             ChangeShortcutLabel.Visible = True
             ChangeShortcutLabel.Text = "Change shortcut for " & ShortcutList.SelectedItems(0).Text & ":"
@@ -299,8 +287,8 @@ Class ConfigForm
             'Detect conflicts
             For Each Item As KeyValuePair(Of String, Shortcut) In ShortcutKeys
                 If Item.Key <> ShortcutList.SelectedItems(0).Text AndAlso Item.Value = NewShortcut Then
-                    MsgBox("Shortcut '" & NewShortcut.ToString & "' conflicts with the existing shortcut for '" & _
-                        Item.Key & "'.", MsgBoxStyle.Critical)
+                    MessageBox.Show("Shortcut '" & NewShortcut.ToString & "' conflicts with the existing shortcut for '" & _
+                        Item.Key & "'.", "Huggle", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     Exit Sub
                 End If
             Next Item
@@ -322,7 +310,9 @@ Class ConfigForm
     End Sub
 
     Private Sub Defaults_Click() Handles Defaults.Click
-        If MsgBox("Restore defaults?", MsgBoxStyle.Question Or MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+        If MessageBox.Show("Restore defaults?", "Huggle", _
+            MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
+
             InitialiseShortcuts()
             InitialiseShortcutList()
             ChangeShortcut.Clear()

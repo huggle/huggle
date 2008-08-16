@@ -253,7 +253,7 @@ Namespace Requests
                 Result = Result.Substring(Result.IndexOf("<rev>") + 5)
                 Result = Result.Substring(0, Result.IndexOf("</rev>"))
                 Result = HtmlDecode(Result)
-                Result = Result.Replace(vbLf, vbCrLf)
+                Result = Result.Replace(LF, LF)
                 Return Result
 
             ElseIf Result.Contains("missing=""""") Then
@@ -417,28 +417,30 @@ Namespace Requests
 
         Private Sub LoginFailed()
             Log("Failed to log in")
-            MsgBox("Failed to log in. You may need to restart Huggle in order to edit.", MsgBoxStyle.Critical, "huggle")
+            MessageBox.Show("Failed to log in. You may need to restart Huggle in order to edit.", "Huggle", _
+                MessageBoxButtons.OK, MessageBoxIcon.Error)
             Complete()
         End Sub
 
         Private Sub Blocked()
             Log("User is blocked")
-            MsgBox("Your user account has been blocked from editing.", MsgBoxStyle.Critical, "huggle")
+            MessageBox.Show("Your user account appears to be blocked from editing.", "Huggle", _
+                MessageBoxButtons.OK, MessageBoxIcon.Error)
             Complete()
         End Sub
 
         Private Sub LoggedOut()
             Log("Failed to save page - user is not logged in.")
-            MsgBox("Your user account has been logged out. You may need to restart Huggle in order to edit.", _
-                MsgBoxStyle.Critical, "huggle")
+            MessageBox.Show("Your user account has been logged out. You may need to restart Huggle in order to edit.", _
+                "Huggle", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Complete()
         End Sub
 
         Private Sub SpamFilter(ByVal PageNameObject As Object)
             State = States.SpamFilter
             Log("Failed to save '" & CStr(PageNameObject) & "' - blocked by spam filter.")
-            MsgBox("Edit to '" & CStr(PageNameObject) & "' was blocked by the spam filter.", _
-                MsgBoxStyle.Critical, "huggle")
+            MessageBox.Show("Edit to '" & CStr(PageNameObject) & "' was blocked by the spam filter.", "Huggle", _
+                MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Sub
 
         Protected Function PostEdit(ByVal Data As EditData) As EditData

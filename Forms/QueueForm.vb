@@ -102,12 +102,12 @@ Class QueueForm
     End Sub
 
     Private Sub Copy_Click() Handles Copy.Click
-        Dim NewName As String = InputBox("Copy to:", "huggle", "Queue" & CStr(Queue.All.Count + 1))
+        Dim NewName As String = InputBox.Show("Copy to:", "Queue" & CStr(Queue.All.Count + 1))
 
         If NewName.Length > 0 Then
             If Queue.All.ContainsKey(NewName) Then
-                MsgBox("A queue with the name '" & NewName & "' already exists. Choose another name.", _
-                    MsgBoxStyle.Exclamation, "huggle")
+                MessageBox.Show("A queue with the name '" & NewName & "' already exists. Choose another name.", _
+                    "Huggle", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Else
                 Dim NewQueue As New Queue(NewName)
                 NewQueue.Pages.AddRange(CurrentQueue.Pages)
@@ -171,7 +171,8 @@ Class QueueForm
                 Else CurrentQueue.PageRegex = New Regex(PageRegex.Text, RegexOptions.Compiled)
 
         Catch ex As ArgumentException
-            MsgBox("Value entered for page filter is not a valid regular expression.", MsgBoxStyle.Exclamation, "huggle")
+            MessageBox.Show("Value entered for page filter is not a valid regular expression.", _
+                "Huggle", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             PageRegex.Text = ""
             CurrentQueue.PageRegex = Nothing
         End Try
@@ -212,7 +213,8 @@ Class QueueForm
             FilterNewPage.State = CType(CInt(CurrentQueue.FilterNewPage), CheckState)
 
             RemoveAfter.Checked = (CurrentQueue.RemoveAfter > 0)
-            RemoveAfterTime.Value = CurrentQueue.RemoveAfter
+            If CurrentQueue.RemoveAfter > RemoveAfterTime.Minimum Then RemoveAfterTime.Value = CurrentQueue.RemoveAfter _
+                Else RemoveAfterTime.Value = RemoveAfterTime.Minimum
             RemoveOld.Checked = CurrentQueue.RemoveOld
 
             For i As Integer = 0 To Namespaces.Items.Count - 1
@@ -257,12 +259,12 @@ Class QueueForm
 
     Private Sub Rename_Click() Handles Rename.Click
         Dim OldName As String = QueueList.SelectedItem.ToString
-        Dim NewName As String = InputBox("Enter new name:", "huggle", OldName)
+        Dim NewName As String = InputBox.Show("Enter new name:", OldName)
 
         If NewName.Length > 0 AndAlso NewName <> OldName Then
             If Queue.All.ContainsKey(NewName) Then
-                MsgBox("A queue with the name '" & NewName & "' already exists. Choose another name.", _
-                    MsgBoxStyle.Exclamation, "huggle")
+                MessageBox.Show("A queue with the name '" & NewName & "' already exists. Choose another name.", _
+                    "Huggle", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Else
                 CurrentQueue.Name = NewName
                 QueueList.Items(QueueList.SelectedIndex) = NewName
@@ -348,7 +350,8 @@ Class QueueForm
                 Else CurrentQueue.UserRegex = New Regex(UserRegex.Text, RegexOptions.Compiled)
 
         Catch ex As ArgumentException
-            MsgBox("Value entered for user filter is not a valid regular expression.", MsgBoxStyle.Exclamation, "huggle")
+            MessageBox.Show("Value entered for user filter is not a valid regular expression.", _
+                "Huggle", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             UserRegex.Text = ""
             CurrentQueue.UserRegex = Nothing
         End Try

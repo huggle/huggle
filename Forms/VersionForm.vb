@@ -8,7 +8,7 @@ Class VersionForm
     Private Sub VersionForm_Load() Handles Me.Load
         Icon = My.Resources.icon_red_button
 
-        Message.Text = "This version of Huggle is out of date." & vbCrLf
+        Message.Text = "This version of Huggle is out of date." & LF
 
         If Config.Version >= Config.MinVersion Then Message.Text &= "Updating to the latest version, " & _
             VersionString(Config.LatestVersion) & ", is recommended, and may be required in future."
@@ -16,7 +16,7 @@ Class VersionForm
         If Config.Version < Config.MinVersion Then Message.Text &= "You must update to the latest version, " & _
             VersionString(Config.LatestVersion) & "."
 
-        Message.Text &= vbCrLf & "Download and run the latest version now?"
+        Message.Text &= LF & "Download and run the latest version now?"
     End Sub
 
     Private Sub VersionForm_FormClosing() Handles Me.FormClosing

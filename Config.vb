@@ -263,7 +263,7 @@ Module Config
                     .ToString & ";" & CInt(Item.Value.Alt).ToString & ";" & CInt(Item.Value.Shift).ToString)
             Next Item
 
-            LocalConfigItems.Add("shortcuts:" & Strings.Join(Shortcuts.ToArray, ","))
+            LocalConfigItems.Add("shortcuts:" & String.Join(",", Shortcuts.ToArray))
 
             Dim Summaries As New List(Of String)
 
@@ -271,18 +271,18 @@ Module Config
                 Summaries.Add(Item.Replace(",", "\,"))
             Next Item
 
-            LocalConfigItems.Add("revert-summaries:" & Strings.Join(Summaries.ToArray, ","))
+            LocalConfigItems.Add("revert-summaries:" & String.Join(",", Summaries.ToArray))
 
             File.WriteAllLines(LocalConfigPath() & LocalConfigLocation, LocalConfigItems.ToArray)
         End If
     End Sub
 
     Private Sub SetShortcutsFromConfig(ByVal Value As String)
-        For Each Item As String In Value.Replace(vbLf, "").Replace(vbCr, "").Replace("\,", Chr(1)).Split _
+        For Each Item As String In Value.Replace(LF, "").Replace("\,", Convert.ToChar(1)).Split _
             (New String() {","}, StringSplitOptions.RemoveEmptyEntries)
 
             If Item.Contains(";") Then
-                Dim ItemKey As String = Item.Substring(0, Item.IndexOf(";")).Trim(" "c).Replace(Chr(1), ",")
+                Dim ItemKey As String = Item.Substring(0, Item.IndexOf(";")).Trim(" "c).Replace(Convert.ToChar(1), ",")
                 Dim ItemValue As String() = Item.Substring(Item.IndexOf(";") + 1).Split(";"c)
 
                 If ShortcutKeys.ContainsKey(ItemKey) Then ShortcutKeys(ItemKey) = New Shortcut _
@@ -292,10 +292,10 @@ Module Config
     End Sub
 
     Private Sub SetRevertSummaries(ByVal Value As String)
-        For Each Item As String In Value.Replace(vbLf, "").Replace(vbCr, "").Replace("\,", Chr(1)).Split _
+        For Each Item As String In Value.Replace(LF, "").Replace("\,", Convert.ToChar(1)).Split _
             (New String() {","}, StringSplitOptions.RemoveEmptyEntries)
 
-            ManualRevertSummaries.Add(Item.Replace(Chr(1), ","))
+            ManualRevertSummaries.Add(Item.Replace(Convert.ToChar(1), ","))
         Next Item
     End Sub
 

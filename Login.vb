@@ -1,5 +1,4 @@
 Imports System.Net
-Imports System.Text.Encoding
 Imports System.Text.RegularExpressions
 Imports System.Threading
 Imports System.Web.HttpUtility
@@ -28,7 +27,7 @@ Module Login
                 Wp = New WebProxy("http://" & ProxyString & "/", True)
             End If
         ElseIf Enabled Then
-            Dim PortNumber As Integer = CInt(Val(Port))
+            Dim PortNumber As Integer = CInt(Port)
             If PortNumber <= 0 Or PortNumber >= 65536 Then Port = "80" Else Port = CStr(PortNumber)
 
             Wp = New WebProxy("http://" & Address & ":" & Port & "/", True)
@@ -180,7 +179,7 @@ Namespace Requests
                 Dim Autoconfirmed, AdminAvailable As Boolean
 
                 For Each Item As String In Rights
-                    Item = Item.Replace("</r>", "").Trim(" "c, CChar(vbLf), CChar(vbCr)).ToLower
+                    Item = Item.Replace("</r>", "").Trim(" "c, LF).ToLower
                     If Item = "rollback" Then RollbackAvailable = True
                     If Item = "autoconfirmed" Then Autoconfirmed = True
                     If Item = "block" Then AdminAvailable = True
@@ -263,10 +262,10 @@ Namespace Requests
                     ListedUsers.Sort(AddressOf CompareUsernames)
 
                     Dim Data As EditData = GetEditData(Config.UserListLocation)
-                    Data.Text = "{{/Header}}" & vbCrLf
+                    Data.Text = "{{/Header}}" & LF
 
                     For Each Item As String In ListedUsers
-                        Data.Text &= "* [[Special:Contributions/" & Item & "|" & Item & "]]" & vbCrLf
+                        Data.Text &= "* [[Special:Contributions/" & Item & "|" & Item & "]]" & LF
                     Next Item
 
                     Data.Minor = True
@@ -292,7 +291,7 @@ Namespace Requests
                     Result = Result.Substring(0, Result.IndexOf("</rev>"))
                     Result = HtmlDecode(Result)
 
-                    Whitelist.AddRange(Result.Split(CChar(vbLf)))
+                    Whitelist.AddRange(Result.Split(New String() {LF}, StringSplitOptions.None))
                 End If
 
                 WhitelistLoaded = True
@@ -338,7 +337,7 @@ Namespace Requests
                 Result = Result.Substring(0, Result.IndexOf("</textarea>"))
                 Result = HtmlDecode(Result)
 
-                For Each Item As String In Result.Split(New String() {vbLf}, StringSplitOptions.RemoveEmptyEntries)
+                For Each Item As String In Result.Split(New String() {LF}, StringSplitOptions.RemoveEmptyEntries)
                     Dim ThisPage As Page = GetPage(Item)
                     If Not Watchlist.Contains(ThisPage) Then Watchlist.Add(ThisPage)
                 Next Item

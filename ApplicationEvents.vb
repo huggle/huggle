@@ -3,7 +3,8 @@
     Partial Class MyApplication
 
         Private Sub MyApplication_UnhandledException(ByVal s As Object, _
-            ByVal e As ApplicationServices.UnhandledExceptionEventArgs) Handles Me.UnhandledException
+            ByVal e As Microsoft.VisualBasic.ApplicationServices.UnhandledExceptionEventArgs) _
+            Handles Me.UnhandledException
 
             Dim NewExceptionForm As New ExceptionForm
             NewExceptionForm.Exception = e.Exception

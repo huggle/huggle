@@ -387,7 +387,8 @@ Class Queue
     Public Shared Sub SaveQueues()
         'Create subfolder if it does not exist
         If Not Directory.Exists(QueuesLocation) AndAlso Not Directory.CreateDirectory(QueuesLocation).Exists Then
-            MsgBox("Unable to save edit queues; could not create sub-folder.", MsgBoxStyle.Critical, "Huggle")
+            MessageBox.Show("Unable to save edit queues; could not create sub-folder.", "Huggle", _
+                MessageBoxButtons.OK, MessageBoxIcon.Error)
             Exit Sub
         End If
 
@@ -436,5 +437,5 @@ Enum QueueType As Integer
 End Enum
 
 Enum QueueFilter As Integer
-    : None : Require : Exclude
+    : Exclude : Require : None
 End Enum

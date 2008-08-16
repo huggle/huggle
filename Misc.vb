@@ -37,6 +37,11 @@ Module Misc
 
     Public Delegate Sub CallbackDelegate(ByVal Success As Boolean)
 
+    Public ReadOnly Tab As Char = Convert.ToChar(9)
+    Public ReadOnly LF As Char = Convert.ToChar(10)
+    Public ReadOnly CR As Char = Convert.ToChar(13)
+    Public ReadOnly CRLF As String = Convert.ToChar(13) & Convert.ToChar(10)
+
     Class Command
         Public Description As String
         Public Type As CommandType

@@ -24,10 +24,10 @@ Class BlockForm
         If User.Anonymous Then
             For Each Item As String In Config.SensitiveAddresses
                 If New Regex(Item.Substring(0, Item.IndexOf(";"))).IsMatch(User.Name) Then
-                    If MsgBox("This IP address is listed as 'sensitive' for the following reason:" & vbCrLf & vbCrLf & _
-                        "   " & Item.Substring(Item.IndexOf(";") + 1) & vbCrLf & vbCrLf & "Continue anyway?", _
-                        MsgBoxStyle.YesNo Or MsgBoxStyle.Exclamation Or MsgBoxStyle.DefaultButton2, _
-                        "Block " & User.Name) = MsgBoxResult.No Then
+                    If MessageBox.Show("This IP address is listed as 'sensitive' for the following reason:" & _
+                        LF & LF & "   " & Item.Substring(Item.IndexOf(";") + 1) & _
+                        LF & LF & "Continue anyway?", "Huggle", _
+                        MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = DialogResult.No Then
 
                         DialogResult = DialogResult.Cancel
                         Close()

@@ -13,7 +13,7 @@ Namespace Requests
                 Return False
             End If
 
-            Dim i As Integer, ConfigItems As New List(Of String)(Result.Split(New String() {vbCrLf}, _
+            Dim i As Integer, ConfigItems As New List(Of String)(Result.Split(New String() {LF}, _
                 StringSplitOptions.RemoveEmptyEntries))
 
             'Combine options broken across several lines into one option
@@ -31,7 +31,7 @@ Namespace Requests
             For Each Item As String In ConfigItems
                 Dim OptionName As String = Item.Substring(0, Item.IndexOf(":")).ToLower.Trim(" "c)
                 Dim OptionValue As String = Item.Substring(Item.IndexOf(":") + 1) _
-                    .Trim(CChar(vbCrLf)).Replace("\n", vbCrLf).Trim(" "c)
+                    .Trim(LF).Replace("\n", LF).Trim(" "c)
 
                 Try
                     SetSharedConfigOption(OptionName, OptionValue)
@@ -58,7 +58,7 @@ Namespace Requests
 
             Config.Enabled = (Not Config.RequireConfig)
 
-            Dim i As Integer, ConfigItems As New List(Of String)(Result.Split(New String() {vbCrLf}, _
+            Dim i As Integer, ConfigItems As New List(Of String)(Result.Split(New String() {LF}, _
                 StringSplitOptions.RemoveEmptyEntries))
 
             'Combine options broken across several lines into one option
@@ -76,7 +76,7 @@ Namespace Requests
             For Each Item As String In ConfigItems
                 Dim OptionName As String = Item.Substring(0, Item.IndexOf(":")).ToLower.Trim(" "c)
                 Dim OptionValue As String = Item.Substring(Item.IndexOf(":") + 1) _
-                    .Trim(CChar(vbCrLf)).Replace("\n", vbCrLf).Trim(" "c)
+                    .Trim(LF).Replace("\n", LF).Trim(" "c)
 
                 Try
                     SetUserConfigOption(OptionName, OptionValue)
@@ -312,8 +312,8 @@ Namespace Requests
             'Converts a comma-separated list to a List(Of String)
             Dim List As New List(Of String)
 
-            For Each Item As String In Value.Replace("\,", Chr(1)).Split(","c)
-                Item = Item.Trim(" "c, CChar(vbTab), CChar(vbCr), CChar(vbLf)).Replace(Chr(1), ",")
+            For Each Item As String In Value.Replace("\,", Convert.ToChar(1)).Split(","c)
+                Item = Item.Trim(" "c, Tab, LF).Replace(Convert.ToChar(1), ",")
                 If Not List.Contains(Item) AndAlso Item.Length > 0 Then List.Add(Item)
             Next Item
 
@@ -339,7 +339,7 @@ Namespace Requests
             Config.MinorWarnings = False
 
             For Each Item As String In Value.Split(","c)
-                Item = Item.Trim(","c, " "c, CChar(vbLf)).ToLower
+                Item = Item.Trim(","c, " "c, LF).ToLower
 
                 Select Case Item
                     Case "reverts" : Config.MinorReverts = True
@@ -361,7 +361,7 @@ Namespace Requests
             Config.WatchWarnings = False
 
             For Each Item As String In Value.Split(","c)
-                Item = Item.Trim(","c, " "c, CChar(vbLf)).ToLower
+                Item = Item.Trim(","c, " "c, LF).ToLower
 
                 Select Case Item
                     Case "reverts" : Config.WatchReverts = True
@@ -377,23 +377,23 @@ Namespace Requests
         Private Sub SetTags(ByVal Value As String)
             Config.Tags.Clear()
 
-            For Each Item As String In Value.Replace(vbLf, "").Replace(vbCr, "").Replace("\,", Chr(1)).Split _
+            For Each Item As String In Value.Replace(LF, "").Replace("\,", Convert.ToChar(1)).Split _
                 (New String() {","}, StringSplitOptions.RemoveEmptyEntries)
 
-                Config.Tags.Add("{{" & Item.Trim(" "c).Replace(Chr(1), ",") & "}}")
+                Config.Tags.Add("{{" & Item.Trim(" "c).Replace(Convert.ToChar(1), ",") & "}}")
             Next Item
         End Sub
 
         Private Sub SetSpeedyOptions(ByVal Value As String)
             SpeedyCriteria.Clear()
 
-            For Each Item As String In Value.Replace(vbLf, "").Replace(vbCr, "").Replace("\;", Chr(2)) _
-                .Replace("\,", Chr(1)).Split(New String() {","}, StringSplitOptions.RemoveEmptyEntries)
+            For Each Item As String In Value.Replace(LF, "").Replace("\;", Convert.ToChar(2)) _
+                .Replace("\,", Convert.ToChar(1)).Split(New String() {","}, StringSplitOptions.RemoveEmptyEntries)
 
-                Dim Subitems As New List(Of String)(Item.Trim(" "c).Replace(Chr(1), ",") _
+                Dim Subitems As New List(Of String)(Item.Trim(" "c).Replace(Convert.ToChar(1), ",") _
                     .Split(New String() {";"}, StringSplitOptions.RemoveEmptyEntries))
 
-                Item = Item.Trim(" "c).Replace(Chr(2), ";")
+                Item = Item.Trim(" "c).Replace(Convert.ToChar(2), ";")
 
                 If Subitems.Count >= 4 Then
                     Dim NewOption As New SpeedyCriterion
@@ -477,7 +477,7 @@ Namespace Requests
             If Config.MinorNotifications Then MinorItems.Add("notifications")
             If Config.MinorOther Then MinorItems.Add("other")
             If MinorItems.Count = 0 Then MinorItems.Add("none")
-            ConfigItems.Add("minor:" & Strings.Join(MinorItems.ToArray, ","))
+            ConfigItems.Add("minor:" & String.Join(",", MinorItems.ToArray))
             ConfigItems.Add("new-pages:" & CStr(Config.ShowNewPages).ToLower)
             ConfigItems.Add("open-in-browser:" & CStr(Config.OpenInBrowser).ToLower)
             ConfigItems.Add("preload:" & CStr(Config.Preloads))
@@ -491,8 +491,8 @@ Namespace Requests
                 ConfigItems.Add("report:none")
             End If
 
-            ConfigItems.Add("revert-summaries:" & vbCrLf & "    " & _
-                Strings.Join(Config.CustomRevertSummaries.ToArray, "," & vbCrLf & "    "))
+            ConfigItems.Add("revert-summaries:" & LF & "    " & _
+                String.Join("," & LF & "    ", Config.CustomRevertSummaries.ToArray))
             ConfigItems.Add("rollback:" & CStr(Config.UseRollback).ToLower)
             ConfigItems.Add("show-new-edits:" & CStr(Config.ShowNewEdits).ToLower)
             ConfigItems.Add("show-queue:" & CStr(Config.ShowQueue).ToLower)
@@ -504,8 +504,7 @@ Namespace Requests
                 If Not Config.TemplateMessagesGlobal.Contains(Item) Then Templates.Add(Item)
             Next Item
 
-            ConfigItems.Add("templates:" & vbCrLf & "    " & Strings.Join(Config.TemplateMessages.ToArray, "," & vbCrLf & "    ")) 'Addshore
-
+            ConfigItems.Add("templates:" & LF & "    " & String.Join("," & LF & "    ", Config.TemplateMessages.ToArray))
             ConfigItems.Add("tray-icon:" & CStr(Config.TrayIcon).ToLower)
             ConfigItems.Add("undo-summary:" & Config.UndoSummary)
             ConfigItems.Add("update-whitelist:" & CStr(Config.UpdateWhitelist).ToLower)
@@ -519,9 +518,9 @@ Namespace Requests
             If Config.WatchNotifications Then WatchItems.Add("notifications")
             If Config.WatchOther Then WatchItems.Add("other")
             If WatchItems.Count = 0 Then WatchItems.Add("none")
-            ConfigItems.Add("watchlist:" & Strings.Join(WatchItems.ToArray, ","))
+            ConfigItems.Add("watchlist:" & String.Join(",", WatchItems.ToArray))
 
-            Data.Text = Strings.Join(ConfigItems.ToArray, vbCrLf)
+            Data.Text = String.Join(LF, ConfigItems.ToArray)
             Data.Minor = True
             Data.Summary = Config.ConfigSummary
             Data = PostEdit(Data)
@@ -553,7 +552,7 @@ Namespace Requests
                 Return False
             End If
 
-            Dim i As Integer = 1, ConfigItems As New List(Of String)(Result.Split(CChar(vbLf)))
+            Dim i As Integer = 1, ConfigItems As New List(Of String)(Result.Split(LF))
 
             While i < ConfigItems.Count
                 If ConfigItems(i).StartsWith(" ") Then
@@ -568,7 +567,7 @@ Namespace Requests
 
                 If (Not Item.StartsWith("#")) AndAlso Item.Contains(":") Then
                     Dim OptionName As String = Item.Substring(0, Item.IndexOf(":")).ToLower
-                    Dim OptionValue As String = Item.Substring(Item.IndexOf(":") + 1).Trim(CChar(vbLf)).Replace("\n", vbLf)
+                    Dim OptionValue As String = Item.Substring(Item.IndexOf(":") + 1).Trim(LF).Replace("\n", LF)
 
                     Try
                         'Global config
@@ -596,10 +595,10 @@ Namespace Requests
         Private Sub SetSensitiveAddresses(ByVal Value As String)
             Config.SensitiveAddresses.Clear()
 
-            For Each Item As String In Value.Replace(vbLf, "").Replace(vbCr, "").Replace("\,", Chr(1)).Split _
+            For Each Item As String In Value.Replace(LF, "").Replace("\,", Convert.ToChar(1)).Split _
                 (New String() {","}, StringSplitOptions.RemoveEmptyEntries)
 
-                If Item.Contains(";") Then Config.SensitiveAddresses.Add(Item.Trim(" "c).Replace(Chr(1), ","))
+                If Item.Contains(";") Then Config.SensitiveAddresses.Add(Item.Trim(" "c).Replace(Convert.ToChar(1), ","))
             Next Item
         End Sub
 

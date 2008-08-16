@@ -116,7 +116,7 @@ Namespace Requests
             Subpage = GetNominationSubpage(Page.Name, Config.AfdLocation)
 
             'Tag page
-            Data.Text = "{{subst:afd|" & Subpage & "}}" & vbLf & Data.Text
+            Data.Text = "{{subst:afd|" & Subpage & "}}" & LF & Data.Text
             Data.Minor = Config.MinorTags
             Data.Watch = Config.WatchTags
             Data.Summary = Config.XfdSummary.Replace("$1", Config.AfdLocation & "/" & Subpage)
@@ -180,10 +180,10 @@ Namespace Requests
 
             If Data.Text.Contains("{{" & Config.AfdLocation) Then
                 Data.Text = Data.Text.Substring(0, Data.Text.IndexOf("{{" & Config.AfdLocation)) & _
-                    "{{" & Config.AfdLocation & "/" & Subpage & "}}" & vbLf & _
+                    "{{" & Config.AfdLocation & "/" & Subpage & "}}" & LF & _
                     Data.Text.Substring(Data.Text.IndexOf("{{" & Config.AfdLocation))
             Else
-                Data.Text &= vbLf & "{{" & Config.AfdLocation & "/" & Subpage & "}}"
+                Data.Text &= LF & "{{" & Config.AfdLocation & "/" & Subpage & "}}"
             End If
 
             Data.Minor = Config.MinorOther
@@ -249,7 +249,7 @@ Namespace Requests
                 Exit Sub
             End If
 
-            Data.Text = "{{subst:cfd}}" & vbLf & Data.Text
+            Data.Text = "{{subst:cfd}}" & LF & Data.Text
             Data.Minor = Config.MinorTags
             Data.Watch = Config.WatchTags
             Data.Summary = Config.XfdSummary.Replace("$1", LogPath)
@@ -280,7 +280,7 @@ Namespace Requests
                 Exit Sub
             End If
 
-            Data.Text &= vbLf & "{{subst:cfd2|" & Page.Name.Substring(Page.Name.IndexOf(":") + 1) & _
+            Data.Text &= LF & "{{subst:cfd2|" & Page.Name.Substring(Page.Name.IndexOf(":") + 1) & _
                 "|text=" & Reason & " ~~~~}}"
             Data.Minor = Config.MinorOther
             Data.Watch = Config.WatchOther
@@ -350,7 +350,7 @@ Namespace Requests
             Subpage = GetNominationSubpage(Page.Name, Config.MfdLocation)
 
             'Tag page
-            Data.Text = "{{subst:mfd|" & Subpage & "}}" & vbLf & Data.Text
+            Data.Text = "{{subst:mfd|" & Subpage & "}}" & LF & Data.Text
             Data.Minor = Config.MinorTags
             Data.Watch = Config.WatchTags
             Data.Summary = Config.XfdSummary.Replace("$1", Config.MfdLocation & "/" & Subpage)
@@ -417,25 +417,25 @@ Namespace Requests
                 CStr(Date.UtcNow.Month).PadLeft(2, "0"c) & "-" & CStr(Date.UtcNow.Day).PadLeft(2, "0"c) & "]]==="
 
             If Data.Text.Contains(DayHeader) Then
-                Data.Text = Data.Text.Substring(0, Data.Text.IndexOf(DayHeader) + 20) & vbLf & "{{" & _
-                    Config.MfdLocation & "/" & Subpage & "}}" & vbLf & _
+                Data.Text = Data.Text.Substring(0, Data.Text.IndexOf(DayHeader) + 20) & LF & "{{" & _
+                    Config.MfdLocation & "/" & Subpage & "}}" & LF & _
                     Data.Text.Substring(Data.Text.IndexOf(DayHeader) + 20)
 
             ElseIf Data.Text.Contains("===") Then
-                Data.Text = Data.Text.Substring(0, Data.Text.IndexOf("===")) & DayHeader & vbLf & "{{" & _
-                    Config.MfdLocation & "/" & Subpage & "}}" & vbLf & vbLf & _
+                Data.Text = Data.Text.Substring(0, Data.Text.IndexOf("===")) & DayHeader & LF & "{{" & _
+                    Config.MfdLocation & "/" & Subpage & "}}" & LF & LF & _
                     Data.Text.Substring(Data.Text.IndexOf("==="))
 
             Else
-                Data.Text &= vbLf & "{{" & Config.MfdLocation & "/" & Subpage & "}}"
+                Data.Text &= LF & "{{" & Config.MfdLocation & "/" & Subpage & "}}"
             End If
 
             If Data.Text.Contains("{{" & Config.MfdLocation) Then
                 Data.Text = Data.Text.Substring(0, Data.Text.IndexOf("{{" & Config.MfdLocation)) & _
-                    "{{" & Config.MfdLocation & "/" & Subpage & "}}" & vbLf & _
+                    "{{" & Config.MfdLocation & "/" & Subpage & "}}" & LF & _
                     Data.Text.Substring(Data.Text.IndexOf("{{" & Config.MfdLocation))
             Else
-                Data.Text &= vbLf & "{{" & Config.MfdLocation & "/" & Subpage & "}}"
+                Data.Text &= LF & "{{" & Config.MfdLocation & "/" & Subpage & "}}"
             End If
 
             Data.Minor = Config.MinorOther
@@ -501,7 +501,7 @@ Namespace Requests
                 Exit Sub
             End If
 
-            Data.Text = "{{subst:ifd|log=" & LogDate() & "}}" & vbLf & Data.Text
+            Data.Text = "{{subst:ifd|log=" & LogDate() & "}}" & LF & Data.Text
             Data.Minor = Config.MinorTags
             Data.Watch = Config.WatchTags
             Data.Summary = Config.XfdSummary.Replace("$1", LogPath)
@@ -550,7 +550,7 @@ Namespace Requests
                 Exit Sub
             End If
 
-            Data.Text &= vbLf & "{{subst:ifd2|" & Page.Name.Substring(Page.Name.IndexOf(":") + 1) & _
+            Data.Text &= LF & "{{subst:ifd2|" & Page.Name.Substring(Page.Name.IndexOf(":") + 1) & _
                 "|uploader=" & Page.FirstEdit.User.Name & "|reason=" & Reason & "}} ~~~~"
             Data.Minor = Config.MinorOther
             Data.Watch = Config.WatchOther
@@ -606,7 +606,7 @@ Namespace Requests
                 Exit Sub
             End If
 
-            Data.Text = "<noinclude>{{tfd|" & Page.Name & "}}</noinclude>" & vbLf & Data.Text
+            Data.Text = "<noinclude>{{tfd|" & Page.Name & "}}</noinclude>" & LF & Data.Text
             Data.Minor = Config.MinorTags
             Data.Watch = Config.WatchTags
             Data.Summary = Config.XfdSummary.Replace("$1", LogPath)
@@ -639,9 +639,9 @@ Namespace Requests
 
             If Data.Text.Contains("====") Then
                 Data.Text = Data.Text.Substring(0, Data.Text.IndexOf("====")) & "{{subst:tfd2|" & Page.Name & _
-                    "|text=" & Reason & " ~~~~}}" & vbLf & vbLf & Data.Text.Substring(Data.Text.IndexOf("===="))
+                    "|text=" & Reason & " ~~~~}}" & LF & LF & Data.Text.Substring(Data.Text.IndexOf("===="))
             Else
-                Data.Text &= vbLf & "{{subst:tfd2|" & Page.Name & "|text=" & Reason & " ~~~~}}"
+                Data.Text &= LF & "{{subst:tfd2|" & Page.Name & "|text=" & Reason & " ~~~~}}"
             End If
 
             Data.Minor = Config.MinorOther
@@ -708,7 +708,7 @@ Namespace Requests
             Target = Data.Text.Substring(Data.Text.IndexOf("[[") + 2)
             If Target.Contains("]]") Then Target = Target.Substring(0, Target.IndexOf("]]"))
 
-            Data.Text = "{{rfd}}" & vbLf & Data.Text
+            Data.Text = "{{rfd}}" & LF & Data.Text
             Data.Minor = Config.MinorTags
             Data.Watch = Config.WatchTags
             Data.Summary = Config.XfdSummary.Replace("$1", Config.RfdLocation & "/Log/" & LogDate() & "#" & _
@@ -744,9 +744,9 @@ Namespace Requests
             If Data.Text.Contains("====") Then
                 Data.Text = Data.Text.Substring(0, Data.Text.IndexOf("====")) & _
                     "{{subst:rfd2|redirect=" & Page.Name & "|target=" & Target & "|text=" & Reason & "}} ~~~~" & _
-                    vbLf & vbLf & Data.Text.Substring(Data.Text.IndexOf("===="))
+                    LF & LF & Data.Text.Substring(Data.Text.IndexOf("===="))
             Else
-                Data.Text &= vbLf & "{{subst:rfd2|redirect=" & Page.Name & "|target=" & Target & "|text=" & _
+                Data.Text &= LF & "{{subst:rfd2|redirect=" & Page.Name & "|target=" & Target & "|text=" & _
                     Reason & "}} ~~~~"
             End If
 
