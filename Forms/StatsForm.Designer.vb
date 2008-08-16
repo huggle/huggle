@@ -30,7 +30,7 @@ Partial Class StatsForm
         Me.CloseButton = New System.Windows.Forms.Button
         Me.Label1 = New System.Windows.Forms.Label
         Me.StatsTimer = New System.Windows.Forms.Timer(Me.components)
-        Me.Actions = New huggle.ListView2
+        Me.Actions = New Huggle.ListView2
         Me.TypeColumn = New System.Windows.Forms.ColumnHeader
         Me.TotalColumn = New System.Windows.Forms.ColumnHeader
         Me.MyColumn = New System.Windows.Forms.ColumnHeader
@@ -112,7 +112,7 @@ Partial Class StatsForm
     End Sub
     Friend WithEvents CloseButton As System.Windows.Forms.Button
     Friend WithEvents Label1 As System.Windows.Forms.Label
-    Friend WithEvents Actions As huggle.ListView2
+    Friend WithEvents Actions As Huggle.ListView2
     Friend WithEvents TypeColumn As System.Windows.Forms.ColumnHeader
     Friend WithEvents TotalColumn As System.Windows.Forms.ColumnHeader
     Friend WithEvents MyColumn As System.Windows.Forms.ColumnHeader

@@ -338,12 +338,15 @@ Namespace Requests
         End Sub
 
         Private Sub Done()
-            Dim PageName As String = ParseUrl(Url)("title")
-            MainForm.PageB.Text = PageName
-            Result = FormatPageHtml(GetPage(PageName), Result)
-            Tab.Browser.DocumentText = Result
-            Tab.CurrentUrl = Url
-            If HistoryItem IsNot Nothing Then HistoryItem.Text = Result
+            If MainForm.Visible Then
+                Dim PageName As String = ParseUrl(Url)("title")
+                MainForm.PageB.Text = PageName
+                Result = FormatPageHtml(GetPage(PageName), Result)
+                Tab.Browser.DocumentText = Result
+                Tab.CurrentUrl = Url
+                If HistoryItem IsNot Nothing Then HistoryItem.Text = Result
+            End If
+
             Complete()
         End Sub
 

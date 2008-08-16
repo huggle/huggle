@@ -194,7 +194,7 @@ Partial Class UserInfoForm
         'Collapse
         '
         Me.Collapse.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.Collapse.Image = Global.huggle.My.Resources.Resources.up_gray
+        Me.Collapse.Image = Global.Huggle.My.Resources.Resources.up_gray
         Me.Collapse.Location = New System.Drawing.Point(12, 338)
         Me.Collapse.Name = "Collapse"
         Me.Collapse.Size = New System.Drawing.Size(27, 27)

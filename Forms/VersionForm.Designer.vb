@@ -26,7 +26,7 @@ Partial Class VersionForm
         Me.Cancel = New System.Windows.Forms.Button
         Me.OK = New System.Windows.Forms.Button
         Me.Status = New System.Windows.Forms.Label
-        Me.Throbber = New huggle.Throbber
+        Me.Throbber = New Huggle.Throbber
         Me.SuspendLayout()
         '
         'Message
@@ -108,6 +108,6 @@ Partial Class VersionForm
     Friend WithEvents Message As System.Windows.Forms.Label
     Friend WithEvents Cancel As System.Windows.Forms.Button
     Friend WithEvents OK As System.Windows.Forms.Button
-    Friend WithEvents Throbber As huggle.Throbber
+    Friend WithEvents Throbber As Huggle.Throbber
     Friend WithEvents Status As System.Windows.Forms.Label
 End Class

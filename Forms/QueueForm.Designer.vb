@@ -59,7 +59,7 @@ Partial Class QueueForm
         Me.LimitLabel = New System.Windows.Forms.Label
         Me.Actions = New System.Windows.Forms.Button
         Me.QueueSelector = New System.Windows.Forms.ComboBox
-        Me.Throbber = New huggle.Throbber
+        Me.Throbber = New Huggle.Throbber
         Me.Count = New System.Windows.Forms.Label
         Me.SourceLabel = New System.Windows.Forms.Label
         Me.SourceTypeLabel = New System.Windows.Forms.Label
@@ -82,15 +82,15 @@ Partial Class QueueForm
         Me.PageRegexLabel = New System.Windows.Forms.Label
         Me.PageRegex = New System.Windows.Forms.TextBox
         Me.EditFiltersTab = New System.Windows.Forms.TabPage
-        Me.Example3 = New huggle.TriState
-        Me.Example2 = New huggle.TriState
-        Me.Example1 = New huggle.TriState
+        Me.Example3 = New Huggle.TriState
+        Me.Example2 = New Huggle.TriState
+        Me.Example1 = New Huggle.TriState
         Me.EditFiltersGroup = New System.Windows.Forms.GroupBox
-        Me.FilterNewPage = New huggle.TriState
+        Me.FilterIgnored = New Huggle.TriState
+        Me.FilterAnonymous = New Huggle.TriState
+        Me.FilterNewPage = New Huggle.TriState
         Me.UserRegexLabel = New System.Windows.Forms.Label
         Me.UserRegex = New System.Windows.Forms.TextBox
-        Me.FilterAnonymous = New huggle.TriState
-        Me.FilterIgnoredUser = New huggle.TriState
         Me.QueueMenu.SuspendLayout()
         CType(Me.Limit, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TypeGroup.SuspendLayout()
@@ -793,7 +793,7 @@ Partial Class QueueForm
         Me.EditFiltersGroup.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.EditFiltersGroup.Controls.Add(Me.FilterIgnoredUser)
+        Me.EditFiltersGroup.Controls.Add(Me.FilterIgnored)
         Me.EditFiltersGroup.Controls.Add(Me.FilterAnonymous)
         Me.EditFiltersGroup.Controls.Add(Me.FilterNewPage)
         Me.EditFiltersGroup.Controls.Add(Me.UserRegexLabel)
@@ -804,6 +804,30 @@ Partial Class QueueForm
         Me.EditFiltersGroup.TabIndex = 2
         Me.EditFiltersGroup.TabStop = False
         Me.EditFiltersGroup.Text = "Edit filters"
+        '
+        'FilterIgnored
+        '
+        Me.FilterIgnored.BackColor = System.Drawing.SystemColors.Window
+        Me.FilterIgnored.Label = "Ignored user"
+        Me.FilterIgnored.Location = New System.Drawing.Point(149, 77)
+        Me.FilterIgnored.MaximumSize = New System.Drawing.Size(640, 16)
+        Me.FilterIgnored.MinimumSize = New System.Drawing.Size(16, 16)
+        Me.FilterIgnored.Name = "FilterIgnored"
+        Me.FilterIgnored.Size = New System.Drawing.Size(85, 16)
+        Me.FilterIgnored.State = System.Windows.Forms.CheckState.Indeterminate
+        Me.FilterIgnored.TabIndex = 58
+        '
+        'FilterAnonymous
+        '
+        Me.FilterAnonymous.BackColor = System.Drawing.SystemColors.Window
+        Me.FilterAnonymous.Label = "Anonymous user"
+        Me.FilterAnonymous.Location = New System.Drawing.Point(149, 55)
+        Me.FilterAnonymous.MaximumSize = New System.Drawing.Size(640, 16)
+        Me.FilterAnonymous.MinimumSize = New System.Drawing.Size(16, 16)
+        Me.FilterAnonymous.Name = "FilterAnonymous"
+        Me.FilterAnonymous.Size = New System.Drawing.Size(104, 16)
+        Me.FilterAnonymous.State = System.Windows.Forms.CheckState.Indeterminate
+        Me.FilterAnonymous.TabIndex = 58
         '
         'FilterNewPage
         '
@@ -834,30 +858,6 @@ Partial Class QueueForm
         Me.UserRegex.Name = "UserRegex"
         Me.UserRegex.Size = New System.Drawing.Size(169, 20)
         Me.UserRegex.TabIndex = 56
-        '
-        'FilterAnonymous
-        '
-        Me.FilterAnonymous.BackColor = System.Drawing.SystemColors.Window
-        Me.FilterAnonymous.Label = "Anonymous user"
-        Me.FilterAnonymous.Location = New System.Drawing.Point(149, 55)
-        Me.FilterAnonymous.MaximumSize = New System.Drawing.Size(640, 16)
-        Me.FilterAnonymous.MinimumSize = New System.Drawing.Size(16, 16)
-        Me.FilterAnonymous.Name = "FilterAnonymous"
-        Me.FilterAnonymous.Size = New System.Drawing.Size(104, 16)
-        Me.FilterAnonymous.State = System.Windows.Forms.CheckState.Indeterminate
-        Me.FilterAnonymous.TabIndex = 58
-        '
-        'FilterIgnoredUser
-        '
-        Me.FilterIgnoredUser.BackColor = System.Drawing.SystemColors.Window
-        Me.FilterIgnoredUser.Label = "Ignored user"
-        Me.FilterIgnoredUser.Location = New System.Drawing.Point(149, 77)
-        Me.FilterIgnoredUser.MaximumSize = New System.Drawing.Size(640, 16)
-        Me.FilterIgnoredUser.MinimumSize = New System.Drawing.Size(16, 16)
-        Me.FilterIgnoredUser.Name = "FilterIgnoredUser"
-        Me.FilterIgnoredUser.Size = New System.Drawing.Size(85, 16)
-        Me.FilterIgnoredUser.State = System.Windows.Forms.CheckState.Indeterminate
-        Me.FilterIgnoredUser.TabIndex = 58
         '
         'QueueForm
         '
@@ -928,7 +928,7 @@ Partial Class QueueForm
     Friend WithEvents LimitLabel As System.Windows.Forms.Label
     Friend WithEvents QueueSelector As System.Windows.Forms.ComboBox
     Friend WithEvents Limit As System.Windows.Forms.NumericUpDown
-    Friend WithEvents Throbber As huggle.Throbber
+    Friend WithEvents Throbber As Huggle.Throbber
     Friend WithEvents Count As System.Windows.Forms.Label
     Friend WithEvents SourceLabel As System.Windows.Forms.Label
     Friend WithEvents Exclude As System.Windows.Forms.Button
@@ -950,10 +950,10 @@ Partial Class QueueForm
     Friend WithEvents EditFiltersGroup As System.Windows.Forms.GroupBox
     Friend WithEvents UserRegexLabel As System.Windows.Forms.Label
     Friend WithEvents UserRegex As System.Windows.Forms.TextBox
-    Friend WithEvents FilterNewPage As huggle.TriState
-    Friend WithEvents Example3 As huggle.TriState
-    Friend WithEvents Example2 As huggle.TriState
-    Friend WithEvents Example1 As huggle.TriState
+    Friend WithEvents FilterNewPage As Huggle.TriState
+    Friend WithEvents Example3 As Huggle.TriState
+    Friend WithEvents Example2 As Huggle.TriState
+    Friend WithEvents Example1 As Huggle.TriState
     Friend WithEvents NamespacesLabel As System.Windows.Forms.Label
     Friend WithEvents Namespaces As System.Windows.Forms.CheckedListBox
     Friend WithEvents Live As System.Windows.Forms.RadioButton
@@ -966,6 +966,6 @@ Partial Class QueueForm
     Friend WithEvents RemoveAfter As System.Windows.Forms.CheckBox
     Friend WithEvents RemoveAfterTime As System.Windows.Forms.NumericUpDown
     Friend WithEvents RemoveAfterTimeLabel As System.Windows.Forms.Label
-    Friend WithEvents FilterIgnoredUser As huggle.TriState
-    Friend WithEvents FilterAnonymous As huggle.TriState
+    Friend WithEvents FilterIgnored As Huggle.TriState
+    Friend WithEvents FilterAnonymous As Huggle.TriState
 End Class

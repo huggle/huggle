@@ -10,9 +10,9 @@ Class Queue
 
     Private Items As SortedList(Of Edit, Boolean)
 
-    Private _FilterAnonymous As QueueFilter
-    Private _FilterIgnored As QueueFilter
-    Private _FilterNewPage As QueueFilter
+    Private _FilterAnonymous As QueueFilter = QueueFilter.None
+    Private _FilterIgnored As QueueFilter = QueueFilter.None
+    Private _FilterNewPage As QueueFilter = QueueFilter.None
 
     Private _Name As String
     Private _NeedsReset As Boolean
@@ -227,7 +227,7 @@ Class Queue
         If Type <> QueueType.FixedList Then RemoveOldEdits()
 
         'Add edit to the queue
-        If MatchesFilter(Edit) AndAlso Not Edit.Deleted AndAlso Not Items.ContainsKey(Edit) Then
+        If Not Items.ContainsKey(Edit) Then
             Items.Add(Edit, False)
             If Items.Count > Config.QueueSize Then Items.RemoveAt(5000)
         End If
@@ -246,7 +246,7 @@ Class Queue
                 If (RemoveOld AndAlso Edits(i) IsNot Edits(i).Page.LastEdit) _
                     OrElse (RemoveAfter > 0 AndAlso Edits(i).Time.AddMinutes(Time) < Date.UtcNow) Then
 
-                    Edits.RemoveAt(i)
+                    Items.RemoveAt(i)
                 Else
                     i += 1
                 End If
@@ -324,6 +324,9 @@ Class Queue
                                 Case "filter-new-pages" : Queue._FilterNewPage = CType(OptionValue, QueueFilter)
                                 Case "page-regex" : Queue._PageRegex = New Regex(OptionValue)
                                 Case "pages" : Queue._Pages.AddRange(OptionValue.Split("|"c))
+                                Case "remove-after" : Queue._RemoveAfter = CInt(OptionValue)
+                                Case "remove-old" : Queue._RemoveOld = CBool(OptionValue)
+                                Case "remove-viewed" : Queue._RemoveViewed = CBool(OptionValue)
                                 Case "spaces" : Queue._Spaces.AddRange(SetQueueSpaces(OptionValue))
                                 Case "type" : Queue.Type = SetQueueType(OptionValue)
                                 Case "user-regex" : Queue._UserRegex = New Regex(OptionValue)
@@ -339,12 +342,15 @@ Class Queue
             Next Path
         End If
 
+        If Queue.All.ContainsKey("Filtered edits") Then [Default] = All("Filtered edits")
+
         'Create the default queues if they do not exist
         If Not Queue.All.ContainsKey("Filtered edits") Then
             [Default] = New Queue("Filtered edits")
             [Default].Type = QueueType.Live
             [Default].SortOrder = QueueSortOrder.Quality
             [Default].FilterIgnored = QueueFilter.Exclude
+            [Default].RemoveOld = True
             [Default].Reset()
         End If
 
@@ -401,6 +407,9 @@ Class Queue
             Items.Add("filter-anonymous:" & CStr(CInt(Queue.Value._FilterAnonymous)))
             Items.Add("filter-ignored:" & CStr(CInt(Queue.Value._FilterIgnored)))
             Items.Add("filter-new-pages:" & CStr(CInt(Queue.Value._FilterNewPage)))
+            Items.Add("remove-after" & CStr(Queue.Value._RemoveAfter))
+            Items.Add("remove-old" & CStr(Queue.Value._RemoveOld))
+            Items.Add("remove-viewed" & CStr(Queue.Value._RemoveViewed))
 
             If Queue.Value._Spaces.Count > 0 Then
                 Dim Spaces As New List(Of String)

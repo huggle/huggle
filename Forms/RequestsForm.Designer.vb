@@ -22,7 +22,7 @@ Partial Class RequestsForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.List = New huggle.ListView2
+        Me.List = New Huggle.ListView2
         Me.DateColumn = New System.Windows.Forms.ColumnHeader
         Me.TypeColumn = New System.Windows.Forms.ColumnHeader
         Me.ActionColumn = New System.Windows.Forms.ColumnHeader
@@ -191,7 +191,7 @@ Partial Class RequestsForm
         Me.PerformLayout()
 
     End Sub
-    Friend WithEvents List As huggle.ListView2
+    Friend WithEvents List As Huggle.ListView2
     Friend WithEvents DateColumn As System.Windows.Forms.ColumnHeader
     Friend WithEvents TypeColumn As System.Windows.Forms.ColumnHeader
     Friend WithEvents ActionColumn As System.Windows.Forms.ColumnHeader

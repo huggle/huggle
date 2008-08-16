@@ -250,7 +250,10 @@ Module Processing
 
         'Add edit to queues
         For Each Item As Queue In Queue.All.Values
-            If Item.Type <> QueueType.FixedList Then Item.AddEdit(Edit)
+            If Item.Type <> QueueType.FixedList Then
+                If Item.MatchesFilter(Edit) Then Item.AddEdit(Edit)
+                If Item Is CurrentQueue Then Redraw = True
+            End If
         Next Item
 
         If CurrentEdit Is Nothing Then DisplayEdit(Edit)

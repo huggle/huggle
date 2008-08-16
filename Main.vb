@@ -1113,12 +1113,6 @@ Class Main
         End If
     End Sub
 
-    Private Sub DrawTimer_Tick() Handles DrawTimer.Tick
-        DrawHistory()
-        DrawContribs()
-        DrawQueue()
-    End Sub
-
     Public Sub SetCurrentUser(ByVal User As User, ByVal DisplayLast As Boolean)
         If User IsNot Nothing Then
             If DisplayLast AndAlso User IsNot CurrentUser Then

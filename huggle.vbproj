@@ -7,7 +7,7 @@
     <OutputPath>bin\Debug\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <DebugType>pdbonly</DebugType>
+    <DebugType>None</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
   </PropertyGroup>
@@ -15,8 +15,8 @@
     <ProjectGuid>{11AD90BE-245A-475B-9768-77BADF176824}</ProjectGuid>
     <OptionStrict>On</OptionStrict>
     <OptionCompare>Text</OptionCompare>
-    <StartupObject>huggle.My.MyApplication</StartupObject>
-    <RootNamespace>huggle</RootNamespace>
+    <StartupObject>Huggle.My.MyApplication</StartupObject>
+    <RootNamespace>Huggle</RootNamespace>
     <OutputType>WinExe</OutputType>
     <MyType>WindowsForms</MyType>
     <ApplicationIcon>Resources\icon_red_button.ico</ApplicationIcon>
@@ -290,11 +290,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="My Project\Settings.Designer.vb">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
     <Compile Include="Page.vb" />
     <Compile Include="Processing.vb" />
     <Compile Include="Queue.vb" />
@@ -477,13 +472,6 @@
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
     </None>
-    <None Include="My Project\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <CustomToolNamespace>My</CustomToolNamespace>
-      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="My Project\app.manifest" />
     <None Include="Resources\icon_red_button.ico" />
     <None Include="Resources\icons\arrow.png" />

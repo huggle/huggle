@@ -133,11 +133,11 @@ Class QueueForm
     End Sub
 
     Private Sub FilterAnonymous_CheckStateChanged() Handles FilterAnonymous.CheckStateChanged
-        CurrentQueue.FilterAnonymous = CType(CInt(FilterNewPage.State), QueueFilter)
+        CurrentQueue.FilterAnonymous = CType(CInt(FilterAnonymous.State), QueueFilter)
     End Sub
 
-    Private Sub FilterIgnoredUser_CheckStateChanged() Handles FilterIgnoredUser.CheckStateChanged
-        CurrentQueue.FilterNewPage = CType(CInt(FilterNewPage.State), QueueFilter)
+    Private Sub FilterIgnored_CheckStateChanged() Handles FilterIgnored.CheckStateChanged
+        CurrentQueue.FilterIgnored = CType(CInt(FilterIgnored.State), QueueFilter)
     End Sub
 
     Private Sub FilterNewPage_CheckStateChanged() Handles FilterNewPage.CheckStateChanged
@@ -208,8 +208,9 @@ Class QueueForm
                 Case QueueType.Live : Live.Checked = True
             End Select
 
+            If CurrentQueue.SortOrder = QueueSortOrder.Time Then SortOrder.SelectedIndex = 0 Else SortOrder.SelectedIndex = 1
             FilterAnonymous.State = CType(CInt(CurrentQueue.FilterAnonymous), CheckState)
-            FilterIgnoredUser.State = CType(CInt(CurrentQueue.FilterIgnored), CheckState)
+            FilterIgnored.State = CType(CInt(CurrentQueue.FilterIgnored), CheckState)
             FilterNewPage.State = CType(CInt(CurrentQueue.FilterNewPage), CheckState)
 
             RemoveAfter.Checked = (CurrentQueue.RemoveAfter > 0)
