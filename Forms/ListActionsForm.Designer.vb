@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class QueueActionsForm
+Partial Class ListActionsForm
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -27,13 +27,19 @@ Partial Class QueueActionsForm
         Me.NamespaceTransformGroup = New System.Windows.Forms.GroupBox
         Me.NamespaceTransformLabel = New System.Windows.Forms.Label
         Me.NamespaceTransformSelector = New System.Windows.Forms.ComboBox
+        Me.PageFiltersGroup = New System.Windows.Forms.GroupBox
+        Me.NamespacesLabel = New System.Windows.Forms.Label
+        Me.Namespaces = New System.Windows.Forms.CheckedListBox
+        Me.PageRegexLabel = New System.Windows.Forms.Label
+        Me.TitleRegex = New System.Windows.Forms.TextBox
         Me.NamespaceTransformGroup.SuspendLayout()
+        Me.PageFiltersGroup.SuspendLayout()
         Me.SuspendLayout()
         '
         'OK
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.OK.Location = New System.Drawing.Point(307, 68)
+        Me.OK.Location = New System.Drawing.Point(307, 265)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
         Me.OK.TabIndex = 0
@@ -59,7 +65,7 @@ Partial Class QueueActionsForm
         Me.NamespaceTransformGroup.Controls.Add(Me.NamespaceTransformSelector)
         Me.NamespaceTransformGroup.Location = New System.Drawing.Point(12, 12)
         Me.NamespaceTransformGroup.Name = "NamespaceTransformGroup"
-        Me.NamespaceTransformGroup.Size = New System.Drawing.Size(370, 50)
+        Me.NamespaceTransformGroup.Size = New System.Drawing.Size(370, 51)
         Me.NamespaceTransformGroup.TabIndex = 59
         Me.NamespaceTransformGroup.TabStop = False
         Me.NamespaceTransformGroup.Text = "Namespace transform"
@@ -83,21 +89,79 @@ Partial Class QueueActionsForm
         Me.NamespaceTransformSelector.Size = New System.Drawing.Size(175, 21)
         Me.NamespaceTransformSelector.TabIndex = 59
         '
-        'QueueActionsForm
+        'PageFiltersGroup
+        '
+        Me.PageFiltersGroup.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.PageFiltersGroup.Controls.Add(Me.NamespacesLabel)
+        Me.PageFiltersGroup.Controls.Add(Me.Namespaces)
+        Me.PageFiltersGroup.Controls.Add(Me.PageRegexLabel)
+        Me.PageFiltersGroup.Controls.Add(Me.TitleRegex)
+        Me.PageFiltersGroup.Location = New System.Drawing.Point(12, 69)
+        Me.PageFiltersGroup.Name = "PageFiltersGroup"
+        Me.PageFiltersGroup.Size = New System.Drawing.Size(373, 190)
+        Me.PageFiltersGroup.TabIndex = 60
+        Me.PageFiltersGroup.TabStop = False
+        Me.PageFiltersGroup.Text = "Page filters"
+        '
+        'NamespacesLabel
+        '
+        Me.NamespacesLabel.AutoSize = True
+        Me.NamespacesLabel.Location = New System.Drawing.Point(6, 44)
+        Me.NamespacesLabel.Name = "NamespacesLabel"
+        Me.NamespacesLabel.Size = New System.Drawing.Size(72, 13)
+        Me.NamespacesLabel.TabIndex = 57
+        Me.NamespacesLabel.Text = "Namespaces:"
+        '
+        'Namespaces
+        '
+        Me.Namespaces.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Namespaces.CheckOnClick = True
+        Me.Namespaces.FormattingEnabled = True
+        Me.Namespaces.Location = New System.Drawing.Point(6, 60)
+        Me.Namespaces.MultiColumn = True
+        Me.Namespaces.Name = "Namespaces"
+        Me.Namespaces.Size = New System.Drawing.Size(361, 124)
+        Me.Namespaces.TabIndex = 56
+        '
+        'PageRegexLabel
+        '
+        Me.PageRegexLabel.AutoSize = True
+        Me.PageRegexLabel.Location = New System.Drawing.Point(6, 22)
+        Me.PageRegexLabel.Name = "PageRegexLabel"
+        Me.PageRegexLabel.Size = New System.Drawing.Size(161, 13)
+        Me.PageRegexLabel.TabIndex = 55
+        Me.PageRegexLabel.Text = "Title matches regular expression:"
+        '
+        'TitleRegex
+        '
+        Me.TitleRegex.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TitleRegex.Location = New System.Drawing.Point(173, 19)
+        Me.TitleRegex.Name = "TitleRegex"
+        Me.TitleRegex.Size = New System.Drawing.Size(194, 20)
+        Me.TitleRegex.TabIndex = 54
+        '
+        'ListActionsForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(394, 103)
+        Me.ClientSize = New System.Drawing.Size(394, 300)
+        Me.Controls.Add(Me.PageFiltersGroup)
         Me.Controls.Add(Me.NamespaceTransformGroup)
         Me.Controls.Add(Me.OK)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.KeyPreview = True
         Me.MaximizeBox = False
-        Me.Name = "QueueActionsForm"
+        Me.Name = "ListActionsForm"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Queue actions"
+        Me.Text = "List options"
         Me.NamespaceTransformGroup.ResumeLayout(False)
         Me.NamespaceTransformGroup.PerformLayout()
+        Me.PageFiltersGroup.ResumeLayout(False)
+        Me.PageFiltersGroup.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -106,4 +170,9 @@ Partial Class QueueActionsForm
     Friend WithEvents NamespaceTransformGroup As System.Windows.Forms.GroupBox
     Friend WithEvents NamespaceTransformSelector As System.Windows.Forms.ComboBox
     Friend WithEvents NamespaceTransformLabel As System.Windows.Forms.Label
+    Friend WithEvents PageFiltersGroup As System.Windows.Forms.GroupBox
+    Friend WithEvents NamespacesLabel As System.Windows.Forms.Label
+    Friend WithEvents Namespaces As System.Windows.Forms.CheckedListBox
+    Friend WithEvents PageRegexLabel As System.Windows.Forms.Label
+    Friend WithEvents TitleRegex As System.Windows.Forms.TextBox
 End Class

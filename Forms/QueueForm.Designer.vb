@@ -24,28 +24,12 @@ Partial Class QueueForm
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Me.QueueList = New System.Windows.Forms.ListBox
-        Me.QueueMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.QueueMenuView = New System.Windows.Forms.ToolStripMenuItem
-        Me.QueueMenuEdit = New System.Windows.Forms.ToolStripMenuItem
-        Me.QueueMenuRemove = New System.Windows.Forms.ToolStripMenuItem
-        Me.Separator1 = New System.Windows.Forms.ToolStripSeparator
-        Me.QueueMenuSort = New System.Windows.Forms.ToolStripMenuItem
         Me.QueuesLabel = New System.Windows.Forms.Label
         Me.AddQueue = New System.Windows.Forms.Button
-        Me.RemoveQueue = New System.Windows.Forms.Button
-        Me.Sort = New System.Windows.Forms.Button
-        Me.Clear = New System.Windows.Forms.Button
-        Me.Rename = New System.Windows.Forms.Button
-        Me.Save = New System.Windows.Forms.Button
-        Me.Copy = New System.Windows.Forms.Button
+        Me.DeleteQueue = New System.Windows.Forms.Button
+        Me.RenameQueue = New System.Windows.Forms.Button
+        Me.CopyQueue = New System.Windows.Forms.Button
         Me.Tip = New System.Windows.Forms.ToolTip(Me.components)
-        Me.From = New System.Windows.Forms.TextBox
-        Me.Cancel = New System.Windows.Forms.Button
-        Me.Limit = New System.Windows.Forms.NumericUpDown
-        Me.Exclude = New System.Windows.Forms.Button
-        Me.Combine = New System.Windows.Forms.Button
-        Me.Intersect = New System.Windows.Forms.Button
-        Me.SourceType = New System.Windows.Forms.ComboBox
         Me.QueuesEmpty = New System.Windows.Forms.Label
         Me.TypeGroup = New System.Windows.Forms.GroupBox
         Me.Live = New System.Windows.Forms.RadioButton
@@ -53,19 +37,10 @@ Partial Class QueueForm
         Me.FixedList = New System.Windows.Forms.RadioButton
         Me.Tabs = New System.Windows.Forms.TabControl
         Me.PagesTab = New System.Windows.Forms.TabPage
-        Me.QueueEmpty = New System.Windows.Forms.Label
-        Me.FromLabel = New System.Windows.Forms.Label
-        Me.Progress = New System.Windows.Forms.Label
-        Me.LimitLabel = New System.Windows.Forms.Label
-        Me.Actions = New System.Windows.Forms.Button
-        Me.QueueSelector = New System.Windows.Forms.ComboBox
-        Me.Throbber = New Huggle.Throbber
-        Me.Count = New System.Windows.Forms.Label
-        Me.SourceLabel = New System.Windows.Forms.Label
-        Me.SourceTypeLabel = New System.Windows.Forms.Label
+        Me.ListBuilder = New System.Windows.Forms.Button
+        Me.ListSelector = New System.Windows.Forms.ComboBox
+        Me.Label1 = New System.Windows.Forms.Label
         Me.QueuePages = New System.Windows.Forms.ListBox
-        Me.Source = New System.Windows.Forms.TextBox
-        Me.Browse = New System.Windows.Forms.Button
         Me.OptionsTab = New System.Windows.Forms.TabPage
         Me.RemoveAfter = New System.Windows.Forms.CheckBox
         Me.RemoveAfterTime = New System.Windows.Forms.NumericUpDown
@@ -73,7 +48,7 @@ Partial Class QueueForm
         Me.RemoveOld = New System.Windows.Forms.CheckBox
         Me.SortOrderLabel = New System.Windows.Forms.Label
         Me.SortOrder = New System.Windows.Forms.ComboBox
-        Me.PageFiltersTab = New System.Windows.Forms.TabPage
+        Me.TitleFiltersTab = New System.Windows.Forms.TabPage
         Me.ApplyFilters = New System.Windows.Forms.Button
         Me.ApplyFiltersLabel = New System.Windows.Forms.Label
         Me.PageFiltersGroup = New System.Windows.Forms.GroupBox
@@ -86,19 +61,19 @@ Partial Class QueueForm
         Me.Example2 = New Huggle.TriState
         Me.Example1 = New Huggle.TriState
         Me.EditFiltersGroup = New System.Windows.Forms.GroupBox
+        Me.FilterReverts = New Huggle.TriState
+        Me.FilterOwnUserspace = New Huggle.TriState
         Me.FilterIgnored = New Huggle.TriState
         Me.FilterAnonymous = New Huggle.TriState
         Me.FilterNewPage = New Huggle.TriState
         Me.UserRegexLabel = New System.Windows.Forms.Label
         Me.UserRegex = New System.Windows.Forms.TextBox
-        Me.QueueMenu.SuspendLayout()
-        CType(Me.Limit, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TypeGroup.SuspendLayout()
         Me.Tabs.SuspendLayout()
         Me.PagesTab.SuspendLayout()
         Me.OptionsTab.SuspendLayout()
         CType(Me.RemoveAfterTime, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.PageFiltersTab.SuspendLayout()
+        Me.TitleFiltersTab.SuspendLayout()
         Me.PageFiltersGroup.SuspendLayout()
         Me.EditFiltersTab.SuspendLayout()
         Me.EditFiltersGroup.SuspendLayout()
@@ -115,41 +90,6 @@ Partial Class QueueForm
         Me.QueueList.Size = New System.Drawing.Size(156, 370)
         Me.QueueList.Sorted = True
         Me.QueueList.TabIndex = 1
-        '
-        'QueueMenu
-        '
-        Me.QueueMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.QueueMenuView, Me.QueueMenuEdit, Me.QueueMenuRemove, Me.Separator1, Me.QueueMenuSort})
-        Me.QueueMenu.Name = "QueueMenu"
-        Me.QueueMenu.Size = New System.Drawing.Size(114, 98)
-        '
-        'QueueMenuView
-        '
-        Me.QueueMenuView.Name = "QueueMenuView"
-        Me.QueueMenuView.Size = New System.Drawing.Size(113, 22)
-        Me.QueueMenuView.Text = "View"
-        '
-        'QueueMenuEdit
-        '
-        Me.QueueMenuEdit.Name = "QueueMenuEdit"
-        Me.QueueMenuEdit.Size = New System.Drawing.Size(113, 22)
-        Me.QueueMenuEdit.Text = "Edit"
-        '
-        'QueueMenuRemove
-        '
-        Me.QueueMenuRemove.Name = "QueueMenuRemove"
-        Me.QueueMenuRemove.Size = New System.Drawing.Size(113, 22)
-        Me.QueueMenuRemove.Text = "Remove"
-        '
-        'Separator1
-        '
-        Me.Separator1.Name = "Separator1"
-        Me.Separator1.Size = New System.Drawing.Size(110, 6)
-        '
-        'QueueMenuSort
-        '
-        Me.QueueMenuSort.Name = "QueueMenuSort"
-        Me.QueueMenuSort.Size = New System.Drawing.Size(113, 22)
-        Me.QueueMenuSort.Text = "Sort"
         '
         'QueuesLabel
         '
@@ -171,171 +111,48 @@ Partial Class QueueForm
         Me.Tip.SetToolTip(Me.AddQueue, "Add a queue")
         Me.AddQueue.UseVisualStyleBackColor = True
         '
-        'RemoveQueue
+        'DeleteQueue
         '
-        Me.RemoveQueue.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.RemoveQueue.Enabled = False
-        Me.RemoveQueue.Location = New System.Drawing.Point(93, 404)
-        Me.RemoveQueue.Name = "RemoveQueue"
-        Me.RemoveQueue.Size = New System.Drawing.Size(75, 23)
-        Me.RemoveQueue.TabIndex = 4
-        Me.RemoveQueue.Text = "Remove"
-        Me.Tip.SetToolTip(Me.RemoveQueue, "Remove selected queue")
-        Me.RemoveQueue.UseVisualStyleBackColor = True
+        Me.DeleteQueue.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.DeleteQueue.Enabled = False
+        Me.DeleteQueue.Location = New System.Drawing.Point(93, 404)
+        Me.DeleteQueue.Name = "DeleteQueue"
+        Me.DeleteQueue.Size = New System.Drawing.Size(75, 23)
+        Me.DeleteQueue.TabIndex = 4
+        Me.DeleteQueue.Text = "Delete"
+        Me.Tip.SetToolTip(Me.DeleteQueue, "Remove selected queue")
+        Me.DeleteQueue.UseVisualStyleBackColor = True
         '
-        'Sort
+        'RenameQueue
         '
-        Me.Sort.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.Sort.Enabled = False
-        Me.Sort.Location = New System.Drawing.Point(152, 293)
-        Me.Sort.Name = "Sort"
-        Me.Sort.Size = New System.Drawing.Size(67, 23)
-        Me.Sort.TabIndex = 30
-        Me.Sort.Text = "Sort"
-        Me.Tip.SetToolTip(Me.Sort, "Sort queue alphabetically")
-        Me.Sort.UseVisualStyleBackColor = True
+        Me.RenameQueue.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.RenameQueue.Enabled = False
+        Me.RenameQueue.Location = New System.Drawing.Point(93, 433)
+        Me.RenameQueue.Name = "RenameQueue"
+        Me.RenameQueue.Size = New System.Drawing.Size(75, 23)
+        Me.RenameQueue.TabIndex = 6
+        Me.RenameQueue.Text = "Rename"
+        Me.Tip.SetToolTip(Me.RenameQueue, "Rename selected queue")
+        Me.RenameQueue.UseVisualStyleBackColor = True
         '
-        'Clear
+        'CopyQueue
         '
-        Me.Clear.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.Clear.Enabled = False
-        Me.Clear.Location = New System.Drawing.Point(79, 293)
-        Me.Clear.Name = "Clear"
-        Me.Clear.Size = New System.Drawing.Size(67, 23)
-        Me.Clear.TabIndex = 29
-        Me.Clear.Text = "Clear"
-        Me.Tip.SetToolTip(Me.Clear, "Clear queue")
-        Me.Clear.UseVisualStyleBackColor = True
-        '
-        'Rename
-        '
-        Me.Rename.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.Rename.Enabled = False
-        Me.Rename.Location = New System.Drawing.Point(93, 433)
-        Me.Rename.Name = "Rename"
-        Me.Rename.Size = New System.Drawing.Size(75, 23)
-        Me.Rename.TabIndex = 6
-        Me.Rename.Text = "Rename"
-        Me.Tip.SetToolTip(Me.Rename, "Rename selected queue")
-        Me.Rename.UseVisualStyleBackColor = True
-        '
-        'Save
-        '
-        Me.Save.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.Save.Enabled = False
-        Me.Save.Location = New System.Drawing.Point(6, 293)
-        Me.Save.Name = "Save"
-        Me.Save.Size = New System.Drawing.Size(67, 23)
-        Me.Save.TabIndex = 28
-        Me.Save.Text = "Save..."
-        Me.Tip.SetToolTip(Me.Save, "Save queue to file")
-        Me.Save.UseVisualStyleBackColor = True
-        '
-        'Copy
-        '
-        Me.Copy.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.Copy.Enabled = False
-        Me.Copy.Location = New System.Drawing.Point(12, 433)
-        Me.Copy.Name = "Copy"
-        Me.Copy.Size = New System.Drawing.Size(75, 23)
-        Me.Copy.TabIndex = 5
-        Me.Copy.Text = "Copy"
-        Me.Tip.SetToolTip(Me.Copy, "Copy selected queue")
-        Me.Copy.UseVisualStyleBackColor = True
-        '
-        'From
-        '
-        Me.From.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.From.Location = New System.Drawing.Point(275, 8)
-        Me.From.Name = "From"
-        Me.From.Size = New System.Drawing.Size(107, 20)
-        Me.From.TabIndex = 49
-        Me.Tip.SetToolTip(Me.From, "Only add pages with titles alphabetically greater than this one")
-        '
-        'Cancel
-        '
-        Me.Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Cancel.Location = New System.Drawing.Point(295, 114)
-        Me.Cancel.Name = "Cancel"
-        Me.Cancel.Size = New System.Drawing.Size(67, 23)
-        Me.Cancel.TabIndex = 61
-        Me.Cancel.Text = "Cancel"
-        Me.Tip.SetToolTip(Me.Cancel, "Stop this query")
-        Me.Cancel.UseVisualStyleBackColor = True
-        Me.Cancel.Visible = False
-        '
-        'Limit
-        '
-        Me.Limit.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Limit.Enabled = False
-        Me.Limit.Increment = New Decimal(New Integer() {100, 0, 0, 0})
-        Me.Limit.Location = New System.Drawing.Point(330, 34)
-        Me.Limit.Maximum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.Limit.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.Limit.Name = "Limit"
-        Me.Limit.Size = New System.Drawing.Size(52, 20)
-        Me.Limit.TabIndex = 55
-        Me.Limit.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.Tip.SetToolTip(Me.Limit, "Maximum number of pages that can be returned by the query")
-        Me.Limit.Value = New Decimal(New Integer() {1, 0, 0, 0})
-        '
-        'Exclude
-        '
-        Me.Exclude.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Exclude.Enabled = False
-        Me.Exclude.Location = New System.Drawing.Point(315, 61)
-        Me.Exclude.Name = "Exclude"
-        Me.Exclude.Size = New System.Drawing.Size(67, 23)
-        Me.Exclude.TabIndex = 60
-        Me.Exclude.Text = "Exclude"
-        Me.Tip.SetToolTip(Me.Exclude, "Remove any pages from the queue that appear in the query" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "(new queue = old queue " & _
-                "AND NOT query)")
-        Me.Exclude.UseVisualStyleBackColor = True
-        '
-        'Combine
-        '
-        Me.Combine.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Combine.Enabled = False
-        Me.Combine.Location = New System.Drawing.Point(169, 61)
-        Me.Combine.Name = "Combine"
-        Me.Combine.Size = New System.Drawing.Size(67, 23)
-        Me.Combine.TabIndex = 58
-        Me.Combine.Text = "Combine"
-        Me.Tip.SetToolTip(Me.Combine, "Add query results to the queue" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "(new queue = old queue OR query)")
-        Me.Combine.UseVisualStyleBackColor = True
-        '
-        'Intersect
-        '
-        Me.Intersect.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Intersect.Enabled = False
-        Me.Intersect.Location = New System.Drawing.Point(242, 61)
-        Me.Intersect.Name = "Intersect"
-        Me.Intersect.Size = New System.Drawing.Size(67, 23)
-        Me.Intersect.TabIndex = 59
-        Me.Intersect.Text = "Intersect"
-        Me.Tip.SetToolTip(Me.Intersect, "Remove any pages from the queue that don't appear in query results" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "(new queue = " & _
-                "old queue AND query)")
-        Me.Intersect.UseVisualStyleBackColor = True
-        '
-        'SourceType
-        '
-        Me.SourceType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.SourceType.Enabled = False
-        Me.SourceType.FormattingEnabled = True
-        Me.SourceType.Location = New System.Drawing.Point(74, 7)
-        Me.SourceType.MaxDropDownItems = 20
-        Me.SourceType.Name = "SourceType"
-        Me.SourceType.Size = New System.Drawing.Size(156, 21)
-        Me.SourceType.TabIndex = 47
-        Me.Tip.SetToolTip(Me.SourceType, "Type of query to make")
+        Me.CopyQueue.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.CopyQueue.Enabled = False
+        Me.CopyQueue.Location = New System.Drawing.Point(12, 433)
+        Me.CopyQueue.Name = "CopyQueue"
+        Me.CopyQueue.Size = New System.Drawing.Size(75, 23)
+        Me.CopyQueue.TabIndex = 5
+        Me.CopyQueue.Text = "Copy"
+        Me.Tip.SetToolTip(Me.CopyQueue, "Copy selected queue")
+        Me.CopyQueue.UseVisualStyleBackColor = True
         '
         'QueuesEmpty
         '
         Me.QueuesEmpty.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.QueuesEmpty.BackColor = System.Drawing.SystemColors.Window
         Me.QueuesEmpty.ForeColor = System.Drawing.SystemColors.InactiveCaption
-        Me.QueuesEmpty.Location = New System.Drawing.Point(21, 180)
+        Me.QueuesEmpty.Location = New System.Drawing.Point(21, 183)
         Me.QueuesEmpty.Name = "QueuesEmpty"
         Me.QueuesEmpty.Size = New System.Drawing.Size(138, 36)
         Me.QueuesEmpty.TabIndex = 2
@@ -396,7 +213,7 @@ Partial Class QueueForm
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Tabs.Controls.Add(Me.PagesTab)
         Me.Tabs.Controls.Add(Me.OptionsTab)
-        Me.Tabs.Controls.Add(Me.PageFiltersTab)
+        Me.Tabs.Controls.Add(Me.TitleFiltersTab)
         Me.Tabs.Controls.Add(Me.EditFiltersTab)
         Me.Tabs.Location = New System.Drawing.Point(186, 108)
         Me.Tabs.Name = "Tabs"
@@ -407,29 +224,10 @@ Partial Class QueueForm
         'PagesTab
         '
         Me.PagesTab.BackColor = System.Drawing.Color.Transparent
-        Me.PagesTab.Controls.Add(Me.QueueEmpty)
-        Me.PagesTab.Controls.Add(Me.FromLabel)
-        Me.PagesTab.Controls.Add(Me.From)
-        Me.PagesTab.Controls.Add(Me.Cancel)
-        Me.PagesTab.Controls.Add(Me.Progress)
-        Me.PagesTab.Controls.Add(Me.LimitLabel)
-        Me.PagesTab.Controls.Add(Me.Actions)
-        Me.PagesTab.Controls.Add(Me.Sort)
-        Me.PagesTab.Controls.Add(Me.Clear)
-        Me.PagesTab.Controls.Add(Me.Save)
-        Me.PagesTab.Controls.Add(Me.QueueSelector)
-        Me.PagesTab.Controls.Add(Me.Limit)
-        Me.PagesTab.Controls.Add(Me.Throbber)
-        Me.PagesTab.Controls.Add(Me.Count)
-        Me.PagesTab.Controls.Add(Me.SourceLabel)
-        Me.PagesTab.Controls.Add(Me.Exclude)
-        Me.PagesTab.Controls.Add(Me.Combine)
-        Me.PagesTab.Controls.Add(Me.Intersect)
-        Me.PagesTab.Controls.Add(Me.SourceType)
-        Me.PagesTab.Controls.Add(Me.SourceTypeLabel)
+        Me.PagesTab.Controls.Add(Me.ListBuilder)
+        Me.PagesTab.Controls.Add(Me.ListSelector)
+        Me.PagesTab.Controls.Add(Me.Label1)
         Me.PagesTab.Controls.Add(Me.QueuePages)
-        Me.PagesTab.Controls.Add(Me.Source)
-        Me.PagesTab.Controls.Add(Me.Browse)
         Me.PagesTab.Location = New System.Drawing.Point(4, 22)
         Me.PagesTab.Name = "PagesTab"
         Me.PagesTab.Padding = New System.Windows.Forms.Padding(3)
@@ -438,139 +236,44 @@ Partial Class QueueForm
         Me.PagesTab.Text = "Page list"
         Me.PagesTab.UseVisualStyleBackColor = True
         '
-        'QueueEmpty
+        'ListBuilder
         '
-        Me.QueueEmpty.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.QueueEmpty.BackColor = System.Drawing.SystemColors.Window
-        Me.QueueEmpty.ForeColor = System.Drawing.SystemColors.InactiveCaption
-        Me.QueueEmpty.Location = New System.Drawing.Point(18, 180)
-        Me.QueueEmpty.Name = "QueueEmpty"
-        Me.QueueEmpty.Size = New System.Drawing.Size(359, 36)
-        Me.QueueEmpty.TabIndex = 65
-        Me.QueueEmpty.Text = "No items in queue" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Enter a source and click ""Add"""
-        Me.QueueEmpty.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        Me.QueueEmpty.Visible = False
+        Me.ListBuilder.Location = New System.Drawing.Point(290, 9)
+        Me.ListBuilder.Name = "ListBuilder"
+        Me.ListBuilder.Size = New System.Drawing.Size(92, 23)
+        Me.ListBuilder.TabIndex = 91
+        Me.ListBuilder.Text = "List Builder..."
+        Me.ListBuilder.UseVisualStyleBackColor = True
         '
-        'FromLabel
+        'ListSelector
         '
-        Me.FromLabel.AutoSize = True
-        Me.FromLabel.Location = New System.Drawing.Point(240, 11)
-        Me.FromLabel.Name = "FromLabel"
-        Me.FromLabel.Size = New System.Drawing.Size(33, 13)
-        Me.FromLabel.TabIndex = 48
-        Me.FromLabel.Text = "From:"
+        Me.ListSelector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.ListSelector.FormattingEnabled = True
+        Me.ListSelector.Location = New System.Drawing.Point(38, 11)
+        Me.ListSelector.Name = "ListSelector"
+        Me.ListSelector.Size = New System.Drawing.Size(246, 21)
+        Me.ListSelector.TabIndex = 90
         '
-        'Progress
+        'Label1
         '
-        Me.Progress.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Progress.Location = New System.Drawing.Point(74, 87)
-        Me.Progress.Name = "Progress"
-        Me.Progress.Size = New System.Drawing.Size(308, 15)
-        Me.Progress.TabIndex = 63
-        Me.Progress.Text = " "
-        '
-        'LimitLabel
-        '
-        Me.LimitLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.LimitLabel.AutoSize = True
-        Me.LimitLabel.Location = New System.Drawing.Point(292, 37)
-        Me.LimitLabel.Name = "LimitLabel"
-        Me.LimitLabel.Size = New System.Drawing.Size(36, 13)
-        Me.LimitLabel.TabIndex = 54
-        Me.LimitLabel.Text = "Up to:"
-        '
-        'Actions
-        '
-        Me.Actions.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.Actions.Enabled = False
-        Me.Actions.Location = New System.Drawing.Point(225, 293)
-        Me.Actions.Name = "Actions"
-        Me.Actions.Size = New System.Drawing.Size(67, 23)
-        Me.Actions.TabIndex = 30
-        Me.Actions.Text = "Actions..."
-        Me.Actions.UseVisualStyleBackColor = True
-        '
-        'QueueSelector
-        '
-        Me.QueueSelector.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.QueueSelector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.QueueSelector.FormattingEnabled = True
-        Me.QueueSelector.Location = New System.Drawing.Point(74, 34)
-        Me.QueueSelector.Name = "QueueSelector"
-        Me.QueueSelector.Size = New System.Drawing.Size(211, 21)
-        Me.QueueSelector.Sorted = True
-        Me.QueueSelector.TabIndex = 52
-        '
-        'Throbber
-        '
-        Me.Throbber.BackColor = System.Drawing.Color.White
-        Me.Throbber.Location = New System.Drawing.Point(6, 68)
-        Me.Throbber.Name = "Throbber"
-        Me.Throbber.Size = New System.Drawing.Size(58, 10)
-        Me.Throbber.TabIndex = 56
-        '
-        'Count
-        '
-        Me.Count.AutoSize = True
-        Me.Count.Location = New System.Drawing.Point(6, 89)
-        Me.Count.Name = "Count"
-        Me.Count.Size = New System.Drawing.Size(40, 13)
-        Me.Count.TabIndex = 62
-        Me.Count.Text = "0 items"
-        '
-        'SourceLabel
-        '
-        Me.SourceLabel.Location = New System.Drawing.Point(1, 37)
-        Me.SourceLabel.Name = "SourceLabel"
-        Me.SourceLabel.Size = New System.Drawing.Size(72, 16)
-        Me.SourceLabel.TabIndex = 50
-        Me.SourceLabel.Text = "Source:"
-        Me.SourceLabel.TextAlign = System.Drawing.ContentAlignment.TopRight
-        '
-        'SourceTypeLabel
-        '
-        Me.SourceTypeLabel.AutoSize = True
-        Me.SourceTypeLabel.Location = New System.Drawing.Point(6, 10)
-        Me.SourceTypeLabel.Name = "SourceTypeLabel"
-        Me.SourceTypeLabel.Size = New System.Drawing.Size(67, 13)
-        Me.SourceTypeLabel.TabIndex = 46
-        Me.SourceTypeLabel.Text = "Source type:"
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(6, 16)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(26, 13)
+        Me.Label1.TabIndex = 89
+        Me.Label1.Text = "List:"
         '
         'QueuePages
         '
         Me.QueuePages.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.QueuePages.ContextMenuStrip = Me.QueueMenu
+        Me.QueuePages.Enabled = False
         Me.QueuePages.IntegralHeight = False
-        Me.QueuePages.Location = New System.Drawing.Point(6, 105)
+        Me.QueuePages.Location = New System.Drawing.Point(6, 40)
         Me.QueuePages.Name = "QueuePages"
-        Me.QueuePages.Size = New System.Drawing.Size(376, 182)
-        Me.QueuePages.TabIndex = 64
-        '
-        'Source
-        '
-        Me.Source.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Source.Enabled = False
-        Me.Source.Location = New System.Drawing.Point(74, 35)
-        Me.Source.Name = "Source"
-        Me.Source.Size = New System.Drawing.Size(211, 20)
-        Me.Source.TabIndex = 51
-        '
-        'Browse
-        '
-        Me.Browse.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Browse.Enabled = False
-        Me.Browse.Location = New System.Drawing.Point(218, 33)
-        Me.Browse.Name = "Browse"
-        Me.Browse.Size = New System.Drawing.Size(67, 23)
-        Me.Browse.TabIndex = 53
-        Me.Browse.Text = "Browse..."
-        Me.Browse.UseVisualStyleBackColor = True
-        Me.Browse.Visible = False
+        Me.QueuePages.Size = New System.Drawing.Size(376, 276)
+        Me.QueuePages.TabIndex = 88
         '
         'OptionsTab
         '
@@ -639,6 +342,7 @@ Partial Class QueueForm
         '
         'SortOrder
         '
+        Me.SortOrder.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.SortOrder.FormattingEnabled = True
         Me.SortOrder.Items.AddRange(New Object() {"Newest edits first", "Most suspicious edits first"})
         Me.SortOrder.Location = New System.Drawing.Point(76, 15)
@@ -646,24 +350,24 @@ Partial Class QueueForm
         Me.SortOrder.Size = New System.Drawing.Size(143, 21)
         Me.SortOrder.TabIndex = 2
         '
-        'PageFiltersTab
+        'TitleFiltersTab
         '
-        Me.PageFiltersTab.BackColor = System.Drawing.Color.Transparent
-        Me.PageFiltersTab.Controls.Add(Me.ApplyFilters)
-        Me.PageFiltersTab.Controls.Add(Me.ApplyFiltersLabel)
-        Me.PageFiltersTab.Controls.Add(Me.PageFiltersGroup)
-        Me.PageFiltersTab.Location = New System.Drawing.Point(4, 22)
-        Me.PageFiltersTab.Name = "PageFiltersTab"
-        Me.PageFiltersTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.PageFiltersTab.Size = New System.Drawing.Size(388, 322)
-        Me.PageFiltersTab.TabIndex = 1
-        Me.PageFiltersTab.Text = "Page title filters"
-        Me.PageFiltersTab.UseVisualStyleBackColor = True
+        Me.TitleFiltersTab.BackColor = System.Drawing.Color.Transparent
+        Me.TitleFiltersTab.Controls.Add(Me.ApplyFilters)
+        Me.TitleFiltersTab.Controls.Add(Me.ApplyFiltersLabel)
+        Me.TitleFiltersTab.Controls.Add(Me.PageFiltersGroup)
+        Me.TitleFiltersTab.Location = New System.Drawing.Point(4, 22)
+        Me.TitleFiltersTab.Name = "TitleFiltersTab"
+        Me.TitleFiltersTab.Padding = New System.Windows.Forms.Padding(3)
+        Me.TitleFiltersTab.Size = New System.Drawing.Size(388, 322)
+        Me.TitleFiltersTab.TabIndex = 1
+        Me.TitleFiltersTab.Text = "Page title filters"
+        Me.TitleFiltersTab.UseVisualStyleBackColor = True
         '
         'ApplyFilters
         '
         Me.ApplyFilters.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ApplyFilters.Location = New System.Drawing.Point(301, 287)
+        Me.ApplyFilters.Location = New System.Drawing.Point(307, 287)
         Me.ApplyFilters.Name = "ApplyFilters"
         Me.ApplyFilters.Size = New System.Drawing.Size(75, 23)
         Me.ApplyFilters.TabIndex = 57
@@ -674,17 +378,15 @@ Partial Class QueueForm
         '
         Me.ApplyFiltersLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.ApplyFiltersLabel.AutoSize = True
-        Me.ApplyFiltersLabel.Location = New System.Drawing.Point(5, 286)
+        Me.ApplyFiltersLabel.Location = New System.Drawing.Point(6, 292)
         Me.ApplyFiltersLabel.Name = "ApplyFiltersLabel"
-        Me.ApplyFiltersLabel.Size = New System.Drawing.Size(268, 26)
+        Me.ApplyFiltersLabel.Size = New System.Drawing.Size(268, 13)
         Me.ApplyFiltersLabel.TabIndex = 56
-        Me.ApplyFiltersLabel.Text = "Click Apply to apply these filters to the existing page list." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "These filters also" & _
-            " affect the output of the list builder."
+        Me.ApplyFiltersLabel.Text = "Click Apply to apply these filters to the existing page list."
         '
         'PageFiltersGroup
         '
-        Me.PageFiltersGroup.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.PageFiltersGroup.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.PageFiltersGroup.Controls.Add(Me.NamespacesLabel)
         Me.PageFiltersGroup.Controls.Add(Me.Namespaces)
@@ -692,7 +394,7 @@ Partial Class QueueForm
         Me.PageFiltersGroup.Controls.Add(Me.PageRegex)
         Me.PageFiltersGroup.Location = New System.Drawing.Point(6, 6)
         Me.PageFiltersGroup.Name = "PageFiltersGroup"
-        Me.PageFiltersGroup.Size = New System.Drawing.Size(376, 275)
+        Me.PageFiltersGroup.Size = New System.Drawing.Size(376, 193)
         Me.PageFiltersGroup.TabIndex = 55
         Me.PageFiltersGroup.TabStop = False
         Me.PageFiltersGroup.Text = "Page filters"
@@ -793,6 +495,8 @@ Partial Class QueueForm
         Me.EditFiltersGroup.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.EditFiltersGroup.Controls.Add(Me.FilterReverts)
+        Me.EditFiltersGroup.Controls.Add(Me.FilterOwnUserspace)
         Me.EditFiltersGroup.Controls.Add(Me.FilterIgnored)
         Me.EditFiltersGroup.Controls.Add(Me.FilterAnonymous)
         Me.EditFiltersGroup.Controls.Add(Me.FilterNewPage)
@@ -805,11 +509,35 @@ Partial Class QueueForm
         Me.EditFiltersGroup.TabStop = False
         Me.EditFiltersGroup.Text = "Edit filters"
         '
+        'FilterReverts
+        '
+        Me.FilterReverts.BackColor = System.Drawing.SystemColors.Window
+        Me.FilterReverts.Label = "Reverts"
+        Me.FilterReverts.Location = New System.Drawing.Point(9, 99)
+        Me.FilterReverts.MaximumSize = New System.Drawing.Size(640, 16)
+        Me.FilterReverts.MinimumSize = New System.Drawing.Size(16, 16)
+        Me.FilterReverts.Name = "FilterReverts"
+        Me.FilterReverts.Size = New System.Drawing.Size(63, 16)
+        Me.FilterReverts.State = System.Windows.Forms.CheckState.Indeterminate
+        Me.FilterReverts.TabIndex = 58
+        '
+        'FilterOwnUserspace
+        '
+        Me.FilterOwnUserspace.BackColor = System.Drawing.SystemColors.Window
+        Me.FilterOwnUserspace.Label = "User's own userspace"
+        Me.FilterOwnUserspace.Location = New System.Drawing.Point(9, 77)
+        Me.FilterOwnUserspace.MaximumSize = New System.Drawing.Size(640, 16)
+        Me.FilterOwnUserspace.MinimumSize = New System.Drawing.Size(16, 16)
+        Me.FilterOwnUserspace.Name = "FilterOwnUserspace"
+        Me.FilterOwnUserspace.Size = New System.Drawing.Size(130, 16)
+        Me.FilterOwnUserspace.State = System.Windows.Forms.CheckState.Indeterminate
+        Me.FilterOwnUserspace.TabIndex = 58
+        '
         'FilterIgnored
         '
         Me.FilterIgnored.BackColor = System.Drawing.SystemColors.Window
         Me.FilterIgnored.Label = "Ignored user"
-        Me.FilterIgnored.Location = New System.Drawing.Point(149, 77)
+        Me.FilterIgnored.Location = New System.Drawing.Point(177, 77)
         Me.FilterIgnored.MaximumSize = New System.Drawing.Size(640, 16)
         Me.FilterIgnored.MinimumSize = New System.Drawing.Size(16, 16)
         Me.FilterIgnored.Name = "FilterIgnored"
@@ -821,7 +549,7 @@ Partial Class QueueForm
         '
         Me.FilterAnonymous.BackColor = System.Drawing.SystemColors.Window
         Me.FilterAnonymous.Label = "Anonymous user"
-        Me.FilterAnonymous.Location = New System.Drawing.Point(149, 55)
+        Me.FilterAnonymous.Location = New System.Drawing.Point(177, 55)
         Me.FilterAnonymous.MaximumSize = New System.Drawing.Size(640, 16)
         Me.FilterAnonymous.MinimumSize = New System.Drawing.Size(16, 16)
         Me.FilterAnonymous.Name = "FilterAnonymous"
@@ -866,10 +594,10 @@ Partial Class QueueForm
         Me.ClientSize = New System.Drawing.Size(594, 468)
         Me.Controls.Add(Me.Tabs)
         Me.Controls.Add(Me.TypeGroup)
+        Me.Controls.Add(Me.CopyQueue)
+        Me.Controls.Add(Me.RenameQueue)
         Me.Controls.Add(Me.QueuesEmpty)
-        Me.Controls.Add(Me.Copy)
-        Me.Controls.Add(Me.Rename)
-        Me.Controls.Add(Me.RemoveQueue)
+        Me.Controls.Add(Me.DeleteQueue)
         Me.Controls.Add(Me.AddQueue)
         Me.Controls.Add(Me.QueuesLabel)
         Me.Controls.Add(Me.QueueList)
@@ -879,8 +607,6 @@ Partial Class QueueForm
         Me.Name = "QueueForm"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Queues"
-        Me.QueueMenu.ResumeLayout(False)
-        CType(Me.Limit, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TypeGroup.ResumeLayout(False)
         Me.TypeGroup.PerformLayout()
         Me.Tabs.ResumeLayout(False)
@@ -889,8 +615,8 @@ Partial Class QueueForm
         Me.OptionsTab.ResumeLayout(False)
         Me.OptionsTab.PerformLayout()
         CType(Me.RemoveAfterTime, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.PageFiltersTab.ResumeLayout(False)
-        Me.PageFiltersTab.PerformLayout()
+        Me.TitleFiltersTab.ResumeLayout(False)
+        Me.TitleFiltersTab.PerformLayout()
         Me.PageFiltersGroup.ResumeLayout(False)
         Me.PageFiltersGroup.PerformLayout()
         Me.EditFiltersTab.ResumeLayout(False)
@@ -903,49 +629,18 @@ Partial Class QueueForm
     Friend WithEvents QueueList As System.Windows.Forms.ListBox
     Friend WithEvents QueuesLabel As System.Windows.Forms.Label
     Friend WithEvents AddQueue As System.Windows.Forms.Button
-    Friend WithEvents RemoveQueue As System.Windows.Forms.Button
-    Friend WithEvents Sort As System.Windows.Forms.Button
-    Friend WithEvents Clear As System.Windows.Forms.Button
-    Friend WithEvents Rename As System.Windows.Forms.Button
-    Friend WithEvents Save As System.Windows.Forms.Button
-    Friend WithEvents Copy As System.Windows.Forms.Button
+    Friend WithEvents DeleteQueue As System.Windows.Forms.Button
+    Friend WithEvents RenameQueue As System.Windows.Forms.Button
+    Friend WithEvents CopyQueue As System.Windows.Forms.Button
     Friend WithEvents Tip As System.Windows.Forms.ToolTip
     Friend WithEvents QueuesEmpty As System.Windows.Forms.Label
     Friend WithEvents TypeGroup As System.Windows.Forms.GroupBox
-    Friend WithEvents QueueMenu As System.Windows.Forms.ContextMenuStrip
-    Friend WithEvents QueueMenuRemove As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents Separator1 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents QueueMenuSort As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents QueueMenuView As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents QueueMenuEdit As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents Tabs As System.Windows.Forms.TabControl
     Friend WithEvents PagesTab As System.Windows.Forms.TabPage
-    Friend WithEvents QueueEmpty As System.Windows.Forms.Label
-    Friend WithEvents FromLabel As System.Windows.Forms.Label
-    Friend WithEvents From As System.Windows.Forms.TextBox
-    Friend WithEvents Cancel As System.Windows.Forms.Button
-    Friend WithEvents Progress As System.Windows.Forms.Label
-    Friend WithEvents LimitLabel As System.Windows.Forms.Label
-    Friend WithEvents QueueSelector As System.Windows.Forms.ComboBox
-    Friend WithEvents Limit As System.Windows.Forms.NumericUpDown
-    Friend WithEvents Throbber As Huggle.Throbber
-    Friend WithEvents Count As System.Windows.Forms.Label
-    Friend WithEvents SourceLabel As System.Windows.Forms.Label
-    Friend WithEvents Exclude As System.Windows.Forms.Button
-    Friend WithEvents Combine As System.Windows.Forms.Button
-    Friend WithEvents Intersect As System.Windows.Forms.Button
-    Friend WithEvents SourceType As System.Windows.Forms.ComboBox
-    Friend WithEvents SourceTypeLabel As System.Windows.Forms.Label
-    Friend WithEvents QueuePages As System.Windows.Forms.ListBox
-    Friend WithEvents Source As System.Windows.Forms.TextBox
-    Friend WithEvents Browse As System.Windows.Forms.Button
-    Friend WithEvents PageFiltersTab As System.Windows.Forms.TabPage
-    Friend WithEvents Actions As System.Windows.Forms.Button
+    Friend WithEvents TitleFiltersTab As System.Windows.Forms.TabPage
     Friend WithEvents PageFiltersGroup As System.Windows.Forms.GroupBox
     Friend WithEvents PageRegexLabel As System.Windows.Forms.Label
     Friend WithEvents PageRegex As System.Windows.Forms.TextBox
-    Friend WithEvents ApplyFilters As System.Windows.Forms.Button
-    Friend WithEvents ApplyFiltersLabel As System.Windows.Forms.Label
     Friend WithEvents EditFiltersTab As System.Windows.Forms.TabPage
     Friend WithEvents EditFiltersGroup As System.Windows.Forms.GroupBox
     Friend WithEvents UserRegexLabel As System.Windows.Forms.Label
@@ -968,4 +663,12 @@ Partial Class QueueForm
     Friend WithEvents RemoveAfterTimeLabel As System.Windows.Forms.Label
     Friend WithEvents FilterIgnored As Huggle.TriState
     Friend WithEvents FilterAnonymous As Huggle.TriState
+    Friend WithEvents FilterOwnUserspace As Huggle.TriState
+    Friend WithEvents FilterReverts As Huggle.TriState
+    Friend WithEvents ListBuilder As System.Windows.Forms.Button
+    Friend WithEvents ListSelector As System.Windows.Forms.ComboBox
+    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents QueuePages As System.Windows.Forms.ListBox
+    Friend WithEvents ApplyFilters As System.Windows.Forms.Button
+    Friend WithEvents ApplyFiltersLabel As System.Windows.Forms.Label
 End Class

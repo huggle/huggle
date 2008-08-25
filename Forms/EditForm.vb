@@ -28,9 +28,13 @@ Class EditForm
 
         PageText.Rtf = Highlight.RtfHeader & Highlight.RtfFooter
 
-        Dim NewGetTextRequest As New GetTextRequest
-        NewGetTextRequest.Page = Page
-        NewGetTextRequest.Start(AddressOf GotText)
+        If Page.Text Is Nothing Then
+            Dim NewGetTextRequest As New PageTextRequest
+            NewGetTextRequest.Page = Page
+            NewGetTextRequest.Start(AddressOf GotText)
+        Else
+            GotText(New Request.Output(Request.States.Complete, Page.Text))
+        End If
     End Sub
 
     Private Sub EditForm_FormClosing() Handles Me.FormClosing

@@ -36,6 +36,8 @@ Partial Class RequestsForm
         Me.Label7 = New System.Windows.Forms.Label
         Me.Label8 = New System.Windows.Forms.Label
         Me.CancelAll = New System.Windows.Forms.Button
+        Me.CloseButton = New System.Windows.Forms.Button
+        Me.Clear = New System.Windows.Forms.Button
         Me.SuspendLayout()
         '
         'List
@@ -49,7 +51,7 @@ Partial Class RequestsForm
         Me.List.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
         Me.List.Location = New System.Drawing.Point(12, 12)
         Me.List.Name = "List"
-        Me.List.Size = New System.Drawing.Size(565, 307)
+        Me.List.Size = New System.Drawing.Size(618, 307)
         Me.List.TabIndex = 0
         Me.List.UseCompatibleStateImageBehavior = False
         Me.List.View = System.Windows.Forms.View.Details
@@ -72,7 +74,7 @@ Partial Class RequestsForm
         'QueryColumn
         '
         Me.QueryColumn.Text = "Query"
-        Me.QueryColumn.Width = 336
+        Me.QueryColumn.Width = 373
         '
         'Label1
         '
@@ -161,19 +163,41 @@ Partial Class RequestsForm
         'CancelAll
         '
         Me.CancelAll.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.CancelAll.Location = New System.Drawing.Point(502, 326)
+        Me.CancelAll.Location = New System.Drawing.Point(393, 326)
         Me.CancelAll.Name = "CancelAll"
         Me.CancelAll.Size = New System.Drawing.Size(75, 23)
         Me.CancelAll.TabIndex = 3
         Me.CancelAll.Text = "Cancel all"
         Me.CancelAll.UseVisualStyleBackColor = True
         '
+        'CloseButton
+        '
+        Me.CloseButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.CloseButton.Location = New System.Drawing.Point(555, 326)
+        Me.CloseButton.Name = "CloseButton"
+        Me.CloseButton.Size = New System.Drawing.Size(75, 23)
+        Me.CloseButton.TabIndex = 3
+        Me.CloseButton.Text = "Close"
+        Me.CloseButton.UseVisualStyleBackColor = True
+        '
+        'Clear
+        '
+        Me.Clear.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Clear.Location = New System.Drawing.Point(474, 326)
+        Me.Clear.Name = "Clear"
+        Me.Clear.Size = New System.Drawing.Size(75, 23)
+        Me.Clear.TabIndex = 3
+        Me.Clear.Text = "Clear"
+        Me.Clear.UseVisualStyleBackColor = True
+        '
         'RequestsForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoScroll = True
-        Me.ClientSize = New System.Drawing.Size(589, 356)
+        Me.ClientSize = New System.Drawing.Size(642, 356)
+        Me.Controls.Add(Me.CloseButton)
+        Me.Controls.Add(Me.Clear)
         Me.Controls.Add(Me.CancelAll)
         Me.Controls.Add(Me.Label8)
         Me.Controls.Add(Me.Label7)
@@ -184,6 +208,7 @@ Partial Class RequestsForm
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.List)
+        Me.KeyPreview = True
         Me.Name = "RequestsForm"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Requests"
@@ -205,4 +230,6 @@ Partial Class RequestsForm
     Friend WithEvents Label7 As System.Windows.Forms.Label
     Friend WithEvents Label8 As System.Windows.Forms.Label
     Friend WithEvents CancelAll As System.Windows.Forms.Button
+    Friend WithEvents CloseButton As System.Windows.Forms.Button
+    Friend WithEvents Clear As System.Windows.Forms.Button
 End Class

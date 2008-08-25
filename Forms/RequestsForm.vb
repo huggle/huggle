@@ -8,10 +8,22 @@
         Next Item
     End Sub
 
+    Private Sub RequestsForm_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles MyBase.KeyDown
+        If e.KeyCode = Keys.Escape Then Close()
+    End Sub
+
     Private Sub CancelAll_Click() Handles CancelAll.Click
         While PendingRequests.Count > 0
             PendingRequests(0).Cancel()
         End While
+    End Sub
+
+    Private Sub Clear_Click() Handles Clear.Click
+        List.Items.Clear()
+    End Sub
+
+    Private Sub CloseButton_Click() Handles CloseButton.Click
+        Close()
     End Sub
 
     Private Sub AddRequest(ByVal Request As Request)
