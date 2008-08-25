@@ -11,6 +11,7 @@ Class BrowserTab
 
     Public Shadows Parent As TabPage
     Public ShowNewEdits, ShowNewContribs, Highlight As Boolean
+    Public LastBrowserRequest As BrowserRequest
     Public CurrentUrl As String
     Public NewTab As Boolean = True
 

@@ -327,6 +327,7 @@ Namespace Requests
         Public Url As String, Tab As BrowserTab, HistoryItem As HistoryItem
 
         Public Sub Start()
+            Tab.LastBrowserRequest = Me
             Dim RequestThread As New Thread(AddressOf Process)
             RequestThread.IsBackground = True
             RequestThread.Start()
@@ -338,7 +339,7 @@ Namespace Requests
         End Sub
 
         Private Sub Done()
-            If MainForm.Visible Then
+            If MainForm.Visible AndAlso Tab.LastBrowserRequest Is Me Then
                 Dim PageName As String = ParseUrl(Url)("title")
                 MainForm.PageB.Text = PageName
                 Result = FormatPageHtml(GetPage(PageName), Result)
