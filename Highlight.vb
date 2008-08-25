@@ -73,12 +73,11 @@ Module Highlight
             "lcfirst", "localurl", "localurle", "msg", "msgnw", "ns", "raw", "padleft", "padright", "plural", "uc", _
             "ucfirst"}
 
-        Private Directives() As String = {"#REDIRECT", "__FORCETOC__", "__HIDDENCAT__", "__NEWSECTIONLINK__", _
-            "__NOCC__", "__NOCONTENTCONVERT__", "__NOEDITSECTION__", "__NOGALLERY__", "__NOTC__", _
-            "__NOTITLECONVERT__", "__NOTOC__", "__STATICREDIRECT__", "__TOC__"}
+        Private Directives() As String = {"#REDIRECT", "__FORCETOC__", "__HIDDENCAT__", "__INDEX__", _
+            "__NEWSECTIONLINK__", "__NOCC__", "__NOCONTENTCONVERT__", "__NOEDITSECTION__", "__NOGALLERY__", _
+            "__NOINDEX__", "__NOTC__", "__NOTITLECONVERT__", "__NOTOC__", "__STATICREDIRECT__", "__TOC__"}
 
         Public Delegate Sub HighlightCallback(ByVal Result As String)
-        Public Timeout As Integer = 0
 
         Private Class TemplateData
 

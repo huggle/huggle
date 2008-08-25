@@ -242,6 +242,7 @@ Module Processing
 
         Edit.Page.LastEdit = Edit
         Edit.User.LastEdit = Edit
+        Edit.Page.Text = Nothing
 
         'Update statistics and edit counts
         Stats.Update(Edit)
@@ -249,12 +250,18 @@ Module Processing
         If Edit.User.EditCount > -1 Then Edit.User.EditCount += 1
 
         'Add edit to queues
-        For Each Item As Queue In Queue.All.Values
-            If Item.Type <> QueueType.FixedList Then
-                If Item.MatchesFilter(Edit) Then Item.AddEdit(Edit)
-                If Item Is CurrentQueue Then Redraw = True
+        For Each Queue As Queue In Queue.All.Values
+            If Queue.MatchesFilter(Edit) Then
+                Queue.AddEdit(Edit)
+
+                If Queue Is CurrentQueue Then
+                    'Keep user's viewing position when adding new items, if not looking at the top of the queue
+                    If Queue.SortOrder = QueueSortOrder.Time AndAlso MainForm.QueueScroll.Value > 0 _
+                        Then MainForm.QueueScroll.Value += 1
+                    Redraw = True
+                End If
             End If
-        Next Item
+        Next Queue
 
         If CurrentEdit Is Nothing Then DisplayEdit(Edit)
 
@@ -377,15 +384,13 @@ Module Processing
             End If
         End If
 
-        'Get edit counts for non-whitelisted registered users, in batches of 25, and whitelist if appropriate
+        'Get edit counts for non-whitelisted registered users, in batches, and whitelist if appropriate
         If Config.AutoWhitelist AndAlso Not Edit.User.Anonymous AndAlso Not Edit.User.Ignored _
             AndAlso Not Edit.User.EditCount > 0 Then
 
-            'Add the username that fits the criteria to the list
             NextCount.Add(Edit.User)
 
-            'If there are 25 usernames in the list run the count
-            If NextCount.Count >= 25 Then
+            If NextCount.Count >= Config.CountBatchSize Then
                 Dim NewCountRequest As New CountRequest
                 NewCountRequest.Users.AddRange(NextCount)
                 NewCountRequest.Start()
@@ -394,12 +399,16 @@ Module Processing
         End If
 
         'Preload diffs
-        If CurrentQueue IsNot Nothing Then
+        If CurrentQueue IsNot Nothing AndAlso Request.PreloadCount < Config.Preloads + 1 Then
             For l As Integer = 0 To Math.Min(CurrentQueue.Edits.Count, Config.Preloads) - 1
                 If CurrentQueue.Edits(l).Cached = Edit.CacheState.Uncached Then
                     Dim NewDiffRequest As New DiffRequest
                     NewDiffRequest.Edit = CurrentQueue.Edits(l)
+                    NewDiffRequest.Preload = True
                     NewDiffRequest.Start()
+
+                    Request.PreloadCount += 1
+                    If Request.PreloadCount >= Config.Preloads Then Exit For
                 End If
             Next l
         End If
@@ -890,62 +899,60 @@ Module Processing
         MainForm.RefreshInterface()
     End Sub
 
-    Sub ProcessContribs(ByVal Result As String, ByVal ThisUser As User)
+    Sub ProcessContribs(ByVal Result As String, ByVal User As User)
 
         Dim Contribs As MatchCollection = New Regex("<item user=""[^""]+"" pageid=""[^""]+"" revid=""([^""]+)"" " & _
             "ns=""([^""]+)"" title=""([^""]+)"" timestamp=""([^""]+)"" (new="""" )?(minor="""" )?(comment=""([^" & _
             """]+)"" )?/>", RegexOptions.Compiled).Matches(Result)
 
         If Contribs.Count = 0 Then
-            If ThisUser.LastEdit Is Nothing Then ThisUser.LastEdit = NullEdit
+            If User.LastEdit Is Nothing Then User.LastEdit = NullEdit
             Exit Sub
         End If
 
         Dim NextEditByUser As Edit = Nothing
 
         For i As Integer = 0 To Contribs.Count - 1
-            Dim ThisEdit As Edit
+            Dim Edit As Edit
             Dim Diff As String = Contribs(i).Groups(1).Value
 
-            If Edit.All.ContainsKey(Diff) Then ThisEdit = Edit.All(Diff) Else ThisEdit = New Edit
+            If Edit.All.ContainsKey(Diff) Then Edit = Edit.All(Diff) Else Edit = New Edit
 
-            ThisEdit.Id = Diff
-            If ThisEdit.Oldid Is Nothing Then ThisEdit.Oldid = "prev"
-            ThisEdit.User = ThisUser
+            Edit.Id = Diff
+            If Edit.Oldid Is Nothing Then Edit.Oldid = "prev"
+            Edit.User = User
 
-            ThisEdit.Page = GetPage(HtmlDecode(Contribs(i).Groups(3).Value))
-            If ThisEdit.Summary Is Nothing Then ThisEdit.Summary = HtmlDecode(Contribs(i).Groups(8).Value)
-            If ThisEdit.Time = Date.MinValue Then ThisEdit.Time = CDate(Contribs(i).Groups(4).Value)
+            Edit.Page = GetPage(HtmlDecode(Contribs(i).Groups(3).Value))
+            If Edit.Summary Is Nothing Then Edit.Summary = HtmlDecode(Contribs(i).Groups(8).Value)
+            If Edit.Time = Date.MinValue Then Edit.Time = CDate(Contribs(i).Groups(4).Value)
 
-            If ThisUser.LastEdit Is Nothing Then
-                ThisUser.LastEdit = ThisEdit
+            If User.LastEdit Is Nothing Then
+                User.LastEdit = Edit
             ElseIf NextEditByUser IsNot Nothing Then
-                ThisEdit.NextByUser = NextEditByUser
-                NextEditByUser.PrevByUser = ThisEdit
+                Edit.NextByUser = NextEditByUser
+                NextEditByUser.PrevByUser = Edit
             End If
 
-            NextEditByUser = ThisEdit
-            ProcessEdit(ThisEdit)
+            NextEditByUser = Edit
+            ProcessEdit(Edit)
         Next i
 
         If Result.Contains("<usercontribs ucstart=""") Then
-            Dim D As Date = NextEditByUser.Time
-            ThisUser.ContribsOffset = CStr(D.Year) & CStr(D.Month).PadLeft(2, "0"c) & CStr(D.Day).PadLeft(2, "0"c) _
-                & CStr(D.Hour).PadLeft(2, "0"c) & CStr(D.Minute).PadLeft(2, "0"c) & CStr(D.Second).PadLeft(2, "0"c)
+            User.ContribsOffset = Timestamp(NextEditByUser.Time)
         Else
             NextEditByUser.PrevByUser = NullEdit
-            ThisUser.FirstEdit = NextEditByUser
+            User.FirstEdit = NextEditByUser
 
             'Count edits
-            If ThisUser.EditCount = -1 Then
-                Dim ThisEdit As Edit = ThisUser.LastEdit, Count As Integer
+            If User.EditCount = -1 Then
+                Dim ThisEdit As Edit = User.LastEdit, Count As Integer
 
                 While ThisEdit IsNot Nothing AndAlso ThisEdit IsNot NullEdit
                     Count += 1
                     ThisEdit = ThisEdit.PrevByUser
                 End While
 
-                ThisUser.EditCount = Count
+                User.EditCount = Count
             End If
         End If
 

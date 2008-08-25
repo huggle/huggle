@@ -8,6 +8,7 @@ Module Misc
     'Globals
 
     Public Administrator As Boolean
+    Public AllLists As New Dictionary(Of String, List(Of String))
     Public AllRequests As New List(Of Request)
     Public ContribsOffset As Integer
     Public Cookie As String
@@ -454,6 +455,11 @@ Module Misc
         Dim Path As String = Application.UserAppDataPath
         Path = Path.Substring(0, Path.LastIndexOf("\"))
         Return Path.Substring(0, Path.LastIndexOf("\"))
+    End Function
+
+    Function Timestamp(ByVal Time As Date) As String
+        Return Time.Year & CStr(Time.Month).PadLeft(2, "0"c) & CStr(Time.Day).PadLeft(2, "0"c) & _
+            CStr(Time.Hour).PadLeft(2, "0"c) & CStr(Time.Minute).PadLeft(2, "0"c) & CStr(Time.Second).PadLeft(2, "0"c)
     End Function
 
 End Module

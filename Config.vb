@@ -60,6 +60,7 @@ Module Config
     Public ConfirmMultiple As Boolean
     Public ConfirmSame As Boolean = True
     Public ConfirmSelfRevert As Boolean = True
+    Public CountBatchSize As Integer = 20
     Public CustomRevertSummaries As New List(Of String)
     Public DefaultSummary As String = ""
     Public Delete As Boolean

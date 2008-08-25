@@ -16,7 +16,7 @@ Class Main
 
         InitialTab.Parent = Tabs.TabPages(0)
         CurrentTab = InitialTab
-        CurrentQueue = Queue.Default
+        CurrentQueue = Queue.DefaultQueue
 
         Location = New Point(Math.Max(32, Config.WindowPosition.X), Math.Max(32, Config.WindowPosition.Y))
         Size = New Size(Math.Max(Config.WindowSize.Width, MinimumSize.Width), _

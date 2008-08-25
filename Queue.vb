@@ -6,13 +6,15 @@ Class Queue
     'Represents a queue of revisions
 
     Public Shared All As New Dictionary(Of String, Queue)
-    Public Shared [Default] As Queue
+    Public Shared DefaultQueue As Queue
 
     Private Items As SortedList(Of Edit, Boolean)
 
     Private _FilterAnonymous As QueueFilter = QueueFilter.None
     Private _FilterIgnored As QueueFilter = QueueFilter.None
     Private _FilterNewPage As QueueFilter = QueueFilter.None
+    Private _FilterOwnUserspace As QueueFilter = QueueFilter.None
+    Private _FilterReverts As QueueFilter = QueueFilter.None
 
     Private _Name As String
     Private _NeedsReset As Boolean
@@ -29,11 +31,13 @@ Class Queue
     Public Sub New(ByVal Name As String)
         _Name = Name
         _RemoveViewed = True
+        _Spaces.AddRange(Space.All)
         All.Add(Name, Me)
     End Sub
 
     Public ReadOnly Property Edits() As IList(Of Edit)
         Get
+            If NeedsReset Then Reset()
             Return Items.Keys
         End Get
     End Property
@@ -44,8 +48,8 @@ Class Queue
         End Get
         Set(ByVal value As String)
             All.Remove(_Name)
-            _Name = Name
-            All.Add(_Name, Me)
+            _Name = value
+            All.Add(value, Me)
         End Set
     End Property
 
@@ -54,8 +58,8 @@ Class Queue
             Return _FilterAnonymous
         End Get
         Set(ByVal value As QueueFilter)
+            If value <> _FilterAnonymous Then _NeedsReset = True
             _FilterAnonymous = value
-            _NeedsReset = True
         End Set
     End Property
 
@@ -64,8 +68,8 @@ Class Queue
             Return _FilterIgnored
         End Get
         Set(ByVal value As QueueFilter)
+            If value <> _FilterIgnored Then _NeedsReset = True
             _FilterIgnored = value
-            _NeedsReset = True
         End Set
     End Property
 
@@ -74,8 +78,28 @@ Class Queue
             Return _FilterNewPage
         End Get
         Set(ByVal value As QueueFilter)
+            If value <> _FilterNewPage Then _NeedsReset = True
             _FilterNewPage = value
-            _NeedsReset = True
+        End Set
+    End Property
+
+    Public Property FilterOwnUserspace() As QueueFilter
+        Get
+            Return _FilterOwnUserspace
+        End Get
+        Set(ByVal value As QueueFilter)
+            If value <> _FilterOwnUserspace Then _NeedsReset = True
+            _FilterOwnUserspace = value
+        End Set
+    End Property
+
+    Public Property FilterReverts() As QueueFilter
+        Get
+            Return _FilterReverts
+        End Get
+        Set(ByVal value As QueueFilter)
+            If value <> _FilterReverts Then _NeedsReset = True
+            _FilterReverts = value
         End Set
     End Property
 
@@ -93,8 +117,8 @@ Class Queue
             Return _PageRegex
         End Get
         Set(ByVal value As Regex)
+            If value.ToString <> _PageRegex.ToString Then _NeedsReset = True
             _PageRegex = value
-            _NeedsReset = True
         End Set
     End Property
 
@@ -139,8 +163,8 @@ Class Queue
             Return _SortOrder
         End Get
         Set(ByVal value As QueueSortOrder)
+            If value <> _SortOrder Then _NeedsReset = True
             _SortOrder = value
-            _NeedsReset = True
         End Set
     End Property
 
@@ -149,8 +173,8 @@ Class Queue
             Return _Spaces
         End Get
         Set(ByVal value As List(Of Space))
+            If value.Count <> _Spaces.Count Then _NeedsReset = True
             _Spaces = value
-            _NeedsReset = True
         End Set
     End Property
 
@@ -159,8 +183,8 @@ Class Queue
             Return _Type
         End Get
         Set(ByVal value As QueueType)
+            If value <> _Type Then _NeedsReset = True
             _Type = value
-            _NeedsReset = True
         End Set
     End Property
 
@@ -169,8 +193,8 @@ Class Queue
             Return _UserRegex
         End Get
         Set(ByVal value As Regex)
+            If value.ToString <> _UserRegex.ToString Then _NeedsReset = True
             _UserRegex = value
-            _NeedsReset = True
         End Set
     End Property
 
@@ -220,16 +244,18 @@ Class Queue
             Next Item
         End If
 
-        _NeedsReset = True
+        _NeedsReset = False
     End Sub
 
     Public Sub AddEdit(ByVal Edit As Edit)
-        If Type <> QueueType.FixedList Then RemoveOldEdits()
+        If Items IsNot Nothing Then
+            If Type <> QueueType.FixedList Then RemoveOldEdits()
 
-        'Add edit to the queue
-        If Not Items.ContainsKey(Edit) Then
-            Items.Add(Edit, False)
-            If Items.Count > Config.QueueSize Then Items.RemoveAt(5000)
+            'Add edit to the queue
+            If Not Items.ContainsKey(Edit) Then
+                Items.Add(Edit, False)
+                If Items.Count > Config.QueueSize Then Items.RemoveAt(5000)
+            End If
         End If
     End Sub
 
@@ -242,7 +268,7 @@ Class Queue
         If RemoveOld OrElse Time > 0 Then
             Dim i As Integer = 0
 
-            While i < Items.Count - 1
+            While i < Edits.Count
                 If (RemoveOld AndAlso Edits(i) IsNot Edits(i).Page.LastEdit) _
                     OrElse (RemoveAfter > 0 AndAlso Edits(i).Time.AddMinutes(Time) < Date.UtcNow) Then
 
@@ -256,7 +282,7 @@ Class Queue
 
     Public Sub RefreshEdit(ByVal Edit As Edit)
         'Remove and possibly re-add an edit with changed properties that might affect sort order
-        If Type <> QueueType.FixedList Then
+        If Type <> QueueType.FixedList AndAlso Items IsNot Nothing Then
             If Items.ContainsKey(Edit) Then
                 Items.Remove(Edit)
                 If MatchesFilter(Edit) Then Items.Add(Edit, False)
@@ -266,7 +292,7 @@ Class Queue
 
     Public Sub RemoveViewedEdit(ByVal Edit As Edit)
         'Remove an edit that has been viewed, possibly on another queue
-        If RemoveViewed Then Items.Remove(Edit)
+        If Items IsNot Nothing AndAlso RemoveViewed Then Items.Remove(Edit)
     End Sub
 
     Public Function MatchesFilter(ByVal PageName As String) As Boolean
@@ -288,9 +314,10 @@ Class Queue
         If _PageRegex IsNot Nothing AndAlso Not _PageRegex.IsMatch(Edit.Page.Name) Then Return False
         If _UserRegex IsNot Nothing AndAlso Not _UserRegex.IsMatch(Edit.User.Name) Then Return False
 
-        Return CSMatch(_FilterNewPage, Edit.NewPage) _
+        Return CSMatch(_FilterAnonymous, Edit.User.Anonymous) _
             AndAlso CSMatch(_FilterIgnored, Edit.User.Ignored) _
-            AndAlso CSMatch(_FilterAnonymous, Edit.User.Anonymous)
+            AndAlso CSMatch(_FilterNewPage, Edit.NewPage) _
+            AndAlso CSMatch(_FilterReverts, Edit.Type = Edit.Types.Revert)
     End Function
 
     Private Function CSMatch(ByVal Filter As QueueFilter, ByVal Value As Boolean) As Boolean
@@ -322,11 +349,14 @@ Class Queue
                                 Case "filter-anonymous" : Queue._FilterAnonymous = CType(OptionValue, QueueFilter)
                                 Case "filter-ignored" : Queue._FilterIgnored = CType(OptionValue, QueueFilter)
                                 Case "filter-new-pages" : Queue._FilterNewPage = CType(OptionValue, QueueFilter)
+                                Case "filter-own-userspace" : Queue._FilterOwnUserspace = CType(OptionValue, QueueFilter)
+                                Case "filter-reverts" : Queue._FilterReverts = CType(OptionValue, QueueFilter)
                                 Case "page-regex" : Queue._PageRegex = New Regex(OptionValue)
                                 Case "pages" : Queue._Pages.AddRange(OptionValue.Split("|"c))
                                 Case "remove-after" : Queue._RemoveAfter = CInt(OptionValue)
                                 Case "remove-old" : Queue._RemoveOld = CBool(OptionValue)
                                 Case "remove-viewed" : Queue._RemoveViewed = CBool(OptionValue)
+                                Case "sort-order" : Queue._SortOrder = CType(OptionValue, QueueSortOrder)
                                 Case "spaces" : Queue._Spaces.AddRange(SetQueueSpaces(OptionValue))
                                 Case "type" : Queue.Type = SetQueueType(OptionValue)
                                 Case "user-regex" : Queue._UserRegex = New Regex(OptionValue)
@@ -342,16 +372,22 @@ Class Queue
             Next Path
         End If
 
-        If Queue.All.ContainsKey("Filtered edits") Then [Default] = All("Filtered edits")
+        If Queue.All.ContainsKey("Filtered edits") Then DefaultQueue = All("Filtered edits")
+        SetDefaultQueues()
+    End Sub
 
+    Private Shared Sub SetDefaultQueues()
         'Create the default queues if they do not exist
         If Not Queue.All.ContainsKey("Filtered edits") Then
-            [Default] = New Queue("Filtered edits")
-            [Default].Type = QueueType.Live
-            [Default].SortOrder = QueueSortOrder.Quality
-            [Default].FilterIgnored = QueueFilter.Exclude
-            [Default].RemoveOld = True
-            [Default].Reset()
+            DefaultQueue = New Queue("Filtered edits")
+            DefaultQueue.Type = QueueType.Live
+            DefaultQueue.SortOrder = QueueSortOrder.Quality
+            DefaultQueue.Spaces = New List(Of Space)(New Space() {Space.Article})
+            DefaultQueue.FilterIgnored = QueueFilter.Exclude
+            DefaultQueue.FilterOwnUserspace = QueueFilter.Exclude
+            DefaultQueue.FilterReverts = QueueFilter.Exclude
+            DefaultQueue.RemoveOld = True
+            DefaultQueue.Reset()
         End If
 
         If Not Queue.All.ContainsKey("New pages") Then
@@ -399,41 +435,42 @@ Class Queue
         End If
 
         'Write queues to application data subfolder
-        For Each Queue As KeyValuePair(Of String, Queue) In All
+        For Each Queue As Queue In All.Values
             Dim Items As New List(Of String)
 
-            Items.Add("name:" & Queue.Key)
-            Items.Add("type:" & Queue.Value._Type.ToString)
-            Items.Add("filter-anonymous:" & CStr(CInt(Queue.Value._FilterAnonymous)))
-            Items.Add("filter-ignored:" & CStr(CInt(Queue.Value._FilterIgnored)))
-            Items.Add("filter-new-pages:" & CStr(CInt(Queue.Value._FilterNewPage)))
-            Items.Add("remove-after" & CStr(Queue.Value._RemoveAfter))
-            Items.Add("remove-old" & CStr(Queue.Value._RemoveOld))
-            Items.Add("remove-viewed" & CStr(Queue.Value._RemoveViewed))
+            Items.Add("name:" & Queue.Name)
+            Items.Add("type:" & Queue.Type.ToString)
+            Items.Add("filter-anonymous:" & CStr(CInt(Queue.FilterAnonymous)))
+            Items.Add("filter-ignored:" & CStr(CInt(Queue.FilterIgnored)))
+            Items.Add("filter-new-pages:" & CStr(CInt(Queue.FilterNewPage)))
+            Items.Add("filter-own-userspace:" & CStr(CInt(Queue.FilterOwnUserspace)))
+            Items.Add("filter-reverts:" & CStr(CInt(Queue.FilterReverts)))
+            Items.Add("remove-after:" & CStr(Queue.RemoveAfter))
+            Items.Add("remove-old:" & CStr(Queue.RemoveOld))
+            Items.Add("remove-viewed:" & CStr(Queue.RemoveViewed))
+            Items.Add("sort-order:" & CStr(CInt(Queue.SortOrder)))
 
-            If Queue.Value._Spaces.Count > 0 Then
+            If Queue.Spaces.Count > 0 Then
                 Dim Spaces As New List(Of String)
 
-                For Each Space As Space In Queue.Value._Spaces
+                For Each Space As Space In Queue.Spaces
                     Spaces.Add(CStr(Space.Number))
                 Next Space
 
                 Items.Add("spaces:" & String.Join(",", Spaces.ToArray))
             End If
 
-            If Queue.Value._PageRegex IsNot Nothing Then Items.Add("page-regex:" & Queue.Value._PageRegex.ToString)
-            If Queue.Value._UserRegex IsNot Nothing Then Items.Add("user-regex:" & Queue.Value._UserRegex.ToString)
-            If Queue.Value._Pages.Count > 0 Then Items.Add("pages:" & String.Join("|", Queue.Value._Pages.ToArray))
+            If Queue.PageRegex IsNot Nothing Then Items.Add("page-regex:" & Queue.PageRegex.ToString)
+            If Queue.UserRegex IsNot Nothing Then Items.Add("user-regex:" & Queue.UserRegex.ToString)
+            If Queue.Pages.Count > 0 Then Items.Add("pages:" & String.Join("|", Queue.Pages.ToArray))
 
-            File.WriteAllLines(QueuesLocation() & "\" & Queue.Key & ".txt", Items.ToArray)
+            File.WriteAllLines(QueuesLocation() & "\" & Queue.Name & ".txt", Items.ToArray)
         Next Queue
     End Sub
 
-    Private Shared ReadOnly Property QueuesLocation() As String
-        Get
-            Return LocalConfigPath() & "\Queues\" & Config.Project
-        End Get
-    End Property
+    Private Shared Function QueuesLocation() As String
+        Return LocalConfigPath() & "\Queues\" & Config.Project
+    End Function
 
 End Class
 

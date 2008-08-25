@@ -10,6 +10,7 @@
     <DebugType>None</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup>
     <ProjectGuid>{11AD90BE-245A-475B-9768-77BADF176824}</ProjectGuid>
@@ -137,6 +138,18 @@
     <Compile Include="Controls\InputBox.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\ListActionsForm.Designer.vb">
+      <DependentUpon>ListActionsForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ListActionsForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ListForm.Designer.vb">
+      <DependentUpon>ListForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ListForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\LoginForm.designer.vb">
       <DependentUpon>LoginForm.vb</DependentUpon>
     </Compile>
@@ -177,12 +190,6 @@
       <DependentUpon>QueueForm.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\QueueForm.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\QueueActionsForm.Designer.vb">
-      <DependentUpon>QueueActionsForm.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\QueueActionsForm.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\QueueTrimForm.Designer.vb">
@@ -372,6 +379,14 @@
       <DependentUpon>InputBox.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ListActionsForm.resx">
+      <DependentUpon>ListActionsForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ListForm.resx">
+      <DependentUpon>ListForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\LoginForm.resx">
       <DependentUpon>LoginForm.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -399,10 +414,6 @@
     <EmbeddedResource Include="Forms\QueueForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>QueueForm.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\QueueActionsForm.resx">
-      <DependentUpon>QueueActionsForm.vb</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\QueueTrimForm.resx">
       <DependentUpon>QueueTrimForm.vb</DependentUpon>

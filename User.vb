@@ -75,7 +75,7 @@ Class User
 
     Public ReadOnly Property IsMe() As Boolean
         Get
-            Return (Name Is Config.Username)
+            Return (Name = Config.Username)
         End Get
     End Property
 

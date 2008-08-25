@@ -58,36 +58,36 @@ Namespace Requests
             'Log in... can't use the API here because it locks you out after a wrong password
             UpdateStatus("Logging in...")
 
-            Dim LoginResult As LoginResults = DoLogin()
-
             Try
+                Dim LoginResult As LoginResult = DoLogin()
+
                 Select Case LoginResult
                     'Outcomes for what posibly could go wrong when logging in
-                    Case LoginResults.Failed
+                    Case LoginResult.Failed
                         Abort("Unable to log in.")
 
-                    Case LoginResults.NoUser
+                    Case LoginResult.NoUser
                         Abort("User does not exist.")
 
-                    Case LoginResults.InvalidUsername
+                    Case LoginResult.InvalidUsername
                         Abort("Invalid username.")
 
-                    Case LoginResults.CaptchaNeeded
+                    Case LoginResult.CaptchaNeeded
                         Callback(AddressOf CaptchaNeeded)
 
-                    Case LoginResults.WrongPassword
+                    Case LoginResult.WrongPassword
                         If CaptchaId Is Nothing Then Abort("Incorrect password.") _
                             Else Abort("Incorrect password or confirmation code.")
                         CaptchaId = Nothing
                 End Select
 
-            Catch ex As Exception
-                'Trap errors resulting from incorrect proxy settings
+                If LoginResult <> LoginResult.Success Then Exit Sub
+
+            Catch ex As WebException
+                'Trap errors resulting from failed login
                 Abort(ex.Message)
                 Exit Sub
             End Try
-
-            If LoginResult <> LoginResults.Success Then Exit Sub
 
             'Get global configuration
             UpdateStatus("Checking global configuration...")

@@ -116,9 +116,6 @@ Class Edit
             If x.Page.Level > y.Page.Level Then Return -1
             If y.Page.Level > x.Page.Level Then Return 1
 
-            If x.NewPage AndAlso Not y.NewPage Then Return -1
-            If y.NewPage AndAlso Not x.NewPage Then Return 1
-
             If x.User.Anonymous AndAlso Not y.User.Anonymous Then Return -1
             If y.User.Anonymous AndAlso Not x.User.Anonymous Then Return 1
 
@@ -143,7 +140,7 @@ Class Edit
     Public NotInheritable Class CompareByTime : Implements IComparer(Of Edit)
 
         Public Function Compare(ByVal x As Edit, ByVal y As Edit) As Integer Implements IComparer(Of Edit).Compare
-            Return Date.Compare(x.Time, y.Time)
+            Return Date.Compare(y.Time, x.Time)
         End Function
 
     End Class
