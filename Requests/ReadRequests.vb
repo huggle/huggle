@@ -396,10 +396,7 @@ Namespace Requests
         End Sub
 
         Private Sub Process()
-            Result = GetApi("action=query&format=xml&list=blocks&bklimit=50&bkstart=" & Date.UtcNow.Year & _
-                CStr(Date.UtcNow.Month).PadLeft(2, "0"c) & CStr(Date.UtcNow.Day).PadLeft(2, "0"c) & _
-                CStr(Date.UtcNow.Hour).PadLeft(2, "0"c) & CStr(Date.UtcNow.Minute).PadLeft(2, "0"c) & _
-                CStr(Date.UtcNow.Second).PadLeft(2, "0"c))
+            Result = GetApi("action=query&format=xml&list=blocks&bklimit=50&bkstart=" & Timestamp(Date.UtcNow))
 
             If Result IsNot Nothing Then Callback(AddressOf Done) Else Callback(AddressOf Failed)
         End Sub
@@ -647,7 +644,7 @@ Namespace Requests
 
     End Class
 
-    Class GetTextRequest : Inherits Request
+    Class PageTextRequest : Inherits Request
 
         'Get text of page
 
@@ -667,6 +664,7 @@ Namespace Requests
         End Sub
 
         Private Sub Done()
+            Page.Text = Result
             Complete()
         End Sub
 
@@ -731,7 +729,7 @@ Namespace Requests
 
         Private Sub Process()
             Result = PostData("title=" & UrlEncode(Page.Name) & "&action=submit", _
-                "&wpDiff=0&wpEdittime=&wpTextbox1=" & UrlEncode(Text))
+                "&wpDiff=0&wpStarttime=" & Timestamp(Date.UtcNow) & "&wpEdittime=&wpTextbox1=" & UrlEncode(Text))
 
             If Result Is Nothing OrElse Not IsWikiPage(Result) Then
                 Callback(AddressOf Failed)

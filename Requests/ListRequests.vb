@@ -1,4 +1,5 @@
-﻿Imports System.Threading
+﻿Imports System.Text.RegularExpressions
+Imports System.Threading
 Imports System.Web.HttpUtility
 
 Namespace Requests
@@ -14,7 +15,8 @@ Namespace Requests
         Public Delegate Sub ListRequestCallback(ByVal Result As List(Of String))
         Public Delegate Sub ListProgressCallback(ByVal State As String, ByVal PartialResult As List(Of String))
 
-        Public Limit As Integer = ApiLimit(), From As String = "", Queue As Queue
+        Public Limit As Integer = ApiLimit(), From As String = "", List As List(Of String), TitleRegex As Regex
+        Public Spaces As New List(Of Space)
 
         Public Sub New(ByVal _TypeName As String, ByVal _TypePrefix As String, ByVal _QueryParams As String)
             TypeName = _TypeName
@@ -71,7 +73,7 @@ Namespace Requests
                         Item = Item.Substring(0, Item.IndexOf(""""))
                         Item = HtmlDecode(Item)
 
-                        If Not Items.Contains(Item) AndAlso Item >= From AndAlso Queue.MatchesFilter(Item) Then
+                        If Not Items.Contains(Item) AndAlso MatchesFilter(Item) Then
                             Items.Add(Item)
                             Remaining -= 1
                             If Remaining <= 0 Then Exit Do
@@ -86,6 +88,13 @@ Namespace Requests
 
             Callback(AddressOf RequestDone)
         End Sub
+
+        Protected Overridable Function MatchesFilter(ByVal Title As String) As Boolean
+            If Title < From Then Return False
+            If Not Spaces.Contains(GetPage(Title).Space) Then Return False
+            If Not TitleRegex.IsMatch(Title) Then Return False
+            Return True
+        End Function
 
         Private Sub RequestDone()
             Complete()
@@ -212,7 +221,7 @@ Namespace Requests
         Private Shadows _Done As ListRequestCallback, Progress As ListProgressCallback
         Public Shadows From As String = "", Queue As Queue
 
-        Sub New(ByVal _Category As String)
+        Public Sub New(ByVal _Category As String)
             MyBase.New("categorymembers", "cm", "cmprop=title&cmtitle=" & UrlEncode("Category:" & _Category))
             Category = _Category
         End Sub
@@ -222,13 +231,11 @@ Namespace Requests
 
             _Done = Done
 
-            'Use a dummy queue with the same page list in the base class, but without filters
-            'to make sure we always get categories back
+            'Use a copy of the queue in the base class, but change the filters so we always get categories back
             From = MyBase.From
             MyBase.From = ""
-            Queue = MyBase.Queue
-            MyBase.Queue = New Queue(Queue.Name & Convert.ToChar(0))
-            MyBase.Queue.Pages.AddRange(Queue.Pages)
+            Spaces = MyBase.Spaces
+            If Not MyBase.Spaces.Contains(Space.Category) Then MyBase.Spaces.Add(Space.Category)
 
             If _Progress IsNot Nothing Then
                 Progress = _Progress
@@ -238,7 +245,7 @@ Namespace Requests
             MyBase.Start(AddressOf CategoryDone)
         End Sub
 
-        Sub CategoryDone(ByVal Items As List(Of String))
+        Private Sub CategoryDone(ByVal Items As List(Of String))
             If Items Is Nothing Then
                 AllDone()
             Else
@@ -246,7 +253,7 @@ Namespace Requests
                     If Item.StartsWith("Category:") AndAlso Not CategoriesDone.Contains(Item) _
                         AndAlso Not CategoriesRemaining.Contains(Item) Then CategoriesRemaining.Add(Item)
 
-                    If Not AllItems.Contains(Item) AndAlso Queue.MatchesFilter(Item) AndAlso Item >= From Then
+                    If Not AllItems.Contains(Item) AndAlso MatchesFilter(Item) Then
                         AllItems.Add(Item)
 
                         If AllItems.Count >= Limit Then
@@ -268,8 +275,14 @@ Namespace Requests
             End If
         End Sub
 
-        Sub AllDone()
-            Queue.All.Remove(MyBase.Queue.Name)
+        Protected Overrides Function MatchesFilter(ByVal Title As String) As Boolean
+            If Title < From Then Return False
+            If Not Spaces.Contains(GetPage(Title).Space) Then Return False
+            If Not TitleRegex.IsMatch(Title) Then Return False
+            Return True
+        End Function
+
+        Private Sub AllDone()
             _Done(AllItems)
         End Sub
 

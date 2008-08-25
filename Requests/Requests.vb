@@ -10,10 +10,21 @@ Namespace Requests
 
         'Base class of all Web requests
 
-        Private _Query As String, _StartTime As Date, _Mode As Modes, _State As States
+        Private _Query As String, _StartTime As Date, _Mode As Modes, _State As States, _Preload As Boolean
         Protected _Done As RequestCallback, Result As String
 
+        Public Shared PreloadCount As Integer
+
         Public Delegate Sub RequestCallback(ByVal Result As Output)
+
+        Public Property Preload() As Boolean
+            Get
+                Return _Preload
+            End Get
+            Set(ByVal value As Boolean)
+                _Preload = value
+            End Set
+        End Property
 
         Public ReadOnly Property StartTime() As Date
             Get
@@ -48,7 +59,7 @@ Namespace Requests
             End Set
         End Property
 
-        Protected Enum LoginResults As Integer
+        Protected Enum LoginResult As Integer
             : None : WrongPassword : NoUser : InvalidUsername : CaptchaNeeded : Failed : Cancelled : Success
         End Enum
 
@@ -69,29 +80,32 @@ Namespace Requests
 
         Protected Sub Complete()
             State = States.Complete
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
-            If MainForm IsNot Nothing Then MainForm.Delog(Me)
+            Update()
             UpdateForm()
             SendResult()
         End Sub
 
         Public Sub Cancel()
             State = States.Cancelled
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
-            If MainForm IsNot Nothing Then MainForm.Delog(Me)
+            Update()
             UpdateForm()
         End Sub
 
         Protected Sub Fail(Optional ByVal Reason As States = States.Failed)
             State = Reason
-            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
-            If MainForm IsNot Nothing Then MainForm.Delog(Me)
+            Update()
             UpdateForm()
             SendResult()
         End Sub
 
-        Protected Sub SendResult()
+        Private Sub SendResult()
             If _Done IsNot Nothing Then _Done(New Output(State, Result))
+        End Sub
+
+        Private Sub Update()
+            If Preload Then PreloadCount -= 1
+            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
+            If MainForm IsNot Nothing Then MainForm.Delog(Me)
         End Sub
 
         Private Sub UpdateForm()
@@ -122,7 +136,7 @@ Namespace Requests
             UndoEdit(GetPage(Page))
         End Sub
 
-        Protected Function DoLogin() As LoginResults
+        Protected Function DoLogin() As LoginResult
             Dim Client As New WebClient, Result As String = "", Retries As Integer = 3
 
             Mode = Modes.Get
@@ -140,15 +154,15 @@ Namespace Requests
 
                     Try
                         Result = UTF8.GetString(Client.DownloadData(SitePath & "w/index.php?title=Special:Userlogin"))
-                        If State = States.Cancelled Then Return LoginResults.Cancelled
+                        If State = States.Cancelled Then Return LoginResult.Cancelled
 
                     Catch ex As WebException
-                        If State = States.Cancelled Then Return LoginResults.Cancelled Else Throw
+                        If State = States.Cancelled Then Return LoginResult.Cancelled Else Throw
                     End Try
 
                 Loop Until IsWikiPage(Result) OrElse Retries = 0
 
-                If Retries = 0 Then Return LoginResults.Failed
+                If Retries = 0 Then Return LoginResult.Failed
 
                 If Client.ResponseHeaders(HttpResponseHeader.SetCookie) IsNot Nothing Then
                     SessionCookie = Client.ResponseHeaders(HttpResponseHeader.SetCookie)
@@ -159,7 +173,7 @@ Namespace Requests
                     Login.CaptchaId = Result.Substring(Result.IndexOf("id=""wpCaptchaId"" value=""") + 24)
                     Login.CaptchaId = Login.CaptchaId.Substring(0, Login.CaptchaId.IndexOf(""""))
 
-                    Return LoginResults.CaptchaNeeded
+                    Return LoginResult.CaptchaNeeded
                 End If
             End If
 
@@ -184,7 +198,7 @@ Namespace Requests
                     Result = UTF8.GetString(Client.UploadData(Config.SitePath & _
                         "w/index.php?title=Special:Userlogin&action=submitlogin&type=login", UTF8.GetBytes(PostString)))
 
-                    If State = States.Cancelled Then Return LoginResults.Cancelled
+                    If State = States.Cancelled Then Return LoginResult.Cancelled
 
                 Catch ex As WebException
                     Thread.Sleep(1000)
@@ -192,13 +206,13 @@ Namespace Requests
 
             Loop Until IsWikiPage(Result) OrElse Retries = 0
 
-            If Retries = 0 Then Return LoginResults.Failed
+            If Retries = 0 Then Return LoginResult.Failed
 
-            If Result.Contains("<span id=""mw-noname"">") Then Return LoginResults.InvalidUsername
-            If Result.Contains("<span id=""mw-nosuchuser"">") Then Return LoginResults.NoUser
-            If Result.Contains("<span id=""mw-wrongpasswordempty"">") Then Return LoginResults.WrongPassword
-            If Result.Contains("<span id=""mw-wrongpassword"">") Then Return LoginResults.WrongPassword
-            If Result.Contains("<div id=""userloginForm"">") Then Return LoginResults.Failed
+            If Result.Contains("<span id=""mw-noname"">") Then Return LoginResult.InvalidUsername
+            If Result.Contains("<span id=""mw-nosuchuser"">") Then Return LoginResult.NoUser
+            If Result.Contains("<span id=""mw-wrongpasswordempty"">") Then Return LoginResult.WrongPassword
+            If Result.Contains("<span id=""mw-wrongpassword"">") Then Return LoginResult.WrongPassword
+            If Result.Contains("<div id=""userloginForm"">") Then Return LoginResult.Failed
 
             Dim CookiePrefix As String, LoginCookie As String = Client.ResponseHeaders(HttpResponseHeader.SetCookie)
 
@@ -239,7 +253,7 @@ Namespace Requests
                 UrlEncode(Config.Username) & "; " & CookiePrefix & "Token=" & UrlEncode(Token) & "; " & SessionCookie
             End If
 
-            Return LoginResults.Success
+            Return LoginResult.Success
         End Function
 
         Protected Function GetPageText(ByVal Page As String) As String
@@ -349,15 +363,22 @@ Namespace Requests
                         If Retries = 0 Then Exit Do
                         Callback(AddressOf LoginNeeded)
 
-                        Select Case DoLogin()
-                            Case LoginResults.Success
-                                Callback(AddressOf LoginDone)
+                        Try
+                            Select Case DoLogin()
+                                Case LoginResult.Success
+                                    Callback(AddressOf LoginDone)
 
-                            Case Else
-                                Callback(AddressOf LoginFailed)
-                                Data.Error = True
-                                Return Data
-                        End Select
+                                Case Else
+                                    Callback(AddressOf LoginFailed)
+                                    Data.Error = True
+                                    Return Data
+                            End Select
+
+                        Catch ex As WebException
+                            Callback(AddressOf LoginFailed)
+                            Data.Error = True
+                            Return Data
+                        End Try
 
                         LoggingIn = True
                     Else
@@ -392,9 +413,7 @@ Namespace Requests
             Result = Result.Substring(Result.IndexOf(">") + 1)
             Result = HtmlDecode(Result.Substring(0, Result.IndexOf("</textarea>")))
 
-            Data.StartTime = CStr(Date.UtcNow.Year) & CStr(Date.UtcNow.Month).PadLeft(2, "0"c) & _
-                CStr(Date.UtcNow.Day).PadLeft(2, "0"c) & CStr(Date.UtcNow.Hour).PadLeft(2, "0"c) & _
-                CStr(Date.UtcNow.Minute).PadLeft(2, "0"c) & CStr(Date.UtcNow.Second).PadLeft(2, "0"c)
+            Data.StartTime = Timestamp(Date.UtcNow)
             Data.EditTime = TimeMatch.Groups(1).Value
             Data.Text = Result
             Data.Token = TokenMatch.Groups(1).Value

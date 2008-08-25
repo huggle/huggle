@@ -340,9 +340,7 @@ Namespace Requests
 
             End If
 
-            Data.StartTime = CStr(Date.UtcNow.Year) & CStr(Date.UtcNow.Month).PadLeft(2, "0"c) & _
-                CStr(Date.UtcNow.Day).PadLeft(2, "0"c) & CStr(Date.UtcNow.Hour).PadLeft(2, "0"c) & _
-                CStr(Date.UtcNow.Minute).PadLeft(2, "0"c) & CStr(Date.UtcNow.Second).PadLeft(2, "0"c)
+            Data.StartTime = Timestamp(Date.UtcNow)
 
             Data.EditTime = Result.Substring(Result.IndexOf("touched=""") + 9)
             Data.EditTime = Data.EditTime.Substring(0, Data.EditTime.IndexOf(""""))

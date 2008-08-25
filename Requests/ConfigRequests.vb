@@ -200,6 +200,7 @@ Namespace Requests
                 Case "block-expiry-options" : Config.BlockExpiryOptions = GetList(Value)
                 Case "cfd" : Config.CfdLocation = Value
                 Case "config-summary" : Config.ConfigSummary = Value
+                Case "count-batch-size" : Config.CountBatchSize = CInt(Value)
                 Case "delete" : Config.Delete = CBool(Value)
                 Case "email" : Config.Email = CBool(Value)
                 Case "email-subject" : Config.EmailSubject = Value
