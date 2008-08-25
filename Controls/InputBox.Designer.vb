@@ -34,7 +34,7 @@ Partial Class InputBox
         Me.OK.Location = New System.Drawing.Point(283, 51)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(67, 23)
-        Me.OK.TabIndex = 0
+        Me.OK.TabIndex = 2
         Me.OK.Text = "OK"
         '
         'Cancel
@@ -44,7 +44,7 @@ Partial Class InputBox
         Me.Cancel.Location = New System.Drawing.Point(356, 51)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(67, 23)
-        Me.Cancel.TabIndex = 1
+        Me.Cancel.TabIndex = 3
         Me.Cancel.Text = "Cancel"
         '
         'Message
@@ -53,7 +53,7 @@ Partial Class InputBox
         Me.Message.Location = New System.Drawing.Point(12, 9)
         Me.Message.Name = "Message"
         Me.Message.Size = New System.Drawing.Size(10, 13)
-        Me.Message.TabIndex = 2
+        Me.Message.TabIndex = 0
         Me.Message.Text = " "
         '
         'Value
@@ -63,7 +63,7 @@ Partial Class InputBox
         Me.Value.Location = New System.Drawing.Point(15, 25)
         Me.Value.Name = "Value"
         Me.Value.Size = New System.Drawing.Size(408, 20)
-        Me.Value.TabIndex = 3
+        Me.Value.TabIndex = 1
         '
         'InputBox
         '
@@ -77,6 +77,7 @@ Partial Class InputBox
         Me.Controls.Add(Me.OK)
         Me.Controls.Add(Me.Cancel)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
+        Me.KeyPreview = True
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "InputBox"

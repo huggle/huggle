@@ -16,12 +16,7 @@ Class EditInfoPanel
             Change.Text = CStr(If(Edit.Size > 0, "+", "")) & CStr(Edit.Size)
             Change.Visible = (Not Edit.Size = 0)
             If Edit.Summary Is Nothing Then Summary.Text = "" Else Summary.Text = TrimSummary(Edit.Summary)
-
-            Dim LocalTime As Date = Edit.Time.ToLocalTime
-
-            Time.Text = CStr(LocalTime.Year) & "-" & CStr(LocalTime.Month).PadLeft(2, "0"c) & "-" & _
-                CStr(LocalTime.Day).PadLeft(2, "0"c) & " " & CStr(LocalTime.Hour).PadLeft(2, "0"c) & ":" & _
-                CStr(LocalTime.Minute).PadLeft(2, "0"c)
+            Time.Text = Timestamp(Edit.Time.ToLocalTime)
         Else
             Change.Text = ""
             Summary.Text = ""
