@@ -92,7 +92,7 @@ Namespace Requests
         Protected Overridable Function MatchesFilter(ByVal Title As String) As Boolean
             If Title < From Then Return False
             If Not Spaces.Contains(GetPage(Title).Space) Then Return False
-            If Not TitleRegex.IsMatch(Title) Then Return False
+            If TitleRegex IsNot Nothing AndAlso Not TitleRegex.IsMatch(Title) Then Return False
             Return True
         End Function
 
@@ -278,7 +278,7 @@ Namespace Requests
         Protected Overrides Function MatchesFilter(ByVal Title As String) As Boolean
             If Title < From Then Return False
             If Not Spaces.Contains(GetPage(Title).Space) Then Return False
-            If Not TitleRegex.IsMatch(Title) Then Return False
+            If TitleRegex IsNot Nothing AndAlso Not TitleRegex.IsMatch(Title) Then Return False
             Return True
         End Function
 

@@ -130,6 +130,7 @@ Partial Class ConfigForm
         Me.BlockReason = New System.Windows.Forms.TextBox
         Me.PromptForBlock = New System.Windows.Forms.CheckBox
         Me.UseAdminFunctions = New System.Windows.Forms.CheckBox
+        Me.IrcMode = New System.Windows.Forms.CheckBox
         Me.Tabs.SuspendLayout()
         Me.GeneralTab.SuspendLayout()
         Me.KeyboardTab.SuspendLayout()
@@ -188,6 +189,7 @@ Partial Class ConfigForm
         '
         'GeneralTab
         '
+        Me.GeneralTab.Controls.Add(Me.IrcMode)
         Me.GeneralTab.Controls.Add(Me.StartupMessage)
         Me.GeneralTab.Controls.Add(Me.LogFileBrowse)
         Me.GeneralTab.Controls.Add(Me.LogFile)
@@ -325,7 +327,7 @@ Partial Class ConfigForm
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(6, 182)
+        Me.Label6.Location = New System.Drawing.Point(282, 176)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(115, 13)
         Me.Label6.TabIndex = 6
@@ -333,7 +335,7 @@ Partial Class ConfigForm
         '
         'IrcPort
         '
-        Me.IrcPort.Location = New System.Drawing.Point(127, 179)
+        Me.IrcPort.Location = New System.Drawing.Point(403, 173)
         Me.IrcPort.Name = "IrcPort"
         Me.IrcPort.Size = New System.Drawing.Size(48, 20)
         Me.IrcPort.TabIndex = 5
@@ -1268,6 +1270,16 @@ Partial Class ConfigForm
         Me.UseAdminFunctions.Text = "Use administrator functions if available"
         Me.UseAdminFunctions.UseVisualStyleBackColor = True
         '
+        'IrcMode
+        '
+        Me.IrcMode.AutoSize = True
+        Me.IrcMode.Location = New System.Drawing.Point(9, 176)
+        Me.IrcMode.Name = "IrcMode"
+        Me.IrcMode.Size = New System.Drawing.Size(231, 17)
+        Me.IrcMode.TabIndex = 31
+        Me.IrcMode.Text = "Use IRC feed for recent changes if possible"
+        Me.IrcMode.UseVisualStyleBackColor = True
+        '
         'ConfigForm
         '
         Me.AcceptButton = Me.OK
@@ -1417,4 +1429,5 @@ Partial Class ConfigForm
     Friend WithEvents Label31 As System.Windows.Forms.Label
     Friend WithEvents ShowQueue As System.Windows.Forms.CheckBox
     Friend WithEvents StartupMessage As System.Windows.Forms.CheckBox
+    Friend WithEvents IrcMode As System.Windows.Forms.CheckBox
 End Class

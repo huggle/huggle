@@ -127,299 +127,6 @@ Namespace Requests
             Fail()
         End Sub
 
-        Private Sub SetSharedConfigOption(ByVal Name As String, ByVal Value As String)
-            'Project and user config
-            Select Case Name
-                Case "enable" : Config.Enabled = CBool(Value)
-                Case "admin" : Config.UseAdminFunctions = CBool(Value)
-                Case "anonymous" : SetAnonymous(Value)
-                Case "auto-advance" : Config.AutoAdvance = CBool(Value)
-                Case "auto-whitelist" : Config.AutoWhitelist = CBool(Value)
-                Case "blocktime" : Config.BlockTime = Value
-                Case "blocktime-anon" : Config.BlockTimeAnon = Value
-                Case "block-message" : Config.BlockMessage = Value
-                Case "block-message-default" : Config.BlockMessageDefault = CBool(Value)
-                Case "block-message-indef" : Config.BlockMessageIndef = Value
-                Case "block-prompt" : Config.PromptForBlock = CBool(Value)
-                Case "block-reason" : Config.BlockReason = Value
-                Case "block-summary" : Config.BlockSummary = "Notification: Blocked"
-                Case "confirm-ignored" : Config.ConfirmIgnored = CBool(Value)
-                Case "confirm-multiple" : Config.ConfirmMultiple = CBool(Value)
-                Case "confirm-same" : Config.ConfirmSame = CBool(Value)
-                Case "confirm-self-revert" : Config.ConfirmSelfRevert = CBool(Value)
-                Case "default-summary" : Config.DefaultSummary = Value
-                Case "diff-font-size" : Config.DiffFontSize = Value
-                Case "extend-reports" : Config.ExtendReports = CBool(Value)
-                Case "irc-port" : Config.IrcPort = CInt(Value)
-                Case "minor" : SetMinor(Value)
-                Case "new-pages" : Config.ShowNewPages = CBool(Value)
-                Case "open-in-browser" : Config.OpenInBrowser = CBool(Value)
-                Case "patrol-speedy" : Config.PatrolSpeedy = CBool(Value)
-                Case "preload" : Config.Preloads = CInt(Value)
-                Case "prod" : Config.Prod = CBool(Value)
-                Case "prod-message" : Config.ProdMessage = Value
-                Case "prod-message-summary" : Config.ProdMessageSummary = Value
-                Case "prod-message-title" : Config.ProdMessageTitle = Value
-                Case "prod-summary" : Config.ProdSummary = Value
-                Case "protection-reason" : Config.ProtectionReason = Value
-                Case "protection-requests" : Config.ProtectionRequests = CBool(Value)
-                Case "queue-max-age" : Config.QueueMaxAge = CInt(Value)
-                Case "report" : SetReport(Value)
-                Case "report-extend-summary" : Config.ReportExtendSummary = Value
-                Case "report-summary" : Config.ReportSummary = Value
-                Case "revert-summaries" : Config.CustomRevertSummaries = GetList(Value)
-                Case "rollback" : Config.UseRollback = CBool(Value)
-                Case "show-log" : Config.ShowLog = CBool(Value)
-                Case "show-new-edits" : Config.ShowNewEdits = CBool(Value)
-                Case "show-queue" : Config.ShowQueue = CBool(Value)
-                Case "show-tool-tips" : Config.ShowToolTips = CBool(Value)
-                Case "speedy" : Config.Speedy = CBool(Value)
-                Case "speedy-message-summary" : Config.SpeedyMessageSummary = Value
-                Case "speedy-message-title" : Config.SpeedyMessageTitle = Value
-                Case "speedy-summary" : Config.SpeedySummary = Value
-                Case "tags" : SetTags(Value)
-                Case "tray-icon" : Config.TrayIcon = CBool(Value)
-                Case "undo-summary" : Config.UndoSummary = Value
-                Case "update-whitelist" : Config.UpdateWhitelist = CBool(Value)
-                Case "watchlist" : SetWatch(Value)
-                Case "welcome" : Config.Welcome = Value
-                Case "welcome-anon" : Config.WelcomeAnon = Value
-            End Select
-        End Sub
-
-        Private Sub SetProjectConfigOption(ByVal Name As String, ByVal Value As String)
-            'Project config only
-            Select Case Name
-                Case "afd" : Config.AfdLocation = Value
-                Case "aiv" : Config.AIVLocation = Value
-                Case "aivbot" : Config.AIVBotLocation = Value
-                Case "aiv-reports" : Config.AIV = CBool(Value)
-                Case "aiv-single-note" : Config.AivSingleNote = Value
-                Case "approval" : Config.Approval = CBool(Value)
-                Case "block" : Config.Block = CBool(Value)
-                Case "block-expiry-options" : Config.BlockExpiryOptions = GetList(Value)
-                Case "cfd" : Config.CfdLocation = Value
-                Case "config-summary" : Config.ConfigSummary = Value
-                Case "count-batch-size" : Config.CountBatchSize = CInt(Value)
-                Case "delete" : Config.Delete = CBool(Value)
-                Case "email" : Config.Email = CBool(Value)
-                Case "email-subject" : Config.EmailSubject = Value
-                Case "enable-all" : Config.EnabledForAll = CBool(Value)
-                Case "go" : Config.GoToPages = GetList(Value)
-                Case "ifd" : Config.IfdLocation = Value
-                Case "ignore" : Config.IgnoredPages = GetList(Value)
-                Case "manual-revert-summary" : Config.ManualRevertSummary = Value
-                Case "mfd" : Config.MfdLocation = Value
-                Case "min-version" : SetMinVersion(Value)
-                Case "namespace-aliases" : SetNamespaceAliases(GetList(Value))
-                Case "namespace-names" : SetNamespaceNames(GetList(Value))
-                Case "patrol" : Config.Patrol = CBool(Value)
-                Case "protect" : Config.Protect = CBool(Value)
-                Case "protection-request-page" : Config.ProtectionRequestPage = Value
-                Case "protection-request-reason" : Config.ProtectionRequestReason = Value
-                Case "protection-request-summary" : Config.ProtectionRequestSummary = Value
-                Case "rc-block-size" : Config.RcBlockSize = CInt(Value)
-                Case "report-link-diffs" : Config.ReportLinkDiffs = CBool(Value)
-                Case "require-admin" : Config.RequireAdmin = CBool(Value)
-                Case "require-config" : Config.RequireConfig = CBool(Value)
-                Case "require-edits" : Config.RequireEdits = CInt(Value)
-                Case "require-rollback" : Config.RequireRollback = CBool(Value)
-                Case "require-time" : Config.RequireTime = CInt(Value)
-                Case "rollback-summary" : Config.RollbackSummary = Value
-                Case "rollback-summary-unknown" : Config.RollbackSummaryUnknown = Value
-                Case "rfd" : Config.RfdLocation = Value
-                Case "speedy-delete-summary" : Config.SpeedyDeleteSummary = Value
-                Case "speedy-options" : SetSpeedyOptions(Value)
-                Case "startup-message-location" : Config.StartupMessageLocation = Value
-                Case "summary" : Config.Summary = Value
-                Case "templates" : Config.TemplateMessagesGlobal = GetList(Value)
-                Case "tfd" : Config.TfdLocation = Value
-                Case "uaa" : Config.UAALocation = Value
-                Case "uaabot" : Config.UAABotLocation = Value
-                Case "update-whitelist-manual" : Config.UpdateWhitelistManual = CBool(Value)
-                Case "userlist" : Config.UserListLocation = Value
-                Case "userlist-update-summary" : Config.UserListUpdateSummary = Value
-                Case "version" : SetLatestVersion(Value)
-                Case "warning-im-level" : Config.WarningImLevel = CBool(Value)
-                Case "warning-mode" : Config.WarningMode = Value
-                Case "warning-month-headings" : Config.MonthHeadings = CBool(Value)
-                Case "warning-series" : Config.WarningSeries = GetList(Value)
-                Case "welcome-summary" : Config.WelcomeSummary = Value
-                Case "whitelist" : Config.WhitelistLocation = Value
-                Case "whitelist-edit-count" : Config.WhitelistEditCount = CInt(Value)
-                Case "whitelist-update-summary" : Config.WhitelistUpdateSummary = Value
-                Case "xfd" : Config.Xfd = CBool(Value)
-                Case "xfd-discussion-summary" : Config.XfdDiscussionSummary = Value
-                Case "xfd-log-summary" : Config.XfdLogSummary = Value
-                Case "xfd-message" : Config.XfdMessage = Value
-                Case "xfd-message-summary" : Config.XfdMessageSummary = Value
-                Case "xfd-message-title" : Config.XfdMessageTitle = Value
-                Case "xfd-summary" : Config.XfdSummary = Value
-
-                Case "warn-summary" : Config.WarnSummary = Value
-                Case "warn-summary-2" : Config.WarnSummary2 = Value
-                Case "warn-summary-3" : Config.WarnSummary3 = Value
-                Case "warn-summary-4" : Config.WarnSummary4 = Value
-
-                Case Else
-                    For Each Item2 As String In Config.WarningSeries
-                        If Name.StartsWith(Item2) Then
-                            Select Case Name.Substring(Item2.Length)
-                                Case "1", "2", "3", "4", "4im"
-                                    WarningMessages.Add(Name, Value)
-                            End Select
-
-                            Exit For
-                        End If
-                    Next Item2
-            End Select
-        End Sub
-
-        Private Sub SetUserConfigOption(ByVal Name As String, ByVal Value As String)
-            'User config only
-            Select Case Name
-                Case "templates" : Config.TemplateMessages = GetList(Value)
-                Case "version" : Config.ConfigVersion = New Version(CInt(Value.Substring(0, 1)), _
-                    CInt(Value.Substring(2, 1)), CInt(Value.Substring(4)), 0)
-            End Select
-        End Sub
-
-        Private Sub SetNamespaceNames(ByVal Items As List(Of String))
-            For Each Item As String In Items
-                If Item.Contains(";") Then Space.SetName(CInt(Item.Split(";"c)(0)), Item.Split(";"c)(1))
-            Next Item
-        End Sub
-
-        Private Sub SetNamespaceAliases(ByVal Items As List(Of String))
-            For Each Item As String In Items
-                If Item.Contains(";") Then
-                    Dim Key As String = Item.Split(";"c)(0), Value As Integer = CInt(Item.Split(";"c)(1))
-                    If Not Space.Aliases.ContainsKey(Key) Then Space.Aliases.Add(Key, Value)
-                End If
-            Next Item
-        End Sub
-
-        Private Sub SetLatestVersion(ByVal VersionString As String)
-            Config.LatestVersion = New Version(CInt(VersionString.Substring(0, 1)), _
-                CInt(VersionString.Substring(2, 1)), CInt(VersionString.Substring(4)), 0)
-        End Sub
-
-        Private Sub SetMinVersion(ByVal VersionString As String)
-            Config.MinVersion = New Version(CInt(VersionString.Substring(0, 1)), _
-                CInt(VersionString.Substring(2, 1)), CInt(VersionString.Substring(4)), 0)
-        End Sub
-
-        Private Function GetList(ByVal Value As String) As List(Of String)
-            'Converts a comma-separated list to a List(Of String)
-            Dim List As New List(Of String)
-
-            For Each Item As String In Value.Replace("\,", Convert.ToChar(1)).Split(","c)
-                Item = Item.Trim(" "c, Tab, LF).Replace(Convert.ToChar(1), ",")
-                If Not List.Contains(Item) AndAlso Item.Length > 0 Then List.Add(Item)
-            Next Item
-
-            Return List
-        End Function
-
-        Private Sub SetReport(ByVal Value As String)
-            Config.AutoReport = (Value = "auto")
-            Config.PromptForReport = (Value = "prompt")
-        End Sub
-
-        Private Sub SetAnonymous(ByVal Value As String)
-            Config.ShowRegistered = (Value <> "only")
-            Config.ShowAnonymous = (Value <> "no")
-        End Sub
-
-        Private Sub SetMinor(ByVal Value As String)
-            Config.MinorNotifications = False
-            Config.MinorOther = False
-            Config.MinorReports = False
-            Config.MinorReverts = False
-            Config.MinorTags = False
-            Config.MinorWarnings = False
-
-            For Each Item As String In Value.Split(","c)
-                Item = Item.Trim(","c, " "c, LF).ToLower
-
-                Select Case Item
-                    Case "reverts" : Config.MinorReverts = True
-                    Case "other" : Config.MinorOther = True
-                    Case "notifications" : Config.MinorNotifications = True
-                    Case "reports" : Config.MinorReports = True
-                    Case "tags" : Config.MinorTags = True
-                    Case "warnings" : Config.MinorWarnings = True
-                End Select
-            Next Item
-        End Sub
-
-        Private Sub SetWatch(ByVal Value As String)
-            Config.WatchNotifications = False
-            Config.WatchOther = False
-            Config.WatchReports = False
-            Config.WatchReverts = False
-            Config.WatchTags = False
-            Config.WatchWarnings = False
-
-            For Each Item As String In Value.Split(","c)
-                Item = Item.Trim(","c, " "c, LF).ToLower
-
-                Select Case Item
-                    Case "reverts" : Config.WatchReverts = True
-                    Case "other" : Config.WatchOther = True
-                    Case "notifications" : Config.WatchNotifications = True
-                    Case "reports" : Config.WatchReports = True
-                    Case "tags" : Config.WatchTags = True
-                    Case "warnings" : Config.WatchWarnings = True
-                End Select
-            Next Item
-        End Sub
-
-        Private Sub SetTags(ByVal Value As String)
-            Config.Tags.Clear()
-
-            For Each Item As String In Value.Replace(LF, "").Replace("\,", Convert.ToChar(1)).Split _
-                (New String() {","}, StringSplitOptions.RemoveEmptyEntries)
-
-                Config.Tags.Add("{{" & Item.Trim(" "c).Replace(Convert.ToChar(1), ",") & "}}")
-            Next Item
-        End Sub
-
-        Private Sub SetSpeedyOptions(ByVal Value As String)
-            SpeedyCriteria.Clear()
-
-            For Each Item As String In Value.Replace(LF, "").Replace("\;", Convert.ToChar(2)) _
-                .Replace("\,", Convert.ToChar(1)).Split(New String() {","}, StringSplitOptions.RemoveEmptyEntries)
-
-                Dim Subitems As New List(Of String)(Item.Trim(" "c).Replace(Convert.ToChar(1), ",") _
-                    .Split(New String() {";"}, StringSplitOptions.RemoveEmptyEntries))
-
-                Item = Item.Trim(" "c).Replace(Convert.ToChar(2), ";")
-
-                If Subitems.Count >= 4 Then
-                    Dim NewOption As New SpeedyCriterion
-
-                    NewOption.Code = Subitems(0)
-                    NewOption.Description = Subitems(1)
-                    NewOption.DisplayCode = NewOption.Code
-
-                    If NewOption.DisplayCode.Contains("-") Then NewOption.DisplayCode = _
-                        NewOption.DisplayCode.Substring(0, NewOption.DisplayCode.IndexOf("-"))
-
-                    If Subitems(2).Contains("|") Then
-                        NewOption.Template = Subitems(2).Substring(0, Subitems(2).IndexOf("|"))
-                        NewOption.Parameter = Subitems(2).Substring(Subitems(2).IndexOf("|") + 1)
-                    Else
-                        NewOption.Template = Subitems(2)
-                    End If
-
-                    NewOption.Message = Subitems(3)
-                    NewOption.Notify = (Subitems.Count >= 5 AndAlso Subitems(4).ToLower = "notify")
-                    SpeedyCriteria.Add(NewOption.Code, NewOption)
-                End If
-            Next Item
-        End Sub
-
     End Class
 
     Class WriteConfigRequest : Inherits Request
@@ -444,30 +151,30 @@ Namespace Requests
                 Exit Sub
             End If
 
-            Dim ConfigItems As New List(Of String)
+            Dim Items As New List(Of String)
 
-            ConfigItems.Add("enable:true")
-            ConfigItems.Add("version:" & _
+            Items.Add("enable:true")
+            Items.Add("version:" & _
                 Version.Major.ToString & "." & Version.Minor.ToString & "." & Version.Build.ToString)
-            ConfigItems.Add("")
+            Items.Add("")
 
             If Not Config.ShowRegistered Then
-                ConfigItems.Add("anonymous:only")
+                Items.Add("anonymous:only")
             ElseIf Not Config.ShowAnonymous Then
-                ConfigItems.Add("anonymous:no")
+                Items.Add("anonymous:no")
             Else
-                ConfigItems.Add("anonymous:yes")
+                Items.Add("anonymous:yes")
             End If
 
-            ConfigItems.Add("auto-advance:" & CStr(Config.AutoAdvance).ToLower)
-            ConfigItems.Add("auto-whitelist:" & CStr(Config.AutoWhitelist).ToLower)
-            ConfigItems.Add("confirm-multiple:" & CStr(Config.ConfirmMultiple).ToLower)
-            ConfigItems.Add("confirm-same:" & CStr(Config.ConfirmSame).ToLower)
-            ConfigItems.Add("confirm-self-revert:" & CStr(Config.ConfirmSelfRevert).ToLower)
-            ConfigItems.Add("default-summary:" & CStr(Config.DefaultSummary))
-            ConfigItems.Add("diff-font-size:" & Config.DiffFontSize)
-            ConfigItems.Add("extend-reports:" & CStr(Config.ExtendReports).ToLower)
-            ConfigItems.Add("irc-port:" & CStr(Config.IrcPort))
+            Items.Add("auto-advance:" & CStr(Config.AutoAdvance).ToLower)
+            Items.Add("auto-whitelist:" & CStr(Config.AutoWhitelist).ToLower)
+            Items.Add("confirm-multiple:" & CStr(Config.ConfirmMultiple).ToLower)
+            Items.Add("confirm-same:" & CStr(Config.ConfirmSame).ToLower)
+            Items.Add("confirm-self-revert:" & CStr(Config.ConfirmSelfRevert).ToLower)
+            Items.Add("default-summary:" & CStr(Config.DefaultSummary))
+            Items.Add("diff-font-size:" & Config.DiffFontSize)
+            Items.Add("extend-reports:" & CStr(Config.ExtendReports).ToLower)
+            Items.Add("irc-port:" & CStr(Config.IrcPort))
 
             Dim MinorItems As New List(Of String)
 
@@ -478,26 +185,27 @@ Namespace Requests
             If Config.MinorNotifications Then MinorItems.Add("notifications")
             If Config.MinorOther Then MinorItems.Add("other")
             If MinorItems.Count = 0 Then MinorItems.Add("none")
-            ConfigItems.Add("minor:" & String.Join(",", MinorItems.ToArray))
-            ConfigItems.Add("new-pages:" & CStr(Config.ShowNewPages).ToLower)
-            ConfigItems.Add("open-in-browser:" & CStr(Config.OpenInBrowser).ToLower)
-            ConfigItems.Add("preload:" & CStr(Config.Preloads))
-            ConfigItems.Add("queue-max-age:" & CStr(Config.QueueMaxAge))
+
+            Items.Add("minor:" & String.Join(",", MinorItems.ToArray))
+            Items.Add("new-pages:" & CStr(Config.ShowNewPages).ToLower)
+            Items.Add("open-in-browser:" & CStr(Config.OpenInBrowser).ToLower)
+            Items.Add("preload:" & CStr(Config.Preloads))
+            Items.Add("queue-max-age:" & CStr(Config.QueueMaxAge))
 
             If Config.AutoReport Then
-                ConfigItems.Add("report:auto")
+                Items.Add("report:auto")
             ElseIf Not Config.PromptForReport Then
-                ConfigItems.Add("report:prompt")
+                Items.Add("report:prompt")
             Else
-                ConfigItems.Add("report:none")
+                Items.Add("report:none")
             End If
 
-            ConfigItems.Add("revert-summaries:" & LF & "    " & _
+            Items.Add("revert-summaries:" & LF & "    " & _
                 String.Join("," & LF & "    ", Config.CustomRevertSummaries.ToArray))
-            ConfigItems.Add("rollback:" & CStr(Config.UseRollback).ToLower)
-            ConfigItems.Add("show-new-edits:" & CStr(Config.ShowNewEdits).ToLower)
-            ConfigItems.Add("show-queue:" & CStr(Config.ShowQueue).ToLower)
-            ConfigItems.Add("show-tool-tips:" & CStr(Config.ShowToolTips).ToLower)
+            Items.Add("rollback:" & CStr(Config.UseRollback).ToLower)
+            Items.Add("show-new-edits:" & CStr(Config.ShowNewEdits).ToLower)
+            Items.Add("show-queue:" & CStr(Config.ShowQueue).ToLower)
+            Items.Add("show-tool-tips:" & CStr(Config.ShowToolTips).ToLower)
 
             Dim Templates As New List(Of String)
 
@@ -505,10 +213,10 @@ Namespace Requests
                 If Not Config.TemplateMessagesGlobal.Contains(Item) Then Templates.Add(Item)
             Next Item
 
-            ConfigItems.Add("templates:" & LF & "    " & String.Join("," & LF & "    ", Config.TemplateMessages.ToArray))
-            ConfigItems.Add("tray-icon:" & CStr(Config.TrayIcon).ToLower)
-            ConfigItems.Add("undo-summary:" & Config.UndoSummary)
-            ConfigItems.Add("update-whitelist:" & CStr(Config.UpdateWhitelist).ToLower)
+            Items.Add("templates:" & LF & "    " & String.Join("," & LF & "    ", Config.TemplateMessages.ToArray))
+            Items.Add("tray-icon:" & CStr(Config.TrayIcon).ToLower)
+            Items.Add("undo-summary:" & Config.UndoSummary)
+            Items.Add("update-whitelist:" & CStr(Config.UpdateWhitelist).ToLower)
 
             Dim WatchItems As New List(Of String)
 
@@ -519,9 +227,10 @@ Namespace Requests
             If Config.WatchNotifications Then WatchItems.Add("notifications")
             If Config.WatchOther Then WatchItems.Add("other")
             If WatchItems.Count = 0 Then WatchItems.Add("none")
-            ConfigItems.Add("watchlist:" & String.Join(",", WatchItems.ToArray))
 
-            Data.Text = String.Join(LF, ConfigItems.ToArray)
+            Items.Add("watchlist:" & String.Join(",", WatchItems.ToArray))
+
+            Data.Text = String.Join(LF, Items.ToArray)
             Data.Minor = True
             Data.Summary = Config.ConfigSummary
             Data = PostEdit(Data)
@@ -571,17 +280,7 @@ Namespace Requests
                     Dim OptionValue As String = Item.Substring(Item.IndexOf(":") + 1).Trim(LF).Replace("\n", LF)
 
                     Try
-                        'Global config
-                        Select Case OptionName
-                            Case "enable-all" : Config.EnabledForAll = CBool(OptionValue)
-                            Case "config" : Config.ProjectConfigLocation = OptionValue
-                            Case "documentation" : Config.DocsLocation = OptionValue
-                            Case "feedback" : Config.FeedbackLocation = OptionValue
-                            Case "irc-server" : Config.IrcServer = OptionValue
-                            Case "sensitive-addresses" : SetSensitiveAddresses(OptionValue)
-                            Case "user-agent" : Config.UserAgent = OptionValue.Replace("$1", Config.Version.ToString)
-                            Case "user-config" : Config.UserConfigLocation = OptionValue
-                        End Select
+                        SetGlobalConfigOption(OptionName, OptionValue)
 
                     Catch ex As Exception
                         'Ignore malformed config entries
@@ -592,16 +291,6 @@ Namespace Requests
             Complete()
             Return True
         End Function
-
-        Private Sub SetSensitiveAddresses(ByVal Value As String)
-            Config.SensitiveAddresses.Clear()
-
-            For Each Item As String In Value.Replace(LF, "").Replace("\,", Convert.ToChar(1)).Split _
-                (New String() {","}, StringSplitOptions.RemoveEmptyEntries)
-
-                If Item.Contains(";") Then Config.SensitiveAddresses.Add(Item.Trim(" "c).Replace(Convert.ToChar(1), ","))
-            Next Item
-        End Sub
 
     End Class
 

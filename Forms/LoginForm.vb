@@ -11,7 +11,7 @@ Class LoginForm
         Icon = My.Resources.icon_red_button
         Height = 270
 
-        GetLocalConfig()
+        LoadLocalConfig()
 
 #If DEBUG Then
         'If the app is in debug mode add a localhost wiki to the project list

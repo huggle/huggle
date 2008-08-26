@@ -12,11 +12,12 @@ Class Main
         Icon = My.Resources.icon_red_button
         TrayIcon.Icon = My.Resources.icon_red_button
 
-        Queue.LoadQueues()
+        LoadQueues()
+        LoadLists()
 
         InitialTab.Parent = Tabs.TabPages(0)
         CurrentTab = InitialTab
-        CurrentQueue = Queue.DefaultQueue
+        CurrentQueue = Queue.Default
 
         Location = New Point(Math.Max(32, Config.WindowPosition.X), Math.Max(32, Config.WindowPosition.Y))
         Size = New Size(Math.Max(Config.WindowSize.Width, MinimumSize.Width), _
@@ -512,8 +513,7 @@ Class Main
         End If
     End Sub
 
-    Private Sub UserReport_Click() _
-        Handles UserReport.Click, UserBlock.Click, UserReportB.Click
+    Private Sub UserReport_Click() Handles UserReport.Click, UserBlock.Click, UserReportB.Click
 
         If CurrentEdit IsNot Nothing AndAlso CurrentEdit.User IsNot Nothing _
             AndAlso CurrentEdit.User.WarningLevel >= UserLevel.None Then
@@ -807,25 +807,10 @@ Class Main
 
     Sub ReportUser(ByVal ThisUser As User, Optional ByVal ThisEdit As Edit = Nothing)
         Dim NewUserReport As New ReportForm
-        NewUserReport.ThisUser = ThisUser
+        NewUserReport.User = ThisUser
+        NewUserReport.Edit = ThisEdit
         NewUserReport.Message.Text = Config.ReportReason
-
-        If NewUserReport.ShowDialog = DialogResult.OK Then
-            If NewUserReport.ReportTo.SelectedIndex = 0 Then
-
-                Dim NewRequest As New AIVReportRequest
-                NewRequest.User = ThisUser
-                NewRequest.Edit = ThisEdit
-                NewRequest.Reason = NewUserReport.Message.Text
-                NewRequest.Start()
-
-            Else
-                Dim NewRequest As New UAAReportRequest
-                NewRequest.User = ThisUser
-                NewRequest.Reason = NewUserReport.Message.Text
-                NewRequest.Start()
-            End If
-        End If
+        NewUserReport.Show()
     End Sub
 
     Private Sub HistoryDiffToCur_Click() Handles HistoryDiffToCurB.Click

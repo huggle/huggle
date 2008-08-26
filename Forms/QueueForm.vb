@@ -25,6 +25,7 @@ Class QueueForm
         Next Item
 
         If QueueList.Items.Count > 0 Then QueueList.SelectedIndex = 0
+        SetListSelector()
         RefreshInterface()
     End Sub
 
@@ -95,6 +96,10 @@ Class QueueForm
         CurrentQueue.FilterAnonymous = CType(CInt(FilterAnonymous.State), QueueFilter)
     End Sub
 
+    Private Sub FilterHuggle_CheckStateChanged() Handles FilterHuggle.CheckStateChanged
+        CurrentQueue.FilterHuggle = CType(CInt(FilterHuggle.State), QueueFilter)
+    End Sub
+
     Private Sub FilterIgnored_CheckStateChanged() Handles FilterIgnored.CheckStateChanged
         CurrentQueue.FilterIgnored = CType(CInt(FilterIgnored.State), QueueFilter)
     End Sub
@@ -103,11 +108,15 @@ Class QueueForm
         CurrentQueue.FilterNewPage = CType(CInt(FilterNewPage.State), QueueFilter)
     End Sub
 
+    Private Sub FilterNotifications_CheckStateChanged() Handles FilterNotifications.CheckStateChanged
+        CurrentQueue.FilterNotifications = CType(CInt(FilterNotifications.State), QueueFilter)
+    End Sub
+
     Private Sub FilterOwnUserspace_CheckStateChanged() Handles FilterOwnUserspace.CheckStateChanged
         CurrentQueue.FilterOwnUserspace = CType(CInt(FilterOwnUserspace.State), QueueFilter)
     End Sub
 
-    Private Sub FilterReverts_CheckStateChanged() Handles FilterReverts.CheckStateChanged
+    Private Sub FilterReverts_CheckStateChanged() Handles FilterReverts.CheckStateChanged, FilterNotifications.CheckStateChanged, FilterHuggle.CheckStateChanged
         CurrentQueue.FilterReverts = CType(CInt(FilterReverts.State), QueueFilter)
     End Sub
 
@@ -117,17 +126,16 @@ Class QueueForm
     End Sub
 
     Private Sub ListSelector_SelectedIndexChanged() Handles ListSelector.SelectedIndexChanged
+        CurrentQueue.ListName = ListSelector.Text
+
         QueuePages.BeginUpdate()
         QueuePages.Items.Clear()
 
-        For Each Item As String In AllLists(ListSelector.Text)
+        For Each Item As String In CurrentQueue.Pages
             QueuePages.Items.Add(Item)
         Next Item
 
         QueuePages.EndUpdate()
-
-        CurrentQueue.Pages.AddRange(AllLists(ListSelector.Text))
-        CurrentQueue.NeedsReset = True
     End Sub
 
     Private Sub Namespaces_ItemCheck(ByVal s As Object, ByVal e As ItemCheckEventArgs) Handles Namespaces.ItemCheck
@@ -141,16 +149,7 @@ Class QueueForm
     End Sub
 
     Private Sub PageRegex_Leave() Handles PageRegex.Leave
-        Try
-            If PageRegex.Text = "" Then CurrentQueue.PageRegex = Nothing _
-                Else CurrentQueue.PageRegex = New Regex(PageRegex.Text, RegexOptions.Compiled)
-
-        Catch ex As ArgumentException
-            MessageBox.Show("Value entered for page filter is not a valid regular expression.", _
-                "Huggle", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            PageRegex.Text = ""
-            CurrentQueue.PageRegex = Nothing
-        End Try
+        CurrentQueue.PageRegex = PageRegex.Regex
     End Sub
 
     Private Sub QueueList_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles QueueList.KeyDown
@@ -175,12 +174,17 @@ Class QueueForm
                 Case QueueType.Live : Live.Checked = True
             End Select
 
-            If CurrentQueue.SortOrder = QueueSortOrder.Time Then SortOrder.SelectedIndex = 0 _
-                Else SortOrder.SelectedIndex = 1
+            Select Case CurrentQueue.SortOrder
+                Case QueueSortOrder.Time : SortOrder.SelectedIndex = 0
+                Case QueueSortOrder.TimeReverse : SortOrder.SelectedIndex = 1
+                Case QueueSortOrder.Quality : SortOrder.SelectedIndex = 2
+            End Select
 
             FilterAnonymous.State = CType(CInt(CurrentQueue.FilterAnonymous), CheckState)
+            FilterHuggle.State = CType(CInt(CurrentQueue.FilterHuggle), CheckState)
             FilterIgnored.State = CType(CInt(CurrentQueue.FilterIgnored), CheckState)
             FilterNewPage.State = CType(CInt(CurrentQueue.FilterNewPage), CheckState)
+            FilterNotifications.State = CType(CInt(CurrentQueue.FilterNotifications), CheckState)
             FilterOwnUserspace.State = CType(CInt(CurrentQueue.FilterOwnUserspace), CheckState)
             FilterReverts.State = CType(CInt(CurrentQueue.FilterReverts), CheckState)
 
@@ -188,6 +192,7 @@ Class QueueForm
             If CurrentQueue.RemoveAfter > RemoveAfterTime.Minimum Then RemoveAfterTime.Value = CurrentQueue.RemoveAfter _
                 Else RemoveAfterTime.Value = RemoveAfterTime.Minimum
             RemoveOld.Checked = CurrentQueue.RemoveOld
+            RemoveViewed.Checked = CurrentQueue.RemoveViewed
 
             For i As Integer = 0 To Namespaces.Items.Count - 1
                 Namespaces.SetItemChecked(i, CurrentQueue.Spaces.Contains(CType(Namespaces.Items(i), Space)))
@@ -200,6 +205,11 @@ Class QueueForm
     Private Sub RemoveAfterChanged() Handles RemoveAfter.CheckedChanged, RemoveAfterTime.ValueChanged
         If CurrentQueue IsNot Nothing Then If RemoveAfter.Checked _
             Then CurrentQueue.RemoveAfter = CInt(RemoveAfterTime.Value) Else CurrentQueue.RemoveAfter = 0
+        RemoveAfterTime.Enabled = RemoveAfter.Checked
+    End Sub
+
+    Private Sub RemoveViewed_CheckedChanged() Handles RemoveViewed.CheckedChanged
+        If CurrentQueue IsNot Nothing Then CurrentQueue.RemoveViewed = RemoveViewed.Checked
     End Sub
 
     Private Sub RenameQueue_Click() Handles RenameQueue.Click
@@ -219,8 +229,11 @@ Class QueueForm
 
     Private Sub SortOrder_SelectedIndexChanged() Handles SortOrder.SelectedIndexChanged
         If CurrentQueue IsNot Nothing Then
-            If SortOrder.SelectedIndex = 0 Then CurrentQueue.SortOrder = QueueSortOrder.Time _
-                Else CurrentQueue.SortOrder = QueueSortOrder.Quality
+            Select Case SortOrder.Text
+                Case "Newest edits first" : CurrentQueue.SortOrder = QueueSortOrder.Time
+                Case "Oldest edits first" : CurrentQueue.SortOrder = QueueSortOrder.TimeReverse
+                Case "Most suspicious edits first" : CurrentQueue.SortOrder = QueueSortOrder.Quality
+            End Select
         End If
     End Sub
 
@@ -238,16 +251,7 @@ Class QueueForm
     End Sub
 
     Private Sub UserRegex_Leave() Handles UserRegex.Leave
-        Try
-            If UserRegex.Text = "" Then CurrentQueue.UserRegex = Nothing _
-                Else CurrentQueue.UserRegex = New Regex(UserRegex.Text, RegexOptions.Compiled)
-
-        Catch ex As ArgumentException
-            MessageBox.Show("Value entered for user filter is not a valid regular expression.", _
-                "Huggle", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            UserRegex.Text = ""
-            CurrentQueue.UserRegex = Nothing
-        End Try
+        CurrentQueue.UserRegex = UserRegex.Regex
     End Sub
 
     Private Function NextName() As String
@@ -265,7 +269,7 @@ Class QueueForm
 
             If CurrentQueue.Type = QueueType.Live Then
                 If Tabs.TabPages.Contains(PagesTab) Then Tabs.TabPages.Remove(PagesTab)
-                If Not Tabs.TabPages.Contains(TitleFiltersTab) Then Tabs.TabPages.Insert(1, TitleFiltersTab)
+                If Not Tabs.TabPages.Contains(TitleFiltersTab) Then Tabs.TabPages.Add(TitleFiltersTab)
             Else
                 If Not Tabs.TabPages.Contains(PagesTab) Then Tabs.TabPages.Insert(2, PagesTab)
                 If Tabs.TabPages.Contains(TitleFiltersTab) Then Tabs.TabPages.Remove(TitleFiltersTab)
@@ -283,9 +287,24 @@ Class QueueForm
             ApplyFiltersLabel.Visible = (CurrentQueue.Type <> QueueType.Live)
         End If
 
+        DeleteQueue.Enabled = (QueueList.SelectedIndex > -1)
+        RenameQueue.Enabled = (QueueList.SelectedIndex > -1)
+        CopyQueue.Enabled = (QueueList.SelectedIndex > -1)
         QueuesEmpty.Visible = (QueueList.Items.Count = 0)
         Tabs.Enabled = (QueueList.SelectedIndex > -1)
         TypeGroup.Enabled = (QueueList.SelectedIndex > -1)
+    End Sub
+
+    Public Sub SetListSelector()
+        ListSelector.Items.Clear()
+        ListSelector.Items.Add("(none)")
+
+        For Each Item As String In AllLists.Keys
+            ListSelector.Items.Add(Item)
+        Next Item
+
+        If CurrentQueue IsNot Nothing Then ListSelector.SelectedItem = CurrentQueue.ListName _
+            Else ListSelector.SelectedIndex = 0
     End Sub
 
 End Class

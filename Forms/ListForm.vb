@@ -5,7 +5,7 @@ Imports System.Web.HttpUtility
 Class ListForm
 
     Private Mode As String, CurrentRequest As ListRequest
-    Public Spaces As List(Of Space), TitleRegex As Regex
+    Public Spaces As New List(Of Space)(Space.All), TitleRegex As Regex
 
     Private ReadOnly Property CurrentList() As List(Of String)
         Get
@@ -45,12 +45,20 @@ Class ListForm
         If e.KeyCode = Keys.Escape Then Close()
     End Sub
 
+    Private Sub Actions_Click() Handles Actions.Click
+        Dim NewForm As New ListActionsForm
+        NewForm.Form = Me
+        NewForm.List = CurrentList
+        NewForm.ShowDialog()
+    End Sub
+
     Private Sub AddList_Click() Handles AddList.Click
         Dim Name As String = NextName()
         Dim NewList As New List(Of String)
         AllLists.Add(Name, NewList)
         Lists.Items.Add(Name)
         Lists.SelectedItem = Name
+        RefreshListSelectors()
     End Sub
 
     Private Sub Browse_Click() Handles Browse.Click
@@ -82,6 +90,10 @@ Class ListForm
         SelectList()
     End Sub
 
+    Private Sub CloseButton_Click() Handles CloseButton.Click
+        Close()
+    End Sub
+
     Private Sub CopyList_Click() Handles CopyList.Click
         Dim Name As String = InputBox.Show("Copy to:", NextName)
 
@@ -94,7 +106,7 @@ Class ListForm
                 AllLists.Add(Name, NewList)
                 Lists.Items.Add(Name)
                 Lists.SelectedItem = Name
-                MainForm.SetQueueSelector()
+                RefreshListSelectors()
             End If
         End If
     End Sub
@@ -110,7 +122,7 @@ Class ListForm
 
             Lists.Items.RemoveAt(Index)
             Lists.SelectedIndex = Lists.Items.Count - 1
-            MainForm.SetQueueSelector()
+            RefreshListSelectors()
         End If
     End Sub
 
@@ -160,6 +172,7 @@ Class ListForm
                 AllLists.Remove(OldName)
                 AllLists.Add(NewName, ThisList)
                 Lists.Items(Lists.SelectedIndex) = NewName
+                RefreshListSelectors()
             End If
         End If
     End Sub
@@ -193,17 +206,7 @@ Class ListForm
         End If
     End Sub
 
-    Private Function NextName() As String
-        Dim i As Integer = AllLists.Count + 1
-
-        While AllLists.ContainsKey("List" & CStr(i))
-            i += 1
-        End While
-
-        Return "List" & CStr(i)
-    End Function
-
-    Private Sub Source_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs)
+    Private Sub Source_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles Source.KeyDown
         If e.KeyCode = Keys.Enter AndAlso Source.Text <> "" Then
             Combine_Click()
             If SourceType.Text = "Manually add pages" Then Source.Clear()
@@ -238,139 +241,6 @@ Class ListForm
         End If
     End Sub
 
-    Private Sub OpenPageInBrowser() Handles ListPages.DoubleClick, ListMenuView.Click
-        If ListPages.SelectedIndex > -1 _
-            Then OpenUrlInBrowser(SitePath & "w/index.php?title=" & UrlEncode(ListPages.SelectedItem.ToString))
-    End Sub
-
-    Private Sub RefreshInterface()
-        Combine.Text = If(ListPages.Items.Count = 0, "Add", "Combine")
-        Count.Text = CStr(ListPages.Items.Count) & " items"
-        ListPages.ContextMenuStrip = If(ListPages.Items.Count > 0, ListMenu, Nothing)
-        Source.Width = If(SourceType.Text = "File", 137, 210)
-
-        For Each Item As Control In New Control() _
-            {CopyList, FromLabel, Limit, LimitLabel, DeleteList, RenameList, SourceLabel, SourceTypeLabel}
-            Item.Enabled = Not Throbber.Active
-        Next Item
-
-        AddList.Enabled = (Not Throbber.Active)
-        Browse.Visible = (SourceType.Text = "File")
-        Cancel.Visible = Throbber.Active
-        Clear.Enabled = (Not Throbber.Active AndAlso ListPages.Items.Count > 0)
-        Count.Visible = (Lists.SelectedIndex > -1)
-        From.Enabled = (Not Throbber.Active AndAlso SourceType.Text <> "Manually add pages")
-        ListEmpty.Visible = (Lists.SelectedIndex > -1 AndAlso ListPages.Items.Count = 0)
-        ListPages.Enabled = (Not Throbber.Active)
-        ListsEmpty.Visible = (Lists.Items.Count = 0)
-        ListSelector.Visible = (SourceType.Text = "Existing list")
-        Save.Enabled = (ListPages.Items.Count > 0)
-        Source.Enabled = Limit.Enabled
-        Source.Visible = (SourceType.Text <> "Watchlist" AndAlso SourceType.Text <> "Existing list")
-        SourceType.Enabled = Limit.Enabled
-
-        If ListSelector.Visible Then
-            ListSelector.Items.Clear()
-
-            For Each Item As Object In Lists.Items
-                If Item IsNot Lists.SelectedItem Then Lists.Items.Add(Item.ToString)
-            Next Item
-
-            If ListSelector.Items.Count = 0 Then ListSelector.Text = "" Else ListSelector.SelectedIndex = 0
-
-            Combine.Enabled = Not Throbber.Active AndAlso Lists.SelectedIndex > -1 _
-                AndAlso (ListSelector.SelectedIndex > -1)
-            Exclude.Enabled = (Combine.Enabled AndAlso ListPages.Items.Count > 0)
-            Intersect.Enabled = Exclude.Enabled
-        Else
-            Combine.Enabled = Not Throbber.Active AndAlso Lists.SelectedIndex > -1 _
-                AndAlso (Source.Text.Length > 0 OrElse SourceType.Text = "Watchlist")
-            Exclude.Enabled = (Combine.Enabled AndAlso ListPages.Items.Count > 0)
-            Intersect.Enabled = Exclude.Enabled
-        End If
-    End Sub
-
-    Private Sub SelectList()
-        Select Case SourceType.Text
-            Case "Manually add pages" : GotList(New List(Of String)(Source.Text.Split("|"c)))
-            Case "Backlinks" : GetList(New BacklinksRequest(Source.Text))
-            Case "Category" : GetList(New CategoryRequest(Source.Text.Replace("Category:", "")))
-            Case "Category (recursive)" : GetList(New RecursiveCategoryRequest(Source.Text.Replace("Category:", "")))
-            Case "Existing queue" : GotList(Queue.All(ListSelector.Text).Pages)
-            Case "External link uses" : GetList(New ExternalLinkUsageRequest(Source.Text.Replace("http://", "")))
-            Case "File" : GotList(GetFile(Source.Text))
-            Case "Image uses" : GetList(New ImageUsageRequest(Source.Text.Replace("Image:", "")))
-            Case "Images on page" : GetList(New ImagesRequest(Source.Text))
-            Case "Links on page" : GetList(New LinksRequest(Source.Text))
-            Case "Search" : GetList(New SearchRequest(Source.Text))
-            Case "Templates on page" : GetList(New TemplatesRequest(Source.Text))
-            Case "Transclusions" : GetList(New TransclusionsRequest(Source.Text))
-            Case "User contributions" : GetList(New ContribsListRequest(Source.Text))
-            Case "Watchlist" : GotList(PageNames(Watchlist))
-        End Select
-    End Sub
-
-    Private Sub GetList(ByVal Request As ListRequest)
-        CurrentRequest = Request
-        CurrentRequest.Limit = CInt(Limit.Value)
-        CurrentRequest.List = CurrentList
-        CurrentRequest.From = From.Text
-        CurrentRequest.TitleRegex = TitleRegex
-        CurrentRequest.Spaces = Spaces
-        CurrentRequest.Start(AddressOf GotList, AddressOf ListProgress)
-
-        Progress.Text = "Running query..."
-        Throbber.Start()
-        RefreshInterface()
-        Cancel.Focus()
-    End Sub
-
-    Private Sub ListProgress(ByVal State As String, ByVal PartialResult As List(Of String))
-        Progress.Text = State
-
-        If PartialResult IsNot Nothing AndAlso PartialResult.Count > 0 Then
-            If Mode = "combine" Then
-                Cancel.Text = "Stop"
-                CombineItems(PartialResult)
-                CurrentQueue.NeedsReset = False
-            End If
-        End If
-
-        RefreshInterface()
-    End Sub
-
-    Private Sub GotList(ByVal Titles As List(Of String))
-        If Titles Is Nothing Then
-            Progress.Text = "Query failed."
-            Exit Sub
-        End If
-
-        Dim ValidItems As New List(Of String)
-
-        For Each Title As String In Titles
-            Title = Page.SanitizeTitle(Title)
-            If Title IsNot Nothing Then ValidItems.Add(Title)
-        Next Title
-
-        If ValidItems.Count = 0 Then
-            Progress.Text = "Query returned no results."
-        Else
-            Progress.Text = ValidItems.Count & " results returned."
-
-            Select Case Mode
-                Case "combine" : CombineItems(ValidItems)
-                Case "intersect" : IntersectItems(ValidItems)
-                Case "exclude" : ExcludeItems(ValidItems)
-            End Select
-
-            CurrentQueue.NeedsReset = False
-        End If
-
-        Throbber.Stop()
-        RefreshInterface()
-        Source.Focus()
-    End Sub
-
     Private Sub CombineItems(ByVal Items As List(Of String))
         ListPages.BeginUpdate()
 
@@ -380,23 +250,6 @@ Class ListForm
                 ListPages.Items.Add(Item)
             End If
         Next Item
-
-        ListPages.EndUpdate()
-    End Sub
-
-    Private Sub IntersectItems(ByVal Items As List(Of String))
-        ListPages.BeginUpdate()
-
-        Dim i As Integer = 0
-
-        While i < CurrentList.Count
-            If Not Items.Contains(CurrentList(i)) Then
-                CurrentList.RemoveAt(i)
-                ListPages.Items.RemoveAt(i)
-            Else
-                i += 1
-            End If
-        End While
 
         ListPages.EndUpdate()
     End Sub
@@ -434,11 +287,175 @@ Class ListForm
         End If
     End Function
 
-    Private Sub Actions_Click() Handles Actions.Click
-        Dim NewForm As New ListActionsForm
-        NewForm.Form = Me
-        NewForm.List = CurrentList
-        NewForm.ShowDialog()
+    Private Sub GetList(ByVal Request As ListRequest)
+        CurrentRequest = Request
+        CurrentRequest.Limit = CInt(Limit.Value)
+        CurrentRequest.List = CurrentList
+        CurrentRequest.From = From.Text
+        CurrentRequest.TitleRegex = TitleRegex
+        CurrentRequest.Spaces = Spaces
+        CurrentRequest.Start(AddressOf GotList, AddressOf ListProgress)
+
+        Progress.Text = "Running query..."
+        Throbber.Start()
+        RefreshInterface()
+        Cancel.Focus()
+    End Sub
+
+    Private Sub GotList(ByVal Titles As List(Of String))
+        If Titles Is Nothing Then
+            Progress.Text = "Query failed."
+            Exit Sub
+        End If
+
+        Dim ValidItems As New List(Of String)
+
+        For Each Title As String In Titles
+            Title = Page.SanitizeTitle(Title)
+            If Title IsNot Nothing Then ValidItems.Add(Title)
+        Next Title
+
+        If ValidItems.Count = 0 Then
+            Progress.Text = "Query returned no results."
+        Else
+            Progress.Text = ValidItems.Count & " results returned."
+
+            Select Case Mode
+                Case "combine" : CombineItems(ValidItems)
+                Case "intersect" : IntersectItems(ValidItems)
+                Case "exclude" : ExcludeItems(ValidItems)
+            End Select
+
+            CurrentQueue.NeedsReset = False
+        End If
+
+        Throbber.Stop()
+        RefreshInterface()
+        Source.Focus()
+    End Sub
+
+    Private Sub IntersectItems(ByVal Items As List(Of String))
+        ListPages.BeginUpdate()
+
+        Dim i As Integer = 0
+
+        While i < CurrentList.Count
+            If Not Items.Contains(CurrentList(i)) Then
+                CurrentList.RemoveAt(i)
+                ListPages.Items.RemoveAt(i)
+            Else
+                i += 1
+            End If
+        End While
+
+        ListPages.EndUpdate()
+    End Sub
+
+    Private Function NextName() As String
+        Dim i As Integer = AllLists.Count + 1
+
+        While AllLists.ContainsKey("List" & CStr(i))
+            i += 1
+        End While
+
+        Return "List" & CStr(i)
+    End Function
+
+    Private Sub ListProgress(ByVal State As String, ByVal PartialResult As List(Of String))
+        Progress.Text = State
+
+        If PartialResult IsNot Nothing AndAlso PartialResult.Count > 0 Then
+            If Mode = "combine" Then
+                Cancel.Text = "Stop"
+                CombineItems(PartialResult)
+                CurrentQueue.NeedsReset = False
+            End If
+        End If
+
+        RefreshInterface()
+    End Sub
+
+    Private Sub OpenPageInBrowser() Handles ListPages.DoubleClick, ListMenuView.Click
+        If ListPages.SelectedIndex > -1 _
+            Then OpenUrlInBrowser(SitePath & "w/index.php?title=" & UrlEncode(ListPages.SelectedItem.ToString))
+    End Sub
+
+    Private Sub RefreshInterface()
+        Combine.Text = If(ListPages.Items.Count = 0, "Add", "Combine")
+        Count.Text = CStr(ListPages.Items.Count) & " items"
+        ListPages.ContextMenuStrip = If(ListPages.Items.Count > 0, ListMenu, Nothing)
+        Source.Width = If(SourceType.Text = "File", 137, 210)
+
+        For Each Item As Control In New Control() _
+            {CopyList, FromLabel, Limit, LimitLabel, DeleteList, RenameList, SourceLabel, SourceTypeLabel}
+            Item.Enabled = Not Throbber.Active
+        Next Item
+
+        Actions.Enabled = (Lists.SelectedIndex > -1)
+        AddList.Enabled = (Not Throbber.Active)
+        Browse.Visible = (SourceType.Text = "File")
+        Cancel.Visible = Throbber.Active
+        Clear.Enabled = (Not Throbber.Active AndAlso ListPages.Items.Count > 0)
+        Count.Visible = (Lists.SelectedIndex > -1)
+        From.Enabled = (Not Throbber.Active AndAlso SourceType.Text <> "Manually add pages")
+        ListEmpty.Visible = (Lists.SelectedIndex > -1 AndAlso ListPages.Items.Count = 0)
+        ListPages.Enabled = (Not Throbber.Active)
+        ListsEmpty.Visible = (Lists.Items.Count = 0)
+        ListSelector.Visible = (SourceType.Text = "Existing list")
+        Save.Enabled = (ListPages.Items.Count > 0)
+        Source.Enabled = Limit.Enabled
+        Source.Visible = (SourceType.Text <> "Watchlist" AndAlso SourceType.Text <> "Existing list")
+        SourceType.Enabled = Limit.Enabled
+
+        If ListSelector.Visible Then
+            ListSelector.Items.Clear()
+
+            For Each Item As Object In Lists.Items
+                If Item IsNot Lists.SelectedItem Then Lists.Items.Add(Item.ToString)
+            Next Item
+
+            If ListSelector.Items.Count = 0 Then ListSelector.Text = "" Else ListSelector.SelectedIndex = 0
+
+            Combine.Enabled = Not Throbber.Active AndAlso Lists.SelectedIndex > -1 _
+                AndAlso (ListSelector.SelectedIndex > -1)
+            Exclude.Enabled = (Combine.Enabled AndAlso ListPages.Items.Count > 0)
+            Intersect.Enabled = Exclude.Enabled
+        Else
+            Combine.Enabled = Not Throbber.Active AndAlso Lists.SelectedIndex > -1 _
+                AndAlso (Source.Text.Length > 0 OrElse SourceType.Text = "Watchlist")
+            Exclude.Enabled = (Combine.Enabled AndAlso ListPages.Items.Count > 0)
+            Intersect.Enabled = Exclude.Enabled
+        End If
+
+        For Each Item As Queue In Queue.All.Values
+            If Item.ListName = Lists.SelectedItem.ToString Then Item.NeedsReset = True
+        Next Item
+    End Sub
+
+    Private Sub RefreshListSelectors()
+        For Each Form As Form In Application.OpenForms
+            If TypeOf Form Is QueueForm Then CType(Form, QueueForm).SetListSelector()
+        Next Form
+    End Sub
+
+    Private Sub SelectList()
+        Select Case SourceType.Text
+            Case "Manually add pages" : GotList(New List(Of String)(Source.Text.Split("|"c)))
+            Case "Backlinks" : GetList(New BacklinksRequest(Source.Text))
+            Case "Category" : GetList(New CategoryRequest(Source.Text.Replace("Category:", "")))
+            Case "Category (recursive)" : GetList(New RecursiveCategoryRequest(Source.Text.Replace("Category:", "")))
+            Case "Existing queue" : GotList(Queue.All(ListSelector.Text).Pages)
+            Case "External link uses" : GetList(New ExternalLinkUsageRequest(Source.Text.Replace("http://", "")))
+            Case "File" : GotList(GetFile(Source.Text))
+            Case "Image uses" : GetList(New ImageUsageRequest(Source.Text.Replace("Image:", "")))
+            Case "Images on page" : GetList(New ImagesRequest(Source.Text))
+            Case "Links on page" : GetList(New LinksRequest(Source.Text))
+            Case "Search" : GetList(New SearchRequest(Source.Text))
+            Case "Templates on page" : GetList(New TemplatesRequest(Source.Text))
+            Case "Transclusions" : GetList(New TransclusionsRequest(Source.Text))
+            Case "User contributions" : GetList(New ContribsListRequest(Source.Text))
+            Case "Watchlist" : GotList(PageNames(Watchlist))
+        End Select
     End Sub
 
 End Class

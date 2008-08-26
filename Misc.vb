@@ -3,7 +3,7 @@ Imports System.Net
 Imports System.Text.RegularExpressions
 Imports System.Web.HttpUtility
 
-Module Misc
+<DebuggerStepThrough()> Module Misc
 
     'Globals
 
@@ -36,12 +36,64 @@ Module Misc
     Public WhitelistLoaded As Boolean
     Public WhitelistManualChanges As New List(Of String)
 
+    Public Delegate Sub Action()
     Public Delegate Sub CallbackDelegate(ByVal Success As Boolean)
 
     Public ReadOnly Tab As Char = Convert.ToChar(9)
     Public ReadOnly LF As Char = Convert.ToChar(10)
     Public ReadOnly CR As Char = Convert.ToChar(13)
     Public ReadOnly CRLF As String = Convert.ToChar(13) & Convert.ToChar(10)
+
+    Public Property CurrentEdit() As Edit
+        Get
+            If CurrentTab Is Nothing Then CurrentTab = CType(MainForm.Tabs.TabPages(0).Controls(0), BrowserTab)
+            Return CurrentTab.Edit
+        End Get
+
+        Set(ByVal value As Edit)
+            If CurrentTab IsNot Nothing Then CurrentTab.Edit = value
+        End Set
+    End Property
+
+    Public ReadOnly Property CurrentUser() As User
+        Get
+            If CurrentEdit Is Nothing Then Return Nothing Else Return CurrentEdit.User
+        End Get
+    End Property
+
+    Public ReadOnly Property CurrentPage() As Page
+        Get
+            If CurrentEdit Is Nothing Then Return Nothing Else Return CurrentEdit.Page
+        End Get
+    End Property
+
+    Public RevertSummaries() As String = _
+    { _
+        "[[wp:undo|undid]]", _
+        "undid", _
+        "bot - rv", _
+        "bot - revert", _
+        "bot--revert", _
+        "revert", _
+        "rv", _
+        "js: revert", _
+        "automatically reverting" _
+    }
+
+    Class Block
+        Public Time As Date
+        Public User As User
+        Public Action As String
+        Public Duration As String
+        Public Options As String
+        Public Admin As User
+        Public Comment As String
+    End Class
+
+    Class CacheData
+        Public Edit As Edit
+        Public Text As String
+    End Class
 
     Class Command
         Public Description As String
@@ -60,63 +112,12 @@ Module Misc
         Unignore
     End Enum
 
-    Public Property CurrentEdit() As Edit
-        <DebuggerStepThrough()> Get
-            If CurrentTab Is Nothing Then CurrentTab = CType(MainForm.Tabs.TabPages(0).Controls(0), BrowserTab)
-            Return CurrentTab.Edit
-        End Get
-
-        Set(ByVal value As Edit)
-            If CurrentTab IsNot Nothing Then CurrentTab.Edit = value
-        End Set
-    End Property
-
-    Public ReadOnly Property CurrentUser() As User
-        <DebuggerStepThrough()> Get
-            If CurrentEdit Is Nothing Then Return Nothing Else Return CurrentEdit.User
-        End Get
-    End Property
-
-    Public ReadOnly Property CurrentPage() As Page
-        <DebuggerStepThrough()> Get
-            If CurrentEdit Is Nothing Then Return Nothing Else Return CurrentEdit.Page
-        End Get
-    End Property
-
-    Public RevertSummaries() As String = _
-    { _
-        "[[wp:undo|undid]]", _
-        "undid", _
-        "bot - rv", _
-        "bot - revert", _
-        "bot--revert", _
-        "revert", _
-        "rv", _
-        "js: revert", _
-        "automatically reverting" _
-    }
-
-    Public SharedIPTemplates() As String = _
-    { _
-        "sharedip", _
-        "shared ip", _
-        "publicip", _
-        "ipowner", _
-        "vandalip", _
-        "sharedipedu", _
-        "schoolip", _
-        "school ip", _
-        "sharedunknownedu", _
-        "sharedipcert", _
-        "sharedippublic", _
-        "sharedip us military", _
-        "ipedu", _
-        "aberwebcacheipaddress" _
-    }
-
-    Class CacheData
-        Public Edit As Edit
-        Public Text As String
+    Class Delete
+        Public Time As Date
+        Public Page As Page
+        Public Action As String
+        Public Admin As User
+        Public Comment As String
     End Class
 
     Class EditData
@@ -127,6 +128,22 @@ Module Misc
         Public Minor, Watch, Creating As Boolean
         Public [Error] As Boolean
         Public NoAutoSummary As Boolean
+    End Class
+
+    Class HistoryItem
+
+        Public Edit As Edit
+        Public Url As String
+        Public Text As String
+
+        Sub New(ByVal Edit As Edit)
+            Me.Edit = Edit
+        End Sub
+
+        Sub New(ByVal Url As String)
+            Me.Url = Url
+        End Sub
+
     End Class
 
     Class PageMove
@@ -149,7 +166,7 @@ Module Misc
         Public Summary As String
     End Class
 
-    Enum ProtectionType As Integer
+    Public Enum ProtectionType As Integer
         Semi
         Full
         Move
@@ -179,73 +196,78 @@ Module Misc
         Public User As User
     End Class
 
-    Class Block
-        Public Time As Date
-        Public User As User
-        Public Action As String
-        Public Duration As String
-        Public Options As String
-        Public Admin As User
-        Public Comment As String
-    End Class
-
-    Class Delete
-        Public Time As Date
-        Public Page As Page
-        Public Action As String
-        Public Admin As User
-        Public Comment As String
-    End Class
-
-    Class HistoryItem
-
-        Sub New(ByVal Edit As Edit)
-            Me.Edit = Edit
-        End Sub
-
-        Sub New(ByVal Url As String)
-            Me.Url = Url
-        End Sub
-
-        Public Edit As Edit
-        Public Url As String
-        Public Text As String
-
-    End Class
-
-    <DebuggerStepThrough()> Function GetPage(ByVal Name As String) As Page
-        Return Page.GetPage(Name)
+    Function ApiLimit() As Integer
+        If Administrator Then Return 5000 Else Return 500
     End Function
 
-    <DebuggerStepThrough()> Function GetUser(ByVal Name As String) As User
-        Return User.GetUser(Name)
+    Function ArrayContains(Of T)(ByVal Array As T(), ByVal Value As T) As Boolean
+        For Each Item As T In Array
+            If Item.Equals(Value) Then Return True
+        Next Item
+
+        Return False
     End Function
 
-    <DebuggerStepThrough()> Function OwnUserspace(ByVal NewEdit As Edit) As Boolean
-        Dim Pagename As String = NewEdit.Page.Name
+    Sub Callback(ByVal Target As Threading.SendOrPostCallback, _
+    Optional ByVal PostData As Object = Nothing)
+        'Invoke a method on the main thread
+        SyncContext.Post(Target, PostData)
+    End Sub
 
-        If Pagename.Contains("/") Then Pagename = Pagename.Substring(0, Pagename.IndexOf("/"))
+    Sub Callback(ByVal Target As Action)
+        'As above, but invoked method does not need to take a parameter
+        SyncContext.Post(AddressOf CallbackInvoke, CObj(Target))
+    End Sub
 
-        Return (Pagename.StartsWith("User:") OrElse Pagename.StartsWith("User talk:") _
-            AndAlso NewEdit.User.Name = Pagename.Substring(Pagename.IndexOf(":") + 1))
+    Sub CallbackInvoke(ByVal TargetObject As Object)
+        'We're back on the main thread, now invoke the method
+        CType(TargetObject, Action)()
+    End Sub
+
+    Function CompareUsernames(ByVal a As String, ByVal b As String) As Integer
+        Return String.Compare(a, b, StringComparison.OrdinalIgnoreCase)
     End Function
 
-    <DebuggerStepThrough()> Function StripHTML(ByVal Str As String) As String
-        'Removes anything with < > around it
-        While Str.Contains("<") AndAlso Str.Contains(">")
-            Str = Str.Substring(0, Str.IndexOf("<")) & Str.Substring(Str.IndexOf(">") + 1)
-        End While
+    Function FormatPageHtml(ByVal Page As Page, ByVal Text As String) As String
+        'We're only interested in the page here, not the site interface that comes with it.
+        'Extract the actual page content and then put some headers back so that it renders properly.
+        'No, you can't have your non-monobook skin. So what? It doesn't show the site interface anyway.
 
-        Return Str
+        If Text.Contains("<!-- start content -->") AndAlso Text.Contains("<!-- end content -->") Then
+            Text = Text.Substring(Text.IndexOf("<!-- start content -->"))
+            Text = Text.Substring(0, Text.IndexOf("<!-- end content -->"))
+
+        ElseIf Text.Contains("<!-- content -->") AndAlso Text.Contains("<!-- mw_content -->") Then
+            Text = Text.Substring(Text.IndexOf("<!-- content -->"))
+            Text = Text.Substring(0, Text.IndexOf("<!-- mw_content -->"))
+
+        ElseIf Text.Contains("</h1>") AndAlso Text.Contains("<div class=""printfooter"">") Then
+            Text = Text.Substring(Text.IndexOf("</h1>") + 5)
+            Text = Text.Substring(0, Text.IndexOf("<div class=""printfooter"">"))
+        End If
+
+        'Modern skin puts scripts in the middle of the page for some reason
+        If Text.Contains("<script ") AndAlso Text.Contains("</script>") _
+            Then Text = Text.Substring(0, Text.IndexOf("<script ")) & Text.Substring(Text.IndexOf("</script>") + 9)
+
+        Text = "<h1>" & Page.Name & "</h1>" & Text
+        Text = MakeHtmlWikiPage(Page.Name, Text)
+        Return Text
     End Function
 
-    <DebuggerStepThrough()> Function IsWikiPage(ByVal Text As String) As Boolean
-        'Unfortunately there is no one element common to all skins
-        If Text Is Nothing Then Return False
-        Return Regex.Match(Text, "<div id=['""](mw[-_])?content['""]>").Success
+    Function GetList(ByVal Value As String) As List(Of String)
+        'Converts a comma-separated list to a List(Of String)
+        Dim List As New List(Of String)
+
+        For Each Item As String In Value.Replace("\,", Convert.ToChar(1)).Split(","c)
+            Item = Item.Trim(" "c, Tab, LF).Replace(Convert.ToChar(1), ",")
+            If Not List.Contains(Item) AndAlso Item.Length > 0 Then List.Add(Item)
+        Next Item
+
+        Return List
     End Function
 
-    <DebuggerStepThrough()> Function GetMonthName(ByVal Number As Integer) As String
+    Function GetMonthName(ByVal Number As Integer) As String
         'Yes, I know about MonthName(). But I have to localize.
 
         Select Case Config.Project
@@ -285,7 +307,46 @@ Module Misc
         End Select
     End Function
 
-    <DebuggerStepThrough()> Function Ordinal(ByVal N As Integer) As String
+    Function GetPage(ByVal Name As String) As Page
+        Return Page.GetPage(Name)
+    End Function
+
+    Function GetUser(ByVal Name As String) As User
+        Return User.GetUser(Name)
+    End Function
+
+    Function IsWikiPage(ByVal Text As String) As Boolean
+        'Unfortunately there is no one element common to all skins
+        If Text Is Nothing Then Return False
+        Return Regex.Match(Text, "<div id=['""](mw[-_])?content['""]>").Success
+    End Function
+
+    Function LocalConfigPath() As String
+        Dim Path As String = Application.UserAppDataPath
+        Path = Path.Substring(0, Path.LastIndexOf("\"))
+        Return Path.Substring(0, Path.LastIndexOf("\"))
+    End Function
+
+    Sub Log(ByVal Message As String, Optional ByVal Tag As Object = Nothing)
+        If MainForm IsNot Nothing Then MainForm.Log(Message, Tag)
+    End Sub
+
+    Function MakeHtmlWikiPage(ByVal Page As String, ByVal Text As String) As String
+        Return My.Resources.WikiPageHtml.Replace("$PATH", SitePath).Replace("$PAGE", Page) _
+            .Replace("$USER", Username).Replace("$FONTSIZE", CStr(CInt((CInt(DiffFontSize) * 1.2)))) & _
+            "<body>" & Text & "</body></html>"
+    End Function
+
+    Function OpenUrlInBrowser(ByVal Url As String) As Boolean
+        Try
+            Process.Start(Url)
+            Return True
+        Catch
+            Return False
+        End Try
+    End Function
+
+    Function Ordinal(ByVal N As Integer) As String
         If (N Mod 100) \ 10 = 1 Then Return CStr(N) & "th"
 
         Select Case N Mod 10
@@ -296,8 +357,15 @@ Module Misc
         End Select
     End Function
 
-    <DebuggerStepThrough()> Function WikiUrl(ByVal Url As String) As Boolean
-        Return (Url.StartsWith(SitePath & "w/index.php?") OrElse Url.StartsWith("wiki/"))
+    Function PageNames(ByVal Pages As List(Of Page)) As List(Of String)
+        'Convert a list of pages to a list of their names
+        Dim Names As New List(Of String)
+
+        For Each Item As Page In Pages
+            If Not Names.Contains(Item.Name) Then Names.Add(Item.Name)
+        Next Item
+
+        Return Names
     End Function
 
     Function ParseUrl(ByVal Url As String) As Dictionary(Of String, String)
@@ -335,62 +403,25 @@ Module Misc
         Return Params
     End Function
 
-    <DebuggerStepThrough()> Function FormatPageHtml(ByVal Page As Page, ByVal Text As String) As String
-        'We're only interested in the page here, not the site interface that comes with it.
-        'Extract the actual page content and then put some headers back so that it renders properly.
-        'No, you can't have your non-monobook skin. So what? It doesn't show the site interface anyway.
+    Function SortWarningsByDate(ByVal X As Warning, ByVal Y As Warning) As Integer
+        Return Date.Compare(Y.Time, X.Time)
+    End Function
 
-        If Text.Contains("<!-- start content -->") AndAlso Text.Contains("<!-- end content -->") Then
-            Text = Text.Substring(Text.IndexOf("<!-- start content -->"))
-            Text = Text.Substring(0, Text.IndexOf("<!-- end content -->"))
+    Function StripHTML(ByVal Text As String) As String
+        'Removes anything with < > around it
+        While Text.Contains("<") AndAlso Text.Contains(">")
+            Text = Text.Substring(0, Text.IndexOf("<")) & Text.Substring(Text.IndexOf(">") + 1)
+        End While
 
-        ElseIf Text.Contains("<!-- content -->") AndAlso Text.Contains("<!-- mw_content -->") Then
-            Text = Text.Substring(Text.IndexOf("<!-- content -->"))
-            Text = Text.Substring(0, Text.IndexOf("<!-- mw_content -->"))
-
-        ElseIf Text.Contains("</h1>") AndAlso Text.Contains("<div class=""printfooter"">") Then
-            Text = Text.Substring(Text.IndexOf("</h1>") + 5)
-            Text = Text.Substring(0, Text.IndexOf("<div class=""printfooter"">"))
-        End If
-
-        'Modern skin puts scripts in the middle of the page for some reason
-        If Text.Contains("<script ") AndAlso Text.Contains("</script>") _
-            Then Text = Text.Substring(0, Text.IndexOf("<script ")) & Text.Substring(Text.IndexOf("</script>") + 9)
-
-        Text = "<h1>" & Page.Name & "</h1>" & Text
-        Text = MakeHtmlWikiPage(Page.Name, Text)
         Return Text
     End Function
 
-    Function MakeHtmlWikiPage(ByVal Page As String, ByVal Text As String) As String
-        Return My.Resources.WikiPageHtml.Replace("$PATH", SitePath).Replace("$PAGE", Page) _
-            .Replace("$USER", Username).Replace("$FONTSIZE", CStr(CInt((CInt(DiffFontSize) * 1.2)))) & _
-            "<body>" & Text & "</body></html>"
+    Function Timestamp(ByVal Time As Date) As String
+        Return Time.Year & CStr(Time.Month).PadLeft(2, "0"c) & CStr(Time.Day).PadLeft(2, "0"c) & _
+            CStr(Time.Hour).PadLeft(2, "0"c) & CStr(Time.Minute).PadLeft(2, "0"c) & CStr(Time.Second).PadLeft(2, "0"c)
     End Function
 
-    Public Delegate Sub Action()
-
-    <DebuggerStepThrough()> Sub Callback(ByVal Target As Threading.SendOrPostCallback, _
-        Optional ByVal PostData As Object = Nothing)
-        'Invoke a method on the main thread
-        SyncContext.Post(Target, PostData)
-    End Sub
-
-    <DebuggerStepThrough()> Sub Callback(ByVal Target As Action)
-        'As above, but invoked method does not need to take a parameter
-        SyncContext.Post(AddressOf CallbackInvoke, CObj(Target))
-    End Sub
-
-    <DebuggerStepThrough()> Sub CallbackInvoke(ByVal TargetObject As Object)
-        'We're back on the main thread, now invoke the method
-        CType(TargetObject, Action)()
-    End Sub
-
-    <DebuggerStepThrough()> Sub Log(ByVal Message As String, Optional ByVal Tag As Object = Nothing)
-        If MainForm IsNot Nothing Then MainForm.Log(Message, Tag)
-    End Sub
-
-    <DebuggerStepThrough()> Function TrimSummary(ByVal Summary As String) As String
+    Function TrimSummary(ByVal Summary As String) As String
         Summary = Summary.Replace(" (page does not exist)", "")
 
         While Summary.Contains("[[") AndAlso Summary.Contains("]]")
@@ -409,57 +440,12 @@ Module Misc
         Return Summary
     End Function
 
-    <DebuggerStepThrough()> Function SortWarningsByDate(ByVal X As Warning, ByVal Y As Warning) As Integer
-        Return Date.Compare(Y.Time, X.Time)
-    End Function
-
-    <DebuggerStepThrough()> Function ApiLimit() As Integer
-        If Administrator Then Return 5000 Else Return 500
-    End Function
-
-    <DebuggerStepThrough()> Function ArrayContains(Of T)(ByVal Array As T(), ByVal Value As T) As Boolean
-        For Each Item As T In Array
-            If Item.Equals(Value) Then Return True
-        Next Item
-
-        Return False
-    End Function
-
-    <DebuggerStepThrough()> Function PageNames(ByVal Pages As List(Of Page)) As List(Of String)
-        'Convert a list of pages to a list of their names
-        Dim Names As New List(Of String)
-
-        For Each Item As Page In Pages
-            If Not Names.Contains(Item.Name) Then Names.Add(Item.Name)
-        Next Item
-
-        Return Names
-    End Function
-
-    <DebuggerStepThrough()> Sub OpenUrlInBrowser(ByVal Url As String)
-        Try
-            Process.Start(Url)
-        Catch
-        End Try
-    End Sub
-
     Function VersionString(ByVal Version As Version) As String
         Return Version.Major & "." & Version.Minor & "." & Version.Build
     End Function
 
-    Function CompareUsernames(ByVal a As String, ByVal b As String) As Integer
-        Return String.Compare(a, b, StringComparison.OrdinalIgnoreCase)
-    End Function
-
-    Function LocalConfigPath() As String
-        Dim Path As String = Application.UserAppDataPath
-        Path = Path.Substring(0, Path.LastIndexOf("\"))
-        Return Path.Substring(0, Path.LastIndexOf("\"))
-    End Function
-
-    Function Timestamp(ByVal Time As Date) As String
-        Return Time.Year & CStr(Time.Month).PadLeft(2, "0"c) & CStr(Time.Day).PadLeft(2, "0"c) & _
-            CStr(Time.Hour).PadLeft(2, "0"c) & CStr(Time.Minute).PadLeft(2, "0"c) & CStr(Time.Second).PadLeft(2, "0"c)
+    Function WikiUrl(ByVal Url As String) As Boolean
+        Return (Url.StartsWith(SitePath & "w/index.php?") OrElse Url.StartsWith(SitePath & "wiki/"))
     End Function
 
 End Module

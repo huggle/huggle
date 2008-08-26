@@ -29,6 +29,7 @@ Class Edit
     Public RollbackUrl As String
     Public Size As Integer
     Public Summary As String
+    Public Text As String
     Public Time As Date
     Public Type As Types
     Public TypeToWarn As String
@@ -40,7 +41,7 @@ Class Edit
         ReplacedWith = 1
         None = 0
         Revert = -1
-        Message = -2
+        Notification = -2
         Tag = -3
         Warning = -4
         Report = -5
@@ -63,13 +64,14 @@ Class Edit
                 Case Edit.Types.Redirect : Return My.Resources.blob_redirect
                 Case Edit.Types.Revert : Return My.Resources.blob_revert
                 Case Edit.Types.Report : Return My.Resources.blob_report
-                Case Edit.Types.Message : Return My.Resources.blob_message
+                Case Edit.Types.Notification : Return My.Resources.blob_message
                 Case Edit.Types.Tag : Return My.Resources.blob_tag
 
                 Case Edit.Types.Warning
                     Select Case WarningLevel
-                        Case UserLevel.Warning, UserLevel.Warn1, UserLevel.Warn2, UserLevel.Warn3, _
-                            UserLevel.Warn4im, UserLevel.WarnFinal : Return My.Resources.blob_warning
+                        Case UserLevel.Warn1, UserLevel.Warn2, UserLevel.Warn3, _
+                            UserLevel.Warn4im, UserLevel.WarnFinal : Return My.Resources.blob_blank
+                        Case UserLevel.Warning : Return My.Resources.blob_warning
                         Case UserLevel.Blocked : Return My.Resources.blob_blocknote
                     End Select
 
@@ -88,11 +90,11 @@ Class Edit
                             Select Case User.WarningLevel
                                 Case UserLevel.Blocked : Return My.Resources.blob_blocked
                                 Case UserLevel.ReportedAIV : Return My.Resources.blob_reported
+                                Case UserLevel.Reverted : Return My.Resources.blob_reverted
                                 Case UserLevel.Warn1 : Return My.Resources.blob_warn_1
                                 Case UserLevel.Warn2 : Return My.Resources.blob_warn_2
                                 Case UserLevel.Warn3 : Return My.Resources.blob_warn_3
                                 Case UserLevel.WarnFinal : Return My.Resources.blob_warn_4
-                                Case UserLevel.Reverted : Return My.Resources.blob_reverted
                             End Select
                         End If
 
@@ -104,6 +106,12 @@ Class Edit
         End Get
     End Property
 
+    Public ReadOnly Property IsHuggleEdit() As Boolean
+        Get
+            Return Summary.Contains(Config.Summary)
+        End Get
+    End Property
+
     Public NotInheritable Class CompareByQuality : Implements IComparer(Of Edit)
 
         Public Function Compare(ByVal x As Edit, ByVal y As Edit) As Integer Implements IComparer(Of Edit).Compare
@@ -112,6 +120,9 @@ Class Edit
 
             If x.User.WarningLevel > y.User.WarningLevel AndAlso x.User.WarningLevel >= UserLevel.Reverted Then Return -1
             If y.User.WarningLevel > x.User.WarningLevel AndAlso y.User.WarningLevel >= UserLevel.Reverted Then Return 1
+
+            If x.Page Is Nothing Then Return 1
+            If y.Page Is Nothing Then Return -1
 
             If x.Page.Level > y.Page.Level Then Return -1
             If y.Page.Level > x.Page.Level Then Return 1
@@ -141,6 +152,14 @@ Class Edit
 
         Public Function Compare(ByVal x As Edit, ByVal y As Edit) As Integer Implements IComparer(Of Edit).Compare
             Return Date.Compare(y.Time, x.Time)
+        End Function
+
+    End Class
+
+    Public NotInheritable Class CompareByTimeReverse : Implements IComparer(Of Edit)
+
+        Public Function Compare(ByVal x As Edit, ByVal y As Edit) As Integer Implements IComparer(Of Edit).Compare
+            Return Date.Compare(x.Time, y.Time)
         End Function
 
     End Class

@@ -195,11 +195,12 @@ Namespace Requests
 
         'Fetch page history
 
-        Public Page As Page, BlockSize As Integer, DisplayWhenDone As Boolean
+        Public Page As Page, BlockSize As Integer, DisplayWhenDone, GetContent As Boolean
 
         Public Sub Start(Optional ByVal Done As RequestCallback = Nothing)
             _Done = Done
             BlockSize = HistoryBlockSize
+            If GetContent Then BlockSize = Math.Min(ApiLimit() \ 10, BlockSize)
             If Page.HistoryOffset Is Nothing Then Page.HistoryOffset = ""
 
             Dim RequestThread As New Thread(AddressOf Process)
@@ -209,8 +210,9 @@ Namespace Requests
 
         Private Sub Process()
             Dim QueryString As String = "format=xml&action=query&prop=revisions&titles=" & _
-                UrlEncode(Page.Name) & "&rvlimit=" & CStr(HistoryBlockSize) & "&rvprop=ids|timestamp|user|comment"
+                UrlEncode(Page.Name) & "&rvlimit=" & CStr(BlockSize) & "&rvprop=ids|timestamp|user|comment"
 
+            If GetContent Then QueryString &= "|content"
             If Page.HistoryOffset <> "" Then QueryString &= "&rvstartid=" & Page.HistoryOffset
 
             Result = GetApi(QueryString)
@@ -1011,6 +1013,144 @@ Namespace Requests
 
         Private Sub Failed()
             Fail()
+        End Sub
+
+    End Class
+
+    Class ThreeRevertRuleCheckRequest : Inherits Request
+
+        'Check for three-revert rule violation by specified user
+
+        Private Shadows _Done As ThreeRevertRuleCheckCallback
+        Private VersionId As String, RevertIds As New List(Of String)
+
+        Public Delegate Sub ThreeRevertRuleCheckCallback(ByVal Result As Request.Output, _
+            ByVal VersionId As String, ByVal RevertIds As List(Of String))
+
+        Public User As User
+
+        Public Sub Start(ByVal Done As ThreeRevertRuleCheckCallback)
+            _Done = Done
+
+            Dim RequestThread As New Thread(AddressOf Process)
+            RequestThread.IsBackground = True
+            RequestThread.Start()
+        End Sub
+
+        Private Sub Process()
+            Dim QueryString As String = "action=query&format=xml&prop=revisions&rvprop=ids|content&revids="
+
+            Dim ThisEdit As Edit = User.LastEdit
+
+            While ThisEdit IsNot NullEdit AndAlso ThisEdit IsNot Nothing _
+                AndAlso ThisEdit.Time.AddHours(24) > Date.UtcNow
+
+                QueryString &= ThisEdit.Id & "|"
+                ThisEdit = ThisEdit.PrevByUser
+            End While
+
+            QueryString = QueryString.Trim("|"c)
+
+            Result = GetApi(QueryString)
+
+            If Not Result.Contains("<pages>") Then
+                Callback(AddressOf Failed)
+                Exit Sub
+            End If
+
+            'Search for revisions with the same content
+            Result = Result.Substring(Result.IndexOf("<pages>") + 7)
+            Result = Result.Substring(0, Result.IndexOf("</pages>"))
+
+            Dim Pages As New List(Of String)(Result.Split(New String() {"<page "}, StringSplitOptions.RemoveEmptyEntries))
+
+            For Each Page As String In Pages
+                Dim PageName As String = Page.Substring(Page.IndexOf("title=""") + 7)
+                PageName = PageName.Substring(0, PageName.IndexOf(""""))
+
+                Dim PageResult As String = Page.Substring(Page.IndexOf("<revisions>") + 11)
+                PageResult = PageResult.Substring(0, PageResult.IndexOf("</revisions>"))
+
+                Dim Revisions As New List(Of String)(PageResult.Split(New String() {"<rev "}, _
+                    StringSplitOptions.RemoveEmptyEntries))
+                Dim RevisionMatches As New Dictionary(Of String, List(Of String))
+
+                For Each Revision As String In Revisions
+                    Dim Revid As String = Revision.Substring(Revision.IndexOf("revid=""") + 7)
+                    Revid = Revid.Substring(0, Revid.IndexOf(""""))
+
+                    Revision = Revision.Substring(Revision.IndexOf(">") + 1)
+                    Revision = Revision.Substring(0, Revision.IndexOf("</rev>"))
+                    Revision = HtmlDecode(Revision)
+
+                    If Edit.All.ContainsKey(Revid) Then Edit.All(Revid).Text = Revision
+
+                    If RevisionMatches.ContainsKey(Revision) Then RevisionMatches(Revision).Add(Revid) _
+                        Else RevisionMatches.Add(Revision, New List(Of String)(New String() {Revid}))
+                Next Revision
+
+                For Each Match As List(Of String) In RevisionMatches.Values
+                    If Match.Count = 3 Then
+                        'We have found three identical revisions to the same page by the same user within 24 hours
+                        'Now we need to ensure the earliest is a reversion to a previous revision,
+                        'otherwise only two reversions have been made. This means looking further back in the 
+                        'page history for an identical revision, possibly by another user
+                        RevertIds = Match
+                        Callback(AddressOf HistoryNeeded)
+                        Exit Sub
+
+                    ElseIf Match.Count > 3 Then
+                        'If there are more than three identical revisions, we know they are all reversions
+                        VersionId = Match(Match.Count - 1)
+                        Match.RemoveAt(Match.Count - 1)
+                        RevertIds = Match
+                        Callback(AddressOf Done)
+                        Exit Sub
+                    End If
+                Next Match
+            Next Page
+
+            Callback(AddressOf Done)
+        End Sub
+
+        Private Sub HistoryNeeded()
+            Dim NewRequest As New HistoryRequest
+            NewRequest.Page = Edit.All(RevertIds(0)).Page
+            NewRequest.GetContent = True
+            NewRequest.Start(AddressOf HistoryDone)
+        End Sub
+
+        Private Sub HistoryDone(ByVal Result As Request.Output)
+            If Not Result.Success Then
+                Failed()
+                Exit Sub
+            End If
+
+            Dim ThisEdit As Edit = Edit.All(RevertIds(0)).Page.LastEdit
+            Dim TextToFind As String = Edit.All(RevertIds(0)).Text
+
+            While ThisEdit IsNot NullEdit AndAlso ThisEdit IsNot Nothing
+                If Not RevertIds.Contains(ThisEdit.Id) AndAlso ThisEdit.Text = TextToFind Then
+                    'Found another revision identical to the three already found, meaning they were all reversions
+                    VersionId = ThisEdit.Id
+                    Done()
+                    Exit Sub
+                End If
+
+                ThisEdit = ThisEdit.Prev
+            End While
+
+            Done()
+        End Sub
+
+        Private Sub Done()
+            Complete()
+            _Done(New Output(States.Complete, Nothing), VersionId, RevertIds)
+        End Sub
+
+        Private Sub Failed()
+            Fail()
+            _Done(New Output(States.Failed, Nothing), Nothing, Nothing)
         End Sub
 
     End Class

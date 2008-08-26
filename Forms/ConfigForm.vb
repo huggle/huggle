@@ -15,6 +15,7 @@ Class ConfigForm
         Preloading.Checked = (Config.Preloads > 0)
         Preloads.Enabled = Preloading.Checked
         Preloads.Text = CStr(Config.Preloads)
+        IrcMode.Checked = Config.IrcMode
         IrcPort.Text = CStr(Config.IrcPort)
         DiffFontSize.Text = Config.DiffFontSize
         ShowAnonymous.Checked = Config.ShowAnonymous
@@ -120,6 +121,7 @@ Class ConfigForm
             Config.OpenInBrowser = OpenInBrowser.Checked
             Config.ShowNewEdits = ShowNewEdits.Checked
             If Preloading.Checked Then Config.Preloads = CInt(Preloads.Text) Else Config.Preloads = 0
+            Config.IrcMode = IrcMode.Checked
             Config.IrcPort = CInt(IrcPort.Text)
             Config.DiffFontSize = DiffFontSize.Text
             Config.ShowAnonymous = ShowAnonymous.Checked

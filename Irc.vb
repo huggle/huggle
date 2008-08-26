@@ -89,7 +89,8 @@ Module Irc
                 While Not Reader.EndOfStream
                     Message = Reader.ReadLine
 
-                    If Message = "" Then
+                    If Message.StartsWith("ERROR :") Then
+                        Reconnecting = True
 
                     ElseIf Message.StartsWith(":" & Config.IrcServer & " 403") _
                         AndAlso Message.EndsWith("No such channel") Then

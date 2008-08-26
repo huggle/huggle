@@ -7,6 +7,10 @@ Class ListActionsForm
     Private Sub ListFiltersForm_Load() Handles Me.Load
         Icon = My.Resources.icon_red_button
         NamespaceTransformSelector.SelectedIndex = 0
+
+        For Each Item As Space In Space.All
+            Namespaces.Items.Add(Item, Form.Spaces.Contains(Item))
+        Next Item
     End Sub
 
     Private Sub ListFiltersForm_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles Me.KeyDown
@@ -43,7 +47,7 @@ Class ListActionsForm
     End Sub
 
     Private Sub OK_Click() Handles OK.Click
-        Form.TitleRegex = New Regex(TitleRegex.Text)
+        Form.TitleRegex = TitleRegex.Regex
         Form.Spaces.Clear()
 
         For Each Item As Space In Namespaces.CheckedItems

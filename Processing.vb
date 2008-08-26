@@ -77,7 +77,7 @@ Module Processing
                         Then PageOwner.WarningLevel = SummaryLevel
 
                 ElseIf SummaryLevel = UserLevel.Notification Then
-                    Edit.Type = Edit.Types.Message
+                    Edit.Type = Edit.Types.Notification
 
                     If PageOwner.WarningLevel < SummaryLevel AndAlso Not PageOwner.Ignored _
                         Then PageOwner.WarningLevel = SummaryLevel
@@ -854,7 +854,7 @@ Module Processing
     Sub ProcessHistory(ByVal Result As String, ByVal Page As Page)
 
         Dim History As MatchCollection = New Regex("<rev revid=""([^""]+)"" user=""([^""]+)"" (anon="""" )" & _
-            "?timestamp=""([^""]+)"" (comment=""([^""]+)"" )?/>", RegexOptions.Compiled).Matches(Result)
+            "?timestamp=""([^""]+)""( comment=""([^""]+)"")?(>([^<]*)</)?", RegexOptions.Compiled).Matches(Result)
 
         If History.Count = 0 Then
             If Page.LastEdit Is Nothing Then Page.LastEdit = NullEdit
@@ -872,6 +872,8 @@ Module Processing
             ThisEdit.Id = Diff
             If ThisEdit.Oldid Is Nothing Then ThisEdit.Oldid = "prev"
             ThisEdit.Page = Page
+
+            If History(i).Groups(8).Value <> "" Then ThisEdit.Text = HtmlDecode(History(i).Groups(8).Value)
 
             ThisEdit.User = GetUser(HtmlDecode(History(i).Groups(2).Value))
             If ThisEdit.Summary Is Nothing Then ThisEdit.Summary = HtmlDecode(History(i).Groups(6).Value)

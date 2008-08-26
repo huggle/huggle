@@ -5,6 +5,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DefineDebug>true</DefineDebug>
     <OutputPath>bin\Debug\</OutputPath>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <DebugType>None</DebugType>
@@ -300,6 +301,12 @@
     <Compile Include="Page.vb" />
     <Compile Include="Processing.vb" />
     <Compile Include="Queue.vb" />
+    <Compile Include="Controls\RegexBox.Designer.vb">
+      <DependentUpon>RegexBox.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\RegexBox.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Requests\ActionRequests.vb" />
     <Compile Include="Requests\ConfigRequests.vb" />
     <Compile Include="Requests\EditRequests.vb" />
@@ -475,6 +482,10 @@
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\RegexBox.resx">
+      <DependentUpon>RegexBox.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
