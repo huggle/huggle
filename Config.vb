@@ -126,7 +126,6 @@ Module Config
     Public ProtectionRequestPage As String
     Public ProtectionRequestReason As String
     Public ProtectionRequestSummary As String
-    Public QueueMaxAge As Integer
     Public QueueBuilderLimit As Integer = 10
     Public RcBlockSize As Integer = 100
     Public ReportExtendSummary As String
@@ -143,10 +142,7 @@ Module Config
     Public RollbackSummaryUnknown As String
     Public SensitiveAddresses As New List(Of String)
     Public SharedIPTemplates As New List(Of String)
-    Public ShowAnonymous As Boolean = True
-    Public ShowRegistered As Boolean = True
     Public ShowNewEdits As Boolean = True
-    Public ShowNewPages As Boolean
     Public ShowLog As Boolean = True
     Public ShowQueue As Boolean = True
     Public ShowToolTips As Boolean = True
@@ -234,7 +230,6 @@ Module Config
         Select Case Name
             Case "enable" : Config.Enabled = CBool(Value)
             Case "admin" : Config.UseAdminFunctions = CBool(Value)
-            Case "anonymous" : SetAnonymous(Value)
             Case "auto-advance" : Config.AutoAdvance = CBool(Value)
             Case "auto-whitelist" : Config.AutoWhitelist = CBool(Value)
             Case "blocktime" : Config.BlockTime = Value
@@ -254,7 +249,6 @@ Module Config
             Case "extend-reports" : Config.ExtendReports = CBool(Value)
             Case "irc-port" : Config.IrcPort = CInt(Value)
             Case "minor" : SetMinor(Value)
-            Case "new-pages" : Config.ShowNewPages = CBool(Value)
             Case "open-in-browser" : Config.OpenInBrowser = CBool(Value)
             Case "patrol-speedy" : Config.PatrolSpeedy = CBool(Value)
             Case "preload" : Config.Preloads = CInt(Value)
@@ -265,7 +259,6 @@ Module Config
             Case "prod-summary" : Config.ProdSummary = Value
             Case "protection-reason" : Config.ProtectionReason = Value
             Case "protection-requests" : Config.ProtectionRequests = CBool(Value)
-            Case "queue-max-age" : Config.QueueMaxAge = CInt(Value)
             Case "report" : SetReport(Value)
             Case "report-extend-summary" : Config.ReportExtendSummary = Value
             Case "report-summary" : Config.ReportSummary = Value
@@ -385,11 +378,6 @@ Module Config
             Case "version" : Config.ConfigVersion = New Version(CInt(Value.Substring(0, 1)), _
                 CInt(Value.Substring(2, 1)), CInt(Value.Substring(4)), 0)
         End Select
-    End Sub
-
-    Private Sub SetAnonymous(ByVal Value As String)
-        Config.ShowRegistered = (Value <> "only")
-        Config.ShowAnonymous = (Value <> "no")
     End Sub
 
     Private Sub SetLatestVersion(ByVal VersionString As String)

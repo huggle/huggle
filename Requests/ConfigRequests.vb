@@ -158,14 +158,6 @@ Namespace Requests
                 Version.Major.ToString & "." & Version.Minor.ToString & "." & Version.Build.ToString)
             Items.Add("")
 
-            If Not Config.ShowRegistered Then
-                Items.Add("anonymous:only")
-            ElseIf Not Config.ShowAnonymous Then
-                Items.Add("anonymous:no")
-            Else
-                Items.Add("anonymous:yes")
-            End If
-
             Items.Add("auto-advance:" & CStr(Config.AutoAdvance).ToLower)
             Items.Add("auto-whitelist:" & CStr(Config.AutoWhitelist).ToLower)
             Items.Add("confirm-multiple:" & CStr(Config.ConfirmMultiple).ToLower)
@@ -187,10 +179,8 @@ Namespace Requests
             If MinorItems.Count = 0 Then MinorItems.Add("none")
 
             Items.Add("minor:" & String.Join(",", MinorItems.ToArray))
-            Items.Add("new-pages:" & CStr(Config.ShowNewPages).ToLower)
             Items.Add("open-in-browser:" & CStr(Config.OpenInBrowser).ToLower)
             Items.Add("preload:" & CStr(Config.Preloads))
-            Items.Add("queue-max-age:" & CStr(Config.QueueMaxAge))
 
             If Config.AutoReport Then
                 Items.Add("report:auto")
@@ -203,6 +193,7 @@ Namespace Requests
             Items.Add("revert-summaries:" & LF & "    " & _
                 String.Join("," & LF & "    ", Config.CustomRevertSummaries.ToArray))
             Items.Add("rollback:" & CStr(Config.UseRollback).ToLower)
+            Items.Add("show-log:" & CStr(Config.ShowLog).ToLower)
             Items.Add("show-new-edits:" & CStr(Config.ShowNewEdits).ToLower)
             Items.Add("show-queue:" & CStr(Config.ShowQueue).ToLower)
             Items.Add("show-tool-tips:" & CStr(Config.ShowToolTips).ToLower)

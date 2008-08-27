@@ -9,6 +9,7 @@ Class ConfigForm
         TrayIcon.Checked = Config.TrayIcon
         StartupMessage.Checked = Config.StartupMessage
         ShowQueue.Checked = Config.ShowQueue
+        ShowLog.Checked = Config.ShowLog
         ShowToolTips.Checked = Config.ShowToolTips
         OpenInBrowser.Checked = Config.OpenInBrowser
         ShowNewEdits.Checked = Config.ShowNewEdits
@@ -18,11 +19,7 @@ Class ConfigForm
         IrcMode.Checked = Config.IrcMode
         IrcPort.Text = CStr(Config.IrcPort)
         DiffFontSize.Text = Config.DiffFontSize
-        ShowAnonymous.Checked = Config.ShowAnonymous
-        ShowRegistered.Checked = Config.ShowRegistered
         LogFile.Text = Config.LogFile
-        ShowNewPages.Checked = Config.ShowNewPages
-        QueueMaxAge.Value = Config.QueueMaxAge
 
         If Config.MinorReverts Then Minor.SetItemChecked(0, True)
         If Config.MinorWarnings Then Minor.SetItemChecked(1, True)
@@ -116,6 +113,7 @@ Class ConfigForm
             Config.AutoWhitelist = AutoWhitelist.Checked
             Config.TrayIcon = TrayIcon.Checked
             Config.ShowQueue = ShowQueue.Checked
+            Config.ShowLog = ShowLog.Checked
             Config.StartupMessage = StartupMessage.Checked
             Config.ShowToolTips = ShowToolTips.Checked
             Config.OpenInBrowser = OpenInBrowser.Checked
@@ -124,11 +122,7 @@ Class ConfigForm
             Config.IrcMode = IrcMode.Checked
             Config.IrcPort = CInt(IrcPort.Text)
             Config.DiffFontSize = DiffFontSize.Text
-            Config.ShowAnonymous = ShowAnonymous.Checked
-            Config.ShowRegistered = ShowRegistered.Checked
             Config.LogFile = LogFile.Text
-            Config.ShowNewPages = ShowNewPages.Checked
-            Config.QueueMaxAge = CInt(QueueMaxAge.Value)
 
             Config.MinorReverts = Minor.CheckedIndices.Contains(0)
             Config.MinorWarnings = Minor.CheckedIndices.Contains(1)
@@ -231,14 +225,6 @@ Class ConfigForm
 
     Private Sub RemoveSummary_Click() Handles RemoveSummary.Click
         If RevertSummaries.SelectedIndex > -1 Then RevertSummaries.Items.RemoveAt(RevertSummaries.SelectedIndex)
-    End Sub
-
-    Private Sub ShowAnonymous_CheckedChanged() Handles ShowAnonymous.CheckedChanged
-        If Not ShowAnonymous.Checked Then ShowRegistered.Checked = True
-    End Sub
-
-    Private Sub ShowRegistered_CheckedChanged() Handles ShowRegistered.CheckedChanged
-        If Not ShowRegistered.Checked Then ShowAnonymous.Checked = True
     End Sub
 
     Private Sub Preloading_CheckedChanged() Handles Preloading.CheckedChanged
