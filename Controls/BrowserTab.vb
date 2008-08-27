@@ -140,4 +140,10 @@ Class BrowserTab
         End If
     End Sub
 
+    Private Sub Browser_PreviewKeyDown(ByVal s As Object, ByVal e As PreviewKeyDownEventArgs) _
+        Handles Browser.PreviewKeyDown
+
+        MainForm.Main_KeyDown(Me, New KeyEventArgs(e.KeyData))
+    End Sub
+
 End Class

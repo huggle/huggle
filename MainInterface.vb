@@ -277,7 +277,7 @@ Partial Class Main
         End If
     End Sub
 
-    Private Sub Main_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles Me.KeyDown
+    Public Sub Main_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles Me.KeyDown
         If UserB.Focused OrElse PageB.Focused OrElse e.Modifiers = Keys.Alt Then Exit Sub
 
         Dim Shortcut As New Shortcut(e.KeyCode, e.Control, e.Alt, e.Shift)
