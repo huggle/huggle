@@ -837,7 +837,7 @@ Class Main
         End If
     End Sub
 
-    Private Sub LogContextCopy_Click() Handles LogContextCopy.Click
+    Private Sub LogContextCopy_Click() Handles LogCopy.Click
         If Status.SelectedIndices.Count > 0 _
             Then Clipboard.SetText(Status.Items(Status.SelectedIndices(0)).SubItems(1).Text)
     End Sub
@@ -1606,13 +1606,8 @@ Class Main
             Else SetCurrentPage(CurrentPage.SubjectPage, True)
     End Sub
 
-    Private Sub QueueScroll_Scroll(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ScrollEventArgs) Handles QueueScroll.Scroll
-
+    Private Sub LogClear_Click() Handles LogClear.Click
+        Status.Items.Clear()
     End Sub
-    Private Sub QueueSelector_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles QueueSelector.SelectedIndexChanged
 
-    End Sub
-    Private Sub Status_ItemActivate(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Status.ItemActivate
-
-    End Sub
 End Class
