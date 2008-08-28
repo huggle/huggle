@@ -96,6 +96,8 @@ Module Config
     Public MinVersion As Version
     Public MinWarningWait As Integer = 10
     Public MonthHeadings As Boolean
+    Public MultipleRevertSummaryParts As New List(Of String)(New String() { _
+        "Reverted", "edit by", "edits by", "and", "other users", "to last version by", "to an older version by"})
     Public OpenInBrowser As Boolean
     Public Patrol As Boolean
     Public PatrolSpeedy As Boolean
@@ -305,6 +307,7 @@ Module Config
             Case "ifd" : Config.IfdLocation = Value
             Case "ignore" : Config.IgnoredPages = GetList(Value)
             Case "manual-revert-summary" : Config.ManualRevertSummary = Value
+            Case "multiple-revert-summary-parts" : Config.MultipleRevertSummaryParts = GetList(Value)
             Case "mfd" : Config.MfdLocation = Value
             Case "min-version" : SetMinVersion(Value)
             Case "namespace-aliases" : SetNamespaceAliases(GetList(Value))

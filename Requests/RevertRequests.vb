@@ -89,6 +89,14 @@ Namespace Requests
             Dim RevertingEdit As Edit = Edit.Page.LastEdit
             Dim EndPart, Summary As String
 
+            Dim WReverted As String = Config.MultipleRevertSummaryParts(0)
+            Dim WEditBy As String = Config.MultipleRevertSummaryParts(1)
+            Dim WEditsBy As String = Config.MultipleRevertSummaryParts(2)
+            Dim WAnd As String = Config.MultipleRevertSummaryParts(3)
+            Dim WOtherUsers As String = Config.MultipleRevertSummaryParts(4)
+            Dim WToLastVersionBy As String = Config.MultipleRevertSummaryParts(5)
+            Dim WToAnOlderVersionBy As String = Config.MultipleRevertSummaryParts(6)
+
             While RevertingEdit IsNot Edit AndAlso RevertingEdit IsNot Nothing
                 ReversionLength += 1
                 If Not RevertedUsers.Contains(RevertingEdit.User.Name) Then RevertedUsers.Add(RevertingEdit.User.Name)
@@ -96,19 +104,19 @@ Namespace Requests
             End While
 
             If RevertedUsers.Contains(Edit.User.Name) _
-                Then EndPart = " to an older version by " & Edit.User.Name _
-                Else EndPart = " to last version by " & Edit.User.Name
+                Then EndPart = " " & WToAnOlderVersionBy & " " & Edit.User.Name _
+                Else EndPart = " " & WToLastVersionBy & " " & Edit.User.Name
 
             Dim MaxLength As Integer = 250 - EndPart.Length
 
             If ReversionLength = 0 Then Return Nothing
-            If ReversionLength = 1 Then Summary = "Reverted 1 edit by " _
-                Else Summary = "Reverted " & CStr(ReversionLength) & " edits by "
+            If ReversionLength = 1 Then Summary = WReverted & " 1 " & WEditBy & " " _
+                Else Summary = WReverted & " " & CStr(ReversionLength) & " " & WEditsBy & " "
 
             If RevertedUsers.Count = 1 Then
-                If (Summary & "[[Special:Contributions/" & RevertedUsers(0) & "|" & RevertedUsers(0) & "]]").Length <= MaxLength _
-                    Then Summary &= "[[Special:Contributions/" & RevertedUsers(0) & "|" & RevertedUsers(0) & "]]" _
-                    Else Summary &= RevertedUsers(0)
+                If (Summary & "[[Special:Contributions/" & RevertedUsers(0) & "|" & RevertedUsers(0) & "]]").Length _
+                    <= MaxLength Then Summary &= "[[Special:Contributions/" & RevertedUsers(0) & "|" & _
+                    RevertedUsers(0) & "]]" Else Summary &= RevertedUsers(0)
 
                 If Summary.Length > MaxLength Then Return Summary
             Else
@@ -117,11 +125,11 @@ Namespace Requests
                 Next i
 
                 Summary &= "[[Special:Contributions/" & RevertedUsers(RevertedUsers.Count - 2) & "|" _
-                    & RevertedUsers(RevertedUsers.Count - 2) & "]] and " & "[[Special:Contributions/" _
+                    & RevertedUsers(RevertedUsers.Count - 2) & "]] " & WAnd & " " & "[[Special:Contributions/" _
                     & RevertedUsers(RevertedUsers.Count - 1) & "|" & RevertedUsers(RevertedUsers.Count - 1) & "]]"
 
                 If Summary.Length > MaxLength Then
-                    Summary = "Reverted " & CStr(ReversionLength) & " edits by "
+                    Summary = WReverted & " " & CStr(ReversionLength) & " " & WEditsBy & " "
 
                     Dim Done As Boolean
                     Dim i As Integer
@@ -132,10 +140,11 @@ Namespace Requests
 
                             Summary &= RevertedUsers(i) & ", "
 
-                        ElseIf (Summary & RevertedUsers(i) & " and " _
-                            & CStr(RevertedUsers.Count - i - 3) & " other users").Length <= MaxLength Then
+                        ElseIf (Summary & RevertedUsers(i) & " " & WAnd & " " _
+                            & CStr(RevertedUsers.Count - i - 3) & " " & WOtherUsers).Length <= MaxLength Then
 
-                            Summary &= RevertedUsers(i) & " and " & CStr(RevertedUsers.Count - i - 3) & " other users"
+                            Summary &= RevertedUsers(i) & " " & WAnd & " " & CStr(RevertedUsers.Count - i - 3) & _
+                                " " & WOtherUsers
                             Done = True
                             Exit For
                         Else
@@ -144,11 +153,8 @@ Namespace Requests
                         End If
                     Next i
 
-                    If Not Done Then Summary &= RevertedUsers(i) & " and " & RevertedUsers(i + 1)
+                    If Not Done Then Summary &= RevertedUsers(i) & " " & WAnd & " " & RevertedUsers(i + 1)
                 End If
-
-                If Summary.Length > MaxLength _
-                    Then Summary = Summary.Substring(0, Summary.IndexOf(" by ") + 4) & CStr(RevertedUsers.Count) & " users"
 
                 If Summary.Length > MaxLength Then Return Summary
             End If
