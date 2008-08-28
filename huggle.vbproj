@@ -520,6 +520,7 @@
     <None Include="Resources\blobs\blob-warn-3.png" />
     <None Include="Resources\blobs\blob-warn-4.png" />
     <None Include="Resources\blobs\blob-warning.png" />
+    <None Include="Resources\huggle-logo.png" />
     <None Include="Resources\icons\browser-add-tab.png" />
     <None Include="Resources\icons\browser-next.png" />
     <None Include="Resources\icons\browser-open.png" />

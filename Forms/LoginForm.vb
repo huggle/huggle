@@ -9,7 +9,7 @@ Class LoginForm
     Private Sub LoginForm_Load() Handles Me.Load
         SyncContext = SynchronizationContext.Current
         Icon = My.Resources.icon_red_button
-        Height = 270
+        Height = 280
 
         LoadLocalConfig()
 
@@ -31,7 +31,6 @@ Class LoginForm
         ProxyDomain.Text = Config.ProxyUserDomain
         ProxyUsername.Text = Config.ProxyUsername
 
-        Version.Text = "Version " & VersionString(Config.Version)
         If Config.RememberMe Then Username.Text = Config.Username
         If Username.Text = "" Then Username.Focus() Else Password.Focus()
     End Sub
@@ -76,8 +75,7 @@ Class LoginForm
             Config.Project.Substring(0, Config.Project.IndexOf(".org"))
 
         For Each Item As Control In Controls
-            If Not ArrayContains(New Control() {Title, Version, Status, Progress, Cancel}, Item) _
-                Then Item.Enabled = False
+            If Not ArrayContains(New Control() {Status, Progress, Cancel}, Item) Then Item.Enabled = False
         Next Item
 
         Cancel.Text = "Cancel"
@@ -116,21 +114,19 @@ Class LoginForm
     End Sub
 
     Private Sub ShowProxySettings_Click() Handles ShowProxySettings.Click
-        Height += 160 'Resize form
+        Height += 160
         ProxyGroup.Visible = True
-
-        'Switch the show proxy button for a hide proxy button
         HideProxySettings.Visible = True
         ShowProxySettings.Visible = False
+        HideProxySettings.Focus()
     End Sub
 
     Private Sub HideProxySettings_Click() Handles HideProxySettings.Click
-        Height -= 160 'Resize form
+        Height -= 160
         ProxyGroup.Visible = False
-
-        'Switch the hide proxy button for a show proxy button
         HideProxySettings.Visible = False
         ShowProxySettings.Visible = True
+        ShowProxySettings.Focus()
     End Sub
 
     Private Sub Proxy_CheckedChanged() Handles Proxy.CheckedChanged
@@ -164,8 +160,7 @@ Class LoginForm
         Progress.Value = 0
 
         For Each Item As Control In Controls
-            If Not ArrayContains(New Control() {Title, Version, Status, Progress, Cancel}, Item) _
-                Then Item.Enabled = True
+            If Not ArrayContains(New Control() {Status, Progress, Cancel}, Item) Then Item.Enabled = True
         Next Item
     End Sub
 
