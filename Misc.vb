@@ -3,7 +3,8 @@ Imports System.Net
 Imports System.Text.RegularExpressions
 Imports System.Web.HttpUtility
 
-<DebuggerStepThrough()> Module Misc
+'<DebuggerStepThrough()> _
+Module Misc
 
     'Globals
 
@@ -18,6 +19,7 @@ Imports System.Web.HttpUtility
     Public HistoryOffset As Integer
     Public LastTagText As String = ""
     Public LatestDiffRequest As DiffRequest
+    Public LogBuffer As New List(Of String)
     Public MainForm As Main
     Public ManualRevertSummaries As New List(Of String)
     Public NextCount As New List(Of User)
@@ -328,7 +330,7 @@ Imports System.Web.HttpUtility
     End Function
 
     Sub Log(ByVal Message As String, Optional ByVal Tag As Object = Nothing)
-        If MainForm IsNot Nothing Then MainForm.Log(Message, Tag)
+        If MainForm Is Nothing Then LogBuffer.Add(Message) Else MainForm.Log(Message, Tag)
     End Sub
 
     Function MakeHtmlWikiPage(ByVal Page As String, ByVal Text As String) As String

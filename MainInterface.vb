@@ -208,6 +208,7 @@ Partial Class Main
             QueueClear.Enabled = (CurrentQueue.Edits.Count > 0)
             QueueNext.Enabled = (CurrentQueue.Edits.Count > 0)
             QueueTrim.Enabled = (CurrentQueue.Edits.Count > 0)
+            SystemReconnectIRC.Enabled = (Config.IrcMode = True)
             SystemShowQueue.Checked = Config.ShowQueue
             SystemShowLog.Checked = Config.ShowLog
             UndoB.Enabled = (Undo.Count > 0)

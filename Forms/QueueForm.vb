@@ -24,8 +24,8 @@ Class QueueForm
             Namespaces.Items.Add(Item)
         Next Item
 
-        If QueueList.Items.Count > 0 Then QueueList.SelectedIndex = 0
         SetListSelector()
+        If QueueList.Items.Count > 0 Then QueueList.SelectedIndex = 0
         RefreshInterface()
     End Sub
 
@@ -116,7 +116,7 @@ Class QueueForm
         CurrentQueue.FilterOwnUserspace = CType(CInt(FilterOwnUserspace.State), QueueFilter)
     End Sub
 
-    Private Sub FilterReverts_CheckStateChanged() Handles FilterReverts.CheckStateChanged, FilterNotifications.CheckStateChanged, FilterHuggle.CheckStateChanged
+    Private Sub FilterReverts_CheckStateChanged() Handles FilterReverts.CheckStateChanged
         CurrentQueue.FilterReverts = CType(CInt(FilterReverts.State), QueueFilter)
     End Sub
 
@@ -126,16 +126,21 @@ Class QueueForm
     End Sub
 
     Private Sub ListSelector_SelectedIndexChanged() Handles ListSelector.SelectedIndexChanged
-        CurrentQueue.ListName = ListSelector.Text
+        If CurrentQueue IsNot Nothing Then
+            If ListSelector.SelectedIndex = 0 Then CurrentQueue.ListName = Nothing _
+                Else CurrentQueue.ListName = ListSelector.Text
 
-        QueuePages.BeginUpdate()
-        QueuePages.Items.Clear()
+            QueuePages.BeginUpdate()
+            QueuePages.Items.Clear()
 
-        For Each Item As String In CurrentQueue.Pages
-            QueuePages.Items.Add(Item)
-        Next Item
+            If CurrentQueue.Pages IsNot Nothing Then
+                For Each Item As String In CurrentQueue.Pages
+                    QueuePages.Items.Add(Item)
+                Next Item
+            End If
 
-        QueuePages.EndUpdate()
+            QueuePages.EndUpdate()
+        End If
     End Sub
 
     Private Sub Namespaces_ItemCheck(ByVal s As Object, ByVal e As ItemCheckEventArgs) Handles Namespaces.ItemCheck
@@ -195,6 +200,9 @@ Class QueueForm
                 Else RemoveAfterTime.Value = RemoveAfterTime.Minimum
             RemoveOld.Checked = CurrentQueue.RemoveOld
             RemoveViewed.Checked = CurrentQueue.RemoveViewed
+
+            If CurrentQueue.Pages Is Nothing Then ListSelector.SelectedIndex = 0 _
+                Else ListSelector.SelectedItem = CurrentQueue.ListName
 
             For i As Integer = 0 To Namespaces.Items.Count - 1
                 Namespaces.SetItemChecked(i, CurrentQueue.Spaces.Contains(CType(Namespaces.Items(i), Space)))
@@ -298,6 +306,7 @@ Class QueueForm
     End Sub
 
     Public Sub SetListSelector()
+        ListSelector.BeginUpdate()
         ListSelector.Items.Clear()
         ListSelector.Items.Add("(none)")
 
@@ -305,8 +314,10 @@ Class QueueForm
             ListSelector.Items.Add(Item)
         Next Item
 
-        If CurrentQueue IsNot Nothing Then ListSelector.SelectedItem = CurrentQueue.ListName _
-            Else ListSelector.SelectedIndex = 0
+        ListSelector.EndUpdate()
+
+        If CurrentQueue Is Nothing OrElse CurrentQueue.ListName Is Nothing Then ListSelector.SelectedIndex = 0 _
+            Else ListSelector.SelectedItem = CurrentQueue.ListName
     End Sub
 
 End Class

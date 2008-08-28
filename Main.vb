@@ -39,6 +39,10 @@ Class Main
 
         If Not Config.IrcMode Then BlockReqTimer.Start()
 
+        For Each Item As String In LogBuffer
+            Log(Item)
+        Next Item
+
         Configure()
     End Sub
 
@@ -1064,7 +1068,7 @@ Class Main
             & CStr(CInt(Reverts / (Date.UtcNow - FirstTime).TotalMinutes)) & " reversions per minute"
     End Sub
 
-    Private Sub Queue_MouseDown(ByVal s As Object, ByVal e As MouseEventArgs)
+    Private Sub QueueArea_MouseDown(ByVal s As Object, ByVal e As MouseEventArgs) Handles QueueArea.MouseDown
         Dim Index As Integer = CInt((e.Y - 26) / 20) + QueueScroll.Value
 
         If Index > -1 AndAlso Index < CurrentQueue.Edits.Count Then
@@ -1336,6 +1340,7 @@ Class Main
 
         DrawQueue()
         DiffNextB.Enabled = False
+        Log("Reconnecting to IRC recent changes feed")
         Irc.Reconnect()
     End Sub
 

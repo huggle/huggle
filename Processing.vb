@@ -454,8 +454,6 @@ Module Processing
                 End If
             End If
         Next Item
-
-        MainForm.RefreshInterface()
     End Sub
 
     Sub UserDeleteRequest(ByVal Page As Page)
@@ -1028,6 +1026,7 @@ Module Processing
             End If
         Next j
 
+        MainForm.RefreshInterface()
         MainForm.RcReqTimer.Start()
     End Sub
 

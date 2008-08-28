@@ -13,7 +13,7 @@ Module Config
     Public ContribsBlockSize As Integer = 100
     Public GlobalConfigLocation As String = "http://meta.wikimedia.org/w/index.php?title=Huggle/GlobalConfig&action=raw"
     Public HistoryBlockSize As Integer = 100
-    Public IrcMode As Boolean = True
+    Public IrcConnectionTimeout As Integer = 30000
     Public LatestVersion As New Version(0, 0, 0)
     Public LocalConfigLocation As String = "\config.txt"
     Public QueueSize As Integer = 5000
@@ -80,6 +80,7 @@ Module Config
     Public IgnoredPages As New List(Of String)
     Public Initialised As Boolean
     Public IrcChannel As String
+    Public IrcMode As Boolean = True
     Public IrcPort As Integer = 6667
     Public IrcServer As String
     Public IrcUsername As String

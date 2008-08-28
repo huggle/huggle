@@ -5,10 +5,14 @@ Imports System.Threading
 
 Module Irc
 
-    Private Reconnecting, Disconnecting As Boolean
+    Private Connecting, Connected, Reconnecting, Disconnecting As Boolean
+    Public IrcThread As Thread
+    Private IrcTimer As Timer
 
     Public Sub IrcConnect()
-        Dim IrcThread As New Thread(AddressOf IrcProcess)
+        IrcTimer = New Timer(AddressOf IrcTimer_Tick, Nothing, IrcConnectionTimeout, Timeout.Infinite)
+
+        IrcThread = New Thread(AddressOf IrcProcess)
         IrcThread.IsBackground = True
         IrcThread.Start()
     End Sub
@@ -68,7 +72,7 @@ Module Irc
         RegexOptions.Compiled)
 
     Private Sub IrcProcess()
-        Disconnecting = False
+        Connecting = True
 
         'Username in RC feed IRC channels is "h_" followed by random 6-digit number
         Config.IrcUsername = "h_" & New Random(Date.UtcNow.Millisecond).NextDouble.ToString.Substring(2, 6)
@@ -89,14 +93,19 @@ Module Irc
                 While Not Reader.EndOfStream
                     Message = Reader.ReadLine
 
-                    If Message.StartsWith("ERROR :") Then
+                    If Message.StartsWith("ERROR ") Then
+                        IrcLog("Connection to IRC recent changes feed lost; reconnecting")
                         Reconnecting = True
 
-                    ElseIf Message.StartsWith(":" & Config.IrcServer & " 403") _
-                        AndAlso Message.EndsWith("No such channel") Then
+                    ElseIf Message.StartsWith(":" & Config.IrcServer & " 001") AndAlso Not Connected Then
+                        Connected = True
+                        Connecting = False
+                        IrcLog("Connected to IRC recent changes feed")
 
+                    ElseIf Message.StartsWith(":" & Config.IrcServer & " 403") Then
+                        IrcLog("IRC channel for " & Config.Project & " not found; using slower API queries instead")
                         IrcMode = False
-                        Exit Sub
+                        Disconnecting = True
 
                     ElseIf Message.StartsWith("PING ") Then
                         Writer.WriteLine("PONG " & Message.Substring(5))
@@ -156,6 +165,7 @@ Module Irc
                         NewBlock.Duration = Match.Groups(4).Value
                         NewBlock.Action = "block"
                         NewBlock.Comment = Match.Groups(5).Value
+
                         Callback(AddressOf ProcessBlock, CObj(NewBlock))
 
                     ElseIf MoveMatch.IsMatch(Message) Then
@@ -193,6 +203,7 @@ Module Irc
                         NewUnblock.Duration = Match.Groups(4).Value
                         NewUnblock.Action = "unblock"
                         NewUnblock.Comment = Match.Groups(5).Value
+
                         Callback(AddressOf ProcessBlock, CObj(NewUnblock))
 
                     ElseIf UploadMatch.IsMatch(Message) Then
@@ -215,7 +226,7 @@ Module Irc
                         NewProtection.Summary = Match.Groups(3).Value
                         NewProtection.EditLevel = Match.Groups(4).Value
                         NewProtection.MoveLevel = Match.Groups(5).Value
-                        'NewProtection.Expiry = CDate(IrcProtectMatch.Groups(6).Value)
+                        NewProtection.Expiry = CDate(Match.Groups(6).Value)
 
                         Callback(AddressOf ProcessProtection, CObj(NewProtection))
 
@@ -228,7 +239,7 @@ Module Irc
                         NewProtection.Summary = Match.Groups(3).Value
                         NewProtection.EditLevel = Match.Groups(4).Value
                         NewProtection.MoveLevel = Match.Groups(5).Value
-                        'NewProtection.Expiry = CDate(IrcProtectMatch.Groups(6).Value)
+                        NewProtection.Expiry = CDate(Match.Groups(6).Value)
 
                         Callback(AddressOf ProcessProtection, CObj(NewProtection))
 
@@ -259,33 +270,50 @@ Module Irc
                     End If
 
                     If Disconnecting Then
+                        Disconnecting = False
                         Reader.Close()
                         Writer.Close()
                         Stream.Close()
+                        Connected = False
+                        Exit Sub
+
+                    ElseIf Reconnecting Then
+                        Reconnecting = False
+                        Reader.Close()
+                        Writer.Close()
+                        Stream.Close()
+                        Connected = False
+                        Callback(AddressOf IrcConnect)
                         Exit Sub
                     End If
                 End While
-
-                If Reconnecting Then
-                    Reconnecting = False
-                    Reader.Close()
-                    Writer.Close()
-                    Stream.Close()
-                    Callback(AddressOf IrcConnect)
-                    Exit Sub
-                End If
 
                 Thread.Sleep(50)
             End While
 
         Catch ex As SocketException
-            'Server didn't like the connection; give up and fall back to API queries
+            'Server didn't like the connection; give up
+            IrcLog("Unable to connect to IRC recent changes feed; using slower API queries instead [" & ex.Message & "]")
+            Connecting = False
             IrcMode = False
 
         Catch ex As IOException
             'Feed was disconnected; retry
+            IrcLog("Connection to IRC recent changes feed lost; reconnecting")
             Callback(AddressOf IrcConnect)
         End Try
+    End Sub
+
+    Private Sub IrcTimer_Tick(ByVal O As Object)
+        If Connecting Then
+            'No error but connection not established; IRC is probably being intercepted by a firewall
+            'Abort thread and fall back to API queries
+            IrcThread.Abort()
+            IrcLog("Unable to connect to IRC recent changes feed. IRC is probably being blocked by a firewall. " & _
+                "Using slower API queries instead")
+            Connecting = False
+            IrcMode = False
+        End If
     End Sub
 
     <DebuggerStepThrough()> _
@@ -293,9 +321,14 @@ Module Irc
         Dim Edit As Edit = CType(EditObject, Edit)
         ProcessEdit(Edit)
         ProcessNewEdit(Edit)
+        If MainForm IsNot Nothing Then MainForm.RefreshInterface()
     End Sub
 
-    Private Sub LogIrc(ByVal MessageObject As Object)
+    Private Sub IrcLog(ByVal Message As String)
+        Callback(AddressOf IrcLogCallback, CObj(Message))
+    End Sub
+
+    Private Sub IrcLogCallback(ByVal MessageObject As Object)
         Log(CStr(MessageObject))
     End Sub
 
@@ -304,7 +337,7 @@ Module Irc
     End Sub
 
     Public Sub Reconnect()
-        Disconnecting = True
+        If Connecting OrElse Connected Then Reconnecting = True Else IrcConnect()
     End Sub
 
 End Module

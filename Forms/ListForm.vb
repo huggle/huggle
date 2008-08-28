@@ -31,9 +31,8 @@ Class ListForm
 
         Limit.Maximum = ApiLimit() * QueueBuilderLimit
         Limit.Value = Math.Min(1000, Limit.Maximum)
-        SourceType.SelectedIndex = 0
         If Lists.Items.Count > 0 Then Lists.SelectedIndex = 0
-        RefreshInterface()
+        SourceType.SelectedIndex = 0
     End Sub
 
     Private Sub ListForm_FormClosing() Handles Me.FormClosing
@@ -155,6 +154,15 @@ Class ListForm
     End Sub
 
     Private Sub Lists_SelectedIndexChanged() Handles Lists.SelectedIndexChanged
+        ListPages.BeginUpdate()
+        ListPages.Items.Clear()
+
+        For Each Item As String In CurrentList
+            ListPages.Items.Add(Item)
+        Next Item
+
+        ListPages.EndUpdate()
+
         Progress.Text = ""
         RefreshInterface()
     End Sub
@@ -427,9 +435,12 @@ Class ListForm
             Intersect.Enabled = Exclude.Enabled
         End If
 
-        For Each Item As Queue In Queue.All.Values
-            If Item.ListName = Lists.SelectedItem.ToString Then Item.NeedsReset = True
-        Next Item
+        If Lists.SelectedIndex > -1 Then
+            For Each Item As Queue In Queue.All.Values
+                If Item.ListName IsNot Nothing AndAlso Item.ListName = Lists.SelectedItem.ToString _
+                    Then Item.NeedsReset = True
+            Next Item
+        End If
     End Sub
 
     Private Sub RefreshListSelectors()

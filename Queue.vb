@@ -1,6 +1,7 @@
 ﻿Imports System.IO
 Imports System.Text.RegularExpressions
 
+<DebuggerDisplay("{Name}")> _
 Class Queue
 
     'Represents a queue of revisions
@@ -26,7 +27,6 @@ Class Queue
     Private _RemoveOld As Boolean
     Private _RemoveAfter As Integer
     Private _RemoveViewed As Boolean
-    Private _ShowNew As Boolean
     Private _SortOrder As QueueSortOrder
     Private _Spaces As New List(Of Space)
     Private _Type As QueueType
@@ -133,7 +133,7 @@ Class Queue
         End Get
         Set(ByVal value As String)
             _ListName = value
-            _Pages = AllLists(_ListName)
+            If value Is Nothing Then _Pages = Nothing Else _Pages = AllLists(_ListName)
             _NeedsReset = True
         End Set
     End Property
@@ -188,15 +188,6 @@ Class Queue
         End Get
         Set(ByVal value As Boolean)
             _RemoveViewed = value
-        End Set
-    End Property
-
-    Public Property ShowNew() As Boolean
-        Get
-            Return _ShowNew
-        End Get
-        Set(ByVal value As Boolean)
-            _ShowNew = value
         End Set
     End Property
 
@@ -267,26 +258,30 @@ Class Queue
             Comparer = New Edit.CompareByTimeReverse
         End If
 
-        Dim QueueSize As Integer
-        If Type = QueueType.FixedList Then QueueSize = Pages.Count Else QueueSize = Config.QueueSize
+        If _Pages Is Nothing Then
+            Items = New SortedList(Of Edit, Boolean)(Config.QueueSize, Comparer)
+        Else
+            Dim QueueSize As Integer
+            If Type = QueueType.FixedList Then QueueSize = Pages.Count Else QueueSize = Config.QueueSize
 
-        Items = New SortedList(Of Edit, Boolean)(QueueSize, Comparer)
+            Items = New SortedList(Of Edit, Boolean)(QueueSize, Comparer)
 
-        'Populate a fixed queue
-        If _Type = QueueType.FixedList Then
-            For Each Item As String In _Pages
-                Dim Page As Page = GetPage(Item)
+            'Populate a fixed queue
+            If _Type = QueueType.FixedList Then
+                For Each Item As String In _Pages
+                    Dim Page As Page = GetPage(Item)
 
-                If Page.LastEdit IsNot Nothing Then
-                    Items.Add(Page.LastEdit, False)
-                Else
-                    Dim NewEdit As New Edit
-                    NewEdit.Page = Page
-                    NewEdit.Id = "cur"
-                    NewEdit.Oldid = "prev"
-                    Items.Add(NewEdit, False)
-                End If
-            Next Item
+                    If Page.LastEdit IsNot Nothing Then
+                        Items.Add(Page.LastEdit, False)
+                    Else
+                        Dim NewEdit As New Edit
+                        NewEdit.Page = Page
+                        NewEdit.Id = "cur"
+                        NewEdit.Oldid = "prev"
+                        Items.Add(NewEdit, False)
+                    End If
+                Next Item
+            End If
         End If
 
         _NeedsReset = False
@@ -294,29 +289,24 @@ Class Queue
 
     Public Sub AddEdit(ByVal Edit As Edit)
         If Items IsNot Nothing Then
-            If Type <> QueueType.FixedList Then RemoveOldEdits()
+            If _Type <> QueueType.FixedList Then RemoveOldEdits(_RemoveAfter)
 
             'Add edit to the queue
             If Not Items.ContainsKey(Edit) Then
                 Items.Add(Edit, False)
                 If Items.Count > Config.QueueSize Then Items.RemoveAt(Items.Count - 1)
-                If ShowNew AndAlso CurrentQueue Is Me Then DisplayEdit(Edit)
             End If
         End If
     End Sub
 
-    Public Sub RemoveOldEdits()
-        RemoveOldEdits(RemoveAfter)
-    End Sub
-
     Public Sub RemoveOldEdits(ByVal Time As Integer)
         'Remove old edits and edits to the same page
-        If RemoveOld OrElse Time > 0 Then
+        If _RemoveOld OrElse Time > 0 Then
             Dim i As Integer = 0
 
             While i < Edits.Count
-                If (RemoveOld AndAlso Edits(i) IsNot Edits(i).Page.LastEdit) _
-                    OrElse (RemoveAfter > 0 AndAlso Edits(i).Time.AddMinutes(Time) < Date.UtcNow) Then
+                If (_RemoveOld AndAlso Edits(i) IsNot Edits(i).Page.LastEdit) _
+                    OrElse (_RemoveAfter > 0 AndAlso Edits(i).Time.AddMinutes(Time) < Date.UtcNow) Then
 
                     Items.RemoveAt(i)
                 Else
@@ -338,7 +328,7 @@ Class Queue
 
     Public Sub RemoveViewedEdit(ByVal Edit As Edit)
         'Remove an edit that has been viewed, possibly on another queue
-        If Items IsNot Nothing AndAlso RemoveViewed Then Items.Remove(Edit)
+        If _RemoveViewed AndAlso Items IsNot Nothing AndAlso Items.ContainsKey(Edit) Then Items.Remove(Edit)
     End Sub
 
     Public Function MatchesFilter(ByVal PageName As String) As Boolean
@@ -354,8 +344,8 @@ Class Queue
         'Determines whether an edit matches this queue's filter
         If Edit.Deleted Then Return False
 
-        If Type = QueueType.FixedList Then Return False
-        If Type = QueueType.LiveList AndAlso Not Pages.Contains(Edit.Page.Name) Then Return False
+        If _Type = QueueType.FixedList Then Return False
+        If _Type = QueueType.LiveList AndAlso Not Pages.Contains(Edit.Page.Name) Then Return False
         If _Spaces.Count > 0 AndAlso Not _Spaces.Contains(Edit.Page.Space) Then Return False
         If _PageRegex IsNot Nothing AndAlso Not _PageRegex.IsMatch(Edit.Page.Name) Then Return False
         If _UserRegex IsNot Nothing AndAlso Not _UserRegex.IsMatch(Edit.User.Name) Then Return False
