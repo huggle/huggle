@@ -160,11 +160,13 @@ Class QueueForm
         QueuePages.Items.Clear()
 
         If CurrentQueue IsNot Nothing Then
-            QueuePages.BeginUpdate()
+            If CurrentQueue.Pages IsNot Nothing Then
+                QueuePages.BeginUpdate()
 
-            For Each Item As String In CurrentQueue.Pages
-                QueuePages.Items.Add(Item)
-            Next Item
+                For Each Item As String In CurrentQueue.Pages
+                    QueuePages.Items.Add(Item)
+                Next Item
+            End If
 
             QueuePages.EndUpdate()
 

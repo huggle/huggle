@@ -9,8 +9,7 @@ Partial Class Main
 
         CurrentTab.ShowNewEdits = Config.ShowNewEdits
         TrayIcon.Visible = Config.TrayIcon
-        QueuePanel.Width = QueueWidth
-        QueueSelector.Width = QueuePanel.Width - 8
+        QueueContainer.Width = Config.QueueWidth + QueueScroll.Width
         Splitter.Panel2Collapsed = Not Config.ShowLog
 
         PageDelete.Visible = (Administrator AndAlso Config.Delete)
@@ -118,16 +117,26 @@ Partial Class Main
         MenuPage.Enabled = (CurrentPage IsNot Nothing)
         MenuUser.Enabled = (CurrentUser IsNot Nothing)
 
+        'Set queue alignment
+        If Config.ShowQueue Then
+            Tabs.Width = Tabs.Parent.Width - QueueContainer.Width
+            QueueContainer.Visible = True
+
+            If Config.RightAlignQueue Then
+                Tabs.Left = 0
+                QueueContainer.Left = Tabs.Width
+            Else
+                Tabs.Left = QueueContainer.Width
+                QueueContainer.Left = 0
+            End If
+        Else
+            Tabs.Left = 0
+            Tabs.Width = Tabs.Parent.Width
+            QueueContainer.Visible = False
+        End If
+
         If CurrentEdit IsNot Nothing AndAlso CurrentPage IsNot Nothing AndAlso CurrentUser IsNot Nothing _
             AndAlso CurrentQueue IsNot Nothing Then
-
-            If Config.ShowQueue Then
-                Tabs.Left = QueueWidth + 20
-                Tabs.Width = Width - QueueWidth - 30
-            Else
-                Tabs.Left = 0
-                Tabs.Width = Width - 10
-            End If
 
             If CurrentPage.IsArticleTalkPage Then
                 PageSwitchTalk.Text = "Switch to article"
@@ -198,9 +207,6 @@ Partial Class Main
             PageWatchB.Enabled = True
             QueueClear.Enabled = (CurrentQueue.Edits.Count > 0)
             QueueNext.Enabled = (CurrentQueue.Edits.Count > 0)
-            QueuePanel.Visible = Config.ShowQueue
-            QueueScroll.Visible = Config.ShowQueue
-            QueueSelector.Visible = Config.ShowQueue
             QueueTrim.Enabled = (CurrentQueue.Edits.Count > 0)
             SystemShowQueue.Checked = Config.ShowQueue
             SystemShowLog.Checked = Config.ShowLog
@@ -252,6 +258,7 @@ Partial Class Main
                 End If
             Next Item
 
+            DrawQueue()
             UpdateWatchButton()
             UpdateIgnoreButton()
         End If

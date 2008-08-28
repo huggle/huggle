@@ -92,7 +92,7 @@ Class Main
 
     Sub DrawQueue()
         If CurrentQueue IsNot Nothing Then
-            Dim QueueHeight As Integer = (QueuePanel.Height \ 20) - 2
+            Dim QueueHeight As Integer = (QueueArea.Height \ 20) - 2
 
             If QueueHeight < CurrentQueue.Edits.Count Then
                 QueueScroll.Enabled = True
@@ -104,7 +104,7 @@ Class Main
                 QueueScroll.Value = 0
             End If
 
-            QueuePanel.Draw(CurrentQueue)
+            QueueArea.Draw(CurrentQueue)
         End If
     End Sub
 
@@ -1064,7 +1064,7 @@ Class Main
             & CStr(CInt(Reverts / (Date.UtcNow - FirstTime).TotalMinutes)) & " reversions per minute"
     End Sub
 
-    Private Sub Queue_MouseDown(ByVal s As Object, ByVal e As MouseEventArgs) Handles QueuePanel.MouseDown
+    Private Sub Queue_MouseDown(ByVal s As Object, ByVal e As MouseEventArgs)
         Dim Index As Integer = CInt((e.Y - 26) / 20) + QueueScroll.Value
 
         If Index > -1 AndAlso Index < CurrentQueue.Edits.Count Then
@@ -1348,12 +1348,12 @@ Class Main
             AndAlso (CurrentPage Is Nothing OrElse CurrentPage.Name <> PageB.Text) Then
 
             SetCurrentPage(GetPage(PageB.Text), True)
-            QueuePanel.Focus()
+            QueueArea.Focus()
         End If
 
         If e.KeyCode = Keys.Escape Then
             PageB.Text = CurrentPage.Name
-            QueuePanel.Focus()
+            QueueArea.Focus()
         End If
 
         If e.KeyCode = Keys.OemOpenBrackets OrElse e.KeyCode = Keys.OemCloseBrackets _
@@ -1366,12 +1366,12 @@ Class Main
             AndAlso (CurrentUser Is Nothing OrElse CurrentUser.Name <> UserB.Text) Then
 
             SetCurrentUser(GetUser(UserB.Text), True)
-            QueuePanel.Focus()
+            QueueArea.Focus()
         End If
 
         If e.KeyCode = Keys.Escape Then
             UserB.Text = CurrentUser.Name
-            QueuePanel.Focus()
+            QueueArea.Focus()
         End If
 
         If e.KeyCode = Keys.OemOpenBrackets OrElse e.KeyCode = Keys.OemCloseBrackets _
@@ -1601,4 +1601,13 @@ Class Main
             Else SetCurrentPage(CurrentPage.SubjectPage, True)
     End Sub
 
+    Private Sub QueueScroll_Scroll(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ScrollEventArgs) Handles QueueScroll.Scroll
+
+    End Sub
+    Private Sub QueueSelector_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles QueueSelector.SelectedIndexChanged
+
+    End Sub
+    Private Sub Status_ItemActivate(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Status.ItemActivate
+
+    End Sub
 End Class

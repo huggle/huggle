@@ -40,6 +40,13 @@ Partial Class ConfigForm
         Me.Label6 = New System.Windows.Forms.Label
         Me.IrcPort = New System.Windows.Forms.TextBox
         Me.AutoWhitelist = New System.Windows.Forms.CheckBox
+        Me.InterfaceTab = New System.Windows.Forms.TabPage
+        Me.RightAlignQueue = New System.Windows.Forms.CheckBox
+        Me.ShowQueue = New System.Windows.Forms.CheckBox
+        Me.ShowLog = New System.Windows.Forms.CheckBox
+        Me.StartupMessage = New System.Windows.Forms.CheckBox
+        Me.ShowToolTips = New System.Windows.Forms.CheckBox
+        Me.TrayIcon = New System.Windows.Forms.CheckBox
         Me.KeyboardTab = New System.Windows.Forms.TabPage
         Me.Defaults = New System.Windows.Forms.Button
         Me.NoShortcut = New System.Windows.Forms.Button
@@ -119,14 +126,9 @@ Partial Class ConfigForm
         Me.BlockReason = New System.Windows.Forms.TextBox
         Me.PromptForBlock = New System.Windows.Forms.CheckBox
         Me.UseAdminFunctions = New System.Windows.Forms.CheckBox
-        Me.InterfaceTab = New System.Windows.Forms.TabPage
-        Me.ShowQueue = New System.Windows.Forms.CheckBox
-        Me.ShowLog = New System.Windows.Forms.CheckBox
-        Me.StartupMessage = New System.Windows.Forms.CheckBox
-        Me.ShowToolTips = New System.Windows.Forms.CheckBox
-        Me.TrayIcon = New System.Windows.Forms.CheckBox
         Me.Tabs.SuspendLayout()
         Me.GeneralTab.SuspendLayout()
+        Me.InterfaceTab.SuspendLayout()
         Me.KeyboardTab.SuspendLayout()
         Me.EditingTab.SuspendLayout()
         Me.RevertTab.SuspendLayout()
@@ -136,7 +138,6 @@ Partial Class ConfigForm
         Me.EditorTab.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.AdminTab.SuspendLayout()
-        Me.InterfaceTab.SuspendLayout()
         Me.SuspendLayout()
         '
         'Cancel
@@ -329,6 +330,82 @@ Partial Class ConfigForm
         Me.AutoWhitelist.TabIndex = 4
         Me.AutoWhitelist.Text = "Automatically whitelist users"
         Me.AutoWhitelist.UseVisualStyleBackColor = True
+        '
+        'InterfaceTab
+        '
+        Me.InterfaceTab.Controls.Add(Me.RightAlignQueue)
+        Me.InterfaceTab.Controls.Add(Me.ShowQueue)
+        Me.InterfaceTab.Controls.Add(Me.ShowLog)
+        Me.InterfaceTab.Controls.Add(Me.StartupMessage)
+        Me.InterfaceTab.Controls.Add(Me.ShowToolTips)
+        Me.InterfaceTab.Controls.Add(Me.TrayIcon)
+        Me.InterfaceTab.Location = New System.Drawing.Point(4, 23)
+        Me.InterfaceTab.Name = "InterfaceTab"
+        Me.InterfaceTab.Padding = New System.Windows.Forms.Padding(3)
+        Me.InterfaceTab.Size = New System.Drawing.Size(511, 291)
+        Me.InterfaceTab.TabIndex = 9
+        Me.InterfaceTab.Text = "Interface"
+        Me.InterfaceTab.UseVisualStyleBackColor = True
+        '
+        'RightAlignQueue
+        '
+        Me.RightAlignQueue.AutoSize = True
+        Me.RightAlignQueue.Location = New System.Drawing.Point(17, 111)
+        Me.RightAlignQueue.Name = "RightAlignQueue"
+        Me.RightAlignQueue.Size = New System.Drawing.Size(211, 17)
+        Me.RightAlignQueue.TabIndex = 46
+        Me.RightAlignQueue.Text = "Show queue on the right of the window"
+        Me.RightAlignQueue.UseVisualStyleBackColor = True
+        '
+        'ShowQueue
+        '
+        Me.ShowQueue.AutoSize = True
+        Me.ShowQueue.Location = New System.Drawing.Point(17, 88)
+        Me.ShowQueue.Name = "ShowQueue"
+        Me.ShowQueue.Size = New System.Drawing.Size(125, 17)
+        Me.ShowQueue.TabIndex = 45
+        Me.ShowQueue.Text = "Show revision queue"
+        Me.ShowQueue.UseVisualStyleBackColor = True
+        '
+        'ShowLog
+        '
+        Me.ShowLog.AutoSize = True
+        Me.ShowLog.Location = New System.Drawing.Point(17, 65)
+        Me.ShowLog.Name = "ShowLog"
+        Me.ShowLog.Size = New System.Drawing.Size(70, 17)
+        Me.ShowLog.TabIndex = 44
+        Me.ShowLog.Text = "Show log"
+        Me.ShowLog.UseVisualStyleBackColor = True
+        '
+        'StartupMessage
+        '
+        Me.StartupMessage.AutoSize = True
+        Me.StartupMessage.Location = New System.Drawing.Point(17, 42)
+        Me.StartupMessage.Name = "StartupMessage"
+        Me.StartupMessage.Size = New System.Drawing.Size(133, 17)
+        Me.StartupMessage.TabIndex = 43
+        Me.StartupMessage.Text = "Show startup message"
+        Me.StartupMessage.UseVisualStyleBackColor = True
+        '
+        'ShowToolTips
+        '
+        Me.ShowToolTips.AutoSize = True
+        Me.ShowToolTips.Location = New System.Drawing.Point(17, 134)
+        Me.ShowToolTips.Name = "ShowToolTips"
+        Me.ShowToolTips.Size = New System.Drawing.Size(138, 17)
+        Me.ShowToolTips.TabIndex = 42
+        Me.ShowToolTips.Text = "Show tooltips on menus"
+        Me.ShowToolTips.UseVisualStyleBackColor = True
+        '
+        'TrayIcon
+        '
+        Me.TrayIcon.AutoSize = True
+        Me.TrayIcon.Location = New System.Drawing.Point(17, 19)
+        Me.TrayIcon.Name = "TrayIcon"
+        Me.TrayIcon.Size = New System.Drawing.Size(96, 17)
+        Me.TrayIcon.TabIndex = 41
+        Me.TrayIcon.Text = "Show tray icon"
+        Me.TrayIcon.UseVisualStyleBackColor = True
         '
         'KeyboardTab
         '
@@ -1145,71 +1222,6 @@ Partial Class ConfigForm
         Me.UseAdminFunctions.Text = "Use administrator functions if available"
         Me.UseAdminFunctions.UseVisualStyleBackColor = True
         '
-        'InterfaceTab
-        '
-        Me.InterfaceTab.Controls.Add(Me.ShowQueue)
-        Me.InterfaceTab.Controls.Add(Me.ShowLog)
-        Me.InterfaceTab.Controls.Add(Me.StartupMessage)
-        Me.InterfaceTab.Controls.Add(Me.ShowToolTips)
-        Me.InterfaceTab.Controls.Add(Me.TrayIcon)
-        Me.InterfaceTab.Location = New System.Drawing.Point(4, 23)
-        Me.InterfaceTab.Name = "InterfaceTab"
-        Me.InterfaceTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.InterfaceTab.Size = New System.Drawing.Size(511, 291)
-        Me.InterfaceTab.TabIndex = 9
-        Me.InterfaceTab.Text = "Interface"
-        Me.InterfaceTab.UseVisualStyleBackColor = True
-        '
-        'ShowQueue
-        '
-        Me.ShowQueue.AutoSize = True
-        Me.ShowQueue.Location = New System.Drawing.Point(17, 88)
-        Me.ShowQueue.Name = "ShowQueue"
-        Me.ShowQueue.Size = New System.Drawing.Size(125, 17)
-        Me.ShowQueue.TabIndex = 45
-        Me.ShowQueue.Text = "Show revision queue"
-        Me.ShowQueue.UseVisualStyleBackColor = True
-        '
-        'ShowLog
-        '
-        Me.ShowLog.AutoSize = True
-        Me.ShowLog.Location = New System.Drawing.Point(17, 65)
-        Me.ShowLog.Name = "ShowLog"
-        Me.ShowLog.Size = New System.Drawing.Size(70, 17)
-        Me.ShowLog.TabIndex = 44
-        Me.ShowLog.Text = "Show log"
-        Me.ShowLog.UseVisualStyleBackColor = True
-        '
-        'StartupMessage
-        '
-        Me.StartupMessage.AutoSize = True
-        Me.StartupMessage.Location = New System.Drawing.Point(17, 42)
-        Me.StartupMessage.Name = "StartupMessage"
-        Me.StartupMessage.Size = New System.Drawing.Size(133, 17)
-        Me.StartupMessage.TabIndex = 43
-        Me.StartupMessage.Text = "Show startup message"
-        Me.StartupMessage.UseVisualStyleBackColor = True
-        '
-        'ShowToolTips
-        '
-        Me.ShowToolTips.AutoSize = True
-        Me.ShowToolTips.Location = New System.Drawing.Point(17, 111)
-        Me.ShowToolTips.Name = "ShowToolTips"
-        Me.ShowToolTips.Size = New System.Drawing.Size(138, 17)
-        Me.ShowToolTips.TabIndex = 42
-        Me.ShowToolTips.Text = "Show tooltips on menus"
-        Me.ShowToolTips.UseVisualStyleBackColor = True
-        '
-        'TrayIcon
-        '
-        Me.TrayIcon.AutoSize = True
-        Me.TrayIcon.Location = New System.Drawing.Point(17, 19)
-        Me.TrayIcon.Name = "TrayIcon"
-        Me.TrayIcon.Size = New System.Drawing.Size(96, 17)
-        Me.TrayIcon.TabIndex = 41
-        Me.TrayIcon.Text = "Show tray icon"
-        Me.TrayIcon.UseVisualStyleBackColor = True
-        '
         'ConfigForm
         '
         Me.AcceptButton = Me.OK
@@ -1228,6 +1240,8 @@ Partial Class ConfigForm
         Me.Tabs.ResumeLayout(False)
         Me.GeneralTab.ResumeLayout(False)
         Me.GeneralTab.PerformLayout()
+        Me.InterfaceTab.ResumeLayout(False)
+        Me.InterfaceTab.PerformLayout()
         Me.KeyboardTab.ResumeLayout(False)
         Me.KeyboardTab.PerformLayout()
         Me.EditingTab.ResumeLayout(False)
@@ -1245,8 +1259,6 @@ Partial Class ConfigForm
         Me.GroupBox2.PerformLayout()
         Me.AdminTab.ResumeLayout(False)
         Me.AdminTab.PerformLayout()
-        Me.InterfaceTab.ResumeLayout(False)
-        Me.InterfaceTab.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -1353,4 +1365,5 @@ Partial Class ConfigForm
     Friend WithEvents StartupMessage As System.Windows.Forms.CheckBox
     Friend WithEvents ShowToolTips As System.Windows.Forms.CheckBox
     Friend WithEvents TrayIcon As System.Windows.Forms.CheckBox
+    Friend WithEvents RightAlignQueue As System.Windows.Forms.CheckBox
 End Class

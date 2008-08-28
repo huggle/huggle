@@ -1,5 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <ProjectGuid>{11AD90BE-245A-475B-9768-77BADF176824}</ProjectGuid>
+    <OptionStrict>On</OptionStrict>
+    <OptionCompare>Text</OptionCompare>
+    <StartupObject>Huggle.My.MyApplication</StartupObject>
+    <RootNamespace>Huggle</RootNamespace>
+    <OutputType>WinExe</OutputType>
+    <MyType>WindowsForms</MyType>
+    <ApplicationIcon>Resources\icon_red_button.ico</ApplicationIcon>
+    <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugType>Full</DebugType>
     <DebugSymbols>true</DebugSymbols>
@@ -12,17 +23,6 @@
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <UseVSHostingProcess>false</UseVSHostingProcess>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ProjectGuid>{11AD90BE-245A-475B-9768-77BADF176824}</ProjectGuid>
-    <OptionStrict>On</OptionStrict>
-    <OptionCompare>Text</OptionCompare>
-    <StartupObject>Huggle.My.MyApplication</StartupObject>
-    <RootNamespace>Huggle</RootNamespace>
-    <OutputType>WinExe</OutputType>
-    <MyType>WindowsForms</MyType>
-    <ApplicationIcon>Resources\icon_red_button.ico</ApplicationIcon>
-    <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

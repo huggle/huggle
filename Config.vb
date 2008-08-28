@@ -138,6 +138,7 @@ Module Config
     Public RequireRollback As Boolean
     Public RequireTime As Integer
     Public RfdLocation As String
+    Public RightAlignQueue As Boolean
     Public RollbackSummary As String
     Public RollbackSummaryUnknown As String
     Public SensitiveAddresses As New List(Of String)
@@ -519,6 +520,7 @@ Module Config
                         Case "proxy-server" : Config.ProxyServer = OptionValue
                         Case "proxy-userdomain" : Config.ProxyUserDomain = OptionValue
                         Case "proxy-username" : Config.ProxyUsername = OptionValue
+                        Case "queue-right-align" : Config.RightAlignQueue = CBool(OptionValue)
                         Case "startup-message" : Config.StartupMessage = CBool(OptionValue)
                         Case "username" : Config.Username = OptionValue
                         Case "window-height" : Config.WindowSize.Height = CInt(OptionValue)
@@ -561,6 +563,7 @@ Module Config
             Items.Add("proxy-server:" & Config.ProxyServer)
             Items.Add("proxy-userdomain:" & Config.ProxyUserDomain)
             Items.Add("proxy-username:" & Config.ProxyUsername)
+            Items.Add("queue-right-align:" & CStr(Config.RightAlignQueue).ToLower)
             Items.Add("startup-message:" & CStr(Config.StartupMessage).ToLower)
             Items.Add("username:" & Config.Username)
             Items.Add("window-height:" & CStr(MainForm.Height))
