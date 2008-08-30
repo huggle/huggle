@@ -10,10 +10,10 @@ Class EditForm
     Private PreviewCurrent, DiffCurrent, SettingText, Undoing As Boolean, CurrentRequest As HighlightRequest
 
     Private Sub EditForm_Load() Handles Me.Load
-        Icon = My.Resources.icon_red_button
-        Text = "Editing " & Page.Name
-        Summary.Text = Config.DefaultSummary
-        Minor.Checked = Config.MinorOther
+        Icon = My.Resources.icon_red_button 'Set logo for form
+        Text = "Editing " & Page.Name 'Sets the form text/name to include the page name that is being edited
+        Summary.Text = Config.DefaultSummary 'Sets the summary box to include the default summary text (set in config)
+        Minor.Checked = Config.MinorOther 'If 'other' edits are set as minor in config then tick the minor box
         Watch.Checked = (Watchlist.Contains(Page) OrElse Config.WatchOther)
         WaitMessage.Text = "Retrieving page text..."
         EditPaste.Enabled = Clipboard.ContainsText
