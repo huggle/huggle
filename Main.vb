@@ -146,8 +146,10 @@ Class Main
     End Sub
 
     Public Sub IgnoreUser(ByVal User As User)
+        'Sets the username to be ignored
         User.Ignored = True
         If Not WhitelistManualChanges.Contains(User.Name) Then WhitelistManualChanges.Add(User.Name)
+        'Says that the user will be ignored (in log)
         Log("Ignored user '" & User.Name & "'")
 
         'Add undo menu item
@@ -596,6 +598,7 @@ Class Main
 
                 PendingWarnings.Add(CurrentEdit)
 
+                'If AutoAdvance is turned on in the config then Show the next edit
                 If Config.AutoAdvance Then ShowNextEdit()
             End If
         End If
