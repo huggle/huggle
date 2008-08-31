@@ -369,14 +369,18 @@ Namespace Requests
         End Sub
 
         Private Sub Process()
-            Dim BotPageText As String = GetPageText(Config.AIVBotLocation)
+            'Check bot report subpage for report of user
+            If Config.AIVBotLocation IsNot Nothing Then
+                Result = GetPageText(Config.AIVBotLocation)
+                Result = Result.ToLower.Replace("_", " ")
 
-            If BotPageText.ToLower.Contains("{{vandal|" & User.Name.ToLower & "}}") _
-                OrElse BotPageText.ToLower.Contains("{{ipvandal|" & User.Name.ToLower & "}}") Then
+                If Result.ToLower.Contains("{{vandal|" & User.Name.ToLower & "}}") _
+                    OrElse Result.ToLower.Contains("{{ipvandal|" & User.Name.ToLower & "}}") Then
 
-                If User.WarningLevel < UserLevel.ReportedAIV Then User.WarningLevel = UserLevel.ReportedAIV
-                Callback(AddressOf AlreadyReported)
-                Exit Sub
+                    If User.Level < UserLevel.ReportedAIV Then User.Level = UserLevel.ReportedAIV
+                    Callback(AddressOf AlreadyReported)
+                    Exit Sub
+                End If
             End If
 
             Dim Data As EditData = GetEditData(GetPage(Config.AIVLocation))
@@ -395,7 +399,7 @@ Namespace Requests
                 Data.Watch = Config.WatchReports
 
                 If Data.Text Is Nothing Then
-                    If User.WarningLevel < UserLevel.ReportedAIV Then User.WarningLevel = UserLevel.ReportedAIV
+                    If User.Level < UserLevel.ReportedAIV Then User.Level = UserLevel.ReportedAIV
                     Callback(AddressOf AlreadyReported)
                     Exit Sub
                 End If
@@ -407,10 +411,10 @@ Namespace Requests
 
             If User.Anonymous _
                 Then Reason = "* {{IPvandal|" & User.Name & "}} – " & Reason _
-                Else Reason = "* {{Vandal|" & User.Name & "}} – " & Reason
+                Else Reason = "* {{vandal|" & User.Name & "}} – " & Reason
 
             If Config.ReportLinkDiffs Then Reason &= LinkDiffs()
-            If User.WarningLevel = UserLevel.Warn4im Then Reason &= " – " & Config.AivSingleNote
+            If User.Level = UserLevel.Warn4im Then Reason &= " – " & Config.AivSingleNote
 
             Data.Text &= Reason & " – ~~~~"
             Data.Summary = Config.ReportSummary.Replace("$1", User.Name)
@@ -486,7 +490,7 @@ Namespace Requests
 
             While Edit IsNot Nothing AndAlso Edit IsNot NullEdit AndAlso Edit.Time.AddHours(3) > Date.UtcNow
 
-                If Edit.Next IsNot Nothing AndAlso Edit.Next.Type = Edit.Types.Revert Then RevertedEdits.Add(Edit)
+                If Edit.Next IsNot Nothing AndAlso Edit.Next.Type = EditType.Revert Then RevertedEdits.Add(Edit)
                 Edit = Edit.PrevByUser
             End While
 
@@ -523,12 +527,13 @@ Namespace Requests
         End Sub
 
         Private Sub Process()
-
+            'Check bot report subpage for report of user
             If Config.UAABotLocation IsNot Nothing Then
-                Dim BotPageText As String = GetPageText(Config.UAABotLocation)
+                Result = GetPageText(Config.UAABotLocation)
+                Result = Result.ToLower.Replace("_", " ")
 
-                If BotPageText.ToLower.Contains("{{userlinks|" & User.Name.ToLower & "}}") Then
-                    If User.WarningLevel < UserLevel.ReportedUAA Then User.WarningLevel = UserLevel.ReportedUAA
+                If Result.ToLower.Contains("{{userlinks|" & User.Name.ToLower & "}}") Then
+                    If User.Level < UserLevel.ReportedUAA Then User.Level = UserLevel.ReportedUAA
                     Callback(AddressOf AlreadyReported)
                     Exit Sub
                 End If
@@ -542,7 +547,7 @@ Namespace Requests
             End If
 
             If Data.Text.ToLower.Contains("{{userlinks|" & User.Name & "}}") Then
-                If User.WarningLevel < UserLevel.ReportedUAA Then User.WarningLevel = UserLevel.ReportedUAA
+                If User.Level < UserLevel.ReportedUAA Then User.Level = UserLevel.ReportedUAA
                 Callback(AddressOf AlreadyReported)
                 Exit Sub
             End If
@@ -630,6 +635,77 @@ Namespace Requests
         Private Sub Done()
             If State = States.Cancelled Then UndoEdit(Config.WhitelistLocation) Else Complete()
             ClosingForm.WhitelistDone()
+        End Sub
+
+        Private Sub Failed()
+            Fail()
+        End Sub
+
+    End Class
+
+    Class TrrReportRequest : Inherits Request
+
+        'Report a three-revert rule violation
+
+        Public User As User, Page As Page
+        Public BaseEdit As Edit, Reverts As List(Of Edit)
+        Public Message As String, Warn As Boolean
+
+        Private Warning As Edit
+
+        Public Sub Start()
+            LogProgress("Reporting " & User.Name & "...")
+
+            Dim RequestThread As New Thread(AddressOf Process)
+            RequestThread.IsBackground = True
+            RequestThread.Start()
+        End Sub
+
+        Private Sub Process()
+            Dim Data As EditData = GetEditData(Config.TrrReportLocation, , 1)
+
+            If Data.Error Then
+                Callback(AddressOf Failed)
+                Exit Sub
+            End If
+
+            Dim Report As String = ""
+
+            Report = "== [[User:" & User.Name & "|" & User.Name & "]] reported by [[User:" & User.Me.Name & _
+                "|" & User.Me.Name & "]] (Result: ) ==" & CRLF & CRLF
+
+            Report &= "* Page: {{article|" & Page.Name & "}}." & CRLF
+            Report &= "* User: {{userlinks|" & User.Name & "}}" & CRLF & CRLF
+            
+            Report &= "* Revision reverted to: <span class=""plainlinks"">[{{fullurl:" & Page.Name & "|oldid=" & _
+                BaseEdit.Id & "}} " & WikiTimestamp(BaseEdit.Time) & "]</span>" & CRLF
+
+            For i As Integer = 0 To Reverts.Count - 1
+                Report &= "* " & Ordinal(i + 1) & " revert: <span class=""plainlinks"">[{{fullurl:" & Page.Name & _
+                    "|diff=" & Reverts(i).Id & "&oldid=prev}} " & WikiTimestamp(Reverts(i).Time) & "]</span>" & CRLF
+            Next i
+
+            Report &= CRLF
+
+            If Warning IsNot Nothing Then Report &= "* Warning: <span class=""plainlinks"">[{{fullurl:" & _
+                Warning.Page.Name & "|diff=" & Warning.Id & "&oldid=prev}} " & WikiTimestamp(Warning.Time) & _
+                "]</span>" & CRLF & CRLF
+
+            If Message IsNot Nothing Then Report &= Message & CRLF & CRLF
+
+            Report &= "~~~~"
+
+            Data.Text &= CRLF & Report
+            Data.Summary = Config.ReportSummary.Replace("$1", User.Name)
+            Data.Minor = Config.MinorReports
+            Data.Watch = Config.WatchReports OrElse Watchlist.Contains(GetPage(Config.TrrReportLocation))
+
+            Data = PostEdit(Data)
+            If Data.Error Then Callback(AddressOf Failed) Else Callback(AddressOf Done)
+        End Sub
+
+        Private Sub Done()
+            Complete()
         End Sub
 
         Private Sub Failed()

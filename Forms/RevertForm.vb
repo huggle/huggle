@@ -1,11 +1,11 @@
 Class RevertForm
 
-    Public ThisPage As Page
+    Public Page As Page, User As User
     Private Shared LastSummary As String
 
     Private Sub RevertForm_Load() Handles Me.Load
         Icon = My.Resources.icon_red_button
-        Text = "Revert " & ThisPage.Name
+        Text = "Revert " & Page.Name
         Summary.Items.AddRange(ManualRevertSummaries.ToArray)
         Summary.Text = LastSummary
         Summary.Focus()
@@ -17,8 +17,8 @@ Class RevertForm
             If Not ManualRevertSummaries.Contains(Summary.Text) Then ManualRevertSummaries.Add(Summary.Text)
             LastSummary = Summary.Text
 
-            If CurrentEdit.User.WarningLevel = UserLevel.None Then CurrentEdit.User.WarningLevel = UserLevel.Reverted
-            If CurrentEdit.Page.Level = Page.Levels.None Then CurrentEdit.Page.Level = Page.Levels.Watch
+            If User.Level = UserLevel.None Then User.Level = UserLevel.Reverted
+            If Page.Level = PageLevel.None Then Page.Level = PageLevel.Watch
 
             Dim NewRevertRequest As New RevertRequest
             NewRevertRequest.Summary = Summary.Text
@@ -41,16 +41,16 @@ Class RevertForm
         Close()
     End Sub
 
-    Private Sub Summary_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles Summary.KeyDown
-        If e.KeyCode = Keys.Enter AndAlso Summary.Text <> "" Then
-            DialogResult = DialogResult.OK
+    Private Sub DiffRevertSummaryBForm_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles MyBase.KeyDown
+        If e.KeyCode = Keys.Escape Then
+            DialogResult = DialogResult.Cancel
             Close()
         End If
     End Sub
 
-    Private Sub DiffRevertSummaryBForm_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles MyBase.KeyDown
-        If e.KeyCode = Keys.Escape Then
-            DialogResult = DialogResult.Cancel
+    Private Sub Summary_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles Summary.KeyDown
+        If e.KeyCode = Keys.Enter AndAlso Summary.Text <> "" Then
+            DialogResult = DialogResult.OK
             Close()
         End If
     End Sub

@@ -12,8 +12,8 @@
         Stats.Edits += 1
 
         Select Case Edit.Type
-            Case Edit.Types.Revert : Stats.Reverts += 1
-            Case Edit.Types.Warning : Stats.Warnings += 1
+            Case EditType.Revert : Stats.Reverts += 1
+            Case EditType.Warning : Stats.Warnings += 1
         End Select
     End Sub
 

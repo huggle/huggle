@@ -60,6 +60,11 @@ Class LoginForm
     End Sub
 
     Private Sub OK_Click() Handles OK.Click
+        If Not Integer.TryParse(ProxyPort.Text, New Integer) Then
+            Status.Text = "Invalid port number."
+            Exit Sub
+        End If
+
         LoggingIn = True
 
         For Each Item As String In Config.Projects
@@ -93,7 +98,7 @@ Class LoginForm
             Login.ConfigureProxy(Proxy.Checked, ProxyAddress.Text, ProxyPort.Text, ProxyUsername.Text, _
                 ProxyPassword.Text, ProxyDomain.Text)
 
-        Catch ex As Exception
+        Catch ex As UriFormatException
             Abort(ex.Message)
         End Try
 

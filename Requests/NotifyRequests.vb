@@ -71,9 +71,9 @@ Namespace Requests
 
         Public Sub Start()
             If Edit IsNot Nothing AndAlso Not Edit.User.Ignored Then
-                If Edit.User.WarningLevel = UserLevel.ReportedAIV Then
+                If Edit.User.Level = UserLevel.ReportedAIV Then
                     AlreadyReported()
-                ElseIf Edit.User.WarningLevel = UserLevel.Blocked Then
+                ElseIf Edit.User.Level = UserLevel.Blocked Then
                     AlreadyBlocked()
                 Else
                     LogProgress("Warning '" & Edit.User.Name & "'...")
@@ -118,8 +118,8 @@ Namespace Requests
             If ExistingWarnings.Count = 1 AndAlso ExistingWarnLevel = UserLevel.WarnFinal _
                 Then ExistingWarnLevel = UserLevel.Warn4im
 
-            If Edit.User.WarningLevel < ExistingWarnLevel OrElse ExistingWarnLevel = UserLevel.Warn4im _
-                Then Edit.User.WarningLevel = ExistingWarnLevel
+            If Edit.User.Level < ExistingWarnLevel OrElse ExistingWarnLevel = UserLevel.Warn4im _
+                Then Edit.User.Level = ExistingWarnLevel
 
             Dim LevelNeeded As UserLevel, WarningNeeded As String = ""
 
@@ -127,7 +127,7 @@ Namespace Requests
 
                 Dim FinalLevelReached As Boolean
 
-                Select Case Edit.User.WarningLevel
+                Select Case Edit.User.Level
                     Case UserLevel.None, UserLevel.Message, UserLevel.Notification, UserLevel.Reverted, UserLevel.ReportedUAA
                         LevelNeeded = UserLevel.Warn1
 
@@ -166,7 +166,7 @@ Namespace Requests
             End If
 
             If Edit.LevelToWarn > LevelNeeded Then LevelNeeded = Edit.LevelToWarn
-            If Edit.User.WarningLevel < LevelNeeded Then Edit.User.WarningLevel = LevelNeeded
+            If Edit.User.Level < LevelNeeded Then Edit.User.Level = LevelNeeded
 
             Dim WarnLevelName As String = "", WarnSummary As String = ""
 

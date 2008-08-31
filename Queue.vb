@@ -354,9 +354,9 @@ Class Queue
             AndAlso CSMatch(_FilterHuggle, Edit.IsHuggleEdit) _
             AndAlso CSMatch(_FilterIgnored, Edit.User.Ignored) _
             AndAlso CSMatch(_FilterNewPage, Edit.NewPage) _
-            AndAlso CSMatch(_FilterReverts, Edit.Type = Edit.Types.Revert) _
-            AndAlso CSMatch(_FilterNotifications, (Edit.Type = Huggle.Edit.Types.Warning _
-            OrElse Edit.Type = Huggle.Edit.Types.Notification))
+            AndAlso CSMatch(_FilterReverts, Edit.Type = EditType.Revert) _
+            AndAlso CSMatch(_FilterNotifications, (Edit.Type = Huggle.EditType.Warning _
+            OrElse Edit.Type = Huggle.EditType.Notification))
     End Function
 
     Private Function CSMatch(ByVal Filter As QueueFilter, ByVal Value As Boolean) As Boolean

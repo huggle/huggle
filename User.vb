@@ -14,11 +14,11 @@ Class User
     Private _Anonymous As Boolean
     Private _EditCount As Integer
     Private _Ignored As Boolean
+    Private _Level As UserLevel
     Private _Name As String
     Private _SessionEditCount As Integer
     Private _SharedIP As Boolean
 
-    Public WarningLevel As UserLevel
     Public FirstEdit As Edit
     Public LastEdit As Edit
     Public WarnTime As Date
@@ -39,7 +39,7 @@ Class User
 
     Public Shared ReadOnly Property [Me]() As User
         Get
-            Return GetUser(Username)
+            Return GetUser(Config.Username)
         End Get
     End Property
 
@@ -116,6 +116,23 @@ Class User
         End Set
     End Property
 
+    Public ReadOnly Property TalkPage() As Page
+        Get
+            Return GetPage(Space.UserTalk.Name & ":" & Name)
+        End Get
+    End Property
+
+    Public Property Level() As UserLevel
+        Get
+            Return _Level
+        End Get
+        Set(ByVal value As UserLevel)
+            _Level = value
+            RefreshEdits()
+            RefreshInfo()
+        End Set
+    End Property
+
     Public Shared Sub ClearAll()
         All.Clear()
     End Sub
@@ -131,6 +148,11 @@ Class User
         Name = Name.Replace("[", "").Replace("]", "").Replace("{", "").Replace("}", "").Replace("|", "") _
             .Replace("<", "").Replace(">", "").Replace("#", "").Replace(Tab, "").Replace(LF, "") _
             .Replace("_", " ").Trim(" "c)
+
+        While Name.StartsWith(":")
+            Name = Name.Substring(1)
+        End While
+
         If Name.Contains("#") Then Name = Name.Substring(0, Name.IndexOf("#"))
         If Name Is Nothing OrElse Name.Length = 0 Then Return Nothing
 

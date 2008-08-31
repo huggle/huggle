@@ -3,7 +3,7 @@ Imports System.Net
 Imports System.Text.RegularExpressions
 Imports System.Web.HttpUtility
 
-'<DebuggerStepThrough()> _
+<DebuggerStepThrough()> _
 Module Misc
 
     'Globals
@@ -68,19 +68,6 @@ Module Misc
             If CurrentEdit Is Nothing Then Return Nothing Else Return CurrentEdit.Page
         End Get
     End Property
-
-    Public RevertSummaries() As String = _
-    { _
-        "[[wp:undo|undid]]", _
-        "undid", _
-        "bot - rv", _
-        "bot - revert", _
-        "bot--revert", _
-        "revert", _
-        "rv", _
-        "js: revert", _
-        "automatically reverting" _
-    }
 
     Class Block
         Public Time As Date
@@ -444,6 +431,11 @@ Module Misc
 
     Function VersionString(ByVal Version As Version) As String
         Return Version.Major & "." & Version.Minor & "." & Version.Build
+    End Function
+
+    Function WikiTimestamp(ByVal Time As Date) As String
+        Return CStr(Time.Hour).PadLeft(2, "0"c) & ":" & CStr(Time.Minute).PadLeft(2, "0"c) & ", " & CStr(Time.Day) & _
+            " " & GetMonthName(Time.Month) & " " & CStr(Time.Year) & " (UTC)"
     End Function
 
     Function WikiUrl(ByVal Url As String) As Boolean

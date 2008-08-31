@@ -21,6 +21,19 @@ Module Config
     Public RememberMe As Boolean = True
     Public SitePath As String = "http://en.wikipedia.org/"
 
+    Public RevertSummaries() As String = _
+    { _
+        "[[wp:undo|undid]]", _
+        "undid", _
+        "bot - rv", _
+        "bot - revert", _
+        "bot--revert", _
+        "revert", _
+        "rv", _
+        "js: revert", _
+        "automatically reverting" _
+    }
+
     'Values stored in local config file
 
     Public Project As String
@@ -163,6 +176,7 @@ Module Config
     Public TemplateMessagesGlobal As New List(Of String)
     Public TfdLocation As String
     Public TrayIcon As Boolean
+    Public TrrReportLocation As String = "Wikipedia:Administrators' noticeboard/3RR"
     Public UAALocation As String
     Public UAABotLocation As String
     Public UndoSummary As String
@@ -289,6 +303,7 @@ Module Config
     Public Sub SetProjectConfigOption(ByVal Name As String, ByVal Value As String)
         'Project config only
         Select Case Name
+            Case "3rr-report-location" : Config.TrrReportLocation = Value
             Case "afd" : Config.AfdLocation = Value
             Case "aiv" : Config.AIVLocation = Value
             Case "aivbot" : Config.AIVBotLocation = Value
@@ -764,8 +779,10 @@ Module Config
             Items.Add("filter-notifications:" & CStr(CInt(Queue.FilterNotifications)))
             Items.Add("filter-own-userspace:" & CStr(CInt(Queue.FilterOwnUserspace)))
             Items.Add("filter-reverts:" & CStr(CInt(Queue.FilterReverts)))
-            Items.Add("remove-after:" & CStr(Queue.RemoveAfter))
-            Items.Add("remove-old:" & CStr(Queue.RemoveOld))
+            If Queue.ListName IsNot Nothing Then Items.Add("list:" & Queue.ListName)
+            If Queue.PageRegex IsNot Nothing Then Items.Add("page-regex:" & Queue.PageRegex.ToString)
+            Items.Add("remove-after:" & CStr(Queue.RemoveAfter).ToLower)
+            Items.Add("remove-old:" & CStr(Queue.RemoveOld).ToLower)
             Items.Add("remove-viewed:" & CStr(Queue.RemoveViewed))
             Items.Add("sort-order:" & CStr(CInt(Queue.SortOrder)))
 
@@ -779,8 +796,6 @@ Module Config
                 Items.Add("spaces:" & String.Join(",", Spaces.ToArray))
             End If
 
-            If Queue.ListName IsNot Nothing Then Items.Add("list:" & Queue.ListName)
-            If Queue.PageRegex IsNot Nothing Then Items.Add("page-regex:" & Queue.PageRegex.ToString)
             If Queue.UserRegex IsNot Nothing Then Items.Add("user-regex:" & Queue.UserRegex.ToString)
 
             File.WriteAllLines(QueuesLocation() & "\" & Queue.Name & ".txt", Items.ToArray)

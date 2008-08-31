@@ -11,13 +11,13 @@ Module Processing
 
         'Auto summaries
         If Edit.Summary.StartsWith("[[WP:AES|←]]Replaced") OrElse Edit.Summary.StartsWith("←Replaced") _
-            OrElse Edit.Summary.StartsWith("[[WP:Automatic edit summaries|←]]Replaced") Then Edit.Type = Edit.Types.ReplacedWith
+            OrElse Edit.Summary.StartsWith("[[WP:Automatic edit summaries|←]]Replaced") Then Edit.Type = EditType.ReplacedWith
         If Edit.Summary.StartsWith("[[WP:AES|←]]Blanked") OrElse Edit.Summary.StartsWith("←Blanked") _
-            OrElse Edit.Summary.StartsWith("[[WP:Automatic edit summaries|←]]Blanked") Then Edit.Type = Edit.Types.Blanked
+            OrElse Edit.Summary.StartsWith("[[WP:Automatic edit summaries|←]]Blanked") Then Edit.Type = EditType.Blanked
         If Edit.Summary.StartsWith("[[WP:AES|←]]Redirected") OrElse Edit.Summary.StartsWith("←Redirected") _
             OrElse Edit.Summary.ToLower.StartsWith("redirected page to ") _
             OrElse Edit.Summary.ToLower.StartsWith("redirected to ") _
-            OrElse Edit.Summary.StartsWith("[[WP:Automatic edit summaries|←]]Redirected") Then Edit.Type = Edit.Types.Redirect
+            OrElse Edit.Summary.StartsWith("[[WP:Automatic edit summaries|←]]Redirected") Then Edit.Type = EditType.Redirect
 
         If Edit.User IsNot Nothing AndAlso Edit.Page IsNot Nothing Then
             If Edit.NewPage Then
@@ -26,22 +26,22 @@ Module Processing
             End If
 
             'Reverts
-            For Each Item As String In RevertSummaries
+            For Each Item As String In Config.RevertSummaries
                 If Edit.Summary.ToLower.StartsWith(Item) Then
-                    Edit.Type = Edit.Types.Revert
+                    Edit.Type = EditType.Revert
 
-                    If Edit.Page.Level = Page.Levels.None Then Edit.Page.Level = Page.Levels.Watch
+                    If Edit.Page.Level = PageLevel.None Then Edit.Page.Level = PageLevel.Watch
 
                     If Edit.Prev IsNot Nothing AndAlso Edit.Prev.User IsNot Nothing _
-                        AndAlso Edit.Prev.User IsNot Edit.User AndAlso Edit.Prev.User.WarningLevel = UserLevel.None _
-                        Then Edit.Prev.User.WarningLevel = UserLevel.Reverted
+                        AndAlso Edit.Prev.User IsNot Edit.User AndAlso Edit.Prev.User.Level = UserLevel.None _
+                        Then Edit.Prev.User.Level = UserLevel.Reverted
 
                     Exit For
                 End If
             Next Item
 
             'Reverted users
-            If Edit.Type <> Edit.Types.Revert AndAlso Edit.Summary.ToLower.Contains("[[special:contributions/") Then
+            If Edit.Type <> EditType.Revert AndAlso Edit.Summary.ToLower.Contains("[[special:contributions/") Then
                 Dim Username As String = Edit.Summary.Substring(Edit.Summary.ToLower.IndexOf _
                     ("[[special:contributions/") + 24)
 
@@ -52,35 +52,34 @@ Module Processing
 
                     Dim RevertedUser As User = GetUser(Username)
 
-                    If (RevertedUser IsNot Edit.User) AndAlso RevertedUser.WarningLevel = UserLevel.None _
-                        Then RevertedUser.WarningLevel = UserLevel.Reverted
+                    If (RevertedUser IsNot Edit.User) AndAlso RevertedUser.Level = UserLevel.None _
+                        Then RevertedUser.Level = UserLevel.Reverted
                 End If
             End If
 
             'Reverted edits
-            If Edit.Next IsNot Nothing AndAlso Edit.Next.Type = Edit.Types.Revert _
-                AndAlso Edit.User.WarningLevel = UserLevel.None Then Edit.User.WarningLevel = UserLevel.Reverted
+            If Edit.Next IsNot Nothing AndAlso Edit.Next.Type = EditType.Revert _
+                AndAlso Edit.User.Level = UserLevel.None Then Edit.User.Level = UserLevel.Reverted
 
             'Warnings / block notifications
-            If Edit.Page.Space.Name = "User talk" AndAlso Not Edit.Page.Name.Contains("/") Then
+            If Edit.Page.Space Is Space.UserTalk AndAlso Not Edit.Page.IsSubpage Then
                 Dim PageOwner As User = GetUser(Edit.Page.Name.Substring(10))
                 Dim SummaryLevel As UserLevel = GetUserLevelFromSummary(Edit)
 
                 If SummaryLevel >= UserLevel.Warning AndAlso Not PageOwner.Ignored _
                     AndAlso Edit.Time.AddHours(Config.WarningAge) > Date.UtcNow Then
 
-                    Edit.Type = Edit.Types.Warning
+                    Edit.Type = EditType.Warning
                     Edit.WarningLevel = SummaryLevel
                     If Edit.User.WarnTime < Edit.Time Then Edit.User.WarnTime = Edit.Time
 
-                    If PageOwner.WarningLevel < SummaryLevel AndAlso SummaryLevel < UserLevel.Warn4im _
-                        Then PageOwner.WarningLevel = SummaryLevel
+                    If PageOwner.Level < SummaryLevel AndAlso SummaryLevel < UserLevel.Warn4im _
+                        Then PageOwner.Level = SummaryLevel
 
                 ElseIf SummaryLevel = UserLevel.Notification Then
-                    Edit.Type = Edit.Types.Notification
+                    Edit.Type = EditType.Notification
 
-                    If PageOwner.WarningLevel < SummaryLevel AndAlso Not PageOwner.Ignored _
-                        Then PageOwner.WarningLevel = SummaryLevel
+                    If PageOwner.Level < SummaryLevel AndAlso Not PageOwner.Ignored Then PageOwner.Level = SummaryLevel
                 End If
             End If
 
@@ -89,7 +88,7 @@ Module Processing
 
                 If Edit.Summary.Contains("User-reported") _
                     AndAlso Not (Edit.Summary.Contains(" rm ") OrElse Edit.Summary.Contains("remove")) Then
-                    Edit.Type = Edit.Types.Report
+                    Edit.Type = EditType.Report
 
                     If Edit.Summary.Contains("User-reported - ") _
                         OrElse Edit.Summary.Contains("User-reported */ ") Then
@@ -110,10 +109,10 @@ Module Processing
                             Dim ReportedUser As User = GetUser(Summary)
 
                             If Not ReportedUser.Ignored Then
-                                If Edit.Page.Name = Config.AIVLocation AndAlso ReportedUser.WarningLevel < UserLevel.ReportedAIV _
-                                    Then ReportedUser.WarningLevel = UserLevel.ReportedAIV
-                                If Edit.Page.Name = Config.UAALocation AndAlso ReportedUser.WarningLevel < UserLevel.ReportedUAA _
-                                    Then ReportedUser.WarningLevel = UserLevel.ReportedUAA
+                                If Edit.Page.Name = Config.AIVLocation AndAlso ReportedUser.Level < UserLevel.ReportedAIV _
+                                    Then ReportedUser.Level = UserLevel.ReportedAIV
+                                If Edit.Page.Name = Config.UAALocation AndAlso ReportedUser.Level < UserLevel.ReportedUAA _
+                                    Then ReportedUser.Level = UserLevel.ReportedUAA
                             End If
 
                         Else
@@ -122,10 +121,10 @@ Module Processing
 
                             Dim ReportedUser As User = GetUser(Summary)
 
-                            If ReportedUser.Anonymous AndAlso ReportedUser.WarningLevel < UserLevel.ReportedUAA _
+                            If ReportedUser.Anonymous AndAlso ReportedUser.Level < UserLevel.ReportedUAA _
                                 AndAlso Not ReportedUser.Ignored Then
-                                If Edit.Page.Name = Config.AIVLocation Then ReportedUser.WarningLevel = UserLevel.ReportedAIV _
-                                    Else ReportedUser.WarningLevel = UserLevel.ReportedUAA
+                                If Edit.Page.Name = Config.AIVLocation Then ReportedUser.Level = UserLevel.ReportedAIV _
+                                    Else ReportedUser.Level = UserLevel.ReportedUAA
                             End If
                         End If
                     End If
@@ -141,22 +140,22 @@ Module Processing
 
                     Dim ReportedUser As User = GetUser(Summary)
 
-                    If ReportedUser.WarningLevel < UserLevel.ReportedAIV AndAlso Not ReportedUser.Ignored Then _
-                        ReportedUser.WarningLevel = UserLevel.ReportedAIV
+                    If ReportedUser.Level < UserLevel.ReportedAIV AndAlso Not ReportedUser.Ignored Then _
+                        ReportedUser.Level = UserLevel.ReportedAIV
 
-                    Edit.Type = Edit.Types.Report
+                    Edit.Type = EditType.Report
 
                 ElseIf Edit.Summary.ToLower.StartsWith("reporting ") AndAlso Edit.Summary.Length > 10 Then
                     Dim ReportedUser As User = GetUser(Edit.Summary.Substring(10))
 
-                    If ReportedUser.WarningLevel < UserLevel.ReportedAIV AndAlso Not ReportedUser.Ignored Then _
-                        ReportedUser.WarningLevel = UserLevel.ReportedAIV
+                    If ReportedUser.Level < UserLevel.ReportedAIV AndAlso Not ReportedUser.Ignored Then _
+                        ReportedUser.Level = UserLevel.ReportedAIV
 
-                    Edit.Type = Edit.Types.Report
+                    Edit.Type = EditType.Report
                 End If
 
                 If Edit.Summary.ToLower.StartsWith("added report") _
-                    OrElse Edit.Summary.ToLower.StartsWith("reporting") Then Edit.Type = Edit.Types.Report
+                    OrElse Edit.Summary.ToLower.StartsWith("reporting") Then Edit.Type = EditType.Report
             End If
 
             'Bot AIV reports
@@ -174,10 +173,10 @@ Module Processing
 
                     Dim ReportedUser As User = GetUser(UserName)
 
-                    If ReportedUser.WarningLevel < UserLevel.ReportedAIV AndAlso Not ReportedUser.Ignored _
-                        Then ReportedUser.WarningLevel = UserLevel.ReportedAIV
+                    If ReportedUser.Level < UserLevel.ReportedAIV AndAlso Not ReportedUser.Ignored _
+                        Then ReportedUser.Level = UserLevel.ReportedAIV
 
-                    Edit.Type = Edit.Types.Report
+                    Edit.Type = EditType.Report
 
                 ElseIf Edit.Summary.ToLower.StartsWith("bot - reporting apparent vandalism by ") Then
 
@@ -188,10 +187,10 @@ Module Processing
 
                     Dim ReportedUser As User = GetUser(UserName)
 
-                    If ReportedUser.WarningLevel < UserLevel.ReportedAIV AndAlso Not ReportedUser.Ignored _
-                        Then ReportedUser.WarningLevel = UserLevel.ReportedAIV
+                    If ReportedUser.Level < UserLevel.ReportedAIV AndAlso Not ReportedUser.Ignored _
+                        Then ReportedUser.Level = UserLevel.ReportedAIV
 
-                    Edit.Type = Edit.Types.Report
+                    Edit.Type = EditType.Report
                 End If
             End If
 
@@ -207,16 +206,16 @@ Module Processing
 
                     Dim ReportedUser As User = GetUser(UserName)
 
-                    If ReportedUser.WarningLevel < UserLevel.ReportedUAA AndAlso Not ReportedUser.Ignored Then _
-                        ReportedUser.WarningLevel = UserLevel.ReportedUAA
+                    If ReportedUser.Level < UserLevel.ReportedUAA AndAlso Not ReportedUser.Ignored Then _
+                        ReportedUser.Level = UserLevel.ReportedUAA
 
-                    Edit.Type = Edit.Types.Report
+                    Edit.Type = EditType.Report
                 End If
             End If
 
             'Tagging
-            If IsTagFromSummary(Edit) AndAlso Edit.Type <= 0 AndAlso Edit.Type <> Edit.Types.Tag _
-                Then Edit.Type = Edit.Types.Tag
+            If IsTagFromSummary(Edit) AndAlso Edit.Type <= 0 AndAlso Edit.Type <> EditType.Tag _
+                Then Edit.Type = EditType.Tag
         End If
 
         If Edit.Id IsNot Nothing AndAlso Not Edit.All.ContainsKey(Edit.Id) Then Edit.All.Add(Edit.Id, Edit)
@@ -322,17 +321,17 @@ Module Processing
             NewCommand.Edit = Edit
 
             Select Case Edit.Type
-                Case Edit.Types.Warning
+                Case EditType.Warning
                     Stats.WarningsMe += 1
                     NewCommand.Type = CommandType.Warning
                     NewCommand.Description = "Warn " & Edit.Page.Name.Substring(10)
 
-                Case Edit.Types.Revert
+                Case EditType.Revert
                     Stats.RevertsMe += 1
                     NewCommand.Type = CommandType.Revert
                     NewCommand.Description = "Revert on " & Edit.Page.Name
 
-                Case Edit.Types.Report
+                Case EditType.Report
                     NewCommand.Type = CommandType.Report
                     NewCommand.Description = "Report " & TrimSummary(Edit.Summary).Substring(10)
 
@@ -414,9 +413,11 @@ Module Processing
         End If
 
         'Refresh the interface
-        If CurrentEdit IsNot Nothing Then
-            If CurrentEdit.Page Is Edit.Page Then MainForm.DrawHistory()
-            If CurrentEdit.User Is Edit.User Then MainForm.DrawContribs()
+        If CurrentEdit IsNot Nothing AndAlso Edit.Page Is CurrentPage OrElse Edit.User Is CurrentUser _
+            OrElse Edit.Page Is CurrentUser.TalkPage Then
+
+            MainForm.DrawHistory()
+            MainForm.DrawContribs()
         End If
 
         If Config.ShowQueue AndAlso Redraw Then MainForm.DrawQueue()
@@ -493,8 +494,8 @@ Module Processing
             AndAlso MessageBox.Show("This will revert multiple edits by '" & Edit.User.Name & "'. Continue?", "Huggle", _
             MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.No Then Return False
 
-        If Not Undoing AndAlso Edit.User.WarningLevel = UserLevel.None Then Edit.User.WarningLevel = UserLevel.Reverted
-        If Not Undoing AndAlso Edit.Page.Level = Page.Levels.None Then Edit.Page.Level = Page.Levels.Watch
+        If Not Undoing AndAlso Edit.User.Level = UserLevel.None Then Edit.User.Level = UserLevel.Reverted
+        If Not Undoing AndAlso Edit.Page.Level = PageLevel.None Then Edit.Page.Level = PageLevel.Watch
 
         'If reverting first edit to user talk page, blank it
         If Edit.Page.FirstEdit IsNot Nothing AndAlso Edit.Id = Edit.Page.FirstEdit.Id _
@@ -603,28 +604,28 @@ Module Processing
     End Function
 
     Sub ProcessBlock(ByVal BlockObject As Object)
-        Dim ThisBlock As Block = CType(BlockObject, Block)
+        Dim Block As Block = CType(BlockObject, Block)
 
-        If ThisBlock IsNot Nothing AndAlso ThisBlock.User IsNot Nothing Then
+        If Block IsNot Nothing AndAlso Block.User IsNot Nothing Then
             Stats.Blocks += 1
-            If ThisBlock.Admin.IsMe Then Stats.BlocksMe += 1
+            If Block.Admin.IsMe Then Stats.BlocksMe += 1
 
-            If ThisBlock.User.BlocksCurrent Then
-                If ThisBlock.User.Blocks Is Nothing Then ThisBlock.User.Blocks = New List(Of Block)
-                ThisBlock.User.Blocks.Insert(0, ThisBlock)
+            If Block.User.BlocksCurrent Then
+                If Block.User.Blocks Is Nothing Then Block.User.Blocks = New List(Of Block)
+                Block.User.Blocks.Insert(0, Block)
             End If
 
-            If ThisBlock.Action = "block" Then
-                If Not ThisBlock.User.Ignored Then ThisBlock.User.WarningLevel = UserLevel.Blocked
+            If Block.Action = "block" Then
+                If Not Block.User.Ignored Then Block.User.Level = UserLevel.Blocked
             Else
-                ThisBlock.User.WarningLevel = UserLevel.None
+                Block.User.Level = UserLevel.None
             End If
 
             'Refresh any open user info form
             For Each Item As Form In Application.OpenForms
                 Dim uif As UserInfoForm = TryCast(Item, UserInfoForm)
 
-                If uif IsNot Nothing AndAlso uif.User Is ThisBlock.User Then
+                If uif IsNot Nothing AndAlso uif.User Is Block.User Then
                     uif.RefreshBlocks()
                 End If
             Next Item
@@ -687,7 +688,7 @@ Module Processing
         'Page move leaves a redirect behind
         Dim RedirectEdit As New Edit
 
-        RedirectEdit.Type = Edit.Types.Redirect
+        RedirectEdit.Type = EditType.Redirect
         RedirectEdit.User = PageMove.User
         RedirectEdit.Prev = NullEdit
 
@@ -988,7 +989,7 @@ Module Processing
                                 BlockSummary = BlockSummary.Substring(0, BlockSummary.IndexOf(""""))
 
                                 Dim BlockedUser As User = GetUser(BlockSummary)
-                                If BlockedUser.WarningLevel < UserLevel.Blocked Then BlockedUser.WarningLevel = UserLevel.Blocked
+                                If BlockedUser.Level < UserLevel.Blocked Then BlockedUser.Level = UserLevel.Blocked
                             End If
                         End If
                     Else
@@ -1165,10 +1166,7 @@ Module Processing
     End Sub
 
     Sub ShowNextEdit()
-        If CurrentQueue.Edits.Count > 0 Then
-            Dim ThisEdit As Edit = CurrentQueue.Edits(0)
-            DisplayEdit(ThisEdit, , CurrentTab)
-        End If
+        If CurrentQueue.Edits.Count > 0 Then DisplayEdit(CurrentQueue.Edits(0), , CurrentTab)
     End Sub
 
     Sub DisplayHistoryItem(ByVal Index As Integer)

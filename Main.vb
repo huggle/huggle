@@ -472,15 +472,16 @@ Class Main
     End Sub
 
     Sub PageView_Click() Handles PageView.Click, PageViewB.Click
-        If CurrentEdit IsNot Nothing Then DisplayUrl(SitePath & "w/index.php?title=" & _
-            UrlEncode(CurrentPage.Name) & "&oldid=" & CurrentEdit.Id)
+        If CurrentEdit IsNot Nothing AndAlso CurrentPage IsNot Nothing _
+            Then DisplayUrl(SitePath & "w/index.php?title=" & UrlEncode(CurrentPage.Name) & "&oldid=" & CurrentEdit.Id)
     End Sub
 
     Private Sub DiffRevertSummary_Click() Handles DiffRevertSummary.Click
         If CurrentEdit IsNot Nothing AndAlso CurrentEdit.Prev IsNot Nothing Then
             Dim NewRevertForm As New RevertForm
 
-            NewRevertForm.ThisPage = CurrentPage
+            NewRevertForm.Page = CurrentPage
+            NewRevertForm.User = CurrentUser
 
             If NewRevertForm.ShowDialog = DialogResult.OK Then
                 DiffRevertB.Enabled = False
@@ -522,7 +523,7 @@ Class Main
     Private Sub UserReport_Click() Handles UserReport.Click, UserBlock.Click, UserReportB.Click
 
         If CurrentEdit IsNot Nothing AndAlso CurrentEdit.User IsNot Nothing _
-            AndAlso CurrentEdit.User.WarningLevel >= UserLevel.None Then
+            AndAlso CurrentEdit.User.Level >= UserLevel.None Then
 
             If Administrator Then BlockUser(CurrentEdit.User) Else ReportUser(CurrentEdit.User, CurrentEdit)
         End If
@@ -1062,7 +1063,7 @@ Class Main
             If Item.Time > StartTime AndAlso Item.Time.AddMinutes(10) > Date.UtcNow Then
                 Edits += 1
                 If Item.Time < FirstTime Then FirstTime = Item.Time
-                If Item.Type = Edit.Types.Revert Then Reverts += 1
+                If Item.Type = EditType.Revert Then Reverts += 1
             End If
         Next Item
 
@@ -1605,8 +1606,8 @@ Class Main
 
     Private Sub PageSwitchTalk_Click() Handles PageSwitchTalk.Click
         If CurrentPage IsNot Nothing Then If CurrentPage.IsTalkPage _
-            Then SetCurrentPage(CurrentPage.TalkPage, True) _
-            Else SetCurrentPage(CurrentPage.SubjectPage, True)
+            Then SetCurrentPage(CurrentPage.SubjectPage, True) _
+            Else SetCurrentPage(CurrentPage.TalkPage, True)
     End Sub
 
     Private Sub LogClear_Click() Handles LogClear.Click

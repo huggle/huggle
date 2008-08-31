@@ -226,7 +226,7 @@ Module Irc
                         NewProtection.Summary = Match.Groups(3).Value
                         NewProtection.EditLevel = Match.Groups(4).Value
                         NewProtection.MoveLevel = Match.Groups(5).Value
-                        NewProtection.Expiry = CDate(Match.Groups(6).Value)
+                        'NewProtection.Expiry = CDate(Match.Groups(6).Value)
 
                         Callback(AddressOf ProcessProtection, CObj(NewProtection))
 

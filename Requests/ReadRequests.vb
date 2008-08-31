@@ -119,7 +119,8 @@ Namespace Requests
                 Callback(AddressOf Failed)
                 Exit Sub
 
-            ElseIf Result.Contains("<div id=""mw-missingarticle"">") Then
+            ElseIf Result.Contains("<div id=""mw-missing-article"">") _
+                OrElse Result.Contains("The database did not find the text of a page that it should have found") Then
                 Callback(AddressOf Deleted)
                 Exit Sub
             End If
@@ -411,7 +412,7 @@ Namespace Requests
             For Each Item As Match In BlockMatches
                 Dim BlockedUser As User = GetUser(Item.Groups(1).Value)
                 BlockedUser.BlocksCurrent = False
-                If BlockedUser.WarningLevel <> UserLevel.Blocked Then BlockedUser.WarningLevel = UserLevel.Blocked
+                If BlockedUser.Level <> UserLevel.Blocked Then BlockedUser.Level = UserLevel.Blocked
             Next Item
 
             MainForm.BlockReqTimer.Start()
@@ -595,7 +596,7 @@ Namespace Requests
                 Else
                     For Each Item As Warning In ThisUser.Warnings
                         If Item.Time.AddHours(Config.WarningAge) > My.Computer.Clock.GmtTime Then
-                            If Item.Level > ThisUser.WarningLevel Then ThisUser.WarningLevel = Item.Level
+                            If Item.Level > ThisUser.Level Then ThisUser.Level = Item.Level
                             If ThisUser.WarnTime < Item.Time Then ThisUser.WarnTime = Item.Time
                         End If
                     Next Item
@@ -1025,7 +1026,7 @@ Namespace Requests
         Private VersionId As String, RevertIds As New List(Of String)
 
         Public Delegate Sub ThreeRevertRuleCheckCallback(ByVal Result As Request.Output, _
-            ByVal VersionId As String, ByVal RevertIds As List(Of String))
+            ByVal BaseEdit As Edit, ByVal Reverts As List(Of Edit))
 
         Public User As User
 
@@ -1040,13 +1041,12 @@ Namespace Requests
         Private Sub Process()
             Dim QueryString As String = "action=query&format=xml&prop=revisions&rvprop=ids|content&revids="
 
-            Dim ThisEdit As Edit = User.LastEdit
+            Dim ThisEdit As Edit = User.LastEdit, i As Integer = ApiLimit() \ 10
 
-            While ThisEdit IsNot NullEdit AndAlso ThisEdit IsNot Nothing _
-                AndAlso ThisEdit.Time.AddHours(24) > Date.UtcNow
-
+            While ThisEdit IsNot NullEdit AndAlso ThisEdit IsNot Nothing AndAlso i > 0
                 QueryString &= ThisEdit.Id & "|"
                 ThisEdit = ThisEdit.PrevByUser
+                i -= 1
             End While
 
             QueryString = QueryString.Trim("|"c)
@@ -1130,8 +1130,10 @@ Namespace Requests
             Dim TextToFind As String = Edit.All(RevertIds(0)).Text
 
             While ThisEdit IsNot NullEdit AndAlso ThisEdit IsNot Nothing
-                If Not RevertIds.Contains(ThisEdit.Id) AndAlso ThisEdit.Text = TextToFind Then
-                    'Found another revision identical to the three already found, meaning they were all reversions
+                If Not RevertIds.Contains(ThisEdit.Id) AndAlso ThisEdit.Text = TextToFind _
+                    AndAlso ThisEdit.Time < Edit.All(RevertIds(0)).Time Then
+
+                    'Found an older revision identical to the three already found, meaning they were all reversions
                     VersionId = ThisEdit.Id
                     Done()
                     Exit Sub
@@ -1145,7 +1147,18 @@ Namespace Requests
 
         Private Sub Done()
             Complete()
-            _Done(New Output(States.Complete, Nothing), VersionId, RevertIds)
+
+            If VersionId Is Nothing Then
+                _Done(New Output(States.Complete, Nothing), Nothing, Nothing)
+            Else
+                Dim Reverts As New List(Of Edit)
+
+                For Each Item As String In RevertIds
+                    Reverts.Add(Edit.All(Item))
+                Next Item
+
+                _Done(New Output(States.Complete, Nothing), Edit.All(VersionId), Reverts)
+            End If
         End Sub
 
         Private Sub Failed()

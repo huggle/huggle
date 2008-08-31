@@ -9,7 +9,7 @@ Class Page
 
     Public FirstEdit As Edit
     Public LastEdit As Edit
-    Public Level As Levels
+    Public Level As PageLevel
     Public Deletes As List(Of Delete)
     Public DeletesCurrent As Boolean
     Public Protections As List(Of Protection)
@@ -20,13 +20,6 @@ Class Page
     Public Text As String
     Public EditLevel As String
     Public MoveLevel As String
-
-    Public Enum Levels As Integer
-        None = 0
-        Ignore = -1
-        Watch = 1
-        Bad = 2
-    End Enum
 
     Private Sub New(ByVal Name As String)
         _Name = Name
@@ -118,7 +111,7 @@ Class Page
 
     Public ReadOnly Property SubjectPageName() As String
         Get
-            If Space.IsArticleSpace Then Return BasePageName Else Return Space.SubjectSpace.Name & ":" & BasePageName
+            If Space Is Space.Talk Then Return BasePageName Else Return Space.SubjectSpace.Name & ":" & BasePageName
         End Get
     End Property
 
@@ -143,6 +136,11 @@ Class Page
         Name = Name.Replace("[", "").Replace("]", "").Replace("{", "").Replace("}", "").Replace("|", "") _
             .Replace("<", "").Replace(">", "").Replace("#", "").Replace(Tab, "").Replace(LF, "") _
             .Replace("_", " ").Trim(" "c)
+
+        While Name.StartsWith(":")
+            Name = Name.Substring(1)
+        End While
+
         If Name.Contains("#") Then Name = Name.Substring(0, Name.IndexOf("#"))
         If Name Is Nothing OrElse Name.Length = 0 Then Return Nothing
 
@@ -177,3 +175,10 @@ Class Page
     End Sub
 
 End Class
+
+Public Enum PageLevel As Integer
+    None = 0
+    Ignore = -1
+    Watch = 1
+    Bad = 2
+End Enum

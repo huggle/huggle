@@ -31,22 +31,10 @@ Class Edit
     Public Summary As String
     Public Text As String
     Public Time As Date
-    Public Type As Types
+    Public Type As EditType
     Public TypeToWarn As String
     Public User As User
     Public WarningLevel As UserLevel
-
-    Public Enum Types As Integer
-        Blanked = 2
-        ReplacedWith = 1
-        None = 0
-        Revert = -1
-        Notification = -2
-        Tag = -3
-        Warning = -4
-        Report = -5
-        Redirect = -6
-    End Enum
 
     Public Enum CacheState As Integer
         Uncached
@@ -59,15 +47,15 @@ Class Edit
         Get
             'Get an icon representing this edit
             Select Case Type
-                Case Edit.Types.Blanked : Return My.Resources.blob_blanked
-                Case Edit.Types.ReplacedWith : Return My.Resources.blob_replaced
-                Case Edit.Types.Redirect : Return My.Resources.blob_redirect
-                Case Edit.Types.Revert : Return My.Resources.blob_revert
-                Case Edit.Types.Report : Return My.Resources.blob_report
-                Case Edit.Types.Notification : Return My.Resources.blob_message
-                Case Edit.Types.Tag : Return My.Resources.blob_tag
+                Case EditType.Blanked : Return My.Resources.blob_blanked
+                Case EditType.ReplacedWith : Return My.Resources.blob_replaced
+                Case EditType.Redirect : Return My.Resources.blob_redirect
+                Case EditType.Revert : Return My.Resources.blob_revert
+                Case EditType.Report : Return My.Resources.blob_report
+                Case EditType.Notification : Return My.Resources.blob_message
+                Case EditType.Tag : Return My.Resources.blob_tag
 
-                Case Edit.Types.Warning
+                Case EditType.Warning
                     Select Case WarningLevel
                         Case UserLevel.Warn1, UserLevel.Warn2, UserLevel.Warn3, _
                             UserLevel.Warn4im, UserLevel.WarnFinal : Return My.Resources.blob_blank
@@ -87,7 +75,7 @@ Class Edit
                             Return My.Resources.blob_ignored
 
                         Else
-                            Select Case User.WarningLevel
+                            Select Case User.Level
                                 Case UserLevel.Blocked : Return My.Resources.blob_blocked
                                 Case UserLevel.ReportedAIV : Return My.Resources.blob_reported
                                 Case UserLevel.Reverted : Return My.Resources.blob_reverted
@@ -112,14 +100,15 @@ Class Edit
         End Get
     End Property
 
+    <DebuggerStepThrough()> _
     Public NotInheritable Class CompareByQuality : Implements IComparer(Of Edit)
 
         Public Function Compare(ByVal x As Edit, ByVal y As Edit) As Integer Implements IComparer(Of Edit).Compare
-            If x.Type > y.Type AndAlso x.Type >= Types.ReplacedWith Then Return -1
-            If y.Type > x.Type AndAlso y.Type >= Types.ReplacedWith Then Return 1
+            If x.Type > y.Type AndAlso x.Type >= EditType.ReplacedWith Then Return -1
+            If y.Type > x.Type AndAlso y.Type >= EditType.ReplacedWith Then Return 1
 
-            If x.User.WarningLevel > y.User.WarningLevel AndAlso x.User.WarningLevel >= UserLevel.Reverted Then Return -1
-            If y.User.WarningLevel > x.User.WarningLevel AndAlso y.User.WarningLevel >= UserLevel.Reverted Then Return 1
+            If x.User.Level > y.User.Level AndAlso x.User.Level >= UserLevel.Reverted Then Return -1
+            If y.User.Level > x.User.Level AndAlso y.User.Level >= UserLevel.Reverted Then Return 1
 
             If x.Page Is Nothing Then Return 1
             If y.Page Is Nothing Then Return -1
@@ -140,6 +129,7 @@ Class Edit
 
     End Class
 
+    <DebuggerStepThrough()> _
     Public NotInheritable Class CompareByPageName : Implements IComparer(Of Edit)
 
         Public Function Compare(ByVal x As Edit, ByVal y As Edit) As Integer Implements IComparer(Of Edit).Compare
@@ -148,6 +138,7 @@ Class Edit
 
     End Class
 
+    <DebuggerStepThrough()> _
     Public NotInheritable Class CompareByTime : Implements IComparer(Of Edit)
 
         Public Function Compare(ByVal x As Edit, ByVal y As Edit) As Integer Implements IComparer(Of Edit).Compare
@@ -156,6 +147,7 @@ Class Edit
 
     End Class
 
+    <DebuggerStepThrough()> _
     Public NotInheritable Class CompareByTimeReverse : Implements IComparer(Of Edit)
 
         Public Function Compare(ByVal x As Edit, ByVal y As Edit) As Integer Implements IComparer(Of Edit).Compare
@@ -165,3 +157,15 @@ Class Edit
     End Class
 
 End Class
+
+Public Enum EditType As Integer
+    Blanked = 2
+    ReplacedWith = 1
+    None = 0
+    Revert = -1
+    Notification = -2
+    Tag = -3
+    Warning = -4
+    Report = -5
+    Redirect = -6
+End Enum

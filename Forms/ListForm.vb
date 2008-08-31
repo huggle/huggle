@@ -157,9 +157,11 @@ Class ListForm
         ListPages.BeginUpdate()
         ListPages.Items.Clear()
 
-        For Each Item As String In CurrentList
-            ListPages.Items.Add(Item)
-        Next Item
+        If CurrentList IsNot Nothing Then
+            For Each Item As String In CurrentList
+                ListPages.Items.Add(Item)
+            Next Item
+        End If
 
         ListPages.EndUpdate()
 
@@ -395,25 +397,24 @@ Class ListForm
         Source.Width = If(SourceType.Text = "File", 137, 210)
 
         For Each Item As Control In New Control() _
-            {CopyList, FromLabel, Limit, LimitLabel, DeleteList, RenameList, SourceLabel, SourceTypeLabel}
-            Item.Enabled = Not Throbber.Active
+            {Actions, CopyList, FromLabel, Limit, LimitLabel, DeleteList, ListSelector, RenameList, SourceLabel, _
+                SourceTypeLabel, SourceType}
+            Item.Enabled = (Not Throbber.Active AndAlso Lists.SelectedIndex > -1)
         Next Item
 
-        Actions.Enabled = (Lists.SelectedIndex > -1)
         AddList.Enabled = (Not Throbber.Active)
         Browse.Visible = (SourceType.Text = "File")
         Cancel.Visible = Throbber.Active
-        Clear.Enabled = (Not Throbber.Active AndAlso ListPages.Items.Count > 0)
+        Clear.Enabled = (Not Throbber.Active AndAlso ListPages.Items.Count > 0 AndAlso Lists.SelectedIndex > -1)
         Count.Visible = (Lists.SelectedIndex > -1)
-        From.Enabled = (Not Throbber.Active AndAlso SourceType.Text <> "Manually add pages")
+        From.Enabled = (Not Throbber.Active AndAlso SourceType.Text <> "Manually add pages" AndAlso Lists.SelectedIndex > -1)
         ListEmpty.Visible = (Lists.SelectedIndex > -1 AndAlso ListPages.Items.Count = 0)
         ListPages.Enabled = (Not Throbber.Active)
         ListsEmpty.Visible = (Lists.Items.Count = 0)
         ListSelector.Visible = (SourceType.Text = "Existing list")
-        Save.Enabled = (ListPages.Items.Count > 0)
-        Source.Enabled = Limit.Enabled
+        Save.Enabled = (ListPages.Items.Count > 0 AndAlso Not Throbber.Active AndAlso Lists.SelectedIndex > -1)
+        Source.Enabled = (Limit.Enabled AndAlso Not Throbber.Active AndAlso Lists.SelectedIndex > -1)
         Source.Visible = (SourceType.Text <> "Watchlist" AndAlso SourceType.Text <> "Existing list")
-        SourceType.Enabled = Limit.Enabled
 
         If ListSelector.Visible Then
             ListSelector.Items.Clear()

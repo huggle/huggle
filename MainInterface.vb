@@ -220,7 +220,7 @@ Partial Class Main
             UserInfoB.Enabled = True
             UserMessage.Enabled = True
             UserMessageB.Enabled = True
-            UserReport.Enabled = (Not CurrentUser.Ignored AndAlso CurrentUser.WarningLevel < UserLevel.Blocked)
+            UserReport.Enabled = (Not CurrentUser.Ignored AndAlso CurrentUser.Level < UserLevel.Blocked)
             UserReportB.Enabled = UserReport.Enabled
             UserTalk.Enabled = True
             UserTalkB.Enabled = True
