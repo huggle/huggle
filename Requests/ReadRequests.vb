@@ -200,7 +200,7 @@ Namespace Requests
 
         Public Sub Start(Optional ByVal Done As RequestCallback = Nothing)
             _Done = Done
-            BlockSize = HistoryBlockSize
+            BlockSize = Config.HistoryBlockSize
             If GetContent Then BlockSize = Math.Min(ApiLimit() \ 10, BlockSize)
             If Page.HistoryOffset Is Nothing Then Page.HistoryOffset = ""
 
@@ -271,7 +271,7 @@ Namespace Requests
 
         Public User As User
         Public DisplayWhenDone As Boolean, ReportWhenDone As AIVReportRequest
-        Public BlockSize As Integer = ContribsBlockSize
+        Public BlockSize As Integer = Config.ContribsBlockSize
 
         Public Sub Start(Optional ByVal Done As RequestCallback = Nothing)
             _Done = Done
@@ -559,7 +559,7 @@ Namespace Requests
 
     Class WarningLogRequest : Inherits Request
 
-        Public ThisUser As User, Target As ListView
+        Public User As User, Target As ListView
 
         Public Sub Start()
 
@@ -569,8 +569,8 @@ Namespace Requests
         End Sub
 
         Private Sub Process()
-            Result = GetApi("action=query&format=xml&prop=revisions&rvprop=content&titles=User talk:" & _
-                UrlEncode(ThisUser.Name))
+            Result = GetApi("action=query&format=xml&prop=revisions&rvprop=content&titles=" & _
+                UrlEncode(User.TalkPage.Name))
 
             If Result Is Nothing Then
                 Callback(AddressOf Failed)
@@ -582,8 +582,8 @@ Namespace Requests
                 Result = Result.Substring(0, Result.IndexOf("</rev>"))
                 Result = HtmlDecode(Result)
 
-                ThisUser.Warnings = ProcessUserTalk(Result, ThisUser)
-                If ThisUser.Warnings IsNot Nothing Then ThisUser.Warnings.Sort(AddressOf SortWarningsByDate)
+                User.Warnings = ProcessUserTalk(Result, User)
+                If User.Warnings IsNot Nothing Then User.Warnings.Sort(AddressOf SortWarningsByDate)
             End If
 
             Callback(AddressOf Done)
@@ -591,13 +591,13 @@ Namespace Requests
 
         Private Sub Done()
             If Target IsNot Nothing Then
-                If ThisUser.Warnings Is Nothing OrElse ThisUser.Warnings.Count = 0 Then
+                If User.Warnings Is Nothing OrElse User.Warnings.Count = 0 Then
                     If Target.Items.Count > 0 Then Target.Items(0).Text = "No warnings for this user."
                 Else
-                    For Each Item As Warning In ThisUser.Warnings
+                    For Each Item As Warning In User.Warnings
                         If Item.Time.AddHours(Config.WarningAge) > My.Computer.Clock.GmtTime Then
-                            If Item.Level > ThisUser.Level Then ThisUser.Level = Item.Level
-                            If ThisUser.WarnTime < Item.Time Then ThisUser.WarnTime = Item.Time
+                            If Item.Level > User.Level Then User.Level = Item.Level
+                            If User.WarnTime < Item.Time Then User.WarnTime = Item.Time
                         End If
                     Next Item
 
@@ -608,7 +608,7 @@ Namespace Requests
                     Target.Columns.Add("Type", 80)
                     Target.Columns.Add("User", 120)
 
-                    For Each Warning As Warning In ThisUser.Warnings
+                    For Each Warning As Warning In User.Warnings
                         Dim NewItem As New ListViewItem
 
                         NewItem.Text = Warning.Time.ToShortDateString & " " & Warning.Time.ToShortTimeString
@@ -639,9 +639,8 @@ Namespace Requests
         End Sub
 
         Private Sub Failed()
-            If Target IsNot Nothing AndAlso Target.Items.Count > 0 Then
-                Target.Items(0).Text = "No warnings for this user."
-            End If
+            If Target IsNot Nothing AndAlso Target.Items.Count > 0 _
+                Then Target.Items(0).Text = "No warnings for this user."
 
             Fail()
         End Sub

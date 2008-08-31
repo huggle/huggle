@@ -28,6 +28,11 @@ Class Space
     Public Shared Aliases As New Dictionary(Of String, Integer)
     Public Shared Special As New List(Of String)
 
+    Shared Sub New()
+        Aliases.Add("Media", 6)
+        Special.Add("Special")
+    End Sub
+
     Private Sub New(ByVal Number As Integer, Optional ByVal Name As String = Nothing, _
         Optional ByVal Locked As Boolean = False, Optional ByVal Unmovable As Boolean = False, _
         Optional ByVal Subpages As Boolean = False)

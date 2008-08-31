@@ -138,13 +138,12 @@ Namespace Requests
             Dim UserConfigResult As Boolean = ConfigRequest.GetUserConfig
 
             If Config.RequireConfig AndAlso (Not UserConfigResult OrElse Not Config.Enabled) Then
-                ConfigChanged = True
+                Config.ConfigChanged = True
                 Abort("Huggle is not enabled for your account, check user config.")
                 Exit Sub
             End If
 
-            'If there are no Templates in TemplateMessages(user templates) use the default TemplateMessagesGlobal
-            If TemplateMessages.Count = 0 Then TemplateMessages = TemplateMessagesGlobal
+            If Config.TemplateMessages.Count = 0 Then Config.TemplateMessages = Config.TemplateMessagesGlobal
 
             If Config.WarnSummary2 Is Nothing Then Config.WarnSummary2 = Config.WarnSummary
             If Config.WarnSummary3 Is Nothing Then Config.WarnSummary3 = Config.WarnSummary
@@ -211,8 +210,8 @@ Namespace Requests
                 'Get account creation date
                 UpdateStatus("Checking account creation date...")
 
-                Result = GetApi("action=query&format=xml&list=logevents&letype=newusers&letitle=User:" & _
-                    UrlEncode(Config.Username))
+                Result = GetApi("action=query&format=xml&list=logevents&letype=newusers&letitle=" & _
+                    UrlEncode(User.Me.UserPage.Name))
 
                 'We know the user exists, so if we get an empty result the user must have been created in 2005 or
                 'earlier, before the log existed
@@ -243,7 +242,7 @@ Namespace Requests
                 End If
 
                 If UserList IsNot Nothing AndAlso Not _
-                    UserList.Contains("[[Special:Contributions/" & Username & "|" & Username & "]]") Then
+                    UserList.Contains("[[Special:Contributions/" & Config.Username & "|" & Config.Username & "]]") Then
 
                     If Config.Approval Then
                         Abort("User is not approved to use Huggle.")
@@ -258,7 +257,7 @@ Namespace Requests
                         If Not ListedUsers.Contains(Item.Groups(1).Value) Then ListedUsers.Add(Item.Groups(1).Value)
                     Next Item
 
-                    ListedUsers.Add(Username)
+                    ListedUsers.Add(Config.Username)
                     ListedUsers.Sort(AddressOf CompareUsernames)
 
                     Dim Data As EditData = GetEditData(Config.UserListLocation)
@@ -269,7 +268,7 @@ Namespace Requests
                     Next Item
 
                     Data.Minor = True
-                    Data.Summary = Config.UserListUpdateSummary.Replace("$1", Username)
+                    Data.Summary = Config.UserListUpdateSummary.Replace("$1", Config.Username)
                     PostEdit(Data)
                 End If
             End If

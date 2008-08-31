@@ -96,7 +96,8 @@ Class Edit
 
     Public ReadOnly Property IsHuggleEdit() As Boolean
         Get
-            Return Summary.Contains(Config.Summary) AndAlso User.Ignored
+            If Config.Summary Is Nothing Then Return False _
+                Else Return (Summary.Contains(Config.Summary) AndAlso User.Ignored)
         End Get
     End Property
 

@@ -270,7 +270,7 @@ Module Processing
         While i < PendingWarnings.Count
             If PendingWarnings(i).Page Is Edit.Page Then
                 If Edit.User.IsMe Then
-                    Dim Last As Edit = GetPage("User talk:" & PendingWarnings(i).User.Name).LastEdit
+                    Dim Last As Edit = PendingWarnings(i).User.TalkPage.LastEdit
 
                     If Last IsNot Nothing AndAlso Last.Time.AddSeconds(Config.MinWarningWait) > Date.UtcNow Then
                         'Do nothing if there is a very recent warning to try to compensate for
@@ -344,7 +344,7 @@ Module Processing
         End If
 
         'Check for new messages
-        If Edit.Page Is GetPage("User talk:" & Username) Then
+        If Edit.Page Is User.Me.TalkPage Then
             MainForm.SystemShowNewMessages.Enabled = Not Edit.User.IsMe
             If MainForm.SystemShowNewMessages.Enabled AndAlso Config.TrayIcon _
                 Then MainForm.TrayIcon.ShowBalloonTip(10000)
@@ -413,8 +413,8 @@ Module Processing
         End If
 
         'Refresh the interface
-        If CurrentEdit IsNot Nothing AndAlso Edit.Page Is CurrentPage OrElse Edit.User Is CurrentUser _
-            OrElse Edit.Page Is CurrentUser.TalkPage Then
+        If CurrentEdit IsNot Nothing AndAlso CurrentPage IsNot Nothing AndAlso CurrentUser IsNot Nothing AndAlso _
+            (Edit.Page Is CurrentPage OrElse Edit.User Is CurrentUser OrElse Edit.Page Is CurrentUser.TalkPage) Then
 
             MainForm.DrawHistory()
             MainForm.DrawContribs()
@@ -633,15 +633,14 @@ Module Processing
     End Sub
 
     Sub ProcessDelete(ByVal DeleteObject As Object)
-        Dim ThisDelete As Delete = CType(DeleteObject, Delete)
+        Dim Delete As Delete = CType(DeleteObject, Delete)
 
-        If ThisDelete IsNot Nothing AndAlso ThisDelete.Page IsNot Nothing Then
-            Dim ThisPage As Page = ThisDelete.Page
-            Dim ThisEdit As Edit = ThisPage.LastEdit
+        If Delete IsNot Nothing AndAlso Delete.Page IsNot Nothing Then
+            Dim ThisEdit As Edit = Delete.Page.LastEdit
 
-            If ThisDelete.Page.DeletesCurrent Then
-                If ThisDelete.Page.Deletes Is Nothing Then ThisDelete.Page.Deletes = New List(Of Delete)
-                ThisDelete.Page.Deletes.Insert(0, ThisDelete)
+            If Delete.Page.DeletesCurrent Then
+                If Delete.Page.Deletes Is Nothing Then Delete.Page.Deletes = New List(Of Delete)
+                Delete.Page.Deletes.Insert(0, Delete)
             End If
 
             While ThisEdit IsNot Nothing AndAlso ThisEdit IsNot NullEdit
@@ -662,7 +661,7 @@ Module Processing
                 For Each Item As TabPage In MainForm.Tabs.TabPages
                     Dim ThisTab As BrowserTab = CType(Item.Controls(0), BrowserTab)
 
-                    If ThisTab.Edit IsNot Nothing AndAlso ThisTab.Edit.Page Is ThisPage _
+                    If ThisTab.Edit IsNot Nothing AndAlso ThisTab.Edit.Page Is Delete.Page _
                         Then DisplayEdit(ThisTab.Edit, False, ThisTab)
                 Next Item
             End If
@@ -670,12 +669,12 @@ Module Processing
     End Sub
 
     Sub ProcessRestore(ByVal DeleteObject As Object)
-        Dim ThisRestore As Delete = CType(DeleteObject, Delete)
+        Dim Restore As Delete = CType(DeleteObject, Delete)
 
-        If ThisRestore IsNot Nothing AndAlso ThisRestore.Page IsNot Nothing Then
-            If ThisRestore.Page.DeletesCurrent Then
-                If ThisRestore.Page.Deletes Is Nothing Then ThisRestore.Page.Deletes = New List(Of Delete)
-                ThisRestore.Page.Deletes.Insert(0, ThisRestore)
+        If Restore IsNot Nothing AndAlso Restore.Page IsNot Nothing Then
+            If Restore.Page.DeletesCurrent Then
+                If Restore.Page.Deletes Is Nothing Then Restore.Page.Deletes = New List(Of Delete)
+                Restore.Page.Deletes.Insert(0, Restore)
             End If
         End If
     End Sub
@@ -697,19 +696,19 @@ Module Processing
     End Sub
 
     Sub ProcessProtection(ByVal ProtectionObject As Object)
-        Dim ThisProtection As Protection = CType(ProtectionObject, Protection)
+        Dim Protection As Protection = CType(ProtectionObject, Protection)
 
-        If ThisProtection IsNot Nothing AndAlso ThisProtection.Page IsNot Nothing Then
-            Dim ThisPage As Page = ThisProtection.Page
+        If Protection IsNot Nothing AndAlso Protection.Page IsNot Nothing Then
+            Dim ThisPage As Page = Protection.Page
 
-            If ThisProtection.Page.ProtectionsCurrent Then
-                If ThisProtection.Page.Protections Is Nothing _
-                    Then ThisProtection.Page.Protections = New List(Of Protection)
-                ThisProtection.Page.Protections.Insert(0, ThisProtection)
+            If Protection.Page.ProtectionsCurrent Then
+                If Protection.Page.Protections Is Nothing _
+                    Then Protection.Page.Protections = New List(Of Protection)
+                Protection.Page.Protections.Insert(0, Protection)
             End If
 
-            ThisPage.EditLevel = ThisProtection.EditLevel
-            ThisPage.MoveLevel = ThisProtection.MoveLevel
+            ThisPage.EditLevel = Protection.EditLevel
+            ThisPage.MoveLevel = Protection.MoveLevel
         End If
     End Sub
 
@@ -796,8 +795,8 @@ Module Processing
                     (DiffText.IndexOf(("<div id=""mw-diff-otitle2"">")))
                 Username = Username.Substring(0, Username.IndexOf("</a>"))
 
-                If Username.IndexOf("title=""User:") > -1 Then _
-                    Username = Username.Substring(Username.IndexOf("title=""User:") + 12) _
+                If Username.IndexOf("title=""" & Space.User.Name & ":") > -1 Then _
+                    Username = Username.Substring(Username.IndexOf("title=""" & Space.User.Name & ":") + 12) _
                     Else Username = Username.Substring(Username.IndexOf("title=""Special:Contributions/") + 29)
 
                 Username = Username.Substring(0, Username.IndexOf(""""))
@@ -1061,7 +1060,7 @@ Module Processing
                 'For the first revision to the page, show the revision
                 Dim NewRequest As New BrowserRequest
                 NewRequest.Tab = CurrentTab
-                NewRequest.Url = SitePath & "w/index.php?title=" & UrlEncode(Edit.Page.Name) & "&oldid=" & Edit.Id
+                NewRequest.Url = Config.SitePath & "w/index.php?title=" & UrlEncode(Edit.Page.Name) & "&oldid=" & Edit.Id
                 NewRequest.Start()
 
             Else
@@ -1074,7 +1073,7 @@ Module Processing
 
                         'Notify user of new messages
                         If MainForm.SystemShowNewMessages.Enabled _
-                            AndAlso (Not Edit.Page.Name = "User talk:" & Username) _
+                            AndAlso (Not Edit.Page Is User.Me.TalkPage) _
                             Then DiffText = "<div class=""usermessage"">You have new messages; select " & _
                             "System -> Show new messages or press M to view them.</div>" & DiffText
 
@@ -1086,7 +1085,7 @@ Module Processing
 
                         DocumentText = MakeHtmlWikiPage(Edit.Page.Name, DiffText)
 
-                        Tab.CurrentUrl = SitePath & "w/index.php?title=" & UrlEncode(Edit.Page.Name) & _
+                        Tab.CurrentUrl = Config.SitePath & "w/index.php?title=" & UrlEncode(Edit.Page.Name) & _
                             "&diff=" & Edit.Id & "&oldid=" & Edit.Oldid
                         Tab.Browser.DocumentText = DocumentText
                     End If
@@ -1701,7 +1700,7 @@ Module Processing
 
         'Find shared IP template tags
         If ThisUser.Anonymous Then
-            For Each Item As String In SharedIPTemplates
+            For Each Item As String In Config.SharedIPTemplates
                 If Text.ToLower.Contains(Item.ToLower) Then
                     Callback(AddressOf SetSharedIP, CObj(ThisUser))
                     Exit For

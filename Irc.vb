@@ -10,7 +10,7 @@ Module Irc
     Private IrcTimer As Timer
 
     Public Sub IrcConnect()
-        IrcTimer = New Timer(AddressOf IrcTimer_Tick, Nothing, IrcConnectionTimeout, Timeout.Infinite)
+        IrcTimer = New Timer(AddressOf IrcTimer_Tick, Nothing, Config.IrcConnectionTimeout, Timeout.Infinite)
 
         IrcThread = New Thread(AddressOf IrcProcess)
         IrcThread.IsBackground = True
@@ -104,7 +104,7 @@ Module Irc
 
                     ElseIf Message.StartsWith(":" & Config.IrcServer & " 403") Then
                         IrcLog("IRC channel for " & Config.Project & " not found; using slower API queries instead")
-                        IrcMode = False
+                        Config.IrcMode = False
                         Disconnecting = True
 
                     ElseIf Message.StartsWith("PING ") Then
@@ -295,7 +295,7 @@ Module Irc
             'Server didn't like the connection; give up
             IrcLog("Unable to connect to IRC recent changes feed; using slower API queries instead [" & ex.Message & "]")
             Connecting = False
-            IrcMode = False
+            Config.IrcMode = False
 
         Catch ex As IOException
             'Feed was disconnected; retry
@@ -312,7 +312,7 @@ Module Irc
             IrcLog("Unable to connect to IRC recent changes feed. IRC is probably being blocked by a firewall. " & _
                 "Using slower API queries instead")
             Connecting = False
-            IrcMode = False
+            Config.IrcMode = False
         End If
     End Sub
 

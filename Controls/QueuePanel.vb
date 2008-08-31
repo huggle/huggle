@@ -12,7 +12,7 @@ Class QueuePanel
 
     Public Sub Draw(ByVal Queue As Queue)
         If Gfx Is Nothing Then Gfx = BufferedGraphicsManager.Current.Allocate(CreateGraphics, _
-            New Rectangle(0, 0, QueueWidth, MainForm.Height))
+            New Rectangle(0, 0, Config.QueueWidth, MainForm.Height))
 
         Dim X, Y As Integer
         Dim Length As Integer = Math.Min(Queue.Edits.Count - 1, (Height \ 20) - 2)
@@ -29,7 +29,7 @@ Class QueuePanel
             Dim Edit As Edit = Queue.Edits(i + MainForm.QueueScroll.Value)
             Dim Name As String = Edit.Page.Name, Height As Integer = 30
 
-            X = QueueWidth - 20
+            X = Config.QueueWidth - 20
             Y = (i * 20) + 19
 
             'Truncate page name

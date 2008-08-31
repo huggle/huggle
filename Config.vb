@@ -2,20 +2,17 @@ Imports System.IO
 Imports System.Text.RegularExpressions
 Imports System.Threading
 
-Module Config
+Class Configuration
 
     'Configuration
 
     Public Version As New Version(Application.ProductVersion)
-
     Public ConfigChanged As Boolean
     Public ConfigVersion As New Version(0, 0, 0)
     Public ContribsBlockSize As Integer = 100
-    Public GlobalConfigLocation As String = "http://meta.wikimedia.org/w/index.php?title=Huggle/GlobalConfig&action=raw"
     Public HistoryBlockSize As Integer = 100
     Public IrcConnectionTimeout As Integer = 30000
     Public LatestVersion As New Version(0, 0, 0)
-    Public LocalConfigLocation As String = "\config.txt"
     Public QueueSize As Integer = 5000
     Public QueueWidth As Integer = 160
     Public RememberMe As Boolean = True
@@ -218,6 +215,14 @@ Module Config
     Public Welcome As String
     Public WelcomeAnon As String
     Public WelcomeSummary As String
+
+End Class
+
+Module ConfigIO
+
+    Public LocalConfigLocation As String = "\config.txt"
+    Public GlobalConfigLocation As String = _
+        "http://meta.wikimedia.org/w/index.php?title=Huggle/GlobalConfig&action=raw"
 
     Public Sub SetGlobalConfigOption(ByVal Name As String, ByVal Value As String)
         'Global config only

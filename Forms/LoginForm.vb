@@ -11,6 +11,7 @@ Class LoginForm
         Icon = My.Resources.icon_red_button
         Height = 280
 
+        Config = New Configuration
         LoadLocalConfig()
 
 #If DEBUG Then
@@ -112,6 +113,8 @@ Class LoginForm
             Irc.Disconnect()
             Request.Cancel()
             Abort("Cancelled.")
+            Config = New Configuration
+            LoadLocalConfig()
             OK.Focus()
         Else
             End

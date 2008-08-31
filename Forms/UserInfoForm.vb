@@ -4,7 +4,7 @@ Class UserInfoForm
 
     Private Sub UserInfoForm_Load() Handles Me.Load
         Icon = My.Resources.icon_red_button
-        Text = "User:" & User.Name
+        Text = "User information for '" & User.Name & "'"
 
         RefreshData()
 
@@ -67,7 +67,7 @@ Class UserInfoForm
     Public Sub RefreshWarnings()
         Dim NewWarnLogRequest As New WarningLogRequest
         NewWarnLogRequest.Target = WarnLog
-        NewWarnLogRequest.ThisUser = User
+        NewWarnLogRequest.User = User
         NewWarnLogRequest.Start()
     End Sub
 

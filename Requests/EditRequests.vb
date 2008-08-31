@@ -350,7 +350,7 @@ Namespace Requests
                         Contrib = Contrib.PrevByUser
                     End While
 
-                    If i >= ContribsBlockSize - 1 Then GotContribs = True
+                    If i >= Config.ContribsBlockSize - 1 Then GotContribs = True
                 End If
 
                 If GotContribs Then
@@ -473,7 +473,7 @@ Namespace Requests
             If Diffs = 0 OrElse Diffs >= Config.MaxAIVDiffs Then Return Nothing
 
             ReportLine = ReportLine.Substring(0, ReportLine.IndexOf("]</span>") + 1) & ", [" _
-                & SitePath & "wiki/" & UrlEncode(Edit.Page.Name.Replace(" ", "_")) & "?diff=" _
+                & Config.SitePath & "wiki/" & UrlEncode(Edit.Page.Name.Replace(" ", "_")) & "?diff=" _
                 & Edit.Id & " " & CStr(Diffs) & "]" & _
                 ReportLine.Substring(ReportLine.IndexOf("]</span>") + 1)
 
@@ -500,7 +500,7 @@ Namespace Requests
 
             For i As Integer = 0 To Math.Min(Config.MaxAIVDiffs - 1, RevertedEdits.Count - 1)
 
-                Links &= "[" & SitePath & "wiki/" & RevertedEdits(i).Page.Name.Replace(" ", "_") _
+                Links &= "[" & Config.SitePath & "wiki/" & RevertedEdits(i).Page.Name.Replace(" ", "_") _
                     & "?diff=" & RevertedEdits(i).Id & " " & CStr(i + 1) & "]"
                 If i < Math.Min(Config.MaxAIVDiffs - 1, RevertedEdits.Count - 1) Then Links &= ", "
             Next i

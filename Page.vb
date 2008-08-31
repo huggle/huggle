@@ -148,8 +148,8 @@ Class Page
         If Name.Length > 1 Then Name = Name.Substring(0, 1).ToUpper & Name.Substring(1) Else Name = Name.ToUpper
 
         'Handle special namespaces
-        Name = Name.Replace("Special:Mypage", Space.User.Name & ":" & Username)
-        Name = Name.Replace("Special:Mytalk", Space.UserTalk.Name & ":" & Username)
+        Name = Name.Replace("Special:Mypage", Space.User.Name & ":" & Config.Username)
+        Name = Name.Replace("Special:Mytalk", Space.UserTalk.Name & ":" & Config.Username)
 
         For Each Item As String In Space.Special
             If Name.StartsWith(Item & ":") Then Return Nothing

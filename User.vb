@@ -122,6 +122,12 @@ Class User
         End Get
     End Property
 
+    Public ReadOnly Property UserPage() As Page
+        Get
+            Return GetPage(Space.User.Name & ":" & Name)
+        End Get
+    End Property
+
     Public Property Level() As UserLevel
         Get
             Return _Level

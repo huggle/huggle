@@ -9,12 +9,12 @@ Class CaptchaForm
 
         Dim Client As New WebClient, TempFileName As String = System.IO.Path.GetTempFileName
 
-        Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
+        Client.Headers.Add(HttpRequestHeader.UserAgent, Config.UserAgent)
         Client.Headers.Add(HttpRequestHeader.Cookie, Cookie)
         Client.Proxy = Login.Proxy
 
         'Get the captcha
-        Client.DownloadFile(SitePath & "w/index.php?title=Special:Captcha/image&wpCaptchaId=" & CaptchaId, TempFileName)
+        Client.DownloadFile(Config.SitePath & "w/index.php?title=Special:Captcha/image&wpCaptchaId=" & CaptchaId, TempFileName)
         Captcha.Image = New Bitmap(TempFileName)
 
         'Size the captcha in form correctly

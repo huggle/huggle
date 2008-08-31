@@ -24,7 +24,7 @@ Class StartupForm
     Handles Browser.Navigating
 
         Dim Url As String = e.Url.ToString
-        If Url.StartsWith("about:/") Then Url = SitePath & Url.Substring(7)
+        If Url.StartsWith("about:/") Then Url = Config.SitePath & Url.Substring(7)
         If Url = "about:blank" Then Exit Sub Else e.Cancel = True
 
         OpenUrlInBrowser(Url)

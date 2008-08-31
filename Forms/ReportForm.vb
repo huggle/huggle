@@ -16,7 +16,7 @@ Class ReportForm
 
         Dim NewWarnLogRequest As New WarningLogRequest
         NewWarnLogRequest.Target = WarnLog
-        NewWarnLogRequest.ThisUser = User
+        NewWarnLogRequest.User = User
         NewWarnLogRequest.Start()
     End Sub
 

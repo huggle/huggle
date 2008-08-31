@@ -467,13 +467,13 @@ Class Main
     End Sub
 
     Sub PageViewLatest_Click() Handles PageViewLatest.Click
-        If CurrentPage IsNot Nothing Then DisplayUrl(SitePath & "w/index.php?title=" & _
+        If CurrentPage IsNot Nothing Then DisplayUrl(Config.SitePath & "w/index.php?title=" & _
             UrlEncode(CurrentPage.Name.Replace(" ", "_")))
     End Sub
 
     Sub PageView_Click() Handles PageView.Click, PageViewB.Click
         If CurrentEdit IsNot Nothing AndAlso CurrentPage IsNot Nothing _
-            Then DisplayUrl(SitePath & "w/index.php?title=" & UrlEncode(CurrentPage.Name) & "&oldid=" & CurrentEdit.Id)
+            Then DisplayUrl(Config.SitePath & "w/index.php?title=" & UrlEncode(CurrentPage.Name) & "&oldid=" & CurrentEdit.Id)
     End Sub
 
     Private Sub DiffRevertSummary_Click() Handles DiffRevertSummary.Click
@@ -511,11 +511,11 @@ Class Main
         If CurrentEdit IsNot Nothing AndAlso CurrentEdit.User IsNot Nothing Then
             Dim NewBrowserRequest As New BrowserRequest
             NewBrowserRequest.Tab = CurrentTab
-            NewBrowserRequest.Url = SitePath & "w/index.php?title=User_talk:" & UrlEncode(CurrentEdit.User.Name)
+            NewBrowserRequest.Url = Config.SitePath & "w/index.php?title=User_talk:" & UrlEncode(CurrentEdit.User.Name)
             NewBrowserRequest.Start()
 
             Dim NewWarnLevelRequest As New WarningLogRequest
-            NewWarnLevelRequest.ThisUser = CurrentEdit.User
+            NewWarnLevelRequest.User = CurrentEdit.User
             NewWarnLevelRequest.Start()
         End If
     End Sub
@@ -544,7 +544,7 @@ Class Main
     End Sub
 
     Private Sub RcReqTimer_Tick() Handles RcReqTimer.Tick
-        If Not IrcMode Then
+        If Not Config.IrcMode Then
             RcReqTimer.Stop()
 
             Dim NewRcApiRequest As New RcApiRequest
@@ -764,7 +764,7 @@ Class Main
     End Sub
 
     Private Sub SystemShowNewMessages_Click() Handles SystemShowNewMessages.Click
-        DisplayEdit(GetPage("User talk:" & Username).LastEdit)
+        DisplayEdit(User.Me.TalkPage.LastEdit)
         SystemShowNewMessages.Enabled = False
     End Sub
 
@@ -1563,11 +1563,11 @@ Class Main
     End Sub
 
     Private Sub GoMyTalk_Click() Handles GoMyTalk.Click
-        SetCurrentPage(GetPage("User talk:" & Config.Username), True)
+        SetCurrentPage(User.Me.TalkPage, True)
     End Sub
 
     Private Sub GoMyContribs_Click() Handles GoMyContribs.Click
-        SetCurrentUser(GetUser(Config.Username), True)
+        SetCurrentUser(User.Me, True)
     End Sub
 
     Private Sub SystemRequests_Click() Handles SystemRequests.Click

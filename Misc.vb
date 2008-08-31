@@ -12,6 +12,7 @@ Module Misc
     Public AllLists As New Dictionary(Of String, List(Of String))
     Public AllRequests As New List(Of Request)
     Public ContribsOffset As Integer
+    Public Config As Configuration
     Public Cookie As String
     Public CurrentQueue As Queue
     Public CurrentTab As BrowserTab
@@ -321,8 +322,8 @@ Module Misc
     End Sub
 
     Function MakeHtmlWikiPage(ByVal Page As String, ByVal Text As String) As String
-        Return My.Resources.WikiPageHtml.Replace("$PATH", SitePath).Replace("$PAGE", Page) _
-            .Replace("$USER", Username).Replace("$FONTSIZE", CStr(CInt((CInt(DiffFontSize) * 1.2)))) & _
+        Return My.Resources.WikiPageHtml.Replace("$PATH", Config.SitePath).Replace("$PAGE", Page) _
+            .Replace("$USER", Config.Username).Replace("$FONTSIZE", CStr(CInt((CInt(Config.DiffFontSize) * 1.2)))) & _
             "<body>" & Text & "</body></html>"
     End Function
 
@@ -439,7 +440,7 @@ Module Misc
     End Function
 
     Function WikiUrl(ByVal Url As String) As Boolean
-        Return (Url.StartsWith(SitePath & "w/index.php?") OrElse Url.StartsWith(SitePath & "wiki/"))
+        Return (Url.StartsWith(Config.SitePath & "w/index.php?") OrElse Url.StartsWith(Config.SitePath & "wiki/"))
     End Function
 
 End Module

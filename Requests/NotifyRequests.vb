@@ -18,7 +18,7 @@ Namespace Requests
         End Sub
 
         Private Sub Process()
-            Dim Data As EditData = GetEditData("User talk:" & User.Name)
+            Dim Data As EditData = GetEditData(User.TalkPage)
 
             If Data.Error Then
                 Callback(AddressOf Failed)
@@ -45,11 +45,11 @@ Namespace Requests
 
         Private Sub Done()
             If Config.WatchOther Then
-                If Not Watchlist.Contains(GetPage("User:" & User.Name)) Then Watchlist.Add(GetPage("User:" & User.Name))
+                If Not Watchlist.Contains(User.UserPage) Then Watchlist.Add(User.UserPage)
                 MainForm.UpdateWatchButton()
             End If
 
-            If State = States.Cancelled Then UndoEdit("User talk:" & User.Name) Else Complete()
+            If State = States.Cancelled Then UndoEdit(User.TalkPage) Else Complete()
         End Sub
 
         Private Sub ExistingMessage()
@@ -85,7 +85,7 @@ Namespace Requests
         End Sub
 
         Private Sub Process()
-            Dim Data As EditData = GetEditData(GetPage("User talk:" & Edit.User.Name))
+            Dim Data As EditData = GetEditData(Edit.User.TalkPage)
 
             If Data.Error Then
                 Callback(AddressOf Failed)
@@ -190,7 +190,7 @@ Namespace Requests
 
             Data.Text &= _
                 WarningNeeded.Replace("$1", Edit.Page.Name).Replace("$2", _
-                SitePath & "wiki/" & Edit.Page.Name.Replace(" ", "_") & "?diff=" & Edit.Id)
+                Config.SitePath & "wiki/" & Edit.Page.Name.Replace(" ", "_") & "?diff=" & Edit.Id)
 
             If WarningNeeded.Length > 0 Then Data = PostEdit(Data)
 
@@ -218,12 +218,11 @@ Namespace Requests
 
         Private Sub Done()
             If Config.WatchWarnings Then
-                If Not Watchlist.Contains(GetPage("User:" & Edit.User.Name)) _
-                    Then Watchlist.Add(GetPage("User:" & Edit.User.Name))
+                If Not Watchlist.Contains(Edit.User.UserPage) Then Watchlist.Add(Edit.User.UserPage)
                 MainForm.UpdateWatchButton()
             End If
 
-            If State = States.Cancelled Then UndoEdit("User talk:" & Edit.User.Name) Else Complete()
+            If State = States.Cancelled Then UndoEdit(Edit.User.TalkPage) Else Complete()
         End Sub
 
         Private Sub AlreadyReported()
@@ -275,7 +274,7 @@ Namespace Requests
         End Sub
 
         Private Sub Process()
-            Dim Data As EditData = GetEditData("User talk:" & User.Name)
+            Dim Data As EditData = GetEditData(User.TalkPage)
 
             If Data.Error Then
                 Callback(AddressOf Failed)
@@ -301,7 +300,7 @@ Namespace Requests
         End Sub
 
         Private Sub Done()
-            If State = States.Cancelled Then UndoEdit("User talk:" & User.Name) Else Complete()
+            If State = States.Cancelled Then UndoEdit(User.TalkPage) Else Complete()
         End Sub
 
         Private Sub Failed()

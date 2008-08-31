@@ -154,8 +154,8 @@ Namespace Requests
             Dim Items As New List(Of String)
 
             Items.Add("enable:true")
-            Items.Add("version:" & _
-                Version.Major.ToString & "." & Version.Minor.ToString & "." & Version.Build.ToString)
+            Items.Add("version:" & Config.Version.Major.ToString & "." & Config.Version.Minor.ToString & "." & _
+                Config.Version.Build.ToString)
             Items.Add("")
 
             Items.Add("auto-advance:" & CStr(Config.AutoAdvance).ToLower)
@@ -246,7 +246,7 @@ Namespace Requests
         'Process global configuration page
 
         Public Function Process() As Boolean
-            Dim Result As String = GetUrl(Config.GlobalConfigLocation)
+            Dim Result As String = GetUrl(GlobalConfigLocation)
 
             If Result Is Nothing Then
                 Fail()

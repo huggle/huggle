@@ -146,14 +146,15 @@ Namespace Requests
             If Login.CaptchaId Is Nothing Then
                 'Get login form, to check whether captcha is needed
                 Do
-                    Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
+                    Client.Headers.Add(HttpRequestHeader.UserAgent, Config.UserAgent)
                     Client.Headers.Add(HttpRequestHeader.ContentType, "application/x-www-form-urlencoded")
                     Client.Proxy = Proxy
 
                     Retries -= 1
 
                     Try
-                        Result = UTF8.GetString(Client.DownloadData(SitePath & "w/index.php?title=Special:Userlogin"))
+                        Result = UTF8.GetString(Client.DownloadData(Config.SitePath & _
+                            "w/index.php?title=Special:Userlogin"))
                         If State = States.Cancelled Then Return LoginResult.Cancelled
 
                     Catch ex As WebException
@@ -182,7 +183,7 @@ Namespace Requests
             Callback(AddressOf UpdateForm)
 
             Do
-                Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
+                Client.Headers.Add(HttpRequestHeader.UserAgent, Config.UserAgent)
                 Client.Headers.Add(HttpRequestHeader.ContentType, "application/x-www-form-urlencoded")
                 Client.Headers.Add(HttpRequestHeader.Cookie, SessionCookie)
                 Client.Proxy = Login.Proxy
@@ -257,7 +258,7 @@ Namespace Requests
         End Function
 
         Protected Function GetPageText(ByVal Page As String) As String
-            Dim Result As String = GetUrl(SitePath & "w/api.php?action=query&format=xml&prop=revisions" & _
+            Dim Result As String = GetUrl(Config.SitePath & "w/api.php?action=query&format=xml&prop=revisions" & _
                 "&rvprop=content&titles=" & UrlEncode(Page), "page '" & Page & "'")
 
             If Result Is Nothing Then
@@ -278,11 +279,11 @@ Namespace Requests
         End Function
 
         Protected Function GetText(ByVal QueryString As String) As String
-            Return GetUrl(SitePath & "w/index.php?" & QueryString, "'" & QueryString & "'")
+            Return GetUrl(Config.SitePath & "w/index.php?" & QueryString, "'" & QueryString & "'")
         End Function
 
         Protected Function GetApi(ByVal QueryString As String) As String
-            Return GetUrl(SitePath & "w/api.php?" & QueryString, "API query '" & QueryString & "'")
+            Return GetUrl(Config.SitePath & "w/api.php?" & QueryString, "API query '" & QueryString & "'")
         End Function
 
         Protected Function GetUrl(ByVal Url As String, Optional ByVal QueryDescription As String = Nothing) As String
@@ -294,7 +295,7 @@ Namespace Requests
             Dim Client As New WebClient, Retries As Integer = 3, Result As String = Nothing
 
             Do
-                Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
+                Client.Headers.Add(HttpRequestHeader.UserAgent, Config.UserAgent)
                 Client.Headers.Add(HttpRequestHeader.Cookie, Cookie)
                 Client.Proxy = Login.Proxy
 
@@ -333,7 +334,7 @@ Namespace Requests
             Data.Page = Page
             If Section > -1 Then Data.Section = CStr(Section)
 
-            Dim QueryString As String = SitePath & "w/index.php?title=" & UrlEncode(Data.Page.Name) & "&action=edit"
+            Dim QueryString As String = Config.SitePath & "w/index.php?title=" & UrlEncode(Data.Page.Name) & "&action=edit"
             If Rev IsNot Nothing Then QueryString &= "&oldid=" & Rev
             If Data.Section IsNot Nothing Then QueryString &= "&section=" & Data.Section
 
@@ -346,7 +347,7 @@ Namespace Requests
 
                 Do
                     Dim Client As New WebClient
-                    Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
+                    Client.Headers.Add(HttpRequestHeader.UserAgent, Config.UserAgent)
                     Client.Headers.Add(HttpRequestHeader.Cookie, Cookie)
                     Client.Proxy = Login.Proxy
 
@@ -483,7 +484,7 @@ Namespace Requests
             Callback(AddressOf UpdateForm)
 
             Do
-                Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
+                Client.Headers.Add(HttpRequestHeader.UserAgent, Config.UserAgent)
                 Client.Headers.Add(HttpRequestHeader.Cookie, Cookie)
                 Client.Headers.Add(HttpRequestHeader.ContentType, "application/x-www-form-urlencoded")
                 Client.Proxy = Login.Proxy
@@ -492,7 +493,7 @@ Namespace Requests
                 Retries -= 1
 
                 Try
-                    Result = UTF8.GetString(Client.UploadData(SitePath & "w/index.php?" & Query, _
+                    Result = UTF8.GetString(Client.UploadData(Config.SitePath & "w/index.php?" & Query, _
                         UTF8.GetBytes(PostString)))
                 Catch ex As WebException
                     Callback(AddressOf PostEditException, CObj(Data))
@@ -528,7 +529,7 @@ Namespace Requests
 
         Protected Function PostData(ByVal QueryString As String, ByVal Data As String) As String
 
-            Dim Url As String = SitePath & "w/index.php?" & QueryString
+            Dim Url As String = Config.SitePath & "w/index.php?" & QueryString
 
             Query = QueryString
             Mode = Modes.Post
@@ -537,7 +538,7 @@ Namespace Requests
             Dim Client As New WebClient, Retries As Integer = 3, Result As String = ""
 
             Do
-                Client.Headers.Add(HttpRequestHeader.UserAgent, UserAgent)
+                Client.Headers.Add(HttpRequestHeader.UserAgent, Config.UserAgent)
                 Client.Headers.Add(HttpRequestHeader.Cookie, Cookie)
                 Client.Headers.Add(HttpRequestHeader.ContentType, "application/x-www-form-urlencoded")
                 Client.Proxy = Login.Proxy

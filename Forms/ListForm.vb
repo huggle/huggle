@@ -29,7 +29,7 @@ Class ListForm
 
         Lists.EndUpdate()
 
-        Limit.Maximum = ApiLimit() * QueueBuilderLimit
+        Limit.Maximum = ApiLimit() * Config.QueueBuilderLimit
         Limit.Value = Math.Min(1000, Limit.Maximum)
         If Lists.Items.Count > 0 Then Lists.SelectedIndex = 0
         SourceType.SelectedIndex = 0
@@ -387,7 +387,7 @@ Class ListForm
 
     Private Sub OpenPageInBrowser() Handles ListPages.DoubleClick, ListMenuView.Click
         If ListPages.SelectedIndex > -1 _
-            Then OpenUrlInBrowser(SitePath & "w/index.php?title=" & UrlEncode(ListPages.SelectedItem.ToString))
+            Then OpenUrlInBrowser(Config.SitePath & "w/index.php?title=" & UrlEncode(ListPages.SelectedItem.ToString))
     End Sub
 
     Private Sub RefreshInterface()

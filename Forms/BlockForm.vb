@@ -51,7 +51,7 @@ Class BlockForm
 
         Dim NewWarnLogRequest As New WarningLogRequest
         NewWarnLogRequest.Target = WarnLog
-        NewWarnLogRequest.ThisUser = User
+        NewWarnLogRequest.User = User
         NewWarnLogRequest.Start()
     End Sub
 
@@ -74,11 +74,11 @@ Class BlockForm
     End Sub
 
     Private Sub UserTalk_Click() Handles UserTalk.Click
-        OpenUrlInBrowser(SitePath & "w/index.php?title=User_talk:" & User.Name)
+        OpenUrlInBrowser(Config.SitePath & "w/index.php?title=User_talk:" & User.Name)
     End Sub
 
     Private Sub UserContribs_Click() Handles UserContribs.Click
-        OpenUrlInBrowser(SitePath & "w/index.php?title=Special:Contributions/" & User.Name)
+        OpenUrlInBrowser(Config.SitePath & "w/index.php?title=Special:Contributions/" & User.Name)
     End Sub
 
     Private Sub Reason_SelectedIndexChanged() _
