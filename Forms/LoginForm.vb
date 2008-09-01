@@ -33,6 +33,7 @@ Class LoginForm
         ProxyUsername.Text = Config.ProxyUsername
 
         If Config.RememberMe Then Username.Text = Config.Username
+        If Config.RememberPassword Then Password.Text = Config.Password
         If Username.Text = "" Then Username.Focus() Else Password.Focus()
     End Sub
 
@@ -79,6 +80,7 @@ Class LoginForm
         Config.IrcMode = (Config.Project <> "localhost")
         If Config.Project.Contains(".org") Then Config.IrcChannel = "#" & _
             Config.Project.Substring(0, Config.Project.IndexOf(".org"))
+        If Config.RememberPassword Then Config.Password = Password.Text
 
         For Each Item As Control In Controls
             If Not ArrayContains(New Control() {Status, Progress, Cancel}, Item) Then Item.Enabled = False

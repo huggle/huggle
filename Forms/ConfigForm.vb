@@ -5,6 +5,8 @@ Class ConfigForm
     Private Sub ConfigForm_Load() Handles MyBase.Load
         Icon = My.Resources.icon_red_button
 
+        RememberMe.Checked = Config.RememberMe
+        RememberPassword.Checked = Config.RememberPassword
         AutoWhitelist.Checked = Config.AutoWhitelist
         TrayIcon.Checked = Config.TrayIcon
         StartupMessage.Checked = Config.StartupMessage
@@ -16,10 +18,10 @@ Class ConfigForm
         ShowNewEdits.Checked = Config.ShowNewEdits
         Preloading.Checked = (Config.Preloads > 0)
         Preloads.Enabled = Preloading.Checked
-        Preloads.Text = CStr(Config.Preloads)
+        Preloads.Value = Config.Preloads
         IrcMode.Checked = Config.IrcMode
         IrcPort.Text = CStr(Config.IrcPort)
-        DiffFontSize.Text = Config.DiffFontSize
+        DiffFontSize.Value = CInt(Config.DiffFontSize)
         LogFile.Text = Config.LogFile
 
         If Config.MinorReverts Then Minor.SetItemChecked(0, True)
@@ -111,6 +113,8 @@ Class ConfigForm
         If DialogResult = DialogResult.OK Then
             ShortcutKeys = ShortcutKeysClone
 
+            Config.RememberMe = RememberMe.Checked
+            Config.RememberPassword = RememberPassword.Checked
             Config.AutoWhitelist = AutoWhitelist.Checked
             Config.TrayIcon = TrayIcon.Checked
             Config.ShowQueue = ShowQueue.Checked
@@ -120,10 +124,10 @@ Class ConfigForm
             Config.ShowToolTips = ShowToolTips.Checked
             Config.OpenInBrowser = OpenInBrowser.Checked
             Config.ShowNewEdits = ShowNewEdits.Checked
-            If Preloading.Checked Then Config.Preloads = CInt(Preloads.Text) Else Config.Preloads = 0
+            If Preloading.Checked Then Config.Preloads = CInt(Preloads.Value) Else Config.Preloads = 0
             Config.IrcMode = IrcMode.Checked
             Config.IrcPort = CInt(IrcPort.Text)
-            Config.DiffFontSize = DiffFontSize.Text
+            Config.DiffFontSize = CStr(DiffFontSize.Value)
             Config.LogFile = LogFile.Text
 
             Config.MinorReverts = Minor.CheckedIndices.Contains(0)
@@ -198,6 +202,11 @@ Class ConfigForm
         Close()
     End Sub
 
+    Private Sub AddSummary_Click() Handles AddSummary.Click
+        Dim Item As String = InputBox.Show("Enter summary")
+        If Item <> "" Then RevertSummaries.Items.Add(Item)
+    End Sub
+
     Private Sub AddTemplate_Click() Handles AddTemplate.Click
         Dim NewAddTemplateForm As New AddTemplateForm
 
@@ -208,33 +217,18 @@ Class ConfigForm
         End If
     End Sub
 
-    Private Sub RemoveTemplate_Click() Handles RemoveTemplate.Click
-        If Templates.SelectedItems.Count > 0 Then Templates.Items.Remove(Templates.SelectedItems(0))
+    Private Sub ClearRevertSummaries_Click() Handles ClearRevertSummaries.Click
+        ManualRevertSummaries.Clear()
     End Sub
 
-    Private Sub Templates_SelectedIndexChanged() Handles Templates.SelectedIndexChanged
-        RemoveTemplate.Enabled = (Templates.SelectedItems.Count > 0)
-    End Sub
+    Private Sub Defaults_Click() Handles Defaults.Click
+        If MessageBox.Show("Restore defaults?", "Huggle", _
+            MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
 
-    Private Sub RevertSummaries_SelectedIndexChanged() Handles RevertSummaries.SelectedIndexChanged
-        RemoveSummary.Enabled = (RevertSummaries.SelectedIndex > -1)
-    End Sub
-
-    Private Sub AddSummary_Click() Handles AddSummary.Click
-        Dim Item As String = InputBox.Show("Enter summary")
-        If Item <> "" Then RevertSummaries.Items.Add(Item)
-    End Sub
-
-    Private Sub RemoveSummary_Click() Handles RemoveSummary.Click
-        If RevertSummaries.SelectedIndex > -1 Then RevertSummaries.Items.RemoveAt(RevertSummaries.SelectedIndex)
-    End Sub
-
-    Private Sub Preloading_CheckedChanged() Handles Preloading.CheckedChanged
-        Preloads.Enabled = (Preloading.Checked)
-    End Sub
-
-    Private Sub ReportLinkExamples_CheckedChanged() Handles ReportLinkExamples.CheckedChanged
-        ExtendReports.Enabled = ReportLinkExamples.Checked
+            InitialiseShortcuts()
+            InitialiseShortcutList()
+            ChangeShortcut.Clear()
+        End If
     End Sub
 
     Private Sub LogFileBrowse_Click() Handles LogFileBrowse.Click
@@ -251,21 +245,6 @@ Class ConfigForm
         ChangeShortcut.Clear()
     End Sub
 
-    Private Sub Shortcuts_MouseUp() Handles ShortcutList.MouseUp
-        ChangeShortcut.Focus()
-    End Sub
-
-    Private Sub Shortcuts_SelectedIndexChanged() Handles ShortcutList.SelectedIndexChanged
-        If ShortcutList.SelectedItems.Count > 0 Then
-            ChangeShortcutLabel.Visible = True
-            ChangeShortcutLabel.Text = "Change shortcut for " & ShortcutList.SelectedItems(0).Text & ":"
-            NoShortcut.Visible = True
-            ChangeShortcut.Visible = True
-            ChangeShortcut.Text = ShortcutList.SelectedItems(0).SubItems(1).Text
-            ChangeShortcut.Focus()
-        End If
-    End Sub
-
     Private Sub NewShortcut_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles ChangeShortcut.KeyDown
         e.SuppressKeyPress = True
 
@@ -277,8 +256,8 @@ Class ConfigForm
             'Detect conflicts
             For Each Item As KeyValuePair(Of String, Shortcut) In ShortcutKeys
                 If Item.Key <> ShortcutList.SelectedItems(0).Text AndAlso Item.Value = NewShortcut Then
-                    MessageBox.Show("Shortcut '" & NewShortcut.ToString & "' conflicts with the existing shortcut for '" & _
-                        Item.Key & "'.", "Huggle", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    MessageBox.Show("Shortcut '" & NewShortcut.ToString & "' conflicts with the existing shortcut " & _
+                        "for '" & Item.Key & "'.", "Huggle", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     Exit Sub
                 End If
             Next Item
@@ -299,18 +278,51 @@ Class ConfigForm
         End If
     End Sub
 
-    Private Sub Defaults_Click() Handles Defaults.Click
-        If MessageBox.Show("Restore defaults?", "Huggle", _
-            MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
+    Private Sub Preloading_CheckedChanged() Handles Preloading.CheckedChanged
+        Preloads.Enabled = (Preloading.Checked)
+    End Sub
 
-            InitialiseShortcuts()
-            InitialiseShortcutList()
-            ChangeShortcut.Clear()
+    Private Sub RememberPassword_CheckedChanged() Handles RememberPassword.CheckedChanged
+        If RememberPassword.Checked Then MessageBox.Show _
+            ("If this option is selected, your password will be stored locally, unencrypted." & CRLF & _
+            "If this bothers you, do not select this option (though it shouldn't, as your password " & _
+            "is sent unencrypted across the Web every time you log in anyway).", "huggle", _
+            MessageBoxButtons.OK, MessageBoxIcon.Information)
+    End Sub
+
+    Private Sub RemoveTemplate_Click() Handles RemoveTemplate.Click
+        If Templates.SelectedItems.Count > 0 Then Templates.Items.Remove(Templates.SelectedItems(0))
+    End Sub
+
+    Private Sub RemoveSummary_Click() Handles RemoveSummary.Click
+        If RevertSummaries.SelectedIndex > -1 Then RevertSummaries.Items.RemoveAt(RevertSummaries.SelectedIndex)
+    End Sub
+
+    Private Sub ReportLinkExamples_CheckedChanged() Handles ReportLinkExamples.CheckedChanged
+        ExtendReports.Enabled = ReportLinkExamples.Checked
+    End Sub
+
+    Private Sub RevertSummaries_SelectedIndexChanged() Handles RevertSummaries.SelectedIndexChanged
+        RemoveSummary.Enabled = (RevertSummaries.SelectedIndex > -1)
+    End Sub
+
+    Private Sub Shortcuts_MouseUp() Handles ShortcutList.MouseUp
+        ChangeShortcut.Focus()
+    End Sub
+
+    Private Sub Shortcuts_SelectedIndexChanged() Handles ShortcutList.SelectedIndexChanged
+        If ShortcutList.SelectedItems.Count > 0 Then
+            ChangeShortcutLabel.Visible = True
+            ChangeShortcutLabel.Text = "Change shortcut for " & ShortcutList.SelectedItems(0).Text & ":"
+            NoShortcut.Visible = True
+            ChangeShortcut.Visible = True
+            ChangeShortcut.Text = ShortcutList.SelectedItems(0).SubItems(1).Text
+            ChangeShortcut.Focus()
         End If
     End Sub
 
-    Private Sub ClearRevertSummaries_Click() Handles ClearRevertSummaries.Click
-        ManualRevertSummaries.Clear()
+    Private Sub Templates_SelectedIndexChanged() Handles Templates.SelectedIndexChanged
+        RemoveTemplate.Enabled = (Templates.SelectedItems.Count > 0)
     End Sub
 
     Private Sub SetColor(ByVal sender As Object, ByVal e As EventArgs) Handles ColorComment.Click, _

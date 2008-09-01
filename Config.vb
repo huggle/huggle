@@ -6,16 +6,19 @@ Class Configuration
 
     'Configuration
 
-    Public Version As New Version(Application.ProductVersion)
+    Public Version As New Version(0, 7, 1, 0)
     Public ConfigChanged As Boolean
     Public ConfigVersion As New Version(0, 0, 0)
     Public ContribsBlockSize As Integer = 100
     Public HistoryBlockSize As Integer = 100
+    Public HistoryScrollSpeed As Integer = 25
     Public IrcConnectionTimeout As Integer = 30000
     Public LatestVersion As New Version(0, 0, 0)
     Public QueueSize As Integer = 5000
     Public QueueWidth As Integer = 160
     Public RememberMe As Boolean = True
+    Public RememberPassword As Boolean
+    Public Password As String
     Public SitePath As String = "http://en.wikipedia.org/"
 
     Public RevertSummaries() As String = _
@@ -538,6 +541,7 @@ Module ConfigIO
                     Select Case OptionName
                         Case "irc" : Config.IrcMode = CBool(OptionValue)
                         Case "log-file" : Config.LogFile = OptionValue
+                        Case "password" : Config.Password = OptionValue
                         Case "project" : Config.Project = OptionValue
                         Case "proxy-enabled" : Config.ProxyEnabled = CBool(OptionValue)
                         Case "proxy-port" : Config.ProxyPort = OptionValue
@@ -581,6 +585,7 @@ Module ConfigIO
 
             Items.Add("irc:" & CStr(Config.IrcMode).ToLower)
             Items.Add("log-file:" & Config.LogFile)
+            If Config.RememberPassword Then Items.Add("password:" & Config.Password)
             Items.Add("project:" & Config.Project)
             Items.Add("proxy-enabled:" & CStr(Config.ProxyEnabled).ToLower)
             Items.Add("proxy-port:" & Config.ProxyPort)
@@ -589,7 +594,7 @@ Module ConfigIO
             Items.Add("proxy-username:" & Config.ProxyUsername)
             Items.Add("queue-right-align:" & CStr(Config.RightAlignQueue).ToLower)
             Items.Add("startup-message:" & CStr(Config.StartupMessage).ToLower)
-            Items.Add("username:" & Config.Username)
+            If Config.RememberMe Then Items.Add("username:" & Config.Username)
             Items.Add("window-height:" & CStr(MainForm.Height))
             Items.Add("window-left:" & CStr(MainForm.Left))
             Items.Add("window-maximize:" & CStr(MainForm.WindowState = FormWindowState.Maximized).ToLower)
@@ -735,6 +740,7 @@ Module ConfigIO
             Dim NewQueue As New Queue("All edits")
             NewQueue.Type = QueueType.Live
             NewQueue.SortOrder = QueueSortOrder.Time
+            NewQueue.Preload = False
             NewQueue.Reset()
         End If
     End Sub

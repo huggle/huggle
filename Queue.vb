@@ -24,6 +24,7 @@ Class Queue
     Private _NeedsReset As Boolean
     Private _PageRegex As Regex
     Private _Pages As List(Of String)
+    Private _Preload As Boolean
     Private _RemoveOld As Boolean
     Private _RemoveAfter As Integer
     Private _RemoveViewed As Boolean
@@ -34,6 +35,7 @@ Class Queue
 
     Public Sub New(ByVal Name As String)
         _Name = Name
+        _Preload = True
         _RemoveViewed = True
         _Spaces.AddRange(Space.All)
         All.Add(Name, Me)
@@ -162,6 +164,15 @@ Class Queue
         Get
             Return _Pages
         End Get
+    End Property
+
+    Public Property Preload() As Boolean
+        Get
+            Return _Preload
+        End Get
+        Set(ByVal value As Boolean)
+            _Preload = value
+        End Set
     End Property
 
     Public Property RemoveAfter() As Integer

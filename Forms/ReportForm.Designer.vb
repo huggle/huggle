@@ -56,7 +56,7 @@ Partial Class ReportForm
         Me.Cancel.Location = New System.Drawing.Point(278, 366)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
-        Me.Cancel.TabIndex = 7
+        Me.Cancel.TabIndex = 6
         Me.Cancel.Text = "Cancel"
         Me.Cancel.UseVisualStyleBackColor = True
         '
@@ -67,7 +67,7 @@ Partial Class ReportForm
         Me.OK.Location = New System.Drawing.Point(197, 366)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
-        Me.OK.TabIndex = 6
+        Me.OK.TabIndex = 5
         Me.OK.Text = "OK"
         Me.OK.UseVisualStyleBackColor = True
         '
@@ -116,7 +116,7 @@ Partial Class ReportForm
         Me.TrrSearch.Location = New System.Drawing.Point(263, 8)
         Me.TrrSearch.Name = "TrrSearch"
         Me.TrrSearch.Size = New System.Drawing.Size(75, 23)
-        Me.TrrSearch.TabIndex = 11
+        Me.TrrSearch.TabIndex = 1
         Me.TrrSearch.Text = "Search"
         Me.TrrSearch.UseVisualStyleBackColor = True
         '
@@ -130,7 +130,7 @@ Partial Class ReportForm
         Me.WarningsPanel.Location = New System.Drawing.Point(12, 112)
         Me.WarningsPanel.Name = "WarningsPanel"
         Me.WarningsPanel.Size = New System.Drawing.Size(341, 248)
-        Me.WarningsPanel.TabIndex = 12
+        Me.WarningsPanel.TabIndex = 7
         '
         'WarnLog
         '
@@ -145,7 +145,7 @@ Partial Class ReportForm
         Me.WarnLog.Name = "WarnLog"
         Me.WarnLog.ShowGroups = False
         Me.WarnLog.Size = New System.Drawing.Size(341, 229)
-        Me.WarnLog.TabIndex = 8
+        Me.WarnLog.TabIndex = 1
         Me.WarnLog.UseCompatibleStateImageBehavior = False
         Me.WarnLog.View = System.Windows.Forms.View.Details
         '
@@ -155,7 +155,7 @@ Partial Class ReportForm
         Me.WarnLogLabel.Location = New System.Drawing.Point(3, 3)
         Me.WarnLogLabel.Name = "WarnLogLabel"
         Me.WarnLogLabel.Size = New System.Drawing.Size(112, 13)
-        Me.WarnLogLabel.TabIndex = 7
+        Me.WarnLogLabel.TabIndex = 0
         Me.WarnLogLabel.Text = "Warnings for this user:"
         '
         'TrrPanel
@@ -179,7 +179,7 @@ Partial Class ReportForm
         Me.TrrPanel.Location = New System.Drawing.Point(12, 112)
         Me.TrrPanel.Name = "TrrPanel"
         Me.TrrPanel.Size = New System.Drawing.Size(341, 248)
-        Me.TrrPanel.TabIndex = 12
+        Me.TrrPanel.TabIndex = 4
         '
         'Throbber
         '
@@ -187,7 +187,7 @@ Partial Class ReportForm
         Me.Throbber.Location = New System.Drawing.Point(6, 44)
         Me.Throbber.Name = "Throbber"
         Me.Throbber.Size = New System.Drawing.Size(53, 10)
-        Me.Throbber.TabIndex = 14
+        Me.Throbber.TabIndex = 2
         '
         'ReportWarning3
         '
@@ -209,7 +209,7 @@ Partial Class ReportForm
         Me.ReportWarning2.Location = New System.Drawing.Point(38, 199)
         Me.ReportWarning2.Name = "ReportWarning2"
         Me.ReportWarning2.Size = New System.Drawing.Size(300, 39)
-        Me.ReportWarning2.TabIndex = 20
+        Me.ReportWarning2.TabIndex = 11
         Me.ReportWarning2.Text = "This is only a possible 3RR violation. Do not submit this report until you have r" & _
             "eviewed the above revisions to ensure that they are not reversions of vandalism." & _
             ""
@@ -222,7 +222,7 @@ Partial Class ReportForm
         Me.Status.Location = New System.Drawing.Point(62, 42)
         Me.Status.Name = "Status"
         Me.Status.Size = New System.Drawing.Size(276, 14)
-        Me.Status.TabIndex = 15
+        Me.Status.TabIndex = 3
         Me.Status.Text = "Status"
         '
         'ReportWarning
@@ -232,7 +232,7 @@ Partial Class ReportForm
         Me.ReportWarning.Location = New System.Drawing.Point(38, 181)
         Me.ReportWarning.Name = "ReportWarning"
         Me.ReportWarning.Size = New System.Drawing.Size(80, 13)
-        Me.ReportWarning.TabIndex = 19
+        Me.ReportWarning.TabIndex = 9
         Me.ReportWarning.Text = "IMPORTANT" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
         Me.ReportWarning.Visible = False
         '
@@ -244,14 +244,14 @@ Partial Class ReportForm
         Me.Base.Location = New System.Drawing.Point(108, 62)
         Me.Base.Name = "Base"
         Me.Base.Size = New System.Drawing.Size(149, 20)
-        Me.Base.TabIndex = 17
+        Me.Base.TabIndex = 5
         '
         'Label3
         '
         Me.Label3.Location = New System.Drawing.Point(3, 8)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(250, 30)
-        Me.Label3.TabIndex = 16
+        Me.Label3.TabIndex = 0
         Me.Label3.Text = "Click Search to find possible 3RR violations by this user, or enter a report manu" & _
             "ally:"
         '
@@ -261,7 +261,7 @@ Partial Class ReportForm
         Me.AddBase.Location = New System.Drawing.Point(263, 60)
         Me.AddBase.Name = "AddBase"
         Me.AddBase.Size = New System.Drawing.Size(75, 23)
-        Me.AddBase.TabIndex = 15
+        Me.AddBase.TabIndex = 6
         Me.AddBase.Text = "Use Current"
         Me.AddBase.UseVisualStyleBackColor = True
         '
@@ -271,7 +271,7 @@ Partial Class ReportForm
         Me.Add.Location = New System.Drawing.Point(263, 173)
         Me.Add.Name = "Add"
         Me.Add.Size = New System.Drawing.Size(75, 23)
-        Me.Add.TabIndex = 14
+        Me.Add.TabIndex = 10
         Me.Add.Text = "Add"
         Me.Add.UseVisualStyleBackColor = True
         '
@@ -283,7 +283,7 @@ Partial Class ReportForm
         Me.RevertsList.Location = New System.Drawing.Point(3, 111)
         Me.RevertsList.Name = "RevertsList"
         Me.RevertsList.Size = New System.Drawing.Size(335, 56)
-        Me.RevertsList.TabIndex = 13
+        Me.RevertsList.TabIndex = 8
         '
         'RevertsListLabel
         '
@@ -291,7 +291,7 @@ Partial Class ReportForm
         Me.RevertsListLabel.Location = New System.Drawing.Point(3, 95)
         Me.RevertsListLabel.Name = "RevertsListLabel"
         Me.RevertsListLabel.Size = New System.Drawing.Size(47, 13)
-        Me.RevertsListLabel.TabIndex = 12
+        Me.RevertsListLabel.TabIndex = 7
         Me.RevertsListLabel.Text = "Reverts:"
         '
         'BaseLabel
@@ -300,7 +300,7 @@ Partial Class ReportForm
         Me.BaseLabel.Location = New System.Drawing.Point(3, 65)
         Me.BaseLabel.Name = "BaseLabel"
         Me.BaseLabel.Size = New System.Drawing.Size(99, 13)
-        Me.BaseLabel.TabIndex = 12
+        Me.BaseLabel.TabIndex = 4
         Me.BaseLabel.Text = "Version reverted to:"
         '
         'ReportForm

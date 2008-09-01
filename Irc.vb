@@ -321,7 +321,7 @@ Module Irc
         Dim Edit As Edit = CType(EditObject, Edit)
         ProcessEdit(Edit)
         ProcessNewEdit(Edit)
-        If MainForm.Visible Then MainForm.RefreshInterface()
+        If MainForm IsNot Nothing AndAlso MainForm.Visible Then MainForm.RefreshInterface()
     End Sub
 
     Private Sub IrcLog(ByVal Message As String)

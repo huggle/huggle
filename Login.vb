@@ -121,10 +121,13 @@ Namespace Requests
             If Config.LatestVersion > Config.Version Then
                 Dim NewVersionForm As New VersionForm
 
-                If NewVersionForm.ShowDialog() = DialogResult.Cancel AndAlso Config.MinVersion > Config.Version Then
+                If Config.MinVersion > Config.Version Then
                     Abort("Version is out of date. Update to the latest version.")
+                    NewVersionForm.ShowDialog()
                     Exit Sub
                 End If
+                
+                NewVersionForm.ShowDialog()
             End If
 
             If Not Config.EnabledForAll Then

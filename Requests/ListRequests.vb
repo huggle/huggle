@@ -73,7 +73,7 @@ Namespace Requests
                         Item = Item.Substring(0, Item.IndexOf(""""))
                         Item = HtmlDecode(Item)
 
-                        If Not Items.Contains(Item) AndAlso MatchesFilter(Item) Then
+                        If Not Items.Contains(Item) AndAlso MyClass.MatchesFilter(Item) Then
                             Items.Add(Item)
                             Remaining -= 1
                             If Remaining <= 0 Then Exit Do
@@ -250,6 +250,7 @@ Namespace Requests
                 AllDone()
             Else
                 For Each Item As String In Items
+                    'Keep track of categories checked so that no category is checked more than once
                     If Item.StartsWith("Category:") AndAlso Not CategoriesDone.Contains(Item) _
                         AndAlso Not CategoriesRemaining.Contains(Item) Then CategoriesRemaining.Add(Item)
 

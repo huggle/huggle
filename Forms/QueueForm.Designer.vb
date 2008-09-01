@@ -71,6 +71,7 @@ Partial Class QueueForm
         Me.FilterAnonymous = New Huggle.TriState
         Me.FilterNewPage = New Huggle.TriState
         Me.UserRegexLabel = New System.Windows.Forms.Label
+        Me.Preload = New System.Windows.Forms.CheckBox
         Me.TypeGroup.SuspendLayout()
         Me.Tabs.SuspendLayout()
         Me.PagesTab.SuspendLayout()
@@ -183,7 +184,7 @@ Partial Class QueueForm
         Me.Live.Location = New System.Drawing.Point(10, 65)
         Me.Live.Name = "Live"
         Me.Live.Size = New System.Drawing.Size(300, 17)
-        Me.Live.TabIndex = 0
+        Me.Live.TabIndex = 2
         Me.Live.TabStop = True
         Me.Live.Text = "Live: Don't use a list; show any edit that matches the filters"
         Me.Live.UseVisualStyleBackColor = True
@@ -194,7 +195,7 @@ Partial Class QueueForm
         Me.LiveList.Location = New System.Drawing.Point(10, 42)
         Me.LiveList.Name = "LiveList"
         Me.LiveList.Size = New System.Drawing.Size(358, 17)
-        Me.LiveList.TabIndex = 0
+        Me.LiveList.TabIndex = 1
         Me.LiveList.TabStop = True
         Me.LiveList.Text = "Live list: Use a list of pages, show edits to those pages as they happen"
         Me.LiveList.UseVisualStyleBackColor = True
@@ -222,7 +223,7 @@ Partial Class QueueForm
         Me.Tabs.Name = "Tabs"
         Me.Tabs.SelectedIndex = 0
         Me.Tabs.Size = New System.Drawing.Size(416, 348)
-        Me.Tabs.TabIndex = 32
+        Me.Tabs.TabIndex = 8
         '
         'PagesTab
         '
@@ -245,7 +246,7 @@ Partial Class QueueForm
         Me.ListBuilder.Location = New System.Drawing.Point(309, 10)
         Me.ListBuilder.Name = "ListBuilder"
         Me.ListBuilder.Size = New System.Drawing.Size(93, 23)
-        Me.ListBuilder.TabIndex = 91
+        Me.ListBuilder.TabIndex = 2
         Me.ListBuilder.Text = "List Builder..."
         Me.ListBuilder.UseVisualStyleBackColor = True
         '
@@ -258,7 +259,7 @@ Partial Class QueueForm
         Me.ListSelector.Location = New System.Drawing.Point(34, 11)
         Me.ListSelector.Name = "ListSelector"
         Me.ListSelector.Size = New System.Drawing.Size(269, 21)
-        Me.ListSelector.TabIndex = 90
+        Me.ListSelector.TabIndex = 1
         '
         'Label1
         '
@@ -266,7 +267,7 @@ Partial Class QueueForm
         Me.Label1.Location = New System.Drawing.Point(6, 14)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(26, 13)
-        Me.Label1.TabIndex = 89
+        Me.Label1.TabIndex = 0
         Me.Label1.Text = "List:"
         '
         'QueuePages
@@ -279,13 +280,14 @@ Partial Class QueueForm
         Me.QueuePages.Location = New System.Drawing.Point(6, 40)
         Me.QueuePages.Name = "QueuePages"
         Me.QueuePages.Size = New System.Drawing.Size(396, 276)
-        Me.QueuePages.TabIndex = 88
+        Me.QueuePages.TabIndex = 3
         '
         'OptionsTab
         '
         Me.OptionsTab.Controls.Add(Me.RemoveAfter)
         Me.OptionsTab.Controls.Add(Me.RemoveAfterTime)
         Me.OptionsTab.Controls.Add(Me.RemoveAfterTimeLabel)
+        Me.OptionsTab.Controls.Add(Me.Preload)
         Me.OptionsTab.Controls.Add(Me.RemoveViewed)
         Me.OptionsTab.Controls.Add(Me.RemoveOld)
         Me.OptionsTab.Controls.Add(Me.SortOrderLabel)
@@ -304,7 +306,7 @@ Partial Class QueueForm
         Me.RemoveAfter.Location = New System.Drawing.Point(17, 99)
         Me.RemoveAfter.Name = "RemoveAfter"
         Me.RemoveAfter.Size = New System.Drawing.Size(115, 17)
-        Me.RemoveAfter.TabIndex = 8
+        Me.RemoveAfter.TabIndex = 4
         Me.RemoveAfter.Text = "Remove edits after"
         Me.RemoveAfter.UseVisualStyleBackColor = True
         '
@@ -316,7 +318,7 @@ Partial Class QueueForm
         Me.RemoveAfterTime.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.RemoveAfterTime.Name = "RemoveAfterTime"
         Me.RemoveAfterTime.Size = New System.Drawing.Size(53, 20)
-        Me.RemoveAfterTime.TabIndex = 7
+        Me.RemoveAfterTime.TabIndex = 5
         Me.RemoveAfterTime.Value = New Decimal(New Integer() {10, 0, 0, 0})
         '
         'RemoveAfterTimeLabel
@@ -334,7 +336,7 @@ Partial Class QueueForm
         Me.RemoveViewed.Location = New System.Drawing.Point(17, 53)
         Me.RemoveViewed.Name = "RemoveViewed"
         Me.RemoveViewed.Size = New System.Drawing.Size(157, 17)
-        Me.RemoveViewed.TabIndex = 4
+        Me.RemoveViewed.TabIndex = 2
         Me.RemoveViewed.Text = "Remove edits when viewed"
         Me.RemoveViewed.UseVisualStyleBackColor = True
         '
@@ -344,7 +346,7 @@ Partial Class QueueForm
         Me.RemoveOld.Location = New System.Drawing.Point(17, 76)
         Me.RemoveOld.Name = "RemoveOld"
         Me.RemoveOld.Size = New System.Drawing.Size(202, 17)
-        Me.RemoveOld.TabIndex = 4
+        Me.RemoveOld.TabIndex = 3
         Me.RemoveOld.Text = "Remove older edits to the same page"
         Me.RemoveOld.UseVisualStyleBackColor = True
         '
@@ -354,7 +356,7 @@ Partial Class QueueForm
         Me.SortOrderLabel.Location = New System.Drawing.Point(14, 18)
         Me.SortOrderLabel.Name = "SortOrderLabel"
         Me.SortOrderLabel.Size = New System.Drawing.Size(56, 13)
-        Me.SortOrderLabel.TabIndex = 3
+        Me.SortOrderLabel.TabIndex = 0
         Me.SortOrderLabel.Text = "Sort order:"
         '
         'SortOrder
@@ -365,7 +367,7 @@ Partial Class QueueForm
         Me.SortOrder.Location = New System.Drawing.Point(76, 15)
         Me.SortOrder.Name = "SortOrder"
         Me.SortOrder.Size = New System.Drawing.Size(143, 21)
-        Me.SortOrder.TabIndex = 2
+        Me.SortOrder.TabIndex = 1
         '
         'TitleFiltersTab
         '
@@ -387,7 +389,7 @@ Partial Class QueueForm
         Me.ApplyFilters.Location = New System.Drawing.Point(327, 287)
         Me.ApplyFilters.Name = "ApplyFilters"
         Me.ApplyFilters.Size = New System.Drawing.Size(75, 23)
-        Me.ApplyFilters.TabIndex = 57
+        Me.ApplyFilters.TabIndex = 2
         Me.ApplyFilters.Text = "Apply"
         Me.ApplyFilters.UseVisualStyleBackColor = True
         '
@@ -398,7 +400,7 @@ Partial Class QueueForm
         Me.ApplyFiltersLabel.Location = New System.Drawing.Point(6, 292)
         Me.ApplyFiltersLabel.Name = "ApplyFiltersLabel"
         Me.ApplyFiltersLabel.Size = New System.Drawing.Size(268, 13)
-        Me.ApplyFiltersLabel.TabIndex = 56
+        Me.ApplyFiltersLabel.TabIndex = 1
         Me.ApplyFiltersLabel.Text = "Click Apply to apply these filters to the existing page list."
         '
         'PageFiltersGroup
@@ -413,7 +415,7 @@ Partial Class QueueForm
         Me.PageFiltersGroup.Location = New System.Drawing.Point(6, 6)
         Me.PageFiltersGroup.Name = "PageFiltersGroup"
         Me.PageFiltersGroup.Size = New System.Drawing.Size(396, 275)
-        Me.PageFiltersGroup.TabIndex = 55
+        Me.PageFiltersGroup.TabIndex = 0
         Me.PageFiltersGroup.TabStop = False
         Me.PageFiltersGroup.Text = "Page filters"
         '
@@ -424,7 +426,7 @@ Partial Class QueueForm
         Me.PageRegex.Location = New System.Drawing.Point(173, 19)
         Me.PageRegex.Name = "PageRegex"
         Me.PageRegex.Size = New System.Drawing.Size(217, 38)
-        Me.PageRegex.TabIndex = 58
+        Me.PageRegex.TabIndex = 1
         '
         'NamespacesLabel
         '
@@ -432,7 +434,7 @@ Partial Class QueueForm
         Me.NamespacesLabel.Location = New System.Drawing.Point(6, 44)
         Me.NamespacesLabel.Name = "NamespacesLabel"
         Me.NamespacesLabel.Size = New System.Drawing.Size(72, 13)
-        Me.NamespacesLabel.TabIndex = 57
+        Me.NamespacesLabel.TabIndex = 2
         Me.NamespacesLabel.Text = "Namespaces:"
         '
         'Namespaces
@@ -445,7 +447,7 @@ Partial Class QueueForm
         Me.Namespaces.MultiColumn = True
         Me.Namespaces.Name = "Namespaces"
         Me.Namespaces.Size = New System.Drawing.Size(384, 124)
-        Me.Namespaces.TabIndex = 56
+        Me.Namespaces.TabIndex = 3
         '
         'PageRegexLabel
         '
@@ -453,7 +455,7 @@ Partial Class QueueForm
         Me.PageRegexLabel.Location = New System.Drawing.Point(6, 22)
         Me.PageRegexLabel.Name = "PageRegexLabel"
         Me.PageRegexLabel.Size = New System.Drawing.Size(161, 13)
-        Me.PageRegexLabel.TabIndex = 55
+        Me.PageRegexLabel.TabIndex = 0
         Me.PageRegexLabel.Text = "Title matches regular expression:"
         '
         'EditFiltersTab
@@ -480,7 +482,7 @@ Partial Class QueueForm
         Me.Example3.Name = "Example3"
         Me.Example3.Size = New System.Drawing.Size(124, 16)
         Me.Example3.State = System.Windows.Forms.CheckState.Unchecked
-        Me.Example3.TabIndex = 61
+        Me.Example3.TabIndex = 2
         '
         'Example2
         '
@@ -493,7 +495,7 @@ Partial Class QueueForm
         Me.Example2.Name = "Example2"
         Me.Example2.Size = New System.Drawing.Size(123, 16)
         Me.Example2.State = System.Windows.Forms.CheckState.Checked
-        Me.Example2.TabIndex = 60
+        Me.Example2.TabIndex = 1
         '
         'Example1
         '
@@ -506,7 +508,7 @@ Partial Class QueueForm
         Me.Example1.Name = "Example1"
         Me.Example1.Size = New System.Drawing.Size(116, 16)
         Me.Example1.State = System.Windows.Forms.CheckState.Indeterminate
-        Me.Example1.TabIndex = 59
+        Me.Example1.TabIndex = 3
         '
         'EditFiltersGroup
         '
@@ -525,7 +527,7 @@ Partial Class QueueForm
         Me.EditFiltersGroup.Location = New System.Drawing.Point(6, 6)
         Me.EditFiltersGroup.Name = "EditFiltersGroup"
         Me.EditFiltersGroup.Size = New System.Drawing.Size(396, 282)
-        Me.EditFiltersGroup.TabIndex = 2
+        Me.EditFiltersGroup.TabIndex = 0
         Me.EditFiltersGroup.TabStop = False
         Me.EditFiltersGroup.Text = "Edit filters"
         '
@@ -536,7 +538,7 @@ Partial Class QueueForm
         Me.UserRegex.Location = New System.Drawing.Point(201, 19)
         Me.UserRegex.Name = "UserRegex"
         Me.UserRegex.Size = New System.Drawing.Size(189, 38)
-        Me.UserRegex.TabIndex = 59
+        Me.UserRegex.TabIndex = 1
         '
         'FilterHuggle
         '
@@ -548,7 +550,7 @@ Partial Class QueueForm
         Me.FilterHuggle.Name = "FilterHuggle"
         Me.FilterHuggle.Size = New System.Drawing.Size(80, 16)
         Me.FilterHuggle.State = System.Windows.Forms.CheckState.Indeterminate
-        Me.FilterHuggle.TabIndex = 58
+        Me.FilterHuggle.TabIndex = 7
         '
         'FilterNotifications
         '
@@ -560,7 +562,7 @@ Partial Class QueueForm
         Me.FilterNotifications.Name = "FilterNotifications"
         Me.FilterNotifications.Size = New System.Drawing.Size(79, 16)
         Me.FilterNotifications.State = System.Windows.Forms.CheckState.Indeterminate
-        Me.FilterNotifications.TabIndex = 58
+        Me.FilterNotifications.TabIndex = 8
         '
         'FilterReverts
         '
@@ -572,7 +574,7 @@ Partial Class QueueForm
         Me.FilterReverts.Name = "FilterReverts"
         Me.FilterReverts.Size = New System.Drawing.Size(58, 16)
         Me.FilterReverts.State = System.Windows.Forms.CheckState.Indeterminate
-        Me.FilterReverts.TabIndex = 58
+        Me.FilterReverts.TabIndex = 6
         '
         'FilterOwnUserspace
         '
@@ -584,7 +586,7 @@ Partial Class QueueForm
         Me.FilterOwnUserspace.Name = "FilterOwnUserspace"
         Me.FilterOwnUserspace.Size = New System.Drawing.Size(130, 16)
         Me.FilterOwnUserspace.State = System.Windows.Forms.CheckState.Indeterminate
-        Me.FilterOwnUserspace.TabIndex = 58
+        Me.FilterOwnUserspace.TabIndex = 4
         '
         'FilterIgnored
         '
@@ -596,7 +598,7 @@ Partial Class QueueForm
         Me.FilterIgnored.Name = "FilterIgnored"
         Me.FilterIgnored.Size = New System.Drawing.Size(85, 16)
         Me.FilterIgnored.State = System.Windows.Forms.CheckState.Indeterminate
-        Me.FilterIgnored.TabIndex = 58
+        Me.FilterIgnored.TabIndex = 5
         '
         'FilterAnonymous
         '
@@ -608,7 +610,7 @@ Partial Class QueueForm
         Me.FilterAnonymous.Name = "FilterAnonymous"
         Me.FilterAnonymous.Size = New System.Drawing.Size(104, 16)
         Me.FilterAnonymous.State = System.Windows.Forms.CheckState.Indeterminate
-        Me.FilterAnonymous.TabIndex = 58
+        Me.FilterAnonymous.TabIndex = 3
         '
         'FilterNewPage
         '
@@ -620,7 +622,7 @@ Partial Class QueueForm
         Me.FilterNewPage.Name = "FilterNewPage"
         Me.FilterNewPage.Size = New System.Drawing.Size(75, 16)
         Me.FilterNewPage.State = System.Windows.Forms.CheckState.Indeterminate
-        Me.FilterNewPage.TabIndex = 58
+        Me.FilterNewPage.TabIndex = 2
         '
         'UserRegexLabel
         '
@@ -628,8 +630,18 @@ Partial Class QueueForm
         Me.UserRegexLabel.Location = New System.Drawing.Point(6, 22)
         Me.UserRegexLabel.Name = "UserRegexLabel"
         Me.UserRegexLabel.Size = New System.Drawing.Size(189, 13)
-        Me.UserRegexLabel.TabIndex = 57
+        Me.UserRegexLabel.TabIndex = 0
         Me.UserRegexLabel.Text = "Username matches regular expression:"
+        '
+        'Preload
+        '
+        Me.Preload.AutoSize = True
+        Me.Preload.Location = New System.Drawing.Point(17, 124)
+        Me.Preload.Name = "Preload"
+        Me.Preload.Size = New System.Drawing.Size(301, 17)
+        Me.Preload.TabIndex = 2
+        Me.Preload.Text = "Enable preloading of revisions when this queue is selected"
+        Me.Preload.UseVisualStyleBackColor = True
         '
         'QueueForm
         '
@@ -718,4 +730,5 @@ Partial Class QueueForm
     Friend WithEvents RemoveViewed As System.Windows.Forms.CheckBox
     Friend WithEvents PageRegex As Huggle.RegexBox
     Friend WithEvents UserRegex As Huggle.RegexBox
+    Friend WithEvents Preload As System.Windows.Forms.CheckBox
 End Class

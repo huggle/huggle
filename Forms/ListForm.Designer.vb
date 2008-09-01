@@ -78,7 +78,7 @@ Partial Class ListForm
         Me.ListEmpty.Location = New System.Drawing.Point(205, 227)
         Me.ListEmpty.Name = "ListEmpty"
         Me.ListEmpty.Size = New System.Drawing.Size(359, 36)
-        Me.ListEmpty.TabIndex = 88
+        Me.ListEmpty.TabIndex = 23
         Me.ListEmpty.Text = "No items in list" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Enter a source and click ""Add"""
         Me.ListEmpty.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         Me.ListEmpty.Visible = False
@@ -89,7 +89,7 @@ Partial Class ListForm
         Me.FromLabel.Location = New System.Drawing.Point(431, 15)
         Me.FromLabel.Name = "FromLabel"
         Me.FromLabel.Size = New System.Drawing.Size(33, 13)
-        Me.FromLabel.TabIndex = 72
+        Me.FromLabel.TabIndex = 8
         Me.FromLabel.Text = "From:"
         '
         'From
@@ -99,7 +99,7 @@ Partial Class ListForm
         Me.From.Location = New System.Drawing.Point(466, 12)
         Me.From.Name = "From"
         Me.From.Size = New System.Drawing.Size(107, 20)
-        Me.From.TabIndex = 73
+        Me.From.TabIndex = 9
         '
         'Cancel
         '
@@ -107,7 +107,7 @@ Partial Class ListForm
         Me.Cancel.Location = New System.Drawing.Point(488, 121)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(76, 23)
-        Me.Cancel.TabIndex = 84
+        Me.Cancel.TabIndex = 22
         Me.Cancel.Text = "Cancel"
         Me.Cancel.UseVisualStyleBackColor = True
         Me.Cancel.Visible = False
@@ -119,7 +119,7 @@ Partial Class ListForm
         Me.Progress.Location = New System.Drawing.Point(265, 91)
         Me.Progress.Name = "Progress"
         Me.Progress.Size = New System.Drawing.Size(308, 15)
-        Me.Progress.TabIndex = 86
+        Me.Progress.TabIndex = 20
         Me.Progress.Text = " "
         '
         'LimitLabel
@@ -129,7 +129,7 @@ Partial Class ListForm
         Me.LimitLabel.Location = New System.Drawing.Point(483, 41)
         Me.LimitLabel.Name = "LimitLabel"
         Me.LimitLabel.Size = New System.Drawing.Size(36, 13)
-        Me.LimitLabel.TabIndex = 78
+        Me.LimitLabel.TabIndex = 13
         Me.LimitLabel.Text = "Up to:"
         '
         'Actions
@@ -139,7 +139,7 @@ Partial Class ListForm
         Me.Actions.Location = New System.Drawing.Point(341, 387)
         Me.Actions.Name = "Actions"
         Me.Actions.Size = New System.Drawing.Size(114, 23)
-        Me.Actions.TabIndex = 69
+        Me.Actions.TabIndex = 26
         Me.Actions.Text = "Actions and Filters..."
         Me.Actions.UseVisualStyleBackColor = True
         '
@@ -150,7 +150,7 @@ Partial Class ListForm
         Me.Clear.Location = New System.Drawing.Point(268, 387)
         Me.Clear.Name = "Clear"
         Me.Clear.Size = New System.Drawing.Size(67, 23)
-        Me.Clear.TabIndex = 67
+        Me.Clear.TabIndex = 25
         Me.Clear.Text = "Clear"
         Me.Clear.UseVisualStyleBackColor = True
         '
@@ -161,7 +161,7 @@ Partial Class ListForm
         Me.Save.Location = New System.Drawing.Point(195, 387)
         Me.Save.Name = "Save"
         Me.Save.Size = New System.Drawing.Size(67, 23)
-        Me.Save.TabIndex = 66
+        Me.Save.TabIndex = 24
         Me.Save.Text = "Save..."
         Me.Save.UseVisualStyleBackColor = True
         '
@@ -175,7 +175,7 @@ Partial Class ListForm
         Me.ListSelector.Name = "ListSelector"
         Me.ListSelector.Size = New System.Drawing.Size(211, 21)
         Me.ListSelector.Sorted = True
-        Me.ListSelector.TabIndex = 76
+        Me.ListSelector.TabIndex = 11
         '
         'Limit
         '
@@ -187,7 +187,7 @@ Partial Class ListForm
         Me.Limit.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.Limit.Name = "Limit"
         Me.Limit.Size = New System.Drawing.Size(52, 20)
-        Me.Limit.TabIndex = 79
+        Me.Limit.TabIndex = 14
         Me.Limit.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.Limit.Value = New Decimal(New Integer() {1, 0, 0, 0})
         '
@@ -197,7 +197,7 @@ Partial Class ListForm
         Me.Throbber.Location = New System.Drawing.Point(195, 72)
         Me.Throbber.Name = "Throbber"
         Me.Throbber.Size = New System.Drawing.Size(58, 10)
-        Me.Throbber.TabIndex = 80
+        Me.Throbber.TabIndex = 15
         '
         'Count
         '
@@ -205,7 +205,7 @@ Partial Class ListForm
         Me.Count.Location = New System.Drawing.Point(193, 92)
         Me.Count.Name = "Count"
         Me.Count.Size = New System.Drawing.Size(40, 13)
-        Me.Count.TabIndex = 85
+        Me.Count.TabIndex = 19
         Me.Count.Text = "0 items"
         '
         'SourceLabel
@@ -213,7 +213,7 @@ Partial Class ListForm
         Me.SourceLabel.Location = New System.Drawing.Point(192, 41)
         Me.SourceLabel.Name = "SourceLabel"
         Me.SourceLabel.Size = New System.Drawing.Size(72, 16)
-        Me.SourceLabel.TabIndex = 74
+        Me.SourceLabel.TabIndex = 10
         Me.SourceLabel.Text = "Source:"
         Me.SourceLabel.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
@@ -224,7 +224,7 @@ Partial Class ListForm
         Me.Exclude.Location = New System.Drawing.Point(497, 65)
         Me.Exclude.Name = "Exclude"
         Me.Exclude.Size = New System.Drawing.Size(76, 23)
-        Me.Exclude.TabIndex = 83
+        Me.Exclude.TabIndex = 18
         Me.Exclude.Text = "Exclude"
         Me.Exclude.UseVisualStyleBackColor = True
         '
@@ -235,7 +235,7 @@ Partial Class ListForm
         Me.Combine.Location = New System.Drawing.Point(333, 65)
         Me.Combine.Name = "Combine"
         Me.Combine.Size = New System.Drawing.Size(76, 23)
-        Me.Combine.TabIndex = 81
+        Me.Combine.TabIndex = 16
         Me.Combine.Text = "Combine"
         Me.Combine.UseVisualStyleBackColor = True
         '
@@ -246,7 +246,7 @@ Partial Class ListForm
         Me.Intersect.Location = New System.Drawing.Point(415, 65)
         Me.Intersect.Name = "Intersect"
         Me.Intersect.Size = New System.Drawing.Size(76, 23)
-        Me.Intersect.TabIndex = 82
+        Me.Intersect.TabIndex = 17
         Me.Intersect.Text = "Intersect"
         Me.Intersect.UseVisualStyleBackColor = True
         '
@@ -259,7 +259,7 @@ Partial Class ListForm
         Me.SourceType.MaxDropDownItems = 20
         Me.SourceType.Name = "SourceType"
         Me.SourceType.Size = New System.Drawing.Size(156, 21)
-        Me.SourceType.TabIndex = 71
+        Me.SourceType.TabIndex = 7
         '
         'SourceTypeLabel
         '
@@ -267,7 +267,7 @@ Partial Class ListForm
         Me.SourceTypeLabel.Location = New System.Drawing.Point(197, 14)
         Me.SourceTypeLabel.Name = "SourceTypeLabel"
         Me.SourceTypeLabel.Size = New System.Drawing.Size(67, 13)
-        Me.SourceTypeLabel.TabIndex = 70
+        Me.SourceTypeLabel.TabIndex = 6
         Me.SourceTypeLabel.Text = "Source type:"
         '
         'ListPages
@@ -280,7 +280,7 @@ Partial Class ListForm
         Me.ListPages.Name = "ListPages"
         Me.ListPages.Size = New System.Drawing.Size(378, 271)
         Me.ListPages.Sorted = True
-        Me.ListPages.TabIndex = 87
+        Me.ListPages.TabIndex = 21
         '
         'Source
         '
@@ -299,7 +299,7 @@ Partial Class ListForm
         Me.Browse.Location = New System.Drawing.Point(409, 37)
         Me.Browse.Name = "Browse"
         Me.Browse.Size = New System.Drawing.Size(67, 23)
-        Me.Browse.TabIndex = 77
+        Me.Browse.TabIndex = 12
         Me.Browse.Text = "Browse..."
         Me.Browse.UseVisualStyleBackColor = True
         Me.Browse.Visible = False
@@ -311,7 +311,7 @@ Partial Class ListForm
         Me.CopyList.Location = New System.Drawing.Point(12, 387)
         Me.CopyList.Name = "CopyList"
         Me.CopyList.Size = New System.Drawing.Size(75, 23)
-        Me.CopyList.TabIndex = 91
+        Me.CopyList.TabIndex = 4
         Me.CopyList.Text = "Copy"
         Me.CopyList.UseVisualStyleBackColor = True
         '
@@ -322,7 +322,7 @@ Partial Class ListForm
         Me.RenameList.Location = New System.Drawing.Point(93, 387)
         Me.RenameList.Name = "RenameList"
         Me.RenameList.Size = New System.Drawing.Size(75, 23)
-        Me.RenameList.TabIndex = 92
+        Me.RenameList.TabIndex = 5
         Me.RenameList.Text = "Rename"
         Me.RenameList.UseVisualStyleBackColor = True
         '
@@ -333,7 +333,7 @@ Partial Class ListForm
         Me.DeleteList.Location = New System.Drawing.Point(93, 358)
         Me.DeleteList.Name = "DeleteList"
         Me.DeleteList.Size = New System.Drawing.Size(75, 23)
-        Me.DeleteList.TabIndex = 90
+        Me.DeleteList.TabIndex = 3
         Me.DeleteList.Text = "Delete"
         Me.DeleteList.UseVisualStyleBackColor = True
         '
@@ -343,7 +343,7 @@ Partial Class ListForm
         Me.AddList.Location = New System.Drawing.Point(12, 358)
         Me.AddList.Name = "AddList"
         Me.AddList.Size = New System.Drawing.Size(75, 23)
-        Me.AddList.TabIndex = 89
+        Me.AddList.TabIndex = 2
         Me.AddList.Text = "Add"
         Me.AddList.UseVisualStyleBackColor = True
         '
@@ -355,7 +355,7 @@ Partial Class ListForm
         Me.ListsEmpty.Location = New System.Drawing.Point(21, 161)
         Me.ListsEmpty.Name = "ListsEmpty"
         Me.ListsEmpty.Size = New System.Drawing.Size(138, 36)
-        Me.ListsEmpty.TabIndex = 93
+        Me.ListsEmpty.TabIndex = 1
         Me.ListsEmpty.Text = "No lists defined" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Click ""Add"" to create one"
         Me.ListsEmpty.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         Me.ListsEmpty.Visible = False
@@ -389,7 +389,7 @@ Partial Class ListForm
         Me.CloseButton.Location = New System.Drawing.Point(498, 387)
         Me.CloseButton.Name = "CloseButton"
         Me.CloseButton.Size = New System.Drawing.Size(75, 23)
-        Me.CloseButton.TabIndex = 94
+        Me.CloseButton.TabIndex = 27
         Me.CloseButton.Text = "Close"
         Me.CloseButton.UseVisualStyleBackColor = True
         '

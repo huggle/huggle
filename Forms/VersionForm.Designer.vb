@@ -24,9 +24,11 @@ Partial Class VersionForm
     Private Sub InitializeComponent()
         Me.Message = New System.Windows.Forms.Label
         Me.Cancel = New System.Windows.Forms.Button
-        Me.OK = New System.Windows.Forms.Button
+        Me.Update = New System.Windows.Forms.Button
         Me.Status = New System.Windows.Forms.Label
+        Me.PictureBox1 = New System.Windows.Forms.PictureBox
         Me.Throbber = New Huggle.Throbber
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Message
@@ -34,10 +36,9 @@ Partial Class VersionForm
         Me.Message.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Message.AutoSize = True
-        Me.Message.Location = New System.Drawing.Point(12, 9)
+        Me.Message.Location = New System.Drawing.Point(54, 9)
         Me.Message.Name = "Message"
-        Me.Message.Size = New System.Drawing.Size(404, 39)
+        Me.Message.Size = New System.Drawing.Size(377, 43)
         Me.Message.TabIndex = 0
         Me.Message.Text = "This version of Huggle is out of date." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Updating to the latest version, 0.0.0, is" & _
             " recommended, and may be required in future." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Download and run the latest versio" & _
@@ -46,38 +47,50 @@ Partial Class VersionForm
         'Cancel
         '
         Me.Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Cancel.Location = New System.Drawing.Point(356, 58)
+        Me.Cancel.Location = New System.Drawing.Point(356, 55)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
         Me.Cancel.TabIndex = 1
         Me.Cancel.Text = "Cancel"
         Me.Cancel.UseVisualStyleBackColor = True
         '
-        'OK
+        'Update
         '
-        Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.OK.Location = New System.Drawing.Point(275, 58)
-        Me.OK.Name = "OK"
-        Me.OK.Size = New System.Drawing.Size(75, 23)
-        Me.OK.TabIndex = 1
-        Me.OK.Text = "Update"
-        Me.OK.UseVisualStyleBackColor = True
+        Me.Update.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Update.Location = New System.Drawing.Point(275, 55)
+        Me.Update.Name = "Update"
+        Me.Update.Size = New System.Drawing.Size(75, 23)
+        Me.Update.TabIndex = 1
+        Me.Update.Text = "Update"
+        Me.Update.UseVisualStyleBackColor = True
         '
         'Status
         '
         Me.Status.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Status.AutoSize = True
-        Me.Status.Location = New System.Drawing.Point(12, 63)
+        Me.Status.Location = New System.Drawing.Point(12, 60)
         Me.Status.Name = "Status"
         Me.Status.Size = New System.Drawing.Size(10, 13)
         Me.Status.TabIndex = 3
         Me.Status.Text = " "
         '
+        'PictureBox1
+        '
+        Me.PictureBox1.ErrorImage = Nothing
+        Me.PictureBox1.Image = Global.Huggle.My.Resources.Resources.user_template
+        Me.PictureBox1.InitialImage = Nothing
+        Me.PictureBox1.Location = New System.Drawing.Point(12, 11)
+        Me.PictureBox1.Name = "PictureBox1"
+        Me.PictureBox1.Size = New System.Drawing.Size(36, 36)
+        Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.PictureBox1.TabIndex = 4
+        Me.PictureBox1.TabStop = False
+        '
         'Throbber
         '
         Me.Throbber.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Throbber.BackColor = System.Drawing.Color.Gainsboro
-        Me.Throbber.Location = New System.Drawing.Point(211, 66)
+        Me.Throbber.Location = New System.Drawing.Point(214, 63)
         Me.Throbber.Name = "Throbber"
         Me.Throbber.Size = New System.Drawing.Size(55, 10)
         Me.Throbber.TabIndex = 2
@@ -87,10 +100,11 @@ Partial Class VersionForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(443, 93)
+        Me.ClientSize = New System.Drawing.Size(443, 90)
+        Me.Controls.Add(Me.PictureBox1)
         Me.Controls.Add(Me.Status)
         Me.Controls.Add(Me.Throbber)
-        Me.Controls.Add(Me.OK)
+        Me.Controls.Add(Me.Update)
         Me.Controls.Add(Me.Cancel)
         Me.Controls.Add(Me.Message)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
@@ -101,13 +115,15 @@ Partial Class VersionForm
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "New version available"
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
     End Sub
     Friend WithEvents Message As System.Windows.Forms.Label
     Friend WithEvents Cancel As System.Windows.Forms.Button
-    Friend WithEvents OK As System.Windows.Forms.Button
+    Friend WithEvents Update As System.Windows.Forms.Button
     Friend WithEvents Throbber As Huggle.Throbber
     Friend WithEvents Status As System.Windows.Forms.Label
+    Friend WithEvents PictureBox1 As System.Windows.Forms.PictureBox
 End Class

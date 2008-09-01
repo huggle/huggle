@@ -301,11 +301,11 @@ Module Processing
         Next Item
 
         'Remove in-progress log entries
-        Dim k As Integer = 0
+        Dim j As Integer = 0
 
-        While k < MainForm.Status.Items.Count
-            If TypeOf MainForm.Status.Items(k).Tag Is Page AndAlso CType(MainForm.Status.Items(k).Tag, Page) _
-                Is Edit.Page Then MainForm.Status.Items.RemoveAt(k) Else k += 1
+        While j < MainForm.Status.Items.Count
+            If TypeOf MainForm.Status.Items(j).Tag Is Page AndAlso CType(MainForm.Status.Items(j).Tag, Page) _
+                Is Edit.Page Then MainForm.Status.Items.RemoveAt(j) Else j += 1
         End While
 
         If Edit.User.IsMe Then
@@ -398,18 +398,20 @@ Module Processing
         End If
 
         'Preload diffs
-        If CurrentQueue IsNot Nothing AndAlso Request.PreloadCount < Config.Preloads + 1 Then
-            For l As Integer = 0 To Math.Min(CurrentQueue.Edits.Count, Config.Preloads) - 1
-                If CurrentQueue.Edits(l).Cached = Edit.CacheState.Uncached Then
+        If CurrentQueue IsNot Nothing AndAlso CurrentQueue.Preload _
+            AndAlso Request.PreloadCount < Config.Preloads + 1 Then
+
+            For k As Integer = 0 To Math.Min(CurrentQueue.Edits.Count, Config.Preloads) - 1
+                If CurrentQueue.Edits(k).Cached = Edit.CacheState.Uncached Then
                     Dim NewDiffRequest As New DiffRequest
-                    NewDiffRequest.Edit = CurrentQueue.Edits(l)
+                    NewDiffRequest.Edit = CurrentQueue.Edits(k)
                     NewDiffRequest.Preload = True
                     NewDiffRequest.Start()
 
                     Request.PreloadCount += 1
                     If Request.PreloadCount >= Config.Preloads Then Exit For
                 End If
-            Next l
+            Next k
         End If
 
         'Refresh the interface

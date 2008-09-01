@@ -28,10 +28,10 @@ Partial Class ListActionsForm
         Me.NamespaceTransformLabel = New System.Windows.Forms.Label
         Me.NamespaceTransformSelector = New System.Windows.Forms.ComboBox
         Me.PageFiltersGroup = New System.Windows.Forms.GroupBox
+        Me.TitleRegex = New Huggle.RegexBox
         Me.NamespacesLabel = New System.Windows.Forms.Label
         Me.Namespaces = New System.Windows.Forms.CheckedListBox
         Me.PageRegexLabel = New System.Windows.Forms.Label
-        Me.TitleRegex = New Huggle.RegexBox
         Me.NamespaceTransformGroup.SuspendLayout()
         Me.PageFiltersGroup.SuspendLayout()
         Me.SuspendLayout()
@@ -39,19 +39,20 @@ Partial Class ListActionsForm
         'OK
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.OK.Location = New System.Drawing.Point(307, 265)
+        Me.OK.Location = New System.Drawing.Point(317, 265)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
-        Me.OK.TabIndex = 0
+        Me.OK.TabIndex = 2
         Me.OK.Text = "Close"
         Me.OK.UseVisualStyleBackColor = True
         '
         'NamespaceTransform
         '
-        Me.NamespaceTransform.Location = New System.Drawing.Point(289, 18)
+        Me.NamespaceTransform.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.NamespaceTransform.Location = New System.Drawing.Point(302, 18)
         Me.NamespaceTransform.Name = "NamespaceTransform"
         Me.NamespaceTransform.Size = New System.Drawing.Size(75, 23)
-        Me.NamespaceTransform.TabIndex = 58
+        Me.NamespaceTransform.TabIndex = 2
         Me.NamespaceTransform.Text = "Change"
         Me.NamespaceTransform.UseVisualStyleBackColor = True
         '
@@ -65,8 +66,8 @@ Partial Class ListActionsForm
         Me.NamespaceTransformGroup.Controls.Add(Me.NamespaceTransformSelector)
         Me.NamespaceTransformGroup.Location = New System.Drawing.Point(12, 12)
         Me.NamespaceTransformGroup.Name = "NamespaceTransformGroup"
-        Me.NamespaceTransformGroup.Size = New System.Drawing.Size(373, 51)
-        Me.NamespaceTransformGroup.TabIndex = 59
+        Me.NamespaceTransformGroup.Size = New System.Drawing.Size(383, 51)
+        Me.NamespaceTransformGroup.TabIndex = 0
         Me.NamespaceTransformGroup.TabStop = False
         Me.NamespaceTransformGroup.Text = "Namespace transform"
         '
@@ -76,7 +77,7 @@ Partial Class ListActionsForm
         Me.NamespaceTransformLabel.Location = New System.Drawing.Point(6, 23)
         Me.NamespaceTransformLabel.Name = "NamespaceTransformLabel"
         Me.NamespaceTransformLabel.Size = New System.Drawing.Size(44, 13)
-        Me.NamespaceTransformLabel.TabIndex = 60
+        Me.NamespaceTransformLabel.TabIndex = 0
         Me.NamespaceTransformLabel.Text = "Change"
         '
         'NamespaceTransformSelector
@@ -88,8 +89,8 @@ Partial Class ListActionsForm
         Me.NamespaceTransformSelector.Items.AddRange(New Object() {"non-talk pages to talk pages", "talk pages to non-talk pages"})
         Me.NamespaceTransformSelector.Location = New System.Drawing.Point(56, 19)
         Me.NamespaceTransformSelector.Name = "NamespaceTransformSelector"
-        Me.NamespaceTransformSelector.Size = New System.Drawing.Size(227, 21)
-        Me.NamespaceTransformSelector.TabIndex = 59
+        Me.NamespaceTransformSelector.Size = New System.Drawing.Size(240, 21)
+        Me.NamespaceTransformSelector.TabIndex = 1
         '
         'PageFiltersGroup
         '
@@ -102,10 +103,19 @@ Partial Class ListActionsForm
         Me.PageFiltersGroup.Controls.Add(Me.PageRegexLabel)
         Me.PageFiltersGroup.Location = New System.Drawing.Point(12, 69)
         Me.PageFiltersGroup.Name = "PageFiltersGroup"
-        Me.PageFiltersGroup.Size = New System.Drawing.Size(373, 190)
-        Me.PageFiltersGroup.TabIndex = 60
+        Me.PageFiltersGroup.Size = New System.Drawing.Size(383, 190)
+        Me.PageFiltersGroup.TabIndex = 1
         Me.PageFiltersGroup.TabStop = False
         Me.PageFiltersGroup.Text = "Page filters"
+        '
+        'TitleRegex
+        '
+        Me.TitleRegex.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TitleRegex.Location = New System.Drawing.Point(173, 19)
+        Me.TitleRegex.Name = "TitleRegex"
+        Me.TitleRegex.Size = New System.Drawing.Size(204, 36)
+        Me.TitleRegex.TabIndex = 1
         '
         'NamespacesLabel
         '
@@ -113,7 +123,7 @@ Partial Class ListActionsForm
         Me.NamespacesLabel.Location = New System.Drawing.Point(6, 44)
         Me.NamespacesLabel.Name = "NamespacesLabel"
         Me.NamespacesLabel.Size = New System.Drawing.Size(72, 13)
-        Me.NamespacesLabel.TabIndex = 57
+        Me.NamespacesLabel.TabIndex = 2
         Me.NamespacesLabel.Text = "Namespaces:"
         '
         'Namespaces
@@ -122,13 +132,12 @@ Partial Class ListActionsForm
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Namespaces.CheckOnClick = True
-        Me.Namespaces.FormattingEnabled = True
         Me.Namespaces.IntegralHeight = False
         Me.Namespaces.Location = New System.Drawing.Point(6, 60)
         Me.Namespaces.MultiColumn = True
         Me.Namespaces.Name = "Namespaces"
-        Me.Namespaces.Size = New System.Drawing.Size(361, 124)
-        Me.Namespaces.TabIndex = 56
+        Me.Namespaces.Size = New System.Drawing.Size(371, 124)
+        Me.Namespaces.TabIndex = 3
         '
         'PageRegexLabel
         '
@@ -136,23 +145,14 @@ Partial Class ListActionsForm
         Me.PageRegexLabel.Location = New System.Drawing.Point(6, 22)
         Me.PageRegexLabel.Name = "PageRegexLabel"
         Me.PageRegexLabel.Size = New System.Drawing.Size(161, 13)
-        Me.PageRegexLabel.TabIndex = 55
+        Me.PageRegexLabel.TabIndex = 0
         Me.PageRegexLabel.Text = "Title matches regular expression:"
-        '
-        'TitleRegex
-        '
-        Me.TitleRegex.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TitleRegex.Location = New System.Drawing.Point(173, 19)
-        Me.TitleRegex.Name = "TitleRegex"
-        Me.TitleRegex.Size = New System.Drawing.Size(194, 36)
-        Me.TitleRegex.TabIndex = 58
         '
         'ListActionsForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(394, 300)
+        Me.ClientSize = New System.Drawing.Size(404, 300)
         Me.Controls.Add(Me.PageFiltersGroup)
         Me.Controls.Add(Me.NamespaceTransformGroup)
         Me.Controls.Add(Me.OK)

@@ -26,17 +26,19 @@ Partial Class ConfigForm
         Me.OK = New System.Windows.Forms.Button
         Me.Tabs = New System.Windows.Forms.TabControl
         Me.GeneralTab = New System.Windows.Forms.TabPage
+        Me.RememberPassword = New System.Windows.Forms.CheckBox
+        Me.RememberMe = New System.Windows.Forms.CheckBox
+        Me.DiffFontSize = New System.Windows.Forms.NumericUpDown
+        Me.Preloads = New System.Windows.Forms.NumericUpDown
         Me.IrcMode = New System.Windows.Forms.CheckBox
         Me.LogFileBrowse = New System.Windows.Forms.Button
         Me.LogFile = New System.Windows.Forms.TextBox
         Me.Label17 = New System.Windows.Forms.Label
         Me.OpenInBrowser = New System.Windows.Forms.CheckBox
         Me.Label14 = New System.Windows.Forms.Label
-        Me.DiffFontSize = New System.Windows.Forms.TextBox
         Me.Label13 = New System.Windows.Forms.Label
         Me.ShowNewEdits = New System.Windows.Forms.CheckBox
         Me.Preloading = New System.Windows.Forms.CheckBox
-        Me.Preloads = New System.Windows.Forms.TextBox
         Me.Label6 = New System.Windows.Forms.Label
         Me.IrcPort = New System.Windows.Forms.TextBox
         Me.AutoWhitelist = New System.Windows.Forms.CheckBox
@@ -54,8 +56,8 @@ Partial Class ConfigForm
         Me.ChangeShortcutLabel = New System.Windows.Forms.Label
         Me.Label18 = New System.Windows.Forms.Label
         Me.ShortcutList = New System.Windows.Forms.ListView
-        Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
+        Me.ActionColumn = New System.Windows.Forms.ColumnHeader
+        Me.ShortcutColumn = New System.Windows.Forms.ColumnHeader
         Me.EditingTab = New System.Windows.Forms.TabPage
         Me.UndoSummary = New System.Windows.Forms.TextBox
         Me.Label16 = New System.Windows.Forms.Label
@@ -93,7 +95,7 @@ Partial Class ConfigForm
         Me.DisplayColumn = New System.Windows.Forms.ColumnHeader
         Me.TemplateColumn = New System.Windows.Forms.ColumnHeader
         Me.EditorTab = New System.Windows.Forms.TabPage
-        Me.GroupBox2 = New System.Windows.Forms.GroupBox
+        Me.HighlightGroup = New System.Windows.Forms.GroupBox
         Me.Label26 = New System.Windows.Forms.Label
         Me.ColorParamCall = New System.Windows.Forms.Button
         Me.Label25 = New System.Windows.Forms.Label
@@ -128,6 +130,8 @@ Partial Class ConfigForm
         Me.UseAdminFunctions = New System.Windows.Forms.CheckBox
         Me.Tabs.SuspendLayout()
         Me.GeneralTab.SuspendLayout()
+        CType(Me.DiffFontSize, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Preloads, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.InterfaceTab.SuspendLayout()
         Me.KeyboardTab.SuspendLayout()
         Me.EditingTab.SuspendLayout()
@@ -136,7 +140,7 @@ Partial Class ConfigForm
         Me.GroupBox1.SuspendLayout()
         Me.TemplatesTab.SuspendLayout()
         Me.EditorTab.SuspendLayout()
-        Me.GroupBox2.SuspendLayout()
+        Me.HighlightGroup.SuspendLayout()
         Me.AdminTab.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -183,17 +187,19 @@ Partial Class ConfigForm
         '
         'GeneralTab
         '
+        Me.GeneralTab.Controls.Add(Me.RememberPassword)
+        Me.GeneralTab.Controls.Add(Me.RememberMe)
+        Me.GeneralTab.Controls.Add(Me.DiffFontSize)
+        Me.GeneralTab.Controls.Add(Me.Preloads)
         Me.GeneralTab.Controls.Add(Me.IrcMode)
         Me.GeneralTab.Controls.Add(Me.LogFileBrowse)
         Me.GeneralTab.Controls.Add(Me.LogFile)
         Me.GeneralTab.Controls.Add(Me.Label17)
         Me.GeneralTab.Controls.Add(Me.OpenInBrowser)
         Me.GeneralTab.Controls.Add(Me.Label14)
-        Me.GeneralTab.Controls.Add(Me.DiffFontSize)
         Me.GeneralTab.Controls.Add(Me.Label13)
         Me.GeneralTab.Controls.Add(Me.ShowNewEdits)
         Me.GeneralTab.Controls.Add(Me.Preloading)
-        Me.GeneralTab.Controls.Add(Me.Preloads)
         Me.GeneralTab.Controls.Add(Me.Label6)
         Me.GeneralTab.Controls.Add(Me.IrcPort)
         Me.GeneralTab.Controls.Add(Me.AutoWhitelist)
@@ -205,10 +211,50 @@ Partial Class ConfigForm
         Me.GeneralTab.Text = "General"
         Me.GeneralTab.UseVisualStyleBackColor = True
         '
+        'RememberPassword
+        '
+        Me.RememberPassword.AutoSize = True
+        Me.RememberPassword.Location = New System.Drawing.Point(9, 38)
+        Me.RememberPassword.Name = "RememberPassword"
+        Me.RememberPassword.Size = New System.Drawing.Size(141, 17)
+        Me.RememberPassword.TabIndex = 34
+        Me.RememberPassword.Text = "Remember my password"
+        Me.RememberPassword.UseVisualStyleBackColor = True
+        '
+        'RememberMe
+        '
+        Me.RememberMe.AutoSize = True
+        Me.RememberMe.Location = New System.Drawing.Point(9, 15)
+        Me.RememberMe.Name = "RememberMe"
+        Me.RememberMe.Size = New System.Drawing.Size(142, 17)
+        Me.RememberMe.TabIndex = 34
+        Me.RememberMe.Text = "Remember my username"
+        Me.RememberMe.UseVisualStyleBackColor = True
+        '
+        'DiffFontSize
+        '
+        Me.DiffFontSize.Location = New System.Drawing.Point(75, 216)
+        Me.DiffFontSize.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
+        Me.DiffFontSize.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.DiffFontSize.Name = "DiffFontSize"
+        Me.DiffFontSize.Size = New System.Drawing.Size(50, 20)
+        Me.DiffFontSize.TabIndex = 33
+        Me.DiffFontSize.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
+        'Preloads
+        '
+        Me.Preloads.Location = New System.Drawing.Point(190, 127)
+        Me.Preloads.Maximum = New Decimal(New Integer() {5, 0, 0, 0})
+        Me.Preloads.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.Preloads.Name = "Preloads"
+        Me.Preloads.Size = New System.Drawing.Size(50, 20)
+        Me.Preloads.TabIndex = 32
+        Me.Preloads.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
         'IrcMode
         '
         Me.IrcMode.AutoSize = True
-        Me.IrcMode.Location = New System.Drawing.Point(9, 107)
+        Me.IrcMode.Location = New System.Drawing.Point(9, 153)
         Me.IrcMode.Name = "IrcMode"
         Me.IrcMode.Size = New System.Drawing.Size(231, 17)
         Me.IrcMode.TabIndex = 31
@@ -218,7 +264,7 @@ Partial Class ConfigForm
         'LogFileBrowse
         '
         Me.LogFileBrowse.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.LogFileBrowse.Location = New System.Drawing.Point(421, 203)
+        Me.LogFileBrowse.Location = New System.Drawing.Point(421, 251)
         Me.LogFileBrowse.Name = "LogFileBrowse"
         Me.LogFileBrowse.Size = New System.Drawing.Size(75, 23)
         Me.LogFileBrowse.TabIndex = 29
@@ -229,7 +275,7 @@ Partial Class ConfigForm
         '
         Me.LogFile.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.LogFile.Location = New System.Drawing.Point(57, 205)
+        Me.LogFile.Location = New System.Drawing.Point(57, 253)
         Me.LogFile.Name = "LogFile"
         Me.LogFile.Size = New System.Drawing.Size(358, 20)
         Me.LogFile.TabIndex = 28
@@ -237,7 +283,7 @@ Partial Class ConfigForm
         'Label17
         '
         Me.Label17.AutoSize = True
-        Me.Label17.Location = New System.Drawing.Point(7, 208)
+        Me.Label17.Location = New System.Drawing.Point(7, 256)
         Me.Label17.Name = "Label17"
         Me.Label17.Size = New System.Drawing.Size(44, 13)
         Me.Label17.TabIndex = 27
@@ -246,7 +292,7 @@ Partial Class ConfigForm
         'OpenInBrowser
         '
         Me.OpenInBrowser.AutoSize = True
-        Me.OpenInBrowser.Location = New System.Drawing.Point(9, 38)
+        Me.OpenInBrowser.Location = New System.Drawing.Point(9, 84)
         Me.OpenInBrowser.Name = "OpenInBrowser"
         Me.OpenInBrowser.Size = New System.Drawing.Size(229, 17)
         Me.OpenInBrowser.TabIndex = 26
@@ -256,23 +302,16 @@ Partial Class ConfigForm
         'Label14
         '
         Me.Label14.AutoSize = True
-        Me.Label14.Location = New System.Drawing.Point(127, 173)
+        Me.Label14.Location = New System.Drawing.Point(127, 218)
         Me.Label14.Name = "Label14"
         Me.Label14.Size = New System.Drawing.Size(16, 13)
         Me.Label14.TabIndex = 24
         Me.Label14.Text = "pt"
         '
-        'DiffFontSize
-        '
-        Me.DiffFontSize.Location = New System.Drawing.Point(73, 170)
-        Me.DiffFontSize.Name = "DiffFontSize"
-        Me.DiffFontSize.Size = New System.Drawing.Size(48, 20)
-        Me.DiffFontSize.TabIndex = 23
-        '
         'Label13
         '
         Me.Label13.AutoSize = True
-        Me.Label13.Location = New System.Drawing.Point(6, 173)
+        Me.Label13.Location = New System.Drawing.Point(6, 218)
         Me.Label13.Name = "Label13"
         Me.Label13.Size = New System.Drawing.Size(68, 13)
         Me.Label13.TabIndex = 22
@@ -281,7 +320,7 @@ Partial Class ConfigForm
         'ShowNewEdits
         '
         Me.ShowNewEdits.AutoSize = True
-        Me.ShowNewEdits.Location = New System.Drawing.Point(9, 61)
+        Me.ShowNewEdits.Location = New System.Drawing.Point(9, 107)
         Me.ShowNewEdits.Name = "ShowNewEdits"
         Me.ShowNewEdits.Size = New System.Drawing.Size(285, 17)
         Me.ShowNewEdits.TabIndex = 21
@@ -291,24 +330,17 @@ Partial Class ConfigForm
         'Preloading
         '
         Me.Preloading.AutoSize = True
-        Me.Preloading.Location = New System.Drawing.Point(9, 84)
+        Me.Preloading.Location = New System.Drawing.Point(9, 130)
         Me.Preloading.Name = "Preloading"
         Me.Preloading.Size = New System.Drawing.Size(178, 17)
         Me.Preloading.TabIndex = 9
         Me.Preloading.Text = "Enable preloading of diffs (1 - 5):"
         Me.Preloading.UseVisualStyleBackColor = True
         '
-        'Preloads
-        '
-        Me.Preloads.Location = New System.Drawing.Point(190, 81)
-        Me.Preloads.Name = "Preloads"
-        Me.Preloads.Size = New System.Drawing.Size(48, 20)
-        Me.Preloads.TabIndex = 7
-        '
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(6, 139)
+        Me.Label6.Location = New System.Drawing.Point(6, 184)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(115, 13)
         Me.Label6.TabIndex = 6
@@ -316,7 +348,7 @@ Partial Class ConfigForm
         '
         'IrcPort
         '
-        Me.IrcPort.Location = New System.Drawing.Point(127, 136)
+        Me.IrcPort.Location = New System.Drawing.Point(127, 181)
         Me.IrcPort.Name = "IrcPort"
         Me.IrcPort.Size = New System.Drawing.Size(48, 20)
         Me.IrcPort.TabIndex = 5
@@ -324,7 +356,7 @@ Partial Class ConfigForm
         'AutoWhitelist
         '
         Me.AutoWhitelist.AutoSize = True
-        Me.AutoWhitelist.Location = New System.Drawing.Point(9, 15)
+        Me.AutoWhitelist.Location = New System.Drawing.Point(9, 61)
         Me.AutoWhitelist.Name = "AutoWhitelist"
         Me.AutoWhitelist.Size = New System.Drawing.Size(156, 17)
         Me.AutoWhitelist.TabIndex = 4
@@ -350,7 +382,7 @@ Partial Class ConfigForm
         'RightAlignQueue
         '
         Me.RightAlignQueue.AutoSize = True
-        Me.RightAlignQueue.Location = New System.Drawing.Point(17, 111)
+        Me.RightAlignQueue.Location = New System.Drawing.Point(9, 107)
         Me.RightAlignQueue.Name = "RightAlignQueue"
         Me.RightAlignQueue.Size = New System.Drawing.Size(211, 17)
         Me.RightAlignQueue.TabIndex = 46
@@ -360,7 +392,7 @@ Partial Class ConfigForm
         'ShowQueue
         '
         Me.ShowQueue.AutoSize = True
-        Me.ShowQueue.Location = New System.Drawing.Point(17, 88)
+        Me.ShowQueue.Location = New System.Drawing.Point(9, 84)
         Me.ShowQueue.Name = "ShowQueue"
         Me.ShowQueue.Size = New System.Drawing.Size(125, 17)
         Me.ShowQueue.TabIndex = 45
@@ -370,7 +402,7 @@ Partial Class ConfigForm
         'ShowLog
         '
         Me.ShowLog.AutoSize = True
-        Me.ShowLog.Location = New System.Drawing.Point(17, 65)
+        Me.ShowLog.Location = New System.Drawing.Point(9, 61)
         Me.ShowLog.Name = "ShowLog"
         Me.ShowLog.Size = New System.Drawing.Size(70, 17)
         Me.ShowLog.TabIndex = 44
@@ -380,7 +412,7 @@ Partial Class ConfigForm
         'StartupMessage
         '
         Me.StartupMessage.AutoSize = True
-        Me.StartupMessage.Location = New System.Drawing.Point(17, 42)
+        Me.StartupMessage.Location = New System.Drawing.Point(9, 38)
         Me.StartupMessage.Name = "StartupMessage"
         Me.StartupMessage.Size = New System.Drawing.Size(133, 17)
         Me.StartupMessage.TabIndex = 43
@@ -390,7 +422,7 @@ Partial Class ConfigForm
         'ShowToolTips
         '
         Me.ShowToolTips.AutoSize = True
-        Me.ShowToolTips.Location = New System.Drawing.Point(17, 134)
+        Me.ShowToolTips.Location = New System.Drawing.Point(9, 130)
         Me.ShowToolTips.Name = "ShowToolTips"
         Me.ShowToolTips.Size = New System.Drawing.Size(138, 17)
         Me.ShowToolTips.TabIndex = 42
@@ -400,7 +432,7 @@ Partial Class ConfigForm
         'TrayIcon
         '
         Me.TrayIcon.AutoSize = True
-        Me.TrayIcon.Location = New System.Drawing.Point(17, 19)
+        Me.TrayIcon.Location = New System.Drawing.Point(9, 15)
         Me.TrayIcon.Name = "TrayIcon"
         Me.TrayIcon.Size = New System.Drawing.Size(96, 17)
         Me.TrayIcon.TabIndex = 41
@@ -426,7 +458,7 @@ Partial Class ConfigForm
         'Defaults
         '
         Me.Defaults.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Defaults.Location = New System.Drawing.Point(430, 237)
+        Me.Defaults.Location = New System.Drawing.Point(430, 253)
         Me.Defaults.Name = "Defaults"
         Me.Defaults.Size = New System.Drawing.Size(75, 23)
         Me.Defaults.TabIndex = 5
@@ -436,7 +468,7 @@ Partial Class ConfigForm
         'NoShortcut
         '
         Me.NoShortcut.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.NoShortcut.Location = New System.Drawing.Point(368, 237)
+        Me.NoShortcut.Location = New System.Drawing.Point(368, 253)
         Me.NoShortcut.Name = "NoShortcut"
         Me.NoShortcut.Size = New System.Drawing.Size(56, 23)
         Me.NoShortcut.TabIndex = 4
@@ -448,7 +480,7 @@ Partial Class ConfigForm
         '
         Me.ChangeShortcut.AcceptsReturn = True
         Me.ChangeShortcut.AcceptsTab = True
-        Me.ChangeShortcut.Location = New System.Drawing.Point(286, 239)
+        Me.ChangeShortcut.Location = New System.Drawing.Point(286, 255)
         Me.ChangeShortcut.Multiline = True
         Me.ChangeShortcut.Name = "ChangeShortcut"
         Me.ChangeShortcut.Size = New System.Drawing.Size(76, 20)
@@ -460,7 +492,7 @@ Partial Class ConfigForm
         '
         Me.ChangeShortcutLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.ChangeShortcutLabel.AutoSize = True
-        Me.ChangeShortcutLabel.Location = New System.Drawing.Point(3, 237)
+        Me.ChangeShortcutLabel.Location = New System.Drawing.Point(3, 258)
         Me.ChangeShortcutLabel.Name = "ChangeShortcutLabel"
         Me.ChangeShortcutLabel.Size = New System.Drawing.Size(106, 13)
         Me.ChangeShortcutLabel.TabIndex = 2
@@ -481,7 +513,7 @@ Partial Class ConfigForm
         Me.ShortcutList.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ShortcutList.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2})
+        Me.ShortcutList.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ActionColumn, Me.ShortcutColumn})
         Me.ShortcutList.FullRowSelect = True
         Me.ShortcutList.GridLines = True
         Me.ShortcutList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
@@ -489,20 +521,20 @@ Partial Class ConfigForm
         Me.ShortcutList.Location = New System.Drawing.Point(6, 31)
         Me.ShortcutList.MultiSelect = False
         Me.ShortcutList.Name = "ShortcutList"
-        Me.ShortcutList.Size = New System.Drawing.Size(499, 191)
+        Me.ShortcutList.Size = New System.Drawing.Size(499, 210)
         Me.ShortcutList.TabIndex = 0
         Me.ShortcutList.UseCompatibleStateImageBehavior = False
         Me.ShortcutList.View = System.Windows.Forms.View.Details
         '
-        'ColumnHeader1
+        'ActionColumn
         '
-        Me.ColumnHeader1.Text = "Action"
-        Me.ColumnHeader1.Width = 244
+        Me.ActionColumn.Text = "Action"
+        Me.ActionColumn.Width = 244
         '
-        'ColumnHeader2
+        'ShortcutColumn
         '
-        Me.ColumnHeader2.Text = "Shortcut"
-        Me.ColumnHeader2.Width = 175
+        Me.ShortcutColumn.Text = "Shortcut"
+        Me.ShortcutColumn.Width = 175
         '
         'EditingTab
         '
@@ -869,7 +901,7 @@ Partial Class ConfigForm
         Me.Templates.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
         Me.Templates.Location = New System.Drawing.Point(6, 28)
         Me.Templates.Name = "Templates"
-        Me.Templates.Size = New System.Drawing.Size(502, 215)
+        Me.Templates.Size = New System.Drawing.Size(499, 215)
         Me.Templates.TabIndex = 0
         Me.Templates.UseCompatibleStateImageBehavior = False
         Me.Templates.View = System.Windows.Forms.View.Details
@@ -886,7 +918,7 @@ Partial Class ConfigForm
         '
         'EditorTab
         '
-        Me.EditorTab.Controls.Add(Me.GroupBox2)
+        Me.EditorTab.Controls.Add(Me.HighlightGroup)
         Me.EditorTab.Location = New System.Drawing.Point(4, 23)
         Me.EditorTab.Name = "EditorTab"
         Me.EditorTab.Padding = New System.Windows.Forms.Padding(3)
@@ -895,44 +927,44 @@ Partial Class ConfigForm
         Me.EditorTab.Text = "Editor"
         Me.EditorTab.UseVisualStyleBackColor = True
         '
-        'GroupBox2
+        'HighlightGroup
         '
-        Me.GroupBox2.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+        Me.HighlightGroup.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.GroupBox2.Controls.Add(Me.Label26)
-        Me.GroupBox2.Controls.Add(Me.ColorParamCall)
-        Me.GroupBox2.Controls.Add(Me.Label25)
-        Me.GroupBox2.Controls.Add(Me.ColorHtmlTag)
-        Me.GroupBox2.Controls.Add(Me.Label24)
-        Me.GroupBox2.Controls.Add(Me.ColorTemplate)
-        Me.GroupBox2.Controls.Add(Me.Label30)
-        Me.GroupBox2.Controls.Add(Me.Label23)
-        Me.GroupBox2.Controls.Add(Me.ColorParamName)
-        Me.GroupBox2.Controls.Add(Me.ColorExternalLink)
-        Me.GroupBox2.Controls.Add(Me.Label29)
-        Me.GroupBox2.Controls.Add(Me.Label22)
-        Me.GroupBox2.Controls.Add(Me.ColorParam)
-        Me.GroupBox2.Controls.Add(Me.ColorMagicWord)
-        Me.GroupBox2.Controls.Add(Me.Label28)
-        Me.GroupBox2.Controls.Add(Me.Label21)
-        Me.GroupBox2.Controls.Add(Me.ColorImage)
-        Me.GroupBox2.Controls.Add(Me.ColorLink)
-        Me.GroupBox2.Controls.Add(Me.Label27)
-        Me.GroupBox2.Controls.Add(Me.ColorReference)
-        Me.GroupBox2.Controls.Add(Me.Label20)
-        Me.GroupBox2.Controls.Add(Me.ColorComment)
-        Me.GroupBox2.Location = New System.Drawing.Point(15, 16)
-        Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(493, 265)
-        Me.GroupBox2.TabIndex = 1
-        Me.GroupBox2.TabStop = False
-        Me.GroupBox2.Text = "Syntax highlight colors"
+        Me.HighlightGroup.Controls.Add(Me.Label26)
+        Me.HighlightGroup.Controls.Add(Me.ColorParamCall)
+        Me.HighlightGroup.Controls.Add(Me.Label25)
+        Me.HighlightGroup.Controls.Add(Me.ColorHtmlTag)
+        Me.HighlightGroup.Controls.Add(Me.Label24)
+        Me.HighlightGroup.Controls.Add(Me.ColorTemplate)
+        Me.HighlightGroup.Controls.Add(Me.Label30)
+        Me.HighlightGroup.Controls.Add(Me.Label23)
+        Me.HighlightGroup.Controls.Add(Me.ColorParamName)
+        Me.HighlightGroup.Controls.Add(Me.ColorExternalLink)
+        Me.HighlightGroup.Controls.Add(Me.Label29)
+        Me.HighlightGroup.Controls.Add(Me.Label22)
+        Me.HighlightGroup.Controls.Add(Me.ColorParam)
+        Me.HighlightGroup.Controls.Add(Me.ColorMagicWord)
+        Me.HighlightGroup.Controls.Add(Me.Label28)
+        Me.HighlightGroup.Controls.Add(Me.Label21)
+        Me.HighlightGroup.Controls.Add(Me.ColorImage)
+        Me.HighlightGroup.Controls.Add(Me.ColorLink)
+        Me.HighlightGroup.Controls.Add(Me.Label27)
+        Me.HighlightGroup.Controls.Add(Me.ColorReference)
+        Me.HighlightGroup.Controls.Add(Me.Label20)
+        Me.HighlightGroup.Controls.Add(Me.ColorComment)
+        Me.HighlightGroup.Location = New System.Drawing.Point(6, 6)
+        Me.HighlightGroup.Name = "HighlightGroup"
+        Me.HighlightGroup.Size = New System.Drawing.Size(499, 279)
+        Me.HighlightGroup.TabIndex = 1
+        Me.HighlightGroup.TabStop = False
+        Me.HighlightGroup.Text = "Syntax highlight colors"
         '
         'Label26
         '
         Me.Label26.AutoSize = True
-        Me.Label26.Location = New System.Drawing.Point(18, 206)
+        Me.Label26.Location = New System.Drawing.Point(202, 32)
         Me.Label26.Name = "Label26"
         Me.Label26.Size = New System.Drawing.Size(74, 13)
         Me.Label26.TabIndex = 13
@@ -941,7 +973,7 @@ Partial Class ConfigForm
         'ColorParamCall
         '
         Me.ColorParamCall.BackColor = System.Drawing.Color.Black
-        Me.ColorParamCall.Location = New System.Drawing.Point(125, 201)
+        Me.ColorParamCall.Location = New System.Drawing.Point(309, 27)
         Me.ColorParamCall.Name = "ColorParamCall"
         Me.ColorParamCall.Size = New System.Drawing.Size(44, 23)
         Me.ColorParamCall.TabIndex = 12
@@ -986,7 +1018,7 @@ Partial Class ConfigForm
         'Label30
         '
         Me.Label30.AutoSize = True
-        Me.Label30.Location = New System.Drawing.Point(18, 235)
+        Me.Label30.Location = New System.Drawing.Point(202, 61)
         Me.Label30.Name = "Label30"
         Me.Label30.Size = New System.Drawing.Size(84, 13)
         Me.Label30.TabIndex = 7
@@ -1004,7 +1036,7 @@ Partial Class ConfigForm
         'ColorParamName
         '
         Me.ColorParamName.BackColor = System.Drawing.Color.Black
-        Me.ColorParamName.Location = New System.Drawing.Point(125, 230)
+        Me.ColorParamName.Location = New System.Drawing.Point(309, 56)
         Me.ColorParamName.Name = "ColorParamName"
         Me.ColorParamName.Size = New System.Drawing.Size(44, 23)
         Me.ColorParamName.TabIndex = 6
@@ -1022,7 +1054,7 @@ Partial Class ConfigForm
         'Label29
         '
         Me.Label29.AutoSize = True
-        Me.Label29.Location = New System.Drawing.Point(195, 90)
+        Me.Label29.Location = New System.Drawing.Point(202, 148)
         Me.Label29.Name = "Label29"
         Me.Label29.Size = New System.Drawing.Size(101, 13)
         Me.Label29.TabIndex = 5
@@ -1040,7 +1072,7 @@ Partial Class ConfigForm
         'ColorParam
         '
         Me.ColorParam.BackColor = System.Drawing.Color.Black
-        Me.ColorParam.Location = New System.Drawing.Point(302, 85)
+        Me.ColorParam.Location = New System.Drawing.Point(309, 143)
         Me.ColorParam.Name = "ColorParam"
         Me.ColorParam.Size = New System.Drawing.Size(44, 23)
         Me.ColorParam.TabIndex = 4
@@ -1058,7 +1090,7 @@ Partial Class ConfigForm
         'Label28
         '
         Me.Label28.AutoSize = True
-        Me.Label28.Location = New System.Drawing.Point(195, 61)
+        Me.Label28.Location = New System.Drawing.Point(202, 119)
         Me.Label28.Name = "Label28"
         Me.Label28.Size = New System.Drawing.Size(36, 13)
         Me.Label28.TabIndex = 3
@@ -1076,7 +1108,7 @@ Partial Class ConfigForm
         'ColorImage
         '
         Me.ColorImage.BackColor = System.Drawing.Color.Black
-        Me.ColorImage.Location = New System.Drawing.Point(302, 56)
+        Me.ColorImage.Location = New System.Drawing.Point(309, 114)
         Me.ColorImage.Name = "ColorImage"
         Me.ColorImage.Size = New System.Drawing.Size(44, 23)
         Me.ColorImage.TabIndex = 2
@@ -1094,7 +1126,7 @@ Partial Class ConfigForm
         'Label27
         '
         Me.Label27.AutoSize = True
-        Me.Label27.Location = New System.Drawing.Point(195, 32)
+        Me.Label27.Location = New System.Drawing.Point(202, 90)
         Me.Label27.Name = "Label27"
         Me.Label27.Size = New System.Drawing.Size(57, 13)
         Me.Label27.TabIndex = 1
@@ -1103,7 +1135,7 @@ Partial Class ConfigForm
         'ColorReference
         '
         Me.ColorReference.BackColor = System.Drawing.Color.Black
-        Me.ColorReference.Location = New System.Drawing.Point(302, 27)
+        Me.ColorReference.Location = New System.Drawing.Point(309, 85)
         Me.ColorReference.Name = "ColorReference"
         Me.ColorReference.Size = New System.Drawing.Size(44, 23)
         Me.ColorReference.TabIndex = 0
@@ -1235,11 +1267,13 @@ Partial Class ConfigForm
         Me.KeyPreview = True
         Me.MaximizeBox = False
         Me.Name = "ConfigForm"
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
-        Me.Text = "Configuration"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
+        Me.Text = "Options"
         Me.Tabs.ResumeLayout(False)
         Me.GeneralTab.ResumeLayout(False)
         Me.GeneralTab.PerformLayout()
+        CType(Me.DiffFontSize, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Preloads, System.ComponentModel.ISupportInitialize).EndInit()
         Me.InterfaceTab.ResumeLayout(False)
         Me.InterfaceTab.PerformLayout()
         Me.KeyboardTab.ResumeLayout(False)
@@ -1255,8 +1289,8 @@ Partial Class ConfigForm
         Me.TemplatesTab.ResumeLayout(False)
         Me.TemplatesTab.PerformLayout()
         Me.EditorTab.ResumeLayout(False)
-        Me.GroupBox2.ResumeLayout(False)
-        Me.GroupBox2.PerformLayout()
+        Me.HighlightGroup.ResumeLayout(False)
+        Me.HighlightGroup.PerformLayout()
         Me.AdminTab.ResumeLayout(False)
         Me.AdminTab.PerformLayout()
         Me.ResumeLayout(False)
@@ -1282,7 +1316,6 @@ Partial Class ConfigForm
     Friend WithEvents ReportLinkExamples As System.Windows.Forms.CheckBox
     Friend WithEvents AutoWhitelist As System.Windows.Forms.CheckBox
     Friend WithEvents Preloading As System.Windows.Forms.CheckBox
-    Friend WithEvents Preloads As System.Windows.Forms.TextBox
     Friend WithEvents Label6 As System.Windows.Forms.Label
     Friend WithEvents IrcPort As System.Windows.Forms.TextBox
     Friend WithEvents ShowNewEdits As System.Windows.Forms.CheckBox
@@ -1312,7 +1345,6 @@ Partial Class ConfigForm
     Friend WithEvents Label12 As System.Windows.Forms.Label
     Friend WithEvents Templates As System.Windows.Forms.ListView
     Friend WithEvents Label14 As System.Windows.Forms.Label
-    Friend WithEvents DiffFontSize As System.Windows.Forms.TextBox
     Friend WithEvents Label13 As System.Windows.Forms.Label
     Friend WithEvents DefaultSummary As System.Windows.Forms.TextBox
     Friend WithEvents Label15 As System.Windows.Forms.Label
@@ -1325,8 +1357,8 @@ Partial Class ConfigForm
     Friend WithEvents KeyboardTab As System.Windows.Forms.TabPage
     Friend WithEvents Label18 As System.Windows.Forms.Label
     Friend WithEvents ShortcutList As System.Windows.Forms.ListView
-    Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader2 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ActionColumn As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ShortcutColumn As System.Windows.Forms.ColumnHeader
     Friend WithEvents ChangeShortcut As System.Windows.Forms.TextBox
     Friend WithEvents ChangeShortcutLabel As System.Windows.Forms.Label
     Friend WithEvents NoShortcut As System.Windows.Forms.Button
@@ -1335,7 +1367,7 @@ Partial Class ConfigForm
     Friend WithEvents ClearRevertSummaries As System.Windows.Forms.Button
     Friend WithEvents Label19 As System.Windows.Forms.Label
     Friend WithEvents EditorTab As System.Windows.Forms.TabPage
-    Friend WithEvents GroupBox2 As System.Windows.Forms.GroupBox
+    Friend WithEvents HighlightGroup As System.Windows.Forms.GroupBox
     Friend WithEvents ColorComment As System.Windows.Forms.Button
     Friend WithEvents Label20 As System.Windows.Forms.Label
     Friend WithEvents Label26 As System.Windows.Forms.Label
@@ -1366,4 +1398,8 @@ Partial Class ConfigForm
     Friend WithEvents ShowToolTips As System.Windows.Forms.CheckBox
     Friend WithEvents TrayIcon As System.Windows.Forms.CheckBox
     Friend WithEvents RightAlignQueue As System.Windows.Forms.CheckBox
+    Friend WithEvents Preloads As System.Windows.Forms.NumericUpDown
+    Friend WithEvents DiffFontSize As System.Windows.Forms.NumericUpDown
+    Friend WithEvents RememberPassword As System.Windows.Forms.CheckBox
+    Friend WithEvents RememberMe As System.Windows.Forms.CheckBox
 End Class

@@ -11,6 +11,7 @@ Class Main
     Public Sub Initialize()
         Icon = My.Resources.icon_red_button
         TrayIcon.Icon = My.Resources.icon_red_button
+        ScrollTimer.Interval = 1000 \ Config.HistoryScrollSpeed
 
         LoadQueues()
         LoadLists()
@@ -1619,7 +1620,7 @@ Class Main
         NewForm.Show()
     End Sub
 
-    Private Sub UserIgnore_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UserIgnore.Click
+    Private Sub UserIgnore_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UserIgnore.Click, UserIgnoreB.Click
 
     End Sub
 End Class

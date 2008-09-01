@@ -157,6 +157,10 @@ Class QueueForm
         CurrentQueue.PageRegex = PageRegex.Regex
     End Sub
 
+    Private Sub Preload_CheckedChanged() Handles Preload.CheckedChanged
+        If CurrentQueue IsNot Nothing Then CurrentQueue.Preload = Preload.Checked
+    End Sub
+
     Private Sub QueueList_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles QueueList.KeyDown
         If e.KeyCode = Keys.Delete AndAlso QueueList.SelectedIndex > -1 Then DeleteQueue_Click()
     End Sub
@@ -200,6 +204,7 @@ Class QueueForm
                 Else RemoveAfterTime.Value = RemoveAfterTime.Minimum
             RemoveOld.Checked = CurrentQueue.RemoveOld
             RemoveViewed.Checked = CurrentQueue.RemoveViewed
+            Preload.Checked = CurrentQueue.Preload
 
             If CurrentQueue.Pages Is Nothing Then ListSelector.SelectedIndex = 0 _
                 Else ListSelector.SelectedItem = CurrentQueue.ListName
