@@ -68,8 +68,10 @@ Class Space
 
     Public Shared ReadOnly Property GetSpace(ByVal PageName As String) As Space
         Get
+            If Not PageName.Contains(":") Then Return Article
+
             For Each Item As Space In _All
-                If PageName.StartsWith(Item.Name & ":") Then Return Item
+                If PageName.StartsWith(Item._Name & ":") Then Return Item
             Next Item
 
             Return Article

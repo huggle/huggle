@@ -166,6 +166,7 @@ Class ListForm
         ListPages.EndUpdate()
 
         Progress.Text = ""
+        Spaces = New List(Of Space)(Space.All)
         RefreshInterface()
     End Sub
 
@@ -303,7 +304,7 @@ Class ListForm
         CurrentRequest.List = CurrentList
         CurrentRequest.From = From.Text
         CurrentRequest.TitleRegex = TitleRegex
-        CurrentRequest.Spaces = Spaces
+        CurrentRequest.Spaces = New List(Of Space)(Spaces)
         CurrentRequest.Start(AddressOf GotList, AddressOf ListProgress)
 
         Progress.Text = "Running query..."

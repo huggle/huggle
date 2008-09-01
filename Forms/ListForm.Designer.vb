@@ -431,7 +431,7 @@ Partial Class ListForm
         Me.KeyPreview = True
         Me.MaximizeBox = False
         Me.Name = "ListForm"
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "List Builder"
         CType(Me.Limit, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ListMenu.ResumeLayout(False)

@@ -101,10 +101,13 @@ Class Edit
         End Get
     End Property
 
-    <DebuggerStepThrough()> _
     Public NotInheritable Class CompareByQuality : Implements IComparer(Of Edit)
 
+        <DebuggerStepThrough()> _
         Public Function Compare(ByVal x As Edit, ByVal y As Edit) As Integer Implements IComparer(Of Edit).Compare
+            If x.User.Ignored AndAlso Not y.User.Ignored Then Return 1
+            If y.User.Ignored AndAlso Not x.User.Ignored Then Return -1
+
             If x.Type > y.Type AndAlso x.Type >= EditType.ReplacedWith Then Return -1
             If y.Type > x.Type AndAlso y.Type >= EditType.ReplacedWith Then Return 1
 
@@ -130,27 +133,27 @@ Class Edit
 
     End Class
 
-    <DebuggerStepThrough()> _
     Public NotInheritable Class CompareByPageName : Implements IComparer(Of Edit)
 
+        <DebuggerStepThrough()> _
         Public Function Compare(ByVal x As Edit, ByVal y As Edit) As Integer Implements IComparer(Of Edit).Compare
             Return String.Compare(x.Page.Name, y.Page.Name)
         End Function
 
     End Class
 
-    <DebuggerStepThrough()> _
     Public NotInheritable Class CompareByTime : Implements IComparer(Of Edit)
 
+        <DebuggerStepThrough()> _
         Public Function Compare(ByVal x As Edit, ByVal y As Edit) As Integer Implements IComparer(Of Edit).Compare
             Return Date.Compare(y.Time, x.Time)
         End Function
 
     End Class
 
-    <DebuggerStepThrough()> _
     Public NotInheritable Class CompareByTimeReverse : Implements IComparer(Of Edit)
 
+        <DebuggerStepThrough()> _
         Public Function Compare(ByVal x As Edit, ByVal y As Edit) As Integer Implements IComparer(Of Edit).Compare
             Return Date.Compare(x.Time, y.Time)
         End Function

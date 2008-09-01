@@ -95,7 +95,7 @@ Class Main
     End Sub
 
     Sub DrawQueue()
-        If CurrentQueue IsNot Nothing Then
+        If CurrentQueue IsNot Nothing AndAlso CurrentQueue.Edits IsNot Nothing Then
             Dim QueueHeight As Integer = (QueueArea.Height \ 20) - 2
 
             If QueueHeight < CurrentQueue.Edits.Count Then
@@ -113,9 +113,9 @@ Class Main
     End Sub
 
     Private Sub Main_ResizeShown() Handles Me.Resize, Me.Shown
-        HistoryStrip.Size = New Size(Math.Max(300, Width - 371), 55)
-        History.Width = Math.Max(1, Width - 726)
-        Contribs.Width = Math.Max(1, Width - 726)
+        HistoryStrip.Size = New Size(Math.Max(300, Width - 341), 55)
+        History.Width = Math.Max(1, Width - 706)
+        Contribs.Width = Math.Max(1, Width - 706)
         Status.Columns(1).Width = Width - 30
 
         If Visible Then
@@ -511,7 +511,7 @@ Class Main
         If CurrentEdit IsNot Nothing AndAlso CurrentEdit.User IsNot Nothing Then
             Dim NewBrowserRequest As New BrowserRequest
             NewBrowserRequest.Tab = CurrentTab
-            NewBrowserRequest.Url = Config.SitePath & "w/index.php?title=User_talk:" & UrlEncode(CurrentEdit.User.Name)
+            NewBrowserRequest.Url = Config.SitePath & "w/index.php?title=" & UrlEncode(CurrentUser.TalkPage.Name)
             NewBrowserRequest.Start()
 
             Dim NewWarnLevelRequest As New WarningLogRequest
@@ -1393,7 +1393,7 @@ Class Main
         NewConfigForm.ShowDialog()
     End Sub
 
-    Private Sub Stats_Click() Handles Stats.Click, SystemStats.Click
+    Private Sub Stats_Click() Handles Stats.Click, SystemStatistics.Click
         StatsForm.Show()
     End Sub
 
@@ -1507,7 +1507,7 @@ Class Main
         RefreshInterface()
     End Sub
 
-    Private Sub QueueEditSources_Click() Handles QueueEditSources.Click
+    Private Sub QueueEditSources_Click() Handles QueueOptions.Click
         Dim NewQueueForm As New QueueForm
         NewQueueForm.Show()
     End Sub
@@ -1614,4 +1614,12 @@ Class Main
         Status.Items.Clear()
     End Sub
 
+    Private Sub SystemListBuilder_Click() Handles SystemListBuilder.Click
+        Dim NewForm As New ListForm
+        NewForm.Show()
+    End Sub
+
+    Private Sub UserIgnore_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UserIgnore.Click
+
+    End Sub
 End Class

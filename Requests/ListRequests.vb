@@ -219,7 +219,7 @@ Namespace Requests
         Private AllItems As New List(Of String)
         Private Category As String, CategoriesDone As New List(Of String), CategoriesRemaining As New List(Of String)
         Private Shadows _Done As ListRequestCallback, Progress As ListProgressCallback
-        Public Shadows From As String = "", Queue As Queue
+        Public Shadows From As String = "", Queue As Queue, Spaces As List(Of Space)
 
         Public Sub New(ByVal _Category As String)
             MyBase.New("categorymembers", "cm", "cmprop=title&cmtitle=" & UrlEncode("Category:" & _Category))
@@ -234,7 +234,7 @@ Namespace Requests
             'Use a copy of the queue in the base class, but change the filters so we always get categories back
             From = MyBase.From
             MyBase.From = ""
-            Spaces = MyBase.Spaces
+            Spaces = New List(Of Space)(MyBase.Spaces)
             If Not MyBase.Spaces.Contains(Space.Category) Then MyBase.Spaces.Add(Space.Category)
 
             If _Progress IsNot Nothing Then

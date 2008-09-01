@@ -1147,11 +1147,11 @@ Namespace Requests
         Private Sub Done()
             Complete()
 
-            If VersionId Is Nothing Then
-                _Done(New Output(States.Complete, Nothing), Nothing, Nothing)
-            Else
-                Dim Reverts As New List(Of Edit)
+            Dim Reverts As New List(Of Edit)
 
+            If VersionId Is Nothing Then
+                _Done(New Output(States.Complete, Nothing), Nothing, Reverts)
+            Else
                 For Each Item As String In RevertIds
                     Reverts.Add(Edit.All(Item))
                 Next Item

@@ -20,12 +20,12 @@ Class ReportForm
         NewWarnLogRequest.Start()
     End Sub
 
-    Private Sub UserReportForm_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles Me.KeyDown
-        If e.KeyCode = Keys.Escape Then Close()
-    End Sub
-
     Private Sub UserReportForm_FormClosing() Handles Me.FormClosing
         If DialogResult <> DialogResult.OK Then DialogResult = DialogResult.Cancel
+    End Sub
+
+    Private Sub UserReportForm_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles Me.KeyDown
+        If e.KeyCode = Keys.Escape Then Close()
     End Sub
 
     Private Sub Cancel_Click() Handles Cancel.Click
@@ -61,6 +61,20 @@ Class ReportForm
         Close()
     End Sub
 
+    Private Sub Add_Click() Handles Add.Click
+        If CurrentEdit IsNot Nothing AndAlso Not Reverts.Contains(CurrentEdit) Then
+            Reverts.Add(CurrentEdit)
+            RevertsList.Items.Add(WikiTimestamp(CurrentEdit.Time))
+        End If
+    End Sub
+
+    Private Sub AddBase_Click() Handles AddBase.Click
+        If CurrentEdit IsNot Nothing AndAlso Not Reverts.Contains(CurrentEdit) Then
+            BaseEdit = CurrentEdit
+            Base.Text = WikiTimestamp(CurrentEdit.Time)
+        End If
+    End Sub
+
     Private Sub Message_TextChanged() Handles Message.TextChanged
         OK.Enabled = (Message.Text <> "")
     End Sub
@@ -71,54 +85,9 @@ Class ReportForm
             Case 1 : If Message.Text = "" OrElse Message.Text = "vandalism" Then Message.Text = "inappropriate username"
             Case 2 : Message.Text = ""
         End Select
-    End Sub
 
-    Private Sub RevertsList_SelectedIndexChanged() Handles RevertsList.SelectedIndexChanged
-        If RevertsList.SelectedIndex = 0 Then
-            DisplayEdit(BaseEdit)
-        ElseIf RevertsList.SelectedIndex > -1 Then
-            DisplayEdit(Reverts(RevertsList.SelectedIndex - 1))
-        End If
-    End Sub
-
-    Private Sub Find3rr(ByVal Result As Request.Output)
-        Dim NewRequest As New ThreeRevertRuleCheckRequest
-        TrrRequest = NewRequest
-        NewRequest.User = User
-        NewRequest.Start(AddressOf Find3rrDone)
-    End Sub
-
-    Private Sub Find3rrDone(ByVal Result As Request.Output, ByVal BaseEdit As Edit, ByVal Reverts As List(Of Edit))
-        Me.BaseEdit = BaseEdit
-        Me.Reverts = Reverts
-
-        Throbber.Stop()
-
-        If Not Result.Success Then
-            Status.Text = "Error while searching for three-revert rule violations."
-        ElseIf BaseEdit Is Nothing Then
-            Status.Text = "No three-revert rule violations found."
-        Else
-            Status.Text = "Found the following possible three-revert rule violation:"
-            ReportWarning.Visible = True
-            ReportWarning2.Visible = True
-            ReportWarning3.Visible = True
-
-            RevertsList.Items.Add("Revision reverted to: " & WikiTimestamp(BaseEdit.Time))
-
-            For i As Integer = 0 To Reverts.Count - 1
-                RevertsList.Items.Add(Ordinal(i + 1) & " revert: " & WikiTimestamp(Reverts(i).Time))
-            Next i
-
-            OK.Enabled = True
-        End If
-    End Sub
-
-    Private Sub Add_Click() Handles Add.Click
-        If CurrentEdit IsNot Nothing AndAlso Not Reverts.Contains(CurrentEdit) Then
-            Reverts.Add(CurrentEdit)
-            RevertsList.Items.Add(WikiTimestamp(CurrentEdit.Time))
-        End If
+        TrrPanel.Visible = (Reason.SelectedIndex = 2)
+        WarningsPanel.Visible = (Reason.SelectedIndex <> 2)
     End Sub
 
     Private Sub RevertsList_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles RevertsList.KeyDown
@@ -134,10 +103,11 @@ Class ReportForm
         End If
     End Sub
 
-    Private Sub AddBase_Click() Handles AddBase.Click
-        If CurrentEdit IsNot Nothing AndAlso Not Reverts.Contains(CurrentEdit) Then
-            BaseEdit = CurrentEdit
-            Base.Text = WikiTimestamp(CurrentEdit.Time)
+    Private Sub RevertsList_SelectedIndexChanged() Handles RevertsList.SelectedIndexChanged
+        If RevertsList.SelectedIndex = 0 Then
+            DisplayEdit(BaseEdit)
+        ElseIf RevertsList.SelectedIndex > -1 Then
+            DisplayEdit(Reverts(RevertsList.SelectedIndex - 1))
         End If
     End Sub
 
@@ -183,6 +153,39 @@ Class ReportForm
                 NewRequest.User = User
                 NewRequest.Start(AddressOf Find3rr)
             End If
+        End If
+    End Sub
+
+    Private Sub Find3rr(ByVal Result As Request.Output)
+        Dim NewRequest As New ThreeRevertRuleCheckRequest
+        TrrRequest = NewRequest
+        NewRequest.User = User
+        NewRequest.Start(AddressOf Find3rrDone)
+    End Sub
+
+    Private Sub Find3rrDone(ByVal Result As Request.Output, ByVal BaseEdit As Edit, ByVal Reverts As List(Of Edit))
+        Me.BaseEdit = BaseEdit
+        Me.Reverts = Reverts
+        TrrSearch.Text = "Search"
+        Throbber.Stop()
+
+        If Not Result.Success Then
+            Status.Text = "Error while searching for three-revert rule violations."
+        ElseIf BaseEdit Is Nothing Then
+            Status.Text = "No three-revert rule violations found."
+        Else
+            Status.Text = "Found the following possible three-revert rule violation:"
+            ReportWarning.Visible = True
+            ReportWarning2.Visible = True
+            ReportWarning3.Visible = True
+
+            RevertsList.Items.Add("Revision reverted to: " & WikiTimestamp(BaseEdit.Time))
+
+            For i As Integer = 0 To Reverts.Count - 1
+                RevertsList.Items.Add(Ordinal(i + 1) & " revert: " & WikiTimestamp(Reverts(i).Time))
+            Next i
+
+            OK.Enabled = True
         End If
     End Sub
 

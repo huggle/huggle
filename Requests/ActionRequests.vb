@@ -31,7 +31,9 @@ Namespace Requests
                     Rangeblocks = Rangeblocks.Substring(Rangeblocks.IndexOf("<blocks>") + 8)
                     Rangeblocks = Rangeblocks.Substring(0, Rangeblocks.IndexOf("</blocks>"))
 
-                    For Each Item As String In Rangeblocks.Split(New String() {"<block "}, StringSplitOptions.RemoveEmptyEntries)
+                    For Each Item As String In Rangeblocks.Split(New String() {"<block "}, _
+                        StringSplitOptions.RemoveEmptyEntries)
+
                         Dim BlockedUser As String = Item.Substring(Item.IndexOf("user=""") + 6)
                         BlockedUser = BlockedUser.Substring(0, BlockedUser.IndexOf(""""))
                         BlockedUser = HtmlDecode(BlockedUser)

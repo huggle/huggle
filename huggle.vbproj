@@ -313,10 +313,12 @@
     <Compile Include="Requests\ListRequests.vb" />
     <Compile Include="Requests\NotifyRequests.vb" />
     <Compile Include="Requests\ReadRequests.vb" />
+    <Compile Include="Requests\ReportRequests.vb" />
     <Compile Include="Requests\Requests.vb" />
     <Compile Include="Requests\RevertRequests.vb" />
     <Compile Include="Requests\XfdRequests.vb" />
     <Compile Include="Shortcuts.vb" />
+    <Compile Include="SortedList.vb" />
     <Compile Include="Space.vb" />
     <Compile Include="Stats.vb" />
     <Compile Include="User.vb" />
@@ -562,13 +564,11 @@
     <None Include="Resources\icons\up_gray.png" />
     <None Include="Resources\icons\undo.png" />
     <None Include="Resources\icons\user-contribs.png" />
-    <None Include="Resources\icons\user-ignore.png" />
     <None Include="Resources\icons\user-info.png" />
     <None Include="Resources\icons\user-message.png" />
     <None Include="Resources\icons\user-report.png" />
     <None Include="Resources\icons\user-talk.png" />
     <None Include="Resources\icons\user-template.png" />
-    <None Include="Resources\icons\user-unignore.png" />
     <None Include="Resources\icons\user-unwhitelist.png" />
     <None Include="Resources\icons\user-warn.png" />
     <None Include="Resources\icons\user-whitelist.png" />

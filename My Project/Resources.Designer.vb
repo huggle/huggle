@@ -515,13 +515,6 @@ Namespace My.Resources
             End Get
         End Property
         
-        Friend ReadOnly Property user_ignore() As System.Drawing.Bitmap
-            Get
-                Dim obj As Object = ResourceManager.GetObject("user_ignore", resourceCulture)
-                Return CType(obj,System.Drawing.Bitmap)
-            End Get
-        End Property
-        
         Friend ReadOnly Property user_info() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("user_info", resourceCulture)
@@ -553,13 +546,6 @@ Namespace My.Resources
         Friend ReadOnly Property user_template() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("user_template", resourceCulture)
-                Return CType(obj,System.Drawing.Bitmap)
-            End Get
-        End Property
-        
-        Friend ReadOnly Property user_unignore() As System.Drawing.Bitmap
-            Get
-                Dim obj As Object = ResourceManager.GetObject("user_unignore", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property

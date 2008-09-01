@@ -4,6 +4,7 @@ Class Page
     'Represents a MediaWiki page
 
     Private _Name As String
+    Private _Space As Space
 
     Private Shared All As New Dictionary(Of String, Page)
 
@@ -23,6 +24,7 @@ Class Page
 
     Private Sub New(ByVal Name As String)
         _Name = Name
+        _Space = Space.GetSpace(_Name)
         All.Add(_Name, Me)
     End Sub
 
@@ -48,7 +50,7 @@ Class Page
 
     Public ReadOnly Property Space() As Space
         Get
-            Return Space.GetSpace(_Name)
+            Return _Space
         End Get
     End Property
 
@@ -94,6 +96,12 @@ Class Page
     Public ReadOnly Property IsTalkPage() As Boolean
         Get
             Return Space.IsTalkSpace
+        End Get
+    End Property
+
+    Public ReadOnly Property IsSubjectPage() As Boolean
+        Get
+            Return Not Space.IsTalkSpace
         End Get
     End Property
 

@@ -9,7 +9,7 @@ Class Queue
     Public Shared All As New Dictionary(Of String, Queue)
     Public Shared [Default] As Queue
 
-    Private Items As SortedList(Of Edit, Boolean)
+    Private Items As SortedList(Of Edit)
 
     Private _FilterAnonymous As QueueFilter = QueueFilter.None
     Private _FilterHuggle As QueueFilter = QueueFilter.None
@@ -39,10 +39,10 @@ Class Queue
         All.Add(Name, Me)
     End Sub
 
-    Public ReadOnly Property Edits() As IList(Of Edit)
+    Public ReadOnly Property Edits() As SortedList(Of Edit)
         Get
-            If NeedsReset Then Reset()
-            Return Items.Keys
+            If _NeedsReset Then Reset()
+            Return Items
         End Get
     End Property
 
@@ -259,12 +259,9 @@ Class Queue
         End If
 
         If _Pages Is Nothing Then
-            Items = New SortedList(Of Edit, Boolean)(Config.QueueSize, Comparer)
+            Items = New SortedList(Of Edit)(Comparer)
         Else
-            Dim QueueSize As Integer
-            If Type = QueueType.FixedList Then QueueSize = Pages.Count Else QueueSize = Config.QueueSize
-
-            Items = New SortedList(Of Edit, Boolean)(QueueSize, Comparer)
+            Items = New SortedList(Of Edit)(Comparer)
 
             'Populate a fixed queue
             If _Type = QueueType.FixedList Then
@@ -272,13 +269,13 @@ Class Queue
                     Dim Page As Page = GetPage(Item)
 
                     If Page.LastEdit IsNot Nothing Then
-                        Items.Add(Page.LastEdit, False)
+                        Items.Add(Page.LastEdit)
                     Else
                         Dim NewEdit As New Edit
                         NewEdit.Page = Page
                         NewEdit.Id = "cur"
                         NewEdit.Oldid = "prev"
-                        Items.Add(NewEdit, False)
+                        Items.Add(NewEdit)
                     End If
                 Next Item
             End If
@@ -292,10 +289,8 @@ Class Queue
             If _Type <> QueueType.FixedList Then RemoveOldEdits(_RemoveAfter)
 
             'Add edit to the queue
-            If Not Items.ContainsKey(Edit) Then
-                Items.Add(Edit, False)
-                If Items.Count > Config.QueueSize Then Items.RemoveAt(Items.Count - 1)
-            End If
+            Items.Add(Edit)
+            If Items.Count > Config.QueueSize Then Items.RemoveAt(Items.Count - 1)
         End If
     End Sub
 
@@ -319,16 +314,16 @@ Class Queue
     Public Sub RefreshEdit(ByVal Edit As Edit)
         'Remove and possibly re-add an edit with changed properties that might affect sort order
         If Type <> QueueType.FixedList AndAlso Items IsNot Nothing Then
-            If Items.ContainsKey(Edit) Then
+            If Items.Contains(Edit) Then
                 Items.Remove(Edit)
-                If MatchesFilter(Edit) Then Items.Add(Edit, False)
+                If MatchesFilter(Edit) Then Items.Add(Edit)
             End If
         End If
     End Sub
 
     Public Sub RemoveViewedEdit(ByVal Edit As Edit)
         'Remove an edit that has been viewed, possibly on another queue
-        If _RemoveViewed AndAlso Items IsNot Nothing AndAlso Items.ContainsKey(Edit) Then Items.Remove(Edit)
+        If _RemoveViewed AndAlso Items IsNot Nothing Then Items.Remove(Edit)
     End Sub
 
     Public Function MatchesFilter(ByVal PageName As String) As Boolean

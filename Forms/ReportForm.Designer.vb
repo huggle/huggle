@@ -53,7 +53,7 @@ Partial Class ReportForm
         'Cancel
         '
         Me.Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Cancel.Location = New System.Drawing.Point(278, 476)
+        Me.Cancel.Location = New System.Drawing.Point(278, 366)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
         Me.Cancel.TabIndex = 7
@@ -64,7 +64,7 @@ Partial Class ReportForm
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.OK.Enabled = False
-        Me.OK.Location = New System.Drawing.Point(197, 476)
+        Me.OK.Location = New System.Drawing.Point(197, 366)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
         Me.OK.TabIndex = 6
@@ -101,14 +101,12 @@ Partial Class ReportForm
         '
         'Reason
         '
-        Me.Reason.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Reason.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.Reason.FormattingEnabled = True
         Me.Reason.Items.AddRange(New Object() {"Vandalism after final warning", "Inappropriate username", "Three-revert rule violation"})
         Me.Reason.Location = New System.Drawing.Point(68, 12)
         Me.Reason.Name = "Reason"
-        Me.Reason.Size = New System.Drawing.Size(91, 21)
+        Me.Reason.Size = New System.Drawing.Size(197, 21)
         Me.Reason.TabIndex = 1
         Me.Reason.TabStop = False
         '
@@ -124,13 +122,14 @@ Partial Class ReportForm
         '
         'WarningsPanel
         '
-        Me.WarningsPanel.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.WarningsPanel.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.WarningsPanel.Controls.Add(Me.WarnLog)
         Me.WarningsPanel.Controls.Add(Me.WarnLogLabel)
         Me.WarningsPanel.Location = New System.Drawing.Point(12, 112)
         Me.WarningsPanel.Name = "WarningsPanel"
-        Me.WarningsPanel.Size = New System.Drawing.Size(341, 102)
+        Me.WarningsPanel.Size = New System.Drawing.Size(341, 248)
         Me.WarningsPanel.TabIndex = 12
         '
         'WarnLog
@@ -145,7 +144,7 @@ Partial Class ReportForm
         Me.WarnLog.MultiSelect = False
         Me.WarnLog.Name = "WarnLog"
         Me.WarnLog.ShowGroups = False
-        Me.WarnLog.Size = New System.Drawing.Size(341, 83)
+        Me.WarnLog.Size = New System.Drawing.Size(341, 229)
         Me.WarnLog.TabIndex = 8
         Me.WarnLog.UseCompatibleStateImageBehavior = False
         Me.WarnLog.View = System.Windows.Forms.View.Details
@@ -177,9 +176,9 @@ Partial Class ReportForm
         Me.TrrPanel.Controls.Add(Me.RevertsListLabel)
         Me.TrrPanel.Controls.Add(Me.BaseLabel)
         Me.TrrPanel.Controls.Add(Me.TrrSearch)
-        Me.TrrPanel.Location = New System.Drawing.Point(12, 220)
+        Me.TrrPanel.Location = New System.Drawing.Point(12, 112)
         Me.TrrPanel.Name = "TrrPanel"
-        Me.TrrPanel.Size = New System.Drawing.Size(341, 250)
+        Me.TrrPanel.Size = New System.Drawing.Size(341, 248)
         Me.TrrPanel.TabIndex = 12
         '
         'Throbber
@@ -209,7 +208,7 @@ Partial Class ReportForm
         Me.ReportWarning2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ReportWarning2.Location = New System.Drawing.Point(38, 199)
         Me.ReportWarning2.Name = "ReportWarning2"
-        Me.ReportWarning2.Size = New System.Drawing.Size(300, 41)
+        Me.ReportWarning2.Size = New System.Drawing.Size(300, 39)
         Me.ReportWarning2.TabIndex = 20
         Me.ReportWarning2.Text = "This is only a possible 3RR violation. Do not submit this report until you have r" & _
             "eviewed the above revisions to ensure that they are not reversions of vandalism." & _
@@ -308,15 +307,15 @@ Partial Class ReportForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(365, 511)
+        Me.ClientSize = New System.Drawing.Size(365, 401)
         Me.Controls.Add(Me.OK)
         Me.Controls.Add(Me.Cancel)
-        Me.Controls.Add(Me.WarningsPanel)
         Me.Controls.Add(Me.TrrPanel)
         Me.Controls.Add(Me.Message)
         Me.Controls.Add(Me.MessageLabel)
         Me.Controls.Add(Me.Reason)
         Me.Controls.Add(Me.ReasonLabel)
+        Me.Controls.Add(Me.WarningsPanel)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.KeyPreview = True
         Me.MaximizeBox = False

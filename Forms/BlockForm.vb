@@ -1,4 +1,5 @@
 Imports System.Text.RegularExpressions
+Imports System.Web.HttpUtility
 
 Class BlockForm
 
@@ -74,16 +75,14 @@ Class BlockForm
     End Sub
 
     Private Sub UserTalk_Click() Handles UserTalk.Click
-        OpenUrlInBrowser(Config.SitePath & "w/index.php?title=User_talk:" & User.Name)
+        OpenUrlInBrowser(Config.SitePath & "w/index.php?title=" & urlencode(User.TalkPage.Name))
     End Sub
 
     Private Sub UserContribs_Click() Handles UserContribs.Click
         OpenUrlInBrowser(Config.SitePath & "w/index.php?title=Special:Contributions/" & User.Name)
     End Sub
 
-    Private Sub Reason_SelectedIndexChanged() _
-        Handles Reason.SelectedIndexChanged
-
+    Private Sub Reason_SelectedIndexChanged() Handles Reason.SelectedIndexChanged
         If Reason.Text.StartsWith("{{") Then BlockMessage.Text = Reason.Text
     End Sub
 

@@ -128,7 +128,9 @@ Namespace Requests
                 Dim FinalLevelReached As Boolean
 
                 Select Case Edit.User.Level
-                    Case UserLevel.None, UserLevel.Message, UserLevel.Notification, UserLevel.Reverted, UserLevel.ReportedUAA
+                    Case UserLevel.None, UserLevel.Message, UserLevel.Notification, UserLevel.Reverted, _
+                        UserLevel.ReportedUAA
+
                         LevelNeeded = UserLevel.Warn1
 
                     Case UserLevel.Warning, UserLevel.Warn1
