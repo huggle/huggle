@@ -19,10 +19,6 @@ Class VersionForm
         Message.Text &= LF & "Download and run the latest version now?"
     End Sub
 
-    Private Sub VersionForm_FormClosing() Handles Me.FormClosing
-        If DialogResult <> DialogResult.OK Then DialogResult = DialogResult.Cancel
-    End Sub
-
     Private Sub VersionForm_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles Me.KeyDown
         If e.KeyCode = Keys.Escape OrElse e.KeyCode = Keys.Enter Then Close()
     End Sub
@@ -32,14 +28,14 @@ Class VersionForm
         Close()
     End Sub
 
-    Private Sub OK_Click() Handles OK.Click
-        Throbber.Visible = True
-        Throbber.Start()
-        OK.Enabled = False
+    Private Sub Update_Click() Handles Update.Click
+        Update.Enabled = False
+        Progress.Visible = True
         Status.Text = "Downloading new version..."
 
         Request = New UpdateRequest
         Request.FileName = FileName
+        Request.ProgressBar = Progress
         Request.Start(AddressOf UpdateDone)
     End Sub
 
@@ -48,9 +44,9 @@ Class VersionForm
             Process.Start(FileName)
             End
         Else
-            Throbber.Visible = False
-            Throbber.Stop()
-            OK.Enabled = True
+            Progress.Value = 0
+            Progress.Visible = False
+            Update.Enabled = True
             Status.Text = "Failed to download new version."
         End If
     End Sub

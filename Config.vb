@@ -6,7 +6,7 @@ Class Configuration
 
     'Configuration
 
-    Public Version As New Version(0, 7, 1, 0)
+    Public Version As New Version(0, 7, 1)
     Public ConfigChanged As Boolean
     Public ConfigVersion As New Version(0, 0, 0)
     Public ContribsBlockSize As Integer = 100

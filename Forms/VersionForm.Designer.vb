@@ -27,7 +27,7 @@ Partial Class VersionForm
         Me.Update = New System.Windows.Forms.Button
         Me.Status = New System.Windows.Forms.Label
         Me.PictureBox1 = New System.Windows.Forms.PictureBox
-        Me.Throbber = New Huggle.Throbber
+        Me.Progress = New System.Windows.Forms.ProgressBar
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -38,7 +38,7 @@ Partial Class VersionForm
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Message.Location = New System.Drawing.Point(54, 9)
         Me.Message.Name = "Message"
-        Me.Message.Size = New System.Drawing.Size(377, 43)
+        Me.Message.Size = New System.Drawing.Size(411, 43)
         Me.Message.TabIndex = 0
         Me.Message.Text = "This version of Huggle is out of date." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Updating to the latest version, 0.0.0, is" & _
             " recommended, and may be required in future." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Download and run the latest versio" & _
@@ -47,7 +47,7 @@ Partial Class VersionForm
         'Cancel
         '
         Me.Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Cancel.Location = New System.Drawing.Point(356, 55)
+        Me.Cancel.Location = New System.Drawing.Point(390, 55)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
         Me.Cancel.TabIndex = 1
@@ -57,7 +57,7 @@ Partial Class VersionForm
         'Update
         '
         Me.Update.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Update.Location = New System.Drawing.Point(275, 55)
+        Me.Update.Location = New System.Drawing.Point(309, 55)
         Me.Update.Name = "Update"
         Me.Update.Size = New System.Drawing.Size(75, 23)
         Me.Update.TabIndex = 1
@@ -86,24 +86,22 @@ Partial Class VersionForm
         Me.PictureBox1.TabIndex = 4
         Me.PictureBox1.TabStop = False
         '
-        'Throbber
+        'Progress
         '
-        Me.Throbber.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Throbber.BackColor = System.Drawing.Color.Gainsboro
-        Me.Throbber.Location = New System.Drawing.Point(214, 63)
-        Me.Throbber.Name = "Throbber"
-        Me.Throbber.Size = New System.Drawing.Size(55, 10)
-        Me.Throbber.TabIndex = 2
-        Me.Throbber.Visible = False
+        Me.Progress.Location = New System.Drawing.Point(176, 58)
+        Me.Progress.Name = "Progress"
+        Me.Progress.Size = New System.Drawing.Size(127, 18)
+        Me.Progress.TabIndex = 5
+        Me.Progress.Visible = False
         '
         'VersionForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(443, 90)
+        Me.ClientSize = New System.Drawing.Size(477, 90)
+        Me.Controls.Add(Me.Progress)
         Me.Controls.Add(Me.PictureBox1)
         Me.Controls.Add(Me.Status)
-        Me.Controls.Add(Me.Throbber)
         Me.Controls.Add(Me.Update)
         Me.Controls.Add(Me.Cancel)
         Me.Controls.Add(Me.Message)
@@ -123,7 +121,7 @@ Partial Class VersionForm
     Friend WithEvents Message As System.Windows.Forms.Label
     Friend WithEvents Cancel As System.Windows.Forms.Button
     Friend WithEvents Update As System.Windows.Forms.Button
-    Friend WithEvents Throbber As Huggle.Throbber
     Friend WithEvents Status As System.Windows.Forms.Label
     Friend WithEvents PictureBox1 As System.Windows.Forms.PictureBox
+    Friend WithEvents Progress As System.Windows.Forms.ProgressBar
 End Class

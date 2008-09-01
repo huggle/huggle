@@ -119,15 +119,13 @@ Namespace Requests
 
             'Notify user of new version
             If Config.LatestVersion > Config.Version Then
-                Dim NewVersionForm As New VersionForm
-
                 If Config.MinVersion > Config.Version Then
                     Abort("Version is out of date. Update to the latest version.")
-                    NewVersionForm.ShowDialog()
+                    Callback(AddressOf ShowNewVersionForm)
                     Exit Sub
                 End If
-                
-                NewVersionForm.ShowDialog()
+
+                Callback(AddressOf ShowNewVersionForm)
             End If
 
             If Not Config.EnabledForAll Then
@@ -349,6 +347,11 @@ Namespace Requests
             Else
                 Fail()
             End If
+        End Sub
+
+        Private Sub ShowNewVersionForm()
+            Dim NewForm As New VersionForm
+            NewForm.ShowDialog()
         End Sub
 
         Private Sub CaptchaNeeded()

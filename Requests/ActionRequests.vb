@@ -1,3 +1,4 @@
+Imports System.IO
 Imports System.Net
 Imports System.Text.Encoding
 Imports System.Text.RegularExpressions
@@ -481,6 +482,9 @@ Namespace Requests
         'Download latest version of the application
 
         Public FileName As String
+        Public ProgressBar As ProgressBar
+
+        Private Progress, Total As Integer
 
         Public Sub Start(Optional ByVal Done As RequestCallback = Nothing)
             _Done = Done
@@ -491,19 +495,47 @@ Namespace Requests
         End Sub
 
         Private Sub Process()
-            Dim Client As New WebClient
-
-            Client.Headers.Add(HttpRequestHeader.UserAgent, Config.UserAgent)
-
+            'Download into memory and then write to file
             Try
-                Client.DownloadFile(Config.DownloadLocation.Replace("$1", VersionString(Config.LatestVersion)), FileName)
-            Catch ex As WebException
-                If State = States.Cancelled Then Thread.CurrentThread.Abort()
-                Callback(AddressOf Failed)
+                Dim Request As HttpWebRequest = CType(WebRequest.Create(Config.DownloadLocation.Replace("$1", _
+                    VersionString(Config.LatestVersion))), HttpWebRequest)
+                Request.Proxy = Proxy
+                Request.UserAgent = Config.UserAgent
+
+                Dim Response As WebResponse = Request.GetResponse
+                Dim ResponseStream As Stream = Response.GetResponseStream
+                Total = CInt(Response.ContentLength)
+                Dim MemoryStream As New MemoryStream(Total)
+
+                Dim Buffer(255) As Byte, S As Integer
+
+                Do
+                    S = ResponseStream.Read(Buffer, 0, Buffer.Length)
+                    MemoryStream.Write(Buffer, 0, S)
+                    Progress += S
+                    Callback(AddressOf UpdateProgress)
+                Loop While S > 0
+
+                File.WriteAllBytes(FileName, MemoryStream.ToArray)
+
+            Catch ex As Exception
+                If State <> States.Cancelled Then Callback(AddressOf Failed)
             End Try
 
-            If State = States.Cancelled Then Thread.CurrentThread.Abort()
+            If State = States.Cancelled Then
+                If File.Exists(FileName) Then File.Delete(FileName)
+                Thread.CurrentThread.Abort()
+                Exit Sub
+            End If
+
             Callback(AddressOf Done)
+        End Sub
+
+        Private Sub UpdateProgress()
+            If ProgressBar IsNot Nothing Then
+                ProgressBar.Maximum = Total
+                ProgressBar.Value = Progress
+            End If
         End Sub
 
         Private Sub Done()
