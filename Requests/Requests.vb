@@ -191,7 +191,7 @@ Namespace Requests
                 Retries -= 1
 
                 Dim PostString As String = "wpName=" & UrlEncode(Config.Username) & "&wpRemember=1" & _
-                    "&wpPassword=" & UrlEncode(Login.Password) & "&wpCaptchaId=" & Login.CaptchaId & _
+                    "&wpPassword=" & UrlEncode(Config.Password) & "&wpCaptchaId=" & Login.CaptchaId & _
                     "&wpCaptchaWord=" & Login.CaptchaWord
 
                 Try

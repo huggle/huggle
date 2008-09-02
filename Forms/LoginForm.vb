@@ -34,31 +34,16 @@ Class LoginForm
 
         If Config.RememberMe Then Username.Text = Config.Username
         If Config.RememberPassword Then Password.Text = Config.Password
-        If Username.Text = "" Then Username.Focus() Else Password.Focus()
+
+        If Username.Text = "" Then Username.Focus() Else If Password.Text = "" Then Password.Focus() Else OK.Focus()
     End Sub
 
     Private Sub LoginForm_Shown() Handles Me.Shown
-        If Username.Text = "" Then Username.Focus() Else Password.Focus()
+        If Username.Text = "" Then Username.Focus() Else If Password.Text = "" Then Password.Focus() Else OK.Focus()
     End Sub
 
     Private Sub LoginForm_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles Me.KeyDown
         If e.KeyCode = Keys.Escape Then End
-    End Sub
-
-    Private Sub Username_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles Username.KeyDown
-        If e.KeyCode = Keys.Enter Then Password.Focus()
-    End Sub
-
-    Private Sub Password_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles Password.KeyDown
-        If e.KeyCode = Keys.Enter Then OK_Click()
-    End Sub
-
-    Private Sub Password_TextChanged() Handles Password.TextChanged
-        OK.Enabled = (Username.Text <> "" AndAlso Password.Text <> "")
-    End Sub
-
-    Private Sub Username_TextChanged() Handles Username.TextChanged
-        OK.Enabled = (Username.Text <> "" AndAlso Password.Text <> "")
     End Sub
 
     Private Sub OK_Click() Handles OK.Click
@@ -80,7 +65,7 @@ Class LoginForm
         Config.IrcMode = (Config.Project <> "localhost")
         If Config.Project.Contains(".org") Then Config.IrcChannel = "#" & _
             Config.Project.Substring(0, Config.Project.IndexOf(".org"))
-        If Config.RememberPassword Then Config.Password = Password.Text
+        Config.Password = Password.Text
 
         For Each Item As Control In Controls
             If Not ArrayContains(New Control() {Status, Progress, Cancel}, Item) Then Item.Enabled = False
@@ -88,7 +73,6 @@ Class LoginForm
 
         Cancel.Text = "Cancel"
 
-        Login.Password = Password.Text
         Config.ProxyEnabled = Proxy.Checked
         Config.ProxyPort = ProxyPort.Text
         ProxyAddress.Text = ProxyAddress.Text.Replace("http://", "")
@@ -123,14 +107,6 @@ Class LoginForm
         End If
     End Sub
 
-    Private Sub ShowProxySettings_Click() Handles ShowProxySettings.Click
-        Height += 160
-        ProxyGroup.Visible = True
-        HideProxySettings.Visible = True
-        ShowProxySettings.Visible = False
-        HideProxySettings.Focus()
-    End Sub
-
     Private Sub HideProxySettings_Click() Handles HideProxySettings.Click
         Height -= 160
         ProxyGroup.Visible = False
@@ -139,9 +115,60 @@ Class LoginForm
         ShowProxySettings.Focus()
     End Sub
 
+    Private Sub Password_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles Password.KeyDown
+        If e.KeyCode = Keys.Enter Then OK_Click()
+    End Sub
+
+    Private Sub Password_TextChanged() Handles Password.TextChanged
+        OK.Enabled = (Username.Text <> "" AndAlso Password.Text <> "")
+    End Sub
+
+    Private Sub ShowProxySettings_Click() Handles ShowProxySettings.Click
+        Height += 160
+        ProxyGroup.Visible = True
+        HideProxySettings.Visible = True
+        ShowProxySettings.Visible = False
+        HideProxySettings.Focus()
+    End Sub
+
     Private Sub Proxy_CheckedChanged() Handles Proxy.CheckedChanged
         For Each Item As Control In ProxyGroup.Controls
             If Item IsNot Proxy Then Item.Enabled = Proxy.Checked
+        Next Item
+    End Sub
+
+    Private Sub ProxyPort_TextChanged() Handles ProxyPort.TextChanged
+        'Limit to integer values
+        Dim Position As Integer = ProxyPort.SelectionStart, i As Integer
+
+        While i < ProxyPort.Text.Length
+            If Not Char.IsDigit(ProxyPort.Text(i)) Then
+                ProxyPort.Text = ProxyPort.Text.Remove(i, 1)
+                Position -= 1
+            Else
+                i += 1
+            End If
+        End While
+
+        ProxyPort.SelectionStart = Position
+    End Sub
+
+    Private Sub Username_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles Username.KeyDown
+        If e.KeyCode = Keys.Enter Then Password.Focus()
+    End Sub
+
+    Private Sub Username_TextChanged() Handles Username.TextChanged
+        OK.Enabled = (Username.Text <> "" AndAlso Password.Text <> "")
+    End Sub
+
+    Sub Abort(ByVal MessageObject As Object)
+        LoggingIn = False
+        Status.Text = CStr(MessageObject)
+        Cancel.Text = "Exit"
+        Progress.Value = 0
+
+        For Each Item As Control In Controls
+            If Not ArrayContains(New Control() {Status, Progress, Cancel}, Item) Then Item.Enabled = True
         Next Item
     End Sub
 
@@ -161,17 +188,6 @@ Class LoginForm
     Sub UpdateStatus(ByVal MessageObject As Object)
         Status.Text = CStr(MessageObject)
         If Progress.Value <= Progress.Maximum - 1 Then Progress.Value += 1
-    End Sub
-
-    Sub Abort(ByVal MessageObject As Object)
-        LoggingIn = False
-        Status.Text = CStr(MessageObject)
-        Cancel.Text = "Exit"
-        Progress.Value = 0
-
-        For Each Item As Control In Controls
-            If Not ArrayContains(New Control() {Status, Progress, Cancel}, Item) Then Item.Enabled = True
-        Next Item
     End Sub
 
 End Class

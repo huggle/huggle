@@ -1,4 +1,4 @@
-Imports System.IO
+﻿Imports System.IO
 Imports System.Text.RegularExpressions
 Imports System.Threading
 
@@ -6,7 +6,7 @@ Class Configuration
 
     'Configuration
 
-    Public Version As New Version(0, 7, 1)
+    Public Version As New Version(Application.ProductVersion)
     Public ConfigChanged As Boolean
     Public ConfigVersion As New Version(0, 0, 0)
     Public ContribsBlockSize As Integer = 100
@@ -16,23 +16,9 @@ Class Configuration
     Public LatestVersion As New Version(0, 0, 0)
     Public QueueSize As Integer = 5000
     Public QueueWidth As Integer = 160
-    Public RememberMe As Boolean = True
-    Public RememberPassword As Boolean
+
     Public Password As String
     Public SitePath As String = "http://en.wikipedia.org/"
-
-    Public RevertSummaries() As String = _
-    { _
-        "[[wp:undo|undid]]", _
-        "undid", _
-        "bot - rv", _
-        "bot - revert", _
-        "bot--revert", _
-        "revert", _
-        "rv", _
-        "js: revert", _
-        "automatically reverting" _
-    }
 
     'Values stored in local config file
 
@@ -42,6 +28,8 @@ Class Configuration
     Public ProxyServer As String
     Public ProxyPort As String
     Public ProxyEnabled As Boolean
+    Public RememberMe As Boolean = True
+    Public RememberPassword As Boolean
     Public Username As String
     Public WindowMaximize As Boolean = True
     Public WindowPosition As New Point
@@ -113,6 +101,9 @@ Class Configuration
     Public MultipleRevertSummaryParts As New List(Of String)(New String() { _
         "Reverted", "edit by", "edits by", "and", "other users", "to last version by", "to an older version by"})
     Public OpenInBrowser As Boolean
+    Public PageBlankedPattern As Regex
+    Public PageRedirectedPattern As Regex
+    Public PageReplacedPattern As Regex
     Public Patrol As Boolean
     Public PatrolSpeedy As Boolean
     Public Preloads As Integer = 2
@@ -153,6 +144,7 @@ Class Configuration
     Public RequireEdits As Integer
     Public RequireRollback As Boolean
     Public RequireTime As Integer
+    Public RevertSummaries As New List(Of Regex)
     Public RfdLocation As String
     Public RightAlignQueue As Boolean
     Public RollbackSummary As String
@@ -176,7 +168,9 @@ Class Configuration
     Public TemplateMessagesGlobal As New List(Of String)
     Public TfdLocation As String
     Public TrayIcon As Boolean
-    Public TrrReportLocation As String = "Wikipedia:Administrators' noticeboard/3RR"
+    Public TRR As Boolean
+    Public TRRLocation As String
+    Public UAA As Boolean
     Public UAALocation As String
     Public UAABotLocation As String
     Public UndoSummary As String
@@ -256,6 +250,7 @@ Module ConfigIO
         Select Case Name
             Case "enable" : Config.Enabled = CBool(Value)
             Case "admin" : Config.UseAdminFunctions = CBool(Value)
+            Case "aiv-extend-reports" : Config.ExtendReports = CBool(Value)
             Case "auto-advance" : Config.AutoAdvance = CBool(Value)
             Case "auto-whitelist" : Config.AutoWhitelist = CBool(Value)
             Case "blocktime" : Config.BlockTime = Value
@@ -272,7 +267,6 @@ Module ConfigIO
             Case "confirm-self-revert" : Config.ConfirmSelfRevert = CBool(Value)
             Case "default-summary" : Config.DefaultSummary = Value
             Case "diff-font-size" : Config.DiffFontSize = Value
-            Case "extend-reports" : Config.ExtendReports = CBool(Value)
             Case "irc-port" : Config.IrcPort = CInt(Value)
             Case "minor" : SetMinor(Value)
             Case "open-in-browser" : Config.OpenInBrowser = CBool(Value)
@@ -286,7 +280,6 @@ Module ConfigIO
             Case "protection-reason" : Config.ProtectionReason = Value
             Case "protection-requests" : Config.ProtectionRequests = CBool(Value)
             Case "report" : SetReport(Value)
-            Case "report-extend-summary" : Config.ReportExtendSummary = Value
             Case "report-summary" : Config.ReportSummary = Value
             Case "revert-summaries" : Config.CustomRevertSummaries = GetList(Value)
             Case "rollback" : Config.UseRollback = CBool(Value)
@@ -311,11 +304,13 @@ Module ConfigIO
     Public Sub SetProjectConfigOption(ByVal Name As String, ByVal Value As String)
         'Project config only
         Select Case Name
-            Case "3rr-report-location" : Config.TrrReportLocation = Value
+            Case "3rr" : Config.TRRLocation = Value
             Case "afd" : Config.AfdLocation = Value
             Case "aiv" : Config.AIVLocation = Value
             Case "aivbot" : Config.AIVBotLocation = Value
-            Case "aiv-reports" : Config.AIV = CBool(Value)
+            Case "aiv-extend" : Config.ExtendReports = CBool(Value)
+            Case "aiv-extend-summary" : Config.ReportExtendSummary = Value
+            Case "aiv-link-diffs" : Config.ReportLinkDiffs = CBool(Value)
             Case "aiv-single-note" : Config.AivSingleNote = Value
             Case "approval" : Config.Approval = CBool(Value)
             Case "block" : Config.Block = CBool(Value)
@@ -336,18 +331,21 @@ Module ConfigIO
             Case "min-version" : SetMinVersion(Value)
             Case "namespace-aliases" : SetNamespaceAliases(GetList(Value))
             Case "namespace-names" : SetNamespaceNames(GetList(Value))
+            Case "page-blanked-pattern" : Config.PageBlankedPattern = New Regex(Value, RegexOptions.Compiled)
+            Case "page-redirected-pattern" : Config.PageRedirectedPattern = New Regex(Value, RegexOptions.Compiled)
+            Case "page-replaced-pattern" : Config.PageReplacedPattern = New Regex(Value, RegexOptions.Compiled)
             Case "patrol" : Config.Patrol = CBool(Value)
             Case "protect" : Config.Protect = CBool(Value)
             Case "protection-request-page" : Config.ProtectionRequestPage = Value
             Case "protection-request-reason" : Config.ProtectionRequestReason = Value
             Case "protection-request-summary" : Config.ProtectionRequestSummary = Value
             Case "rc-block-size" : Config.RcBlockSize = CInt(Value)
-            Case "report-link-diffs" : Config.ReportLinkDiffs = CBool(Value)
             Case "require-admin" : Config.RequireAdmin = CBool(Value)
             Case "require-config" : Config.RequireConfig = CBool(Value)
             Case "require-edits" : Config.RequireEdits = CInt(Value)
             Case "require-rollback" : Config.RequireRollback = CBool(Value)
             Case "require-time" : Config.RequireTime = CInt(Value)
+            Case "revert-patterns" : SetRevertPatterns(GetList(Value))
             Case "rollback-summary" : Config.RollbackSummary = Value
             Case "rollback-summary-unknown" : Config.RollbackSummaryUnknown = Value
             Case "rfd" : Config.RfdLocation = Value
@@ -406,6 +404,12 @@ Module ConfigIO
             Case "version" : Config.ConfigVersion = New Version(CInt(Value.Substring(0, 1)), _
                 CInt(Value.Substring(2, 1)), CInt(Value.Substring(4)), 0)
         End Select
+    End Sub
+
+    Private Sub SetRevertPatterns(ByVal Values As List(Of String))
+        For Each Item As String In Values
+            Config.RevertSummaries.Add(New Regex("^" & Item & "$", RegexOptions.Compiled Or RegexOptions.IgnoreCase))
+        Next Item
     End Sub
 
     Private Sub SetLatestVersion(ByVal VersionString As String)
@@ -541,7 +545,7 @@ Module ConfigIO
                     Select Case OptionName
                         Case "irc" : Config.IrcMode = CBool(OptionValue)
                         Case "log-file" : Config.LogFile = OptionValue
-                        Case "password" : Config.Password = OptionValue
+                        Case "password" : Config.Password = OptionValue : Config.RememberPassword = True
                         Case "project" : Config.Project = OptionValue
                         Case "proxy-enabled" : Config.ProxyEnabled = CBool(OptionValue)
                         Case "proxy-port" : Config.ProxyPort = OptionValue

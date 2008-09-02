@@ -11,6 +11,7 @@ Module Misc
     Public Administrator As Boolean
     Public AllLists As New Dictionary(Of String, List(Of String))
     Public AllRequests As New List(Of Request)
+    Public Bots As New List(Of String)
     Public ContribsOffset As Integer
     Public Config As Configuration
     Public Cookie As String

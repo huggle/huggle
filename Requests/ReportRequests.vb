@@ -14,15 +14,17 @@ Namespace Requests
         Private Warning As Edit
 
         Public Sub Start()
-            LogProgress("Reporting " & User.Name & "...")
+            If Config.TRR Then
+                LogProgress("Reporting " & User.Name & "...")
 
-            Dim RequestThread As New Thread(AddressOf Process)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
+                Dim RequestThread As New Thread(AddressOf Process)
+                RequestThread.IsBackground = True
+                RequestThread.Start()
+            End If
         End Sub
 
         Private Sub Process()
-            Dim Data As EditData = GetEditData(Config.TrrReportLocation, , 1)
+            Dim Data As EditData = GetEditData(Config.TRRLocation, , 1)
 
             If Data.Error Then
                 Callback(AddressOf Failed)
@@ -58,7 +60,7 @@ Namespace Requests
             Data.Text &= CRLF & Report
             Data.Summary = Config.ReportSummary.Replace("$1", User.Name)
             Data.Minor = Config.MinorReports
-            Data.Watch = Config.WatchReports OrElse Watchlist.Contains(GetPage(Config.TrrReportLocation))
+            Data.Watch = Config.WatchReports OrElse Watchlist.Contains(GetPage(Config.TRRLocation))
 
             Data = PostEdit(Data)
             If Data.Error Then Callback(AddressOf Failed) Else Callback(AddressOf Done)
@@ -79,7 +81,7 @@ Namespace Requests
         Public User As User, Edit As Edit, Reason As String
 
         Public Sub Start()
-            If Config.AIVLocation IsNot Nothing AndAlso Config.AIVLocation.Length > 0 Then
+            If Config.AIV Then
                 Dim GotContribs As Boolean
 
                 If User.FirstEdit IsNot Nothing Then
@@ -270,7 +272,7 @@ Namespace Requests
         Public User As User, Reason As String
 
         Public Sub Start()
-            If Config.UAALocation IsNot Nothing AndAlso Config.UAALocation.Length > 0 Then
+            If Config.UAA Then
                 LogProgress("Reporting '" & User.Name & "'...")
 
                 Dim RequestThread As New Thread(AddressOf Process)

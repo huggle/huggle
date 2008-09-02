@@ -103,7 +103,6 @@ Partial Class ReportForm
         '
         Me.Reason.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.Reason.FormattingEnabled = True
-        Me.Reason.Items.AddRange(New Object() {"Vandalism after final warning", "Inappropriate username", "Three-revert rule violation"})
         Me.Reason.Location = New System.Drawing.Point(68, 12)
         Me.Reason.Name = "Reason"
         Me.Reason.Size = New System.Drawing.Size(197, 21)
@@ -144,7 +143,7 @@ Partial Class ReportForm
         Me.WarnLog.MultiSelect = False
         Me.WarnLog.Name = "WarnLog"
         Me.WarnLog.ShowGroups = False
-        Me.WarnLog.Size = New System.Drawing.Size(341, 229)
+        Me.WarnLog.Size = New System.Drawing.Size(341, 351)
         Me.WarnLog.TabIndex = 1
         Me.WarnLog.UseCompatibleStateImageBehavior = False
         Me.WarnLog.View = System.Windows.Forms.View.Details
@@ -199,6 +198,7 @@ Partial Class ReportForm
         Me.ReportWarning3.Size = New System.Drawing.Size(36, 36)
         Me.ReportWarning3.TabIndex = 19
         Me.ReportWarning3.TabStop = False
+        Me.ReportWarning3.Visible = False
         '
         'ReportWarning2
         '
@@ -208,7 +208,7 @@ Partial Class ReportForm
         Me.ReportWarning2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ReportWarning2.Location = New System.Drawing.Point(38, 199)
         Me.ReportWarning2.Name = "ReportWarning2"
-        Me.ReportWarning2.Size = New System.Drawing.Size(300, 39)
+        Me.ReportWarning2.Size = New System.Drawing.Size(300, 205)
         Me.ReportWarning2.TabIndex = 11
         Me.ReportWarning2.Text = "This is only a possible 3RR violation. Do not submit this report until you have r" & _
             "eviewed the above revisions to ensure that they are not reversions of vandalism." & _
@@ -223,7 +223,6 @@ Partial Class ReportForm
         Me.Status.Name = "Status"
         Me.Status.Size = New System.Drawing.Size(276, 14)
         Me.Status.TabIndex = 3
-        Me.Status.Text = "Status"
         '
         'ReportWarning
         '
@@ -272,7 +271,7 @@ Partial Class ReportForm
         Me.Add.Name = "Add"
         Me.Add.Size = New System.Drawing.Size(75, 23)
         Me.Add.TabIndex = 10
-        Me.Add.Text = "Add"
+        Me.Add.Text = "Add Current"
         Me.Add.UseVisualStyleBackColor = True
         '
         'RevertsList

@@ -24,7 +24,7 @@ Partial Class VersionForm
     Private Sub InitializeComponent()
         Me.Message = New System.Windows.Forms.Label
         Me.Cancel = New System.Windows.Forms.Button
-        Me.Update = New System.Windows.Forms.Button
+        Me.Download = New System.Windows.Forms.Button
         Me.Status = New System.Windows.Forms.Label
         Me.PictureBox1 = New System.Windows.Forms.PictureBox
         Me.Progress = New System.Windows.Forms.ProgressBar
@@ -56,13 +56,13 @@ Partial Class VersionForm
         '
         'Update
         '
-        Me.Update.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Update.Location = New System.Drawing.Point(309, 55)
-        Me.Update.Name = "Update"
-        Me.Update.Size = New System.Drawing.Size(75, 23)
-        Me.Update.TabIndex = 1
-        Me.Update.Text = "Update"
-        Me.Update.UseVisualStyleBackColor = True
+        Me.Download.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Download.Location = New System.Drawing.Point(309, 55)
+        Me.Download.Name = "Update"
+        Me.Download.Size = New System.Drawing.Size(75, 23)
+        Me.Download.TabIndex = 1
+        Me.Download.Text = "Update"
+        Me.Download.UseVisualStyleBackColor = True
         '
         'Status
         '
@@ -102,7 +102,7 @@ Partial Class VersionForm
         Me.Controls.Add(Me.Progress)
         Me.Controls.Add(Me.PictureBox1)
         Me.Controls.Add(Me.Status)
-        Me.Controls.Add(Me.Update)
+        Me.Controls.Add(Me.Download)
         Me.Controls.Add(Me.Cancel)
         Me.Controls.Add(Me.Message)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
@@ -120,7 +120,7 @@ Partial Class VersionForm
     End Sub
     Friend WithEvents Message As System.Windows.Forms.Label
     Friend WithEvents Cancel As System.Windows.Forms.Button
-    Friend WithEvents Update As System.Windows.Forms.Button
+    Friend WithEvents Download As System.Windows.Forms.Button
     Friend WithEvents Status As System.Windows.Forms.Label
     Friend WithEvents PictureBox1 As System.Windows.Forms.PictureBox
     Friend WithEvents Progress As System.Windows.Forms.ProgressBar

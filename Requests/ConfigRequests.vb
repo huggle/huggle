@@ -42,6 +42,10 @@ Namespace Requests
                 End Try
             Next Item
 
+            Config.AIV = (Config.AIVLocation IsNot Nothing AndAlso Config.AIVLocation.Length > 0)
+            Config.UAA = (Config.UAALocation IsNot Nothing AndAlso Config.UAALocation.Length > 0)
+            Config.TRR = (Config.TRRLocation IsNot Nothing AndAlso Config.TRRLocation.Length > 0)
+
             Complete()
             Return True
         End Function

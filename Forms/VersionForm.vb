@@ -28,8 +28,8 @@ Class VersionForm
         Close()
     End Sub
 
-    Private Sub Update_Click() Handles Update.Click
-        Update.Enabled = False
+    Private Sub Update_Click() Handles Download.Click
+        Download.Enabled = False
         Progress.Visible = True
         Status.Text = "Downloading new version..."
 
@@ -46,7 +46,7 @@ Class VersionForm
         Else
             Progress.Value = 0
             Progress.Visible = False
-            Update.Enabled = True
+            Download.Enabled = True
             Status.Text = "Failed to download new version."
         End If
     End Sub

@@ -1089,17 +1089,17 @@ Namespace Requests
                 Next Revision
 
                 For Each Match As List(Of String) In RevisionMatches.Values
-                    If Match.Count = 3 Then
-                        'We have found three identical revisions to the same page by the same user within 24 hours
+                    If Match.Count = 4 Then
+                        'We have found four identical revisions to the same page by the same user within 24 hours
                         'Now we need to ensure the earliest is a reversion to a previous revision,
-                        'otherwise only two reversions have been made. This means looking further back in the 
+                        'otherwise only three reversions have been made. This means looking further back in the 
                         'page history for an identical revision, possibly by another user
                         RevertIds = Match
                         Callback(AddressOf HistoryNeeded)
                         Exit Sub
 
-                    ElseIf Match.Count > 3 Then
-                        'If there are more than three identical revisions, we know they are all reversions
+                    ElseIf Match.Count > 4 Then
+                        'If there are more than four identical revisions, we know they are all reversions
                         VersionId = Match(Match.Count - 1)
                         Match.RemoveAt(Match.Count - 1)
                         RevertIds = Match
@@ -1132,7 +1132,7 @@ Namespace Requests
                 If Not RevertIds.Contains(ThisEdit.Id) AndAlso ThisEdit.Text = TextToFind _
                     AndAlso ThisEdit.Time < Edit.All(RevertIds(0)).Time Then
 
-                    'Found an older revision identical to the three already found, meaning they were all reversions
+                    'Found an older revision identical to the four already found, meaning they were all reversions
                     VersionId = ThisEdit.Id
                     Done()
                     Exit Sub

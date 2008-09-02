@@ -108,6 +108,9 @@ Class Edit
             If x.User.Ignored AndAlso Not y.User.Ignored Then Return 1
             If y.User.Ignored AndAlso Not x.User.Ignored Then Return -1
 
+            If x.User.Bot AndAlso Not y.User.Bot Then Return 1
+            If y.User.Bot AndAlso Not x.User.Bot Then Return -1
+
             If x.Type > y.Type AndAlso x.Type >= EditType.ReplacedWith Then Return -1
             If y.Type > x.Type AndAlso y.Type >= EditType.ReplacedWith Then Return 1
 

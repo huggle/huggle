@@ -285,8 +285,8 @@ Class ConfigForm
     Private Sub RememberPassword_CheckedChanged() Handles RememberPassword.CheckedChanged
         If RememberPassword.Checked Then MessageBox.Show _
             ("If this option is selected, your password will be stored locally, unencrypted." & CRLF & _
-            "If this bothers you, do not select this option (though it shouldn't, as your password " & _
-            "is sent unencrypted across the Web every time you log in anyway).", "huggle", _
+            "If this bothers you, do not select this option (though it shouldn't, as your password " & CRLF & _
+            "is sent unencrypted across the Web every time you log in anyway).", "Huggle", _
             MessageBoxButtons.OK, MessageBoxIcon.Information)
     End Sub
 

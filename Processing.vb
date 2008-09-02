@@ -10,15 +10,13 @@ Module Processing
         If Edit.Oldid Is Nothing Then Edit.Oldid = "prev"
 
         'Auto summaries
-        If Edit.Summary.StartsWith("[[WP:AES|←]]Replaced") OrElse Edit.Summary.StartsWith("←Replaced") _
-            OrElse Edit.Summary.StartsWith("[[WP:Automatic edit summaries|←]]Replaced") Then Edit.Type = EditType.ReplacedWith
-        If Edit.Summary.StartsWith("[[WP:AES|←]]Blanked") OrElse Edit.Summary.StartsWith("←Blanked") _
-            OrElse Edit.Summary.StartsWith("[[WP:Automatic edit summaries|←]]Blanked") Then Edit.Type = EditType.Blanked
-        If Edit.Summary.StartsWith("[[WP:AES|←]]Redirected") OrElse Edit.Summary.StartsWith("←Redirected") _
-            OrElse Edit.Summary.ToLower.StartsWith("redirected page to ") _
-            OrElse Edit.Summary.ToLower.StartsWith("redirected to ") _
-            OrElse Edit.Summary.StartsWith("[[WP:Automatic edit summaries|←]]Redirected") Then Edit.Type = EditType.Redirect
-
+        If Config.PageBlankedPattern IsNot Nothing AndAlso Config.PageBlankedPattern.IsMatch(Edit.Summary) _
+            Then Edit.Type = EditType.Blanked
+        If Config.PageRedirectedPattern IsNot Nothing AndAlso Config.PageRedirectedPattern.IsMatch(Edit.Summary) _
+            Then Edit.Type = EditType.Redirect
+        If Config.PageReplacedPattern IsNot Nothing AndAlso Config.PageReplacedPattern.IsMatch(Edit.Summary) _
+            Then Edit.Type = EditType.ReplacedWith
+        
         If Edit.User IsNot Nothing AndAlso Edit.Page IsNot Nothing Then
             If Edit.NewPage Then
                 Edit.Page.FirstEdit = Edit
@@ -26,8 +24,8 @@ Module Processing
             End If
 
             'Reverts
-            For Each Item As String In Config.RevertSummaries
-                If Edit.Summary.ToLower.StartsWith(Item) Then
+            For Each Item As Regex In Config.RevertSummaries
+                If Item.IsMatch(Edit.Summary) Then
                     Edit.Type = EditType.Revert
 
                     If Edit.Page.Level = PageLevel.None Then Edit.Page.Level = PageLevel.Watch

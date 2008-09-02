@@ -26,8 +26,8 @@ Partial Class Main
         UserBlock.Visible = (Administrator AndAlso Config.Block)
         UserEmail.Visible = Config.Email
         UserMessageWelcome.Visible = (Config.Welcome IsNot Nothing)
-        UserReport.Visible = Config.AIV
-        UserReportB.Visible = Config.AIV OrElse (Administrator AndAlso Config.Block)
+        UserReport.Visible = Config.AIV OrElse Config.UAA OrElse Config.TRR
+        UserReportB.Visible = Config.AIV OrElse Config.UAA OrElse Config.TRR OrElse (Administrator AndAlso Config.Block)
         UserWarn.Visible = Config.WarningSeries.Count > 0
 
         WarnVandalism.Visible = Config.WarningSeries.Contains("warning")

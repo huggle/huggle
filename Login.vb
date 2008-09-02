@@ -5,7 +5,7 @@ Imports System.Web.HttpUtility
 
 Module Login
 
-    Public CaptchaId, CaptchaWord, Password, SessionCookie As String, Proxy As IWebProxy
+    Public CaptchaId, CaptchaWord, SessionCookie As String, Proxy As IWebProxy
 
     Public Sub ConfigureProxy(ByVal Enabled As Boolean, ByVal Address As String, ByVal Port As String, ByVal Username As String, _
         ByVal Password As String, ByVal Domain As String)
@@ -315,8 +315,7 @@ Namespace Requests
                     If Item.Contains("""") Then
                         Dim Username As String = Item.Substring(Item.IndexOf("""") + 1)
                         Username = Username.Substring(0, Username.IndexOf(""""))
-                        GetUser(Username).Ignored = True
-                        GetUser(Username).Bot = True
+                        Bots.Add(Username)
                     End If
                 Next Item
             End If

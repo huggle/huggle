@@ -112,6 +112,7 @@ Partial Class LoginForm
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.ProxyDomain.Enabled = False
         Me.ProxyDomain.Location = New System.Drawing.Point(180, 72)
+        Me.ProxyDomain.MaxLength = 255
         Me.ProxyDomain.Name = "ProxyDomain"
         Me.ProxyDomain.Size = New System.Drawing.Size(74, 20)
         Me.ProxyDomain.TabIndex = 6
@@ -152,6 +153,7 @@ Partial Class LoginForm
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.ProxyPassword.Enabled = False
         Me.ProxyPassword.Location = New System.Drawing.Point(68, 124)
+        Me.ProxyPassword.MaxLength = 255
         Me.ProxyPassword.Name = "ProxyPassword"
         Me.ProxyPassword.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
         Me.ProxyPassword.Size = New System.Drawing.Size(186, 20)
@@ -163,6 +165,7 @@ Partial Class LoginForm
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.ProxyUsername.Enabled = False
         Me.ProxyUsername.Location = New System.Drawing.Point(68, 98)
+        Me.ProxyUsername.MaxLength = 255
         Me.ProxyUsername.Name = "ProxyUsername"
         Me.ProxyUsername.Size = New System.Drawing.Size(186, 20)
         Me.ProxyUsername.TabIndex = 8
@@ -181,6 +184,7 @@ Partial Class LoginForm
         '
         Me.ProxyPort.Enabled = False
         Me.ProxyPort.Location = New System.Drawing.Point(68, 72)
+        Me.ProxyPort.MaxLength = 5
         Me.ProxyPort.Name = "ProxyPort"
         Me.ProxyPort.Size = New System.Drawing.Size(47, 20)
         Me.ProxyPort.TabIndex = 4
@@ -201,6 +205,7 @@ Partial Class LoginForm
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.ProxyAddress.Enabled = False
         Me.ProxyAddress.Location = New System.Drawing.Point(68, 46)
+        Me.ProxyAddress.MaxLength = 255
         Me.ProxyAddress.Name = "ProxyAddress"
         Me.ProxyAddress.Size = New System.Drawing.Size(186, 20)
         Me.ProxyAddress.TabIndex = 2
@@ -249,8 +254,9 @@ Partial Class LoginForm
         Me.Password.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Password.Location = New System.Drawing.Point(80, 142)
+        Me.Password.MaxLength = 255
         Me.Password.Name = "Password"
-        Me.Password.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
+        Me.Password.PasswordChar = Global.Microsoft.VisualBasic.ChrW(9679)
         Me.Password.Size = New System.Drawing.Size(188, 20)
         Me.Password.TabIndex = 5
         '
@@ -259,6 +265,7 @@ Partial Class LoginForm
         Me.Username.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Username.Location = New System.Drawing.Point(80, 116)
+        Me.Username.MaxLength = 255
         Me.Username.Name = "Username"
         Me.Username.Size = New System.Drawing.Size(188, 20)
         Me.Username.TabIndex = 3
@@ -366,7 +373,6 @@ Partial Class LoginForm
     Friend WithEvents Project As System.Windows.Forms.ComboBox
     Friend WithEvents ProjectLabel As System.Windows.Forms.Label
     Friend WithEvents ProxyPortLabel As System.Windows.Forms.Label
-    Friend WithEvents ProxyPort As System.Windows.Forms.TextBox
     Friend WithEvents ProxyAddressLabel As System.Windows.Forms.Label
     Friend WithEvents ProxyAddress As System.Windows.Forms.TextBox
     Friend WithEvents ProxyPasswordLabel As System.Windows.Forms.Label
@@ -379,4 +385,5 @@ Partial Class LoginForm
     Friend WithEvents HideProxySettings As System.Windows.Forms.Button
     Friend WithEvents Proxy As System.Windows.Forms.CheckBox
     Friend WithEvents Logo As System.Windows.Forms.PictureBox
+    Friend WithEvents ProxyPort As System.Windows.Forms.TextBox
 End Class

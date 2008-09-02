@@ -61,18 +61,14 @@ Class TagForm
         If Summary.Text.Length > 250 Then Summary.Text = Summary.Text.Substring(0, 250)
     End Sub
 
-    Private Sub TagSelector_SelectedIndexChanged() _
-        Handles TagSelector.SelectedIndexChanged
-
+    Private Sub TagSelector_SelectedIndexChanged() Handles TagSelector.SelectedIndexChanged
         If Not TagText.Text.Contains(CStr(TagSelector.Items(TagSelector.SelectedIndex))) Then
             If TagText.Text <> "" Then TagText.Text &= LF
             TagText.Text &= CStr(TagSelector.Items(TagSelector.SelectedIndex))
         End If
     End Sub
 
-    Private Sub Explanation_LinkClicked() _
-        Handles Explanation.LinkClicked
-
+    Private Sub Explanation_LinkClicked() Handles Explanation.LinkClicked
         Dim NewEditForm As New EditForm
         NewEditForm.Page = ThisPage
         NewEditForm.Show()
