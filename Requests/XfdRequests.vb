@@ -61,7 +61,7 @@ Namespace Requests
 
         Protected Sub DoNotify(Optional ByVal Result As Request.Output = Nothing)
             If (Result Is Nothing OrElse Result.Success) AndAlso Page.FirstEdit IsNot Nothing _
-                AndAlso Page.FirstEdit.User IsNot Nothing Then
+                AndAlso Page.FirstEdit.User IsNot Nothing AndAlso Page.FirstEdit.User IsNot User.Me Then
 
                 Dim NewRequest As New UserMessageRequest
                 NewRequest.AvoidText = Page.Name

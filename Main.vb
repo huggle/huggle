@@ -646,31 +646,10 @@ Class Main
     End Sub
 
     Sub PageTagProd_Click() Handles PageProd.Click
-        If CurrentEdit IsNot Nothing AndAlso CurrentEdit.Page IsNot Nothing Then
-
-            Dim NewProdTagForm As New ProdForm
-            NewProdTagForm.ThisPage = CurrentEdit.Page
-
-            If NewProdTagForm.ShowDialog = DialogResult.OK Then
-                Dim NewTagRequest As New TagRequest
-
-                NewTagRequest.Page = CurrentEdit.Page
-                NewTagRequest.Tag = "{{subst:prod|" & NewProdTagForm.Reason.Text & "}}"
-                NewTagRequest.Summary = Config.ProdSummary.Replace("$1", NewProdTagForm.Reason.Text)
-                NewTagRequest.AvoidText = "{{dated prod|"
-
-                If CurrentEdit.Page.FirstEdit IsNot Nothing Then
-                    NewTagRequest.NotifyRequest = New UserMessageRequest
-                    NewTagRequest.NotifyRequest.Message = Config.ProdMessage.Replace("$1", CurrentEdit.Page.Name) _
-                        .Replace("$2", NewProdTagForm.Reason.Text)
-                    NewTagRequest.NotifyRequest.Title = Config.ProdMessageTitle.Replace("$1", CurrentEdit.Page.Name)
-                    NewTagRequest.NotifyRequest.AvoidText = CurrentEdit.Page.Name
-                    NewTagRequest.NotifyRequest.Summary = Config.ProdMessageSummary.Replace("$1", CurrentEdit.Page.Name)
-                    NewTagRequest.NotifyRequest.User = CurrentEdit.Page.FirstEdit.User
-                End If
-
-                NewTagRequest.Start()
-            End If
+        If CurrentEdit IsNot Nothing AndAlso CurrentPage IsNot Nothing Then
+            Dim NewForm As New ProdForm
+            NewForm.Page = CurrentPage
+            NewForm.ShowDialog()
         End If
     End Sub
 

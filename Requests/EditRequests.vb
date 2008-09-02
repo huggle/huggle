@@ -210,7 +210,9 @@ Namespace Requests
         End Sub
 
         Private Sub DoNotify(Optional ByVal Result As Request.Output = Nothing)
-            If Page.FirstEdit IsNot Nothing AndAlso Page.FirstEdit.User IsNot Nothing Then
+            If Page.FirstEdit IsNot Nothing AndAlso Page.FirstEdit.User IsNot Nothing _
+                AndAlso Page.FirstEdit.User IsNot User.Me Then
+
                 Dim NotifyRequest As New UserMessageRequest
                 NotifyRequest.Message = Criterion.Message.Replace("$1", Page.Name)
                 NotifyRequest.Title = Config.SpeedyMessageTitle.Replace("$1", Page.Name)
