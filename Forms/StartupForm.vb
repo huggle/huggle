@@ -39,7 +39,7 @@ Class StartupForm
     End Sub
 
     Private Sub RequestDone(ByVal Result As Request.Output)
-        If Me IsNot Nothing Then
+        If Me IsNot Nothing AndAlso Me.Visible Then
             If Result.Success Then Browser.DocumentText = MakeHtmlWikiPage(Config.StartupMessageLocation, Result.Text) _
             Else Browser.DocumentText = MakeHtmlWikiPage(Config.StartupMessageLocation, "Error displaying messages.")
         End If
