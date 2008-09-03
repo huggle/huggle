@@ -32,7 +32,7 @@ Partial Class EditInfoPanel
         '
         Me.Change.AutoSize = True
         Me.Change.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Change.Location = New System.Drawing.Point(112, 22)
+        Me.Change.Location = New System.Drawing.Point(187, 22)
         Me.Change.Name = "Change"
         Me.Change.Size = New System.Drawing.Size(51, 13)
         Me.Change.TabIndex = 6
@@ -55,9 +55,9 @@ Partial Class EditInfoPanel
         Me.Time.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Time.Location = New System.Drawing.Point(2, 22)
         Me.Time.Name = "Time"
-        Me.Time.Size = New System.Drawing.Size(94, 13)
+        Me.Time.Size = New System.Drawing.Size(167, 13)
         Me.Time.TabIndex = 5
-        Me.Time.Text = "2008-01-01 00:00"
+        Me.Time.Text = "00:00, 31 September 2008 (UTC)"
         '
         'PageUser
         '

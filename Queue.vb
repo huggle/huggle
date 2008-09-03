@@ -422,11 +422,13 @@ Class Queue
 
         Return QueueFilterMatch(_FilterAnonymous, Edit.User.Anonymous) _
             AndAlso QueueFilterMatch(_FilterAssisted, Edit.Assisted) _
+            AndAlso QueueFilterMatch(_FilterBot, Edit.User.Bot) _
             AndAlso QueueFilterMatch(_FilterHuggle, Edit.IsHuggleEdit) _
             AndAlso QueueFilterMatch(_FilterIgnored, Edit.User.Ignored) _
             AndAlso QueueFilterMatch(_FilterNewPage, Edit.NewPage) _
-            AndAlso QueueFilterMatch(_FilterReverts, Edit.Type = EditType.Revert) _
             AndAlso QueueFilterMatch(_FilterNotifications, Edit.Type = Huggle.EditType.Notification) _
+            AndAlso QueueFilterMatch(_FilterOwnUserspace, Edit.OwnUserspace) _
+            AndAlso QueueFilterMatch(_FilterReverts, Edit.Type = EditType.Revert) _
             AndAlso QueueFilterMatch(_FilterTags, Edit.Type = EditType.Tag) _
             AndAlso QueueFilterMatch(_FilterWarnings, Edit.Type = EditType.Warning)
     End Function

@@ -16,7 +16,7 @@ Class EditInfoPanel
             Change.Text = CStr(If(Edit.Size > 0, "+", "")) & CStr(Edit.Size)
             Change.Visible = (Not Edit.Size = 0)
             If Edit.Summary Is Nothing Then Summary.Text = "" Else Summary.Text = TrimSummary(Edit.Summary)
-            Time.Text = Timestamp(Edit.Time.ToLocalTime)
+            Time.Text = WikiTimestamp(Edit.Time.ToLocalTime)
         Else
             Change.Text = ""
             Summary.Text = ""

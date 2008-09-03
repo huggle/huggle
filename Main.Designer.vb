@@ -79,7 +79,6 @@ Partial Class Main
         Me.PageProd = New System.Windows.Forms.ToolStripMenuItem
         Me.PageTagSpeedy = New System.Windows.Forms.ToolStripMenuItem
         Me.Separator23 = New System.Windows.Forms.ToolStripSeparator
-        Me.PageTagDeleteB = New System.Windows.Forms.ToolStripDropDownButton
         Me.PageRequestProtection = New System.Windows.Forms.ToolStripMenuItem
         Me.Separator14 = New System.Windows.Forms.ToolStripSeparator
         Me.PageWatch = New System.Windows.Forms.ToolStripMenuItem
@@ -119,9 +118,9 @@ Partial Class Main
         Me.Separator16 = New System.Windows.Forms.ToolStripSeparator
         Me.HelpAbout = New System.Windows.Forms.ToolStripMenuItem
         Me.Stats = New System.Windows.Forms.ToolStripMenuItem
+        Me.PageTagDeleteB = New System.Windows.Forms.ToolStripDropDownButton
         Me.Splitter = New System.Windows.Forms.SplitContainer
         Me.QueueContainer = New System.Windows.Forms.Panel
-        Me.EditInfo = New Huggle.EditInfoPanel
         Me.QueueScroll = New System.Windows.Forms.VScrollBar
         Me.QueueSelector = New System.Windows.Forms.ComboBox
         Me.QueueArea = New Huggle.QueuePanel
@@ -215,6 +214,7 @@ Partial Class Main
         Me.UserMessageB = New System.Windows.Forms.ToolStripButton
         Me.UserReportB = New System.Windows.Forms.ToolStripButton
         Me.RateUpdateTimer = New System.Windows.Forms.Timer(Me.components)
+        Me.EditInfo = New Huggle.EditInfoPanel
         Me.LogMenu.SuspendLayout()
         Me.TrayMenu.SuspendLayout()
         Me.TopMenu.SuspendLayout()
@@ -556,7 +556,7 @@ Partial Class Main
         '
         Me.TagDeleteMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PageNominate, Me.PageProd, Me.PageTagSpeedy, Me.Separator23})
         Me.TagDeleteMenu.Name = "SpeedyMenu"
-        Me.TagDeleteMenu.OwnerItem = Me.PageTagDelete
+        Me.TagDeleteMenu.OwnerItem = Me.PageTagDeleteB
         Me.TagDeleteMenu.Size = New System.Drawing.Size(190, 76)
         '
         'PageNominate
@@ -584,18 +584,6 @@ Partial Class Main
         '
         Me.Separator23.Name = "Separator23"
         Me.Separator23.Size = New System.Drawing.Size(186, 6)
-        '
-        'PageTagDeleteB
-        '
-        Me.PageTagDeleteB.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.PageTagDeleteB.DropDown = Me.TagDeleteMenu
-        Me.PageTagDeleteB.Enabled = False
-        Me.PageTagDeleteB.Image = Global.Huggle.My.Resources.Resources.page_speedy
-        Me.PageTagDeleteB.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.PageTagDeleteB.Name = "PageTagDeleteB"
-        Me.PageTagDeleteB.ShowDropDownArrow = False
-        Me.PageTagDeleteB.Size = New System.Drawing.Size(32, 32)
-        Me.PageTagDeleteB.ToolTipText = "Tag this page for deletion [S]"
         '
         'PageRequestProtection
         '
@@ -854,6 +842,18 @@ Partial Class Main
         Me.Stats.Size = New System.Drawing.Size(22, 24)
         Me.Stats.Text = " "
         '
+        'PageTagDeleteB
+        '
+        Me.PageTagDeleteB.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.PageTagDeleteB.DropDown = Me.TagDeleteMenu
+        Me.PageTagDeleteB.Enabled = False
+        Me.PageTagDeleteB.Image = Global.Huggle.My.Resources.Resources.page_speedy
+        Me.PageTagDeleteB.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.PageTagDeleteB.Name = "PageTagDeleteB"
+        Me.PageTagDeleteB.ShowDropDownArrow = False
+        Me.PageTagDeleteB.Size = New System.Drawing.Size(32, 32)
+        Me.PageTagDeleteB.ToolTipText = "Tag this page for deletion [S]"
+        '
         'Splitter
         '
         Me.Splitter.Dock = System.Windows.Forms.DockStyle.Fill
@@ -880,7 +880,6 @@ Partial Class Main
         '
         Me.QueueContainer.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.QueueContainer.Controls.Add(Me.EditInfo)
         Me.QueueContainer.Controls.Add(Me.QueueScroll)
         Me.QueueContainer.Controls.Add(Me.QueueSelector)
         Me.QueueContainer.Controls.Add(Me.QueueArea)
@@ -888,14 +887,6 @@ Partial Class Main
         Me.QueueContainer.Name = "QueueContainer"
         Me.QueueContainer.Size = New System.Drawing.Size(178, 157)
         Me.QueueContainer.TabIndex = 1
-        '
-        'EditInfo
-        '
-        Me.EditInfo.Location = New System.Drawing.Point(20, 61)
-        Me.EditInfo.Name = "EditInfo"
-        Me.EditInfo.Size = New System.Drawing.Size(353, 78)
-        Me.EditInfo.TabIndex = 45
-        Me.EditInfo.Visible = False
         '
         'QueueScroll
         '
@@ -1760,10 +1751,19 @@ Partial Class Main
         Me.RateUpdateTimer.Enabled = True
         Me.RateUpdateTimer.Interval = 1000
         '
+        'EditInfo
+        '
+        Me.EditInfo.Location = New System.Drawing.Point(220, 172)
+        Me.EditInfo.Name = "EditInfo"
+        Me.EditInfo.Size = New System.Drawing.Size(353, 78)
+        Me.EditInfo.TabIndex = 46
+        Me.EditInfo.Visible = False
+        '
         'Main
         '
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
         Me.ClientSize = New System.Drawing.Size(792, 423)
+        Me.Controls.Add(Me.EditInfo)
         Me.Controls.Add(Me.ToolContainer)
         Me.KeyPreview = True
         Me.MainMenuStrip = Me.TopMenu
@@ -1862,7 +1862,6 @@ Partial Class Main
     Friend WithEvents InitialTab As Huggle.BrowserTab
     Friend WithEvents UserInfo As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents PageProtect As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents EditInfo As Huggle.EditInfoPanel
     Friend WithEvents PageView As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolContainer As System.Windows.Forms.ToolStripContainer
     Friend WithEvents MainStrip As System.Windows.Forms.ToolStrip
@@ -1994,4 +1993,5 @@ Partial Class Main
     Friend WithEvents ToolStripSeparator2 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents UserIgnoreB As System.Windows.Forms.ToolStripButton
     Private WithEvents ScrollTimer As System.Windows.Forms.Timer
+    Friend WithEvents EditInfo As Huggle.EditInfoPanel
 End Class

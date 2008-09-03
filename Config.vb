@@ -20,18 +20,6 @@ Class Configuration
     Public Password As String
     Public SitePath As String = "http://en.wikipedia.org/"
 
-    Public AssistedSummaries As String() = { _
-        "using [[User:MichaelBillington/MWT|MWT]]", _
-        "using [[Project:AutoWikiBrowser|AWB]]", _
-        "(using [[WP:HOTCAT|HotCat]])", _
-        "using [[:en:Wikipedia:Tools/Navigation_popups|popups]]", _
-        "using [[WP:FRIENDLY|Friendly]]", _
-        "Using [[WP:TWINKLE|Twinkle]]", _
-        "using [[WP:TW|TW]]", _
-        "using [[WP:TWINKLE|TW]]", _
-        "([[WP:TW|TW]])" _
-        }
-
     'Values stored in local config file
 
     Public Project As String
@@ -55,6 +43,7 @@ Class Configuration
     Public AIVLocation As String
     Public AivSingleNote As String
     Public Approval As Boolean
+    Public AssistedSummaries As New List(Of String)
     Public AutoAdvance As Boolean
     Public AutoReport As Boolean = True
     Public AutoWarn As Boolean = True
@@ -326,6 +315,7 @@ Module ConfigIO
             Case "aiv-link-diffs" : Config.ReportLinkDiffs = CBool(Value)
             Case "aiv-single-note" : Config.AivSingleNote = Value
             Case "approval" : Config.Approval = CBool(Value)
+            Case "assisted-summaries" : Config.AssistedSummaries = GetList(Value)
             Case "block" : Config.Block = CBool(Value)
             Case "block-expiry-options" : Config.BlockExpiryOptions = GetList(Value)
             Case "cfd" : Config.CfdLocation = Value

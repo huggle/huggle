@@ -18,7 +18,10 @@ Module Drawing
                 If X < 0 Then Exit While
 
                 If X < Result.Width Then
-                    Gfx.DrawImage(Edit.Icon, X, 2)
+                    Try
+                        Gfx.DrawImage(Edit.Icon, X, 2)
+                    Catch ex As InvalidOperationException
+                    End Try
 
                     Select Case Edit.WarningLevel
                         Case UserLevel.Warn1 : Gfx.DrawString("!1", MainForm.Font, Brushes.Black, X + 2, 3)
@@ -26,6 +29,10 @@ Module Drawing
                         Case UserLevel.Warn3 : Gfx.DrawString("!3", MainForm.Font, Brushes.Black, X + 2, 3)
                         Case UserLevel.Warn4im, UserLevel.WarnFinal : Gfx.DrawString("!4", MainForm.Font, Brushes.Black, X + 2, 3)
                     End Select
+
+                    If Edit.Assisted AndAlso Edit.Type = EditType.None AndAlso Edit.WarningLevel = UserLevel.None _
+                        AndAlso Not Edit.User.Bot Then Gfx.DrawString("*", New Font(FontFamily.GenericSansSerif, _
+                        14, FontStyle.Regular), Brushes.Black, X + 2, 3)
 
                     If Edit.Id = CurrentEdit.Id Then
                         CurrentPosition = X - 1
@@ -80,30 +87,37 @@ Module Drawing
 
         If User IsNot Nothing Then
             Dim CurrentPosition As Integer = 0
-            Dim ThisEdit As Edit = User.LastEdit
+            Dim Edit As Edit = User.LastEdit
             Dim X As Integer = Result.Width - 18 + (ContribsOffset * 17)
 
-            While ThisEdit IsNot Nothing AndAlso ThisEdit IsNot NullEdit
+            While Edit IsNot Nothing AndAlso Edit IsNot NullEdit
                 If X < 0 Then Exit While
 
                 'Draw icon
                 If X < Result.Width Then
-                    Gfx.DrawImage(ThisEdit.Icon, X, 2)
+                    Try
+                        Gfx.DrawImage(Edit.Icon, X, 2)
+                    Catch ex As InvalidOperationException
+                    End Try
 
-                    Select Case ThisEdit.WarningLevel
+                    Select Case Edit.WarningLevel
                         Case UserLevel.Warn1 : Gfx.DrawString("!1", MainForm.Font, Brushes.Black, X + 2, 3)
                         Case UserLevel.Warn2 : Gfx.DrawString("!2", MainForm.Font, Brushes.Black, X + 2, 3)
                         Case UserLevel.Warn3 : Gfx.DrawString("!3", MainForm.Font, Brushes.Black, X + 2, 3)
                         Case UserLevel.Warn4im, UserLevel.WarnFinal : Gfx.DrawString("!4", MainForm.Font, Brushes.Black, X + 2, 3)
                     End Select
 
-                    If ThisEdit Is ThisEdit.Page.LastEdit Then Gfx.DrawRectangle(Pens.DarkBlue, X, 2, 15, 15)
-                    If ThisEdit Is CurrentEdit Then CurrentPosition = X
+                    If Edit.Assisted AndAlso Edit.Type = EditType.None AndAlso Edit.WarningLevel = UserLevel.None _
+                        AndAlso Not Edit.User.Bot Then Gfx.DrawString("*", New Font(FontFamily.GenericSansSerif, _
+                        14, FontStyle.Regular), Brushes.Black, X + 2, 3)
+
+                    If Edit Is Edit.Page.LastEdit Then Gfx.DrawRectangle(Pens.DarkBlue, X, 2, 15, 15)
+                    If Edit Is CurrentEdit Then CurrentPosition = X
                     Gfx.DrawLine(Pens.DarkGray, X + 16, 2, X + 16, 17)
                 End If
 
                 X -= 17
-                ThisEdit = ThisEdit.PrevByUser
+                Edit = Edit.PrevByUser
             End While
 
             Gfx.DrawLine(Pens.DarkGray, X + 16, 2, X + 16, 17)
@@ -112,7 +126,7 @@ Module Drawing
             If CurrentPosition > 0 Then Gfx.DrawRectangle(New Pen(Color.Red, 2), CurrentPosition - 1, 1, 18, 18)
 
             'Draw end-of-contribs box
-            If ThisEdit Is NullEdit Then Gfx.FillRectangle(Brushes.Black, X, 2, 16, 16)
+            If Edit Is NullEdit Then Gfx.FillRectangle(Brushes.Black, X, 2, 16, 16)
         End If
 
         Return Result

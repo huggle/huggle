@@ -102,6 +102,12 @@ Class Edit
         End Get
     End Property
 
+    Public ReadOnly Property OwnUserspace() As Boolean
+        Get
+            Return (Page.Owner Is User)
+        End Get
+    End Property
+
     Public Overrides Function ToString() As String
         Return Id
     End Function

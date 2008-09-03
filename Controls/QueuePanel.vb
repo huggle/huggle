@@ -45,7 +45,10 @@ Class QueuePanel
             Gfx.Graphics.DrawString(Name, Font, Brushes.Black, 4, Y + 1)
 
             'Draw icon
-            Gfx.Graphics.DrawImage(Edit.Icon, X, Y)
+            Try
+                Gfx.Graphics.DrawImage(Edit.Icon, X, Y)
+            Catch ex As InvalidOperationException
+            End Try
 
             Select Case Edit.WarningLevel
                 Case UserLevel.Warn1 : Gfx.Graphics.DrawString("!1", MainForm.Font, Brushes.Black, X + 2, Y + 1)

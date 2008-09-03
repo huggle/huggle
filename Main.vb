@@ -346,7 +346,7 @@ Class Main
 
             EditInfo.SetEdit(ThisEdit, EditInfoPanel.DisplayMode.PageName)
             EditInfo.Left = Width - EditInfo.Width - 12
-            EditInfo.Top = Tabs.Top + 2
+            EditInfo.Top = 78
             EditInfo.Visible = True
         End If
     End Sub
@@ -379,7 +379,7 @@ Class Main
 
             EditInfo.SetEdit(ThisEdit, EditInfoPanel.DisplayMode.UserName)
             EditInfo.Left = Width - EditInfo.Width - 12
-            EditInfo.Top = Tabs.Top + 2
+            EditInfo.Top = 78
             EditInfo.Visible = True
         End If
     End Sub
