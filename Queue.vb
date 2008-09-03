@@ -49,7 +49,7 @@ Class Queue
 
     Public ReadOnly Property Edits() As SortedList(Of Edit)
         Get
-            If _NeedsReset Then Reset()
+            If _NeedsReset OrElse Items Is Nothing Then Reset()
             Return Items
         End Get
     End Property
