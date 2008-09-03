@@ -44,8 +44,6 @@ Class Main
         NavigationStrip.Location = New Point(3, 79)
         ActionsStrip.Location = New Point(434, 79)
 
-        If Not Config.IrcMode Then BlockReqTimer.Start()
-
         For Each Item As String In LogBuffer
             Log(Item)
         Next Item
@@ -752,13 +750,6 @@ Class Main
     Private Sub SystemShowNewMessages_Click() Handles SystemShowNewMessages.Click
         DisplayEdit(User.Me.TalkPage.LastEdit)
         SystemShowNewMessages.Enabled = False
-    End Sub
-
-    Private Sub BlockRequestTimer_Tick() Handles BlockReqTimer.Tick
-        BlockReqTimer.Stop()
-
-        Dim NewBlockApiRequest As New BlockApiRequest
-        NewBlockApiRequest.Start()
     End Sub
 
     Sub BlockUser(ByVal ThisUser As User)

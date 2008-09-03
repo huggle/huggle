@@ -389,42 +389,6 @@ Namespace Requests
 
     End Class
 
-    Class BlockApiRequest : Inherits Request
-
-        'Get blocks through the API, if IRC mode not enabled
-
-        Public Sub Start()
-            Dim RequestThread As New Thread(AddressOf Process)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
-        End Sub
-
-        Private Sub Process()
-            Result = GetApi("action=query&format=xml&list=blocks&bklimit=50&bkstart=" & Timestamp(Date.UtcNow))
-
-            If Result IsNot Nothing Then Callback(AddressOf Done) Else Callback(AddressOf Failed)
-        End Sub
-
-        Private Sub Done()
-            Dim BlockMatches As MatchCollection = Regex.Matches(Result, "<block id=""[0-9]+"" user=""([^""]+)""", _
-                RegexOptions.Compiled)
-
-            For Each Item As Match In BlockMatches
-                Dim BlockedUser As User = GetUser(Item.Groups(1).Value)
-                BlockedUser.BlocksCurrent = False
-                If BlockedUser.Level <> UserLevel.Blocked Then BlockedUser.Level = UserLevel.Blocked
-            Next Item
-
-            MainForm.BlockReqTimer.Start()
-            Complete()
-        End Sub
-
-        Private Sub Failed()
-            Fail()
-        End Sub
-
-    End Class
-
     Class CountRequest : Inherits Request
 
         'Accepts a list of users, gets their edit counts

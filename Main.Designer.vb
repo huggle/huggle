@@ -30,7 +30,6 @@ Partial Class Main
         Me.LogMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.LogCopy = New System.Windows.Forms.ToolStripMenuItem
         Me.LogClear = New System.Windows.Forms.ToolStripMenuItem
-        Me.BlockReqTimer = New System.Windows.Forms.Timer(Me.components)
         Me.TrayIcon = New System.Windows.Forms.NotifyIcon(Me.components)
         Me.TrayMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.TrayRestore = New System.Windows.Forms.ToolStripMenuItem
@@ -79,6 +78,7 @@ Partial Class Main
         Me.PageProd = New System.Windows.Forms.ToolStripMenuItem
         Me.PageTagSpeedy = New System.Windows.Forms.ToolStripMenuItem
         Me.Separator23 = New System.Windows.Forms.ToolStripSeparator
+        Me.PageTagDeleteB = New System.Windows.Forms.ToolStripDropDownButton
         Me.PageRequestProtection = New System.Windows.Forms.ToolStripMenuItem
         Me.Separator14 = New System.Windows.Forms.ToolStripSeparator
         Me.PageWatch = New System.Windows.Forms.ToolStripMenuItem
@@ -118,7 +118,6 @@ Partial Class Main
         Me.Separator16 = New System.Windows.Forms.ToolStripSeparator
         Me.HelpAbout = New System.Windows.Forms.ToolStripMenuItem
         Me.Stats = New System.Windows.Forms.ToolStripMenuItem
-        Me.PageTagDeleteB = New System.Windows.Forms.ToolStripDropDownButton
         Me.Splitter = New System.Windows.Forms.SplitContainer
         Me.QueueContainer = New System.Windows.Forms.Panel
         Me.QueueScroll = New System.Windows.Forms.VScrollBar
@@ -266,10 +265,6 @@ Partial Class Main
         Me.LogClear.Name = "LogClear"
         Me.LogClear.Size = New System.Drawing.Size(99, 22)
         Me.LogClear.Text = "Clear"
-        '
-        'BlockReqTimer
-        '
-        Me.BlockReqTimer.Interval = 20000
         '
         'TrayIcon
         '
@@ -556,7 +551,7 @@ Partial Class Main
         '
         Me.TagDeleteMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PageNominate, Me.PageProd, Me.PageTagSpeedy, Me.Separator23})
         Me.TagDeleteMenu.Name = "SpeedyMenu"
-        Me.TagDeleteMenu.OwnerItem = Me.PageTagDeleteB
+        Me.TagDeleteMenu.OwnerItem = Me.PageTagDelete
         Me.TagDeleteMenu.Size = New System.Drawing.Size(190, 76)
         '
         'PageNominate
@@ -584,6 +579,18 @@ Partial Class Main
         '
         Me.Separator23.Name = "Separator23"
         Me.Separator23.Size = New System.Drawing.Size(186, 6)
+        '
+        'PageTagDeleteB
+        '
+        Me.PageTagDeleteB.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.PageTagDeleteB.DropDown = Me.TagDeleteMenu
+        Me.PageTagDeleteB.Enabled = False
+        Me.PageTagDeleteB.Image = Global.Huggle.My.Resources.Resources.page_speedy
+        Me.PageTagDeleteB.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.PageTagDeleteB.Name = "PageTagDeleteB"
+        Me.PageTagDeleteB.ShowDropDownArrow = False
+        Me.PageTagDeleteB.Size = New System.Drawing.Size(32, 32)
+        Me.PageTagDeleteB.ToolTipText = "Tag this page for deletion [S]"
         '
         'PageRequestProtection
         '
@@ -841,18 +848,6 @@ Partial Class Main
         Me.Stats.Name = "Stats"
         Me.Stats.Size = New System.Drawing.Size(22, 24)
         Me.Stats.Text = " "
-        '
-        'PageTagDeleteB
-        '
-        Me.PageTagDeleteB.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.PageTagDeleteB.DropDown = Me.TagDeleteMenu
-        Me.PageTagDeleteB.Enabled = False
-        Me.PageTagDeleteB.Image = Global.Huggle.My.Resources.Resources.page_speedy
-        Me.PageTagDeleteB.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.PageTagDeleteB.Name = "PageTagDeleteB"
-        Me.PageTagDeleteB.ShowDropDownArrow = False
-        Me.PageTagDeleteB.Size = New System.Drawing.Size(32, 32)
-        Me.PageTagDeleteB.ToolTipText = "Tag this page for deletion [S]"
         '
         'Splitter
         '
@@ -1805,7 +1800,6 @@ Partial Class Main
 
     Friend WithEvents RevertTimer As System.Windows.Forms.Timer
     Friend WithEvents RcReqTimer As System.Windows.Forms.Timer
-    Friend WithEvents BlockReqTimer As System.Windows.Forms.Timer
     Friend WithEvents LogMenu As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents LogCopy As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents TrayIcon As System.Windows.Forms.NotifyIcon
