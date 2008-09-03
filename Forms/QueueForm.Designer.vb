@@ -45,6 +45,7 @@ Partial Class QueueForm
         Me.RemoveAfter = New System.Windows.Forms.CheckBox
         Me.RemoveAfterTime = New System.Windows.Forms.NumericUpDown
         Me.RemoveAfterTimeLabel = New System.Windows.Forms.Label
+        Me.Preload = New System.Windows.Forms.CheckBox
         Me.RemoveViewed = New System.Windows.Forms.CheckBox
         Me.RemoveOld = New System.Windows.Forms.CheckBox
         Me.SortOrderLabel = New System.Windows.Forms.Label
@@ -58,20 +59,29 @@ Partial Class QueueForm
         Me.Namespaces = New System.Windows.Forms.CheckedListBox
         Me.PageRegexLabel = New System.Windows.Forms.Label
         Me.EditFiltersTab = New System.Windows.Forms.TabPage
-        Me.Example3 = New Huggle.TriState
+        Me.Label4 = New System.Windows.Forms.Label
+        Me.Label3 = New System.Windows.Forms.Label
+        Me.Label2 = New System.Windows.Forms.Label
         Me.Example2 = New Huggle.TriState
         Me.Example1 = New Huggle.TriState
+        Me.Example3 = New Huggle.TriState
         Me.EditFiltersGroup = New System.Windows.Forms.GroupBox
+        Me.FilterBot = New Huggle.TriState
+        Me.SummaryRegex = New Huggle.RegexBox
         Me.UserRegex = New Huggle.RegexBox
+        Me.FilterAssisted = New Huggle.TriState
         Me.FilterHuggle = New Huggle.TriState
+        Me.FilterTags = New Huggle.TriState
+        Me.FilterWarnings = New Huggle.TriState
         Me.FilterNotifications = New Huggle.TriState
         Me.FilterReverts = New Huggle.TriState
         Me.FilterOwnUserspace = New Huggle.TriState
         Me.FilterIgnored = New Huggle.TriState
         Me.FilterAnonymous = New Huggle.TriState
         Me.FilterNewPage = New Huggle.TriState
+        Me.SummaryRegexLabel = New System.Windows.Forms.Label
         Me.UserRegexLabel = New System.Windows.Forms.Label
-        Me.Preload = New System.Windows.Forms.CheckBox
+        Me.OK = New System.Windows.Forms.Button
         Me.TypeGroup.SuspendLayout()
         Me.Tabs.SuspendLayout()
         Me.PagesTab.SuspendLayout()
@@ -222,7 +232,7 @@ Partial Class QueueForm
         Me.Tabs.Location = New System.Drawing.Point(186, 108)
         Me.Tabs.Name = "Tabs"
         Me.Tabs.SelectedIndex = 0
-        Me.Tabs.Size = New System.Drawing.Size(416, 348)
+        Me.Tabs.Size = New System.Drawing.Size(416, 319)
         Me.Tabs.TabIndex = 8
         '
         'PagesTab
@@ -235,7 +245,7 @@ Partial Class QueueForm
         Me.PagesTab.Location = New System.Drawing.Point(4, 22)
         Me.PagesTab.Name = "PagesTab"
         Me.PagesTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.PagesTab.Size = New System.Drawing.Size(408, 322)
+        Me.PagesTab.Size = New System.Drawing.Size(408, 293)
         Me.PagesTab.TabIndex = 0
         Me.PagesTab.Text = "Page list"
         Me.PagesTab.UseVisualStyleBackColor = True
@@ -279,7 +289,7 @@ Partial Class QueueForm
         Me.QueuePages.IntegralHeight = False
         Me.QueuePages.Location = New System.Drawing.Point(6, 40)
         Me.QueuePages.Name = "QueuePages"
-        Me.QueuePages.Size = New System.Drawing.Size(396, 276)
+        Me.QueuePages.Size = New System.Drawing.Size(396, 247)
         Me.QueuePages.TabIndex = 3
         '
         'OptionsTab
@@ -295,7 +305,7 @@ Partial Class QueueForm
         Me.OptionsTab.Location = New System.Drawing.Point(4, 22)
         Me.OptionsTab.Name = "OptionsTab"
         Me.OptionsTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.OptionsTab.Size = New System.Drawing.Size(408, 322)
+        Me.OptionsTab.Size = New System.Drawing.Size(408, 293)
         Me.OptionsTab.TabIndex = 3
         Me.OptionsTab.Text = "Queue options"
         Me.OptionsTab.UseVisualStyleBackColor = True
@@ -329,6 +339,16 @@ Partial Class QueueForm
         Me.RemoveAfterTimeLabel.Size = New System.Drawing.Size(43, 13)
         Me.RemoveAfterTimeLabel.TabIndex = 6
         Me.RemoveAfterTimeLabel.Text = "minutes"
+        '
+        'Preload
+        '
+        Me.Preload.AutoSize = True
+        Me.Preload.Location = New System.Drawing.Point(17, 124)
+        Me.Preload.Name = "Preload"
+        Me.Preload.Size = New System.Drawing.Size(301, 17)
+        Me.Preload.TabIndex = 2
+        Me.Preload.Text = "Enable preloading of revisions when this queue is selected"
+        Me.Preload.UseVisualStyleBackColor = True
         '
         'RemoveViewed
         '
@@ -460,9 +480,12 @@ Partial Class QueueForm
         '
         'EditFiltersTab
         '
-        Me.EditFiltersTab.Controls.Add(Me.Example3)
+        Me.EditFiltersTab.Controls.Add(Me.Label4)
+        Me.EditFiltersTab.Controls.Add(Me.Label3)
+        Me.EditFiltersTab.Controls.Add(Me.Label2)
         Me.EditFiltersTab.Controls.Add(Me.Example2)
         Me.EditFiltersTab.Controls.Add(Me.Example1)
+        Me.EditFiltersTab.Controls.Add(Me.Example3)
         Me.EditFiltersTab.Controls.Add(Me.EditFiltersGroup)
         Me.EditFiltersTab.Location = New System.Drawing.Point(4, 22)
         Me.EditFiltersTab.Name = "EditFiltersTab"
@@ -471,58 +494,91 @@ Partial Class QueueForm
         Me.EditFiltersTab.Text = "Filters"
         Me.EditFiltersTab.UseVisualStyleBackColor = True
         '
-        'Example3
+        'Label4
         '
-        Me.Example3.BackColor = System.Drawing.SystemColors.Window
-        Me.Example3.Enabled = False
-        Me.Example3.Label = "Exclude this attribute"
-        Me.Example3.Location = New System.Drawing.Point(144, 294)
-        Me.Example3.MaximumSize = New System.Drawing.Size(640, 16)
-        Me.Example3.MinimumSize = New System.Drawing.Size(16, 16)
-        Me.Example3.Name = "Example3"
-        Me.Example3.Size = New System.Drawing.Size(124, 16)
-        Me.Example3.State = System.Windows.Forms.CheckState.Unchecked
-        Me.Example3.TabIndex = 2
+        Me.Label4.AutoSize = True
+        Me.Label4.Location = New System.Drawing.Point(280, 296)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(125, 13)
+        Me.Label4.TabIndex = 4
+        Me.Label4.Text = "Don't check this attribute"
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Location = New System.Drawing.Point(150, 296)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(105, 13)
+        Me.Label3.TabIndex = 4
+        Me.Label3.Text = "Exclude this attribute"
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(23, 296)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(104, 13)
+        Me.Label2.TabIndex = 4
+        Me.Label2.Text = "Require this attribute"
         '
         'Example2
         '
         Me.Example2.BackColor = System.Drawing.SystemColors.Window
         Me.Example2.Enabled = False
-        Me.Example2.Label = "Require this attribute"
-        Me.Example2.Location = New System.Drawing.Point(6, 294)
+        Me.Example2.Label = ""
+        Me.Example2.Location = New System.Drawing.Point(132, 295)
         Me.Example2.MaximumSize = New System.Drawing.Size(640, 16)
         Me.Example2.MinimumSize = New System.Drawing.Size(16, 16)
         Me.Example2.Name = "Example2"
-        Me.Example2.Size = New System.Drawing.Size(123, 16)
-        Me.Example2.State = System.Windows.Forms.CheckState.Checked
-        Me.Example2.TabIndex = 1
+        Me.Example2.Size = New System.Drawing.Size(19, 16)
+        Me.Example2.State = System.Windows.Forms.CheckState.Unchecked
+        Me.Example2.TabIndex = 2
         '
         'Example1
         '
         Me.Example1.BackColor = System.Drawing.SystemColors.Window
         Me.Example1.Enabled = False
-        Me.Example1.Label = "Ignore this attribute"
-        Me.Example1.Location = New System.Drawing.Point(286, 294)
+        Me.Example1.Label = ""
+        Me.Example1.Location = New System.Drawing.Point(6, 295)
         Me.Example1.MaximumSize = New System.Drawing.Size(640, 16)
         Me.Example1.MinimumSize = New System.Drawing.Size(16, 16)
         Me.Example1.Name = "Example1"
-        Me.Example1.Size = New System.Drawing.Size(116, 16)
-        Me.Example1.State = System.Windows.Forms.CheckState.Indeterminate
-        Me.Example1.TabIndex = 3
+        Me.Example1.Size = New System.Drawing.Size(19, 16)
+        Me.Example1.State = System.Windows.Forms.CheckState.Checked
+        Me.Example1.TabIndex = 1
+        '
+        'Example3
+        '
+        Me.Example3.BackColor = System.Drawing.SystemColors.Window
+        Me.Example3.Enabled = False
+        Me.Example3.Label = ""
+        Me.Example3.Location = New System.Drawing.Point(263, 295)
+        Me.Example3.MaximumSize = New System.Drawing.Size(640, 16)
+        Me.Example3.MinimumSize = New System.Drawing.Size(16, 16)
+        Me.Example3.Name = "Example3"
+        Me.Example3.Size = New System.Drawing.Size(19, 16)
+        Me.Example3.State = System.Windows.Forms.CheckState.Indeterminate
+        Me.Example3.TabIndex = 3
         '
         'EditFiltersGroup
         '
         Me.EditFiltersGroup.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.EditFiltersGroup.Controls.Add(Me.FilterBot)
+        Me.EditFiltersGroup.Controls.Add(Me.SummaryRegex)
         Me.EditFiltersGroup.Controls.Add(Me.UserRegex)
+        Me.EditFiltersGroup.Controls.Add(Me.FilterAssisted)
         Me.EditFiltersGroup.Controls.Add(Me.FilterHuggle)
+        Me.EditFiltersGroup.Controls.Add(Me.FilterTags)
+        Me.EditFiltersGroup.Controls.Add(Me.FilterWarnings)
         Me.EditFiltersGroup.Controls.Add(Me.FilterNotifications)
         Me.EditFiltersGroup.Controls.Add(Me.FilterReverts)
         Me.EditFiltersGroup.Controls.Add(Me.FilterOwnUserspace)
         Me.EditFiltersGroup.Controls.Add(Me.FilterIgnored)
         Me.EditFiltersGroup.Controls.Add(Me.FilterAnonymous)
         Me.EditFiltersGroup.Controls.Add(Me.FilterNewPage)
+        Me.EditFiltersGroup.Controls.Add(Me.SummaryRegexLabel)
         Me.EditFiltersGroup.Controls.Add(Me.UserRegexLabel)
         Me.EditFiltersGroup.Location = New System.Drawing.Point(6, 6)
         Me.EditFiltersGroup.Name = "EditFiltersGroup"
@@ -530,6 +586,27 @@ Partial Class QueueForm
         Me.EditFiltersGroup.TabIndex = 0
         Me.EditFiltersGroup.TabStop = False
         Me.EditFiltersGroup.Text = "Edit filters"
+        '
+        'FilterBot
+        '
+        Me.FilterBot.BackColor = System.Drawing.SystemColors.Window
+        Me.FilterBot.Label = "Bot edit"
+        Me.FilterBot.Location = New System.Drawing.Point(177, 155)
+        Me.FilterBot.MaximumSize = New System.Drawing.Size(640, 16)
+        Me.FilterBot.MinimumSize = New System.Drawing.Size(16, 16)
+        Me.FilterBot.Name = "FilterBot"
+        Me.FilterBot.Size = New System.Drawing.Size(62, 16)
+        Me.FilterBot.State = System.Windows.Forms.CheckState.Indeterminate
+        Me.FilterBot.TabIndex = 9
+        '
+        'SummaryRegex
+        '
+        Me.SummaryRegex.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.SummaryRegex.Location = New System.Drawing.Point(201, 58)
+        Me.SummaryRegex.Name = "SummaryRegex"
+        Me.SummaryRegex.Size = New System.Drawing.Size(189, 38)
+        Me.SummaryRegex.TabIndex = 1
         '
         'UserRegex
         '
@@ -540,11 +617,23 @@ Partial Class QueueForm
         Me.UserRegex.Size = New System.Drawing.Size(189, 38)
         Me.UserRegex.TabIndex = 1
         '
+        'FilterAssisted
+        '
+        Me.FilterAssisted.BackColor = System.Drawing.SystemColors.Window
+        Me.FilterAssisted.Label = "Assisted edit"
+        Me.FilterAssisted.Location = New System.Drawing.Point(177, 177)
+        Me.FilterAssisted.MaximumSize = New System.Drawing.Size(640, 16)
+        Me.FilterAssisted.MinimumSize = New System.Drawing.Size(16, 16)
+        Me.FilterAssisted.Name = "FilterAssisted"
+        Me.FilterAssisted.Size = New System.Drawing.Size(85, 16)
+        Me.FilterAssisted.State = System.Windows.Forms.CheckState.Indeterminate
+        Me.FilterAssisted.TabIndex = 7
+        '
         'FilterHuggle
         '
         Me.FilterHuggle.BackColor = System.Drawing.SystemColors.Window
         Me.FilterHuggle.Label = "Huggle edit"
-        Me.FilterHuggle.Location = New System.Drawing.Point(177, 112)
+        Me.FilterHuggle.Location = New System.Drawing.Point(177, 199)
         Me.FilterHuggle.MaximumSize = New System.Drawing.Size(640, 16)
         Me.FilterHuggle.MinimumSize = New System.Drawing.Size(16, 16)
         Me.FilterHuggle.Name = "FilterHuggle"
@@ -552,11 +641,35 @@ Partial Class QueueForm
         Me.FilterHuggle.State = System.Windows.Forms.CheckState.Indeterminate
         Me.FilterHuggle.TabIndex = 7
         '
+        'FilterTags
+        '
+        Me.FilterTags.BackColor = System.Drawing.SystemColors.Window
+        Me.FilterTags.Label = "Tag"
+        Me.FilterTags.Location = New System.Drawing.Point(9, 221)
+        Me.FilterTags.MaximumSize = New System.Drawing.Size(640, 16)
+        Me.FilterTags.MinimumSize = New System.Drawing.Size(16, 16)
+        Me.FilterTags.Name = "FilterTags"
+        Me.FilterTags.Size = New System.Drawing.Size(45, 16)
+        Me.FilterTags.State = System.Windows.Forms.CheckState.Indeterminate
+        Me.FilterTags.TabIndex = 8
+        '
+        'FilterWarnings
+        '
+        Me.FilterWarnings.BackColor = System.Drawing.SystemColors.Window
+        Me.FilterWarnings.Label = "Warning"
+        Me.FilterWarnings.Location = New System.Drawing.Point(9, 199)
+        Me.FilterWarnings.MaximumSize = New System.Drawing.Size(640, 16)
+        Me.FilterWarnings.MinimumSize = New System.Drawing.Size(16, 16)
+        Me.FilterWarnings.Name = "FilterWarnings"
+        Me.FilterWarnings.Size = New System.Drawing.Size(66, 16)
+        Me.FilterWarnings.State = System.Windows.Forms.CheckState.Indeterminate
+        Me.FilterWarnings.TabIndex = 8
+        '
         'FilterNotifications
         '
         Me.FilterNotifications.BackColor = System.Drawing.SystemColors.Window
         Me.FilterNotifications.Label = "Notification"
-        Me.FilterNotifications.Location = New System.Drawing.Point(9, 134)
+        Me.FilterNotifications.Location = New System.Drawing.Point(9, 177)
         Me.FilterNotifications.MaximumSize = New System.Drawing.Size(640, 16)
         Me.FilterNotifications.MinimumSize = New System.Drawing.Size(16, 16)
         Me.FilterNotifications.Name = "FilterNotifications"
@@ -568,7 +681,7 @@ Partial Class QueueForm
         '
         Me.FilterReverts.BackColor = System.Drawing.SystemColors.Window
         Me.FilterReverts.Label = "Revert"
-        Me.FilterReverts.Location = New System.Drawing.Point(9, 112)
+        Me.FilterReverts.Location = New System.Drawing.Point(9, 155)
         Me.FilterReverts.MaximumSize = New System.Drawing.Size(640, 16)
         Me.FilterReverts.MinimumSize = New System.Drawing.Size(16, 16)
         Me.FilterReverts.Name = "FilterReverts"
@@ -580,7 +693,7 @@ Partial Class QueueForm
         '
         Me.FilterOwnUserspace.BackColor = System.Drawing.SystemColors.Window
         Me.FilterOwnUserspace.Label = "User's own userspace"
-        Me.FilterOwnUserspace.Location = New System.Drawing.Point(9, 77)
+        Me.FilterOwnUserspace.Location = New System.Drawing.Point(9, 120)
         Me.FilterOwnUserspace.MaximumSize = New System.Drawing.Size(640, 16)
         Me.FilterOwnUserspace.MinimumSize = New System.Drawing.Size(16, 16)
         Me.FilterOwnUserspace.Name = "FilterOwnUserspace"
@@ -592,7 +705,7 @@ Partial Class QueueForm
         '
         Me.FilterIgnored.BackColor = System.Drawing.SystemColors.Window
         Me.FilterIgnored.Label = "Ignored user"
-        Me.FilterIgnored.Location = New System.Drawing.Point(177, 77)
+        Me.FilterIgnored.Location = New System.Drawing.Point(177, 120)
         Me.FilterIgnored.MaximumSize = New System.Drawing.Size(640, 16)
         Me.FilterIgnored.MinimumSize = New System.Drawing.Size(16, 16)
         Me.FilterIgnored.Name = "FilterIgnored"
@@ -604,7 +717,7 @@ Partial Class QueueForm
         '
         Me.FilterAnonymous.BackColor = System.Drawing.SystemColors.Window
         Me.FilterAnonymous.Label = "Anonymous user"
-        Me.FilterAnonymous.Location = New System.Drawing.Point(177, 55)
+        Me.FilterAnonymous.Location = New System.Drawing.Point(177, 98)
         Me.FilterAnonymous.MaximumSize = New System.Drawing.Size(640, 16)
         Me.FilterAnonymous.MinimumSize = New System.Drawing.Size(16, 16)
         Me.FilterAnonymous.Name = "FilterAnonymous"
@@ -616,13 +729,22 @@ Partial Class QueueForm
         '
         Me.FilterNewPage.BackColor = System.Drawing.SystemColors.Window
         Me.FilterNewPage.Label = "New page"
-        Me.FilterNewPage.Location = New System.Drawing.Point(9, 55)
+        Me.FilterNewPage.Location = New System.Drawing.Point(9, 98)
         Me.FilterNewPage.MaximumSize = New System.Drawing.Size(640, 16)
         Me.FilterNewPage.MinimumSize = New System.Drawing.Size(16, 16)
         Me.FilterNewPage.Name = "FilterNewPage"
         Me.FilterNewPage.Size = New System.Drawing.Size(75, 16)
         Me.FilterNewPage.State = System.Windows.Forms.CheckState.Indeterminate
         Me.FilterNewPage.TabIndex = 2
+        '
+        'SummaryRegexLabel
+        '
+        Me.SummaryRegexLabel.AutoSize = True
+        Me.SummaryRegexLabel.Location = New System.Drawing.Point(11, 60)
+        Me.SummaryRegexLabel.Name = "SummaryRegexLabel"
+        Me.SummaryRegexLabel.Size = New System.Drawing.Size(184, 13)
+        Me.SummaryRegexLabel.TabIndex = 0
+        Me.SummaryRegexLabel.Text = "Summary matches regular expression:"
         '
         'UserRegexLabel
         '
@@ -633,21 +755,21 @@ Partial Class QueueForm
         Me.UserRegexLabel.TabIndex = 0
         Me.UserRegexLabel.Text = "Username matches regular expression:"
         '
-        'Preload
+        'OK
         '
-        Me.Preload.AutoSize = True
-        Me.Preload.Location = New System.Drawing.Point(17, 124)
-        Me.Preload.Name = "Preload"
-        Me.Preload.Size = New System.Drawing.Size(301, 17)
-        Me.Preload.TabIndex = 2
-        Me.Preload.Text = "Enable preloading of revisions when this queue is selected"
-        Me.Preload.UseVisualStyleBackColor = True
+        Me.OK.Location = New System.Drawing.Point(523, 433)
+        Me.OK.Name = "OK"
+        Me.OK.Size = New System.Drawing.Size(75, 23)
+        Me.OK.TabIndex = 9
+        Me.OK.Text = "Close"
+        Me.OK.UseVisualStyleBackColor = True
         '
         'QueueForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(614, 468)
+        Me.Controls.Add(Me.OK)
         Me.Controls.Add(Me.Tabs)
         Me.Controls.Add(Me.TypeGroup)
         Me.Controls.Add(Me.CopyQueue)
@@ -676,6 +798,7 @@ Partial Class QueueForm
         Me.PageFiltersGroup.ResumeLayout(False)
         Me.PageFiltersGroup.PerformLayout()
         Me.EditFiltersTab.ResumeLayout(False)
+        Me.EditFiltersTab.PerformLayout()
         Me.EditFiltersGroup.ResumeLayout(False)
         Me.EditFiltersGroup.PerformLayout()
         Me.ResumeLayout(False)
@@ -700,9 +823,9 @@ Partial Class QueueForm
     Friend WithEvents EditFiltersGroup As System.Windows.Forms.GroupBox
     Friend WithEvents UserRegexLabel As System.Windows.Forms.Label
     Friend WithEvents FilterNewPage As Huggle.TriState
-    Friend WithEvents Example3 As Huggle.TriState
     Friend WithEvents Example2 As Huggle.TriState
     Friend WithEvents Example1 As Huggle.TriState
+    Friend WithEvents Example3 As Huggle.TriState
     Friend WithEvents NamespacesLabel As System.Windows.Forms.Label
     Friend WithEvents Namespaces As System.Windows.Forms.CheckedListBox
     Friend WithEvents Live As System.Windows.Forms.RadioButton
@@ -731,4 +854,14 @@ Partial Class QueueForm
     Friend WithEvents PageRegex As Huggle.RegexBox
     Friend WithEvents UserRegex As Huggle.RegexBox
     Friend WithEvents Preload As System.Windows.Forms.CheckBox
+    Friend WithEvents FilterTags As Huggle.TriState
+    Friend WithEvents FilterWarnings As Huggle.TriState
+    Friend WithEvents FilterBot As Huggle.TriState
+    Friend WithEvents FilterAssisted As Huggle.TriState
+    Friend WithEvents Label4 As System.Windows.Forms.Label
+    Friend WithEvents Label3 As System.Windows.Forms.Label
+    Friend WithEvents Label2 As System.Windows.Forms.Label
+    Friend WithEvents SummaryRegex As Huggle.RegexBox
+    Friend WithEvents SummaryRegexLabel As System.Windows.Forms.Label
+    Friend WithEvents OK As System.Windows.Forms.Button
 End Class

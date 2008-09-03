@@ -53,6 +53,10 @@ Class QueuePanel
                 Case UserLevel.Warn3 : Gfx.Graphics.DrawString("!3", MainForm.Font, Brushes.Black, X + 2, Y + 1)
                 Case UserLevel.WarnFinal : Gfx.Graphics.DrawString("!4", MainForm.Font, Brushes.Black, X + 2, Y + 1)
             End Select
+
+            If Edit.Assisted AndAlso Edit.Type = EditType.None AndAlso Edit.WarningLevel = UserLevel.None _
+                AndAlso Not Edit.User.Bot Then Gfx.Graphics.DrawString("*", New Font(FontFamily.GenericSansSerif, _
+                14, FontStyle.Regular), Brushes.Black, X + 2, Y + 2)
         Next i
 
         If CanRender Then Gfx.Render()

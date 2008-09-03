@@ -12,12 +12,16 @@ Class Queue
     Private Items As SortedList(Of Edit)
 
     Private _FilterAnonymous As QueueFilter = QueueFilter.None
+    Private _FilterAssisted As QueueFilter = QueueFilter.None
+    Private _FilterBot As QueueFilter = QueueFilter.None
     Private _FilterHuggle As QueueFilter = QueueFilter.None
     Private _FilterIgnored As QueueFilter = QueueFilter.None
     Private _FilterNewPage As QueueFilter = QueueFilter.None
     Private _FilterNotifications As QueueFilter = QueueFilter.None
     Private _FilterOwnUserspace As QueueFilter = QueueFilter.None
     Private _FilterReverts As QueueFilter = QueueFilter.None
+    Private _FilterTags As QueueFilter = QueueFilter.None
+    Private _FilterWarnings As QueueFilter = QueueFilter.None
 
     Private _ListName As String
     Private _Name As String
@@ -30,6 +34,7 @@ Class Queue
     Private _RemoveViewed As Boolean
     Private _SortOrder As QueueSortOrder
     Private _Spaces As New List(Of Space)
+    Private _SummaryRegex As Regex
     Private _Type As QueueType
     Private _UserRegex As Regex
 
@@ -38,6 +43,7 @@ Class Queue
         _Preload = True
         _RemoveViewed = True
         _Spaces.AddRange(Space.All)
+        _Type = QueueType.Live
         All.Add(Name, Me)
     End Sub
 
@@ -66,6 +72,26 @@ Class Queue
         Set(ByVal value As QueueFilter)
             If value <> _FilterAnonymous Then _NeedsReset = True
             _FilterAnonymous = value
+        End Set
+    End Property
+
+    Public Property FilterAssisted() As QueueFilter
+        Get
+            Return _FilterAssisted
+        End Get
+        Set(ByVal value As QueueFilter)
+            If value <> _FilterAssisted Then _NeedsReset = True
+            _FilterAssisted = value
+        End Set
+    End Property
+
+    Public Property FilterBot() As QueueFilter
+        Get
+            Return _FilterBot
+        End Get
+        Set(ByVal value As QueueFilter)
+            If value <> _FilterBot Then _NeedsReset = True
+            _FilterBot = value
         End Set
     End Property
 
@@ -126,6 +152,26 @@ Class Queue
         Set(ByVal value As QueueFilter)
             If value <> _FilterReverts Then _NeedsReset = True
             _FilterReverts = value
+        End Set
+    End Property
+
+    Public Property FilterTags() As QueueFilter
+        Get
+            Return _FilterTags
+        End Get
+        Set(ByVal value As QueueFilter)
+            If value <> _FilterTags Then _NeedsReset = True
+            _FilterTags = value
+        End Set
+    End Property
+
+    Public Property FilterWarnings() As QueueFilter
+        Get
+            Return _FilterWarnings
+        End Get
+        Set(ByVal value As QueueFilter)
+            If value <> _FilterWarnings Then _NeedsReset = True
+            _FilterWarnings = value
         End Set
     End Property
 
@@ -219,6 +265,17 @@ Class Queue
         Set(ByVal value As List(Of Space))
             If value.Count <> _Spaces.Count Then _NeedsReset = True
             _Spaces = value
+        End Set
+    End Property
+
+    Public Property SummaryRegex() As Regex
+        Get
+            Return _SummaryRegex
+        End Get
+        Set(ByVal value As Regex)
+            If value Is Nothing OrElse _SummaryRegex Is Nothing OrElse value.ToString <> _SummaryRegex.ToString _
+                Then _NeedsReset = True
+            _SummaryRegex = value
         End Set
     End Property
 
@@ -332,6 +389,11 @@ Class Queue
         End If
     End Sub
 
+    Public Sub RemoveEdit(ByVal Edit As Edit)
+        'Remove an edit
+        If Items IsNot Nothing Then Items.Remove(Edit)
+    End Sub
+
     Public Sub RemoveViewedEdit(ByVal Edit As Edit)
         'Remove an edit that has been viewed, possibly on another queue
         If _RemoveViewed AndAlso Items IsNot Nothing Then Items.Remove(Edit)
@@ -351,21 +413,25 @@ Class Queue
         If Edit.Deleted Then Return False
 
         If _Type = QueueType.FixedList Then Return False
-        If _Type = QueueType.LiveList AndAlso Not Pages.Contains(Edit.Page.Name) Then Return False
+        If _Type = QueueType.LiveList AndAlso (_Pages Is Nothing OrElse Not _Pages.Contains(Edit.Page.Name)) _
+            Then Return False
         If _Spaces.Count > 0 AndAlso Not _Spaces.Contains(Edit.Page.Space) Then Return False
         If _PageRegex IsNot Nothing AndAlso Not _PageRegex.IsMatch(Edit.Page.Name) Then Return False
         If _UserRegex IsNot Nothing AndAlso Not _UserRegex.IsMatch(Edit.User.Name) Then Return False
+        If _SummaryRegex IsNot Nothing AndAlso Not _SummaryRegex.IsMatch(Edit.Summary) Then Return False
 
-        Return CSMatch(_FilterAnonymous, Edit.User.Anonymous) _
-            AndAlso CSMatch(_FilterHuggle, Edit.IsHuggleEdit) _
-            AndAlso CSMatch(_FilterIgnored, Edit.User.Ignored) _
-            AndAlso CSMatch(_FilterNewPage, Edit.NewPage) _
-            AndAlso CSMatch(_FilterReverts, Edit.Type = EditType.Revert) _
-            AndAlso CSMatch(_FilterNotifications, (Edit.Type = Huggle.EditType.Warning _
-            OrElse Edit.Type = Huggle.EditType.Notification))
+        Return QueueFilterMatch(_FilterAnonymous, Edit.User.Anonymous) _
+            AndAlso QueueFilterMatch(_FilterAssisted, Edit.Assisted) _
+            AndAlso QueueFilterMatch(_FilterHuggle, Edit.IsHuggleEdit) _
+            AndAlso QueueFilterMatch(_FilterIgnored, Edit.User.Ignored) _
+            AndAlso QueueFilterMatch(_FilterNewPage, Edit.NewPage) _
+            AndAlso QueueFilterMatch(_FilterReverts, Edit.Type = EditType.Revert) _
+            AndAlso QueueFilterMatch(_FilterNotifications, Edit.Type = Huggle.EditType.Notification) _
+            AndAlso QueueFilterMatch(_FilterTags, Edit.Type = EditType.Tag) _
+            AndAlso QueueFilterMatch(_FilterWarnings, Edit.Type = EditType.Warning)
     End Function
 
-    Private Function CSMatch(ByVal Filter As QueueFilter, ByVal Value As Boolean) As Boolean
+    Private Function QueueFilterMatch(ByVal Filter As QueueFilter, ByVal Value As Boolean) As Boolean
         'Helper function for above
         Select Case Filter
             Case QueueFilter.None : Return True

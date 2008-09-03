@@ -12,6 +12,7 @@ Class Edit
         Random = (New Random(Date.Now.Millisecond)).NextDouble
     End Sub
 
+    Public Assisted As Boolean
     Public Cached As CacheState
     Public Deleted As Boolean
     Public Diff As String
@@ -100,6 +101,10 @@ Class Edit
                 Else Return (Summary.Contains(Config.Summary) AndAlso User.Ignored)
         End Get
     End Property
+
+    Public Overrides Function ToString() As String
+        Return Id
+    End Function
 
     Public NotInheritable Class CompareByQuality : Implements IComparer(Of Edit)
 

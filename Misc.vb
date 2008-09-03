@@ -246,6 +246,42 @@ Module Misc
         Return Text
     End Function
 
+    Function FindString(ByVal Source As String, ByVal [From] As String) As String
+        If Not Source.Contains([From]) Then Return Nothing
+        Return Source.Substring(Source.IndexOf([From]) + [From].Length)
+    End Function
+
+    Function FindString(ByVal Source As String, ByVal [From] As String, ByVal [To] As String) As String
+        If Not Source.Contains([From]) Then Return Nothing
+        Source = Source.Substring(Source.IndexOf([From]) + [From].Length)
+        If Not Source.Contains([To]) Then Return Nothing
+        Return Source.Substring(0, Source.IndexOf([To]))
+    End Function
+
+    Function FindString(ByVal Source As String, ByVal From1 As String, ByVal From2 As String, _
+        ByVal [To] As String) As String
+
+        If Not Source.Contains(From1) Then Return Nothing
+        Source = Source.Substring(Source.IndexOf(From1) + From1.Length)
+        If Not Source.Contains(From2) Then Return Nothing
+        Source = Source.Substring(Source.IndexOf(From2) + From2.Length)
+        If Not Source.Contains([To]) Then Return Source
+        Return Source.Substring(0, Source.IndexOf([To]))
+    End Function
+
+    Function FindString(ByVal Source As String, ByVal From1 As String, ByVal From2 As String, _
+        ByVal From3 As String, ByVal [To] As String) As String
+
+        If Not Source.Contains(From1) Then Return Nothing
+        Source = Source.Substring(Source.IndexOf(From1) + From1.Length)
+        If Not Source.Contains(From2) Then Return Nothing
+        Source = Source.Substring(Source.IndexOf(From2) + From2.Length)
+        If Not Source.Contains(From3) Then Return Nothing
+        Source = Source.Substring(Source.IndexOf(From3) + From3.Length)
+        If Not Source.Contains([To]) Then Return Source
+        Return Source.Substring(0, Source.IndexOf([To]))
+    End Function
+
     Function GetList(ByVal Value As String) As List(Of String)
         'Converts a comma-separated list to a List(Of String)
         Dim List As New List(Of String)
@@ -400,6 +436,8 @@ Module Misc
 
     Function StripHTML(ByVal Text As String) As String
         'Removes anything with < > around it
+        If Text Is Nothing Then Return Nothing
+
         While Text.Contains("<") AndAlso Text.Contains(">")
             Text = Text.Substring(0, Text.IndexOf("<")) & Text.Substring(Text.IndexOf(">") + 1)
         End While

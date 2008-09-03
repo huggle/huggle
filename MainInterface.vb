@@ -114,6 +114,8 @@ Partial Class Main
     End Sub
 
     Public Sub RefreshInterface()
+        If Me Is Nothing OrElse Not Visible Then Exit Sub
+
         MenuPage.Enabled = (CurrentPage IsNot Nothing)
         MenuUser.Enabled = (CurrentUser IsNot Nothing)
 
@@ -286,7 +288,9 @@ Partial Class Main
     End Sub
 
     Public Sub Main_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles Me.KeyDown
-        If UserB.Focused OrElse PageB.Focused OrElse e.Modifiers = Keys.Alt Then Exit Sub
+        If UserB.Focused OrElse PageB.Focused OrElse e.Modifiers = Keys.Alt OrElse KeyDelayTimer.Enabled Then Exit Sub
+
+        KeyDelayTimer.Start()
 
         Dim Shortcut As New Shortcut(e.KeyCode, e.Control, e.Alt, e.Shift)
 
@@ -586,6 +590,10 @@ Partial Class Main
 
         QueueSelector.Items.Add("Add...")
         If CurrentQueue IsNot Nothing Then QueueSelector.SelectedItem = CurrentQueue.Name
+    End Sub
+
+    Private Sub KeyDelayTimer_Tick() Handles KeyDelayTimer.Tick
+        KeyDelayTimer.Stop()
     End Sub
 
 End Class

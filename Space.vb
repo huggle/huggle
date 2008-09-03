@@ -9,21 +9,21 @@ Class Space
     'Define built-in namespaces; extra ones are set in project configuration
     Public Shared ReadOnly _
         Article As New Space(0), _
-        Talk As New Space(1, Subpages:=True), _
-        User As New Space(2, Subpages:=True), _
-        UserTalk As New Space(3, Subpages:=True), _
-        Project As New Space(4, Subpages:=True), _
-        ProjectTalk As New Space(5, Subpages:=True), _
-        Image As New Space(6, Unmovable:=True), _
-        ImageTalk As New Space(7, Subpages:=True), _
-        MediaWiki As New Space(8, Locked:=True), _
-        MediaWikiTalk As New Space(9, Subpages:=True), _
-        Template As New Space(10, Subpages:=True), _
-        TemplateTalk As New Space(11, Subpages:=True), _
-        Help As New Space(12), _
-        HelpTalk As New Space(13), _
-        Category As New Space(14, Unmovable:=True), _
-        CategoryTalk As New Space(15)
+        Talk As New Space(1, "Talk", Subpages:=True), _
+        User As New Space(2, "User", Subpages:=True), _
+        UserTalk As New Space(3, "User talk", Subpages:=True), _
+        Project As New Space(4, "Project", Subpages:=True), _
+        ProjectTalk As New Space(5, "Project talk", Subpages:=True), _
+        Image As New Space(6, "Image", Unmovable:=True), _
+        ImageTalk As New Space(7, "Image talk", Subpages:=True), _
+        MediaWiki As New Space(8, "MediaWiki", Locked:=True), _
+        MediaWikiTalk As New Space(9, "MediaWiki talk", Subpages:=True), _
+        Template As New Space(10, "Template", Subpages:=True), _
+        TemplateTalk As New Space(11, "Template talk", Subpages:=True), _
+        Help As New Space(12, "Help"), _
+        HelpTalk As New Space(13, "Help talk"), _
+        Category As New Space(14, "Category", Unmovable:=True), _
+        CategoryTalk As New Space(15, "Category talk")
 
     Public Shared Aliases As New Dictionary(Of String, Integer)
     Public Shared Special As New List(Of String)
@@ -44,6 +44,60 @@ Class Space
         _Subpages = Subpages
         _All.Add(Me)
     End Sub
+
+    Public ReadOnly Property IsSubjectSpace() As Boolean
+        Get
+            Return (Number Mod 2 = 0)
+        End Get
+    End Property
+
+    Public ReadOnly Property IsTalkSpace() As Boolean
+        Get
+            Return (Number Mod 2 = 1)
+        End Get
+    End Property
+
+    Public ReadOnly Property Locked() As Boolean
+        Get
+            Return _Locked
+        End Get
+    End Property
+
+    Public ReadOnly Property Name() As String
+        Get
+            Return _Name
+        End Get
+    End Property
+
+    Public ReadOnly Property Number() As Integer
+        Get
+            Return _Number
+        End Get
+    End Property
+
+    Public ReadOnly Property SubjectSpace() As Space
+        Get
+            If IsTalkSpace Then Return GetSpace(Number - 1) Else Return Me
+        End Get
+    End Property
+
+    Public ReadOnly Property Subpages() As Boolean
+        Get
+            Return _Subpages
+        End Get
+    End Property
+
+    Public ReadOnly Property TalkSpace() As Space
+        Get
+            If IsTalkSpace Then Return Me Else Return GetSpace(Number + 1)
+        End Get
+    End Property
+
+    Public ReadOnly Property Unmovable() As Boolean
+        Get
+            Return _Unmovable
+        End Get
+    End Property
 
     Public Overrides Function ToString() As String
         Return _Name
@@ -85,60 +139,6 @@ Class Space
             Next Item
 
             Return Nothing
-        End Get
-    End Property
-
-    Public ReadOnly Property Number() As Integer
-        Get
-            Return _Number
-        End Get
-    End Property
-
-    Public ReadOnly Property Name() As String
-        Get
-            Return _Name
-        End Get
-    End Property
-
-    Public ReadOnly Property Locked() As Boolean
-        Get
-            Return _Locked
-        End Get
-    End Property
-
-    Public ReadOnly Property Unmovable() As Boolean
-        Get
-            Return _Unmovable
-        End Get
-    End Property
-
-    Public ReadOnly Property Subpages() As Boolean
-        Get
-            Return _Subpages
-        End Get
-    End Property
-
-    Public ReadOnly Property IsArticleSpace() As Boolean
-        Get
-            Return (Article Is Me)
-        End Get
-    End Property
-
-    Public ReadOnly Property IsTalkSpace() As Boolean
-        Get
-            Return (Number Mod 2 = 1)
-        End Get
-    End Property
-
-    Public ReadOnly Property SubjectSpace() As Space
-        Get
-            If IsTalkSpace Then Return GetSpace(Number - 1) Else Return Me
-        End Get
-    End Property
-
-    Public ReadOnly Property TalkSpace() As Space
-        Get
-            If IsTalkSpace Then Return Me Else Return GetSpace(Number + 1)
         End Get
     End Property
 

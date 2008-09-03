@@ -80,12 +80,6 @@ Class User
         End Get
     End Property
 
-    Public ReadOnly Property IsMe() As Boolean
-        Get
-            Return (Name = Config.Username)
-        End Get
-    End Property
-
     Public Property Ignored() As Boolean
         Get
             Return _Ignored
@@ -97,20 +91,27 @@ Class User
         End Set
     End Property
 
+    Public ReadOnly Property IsMe() As Boolean
+        Get
+            Return (Name = Config.Username)
+        End Get
+    End Property
+
+    Public Property Level() As UserLevel
+        Get
+            Return _Level
+        End Get
+        Set(ByVal value As UserLevel)
+            _Level = value
+            RefreshEdits()
+            RefreshInfo()
+        End Set
+    End Property
+
     Public ReadOnly Property Name() As String
         Get
             Return _Name
         End Get
-    End Property
-
-    Public Property SharedIP() As Boolean
-        Get
-            Return _SharedIP
-        End Get
-        Set(ByVal value As Boolean)
-            _SharedIP = value
-            RefreshInfo()
-        End Set
     End Property
 
     Public Property SessionEditCount() As Integer
@@ -119,6 +120,16 @@ Class User
         End Get
         Set(ByVal value As Integer)
             _SessionEditCount = value
+            RefreshInfo()
+        End Set
+    End Property
+
+    Public Property SharedIP() As Boolean
+        Get
+            Return _SharedIP
+        End Get
+        Set(ByVal value As Boolean)
+            _SharedIP = value
             RefreshInfo()
         End Set
     End Property
@@ -135,19 +146,29 @@ Class User
         End Get
     End Property
 
-    Public Property Level() As UserLevel
-        Get
-            Return _Level
-        End Get
-        Set(ByVal value As UserLevel)
-            _Level = value
-            RefreshEdits()
-            RefreshInfo()
-        End Set
-    End Property
+    Public Overrides Function ToString() As String
+        Return _Name
+    End Function
 
     Public Shared Sub ClearAll()
         All.Clear()
+    End Sub
+
+    Public Sub RefreshEdits()
+        'Remove and re-add edits with changed properties that might affect sort order
+        For Each Item As Edit In Edits
+            For Each Queue As Queue In Queue.All.Values
+                Queue.RefreshEdit(Item)
+            Next Queue
+        Next Item
+    End Sub
+
+    Public Sub RefreshInfo()
+        'Refresh any open user info forms
+        For Each Item As Form In Application.OpenForms
+            Dim Form As UserInfoForm = TryCast(Item, UserInfoForm)
+            If Form IsNot Nothing AndAlso Form.User Is Me Then Form.RefreshData()
+        Next Item
     End Sub
 
     Public Shared Function GetUser(ByVal Name As String) As User
@@ -174,23 +195,6 @@ Class User
 
         Return Name
     End Function
-
-    Public Sub RefreshEdits()
-        'Remove and re-add edits with changed properties that might affect sort order
-        For Each Item As Edit In Edits
-            For Each Queue As Queue In Queue.All.Values
-                Queue.RefreshEdit(Item)
-            Next Queue
-        Next Item
-    End Sub
-
-    Public Sub RefreshInfo()
-        'Refresh any open user info forms
-        For Each Item As Form In Application.OpenForms
-            Dim Form As UserInfoForm = TryCast(Item, UserInfoForm)
-            If Form IsNot Nothing AndAlso Form.User Is Me Then Form.RefreshData()
-        Next Item
-    End Sub
 
 End Class
 

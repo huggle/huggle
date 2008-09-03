@@ -96,6 +96,14 @@ Class QueueForm
         CurrentQueue.FilterAnonymous = CType(CInt(FilterAnonymous.State), QueueFilter)
     End Sub
 
+    Private Sub FilterAssisted_CheckStateChanged() Handles FilterAssisted.CheckStateChanged
+        CurrentQueue.FilterAssisted = CType(CInt(FilterAssisted.State), QueueFilter)
+    End Sub
+
+    Private Sub FilterBot_CheckStateChanged() Handles FilterBot.CheckStateChanged
+        CurrentQueue.FilterBot = CType(CInt(FilterBot.State), QueueFilter)
+    End Sub
+
     Private Sub FilterHuggle_CheckStateChanged() Handles FilterHuggle.CheckStateChanged
         CurrentQueue.FilterHuggle = CType(CInt(FilterHuggle.State), QueueFilter)
     End Sub
@@ -118,6 +126,14 @@ Class QueueForm
 
     Private Sub FilterReverts_CheckStateChanged() Handles FilterReverts.CheckStateChanged
         CurrentQueue.FilterReverts = CType(CInt(FilterReverts.State), QueueFilter)
+    End Sub
+
+    Private Sub FilterTags_CheckStateChanged() Handles FilterTags.CheckStateChanged
+        CurrentQueue.FilterTags = CType(CInt(FilterTags.State), QueueFilter)
+    End Sub
+
+    Private Sub FilterWarnings_CheckStateChanged() Handles FilterWarnings.CheckStateChanged
+        CurrentQueue.FilterWarnings = CType(CInt(FilterWarnings.State), QueueFilter)
     End Sub
 
     Private Sub ListBuilder_Click() Handles ListBuilder.Click
@@ -151,6 +167,10 @@ Class QueueForm
             If CurrentQueue.Spaces.Contains(CType(Namespaces.Items(e.Index), Space)) _
                 Then CurrentQueue.Spaces.Remove(CType(Namespaces.Items(e.Index), Space))
         End If
+    End Sub
+
+    Private Sub OK_Click() Handles OK.Click
+        Close()
     End Sub
 
     Private Sub PageRegex_Leave() Handles PageRegex.Leave
@@ -192,16 +212,27 @@ Class QueueForm
             End Select
 
             FilterAnonymous.State = CType(CInt(CurrentQueue.FilterAnonymous), CheckState)
+            FilterAssisted.State = CType(CInt(CurrentQueue.FilterAssisted), CheckState)
+            FilterBot.State = CType(CInt(CurrentQueue.FilterBot), CheckState)
             FilterHuggle.State = CType(CInt(CurrentQueue.FilterHuggle), CheckState)
             FilterIgnored.State = CType(CInt(CurrentQueue.FilterIgnored), CheckState)
             FilterNewPage.State = CType(CInt(CurrentQueue.FilterNewPage), CheckState)
             FilterNotifications.State = CType(CInt(CurrentQueue.FilterNotifications), CheckState)
             FilterOwnUserspace.State = CType(CInt(CurrentQueue.FilterOwnUserspace), CheckState)
             FilterReverts.State = CType(CInt(CurrentQueue.FilterReverts), CheckState)
+            FilterTags.State = CType(CInt(CurrentQueue.FilterTags), CheckState)
+            FilterWarnings.State = CType(CInt(CurrentQueue.FilterWarnings), CheckState)
+
+            If CurrentQueue.PageRegex Is Nothing Then PageRegex.Text = Nothing _
+                Else PageRegex.Text = CurrentQueue.PageRegex.ToString
+            If CurrentQueue.SummaryRegex Is Nothing Then SummaryRegex.Text = Nothing _
+                Else SummaryRegex.Text = CurrentQueue.SummaryRegex.ToString
+            If CurrentQueue.UserRegex Is Nothing Then UserRegex.Text = Nothing _
+                Else UserRegex.Text = CurrentQueue.UserRegex.ToString
 
             RemoveAfter.Checked = (CurrentQueue.RemoveAfter > 0)
-            If CurrentQueue.RemoveAfter > RemoveAfterTime.Minimum Then RemoveAfterTime.Value = CurrentQueue.RemoveAfter _
-                Else RemoveAfterTime.Value = RemoveAfterTime.Minimum
+            If CurrentQueue.RemoveAfter > RemoveAfterTime.Minimum Then RemoveAfterTime.Value = _
+                CurrentQueue.RemoveAfter Else RemoveAfterTime.Value = RemoveAfterTime.Minimum
             RemoveOld.Checked = CurrentQueue.RemoveOld
             RemoveViewed.Checked = CurrentQueue.RemoveViewed
             Preload.Checked = CurrentQueue.Preload
@@ -250,6 +281,10 @@ Class QueueForm
                 Case "Most suspicious edits first" : CurrentQueue.SortOrder = QueueSortOrder.Quality
             End Select
         End If
+    End Sub
+
+    Private Sub SummaryRegex_Leave() Handles UserRegex.Leave
+        CurrentQueue.SummaryRegex = SummaryRegex.Regex
     End Sub
 
     Private Sub TypeGroup_CheckedChanged() _

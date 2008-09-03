@@ -30,7 +30,7 @@ Partial Class StartupForm
         'OK
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.OK.Location = New System.Drawing.Point(491, 253)
+        Me.OK.Location = New System.Drawing.Point(474, 268)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(88, 23)
         Me.OK.TabIndex = 0
@@ -47,15 +47,17 @@ Partial Class StartupForm
         Me.Browser.MinimumSize = New System.Drawing.Size(20, 20)
         Me.Browser.Name = "Browser"
         Me.Browser.ScriptErrorsSuppressed = True
-        Me.Browser.Size = New System.Drawing.Size(567, 235)
+        Me.Browser.ScrollBarsEnabled = False
+        Me.Browser.Size = New System.Drawing.Size(550, 250)
         Me.Browser.TabIndex = 1
         '
         'ShowStartupMessage
         '
+        Me.ShowStartupMessage.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.ShowStartupMessage.AutoSize = True
         Me.ShowStartupMessage.Checked = True
         Me.ShowStartupMessage.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.ShowStartupMessage.Location = New System.Drawing.Point(12, 257)
+        Me.ShowStartupMessage.Location = New System.Drawing.Point(12, 272)
         Me.ShowStartupMessage.Name = "ShowStartupMessage"
         Me.ShowStartupMessage.Size = New System.Drawing.Size(158, 17)
         Me.ShowStartupMessage.TabIndex = 2
@@ -66,7 +68,7 @@ Partial Class StartupForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(591, 288)
+        Me.ClientSize = New System.Drawing.Size(574, 303)
         Me.Controls.Add(Me.ShowStartupMessage)
         Me.Controls.Add(Me.Browser)
         Me.Controls.Add(Me.OK)

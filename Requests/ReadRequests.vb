@@ -379,7 +379,7 @@ Namespace Requests
         End Sub
 
         Private Sub Done()
-            ProcessRcApi(Result)
+            ProcessRc(Result)
             Complete()
         End Sub
 

@@ -192,7 +192,7 @@ Namespace Requests
 
             Data.Text &= _
                 WarningNeeded.Replace("$1", Edit.Page.Name).Replace("$2", _
-                Config.SitePath & "wiki/" & Edit.Page.Name.Replace(" ", "_") & "?diff=" & Edit.Id)
+                Config.SitePath & "wiki/" & UrlEncode(Edit.Page.Name) & "?diff=" & Edit.Id)
 
             If WarningNeeded.Length > 0 Then Data = PostEdit(Data)
 

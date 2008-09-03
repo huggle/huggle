@@ -8,9 +8,15 @@ Class Main
     Public Reverting As Boolean
     Private LoggingOut As Boolean
 
+    'Timer is enabled when a key is pressed and prevents both MainForm.Main.KeyDown and
+    'BrowserTab.Browser.PreviewKeyDown being raised at the same time, which sometimes happens depending on 
+    'what is currently focused in the browser and what was last focused outside it
+    Private WithEvents KeyDelayTimer As New Windows.Forms.Timer
+
     Public Sub Initialize()
         Icon = My.Resources.icon_red_button
         TrayIcon.Icon = My.Resources.icon_red_button
+        KeyDelayTimer.Interval = 10
         ScrollTimer.Interval = 1000 \ Config.HistoryScrollSpeed
 
         LoadQueues()

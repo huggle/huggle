@@ -5,6 +5,7 @@ Class Page
 
     Private _Name As String
     Private _Space As Space
+    Private _Exists As Boolean
 
     Private Shared All As New Dictionary(Of String, Page)
 
@@ -28,6 +29,12 @@ Class Page
         All.Add(_Name, Me)
     End Sub
 
+    Public ReadOnly Property BaseName() As String
+        Get
+            If Space Is Space.Article Then Return Name Else Return Name.Substring(Space.Name.Length + 1)
+        End Get
+    End Property
+
     Public ReadOnly Property Edits() As List(Of Edit)
         Get
             Dim PageEdits As New List(Of Edit)
@@ -42,30 +49,42 @@ Class Page
         End Get
     End Property
 
-    Public ReadOnly Property Name() As String
+    Public Property Exists() As Boolean
         Get
-            Return _Name
+            Return _Exists
+        End Get
+        Set(ByVal value As Boolean)
+            _Exists = value
+        End Set
+    End Property
+
+    Public ReadOnly Property IsArticle() As Boolean
+        Get
+            Return (Space Is Space.Article)
         End Get
     End Property
 
-    Public ReadOnly Property Space() As Space
+    Public ReadOnly Property IsArticleTalkPage() As Boolean
         Get
-            Return _Space
+            Return (Space Is Space.Talk)
         End Get
     End Property
 
     Public ReadOnly Property IsEditable() As Boolean
         Get
-            If (EditLevel = "sysop" OrElse Space.Locked) AndAlso Not Administrator Then Return False
-            Return True
+            Return Not ((EditLevel = "sysop" OrElse Space.Locked) AndAlso Not Administrator)
         End Get
     End Property
 
     Public ReadOnly Property IsMovable() As Boolean
         Get
-            If Space.Unmovable Then Return False
-            If (MoveLevel = "sysop" OrElse Space.Locked) AndAlso Not Administrator Then Return False
-            Return True
+            Return Not (Space.Unmovable OrElse ((MoveLevel = "sysop" OrElse Space.Locked) AndAlso Not Administrator))
+        End Get
+    End Property
+
+    Public ReadOnly Property IsSubjectPage() As Boolean
+        Get
+            Return Space.IsSubjectSpace
         End Get
     End Property
 
@@ -75,39 +94,47 @@ Class Page
         End Get
     End Property
 
-    Public ReadOnly Property BasePageName() As String
-        Get
-            If Space.IsArticleSpace Then Return Name Else Return Name.Substring(Space.Name.Length + 1)
-        End Get
-    End Property
-
-    Public ReadOnly Property IsArticle() As Boolean
-        Get
-            Return Space.IsArticleSpace
-        End Get
-    End Property
-
-    Public ReadOnly Property IsArticleTalkPage() As Boolean
-        Get
-            Return Space.SubjectSpace.IsArticleSpace
-        End Get
-    End Property
-
     Public ReadOnly Property IsTalkPage() As Boolean
         Get
             Return Space.IsTalkSpace
         End Get
     End Property
 
-    Public ReadOnly Property IsSubjectPage() As Boolean
+    Public ReadOnly Property Name() As String
         Get
-            Return Not Space.IsTalkSpace
+            Return _Name
         End Get
     End Property
 
-    Public ReadOnly Property TalkPageName() As String
+    Public ReadOnly Property Owner() As User
         Get
-            Return Space.TalkSpace.Name & ":" & BasePageName
+            If Space Is Space.User OrElse Space Is Space.UserTalk Then
+                Dim Username As String = Name.Substring(Name.IndexOf(":"))
+                If Username.Contains("/") Then Username = Username.Substring(0, Username.IndexOf("/"))
+                Return GetUser(Username)
+            Else
+                Return Nothing
+            End If
+        End Get
+    End Property
+
+    Public ReadOnly Property Space() As Space
+        Get
+            Return _Space
+        End Get
+    End Property
+
+    Public ReadOnly Property SubjectPage() As Page
+        Get
+            Return GetPage(SubjectPageName)
+        End Get
+    End Property
+
+    Public ReadOnly Property SubjectPageName() As String
+        Get
+            If Space Is Space.Article Then Return BaseName _
+                Else If Space.IsSubjectSpace Then Return Name _
+                Else Return Space.SubjectSpace.Name & ":" & BaseName
         End Get
     End Property
 
@@ -117,17 +144,23 @@ Class Page
         End Get
     End Property
 
-    Public ReadOnly Property SubjectPageName() As String
+    Public ReadOnly Property TalkPageName() As String
         Get
-            If Space Is Space.Talk Then Return BasePageName Else Return Space.SubjectSpace.Name & ":" & BasePageName
+            Return Space.TalkSpace.Name & ":" & BaseName
         End Get
     End Property
 
-    Public ReadOnly Property SubjectPage() As Page
-        Get
-            Return GetPage(SubjectPageName)
-        End Get
-    End Property
+    Public Overrides Function ToString() As String
+        Return _Name
+    End Function
+
+    Public Sub MovedTo(ByVal NewName As String)
+        'Handle a page move
+        If All.ContainsKey(NewName) Then All.Remove(NewName)
+        All.Remove(_Name)
+        _Name = NewName
+        All.Add(NewName, Me)
+    End Sub
 
     Public Shared Sub ClearAll()
         All.Clear()
@@ -173,14 +206,6 @@ Class Page
 
         Return Name
     End Function
-
-    Public Sub MovedTo(ByVal NewName As String)
-        'Handle a page move
-        If All.ContainsKey(NewName) Then All.Remove(NewName)
-        All.Remove(_Name)
-        _Name = NewName
-        All.Add(NewName, Me)
-    End Sub
 
 End Class
 

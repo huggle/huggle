@@ -3,6 +3,12 @@ Imports System.Web.HttpUtility
 
 Module Processing
 
+    Private RcLineRegex As New Regex _
+        ("type=""[^""]*"" ns=""[^""]*"" title=""([^""]*)"" rcid=""[^""]*"" pageid=""[^""]*"" " _
+        & "revid=""([^""]*)"" old_revid=""([^""]*)"" user=""([^""]*)""( bot="""")?( anon=" _
+        & """"")?( new="""")?( minor="""")? oldlen=""([^""]*)"" newlen=""([^""]*)"" times" _
+        & "tamp=""([^""]*)""( comment=""([^""]*)"")? />", RegexOptions.Compiled)
+
     Sub ProcessEdit(ByVal Edit As Edit)
         If Edit Is Nothing Then Exit Sub
 
@@ -16,7 +22,17 @@ Module Processing
             Then Edit.Type = EditType.Redirect
         If Config.PageReplacedPattern IsNot Nothing AndAlso Config.PageReplacedPattern.IsMatch(Edit.Summary) _
             Then Edit.Type = EditType.ReplacedWith
-        
+
+        'Assisted summaries
+        If Edit.Summary.EndsWith(Config.Summary) Then Edit.Assisted = True
+
+        For Each Item As String In Config.AssistedSummaries
+            If Edit.Summary.EndsWith(Item) Then
+                Edit.Assisted = True
+                Exit For
+            End If
+        Next Item
+
         If Edit.User IsNot Nothing AndAlso Edit.Page IsNot Nothing Then
             If Edit.NewPage Then
                 Edit.Page.FirstEdit = Edit
@@ -24,8 +40,8 @@ Module Processing
             End If
 
             'Reverts
-            For Each Item As Regex In Config.RevertSummaries
-                If Item.IsMatch(Edit.Summary) Then
+            For Each Item As Regex In Config.RevertPatterns
+                If Item.IsMatch(TrimSummary(Edit.Summary)) Then
                     Edit.Type = EditType.Revert
 
                     If Edit.Page.Level = PageLevel.None Then Edit.Page.Level = PageLevel.Watch
@@ -39,7 +55,7 @@ Module Processing
             Next Item
 
             'Reverted users
-            If Edit.Type <> EditType.Revert AndAlso Edit.Summary.ToLower.Contains("[[special:contributions/") Then
+            If Edit.Type = EditType.Revert AndAlso Edit.Summary.ToLower.Contains("[[special:contributions/") Then
                 Dim Username As String = Edit.Summary.Substring(Edit.Summary.ToLower.IndexOf _
                     ("[[special:contributions/") + 24)
 
@@ -61,28 +77,28 @@ Module Processing
 
             'Warnings / block notifications
             If Edit.Page.Space Is Space.UserTalk AndAlso Not Edit.Page.IsSubpage Then
-                Dim PageOwner As User = GetUser(Edit.Page.Name.Substring(10))
                 Dim SummaryLevel As UserLevel = GetUserLevelFromSummary(Edit)
 
-                If SummaryLevel >= UserLevel.Warning AndAlso Not PageOwner.Ignored _
+                If SummaryLevel >= UserLevel.Warning AndAlso Not Edit.Page.Owner.Ignored _
                     AndAlso Edit.Time.AddHours(Config.WarningAge) > Date.UtcNow Then
 
                     Edit.Type = EditType.Warning
                     Edit.WarningLevel = SummaryLevel
                     If Edit.User.WarnTime < Edit.Time Then Edit.User.WarnTime = Edit.Time
 
-                    If PageOwner.Level < SummaryLevel AndAlso SummaryLevel < UserLevel.Warn4im _
-                        Then PageOwner.Level = SummaryLevel
+                    If Edit.Page.Owner.Level < SummaryLevel AndAlso SummaryLevel < UserLevel.Warn4im _
+                        Then Edit.Page.Owner.Level = SummaryLevel
 
                 ElseIf SummaryLevel = UserLevel.Notification Then
                     Edit.Type = EditType.Notification
 
-                    If PageOwner.Level < SummaryLevel AndAlso Not PageOwner.Ignored Then PageOwner.Level = SummaryLevel
+                    If Edit.Page.Owner.Level < SummaryLevel AndAlso Not Edit.Page.Owner.Ignored _
+                        Then Edit.Page.Owner.Level = SummaryLevel
                 End If
             End If
 
             'AIV/UAA reports
-            If (Edit.Page.Name = Config.AIVLocation OrElse Edit.Page.Name = Config.UAALocation) Then
+            If Edit.Page.Name = Config.AIVLocation OrElse Edit.Page.Name = Config.UAALocation Then
 
                 If Edit.Summary.Contains("User-reported") _
                     AndAlso Not (Edit.Summary.Contains(" rm ") OrElse Edit.Summary.Contains("remove")) Then
@@ -96,7 +112,7 @@ Module Processing
                         If Edit.Summary.Contains("User-reported - ") _
                             Then Summary = Edit.Summary.Substring(Edit.Summary.IndexOf("User-reported - ") + 16)
                         If Edit.Summary.Contains("User-reported */ ") _
-                            Then Summary = Edit.Summary.Substring(Edit.Summary.IndexOf("User-reported - ") + 17)
+                            Then Summary = Edit.Summary.Substring(Edit.Summary.IndexOf("User-reported */ ") + 17)
 
                         If Summary.ToLower.StartsWith("[[special:contributions/") Then
                             Summary = Summary.Substring(22)
@@ -212,8 +228,7 @@ Module Processing
             End If
 
             'Tagging
-            If IsTagFromSummary(Edit) AndAlso Edit.Type <= 0 AndAlso Edit.Type <> EditType.Tag _
-                Then Edit.Type = EditType.Tag
+            If IsTagFromSummary(Edit) AndAlso Edit.Type = EditType.None Then Edit.Type = EditType.Tag
         End If
 
         If Edit.Id IsNot Nothing AndAlso Not Edit.All.ContainsKey(Edit.Id) Then Edit.All.Add(Edit.Id, Edit)
@@ -237,9 +252,10 @@ Module Processing
             Edit.PrevByUser.NextByUser = Edit
         End If
 
+        Edit.Page.Exists = True
+        Edit.Page.Text = Nothing
         Edit.Page.LastEdit = Edit
         Edit.User.LastEdit = Edit
-        Edit.Page.Text = Nothing
 
         'Update statistics and edit counts
         Stats.Update(Edit)
@@ -636,33 +652,32 @@ Module Processing
         Dim Delete As Delete = CType(DeleteObject, Delete)
 
         If Delete IsNot Nothing AndAlso Delete.Page IsNot Nothing Then
-            Dim ThisEdit As Edit = Delete.Page.LastEdit
+            Delete.Page.Exists = False
 
             If Delete.Page.DeletesCurrent Then
                 If Delete.Page.Deletes Is Nothing Then Delete.Page.Deletes = New List(Of Delete)
                 Delete.Page.Deletes.Insert(0, Delete)
             End If
 
-            While ThisEdit IsNot Nothing AndAlso ThisEdit IsNot NullEdit
-                If ThisEdit.Prev IsNot Nothing Then ThisEdit.Prev.Next = ThisEdit.Next
-                If ThisEdit.Next IsNot Nothing Then ThisEdit.Next.Prev = ThisEdit.Prev
-                If ThisEdit.PrevByUser IsNot Nothing Then ThisEdit.PrevByUser.NextByUser = ThisEdit.NextByUser
-                If ThisEdit.NextByUser IsNot Nothing Then ThisEdit.NextByUser.PrevByUser = ThisEdit.PrevByUser
+            'Remove page's edits from user contribs and queues
+            For Each Edit As Edit In Delete.Page.Edits
+                Edit.Deleted = True
+
+                If Edit.PrevByUser IsNot Nothing Then Edit.PrevByUser.NextByUser = Edit.NextByUser
+                If Edit.NextByUser IsNot Nothing Then Edit.NextByUser.PrevByUser = Edit.PrevByUser
 
                 For Each Item As Queue In Queue.All.Values
-                    Item.RefreshEdit(ThisEdit)
+                    Item.RemoveEdit(Edit)
                 Next Item
+            Next Edit
 
-                ThisEdit.Deleted = True
-                ThisEdit = ThisEdit.Prev
-            End While
-
+            'Refresh any browser tab in which a revision to the page is being viewed
             If MainForm IsNot Nothing Then
                 For Each Item As TabPage In MainForm.Tabs.TabPages
-                    Dim ThisTab As BrowserTab = CType(Item.Controls(0), BrowserTab)
+                    Dim Tab As BrowserTab = CType(Item.Controls(0), BrowserTab)
 
-                    If ThisTab.Edit IsNot Nothing AndAlso ThisTab.Edit.Page Is Delete.Page _
-                        Then DisplayEdit(ThisTab.Edit, False, ThisTab)
+                    If Tab.ShowNewEdits AndAlso Tab.Edit IsNot Nothing _
+                        AndAlso Tab.Edit.Page Is Delete.Page Then DisplayEdit(Tab.Edit, False, Tab)
                 Next Item
             End If
         End If
@@ -715,97 +730,76 @@ Module Processing
     Sub ProcessUpload(ByVal UploadObject As Object)
     End Sub
 
-    Sub ProcessDiff(ByVal ThisEdit As Edit, ByVal DiffText As String, ByVal Tab As BrowserTab)
+    Sub ProcessDiff(ByVal Edit As Edit, ByVal DiffText As String, ByVal Tab As BrowserTab)
 
-        If Not ThisEdit.Multiple Then
+        If Not Edit.Multiple Then
             If DiffText.Contains("<span class=""mw-rollback-link"">") Then
                 Dim RollbackUrl As String = DiffText.Substring(DiffText.IndexOf("<span class=""mw-rollback-link"">"))
-                RollbackUrl = RollbackUrl.Substring(RollbackUrl.IndexOf("<a href=""") + 9)
-                RollbackUrl = RollbackUrl.Substring(RollbackUrl.IndexOf("?") + 1)
-                RollbackUrl = RollbackUrl.Substring(0, RollbackUrl.IndexOf(""""))
-                RollbackUrl = HtmlDecode(RollbackUrl)
-                ThisEdit.RollbackUrl = RollbackUrl
+                RollbackUrl = FindString(RollbackUrl, "<a href=""", "?", """")
+                Edit.RollbackUrl = HtmlDecode(RollbackUrl)
             Else
-                ThisEdit.RollbackUrl = Nothing
+                Edit.RollbackUrl = Nothing
             End If
 
-            If ThisEdit.Id = "next" OrElse ThisEdit.Id = "cur" AndAlso DiffText.Contains("'>undo</a>)") Then
+            If Edit.Id = "next" OrElse Edit.Id = "cur" AndAlso DiffText.Contains("'>undo</a>)") Then
                 Dim Diff As String = DiffText.Substring(DiffText.IndexOf("'>undo</a>)") - 20)
-                Diff = Diff.Substring(Diff.IndexOf("undo=") + 5)
-                Diff = Diff.Substring(0, Diff.IndexOf("'"))
-                ThisEdit.Id = Diff
+                Edit.Id = FindString(Diff, "undo=", "'")
             End If
 
-            If Edit.All.ContainsKey(ThisEdit.Id) Then ThisEdit = Edit.All(ThisEdit.Id)
+            If Edit.All.ContainsKey(Edit.Id) Then Edit = Edit.All(Edit.Id)
 
-            If ThisEdit.Oldid = "prev" AndAlso DiffText.Contains("<div id=""mw-diff-otitle1""><strong><a") Then
-                Dim Oldid As String = DiffText.Substring(DiffText.IndexOf("<div id=""mw-diff-otitle1""><strong><a") _
-                    + "<div id=""mw-diff-otitle1""><strong><a".Length)
-                Oldid = Oldid.Substring(Oldid.IndexOf("oldid=") + 6)
-                Oldid = Oldid.Substring(0, Oldid.IndexOf("'"))
-                ThisEdit.Oldid = Oldid
+            If Edit.Oldid = "prev" AndAlso DiffText.Contains("<div id=""mw-diff-otitle1""><strong><a") Then
+                Edit.Oldid = FindString(DiffText, "<div id=""mw-diff-otitle1""><strong><a", "oldid=", "'")
             End If
 
-            If ThisEdit.User Is Nothing AndAlso DiffText.Contains("<div id=""mw-diff-ntitle2"">") Then
-                Dim Username As String = DiffText.Substring(DiffText.IndexOf("<div id=""mw-diff-ntitle2"">") _
-                    + "<div id=""mw-diff-ntitle2"">".Length)
-                Username = Username.Substring(Username.IndexOf(">") + 1)
-                Username = Username.Substring(0, Username.IndexOf("<"))
+            If Edit.User Is Nothing AndAlso DiffText.Contains("<div id=""mw-diff-ntitle2"">") Then
+                Dim Username As String = FindString(DiffText, "<div id=""mw-diff-ntitle2"">", ">", "<")
                 Username = HtmlDecode(Username.Replace(" (page does not exist)", ""))
-
-                ThisEdit.User = GetUser(Username)
+                Edit.User = GetUser(Username)
             End If
 
-            If ThisEdit.Prev Is Nothing Then
-                ThisEdit.Prev = New Edit
-                ThisEdit.Prev.Page = ThisEdit.Page
-                ThisEdit.Prev.Next = ThisEdit
-                ThisEdit.Prev.Id = ThisEdit.Oldid
-                ThisEdit.Prev.Oldid = "prev"
+            If Edit.Prev Is Nothing Then
+                Edit.Prev = New Edit
+                Edit.Prev.Page = Edit.Page
+                Edit.Prev.Next = Edit
+                Edit.Prev.Id = Edit.Oldid
+                Edit.Prev.Oldid = "prev"
             End If
 
-            If ThisEdit.Time = Date.MinValue AndAlso DiffText.Contains("<div id=""mw-diff-ntitle1"">") Then
-                Dim Time As String = DiffText.Substring(DiffText.IndexOf("<div id=""mw-diff-ntitle1"">"))
-                Time = Time.Substring(0, Time.IndexOf("</div>"))
+            If Edit.Time = Date.MinValue AndAlso DiffText.Contains("<div id=""mw-diff-ntitle1"">") Then
+                Dim Time As String = FindString(DiffText, "<div id=""mw-diff-ntitle1"">", "</div>")
 
                 If Time.Contains("Revision as of ") Then
-                    Time = Time.Substring(Time.IndexOf("Revision as of ") + 15)
-                    Time = Time.Substring(0, Time.IndexOf("<"))
-                    ThisEdit.Time = Date.SpecifyKind(CDate(Time), DateTimeKind.Local).ToUniversalTime
+                    Time = FindString(Time, "Revision as of ")
+                    Edit.Time = Date.SpecifyKind(CDate(Time), DateTimeKind.Local).ToUniversalTime
 
                 ElseIf Time.Contains("Current revision") Then
-                    Time = Time.Substring(Time.IndexOf("Current revision</a> (") + 22)
-                    Time = Time.Substring(0, Time.IndexOf(")"))
-                    ThisEdit.Time = Date.SpecifyKind(CDate(Time), DateTimeKind.Local).ToUniversalTime
+                    Time = FindString(Time, "Current revision</a> (", ")")
+                    Edit.Time = Date.SpecifyKind(CDate(Time), DateTimeKind.Local).ToUniversalTime
                 End If
             End If
 
-            If ThisEdit.Prev.Time = Date.MinValue AndAlso DiffText.Contains("<div id=""mw-diff-otitle1"">") Then
-                Dim Time As String = DiffText.Substring(DiffText.IndexOf("<div id=""mw-diff-otitle1"">"))
-                Time = Time.Substring(Time.IndexOf("<a href="))
-                Time = Time.Substring(Time.IndexOf(">") + 1)
-                Time = Time.Substring(0, Time.IndexOf("<"))
+            If Edit.Prev.Time = Date.MinValue AndAlso DiffText.Contains("<div id=""mw-diff-otitle1"">") Then
+                Dim Time As String = FindString(DiffText, "<div id=""mw-diff-otitle1"">", "<a href=", ">", "<")
                 Time = Time.Substring(Time.IndexOf(":") - 2)
-                If Date.TryParse(Time, ThisEdit.Prev.Time) _
-                    Then ThisEdit.Prev.Time = Date.SpecifyKind(CDate(Time), DateTimeKind.Local).ToUniversalTime
+                If Date.TryParse(Time, Edit.Prev.Time) _
+                    Then Edit.Prev.Time = Date.SpecifyKind(CDate(Time), DateTimeKind.Local).ToUniversalTime
             End If
 
-            If ThisEdit.Prev.User Is Nothing AndAlso DiffText.Contains("<div id=""mw-diff-otitle2"">") Then
-                Dim Username As String = DiffText.Substring _
-                    (DiffText.IndexOf(("<div id=""mw-diff-otitle2"">")))
-                Username = Username.Substring(0, Username.IndexOf("</a>"))
+            If Edit.Prev.User Is Nothing AndAlso DiffText.Contains("<div id=""mw-diff-otitle2"">") Then
+                Dim Username As String = FindString(DiffText, "<div id=""mw-diff-otitle2"">", "</a>")
 
-                If Username.IndexOf("title=""" & Space.User.Name & ":") > -1 Then _
+                If Username.Contains("title=""" & Space.User.Name & ":") Then _
                     Username = Username.Substring(Username.IndexOf("title=""" & Space.User.Name & ":") + 12) _
                     Else Username = Username.Substring(Username.IndexOf("title=""Special:Contributions/") + 29)
 
                 Username = Username.Substring(0, Username.IndexOf(""""))
                 Username = HtmlDecode(Username.Replace(" (page does not exist)", ""))
 
-                ThisEdit.Prev.User = GetUser(Username)
+                Edit.Prev.User = GetUser(Username)
             End If
 
-            If ThisEdit.Prev.Summary Is Nothing Then
+            If Edit.Prev.Summary Is Nothing Then
                 If DiffText.Contains("<div id=""mw-diff-otitle3"">") Then
                     Dim Summary As String = DiffText.Substring _
                         (DiffText.IndexOf("<div id=""mw-diff-otitle3"">") + "<div id=""mw-diff-otitle3"">".Length)
@@ -814,39 +808,37 @@ Module Processing
                         Summary = Summary.Substring(0, Summary.IndexOf("<div id=""mw-diff-ntitle3"">"))
 
                     If Summary.Contains("<span class=""comment"">") Then
-                        Summary = Summary.Substring(Summary.IndexOf("<span class=""comment"">") _
-                            + "<span class=""comment"">".Length)
-                        Summary = Summary.Substring(0, Summary.IndexOf("</span></div>"))
+                        Summary = FindString(Summary, "<span class=""comment"">", "</span></div>")
                         Summary = StripHTML(Summary)
+
                         If Summary.StartsWith("(") AndAlso Summary.EndsWith(")") _
                             Then Summary = Summary.Substring(1, Summary.Length - 2)
 
-                        ThisEdit.Prev.Summary = Summary
+                        Edit.Prev.Summary = Summary
                     Else
-                        ThisEdit.Prev.Summary = ""
+                        Edit.Prev.Summary = ""
                     End If
                 Else
-                    ThisEdit.Prev.Summary = ""
+                    Edit.Prev.Summary = ""
                 End If
             End If
 
-            If ThisEdit.Prev.Summary.StartsWith("←Created page with '") _
-                AndAlso ThisEdit.Prev.Prev Is Nothing Then
-                ThisEdit.Prev.Prev = NullEdit
-                ThisEdit.Page.FirstEdit = ThisEdit.Prev
+            If Config.PageCreatedPattern.IsMatch(Edit.Prev.Summary) AndAlso Edit.Prev.Prev Is Nothing Then
+                Edit.Prev.NewPage = True
+                Edit.Prev.Prev = NullEdit
+                Edit.Page.FirstEdit = Edit.Prev
             End If
 
-            If DiffText.Contains("<div id=""mw-diff-ntitle4"">&nbsp;</div>") _
-                Then ThisEdit.Page.LastEdit = ThisEdit
+            If DiffText.Contains("<div id=""mw-diff-ntitle4"">&nbsp;</div>") Then Edit.Page.LastEdit = Edit
 
-            If Not ThisEdit.Prev.Processed Then ProcessEdit(ThisEdit.Prev)
+            If Not Edit.Prev.Processed Then ProcessEdit(Edit.Prev)
         End If
 
-        ThisEdit.Diff = DiffText
-        ThisEdit.Cached = Edit.CacheState.Cached
+        Edit.Diff = DiffText
+        Edit.Cached = Edit.CacheState.Cached
 
-        If Tab.Edit Is ThisEdit OrElse (Tab.Edit.Next Is ThisEdit AndAlso HidingEdit) _
-            Then DisplayEdit(ThisEdit, False, Tab, Not ThisEdit.User.IsMe)
+        If Tab.Edit Is Edit OrElse (Tab.Edit.Next Is Edit AndAlso HidingEdit) _
+            Then DisplayEdit(Edit, False, Tab, Not Edit.User.IsMe)
     End Sub
 
     Sub ProcessHistory(ByVal Result As String, ByVal Page As Page)
@@ -862,31 +854,31 @@ Module Processing
         Dim NextEdit As Edit = Nothing
 
         For i As Integer = 0 To History.Count - 1
-            Dim ThisEdit As Edit
+            Dim Edit As Edit
             Dim Diff As String = History(i).Groups(1).Value
 
-            If Edit.All.ContainsKey(Diff) Then ThisEdit = Edit.All(Diff) Else ThisEdit = New Edit
+            If Edit.All.ContainsKey(Diff) Then Edit = Edit.All(Diff) Else Edit = New Edit
 
-            ThisEdit.Id = Diff
-            If ThisEdit.Oldid Is Nothing Then ThisEdit.Oldid = "prev"
-            ThisEdit.Page = Page
+            Edit.Id = Diff
+            If Edit.Oldid Is Nothing Then Edit.Oldid = "prev"
+            Edit.Page = Page
 
-            If History(i).Groups(8).Value <> "" Then ThisEdit.Text = HtmlDecode(History(i).Groups(8).Value)
+            If History(i).Groups(8).Value <> "" Then Edit.Text = HtmlDecode(History(i).Groups(8).Value)
 
-            ThisEdit.User = GetUser(HtmlDecode(History(i).Groups(2).Value))
-            If ThisEdit.Summary Is Nothing Then ThisEdit.Summary = HtmlDecode(History(i).Groups(6).Value)
-            If ThisEdit.Time = Date.MinValue Then ThisEdit.Time = CDate(History(i).Groups(4).Value)
+            Edit.User = GetUser(HtmlDecode(History(i).Groups(2).Value))
+            If Edit.Summary Is Nothing Then Edit.Summary = HtmlDecode(History(i).Groups(6).Value)
+            If Edit.Time = Date.MinValue Then Edit.Time = CDate(History(i).Groups(4).Value)
 
             If Page.LastEdit Is Nothing Then
-                Page.LastEdit = ThisEdit
+                Page.LastEdit = Edit
             ElseIf NextEdit IsNot Nothing Then
-                ThisEdit.Next = NextEdit
-                ThisEdit.Next.Oldid = ThisEdit.Id
-                NextEdit.Prev = ThisEdit
+                Edit.Next = NextEdit
+                Edit.Next.Oldid = Edit.Id
+                NextEdit.Prev = Edit
             End If
 
-            NextEdit = ThisEdit
-            ProcessEdit(ThisEdit)
+            NextEdit = Edit
+            ProcessEdit(Edit)
         Next i
 
         If Result.Contains("<revisions rvstartid=""") Then
@@ -959,62 +951,18 @@ Module Processing
         MainForm.RefreshInterface()
     End Sub
 
-    Sub ProcessRcApi(ByVal Result As String)
-        Result = Result.Substring(Result.IndexOf("<recentchanges>") + 15)
-        Result = Result.Substring(0, Result.IndexOf("</recentchanges>"))
+    Sub ProcessRc(ByVal Result As String)
+        Result = FindString(Result, "<recentchanges>", "</recentchanges>")
 
         If Result IsNot Nothing Then
             Dim RcEntries As String() = Result.Split(New String() {"<rc "}, StringSplitOptions.None)
 
-            Dim RcLineRegex As New Regex _
-                ("type=""[^""]*"" ns=""[^""]*"" title=""([^""]*)"" rcid=""[^""]*"" pageid=""[^""]*"" " _
-                    & "revid=""([^""]*)"" old_revid=""([^""]*)"" user=""([^""]*)""( bot="""")?( anon=" _
-                    & """"")?( new="""")?( minor="""")? oldlen=""([^""]*)"" newlen=""([^""]*)"" times" _
-                    & "tamp=""([^""]*)""( comment=""([^""]*)"")? />", RegexOptions.Compiled)
-
-            For i As Integer = RcEntries.GetUpperBound(0) To 0 Step -1
+            For i As Integer = RcEntries.Length - 1 To 0 Step -1
                 Dim Item As String = RcEntries(i)
-                Dim RcLineMatch As Match = RcLineRegex.Match(Item)
+                Dim Match As Match = RcLineRegex.Match(Item)
 
-                If RcLineMatch.Success Then
-                    Dim PageName As String = HtmlDecode(RcLineMatch.Groups(1).Value)
-
-                    If PageName.StartsWith("Special:") Then
-                        If PageName = "Special:Log/block" Then
-                            Dim BlockSummary As String = HtmlDecode(RcLineMatch.Groups(13).Value)
-
-                            If BlockSummary.Length > 14 AndAlso BlockSummary.Contains("""") Then
-                                BlockSummary = BlockSummary.Substring(14)
-                                BlockSummary = BlockSummary.Substring(0, BlockSummary.IndexOf(""""))
-
-                                Dim BlockedUser As User = GetUser(BlockSummary)
-                                If BlockedUser.Level < UserLevel.Blocked Then BlockedUser.Level = UserLevel.Blocked
-                            End If
-                        End If
-                    Else
-                        Dim NewEdit As New Edit
-
-                        NewEdit.Page = GetPage(PageName)
-                        NewEdit.Id = RcLineMatch.Groups(2).Value
-                        NewEdit.Oldid = RcLineMatch.Groups(3).Value
-
-                        If NewEdit.Oldid = "0" Then
-                            NewEdit.Prev = NullEdit
-                            NewEdit.Page.FirstEdit = NewEdit
-                            NewEdit.Oldid = "-1"
-                        End If
-
-                        NewEdit.User = GetUser(HtmlDecode(RcLineMatch.Groups(4).Value))
-                        NewEdit.Size = (CInt(RcLineMatch.Groups(10).Value) - CInt(RcLineMatch.Groups(9).Value))
-                        NewEdit.Time = Date.SpecifyKind(CDate(RcLineMatch.Groups(11).Value).ToUniversalTime, DateTimeKind.Utc)
-                        NewEdit.Summary = RcLineMatch.Groups(13).Value
-
-                        If Not Edit.All.ContainsKey(NewEdit.Id) Then
-                            ProcessEdit(NewEdit)
-                            ProcessNewEdit(NewEdit)
-                        End If
-                    End If
-                End If
+                If Match.Success Then If HtmlDecode(Match.Groups(1).Value).StartsWith("Special:") _
+                    Then ProcessRcLog(Match) Else ProcessRcEdit(Match)
             Next i
         End If
 
@@ -1028,6 +976,72 @@ Module Processing
 
         MainForm.RefreshInterface()
         MainForm.RcReqTimer.Start()
+    End Sub
+
+    Sub ProcessRcEdit(ByVal Match As Match)
+        Dim Edit As New Edit
+
+        Edit.Page = GetPage(HtmlDecode(Match.Groups(1).Value))
+        Edit.Id = Match.Groups(2).Value
+        Edit.Oldid = Match.Groups(3).Value
+
+        If Edit.Oldid = "0" Then
+            Edit.Prev = NullEdit
+            Edit.Page.FirstEdit = Edit
+            Edit.Oldid = "-1"
+        End If
+
+        Edit.User = GetUser(HtmlDecode(Match.Groups(4).Value))
+        Edit.Size = (CInt(Match.Groups(10).Value) - CInt(Match.Groups(9).Value))
+        Edit.Time = Date.SpecifyKind(CDate(Match.Groups(11).Value).ToUniversalTime, DateTimeKind.Utc)
+        Edit.Summary = HtmlDecode(Match.Groups(13).Value)
+
+        If Not Edit.All.ContainsKey(Edit.Id) Then
+            ProcessEdit(Edit)
+            ProcessNewEdit(Edit)
+        End If
+    End Sub
+
+    Sub ProcessRcLog(ByVal Match As Match)
+
+        Select Case HtmlDecode(Match.Groups(1).Value)
+            Case "Special:Log/block"
+                Dim NewBlock As New Block
+                Dim Summary As String = HtmlDecode(Match.Groups(13).Value)
+
+                NewBlock.Comment = Summary
+                NewBlock.Admin = GetUser(HtmlDecode(Match.Groups(4).Value))
+                NewBlock.Time = Date.SpecifyKind(CDate(Match.Groups(11).Value).ToUniversalTime, DateTimeKind.Utc)
+
+                ProcessBlock(NewBlock)
+
+            Case "Special:Log/delete"
+                Dim NewDelete As New Delete
+                Dim Summary As String = HtmlDecode(Match.Groups(13).Value)
+
+                NewDelete.Admin = GetUser(HtmlDecode(Match.Groups(4).Value))
+                NewDelete.Time = Date.SpecifyKind(CDate(Match.Groups(11).Value).ToUniversalTime, DateTimeKind.Utc)
+
+                ProcessDelete(NewDelete)
+
+            Case "Special:Log/protect"
+                Dim NewProtection As New Protection
+                Dim Summary As String = HtmlDecode(Match.Groups(13).Value)
+
+                NewProtection.Admin = GetUser(HtmlDecode(Match.Groups(4).Value))
+                NewProtection.Time = Date.SpecifyKind(CDate(Match.Groups(11).Value) _
+                    .ToUniversalTime, DateTimeKind.Utc)
+                NewProtection.Page = GetPage(FindString(Summary, "[[", "]]"))
+
+                If Summary.Contains("[edit:autoconfirmed") Then NewProtection.EditLevel = "autoconfirmed"
+                If Summary.Contains("[edit:sysop") Then NewProtection.EditLevel = "sysop"
+                If Summary.Contains("move:autoconfirmed]") Then NewProtection.MoveLevel = "autoconfirmed"
+                If Summary.Contains("move:sysop]") Then NewProtection.MoveLevel = "sysop"
+
+                NewProtection.Cascading = Summary.Contains("[cascading]")
+
+                ProcessProtection(NewProtection)
+        End Select
     End Sub
 
     Sub DisplayEdit(ByVal Edit As Edit, Optional ByVal InBrowsingHistory As Boolean = False, _
@@ -1266,33 +1280,26 @@ Module Processing
     Function GetUserLevelFromSummary(ByVal Edit As Edit) As UserLevel
         'Try to interpret as many styles of summary as possible without too many mistakes
 
+        If Edit.Summary Is Nothing OrElse Edit.Summary.Length = 0 Then Return UserLevel.None
         Dim Summary As String = Edit.Summary.ToLower
-        If Summary = "" OrElse Summary Is Nothing Then Return UserLevel.None
-        If Edit.User.Name = Edit.Page.Name.Substring(10) Then Return UserLevel.None
+
+        If Edit.Page Is Edit.User.TalkPage Then Return UserLevel.None
 
         'Only parse block notifications issued by ignored users, to avoid parsing vandalism
         If Edit.User.Ignored Then
-            If Summary.EndsWith("v5") Then Return UserLevel.Blocked
-            If Summary.EndsWith("v6") Then Return UserLevel.Blocked
-            If Summary.EndsWith("v7") Then Return UserLevel.Blocked
-            If Summary.EndsWith("t5") Then Return UserLevel.Blocked
-            If Summary.EndsWith("t6") Then Return UserLevel.Blocked
-            If Summary.EndsWith("t7") Then Return UserLevel.Blocked
-            If Summary.EndsWith("d5") Then Return UserLevel.Blocked
-            If Summary.EndsWith("d6") Then Return UserLevel.Blocked
-            If Summary.EndsWith("d7") Then Return UserLevel.Blocked
+            If Summary = "block" OrElse Summary = "blocked" Then Return UserLevel.Blocked
 
-            If Summary.Contains("test 5") OrElse Summary.Contains("test5") Then Return UserLevel.Blocked
-            If Summary.Contains("test 6") OrElse Summary.Contains("test6") Then Return UserLevel.Blocked
-            If Summary.Contains("test 7") OrElse Summary.Contains("test7") Then Return UserLevel.Blocked
+            For Each Item As String In New String() {"v5", "v6", "v7", "t5", "t6", "t7", "d5", "d6", "d7"}
+                If Summary.EndsWith(Item) Then Return UserLevel.Blocked
+            Next Item
 
-            If Summary.StartsWith("notification: blocked") Then Return UserLevel.Blocked
+            For Each Item As String In New String() _
+                {"test 5", "test5", "test 6", "test6", "test 7", "test7", "notification: blocked", "indef blocked", _
+                "you have been temporarily blocked", "you have been blocked", "temporary block", "vandalblock", _
+                "+block", "+indefblock", "+anonblock"}
 
-            If Summary.Contains("you have been temporarily blocked") OrElse Summary.Contains("you have been blocked") _
-                OrElse Summary.Contains("temporary block") OrElse Summary.Contains("vandalblock") _
-                OrElse Summary.Contains("+block") OrElse Summary.Contains("+indefblock") _
-                OrElse Summary.Contains("+anonblock") OrElse Summary = "blocked" OrElse Summary = "block" _
-                OrElse Summary.Contains("indef blocked") Then Return UserLevel.Blocked
+                If Summary.Contains(Item) Then Return UserLevel.Blocked
+            Next Item
         End If
 
         'Guest9999
@@ -1527,17 +1534,12 @@ Module Processing
         If Summary.Contains(GetMonthName(My.Computer.Clock.GmtTime.Month) & " " & CStr(My.Computer.Clock.GmtTime.Year)) _
             AndAlso Summary.Contains("new section") Then Return UserLevel.Warning
 
-        If Summary.StartsWith("welcome") Then Return UserLevel.Notification
-        If Summary.StartsWith("prod nomination of") Then Return UserLevel.Notification
-        If Summary.StartsWith("notification: ") Then Return UserLevel.Notification
-        If Summary.Contains("nn-warn") Then Return UserLevel.Notification
+        For Each Item As String In New String() _
+            {"welcome", "prod nomination of", "notification: ", "nn-warn", "message from antispambot", _
+             "proposed deletion of article you created", "nonsensepage", "prodwarning", "notice of possible deletion"}
 
-        If Summary.StartsWith("message from antispambot") Then Return UserLevel.Notification
-        If Summary.StartsWith("proposed deletion of article you created") Then Return UserLevel.Notification
-        If Summary.Contains("nonsensepage") Then Return UserLevel.Notification
-        If Summary.Contains("prodwarning") Then Return UserLevel.Notification
-        If Summary.Contains("nn") Then Return UserLevel.Notification
-        If Summary.Contains("notice of possible deletion") Then Return UserLevel.Notification
+            If Summary.Contains(Item) Then Return UserLevel.Notification
+        Next Item
 
         If Summary.Contains("warning") Then Return UserLevel.Warning
         If Summary.StartsWith("warn") Then Return UserLevel.Warning
@@ -1545,7 +1547,7 @@ Module Processing
         Return UserLevel.None
     End Function
 
-    Function ProcessUserTalk(ByVal Text As String, ByVal ThisUser As User) As List(Of Warning)
+    Function ProcessUserTalk(ByVal Text As String, ByVal User As User) As List(Of Warning)
         Dim RecentWarnings As Integer = 0
         Dim Warnings As New List(Of Warning)
 
@@ -1699,10 +1701,10 @@ Module Processing
         Next Item
 
         'Find shared IP template tags
-        If ThisUser.Anonymous Then
+        If User.Anonymous Then
             For Each Item As String In Config.SharedIPTemplates
                 If Text.ToLower.Contains(Item.ToLower) Then
-                    Callback(AddressOf SetSharedIP, CObj(ThisUser))
+                    Callback(AddressOf SetSharedIP, CObj(User))
                     Exit For
                 End If
             Next Item

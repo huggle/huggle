@@ -20,6 +20,18 @@ Class Configuration
     Public Password As String
     Public SitePath As String = "http://en.wikipedia.org/"
 
+    Public AssistedSummaries As String() = { _
+        "using [[User:MichaelBillington/MWT|MWT]]", _
+        "using [[Project:AutoWikiBrowser|AWB]]", _
+        "(using [[WP:HOTCAT|HotCat]])", _
+        "using [[:en:Wikipedia:Tools/Navigation_popups|popups]]", _
+        "using [[WP:FRIENDLY|Friendly]]", _
+        "Using [[WP:TWINKLE|Twinkle]]", _
+        "using [[WP:TW|TW]]", _
+        "using [[WP:TWINKLE|TW]]", _
+        "([[WP:TW|TW]])" _
+        }
+
     'Values stored in local config file
 
     Public Project As String
@@ -102,6 +114,7 @@ Class Configuration
         "Reverted", "edit by", "edits by", "and", "other users", "to last version by", "to an older version by"})
     Public OpenInBrowser As Boolean
     Public PageBlankedPattern As Regex
+    Public PageCreatedPattern As New Regex("←Created page with .*", RegexOptions.Compiled)
     Public PageRedirectedPattern As Regex
     Public PageReplacedPattern As Regex
     Public Patrol As Boolean
@@ -144,7 +157,7 @@ Class Configuration
     Public RequireEdits As Integer
     Public RequireRollback As Boolean
     Public RequireTime As Integer
-    Public RevertSummaries As New List(Of Regex)
+    Public RevertPatterns As New List(Of Regex)
     Public RfdLocation As String
     Public RightAlignQueue As Boolean
     Public RollbackSummary As String
@@ -332,6 +345,7 @@ Module ConfigIO
             Case "namespace-aliases" : SetNamespaceAliases(GetList(Value))
             Case "namespace-names" : SetNamespaceNames(GetList(Value))
             Case "page-blanked-pattern" : Config.PageBlankedPattern = New Regex(Value, RegexOptions.Compiled)
+            Case "page-created-pattern" : Config.PageCreatedPattern = New Regex(Value, RegexOptions.Compiled)
             Case "page-redirected-pattern" : Config.PageRedirectedPattern = New Regex(Value, RegexOptions.Compiled)
             Case "page-replaced-pattern" : Config.PageReplacedPattern = New Regex(Value, RegexOptions.Compiled)
             Case "patrol" : Config.Patrol = CBool(Value)
@@ -408,7 +422,7 @@ Module ConfigIO
 
     Private Sub SetRevertPatterns(ByVal Values As List(Of String))
         For Each Item As String In Values
-            Config.RevertSummaries.Add(New Regex("^" & Item & "$", RegexOptions.Compiled Or RegexOptions.IgnoreCase))
+            Config.RevertPatterns.Add(New Regex("^" & Item & "$", RegexOptions.Compiled Or RegexOptions.IgnoreCase))
         Next Item
     End Sub
 
@@ -686,21 +700,26 @@ Module ConfigIO
                             Select Case OptionName
                                 Case "name" : Queue = New Queue(OptionValue)
                                 Case "filter-anonymous" : Queue.FilterAnonymous = CType(OptionValue, QueueFilter)
+                                Case "filter-assisted" : Queue.FilterAssisted = CType(OptionValue, QueueFilter)
+                                Case "filter-bot" : Queue.FilterBot = CType(OptionValue, QueueFilter)
                                 Case "filter-huggle" : Queue.FilterHuggle = CType(OptionValue, QueueFilter)
                                 Case "filter-ignored" : Queue.FilterIgnored = CType(OptionValue, QueueFilter)
                                 Case "filter-new-pages" : Queue.FilterNewPage = CType(OptionValue, QueueFilter)
                                 Case "filter-notifications" : Queue.FilterNotifications = CType(OptionValue, QueueFilter)
                                 Case "filter-own-userspace" : Queue.FilterOwnUserspace = CType(OptionValue, QueueFilter)
                                 Case "filter-reverts" : Queue.FilterReverts = CType(OptionValue, QueueFilter)
+                                Case "filter-tags" : Queue.FilterTags = CType(OptionValue, QueueFilter)
+                                Case "filter-warnings" : Queue.FilterWarnings = CType(OptionValue, QueueFilter)
                                 Case "list" : If AllLists.ContainsKey(OptionValue) Then Queue.ListName = OptionValue
-                                Case "page-regex" : Queue.PageRegex = New Regex(OptionValue)
+                                Case "page-regex" : Queue.PageRegex = New Regex(OptionValue, RegexOptions.Compiled)
                                 Case "remove-after" : Queue.RemoveAfter = CInt(OptionValue)
                                 Case "remove-old" : Queue.RemoveOld = CBool(OptionValue)
                                 Case "remove-viewed" : Queue.RemoveViewed = CBool(OptionValue)
                                 Case "sort-order" : Queue.SortOrder = CType(OptionValue, QueueSortOrder)
                                 Case "spaces" : Queue.Spaces.AddRange(SetQueueSpaces(OptionValue))
+                                Case "summary-regex" : Queue.SummaryRegex = New Regex(OptionValue, RegexOptions.Compiled)
                                 Case "type" : Queue.Type = SetQueueType(OptionValue)
-                                Case "user-regex" : Queue.UserRegex = New Regex(OptionValue)
+                                Case "user-regex" : Queue.UserRegex = New Regex(OptionValue, RegexOptions.Compiled)
                             End Select
 
                         Catch ex As Exception
@@ -788,12 +807,17 @@ Module ConfigIO
             Items.Add("name:" & Queue.Name)
             Items.Add("type:" & Queue.Type.ToString)
             Items.Add("filter-anonymous:" & CStr(CInt(Queue.FilterAnonymous)))
+            Items.Add("filter-assisted:" & CStr(CInt(Queue.FilterAssisted)))
+            Items.Add("filter-bot:" & CStr(CInt(Queue.FilterBot)))
             Items.Add("filter-huggle:" & CStr(CInt(Queue.FilterHuggle)))
             Items.Add("filter-ignored:" & CStr(CInt(Queue.FilterIgnored)))
             Items.Add("filter-new-pages:" & CStr(CInt(Queue.FilterNewPage)))
             Items.Add("filter-notifications:" & CStr(CInt(Queue.FilterNotifications)))
             Items.Add("filter-own-userspace:" & CStr(CInt(Queue.FilterOwnUserspace)))
             Items.Add("filter-reverts:" & CStr(CInt(Queue.FilterReverts)))
+            Items.Add("filter-tags:" & CStr(CInt(Queue.FilterTags)))
+            Items.Add("filter-warnings:" & CStr(CInt(Queue.FilterWarnings)))
+
             If Queue.ListName IsNot Nothing Then Items.Add("list:" & Queue.ListName)
             If Queue.PageRegex IsNot Nothing Then Items.Add("page-regex:" & Queue.PageRegex.ToString)
             Items.Add("remove-after:" & CStr(Queue.RemoveAfter).ToLower)
@@ -811,6 +835,7 @@ Module ConfigIO
                 Items.Add("spaces:" & String.Join(",", Spaces.ToArray))
             End If
 
+            If Queue.SummaryRegex IsNot Nothing Then Items.Add("summary-regex:" & Queue.SummaryRegex.ToString)
             If Queue.UserRegex IsNot Nothing Then Items.Add("user-regex:" & Queue.UserRegex.ToString)
 
             File.WriteAllLines(QueuesLocation() & "\" & Queue.Name & ".txt", Items.ToArray)
