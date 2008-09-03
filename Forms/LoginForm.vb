@@ -9,7 +9,7 @@ Class LoginForm
     Private Sub LoginForm_Load() Handles Me.Load
         SyncContext = SynchronizationContext.Current
         Icon = My.Resources.icon_red_button
-        Height = 280
+        Height = 286
 
         Config = New Configuration
         LoadLocalConfig()
@@ -18,6 +18,8 @@ Class LoginForm
         'If the app is in debug mode add a localhost wiki to the project list
         If Not Config.Projects.Contains("localhost;localhost") Then Config.Projects.Add("localhost;localhost")
 #End If
+
+        Project.Items.Clear()
 
         For Each Item As String In Config.Projects
             If Item.Contains(";") Then Project.Items.Add(Item.Substring(0, Item.IndexOf(";")))
@@ -61,29 +63,28 @@ Class LoginForm
             End If
         Next Item
 
-        Config.SitePath = "http://" & Config.Project & "/"
-        Config.IrcMode = (Config.Project <> "localhost")
-        If Config.Project.Contains(".org") Then Config.IrcChannel = "#" & _
-            Config.Project.Substring(0, Config.Project.IndexOf(".org"))
-        Config.Password = Password.Text
+        If Config.Project <> "localhost" _
+            Then Config.IrcChannel = "#" & Config.Project.Substring(0, Config.Project.Length - 4)
 
+        Config.IrcMode = (Config.Project <> "localhost")
+        Config.ProxyEnabled = Proxy.Checked
+        Config.ProxyPort = ProxyPort.Text
+        Config.ProxyServer = ProxyAddress.Text.Replace("http://", "")
+        Config.ProxyUserDomain = ProxyDomain.Text
+        Config.ProxyUsername = ProxyUsername.Text
+        Config.SitePath = "http://" & Config.Project & "/"
+        Config.Username = User.SanitizeName(Username.Text)
+        Config.Password = Password.Text
+        
         For Each Item As Control In Controls
             If Not ArrayContains(New Control() {Status, Progress, Cancel}, Item) Then Item.Enabled = False
         Next Item
 
         Cancel.Text = "Cancel"
 
-        Config.ProxyEnabled = Proxy.Checked
-        Config.ProxyPort = ProxyPort.Text
-        ProxyAddress.Text = ProxyAddress.Text.Replace("http://", "")
-        Config.ProxyServer = ProxyAddress.Text
-        Config.ProxyUserDomain = ProxyDomain.Text
-        Config.ProxyUsername = ProxyUsername.Text
-        Config.Username = (Username.Text.Substring(0, 1).ToUpper & Username.Text.Substring(1)).Replace("_", " ")
-
         Try
-            Login.ConfigureProxy(Proxy.Checked, ProxyAddress.Text, ProxyPort.Text, ProxyUsername.Text, _
-                ProxyPassword.Text, ProxyDomain.Text)
+            Login.ConfigureProxy(Config.ProxyEnabled, Config.ProxyServer, Config.ProxyPort, Config.ProxyUsername, _
+                ProxyPassword.Text, Config.ProxyUserDomain)
 
         Catch ex As UriFormatException
             Abort(ex.Message)
@@ -99,9 +100,6 @@ Class LoginForm
             Irc.Disconnect()
             Request.Cancel()
             Abort("Cancelled.")
-            Config = New Configuration
-            LoadLocalConfig()
-            OK.Focus()
         Else
             End
         End If
@@ -170,6 +168,10 @@ Class LoginForm
         For Each Item As Control In Controls
             If Not ArrayContains(New Control() {Status, Progress, Cancel}, Item) Then Item.Enabled = True
         Next Item
+
+        Config = New Configuration
+        LoadLocalConfig()
+        If Username.Text = "" Then Username.Focus() Else If Password.Text = "" Then Password.Focus() Else OK.Focus()
     End Sub
 
     Sub Done()

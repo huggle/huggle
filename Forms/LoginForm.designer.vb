@@ -55,7 +55,7 @@ Partial Class LoginForm
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.OK.Enabled = False
-        Me.OK.Location = New System.Drawing.Point(132, 329)
+        Me.OK.Location = New System.Drawing.Point(132, 328)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
         Me.OK.TabIndex = 7
@@ -65,7 +65,7 @@ Partial Class LoginForm
         'Cancel
         '
         Me.Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Cancel.Location = New System.Drawing.Point(213, 329)
+        Me.Cancel.Location = New System.Drawing.Point(213, 328)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
         Me.Cancel.TabIndex = 8
@@ -90,7 +90,7 @@ Partial Class LoginForm
         Me.ProxyGroup.Controls.Add(Me.ProxyAddress)
         Me.ProxyGroup.Location = New System.Drawing.Point(12, 170)
         Me.ProxyGroup.Name = "ProxyGroup"
-        Me.ProxyGroup.Size = New System.Drawing.Size(276, 153)
+        Me.ProxyGroup.Size = New System.Drawing.Size(276, 152)
         Me.ProxyGroup.TabIndex = 6
         Me.ProxyGroup.TabStop = False
         Me.ProxyGroup.Text = "Proxy settings"
@@ -274,10 +274,9 @@ Partial Class LoginForm
         '
         Me.Status.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Status.AutoSize = True
-        Me.Status.Location = New System.Drawing.Point(9, 357)
+        Me.Status.Location = New System.Drawing.Point(12, 353)
         Me.Status.Name = "Status"
-        Me.Status.Size = New System.Drawing.Size(10, 13)
+        Me.Status.Size = New System.Drawing.Size(276, 28)
         Me.Status.TabIndex = 11
         Me.Status.Text = " "
         '
@@ -286,7 +285,7 @@ Partial Class LoginForm
         Me.Progress.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Progress.Enabled = False
-        Me.Progress.Location = New System.Drawing.Point(12, 377)
+        Me.Progress.Location = New System.Drawing.Point(12, 382)
         Me.Progress.Maximum = 10
         Me.Progress.Name = "Progress"
         Me.Progress.Size = New System.Drawing.Size(276, 19)
@@ -297,7 +296,7 @@ Partial Class LoginForm
         'ShowProxySettings
         '
         Me.ShowProxySettings.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.ShowProxySettings.Location = New System.Drawing.Point(12, 329)
+        Me.ShowProxySettings.Location = New System.Drawing.Point(12, 328)
         Me.ShowProxySettings.Name = "ShowProxySettings"
         Me.ShowProxySettings.Size = New System.Drawing.Size(103, 23)
         Me.ShowProxySettings.TabIndex = 10
@@ -307,7 +306,7 @@ Partial Class LoginForm
         'HideProxySettings
         '
         Me.HideProxySettings.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.HideProxySettings.Location = New System.Drawing.Point(12, 329)
+        Me.HideProxySettings.Location = New System.Drawing.Point(12, 328)
         Me.HideProxySettings.Name = "HideProxySettings"
         Me.HideProxySettings.Size = New System.Drawing.Size(102, 23)
         Me.HideProxySettings.TabIndex = 9
@@ -332,7 +331,7 @@ Partial Class LoginForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(300, 408)
+        Me.ClientSize = New System.Drawing.Size(300, 413)
         Me.Controls.Add(Me.Logo)
         Me.Controls.Add(Me.ShowProxySettings)
         Me.Controls.Add(Me.Status)
@@ -352,6 +351,7 @@ Partial Class LoginForm
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "LoginForm"
+        Me.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Huggle"
         Me.ProxyGroup.ResumeLayout(False)

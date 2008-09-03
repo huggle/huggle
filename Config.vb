@@ -81,7 +81,7 @@ Class Configuration
     Public IgnoredPages As New List(Of String)
     Public Initialised As Boolean
     Public IrcChannel As String
-    Public IrcMode As Boolean = True
+    Public IrcMode As Boolean
     Public IrcPort As Integer = 6667
     Public IrcServer As String
     Public IrcUsername As String

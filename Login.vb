@@ -89,6 +89,8 @@ Namespace Requests
                 Exit Sub
             End Try
 
+            If State = States.Cancelled Then Thread.CurrentThread.Abort()
+
             'Get global configuration
             UpdateStatus("Checking global configuration...")
 
@@ -103,6 +105,8 @@ Namespace Requests
                 Abort("Huggle is currently disabled on all projects.")
                 Exit Sub
             End If
+
+            If State = States.Cancelled Then Thread.CurrentThread.Abort()
 
             'Connect to IRC, if required (on separate thread)
             If Config.IrcMode AndAlso (Config.IrcChannel IsNot Nothing) Then IrcConnect()
@@ -133,6 +137,8 @@ Namespace Requests
                 Exit Sub
             End If
 
+            If State = States.Cancelled Then Thread.CurrentThread.Abort()
+
             'Get user configuration
             UpdateStatus("Checking user configuration...")
 
@@ -140,7 +146,7 @@ Namespace Requests
 
             If Config.RequireConfig AndAlso (Not UserConfigResult OrElse Not Config.Enabled) Then
                 Config.ConfigChanged = True
-                Abort("Huggle is not enabled for your account, check user config.")
+                Abort("Huggle is not enabled for your account, check user configuration page.")
                 Exit Sub
             End If
 
@@ -149,6 +155,8 @@ Namespace Requests
             If Config.WarnSummary2 Is Nothing Then Config.WarnSummary2 = Config.WarnSummary
             If Config.WarnSummary3 Is Nothing Then Config.WarnSummary3 = Config.WarnSummary
             If Config.WarnSummary4 Is Nothing Then Config.WarnSummary4 = Config.WarnSummary
+
+            If State = States.Cancelled Then Thread.CurrentThread.Abort()
 
             'Get user information and groups
             UpdateStatus("Checking user rights...")
@@ -164,18 +172,17 @@ Namespace Requests
                     Exit Sub
                 End If
 
-                Dim EditCount As String = Result.Substring(Result.IndexOf("editcount=""") + 11)
-                EditCount = EditCount.Substring(0, EditCount.IndexOf(""""))
+                Dim EditCount As Integer = CInt(FindString(Result, "editcount=""", """"))
 
-                If CInt(EditCount) < Config.RequireEdits Then
-                    Abort("Use of Huggle requires at least " & CStr(Config.RequireEdits) & " edits.")
-                    Exit Sub
-                End If
+                'If EditCount < Config.RequireEdits Then
+                '    Abort("Use of Huggle on this project requires at least " & CStr(Config.RequireEdits) & " edits.")
+                '    Exit Sub
+                'End If
 
-                Result = Result.Substring(Result.IndexOf("<rights>") + 8)
-                Result = Result.Substring(0, Result.IndexOf("</rights>"))
+                Result = FindString(Result, "<rights>", "</rights>")
 
-                Dim Rights As New List(Of String)(Result.Split(New String() {"<r>"}, StringSplitOptions.RemoveEmptyEntries))
+                Dim Rights As New List(Of String)(Result.Split(New String() {"<r>"}, _
+                    StringSplitOptions.RemoveEmptyEntries))
                 Dim Autoconfirmed, AdminAvailable As Boolean
 
                 For Each Item As String In Rights
@@ -188,17 +195,17 @@ Namespace Requests
                 Administrator = AdminAvailable AndAlso Config.UseAdminFunctions
 
                 If Config.RequireAdmin AndAlso Not AdminAvailable Then
-                    Abort("Use of Huggle requires an administrator account.")
+                    Abort("Use of Huggle on this project requires an administrator account.")
                     Exit Sub
                 End If
 
                 If Not Autoconfirmed AndAlso Config.Project = "en.wikipedia" Then
-                    Abort("Use of Huggle requires that your account is autoconfirmed.")
+                    Abort("Use of Huggle on this project requires that your account is autoconfirmed.")
                     Exit Sub
                 End If
 
                 If Config.RequireRollback AndAlso Not RollbackAvailable Then
-                    Abort("Use of Huggle requires rollback.")
+                    Abort("Use of Huggle on this project requires rollback.")
                     Exit Sub
                 End If
 
@@ -206,6 +213,8 @@ Namespace Requests
                 Abort("Failed to retrive user rights.")
                 Exit Sub
             End If
+
+            If State = States.Cancelled Then Thread.CurrentThread.Abort()
 
             If Config.RequireTime > 0 Then
                 'Get account creation date
@@ -225,11 +234,14 @@ Namespace Requests
                     Date.TryParse(CreationDateString, CreationDate)
 
                     If CreationDate.AddDays(Config.RequireTime) < Date.UtcNow Then
-                        Abort("Accounts must be at least " & CStr(Config.RequireTime) & " days old to use Huggle")
+                        Abort("Use of Huggle on this project requires an account at least " & _
+                            CStr(Config.RequireTime) & " days old.")
                         Exit Sub
                     End If
                 End If
             End If
+
+            If State = States.Cancelled Then Thread.CurrentThread.Abort()
 
             'Check user list. If approval required, deny access to users not on the list, otherwise add them
             If Config.UserListLocation IsNot Nothing Then
@@ -246,7 +258,7 @@ Namespace Requests
                     UserList.Contains("[[Special:Contributions/" & Config.Username & "|" & Config.Username & "]]") Then
 
                     If Config.Approval Then
-                        Abort("User is not approved to use Huggle.")
+                        Abort("Use of Huggle on this project requires approval.")
                         Exit Sub
                     End If
 
@@ -274,6 +286,8 @@ Namespace Requests
                 End If
             End If
 
+            If State = States.Cancelled Then Thread.CurrentThread.Abort()
+
             If Config.WhitelistLocation IsNot Nothing Then
                 'Get whitelist
                 UpdateStatus("Retrieving user whitelist...")
@@ -300,6 +314,8 @@ Namespace Requests
             'In case user is not already on the whitelist (usually will be)
             User.Me.Ignored = True
 
+            If State = States.Cancelled Then Thread.CurrentThread.Abort()
+
             'Get bot list
             UpdateStatus("Retrieving bot list...")
 
@@ -319,6 +335,8 @@ Namespace Requests
                     End If
                 Next Item
             End If
+
+            If State = States.Cancelled Then Thread.CurrentThread.Abort()
 
             'Get watchlist
             UpdateStatus("Retrieving watchlist...")
