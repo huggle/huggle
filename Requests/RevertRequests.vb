@@ -11,7 +11,7 @@ Namespace Requests
         Public Edit As Edit, Summary As String
 
         Public Sub Start()
-            If Edit IsNot Nothing Then
+            If Edit IsNot Nothing AndAlso Edit.Page IsNot Nothing Then
                 LogProgress("Reverting edit to '" & Edit.Page.Name & "'...")
 
                 Dim RequestThread As New Thread(AddressOf Process)
@@ -323,7 +323,7 @@ Namespace Requests
             Data.Page = Page
 
             If Summary IsNot Nothing AndAlso Summary <> "" Then Data.Summary = Summary _
-                Else Data.Summary = Config.ManualRevertSummary.Replace("$1", ExcludeUser.Name).Replace("$2", OldUser)
+                Else Data.Summary = Config.RevertSummary.Replace("$1", ExcludeUser.Name).Replace("$2", OldUser)
 
             Data.Text = Result.Substring(Result.IndexOf("<rev user=""") + 11)
             Data.Text = Data.Text.Substring(Data.Text.IndexOf(">") + 1)

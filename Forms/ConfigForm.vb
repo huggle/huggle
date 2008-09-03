@@ -51,7 +51,7 @@ Class ConfigForm
             RevertSummaries.Items.Add(Item)
         Next Item
 
-        ClearRevertSummaries.Enabled = (ManualRevertSummaries.Count > 0)
+        ClearRevertSummaries.Enabled = (Config.RevertSummaries.Count > 0)
 
         ReportLinkExamples.Checked = Config.ReportLinkDiffs
         ExtendReports.Enabled = ReportLinkExamples.Checked
@@ -218,7 +218,8 @@ Class ConfigForm
     End Sub
 
     Private Sub ClearRevertSummaries_Click() Handles ClearRevertSummaries.Click
-        ManualRevertSummaries.Clear()
+        Config.RevertSummaries.Clear()
+        ClearRevertSummaries.Enabled = False
     End Sub
 
     Private Sub Defaults_Click() Handles Defaults.Click

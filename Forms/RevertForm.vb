@@ -6,7 +6,7 @@ Class RevertForm
     Private Sub RevertForm_Load() Handles Me.Load
         Icon = My.Resources.icon_red_button
         Text = "Revert " & Page.Name
-        Summary.Items.AddRange(ManualRevertSummaries.ToArray)
+        Summary.Items.AddRange(Config.RevertSummaries.ToArray)
         Summary.Text = LastSummary
         Summary.Focus()
         Summary.SelectAll()
@@ -14,7 +14,7 @@ Class RevertForm
 
     Private Sub RevertForm_FormClosing() Handles Me.FormClosing
         If DialogResult = DialogResult.OK Then
-            If Not ManualRevertSummaries.Contains(Summary.Text) Then ManualRevertSummaries.Add(Summary.Text)
+            If Not Config.RevertSummaries.Contains(Summary.Text) Then Config.RevertSummaries.Add(Summary.Text)
             LastSummary = Summary.Text
 
             If User.Level = UserLevel.None Then User.Level = UserLevel.Reverted

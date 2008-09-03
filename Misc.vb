@@ -24,7 +24,6 @@ Module Misc
     Public LatestDiffRequest As DiffRequest
     Public LogBuffer As New List(Of String)
     Public MainForm As Main
-    Public ManualRevertSummaries As New List(Of String)
     Public NextCount As New List(Of User)
     Public NullEdit As New Edit
     Public PendingRequests As New List(Of Request)

@@ -6,7 +6,6 @@ Class Configuration
 
     'Configuration
 
-    Public Version As New Version(Application.ProductVersion)
     Public ConfigChanged As Boolean
     Public ConfigVersion As New Version(0, 0, 0)
     Public ContribsBlockSize As Integer = 100
@@ -16,9 +15,9 @@ Class Configuration
     Public LatestVersion As New Version(0, 0, 0)
     Public QueueSize As Integer = 5000
     Public QueueWidth As Integer = 160
-
     Public Password As String
     Public SitePath As String = "http://en.wikipedia.org/"
+    Public Version As New Version(Application.ProductVersion)
 
     'Values stored in local config file
 
@@ -87,7 +86,6 @@ Class Configuration
     Public IrcServer As String
     Public IrcUsername As String
     Public LogFile As String
-    Public ManualRevertSummary As String
     Public MaxAIVDiffs As Integer = 8
     Public MfdLocation As String
     Public MinorNotifications As Boolean
@@ -147,6 +145,8 @@ Class Configuration
     Public RequireRollback As Boolean
     Public RequireTime As Integer
     Public RevertPatterns As New List(Of Regex)
+    Public RevertSummary As String
+    Public RevertSummaries As New List(Of String)
     Public RfdLocation As String
     Public RightAlignQueue As Boolean
     Public RollbackSummary As String
@@ -328,7 +328,7 @@ Module ConfigIO
             Case "go" : Config.GoToPages = GetList(Value)
             Case "ifd" : Config.IfdLocation = Value
             Case "ignore" : Config.IgnoredPages = GetList(Value)
-            Case "manual-revert-summary" : Config.ManualRevertSummary = Value
+            Case "manual-revert-summary" : Config.RevertSummary = Value
             Case "multiple-revert-summary-parts" : Config.MultipleRevertSummaryParts = GetList(Value)
             Case "mfd" : Config.MfdLocation = Value
             Case "min-version" : SetMinVersion(Value)
@@ -620,8 +620,8 @@ Module ConfigIO
 
             Dim Summaries As New List(Of String)
 
-            For Each Item As String In ManualRevertSummaries
-                Summaries.Add(Item.Replace(",", "\,"))
+            For Each Item As String In Config.RevertSummaries
+                If Not Summaries.Contains(Item) Then Summaries.Add(Item.Replace(",", "\,"))
             Next Item
 
             Items.Add("revert-summaries:" & String.Join(",", Summaries.ToArray))
@@ -634,7 +634,7 @@ Module ConfigIO
         For Each Item As String In Value.Replace(LF, "").Replace("\,", Convert.ToChar(1)).Split _
             (New String() {","}, StringSplitOptions.RemoveEmptyEntries)
 
-            ManualRevertSummaries.Add(Item.Replace(Convert.ToChar(1), ","))
+            Config.RevertSummaries.Add(Item.Replace(Convert.ToChar(1), ","))
         Next Item
     End Sub
 
@@ -734,9 +734,11 @@ Module ConfigIO
             Queue.Default.SortOrder = QueueSortOrder.Quality
             Queue.Default.Spaces = New List(Of Space)(New Space() {Space.Article})
             Queue.Default.FilterIgnored = QueueFilter.Exclude
+            Queue.Default.FilterNotifications = QueueFilter.Exclude
             Queue.Default.FilterOwnUserspace = QueueFilter.Exclude
             Queue.Default.FilterReverts = QueueFilter.Exclude
-            Queue.Default.FilterNotifications = QueueFilter.Exclude
+            Queue.Default.FilterTags = QueueFilter.Exclude
+            Queue.Default.FilterWarnings = QueueFilter.Exclude
             Queue.Default.RemoveOld = True
             Queue.Default.Reset()
         End If

@@ -6,7 +6,7 @@ Class RevertAndWarnForm
         Icon = My.Resources.icon_red_button
         Text = "Revert and warn " & User.Name
 
-        Summary.Items.AddRange(ManualRevertSummaries.ToArray)
+        Summary.Items.AddRange(Config.RevertSummaries.ToArray)
 
         WarnLog.Columns.Add("", 300)
         WarnLog.Items.Add("Retrieving warnings, please wait...")
@@ -31,7 +31,7 @@ Class RevertAndWarnForm
     End Sub
 
     Private Sub OK_Click() Handles OK.Click
-        If Not ManualRevertSummaries.Contains(Summary.Text) Then ManualRevertSummaries.Add(Summary.Text)
+        If Not Config.RevertSummaries.Contains(Summary.Text) Then Config.RevertSummaries.Add(Summary.Text)
 
         Dim Level As UserLevel
 
