@@ -13,8 +13,8 @@ Class EditInfoPanel
     Public Sub SetEdit(ByVal Edit As Edit, ByVal Mode As DisplayMode)
         If Edit IsNot Nothing AndAlso Edit.Page IsNot Nothing AndAlso Edit.User IsNot Nothing Then
             If Mode = DisplayMode.PageName Then PageUser.Text = Edit.User.Name Else PageUser.Text = Edit.Page.Name
-            Change.Text = CStr(If(Edit.Size > 0, "+", "")) & CStr(Edit.Size)
-            Change.Visible = (Not Edit.Size = 0)
+            Change.Text = CStr(If(Edit.Change > 0, "+", "")) & CStr(Edit.Change)
+            Change.Visible = (Not Edit.Change = 0)
             If Edit.Summary Is Nothing Then Summary.Text = "" Else Summary.Text = TrimSummary(Edit.Summary)
             Time.Text = WikiTimestamp(Edit.Time.ToLocalTime)
         Else

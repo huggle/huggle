@@ -19,6 +19,7 @@ Module Misc
     Public CurrentTab As BrowserTab
     Public HidingEdit As Boolean = True
     Public HistoryOffset As Integer
+    Public LastRcTime As Date
     Public LastTagText As String = ""
     Public LatestDiffRequest As DiffRequest
     Public LogBuffer As New List(Of String)

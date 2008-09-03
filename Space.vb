@@ -1,4 +1,4 @@
-﻿<DebuggerDisplay("{Name}")> _
+﻿<DebuggerDisplay("{Name}")> <DebuggerStepThrough()> _
 Class Space
 
     'Represents a MediaWiki namespace

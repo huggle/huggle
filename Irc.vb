@@ -119,7 +119,7 @@ Module Irc
                         NewEdit.User = GetUser(Match.Groups(5).Value)
                         NewEdit.Id = Match.Groups(3).Value
                         NewEdit.Oldid = Match.Groups(4).Value
-                        NewEdit.Size = CInt(Match.Groups(6).Value)
+                        NewEdit.Change = CInt(Match.Groups(6).Value)
                         NewEdit.Summary = Match.Groups(7).Value
 
                         Callback(AddressOf ProcessIrcEdit, CObj(NewEdit))
@@ -132,7 +132,7 @@ Module Irc
                         NewEdit.User = GetUser(Match.Groups(3).Value)
                         NewEdit.Id = "cur"
                         NewEdit.Oldid = "-1"
-                        NewEdit.Size = CInt(Match.Groups(4).Value)
+                        NewEdit.Change = CInt(Match.Groups(4).Value)
                         NewEdit.Summary = Match.Groups(5).Value
                         NewEdit.Prev = NullEdit
                         NewEdit.NewPage = True

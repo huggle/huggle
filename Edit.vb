@@ -14,6 +14,7 @@ Class Edit
 
     Public Assisted As Boolean
     Public Cached As CacheState
+    Public Change As Integer
     Public Deleted As Boolean
     Public Diff As String
     Public Id As String

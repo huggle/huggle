@@ -1,4 +1,4 @@
-﻿<DebuggerDisplay("{Name}")> _
+﻿<DebuggerDisplay("{Name}")> <DebuggerStepThrough()> _
 Class Page
 
     'Represents a MediaWiki page

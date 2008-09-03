@@ -137,9 +137,9 @@ Namespace Requests
                 Result = "<div style=""font-size: 160%; font-family: Arial"">" & Edit.Page.Name & "</div>" & Result
 
                 'Add the change size in the top-right corner
-                If Edit.Size <> 0 Then
-                    Dim EditChange As String = CStr(Edit.Size)
-                    If Edit.Size > 0 Then EditChange = "+" & EditChange
+                If Edit.Change <> 0 Then
+                    Dim EditChange As String = CStr(Edit.Change)
+                    If Edit.Change > 0 Then EditChange = "+" & EditChange
 
                     Result = "<div style=""float: right; font-size: 140%; font-family: Arial"">" & _
                         EditChange & "</div>" & Result

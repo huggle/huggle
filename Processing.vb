@@ -4,7 +4,7 @@ Imports System.Web.HttpUtility
 Module Processing
 
     Private RcLineRegex As New Regex _
-        ("type=""[^""]*"" ns=""[^""]*"" title=""([^""]*)"" rcid=""[^""]*"" pageid=""[^""]*"" " _
+        ("type=""([^""]*)"" ns=""[^""]*"" title=""([^""]*)"" rcid=""[^""]*"" pageid=""[^""]*"" " _
         & "revid=""([^""]*)"" old_revid=""([^""]*)"" user=""([^""]*)""( bot="""")?( anon=" _
         & """"")?( new="""")?( minor="""")? oldlen=""([^""]*)"" newlen=""([^""]*)"" times" _
         & "tamp=""([^""]*)""( comment=""([^""]*)"")? />", RegexOptions.Compiled)
@@ -24,7 +24,7 @@ Module Processing
             Then Edit.Type = EditType.ReplacedWith
 
         'Assisted summaries
-        If Edit.Summary.EndsWith(Config.Summary) Then Edit.Assisted = True
+        If Config.Summary IsNot Nothing AndAlso Edit.Summary.EndsWith(Config.Summary) Then Edit.Assisted = True
 
         For Each Item As String In Config.AssistedSummaries
             If Edit.Summary.EndsWith(Item) Then
@@ -961,8 +961,17 @@ Module Processing
                 Dim Item As String = RcEntries(i)
                 Dim Match As Match = RcLineRegex.Match(Item)
 
-                If Match.Success Then If HtmlDecode(Match.Groups(1).Value).StartsWith("Special:") _
-                    Then ProcessRcLog(Match) Else ProcessRcEdit(Match)
+                If Match.Success AndAlso LastRcTime <= _
+                    Date.SpecifyKind(CDate(Match.Groups(12).Value).ToUniversalTime, DateTimeKind.Utc) Then
+
+                    Select Case Match.Groups(1).Value
+                        Case "edit" : ProcessRcEdit(Match)
+                        Case "new" : ProcessRcNewPage(Match)
+                        Case "log" : ProcessRcLog(Match)
+                    End Select
+
+                    LastRcTime = Date.SpecifyKind(CDate(Match.Groups(12).Value).ToUniversalTime, DateTimeKind.Utc)
+                End If
             Next i
         End If
 
@@ -981,20 +990,36 @@ Module Processing
     Sub ProcessRcEdit(ByVal Match As Match)
         Dim Edit As New Edit
 
-        Edit.Page = GetPage(HtmlDecode(Match.Groups(1).Value))
-        Edit.Id = Match.Groups(2).Value
-        Edit.Oldid = Match.Groups(3).Value
+        Edit.Page = GetPage(HtmlDecode(Match.Groups(2).Value))
+        Edit.Id = Match.Groups(3).Value
+        Edit.Oldid = Match.Groups(4).Value
+        Edit.User = GetUser(HtmlDecode(Match.Groups(5).Value))
+        Edit.Change = (CInt(Match.Groups(11).Value) - CInt(Match.Groups(10).Value))
+        Edit.Size = CInt(Match.Groups(11).Value)
+        If Edit.Page.LastEdit IsNot Nothing Then Edit.Page.LastEdit.Size = CInt(Match.Groups(10).Value)
+        Edit.Time = Date.SpecifyKind(CDate(Match.Groups(12).Value).ToUniversalTime, DateTimeKind.Utc)
+        Edit.Summary = HtmlDecode(Match.Groups(14).Value)
 
-        If Edit.Oldid = "0" Then
-            Edit.Prev = NullEdit
-            Edit.Page.FirstEdit = Edit
-            Edit.Oldid = "-1"
+        If Not Edit.All.ContainsKey(Edit.Id) Then
+            ProcessEdit(Edit)
+            ProcessNewEdit(Edit)
         End If
+    End Sub
 
-        Edit.User = GetUser(HtmlDecode(Match.Groups(4).Value))
-        Edit.Size = (CInt(Match.Groups(10).Value) - CInt(Match.Groups(9).Value))
-        Edit.Time = Date.SpecifyKind(CDate(Match.Groups(11).Value).ToUniversalTime, DateTimeKind.Utc)
-        Edit.Summary = HtmlDecode(Match.Groups(13).Value)
+    Sub ProcessRcNewPage(ByVal Match As Match)
+        Dim Edit As New Edit
+
+        Edit.NewPage = True
+        Edit.Page = GetPage(HtmlDecode(Match.Groups(2).Value))
+        Edit.Page.FirstEdit = Edit
+        Edit.Prev = NullEdit
+        Edit.Id = Match.Groups(3).Value
+        Edit.Oldid = "-1"
+        Edit.User = GetUser(HtmlDecode(Match.Groups(5).Value))
+        Edit.Change = CInt(Match.Groups(11).Value)
+        Edit.Size = CInt(Match.Groups(11).Value)
+        Edit.Time = Date.SpecifyKind(CDate(Match.Groups(12).Value).ToUniversalTime, DateTimeKind.Utc)
+        Edit.Summary = HtmlDecode(Match.Groups(14).Value)
 
         If Not Edit.All.ContainsKey(Edit.Id) Then
             ProcessEdit(Edit)
@@ -1003,40 +1028,67 @@ Module Processing
     End Sub
 
     Sub ProcessRcLog(ByVal Match As Match)
-
-        Select Case HtmlDecode(Match.Groups(1).Value)
+        Select Case HtmlDecode(Match.Groups(2).Value)
             Case "Special:Log/block"
                 Dim NewBlock As New Block
-                Dim Summary As String = HtmlDecode(Match.Groups(13).Value)
+                Dim Summary As String = HtmlDecode(Match.Groups(14).Value)
 
-                NewBlock.Comment = Summary
-                NewBlock.Admin = GetUser(HtmlDecode(Match.Groups(4).Value))
-                NewBlock.Time = Date.SpecifyKind(CDate(Match.Groups(11).Value).ToUniversalTime, DateTimeKind.Utc)
+                If Summary.StartsWith("blocked") Then
+                    NewBlock.Action = "block"
+                    NewBlock.Duration = FindString(Summary, "with an expiry time of ", " (")
+                    NewBlock.User = GetUser(FindString(Summary, "[[User:", "]]"))
+                    NewBlock.Options = FindString(Summary, " (", ")")
+                    If NewBlock.Options IsNot Nothing Then NewBlock.Options = NewBlock.Options _
+                        .Replace("anonymous users only", "anononly") _
+                        .Replace("account creation disabled", "nocreate") _
+                        .Replace("autoblock disabled", "noautoblock")
+                Else
+                    NewBlock.Action = "unblock"
+                    NewBlock.User = GetUser(FindString(Summary, "User:"))
+                End If
+
+                NewBlock.Comment = FindString(Summary, "): ")
+                NewBlock.Admin = GetUser(HtmlDecode(Match.Groups(5).Value))
+                NewBlock.Time = Date.SpecifyKind(CDate(Match.Groups(12).Value).ToUniversalTime, DateTimeKind.Utc)
 
                 ProcessBlock(NewBlock)
 
             Case "Special:Log/delete"
                 Dim NewDelete As New Delete
-                Dim Summary As String = HtmlDecode(Match.Groups(13).Value)
+                Dim Summary As String = HtmlDecode(Match.Groups(14).Value)
 
-                NewDelete.Admin = GetUser(HtmlDecode(Match.Groups(4).Value))
-                NewDelete.Time = Date.SpecifyKind(CDate(Match.Groups(11).Value).ToUniversalTime, DateTimeKind.Utc)
+                If Summary.StartsWith("deleted") Then NewDelete.Action = "delete" Else NewDelete.Action = "restore"
+                NewDelete.Page = GetPage(FindString(Summary, "[[", "]]"))
+                NewDelete.Admin = GetUser(HtmlDecode(Match.Groups(5).Value))
+                NewDelete.Time = Date.SpecifyKind(CDate(Match.Groups(12).Value).ToUniversalTime, DateTimeKind.Utc)
+                NewDelete.Comment = FindString(Summary, """: ")
 
                 ProcessDelete(NewDelete)
 
             Case "Special:Log/protect"
                 Dim NewProtection As New Protection
-                Dim Summary As String = HtmlDecode(Match.Groups(13).Value)
+                Dim Summary As String = HtmlDecode(Match.Groups(14).Value)
 
-                NewProtection.Admin = GetUser(HtmlDecode(Match.Groups(4).Value))
-                NewProtection.Time = Date.SpecifyKind(CDate(Match.Groups(11).Value) _
-                    .ToUniversalTime, DateTimeKind.Utc)
+                If Summary.StartsWith("protected") Then
+                    NewProtection.Action = "protect"
+                ElseIf Summary.StartsWith("unprotected") Then
+                    NewProtection.Action = "unprotect"
+                Else
+                    NewProtection.Action = "change"
+                End If
+
+                NewProtection.Admin = GetUser(HtmlDecode(Match.Groups(5).Value))
+                NewProtection.Time = Date.SpecifyKind(CDate(Match.Groups(12).Value).ToUniversalTime, DateTimeKind.Utc)
                 NewProtection.Page = GetPage(FindString(Summary, "[[", "]]"))
 
-                If Summary.Contains("[edit:autoconfirmed") Then NewProtection.EditLevel = "autoconfirmed"
-                If Summary.Contains("[edit:sysop") Then NewProtection.EditLevel = "sysop"
-                If Summary.Contains("move:autoconfirmed]") Then NewProtection.MoveLevel = "autoconfirmed"
-                If Summary.Contains("move:sysop]") Then NewProtection.MoveLevel = "sysop"
+                NewProtection.Summary = FindString(Summary, """: ")
+                If NewProtection.Summary IsNot Nothing AndAlso NewProtection.Summary.Contains(" [") _
+                    Then NewProtection.Summary = NewProtection.Summary.Substring(0, NewProtection.Summary.IndexOf(" ["))
+
+                If Summary.Contains("[edit=autoconfirmed") Then NewProtection.EditLevel = "autoconfirmed"
+                If Summary.Contains("[edit=sysop") Then NewProtection.EditLevel = "sysop"
+                If Summary.Contains("move=autoconfirmed]") Then NewProtection.MoveLevel = "autoconfirmed"
+                If Summary.Contains("move=sysop]") Then NewProtection.MoveLevel = "sysop"
 
                 NewProtection.Cascading = Summary.Contains("[cascading]")
 
@@ -1272,7 +1324,7 @@ Module Processing
 
         If (Summary = "afd" OrElse Summary.Contains(":afd") OrElse Summary.Contains("{afd") _
             OrElse Summary.Contains("afd}") OrElse Summary.StartsWith("afd ")) _
-            AndAlso ThisEdit.Page.IsArticle AndAlso ThisEdit.Size > 0 Then Return True
+            AndAlso ThisEdit.Page.IsArticle AndAlso ThisEdit.Change > 0 Then Return True
 
         Return False
     End Function
@@ -1534,8 +1586,12 @@ Module Processing
         If Summary.Contains(GetMonthName(My.Computer.Clock.GmtTime.Month) & " " & CStr(My.Computer.Clock.GmtTime.Year)) _
             AndAlso Summary.Contains("new section") Then Return UserLevel.Warning
 
+        For Each Item As String In New String() {"notice: ", "notification: "}
+            If Summary.StartsWith(Item) Then Return UserLevel.Notification
+        Next Item
+
         For Each Item As String In New String() _
-            {"welcome", "prod nomination of", "notification: ", "nn-warn", "message from antispambot", _
+            {"welcome", "prod nomination of", "nn-warn", "message from antispambot", _
              "proposed deletion of article you created", "nonsensepage", "prodwarning", "notice of possible deletion"}
 
             If Summary.Contains(Item) Then Return UserLevel.Notification

@@ -1,6 +1,6 @@
 ﻿Imports System.Text.RegularExpressions
 
-<DebuggerDisplay("{Name}")> _
+<DebuggerDisplay("{Name}")> <DebuggerStepThrough()> _
 Class User
 
     'Represents a user account or anonymous user
