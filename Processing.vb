@@ -891,18 +891,21 @@ Module Processing
         MainForm.RefreshInterface()
     End Sub
 
+    Private ContribsRegex As New Regex _
+        ("<item user=""[^""]+"" pageid=""[^""]+"" revid=""([^""]+)"" ns=""([^""]+)"" title=""([^""]+)"" " & _
+         "timestamp=""([^""]+)"" (new="""" )?(minor="""" )?(top="""" )?(comment=""([^""]+)"" )?/>", _
+         RegexOptions.Compiled)
+
     Sub ProcessContribs(ByVal Result As String, ByVal User As User)
 
-        Dim Contribs As MatchCollection = New Regex("<item user=""[^""]+"" pageid=""[^""]+"" revid=""([^""]+)"" " & _
-            "ns=""([^""]+)"" title=""([^""]+)"" timestamp=""([^""]+)"" (new="""" )?(minor="""" )?(comment=""([^" & _
-            """]+)"" )?/>", RegexOptions.Compiled).Matches(Result)
+        Dim Contribs As MatchCollection = ContribsRegex.Matches(Result)
 
         If Contribs.Count = 0 Then
             If User.LastEdit Is Nothing Then User.LastEdit = NullEdit
             Exit Sub
         End If
 
-        Dim NextEditByUser As Edit = Nothing
+        Dim NextByUser As Edit = Nothing
 
         For i As Integer = 0 To Contribs.Count - 1
             Dim Edit As Edit
@@ -915,25 +918,28 @@ Module Processing
             Edit.User = User
 
             Edit.Page = GetPage(HtmlDecode(Contribs(i).Groups(3).Value))
-            If Edit.Summary Is Nothing Then Edit.Summary = HtmlDecode(Contribs(i).Groups(8).Value)
+
+            If Edit.Page.LastEdit Is Nothing AndAlso Contribs(i).Groups(7).Value <> "" Then Edit.Page.LastEdit = Edit
+
+            If Edit.Summary Is Nothing Then Edit.Summary = HtmlDecode(Contribs(i).Groups(9).Value)
             If Edit.Time = Date.MinValue Then Edit.Time = CDate(Contribs(i).Groups(4).Value)
 
             If User.LastEdit Is Nothing Then
                 User.LastEdit = Edit
-            ElseIf NextEditByUser IsNot Nothing Then
-                Edit.NextByUser = NextEditByUser
-                NextEditByUser.PrevByUser = Edit
+            ElseIf NextByUser IsNot Nothing Then
+                Edit.NextByUser = NextByUser
+                NextByUser.PrevByUser = Edit
             End If
 
-            NextEditByUser = Edit
+            NextByUser = Edit
             ProcessEdit(Edit)
         Next i
 
         If Result.Contains("<usercontribs ucstart=""") Then
-            User.ContribsOffset = Timestamp(NextEditByUser.Time)
+            User.ContribsOffset = FindString(Result, "ucstart=""", """")
         Else
-            NextEditByUser.PrevByUser = NullEdit
-            User.FirstEdit = NextEditByUser
+            NextByUser.PrevByUser = NullEdit
+            User.FirstEdit = NextByUser
 
             'Count edits
             If User.EditCount = -1 Then
