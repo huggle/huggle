@@ -194,7 +194,7 @@ Namespace Requests
                 Items.Add("report:none")
             End If
 
-            Items.Add("revert-summaries:" & LF & "    " & _
+            If Config.CustomRevertSummaries.Count > 0 Then Items.Add("revert-summaries:" & LF & "    " & _
                 String.Join("," & LF & "    ", Config.CustomRevertSummaries.ToArray))
             Items.Add("rollback:" & CStr(Config.UseRollback).ToLower)
             Items.Add("show-log:" & CStr(Config.ShowLog).ToLower)

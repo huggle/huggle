@@ -180,7 +180,7 @@ Class Configuration
     Public UpdateWhitelistManual As Boolean
     Public UseAdminFunctions As Boolean = True
     Public UserAgent As String = "Huggle/" & Version.Major.ToString & "." & Version.Minor.ToString & "." & _
-        Version.Build & " http://en.wikipedia.org/wiki/Huggle"
+        Version.Build.ToString & " http://en.wikipedia.org/wiki/Huggle"
     Public UserConfigLocation As String = "Special:Mypage/huggle.css"
     Public UserListLocation As String
     Public UserListUpdateSummary As String
@@ -283,7 +283,6 @@ Module ConfigIO
             Case "protection-requests" : Config.ProtectionRequests = CBool(Value)
             Case "report" : SetReport(Value)
             Case "report-summary" : Config.ReportSummary = Value
-            Case "revert-summaries" : Config.CustomRevertSummaries = GetList(Value)
             Case "rollback" : Config.UseRollback = CBool(Value)
             Case "show-log" : Config.ShowLog = CBool(Value)
             Case "show-new-edits" : Config.ShowNewEdits = CBool(Value)
@@ -350,6 +349,7 @@ Module ConfigIO
             Case "require-rollback" : Config.RequireRollback = CBool(Value)
             Case "require-time" : Config.RequireTime = CInt(Value)
             Case "revert-patterns" : SetRevertPatterns(GetList(Value))
+            Case "revert-summaries" : Config.CustomRevertSummaries = GetList(Value)
             Case "rollback-summary" : Config.RollbackSummary = Value
             Case "rollback-summary-unknown" : Config.RollbackSummaryUnknown = Value
             Case "rfd" : Config.RfdLocation = Value
@@ -407,6 +407,7 @@ Module ConfigIO
             Case "templates" : Config.TemplateMessages = GetList(Value)
             Case "version" : Config.ConfigVersion = New Version(CInt(Value.Substring(0, 1)), _
                 CInt(Value.Substring(2, 1)), CInt(Value.Substring(4)), 0)
+            Case "revert-summaries" : If Value <> "" Then Config.RevertSummaries = GetList(Value)
         End Select
     End Sub
 
