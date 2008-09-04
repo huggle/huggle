@@ -354,7 +354,7 @@ Namespace Requests
             Data.Watch = Config.WatchTags
             Data.Summary = Config.XfdSummary.Replace("$1", Config.MfdLocation & "/" & Subpage)
 
-            Data = PostEdit(Data)
+            'Data = PostEdit(Data)
 
             If Data.Error Then Callback(AddressOf TagPageFailed) Else Callback(AddressOf TagPageDone)
         End Sub
@@ -385,7 +385,7 @@ Namespace Requests
             Data.Watch = Config.WatchOther
             Data.Summary = Config.XfdDiscussionSummary.Replace("$1", Page.Name)
 
-            Data = PostEdit(Data)
+            'Data = PostEdit(Data)
 
             If Data.Error Then Callback(AddressOf CreateSubpageFailed) Else Callback(AddressOf CreateSubpageDone)
         End Sub
@@ -415,14 +415,17 @@ Namespace Requests
             Dim DayHeader As String = "===[[" & CStr(Date.UtcNow.Year) & "-" & _
                 CStr(Date.UtcNow.Month).PadLeft(2, "0"c) & "-" & CStr(Date.UtcNow.Day).PadLeft(2, "0"c) & "]]==="
 
+            Data.Text = Data.Text.Replace("<!-- " & DayHeader & " -->", LF & DayHeader)
+            Data.Text = Data.Text.Replace("<!--" & DayHeader & "-->", LF & DayHeader)
+
             If Data.Text.Contains(DayHeader) Then
                 Data.Text = Data.Text.Substring(0, Data.Text.IndexOf(DayHeader) + 20) & LF & "{{" & _
-                    Config.MfdLocation & "/" & Subpage & "}}" & LF & _
+                    Config.MfdLocation & "/" & Subpage & "}}" & _
                     Data.Text.Substring(Data.Text.IndexOf(DayHeader) + 20)
 
             ElseIf Data.Text.Contains("===") Then
                 Data.Text = Data.Text.Substring(0, Data.Text.IndexOf("===")) & DayHeader & LF & "{{" & _
-                    Config.MfdLocation & "/" & Subpage & "}}" & LF & LF & _
+                    Config.MfdLocation & "/" & Subpage & "}}" & LF & _
                     Data.Text.Substring(Data.Text.IndexOf("==="))
 
             Else
