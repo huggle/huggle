@@ -18,12 +18,26 @@
         End While
     End Sub
 
+    Private Sub CancelItem_Click() Handles CancelItem.Click
+        CType(List.SelectedItems(0).Tag, Request).Cancel()
+    End Sub
+
     Private Sub Clear_Click() Handles Clear.Click
         List.Items.Clear()
     End Sub
 
-    Private Sub CloseButton_Click() Handles CloseButton.Click
+    Private Sub CloseButton_Click() Handles OK.Click
         Close()
+    End Sub
+
+    Private Sub CopyListItem_Click() Handles CopyListItem.Click
+        If List.SelectedItems.Count > 0 Then Clipboard.SetText(List.SelectedItems(0).SubItems(3).Text)
+    End Sub
+
+    Private Sub List_SelectedIndexChanged() Handles List.SelectedIndexChanged
+        CopyListItem.Enabled = (List.SelectedItems.Count > 0)
+        CancelItem.Enabled = (List.SelectedItems.Count > 0 _
+            AndAlso CType(List.SelectedItems(0).Tag, Request).State = Request.States.InProgress)
     End Sub
 
     Private Sub AddRequest(ByVal Request As Request)

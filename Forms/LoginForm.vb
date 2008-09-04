@@ -13,13 +13,12 @@ Class LoginForm
 
         Config = New Configuration
         LoadLocalConfig()
+        Text = "Huggle " & VersionString(Config.Version)
 
 #If DEBUG Then
         'If the app is in debug mode add a localhost wiki to the project list
         If Not Config.Projects.Contains("localhost;localhost") Then Config.Projects.Add("localhost;localhost")
 #End If
-
-        Project.Items.Clear()
 
         For Each Item As String In Config.Projects
             If Item.Contains(";") Then Project.Items.Add(Item.Substring(0, Item.IndexOf(";")))
@@ -29,7 +28,7 @@ Class LoginForm
 
         Proxy.Checked = Config.ProxyEnabled
         ProxyPort.Text = Config.ProxyPort
-        If ProxyPort.Text.Length = 0 Then ProxyPort.Text = "80"
+        If ProxyPort.Value = 0 Then ProxyPort.Value = 80
         ProxyAddress.Text = Config.ProxyServer
         ProxyDomain.Text = Config.ProxyUserDomain
         ProxyUsername.Text = Config.ProxyUsername
@@ -49,11 +48,6 @@ Class LoginForm
     End Sub
 
     Private Sub OK_Click() Handles OK.Click
-        If Not Integer.TryParse(ProxyPort.Text, New Integer) Then
-            Status.Text = "Invalid port number."
-            Exit Sub
-        End If
-
         LoggingIn = True
 
         For Each Item As String In Config.Projects
@@ -75,7 +69,7 @@ Class LoginForm
         Config.SitePath = "http://" & Config.Project & "/"
         Config.Username = User.SanitizeName(Username.Text)
         Config.Password = Password.Text
-        
+
         For Each Item As Control In Controls
             If Not ArrayContains(New Control() {Status, Progress, Cancel}, Item) Then Item.Enabled = False
         Next Item
@@ -83,8 +77,8 @@ Class LoginForm
         Cancel.Text = "Cancel"
 
         Try
-            Login.ConfigureProxy(Config.ProxyEnabled, Config.ProxyServer, Config.ProxyPort, Config.ProxyUsername, _
-                ProxyPassword.Text, Config.ProxyUserDomain)
+            Login.ConfigureProxy(Proxy.Checked, Config.ProxyServer, ProxyPort.Value, ProxyUsername.Text, _
+                ProxyPassword.Text, ProxyDomain.Text)
 
         Catch ex As UriFormatException
             Abort(ex.Message)
@@ -133,22 +127,6 @@ Class LoginForm
         For Each Item As Control In ProxyGroup.Controls
             If Item IsNot Proxy Then Item.Enabled = Proxy.Checked
         Next Item
-    End Sub
-
-    Private Sub ProxyPort_TextChanged() Handles ProxyPort.TextChanged
-        'Limit to integer values
-        Dim Position As Integer = ProxyPort.SelectionStart, i As Integer
-
-        While i < ProxyPort.Text.Length
-            If Not Char.IsDigit(ProxyPort.Text(i)) Then
-                ProxyPort.Text = ProxyPort.Text.Remove(i, 1)
-                Position -= 1
-            Else
-                i += 1
-            End If
-        End While
-
-        ProxyPort.SelectionStart = Position
     End Sub
 
     Private Sub Username_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles Username.KeyDown

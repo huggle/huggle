@@ -169,6 +169,9 @@
     <Compile Include="Forms\MoveForm.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Controls\IntegerTextBox.vb">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Forms\ProdForm.designer.vb">
       <DependentUpon>ProdForm.vb</DependentUpon>
     </Compile>
@@ -522,7 +525,6 @@
     <None Include="Resources\blobs\blob-warn-3.png" />
     <None Include="Resources\blobs\blob-warn-4.png" />
     <None Include="Resources\blobs\blob-warning.png" />
-    <None Include="Resources\huggle-logo.png" />
     <None Include="Resources\icons\browser-add-tab.png" />
     <None Include="Resources\icons\browser-next.png" />
     <None Include="Resources\icons\browser-open.png" />
@@ -573,6 +575,9 @@
     <None Include="Resources\icons\user-warn.png" />
     <None Include="Resources\icons\user-whitelist.png" />
     <None Include="Resources\WikiPageHtml.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\huggle-logo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
 </Project>

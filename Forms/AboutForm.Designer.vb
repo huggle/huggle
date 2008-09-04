@@ -237,8 +237,8 @@ Partial Class AboutForm
         Me.MinimizeBox = False
         Me.Name = "AboutForm"
         Me.ShowInTaskbar = False
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
-        Me.Text = "About huggle"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
+        Me.Text = "Huggle"
         CType(Me.Logo, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Contributors.ResumeLayout(False)
         Me.Contributors.PerformLayout()

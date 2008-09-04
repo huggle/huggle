@@ -33,7 +33,6 @@ Partial Class LoginForm
         Me.ProxyPassword = New System.Windows.Forms.TextBox
         Me.ProxyUsername = New System.Windows.Forms.TextBox
         Me.ProxyPortLabel = New System.Windows.Forms.Label
-        Me.ProxyPort = New System.Windows.Forms.TextBox
         Me.ProxyAddressLabel = New System.Windows.Forms.Label
         Me.ProxyAddress = New System.Windows.Forms.TextBox
         Me.Project = New System.Windows.Forms.ComboBox
@@ -47,6 +46,8 @@ Partial Class LoginForm
         Me.ShowProxySettings = New System.Windows.Forms.Button
         Me.HideProxySettings = New System.Windows.Forms.Button
         Me.Logo = New System.Windows.Forms.PictureBox
+        Me.ProxyPort = New Huggle.IntegerTextBox
+        Me.IntegerTextBox1 = New Huggle.IntegerTextBox
         Me.ProxyGroup.SuspendLayout()
         CType(Me.Logo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -77,6 +78,7 @@ Partial Class LoginForm
         Me.ProxyGroup.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ProxyGroup.Controls.Add(Me.ProxyPort)
         Me.ProxyGroup.Controls.Add(Me.Proxy)
         Me.ProxyGroup.Controls.Add(Me.ProxyDomain)
         Me.ProxyGroup.Controls.Add(Me.ProxyDomainLabel)
@@ -85,7 +87,6 @@ Partial Class LoginForm
         Me.ProxyGroup.Controls.Add(Me.ProxyPassword)
         Me.ProxyGroup.Controls.Add(Me.ProxyUsername)
         Me.ProxyGroup.Controls.Add(Me.ProxyPortLabel)
-        Me.ProxyGroup.Controls.Add(Me.ProxyPort)
         Me.ProxyGroup.Controls.Add(Me.ProxyAddressLabel)
         Me.ProxyGroup.Controls.Add(Me.ProxyAddress)
         Me.ProxyGroup.Location = New System.Drawing.Point(12, 170)
@@ -179,15 +180,6 @@ Partial Class LoginForm
         Me.ProxyPortLabel.Size = New System.Drawing.Size(29, 13)
         Me.ProxyPortLabel.TabIndex = 3
         Me.ProxyPortLabel.Text = "Port:"
-        '
-        'ProxyPort
-        '
-        Me.ProxyPort.Enabled = False
-        Me.ProxyPort.Location = New System.Drawing.Point(68, 72)
-        Me.ProxyPort.MaxLength = 5
-        Me.ProxyPort.Name = "ProxyPort"
-        Me.ProxyPort.Size = New System.Drawing.Size(47, 20)
-        Me.ProxyPort.TabIndex = 4
         '
         'ProxyAddressLabel
         '
@@ -327,6 +319,26 @@ Partial Class LoginForm
         Me.Logo.TabIndex = 14
         Me.Logo.TabStop = False
         '
+        'ProxyPort
+        '
+        Me.ProxyPort.Enabled = False
+        Me.ProxyPort.Location = New System.Drawing.Point(68, 72)
+        Me.ProxyPort.MaxLength = 5
+        Me.ProxyPort.Name = "ProxyPort"
+        Me.ProxyPort.Size = New System.Drawing.Size(55, 20)
+        Me.ProxyPort.TabIndex = 16
+        Me.ProxyPort.Text = "80"
+        Me.ProxyPort.Value = 80
+        '
+        'IntegerTextBox1
+        '
+        Me.IntegerTextBox1.Location = New System.Drawing.Point(143, 19)
+        Me.IntegerTextBox1.Name = "IntegerTextBox1"
+        Me.IntegerTextBox1.Size = New System.Drawing.Size(100, 20)
+        Me.IntegerTextBox1.TabIndex = 16
+        Me.IntegerTextBox1.Text = "0"
+        Me.IntegerTextBox1.Value = 0
+        '
         'LoginForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -351,7 +363,6 @@ Partial Class LoginForm
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "LoginForm"
-        Me.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Huggle"
         Me.ProxyGroup.ResumeLayout(False)
@@ -385,5 +396,6 @@ Partial Class LoginForm
     Friend WithEvents HideProxySettings As System.Windows.Forms.Button
     Friend WithEvents Proxy As System.Windows.Forms.CheckBox
     Friend WithEvents Logo As System.Windows.Forms.PictureBox
-    Friend WithEvents ProxyPort As System.Windows.Forms.TextBox
+    Friend WithEvents ProxyPort As Huggle.IntegerTextBox
+    Friend WithEvents IntegerTextBox1 As Huggle.IntegerTextBox
 End Class

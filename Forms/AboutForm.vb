@@ -2,6 +2,7 @@ Class AboutForm
 
     Private Sub AboutForm_Load() Handles Me.Load
         Icon = My.Resources.icon_red_button
+        Text = "Huggle " & VersionString(Config.Version)
 
         For Each Item As LinkLabel In Contributors.Controls
             AddHandler CType(Item, LinkLabel).LinkClicked, AddressOf ContributorLinkClicked
