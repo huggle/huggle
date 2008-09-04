@@ -430,28 +430,28 @@ Partial Class Main
                 Tabs.SelectedIndex = (Tabs.SelectedIndex - 1) Mod Tabs.TabCount
 
             Case Is = ShortcutKeys("Warn - vandalism")
-                If WarnVandalism.Visible Then WarnVandalism_Click()
+                If WarnB.Enabled AndAlso Config.WarningSeries.Contains("warning") Then WarnVandalism_Click()
 
             Case Is = ShortcutKeys("Warn - spam")
-                If WarnSpam.Visible Then WarnSpam_Click()
+                If WarnB.Enabled AndAlso Config.WarningSeries.Contains("spam") Then WarnSpam_Click()
 
             Case Is = ShortcutKeys("Warn - editing tests")
-                If WarnTest.Visible Then WarnTest_Click()
+                If WarnB.Enabled AndAlso Config.WarningSeries.Contains("test") Then WarnTest_Click()
 
             Case Is = ShortcutKeys("Warn - removing content")
-                If WarnDelete.Visible Then WarnDelete_Click()
+                If WarnB.Enabled AndAlso Config.WarningSeries.Contains("delete") Then WarnDelete_Click()
 
             Case Is = ShortcutKeys("Warn - personal attacks")
-                If WarnAttack.Visible Then WarnAttacks_Click()
+                If WarnB.Enabled AndAlso Config.WarningSeries.Contains("attack") Then WarnAttacks_Click()
 
             Case Is = ShortcutKeys("Warn - factual errors")
-                If WarnError.Visible Then WarnError_Click()
+                If WarnB.Enabled AndAlso Config.WarningSeries.Contains("error") Then WarnError_Click()
 
             Case Is = ShortcutKeys("Warn - unsourced content")
-                If WarnUnsourced.Visible Then WarnUnsourced_Click()
+                If WarnB.Enabled AndAlso Config.WarningSeries.Contains("unsourced") Then WarnUnsourced_Click()
 
             Case Is = ShortcutKeys("Warn - biased content")
-                If WarnNpov.Visible Then WarnNpov_Click()
+                If WarnB.Enabled AndAlso Config.WarningSeries.Contains("npov") Then WarnNpov_Click()
 
             Case Is = ShortcutKeys("Revert and warn - spam")
                 If Config.WarningSeries.Contains("spam") Then RevertAndWarn("spam")
