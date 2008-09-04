@@ -410,13 +410,11 @@ Namespace Requests
                 Return Data
             End If
 
-            Result = Result.Substring(Result.IndexOf("<textarea"))
-            Result = Result.Substring(Result.IndexOf(">") + 1)
-            Result = HtmlDecode(Result.Substring(0, Result.IndexOf("</textarea>")))
+            Result = FindString(Result, "<textarea", ">", "</textarea>")
 
             Data.StartTime = Timestamp(Date.UtcNow)
             Data.EditTime = TimeMatch.Groups(1).Value
-            Data.Text = Result
+            Data.Text = HtmlDecode(Result)
             Data.Token = TokenMatch.Groups(1).Value
 
             Return Data
@@ -471,7 +469,7 @@ Namespace Requests
                 & "&wpEditToken=" & UrlEncode(Data.Token) & "&wpStarttime=" & UrlEncode(Data.StartTime) _
                 & "&wpEdittime=" & UrlEncode(Data.EditTime) & "&wpSummary=" & UrlEncode(Data.Summary)
 
-            If Not Data.NoAutoSummary Then PostString &= UrlEncode(" " & Config.Summary)
+            If Config.Summary IsNot Nothing AndAlso Not Data.NoAutoSummary Then PostString &= UrlEncode(" " & Config.Summary)
             If Data.Section IsNot Nothing Then PostString &= "&section=" & UrlEncode(Data.Section)
             If Data.Minor Then PostString &= "&wpMinoredit=0"
             If Data.Watch OrElse Watchlist.Contains(Data.Page.SubjectPage) Then PostString &= "&wpWatchthis=0"

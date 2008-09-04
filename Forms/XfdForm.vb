@@ -9,13 +9,15 @@ Class XfdForm
         CategoryLabel.Visible = Page.IsArticle
         If Category.Visible Then Category.SelectedIndex = 0
 
-        Select Case Page.Space.Name
-            Case "" : NominationType.Text = "Article"
-            Case "Category" : NominationType.Text = "Category"
-            Case "Template" : NominationType.Text = "Template"
-            Case "Image" : NominationType.Text = "Image"
-            Case Else : NominationType.Text = "Miscellaneous"
-        End Select
+        If Page.Space Is Space.Article Then
+            NominationType.Text = "Article"
+        ElseIf Page.Space Is Space.Category Then
+            NominationType.Text = "Category"
+        ElseIf Page.Space Is Space.Image Then
+            NominationType.Text = "Image"
+        Else
+            NominationType.Text = "Miscellaneous"
+        End If
     End Sub
 
     Private Sub XfdForm_FormClosing() Handles MyBase.FormClosing
@@ -34,43 +36,42 @@ Class XfdForm
     End Sub
 
     Private Sub OK_Click() Handles OK.Click
-        Select Case Page.Space.Name
-            Case ""
-                Dim NewRequest As New AfdRequest
-                NewRequest.Category = Category.Text.Substring(0, 1).Replace("(", "?")
-                NewRequest.Page = Page
-                NewRequest.Reason = Reason.Text
-                NewRequest.Notify = Notify.Checked
-                NewRequest.Start()
+        If Page.Space Is Space.Article Then
+            Dim NewRequest As New AfdRequest
+            NewRequest.Category = Category.Text.Substring(0, 1).Replace("(", "?")
+            NewRequest.Page = Page
+            NewRequest.Reason = Reason.Text
+            NewRequest.Notify = Notify.Checked
+            NewRequest.Start()
 
-            Case "Category"
-                Dim NewRequest As New CfdRequest
-                NewRequest.Page = Page
-                NewRequest.Reason = Reason.Text
-                NewRequest.Notify = Notify.Checked
-                NewRequest.Start()
+        ElseIf Page.Space Is Space.Category Then
+            Dim NewRequest As New CfdRequest
+            NewRequest.Page = Page
+            NewRequest.Reason = Reason.Text
+            NewRequest.Notify = Notify.Checked
+            NewRequest.Start()
 
-            Case "Template"
-                Dim NewRequest As New TfdRequest
-                NewRequest.Page = Page
-                NewRequest.Reason = Reason.Text
-                NewRequest.Notify = Notify.Checked
-                NewRequest.Start()
+        ElseIf Page.Space Is Space.Template Then
+            Dim NewRequest As New TfdRequest
+            NewRequest.Page = Page
+            NewRequest.Reason = Reason.Text
+            NewRequest.Notify = Notify.Checked
+            NewRequest.Start()
 
-            Case "Image"
-                Dim NewRequest As New IfdRequest
-                NewRequest.Page = Page
-                NewRequest.Reason = Reason.Text
-                NewRequest.Notify = Notify.Checked
-                NewRequest.Start()
+        ElseIf Page.Space Is Space.Image Then
+            Dim NewRequest As New IfdRequest
+            NewRequest.Page = Page
+            NewRequest.Reason = Reason.Text
+            NewRequest.Notify = Notify.Checked
+            NewRequest.Start()
 
-            Case Else
-                Dim NewRequest As New MfdRequest
-                NewRequest.Page = Page
-                NewRequest.Reason = Reason.Text
-                NewRequest.Notify = Notify.Checked
-                NewRequest.Start()
-        End Select
+        Else
+            Dim NewRequest As New MfdRequest
+            NewRequest.Page = Page
+            NewRequest.Reason = Reason.Text
+            NewRequest.Notify = Notify.Checked
+            NewRequest.Start()
+        End If
 
         DialogResult = DialogResult.OK
         Close()

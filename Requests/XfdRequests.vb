@@ -20,8 +20,7 @@ Namespace Requests
                 UrlEncode((Path.Substring(Path.IndexOf(":") + 1) & "/" & Name).Replace(" ", "_")))
 
             If Result IsNot Nothing AndAlso Result.Contains("<allpages>") Then
-                Result = Result.Substring(Result.IndexOf("<allpages>") + 10)
-                Result = Result.Substring(0, Result.IndexOf("</allpages>"))
+                Result = FindString(Result, "<allpages>", "</allpages>")
 
                 If Result.Contains(Path & "/" & Name & """") Then
                     Subpage = Name & " (2nd nomination)"
@@ -405,7 +404,7 @@ Namespace Requests
         End Sub
 
         Private Sub UpdateLog()
-            Dim Data As EditData = GetEditData(Config.MfdLocation)
+            Dim Data As EditData = GetEditData(Config.MfdLocation, , 1)
 
             If Data.Error Then
                 Callback(AddressOf UpdateLogFailed)
@@ -426,14 +425,6 @@ Namespace Requests
                     Config.MfdLocation & "/" & Subpage & "}}" & LF & LF & _
                     Data.Text.Substring(Data.Text.IndexOf("==="))
 
-            Else
-                Data.Text &= LF & "{{" & Config.MfdLocation & "/" & Subpage & "}}"
-            End If
-
-            If Data.Text.Contains("{{" & Config.MfdLocation) Then
-                Data.Text = Data.Text.Substring(0, Data.Text.IndexOf("{{" & Config.MfdLocation)) & _
-                    "{{" & Config.MfdLocation & "/" & Subpage & "}}" & LF & _
-                    Data.Text.Substring(Data.Text.IndexOf("{{" & Config.MfdLocation))
             Else
                 Data.Text &= LF & "{{" & Config.MfdLocation & "/" & Subpage & "}}"
             End If
