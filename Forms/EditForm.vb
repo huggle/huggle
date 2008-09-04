@@ -128,7 +128,7 @@ Class EditForm
     End Sub
 
     Private Sub GotPreview(ByVal Result As Request.Output)
-        If Preview IsNot Nothing Then
+        If Visible AndAlso Preview IsNot Nothing Then
             If Result.Success Then
                 Preview.DocumentText = MakeHtmlWikiPage(Page.Name, Result.Text)
                 PreviewCurrent = True
@@ -139,7 +139,7 @@ Class EditForm
     End Sub
 
     Private Sub GotDiff(ByVal Result As Request.Output)
-        If Diff IsNot Nothing Then
+        If Visible AndAlso Diff IsNot Nothing Then
             If Result.Success Then
                 Diff.DocumentText = MakeHtmlWikiPage(Page.Name, Result.Text)
                 DiffCurrent = True
