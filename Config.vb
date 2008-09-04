@@ -701,6 +701,7 @@ Module ConfigIO
                                 Case "filter-reverts" : Queue.FilterReverts = CType(OptionValue, QueueFilter)
                                 Case "filter-tags" : Queue.FilterTags = CType(OptionValue, QueueFilter)
                                 Case "filter-warnings" : Queue.FilterWarnings = CType(OptionValue, QueueFilter)
+                                Case "ignore-pages" : Queue.IgnorePages = CBool(OptionValue)
                                 Case "list" : If AllLists.ContainsKey(OptionValue) Then Queue.ListName = OptionValue
                                 Case "page-regex" : Queue.PageRegex = New Regex(OptionValue, RegexOptions.Compiled)
                                 Case "remove-after" : Queue.RemoveAfter = CInt(OptionValue)
@@ -740,6 +741,7 @@ Module ConfigIO
             Queue.Default.FilterReverts = QueueFilter.Exclude
             Queue.Default.FilterTags = QueueFilter.Exclude
             Queue.Default.FilterWarnings = QueueFilter.Exclude
+            Queue.Default.IgnorePages = True
             Queue.Default.RemoveOld = True
             Queue.Default.Reset()
         End If
@@ -810,9 +812,11 @@ Module ConfigIO
             Items.Add("filter-reverts:" & CStr(CInt(Queue.FilterReverts)))
             Items.Add("filter-tags:" & CStr(CInt(Queue.FilterTags)))
             Items.Add("filter-warnings:" & CStr(CInt(Queue.FilterWarnings)))
+            Items.Add("ignore-pages:" & CStr(Queue.IgnorePages).ToLower)
 
             If Queue.ListName IsNot Nothing Then Items.Add("list:" & Queue.ListName)
             If Queue.PageRegex IsNot Nothing Then Items.Add("page-regex:" & Queue.PageRegex.ToString)
+
             Items.Add("remove-after:" & CStr(Queue.RemoveAfter).ToLower)
             Items.Add("remove-old:" & CStr(Queue.RemoveOld).ToLower)
             Items.Add("remove-viewed:" & CStr(Queue.RemoveViewed))

@@ -136,6 +136,10 @@ Class QueueForm
         CurrentQueue.FilterWarnings = CType(CInt(FilterWarnings.State), QueueFilter)
     End Sub
 
+    Private Sub IgnorePages_CheckedChanged() Handles IgnorePages.CheckedChanged
+        CurrentQueue.IgnorePages = IgnorePages.Checked
+    End Sub
+
     Private Sub ListBuilder_Click() Handles ListBuilder.Click
         Dim NewForm As New ListForm
         NewForm.Show()
@@ -230,6 +234,7 @@ Class QueueForm
             If CurrentQueue.UserRegex Is Nothing Then UserRegex.Text = Nothing _
                 Else UserRegex.Text = CurrentQueue.UserRegex.ToString
 
+            IgnorePages.Checked = CurrentQueue.IgnorePages
             RemoveAfter.Checked = (CurrentQueue.RemoveAfter > 0)
             If CurrentQueue.RemoveAfter > RemoveAfterTime.Minimum Then RemoveAfterTime.Value = _
                 CurrentQueue.RemoveAfter Else RemoveAfterTime.Value = RemoveAfterTime.Minimum

@@ -173,10 +173,10 @@ Namespace Requests
 
                 Dim EditCount As Integer = CInt(FindString(Result, "editcount=""", """"))
 
-                'If EditCount < Config.RequireEdits Then
-                '    Abort("Use of Huggle on this project requires at least " & CStr(Config.RequireEdits) & " edits.")
-                '    Exit Sub
-                'End If
+                If EditCount < Config.RequireEdits Then
+                    Abort("Use of Huggle on this project requires at least " & CStr(Config.RequireEdits) & " edits.")
+                    Exit Sub
+                End If
 
                 Result = FindString(Result, "<rights>", "</rights>")
 

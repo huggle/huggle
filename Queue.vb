@@ -23,6 +23,7 @@ Class Queue
     Private _FilterTags As QueueFilter = QueueFilter.None
     Private _FilterWarnings As QueueFilter = QueueFilter.None
 
+    Private _IgnorePages As Boolean
     Private _ListName As String
     Private _Name As String
     Private _NeedsReset As Boolean
@@ -172,6 +173,16 @@ Class Queue
         Set(ByVal value As QueueFilter)
             If value <> _FilterWarnings Then _NeedsReset = True
             _FilterWarnings = value
+        End Set
+    End Property
+
+    Public Property IgnorePages() As Boolean
+        Get
+            Return _IgnorePages
+        End Get
+        Set(ByVal value As Boolean)
+            If value <> _IgnorePages Then _NeedsReset = True
+            _IgnorePages = value
         End Set
     End Property
 
@@ -419,6 +430,7 @@ Class Queue
         If _PageRegex IsNot Nothing AndAlso Not _PageRegex.IsMatch(Edit.Page.Name) Then Return False
         If _UserRegex IsNot Nothing AndAlso Not _UserRegex.IsMatch(Edit.User.Name) Then Return False
         If _SummaryRegex IsNot Nothing AndAlso Not _SummaryRegex.IsMatch(Edit.Summary) Then Return False
+        If _IgnorePages AndAlso Config.IgnoredPages.Contains(Edit.Page.Name) Then Return False
 
         Return QueueFilterMatch(_FilterAnonymous, Edit.User.Anonymous) _
             AndAlso QueueFilterMatch(_FilterAssisted, Edit.Assisted) _

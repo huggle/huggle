@@ -354,7 +354,7 @@ Namespace Requests
             Data.Watch = Config.WatchTags
             Data.Summary = Config.XfdSummary.Replace("$1", Config.MfdLocation & "/" & Subpage)
 
-            'Data = PostEdit(Data)
+            Data = PostEdit(Data)
 
             If Data.Error Then Callback(AddressOf TagPageFailed) Else Callback(AddressOf TagPageDone)
         End Sub
@@ -385,7 +385,7 @@ Namespace Requests
             Data.Watch = Config.WatchOther
             Data.Summary = Config.XfdDiscussionSummary.Replace("$1", Page.Name)
 
-            'Data = PostEdit(Data)
+            Data = PostEdit(Data)
 
             If Data.Error Then Callback(AddressOf CreateSubpageFailed) Else Callback(AddressOf CreateSubpageDone)
         End Sub

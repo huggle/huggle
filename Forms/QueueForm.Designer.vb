@@ -82,6 +82,7 @@ Partial Class QueueForm
         Me.SummaryRegexLabel = New System.Windows.Forms.Label
         Me.UserRegexLabel = New System.Windows.Forms.Label
         Me.OK = New System.Windows.Forms.Button
+        Me.IgnorePages = New System.Windows.Forms.CheckBox
         Me.TypeGroup.SuspendLayout()
         Me.Tabs.SuspendLayout()
         Me.PagesTab.SuspendLayout()
@@ -398,7 +399,7 @@ Partial Class QueueForm
         Me.TitleFiltersTab.Location = New System.Drawing.Point(4, 22)
         Me.TitleFiltersTab.Name = "TitleFiltersTab"
         Me.TitleFiltersTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.TitleFiltersTab.Size = New System.Drawing.Size(408, 322)
+        Me.TitleFiltersTab.Size = New System.Drawing.Size(408, 293)
         Me.TitleFiltersTab.TabIndex = 1
         Me.TitleFiltersTab.Text = "Page title filters"
         Me.TitleFiltersTab.UseVisualStyleBackColor = True
@@ -489,7 +490,7 @@ Partial Class QueueForm
         Me.EditFiltersTab.Controls.Add(Me.EditFiltersGroup)
         Me.EditFiltersTab.Location = New System.Drawing.Point(4, 22)
         Me.EditFiltersTab.Name = "EditFiltersTab"
-        Me.EditFiltersTab.Size = New System.Drawing.Size(408, 322)
+        Me.EditFiltersTab.Size = New System.Drawing.Size(408, 293)
         Me.EditFiltersTab.TabIndex = 2
         Me.EditFiltersTab.Text = "Filters"
         Me.EditFiltersTab.UseVisualStyleBackColor = True
@@ -565,6 +566,7 @@ Partial Class QueueForm
         Me.EditFiltersGroup.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.EditFiltersGroup.Controls.Add(Me.IgnorePages)
         Me.EditFiltersGroup.Controls.Add(Me.FilterBot)
         Me.EditFiltersGroup.Controls.Add(Me.SummaryRegex)
         Me.EditFiltersGroup.Controls.Add(Me.UserRegex)
@@ -764,6 +766,16 @@ Partial Class QueueForm
         Me.OK.Text = "Close"
         Me.OK.UseVisualStyleBackColor = True
         '
+        'IgnorePages
+        '
+        Me.IgnorePages.AutoSize = True
+        Me.IgnorePages.Location = New System.Drawing.Point(9, 250)
+        Me.IgnorePages.Name = "IgnorePages"
+        Me.IgnorePages.Size = New System.Drawing.Size(243, 17)
+        Me.IgnorePages.TabIndex = 10
+        Me.IgnorePages.Text = "Ignore edits to pages on the ignored pages list"
+        Me.IgnorePages.UseVisualStyleBackColor = True
+        '
         'QueueForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -864,4 +876,5 @@ Partial Class QueueForm
     Friend WithEvents SummaryRegex As Huggle.RegexBox
     Friend WithEvents SummaryRegexLabel As System.Windows.Forms.Label
     Friend WithEvents OK As System.Windows.Forms.Button
+    Friend WithEvents IgnorePages As System.Windows.Forms.CheckBox
 End Class
