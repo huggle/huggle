@@ -114,6 +114,7 @@ Namespace Requests
             Next Item
         End Sub
 
+        <DebuggerStepThrough()> _
         Protected Sub LogProgress(ByVal Message As String)
             UpdateForm()
 
@@ -123,6 +124,7 @@ Namespace Requests
             End If
         End Sub
 
+        <DebuggerStepThrough()> _
         Protected Sub DelogProgress()
             If MainForm IsNot Nothing Then MainForm.Delog(Me)
         End Sub
@@ -497,11 +499,21 @@ Namespace Requests
                     Callback(AddressOf PostEditException, CObj(Data))
                 End Try
 
+                'In the event of a database lock, wait for longer before retrying
+                If Result.Contains("<div id=""mw-readonlytext"">") AndAlso Retries > 0 Then
+                    Thread.Sleep(4000)
+                    Continue Do
+                End If
+
             Loop Until IsWikiPage(Result) OrElse Retries = 0
 
             Data.Result = Result
 
             If Retries = 0 Then
+                Data.Error = True
+
+            ElseIf Result.Contains("<div id=""mw-readonlytext"">") Then
+                Callback(AddressOf DatabaseLock)
                 Data.Error = True
 
             ElseIf Result.Contains("<div id=""mw-spamprotectiontext"">") Then
@@ -523,6 +535,11 @@ Namespace Requests
         Private Sub PostEditException(ByVal DataObject As Object)
             Dim Data As EditData = CType(DataObject, EditData)
             Log("Error saving '" & Data.Page.Name & "', retrying in 1 second.")
+        End Sub
+
+        Private Sub DatabaseLock(ByVal DataObject As Object)
+            Dim Data As EditData = CType(DataObject, EditData)
+            Log("Error saving '" & Data.Page.Name & "', database was locked.")
         End Sub
 
         Protected Function PostData(ByVal QueryString As String, ByVal Data As String) As String
