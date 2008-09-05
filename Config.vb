@@ -301,6 +301,23 @@ Module ConfigIO
             Case "watchlist" : SetWatch(Value)
             Case "welcome" : Config.Welcome = Value
             Case "welcome-anon" : Config.WelcomeAnon = Value
+
+            Case "warn-summary" : Config.WarnSummary = Value
+            Case "warn-summary-2" : Config.WarnSummary2 = Value
+            Case "warn-summary-3" : Config.WarnSummary3 = Value
+            Case "warn-summary-4" : Config.WarnSummary4 = Value
+
+            Case Else
+                For Each Item2 As String In Config.WarningSeries
+                    If Name.StartsWith(Item2) Then
+                        Select Case Name.Substring(Item2.Length)
+                            Case "1", "2", "3", "4", "4im"
+                                WarningMessages.Add(Name, Value)
+                        End Select
+
+                        Exit For
+                    End If
+                Next Item2
         End Select
     End Sub
 
@@ -383,23 +400,6 @@ Module ConfigIO
             Case "xfd-message-summary" : Config.XfdMessageSummary = Value
             Case "xfd-message-title" : Config.XfdMessageTitle = Value
             Case "xfd-summary" : Config.XfdSummary = Value
-
-            Case "warn-summary" : Config.WarnSummary = Value
-            Case "warn-summary-2" : Config.WarnSummary2 = Value
-            Case "warn-summary-3" : Config.WarnSummary3 = Value
-            Case "warn-summary-4" : Config.WarnSummary4 = Value
-
-            Case Else
-                For Each Item2 As String In Config.WarningSeries
-                    If Name.StartsWith(Item2) Then
-                        Select Case Name.Substring(Item2.Length)
-                            Case "1", "2", "3", "4", "4im"
-                                WarningMessages.Add(Name, Value)
-                        End Select
-
-                        Exit For
-                    End If
-                Next Item2
         End Select
     End Sub
 
