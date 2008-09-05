@@ -1,11 +1,11 @@
 Class RevertForm
 
-    Public Page As Page, User As User
+    Public Edit As Edit
     Private Shared LastSummary As String
 
     Private Sub RevertForm_Load() Handles Me.Load
         Icon = My.Resources.icon_red_button
-        Text = "Revert " & Page.Name
+        Text = "Revert " & Edit.Page.Name
         Summary.Items.AddRange(Config.RevertSummaries.ToArray)
         Summary.Text = LastSummary
         Summary.Focus()
@@ -16,16 +16,16 @@ Class RevertForm
         If DialogResult = DialogResult.OK Then
             If Not Config.RevertSummaries.Contains(Summary.Text) Then Config.RevertSummaries.Add(Summary.Text)
             LastSummary = Summary.Text
-
-            If User.Level = UserLevel.None Then User.Level = UserLevel.Reverted
-            If Page.Level = PageLevel.None Then Page.Level = PageLevel.Watch
-
-            Dim NewRevertRequest As New RevertRequest
-            NewRevertRequest.Summary = Summary.Text
-            NewRevertRequest.Edit = CurrentEdit.Prev
-            NewRevertRequest.Start()
+            DoRevert(CurrentEdit, , Summary.Text)
         Else
             DialogResult = DialogResult.Cancel
+        End If
+    End Sub
+
+    Private Sub RevertForm_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles Me.KeyDown
+        If e.KeyCode = Keys.Escape Then
+            DialogResult = DialogResult.Cancel
+            Close()
         End If
     End Sub
 
@@ -39,13 +39,6 @@ Class RevertForm
     Private Sub Cancel_Click() Handles Cancel.Click
         DialogResult = DialogResult.Cancel
         Close()
-    End Sub
-
-    Private Sub DiffRevertSummaryBForm_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles MyBase.KeyDown
-        If e.KeyCode = Keys.Escape Then
-            DialogResult = DialogResult.Cancel
-            Close()
-        End If
     End Sub
 
     Private Sub Summary_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles Summary.KeyDown

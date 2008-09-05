@@ -135,8 +135,9 @@ Module Processing
 
                             Dim ReportedUser As User = GetUser(Summary)
 
-                            If ReportedUser.Anonymous AndAlso ReportedUser.Level < UserLevel.ReportedUAA _
-                                AndAlso Not ReportedUser.Ignored Then
+                            If ReportedUser IsNot Nothing AndAlso ReportedUser.Anonymous AndAlso _
+                                ReportedUser.Level < UserLevel.ReportedUAA AndAlso Not ReportedUser.Ignored Then
+
                                 If Edit.Page.Name = Config.AIVLocation Then ReportedUser.Level = UserLevel.ReportedAIV _
                                     Else ReportedUser.Level = UserLevel.ReportedUAA
                             End If
@@ -1334,10 +1335,10 @@ Module Processing
     Function GetUserLevelFromSummary(ByVal Edit As Edit) As UserLevel
         'Try to interpret as many styles of summary as possible without too many mistakes
 
+        If Edit.User Is Edit.Page.Owner Then Return UserLevel.None
+        If Edit.Type = EditType.Revert Then Return UserLevel.None
         If Edit.Summary Is Nothing OrElse Edit.Summary.Length = 0 Then Return UserLevel.None
         Dim Summary As String = Edit.Summary.ToLower
-
-        If Edit.Page Is Edit.User.TalkPage Then Return UserLevel.None
 
         'Only parse block notifications issued by ignored users, to avoid parsing vandalism
         If Edit.User.Ignored Then

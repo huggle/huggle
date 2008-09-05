@@ -88,6 +88,7 @@ Class Configuration
     Public LogFile As String
     Public MaxAIVDiffs As Integer = 8
     Public MfdLocation As String
+    Public MinorManual As Boolean
     Public MinorNotifications As Boolean
     Public MinorOther As Boolean
     Public MinorReports As Boolean
@@ -189,6 +190,7 @@ Class Configuration
     Public WarningImLevel As Boolean
     Public WarningMode As String
     Public WarningSeries As New List(Of String)
+    Public WatchManual As Boolean
     Public WatchNotifications As Boolean
     Public WatchOther As Boolean
     Public WatchReports As Boolean
@@ -423,6 +425,7 @@ Module ConfigIO
     End Sub
 
     Private Sub SetMinor(ByVal Value As String)
+        Config.MinorManual = False
         Config.MinorNotifications = False
         Config.MinorOther = False
         Config.MinorReports = False
@@ -434,10 +437,11 @@ Module ConfigIO
             Item = Item.Trim(","c, " "c, LF).ToLower
 
             Select Case Item
-                Case "reverts" : Config.MinorReverts = True
-                Case "other" : Config.MinorOther = True
+                Case "manual" : Config.MinorManual = True
                 Case "notifications" : Config.MinorNotifications = True
+                Case "other" : Config.MinorOther = True
                 Case "reports" : Config.MinorReports = True
+                Case "reverts" : Config.MinorReverts = True
                 Case "tags" : Config.MinorTags = True
                 Case "warnings" : Config.MinorWarnings = True
             End Select
@@ -515,6 +519,7 @@ Module ConfigIO
     End Sub
 
     Private Sub SetWatch(ByVal Value As String)
+        Config.WatchManual = False
         Config.WatchNotifications = False
         Config.WatchOther = False
         Config.WatchReports = False
@@ -526,10 +531,11 @@ Module ConfigIO
             Item = Item.Trim(","c, " "c, LF).ToLower
 
             Select Case Item
-                Case "reverts" : Config.WatchReverts = True
-                Case "other" : Config.WatchOther = True
+                Case "manual" : Config.WatchManual = True
                 Case "notifications" : Config.WatchNotifications = True
+                Case "other" : Config.WatchOther = True
                 Case "reports" : Config.WatchReports = True
+                Case "reverts" : Config.WatchReverts = True
                 Case "tags" : Config.WatchTags = True
                 Case "warnings" : Config.WatchWarnings = True
             End Select

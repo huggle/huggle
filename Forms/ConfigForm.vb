@@ -29,14 +29,16 @@ Class ConfigForm
         If Config.MinorTags Then Minor.SetItemChecked(2, True)
         If Config.MinorReports Then Minor.SetItemChecked(3, True)
         If Config.MinorNotifications Then Minor.SetItemChecked(4, True)
-        If Config.MinorOther Then Minor.SetItemChecked(5, True)
+        If Config.MinorManual Then Minor.SetItemChecked(5, True)
+        If Config.MinorOther Then Minor.SetItemChecked(6, True)
 
         If Config.WatchReverts Then Watchlist.SetItemChecked(0, True)
         If Config.WatchWarnings Then Watchlist.SetItemChecked(1, True)
         If Config.WatchTags Then Watchlist.SetItemChecked(2, True)
         If Config.WatchReports Then Watchlist.SetItemChecked(3, True)
         If Config.WatchNotifications Then Watchlist.SetItemChecked(4, True)
-        If Config.WatchOther Then Watchlist.SetItemChecked(5, True)
+        If Config.WatchManual Then Watchlist.SetItemChecked(5, True)
+        If Config.WatchOther Then Watchlist.SetItemChecked(6, True)
 
         DefaultSummary.Text = Config.DefaultSummary
         UndoSummary.Text = Config.UndoSummary
@@ -135,14 +137,16 @@ Class ConfigForm
             Config.MinorTags = Minor.CheckedIndices.Contains(2)
             Config.MinorReports = Minor.CheckedIndices.Contains(3)
             Config.MinorNotifications = Minor.CheckedIndices.Contains(4)
-            Config.MinorOther = Minor.CheckedIndices.Contains(5)
+            Config.MinorManual = Minor.CheckedIndices.Contains(5)
+            Config.MinorOther = Minor.CheckedIndices.Contains(6)
 
             Config.WatchReverts = Watchlist.CheckedIndices.Contains(0)
             Config.WatchWarnings = Watchlist.CheckedIndices.Contains(1)
             Config.WatchTags = Watchlist.CheckedIndices.Contains(2)
             Config.WatchReports = Watchlist.CheckedIndices.Contains(3)
             Config.WatchNotifications = Watchlist.CheckedIndices.Contains(4)
-            Config.WatchOther = Watchlist.CheckedIndices.Contains(5)
+            Config.WatchManual = Watchlist.CheckedIndices.Contains(5)
+            Config.WatchOther = Watchlist.CheckedIndices.Contains(6)
 
             Config.DefaultSummary = DefaultSummary.Text
             Config.UndoSummary = UndoSummary.Text

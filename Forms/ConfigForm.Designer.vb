@@ -556,7 +556,7 @@ Partial Class ConfigForm
         '
         'UndoSummary
         '
-        Me.UndoSummary.Location = New System.Drawing.Point(9, 199)
+        Me.UndoSummary.Location = New System.Drawing.Point(9, 216)
         Me.UndoSummary.Name = "UndoSummary"
         Me.UndoSummary.Size = New System.Drawing.Size(343, 20)
         Me.UndoSummary.TabIndex = 15
@@ -564,7 +564,7 @@ Partial Class ConfigForm
         'Label16
         '
         Me.Label16.AutoSize = True
-        Me.Label16.Location = New System.Drawing.Point(6, 183)
+        Me.Label16.Location = New System.Drawing.Point(6, 200)
         Me.Label16.Name = "Label16"
         Me.Label16.Size = New System.Drawing.Size(171, 13)
         Me.Label16.TabIndex = 14
@@ -572,7 +572,7 @@ Partial Class ConfigForm
         '
         'DefaultSummary
         '
-        Me.DefaultSummary.Location = New System.Drawing.Point(9, 154)
+        Me.DefaultSummary.Location = New System.Drawing.Point(9, 171)
         Me.DefaultSummary.Name = "DefaultSummary"
         Me.DefaultSummary.Size = New System.Drawing.Size(343, 20)
         Me.DefaultSummary.TabIndex = 13
@@ -580,7 +580,7 @@ Partial Class ConfigForm
         'Label15
         '
         Me.Label15.AutoSize = True
-        Me.Label15.Location = New System.Drawing.Point(6, 138)
+        Me.Label15.Location = New System.Drawing.Point(6, 155)
         Me.Label15.Name = "Label15"
         Me.Label15.Size = New System.Drawing.Size(165, 13)
         Me.Label15.TabIndex = 12
@@ -607,19 +607,19 @@ Partial Class ConfigForm
         'Watchlist
         '
         Me.Watchlist.FormattingEnabled = True
-        Me.Watchlist.Items.AddRange(New Object() {"Reverts", "Warnings", "Tags", "Reports", "Notifications", "Other"})
+        Me.Watchlist.Items.AddRange(New Object() {"Reverts", "Warnings", "Tags", "Reports", "Notifications", "Manual edits", "Other"})
         Me.Watchlist.Location = New System.Drawing.Point(170, 31)
         Me.Watchlist.Name = "Watchlist"
-        Me.Watchlist.Size = New System.Drawing.Size(155, 94)
+        Me.Watchlist.Size = New System.Drawing.Size(155, 109)
         Me.Watchlist.TabIndex = 9
         '
         'Minor
         '
         Me.Minor.FormattingEnabled = True
-        Me.Minor.Items.AddRange(New Object() {"Reverts", "Warnings", "Tags", "Reports", "Notifications", "Other"})
+        Me.Minor.Items.AddRange(New Object() {"Reverts", "Warnings", "Tags", "Reports", "Notifications", "Manual edits", "Other"})
         Me.Minor.Location = New System.Drawing.Point(9, 31)
         Me.Minor.Name = "Minor"
-        Me.Minor.Size = New System.Drawing.Size(155, 94)
+        Me.Minor.Size = New System.Drawing.Size(155, 109)
         Me.Minor.TabIndex = 8
         '
         'RevertTab

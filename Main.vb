@@ -485,8 +485,7 @@ Class Main
         If CurrentEdit IsNot Nothing AndAlso CurrentEdit.Prev IsNot Nothing Then
             Dim NewRevertForm As New RevertForm
 
-            NewRevertForm.Page = CurrentPage
-            NewRevertForm.User = CurrentUser
+            NewRevertForm.Edit = CurrentEdit
 
             If NewRevertForm.ShowDialog = DialogResult.OK Then
                 DiffRevertB.Enabled = False
