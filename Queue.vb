@@ -423,9 +423,9 @@ Class Queue
 
     Public Function MatchesFilter(ByVal PageName As String) As Boolean
         'Determines whether a page name matches this queue's filter
-        Dim Page As Page = GetPage(PageName)
 
-        If _PageRegex IsNot Nothing AndAlso Not _PageRegex.IsMatch(Page.Name) Then Return False
+        If _IgnorePages AndAlso Config.IgnoredPages.Contains(PageName) Then Return False
+        If _PageRegex IsNot Nothing AndAlso Not _PageRegex.IsMatch(PageName) Then Return False
 
         Return True
     End Function

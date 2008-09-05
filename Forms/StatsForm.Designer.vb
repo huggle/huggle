@@ -23,28 +23,21 @@ Partial Class StatsForm
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Dim ListViewItem1 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Edits")
-        Dim ListViewItem2 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Reverts")
-        Dim ListViewItem3 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Warnings")
-        Dim ListViewItem4 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Blocks")
-        Me.CloseButton = New System.Windows.Forms.Button
+        Me.OK = New System.Windows.Forms.Button
         Me.Label1 = New System.Windows.Forms.Label
         Me.StatsTimer = New System.Windows.Forms.Timer(Me.components)
         Me.Actions = New Huggle.ListView2
-        Me.TypeColumn = New System.Windows.Forms.ColumnHeader
-        Me.TotalColumn = New System.Windows.Forms.ColumnHeader
-        Me.MyColumn = New System.Windows.Forms.ColumnHeader
         Me.SuspendLayout()
         '
-        'CloseButton
+        'OK
         '
-        Me.CloseButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.CloseButton.Location = New System.Drawing.Point(160, 113)
-        Me.CloseButton.Name = "CloseButton"
-        Me.CloseButton.Size = New System.Drawing.Size(75, 23)
-        Me.CloseButton.TabIndex = 0
-        Me.CloseButton.Text = "Close"
-        Me.CloseButton.UseVisualStyleBackColor = True
+        Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.OK.Location = New System.Drawing.Point(467, 213)
+        Me.OK.Name = "OK"
+        Me.OK.Size = New System.Drawing.Size(75, 23)
+        Me.OK.TabIndex = 0
+        Me.OK.Text = "Close"
+        Me.OK.UseVisualStyleBackColor = True
         '
         'Label1
         '
@@ -58,48 +51,32 @@ Partial Class StatsForm
         'StatsTimer
         '
         Me.StatsTimer.Enabled = True
+        Me.StatsTimer.Interval = 500
         '
         'Actions
         '
         Me.Actions.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Actions.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.TypeColumn, Me.TotalColumn, Me.MyColumn})
         Me.Actions.FullRowSelect = True
         Me.Actions.GridLines = True
         Me.Actions.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
-        Me.Actions.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem1, ListViewItem2, ListViewItem3, ListViewItem4})
         Me.Actions.Location = New System.Drawing.Point(12, 25)
         Me.Actions.MultiSelect = False
         Me.Actions.Name = "Actions"
-        Me.Actions.Size = New System.Drawing.Size(223, 82)
+        Me.Actions.Size = New System.Drawing.Size(530, 182)
         Me.Actions.TabIndex = 2
         Me.Actions.UseCompatibleStateImageBehavior = False
         Me.Actions.View = System.Windows.Forms.View.Details
-        '
-        'TypeColumn
-        '
-        Me.TypeColumn.Text = "Type"
-        Me.TypeColumn.Width = 74
-        '
-        'TotalColumn
-        '
-        Me.TotalColumn.Text = "Total"
-        Me.TotalColumn.Width = 75
-        '
-        'MyColumn
-        '
-        Me.MyColumn.Text = "Me"
-        Me.MyColumn.Width = 68
         '
         'StatsForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(247, 148)
+        Me.ClientSize = New System.Drawing.Size(554, 248)
         Me.Controls.Add(Me.Actions)
         Me.Controls.Add(Me.Label1)
-        Me.Controls.Add(Me.CloseButton)
+        Me.Controls.Add(Me.OK)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.KeyPreview = True
         Me.MaximizeBox = False
@@ -110,11 +87,8 @@ Partial Class StatsForm
         Me.PerformLayout()
 
     End Sub
-    Friend WithEvents CloseButton As System.Windows.Forms.Button
+    Friend WithEvents OK As System.Windows.Forms.Button
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents Actions As Huggle.ListView2
-    Friend WithEvents TypeColumn As System.Windows.Forms.ColumnHeader
-    Friend WithEvents TotalColumn As System.Windows.Forms.ColumnHeader
-    Friend WithEvents MyColumn As System.Windows.Forms.ColumnHeader
-    Friend WithEvents StatsTimer As System.Windows.Forms.Timer
+    Private WithEvents StatsTimer As System.Windows.Forms.Timer
 End Class

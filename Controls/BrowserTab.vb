@@ -100,7 +100,8 @@ Class BrowserTab
         Dim Url As String = e.Url.ToString
         If Url.StartsWith("about:/") Then Url = Config.SitePath & Url.Substring(7)
         If Url.StartsWith("about:#") Then Url = Config.SitePath & "wiki/" & Edit.Page.Name & Url.Substring(6)
-        If Url = "about:blank" Then Exit Sub Else e.Cancel = True
+        If Url = "about:blank" Then Exit Sub
+        e.Cancel = True
 
         If Config.OpenInBrowser Then
             OpenUrlInBrowser(Url)
@@ -124,7 +125,7 @@ Class BrowserTab
             ElseIf Params("title").StartsWith("Special:Contributions/") Then
                 MainForm.SetCurrentUser(GetUser(Params("title").Substring(22)), True)
 
-            ElseIf Params("title").StartsWith(Space.User.Name & ":") Then
+            ElseIf Params("title").StartsWith(Space.User.Name & ":") AndAlso Not Params("title").Contains("/") Then
                 MainForm.SetCurrentUser(GetUser(Params("title").Substring(5)), True)
 
             Else

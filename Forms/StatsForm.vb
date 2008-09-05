@@ -2,27 +2,6 @@ Class StatsForm
 
     Private Sub StatsForm_Load() Handles Me.Load
         Icon = My.Resources.icon_red_button
-
-        For i As Integer = 0 To 3
-            Actions.Items(i).SubItems.Add("0")
-            Actions.Items(i).SubItems.Add("0")
-        Next i
-
-        RefreshStats()
-    End Sub
-
-    Private Sub RefreshStats()
-        Actions.Items(0).SubItems(1).Text = CStr(Stats.Edits)
-        Actions.Items(0).SubItems(2).Text = CStr(Stats.EditsMe)
-        Actions.Items(1).SubItems(1).Text = CStr(Stats.Reverts)
-        Actions.Items(1).SubItems(2).Text = CStr(Stats.RevertsMe)
-        Actions.Items(2).SubItems(1).Text = CStr(Stats.Warnings)
-        Actions.Items(2).SubItems(2).Text = CStr(Stats.WarningsMe)
-        Actions.Items(3).SubItems(1).Text = CStr(Stats.Blocks)
-        Actions.Items(3).SubItems(2).Text = CStr(Stats.BlocksMe)
-    End Sub
-
-    Private Sub StatsTimer_Tick() Handles StatsTimer.Tick
         RefreshStats()
     End Sub
 
@@ -30,8 +9,40 @@ Class StatsForm
         If e.KeyCode = Keys.Escape Then Close()
     End Sub
 
-    Private Sub CloseButton_Click() Handles CloseButton.Click
+    Private Sub RefreshStats()
+        Actions.BeginUpdate()
+        Actions.Clear()
+        Actions.Columns.Add("", 100)
+
+        For Each Column As String In Stats.Groups.Keys
+            Actions.Columns.Add(Column, 70)
+        Next Column
+
+        For Each Row As String In Stats.Group.ItemNames
+            Dim NewItem As New ListViewItem(Row)
+
+            For Each Column As String In Stats.Groups.Keys
+                NewItem.SubItems.Add(Stats.Groups(Column)(Row).ToString)
+            Next Column
+
+            Actions.Items.Add(NewItem)
+        Next Row
+
+        Actions.EndUpdate()
+    End Sub
+
+    Private Sub Actions_ColumnWidthChanging(ByVal s As Object, ByVal e As ColumnWidthChangingEventArgs) _
+    Handles Actions.ColumnWidthChanging
+
+        e.Cancel = True
+    End Sub
+
+    Private Sub CloseButton_Click() Handles OK.Click
         Close()
+    End Sub
+
+    Private Sub StatsTimer_Tick() Handles StatsTimer.Tick
+        RefreshStats()
     End Sub
 
 End Class

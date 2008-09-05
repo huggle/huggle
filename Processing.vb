@@ -324,8 +324,6 @@ Module Processing
         End While
 
         If Edit.User.IsMe Then
-            Stats.EditsMe += 1
-
             'Log user's edits
             If Edit.Summary = "" Then Log("Edited '" & Edit.Page.Name & "': (no summary)", Edit) _
                 Else Log("Edited '" & Edit.Page.Name & "': " & TrimSummary(Edit.Summary), Edit)
@@ -337,12 +335,10 @@ Module Processing
 
             Select Case Edit.Type
                 Case EditType.Warning
-                    Stats.WarningsMe += 1
                     NewCommand.Type = CommandType.Warning
                     NewCommand.Description = "Warn " & Edit.Page.Name.Substring(10)
 
                 Case EditType.Revert
-                    Stats.RevertsMe += 1
                     NewCommand.Type = CommandType.Revert
                     NewCommand.Description = "Revert on " & Edit.Page.Name
 
@@ -624,8 +620,7 @@ Module Processing
         Dim Block As Block = CType(BlockObject, Block)
 
         If Block IsNot Nothing AndAlso Block.User IsNot Nothing Then
-            Stats.Blocks += 1
-            If Block.Admin.IsMe Then Stats.BlocksMe += 1
+            Stats.Update(Block)
 
             If Block.User.BlocksCurrent Then
                 If Block.User.Blocks Is Nothing Then Block.User.Blocks = New List(Of Block)
@@ -653,6 +648,8 @@ Module Processing
         Dim Delete As Delete = CType(DeleteObject, Delete)
 
         If Delete IsNot Nothing AndAlso Delete.Page IsNot Nothing Then
+            Stats.Update(Delete)
+
             Delete.Page.Exists = False
 
             If Delete.Page.DeletesCurrent Then
@@ -715,6 +712,8 @@ Module Processing
         Dim Protection As Protection = CType(ProtectionObject, Protection)
 
         If Protection IsNot Nothing AndAlso Protection.Page IsNot Nothing Then
+            Stats.Update(Protection)
+
             Dim ThisPage As Page = Protection.Page
 
             If Protection.Page.ProtectionsCurrent Then
