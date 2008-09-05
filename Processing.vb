@@ -27,7 +27,7 @@ Module Processing
         If Config.Summary IsNot Nothing AndAlso Edit.Summary.EndsWith(Config.Summary) Then Edit.Assisted = True
 
         For Each Item As String In Config.AssistedSummaries
-            If Edit.Summary.EndsWith(Item) Then
+            If Edit.Summary.Contains(Item) Then
                 Edit.Assisted = True
                 Exit For
             End If
@@ -801,19 +801,15 @@ Module Processing
 
             If Edit.Prev.Summary Is Nothing Then
                 If DiffText.Contains("<div id=""mw-diff-otitle3"">") Then
-                    Dim Summary As String = DiffText.Substring _
-                        (DiffText.IndexOf("<div id=""mw-diff-otitle3"">") + "<div id=""mw-diff-otitle3"">".Length)
+
+                    Dim Summary As String = FindString(DiffText, "<div id=""mw-diff-otitle3"">")
 
                     If Summary.Contains("<div id=""mw-diff-ntitle3"">") Then _
                         Summary = Summary.Substring(0, Summary.IndexOf("<div id=""mw-diff-ntitle3"">"))
 
                     If Summary.Contains("<span class=""comment"">") Then
                         Summary = FindString(Summary, "<span class=""comment"">", "</span></div>")
-                        Summary = StripHTML(Summary)
-
-                        If Summary.StartsWith("(") AndAlso Summary.EndsWith(")") _
-                            Then Summary = Summary.Substring(1, Summary.Length - 2)
-
+                        Summary = HtmlToWikiText(Summary)
                         Edit.Prev.Summary = Summary
                     Else
                         Edit.Prev.Summary = ""

@@ -16,6 +16,7 @@ Class Queue
     Private _FilterBot As QueueFilter = QueueFilter.None
     Private _FilterHuggle As QueueFilter = QueueFilter.None
     Private _FilterIgnored As QueueFilter = QueueFilter.None
+    Private _FilterMe As QueueFilter = QueueFilter.None
     Private _FilterNewPage As QueueFilter = QueueFilter.None
     Private _FilterNotifications As QueueFilter = QueueFilter.None
     Private _FilterOwnUserspace As QueueFilter = QueueFilter.None
@@ -113,6 +114,16 @@ Class Queue
         Set(ByVal value As QueueFilter)
             If value <> _FilterIgnored Then _NeedsReset = True
             _FilterIgnored = value
+        End Set
+    End Property
+
+    Public Property FilterMe() As QueueFilter
+        Get
+            Return _FilterMe
+        End Get
+        Set(ByVal value As QueueFilter)
+            If value <> _FilterMe Then _NeedsReset = True
+            _FilterMe = value
         End Set
     End Property
 
@@ -437,6 +448,7 @@ Class Queue
             AndAlso QueueFilterMatch(_FilterBot, Edit.User.Bot) _
             AndAlso QueueFilterMatch(_FilterHuggle, Edit.IsHuggleEdit) _
             AndAlso QueueFilterMatch(_FilterIgnored, Edit.User.Ignored) _
+            AndAlso QueueFilterMatch(_FilterMe, Edit.User.IsMe) _
             AndAlso QueueFilterMatch(_FilterNewPage, Edit.NewPage) _
             AndAlso QueueFilterMatch(_FilterNotifications, Edit.Type = Huggle.EditType.Notification) _
             AndAlso QueueFilterMatch(_FilterOwnUserspace, Edit.OwnUserspace) _

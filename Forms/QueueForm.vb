@@ -112,6 +112,10 @@ Class QueueForm
         CurrentQueue.FilterIgnored = CType(CInt(FilterIgnored.State), QueueFilter)
     End Sub
 
+    Private Sub FilterMe_CheckStateChanged() Handles FilterMe.CheckStateChanged
+        CurrentQueue.FilterMe = CType(CInt(FilterMe.State), QueueFilter)
+    End Sub
+
     Private Sub FilterNewPage_CheckStateChanged() Handles FilterNewPage.CheckStateChanged
         CurrentQueue.FilterNewPage = CType(CInt(FilterNewPage.State), QueueFilter)
     End Sub
@@ -220,6 +224,7 @@ Class QueueForm
             FilterBot.State = CType(CInt(CurrentQueue.FilterBot), CheckState)
             FilterHuggle.State = CType(CInt(CurrentQueue.FilterHuggle), CheckState)
             FilterIgnored.State = CType(CInt(CurrentQueue.FilterIgnored), CheckState)
+            FilterMe.State = CType(CInt(CurrentQueue.FilterMe), CheckState)
             FilterNewPage.State = CType(CInt(CurrentQueue.FilterNewPage), CheckState)
             FilterNotifications.State = CType(CInt(CurrentQueue.FilterNotifications), CheckState)
             FilterOwnUserspace.State = CType(CInt(CurrentQueue.FilterOwnUserspace), CheckState)

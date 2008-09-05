@@ -3,7 +3,7 @@ Imports System.Net
 Imports System.Text.RegularExpressions
 Imports System.Web.HttpUtility
 
-<DebuggerStepThrough()> _
+'<DebuggerStepThrough()> _
 Module Misc
 
     'Globals
@@ -342,6 +342,29 @@ Module Misc
         Return User.GetUser(Name)
     End Function
 
+    Function HtmlToWikiText(ByVal Text As String) As String
+        'Convert edit summary in HTML form to its equivalent wikitext
+
+        If Text.StartsWith("(") AndAlso Text.EndsWith(")") Then Text = Text.Substring(1, Text.Length - 2)
+
+        While Text.Contains("<a href=") AndAlso Text.Contains("</a>")
+            Dim LinkTarget As String = HtmlDecode(FindString(Text, "<a href=", "title=""", """"))
+            Dim LinkText As String = HtmlDecode(FindString(Text, "<a href=", ">", "</a>"))
+
+            If LinkTarget = LinkText Then
+                Text = Text.Substring(0, Text.IndexOf("<a href=")) & "[[" & LinkText & "]]" & _
+                    FindString(Text, "</a>")
+            Else
+                Text = Text.Substring(0, Text.IndexOf("<a href=")) & "[[" & LinkTarget & "|" & LinkText & "]]" & _
+                    FindString(Text, "</a>")
+            End If
+        End While
+
+        Text = StripHTML(Text)
+
+        Return Text
+    End Function
+
     Function IsWikiPage(ByVal Text As String) As Boolean
         'Unfortunately there is no one element common to all skins
         If Text Is Nothing Then Return False
@@ -462,7 +485,6 @@ Module Misc
 
             If Title.Contains("]]") Then Title = Title.Substring(0, Title.IndexOf("]]"))
 
-            If Not Summary.Contains("]]") Then Exit While
             Summary = Summary.Substring(0, Summary.IndexOf("[[")) & Title & Summary.Substring(Summary.IndexOf("]]") + 2)
         End While
 

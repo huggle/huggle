@@ -695,6 +695,7 @@ Module ConfigIO
                                 Case "filter-bot" : Queue.FilterBot = CType(OptionValue, QueueFilter)
                                 Case "filter-huggle" : Queue.FilterHuggle = CType(OptionValue, QueueFilter)
                                 Case "filter-ignored" : Queue.FilterIgnored = CType(OptionValue, QueueFilter)
+                                Case "filter-me" : Queue.FilterMe = CType(OptionValue, QueueFilter)
                                 Case "filter-new-pages" : Queue.FilterNewPage = CType(OptionValue, QueueFilter)
                                 Case "filter-notifications" : Queue.FilterNotifications = CType(OptionValue, QueueFilter)
                                 Case "filter-own-userspace" : Queue.FilterOwnUserspace = CType(OptionValue, QueueFilter)
@@ -761,6 +762,33 @@ Module ConfigIO
             NewQueue.Preload = False
             NewQueue.Reset()
         End If
+
+        If Not Queue.All.ContainsKey("My edits") Then
+            Dim NewQueue As New Queue("My edits")
+            NewQueue.Type = QueueType.Live
+            NewQueue.SortOrder = QueueSortOrder.Time
+            NewQueue.FilterMe = QueueFilter.Require
+            NewQueue.Preload = False
+            NewQueue.RemoveViewed = False
+            NewQueue.Reset()
+        End If
+
+        If Not Queue.All.ContainsKey("Huggle edits") Then
+            Dim NewQueue As New Queue("Huggle edits")
+            NewQueue.Type = QueueType.Live
+            NewQueue.SortOrder = QueueSortOrder.Time
+            NewQueue.FilterHuggle = QueueFilter.Require
+            NewQueue.Reset()
+        End If
+
+        If Not Queue.All.ContainsKey("All assisted edits") Then
+            Dim NewQueue As New Queue("All assisted edits")
+            NewQueue.Type = QueueType.Live
+            NewQueue.SortOrder = QueueSortOrder.Time
+            NewQueue.FilterAssisted = QueueFilter.Require
+            NewQueue.FilterBot = QueueFilter.Exclude
+            NewQueue.Reset()
+        End If
     End Sub
 
     Private Function SetQueueSpaces(ByVal Value As String) As List(Of Space)
@@ -806,6 +834,7 @@ Module ConfigIO
             Items.Add("filter-bot:" & CStr(CInt(Queue.FilterBot)))
             Items.Add("filter-huggle:" & CStr(CInt(Queue.FilterHuggle)))
             Items.Add("filter-ignored:" & CStr(CInt(Queue.FilterIgnored)))
+            Items.Add("filter-me:" & CStr(CInt(Queue.FilterMe)))
             Items.Add("filter-new-pages:" & CStr(CInt(Queue.FilterNewPage)))
             Items.Add("filter-notifications:" & CStr(CInt(Queue.FilterNotifications)))
             Items.Add("filter-own-userspace:" & CStr(CInt(Queue.FilterOwnUserspace)))
