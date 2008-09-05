@@ -28,6 +28,7 @@ Class Edit
     Public Prev As Edit
     Public PrevByUser As Edit
     Public Processed As Boolean
+    Public Rcid As String
     Public RollbackUrl As String
     Public Size As Integer
     Public Summary As String

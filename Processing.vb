@@ -4,7 +4,7 @@ Imports System.Web.HttpUtility
 Module Processing
 
     Private RcLineRegex As New Regex _
-        ("type=""([^""]*)"" ns=""[^""]*"" title=""([^""]*)"" rcid=""[^""]*"" pageid=""[^""]*"" " _
+        ("type=""([^""]*)"" ns=""[^""]*"" title=""([^""]*)"" rcid=""([^""]*)"" pageid=""[^""]*"" " _
         & "revid=""([^""]*)"" old_revid=""([^""]*)"" user=""([^""]*)""( bot="""")?( anon=" _
         & """"")?( new="""")?( minor="""")? oldlen=""([^""]*)"" newlen=""([^""]*)"" times" _
         & "tamp=""([^""]*)""( comment=""([^""]*)"")? />", RegexOptions.Compiled)
@@ -964,7 +964,7 @@ Module Processing
                 Dim Match As Match = RcLineRegex.Match(Item)
 
                 If Match.Success AndAlso LastRcTime <= _
-                    Date.SpecifyKind(CDate(Match.Groups(12).Value).ToUniversalTime, DateTimeKind.Utc) Then
+                    Date.SpecifyKind(CDate(Match.Groups(13).Value).ToUniversalTime, DateTimeKind.Utc) Then
 
                     Select Case Match.Groups(1).Value
                         Case "edit" : ProcessRcEdit(Match)
@@ -972,7 +972,7 @@ Module Processing
                         Case "log" : ProcessRcLog(Match)
                     End Select
 
-                    LastRcTime = Date.SpecifyKind(CDate(Match.Groups(12).Value).ToUniversalTime, DateTimeKind.Utc)
+                    LastRcTime = Date.SpecifyKind(CDate(Match.Groups(13).Value).ToUniversalTime, DateTimeKind.Utc)
                 End If
             Next i
         End If
@@ -993,14 +993,15 @@ Module Processing
         Dim Edit As New Edit
 
         Edit.Page = GetPage(HtmlDecode(Match.Groups(2).Value))
-        Edit.Id = Match.Groups(3).Value
-        Edit.Oldid = Match.Groups(4).Value
-        Edit.User = GetUser(HtmlDecode(Match.Groups(5).Value))
-        Edit.Change = (CInt(Match.Groups(11).Value) - CInt(Match.Groups(10).Value))
-        Edit.Size = CInt(Match.Groups(11).Value)
-        If Edit.Page.LastEdit IsNot Nothing Then Edit.Page.LastEdit.Size = CInt(Match.Groups(10).Value)
-        Edit.Time = Date.SpecifyKind(CDate(Match.Groups(12).Value).ToUniversalTime, DateTimeKind.Utc)
-        Edit.Summary = HtmlDecode(Match.Groups(14).Value)
+        Edit.Rcid = Match.Groups(3).Value
+        Edit.Id = Match.Groups(4).Value
+        Edit.Oldid = Match.Groups(5).Value
+        Edit.User = GetUser(HtmlDecode(Match.Groups(6).Value))
+        Edit.Change = (CInt(Match.Groups(12).Value) - CInt(Match.Groups(11).Value))
+        Edit.Size = CInt(Match.Groups(12).Value)
+        If Edit.Page.LastEdit IsNot Nothing Then Edit.Page.LastEdit.Size = CInt(Match.Groups(11).Value)
+        Edit.Time = Date.SpecifyKind(CDate(Match.Groups(13).Value).ToUniversalTime, DateTimeKind.Utc)
+        Edit.Summary = HtmlDecode(Match.Groups(15).Value)
 
         If Not Edit.All.ContainsKey(Edit.Id) Then
             ProcessEdit(Edit)
@@ -1014,14 +1015,16 @@ Module Processing
         Edit.NewPage = True
         Edit.Page = GetPage(HtmlDecode(Match.Groups(2).Value))
         Edit.Page.FirstEdit = Edit
+        Edit.Rcid = Match.Groups(3).Value
+        Edit.Page.Rcid = Edit.Rcid
         Edit.Prev = NullEdit
-        Edit.Id = Match.Groups(3).Value
+        Edit.Id = Match.Groups(4).Value
         Edit.Oldid = "-1"
-        Edit.User = GetUser(HtmlDecode(Match.Groups(5).Value))
-        Edit.Change = CInt(Match.Groups(11).Value)
-        Edit.Size = CInt(Match.Groups(11).Value)
-        Edit.Time = Date.SpecifyKind(CDate(Match.Groups(12).Value).ToUniversalTime, DateTimeKind.Utc)
-        Edit.Summary = HtmlDecode(Match.Groups(14).Value)
+        Edit.User = GetUser(HtmlDecode(Match.Groups(6).Value))
+        Edit.Change = CInt(Match.Groups(12).Value)
+        Edit.Size = CInt(Match.Groups(12).Value)
+        Edit.Time = Date.SpecifyKind(CDate(Match.Groups(13).Value).ToUniversalTime, DateTimeKind.Utc)
+        Edit.Summary = HtmlDecode(Match.Groups(15).Value)
 
         If Not Edit.All.ContainsKey(Edit.Id) Then
             ProcessEdit(Edit)
@@ -1030,6 +1033,8 @@ Module Processing
     End Sub
 
     Sub ProcessRcLog(ByVal Match As Match)
+        Dim a As String = Match.Groups(2).Value
+
         Select Case HtmlDecode(Match.Groups(2).Value)
             Case "Special:Log/block"
                 Dim NewBlock As New Block
@@ -1349,8 +1354,8 @@ Module Processing
 
             For Each Item As String In New String() _
                 {"test 5", "test5", "test 6", "test6", "test 7", "test7", "notification: blocked", "indef blocked", _
-                "you have been temporarily blocked", "you have been blocked", "temporary block", "vandalblock", _
-                "+block", "+indefblock", "+anonblock"}
+                "you have been temporarily blocked", "block notice", "you have been blocked", "temporary block", _
+                "vandalblock", "+block", "+indefblock", "+anonblock"}
 
                 If Summary.Contains(Item) Then Return UserLevel.Blocked
             Next Item

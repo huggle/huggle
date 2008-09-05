@@ -126,8 +126,6 @@ Namespace Requests
                 Exit Sub
             End If
 
-            Dim Result As String
-
             If Page.Rcid Is Nothing Then
                 Result = GetText("title=Special:Newpages&namespace=all&limit=500")
 
@@ -144,17 +142,15 @@ Namespace Requests
                         Dim Url As String = Item.Substring(Item.IndexOf("<a") + 10)
                         Url = HtmlDecode(Url.Substring(0, Url.IndexOf("""")))
 
-                        Dim PageName As String
-
                         If Url.Contains("&rcid=") Then
                             Url = Url.Substring(Url.IndexOf("?title=") + 7)
-                            PageName = UrlDecode(Url.Substring(0, Url.IndexOf("&rcid="))).Replace("_", " ")
-                            GetPage(PageName).Rcid = Url.Substring(Url.IndexOf("&rcid=") + 6)
-                            GetPage(PageName).Patrolled = False
+                            Dim Page As Page = GetPage(UrlDecode(Url.Substring(0, Url.IndexOf("&rcid="))))
+                            Page.Rcid = Url.Substring(Url.IndexOf("&rcid=") + 6)
+                            If Page.FirstEdit IsNot Nothing Then Page.FirstEdit.Rcid = Page.Rcid
+                            Page.Patrolled = False
                         Else
-                            Url = Url.Substring(Url.IndexOf("wiki/") + 5)
-                            PageName = UrlDecode(Url).Replace("_", " ")
-                            GetPage(PageName).Patrolled = True
+                            Dim Page As Page = GetPage(UrlDecode(Url.Substring(Url.IndexOf("wiki/") + 5)))
+                            Page.Patrolled = True
                         End If
                     End If
                 Next Item
