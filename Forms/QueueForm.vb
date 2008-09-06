@@ -31,6 +31,12 @@ Class QueueForm
 
     Private Sub QueueForm_FormClosing(ByVal s As Object, ByVal e As FormClosingEventArgs) Handles Me.FormClosing
         Misc.CurrentQueue = Me.CurrentQueue
+        QueueOrder.Clear()
+
+        For Each Item As String In QueueList.Items
+            QueueOrder.Add(Item)
+        Next Item
+
         MainForm.SetQueueSelector()
     End Sub
 
@@ -348,6 +354,8 @@ Class QueueForm
         End If
 
         DeleteQueue.Enabled = (QueueList.SelectedIndex > -1)
+        MoveUp.Enabled = (QueueList.SelectedIndex > 0)
+        MoveDown.Enabled = (QueueList.SelectedIndex > -1 AndAlso QueueList.SelectedIndex < QueueList.Items.Count - 1)
         RenameQueue.Enabled = (QueueList.SelectedIndex > -1)
         CopyQueue.Enabled = (QueueList.SelectedIndex > -1)
         QueuesEmpty.Visible = (QueueList.Items.Count = 0)
@@ -368,6 +376,22 @@ Class QueueForm
 
         If CurrentQueue Is Nothing OrElse CurrentQueue.ListName Is Nothing Then ListSelector.SelectedIndex = 0 _
             Else ListSelector.SelectedItem = CurrentQueue.ListName
+    End Sub
+
+    Private Sub MoveUp_Click() Handles MoveUp.Click
+        Dim Index As Integer = QueueList.SelectedIndex
+        Dim Queue As Queue = CurrentQueue
+        QueueList.Items.RemoveAt(Index)
+        QueueList.Items.Insert(Index - 1, Queue.Name)
+        QueueList.SelectedIndex = Index - 1
+    End Sub
+
+    Private Sub MoveDown_Click() Handles MoveDown.Click
+        Dim Index As Integer = QueueList.SelectedIndex
+        Dim Queue As Queue = CurrentQueue
+        QueueList.Items.RemoveAt(Index)
+        QueueList.Items.Insert(Index + 1, Queue.Name)
+        QueueList.SelectedIndex = Index + 1
     End Sub
 
 End Class

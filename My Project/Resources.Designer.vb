@@ -312,6 +312,13 @@ Namespace My.Resources
             End Get
         End Property
         
+        Friend ReadOnly Property gray_down() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("gray_down", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
         Friend ReadOnly Property gray_last() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("gray_last", resourceCulture)
@@ -329,6 +336,13 @@ Namespace My.Resources
         Friend ReadOnly Property gray_previous() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("gray_previous", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property gray_up() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("gray_up", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property

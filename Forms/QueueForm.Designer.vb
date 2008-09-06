@@ -55,7 +55,6 @@ Partial Class QueueForm
         Me.ApplyFilters = New System.Windows.Forms.Button
         Me.ApplyFiltersLabel = New System.Windows.Forms.Label
         Me.PageFiltersGroup = New System.Windows.Forms.GroupBox
-        Me.PageRegex = New Huggle.RegexBox
         Me.NamespacesLabel = New System.Windows.Forms.Label
         Me.Namespaces = New System.Windows.Forms.CheckedListBox
         Me.PageRegexLabel = New System.Windows.Forms.Label
@@ -63,10 +62,16 @@ Partial Class QueueForm
         Me.Label4 = New System.Windows.Forms.Label
         Me.Label3 = New System.Windows.Forms.Label
         Me.Label2 = New System.Windows.Forms.Label
+        Me.EditFiltersGroup = New System.Windows.Forms.GroupBox
+        Me.SummaryRegexLabel = New System.Windows.Forms.Label
+        Me.UserRegexLabel = New System.Windows.Forms.Label
+        Me.OK = New System.Windows.Forms.Button
+        Me.MoveUp = New System.Windows.Forms.Button
+        Me.MoveDown = New System.Windows.Forms.Button
+        Me.PageRegex = New Huggle.RegexBox
         Me.Example2 = New Huggle.TriState
         Me.Example1 = New Huggle.TriState
         Me.Example3 = New Huggle.TriState
-        Me.EditFiltersGroup = New System.Windows.Forms.GroupBox
         Me.FilterBot = New Huggle.TriState
         Me.SummaryRegex = New Huggle.RegexBox
         Me.UserRegex = New Huggle.RegexBox
@@ -81,9 +86,6 @@ Partial Class QueueForm
         Me.FilterIgnored = New Huggle.TriState
         Me.FilterAnonymous = New Huggle.TriState
         Me.FilterNewPage = New Huggle.TriState
-        Me.SummaryRegexLabel = New System.Windows.Forms.Label
-        Me.UserRegexLabel = New System.Windows.Forms.Label
-        Me.OK = New System.Windows.Forms.Button
         Me.TypeGroup.SuspendLayout()
         Me.Tabs.SuspendLayout()
         Me.PagesTab.SuspendLayout()
@@ -104,7 +106,6 @@ Partial Class QueueForm
         Me.QueueList.Location = New System.Drawing.Point(12, 28)
         Me.QueueList.Name = "QueueList"
         Me.QueueList.Size = New System.Drawing.Size(156, 370)
-        Me.QueueList.Sorted = True
         Me.QueueList.TabIndex = 1
         '
         'QueuesLabel
@@ -121,7 +122,7 @@ Partial Class QueueForm
         Me.AddQueue.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.AddQueue.Location = New System.Drawing.Point(12, 404)
         Me.AddQueue.Name = "AddQueue"
-        Me.AddQueue.Size = New System.Drawing.Size(75, 23)
+        Me.AddQueue.Size = New System.Drawing.Size(60, 23)
         Me.AddQueue.TabIndex = 3
         Me.AddQueue.Text = "Add"
         Me.Tip.SetToolTip(Me.AddQueue, "Add a queue")
@@ -131,9 +132,9 @@ Partial Class QueueForm
         '
         Me.DeleteQueue.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.DeleteQueue.Enabled = False
-        Me.DeleteQueue.Location = New System.Drawing.Point(93, 404)
+        Me.DeleteQueue.Location = New System.Drawing.Point(78, 404)
         Me.DeleteQueue.Name = "DeleteQueue"
-        Me.DeleteQueue.Size = New System.Drawing.Size(75, 23)
+        Me.DeleteQueue.Size = New System.Drawing.Size(61, 23)
         Me.DeleteQueue.TabIndex = 4
         Me.DeleteQueue.Text = "Delete"
         Me.Tip.SetToolTip(Me.DeleteQueue, "Remove selected queue")
@@ -143,9 +144,9 @@ Partial Class QueueForm
         '
         Me.RenameQueue.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.RenameQueue.Enabled = False
-        Me.RenameQueue.Location = New System.Drawing.Point(93, 433)
+        Me.RenameQueue.Location = New System.Drawing.Point(78, 433)
         Me.RenameQueue.Name = "RenameQueue"
-        Me.RenameQueue.Size = New System.Drawing.Size(75, 23)
+        Me.RenameQueue.Size = New System.Drawing.Size(61, 23)
         Me.RenameQueue.TabIndex = 6
         Me.RenameQueue.Text = "Rename"
         Me.Tip.SetToolTip(Me.RenameQueue, "Rename selected queue")
@@ -157,7 +158,7 @@ Partial Class QueueForm
         Me.CopyQueue.Enabled = False
         Me.CopyQueue.Location = New System.Drawing.Point(12, 433)
         Me.CopyQueue.Name = "CopyQueue"
-        Me.CopyQueue.Size = New System.Drawing.Size(75, 23)
+        Me.CopyQueue.Size = New System.Drawing.Size(60, 23)
         Me.CopyQueue.TabIndex = 5
         Me.CopyQueue.Text = "Copy"
         Me.Tip.SetToolTip(Me.CopyQueue, "Copy selected queue")
@@ -452,15 +453,6 @@ Partial Class QueueForm
         Me.PageFiltersGroup.TabStop = False
         Me.PageFiltersGroup.Text = "Page filters"
         '
-        'PageRegex
-        '
-        Me.PageRegex.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.PageRegex.Location = New System.Drawing.Point(173, 19)
-        Me.PageRegex.Name = "PageRegex"
-        Me.PageRegex.Size = New System.Drawing.Size(217, 38)
-        Me.PageRegex.TabIndex = 1
-        '
         'NamespacesLabel
         '
         Me.NamespacesLabel.AutoSize = True
@@ -496,10 +488,10 @@ Partial Class QueueForm
         Me.EditFiltersTab.Controls.Add(Me.Label4)
         Me.EditFiltersTab.Controls.Add(Me.Label3)
         Me.EditFiltersTab.Controls.Add(Me.Label2)
+        Me.EditFiltersTab.Controls.Add(Me.EditFiltersGroup)
         Me.EditFiltersTab.Controls.Add(Me.Example2)
         Me.EditFiltersTab.Controls.Add(Me.Example1)
         Me.EditFiltersTab.Controls.Add(Me.Example3)
-        Me.EditFiltersTab.Controls.Add(Me.EditFiltersGroup)
         Me.EditFiltersTab.Location = New System.Drawing.Point(4, 22)
         Me.EditFiltersTab.Name = "EditFiltersTab"
         Me.EditFiltersTab.Size = New System.Drawing.Size(408, 293)
@@ -536,6 +528,91 @@ Partial Class QueueForm
         Me.Label2.Size = New System.Drawing.Size(104, 13)
         Me.Label2.TabIndex = 4
         Me.Label2.Text = "Require this attribute"
+        '
+        'EditFiltersGroup
+        '
+        Me.EditFiltersGroup.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.EditFiltersGroup.Controls.Add(Me.FilterBot)
+        Me.EditFiltersGroup.Controls.Add(Me.SummaryRegex)
+        Me.EditFiltersGroup.Controls.Add(Me.UserRegex)
+        Me.EditFiltersGroup.Controls.Add(Me.FilterAssisted)
+        Me.EditFiltersGroup.Controls.Add(Me.FilterHuggle)
+        Me.EditFiltersGroup.Controls.Add(Me.FilterMe)
+        Me.EditFiltersGroup.Controls.Add(Me.FilterTags)
+        Me.EditFiltersGroup.Controls.Add(Me.FilterWarnings)
+        Me.EditFiltersGroup.Controls.Add(Me.FilterNotifications)
+        Me.EditFiltersGroup.Controls.Add(Me.FilterReverts)
+        Me.EditFiltersGroup.Controls.Add(Me.FilterOwnUserspace)
+        Me.EditFiltersGroup.Controls.Add(Me.FilterIgnored)
+        Me.EditFiltersGroup.Controls.Add(Me.FilterAnonymous)
+        Me.EditFiltersGroup.Controls.Add(Me.FilterNewPage)
+        Me.EditFiltersGroup.Controls.Add(Me.SummaryRegexLabel)
+        Me.EditFiltersGroup.Controls.Add(Me.UserRegexLabel)
+        Me.EditFiltersGroup.Location = New System.Drawing.Point(6, 6)
+        Me.EditFiltersGroup.Name = "EditFiltersGroup"
+        Me.EditFiltersGroup.Size = New System.Drawing.Size(396, 254)
+        Me.EditFiltersGroup.TabIndex = 0
+        Me.EditFiltersGroup.TabStop = False
+        Me.EditFiltersGroup.Text = "Edit filters"
+        '
+        'SummaryRegexLabel
+        '
+        Me.SummaryRegexLabel.AutoSize = True
+        Me.SummaryRegexLabel.Location = New System.Drawing.Point(11, 60)
+        Me.SummaryRegexLabel.Name = "SummaryRegexLabel"
+        Me.SummaryRegexLabel.Size = New System.Drawing.Size(184, 13)
+        Me.SummaryRegexLabel.TabIndex = 0
+        Me.SummaryRegexLabel.Text = "Summary matches regular expression:"
+        '
+        'UserRegexLabel
+        '
+        Me.UserRegexLabel.AutoSize = True
+        Me.UserRegexLabel.Location = New System.Drawing.Point(6, 22)
+        Me.UserRegexLabel.Name = "UserRegexLabel"
+        Me.UserRegexLabel.Size = New System.Drawing.Size(189, 13)
+        Me.UserRegexLabel.TabIndex = 0
+        Me.UserRegexLabel.Text = "Username matches regular expression:"
+        '
+        'OK
+        '
+        Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.OK.Location = New System.Drawing.Point(527, 433)
+        Me.OK.Name = "OK"
+        Me.OK.Size = New System.Drawing.Size(75, 23)
+        Me.OK.TabIndex = 9
+        Me.OK.Text = "Close"
+        Me.OK.UseVisualStyleBackColor = True
+        '
+        'MoveUp
+        '
+        Me.MoveUp.Enabled = False
+        Me.MoveUp.Image = Global.Huggle.My.Resources.Resources.gray_up
+        Me.MoveUp.Location = New System.Drawing.Point(145, 404)
+        Me.MoveUp.Name = "MoveUp"
+        Me.MoveUp.Size = New System.Drawing.Size(23, 23)
+        Me.MoveUp.TabIndex = 4
+        Me.MoveUp.UseVisualStyleBackColor = True
+        '
+        'MoveDown
+        '
+        Me.MoveDown.Enabled = False
+        Me.MoveDown.Image = Global.Huggle.My.Resources.Resources.gray_down
+        Me.MoveDown.Location = New System.Drawing.Point(145, 433)
+        Me.MoveDown.Name = "MoveDown"
+        Me.MoveDown.Size = New System.Drawing.Size(23, 23)
+        Me.MoveDown.TabIndex = 4
+        Me.MoveDown.UseVisualStyleBackColor = True
+        '
+        'PageRegex
+        '
+        Me.PageRegex.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.PageRegex.Location = New System.Drawing.Point(173, 19)
+        Me.PageRegex.Name = "PageRegex"
+        Me.PageRegex.Size = New System.Drawing.Size(217, 38)
+        Me.PageRegex.TabIndex = 1
         '
         'Example2
         '
@@ -578,34 +655,6 @@ Partial Class QueueForm
         Me.Example3.Size = New System.Drawing.Size(19, 16)
         Me.Example3.State = System.Windows.Forms.CheckState.Indeterminate
         Me.Example3.TabIndex = 3
-        '
-        'EditFiltersGroup
-        '
-        Me.EditFiltersGroup.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.EditFiltersGroup.Controls.Add(Me.FilterBot)
-        Me.EditFiltersGroup.Controls.Add(Me.SummaryRegex)
-        Me.EditFiltersGroup.Controls.Add(Me.UserRegex)
-        Me.EditFiltersGroup.Controls.Add(Me.FilterAssisted)
-        Me.EditFiltersGroup.Controls.Add(Me.FilterHuggle)
-        Me.EditFiltersGroup.Controls.Add(Me.FilterMe)
-        Me.EditFiltersGroup.Controls.Add(Me.FilterTags)
-        Me.EditFiltersGroup.Controls.Add(Me.FilterWarnings)
-        Me.EditFiltersGroup.Controls.Add(Me.FilterNotifications)
-        Me.EditFiltersGroup.Controls.Add(Me.FilterReverts)
-        Me.EditFiltersGroup.Controls.Add(Me.FilterOwnUserspace)
-        Me.EditFiltersGroup.Controls.Add(Me.FilterIgnored)
-        Me.EditFiltersGroup.Controls.Add(Me.FilterAnonymous)
-        Me.EditFiltersGroup.Controls.Add(Me.FilterNewPage)
-        Me.EditFiltersGroup.Controls.Add(Me.SummaryRegexLabel)
-        Me.EditFiltersGroup.Controls.Add(Me.UserRegexLabel)
-        Me.EditFiltersGroup.Location = New System.Drawing.Point(6, 6)
-        Me.EditFiltersGroup.Name = "EditFiltersGroup"
-        Me.EditFiltersGroup.Size = New System.Drawing.Size(396, 254)
-        Me.EditFiltersGroup.TabIndex = 0
-        Me.EditFiltersGroup.TabStop = False
-        Me.EditFiltersGroup.Text = "Edit filters"
         '
         'FilterBot
         '
@@ -769,39 +818,13 @@ Partial Class QueueForm
         Me.FilterNewPage.State = System.Windows.Forms.CheckState.Indeterminate
         Me.FilterNewPage.TabIndex = 2
         '
-        'SummaryRegexLabel
-        '
-        Me.SummaryRegexLabel.AutoSize = True
-        Me.SummaryRegexLabel.Location = New System.Drawing.Point(11, 60)
-        Me.SummaryRegexLabel.Name = "SummaryRegexLabel"
-        Me.SummaryRegexLabel.Size = New System.Drawing.Size(184, 13)
-        Me.SummaryRegexLabel.TabIndex = 0
-        Me.SummaryRegexLabel.Text = "Summary matches regular expression:"
-        '
-        'UserRegexLabel
-        '
-        Me.UserRegexLabel.AutoSize = True
-        Me.UserRegexLabel.Location = New System.Drawing.Point(6, 22)
-        Me.UserRegexLabel.Name = "UserRegexLabel"
-        Me.UserRegexLabel.Size = New System.Drawing.Size(189, 13)
-        Me.UserRegexLabel.TabIndex = 0
-        Me.UserRegexLabel.Text = "Username matches regular expression:"
-        '
-        'OK
-        '
-        Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.OK.Location = New System.Drawing.Point(527, 433)
-        Me.OK.Name = "OK"
-        Me.OK.Size = New System.Drawing.Size(75, 23)
-        Me.OK.TabIndex = 9
-        Me.OK.Text = "Close"
-        Me.OK.UseVisualStyleBackColor = True
-        '
         'QueueForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(614, 468)
+        Me.Controls.Add(Me.MoveDown)
+        Me.Controls.Add(Me.MoveUp)
         Me.Controls.Add(Me.OK)
         Me.Controls.Add(Me.Tabs)
         Me.Controls.Add(Me.TypeGroup)
@@ -899,4 +922,6 @@ Partial Class QueueForm
     Friend WithEvents OK As System.Windows.Forms.Button
     Friend WithEvents IgnorePages As System.Windows.Forms.CheckBox
     Friend WithEvents FilterMe As Huggle.TriState
+    Friend WithEvents MoveUp As System.Windows.Forms.Button
+    Friend WithEvents MoveDown As System.Windows.Forms.Button
 End Class

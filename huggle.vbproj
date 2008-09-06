@@ -584,5 +584,11 @@
   <ItemGroup>
     <None Include="Resources\icons\page-tag-delete.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons\gray-down.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons\gray-up.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
 </Project>

@@ -28,6 +28,7 @@ Module Misc
     Public NullEdit As New Edit
     Public PendingRequests As New List(Of Request)
     Public PendingWarnings As New List(Of Edit)
+    Public QueueOrder As New List(Of String)
     Public RollbackAvailable As Boolean
     Public SpeedyCriteria As New Dictionary(Of String, SpeedyCriterion)
     Public StartTime As Date
@@ -476,7 +477,7 @@ Module Misc
     Function TrimSummary(ByVal Summary As String) As String
         Summary = Summary.Replace(" (page does not exist)", "")
 
-        While Summary.Contains("[[") AndAlso Summary.Contains("]]")
+        While Summary.IndexOf("[[") > -1 AndAlso Summary.IndexOf("[[") < Summary.IndexOf("]]")
             Dim Title As String = Summary.Substring(Summary.IndexOf("[[") + 2)
 
             If Title.Contains("|") AndAlso (Not Title.Contains("]]") _

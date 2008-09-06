@@ -14,6 +14,8 @@ Class ClosingForm
         SaveLists()
         SaveQueues()
 
+        If Config.IrcMode Then Irc.Disconnect()
+
         If Config.LogFile IsNot Nothing AndAlso Config.LogFile.Length > 0 Then
             Dim LogItems As New List(Of String)
 

@@ -299,7 +299,7 @@ Namespace Requests
                     Exit Sub
                 End If
 
-                If Result.Contains("<rev>") Then
+                If Result.Contains("<rev>") AndAlso Result.Contains("</rev>") Then
                     Result = Result.Substring(Result.IndexOf("<rev>") + 5)
                     Result = Result.Substring(0, Result.IndexOf("</rev>"))
                     Result = HtmlDecode(Result)

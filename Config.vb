@@ -564,6 +564,7 @@ Module ConfigIO
                         Case "proxy-userdomain" : Config.ProxyUserDomain = OptionValue
                         Case "proxy-username" : Config.ProxyUsername = OptionValue
                         Case "queue-right-align" : Config.RightAlignQueue = CBool(OptionValue)
+                        Case "queues" : SetQueues(GetList(OptionValue))
                         Case "startup-message" : Config.StartupMessage = CBool(OptionValue)
                         Case "username" : Config.Username = OptionValue
                         Case "window-height" : Config.WindowSize.Height = CInt(OptionValue)
@@ -607,6 +608,7 @@ Module ConfigIO
             Items.Add("proxy-server:" & Config.ProxyServer)
             Items.Add("proxy-userdomain:" & Config.ProxyUserDomain)
             Items.Add("proxy-username:" & Config.ProxyUsername)
+            Items.Add("queues:" & String.Join(",", QueueOrder.ToArray))
             Items.Add("queue-right-align:" & CStr(Config.RightAlignQueue).ToLower)
             Items.Add("startup-message:" & CStr(Config.StartupMessage).ToLower)
             If Config.RememberMe Then Items.Add("username:" & Config.Username)
@@ -679,13 +681,13 @@ Module ConfigIO
         Return LocalConfigPath() & "\Lists\" & Config.Project
     End Function
 
-    Public Sub LoadQueues()
+    Public Sub SetQueues(ByVal Names As List(Of String))
         Queue.All.Clear()
 
         'Load queues from application data subfolder
         If Directory.Exists(QueuesLocation) Then
-            For Each Path As String In Directory.GetFiles(QueuesLocation)
-                Dim Items As New List(Of String)(File.ReadAllLines(Path))
+            For Each Name As String In Names
+                Dim Items As New List(Of String)(File.ReadAllLines(QueuesLocation() & "\" & Name & ".txt"))
                 Dim Queue As Queue = Nothing
 
                 For Each Item As String In Items
@@ -728,7 +730,7 @@ Module ConfigIO
                 Next Item
 
                 Queue.Reset()
-            Next Path
+            Next Name
         End If
 
         If Queue.All.ContainsKey("Filtered edits") Then Queue.Default = Queue.All("Filtered edits")
@@ -861,7 +863,8 @@ Module ConfigIO
                 Dim Spaces As New List(Of String)
 
                 For Each Space As Space In Queue.Spaces
-                    If Not Spaces.Contains(CStr(Space.Number)) Then Spaces.Add(CStr(Space.Number))
+                    If Space IsNot Nothing AndAlso Not Spaces.Contains(CStr(Space.Number)) _
+                        Then Spaces.Add(CStr(Space.Number))
                 Next Space
 
                 Items.Add("spaces:" & String.Join(",", Spaces.ToArray))

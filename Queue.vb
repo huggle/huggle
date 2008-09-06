@@ -46,6 +46,7 @@ Class Queue
         _RemoveViewed = True
         _Spaces.AddRange(Space.All)
         _Type = QueueType.Live
+        QueueOrder.Add(Name)
         All.Add(Name, Me)
     End Sub
 

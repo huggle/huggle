@@ -18,8 +18,6 @@ Class Main
         TrayIcon.Icon = My.Resources.icon_red_button
         KeyDelayTimer.Interval = 10
         ScrollTimer.Interval = 1000 \ Config.HistoryScrollSpeed
-
-        LoadQueues()
         LoadLists()
 
         InitialTab.Parent = Tabs.TabPages(0)
