@@ -442,7 +442,7 @@ Namespace Requests
 
             For Each Item As KeyValuePair(Of User, Integer) In EditCounts
                 Item.Key.EditCount = Item.Value
-
+                'If user has more edits than Config.WhitelistEditCount
                 If Item.Key.EditCount > Config.WhitelistEditCount Then
                     'Ignore user
                     Item.Key.Ignored = True

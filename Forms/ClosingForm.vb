@@ -22,6 +22,11 @@ Class ClosingForm
             File.AppendAllText(Config.LogFile, CRLF & String.Join(CRLF, LogItems.ToArray))
         End If
 
+        Dim NewCountRequest As New CountRequest
+        NewCountRequest.Users.AddRange(NextCount)
+        NewCountRequest.Start()
+        NextCount.Clear()
+
         If Config.UpdateWhitelist AndAlso (WhitelistAutoChanges.Count > 0 _
             OrElse (Config.UpdateWhitelistManual AndAlso WhitelistManualChanges.Count > 0)) Then
 
