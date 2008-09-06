@@ -60,13 +60,6 @@ Namespace My.Resources
             End Set
         End Property
         
-        Friend ReadOnly Property arrow() As System.Drawing.Bitmap
-            Get
-                Dim obj As Object = ResourceManager.GetObject("arrow", resourceCulture)
-                Return CType(obj,System.Drawing.Bitmap)
-            End Get
-        End Property
-        
         Friend ReadOnly Property blob_anon() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("blob_anon", resourceCulture)
@@ -305,23 +298,9 @@ Namespace My.Resources
             End Get
         End Property
         
-        Friend ReadOnly Property diff_revert_custom() As System.Drawing.Bitmap
-            Get
-                Dim obj As Object = ResourceManager.GetObject("diff_revert_custom", resourceCulture)
-                Return CType(obj,System.Drawing.Bitmap)
-            End Get
-        End Property
-        
         Friend ReadOnly Property diff_revert_warn() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("diff_revert_warn", resourceCulture)
-                Return CType(obj,System.Drawing.Bitmap)
-            End Get
-        End Property
-        
-        Friend ReadOnly Property down_gray() As System.Drawing.Bitmap
-            Get
-                Dim obj As Object = ResourceManager.GetObject("down_gray", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
@@ -410,37 +389,16 @@ Namespace My.Resources
             End Get
         End Property
         
-        Friend ReadOnly Property page_history() As System.Drawing.Bitmap
-            Get
-                Dim obj As Object = ResourceManager.GetObject("page_history", resourceCulture)
-                Return CType(obj,System.Drawing.Bitmap)
-            End Get
-        End Property
-        
-        Friend ReadOnly Property page_move() As System.Drawing.Bitmap
-            Get
-                Dim obj As Object = ResourceManager.GetObject("page_move", resourceCulture)
-                Return CType(obj,System.Drawing.Bitmap)
-            End Get
-        End Property
-        
-        Friend ReadOnly Property page_prod() As System.Drawing.Bitmap
-            Get
-                Dim obj As Object = ResourceManager.GetObject("page_prod", resourceCulture)
-                Return CType(obj,System.Drawing.Bitmap)
-            End Get
-        End Property
-        
-        Friend ReadOnly Property page_speedy() As System.Drawing.Bitmap
-            Get
-                Dim obj As Object = ResourceManager.GetObject("page_speedy", resourceCulture)
-                Return CType(obj,System.Drawing.Bitmap)
-            End Get
-        End Property
-        
         Friend ReadOnly Property page_tag() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("page_tag", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property page_tag_delete() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("page_tag_delete", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
@@ -462,13 +420,6 @@ Namespace My.Resources
         Friend ReadOnly Property page_watch() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("page_watch", resourceCulture)
-                Return CType(obj,System.Drawing.Bitmap)
-            End Get
-        End Property
-        
-        Friend ReadOnly Property revert_and_warn_2() As System.Drawing.Bitmap
-            Get
-                Dim obj As Object = ResourceManager.GetObject("revert_and_warn_2", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
@@ -501,16 +452,9 @@ Namespace My.Resources
             End Get
         End Property
         
-        Friend ReadOnly Property up_gray() As System.Drawing.Bitmap
+        Friend ReadOnly Property user_block() As System.Drawing.Bitmap
             Get
-                Dim obj As Object = ResourceManager.GetObject("up_gray", resourceCulture)
-                Return CType(obj,System.Drawing.Bitmap)
-            End Get
-        End Property
-        
-        Friend ReadOnly Property user_contribs() As System.Drawing.Bitmap
-            Get
-                Dim obj As Object = ResourceManager.GetObject("user_contribs", resourceCulture)
+                Dim obj As Object = ResourceManager.GetObject("user_block", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property

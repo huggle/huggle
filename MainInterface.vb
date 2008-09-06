@@ -14,20 +14,21 @@ Partial Class Main
 
         PageDelete.Visible = (Administrator AndAlso Config.Delete)
         PageDeleteB.Visible = (Administrator AndAlso Config.Delete)
-        PageNominate.Visible = Config.Xfd
-        PageMarkPatrolled.Visible = Config.Patrol
+        PagePatrol.Visible = Config.Patrol
         PageProtect.Visible = (Administrator AndAlso Config.Protect)
         PageRequestProtection.Visible = Config.ProtectionRequests
         PageTagDelete.Visible = (Config.Speedy OrElse Config.Prod OrElse Config.Xfd)
         PageTagDeleteB.Visible = (Config.Speedy OrElse Config.Prod OrElse Config.Xfd)
+        PageTagProd.Visible = Config.Prod
         PageTagSpeedy.Visible = Config.Speedy
-        PageProd.Visible = Config.Prod
+        PageXfd.Visible = Config.Xfd
 
-        UserBlock.Visible = (Administrator AndAlso Config.Block)
+        UserBlock.Visible = (Administrator AndAlso Config.UseAdminFunctions AndAlso Config.Block)
+        UserBlockB.Visible = (Administrator AndAlso Config.UseAdminFunctions AndAlso Config.Block)
         UserEmail.Visible = Config.Email
         UserMessageWelcome.Visible = (Config.Welcome IsNot Nothing)
         UserReport.Visible = Config.AIV OrElse Config.UAA OrElse Config.TRR
-        UserReportB.Visible = Config.AIV OrElse Config.UAA OrElse Config.TRR OrElse (Administrator AndAlso Config.Block)
+        UserReportB.Visible = Config.AIV OrElse Config.UAA OrElse Config.TRR
         UserWarn.Visible = Config.WarningSeries.Count > 0
 
         WarnVandalism.Visible = Config.WarningSeries.Contains("warning")
@@ -149,11 +150,11 @@ Partial Class Main
             End If
 
             Select Case CurrentPage.Space.Name
-                Case "" : PageNominate.Enabled = (Config.AfdLocation IsNot Nothing)
-                Case "Category" : PageNominate.Enabled = (Config.CfdLocation IsNot Nothing)
-                Case "Image" : PageNominate.Enabled = (Config.IfdLocation IsNot Nothing)
-                Case "Template" : PageNominate.Enabled = (Config.TfdLocation IsNot Nothing)
-                Case Else : PageNominate.Enabled = (Config.MfdLocation IsNot Nothing)
+                Case "" : PageXfd.Enabled = (Config.AfdLocation IsNot Nothing)
+                Case "Category" : PageXfd.Enabled = (Config.CfdLocation IsNot Nothing)
+                Case "Image" : PageXfd.Enabled = (Config.IfdLocation IsNot Nothing)
+                Case "Template" : PageXfd.Enabled = (Config.TfdLocation IsNot Nothing)
+                Case Else : PageXfd.Enabled = (Config.MfdLocation IsNot Nothing)
             End Select
 
             If CurrentQueue.Type = QueueType.FixedList _
@@ -161,8 +162,8 @@ Partial Class Main
 
             Dim Editable As Boolean = (CurrentPage.EditLevel <> "sysop" OrElse Administrator)
 
-            BrowserBackB.Enabled = (CurrentTab.HistoryIndex < CurrentTab.History.Count - 1)
             BrowserBack.Enabled = (CurrentTab.HistoryIndex < CurrentTab.History.Count - 1)
+            BrowserBackB.Enabled = (CurrentTab.HistoryIndex < CurrentTab.History.Count - 1)
             BrowserForward.Enabled = (CurrentTab.HistoryIndex > 0)
             BrowserForwardB.Enabled = (CurrentTab.HistoryIndex > 0)
             BrowserNewContribs.Checked = CurrentTab.ShowNewContribs
@@ -177,8 +178,6 @@ Partial Class Main
             DiffNextB.Enabled = (CurrentQueue.Edits.Count > 0)
             DiffRevertB.Enabled = (CurrentEdit IsNot CurrentPage.FirstEdit AndAlso Not RevertTimer.Enabled _
                 AndAlso Editable)
-            RevertWarnB.Enabled = (DiffRevertB.Enabled AndAlso Not CurrentUser.Ignored AndAlso Editable _
-                AndAlso Config.WarningSeries.Count > 0)
             HistoryB.Enabled = (CurrentEdit.Page.FirstEdit Is Nothing)
             HistoryDiffToCurB.Enabled = (Not CurrentEdit Is CurrentPage.LastEdit) AndAlso (Not CurrentEdit.Multiple)
             HistoryPrevB.Enabled = CurrentEdit.Prev IsNot NullEdit _
@@ -191,22 +190,24 @@ Partial Class Main
             PageEdit.Enabled = Editable
             PageEditB.Enabled = Editable
             PageHistory.Enabled = HistoryB.Enabled
-            PageMarkPatrolled.Enabled = (Not CurrentPage.Patrolled)
             PageMove.Enabled = CurrentPage.IsMovable
-            PageNominate.Enabled = Editable
+            PagePatrol.Enabled = (Not CurrentPage.Patrolled)
             PageProtect.Enabled = True
             PageRequestProtection.Enabled = True
             PageTag.Enabled = Editable
-            PageProd.Enabled = Editable
-            PageTagSpeedy.Enabled = Editable
+            PageTagB.Enabled = Editable
             PageTagDelete.Enabled = Editable
             PageTagDeleteB.Enabled = Editable
-            PageTagB.Enabled = Editable
+            PageTagProd.Enabled = Editable
+            PageTagSpeedy.Enabled = Editable
             PageView.Enabled = True
             PageViewB.Enabled = True
             PageViewLatest.Enabled = True
             PageWatch.Enabled = True
             PageWatchB.Enabled = True
+            PageXfd.Enabled = Editable
+            RevertWarnB.Enabled = (DiffRevertB.Enabled AndAlso Not CurrentUser.Ignored AndAlso Editable _
+                AndAlso Config.WarningSeries.Count > 0)
             QueueClear.Enabled = (CurrentQueue.Edits.Count > 0)
             QueueNext.Enabled = (CurrentQueue.Edits.Count > 0)
             QueueTrim.Enabled = (CurrentQueue.Edits.Count > 0)
@@ -214,6 +215,8 @@ Partial Class Main
             SystemShowQueue.Checked = Config.ShowQueue
             SystemShowLog.Checked = Config.ShowLog
             UndoB.Enabled = (Undo.Count > 0)
+            UserBlock.Enabled = (Not CurrentUser.Ignored)
+            UserBlockB.Enabled = (Not CurrentUser.Ignored)
             UserContribs.Enabled = ContribsB.Enabled
             UserEmail.Enabled = (Not CurrentUser.Anonymous)
             UserIgnore.Enabled = True
@@ -223,7 +226,7 @@ Partial Class Main
             UserMessage.Enabled = True
             UserMessageB.Enabled = True
             UserReport.Enabled = (Not CurrentUser.Ignored AndAlso CurrentUser.Level < UserLevel.Blocked)
-            UserReportB.Enabled = UserReport.Enabled
+            UserReportB.Enabled = (Not CurrentUser.Ignored AndAlso CurrentUser.Level < UserLevel.Blocked)
             UserTalk.Enabled = True
             UserTalkB.Enabled = True
             UserTemplateB.Enabled = (Not CurrentUser.Ignored)
@@ -317,7 +320,7 @@ Partial Class Main
                 If UserTalkB.Enabled Then UserTalk_Click()
 
             Case Is = ShortcutKeys("Report / block user")
-                If UserReportB.Enabled AndAlso UserReportB.Visible Then UserReport_Click()
+                If UserReportB.Enabled AndAlso UserReportB.Visible Then UserReportVandalism_Click()
 
             Case Is = ShortcutKeys("Latest contribution")
                 If ContribsLastB.Enabled Then ContribsLast_Click()
@@ -364,10 +367,10 @@ Partial Class Main
                 BrowserOpen_Click()
 
             Case Is = ShortcutKeys("Mark page as patrolled")
-                If PageMarkPatrolled.Enabled AndAlso Config.Patrol Then PageMarkPatrolled_Click()
+                If PagePatrol.Enabled AndAlso Config.Patrol Then PageMarkPatrolled_Click()
 
             Case Is = ShortcutKeys("Proposed deletion")
-                If PageProd.Enabled AndAlso Config.Prod Then PageTagProd_Click()
+                If PageTagProd.Enabled AndAlso Config.Prod Then PageTagProd_Click()
 
             Case Is = ShortcutKeys("Revert and warn")
                 If RevertWarnB.Enabled Then RevertWarnB_ButtonClick()
@@ -376,7 +379,7 @@ Partial Class Main
                 If DiffRevertB.Enabled Then Revert_Click()
 
             Case Is = ShortcutKeys("Nominate for deletion")
-                If PageNominate.Enabled Then PageNominate_Click()
+                If PageXfd.Enabled Then PageNominate_Click()
 
             Case Is = ShortcutKeys("Request deletion")
                 If PageTagDeleteB.Enabled Then PageTagDeleteB.ShowDropDown()
@@ -494,10 +497,10 @@ Partial Class Main
         SetSDItem(PageDelete, "Delete page")
         SetSDItem(PageEdit, "Edit page")
         SetSDItem(PageHistory, "Retrieve page history")
-        SetSDItem(PageMarkPatrolled, "Mark page as patrolled")
+        SetSDItem(PagePatrol, "Mark page as patrolled")
         SetSDItem(PageMove, "Move page")
-        SetSDItem(PageNominate, "Nominate for deletion")
-        SetSDItem(PageProd, "Proposed deletion")
+        SetSDItem(PageXfd, "Nominate for deletion")
+        SetSDItem(PageTagProd, "Proposed deletion")
         SetSDItem(PageProtect, "Protect page")
         SetSDItem(PageRequestProtection, "Request protection")
         SetSDItem(PageTag, "Tag page")

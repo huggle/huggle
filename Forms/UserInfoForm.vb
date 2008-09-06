@@ -38,21 +38,6 @@ Class UserInfoForm
         If e.KeyCode = Keys.Escape Then Close()
     End Sub
 
-    Private Sub Collapse_Click() Handles Collapse.Click
-        WarnLog.Visible = Not WarnLog.Visible
-        BlockLog.Visible = WarnLog.Visible
-        WarnLabel.Visible = WarnLog.Visible
-        BlockLabel.Visible = WarnLog.Visible
-
-        If WarnLog.Visible Then
-            Height = 404
-            Collapse.Image = My.Resources.up_gray
-        Else
-            Height = 120
-            Collapse.Image = My.Resources.down_gray
-        End If
-    End Sub
-
     Private Sub OK_Click() Handles OK.Click, OK.Click
         Close()
     End Sub

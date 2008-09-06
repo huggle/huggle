@@ -107,19 +107,10 @@ Namespace Requests
         End Sub
 
         Private Sub GetUserConfigDone()
-            If Config.UseAdminFunctions AndAlso Administrator Then
-                MainForm.PageTagSpeedy.ShortcutKeyDisplayString = ""
-                MainForm.UserReport.ShortcutKeyDisplayString = ""
-                MainForm.PageDeleteB.Image = My.Resources.page_delete
-                MainForm.UserBlock.Visible = True
-                MainForm.PageDelete.Visible = False
-            Else
-                MainForm.PageTagSpeedy.ShortcutKeyDisplayString = "S"
-                MainForm.UserReport.ShortcutKeyDisplayString = "B"
-                MainForm.PageDeleteB.Image = My.Resources.page_speedy
-                MainForm.UserBlock.Visible = False
-                MainForm.PageDelete.Visible = False
-            End If
+            MainForm.UserBlockB.Visible = (Config.UseAdminFunctions AndAlso Administrator)
+            MainForm.UserBlock.Visible = (Config.UseAdminFunctions AndAlso Administrator)
+            MainForm.PageDeleteB.Visible = (Config.UseAdminFunctions AndAlso Administrator)
+            MainForm.PageDelete.Visible = (Config.UseAdminFunctions AndAlso Administrator)
 
             MainForm.TrayIcon.Visible = Config.TrayIcon
             Log("Loaded configuration page.")

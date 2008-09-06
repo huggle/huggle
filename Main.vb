@@ -524,15 +524,6 @@ Class Main
         End If
     End Sub
 
-    Private Sub UserReport_Click() Handles UserReport.Click, UserBlock.Click, UserReportB.Click
-
-        If CurrentEdit IsNot Nothing AndAlso CurrentEdit.User IsNot Nothing _
-            AndAlso CurrentEdit.User.Level >= UserLevel.None Then
-
-            If Administrator Then BlockUser(CurrentEdit.User) Else ReportUser(CurrentEdit.User, CurrentEdit)
-        End If
-    End Sub
-
     Private Sub HistoryScrollLast_Click()
         If HistoryOffset > 0 Then
             HistoryOffset = 0
@@ -623,7 +614,7 @@ Class Main
 
             NewTagForm.ThisPage = CurrentEdit.Page
             NewTagForm.ToSpeedy.Enabled = PageTagSpeedy.Enabled
-            NewTagForm.ToProd.Enabled = PageProd.Enabled
+            NewTagForm.ToProd.Enabled = PageTagProd.Enabled
             NewTagForm.ShowDialog()
         End If
     End Sub
@@ -648,7 +639,7 @@ Class Main
         End If
     End Sub
 
-    Sub PageTagProd_Click() Handles PageProd.Click
+    Sub PageTagProd_Click() Handles PageTagProd.Click
         If CurrentEdit IsNot Nothing AndAlso CurrentPage IsNot Nothing Then
             Dim NewForm As New ProdForm
             NewForm.Page = CurrentPage
@@ -789,10 +780,10 @@ Class Main
         End If
     End Sub
 
-    Sub ReportUser(ByVal ThisUser As User, Optional ByVal ThisEdit As Edit = Nothing)
+    Sub ReportUser(ByVal User As User, Optional ByVal Edit As Edit = Nothing)
         Dim NewUserReport As New ReportForm
-        NewUserReport.User = ThisUser
-        NewUserReport.Edit = ThisEdit
+        NewUserReport.User = User
+        NewUserReport.Edit = Edit
         NewUserReport.Message.Text = Config.ReportReason
         NewUserReport.Show()
     End Sub
@@ -1383,7 +1374,7 @@ Class Main
         ContribsOffset = 0
     End Sub
 
-    Private Sub PageMarkPatrolled_Click() Handles PageMarkPatrolled.Click
+    Private Sub PageMarkPatrolled_Click() Handles PagePatrol.Click
         If CurrentPage IsNot Nothing Then
             Dim NewPatrolRequest As New PatrolRequest
             NewPatrolRequest.Page = CurrentPage()
@@ -1417,7 +1408,7 @@ Class Main
         NewSpeedyRequest.Start()
     End Sub
 
-    Private Sub PageNominate_Click() Handles PageNominate.Click
+    Private Sub PageNominate_Click() Handles PageXfd.Click
         If CurrentPage IsNot Nothing Then
             Dim NewXfdForm As New XfdForm
             NewXfdForm.Page = CurrentPage
@@ -1596,7 +1587,27 @@ Class Main
         NewForm.Show()
     End Sub
 
-    Private Sub UserIgnore_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UserIgnore.Click, UserIgnoreB.Click
-
+    Private Sub UserReportVandalism_Click() Handles UserReportVandalism.Click
+        If CurrentUser IsNot Nothing Then ReportUser(CurrentUser, CurrentEdit)
     End Sub
+
+    Private Sub UserReportUsername_Click() Handles UserReportUsername.Click
+        Dim NewForm As New ReportForm
+        NewForm.User = CurrentUser
+        NewForm.Edit = CurrentEdit
+        NewForm.Reason.Text = "Inappropriate username"
+        NewForm.Message.Text = "inappropriate username"
+        NewForm.Show()
+    End Sub
+
+    Private Sub UserReport3rr_Click() Handles UserReport3rr.Click
+        Dim NewForm As New Report3rrForm
+        NewForm.User = CurrentUser
+        NewForm.Show()
+    End Sub
+
+    Private Sub UserBlockB_Click() Handles UserBlockB.Click
+        If CurrentUser IsNot Nothing Then BlockUser(CurrentUser)
+    End Sub
+
 End Class

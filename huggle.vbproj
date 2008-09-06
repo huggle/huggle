@@ -10,6 +10,7 @@
     <MyType>WindowsForms</MyType>
     <ApplicationIcon>Resources\icon_red_button.ico</ApplicationIcon>
     <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
+    <AssemblyName>Huggle</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugType>Full</DebugType>
@@ -107,6 +108,12 @@
       <DependentUpon>ConfigForm.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\ConfigForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Report3rrForm.Designer.vb">
+      <DependentUpon>Report3rrForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Report3rrForm.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\DeleteForm.Designer.vb">
@@ -371,6 +378,10 @@
       <SubType>Designer</SubType>
       <DependentUpon>ConfigForm.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Report3rrForm.resx">
+      <DependentUpon>Report3rrForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\DeleteForm.resx">
       <DependentUpon>DeleteForm.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -501,7 +512,7 @@
     </None>
     <None Include="My Project\app.manifest" />
     <None Include="Resources\icon_red_button.ico" />
-    <None Include="Resources\icons\arrow.png" />
+    <None Include="Resources\icons\diff-next.png" />
     <None Include="Resources\blobs\blob-anon.png" />
     <None Include="Resources\blobs\blob-blank.png" />
     <None Include="Resources\blobs\blob-blanked.png" />
@@ -530,16 +541,11 @@
     <None Include="Resources\icons\browser-open.png" />
     <None Include="Resources\icons\browser-prev.png" />
     <None Include="Resources\icons\browser-remove-tab.png" />
-    <None Include="Resources\icons\cancel.png" />
     <None Include="Resources\icons\cancel-all.png" />
     <None Include="Resources\icons\contribs-last.png" />
     <None Include="Resources\icons\contribs-next.png" />
     <None Include="Resources\icons\contribs-prev.png" />
-    <None Include="Resources\icons\diff-next.png" />
     <None Include="Resources\icons\diff-revert.png" />
-    <None Include="Resources\icons\diff-revert-custom.png" />
-    <None Include="Resources\icons\diff-revert-warn.png" />
-    <None Include="Resources\icons\down_gray.png" />
     <None Include="Resources\icons\gradient.png" />
     <None Include="Resources\icons\gray-last.png" />
     <None Include="Resources\icons\gray-next.png" />
@@ -550,22 +556,15 @@
     <None Include="Resources\icons\history-to-cur.png" />
     <None Include="Resources\icons\page-delete.png" />
     <None Include="Resources\icons\page-edit.png" />
-    <None Include="Resources\icons\page-history.png" />
-    <None Include="Resources\icons\page-move.png" />
-    <None Include="Resources\icons\page-prod.png" />
-    <None Include="Resources\icons\page-speedy.png" />
-    <None Include="Resources\icons\page-speedy-mid.png" />
     <None Include="Resources\icons\page-tag.png" />
     <None Include="Resources\icons\page-unwatch.png" />
     <None Include="Resources\icons\page-view.png" />
     <None Include="Resources\icons\page-watch.png" />
-    <None Include="Resources\icons\revert-and-warn-2.png" />
+    <None Include="Resources\icons\diff-revert-warn.png" />
     <None Include="Resources\icons\tri_no.png" />
     <None Include="Resources\icons\tri_none.png" />
     <None Include="Resources\icons\tri_yes.png" />
-    <None Include="Resources\icons\up_gray.png" />
     <None Include="Resources\icons\undo.png" />
-    <None Include="Resources\icons\user-contribs.png" />
     <None Include="Resources\icons\user-info.png" />
     <None Include="Resources\icons\user-message.png" />
     <None Include="Resources\icons\user-report.png" />
@@ -578,6 +577,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\huggle-logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons\user-block.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons\page-tag-delete.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
 </Project>

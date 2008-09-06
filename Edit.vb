@@ -10,6 +10,7 @@ Class Edit
     Public Sub New()
         'Random value to vary sort order
         Random = (New Random(Date.Now.Millisecond)).NextDouble
+        Size = -1
     End Sub
 
     Public Assisted As Boolean

@@ -16,11 +16,12 @@ Module Processing
         If Edit.Oldid Is Nothing Then Edit.Oldid = "prev"
 
         'Auto summaries
-        If Config.PageBlankedPattern IsNot Nothing AndAlso Config.PageBlankedPattern.IsMatch(Edit.Summary) _
-            Then Edit.Type = EditType.Blanked
+        If (Config.PageBlankedPattern IsNot Nothing AndAlso Config.PageBlankedPattern.IsMatch(Edit.Summary)) _
+            OrElse Edit.Size = 0 Then Edit.Type = EditType.Blanked
         If Config.PageRedirectedPattern IsNot Nothing AndAlso Config.PageRedirectedPattern.IsMatch(Edit.Summary) _
             Then Edit.Type = EditType.Redirect
-        If Config.PageReplacedPattern IsNot Nothing AndAlso Config.PageReplacedPattern.IsMatch(Edit.Summary) _
+        If (Config.PageReplacedPattern IsNot Nothing AndAlso Config.PageReplacedPattern.IsMatch(Edit.Summary)) _
+            OrElse (Edit.Size >= 0 AndAlso Edit.Size <= 200 AndAlso Edit.Change <= -200) _
             Then Edit.Type = EditType.ReplacedWith
 
         'Assisted summaries
@@ -246,6 +247,9 @@ Module Processing
         If Edit.Page.LastEdit IsNot Nothing Then
             Edit.Prev = Edit.Page.LastEdit
             Edit.Prev.Next = Edit
+
+            If Edit.Prev.Size >= 0 AndAlso Edit.Change <> 0 Then Edit.Size = Edit.Prev.Size + Edit.Change
+            If Edit.Change <> 0 AndAlso Edit.Size >= 0 Then Edit.Prev.Size = Edit.Size - Edit.Change
         End If
 
         If Edit.User.LastEdit IsNot Nothing Then

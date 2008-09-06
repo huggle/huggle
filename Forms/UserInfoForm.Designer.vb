@@ -37,7 +37,6 @@ Partial Class UserInfoForm
         Me.Label4 = New System.Windows.Forms.Label
         Me.Anonymous = New System.Windows.Forms.Label
         Me.SessionEditCount = New System.Windows.Forms.Label
-        Me.Collapse = New System.Windows.Forms.Button
         Me.SuspendLayout()
         '
         'WarnLog
@@ -191,22 +190,11 @@ Partial Class UserInfoForm
         Me.SessionEditCount.TabIndex = 14
         Me.SessionEditCount.Text = "..."
         '
-        'Collapse
-        '
-        Me.Collapse.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.Collapse.Image = Global.Huggle.My.Resources.Resources.up_gray
-        Me.Collapse.Location = New System.Drawing.Point(12, 338)
-        Me.Collapse.Name = "Collapse"
-        Me.Collapse.Size = New System.Drawing.Size(27, 27)
-        Me.Collapse.TabIndex = 15
-        Me.Collapse.UseVisualStyleBackColor = True
-        '
         'UserInfoForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(542, 368)
-        Me.Controls.Add(Me.Collapse)
         Me.Controls.Add(Me.SessionEditCount)
         Me.Controls.Add(Me.Anonymous)
         Me.Controls.Add(Me.Label4)
@@ -248,5 +236,4 @@ Partial Class UserInfoForm
     Friend WithEvents Label4 As System.Windows.Forms.Label
     Friend WithEvents Anonymous As System.Windows.Forms.Label
     Friend WithEvents SessionEditCount As System.Windows.Forms.Label
-    Friend WithEvents Collapse As System.Windows.Forms.Button
 End Class
