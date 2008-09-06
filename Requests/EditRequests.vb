@@ -165,6 +165,7 @@ Namespace Requests
             Dim Tag As String = "{{" & Criterion.Template
             If Parameter <> "" Then Tag &= "|" & Parameter
             Tag &= "}}"
+            If Page.Space Is Space.Template Then Tag = "<noinclude>" & Tag & "</noinclude>"
 
             Data.Watch = Config.WatchTags
             Data.Minor = Config.MinorTags
