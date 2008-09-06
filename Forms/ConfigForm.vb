@@ -18,7 +18,7 @@ Class ConfigForm
         ShowNewEdits.Checked = Config.ShowNewEdits
         Preloading.Checked = (Config.Preloads > 0)
         Preloads.Enabled = Preloading.Checked
-        Preloads.Value = Config.Preloads
+        Preloads.Value = Math.Max(Math.Min(Config.Preloads, Preloads.Maximum), Preloads.Minimum)
         IrcMode.Checked = Config.IrcMode
         IrcPort.Text = CStr(Config.IrcPort)
         DiffFontSize.Value = CInt(Config.DiffFontSize)
