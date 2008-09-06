@@ -8,6 +8,8 @@ Class ClosingForm
 
     Private Sub ClosingForm_Load() Handles Me.Load
         Icon = My.Resources.icon_red_button
+
+        'Save everything
         SaveLocalConfig()
         SaveLists()
         SaveQueues()
@@ -22,6 +24,7 @@ Class ClosingForm
             File.AppendAllText(Config.LogFile, CRLF & String.Join(CRLF, LogItems.ToArray))
         End If
 
+        'Doing a final user edit count on users to be counted before close
         Dim NewCountRequest As New CountRequest
         NewCountRequest.Users.AddRange(NextCount)
         NewCountRequest.Start()

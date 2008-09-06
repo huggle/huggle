@@ -400,6 +400,7 @@ Module Processing
 
             NextCount.Add(Edit.User)
 
+            'If the list has more than "CountBatchSize" entrys then...
             If NextCount.Count >= Config.CountBatchSize Then
                 Dim NewCountRequest As New CountRequest
                 NewCountRequest.Users.AddRange(NextCount)

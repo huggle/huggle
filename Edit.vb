@@ -58,6 +58,7 @@ Class Edit
                 Case EditType.Notification : Return My.Resources.blob_message
                 Case EditType.Tag : Return My.Resources.blob_tag
 
+                    'Get the correct warning icon for each level
                 Case EditType.Warning
                     Select Case WarningLevel
                         Case UserLevel.Warn1, UserLevel.Warn2, UserLevel.Warn3, _
