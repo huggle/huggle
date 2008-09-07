@@ -27,6 +27,7 @@ Partial Class StatsForm
         Me.Label1 = New System.Windows.Forms.Label
         Me.StatsTimer = New System.Windows.Forms.Timer(Me.components)
         Me.Actions = New Huggle.ListView2
+        Me.Session = New System.Windows.Forms.Label
         Me.SuspendLayout()
         '
         'OK
@@ -69,11 +70,21 @@ Partial Class StatsForm
         Me.Actions.UseCompatibleStateImageBehavior = False
         Me.Actions.View = System.Windows.Forms.View.Details
         '
+        'Session
+        '
+        Me.Session.AutoSize = True
+        Me.Session.Location = New System.Drawing.Point(12, 218)
+        Me.Session.Name = "Session"
+        Me.Session.Size = New System.Drawing.Size(69, 13)
+        Me.Session.TabIndex = 3
+        Me.Session.Text = "Session time:"
+        '
         'StatsForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(554, 248)
+        Me.Controls.Add(Me.Session)
         Me.Controls.Add(Me.Actions)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.OK)
@@ -91,4 +102,5 @@ Partial Class StatsForm
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents Actions As Huggle.ListView2
     Private WithEvents StatsTimer As System.Windows.Forms.Timer
+    Friend WithEvents Session As System.Windows.Forms.Label
 End Class

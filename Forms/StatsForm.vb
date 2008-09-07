@@ -29,10 +29,15 @@ Class StatsForm
         Next Row
 
         Actions.EndUpdate()
+
+        Dim SessionTime As TimeSpan = (Date.UtcNow - StartTime)
+
+        Session.Text = "Session time: " & SessionTime.Hours & ":" & SessionTime.Minutes.ToString.PadLeft(2, "0"c) _
+            & ":" & SessionTime.Seconds.ToString.PadLeft(2, "0"c)
     End Sub
 
     Private Sub Actions_ColumnWidthChanging(ByVal s As Object, ByVal e As ColumnWidthChangingEventArgs) _
-    Handles Actions.ColumnWidthChanging
+        Handles Actions.ColumnWidthChanging
 
         e.Cancel = True
     End Sub
