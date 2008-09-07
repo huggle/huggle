@@ -546,6 +546,7 @@ Module ConfigIO
     Public Sub LoadLocalConfig()
         'Read from local configuration file
 
+        QueueNames.Clear()
         InitialiseShortcuts()
 
         If File.Exists(LocalConfigPath() & LocalConfigLocation) Then
@@ -565,7 +566,6 @@ Module ConfigIO
                         Case "proxy-userdomain" : Config.ProxyUserDomain = OptionValue
                         Case "proxy-username" : Config.ProxyUsername = OptionValue
                         Case "queue-right-align" : Config.RightAlignQueue = CBool(OptionValue)
-                        Case "queues" : SetQueues(GetList(OptionValue))
                         Case "startup-message" : Config.StartupMessage = CBool(OptionValue)
                         Case "username" : Config.Username = OptionValue
                         Case "window-height" : Config.WindowSize.Height = CInt(OptionValue)
@@ -575,10 +575,15 @@ Module ConfigIO
                         Case "window-width" : Config.WindowSize.Width = CInt(OptionValue)
                         Case "shortcuts" : SetShortcutsFromConfig(OptionValue)
                         Case "revert-summaries" : SetRevertSummaries(OptionValue)
+
+                        Case Else : If OptionName.StartsWith("queues-") _
+                            Then QueueNames.Add(OptionName.Substring(7), GetList(OptionValue))
                     End Select
                 End If
             Next Item
         End If
+
+        If Not QueueNames.ContainsKey(Config.Project) Then QueueNames.Add(Config.Project, New List(Of String))
     End Sub
 
     Private Sub SetShortcutsFromConfig(ByVal Value As String)
@@ -609,7 +614,15 @@ Module ConfigIO
             Items.Add("proxy-server:" & Config.ProxyServer)
             Items.Add("proxy-userdomain:" & Config.ProxyUserDomain)
             Items.Add("proxy-username:" & Config.ProxyUsername)
-            Items.Add("queues:" & String.Join(",", QueueOrder.ToArray))
+
+            For Each Project As String In QueueNames.Keys
+                For Each Item As String In QueueNames(Project)
+                    Item = Item.Replace(",", "\,")
+                Next Item
+
+                Items.Add("queues-" & Project & ":" & String.Join(",", QueueNames(Project).ToArray))
+            Next Project
+
             Items.Add("queue-right-align:" & CStr(Config.RightAlignQueue).ToLower)
             Items.Add("startup-message:" & CStr(Config.StartupMessage).ToLower)
             If Config.RememberMe Then Items.Add("username:" & Config.Username)
@@ -682,12 +695,12 @@ Module ConfigIO
         Return LocalConfigPath() & "\Lists\" & Config.Project
     End Function
 
-    Public Sub SetQueues(ByVal Names As List(Of String))
+    Public Sub SetQueues()
         Queue.All.Clear()
 
         'Load queues from application data subfolder
         If Directory.Exists(QueuesLocation) Then
-            For Each Name As String In Names
+            For Each Name As String In QueueNames(Config.Project)
                 Dim Items As New List(Of String)(File.ReadAllLines(QueuesLocation() & "\" & Name & ".txt"))
                 Dim Queue As Queue = Nothing
 

@@ -25,16 +25,16 @@ Class QueueForm
         Next Item
 
         SetListSelector()
-        If QueueList.Items.Count > 0 Then QueueList.SelectedIndex = 0
+        If QueueList.Items.Count > 0 Then QueueList.SelectedIndex = MainForm.QueueSelector.SelectedIndex
         RefreshInterface()
     End Sub
 
     Private Sub QueueForm_FormClosing(ByVal s As Object, ByVal e As FormClosingEventArgs) Handles Me.FormClosing
         Misc.CurrentQueue = Me.CurrentQueue
-        QueueOrder.Clear()
+        QueueNames(Config.Project).Clear()
 
         For Each Item As String In QueueList.Items
-            QueueOrder.Add(Item)
+            QueueNames(Config.Project).Add(Item)
         Next Item
 
         MainForm.SetQueueSelector()

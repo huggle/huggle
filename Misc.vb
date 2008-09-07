@@ -28,7 +28,7 @@ Module Misc
     Public NullEdit As New Edit
     Public PendingRequests As New List(Of Request)
     Public PendingWarnings As New List(Of Edit)
-    Public QueueOrder As New List(Of String)
+    Public QueueNames As New Dictionary(Of String, List(Of String))
     Public RollbackAvailable As Boolean
     Public SpeedyCriteria As New Dictionary(Of String, SpeedyCriterion)
     Public StartTime As Date

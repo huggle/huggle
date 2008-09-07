@@ -342,4 +342,10 @@ Class ConfigForm
         If NewColorDialog.ShowDialog = DialogResult.OK Then Control.BackColor = NewColorDialog.Color
     End Sub
 
+    Private Sub ViewLocalConfig_LinkClicked(ByVal s As Object, ByVal e As LinkLabelLinkClickedEventArgs) _
+        Handles ViewLocalConfig.LinkClicked
+
+        Process.Start("""" & LocalConfigPath() & """")
+    End Sub
+
 End Class

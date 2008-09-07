@@ -580,7 +580,7 @@ Partial Class Main
     Public Sub SetQueueSelector()
         QueueSelector.Items.Clear()
 
-        For Each Item As String In QueueOrder
+        For Each Item As String In QueueNames(Config.Project)
             QueueSelector.Items.Add(Item)
         Next Item
 

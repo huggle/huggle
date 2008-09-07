@@ -57,6 +57,7 @@ Partial Class Report3rrForm
         'OK
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.OK.Enabled = False
         Me.OK.Location = New System.Drawing.Point(326, 358)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
@@ -67,7 +68,7 @@ Partial Class Report3rrForm
         'MessageLabel
         '
         Me.MessageLabel.AutoSize = True
-        Me.MessageLabel.Location = New System.Drawing.Point(6, 211)
+        Me.MessageLabel.Location = New System.Drawing.Point(6, 214)
         Me.MessageLabel.Name = "MessageLabel"
         Me.MessageLabel.Size = New System.Drawing.Size(105, 13)
         Me.MessageLabel.TabIndex = 2

@@ -49,9 +49,12 @@ Class Report3rrForm
             If Reverts.Contains(CurrentEdit) Then
                 MessageBox.Show("Current revision has already been added to this list.", _
                     "Huggle", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Else
+            ElseIf CurrentEdit.User IsNot User Then
+                MessageBox.Show("Current revision was not made by the user you are trying to report.", _
+                    "Huggle", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Reverts.Add(CurrentEdit)
                 RevertsList.Items.Add(WikiTimestamp(CurrentEdit.Time))
+                OK.Enabled = (Base.Text.Length > 0 AndAlso Reverts.Count >= 4)
             End If
         End If
     End Sub
@@ -60,6 +63,7 @@ Class Report3rrForm
         If CurrentEdit IsNot Nothing AndAlso Not Reverts.Contains(CurrentEdit) Then
             BaseEdit = CurrentEdit
             Base.Text = WikiTimestamp(CurrentEdit.Time)
+            OK.Enabled = (Base.Text.Length > 0 AndAlso Reverts.Count >= 4)
         End If
     End Sub
 
@@ -73,6 +77,7 @@ Class Report3rrForm
             Next Item
 
             RevertsList.Items.Remove(RevertsList.SelectedItem)
+            OK.Enabled = (Base.Text.Length > 0 AndAlso Reverts.Count >= 4)
         End If
     End Sub
 

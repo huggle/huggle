@@ -77,6 +77,7 @@ Partial Class Main
         Me.PageTagProd = New System.Windows.Forms.ToolStripMenuItem
         Me.PageTagSpeedy = New System.Windows.Forms.ToolStripMenuItem
         Me.Separator23 = New System.Windows.Forms.ToolStripSeparator
+        Me.PageTagDeleteB = New System.Windows.Forms.ToolStripDropDownButton
         Me.PageRequestProtection = New System.Windows.Forms.ToolStripMenuItem
         Me.Separator14 = New System.Windows.Forms.ToolStripSeparator
         Me.PageWatch = New System.Windows.Forms.ToolStripMenuItem
@@ -101,6 +102,7 @@ Partial Class Main
         Me.UserReportVandalism = New System.Windows.Forms.ToolStripMenuItem
         Me.UserReportUsername = New System.Windows.Forms.ToolStripMenuItem
         Me.UserReport3rr = New System.Windows.Forms.ToolStripMenuItem
+        Me.UserReportB = New System.Windows.Forms.ToolStripDropDownButton
         Me.UserBlock = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuBrowser = New System.Windows.Forms.ToolStripMenuItem
         Me.BrowserNewTab = New System.Windows.Forms.ToolStripMenuItem
@@ -120,8 +122,6 @@ Partial Class Main
         Me.Separator16 = New System.Windows.Forms.ToolStripSeparator
         Me.HelpAbout = New System.Windows.Forms.ToolStripMenuItem
         Me.Stats = New System.Windows.Forms.ToolStripMenuItem
-        Me.PageTagDeleteB = New System.Windows.Forms.ToolStripDropDownButton
-        Me.UserReportB = New System.Windows.Forms.ToolStripDropDownButton
         Me.Splitter = New System.Windows.Forms.SplitContainer
         Me.QueueContainer = New System.Windows.Forms.Panel
         Me.QueueScroll = New System.Windows.Forms.VScrollBar
@@ -143,6 +143,7 @@ Partial Class Main
         Me.RevertWarnAttack = New System.Windows.Forms.ToolStripMenuItem
         Me.RevertWarnError = New System.Windows.Forms.ToolStripMenuItem
         Me.RevertWarnNpov = New System.Windows.Forms.ToolStripMenuItem
+        Me.RevertWarnBio = New System.Windows.Forms.ToolStripMenuItem
         Me.Separator24 = New System.Windows.Forms.ToolStripSeparator
         Me.RevertWarnAdvanced = New System.Windows.Forms.ToolStripMenuItem
         Me.DiffNextB = New System.Windows.Forms.ToolStripButton
@@ -217,7 +218,6 @@ Partial Class Main
         Me.UserBlockB = New System.Windows.Forms.ToolStripButton
         Me.RateUpdateTimer = New System.Windows.Forms.Timer(Me.components)
         Me.EditInfo = New Huggle.EditInfoPanel
-        Me.RevertWarnBio = New System.Windows.Forms.ToolStripMenuItem
         Me.LogMenu.SuspendLayout()
         Me.TrayMenu.SuspendLayout()
         Me.TopMenu.SuspendLayout()
@@ -556,7 +556,7 @@ Partial Class Main
         '
         Me.TagDeleteMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PageXfd, Me.PageTagProd, Me.PageTagSpeedy, Me.Separator23})
         Me.TagDeleteMenu.Name = "SpeedyMenu"
-        Me.TagDeleteMenu.OwnerItem = Me.PageTagDeleteB
+        Me.TagDeleteMenu.OwnerItem = Me.PageTagDelete
         Me.TagDeleteMenu.Size = New System.Drawing.Size(190, 76)
         '
         'PageXfd
@@ -584,6 +584,18 @@ Partial Class Main
         '
         Me.Separator23.Name = "Separator23"
         Me.Separator23.Size = New System.Drawing.Size(186, 6)
+        '
+        'PageTagDeleteB
+        '
+        Me.PageTagDeleteB.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.PageTagDeleteB.DropDown = Me.TagDeleteMenu
+        Me.PageTagDeleteB.Enabled = False
+        Me.PageTagDeleteB.Image = Global.Huggle.My.Resources.Resources.page_tag_delete
+        Me.PageTagDeleteB.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.PageTagDeleteB.Name = "PageTagDeleteB"
+        Me.PageTagDeleteB.ShowDropDownArrow = False
+        Me.PageTagDeleteB.Size = New System.Drawing.Size(32, 32)
+        Me.PageTagDeleteB.ToolTipText = "Tag this page for deletion [S]"
         '
         'PageRequestProtection
         '
@@ -719,7 +731,7 @@ Partial Class Main
         '
         Me.ReportMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.UserReportVandalism, Me.UserReportUsername, Me.UserReport3rr})
         Me.ReportMenu.Name = "ReportMenu"
-        Me.ReportMenu.OwnerItem = Me.UserReportB
+        Me.ReportMenu.OwnerItem = Me.UserReport
         Me.ReportMenu.Size = New System.Drawing.Size(213, 70)
         '
         'UserReportVandalism
@@ -739,6 +751,18 @@ Partial Class Main
         Me.UserReport3rr.Name = "UserReport3rr"
         Me.UserReport3rr.Size = New System.Drawing.Size(212, 22)
         Me.UserReport3rr.Text = "Three-revert rule violation"
+        '
+        'UserReportB
+        '
+        Me.UserReportB.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.UserReportB.DropDown = Me.ReportMenu
+        Me.UserReportB.Enabled = False
+        Me.UserReportB.Image = Global.Huggle.My.Resources.Resources.user_report
+        Me.UserReportB.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.UserReportB.Name = "UserReportB"
+        Me.UserReportB.ShowDropDownArrow = False
+        Me.UserReportB.Size = New System.Drawing.Size(32, 32)
+        Me.UserReportB.ToolTipText = "Report user [B]"
         '
         'UserBlock
         '
@@ -868,30 +892,6 @@ Partial Class Main
         Me.Stats.Size = New System.Drawing.Size(22, 24)
         Me.Stats.Text = " "
         '
-        'PageTagDeleteB
-        '
-        Me.PageTagDeleteB.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.PageTagDeleteB.DropDown = Me.TagDeleteMenu
-        Me.PageTagDeleteB.Enabled = False
-        Me.PageTagDeleteB.Image = Global.Huggle.My.Resources.Resources.page_tag_delete
-        Me.PageTagDeleteB.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.PageTagDeleteB.Name = "PageTagDeleteB"
-        Me.PageTagDeleteB.ShowDropDownArrow = False
-        Me.PageTagDeleteB.Size = New System.Drawing.Size(32, 32)
-        Me.PageTagDeleteB.ToolTipText = "Tag this page for deletion [S]"
-        '
-        'UserReportB
-        '
-        Me.UserReportB.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.UserReportB.DropDown = Me.ReportMenu
-        Me.UserReportB.Enabled = False
-        Me.UserReportB.Image = Global.Huggle.My.Resources.Resources.user_report
-        Me.UserReportB.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.UserReportB.Name = "UserReportB"
-        Me.UserReportB.ShowDropDownArrow = False
-        Me.UserReportB.Size = New System.Drawing.Size(32, 32)
-        Me.UserReportB.ToolTipText = "Report user [B]"
-        '
         'Splitter
         '
         Me.Splitter.Dock = System.Windows.Forms.DockStyle.Fill
@@ -946,6 +946,7 @@ Partial Class Main
         Me.QueueSelector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.QueueSelector.FormattingEnabled = True
         Me.QueueSelector.Location = New System.Drawing.Point(1, 5)
+        Me.QueueSelector.MaxDropDownItems = 20
         Me.QueueSelector.Name = "QueueSelector"
         Me.QueueSelector.Size = New System.Drawing.Size(159, 21)
         Me.QueueSelector.TabIndex = 49
@@ -1051,7 +1052,7 @@ Partial Class Main
         Me.MainStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RevertWarnB, Me.DiffNextB, Me.Separator17, Me.DiffRevertB, Me.UserTemplateB, Me.WarnB, Me.Separator9, Me.CancelB, Me.UndoB, Me.Separator19})
         Me.MainStrip.Location = New System.Drawing.Point(3, 24)
         Me.MainStrip.Name = "MainStrip"
-        Me.MainStrip.Size = New System.Drawing.Size(389, 55)
+        Me.MainStrip.Size = New System.Drawing.Size(358, 55)
         Me.MainStrip.TabIndex = 2
         '
         'RevertWarnB
@@ -1108,6 +1109,14 @@ Partial Class Main
         Me.RevertWarnNpov.Name = "RevertWarnNpov"
         Me.RevertWarnNpov.Size = New System.Drawing.Size(225, 22)
         Me.RevertWarnNpov.Text = "&Biased material"
+        '
+        'RevertWarnBio
+        '
+        Me.RevertWarnBio.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RevertWarnBio.Name = "RevertWarnBio"
+        Me.RevertWarnBio.Size = New System.Drawing.Size(225, 22)
+        Me.RevertWarnBio.Text = "Unsourced biographical content"
+        Me.RevertWarnBio.TextDirection = System.Windows.Forms.ToolStripTextDirection.Horizontal
         '
         'Separator24
         '
@@ -1230,6 +1239,7 @@ Partial Class Main
         '
         Me.WarnMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.WarnVandalism, Me.WarnSpam, Me.WarnTest, Me.WarnDelete, Me.WarnAttack, Me.WarnError, Me.WarnNpov, Me.WarnBio, Me.Separator22, Me.WarnAdvanced})
         Me.WarnMenu.Name = "WarnMenu"
+        Me.WarnMenu.OwnerItem = Me.WarnB
         Me.WarnMenu.Size = New System.Drawing.Size(226, 208)
         '
         'WarnVandalism
@@ -1787,14 +1797,6 @@ Partial Class Main
         Me.EditInfo.Size = New System.Drawing.Size(353, 78)
         Me.EditInfo.TabIndex = 46
         Me.EditInfo.Visible = False
-        '
-        'RevertWarnBio
-        '
-        Me.RevertWarnBio.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RevertWarnBio.Name = "RevertWarnBio"
-        Me.RevertWarnBio.Size = New System.Drawing.Size(225, 22)
-        Me.RevertWarnBio.Text = "Unsourced biographical content"
-        Me.RevertWarnBio.TextDirection = System.Windows.Forms.ToolStripTextDirection.Horizontal
         '
         'Main
         '

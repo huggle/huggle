@@ -1366,6 +1366,10 @@ Module Processing
 
                 If Summary.Contains(Item) Then Return UserLevel.Blocked
             Next Item
+
+            'Animum
+            If TrimSummary(Summary).Contains("Due to recent vandalism from this account, it has been blocked") _
+                Then Return UserLevel.Blocked
         End If
 
         'Guest9999

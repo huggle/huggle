@@ -19,6 +19,7 @@ Class Main
         KeyDelayTimer.Interval = 10
         ScrollTimer.Interval = 1000 \ Config.HistoryScrollSpeed
         LoadLists()
+        SetQueues()
 
         InitialTab.Parent = Tabs.TabPages(0)
         CurrentTab = InitialTab

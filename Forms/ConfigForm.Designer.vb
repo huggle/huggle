@@ -128,6 +128,7 @@ Partial Class ConfigForm
         Me.BlockReason = New System.Windows.Forms.TextBox
         Me.PromptForBlock = New System.Windows.Forms.CheckBox
         Me.UseAdminFunctions = New System.Windows.Forms.CheckBox
+        Me.ViewLocalConfig = New System.Windows.Forms.LinkLabel
         Me.Tabs.SuspendLayout()
         Me.GeneralTab.SuspendLayout()
         CType(Me.DiffFontSize, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -1254,12 +1255,23 @@ Partial Class ConfigForm
         Me.UseAdminFunctions.Text = "Use administrator functions if available"
         Me.UseAdminFunctions.UseVisualStyleBackColor = True
         '
+        'ViewLocalConfig
+        '
+        Me.ViewLocalConfig.AutoSize = True
+        Me.ViewLocalConfig.Location = New System.Drawing.Point(7, 339)
+        Me.ViewLocalConfig.Name = "ViewLocalConfig"
+        Me.ViewLocalConfig.Size = New System.Drawing.Size(148, 13)
+        Me.ViewLocalConfig.TabIndex = 3
+        Me.ViewLocalConfig.TabStop = True
+        Me.ViewLocalConfig.Text = "View local configuration folder"
+        '
         'ConfigForm
         '
         Me.AcceptButton = Me.OK
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(531, 367)
+        Me.Controls.Add(Me.ViewLocalConfig)
         Me.Controls.Add(Me.Tabs)
         Me.Controls.Add(Me.OK)
         Me.Controls.Add(Me.Cancel)
@@ -1294,6 +1306,7 @@ Partial Class ConfigForm
         Me.AdminTab.ResumeLayout(False)
         Me.AdminTab.PerformLayout()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
     Friend WithEvents Cancel As System.Windows.Forms.Button
@@ -1402,4 +1415,5 @@ Partial Class ConfigForm
     Friend WithEvents DiffFontSize As System.Windows.Forms.NumericUpDown
     Friend WithEvents RememberPassword As System.Windows.Forms.CheckBox
     Friend WithEvents RememberMe As System.Windows.Forms.CheckBox
+    Friend WithEvents ViewLocalConfig As System.Windows.Forms.LinkLabel
 End Class
