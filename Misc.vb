@@ -34,7 +34,6 @@ Module Misc
     Public StartTime As Date
     Public SyncContext As Threading.SynchronizationContext
     Public Undo As New List(Of Command)
-    Public WarningMessages As New Dictionary(Of String, String)
     Public Watchlist As New List(Of Page)
     Public Whitelist As New List(Of String)
     Public WhitelistAutoChanges As New List(Of String)

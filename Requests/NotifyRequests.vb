@@ -181,7 +181,7 @@ Namespace Requests
                     WarnSummary = Config.WarnSummary4
             End Select
 
-            WarningNeeded = WarningMessages(Type & WarnLevelName)
+            WarningNeeded = Config.WarningMessages(Type & WarnLevelName)
             Data.Summary = WarnSummary.Replace("$1", Edit.Page.Name)
 
             If Config.MonthHeadings AndAlso Not (Data.Text.ToLower.Contains("== " & _

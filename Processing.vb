@@ -982,13 +982,15 @@ Module Processing
             Next i
         End If
 
-        For j As Integer = 0 To Math.Min(CurrentQueue.Edits.Count - 1, Config.Preloads - 1)
-            If CurrentQueue.Edits(j).Cached = Edit.CacheState.Uncached Then
-                Dim NewGetDiffRequest As New DiffRequest
-                NewGetDiffRequest.Edit = CurrentQueue.Edits(j)
-                NewGetDiffRequest.Start()
-            End If
-        Next j
+        If CurrentQueue IsNot Nothing Then
+            For j As Integer = 0 To Math.Min(CurrentQueue.Edits.Count - 1, Config.Preloads - 1)
+                If CurrentQueue.Edits(j).Cached = Edit.CacheState.Uncached Then
+                    Dim NewGetDiffRequest As New DiffRequest
+                    NewGetDiffRequest.Edit = CurrentQueue.Edits(j)
+                    NewGetDiffRequest.Start()
+                End If
+            Next j
+        End If
 
         MainForm.RefreshInterface()
         MainForm.RcReqTimer.Start()

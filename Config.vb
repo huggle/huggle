@@ -18,6 +18,7 @@ Class Configuration
     Public Password As String
     Public SitePath As String = "http://en.wikipedia.org/"
     Public Version As New Version(Application.ProductVersion)
+    Public WarningMessages As New Dictionary(Of String, String)
 
     'Values stored in local config file
 
@@ -312,7 +313,7 @@ Module ConfigIO
                     If Name.StartsWith(Item2) Then
                         Select Case Name.Substring(Item2.Length)
                             Case "1", "2", "3", "4", "4im"
-                                WarningMessages.Add(Name, Value)
+                                Config.WarningMessages.Add(Name, Value)
                         End Select
 
                         Exit For

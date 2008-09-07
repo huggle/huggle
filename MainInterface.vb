@@ -38,7 +38,6 @@ Partial Class Main
         WarnDelete.Visible = Config.WarningSeries.Contains("delete")
         WarnNpov.Visible = Config.WarningSeries.Contains("npov")
         WarnError.Visible = Config.WarningSeries.Contains("error")
-        WarnUnsourced.Visible = Config.WarningSeries.Contains("unsourced")
 
         RevertWarnVandalism.Visible = Config.WarningSeries.Contains("warning")
         RevertWarnSpam.Visible = Config.WarningSeries.Contains("spam")
@@ -47,7 +46,6 @@ Partial Class Main
         RevertWarnDelete.Visible = Config.WarningSeries.Contains("delete")
         RevertWarnNpov.Visible = Config.WarningSeries.Contains("npov")
         RevertWarnError.Visible = Config.WarningSeries.Contains("error")
-        RevertWarnUnsourced.Visible = Config.WarningSeries.Contains("unsourced")
 
         For Each Item As ToolStrip In New ToolStrip() {MainStrip, HistoryStrip, NavigationStrip, ActionsStrip}
             Item.ShowItemToolTips = Config.ShowToolTips
@@ -450,9 +448,6 @@ Partial Class Main
             Case Is = ShortcutKeys("Warn - factual errors")
                 If WarnB.Enabled AndAlso Config.WarningSeries.Contains("error") Then WarnError_Click()
 
-            Case Is = ShortcutKeys("Warn - unsourced content")
-                If WarnB.Enabled AndAlso Config.WarningSeries.Contains("unsourced") Then WarnUnsourced_Click()
-
             Case Is = ShortcutKeys("Warn - biased content")
                 If WarnB.Enabled AndAlso Config.WarningSeries.Contains("npov") Then WarnNpov_Click()
 
@@ -523,7 +518,6 @@ Partial Class Main
         SetSDItem(WarnDelete, "Warn - removing content")
         SetSDItem(WarnAttack, "Warn - personal attacks")
         SetSDItem(WarnError, "Warn - factual errors")
-        SetSDItem(WarnUnsourced, "Warn - unsourced content")
         SetSDItem(WarnNpov, "Warn - biased content")
         SetSDItem(RevertWarnVandalism, "Revert and warn")
         SetSDItem(RevertWarnSpam, "Revert and warn - spam")
@@ -531,7 +525,6 @@ Partial Class Main
         SetSDItem(RevertWarnDelete, "Revert and warn - removing content")
         SetSDItem(RevertWarnAttack, "Revert and warn - personal attacks")
         SetSDItem(RevertWarnError, "Revert and warn - factual errors")
-        SetSDItem(RevertWarnUnsourced, "Revert and warn - unsourced content")
         SetSDItem(RevertWarnNpov, "Revert and warn - biased content")
     End Sub
 

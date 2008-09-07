@@ -10,7 +10,7 @@
     <MyType>WindowsForms</MyType>
     <ApplicationIcon>Resources\icon_red_button.ico</ApplicationIcon>
     <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
-    <AssemblyName>Huggle</AssemblyName>
+    <AssemblyName>huggle</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugType>Full</DebugType>

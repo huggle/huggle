@@ -30,8 +30,6 @@ Class Main
         If Config.WindowMaximize Then WindowState = FormWindowState.Maximized _
             Else WindowState = FormWindowState.Normal
 
-        If Administrator Then UserReport.ShortcutKeyDisplayString = ""
-
         SystemReconnectIRC.Enabled = Config.IrcMode
         Splitter.SplitterDistance = Splitter.Height - 100
         StartTime = Date.UtcNow
@@ -1038,11 +1036,13 @@ Class Main
     End Sub
 
     Private Sub QueueArea_MouseDown(ByVal s As Object, ByVal e As MouseEventArgs) Handles QueueArea.MouseDown
-        Dim Index As Integer = CInt((e.Y - 26) / 20) + QueueScroll.Value
+        If CurrentQueue IsNot Nothing Then
+            Dim Index As Integer = CInt((e.Y - 26) / 20) + QueueScroll.Value
 
-        If Index > -1 AndAlso Index < CurrentQueue.Edits.Count Then
-            DisplayEdit(CurrentQueue.Edits(Index))
-            DrawQueue()
+            If Index > -1 AndAlso Index < CurrentQueue.Edits.Count Then
+                DisplayEdit(CurrentQueue.Edits(Index))
+                DrawQueue()
+            End If
         End If
     End Sub
 
@@ -1444,19 +1444,19 @@ Class Main
         NewRequest.Start()
     End Sub
 
-    Private Sub WarnUnsourced_Click() Handles WarnUnsourced.Click
-        Dim NewRequest As New WarningRequest
-        NewRequest.Level = 0
-        NewRequest.Edit = CurrentEdit
-        NewRequest.Type = "unsourced"
-        NewRequest.Start()
-    End Sub
-
     Private Sub WarnNpov_Click() Handles WarnNpov.Click
         Dim NewRequest As New WarningRequest
         NewRequest.Level = 0
         NewRequest.Edit = CurrentEdit
         NewRequest.Type = "npov"
+        NewRequest.Start()
+    End Sub
+
+    Private Sub WarnBio_Click() Handles WarnBio.Click
+        Dim NewRequest As New WarningRequest
+        NewRequest.Level = 0
+        NewRequest.Edit = CurrentEdit
+        NewRequest.Type = "bio"
         NewRequest.Start()
     End Sub
 
@@ -1505,8 +1505,8 @@ Class Main
         RevertAndWarn("npov")
     End Sub
 
-    Private Sub RevertWarnUnsourced_Click() Handles RevertWarnUnsourced.Click
-        RevertAndWarn("unsourced")
+    Private Sub RevertWarnBio_Click() Handles RevertWarnBio.Click
+        RevertAndWarn("bio")
     End Sub
 
     Private Sub RevertAndWarnAdvanced_Click() Handles RevertWarnAdvanced.Click
@@ -1608,4 +1608,7 @@ Class Main
         If CurrentUser IsNot Nothing Then BlockUser(CurrentUser)
     End Sub
 
+    Private Sub WarnBio_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles WarnBio.Click
+
+    End Sub
 End Class
