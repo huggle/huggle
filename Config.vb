@@ -152,7 +152,6 @@ Class Configuration
     Public RfdLocation As String
     Public RightAlignQueue As Boolean
     Public RollbackSummary As String
-    Public RollbackSummaryUnknown As String
     Public SensitiveAddresses As New List(Of String)
     Public SharedIPTemplates As New List(Of String)
     Public ShowNewEdits As Boolean = True
@@ -372,7 +371,6 @@ Module ConfigIO
             Case "revert-patterns" : SetRevertPatterns(GetList(Value))
             Case "revert-summaries" : Config.CustomRevertSummaries = GetList(Value)
             Case "rollback-summary" : Config.RollbackSummary = Value
-            Case "rollback-summary-unknown" : Config.RollbackSummaryUnknown = Value
             Case "rfd" : Config.RfdLocation = Value
             Case "shared-ip-templates" : Config.SharedIPTemplates = GetList(Value)
             Case "single-revert-summary" : Config.SingleRevertSummary = Value

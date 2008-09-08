@@ -184,21 +184,7 @@ Namespace Requests
         End Sub
 
         Sub Process()
-            'Set automatic summary
-            Dim NextEdit As Edit = Edit
-
-            While NextEdit.Prev IsNot Nothing AndAlso NextEdit.Prev IsNot NullEdit AndAlso NextEdit.User Is Edit.User
-                NextEdit = NextEdit.Prev
-            End While
-
-            If Summary Is Nothing Then If NextEdit.User Is Edit.User Then Summary = Config.RollbackSummaryUnknown _
-                Else Summary = Config.RollbackSummary
-
-            If Summary IsNot Nothing Then
-                Summary = Summary.Replace("$1", Edit.User.Name)
-                If NextEdit.User Is Edit.User Then Summary = Summary.Replace("$2", "another user") _
-                    Else Summary = Summary.Replace("$2", NextEdit.User.Name)
-            End If
+            If Summary Is Nothing Then Summary = Config.RollbackSummary
 
             Dim QueryString As String = Edit.RollbackUrl
             QueryString &= "&summary=" & UrlEncode(Summary)
@@ -320,10 +306,8 @@ Namespace Requests
 
             Data.Page = Page
 
-            If Summary IsNot Nothing AndAlso Summary <> "" Then Data.Summary = Summary _
-                Else Data.Summary = Config.RevertSummary
-
-            Data.Summary = Data.Summary.Replace("$1", ExcludeUser.Name).Replace("$2", OldUser)
+            If Summary Is Nothing Then Summary = Config.RevertSummary
+            Data.Summary = Summary.Replace("$1", ExcludeUser.Name).Replace("$2", OldUser)
 
             Data.Text = Result.Substring(Result.IndexOf("<rev user=""") + 11)
             Data.Text = Data.Text.Substring(Data.Text.IndexOf(">") + 1)
@@ -415,9 +399,8 @@ Namespace Requests
             Data.Minor = Config.MinorReverts
             Data.Watch = Config.WatchReverts
 
-            If Summary = "" AndAlso Config.SingleRevertSummary IsNot Nothing _
-                Then Summary = Config.SingleRevertSummary.Replace("$1", Edit.User.Name)
-            Data.Summary = Summary
+            If Summary Is Nothing Then Summary = Config.SingleRevertSummary
+            Data.Summary = Summary.Replace("$1", Edit.User.Name)
 
             If State = States.Cancelled Then Thread.CurrentThread.Abort()
 
