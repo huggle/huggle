@@ -11,7 +11,7 @@ Class Configuration
     Public ContribsBlockSize As Integer = 100
     Public HistoryBlockSize As Integer = 100
     Public HistoryScrollSpeed As Integer = 25
-    Public IrcConnectionTimeout As Integer = 30000
+    Public IrcConnectionTimeout As Integer = 60000
     Public LatestVersion As New Version(0, 0, 0)
     Public QueueSize As Integer = 5000
     Public QueueWidth As Integer = 160
