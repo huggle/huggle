@@ -26,12 +26,13 @@ Partial Class RevertForm
         Me.OK = New System.Windows.Forms.Button
         Me.Label1 = New System.Windows.Forms.Label
         Me.Summary = New System.Windows.Forms.ComboBox
+        Me.CurrentOnly = New System.Windows.Forms.CheckBox
         Me.SuspendLayout()
         '
         'Cancel
         '
         Me.Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Cancel.Location = New System.Drawing.Point(354, 34)
+        Me.Cancel.Location = New System.Drawing.Point(354, 52)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
         Me.Cancel.TabIndex = 3
@@ -41,8 +42,7 @@ Partial Class RevertForm
         'OK
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.OK.Enabled = False
-        Me.OK.Location = New System.Drawing.Point(273, 34)
+        Me.OK.Location = New System.Drawing.Point(273, 52)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
         Me.OK.TabIndex = 2
@@ -52,11 +52,11 @@ Partial Class RevertForm
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(6, 15)
+        Me.Label1.Location = New System.Drawing.Point(12, 9)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(79, 13)
+        Me.Label1.Size = New System.Drawing.Size(200, 13)
         Me.Label1.TabIndex = 0
-        Me.Label1.Text = "Enter summary:"
+        Me.Label1.Text = "Revert summary (leave blank for default):"
         '
         'Summary
         '
@@ -65,16 +65,27 @@ Partial Class RevertForm
         Me.Summary.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest
         Me.Summary.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems
         Me.Summary.FormattingEnabled = True
-        Me.Summary.Location = New System.Drawing.Point(91, 12)
+        Me.Summary.Location = New System.Drawing.Point(15, 25)
         Me.Summary.Name = "Summary"
-        Me.Summary.Size = New System.Drawing.Size(338, 21)
+        Me.Summary.Size = New System.Drawing.Size(414, 21)
         Me.Summary.TabIndex = 1
+        '
+        'CurrentOnly
+        '
+        Me.CurrentOnly.AutoSize = True
+        Me.CurrentOnly.Location = New System.Drawing.Point(15, 52)
+        Me.CurrentOnly.Name = "CurrentOnly"
+        Me.CurrentOnly.Size = New System.Drawing.Size(180, 17)
+        Me.CurrentOnly.TabIndex = 4
+        Me.CurrentOnly.Text = "Revert only the selected revision"
+        Me.CurrentOnly.UseVisualStyleBackColor = True
         '
         'RevertForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(441, 67)
+        Me.ClientSize = New System.Drawing.Size(441, 85)
+        Me.Controls.Add(Me.CurrentOnly)
         Me.Controls.Add(Me.Summary)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.OK)
@@ -94,4 +105,5 @@ Partial Class RevertForm
     Friend WithEvents OK As System.Windows.Forms.Button
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents Summary As System.Windows.Forms.ComboBox
+    Friend WithEvents CurrentOnly As System.Windows.Forms.CheckBox
 End Class

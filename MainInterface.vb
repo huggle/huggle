@@ -55,8 +55,9 @@ Partial Class Main
         Dim j As Integer = 0
 
         While j < RevertMenu.Items.Count
-            If RevertMenu.Items(j) IsNot Separator20 AndAlso RevertMenu.Items(j) IsNot DiffRevertSummary _
-                Then RevertMenu.Items.RemoveAt(j) Else j += 1
+            If Not (TypeOf RevertMenu.Items(j) Is ToolStripSeparator) AndAlso _
+            RevertMenu.Items(j) IsNot DiffRevertSummary AndAlso RevertMenu.Items(j) IsNot DiffRevertCurrentOnly _
+            Then RevertMenu.Items.RemoveAt(j) Else j += 1
         End While
 
         'Add custom revert summaries to menu
@@ -65,7 +66,7 @@ Partial Class Main
             NewItem.Text = TrimSummary(Item)
             NewItem.Tag = CObj(Item)
             AddHandler NewItem.Click, AddressOf RevertItem_Click
-            RevertMenu.Items.Insert(0, NewItem)
+            RevertMenu.Items.Insert(2, NewItem)
         Next Item
 
         For i As Integer = 2 To TemplateMenu.Items.Count - 5

@@ -159,6 +159,7 @@ Class Configuration
     Public ShowLog As Boolean = True
     Public ShowQueue As Boolean = True
     Public ShowToolTips As Boolean = True
+    Public SingleRevertSummary As String
     Public Speedy As Boolean
     Public SpeedyDeleteSummary As String
     Public SpeedyMessageSummary As String
@@ -374,6 +375,7 @@ Module ConfigIO
             Case "rollback-summary-unknown" : Config.RollbackSummaryUnknown = Value
             Case "rfd" : Config.RfdLocation = Value
             Case "shared-ip-templates" : Config.SharedIPTemplates = GetList(Value)
+            Case "single-revert-summary" : Config.SingleRevertSummary = Value
             Case "speedy-delete-summary" : Config.SpeedyDeleteSummary = Value
             Case "speedy-options" : SetSpeedyOptions(Value)
             Case "startup-message-location" : Config.StartupMessageLocation = Value

@@ -36,6 +36,7 @@ Partial Class RevertAndWarnForm
         Me.Level1 = New System.Windows.Forms.RadioButton
         Me.LevelAuto = New System.Windows.Forms.RadioButton
         Me.Label3 = New System.Windows.Forms.Label
+        Me.CurrentOnly = New System.Windows.Forms.CheckBox
         Me.Level.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -61,7 +62,7 @@ Partial Class RevertAndWarnForm
         'OK
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.OK.Location = New System.Drawing.Point(267, 322)
+        Me.OK.Location = New System.Drawing.Point(267, 347)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
         Me.OK.TabIndex = 7
@@ -71,7 +72,7 @@ Partial Class RevertAndWarnForm
         'Cancel
         '
         Me.Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Cancel.Location = New System.Drawing.Point(348, 322)
+        Me.Cancel.Location = New System.Drawing.Point(348, 347)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
         Me.Cancel.TabIndex = 8
@@ -82,7 +83,7 @@ Partial Class RevertAndWarnForm
         '
         Me.WarnType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.WarnType.FormattingEnabled = True
-        Me.WarnType.Location = New System.Drawing.Point(91, 66)
+        Me.WarnType.Location = New System.Drawing.Point(91, 95)
         Me.WarnType.Name = "WarnType"
         Me.WarnType.Size = New System.Drawing.Size(169, 21)
         Me.WarnType.TabIndex = 3
@@ -90,7 +91,7 @@ Partial Class RevertAndWarnForm
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(12, 69)
+        Me.Label2.Location = New System.Drawing.Point(12, 98)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(73, 13)
         Me.Label2.TabIndex = 2
@@ -103,11 +104,11 @@ Partial Class RevertAndWarnForm
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.WarnLog.FullRowSelect = True
         Me.WarnLog.GridLines = True
-        Me.WarnLog.Location = New System.Drawing.Point(15, 180)
+        Me.WarnLog.Location = New System.Drawing.Point(15, 200)
         Me.WarnLog.MultiSelect = False
         Me.WarnLog.Name = "WarnLog"
         Me.WarnLog.ShowGroups = False
-        Me.WarnLog.Size = New System.Drawing.Size(408, 136)
+        Me.WarnLog.Size = New System.Drawing.Size(408, 141)
         Me.WarnLog.TabIndex = 6
         Me.WarnLog.UseCompatibleStateImageBehavior = False
         Me.WarnLog.View = System.Windows.Forms.View.Details
@@ -121,7 +122,7 @@ Partial Class RevertAndWarnForm
         Me.Level.Controls.Add(Me.Level2)
         Me.Level.Controls.Add(Me.Level1)
         Me.Level.Controls.Add(Me.LevelAuto)
-        Me.Level.Location = New System.Drawing.Point(15, 102)
+        Me.Level.Location = New System.Drawing.Point(15, 122)
         Me.Level.Name = "Level"
         Me.Level.Size = New System.Drawing.Size(408, 50)
         Me.Level.TabIndex = 4
@@ -183,17 +184,28 @@ Partial Class RevertAndWarnForm
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(12, 164)
+        Me.Label3.Location = New System.Drawing.Point(12, 184)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(112, 13)
         Me.Label3.TabIndex = 5
         Me.Label3.Text = "Warnings for this user:"
         '
+        'CurrentOnly
+        '
+        Me.CurrentOnly.AutoSize = True
+        Me.CurrentOnly.Location = New System.Drawing.Point(15, 62)
+        Me.CurrentOnly.Name = "CurrentOnly"
+        Me.CurrentOnly.Size = New System.Drawing.Size(180, 17)
+        Me.CurrentOnly.TabIndex = 9
+        Me.CurrentOnly.Text = "Revert only the selected revision"
+        Me.CurrentOnly.UseVisualStyleBackColor = True
+        '
         'RevertAndWarnForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(435, 357)
+        Me.ClientSize = New System.Drawing.Size(435, 382)
+        Me.Controls.Add(Me.CurrentOnly)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.WarnType)
         Me.Controls.Add(Me.WarnLog)
@@ -229,4 +241,5 @@ Partial Class RevertAndWarnForm
     Friend WithEvents Level1 As System.Windows.Forms.RadioButton
     Friend WithEvents LevelAuto As System.Windows.Forms.RadioButton
     Friend WithEvents Label3 As System.Windows.Forms.Label
+    Friend WithEvents CurrentOnly As System.Windows.Forms.CheckBox
 End Class

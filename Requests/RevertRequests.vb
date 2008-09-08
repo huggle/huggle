@@ -269,7 +269,7 @@ Namespace Requests
 
         Private Sub Failed()
             Log("Failed to rollback '" & Edit.Page.Name & "', trying manual reversion")
-            DoRevert(Edit, False)
+            DoRevert(Edit, Summary, Rollback:=False)
             Fail()
         End Sub
 
@@ -380,6 +380,79 @@ Namespace Requests
 
         Private Sub Failed()
             Log("Failed to revert edits to '" & Page.Name & "'")
+            Fail()
+        End Sub
+
+    End Class
+
+    Class UndoRequest : Inherits Request
+
+        'Revert only a single revision
+
+        Public Edit As Edit, Summary As String
+
+        Public Sub Start()
+            LogProgress("Reverting edit to '" & Edit.Page.Name & "'...")
+
+            Dim RequestThread As New Thread(AddressOf Process)
+            RequestThread.IsBackground = True
+            RequestThread.Start()
+        End Sub
+
+        Private Sub Process()
+
+            Dim Data As EditData = GetEditData(Edit.Page, Edit.Id, Undo:=True)
+
+            If Data.Error Then
+                Callback(AddressOf Failed)
+                Exit Sub
+
+            ElseIf Data.CannotUndo Then
+                Callback(AddressOf CannotUndo)
+                Exit Sub
+            End If
+
+            Data.Minor = Config.MinorReverts
+            Data.Watch = Config.WatchReverts
+
+            If Summary = "" AndAlso Config.SingleRevertSummary IsNot Nothing _
+                Then Summary = Config.SingleRevertSummary.Replace("$1", Edit.User.Name)
+            Data.Summary = Summary
+
+            If State = States.Cancelled Then Thread.CurrentThread.Abort()
+
+            Data = PostEdit(Data)
+
+            If Data.Error Then Callback(AddressOf Failed) Else Callback(AddressOf Done)
+        End Sub
+
+        Private Sub Done()
+            If State = States.Cancelled Then UndoEdit(Edit.Page) Else Complete()
+        End Sub
+
+        Private Sub NoOtherUser()
+            Log("Did not revert edit to '" & Edit.Page.Name & "', because only one user has edited the page")
+            Fail()
+        End Sub
+
+        Private Sub PageMissing()
+            Log("Did not revert edit to '" & Edit.Page.Name & "', because the page does not exist")
+            Fail()
+        End Sub
+
+        Private Sub CannotUndo()
+            If MessageBox.Show("Cannot revert edit to " & Edit.Page.Name & " by " & Edit.User.Name & " as other " & _
+                "edits which affect this edit have since been made." & CRLF & "Edit the page manually instead?", _
+                "Huggle", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
+
+                Dim NewForm As New EditForm
+                NewForm.Page = Edit.Page
+                NewForm.Show()
+            End If
+        End Sub
+
+        Private Sub Failed()
+            Log("Failed to revert edit to '" & Edit.Page.Name & "'")
             Fail()
         End Sub
 

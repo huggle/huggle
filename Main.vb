@@ -568,7 +568,8 @@ Class Main
     End Sub
 
     Public Sub RevertAndWarn(Optional ByVal WarnType As String = "warning", _
-        Optional ByVal Level As UserLevel = UserLevel.None, Optional ByVal Summary As String = Nothing)
+        Optional ByVal Level As UserLevel = UserLevel.None, Optional ByVal Summary As String = Nothing, _
+        Optional ByVal CurrentOnly As Boolean = False)
 
         If CurrentEdit IsNot Nothing AndAlso CurrentEdit.Prev IsNot Nothing Then
 
@@ -578,7 +579,7 @@ Class Main
                 AndAlso MessageBox.Show("This will revert multiple edits by '" & CurrentEdit.User.Name & "'. Continue?", _
                 "Huggle", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.No Then Exit Sub
 
-            If DoRevert(CurrentEdit, True, Summary) Then
+            If DoRevert(CurrentEdit, Summary, CurrentOnly:=CurrentOnly) Then
                 'Be sure not to warn twice for the same edit
                 Dim i As Integer = 0
 
@@ -1202,7 +1203,7 @@ Class Main
 
                 Select Case Item.Type
                     Case CommandType.Edit, CommandType.Revert, CommandType.Warning, CommandType.Report
-                        DoRevert(Item.Edit, False, Config.UndoSummary, True)
+                        DoRevert(Item.Edit, Config.UndoSummary, Undoing:=True)
 
                     Case CommandType.Ignore
                         UnignoreUser(Item.User)
@@ -1272,7 +1273,7 @@ Class Main
     Private Sub RevertItem_Click(ByVal Sender As Object, ByVal e As EventArgs)
         If CurrentEdit IsNot Nothing Then
             Dim MenuItem As ToolStripItem = CType(Sender, ToolStripItem)
-            DoRevert(CurrentEdit, True, CStr(MenuItem.Tag))
+            DoRevert(CurrentEdit, CStr(MenuItem.Tag))
         End If
     End Sub
 
@@ -1609,7 +1610,19 @@ Class Main
         If CurrentUser IsNot Nothing Then BlockUser(CurrentUser)
     End Sub
 
-    Private Sub WarnBio_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles WarnBio.Click
+    Public Sub StartRevert()
+        DiffRevertB.Enabled = False
+        RevertWarnB.Enabled = False
+        Reverting = True
+        RevertTimer.Interval = 5000
+        RevertTimer.Start()
+    End Sub
+
+    Private Sub DiffRevertCurrentOnly_Click() Handles DiffRevertCurrentOnly.Click
+        DoRevert(CurrentEdit, CurrentOnly:=True)
+    End Sub
+
+    Private Sub Status_ItemActivate(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Status.ItemActivate
 
     End Sub
 End Class

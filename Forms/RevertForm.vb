@@ -13,13 +13,7 @@ Class RevertForm
     End Sub
 
     Private Sub RevertForm_FormClosing() Handles Me.FormClosing
-        If DialogResult = DialogResult.OK Then
-            If Not Config.RevertSummaries.Contains(Summary.Text) Then Config.RevertSummaries.Add(Summary.Text)
-            LastSummary = Summary.Text
-            DoRevert(CurrentEdit, , Summary.Text)
-        Else
-            DialogResult = DialogResult.Cancel
-        End If
+        If DialogResult <> DialogResult.OK Then DialogResult = DialogResult.Cancel
     End Sub
 
     Private Sub RevertForm_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles Me.KeyDown
@@ -30,10 +24,13 @@ Class RevertForm
     End Sub
 
     Private Sub OK_Click() Handles OK.Click
-        If Summary.Text <> "" Then
-            DialogResult = DialogResult.OK
-            Close()
-        End If
+        DialogResult = DialogResult.OK
+
+        If Not Config.RevertSummaries.Contains(Summary.Text) Then Config.RevertSummaries.Add(Summary.Text)
+        LastSummary = Summary.Text
+        DoRevert(CurrentEdit, Summary.Text, CurrentOnly:=CurrentOnly.Checked)
+
+        Close()
     End Sub
 
     Private Sub Cancel_Click() Handles Cancel.Click
@@ -42,14 +39,10 @@ Class RevertForm
     End Sub
 
     Private Sub Summary_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles Summary.KeyDown
-        If e.KeyCode = Keys.Enter AndAlso Summary.Text <> "" Then
+        If e.KeyCode = Keys.Enter Then
             DialogResult = DialogResult.OK
             Close()
         End If
-    End Sub
-
-    Private Sub Summary_TextChanged() Handles Summary.TextChanged
-        OK.Enabled = (Summary.Text <> "")
     End Sub
 
 End Class

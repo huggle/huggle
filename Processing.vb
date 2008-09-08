@@ -490,8 +490,9 @@ Module Processing
         End If
     End Sub
 
-    Function DoRevert(ByVal Edit As Edit, Optional ByVal Rollback As Boolean = True, _
-        Optional ByVal Summary As String = Nothing, Optional ByVal Undoing As Boolean = False) As Boolean
+    Function DoRevert(ByVal Edit As Edit, Optional ByVal Summary As String = Nothing, _
+        Optional ByVal Rollback As Boolean = True, Optional ByVal Undoing As Boolean = False, _
+        Optional ByVal CurrentOnly As Boolean = False) As Boolean
 
         If Edit Is Nothing Then Return False
 
@@ -508,9 +509,9 @@ Module Processing
 
         'Confirm reversion of multiple edits
         If Config.ConfirmMultiple AndAlso Edit.Prev IsNot Nothing AndAlso Edit.User IsNot Nothing _
-            AndAlso Edit.User Is Edit.Prev.User _
-            AndAlso MessageBox.Show("This will revert multiple edits by '" & Edit.User.Name & "'. Continue?", "Huggle", _
-            MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.No Then Return False
+            AndAlso Edit.User Is Edit.Prev.User AndAlso MessageBox.Show("This will revert multiple edits by '" & _
+            Edit.User.Name & "'. Continue?", "Huggle", MessageBoxButtons.YesNo, MessageBoxIcon.Question) _
+            = DialogResult.No Then Return False
 
         If Not Undoing AndAlso Edit.User.Level = UserLevel.None Then Edit.User.Level = UserLevel.Reverted
         If Not Undoing AndAlso Edit.Page.Level = PageLevel.None Then Edit.Page.Level = PageLevel.Watch
@@ -519,13 +520,13 @@ Module Processing
         If Edit.Page.FirstEdit IsNot Nothing AndAlso Edit.Id = Edit.Page.FirstEdit.Id _
             AndAlso Edit.Page.Space Is Space.UserTalk Then
 
-            Dim NewEditRequest As New EditRequest
-            NewEditRequest.Text = ""
-            NewEditRequest.Page = Edit.Page
-            NewEditRequest.Minor = Config.MinorReverts
-            If Undoing Then NewEditRequest.Summary = Config.UndoSummary Else NewEditRequest.Summary = _
+            Dim NewRequest As New EditRequest
+            NewRequest.Text = ""
+            NewRequest.Page = Edit.Page
+            NewRequest.Minor = Config.MinorReverts
+            If Undoing Then NewRequest.Summary = Config.UndoSummary Else NewRequest.Summary = _
                 "Revert edit by [[Special:Contributions/" & Config.Username & "|" & Config.Username & "]]"
-            NewEditRequest.Start()
+            NewRequest.Start()
             Return False
         End If
 
@@ -562,39 +563,30 @@ Module Processing
         End If
 
         'Use rollback if possible
-        If Rollback AndAlso RollbackAvailable AndAlso Config.UseRollback _
-            AndAlso (Edit Is Edit.Page.LastEdit) AndAlso (Edit.RollbackUrl IsNot Nothing) Then
+        If Rollback AndAlso RollbackAvailable AndAlso Config.UseRollback AndAlso Not Undoing _
+            AndAlso (Edit Is Edit.Page.LastEdit) AndAlso (Edit.RollbackUrl IsNot Nothing) _
+            AndAlso Not (CurrentOnly AndAlso (Edit.Prev Is Nothing OrElse Edit.User Is Edit.Prev.User)) Then
 
-            If Edit Is CurrentEdit Then
-                MainForm.DiffRevertB.Enabled = False
-                MainForm.RevertWarnB.Enabled = False
-                MainForm.Reverting = True
-                MainForm.RevertTimer.Interval = 5000
-                MainForm.RevertTimer.Start()
-            End If
+            If Edit Is CurrentEdit Then MainForm.StartRevert()
 
-            Dim NewRollbackRequest As New RollbackRequest
-            NewRollbackRequest.Edit = Edit
-            NewRollbackRequest.Summary = Summary
-            NewRollbackRequest.Start()
+            Dim NewRequest As New RollbackRequest
+            NewRequest.Edit = Edit
+            NewRequest.Summary = Summary
+            NewRequest.Start()
             Return True
         End If
 
         'Revert all edits by the last editor of the page, if possible
-        If Edit Is Edit.Page.LastEdit AndAlso Not Undoing Then
-            If Edit Is CurrentEdit Then
-                MainForm.DiffRevertB.Enabled = False
-                MainForm.RevertWarnB.Enabled = False
-                MainForm.Reverting = True
-                MainForm.RevertTimer.Interval = 5000
-                MainForm.RevertTimer.Start()
-            End If
+        If Edit Is Edit.Page.LastEdit AndAlso Not Undoing _
+            AndAlso Not (CurrentOnly AndAlso (Edit.Prev Is Nothing OrElse Edit.User Is Edit.Prev.User)) Then
 
-            Dim NewFakeRollbackRequest As New FakeRollbackRequest
-            NewFakeRollbackRequest.Page = Edit.Page
-            NewFakeRollbackRequest.ExcludeUser = Edit.User
-            NewFakeRollbackRequest.Summary = Summary
-            NewFakeRollbackRequest.Start()
+            If Edit Is CurrentEdit Then MainForm.StartRevert()
+
+            Dim NewRequest As New FakeRollbackRequest
+            NewRequest.Page = Edit.Page
+            NewRequest.ExcludeUser = Edit.User
+            NewRequest.Summary = Summary
+            NewRequest.Start()
             Return True
         End If
 
@@ -605,20 +597,23 @@ Module Processing
             & Edit.User.Name & ". Continue with this?", "Huggle", _
             MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.No Then Return False
 
-        If Edit Is CurrentEdit Then
-            MainForm.DiffRevertB.Enabled = False
-            MainForm.RevertWarnB.Enabled = False
-            MainForm.Reverting = True
-            MainForm.RevertTimer.Interval = 5000
-            MainForm.RevertTimer.Start()
-        End If
+        If Edit Is CurrentEdit Then MainForm.StartRevert()
 
-        'Plain old reversion
-        Dim NewRequest As New RevertRequest
-        NewRequest.Edit = Edit.Prev
-        NewRequest.Summary = Summary
-        NewRequest.Start()
-        Return True
+        If CurrentOnly AndAlso Edit IsNot Edit.Page.LastEdit Then
+            'Use 'undo' with single edit if necessary
+            Dim NewRequest As New UndoRequest
+            NewRequest.Edit = Edit
+            NewRequest.Summary = Summary
+            NewRequest.Start()
+            Return True
+        Else
+            'Plain old reversion
+            Dim NewRequest As New RevertRequest
+            NewRequest.Edit = Edit.Prev
+            NewRequest.Summary = Summary
+            NewRequest.Start()
+            Return True
+        End If
     End Function
 
     Sub ProcessBlock(ByVal BlockObject As Object)

@@ -3,7 +3,7 @@ Imports System.Net
 Imports System.Text.RegularExpressions
 Imports System.Web.HttpUtility
 
-'<DebuggerStepThrough()> _
+<DebuggerStepThrough()> _
 Module Misc
 
     'Globals
@@ -116,7 +116,7 @@ Module Misc
         Public Text, Summary, StartTime, EditTime, Token, Section As String
         Public Result As String
         Public CaptchaId, CaptchaWord As String
-        Public Minor, Watch, Creating As Boolean
+        Public Minor, Watch, Creating, CannotUndo As Boolean
         Public [Error] As Boolean
         Public NoAutoSummary As Boolean
     End Class

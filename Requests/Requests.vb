@@ -131,7 +131,7 @@ Namespace Requests
 
         Protected Sub UndoEdit(ByVal Page As Page)
             If Page.LastEdit IsNot Nothing AndAlso Page.LastEdit.User.IsMe _
-                Then DoRevert(Page.LastEdit, False, Config.UndoSummary, True)
+                Then DoRevert(Page.LastEdit, Config.UndoSummary, Undoing:=True)
         End Sub
 
         Protected Sub UndoEdit(ByVal Page As String)
@@ -322,13 +322,13 @@ Namespace Requests
         End Sub
 
         Protected Function GetEditData(ByVal Page As String, Optional ByVal Rev As String = Nothing, _
-            Optional ByVal Section As Integer = -1) As EditData
+            Optional ByVal Section As Integer = -1, Optional ByVal Undo As Boolean = False) As EditData
 
-            Return GetEditData(GetPage(Page), Rev, Section)
+            Return GetEditData(GetPage(Page), Rev, Section, Undo)
         End Function
 
         Protected Function GetEditData(ByVal Page As Page, Optional ByVal Rev As String = Nothing, _
-            Optional ByVal Section As Integer = -1) As EditData
+            Optional ByVal Section As Integer = -1, Optional ByVal Undo As Boolean = False) As EditData
 
             Dim Retries As Integer = 3, Result As String = Nothing
             Dim TimeMatch, TokenMatch As Match, Data As New EditData
@@ -336,8 +336,10 @@ Namespace Requests
             Data.Page = Page
             If Section > -1 Then Data.Section = CStr(Section)
 
-            Dim QueryString As String = Config.SitePath & "w/index.php?title=" & UrlEncode(Data.Page.Name) & "&action=edit"
-            If Rev IsNot Nothing Then QueryString &= "&oldid=" & Rev
+            Dim QueryString As String = Config.SitePath & "w/index.php?title=" & _
+                UrlEncode(Data.Page.Name) & "&action=edit"
+
+            If Rev IsNot Nothing Then If Undo Then QueryString &= "&undo=" & Rev Else QueryString &= "&oldid=" & Rev
             If Data.Section IsNot Nothing Then QueryString &= "&section=" & Data.Section
 
             Mode = Modes.Get
@@ -400,17 +402,12 @@ Namespace Requests
 
             Loop Until (TimeMatch.Success AndAlso TokenMatch.Success) OrElse Retries = 0
 
-            If Retries = 0 Then
+            If Retries = 0 OrElse Not Result.Contains("<textarea") Then
                 Data.Error = True
                 Return Data
             End If
 
             If Result.Contains("class=""selected new""><a ") Then Data.Creating = True
-
-            If Not Result.Contains("<textarea") Then
-                Data.Error = True
-                Return Data
-            End If
 
             Result = FindString(Result, "<textarea", ">", "</textarea>")
 
@@ -419,6 +416,8 @@ Namespace Requests
             Data.Text = HtmlDecode(Result)
             Data.Token = TokenMatch.Groups(1).Value
 
+            If Undo AndAlso Result.Contains("id=""mw-undo-failure""") Then Data.CannotUndo = True
+            
             Return Data
         End Function
 
