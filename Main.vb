@@ -21,6 +21,9 @@ Class Main
         LoadLists()
         SetQueues()
 
+        'Temporary bugfix
+        Config.RollbackSummary = Config.RollbackSummary.Replace("$1", "$3").Replace("$2", "$1").Replace("$3", "$2")
+
         InitialTab.Parent = Tabs.TabPages(0)
         CurrentTab = InitialTab
         CurrentQueue = Queue.Default
