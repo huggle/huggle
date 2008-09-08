@@ -422,7 +422,7 @@ Module ConfigIO
 
     Private Sub SetLatestVersion(ByVal VersionString As String)
         Config.LatestVersion = New Version(CInt(VersionString.Substring(0, 1)), _
-            CInt(VersionString.Substring(2, 1)), CInt(VersionString.Substring(4)), 0)
+            CInt(VersionString.Substring(2, 1)), CInt(VersionString.Substring(4)))
     End Sub
 
     Private Sub SetMinor(ByVal Value As String)
@@ -451,7 +451,7 @@ Module ConfigIO
 
     Private Sub SetMinVersion(ByVal VersionString As String)
         Config.MinVersion = New Version(CInt(VersionString.Substring(0, 1)), _
-            CInt(VersionString.Substring(2, 1)), CInt(VersionString.Substring(4)), 0)
+            CInt(VersionString.Substring(2, 1)), CInt(VersionString.Substring(4)))
     End Sub
 
     Private Sub SetNamespaceNames(ByVal Items As List(Of String))
