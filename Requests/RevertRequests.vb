@@ -32,7 +32,10 @@ Namespace Requests
                 Exit Sub
             End If
 
-            If Summary IsNot Nothing Then Data.Summary = Summary Else Data.Summary = GetReversionSummary(Edit)
+            If Summary IsNot Nothing _
+                Then Data.Summary = Summary.Replace("$1", Edit.Page.LastEdit.User.Name).Replace("$2", Edit.User.Name) _
+                Else Data.Summary = GetReversionSummary(Edit)
+
             Data.Minor = Config.MinorReverts
             Data.Watch = Config.WatchReverts
 
@@ -184,22 +187,17 @@ Namespace Requests
             'Set automatic summary
             Dim NextEdit As Edit = Edit
 
-            If Summary Is Nothing Then
-                While True
-                    If NextEdit.User IsNot Edit.User Then
-                        If Config.RollbackSummary IsNot Nothing Then Summary = Config.RollbackSummary.Replace _
-                            ("$1", Edit.User.Name).Replace("$2", NextEdit.User.Name)
-                        Exit While
-                    End If
+            While NextEdit.Prev IsNot Nothing AndAlso NextEdit.Prev IsNot NullEdit AndAlso NextEdit.User Is Edit.User
+                NextEdit = NextEdit.Prev
+            End While
 
-                    If NextEdit.Prev Is Nothing OrElse NextEdit.Prev Is NullEdit Then
-                        If Config.RollbackSummaryUnknown IsNot Nothing Then _
-                            Summary = Config.RollbackSummaryUnknown.Replace("$1", Edit.User.Name)
-                        Exit While
-                    End If
+            If Summary Is Nothing Then If NextEdit.User Is Edit.User Then Summary = Config.RollbackSummaryUnknown _
+                Else Summary = Config.RollbackSummary
 
-                    NextEdit = NextEdit.Prev
-                End While
+            If Summary IsNot Nothing Then
+                Summary = Summary.Replace("$1", Edit.User.Name)
+                If NextEdit.User Is Edit.User Then Summary = Summary.Replace("$2", "another user") _
+                    Else Summary = Summary.Replace("$2", NextEdit.User.Name)
             End If
 
             Dim QueryString As String = Edit.RollbackUrl
@@ -323,7 +321,9 @@ Namespace Requests
             Data.Page = Page
 
             If Summary IsNot Nothing AndAlso Summary <> "" Then Data.Summary = Summary _
-                Else Data.Summary = Config.RevertSummary.Replace("$1", ExcludeUser.Name).Replace("$2", OldUser)
+                Else Data.Summary = Config.RevertSummary
+
+            Data.Summary = Data.Summary.Replace("$1", ExcludeUser.Name).Replace("$2", OldUser)
 
             Data.Text = Result.Substring(Result.IndexOf("<rev user=""") + 11)
             Data.Text = Data.Text.Substring(Data.Text.IndexOf(">") + 1)
