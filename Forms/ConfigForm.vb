@@ -1,9 +1,12 @@
 Class ConfigForm
 
     Private ShortcutKeysClone As Dictionary(Of String, Shortcut)
+    Private Initializing As Boolean
 
     Private Sub ConfigForm_Load() Handles MyBase.Load
         Icon = My.Resources.icon_red_button
+
+        Initializing = True
 
         RememberMe.Checked = Config.RememberMe
         RememberPassword.Checked = Config.RememberPassword
@@ -90,6 +93,8 @@ Class ConfigForm
         ColorTemplate.BackColor = Highlight.TemplateC
 
         InitialiseShortcutList()
+
+        Initializing = False
     End Sub
 
     Private Sub InitialiseShortcutList()
@@ -288,7 +293,7 @@ Class ConfigForm
     End Sub
 
     Private Sub RememberPassword_CheckedChanged() Handles RememberPassword.CheckedChanged
-        If RememberPassword.Checked Then MessageBox.Show _
+        If Not Initializing AndAlso RememberPassword.Checked Then MessageBox.Show _
             ("If this option is selected, your password will be stored locally, unencrypted." & CRLF & _
             "If this bothers you, do not select this option (though it shouldn't, as your password " & CRLF & _
             "is sent unencrypted across the Web every time you log in anyway).", "Huggle", _
