@@ -582,8 +582,6 @@ Module ConfigIO
                 End If
             Next Item
         End If
-
-        If Not QueueNames.ContainsKey(Config.Project) Then QueueNames.Add(Config.Project, New List(Of String))
     End Sub
 
     Private Sub SetShortcutsFromConfig(ByVal Value As String)
@@ -697,6 +695,8 @@ Module ConfigIO
 
     Public Sub SetQueues()
         Queue.All.Clear()
+
+        If Not QueueNames.ContainsKey(Config.Project) Then QueueNames.Add(Config.Project, New List(Of String))
 
         'Load queues from application data subfolder
         If Directory.Exists(QueuesLocation) Then
