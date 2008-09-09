@@ -1189,7 +1189,7 @@ Class Main
         For Each Item As ToolStripItem In UndoMenu.Items
             If CType(Item.Tag, Command) Is ThisCommand Then
                 UndoMenu.Items.Remove(Item)
-                If UndoMenu.Items.Count = 0 Then UndoMenu.Enabled = False
+                If UndoMenu.Items.Count = 0 Then UndoB.Enabled = False
                 Exit For
             End If
         Next Item
@@ -1202,7 +1202,7 @@ Class Main
             If CType(MenuItem.Tag, Command) Is Item Then
                 Undo.Remove(Item)
                 UndoMenu.Items.Remove(MenuItem)
-                If UndoMenu.Items.Count = 0 Then UndoMenu.Enabled = False
+                If UndoMenu.Items.Count = 0 Then UndoB.Enabled = False
 
                 Select Case Item.Type
                     Case CommandType.Edit, CommandType.Revert, CommandType.Warning, CommandType.Report

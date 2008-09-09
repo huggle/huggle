@@ -397,9 +397,11 @@ Namespace Requests
         Public Users As New List(Of User)
 
         Public Sub Start()
-            Dim RequestThread As New Thread(AddressOf Process)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
+            If Users.Count > 0 Then
+                Dim RequestThread As New Thread(AddressOf Process)
+                RequestThread.IsBackground = True
+                RequestThread.Start()
+            End If
         End Sub
 
         Private Sub Process()

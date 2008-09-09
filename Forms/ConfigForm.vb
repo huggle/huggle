@@ -212,7 +212,7 @@ Class ConfigForm
     End Sub
 
     Private Sub AddSummary_Click() Handles AddSummary.Click
-        Dim Item As String = InputBox.Show("Enter summary")
+        Dim Item As String = InputBox.Show("Enter summary:")
         If Item <> "" Then RevertSummaries.Items.Add(Item)
     End Sub
 

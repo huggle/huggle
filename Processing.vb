@@ -55,6 +55,8 @@ Module Processing
                 End If
             Next Item
 
+            If Edit.Summary = Config.UndoSummary & " " & Config.Summary Then Edit.Type = EditType.Revert
+
             'Reverted users
             If Edit.Type = EditType.Revert AndAlso Edit.Summary.ToLower.Contains("[[special:contributions/") Then
                 Dim Username As String = Edit.Summary.Substring(Edit.Summary.ToLower.IndexOf _
