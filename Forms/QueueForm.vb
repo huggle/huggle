@@ -25,7 +25,8 @@ Class QueueForm
         Next Item
 
         SetListSelector()
-        If QueueList.Items.Count > 0 Then QueueList.SelectedIndex = MainForm.QueueSelector.SelectedIndex
+        If QueueList.Items.Count > 0 AndAlso QueueList.Items.Count > MainForm.QueueSelector.SelectedIndex _
+            Then QueueList.SelectedIndex = MainForm.QueueSelector.SelectedIndex
         RefreshInterface()
     End Sub
 
