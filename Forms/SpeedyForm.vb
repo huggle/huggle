@@ -78,10 +78,12 @@ Class SpeedyForm
             Me.Height += 30
             Param.Text = "url="
         Else
-            Param.Visible = False
-            ParamLabel.Visible = False
-            Me.Height -= 30
-        End If
+            If Param.Visible = True Then
+                Me.Height -= 30
+                Param.Visible = False
+                ParamLabel.Visible = False
+            End If
+            End If
     End Sub
 
 End Class
