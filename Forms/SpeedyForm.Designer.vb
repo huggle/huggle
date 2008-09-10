@@ -34,7 +34,7 @@ Partial Class SpeedyForm
         'Cancel
         '
         Me.Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Cancel.Location = New System.Drawing.Point(222, 70)
+        Me.Cancel.Location = New System.Drawing.Point(218, 68)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
         Me.Cancel.TabIndex = 4
@@ -45,7 +45,7 @@ Partial Class SpeedyForm
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.OK.Enabled = False
-        Me.OK.Location = New System.Drawing.Point(141, 70)
+        Me.OK.Location = New System.Drawing.Point(137, 68)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
         Me.OK.TabIndex = 3
@@ -56,7 +56,7 @@ Partial Class SpeedyForm
         '
         Me.NotifyCreator.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.NotifyCreator.AutoSize = True
-        Me.NotifyCreator.Location = New System.Drawing.Point(15, 72)
+        Me.NotifyCreator.Location = New System.Drawing.Point(15, 70)
         Me.NotifyCreator.Name = "NotifyCreator"
         Me.NotifyCreator.Size = New System.Drawing.Size(116, 17)
         Me.NotifyCreator.TabIndex = 2
@@ -83,7 +83,7 @@ Partial Class SpeedyForm
         Me.Criterion.Location = New System.Drawing.Point(64, 12)
         Me.Criterion.MaxDropDownItems = 20
         Me.Criterion.Name = "Criterion"
-        Me.Criterion.Size = New System.Drawing.Size(233, 21)
+        Me.Criterion.Size = New System.Drawing.Size(229, 21)
         Me.Criterion.TabIndex = 1
         '
         'ParamLabel
@@ -101,14 +101,14 @@ Partial Class SpeedyForm
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Param.Location = New System.Drawing.Point(128, 42)
         Me.Param.Name = "Param"
-        Me.Param.Size = New System.Drawing.Size(168, 20)
+        Me.Param.Size = New System.Drawing.Size(164, 20)
         Me.Param.TabIndex = 6
         '
         'SpeedyForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(309, 97)
+        Me.ClientSize = New System.Drawing.Size(305, 95)
         Me.Controls.Add(Me.Param)
         Me.Controls.Add(Me.ParamLabel)
         Me.Controls.Add(Me.Criterion)
