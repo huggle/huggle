@@ -536,6 +536,7 @@
     <None Include="Resources\blobs\blob-warn-3.png" />
     <None Include="Resources\blobs\blob-warn-4.png" />
     <None Include="Resources\blobs\blob-warning.png" />
+    <None Include="Resources\huggle-logo.png" />
     <None Include="Resources\icons\browser-add-tab.png" />
     <None Include="Resources\icons\browser-next.png" />
     <None Include="Resources\icons\browser-open.png" />
@@ -547,9 +548,11 @@
     <None Include="Resources\icons\contribs-prev.png" />
     <None Include="Resources\icons\diff-revert.png" />
     <None Include="Resources\icons\gradient.png" />
+    <None Include="Resources\icons\gray-down.png" />
     <None Include="Resources\icons\gray-last.png" />
     <None Include="Resources\icons\gray-next.png" />
     <None Include="Resources\icons\gray-previous.png" />
+    <None Include="Resources\icons\gray-up.png" />
     <None Include="Resources\icons\history-last.png" />
     <None Include="Resources\icons\history-next.png" />
     <None Include="Resources\icons\history-previous.png" />
@@ -557,6 +560,7 @@
     <None Include="Resources\icons\page-delete.png" />
     <None Include="Resources\icons\page-edit.png" />
     <None Include="Resources\icons\page-tag.png" />
+    <None Include="Resources\icons\page-tag-delete.png" />
     <None Include="Resources\icons\page-unwatch.png" />
     <None Include="Resources\icons\page-view.png" />
     <None Include="Resources\icons\page-watch.png" />
@@ -565,6 +569,7 @@
     <None Include="Resources\icons\tri_none.png" />
     <None Include="Resources\icons\tri_yes.png" />
     <None Include="Resources\icons\undo.png" />
+    <None Include="Resources\icons\user-block.png" />
     <None Include="Resources\icons\user-info.png" />
     <None Include="Resources\icons\user-message.png" />
     <None Include="Resources\icons\user-report.png" />
@@ -574,21 +579,7 @@
     <None Include="Resources\icons\user-warn.png" />
     <None Include="Resources\icons\user-whitelist.png" />
     <None Include="Resources\WikiPageHtml.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\huggle-logo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icons\user-block.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icons\page-tag-delete.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icons\gray-down.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\icons\gray-up.png" />
+    <Content Include="Localization\en.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
 </Project>

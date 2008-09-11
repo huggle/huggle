@@ -387,6 +387,18 @@ Module Misc
             "<body>" & Text & "</body></html>"
     End Function
 
+    Function Msg(ByVal Name As String, ByVal ParamArray Params() As String) As String
+        'Returns a formatted message string localized to the user's language,
+        'or in the default language if no localized message is available
+        If Config.Messages(Config.Language).ContainsKey(Name) Then
+            Return String.Format(Config.Messages(Config.Language)(Name), Params)
+        ElseIf Config.Messages(Config.DefaultLanguage).ContainsKey(Name) Then
+            Return String.Format(Config.Messages(Config.DefaultLanguage)(Name), Params)
+        Else
+            Return "[" & Name & "]"
+        End If
+    End Function
+
     Function OpenUrlInBrowser(ByVal Url As String) As Boolean
         Try
             Process.Start(Url)

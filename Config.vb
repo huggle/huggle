@@ -6,22 +6,43 @@ Class Configuration
 
     'Configuration
 
+    'Constants
+
+    Public ReadOnly ContribsBlockSize As Integer = 100
+    Public ReadOnly DefaultLanguage As String = "en"
+    Public ReadOnly HistoryBlockSize As Integer = 100
+    Public ReadOnly HistoryScrollSpeed As Integer = 25
+    Public ReadOnly IrcConnectionTimeout As Integer = 60000
+    Public ReadOnly Languages As String() = {"en"}
+    Public ReadOnly QueueSize As Integer = 5000
+    Public ReadOnly QueueWidth As Integer = 160
+
+    'Values only used at runtime
+
     Public ConfigChanged As Boolean
     Public ConfigVersion As New Version(0, 0, 0)
-    Public ContribsBlockSize As Integer = 100
-    Public HistoryBlockSize As Integer = 100
-    Public HistoryScrollSpeed As Integer = 25
-    Public IrcConnectionTimeout As Integer = 60000
     Public LatestVersion As New Version(0, 0, 0)
-    Public QueueSize As Integer = 5000
-    Public QueueWidth As Integer = 160
+    Public Messages As New Dictionary(Of String, Dictionary(Of String, String))
     Public Password As String
     Public SitePath As String = "http://en.wikipedia.org/"
     Public Version As New Version(Application.ProductVersion)
     Public WarningMessages As New Dictionary(Of String, String)
 
+    Public Projects As New List(Of String)(New String() { _
+        "en.wikipedia;en.wikipedia.org", _
+        "bg.wikipedia;bg.wikipedia.org", _
+        "de.wikipedia;de.wikipedia.org", _
+        "es.wikipedia;es.wikipedia.org", _
+        "no.wikipedia;no.wikipedia.org", _
+        "pt.wikipedia;pt.wikipedia.org", _
+        "ru.wikipedia;ru.wikipedia.org", _
+        "commons;commons.wikimedia.org", _
+        "meta;meta.wikimedia.org", _
+        "test wiki;test.wikipedia.org"})
+
     'Values stored in local config file
 
+    Public Language As String
     Public Project As String
     Public ProxyUsername As String
     Public ProxyUserDomain As String
@@ -115,18 +136,6 @@ Class Configuration
     Public ProdMessageTitle As String
     Public ProdSummary As String
     Public ProjectConfigLocation As String
-    Public Projects As New List(Of String)(New String() { _
-        "en.wikipedia;en.wikipedia.org", _
-        "bg.wikipedia;bg.wikipedia.org", _
-        "de.wikipedia;de.wikipedia.org", _
-        "es.wikipedia;es.wikipedia.org", _
-        "no.wikipedia;no.wikipedia.org", _
-        "pt.wikipedia;pt.wikipedia.org", _
-        "ru.wikipedia;ru.wikipedia.org", _
-        "commons;commons.wikimedia.org", _
-        "meta;meta.wikimedia.org", _
-        "test wiki;test.wikipedia.org" _
-        })
     Public PromptForBlock As Boolean = True
     Public PromptForReport As Boolean
     Public Protect As Boolean
@@ -557,6 +566,7 @@ Module ConfigIO
 
                     Select Case OptionName
                         Case "irc" : Config.IrcMode = CBool(OptionValue)
+                        Case "language" : Config.Language = OptionValue
                         Case "log-file" : Config.LogFile = OptionValue
                         Case "password" : Config.Password = OptionValue : Config.RememberPassword = True
                         Case "project" : Config.Project = OptionValue
@@ -582,6 +592,8 @@ Module ConfigIO
                 End If
             Next Item
         End If
+
+        If Config.Language Is Nothing Then Config.Language = Config.DefaultLanguage
     End Sub
 
     Private Sub SetShortcutsFromConfig(ByVal Value As String)
@@ -604,6 +616,7 @@ Module ConfigIO
             Dim Items As New List(Of String)
 
             Items.Add("irc:" & CStr(Config.IrcMode).ToLower)
+            Items.Add("language:" & CStr(Config.Language))
             Items.Add("log-file:" & Config.LogFile)
             If Config.RememberPassword Then Items.Add("password:" & Config.Password)
             Items.Add("project:" & Config.Project)
@@ -656,6 +669,26 @@ Module ConfigIO
             (New String() {","}, StringSplitOptions.RemoveEmptyEntries)
 
             Config.RevertSummaries.Add(Item.Replace(Convert.ToChar(1), ","))
+        Next Item
+    End Sub
+
+    Public Sub LoadLanguages()
+        'Load localized message files
+        Config.Messages.Clear()
+        LoadLanguage("en", My.Resources.en)
+    End Sub
+
+    Private Sub LoadLanguage(ByVal Name As String, ByVal MessageFile As String)
+        'Load message file
+        Config.Messages.Add(Name, New Dictionary(Of String, String))
+
+        For Each Item As String In MessageFile.Split(New String() {CRLF}, StringSplitOptions.RemoveEmptyEntries)
+            If Item.Contains(":") Then
+                Dim MsgName As String = Item.Substring(0, Item.IndexOf(":")).Trim(" "c)
+                Dim MsgValue As String = Item.Substring(Item.IndexOf(":") + 1).Trim(" "c)
+
+                Config.Messages(Name).Add(MsgName, MsgValue)
+            End If
         Next Item
     End Sub
 

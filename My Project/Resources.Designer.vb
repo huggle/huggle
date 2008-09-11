@@ -305,6 +305,15 @@ Namespace My.Resources
             End Get
         End Property
         
+        '''<summary>
+        '''  Looks up a localized string similar to name:English.
+        '''</summary>
+        Friend ReadOnly Property en() As String
+            Get
+                Return ResourceManager.GetString("en", resourceCulture)
+            End Get
+        End Property
+        
         Friend ReadOnly Property gradient() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("gradient", resourceCulture)

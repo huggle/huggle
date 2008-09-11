@@ -9,11 +9,18 @@ Class LoginForm
     Private Sub LoginForm_Load() Handles Me.Load
         SyncContext = SynchronizationContext.Current
         Icon = My.Resources.icon_red_button
-        Height = 286
+        Height = 314
 
         Config = New Configuration
         LoadLocalConfig()
+        LoadLanguages()
         Text = "Huggle " & VersionString(Config.Version)
+
+        For Each Item As String In Config.Languages
+            If Config.Messages(Item).ContainsKey("name") Then Language.Items.Add(Config.Messages(Item)("name"))
+        Next Item
+
+        Language.SelectedItem = Config.Messages(Config.DefaultLanguage)("name")
 
 #If DEBUG Then
         'If the app is in debug mode add a localhost wiki to the project list
@@ -24,7 +31,7 @@ Class LoginForm
             If Item.Contains(";") Then Project.Items.Add(Item.Substring(0, Item.IndexOf(";")))
         Next Item
 
-        If Project.Items.Count > 0 Then Project.SelectedIndex = 0
+        If Config.Project IsNot Nothing Then Project.SelectedItem = Config.Project Else Project.SelectedIndex = 0
 
         Proxy.Checked = Config.ProxyEnabled
         ProxyPort.Text = Config.ProxyPort
@@ -52,7 +59,8 @@ Class LoginForm
 
         For Each Item As String In Config.Projects
             If Item.StartsWith(Project.Text & ";") Then
-                Config.Project = Item.Substring(Item.IndexOf(";") + 1)
+                Config.Project = Item.Substring(0, Item.IndexOf(";"))
+                Config.SitePath = "http://" & Item.Substring(Item.IndexOf(";") + 1) & "/"
                 Exit For
             End If
         Next Item
@@ -66,7 +74,6 @@ Class LoginForm
         Config.ProxyServer = ProxyAddress.Text.Replace("http://", "")
         Config.ProxyUserDomain = ProxyDomain.Text
         Config.ProxyUsername = ProxyUsername.Text
-        Config.SitePath = "http://" & Config.Project & "/"
         Config.Username = User.SanitizeName(Username.Text)
         Config.Password = Password.Text
 
@@ -168,6 +175,15 @@ Class LoginForm
     Sub UpdateStatus(ByVal MessageObject As Object)
         Status.Text = CStr(MessageObject)
         If Progress.Value <= Progress.Maximum - 1 Then Progress.Value += 1
+    End Sub
+
+    Private Sub Language_SelectedIndexChanged() Handles Language.SelectedIndexChanged
+        For Each Item As String In Config.Languages
+            If Config.Messages(Item)("name") = Language.SelectedItem.ToString Then
+                Config.Language = Item
+                Exit For
+            End If
+        Next Item
     End Sub
 
 End Class
