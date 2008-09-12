@@ -821,7 +821,9 @@ Module Processing
                 End If
             End If
 
-            If Config.PageCreatedPattern.IsMatch(Edit.Prev.Summary) AndAlso Edit.Prev.Prev Is Nothing Then
+            If Config.PageCreatedPattern IsNot Nothing AndAlso Config.PageCreatedPattern.IsMatch(Edit.Prev.Summary) _
+                AndAlso Edit.Prev.Prev Is Nothing Then
+
                 Edit.Prev.NewPage = True
                 Edit.Prev.Prev = NullEdit
                 Edit.Page.FirstEdit = Edit.Prev
