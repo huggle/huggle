@@ -263,10 +263,10 @@
     <Compile Include="Forms\UserInfoForm.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\VersionForm.Designer.vb">
-      <DependentUpon>VersionForm.vb</DependentUpon>
+    <Compile Include="Forms\UpdateForm.Designer.vb">
+      <DependentUpon>UpdateForm.vb</DependentUpon>
     </Compile>
-    <Compile Include="Forms\VersionForm.vb">
+    <Compile Include="Forms\UpdateForm.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\WarningForm.Designer.vb">
@@ -478,8 +478,8 @@
       <SubType>Designer</SubType>
       <DependentUpon>UserInfoForm.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\VersionForm.resx">
-      <DependentUpon>VersionForm.vb</DependentUpon>
+    <EmbeddedResource Include="Forms\UpdateForm.resx">
+      <DependentUpon>UpdateForm.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\WarningForm.resx">

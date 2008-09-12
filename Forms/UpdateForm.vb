@@ -1,6 +1,6 @@
 Imports System.Diagnostics
 
-Class VersionForm
+Class UpdateForm
 
     Private FileName As String = "huggle " & VersionString(Config.LatestVersion) & ".exe"
     Private Request As UpdateRequest
