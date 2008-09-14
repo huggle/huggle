@@ -9,11 +9,10 @@ Class Configuration
     'Constants
 
     Public ReadOnly ContribsBlockSize As Integer = 100
-    Public ReadOnly DefaultLanguage As String = "en"
     Public ReadOnly HistoryBlockSize As Integer = 100
     Public ReadOnly HistoryScrollSpeed As Integer = 25
     Public ReadOnly IrcConnectionTimeout As Integer = 60000
-    Public ReadOnly Languages As String() = {"en"}
+    Public ReadOnly Languages As String() = {"en", "test"}
     Public ReadOnly QueueSize As Integer = 5000
     Public ReadOnly QueueWidth As Integer = 160
 
@@ -21,6 +20,7 @@ Class Configuration
 
     Public ConfigChanged As Boolean
     Public ConfigVersion As New Version(0, 0, 0)
+    Public DefaultLanguage As String = "en"
     Public LatestVersion As New Version(0, 0, 0)
     Public Messages As New Dictionary(Of String, Dictionary(Of String, String))
     Public Password As String
@@ -120,11 +120,10 @@ Class Configuration
     Public MinVersion As Version
     Public MinWarningWait As Integer = 10
     Public MonthHeadings As Boolean
-    Public MultipleRevertSummaryParts As New List(Of String)(New String() { _
-        "Reverted", "edit by", "edits by", "and", "other users", "to last version by", "to an older version by"})
+    Public MultipleRevertSummaryParts As List(Of String)
     Public OpenInBrowser As Boolean
     Public PageBlankedPattern As Regex
-    Public PageCreatedPattern As New Regex("←Created page with .*", RegexOptions.Compiled)
+    Public PageCreatedPattern As Regex
     Public PageRedirectedPattern As Regex
     Public PageReplacedPattern As Regex
     Public Patrol As Boolean
@@ -191,7 +190,7 @@ Class Configuration
     Public UpdateWhitelistManual As Boolean
     Public UseAdminFunctions As Boolean = True
     Public UserAgent As String = "Huggle/" & Version.Major.ToString & "." & Version.Minor.ToString & "." & _
-        Version.Build.ToString & " http://en.wikipedia.org/wiki/Huggle"
+        Version.Build.ToString & " http://en.wikipedia.org/wiki/Wikipedia:Huggle"
     Public UserConfigLocation As String = "Special:Mypage/huggle.css"
     Public UserListLocation As String
     Public UserListUpdateSummary As String
@@ -676,20 +675,27 @@ Module ConfigIO
         'Load localized message files
         Config.Messages.Clear()
         LoadLanguage("en", My.Resources.en)
+
+#If DEBUG Then
+        LoadLanguage("test", "name:Test")
+        Config.DefaultLanguage = "test"
+#End If
     End Sub
 
     Private Sub LoadLanguage(ByVal Name As String, ByVal MessageFile As String)
         'Load message file
         Config.Messages.Add(Name, New Dictionary(Of String, String))
 
-        For Each Item As String In MessageFile.Split(New String() {CRLF}, StringSplitOptions.RemoveEmptyEntries)
-            If Item.Contains(":") Then
-                Dim MsgName As String = Item.Substring(0, Item.IndexOf(":")).Trim(" "c)
-                Dim MsgValue As String = Item.Substring(Item.IndexOf(":") + 1).Trim(" "c)
+        If MessageFile IsNot Nothing Then
+            For Each Item As String In MessageFile.Split(New String() {CRLF}, StringSplitOptions.RemoveEmptyEntries)
+                If Item.Contains(":") Then
+                    Dim MsgName As String = Item.Substring(0, Item.IndexOf(":")).Trim(" "c)
+                    Dim MsgValue As String = Item.Substring(Item.IndexOf(":") + 1).Trim(" "c)
 
-                Config.Messages(Name).Add(MsgName, MsgValue)
-            End If
-        Next Item
+                    Config.Messages(Name).Add(MsgName, MsgValue)
+                End If
+            Next Item
+        End If
     End Sub
 
     Public Sub LoadLists()
