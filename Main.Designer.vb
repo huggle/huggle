@@ -35,11 +35,11 @@ Partial Class Main
         Me.TrayExit = New System.Windows.Forms.ToolStripMenuItem
         Me.TopMenu = New System.Windows.Forms.MenuStrip
         Me.MenuSystem = New System.Windows.Forms.ToolStripMenuItem
-        Me.SystemShowNewMessages = New System.Windows.Forms.ToolStripMenuItem
+        Me.SystemMessages = New System.Windows.Forms.ToolStripMenuItem
         Me.SystemReconnectIRC = New System.Windows.Forms.ToolStripMenuItem
         Me.SystemSaveLog = New System.Windows.Forms.ToolStripMenuItem
         Me.Separator8 = New System.Windows.Forms.ToolStripSeparator
-        Me.SystemListBuilder = New System.Windows.Forms.ToolStripMenuItem
+        Me.SystemLists = New System.Windows.Forms.ToolStripMenuItem
         Me.SystemRequests = New System.Windows.Forms.ToolStripMenuItem
         Me.SystemStatistics = New System.Windows.Forms.ToolStripMenuItem
         Me.Separator18 = New System.Windows.Forms.ToolStripSeparator
@@ -57,9 +57,9 @@ Partial Class Main
         Me.QueueClearAll = New System.Windows.Forms.ToolStripMenuItem
         Me.Separator29 = New System.Windows.Forms.ToolStripSeparator
         Me.QueueOptions = New System.Windows.Forms.ToolStripMenuItem
-        Me.GoToMenu = New System.Windows.Forms.ToolStripMenuItem
-        Me.GoMyTalk = New System.Windows.Forms.ToolStripMenuItem
-        Me.GoMyContribs = New System.Windows.Forms.ToolStripMenuItem
+        Me.MenuGoto = New System.Windows.Forms.ToolStripMenuItem
+        Me.GotoMyTalk = New System.Windows.Forms.ToolStripMenuItem
+        Me.GotoMyContribs = New System.Windows.Forms.ToolStripMenuItem
         Me.GoSeparator = New System.Windows.Forms.ToolStripSeparator
         Me.MenuPage = New System.Windows.Forms.ToolStripMenuItem
         Me.PageSwitchTalk = New System.Windows.Forms.ToolStripMenuItem
@@ -67,17 +67,17 @@ Partial Class Main
         Me.PageView = New System.Windows.Forms.ToolStripMenuItem
         Me.PageViewLatest = New System.Windows.Forms.ToolStripMenuItem
         Me.PageHistory = New System.Windows.Forms.ToolStripMenuItem
-        Me.PageShowHistoryPage = New System.Windows.Forms.ToolStripMenuItem
+        Me.PageHistoryPage = New System.Windows.Forms.ToolStripMenuItem
         Me.Separator4 = New System.Windows.Forms.ToolStripSeparator
         Me.PageEdit = New System.Windows.Forms.ToolStripMenuItem
         Me.PageTag = New System.Windows.Forms.ToolStripMenuItem
-        Me.PageTagDelete = New System.Windows.Forms.ToolStripMenuItem
+        Me.PageReqDeletion = New System.Windows.Forms.ToolStripMenuItem
         Me.TagDeleteMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.PageXfd = New System.Windows.Forms.ToolStripMenuItem
         Me.PageTagProd = New System.Windows.Forms.ToolStripMenuItem
         Me.PageTagSpeedy = New System.Windows.Forms.ToolStripMenuItem
         Me.Separator23 = New System.Windows.Forms.ToolStripSeparator
-        Me.PageRequestProtection = New System.Windows.Forms.ToolStripMenuItem
+        Me.PageReqProtection = New System.Windows.Forms.ToolStripMenuItem
         Me.Separator14 = New System.Windows.Forms.ToolStripSeparator
         Me.PageWatch = New System.Windows.Forms.ToolStripMenuItem
         Me.PagePurge = New System.Windows.Forms.ToolStripMenuItem
@@ -115,7 +115,7 @@ Partial Class Main
         Me.BrowserNewEdits = New System.Windows.Forms.ToolStripMenuItem
         Me.BrowserNewContribs = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuHelp = New System.Windows.Forms.ToolStripMenuItem
-        Me.HelpDocs = New System.Windows.Forms.ToolStripMenuItem
+        Me.HelpDocumentation = New System.Windows.Forms.ToolStripMenuItem
         Me.HelpFeedback = New System.Windows.Forms.ToolStripMenuItem
         Me.Separator16 = New System.Windows.Forms.ToolStripSeparator
         Me.HelpAbout = New System.Windows.Forms.ToolStripMenuItem
@@ -126,8 +126,13 @@ Partial Class Main
         Me.QueueContainer = New System.Windows.Forms.Panel
         Me.QueueScroll = New System.Windows.Forms.VScrollBar
         Me.QueueSelector = New System.Windows.Forms.ComboBox
+        Me.QueueArea = New Huggle.QueuePanel
         Me.Tabs = New System.Windows.Forms.TabControl
         Me.TabPage1 = New System.Windows.Forms.TabPage
+        Me.InitialTab = New Huggle.BrowserTab
+        Me.Status = New Huggle.ListView2
+        Me.Url = New System.Windows.Forms.ColumnHeader
+        Me.Details = New System.Windows.Forms.ColumnHeader
         Me.ToolContainer = New System.Windows.Forms.ToolStripContainer
         Me.MainStrip = New System.Windows.Forms.ToolStrip
         Me.RevertWarnB = New System.Windows.Forms.ToolStripSplitButton
@@ -141,14 +146,15 @@ Partial Class Main
         Me.RevertWarnBio = New System.Windows.Forms.ToolStripMenuItem
         Me.Separator24 = New System.Windows.Forms.ToolStripSeparator
         Me.RevertWarnAdvanced = New System.Windows.Forms.ToolStripMenuItem
-        Me.DiffNextB = New System.Windows.Forms.ToolStripButton
+        Me.NextDiffB = New System.Windows.Forms.ToolStripButton
         Me.Separator17 = New System.Windows.Forms.ToolStripSeparator
-        Me.DiffRevertB = New System.Windows.Forms.ToolStripSplitButton
+        Me.RevertB = New System.Windows.Forms.ToolStripSplitButton
         Me.RevertMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.DiffRevertCurrentOnly = New System.Windows.Forms.ToolStripMenuItem
+        Me.RevertCurrentOnly = New System.Windows.Forms.ToolStripMenuItem
+        Me.Separator28 = New System.Windows.Forms.ToolStripSeparator
         Me.Separator20 = New System.Windows.Forms.ToolStripSeparator
-        Me.DiffRevertSummary = New System.Windows.Forms.ToolStripMenuItem
-        Me.UserTemplateB = New System.Windows.Forms.ToolStripDropDownButton
+        Me.RevertAdvanced = New System.Windows.Forms.ToolStripMenuItem
+        Me.TemplateB = New System.Windows.Forms.ToolStripDropDownButton
         Me.TemplateMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.UserMessageWelcome = New System.Windows.Forms.ToolStripMenuItem
         Me.Separator13 = New System.Windows.Forms.ToolStripSeparator
@@ -214,12 +220,6 @@ Partial Class Main
         Me.UserBlockB = New System.Windows.Forms.ToolStripButton
         Me.RateUpdateTimer = New System.Windows.Forms.Timer(Me.components)
         Me.EditInfo = New Huggle.EditInfoPanel
-        Me.QueueArea = New Huggle.QueuePanel
-        Me.InitialTab = New Huggle.BrowserTab
-        Me.Status = New Huggle.ListView2
-        Me.Url = New System.Windows.Forms.ColumnHeader
-        Me.Details = New System.Windows.Forms.ColumnHeader
-        Me.Separator28 = New System.Windows.Forms.ToolStripSeparator
         Me.LogMenu.SuspendLayout()
         Me.TrayMenu.SuspendLayout()
         Me.TopMenu.SuspendLayout()
@@ -303,7 +303,7 @@ Partial Class Main
         Me.TopMenu.AutoSize = False
         Me.TopMenu.Dock = System.Windows.Forms.DockStyle.None
         Me.TopMenu.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TopMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuSystem, Me.MenuQueue, Me.GoToMenu, Me.MenuPage, Me.MenuUser, Me.MenuBrowser, Me.MenuHelp, Me.Stats})
+        Me.TopMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuSystem, Me.MenuQueue, Me.MenuGoto, Me.MenuPage, Me.MenuUser, Me.MenuBrowser, Me.MenuHelp, Me.Stats})
         Me.TopMenu.Location = New System.Drawing.Point(0, 0)
         Me.TopMenu.Name = "TopMenu"
         Me.TopMenu.Padding = New System.Windows.Forms.Padding(6, 0, 0, 0)
@@ -312,18 +312,18 @@ Partial Class Main
         '
         'MenuSystem
         '
-        Me.MenuSystem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SystemShowNewMessages, Me.SystemReconnectIRC, Me.SystemSaveLog, Me.Separator8, Me.SystemListBuilder, Me.SystemRequests, Me.SystemStatistics, Me.Separator18, Me.SystemShowLog, Me.SystemShowQueue, Me.SystemOptions, Me.Separator3, Me.SystemLogOut, Me.SystemExit})
+        Me.MenuSystem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SystemMessages, Me.SystemReconnectIRC, Me.SystemSaveLog, Me.Separator8, Me.SystemLists, Me.SystemRequests, Me.SystemStatistics, Me.Separator18, Me.SystemShowLog, Me.SystemShowQueue, Me.SystemOptions, Me.Separator3, Me.SystemLogOut, Me.SystemExit})
         Me.MenuSystem.Name = "MenuSystem"
         Me.MenuSystem.Size = New System.Drawing.Size(54, 24)
         Me.MenuSystem.Text = "&System"
         '
-        'SystemShowNewMessages
+        'SystemMessages
         '
-        Me.SystemShowNewMessages.Enabled = False
-        Me.SystemShowNewMessages.Name = "SystemShowNewMessages"
-        Me.SystemShowNewMessages.ShortcutKeyDisplayString = ""
-        Me.SystemShowNewMessages.Size = New System.Drawing.Size(173, 22)
-        Me.SystemShowNewMessages.Text = "Show new messages"
+        Me.SystemMessages.Enabled = False
+        Me.SystemMessages.Name = "SystemMessages"
+        Me.SystemMessages.ShortcutKeyDisplayString = ""
+        Me.SystemMessages.Size = New System.Drawing.Size(173, 22)
+        Me.SystemMessages.Text = "Show new messages"
         '
         'SystemReconnectIRC
         '
@@ -343,11 +343,11 @@ Partial Class Main
         Me.Separator8.Name = "Separator8"
         Me.Separator8.Size = New System.Drawing.Size(170, 6)
         '
-        'SystemListBuilder
+        'SystemLists
         '
-        Me.SystemListBuilder.Name = "SystemListBuilder"
-        Me.SystemListBuilder.Size = New System.Drawing.Size(173, 22)
-        Me.SystemListBuilder.Text = "List Builder..."
+        Me.SystemLists.Name = "SystemLists"
+        Me.SystemLists.Size = New System.Drawing.Size(173, 22)
+        Me.SystemLists.Text = "List Builder..."
         '
         'SystemRequests
         '
@@ -409,7 +409,6 @@ Partial Class Main
         '
         'MenuQueue
         '
-        Me.MenuQueue.AutoSize = False
         Me.MenuQueue.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.QueueNext, Me.Separator1, Me.QueueTrim, Me.QueueClear, Me.QueueClearAll, Me.Separator29, Me.QueueOptions})
         Me.MenuQueue.Name = "MenuQueue"
         Me.MenuQueue.Size = New System.Drawing.Size(51, 24)
@@ -459,24 +458,24 @@ Partial Class Main
         Me.QueueOptions.Size = New System.Drawing.Size(164, 22)
         Me.QueueOptions.Text = "Manage Queues..."
         '
-        'GoToMenu
+        'MenuGoto
         '
-        Me.GoToMenu.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.GoMyTalk, Me.GoMyContribs, Me.GoSeparator})
-        Me.GoToMenu.Name = "GoToMenu"
-        Me.GoToMenu.Size = New System.Drawing.Size(45, 24)
-        Me.GoToMenu.Text = "&Go to"
+        Me.MenuGoto.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.GotoMyTalk, Me.GotoMyContribs, Me.GoSeparator})
+        Me.MenuGoto.Name = "MenuGoto"
+        Me.MenuGoto.Size = New System.Drawing.Size(45, 24)
+        Me.MenuGoto.Text = "&Go to"
         '
-        'GoMyTalk
+        'GotoMyTalk
         '
-        Me.GoMyTalk.Name = "GoMyTalk"
-        Me.GoMyTalk.Size = New System.Drawing.Size(153, 22)
-        Me.GoMyTalk.Text = "My talk page"
+        Me.GotoMyTalk.Name = "GotoMyTalk"
+        Me.GotoMyTalk.Size = New System.Drawing.Size(153, 22)
+        Me.GotoMyTalk.Text = "My talk page"
         '
-        'GoMyContribs
+        'GotoMyContribs
         '
-        Me.GoMyContribs.Name = "GoMyContribs"
-        Me.GoMyContribs.Size = New System.Drawing.Size(153, 22)
-        Me.GoMyContribs.Text = "My contributions"
+        Me.GotoMyContribs.Name = "GotoMyContribs"
+        Me.GotoMyContribs.Size = New System.Drawing.Size(153, 22)
+        Me.GotoMyContribs.Text = "My contributions"
         '
         'GoSeparator
         '
@@ -485,7 +484,7 @@ Partial Class Main
         '
         'MenuPage
         '
-        Me.MenuPage.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PageSwitchTalk, Me.Separator27, Me.PageView, Me.PageViewLatest, Me.PageHistory, Me.PageShowHistoryPage, Me.Separator4, Me.PageEdit, Me.PageTag, Me.PageTagDelete, Me.PageRequestProtection, Me.Separator14, Me.PageWatch, Me.PagePurge, Me.Separator26, Me.PagePatrol, Me.PageMove, Me.PageProtect, Me.PageDelete})
+        Me.MenuPage.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PageSwitchTalk, Me.Separator27, Me.PageView, Me.PageViewLatest, Me.PageHistory, Me.PageHistoryPage, Me.Separator4, Me.PageEdit, Me.PageTag, Me.PageReqDeletion, Me.PageReqProtection, Me.Separator14, Me.PageWatch, Me.PagePurge, Me.Separator26, Me.PagePatrol, Me.PageMove, Me.PageProtect, Me.PageDelete})
         Me.MenuPage.Name = "MenuPage"
         Me.MenuPage.Size = New System.Drawing.Size(43, 24)
         Me.MenuPage.Text = "&Page"
@@ -522,11 +521,11 @@ Partial Class Main
         Me.PageHistory.Size = New System.Drawing.Size(178, 22)
         Me.PageHistory.Text = "Retrieve history"
         '
-        'PageShowHistoryPage
+        'PageHistoryPage
         '
-        Me.PageShowHistoryPage.Name = "PageShowHistoryPage"
-        Me.PageShowHistoryPage.Size = New System.Drawing.Size(178, 22)
-        Me.PageShowHistoryPage.Text = "Show history page"
+        Me.PageHistoryPage.Name = "PageHistoryPage"
+        Me.PageHistoryPage.Size = New System.Drawing.Size(178, 22)
+        Me.PageHistoryPage.Text = "Show history page"
         '
         'Separator4
         '
@@ -547,12 +546,12 @@ Partial Class Main
         Me.PageTag.Size = New System.Drawing.Size(178, 22)
         Me.PageTag.Text = "Tag..."
         '
-        'PageTagDelete
+        'PageReqDeletion
         '
-        Me.PageTagDelete.DropDown = Me.TagDeleteMenu
-        Me.PageTagDelete.Name = "PageTagDelete"
-        Me.PageTagDelete.Size = New System.Drawing.Size(178, 22)
-        Me.PageTagDelete.Text = "Request deletion"
+        Me.PageReqDeletion.DropDown = Me.TagDeleteMenu
+        Me.PageReqDeletion.Name = "PageReqDeletion"
+        Me.PageReqDeletion.Size = New System.Drawing.Size(178, 22)
+        Me.PageReqDeletion.Text = "Request deletion"
         '
         'TagDeleteMenu
         '
@@ -587,11 +586,11 @@ Partial Class Main
         Me.Separator23.Name = "Separator23"
         Me.Separator23.Size = New System.Drawing.Size(186, 6)
         '
-        'PageRequestProtection
+        'PageReqProtection
         '
-        Me.PageRequestProtection.Name = "PageRequestProtection"
-        Me.PageRequestProtection.Size = New System.Drawing.Size(178, 22)
-        Me.PageRequestProtection.Text = "Request protection..."
+        Me.PageReqProtection.Name = "PageReqProtection"
+        Me.PageReqProtection.Size = New System.Drawing.Size(178, 22)
+        Me.PageReqProtection.Text = "Request protection..."
         '
         'Separator14
         '
@@ -645,7 +644,6 @@ Partial Class Main
         '
         'MenuUser
         '
-        Me.MenuUser.AutoSize = False
         Me.MenuUser.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.UserInfo, Me.UserIgnore, Me.UserContribs, Me.UserTalk, Me.Separator5, Me.UserMessage, Me.UserEmail, Me.Separator25, Me.UserWarn, Me.UserReport, Me.UserBlock})
         Me.MenuUser.Name = "MenuUser"
         Me.MenuUser.Size = New System.Drawing.Size(41, 24)
@@ -752,7 +750,6 @@ Partial Class Main
         '
         'MenuBrowser
         '
-        Me.MenuBrowser.AutoSize = False
         Me.MenuBrowser.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BrowserNewTab, Me.BrowserCloseTab, Me.BrowserCloseOthers, Me.Separator2, Me.BrowserBack, Me.BrowserForward, Me.Separator6, Me.BrowserOpen, Me.Separator7, Me.BrowserNewEdits, Me.BrowserNewContribs})
         Me.MenuBrowser.Name = "MenuBrowser"
         Me.MenuBrowser.Size = New System.Drawing.Size(58, 24)
@@ -833,35 +830,34 @@ Partial Class Main
         '
         'MenuHelp
         '
-        Me.MenuHelp.AutoSize = False
-        Me.MenuHelp.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.HelpDocs, Me.HelpFeedback, Me.Separator16, Me.HelpAbout})
+        Me.MenuHelp.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.HelpDocumentation, Me.HelpFeedback, Me.Separator16, Me.HelpAbout})
         Me.MenuHelp.Name = "MenuHelp"
         Me.MenuHelp.Size = New System.Drawing.Size(40, 24)
         Me.MenuHelp.Text = "&Help"
         '
-        'HelpDocs
+        'HelpDocumentation
         '
-        Me.HelpDocs.Name = "HelpDocs"
-        Me.HelpDocs.ShortcutKeyDisplayString = ""
-        Me.HelpDocs.Size = New System.Drawing.Size(150, 22)
-        Me.HelpDocs.Text = "Documentation"
+        Me.HelpDocumentation.Name = "HelpDocumentation"
+        Me.HelpDocumentation.ShortcutKeyDisplayString = ""
+        Me.HelpDocumentation.Size = New System.Drawing.Size(151, 22)
+        Me.HelpDocumentation.Text = "Documentation"
         '
         'HelpFeedback
         '
         Me.HelpFeedback.Name = "HelpFeedback"
-        Me.HelpFeedback.Size = New System.Drawing.Size(150, 22)
+        Me.HelpFeedback.Size = New System.Drawing.Size(151, 22)
         Me.HelpFeedback.Text = "Feedback"
         '
         'Separator16
         '
         Me.Separator16.Name = "Separator16"
-        Me.Separator16.Size = New System.Drawing.Size(147, 6)
+        Me.Separator16.Size = New System.Drawing.Size(148, 6)
         '
         'HelpAbout
         '
         Me.HelpAbout.Name = "HelpAbout"
-        Me.HelpAbout.Size = New System.Drawing.Size(150, 22)
-        Me.HelpAbout.Text = "About huggle..."
+        Me.HelpAbout.Size = New System.Drawing.Size(151, 22)
+        Me.HelpAbout.Text = "About Huggle..."
         '
         'Stats
         '
@@ -953,6 +949,17 @@ Partial Class Main
         Me.QueueSelector.Size = New System.Drawing.Size(159, 21)
         Me.QueueSelector.TabIndex = 49
         '
+        'QueueArea
+        '
+        Me.QueueArea.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.QueueArea.BackColor = System.Drawing.SystemColors.Control
+        Me.QueueArea.Location = New System.Drawing.Point(0, 32)
+        Me.QueueArea.Name = "QueueArea"
+        Me.QueueArea.Size = New System.Drawing.Size(160, 120)
+        Me.QueueArea.TabIndex = 50
+        '
         'Tabs
         '
         Me.Tabs.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
@@ -978,6 +985,39 @@ Partial Class Main
         Me.TabPage1.Size = New System.Drawing.Size(601, 143)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.UseVisualStyleBackColor = True
+        '
+        'InitialTab
+        '
+        Me.InitialTab.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.InitialTab.Location = New System.Drawing.Point(0, 0)
+        Me.InitialTab.Name = "InitialTab"
+        Me.InitialTab.Size = New System.Drawing.Size(601, 143)
+        Me.InitialTab.TabIndex = 0
+        '
+        'Status
+        '
+        Me.Status.Activation = System.Windows.Forms.ItemActivation.OneClick
+        Me.Status.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.Url, Me.Details})
+        Me.Status.ContextMenuStrip = Me.LogMenu
+        Me.Status.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Status.FullRowSelect = True
+        Me.Status.GridLines = True
+        Me.Status.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
+        Me.Status.Location = New System.Drawing.Point(0, 0)
+        Me.Status.MultiSelect = False
+        Me.Status.Name = "Status"
+        Me.Status.Size = New System.Drawing.Size(792, 86)
+        Me.Status.TabIndex = 0
+        Me.Status.UseCompatibleStateImageBehavior = False
+        Me.Status.View = System.Windows.Forms.View.Details
+        '
+        'Url
+        '
+        Me.Url.Width = 0
+        '
+        'Details
+        '
+        Me.Details.Width = 770
         '
         'ToolContainer
         '
@@ -1007,7 +1047,7 @@ Partial Class Main
         '
         Me.MainStrip.Dock = System.Windows.Forms.DockStyle.None
         Me.MainStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden
-        Me.MainStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RevertWarnB, Me.DiffNextB, Me.Separator17, Me.DiffRevertB, Me.UserTemplateB, Me.WarnB, Me.Separator9, Me.CancelB, Me.UndoB, Me.Separator19})
+        Me.MainStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RevertWarnB, Me.NextDiffB, Me.Separator17, Me.RevertB, Me.TemplateB, Me.WarnB, Me.Separator9, Me.CancelB, Me.UndoB, Me.Separator19})
         Me.MainStrip.Location = New System.Drawing.Point(3, 24)
         Me.MainStrip.Name = "MainStrip"
         Me.MainStrip.Size = New System.Drawing.Size(358, 55)
@@ -1087,78 +1127,84 @@ Partial Class Main
         Me.RevertWarnAdvanced.Size = New System.Drawing.Size(225, 22)
         Me.RevertWarnAdvanced.Text = "&Advanced..."
         '
-        'DiffNextB
+        'NextDiffB
         '
-        Me.DiffNextB.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.DiffNextB.Enabled = False
-        Me.DiffNextB.Image = Global.Huggle.My.Resources.Resources.diff_next
-        Me.DiffNextB.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
-        Me.DiffNextB.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.DiffNextB.Name = "DiffNextB"
-        Me.DiffNextB.Size = New System.Drawing.Size(52, 52)
-        Me.DiffNextB.ToolTipText = "Show the next revision in the queue [Space]"
+        Me.NextDiffB.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.NextDiffB.Enabled = False
+        Me.NextDiffB.Image = Global.Huggle.My.Resources.Resources.diff_next
+        Me.NextDiffB.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.NextDiffB.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.NextDiffB.Name = "NextDiffB"
+        Me.NextDiffB.Size = New System.Drawing.Size(52, 52)
+        Me.NextDiffB.ToolTipText = "Show the next revision in the queue [Space]"
         '
         'Separator17
         '
         Me.Separator17.Name = "Separator17"
         Me.Separator17.Size = New System.Drawing.Size(6, 55)
         '
-        'DiffRevertB
+        'RevertB
         '
-        Me.DiffRevertB.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.DiffRevertB.DropDown = Me.RevertMenu
-        Me.DiffRevertB.DropDownButtonWidth = 16
-        Me.DiffRevertB.Enabled = False
-        Me.DiffRevertB.Image = Global.Huggle.My.Resources.Resources.diff_revert
-        Me.DiffRevertB.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
-        Me.DiffRevertB.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.DiffRevertB.Name = "DiffRevertB"
-        Me.DiffRevertB.Size = New System.Drawing.Size(57, 52)
-        Me.DiffRevertB.ToolTipText = "Revert this revision [R]"
+        Me.RevertB.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.RevertB.DropDown = Me.RevertMenu
+        Me.RevertB.DropDownButtonWidth = 16
+        Me.RevertB.Enabled = False
+        Me.RevertB.Image = Global.Huggle.My.Resources.Resources.diff_revert
+        Me.RevertB.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.RevertB.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.RevertB.Name = "RevertB"
+        Me.RevertB.Size = New System.Drawing.Size(57, 52)
+        Me.RevertB.ToolTipText = "Revert this revision [R]"
         '
         'RevertMenu
         '
-        Me.RevertMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DiffRevertCurrentOnly, Me.Separator28, Me.Separator20, Me.DiffRevertSummary})
+        Me.RevertMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RevertCurrentOnly, Me.Separator28, Me.Separator20, Me.RevertAdvanced})
         Me.RevertMenu.Name = "RevertMenu"
+        Me.RevertMenu.OwnerItem = Me.RevertB
         Me.RevertMenu.Size = New System.Drawing.Size(191, 60)
         '
-        'DiffRevertCurrentOnly
+        'RevertCurrentOnly
         '
-        Me.DiffRevertCurrentOnly.Name = "DiffRevertCurrentOnly"
-        Me.DiffRevertCurrentOnly.Size = New System.Drawing.Size(190, 22)
-        Me.DiffRevertCurrentOnly.Text = "Revert only this revision"
+        Me.RevertCurrentOnly.Name = "RevertCurrentOnly"
+        Me.RevertCurrentOnly.Size = New System.Drawing.Size(190, 22)
+        Me.RevertCurrentOnly.Text = "Revert only this revision"
+        '
+        'Separator28
+        '
+        Me.Separator28.Name = "Separator28"
+        Me.Separator28.Size = New System.Drawing.Size(187, 6)
         '
         'Separator20
         '
         Me.Separator20.Name = "Separator20"
         Me.Separator20.Size = New System.Drawing.Size(187, 6)
         '
-        'DiffRevertSummary
+        'RevertAdvanced
         '
-        Me.DiffRevertSummary.Name = "DiffRevertSummary"
-        Me.DiffRevertSummary.ShortcutKeyDisplayString = "Y"
-        Me.DiffRevertSummary.Size = New System.Drawing.Size(190, 22)
-        Me.DiffRevertSummary.Text = "Advanced..."
+        Me.RevertAdvanced.Name = "RevertAdvanced"
+        Me.RevertAdvanced.ShortcutKeyDisplayString = "Y"
+        Me.RevertAdvanced.Size = New System.Drawing.Size(190, 22)
+        Me.RevertAdvanced.Text = "Advanced..."
         '
-        'UserTemplateB
+        'TemplateB
         '
-        Me.UserTemplateB.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.UserTemplateB.DropDown = Me.TemplateMenu
-        Me.UserTemplateB.Enabled = False
-        Me.UserTemplateB.Image = Global.Huggle.My.Resources.Resources.user_template
-        Me.UserTemplateB.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
-        Me.UserTemplateB.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.UserTemplateB.Name = "UserTemplateB"
-        Me.UserTemplateB.Padding = New System.Windows.Forms.Padding(1, 0, 1, 0)
-        Me.UserTemplateB.ShowDropDownArrow = False
-        Me.UserTemplateB.Size = New System.Drawing.Size(42, 52)
-        Me.UserTemplateB.ToolTipText = "Send template message to user [T]"
+        Me.TemplateB.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.TemplateB.DropDown = Me.TemplateMenu
+        Me.TemplateB.Enabled = False
+        Me.TemplateB.Image = Global.Huggle.My.Resources.Resources.user_template
+        Me.TemplateB.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.TemplateB.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.TemplateB.Name = "TemplateB"
+        Me.TemplateB.Padding = New System.Windows.Forms.Padding(1, 0, 1, 0)
+        Me.TemplateB.ShowDropDownArrow = False
+        Me.TemplateB.Size = New System.Drawing.Size(42, 52)
+        Me.TemplateB.ToolTipText = "Send template message to user [T]"
         '
         'TemplateMenu
         '
         Me.TemplateMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.UserMessageWelcome, Me.Separator13, Me.Separator21, Me.UserMessageOther})
         Me.TemplateMenu.Name = "TemplateMenu"
-        Me.TemplateMenu.OwnerItem = Me.UserTemplateB
+        Me.TemplateMenu.OwnerItem = Me.TemplateB
         Me.TemplateMenu.Size = New System.Drawing.Size(174, 60)
         '
         'UserMessageWelcome
@@ -1325,7 +1371,7 @@ Partial Class Main
         Me.HistoryStrip.Location = New System.Drawing.Point(3, 79)
         Me.HistoryStrip.Name = "HistoryStrip"
         Me.HistoryStrip.Padding = New System.Windows.Forms.Padding(3, 0, 1, 0)
-        Me.HistoryStrip.Size = New System.Drawing.Size(728, 25)
+        Me.HistoryStrip.Size = New System.Drawing.Size(759, 25)
         Me.HistoryStrip.TabIndex = 4
         '
         'PageLabel
@@ -1755,60 +1801,11 @@ Partial Class Main
         '
         'EditInfo
         '
-        Me.EditInfo.Location = New System.Drawing.Point(220, 172)
+        Me.EditInfo.Location = New System.Drawing.Point(408, 157)
         Me.EditInfo.Name = "EditInfo"
         Me.EditInfo.Size = New System.Drawing.Size(353, 78)
         Me.EditInfo.TabIndex = 46
         Me.EditInfo.Visible = False
-        '
-        'QueueArea
-        '
-        Me.QueueArea.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.QueueArea.BackColor = System.Drawing.SystemColors.Control
-        Me.QueueArea.Location = New System.Drawing.Point(0, 32)
-        Me.QueueArea.Name = "QueueArea"
-        Me.QueueArea.Size = New System.Drawing.Size(160, 120)
-        Me.QueueArea.TabIndex = 50
-        '
-        'InitialTab
-        '
-        Me.InitialTab.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.InitialTab.Location = New System.Drawing.Point(0, 0)
-        Me.InitialTab.Name = "InitialTab"
-        Me.InitialTab.Size = New System.Drawing.Size(601, 143)
-        Me.InitialTab.TabIndex = 0
-        '
-        'Status
-        '
-        Me.Status.Activation = System.Windows.Forms.ItemActivation.OneClick
-        Me.Status.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.Url, Me.Details})
-        Me.Status.ContextMenuStrip = Me.LogMenu
-        Me.Status.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Status.FullRowSelect = True
-        Me.Status.GridLines = True
-        Me.Status.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
-        Me.Status.Location = New System.Drawing.Point(0, 0)
-        Me.Status.MultiSelect = False
-        Me.Status.Name = "Status"
-        Me.Status.Size = New System.Drawing.Size(792, 86)
-        Me.Status.TabIndex = 0
-        Me.Status.UseCompatibleStateImageBehavior = False
-        Me.Status.View = System.Windows.Forms.View.Details
-        '
-        'Url
-        '
-        Me.Url.Width = 0
-        '
-        'Details
-        '
-        Me.Details.Width = 770
-        '
-        'Separator28
-        '
-        Me.Separator28.Name = "Separator28"
-        Me.Separator28.Size = New System.Drawing.Size(187, 6)
         '
         'Main
         '
@@ -1870,7 +1867,7 @@ Partial Class Main
     Friend WithEvents MenuPage As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents MenuUser As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents MenuHelp As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents HelpDocs As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents HelpDocumentation As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents Separator3 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents QueueNext As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents Separator1 As System.Windows.Forms.ToolStripSeparator
@@ -1889,8 +1886,7 @@ Partial Class Main
     Friend WithEvents PageEdit As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents UserIgnore As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents PageMove As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents PageTagDelete As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents PageDelete As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents PageReqDeletion As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents UserContribs As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents UserTalk As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents Separator5 As System.Windows.Forms.ToolStripSeparator
@@ -1898,8 +1894,8 @@ Partial Class Main
     Friend WithEvents UserWarn As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents UserReport As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents UserBlock As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents SystemShowNewMessages As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents PageRequestProtection As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents SystemMessages As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents PageReqProtection As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents Separator6 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents BrowserNewEdits As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents BrowserNewContribs As System.Windows.Forms.ToolStripMenuItem
@@ -1959,11 +1955,11 @@ Partial Class Main
     Friend WithEvents Contribs As System.Windows.Forms.ToolStripLabel
     Friend WithEvents ContribsScrollRB As System.Windows.Forms.ToolStripButton
     Friend WithEvents Stats As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents DiffNextB As System.Windows.Forms.ToolStripButton
+    Friend WithEvents NextDiffB As System.Windows.Forms.ToolStripButton
     Friend WithEvents PageDeleteB As System.Windows.Forms.ToolStripButton
     Friend WithEvents UndoMenu As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents RevertMenu As System.Windows.Forms.ContextMenuStrip
-    Friend WithEvents DiffRevertSummary As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents RevertAdvanced As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents WarnB As System.Windows.Forms.ToolStripDropDownButton
     Friend WithEvents WarnMenu As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents WarnAdvanced As System.Windows.Forms.ToolStripMenuItem
@@ -1972,11 +1968,11 @@ Partial Class Main
     Friend WithEvents WarnSpam As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents WarnTest As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents WarnDelete As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents UserTemplateB As System.Windows.Forms.ToolStripDropDownButton
+    Friend WithEvents TemplateB As System.Windows.Forms.ToolStripDropDownButton
     Friend WithEvents TemplateMenu As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents UserMessageOther As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents UserMessageWelcome As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents DiffRevertB As System.Windows.Forms.ToolStripSplitButton
+    Friend WithEvents RevertB As System.Windows.Forms.ToolStripSplitButton
     Friend WithEvents Status As Huggle.ListView2
     Friend WithEvents Url As System.Windows.Forms.ColumnHeader
     Friend WithEvents Details As System.Windows.Forms.ColumnHeader
@@ -2001,7 +1997,7 @@ Partial Class Main
     Friend WithEvents Separator13 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents WarnError As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents WarnNpov As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents PageShowHistoryPage As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents PageHistoryPage As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents QueueOptions As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents RevertWarnB As System.Windows.Forms.ToolStripSplitButton
     Friend WithEvents RevertWarnVandalism As System.Windows.Forms.ToolStripMenuItem
@@ -2018,9 +2014,9 @@ Partial Class Main
     Friend WithEvents SystemShowLog As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents SystemShowQueue As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents Separator8 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents GoToMenu As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents GoMyTalk As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents GoMyContribs As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents MenuGoto As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents GotoMyTalk As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents GotoMyContribs As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents SystemRequests As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents SystemLogOut As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents UserEmail As System.Windows.Forms.ToolStripMenuItem
@@ -2036,7 +2032,7 @@ Partial Class Main
     Friend WithEvents QueueSelector As System.Windows.Forms.ComboBox
     Friend WithEvents QueueArea As Huggle.QueuePanel
     Friend WithEvents LogClear As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents SystemListBuilder As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents SystemLists As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents Separator18 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents Separator29 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents UserIgnoreB As System.Windows.Forms.ToolStripButton
@@ -2050,6 +2046,7 @@ Partial Class Main
     Friend WithEvents UserBlockB As System.Windows.Forms.ToolStripButton
     Friend WithEvents WarnBio As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents RevertWarnBio As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents DiffRevertCurrentOnly As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents RevertCurrentOnly As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents Separator28 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents PageDelete As System.Windows.Forms.ToolStripMenuItem
 End Class

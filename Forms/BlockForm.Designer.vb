@@ -25,22 +25,22 @@ Partial Class BlockForm
         Me.Cancel = New System.Windows.Forms.Button
         Me.OK = New System.Windows.Forms.Button
         Me.BlockLog = New System.Windows.Forms.ListView
-        Me.BlockEmail = New System.Windows.Forms.CheckBox
-        Me.BlockCreation = New System.Windows.Forms.CheckBox
-        Me.EnableAutoblock = New System.Windows.Forms.CheckBox
+        Me.Email = New System.Windows.Forms.CheckBox
+        Me.Creation = New System.Windows.Forms.CheckBox
+        Me.Autoblock = New System.Windows.Forms.CheckBox
         Me.AnonOnly = New System.Windows.Forms.CheckBox
-        Me.Label3 = New System.Windows.Forms.Label
-        Me.Label2 = New System.Windows.Forms.Label
+        Me.DurationLabel = New System.Windows.Forms.Label
+        Me.ReasonLabel = New System.Windows.Forms.Label
         Me.SharedIPWarning = New System.Windows.Forms.Label
         Me.Reason = New System.Windows.Forms.ComboBox
         Me.UserTalk = New System.Windows.Forms.Button
         Me.UserContribs = New System.Windows.Forms.Button
         Me.WarnLog = New System.Windows.Forms.ListView
-        Me.Label1 = New System.Windows.Forms.Label
-        Me.Label4 = New System.Windows.Forms.Label
-        Me.BlockMessage = New System.Windows.Forms.ComboBox
-        Me.Label5 = New System.Windows.Forms.Label
-        Me.Expiry = New System.Windows.Forms.ComboBox
+        Me.BlockLogLabel = New System.Windows.Forms.Label
+        Me.WarnLogLabel = New System.Windows.Forms.Label
+        Me.Message = New System.Windows.Forms.ComboBox
+        Me.MessageLabel = New System.Windows.Forms.Label
+        Me.Duration = New System.Windows.Forms.ComboBox
         Me.SuspendLayout()
         '
         'Cancel
@@ -79,35 +79,35 @@ Partial Class BlockForm
         Me.BlockLog.UseCompatibleStateImageBehavior = False
         Me.BlockLog.View = System.Windows.Forms.View.Details
         '
-        'BlockEmail
+        'Email
         '
-        Me.BlockEmail.AutoSize = True
-        Me.BlockEmail.Location = New System.Drawing.Point(186, 96)
-        Me.BlockEmail.Name = "BlockEmail"
-        Me.BlockEmail.Size = New System.Drawing.Size(83, 17)
-        Me.BlockEmail.TabIndex = 9
-        Me.BlockEmail.Text = "Block e-mail"
-        Me.BlockEmail.UseVisualStyleBackColor = True
+        Me.Email.AutoSize = True
+        Me.Email.Location = New System.Drawing.Point(186, 96)
+        Me.Email.Name = "Email"
+        Me.Email.Size = New System.Drawing.Size(83, 17)
+        Me.Email.TabIndex = 9
+        Me.Email.Text = "Block e-mail"
+        Me.Email.UseVisualStyleBackColor = True
         '
-        'BlockCreation
+        'Creation
         '
-        Me.BlockCreation.AutoSize = True
-        Me.BlockCreation.Location = New System.Drawing.Point(186, 73)
-        Me.BlockCreation.Name = "BlockCreation"
-        Me.BlockCreation.Size = New System.Drawing.Size(136, 17)
-        Me.BlockCreation.TabIndex = 7
-        Me.BlockCreation.Text = "Block account creation"
-        Me.BlockCreation.UseVisualStyleBackColor = True
+        Me.Creation.AutoSize = True
+        Me.Creation.Location = New System.Drawing.Point(186, 73)
+        Me.Creation.Name = "Creation"
+        Me.Creation.Size = New System.Drawing.Size(136, 17)
+        Me.Creation.TabIndex = 7
+        Me.Creation.Text = "Block account creation"
+        Me.Creation.UseVisualStyleBackColor = True
         '
-        'EnableAutoblock
+        'Autoblock
         '
-        Me.EnableAutoblock.AutoSize = True
-        Me.EnableAutoblock.Location = New System.Drawing.Point(11, 96)
-        Me.EnableAutoblock.Name = "EnableAutoblock"
-        Me.EnableAutoblock.Size = New System.Drawing.Size(114, 17)
-        Me.EnableAutoblock.TabIndex = 8
-        Me.EnableAutoblock.Text = "Enable autoblocks"
-        Me.EnableAutoblock.UseVisualStyleBackColor = True
+        Me.Autoblock.AutoSize = True
+        Me.Autoblock.Location = New System.Drawing.Point(11, 96)
+        Me.Autoblock.Name = "Autoblock"
+        Me.Autoblock.Size = New System.Drawing.Size(114, 17)
+        Me.Autoblock.TabIndex = 8
+        Me.Autoblock.Text = "Enable autoblocks"
+        Me.Autoblock.UseVisualStyleBackColor = True
         '
         'AnonOnly
         '
@@ -119,23 +119,23 @@ Partial Class BlockForm
         Me.AnonOnly.Text = "Block anonymous users only"
         Me.AnonOnly.UseVisualStyleBackColor = True
         '
-        'Label3
+        'DurationLabel
         '
-        Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(21, 42)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(38, 13)
-        Me.Label3.TabIndex = 2
-        Me.Label3.Text = "Expiry:"
+        Me.DurationLabel.AutoSize = True
+        Me.DurationLabel.Location = New System.Drawing.Point(12, 41)
+        Me.DurationLabel.Name = "DurationLabel"
+        Me.DurationLabel.Size = New System.Drawing.Size(50, 13)
+        Me.DurationLabel.TabIndex = 2
+        Me.DurationLabel.Text = "Duration:"
         '
-        'Label2
+        'ReasonLabel
         '
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(12, 15)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(47, 13)
-        Me.Label2.TabIndex = 0
-        Me.Label2.Text = "Reason:"
+        Me.ReasonLabel.AutoSize = True
+        Me.ReasonLabel.Location = New System.Drawing.Point(15, 15)
+        Me.ReasonLabel.Name = "ReasonLabel"
+        Me.ReasonLabel.Size = New System.Drawing.Size(47, 13)
+        Me.ReasonLabel.TabIndex = 0
+        Me.ReasonLabel.Text = "Reason:"
         '
         'SharedIPWarning
         '
@@ -197,74 +197,74 @@ Partial Class BlockForm
         Me.WarnLog.UseCompatibleStateImageBehavior = False
         Me.WarnLog.View = System.Windows.Forms.View.Details
         '
-        'Label1
+        'BlockLogLabel
         '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(7, 123)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(42, 13)
-        Me.Label1.TabIndex = 12
-        Me.Label1.Text = "Blocks:"
+        Me.BlockLogLabel.AutoSize = True
+        Me.BlockLogLabel.Location = New System.Drawing.Point(7, 123)
+        Me.BlockLogLabel.Name = "BlockLogLabel"
+        Me.BlockLogLabel.Size = New System.Drawing.Size(54, 13)
+        Me.BlockLogLabel.TabIndex = 12
+        Me.BlockLogLabel.Text = "Block log:"
         '
-        'Label4
+        'WarnLogLabel
         '
-        Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(7, 234)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(55, 13)
-        Me.Label4.TabIndex = 14
-        Me.Label4.Text = "Warnings:"
+        Me.WarnLogLabel.AutoSize = True
+        Me.WarnLogLabel.Location = New System.Drawing.Point(7, 234)
+        Me.WarnLogLabel.Name = "WarnLogLabel"
+        Me.WarnLogLabel.Size = New System.Drawing.Size(55, 13)
+        Me.WarnLogLabel.TabIndex = 14
+        Me.WarnLogLabel.Text = "Warnings:"
         '
-        'BlockMessage
+        'Message
         '
-        Me.BlockMessage.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.Message.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.BlockMessage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.BlockMessage.FormattingEnabled = True
-        Me.BlockMessage.Items.AddRange(New Object() {"(none)", "(standard block message)", "{{anonblock}}", "{{schoolblock}}"})
-        Me.BlockMessage.Location = New System.Drawing.Point(373, 38)
-        Me.BlockMessage.Name = "BlockMessage"
-        Me.BlockMessage.Size = New System.Drawing.Size(208, 21)
-        Me.BlockMessage.TabIndex = 5
+        Me.Message.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.Message.FormattingEnabled = True
+        Me.Message.Items.AddRange(New Object() {"(none)", "(standard block message)", "{{anonblock}}", "{{schoolblock}}"})
+        Me.Message.Location = New System.Drawing.Point(373, 38)
+        Me.Message.Name = "Message"
+        Me.Message.Size = New System.Drawing.Size(208, 21)
+        Me.Message.TabIndex = 5
         '
-        'Label5
+        'MessageLabel
         '
-        Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(264, 42)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(103, 13)
-        Me.Label5.TabIndex = 4
-        Me.Label5.Text = "Talk page message:"
+        Me.MessageLabel.AutoSize = True
+        Me.MessageLabel.Location = New System.Drawing.Point(267, 41)
+        Me.MessageLabel.Name = "MessageLabel"
+        Me.MessageLabel.Size = New System.Drawing.Size(103, 13)
+        Me.MessageLabel.TabIndex = 4
+        Me.MessageLabel.Text = "Talk page message:"
         '
-        'Expiry
+        'Duration
         '
-        Me.Expiry.FormattingEnabled = True
-        Me.Expiry.Location = New System.Drawing.Point(65, 38)
-        Me.Expiry.Name = "Expiry"
-        Me.Expiry.Size = New System.Drawing.Size(178, 21)
-        Me.Expiry.TabIndex = 19
+        Me.Duration.FormattingEnabled = True
+        Me.Duration.Location = New System.Drawing.Point(65, 38)
+        Me.Duration.Name = "Duration"
+        Me.Duration.Size = New System.Drawing.Size(178, 21)
+        Me.Duration.TabIndex = 19
         '
         'BlockForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(594, 412)
-        Me.Controls.Add(Me.Expiry)
-        Me.Controls.Add(Me.Label5)
-        Me.Controls.Add(Me.BlockMessage)
-        Me.Controls.Add(Me.Label4)
-        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.Duration)
+        Me.Controls.Add(Me.MessageLabel)
+        Me.Controls.Add(Me.Message)
+        Me.Controls.Add(Me.WarnLogLabel)
+        Me.Controls.Add(Me.BlockLogLabel)
         Me.Controls.Add(Me.WarnLog)
         Me.Controls.Add(Me.UserContribs)
         Me.Controls.Add(Me.UserTalk)
         Me.Controls.Add(Me.Reason)
         Me.Controls.Add(Me.SharedIPWarning)
-        Me.Controls.Add(Me.BlockEmail)
-        Me.Controls.Add(Me.BlockCreation)
-        Me.Controls.Add(Me.EnableAutoblock)
+        Me.Controls.Add(Me.Email)
+        Me.Controls.Add(Me.Creation)
+        Me.Controls.Add(Me.Autoblock)
         Me.Controls.Add(Me.AnonOnly)
-        Me.Controls.Add(Me.Label3)
-        Me.Controls.Add(Me.Label2)
+        Me.Controls.Add(Me.DurationLabel)
+        Me.Controls.Add(Me.ReasonLabel)
         Me.Controls.Add(Me.BlockLog)
         Me.Controls.Add(Me.OK)
         Me.Controls.Add(Me.Cancel)
@@ -282,20 +282,20 @@ Partial Class BlockForm
     Friend WithEvents Cancel As System.Windows.Forms.Button
     Friend WithEvents OK As System.Windows.Forms.Button
     Friend WithEvents BlockLog As System.Windows.Forms.ListView
-    Friend WithEvents BlockEmail As System.Windows.Forms.CheckBox
-    Friend WithEvents BlockCreation As System.Windows.Forms.CheckBox
-    Friend WithEvents EnableAutoblock As System.Windows.Forms.CheckBox
+    Friend WithEvents Email As System.Windows.Forms.CheckBox
+    Friend WithEvents Creation As System.Windows.Forms.CheckBox
+    Friend WithEvents Autoblock As System.Windows.Forms.CheckBox
     Friend WithEvents AnonOnly As System.Windows.Forms.CheckBox
-    Friend WithEvents Label3 As System.Windows.Forms.Label
-    Friend WithEvents Label2 As System.Windows.Forms.Label
+    Friend WithEvents DurationLabel As System.Windows.Forms.Label
+    Friend WithEvents ReasonLabel As System.Windows.Forms.Label
     Friend WithEvents SharedIPWarning As System.Windows.Forms.Label
     Friend WithEvents Reason As System.Windows.Forms.ComboBox
     Friend WithEvents UserTalk As System.Windows.Forms.Button
     Friend WithEvents UserContribs As System.Windows.Forms.Button
     Friend WithEvents WarnLog As System.Windows.Forms.ListView
-    Friend WithEvents Label1 As System.Windows.Forms.Label
-    Friend WithEvents Label4 As System.Windows.Forms.Label
-    Friend WithEvents BlockMessage As System.Windows.Forms.ComboBox
-    Friend WithEvents Label5 As System.Windows.Forms.Label
-    Friend WithEvents Expiry As System.Windows.Forms.ComboBox
+    Friend WithEvents BlockLogLabel As System.Windows.Forms.Label
+    Friend WithEvents WarnLogLabel As System.Windows.Forms.Label
+    Friend WithEvents Message As System.Windows.Forms.ComboBox
+    Friend WithEvents MessageLabel As System.Windows.Forms.Label
+    Friend WithEvents Duration As System.Windows.Forms.ComboBox
 End Class

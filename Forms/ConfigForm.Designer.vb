@@ -33,13 +33,13 @@ Partial Class ConfigForm
         Me.IrcMode = New System.Windows.Forms.CheckBox
         Me.LogFileBrowse = New System.Windows.Forms.Button
         Me.LogFile = New System.Windows.Forms.TextBox
-        Me.Label17 = New System.Windows.Forms.Label
+        Me.LogFileLabel = New System.Windows.Forms.Label
         Me.OpenInBrowser = New System.Windows.Forms.CheckBox
         Me.Label14 = New System.Windows.Forms.Label
-        Me.Label13 = New System.Windows.Forms.Label
+        Me.DiffFontSizeLabel = New System.Windows.Forms.Label
         Me.ShowNewEdits = New System.Windows.Forms.CheckBox
         Me.Preloading = New System.Windows.Forms.CheckBox
-        Me.Label6 = New System.Windows.Forms.Label
+        Me.IrcPortLabel = New System.Windows.Forms.Label
         Me.IrcPort = New System.Windows.Forms.TextBox
         Me.AutoWhitelist = New System.Windows.Forms.CheckBox
         Me.InterfaceTab = New System.Windows.Forms.TabPage
@@ -54,26 +54,26 @@ Partial Class ConfigForm
         Me.NoShortcut = New System.Windows.Forms.Button
         Me.ChangeShortcut = New System.Windows.Forms.TextBox
         Me.ChangeShortcutLabel = New System.Windows.Forms.Label
-        Me.Label18 = New System.Windows.Forms.Label
+        Me.ShortcutListLabel = New System.Windows.Forms.Label
         Me.ShortcutList = New System.Windows.Forms.ListView
         Me.ActionColumn = New System.Windows.Forms.ColumnHeader
         Me.ShortcutColumn = New System.Windows.Forms.ColumnHeader
         Me.EditingTab = New System.Windows.Forms.TabPage
         Me.UndoSummary = New System.Windows.Forms.TextBox
-        Me.Label16 = New System.Windows.Forms.Label
+        Me.UndoSummaryLabel = New System.Windows.Forms.Label
         Me.DefaultSummary = New System.Windows.Forms.TextBox
-        Me.Label15 = New System.Windows.Forms.Label
-        Me.Label2 = New System.Windows.Forms.Label
-        Me.Label1 = New System.Windows.Forms.Label
+        Me.DefaultSummaryLabel = New System.Windows.Forms.Label
+        Me.WatchlistLabel = New System.Windows.Forms.Label
+        Me.MinorLabel = New System.Windows.Forms.Label
         Me.Watchlist = New System.Windows.Forms.CheckedListBox
         Me.Minor = New System.Windows.Forms.CheckedListBox
         Me.RevertTab = New System.Windows.Forms.TabPage
-        Me.ClearRevertSummaries = New System.Windows.Forms.Button
-        Me.Label19 = New System.Windows.Forms.Label
+        Me.ClearSummaries = New System.Windows.Forms.Button
+        Me.ClearSummariesLabel = New System.Windows.Forms.Label
         Me.ConfirmSelfRevert = New System.Windows.Forms.CheckBox
         Me.AddSummary = New System.Windows.Forms.Button
         Me.RemoveSummary = New System.Windows.Forms.Button
-        Me.Label8 = New System.Windows.Forms.Label
+        Me.RevertSummariesLabel = New System.Windows.Forms.Label
         Me.RevertSummaries = New System.Windows.Forms.ListBox
         Me.UseRollback = New System.Windows.Forms.CheckBox
         Me.AutoAdvance = New System.Windows.Forms.CheckBox
@@ -82,15 +82,15 @@ Partial Class ConfigForm
         Me.ReportingTab = New System.Windows.Forms.TabPage
         Me.ExtendReports = New System.Windows.Forms.CheckBox
         Me.ReportLinkExamples = New System.Windows.Forms.CheckBox
-        Me.GroupBox1 = New System.Windows.Forms.GroupBox
+        Me.AutoReportGroup = New System.Windows.Forms.GroupBox
         Me.ReportAuto = New System.Windows.Forms.RadioButton
-        Me.Label3 = New System.Windows.Forms.Label
+        Me.AutoReportLabel = New System.Windows.Forms.Label
         Me.ReportNone = New System.Windows.Forms.RadioButton
         Me.ReportPrompt = New System.Windows.Forms.RadioButton
         Me.TemplatesTab = New System.Windows.Forms.TabPage
         Me.AddTemplate = New System.Windows.Forms.Button
         Me.RemoveTemplate = New System.Windows.Forms.Button
-        Me.Label12 = New System.Windows.Forms.Label
+        Me.TemplatesLabel = New System.Windows.Forms.Label
         Me.Templates = New System.Windows.Forms.ListView
         Me.DisplayColumn = New System.Windows.Forms.ColumnHeader
         Me.TemplateColumn = New System.Windows.Forms.ColumnHeader
@@ -120,11 +120,11 @@ Partial Class ConfigForm
         Me.ColorComment = New System.Windows.Forms.Button
         Me.AdminTab = New System.Windows.Forms.TabPage
         Me.BlockTime = New System.Windows.Forms.TextBox
-        Me.Label11 = New System.Windows.Forms.Label
-        Me.Label10 = New System.Windows.Forms.Label
-        Me.Label9 = New System.Windows.Forms.Label
+        Me.BlockTimeRegLabel = New System.Windows.Forms.Label
+        Me.BlockTimeAnonLabel = New System.Windows.Forms.Label
+        Me.BlockTimeLabel = New System.Windows.Forms.Label
         Me.BlockTimeAnon = New System.Windows.Forms.TextBox
-        Me.Label7 = New System.Windows.Forms.Label
+        Me.BlockReasonLabel = New System.Windows.Forms.Label
         Me.BlockReason = New System.Windows.Forms.TextBox
         Me.PromptForBlock = New System.Windows.Forms.CheckBox
         Me.UseAdminFunctions = New System.Windows.Forms.CheckBox
@@ -138,7 +138,7 @@ Partial Class ConfigForm
         Me.EditingTab.SuspendLayout()
         Me.RevertTab.SuspendLayout()
         Me.ReportingTab.SuspendLayout()
-        Me.GroupBox1.SuspendLayout()
+        Me.AutoReportGroup.SuspendLayout()
         Me.TemplatesTab.SuspendLayout()
         Me.EditorTab.SuspendLayout()
         Me.HighlightGroup.SuspendLayout()
@@ -195,13 +195,13 @@ Partial Class ConfigForm
         Me.GeneralTab.Controls.Add(Me.IrcMode)
         Me.GeneralTab.Controls.Add(Me.LogFileBrowse)
         Me.GeneralTab.Controls.Add(Me.LogFile)
-        Me.GeneralTab.Controls.Add(Me.Label17)
+        Me.GeneralTab.Controls.Add(Me.LogFileLabel)
         Me.GeneralTab.Controls.Add(Me.OpenInBrowser)
         Me.GeneralTab.Controls.Add(Me.Label14)
-        Me.GeneralTab.Controls.Add(Me.Label13)
+        Me.GeneralTab.Controls.Add(Me.DiffFontSizeLabel)
         Me.GeneralTab.Controls.Add(Me.ShowNewEdits)
         Me.GeneralTab.Controls.Add(Me.Preloading)
-        Me.GeneralTab.Controls.Add(Me.Label6)
+        Me.GeneralTab.Controls.Add(Me.IrcPortLabel)
         Me.GeneralTab.Controls.Add(Me.IrcPort)
         Me.GeneralTab.Controls.Add(Me.AutoWhitelist)
         Me.GeneralTab.Location = New System.Drawing.Point(4, 23)
@@ -281,14 +281,14 @@ Partial Class ConfigForm
         Me.LogFile.Size = New System.Drawing.Size(358, 20)
         Me.LogFile.TabIndex = 28
         '
-        'Label17
+        'LogFileLabel
         '
-        Me.Label17.AutoSize = True
-        Me.Label17.Location = New System.Drawing.Point(7, 256)
-        Me.Label17.Name = "Label17"
-        Me.Label17.Size = New System.Drawing.Size(44, 13)
-        Me.Label17.TabIndex = 27
-        Me.Label17.Text = "Log file:"
+        Me.LogFileLabel.AutoSize = True
+        Me.LogFileLabel.Location = New System.Drawing.Point(7, 256)
+        Me.LogFileLabel.Name = "LogFileLabel"
+        Me.LogFileLabel.Size = New System.Drawing.Size(44, 13)
+        Me.LogFileLabel.TabIndex = 27
+        Me.LogFileLabel.Text = "Log file:"
         '
         'OpenInBrowser
         '
@@ -309,14 +309,14 @@ Partial Class ConfigForm
         Me.Label14.TabIndex = 24
         Me.Label14.Text = "pt"
         '
-        'Label13
+        'DiffFontSizeLabel
         '
-        Me.Label13.AutoSize = True
-        Me.Label13.Location = New System.Drawing.Point(6, 218)
-        Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(68, 13)
-        Me.Label13.TabIndex = 22
-        Me.Label13.Text = "Diff font size:"
+        Me.DiffFontSizeLabel.AutoSize = True
+        Me.DiffFontSizeLabel.Location = New System.Drawing.Point(6, 218)
+        Me.DiffFontSizeLabel.Name = "DiffFontSizeLabel"
+        Me.DiffFontSizeLabel.Size = New System.Drawing.Size(68, 13)
+        Me.DiffFontSizeLabel.TabIndex = 22
+        Me.DiffFontSizeLabel.Text = "Diff font size:"
         '
         'ShowNewEdits
         '
@@ -338,14 +338,14 @@ Partial Class ConfigForm
         Me.Preloading.Text = "Enable preloading of diffs (1 - 5):"
         Me.Preloading.UseVisualStyleBackColor = True
         '
-        'Label6
+        'IrcPortLabel
         '
-        Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(6, 184)
-        Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(115, 13)
-        Me.Label6.TabIndex = 6
-        Me.Label6.Text = "IRC port (6664 - 6669):"
+        Me.IrcPortLabel.AutoSize = True
+        Me.IrcPortLabel.Location = New System.Drawing.Point(6, 184)
+        Me.IrcPortLabel.Name = "IrcPortLabel"
+        Me.IrcPortLabel.Size = New System.Drawing.Size(115, 13)
+        Me.IrcPortLabel.TabIndex = 6
+        Me.IrcPortLabel.Text = "IRC port (6664 - 6669):"
         '
         'IrcPort
         '
@@ -446,7 +446,7 @@ Partial Class ConfigForm
         Me.KeyboardTab.Controls.Add(Me.NoShortcut)
         Me.KeyboardTab.Controls.Add(Me.ChangeShortcut)
         Me.KeyboardTab.Controls.Add(Me.ChangeShortcutLabel)
-        Me.KeyboardTab.Controls.Add(Me.Label18)
+        Me.KeyboardTab.Controls.Add(Me.ShortcutListLabel)
         Me.KeyboardTab.Controls.Add(Me.ShortcutList)
         Me.KeyboardTab.Location = New System.Drawing.Point(4, 23)
         Me.KeyboardTab.Name = "KeyboardTab"
@@ -500,14 +500,14 @@ Partial Class ConfigForm
         Me.ChangeShortcutLabel.Text = "Change shortcut for :"
         Me.ChangeShortcutLabel.Visible = False
         '
-        'Label18
+        'ShortcutListLabel
         '
-        Me.Label18.AutoSize = True
-        Me.Label18.Location = New System.Drawing.Point(6, 15)
-        Me.Label18.Name = "Label18"
-        Me.Label18.Size = New System.Drawing.Size(101, 13)
-        Me.Label18.TabIndex = 1
-        Me.Label18.Text = "Keyboard shortcuts:"
+        Me.ShortcutListLabel.AutoSize = True
+        Me.ShortcutListLabel.Location = New System.Drawing.Point(6, 15)
+        Me.ShortcutListLabel.Name = "ShortcutListLabel"
+        Me.ShortcutListLabel.Size = New System.Drawing.Size(101, 13)
+        Me.ShortcutListLabel.TabIndex = 1
+        Me.ShortcutListLabel.Text = "Keyboard shortcuts:"
         '
         'ShortcutList
         '
@@ -540,11 +540,11 @@ Partial Class ConfigForm
         'EditingTab
         '
         Me.EditingTab.Controls.Add(Me.UndoSummary)
-        Me.EditingTab.Controls.Add(Me.Label16)
+        Me.EditingTab.Controls.Add(Me.UndoSummaryLabel)
         Me.EditingTab.Controls.Add(Me.DefaultSummary)
-        Me.EditingTab.Controls.Add(Me.Label15)
-        Me.EditingTab.Controls.Add(Me.Label2)
-        Me.EditingTab.Controls.Add(Me.Label1)
+        Me.EditingTab.Controls.Add(Me.DefaultSummaryLabel)
+        Me.EditingTab.Controls.Add(Me.WatchlistLabel)
+        Me.EditingTab.Controls.Add(Me.MinorLabel)
         Me.EditingTab.Controls.Add(Me.Watchlist)
         Me.EditingTab.Controls.Add(Me.Minor)
         Me.EditingTab.Location = New System.Drawing.Point(4, 23)
@@ -562,14 +562,14 @@ Partial Class ConfigForm
         Me.UndoSummary.Size = New System.Drawing.Size(343, 20)
         Me.UndoSummary.TabIndex = 15
         '
-        'Label16
+        'UndoSummaryLabel
         '
-        Me.Label16.AutoSize = True
-        Me.Label16.Location = New System.Drawing.Point(6, 200)
-        Me.Label16.Name = "Label16"
-        Me.Label16.Size = New System.Drawing.Size(171, 13)
-        Me.Label16.TabIndex = 14
-        Me.Label16.Text = "Summary when undoing own edits:"
+        Me.UndoSummaryLabel.AutoSize = True
+        Me.UndoSummaryLabel.Location = New System.Drawing.Point(6, 200)
+        Me.UndoSummaryLabel.Name = "UndoSummaryLabel"
+        Me.UndoSummaryLabel.Size = New System.Drawing.Size(171, 13)
+        Me.UndoSummaryLabel.TabIndex = 14
+        Me.UndoSummaryLabel.Text = "Summary when undoing own edits:"
         '
         'DefaultSummary
         '
@@ -578,32 +578,32 @@ Partial Class ConfigForm
         Me.DefaultSummary.Size = New System.Drawing.Size(343, 20)
         Me.DefaultSummary.TabIndex = 13
         '
-        'Label15
+        'DefaultSummaryLabel
         '
-        Me.Label15.AutoSize = True
-        Me.Label15.Location = New System.Drawing.Point(6, 155)
-        Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(165, 13)
-        Me.Label15.TabIndex = 12
-        Me.Label15.Text = "Default summary for manual edits:"
+        Me.DefaultSummaryLabel.AutoSize = True
+        Me.DefaultSummaryLabel.Location = New System.Drawing.Point(6, 155)
+        Me.DefaultSummaryLabel.Name = "DefaultSummaryLabel"
+        Me.DefaultSummaryLabel.Size = New System.Drawing.Size(165, 13)
+        Me.DefaultSummaryLabel.TabIndex = 12
+        Me.DefaultSummaryLabel.Text = "Default summary for manual edits:"
         '
-        'Label2
+        'WatchlistLabel
         '
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(167, 15)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(85, 13)
-        Me.Label2.TabIndex = 11
-        Me.Label2.Text = "Add to watchlist:"
+        Me.WatchlistLabel.AutoSize = True
+        Me.WatchlistLabel.Location = New System.Drawing.Point(167, 15)
+        Me.WatchlistLabel.Name = "WatchlistLabel"
+        Me.WatchlistLabel.Size = New System.Drawing.Size(85, 13)
+        Me.WatchlistLabel.TabIndex = 11
+        Me.WatchlistLabel.Text = "Add to watchlist:"
         '
-        'Label1
+        'MinorLabel
         '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(6, 15)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(76, 13)
-        Me.Label1.TabIndex = 10
-        Me.Label1.Text = "Mark as minor:"
+        Me.MinorLabel.AutoSize = True
+        Me.MinorLabel.Location = New System.Drawing.Point(6, 15)
+        Me.MinorLabel.Name = "MinorLabel"
+        Me.MinorLabel.Size = New System.Drawing.Size(76, 13)
+        Me.MinorLabel.TabIndex = 10
+        Me.MinorLabel.Text = "Mark as minor:"
         '
         'Watchlist
         '
@@ -625,12 +625,12 @@ Partial Class ConfigForm
         '
         'RevertTab
         '
-        Me.RevertTab.Controls.Add(Me.ClearRevertSummaries)
-        Me.RevertTab.Controls.Add(Me.Label19)
+        Me.RevertTab.Controls.Add(Me.ClearSummaries)
+        Me.RevertTab.Controls.Add(Me.ClearSummariesLabel)
         Me.RevertTab.Controls.Add(Me.ConfirmSelfRevert)
         Me.RevertTab.Controls.Add(Me.AddSummary)
         Me.RevertTab.Controls.Add(Me.RemoveSummary)
-        Me.RevertTab.Controls.Add(Me.Label8)
+        Me.RevertTab.Controls.Add(Me.RevertSummariesLabel)
         Me.RevertTab.Controls.Add(Me.RevertSummaries)
         Me.RevertTab.Controls.Add(Me.UseRollback)
         Me.RevertTab.Controls.Add(Me.AutoAdvance)
@@ -644,26 +644,26 @@ Partial Class ConfigForm
         Me.RevertTab.Text = "Reverting"
         Me.RevertTab.UseVisualStyleBackColor = True
         '
-        'ClearRevertSummaries
+        'ClearSummaries
         '
-        Me.ClearRevertSummaries.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ClearRevertSummaries.Enabled = False
-        Me.ClearRevertSummaries.Location = New System.Drawing.Point(433, 257)
-        Me.ClearRevertSummaries.Name = "ClearRevertSummaries"
-        Me.ClearRevertSummaries.Size = New System.Drawing.Size(75, 23)
-        Me.ClearRevertSummaries.TabIndex = 36
-        Me.ClearRevertSummaries.Text = "Clear"
-        Me.ClearRevertSummaries.UseVisualStyleBackColor = True
+        Me.ClearSummaries.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ClearSummaries.Enabled = False
+        Me.ClearSummaries.Location = New System.Drawing.Point(433, 257)
+        Me.ClearSummaries.Name = "ClearSummaries"
+        Me.ClearSummaries.Size = New System.Drawing.Size(75, 23)
+        Me.ClearSummaries.TabIndex = 36
+        Me.ClearSummaries.Text = "Clear"
+        Me.ClearSummaries.UseVisualStyleBackColor = True
         '
-        'Label19
+        'ClearSummariesLabel
         '
-        Me.Label19.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.Label19.AutoSize = True
-        Me.Label19.Location = New System.Drawing.Point(6, 262)
-        Me.Label19.Name = "Label19"
-        Me.Label19.Size = New System.Drawing.Size(395, 13)
-        Me.Label19.TabIndex = 35
-        Me.Label19.Text = "Summaries entered manually are remembered across sessions; click to clear these:"
+        Me.ClearSummariesLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.ClearSummariesLabel.AutoSize = True
+        Me.ClearSummariesLabel.Location = New System.Drawing.Point(6, 262)
+        Me.ClearSummariesLabel.Name = "ClearSummariesLabel"
+        Me.ClearSummariesLabel.Size = New System.Drawing.Size(395, 13)
+        Me.ClearSummariesLabel.TabIndex = 35
+        Me.ClearSummariesLabel.Text = "Summaries entered manually are remembered across sessions; click to clear these:"
         '
         'ConfirmSelfRevert
         '
@@ -696,14 +696,14 @@ Partial Class ConfigForm
         Me.RemoveSummary.Text = "Remove"
         Me.RemoveSummary.UseVisualStyleBackColor = True
         '
-        'Label8
+        'RevertSummariesLabel
         '
-        Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(3, 133)
-        Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(195, 13)
-        Me.Label8.TabIndex = 31
-        Me.Label8.Text = "Reversion summaries available in menu:"
+        Me.RevertSummariesLabel.AutoSize = True
+        Me.RevertSummariesLabel.Location = New System.Drawing.Point(3, 133)
+        Me.RevertSummariesLabel.Name = "RevertSummariesLabel"
+        Me.RevertSummariesLabel.Size = New System.Drawing.Size(195, 13)
+        Me.RevertSummariesLabel.TabIndex = 31
+        Me.RevertSummariesLabel.Text = "Reversion summaries available in menu:"
         '
         'RevertSummaries
         '
@@ -761,7 +761,7 @@ Partial Class ConfigForm
         '
         Me.ReportingTab.Controls.Add(Me.ExtendReports)
         Me.ReportingTab.Controls.Add(Me.ReportLinkExamples)
-        Me.ReportingTab.Controls.Add(Me.GroupBox1)
+        Me.ReportingTab.Controls.Add(Me.AutoReportGroup)
         Me.ReportingTab.Location = New System.Drawing.Point(4, 23)
         Me.ReportingTab.Name = "ReportingTab"
         Me.ReportingTab.Padding = New System.Windows.Forms.Padding(3)
@@ -790,20 +790,20 @@ Partial Class ConfigForm
         Me.ReportLinkExamples.Text = "Include links to instances of vandalism in reports"
         Me.ReportLinkExamples.UseVisualStyleBackColor = True
         '
-        'GroupBox1
+        'AutoReportGroup
         '
-        Me.GroupBox1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.AutoReportGroup.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.GroupBox1.Controls.Add(Me.ReportAuto)
-        Me.GroupBox1.Controls.Add(Me.Label3)
-        Me.GroupBox1.Controls.Add(Me.ReportNone)
-        Me.GroupBox1.Controls.Add(Me.ReportPrompt)
-        Me.GroupBox1.Location = New System.Drawing.Point(6, 69)
-        Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(302, 109)
-        Me.GroupBox1.TabIndex = 2
-        Me.GroupBox1.TabStop = False
-        Me.GroupBox1.Text = "Auto-report"
+        Me.AutoReportGroup.Controls.Add(Me.ReportAuto)
+        Me.AutoReportGroup.Controls.Add(Me.AutoReportLabel)
+        Me.AutoReportGroup.Controls.Add(Me.ReportNone)
+        Me.AutoReportGroup.Controls.Add(Me.ReportPrompt)
+        Me.AutoReportGroup.Location = New System.Drawing.Point(6, 69)
+        Me.AutoReportGroup.Name = "AutoReportGroup"
+        Me.AutoReportGroup.Size = New System.Drawing.Size(302, 109)
+        Me.AutoReportGroup.TabIndex = 2
+        Me.AutoReportGroup.TabStop = False
+        Me.AutoReportGroup.Text = "Auto-report"
         '
         'ReportAuto
         '
@@ -816,14 +816,14 @@ Partial Class ConfigForm
         Me.ReportAuto.Text = "Issue report automatically"
         Me.ReportAuto.UseVisualStyleBackColor = True
         '
-        'Label3
+        'AutoReportLabel
         '
-        Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(6, 16)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(234, 13)
-        Me.Label3.TabIndex = 0
-        Me.Label3.Text = "When asked to warn a user with a final warning:"
+        Me.AutoReportLabel.AutoSize = True
+        Me.AutoReportLabel.Location = New System.Drawing.Point(6, 16)
+        Me.AutoReportLabel.Name = "AutoReportLabel"
+        Me.AutoReportLabel.Size = New System.Drawing.Size(234, 13)
+        Me.AutoReportLabel.TabIndex = 0
+        Me.AutoReportLabel.Text = "When asked to warn a user with a final warning:"
         '
         'ReportNone
         '
@@ -851,7 +851,7 @@ Partial Class ConfigForm
         '
         Me.TemplatesTab.Controls.Add(Me.AddTemplate)
         Me.TemplatesTab.Controls.Add(Me.RemoveTemplate)
-        Me.TemplatesTab.Controls.Add(Me.Label12)
+        Me.TemplatesTab.Controls.Add(Me.TemplatesLabel)
         Me.TemplatesTab.Controls.Add(Me.Templates)
         Me.TemplatesTab.Location = New System.Drawing.Point(4, 23)
         Me.TemplatesTab.Name = "TemplatesTab"
@@ -882,14 +882,14 @@ Partial Class ConfigForm
         Me.RemoveTemplate.Text = "Remove"
         Me.RemoveTemplate.UseVisualStyleBackColor = True
         '
-        'Label12
+        'TemplatesLabel
         '
-        Me.Label12.AutoSize = True
-        Me.Label12.Location = New System.Drawing.Point(6, 12)
-        Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(125, 13)
-        Me.Label12.TabIndex = 1
-        Me.Label12.Text = "User template messages:"
+        Me.TemplatesLabel.AutoSize = True
+        Me.TemplatesLabel.Location = New System.Drawing.Point(6, 12)
+        Me.TemplatesLabel.Name = "TemplatesLabel"
+        Me.TemplatesLabel.Size = New System.Drawing.Size(125, 13)
+        Me.TemplatesLabel.TabIndex = 1
+        Me.TemplatesLabel.Text = "User template messages:"
         '
         'Templates
         '
@@ -1163,11 +1163,11 @@ Partial Class ConfigForm
         'AdminTab
         '
         Me.AdminTab.Controls.Add(Me.BlockTime)
-        Me.AdminTab.Controls.Add(Me.Label11)
-        Me.AdminTab.Controls.Add(Me.Label10)
-        Me.AdminTab.Controls.Add(Me.Label9)
+        Me.AdminTab.Controls.Add(Me.BlockTimeRegLabel)
+        Me.AdminTab.Controls.Add(Me.BlockTimeAnonLabel)
+        Me.AdminTab.Controls.Add(Me.BlockTimeLabel)
         Me.AdminTab.Controls.Add(Me.BlockTimeAnon)
-        Me.AdminTab.Controls.Add(Me.Label7)
+        Me.AdminTab.Controls.Add(Me.BlockReasonLabel)
         Me.AdminTab.Controls.Add(Me.BlockReason)
         Me.AdminTab.Controls.Add(Me.PromptForBlock)
         Me.AdminTab.Controls.Add(Me.UseAdminFunctions)
@@ -1185,32 +1185,32 @@ Partial Class ConfigForm
         Me.BlockTime.Size = New System.Drawing.Size(100, 20)
         Me.BlockTime.TabIndex = 8
         '
-        'Label11
+        'BlockTimeRegLabel
         '
-        Me.Label11.AutoSize = True
-        Me.Label11.Location = New System.Drawing.Point(39, 143)
-        Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(84, 13)
-        Me.Label11.TabIndex = 7
-        Me.Label11.Text = "registered users:"
+        Me.BlockTimeRegLabel.AutoSize = True
+        Me.BlockTimeRegLabel.Location = New System.Drawing.Point(39, 143)
+        Me.BlockTimeRegLabel.Name = "BlockTimeRegLabel"
+        Me.BlockTimeRegLabel.Size = New System.Drawing.Size(84, 13)
+        Me.BlockTimeRegLabel.TabIndex = 7
+        Me.BlockTimeRegLabel.Text = "registered users:"
         '
-        'Label10
+        'BlockTimeAnonLabel
         '
-        Me.Label10.AutoSize = True
-        Me.Label10.Location = New System.Drawing.Point(31, 121)
-        Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(92, 13)
-        Me.Label10.TabIndex = 6
-        Me.Label10.Text = "anonymous users:"
+        Me.BlockTimeAnonLabel.AutoSize = True
+        Me.BlockTimeAnonLabel.Location = New System.Drawing.Point(31, 121)
+        Me.BlockTimeAnonLabel.Name = "BlockTimeAnonLabel"
+        Me.BlockTimeAnonLabel.Size = New System.Drawing.Size(92, 13)
+        Me.BlockTimeAnonLabel.TabIndex = 6
+        Me.BlockTimeAnonLabel.Text = "anonymous users:"
         '
-        'Label9
+        'BlockTimeLabel
         '
-        Me.Label9.AutoSize = True
-        Me.Label9.Location = New System.Drawing.Point(6, 98)
-        Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(126, 13)
-        Me.Label9.TabIndex = 5
-        Me.Label9.Text = "Default block duration for"
+        Me.BlockTimeLabel.AutoSize = True
+        Me.BlockTimeLabel.Location = New System.Drawing.Point(6, 98)
+        Me.BlockTimeLabel.Name = "BlockTimeLabel"
+        Me.BlockTimeLabel.Size = New System.Drawing.Size(126, 13)
+        Me.BlockTimeLabel.TabIndex = 5
+        Me.BlockTimeLabel.Text = "Default block duration for"
         '
         'BlockTimeAnon
         '
@@ -1219,14 +1219,14 @@ Partial Class ConfigForm
         Me.BlockTimeAnon.Size = New System.Drawing.Size(100, 20)
         Me.BlockTimeAnon.TabIndex = 4
         '
-        'Label7
+        'BlockReasonLabel
         '
-        Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(6, 67)
-        Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(108, 13)
-        Me.Label7.TabIndex = 3
-        Me.Label7.Text = "Default block reason:"
+        Me.BlockReasonLabel.AutoSize = True
+        Me.BlockReasonLabel.Location = New System.Drawing.Point(6, 67)
+        Me.BlockReasonLabel.Name = "BlockReasonLabel"
+        Me.BlockReasonLabel.Size = New System.Drawing.Size(108, 13)
+        Me.BlockReasonLabel.TabIndex = 3
+        Me.BlockReasonLabel.Text = "Default block reason:"
         '
         'BlockReason
         '
@@ -1296,8 +1296,8 @@ Partial Class ConfigForm
         Me.RevertTab.PerformLayout()
         Me.ReportingTab.ResumeLayout(False)
         Me.ReportingTab.PerformLayout()
-        Me.GroupBox1.ResumeLayout(False)
-        Me.GroupBox1.PerformLayout()
+        Me.AutoReportGroup.ResumeLayout(False)
+        Me.AutoReportGroup.PerformLayout()
         Me.TemplatesTab.ResumeLayout(False)
         Me.TemplatesTab.PerformLayout()
         Me.EditorTab.ResumeLayout(False)
@@ -1315,21 +1315,21 @@ Partial Class ConfigForm
     Friend WithEvents GeneralTab As System.Windows.Forms.TabPage
     Friend WithEvents AdminTab As System.Windows.Forms.TabPage
     Friend WithEvents EditingTab As System.Windows.Forms.TabPage
-    Friend WithEvents Label2 As System.Windows.Forms.Label
-    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents WatchlistLabel As System.Windows.Forms.Label
+    Friend WithEvents MinorLabel As System.Windows.Forms.Label
     Friend WithEvents Watchlist As System.Windows.Forms.CheckedListBox
     Friend WithEvents Minor As System.Windows.Forms.CheckedListBox
     Friend WithEvents ReportingTab As System.Windows.Forms.TabPage
-    Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
+    Friend WithEvents AutoReportGroup As System.Windows.Forms.GroupBox
     Friend WithEvents ReportAuto As System.Windows.Forms.RadioButton
-    Friend WithEvents Label3 As System.Windows.Forms.Label
+    Friend WithEvents AutoReportLabel As System.Windows.Forms.Label
     Friend WithEvents ReportNone As System.Windows.Forms.RadioButton
     Friend WithEvents ReportPrompt As System.Windows.Forms.RadioButton
     Friend WithEvents ExtendReports As System.Windows.Forms.CheckBox
     Friend WithEvents ReportLinkExamples As System.Windows.Forms.CheckBox
     Friend WithEvents AutoWhitelist As System.Windows.Forms.CheckBox
     Friend WithEvents Preloading As System.Windows.Forms.CheckBox
-    Friend WithEvents Label6 As System.Windows.Forms.Label
+    Friend WithEvents IrcPortLabel As System.Windows.Forms.Label
     Friend WithEvents IrcPort As System.Windows.Forms.TextBox
     Friend WithEvents ShowNewEdits As System.Windows.Forms.CheckBox
     Friend WithEvents PromptForBlock As System.Windows.Forms.CheckBox
@@ -1337,17 +1337,17 @@ Partial Class ConfigForm
     Friend WithEvents RevertTab As System.Windows.Forms.TabPage
     Friend WithEvents AddSummary As System.Windows.Forms.Button
     Friend WithEvents RemoveSummary As System.Windows.Forms.Button
-    Friend WithEvents Label8 As System.Windows.Forms.Label
+    Friend WithEvents RevertSummariesLabel As System.Windows.Forms.Label
     Friend WithEvents RevertSummaries As System.Windows.Forms.ListBox
     Friend WithEvents UseRollback As System.Windows.Forms.CheckBox
     Friend WithEvents AutoAdvance As System.Windows.Forms.CheckBox
     Friend WithEvents ConfirmSame As System.Windows.Forms.CheckBox
     Friend WithEvents ConfirmMultiple As System.Windows.Forms.CheckBox
-    Friend WithEvents Label11 As System.Windows.Forms.Label
-    Friend WithEvents Label10 As System.Windows.Forms.Label
-    Friend WithEvents Label9 As System.Windows.Forms.Label
+    Friend WithEvents BlockTimeRegLabel As System.Windows.Forms.Label
+    Friend WithEvents BlockTimeAnonLabel As System.Windows.Forms.Label
+    Friend WithEvents BlockTimeLabel As System.Windows.Forms.Label
     Friend WithEvents BlockTimeAnon As System.Windows.Forms.TextBox
-    Friend WithEvents Label7 As System.Windows.Forms.Label
+    Friend WithEvents BlockReasonLabel As System.Windows.Forms.Label
     Friend WithEvents BlockReason As System.Windows.Forms.TextBox
     Friend WithEvents BlockTime As System.Windows.Forms.TextBox
     Friend WithEvents TemplatesTab As System.Windows.Forms.TabPage
@@ -1355,20 +1355,20 @@ Partial Class ConfigForm
     Friend WithEvents TemplateColumn As System.Windows.Forms.ColumnHeader
     Friend WithEvents AddTemplate As System.Windows.Forms.Button
     Friend WithEvents RemoveTemplate As System.Windows.Forms.Button
-    Friend WithEvents Label12 As System.Windows.Forms.Label
+    Friend WithEvents TemplatesLabel As System.Windows.Forms.Label
     Friend WithEvents Templates As System.Windows.Forms.ListView
     Friend WithEvents Label14 As System.Windows.Forms.Label
-    Friend WithEvents Label13 As System.Windows.Forms.Label
+    Friend WithEvents DiffFontSizeLabel As System.Windows.Forms.Label
     Friend WithEvents DefaultSummary As System.Windows.Forms.TextBox
-    Friend WithEvents Label15 As System.Windows.Forms.Label
+    Friend WithEvents DefaultSummaryLabel As System.Windows.Forms.Label
     Friend WithEvents UndoSummary As System.Windows.Forms.TextBox
-    Friend WithEvents Label16 As System.Windows.Forms.Label
+    Friend WithEvents UndoSummaryLabel As System.Windows.Forms.Label
     Friend WithEvents OpenInBrowser As System.Windows.Forms.CheckBox
     Friend WithEvents LogFileBrowse As System.Windows.Forms.Button
     Friend WithEvents LogFile As System.Windows.Forms.TextBox
-    Friend WithEvents Label17 As System.Windows.Forms.Label
+    Friend WithEvents LogFileLabel As System.Windows.Forms.Label
     Friend WithEvents KeyboardTab As System.Windows.Forms.TabPage
-    Friend WithEvents Label18 As System.Windows.Forms.Label
+    Friend WithEvents ShortcutListLabel As System.Windows.Forms.Label
     Friend WithEvents ShortcutList As System.Windows.Forms.ListView
     Friend WithEvents ActionColumn As System.Windows.Forms.ColumnHeader
     Friend WithEvents ShortcutColumn As System.Windows.Forms.ColumnHeader
@@ -1377,8 +1377,8 @@ Partial Class ConfigForm
     Friend WithEvents NoShortcut As System.Windows.Forms.Button
     Friend WithEvents Defaults As System.Windows.Forms.Button
     Friend WithEvents ConfirmSelfRevert As System.Windows.Forms.CheckBox
-    Friend WithEvents ClearRevertSummaries As System.Windows.Forms.Button
-    Friend WithEvents Label19 As System.Windows.Forms.Label
+    Friend WithEvents ClearSummaries As System.Windows.Forms.Button
+    Friend WithEvents ClearSummariesLabel As System.Windows.Forms.Label
     Friend WithEvents EditorTab As System.Windows.Forms.TabPage
     Friend WithEvents HighlightGroup As System.Windows.Forms.GroupBox
     Friend WithEvents ColorComment As System.Windows.Forms.Button

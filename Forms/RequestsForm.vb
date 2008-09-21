@@ -2,6 +2,13 @@
 
     Private Sub RequestsForm_Load() Handles Me.Load
         Icon = My.Resources.icon_red_button
+        Text = Msg("requests-title")
+
+        List.Columns(0).Text = Msg("requests-time")
+        List.Columns(1).Text = Msg("requests-type")
+        List.Columns(3).Text = Msg("requests-query")
+
+        Localize(Me, "requests")
 
         For Each Item As Request In AllRequests
             AddRequest(Item)

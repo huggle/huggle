@@ -5,9 +5,21 @@ Class ConfigForm
 
     Private Sub ConfigForm_Load() Handles MyBase.Load
         Icon = My.Resources.icon_red_button
+        Text = Msg("config-title")
 
         Initializing = True
 
+        'Localization
+        Localize(Me, "config")
+        ShortcutList.Columns(0).Text = Msg("config-shortcutaction")
+        ShortcutList.Columns(1).Text = Msg("config-shortcut")
+        Templates.Columns(0).Text = Msg("config-templatetext")
+        Templates.Columns(1).Text = Msg("config-template")
+        ViewLocalConfig.Text = Msg("config-viewlocalconfig")
+        OK.Text = Msg("accept")
+        Cancel.Text = Msg("cancel")
+
+        'Set to current config values
         RememberMe.Checked = Config.RememberMe
         RememberPassword.Checked = Config.RememberPassword
         AutoWhitelist.Checked = Config.AutoWhitelist
@@ -56,7 +68,7 @@ Class ConfigForm
             RevertSummaries.Items.Add(Item)
         Next Item
 
-        ClearRevertSummaries.Enabled = (Config.RevertSummaries.Count > 0)
+        ClearSummaries.Enabled = (Config.RevertSummaries.Count > 0)
 
         ReportLinkExamples.Checked = Config.ReportLinkDiffs
         ExtendReports.Enabled = ReportLinkExamples.Checked
@@ -212,7 +224,7 @@ Class ConfigForm
     End Sub
 
     Private Sub AddSummary_Click() Handles AddSummary.Click
-        Dim Item As String = InputBox.Show("Enter summary:")
+        Dim Item As String = InputBox.Show(Msg("config-summaryprompt") & ":")
         If Item <> "" Then RevertSummaries.Items.Add(Item)
     End Sub
 
@@ -226,13 +238,13 @@ Class ConfigForm
         End If
     End Sub
 
-    Private Sub ClearRevertSummaries_Click() Handles ClearRevertSummaries.Click
+    Private Sub ClearRevertSummaries_Click() Handles ClearSummaries.Click
         Config.RevertSummaries.Clear()
-        ClearRevertSummaries.Enabled = False
+        ClearSummaries.Enabled = False
     End Sub
 
     Private Sub Defaults_Click() Handles Defaults.Click
-        If MessageBox.Show("Restore defaults?", "Huggle", _
+        If MessageBox.Show(Msg("config-defaultsprompt"), "Huggle", _
             MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
 
             InitialiseShortcuts()
@@ -244,7 +256,7 @@ Class ConfigForm
     Private Sub LogFileBrowse_Click() Handles LogFileBrowse.Click
         Dim Dialog As New SaveFileDialog
 
-        Dialog.Title = "Log file location"
+        Dialog.Title = Msg("config-logbrowsetitle")
         Dialog.FileName = "huggle.log"
         Dialog.Filter = "Text file|*.txt"
 
@@ -266,8 +278,8 @@ Class ConfigForm
             'Detect conflicts
             For Each Item As KeyValuePair(Of String, Shortcut) In ShortcutKeys
                 If Item.Key <> ShortcutList.SelectedItems(0).Text AndAlso Item.Value = NewShortcut Then
-                    MessageBox.Show("Shortcut '" & NewShortcut.ToString & "' conflicts with the existing shortcut " & _
-                        "for '" & Item.Key & "'.", "Huggle", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    MessageBox.Show(Msg("config-shortcutconflict", NewShortcut.ToString, Item.Key), "Huggle", _
+                        MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     Exit Sub
                 End If
             Next Item
@@ -282,7 +294,7 @@ Class ConfigForm
     Private Sub NoShortcut_Click() Handles NoShortcut.Click
         If ShortcutList.SelectedItems.Count > 0 Then
             ShortcutKeysClone(ShortcutList.SelectedItems(0).Text) = New Shortcut(Keys.None)
-            ShortcutList.SelectedItems(0).SubItems(1).Text = "None"
+            ShortcutList.SelectedItems(0).SubItems(1).Text = Msg("config-noshortcut")
             ChangeShortcut.Clear()
             ChangeShortcut.Focus()
         End If
@@ -323,7 +335,7 @@ Class ConfigForm
     Private Sub Shortcuts_SelectedIndexChanged() Handles ShortcutList.SelectedIndexChanged
         If ShortcutList.SelectedItems.Count > 0 Then
             ChangeShortcutLabel.Visible = True
-            ChangeShortcutLabel.Text = "Change shortcut for " & ShortcutList.SelectedItems(0).Text & ":"
+            ChangeShortcutLabel.Text = Msg("config-changeshortcut", ShortcutList.SelectedItems(0).Text) & ":"
             NoShortcut.Visible = True
             ChangeShortcut.Visible = True
             ChangeShortcut.Text = ShortcutList.SelectedItems(0).SubItems(1).Text

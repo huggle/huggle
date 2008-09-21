@@ -1,10 +1,11 @@
 Class WarningForm
 
-    Public ThisUser As User
+    Public User As User
 
     Private Sub WarningForm_Load() Handles Me.Load
         Icon = My.Resources.icon_red_button
-        Text = "Warn " & ThisUser.Name
+        Text = Msg("warning-title", User.Name)
+        Localize(Me, "warning")
 
         WarnLog.Columns.Add("", 300)
         WarnLog.Items.Add("Retrieving warnings, please wait...")
@@ -18,8 +19,24 @@ Class WarningForm
 
         Dim NewWarnLogRequest As New WarningLogRequest
         NewWarnLogRequest.Target = WarnLog
-        NewWarnLogRequest.User = ThisUser
+        NewWarnLogRequest.User = User
         NewWarnLogRequest.Start()
+    End Sub
+
+    Private Sub WarningForm_FormClosing() Handles Me.FormClosing
+        If DialogResult <> DialogResult.OK Then DialogResult = DialogResult.Cancel
+    End Sub
+
+    Private Sub WarningForm_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles Me.KeyDown
+        Select Case e.KeyCode
+            Case Keys.Escape : Close_Click()
+            Case Keys.Enter : OK_Click()
+            Case Keys.D1 : Level1.Checked = True
+            Case Keys.D2 : Level2.Checked = True
+            Case Keys.D3 : Level3.Checked = True
+            Case Keys.D4 : LevelFinal.Checked = True
+            Case Keys.A : LevelAuto.Checked = True
+        End Select
     End Sub
 
     Private Sub Close_Click() Handles Cancel.Click
@@ -43,22 +60,6 @@ Class WarningForm
         NewWarningRequest.Start()
 
         Close()
-    End Sub
-
-    Private Sub WarningForm_FormClosing() Handles Me.FormClosing
-        If DialogResult <> DialogResult.OK Then DialogResult = DialogResult.Cancel
-    End Sub
-
-    Private Sub WarningForm_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles Me.KeyDown
-        Select Case e.KeyCode
-            Case Keys.Escape : Close_Click()
-            Case Keys.Enter : OK_Click()
-            Case Keys.D1 : Level1.Checked = True
-            Case Keys.D2 : Level2.Checked = True
-            Case Keys.D3 : Level3.Checked = True
-            Case Keys.D4 : LevelFinal.Checked = True
-            Case Keys.A : LevelAuto.Checked = True
-        End Select
     End Sub
 
 End Class

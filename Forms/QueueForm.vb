@@ -10,6 +10,8 @@ Class QueueForm
 
     Private Sub QueueForm_Load() Handles Me.Load
         Icon = My.Resources.icon_red_button
+        Text = Msg("queue-title")
+        Localize(Me, "queue")
         Tip.Active = Config.ShowToolTips
 
         QueueList.BeginUpdate()
@@ -45,7 +47,7 @@ Class QueueForm
         If e.KeyCode = Keys.Escape Then Close()
     End Sub
 
-    Private Sub AddQueue_Click() Handles AddQueue.Click
+    Private Sub AddQueue_Click() Handles Add.Click
         Dim i As Integer = Queue.All.Count + 1
 
         While Queue.All.ContainsKey("Queue" & CStr(i))
@@ -59,7 +61,7 @@ Class QueueForm
         QueueList.SelectedItem = Name
     End Sub
 
-    Private Sub ApplyFilters_Click() Handles ApplyFilters.Click
+    Private Sub ApplyFilters_Click() Handles Apply.Click
         Dim i As Integer
 
         While i < CurrentQueue.Pages.Count
@@ -67,7 +69,7 @@ Class QueueForm
         End While
     End Sub
 
-    Private Sub Copy_Click() Handles CopyQueue.Click
+    Private Sub Copy_Click() Handles Copy.Click
         Dim NewName As String = InputBox.Show("Copy to:", "Queue" & CStr(Queue.All.Count + 1))
 
         If NewName.Length > 0 Then
@@ -84,7 +86,7 @@ Class QueueForm
         End If
     End Sub
 
-    Private Sub DeleteQueue_Click() Handles DeleteQueue.Click
+    Private Sub DeleteQueue_Click() Handles Delete.Click
         If QueueList.SelectedIndex > -1 AndAlso MessageBox.Show("Delete queue '" & CurrentQueue.Name & "'?", _
             "Huggle", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) _
             = DialogResult.Yes Then
@@ -275,7 +277,7 @@ Class QueueForm
         If CurrentQueue IsNot Nothing Then CurrentQueue.RemoveViewed = RemoveViewed.Checked
     End Sub
 
-    Private Sub RenameQueue_Click() Handles RenameQueue.Click
+    Private Sub RenameQueue_Click() Handles Rename.Click
         Dim OldName As String = QueueList.SelectedItem.ToString
         Dim NewName As String = InputBox.Show("Enter new name:", OldName)
 
@@ -350,15 +352,15 @@ Class QueueForm
                 If Not Tabs.TabPages.Contains(OptionsTab) Then Tabs.TabPages.Insert(0, OptionsTab)
             End If
 
-            ApplyFilters.Visible = (CurrentQueue.Type <> QueueType.Live)
+            Apply.Visible = (CurrentQueue.Type <> QueueType.Live)
             ApplyFiltersLabel.Visible = (CurrentQueue.Type <> QueueType.Live)
         End If
 
-        DeleteQueue.Enabled = (QueueList.SelectedIndex > -1)
+        Delete.Enabled = (QueueList.SelectedIndex > -1)
         MoveUp.Enabled = (QueueList.SelectedIndex > 0)
         MoveDown.Enabled = (QueueList.SelectedIndex > -1 AndAlso QueueList.SelectedIndex < QueueList.Items.Count - 1)
-        RenameQueue.Enabled = (QueueList.SelectedIndex > -1)
-        CopyQueue.Enabled = (QueueList.SelectedIndex > -1)
+        Rename.Enabled = (QueueList.SelectedIndex > -1)
+        Copy.Enabled = (QueueList.SelectedIndex > -1)
         QueuesEmpty.Visible = (QueueList.Items.Count = 0)
         Tabs.Enabled = (QueueList.SelectedIndex > -1)
         TypeGroup.Enabled = (QueueList.SelectedIndex > -1)

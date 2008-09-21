@@ -14,6 +14,10 @@ Class AddTemplateForm
 
     Private Sub AddTemplateForm_Load() Handles Me.Load
         Icon = My.Resources.icon_red_button
+        Text = Msg("config-addtemplate")
+
+        DisplayTextLabel.Text = Msg("config-templatetext")
+        TemplateLabel.Text = Msg("config-template")
     End Sub
 
     Private Sub AddTemplateForm_FormClosing() Handles MyBase.FormClosing

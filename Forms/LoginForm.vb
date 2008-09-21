@@ -14,13 +14,13 @@ Class LoginForm
         Config = New Configuration
         LoadLocalConfig()
         LoadLanguages()
-        Text = "Huggle " & VersionString(Config.Version)
 
         For Each Item As String In Config.Languages
             If Config.Messages(Item).ContainsKey("name") Then Language.Items.Add(Config.Messages(Item)("name"))
         Next Item
 
-        Language.SelectedItem = Config.Messages(Config.DefaultLanguage)("name")
+        Language.SelectedItem = Config.Messages(Config.Language)("name")
+        If Language.SelectedIndex = -1 Then Language.SelectedItem = Config.Messages(Config.DefaultLanguage)("name")
 
 #If DEBUG Then
         'If the app is in debug mode add a localhost wiki to the project list
@@ -31,7 +31,8 @@ Class LoginForm
             If Item.Contains(";") Then Project.Items.Add(Item.Substring(0, Item.IndexOf(";")))
         Next Item
 
-        If Config.Project IsNot Nothing Then Project.SelectedItem = Config.Project Else Project.SelectedIndex = 0
+        If Config.Project IsNot Nothing Then Project.SelectedItem = Config.Project
+        If Project.SelectedIndex = -1 Then Project.SelectedIndex = 0
 
         Proxy.Checked = Config.ProxyEnabled
         ProxyPort.Text = Config.ProxyPort
@@ -39,6 +40,7 @@ Class LoginForm
         ProxyAddress.Text = Config.ProxyServer
         ProxyDomain.Text = Config.ProxyUserDomain
         ProxyUsername.Text = Config.ProxyUsername
+        Text = "Huggle " & VersionString(Config.Version)
 
         If Config.RememberMe Then Username.Text = Config.Username
         If Config.RememberPassword Then Password.Text = Config.Password
@@ -66,7 +68,7 @@ Class LoginForm
         Next Item
 
         If Config.Project <> "localhost" _
-            Then Config.IrcChannel = "#" & Config.Project.Substring(0, Config.Project.Length - 4)
+            Then Config.IrcChannel = "#" & Config.Project.Substring(0, Config.Project.Length)
 
         Config.IrcMode = (Config.Project <> "localhost")
         Config.ProxyEnabled = Proxy.Checked
@@ -81,7 +83,7 @@ Class LoginForm
             If Not ArrayContains(New Control() {Status, Progress, Cancel}, Item) Then Item.Enabled = False
         Next Item
 
-        Cancel.Text = "Cancel"
+        Cancel.Text = Msg("cancel")
 
         Try
             Login.ConfigureProxy(Proxy.Checked, Config.ProxyServer, ProxyPort.Value, ProxyUsername.Text, _
@@ -100,7 +102,7 @@ Class LoginForm
         If LoggingIn Then
             Irc.Disconnect()
             Request.Cancel()
-            Abort("Cancelled.")
+            Abort(Msg("login-error-cancelled"))
         Else
             End
         End If
@@ -112,6 +114,25 @@ Class LoginForm
         HideProxySettings.Visible = False
         ShowProxySettings.Visible = True
         ShowProxySettings.Focus()
+    End Sub
+
+    Private Sub Language_SelectedIndexChanged() Handles Language.SelectedIndexChanged
+
+        For Each Item As String In Config.Languages
+            If Config.Messages(Item)("name") = Language.SelectedItem.ToString Then
+                Config.Language = Item
+                Exit For
+            End If
+        Next Item
+
+        Localize(Me, "login")
+        ProxyUsernameLabel.Text = Msg("login-username")
+        ProxyPasswordLabel.Text = Msg("login-password")
+        ShowProxySettings.Text = Msg("login-proxygroup") & " >>"
+        HideProxySettings.Text = "<< " & Msg("login-proxygroup")
+        OK.Text = Msg("login-start")
+        Cancel.Text = Msg("exit")
+        Status.Text = ""
     End Sub
 
     Private Sub Password_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles Password.KeyDown
@@ -147,15 +168,21 @@ Class LoginForm
     Sub Abort(ByVal MessageObject As Object)
         LoggingIn = False
         Status.Text = CStr(MessageObject)
-        Cancel.Text = "Exit"
+        Cancel.Text = Msg("exit")
         Progress.Value = 0
 
         For Each Item As Control In Controls
             If Not ArrayContains(New Control() {Status, Progress, Cancel}, Item) Then Item.Enabled = True
         Next Item
 
+        Dim CurrentLanguage As String = Config.Language
+
         Config = New Configuration
         LoadLocalConfig()
+        LoadLanguages()
+
+        Config.Language = CurrentLanguage
+
         If Username.Text = "" Then Username.Focus() Else If Password.Text = "" Then Password.Focus() Else OK.Focus()
     End Sub
 
@@ -175,15 +202,6 @@ Class LoginForm
     Sub UpdateStatus(ByVal MessageObject As Object)
         Status.Text = CStr(MessageObject)
         If Progress.Value <= Progress.Maximum - 1 Then Progress.Value += 1
-    End Sub
-
-    Private Sub Language_SelectedIndexChanged() Handles Language.SelectedIndexChanged
-        For Each Item As String In Config.Languages
-            If Config.Messages(Item)("name") = Language.SelectedItem.ToString Then
-                Config.Language = Item
-                Exit For
-            End If
-        Next Item
     End Sub
 
 End Class

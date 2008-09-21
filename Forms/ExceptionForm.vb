@@ -4,6 +4,10 @@
 
     Private Sub ExceptionForm_Load() Handles Me.Load
         Icon = My.Resources.icon_red_button
+        Text = Msg("error")
+        ContinueButton.Text = Msg("continue")
+        ExitButton.Text = Msg("exit")
+
         Details.Text = Exception.GetType.Name & ": " & Exception.Message & LF & Exception.StackTrace
     End Sub
 

@@ -24,17 +24,17 @@ Partial Class WarningForm
     Private Sub InitializeComponent()
         Me.OK = New System.Windows.Forms.Button
         Me.Cancel = New System.Windows.Forms.Button
-        Me.Level = New System.Windows.Forms.GroupBox
+        Me.LevelGroup = New System.Windows.Forms.GroupBox
         Me.LevelFinal = New System.Windows.Forms.RadioButton
         Me.Level3 = New System.Windows.Forms.RadioButton
         Me.Level2 = New System.Windows.Forms.RadioButton
         Me.Level1 = New System.Windows.Forms.RadioButton
         Me.LevelAuto = New System.Windows.Forms.RadioButton
         Me.WarnLog = New System.Windows.Forms.ListView
-        Me.Label1 = New System.Windows.Forms.Label
-        Me.Label2 = New System.Windows.Forms.Label
+        Me.WarnLogLabel = New System.Windows.Forms.Label
+        Me.WarnTypeLabel = New System.Windows.Forms.Label
         Me.WarnType = New System.Windows.Forms.ComboBox
-        Me.Level.SuspendLayout()
+        Me.LevelGroup.SuspendLayout()
         Me.SuspendLayout()
         '
         'OK
@@ -59,21 +59,21 @@ Partial Class WarningForm
         Me.Cancel.Text = "Cancel"
         Me.Cancel.UseVisualStyleBackColor = True
         '
-        'Level
+        'LevelGroup
         '
-        Me.Level.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.LevelGroup.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Level.Controls.Add(Me.LevelFinal)
-        Me.Level.Controls.Add(Me.Level3)
-        Me.Level.Controls.Add(Me.Level2)
-        Me.Level.Controls.Add(Me.Level1)
-        Me.Level.Controls.Add(Me.LevelAuto)
-        Me.Level.Location = New System.Drawing.Point(12, 12)
-        Me.Level.Name = "Level"
-        Me.Level.Size = New System.Drawing.Size(399, 46)
-        Me.Level.TabIndex = 0
-        Me.Level.TabStop = False
-        Me.Level.Text = "Warning level"
+        Me.LevelGroup.Controls.Add(Me.LevelFinal)
+        Me.LevelGroup.Controls.Add(Me.Level3)
+        Me.LevelGroup.Controls.Add(Me.Level2)
+        Me.LevelGroup.Controls.Add(Me.Level1)
+        Me.LevelGroup.Controls.Add(Me.LevelAuto)
+        Me.LevelGroup.Location = New System.Drawing.Point(12, 12)
+        Me.LevelGroup.Name = "LevelGroup"
+        Me.LevelGroup.Size = New System.Drawing.Size(399, 46)
+        Me.LevelGroup.TabIndex = 0
+        Me.LevelGroup.TabStop = False
+        Me.LevelGroup.Text = "Warning level"
         '
         'LevelFinal
         '
@@ -144,23 +144,23 @@ Partial Class WarningForm
         Me.WarnLog.UseCompatibleStateImageBehavior = False
         Me.WarnLog.View = System.Windows.Forms.View.Details
         '
-        'Label1
+        'WarnLogLabel
         '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(12, 100)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(112, 13)
-        Me.Label1.TabIndex = 2
-        Me.Label1.Text = "Warnings for this user:"
+        Me.WarnLogLabel.AutoSize = True
+        Me.WarnLogLabel.Location = New System.Drawing.Point(12, 100)
+        Me.WarnLogLabel.Name = "WarnLogLabel"
+        Me.WarnLogLabel.Size = New System.Drawing.Size(112, 13)
+        Me.WarnLogLabel.TabIndex = 2
+        Me.WarnLogLabel.Text = "Warnings for this user:"
         '
-        'Label2
+        'WarnTypeLabel
         '
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(15, 70)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(73, 13)
-        Me.Label2.TabIndex = 6
-        Me.Label2.Text = "Warning type:"
+        Me.WarnTypeLabel.AutoSize = True
+        Me.WarnTypeLabel.Location = New System.Drawing.Point(15, 70)
+        Me.WarnTypeLabel.Name = "WarnTypeLabel"
+        Me.WarnTypeLabel.Size = New System.Drawing.Size(73, 13)
+        Me.WarnTypeLabel.TabIndex = 6
+        Me.WarnTypeLabel.Text = "Warning type:"
         '
         'WarnType
         '
@@ -177,10 +177,10 @@ Partial Class WarningForm
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(423, 295)
         Me.Controls.Add(Me.WarnType)
-        Me.Controls.Add(Me.Label2)
-        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.WarnTypeLabel)
+        Me.Controls.Add(Me.WarnLogLabel)
         Me.Controls.Add(Me.WarnLog)
-        Me.Controls.Add(Me.Level)
+        Me.Controls.Add(Me.LevelGroup)
         Me.Controls.Add(Me.Cancel)
         Me.Controls.Add(Me.OK)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
@@ -190,22 +190,22 @@ Partial Class WarningForm
         Me.Name = "WarningForm"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Warn user"
-        Me.Level.ResumeLayout(False)
-        Me.Level.PerformLayout()
+        Me.LevelGroup.ResumeLayout(False)
+        Me.LevelGroup.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
     End Sub
     Friend WithEvents OK As System.Windows.Forms.Button
     Friend WithEvents Cancel As System.Windows.Forms.Button
-    Friend WithEvents Level As System.Windows.Forms.GroupBox
+    Friend WithEvents LevelGroup As System.Windows.Forms.GroupBox
     Friend WithEvents LevelFinal As System.Windows.Forms.RadioButton
     Friend WithEvents Level3 As System.Windows.Forms.RadioButton
     Friend WithEvents Level2 As System.Windows.Forms.RadioButton
     Friend WithEvents Level1 As System.Windows.Forms.RadioButton
     Friend WithEvents LevelAuto As System.Windows.Forms.RadioButton
     Friend WithEvents WarnLog As System.Windows.Forms.ListView
-    Friend WithEvents Label1 As System.Windows.Forms.Label
-    Friend WithEvents Label2 As System.Windows.Forms.Label
+    Friend WithEvents WarnLogLabel As System.Windows.Forms.Label
+    Friend WithEvents WarnTypeLabel As System.Windows.Forms.Label
     Friend WithEvents WarnType As System.Windows.Forms.ComboBox
 End Class

@@ -22,31 +22,31 @@ Partial Class QueueTrimForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.AgeLabel1 = New System.Windows.Forms.Label
-        Me.AgeLabel2 = New System.Windows.Forms.Label
+        Me.AgeLabel = New System.Windows.Forms.Label
+        Me.AgeUnit = New System.Windows.Forms.Label
         Me.Cancel = New System.Windows.Forms.Button
         Me.OK = New System.Windows.Forms.Button
         Me.Age = New System.Windows.Forms.NumericUpDown
         CType(Me.Age, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
-        'AgeLabel1
+        'AgeLabel
         '
-        Me.AgeLabel1.AutoSize = True
-        Me.AgeLabel1.Location = New System.Drawing.Point(12, 9)
-        Me.AgeLabel1.Name = "AgeLabel1"
-        Me.AgeLabel1.Size = New System.Drawing.Size(192, 13)
-        Me.AgeLabel1.TabIndex = 0
-        Me.AgeLabel1.Text = "Discard all queued revisions older than "
+        Me.AgeLabel.AutoSize = True
+        Me.AgeLabel.Location = New System.Drawing.Point(12, 9)
+        Me.AgeLabel.Name = "AgeLabel"
+        Me.AgeLabel.Size = New System.Drawing.Size(192, 13)
+        Me.AgeLabel.TabIndex = 0
+        Me.AgeLabel.Text = "Discard all queued revisions older than "
         '
-        'AgeLabel2
+        'AgeUnit
         '
-        Me.AgeLabel2.AutoSize = True
-        Me.AgeLabel2.Location = New System.Drawing.Point(253, 9)
-        Me.AgeLabel2.Name = "AgeLabel2"
-        Me.AgeLabel2.Size = New System.Drawing.Size(46, 13)
-        Me.AgeLabel2.TabIndex = 2
-        Me.AgeLabel2.Text = "minutes."
+        Me.AgeUnit.AutoSize = True
+        Me.AgeUnit.Location = New System.Drawing.Point(253, 9)
+        Me.AgeUnit.Name = "AgeUnit"
+        Me.AgeUnit.Size = New System.Drawing.Size(43, 13)
+        Me.AgeUnit.TabIndex = 2
+        Me.AgeUnit.Text = "minutes"
         '
         'Cancel
         '
@@ -87,8 +87,8 @@ Partial Class QueueTrimForm
         Me.Controls.Add(Me.Age)
         Me.Controls.Add(Me.OK)
         Me.Controls.Add(Me.Cancel)
-        Me.Controls.Add(Me.AgeLabel2)
-        Me.Controls.Add(Me.AgeLabel1)
+        Me.Controls.Add(Me.AgeUnit)
+        Me.Controls.Add(Me.AgeLabel)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.KeyPreview = True
         Me.MaximizeBox = False
@@ -102,8 +102,8 @@ Partial Class QueueTrimForm
         Me.PerformLayout()
 
     End Sub
-    Friend WithEvents AgeLabel1 As System.Windows.Forms.Label
-    Friend WithEvents AgeLabel2 As System.Windows.Forms.Label
+    Friend WithEvents AgeLabel As System.Windows.Forms.Label
+    Friend WithEvents AgeUnit As System.Windows.Forms.Label
     Friend WithEvents Cancel As System.Windows.Forms.Button
     Friend WithEvents OK As System.Windows.Forms.Button
     Friend WithEvents Age As System.Windows.Forms.NumericUpDown

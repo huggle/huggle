@@ -362,8 +362,8 @@ Module Processing
 
         'Check for new messages
         If Edit.Page Is User.Me.TalkPage Then
-            MainForm.SystemShowNewMessages.Enabled = Not Edit.User.IsMe
-            If MainForm.SystemShowNewMessages.Enabled AndAlso Config.TrayIcon _
+            MainForm.SystemMessages.Enabled = Not Edit.User.IsMe
+            If MainForm.SystemMessages.Enabled AndAlso Config.TrayIcon _
                 Then MainForm.TrayIcon.ShowBalloonTip(10000)
         End If
 
@@ -451,7 +451,7 @@ Module Processing
                     DisplayEdit(Edit, False, ThisTab, Not Edit.User.IsMe)
 
                     If ThisTab Is CurrentTab Then
-                        MainForm.DiffRevertB.Enabled = False
+                        MainForm.RevertB.Enabled = False
                         MainForm.RevertWarnB.Enabled = False
                         MainForm.Reverting = False
                         MainForm.RevertTimer.Stop()
@@ -466,7 +466,7 @@ Module Processing
                     DisplayEdit(Edit, False, ThisTab)
 
                     If ThisTab Is CurrentTab Then
-                        MainForm.DiffRevertB.Enabled = False
+                        MainForm.RevertB.Enabled = False
                         MainForm.RevertWarnB.Enabled = False
                         MainForm.RevertTimer.Start()
                     Else
@@ -1151,7 +1151,7 @@ Module Processing
                         DiffText = Edit.Diff
 
                         'Notify user of new messages
-                        If MainForm.SystemShowNewMessages.Enabled _
+                        If MainForm.SystemMessages.Enabled _
                             AndAlso (Not Edit.Page Is User.Me.TalkPage) _
                             Then DiffText = "<div class=""usermessage"">You have new messages; select " & _
                             "System -> Show new messages or press M to view them.</div>" & DiffText
@@ -1179,7 +1179,7 @@ Module Processing
                 ElseIf Edit.Cached = Edit.CacheState.Uncached Then
                     If Tab Is CurrentTab Then
                         For Each Item As ToolStripItem In New ToolStripItem() _
-                            {MainForm.RevertWarnB, MainForm.DiffRevertB, MainForm.WarnB, _
+                            {MainForm.RevertWarnB, MainForm.RevertB, MainForm.WarnB, _
                             MainForm.UserReportB, MainForm.PageDeleteB, MainForm.PageTagB, MainForm.ContribsPrevB, _
                             MainForm.ContribsNextB, MainForm.ContribsLastB, MainForm.HistoryPrevB, MainForm.HistoryNextB, _
                             MainForm.HistoryLastB, MainForm.HistoryDiffToCurB, MainForm.PageWatchB}

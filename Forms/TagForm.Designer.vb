@@ -24,16 +24,16 @@ Partial Class TagForm
     Private Sub InitializeComponent()
         Me.Cancel = New System.Windows.Forms.Button
         Me.OK = New System.Windows.Forms.Button
-        Me.Label1 = New System.Windows.Forms.Label
-        Me.Label4 = New System.Windows.Forms.Label
+        Me.TagsLabel = New System.Windows.Forms.Label
+        Me.SummaryLabel = New System.Windows.Forms.Label
         Me.Summary = New System.Windows.Forms.TextBox
         Me.TagSelector = New System.Windows.Forms.ComboBox
-        Me.Label2 = New System.Windows.Forms.Label
+        Me.TagSelectorLabel = New System.Windows.Forms.Label
         Me.ToSpeedy = New System.Windows.Forms.Button
         Me.ToProd = New System.Windows.Forms.Button
         Me.Explanation = New System.Windows.Forms.LinkLabel
         Me.InsertAtEnd = New System.Windows.Forms.CheckBox
-        Me.TagText = New System.Windows.Forms.RichTextBox
+        Me.Tags = New System.Windows.Forms.RichTextBox
         Me.SuspendLayout()
         '
         'Cancel
@@ -57,24 +57,24 @@ Partial Class TagForm
         Me.OK.Text = "OK"
         Me.OK.UseVisualStyleBackColor = True
         '
-        'Label1
+        'TagsLabel
         '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(24, 76)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(40, 13)
-        Me.Label1.TabIndex = 3
-        Me.Label1.Text = "Tag(s):"
+        Me.TagsLabel.AutoSize = True
+        Me.TagsLabel.Location = New System.Drawing.Point(24, 76)
+        Me.TagsLabel.Name = "TagsLabel"
+        Me.TagsLabel.Size = New System.Drawing.Size(40, 13)
+        Me.TagsLabel.TabIndex = 3
+        Me.TagsLabel.Text = "Tag(s):"
         '
-        'Label4
+        'SummaryLabel
         '
-        Me.Label4.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(12, 186)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(56, 13)
-        Me.Label4.TabIndex = 5
-        Me.Label4.Text = "Summary: "
+        Me.SummaryLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.SummaryLabel.AutoSize = True
+        Me.SummaryLabel.Location = New System.Drawing.Point(12, 186)
+        Me.SummaryLabel.Name = "SummaryLabel"
+        Me.SummaryLabel.Size = New System.Drawing.Size(56, 13)
+        Me.SummaryLabel.TabIndex = 5
+        Me.SummaryLabel.Text = "Summary: "
         '
         'Summary
         '
@@ -97,14 +97,14 @@ Partial Class TagForm
         Me.TagSelector.Size = New System.Drawing.Size(387, 21)
         Me.TagSelector.TabIndex = 2
         '
-        'Label2
+        'TagSelectorLabel
         '
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(17, 50)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(47, 13)
-        Me.Label2.TabIndex = 1
-        Me.Label2.Text = "Add tag:"
+        Me.TagSelectorLabel.AutoSize = True
+        Me.TagSelectorLabel.Location = New System.Drawing.Point(17, 50)
+        Me.TagSelectorLabel.Name = "TagSelectorLabel"
+        Me.TagSelectorLabel.Size = New System.Drawing.Size(47, 13)
+        Me.TagSelectorLabel.TabIndex = 1
+        Me.TagSelectorLabel.Text = "Add tag:"
         '
         'ToSpeedy
         '
@@ -153,35 +153,35 @@ Partial Class TagForm
         Me.InsertAtEnd.Text = "Insert at the end of the page"
         Me.InsertAtEnd.UseVisualStyleBackColor = True
         '
-        'TagText
+        'Tags
         '
-        Me.TagText.AcceptsTab = True
-        Me.TagText.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.Tags.AcceptsTab = True
+        Me.Tags.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TagText.DetectUrls = False
-        Me.TagText.Font = New System.Drawing.Font("Courier New", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TagText.Location = New System.Drawing.Point(66, 73)
-        Me.TagText.Name = "TagText"
-        Me.TagText.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical
-        Me.TagText.Size = New System.Drawing.Size(387, 104)
-        Me.TagText.TabIndex = 12
-        Me.TagText.Text = ""
+        Me.Tags.DetectUrls = False
+        Me.Tags.Font = New System.Drawing.Font("Courier New", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Tags.Location = New System.Drawing.Point(66, 73)
+        Me.Tags.Name = "Tags"
+        Me.Tags.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical
+        Me.Tags.Size = New System.Drawing.Size(387, 104)
+        Me.Tags.TabIndex = 12
+        Me.Tags.Text = ""
         '
         'TagForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(466, 270)
-        Me.Controls.Add(Me.TagText)
+        Me.Controls.Add(Me.Tags)
         Me.Controls.Add(Me.InsertAtEnd)
         Me.Controls.Add(Me.Explanation)
         Me.Controls.Add(Me.ToProd)
         Me.Controls.Add(Me.ToSpeedy)
-        Me.Controls.Add(Me.Label2)
+        Me.Controls.Add(Me.TagSelectorLabel)
         Me.Controls.Add(Me.TagSelector)
         Me.Controls.Add(Me.Summary)
-        Me.Controls.Add(Me.Label4)
-        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.SummaryLabel)
+        Me.Controls.Add(Me.TagsLabel)
         Me.Controls.Add(Me.OK)
         Me.Controls.Add(Me.Cancel)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
@@ -197,14 +197,14 @@ Partial Class TagForm
     End Sub
     Friend WithEvents Cancel As System.Windows.Forms.Button
     Friend WithEvents OK As System.Windows.Forms.Button
-    Friend WithEvents Label1 As System.Windows.Forms.Label
-    Friend WithEvents Label4 As System.Windows.Forms.Label
+    Friend WithEvents TagsLabel As System.Windows.Forms.Label
+    Friend WithEvents SummaryLabel As System.Windows.Forms.Label
     Friend WithEvents Summary As System.Windows.Forms.TextBox
     Friend WithEvents TagSelector As System.Windows.Forms.ComboBox
-    Friend WithEvents Label2 As System.Windows.Forms.Label
+    Friend WithEvents TagSelectorLabel As System.Windows.Forms.Label
     Friend WithEvents ToSpeedy As System.Windows.Forms.Button
     Friend WithEvents ToProd As System.Windows.Forms.Button
     Friend WithEvents Explanation As System.Windows.Forms.LinkLabel
     Friend WithEvents InsertAtEnd As System.Windows.Forms.CheckBox
-    Friend WithEvents TagText As System.Windows.Forms.RichTextBox
+    Friend WithEvents Tags As System.Windows.Forms.RichTextBox
 End Class

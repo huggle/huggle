@@ -4,6 +4,8 @@ Class DeleteForm
 
     Private Sub DeleteForm_Load() Handles Me.Load
         Icon = My.Resources.icon_red_button
+        Text = Msg("delete-title", Page.Name)
+        Localize(Me, "delete")
 
         If Config.Speedy Then
             For Each Item As SpeedyCriterion In SpeedyCriteria.Values
@@ -19,12 +21,11 @@ Class DeleteForm
             Next Item
         End If
 
-        Text = "Delete " & Page.Name
-        DeleteLog.Columns.Add("", 300)
-        DeleteLog.Items.Add("Retrieving deletion log, please wait...")
+        DeletionLog.Columns.Add("", 300)
+        DeletionLog.Items.Add("Retrieving deletion log, please wait...")
 
         Dim NewRequest As New DeleteLogRequest
-        NewRequest.Target = DeleteLog
+        NewRequest.Target = DeletionLog
         NewRequest.Page = Page
         NewRequest.Start()
     End Sub

@@ -24,10 +24,10 @@ Partial Class DeleteForm
     Private Sub InitializeComponent()
         Me.Cancel = New System.Windows.Forms.Button
         Me.OK = New System.Windows.Forms.Button
-        Me.Label1 = New System.Windows.Forms.Label
+        Me.ReasonLabel = New System.Windows.Forms.Label
         Me.Reason = New System.Windows.Forms.ComboBox
-        Me.DeleteLog = New System.Windows.Forms.ListView
-        Me.Label2 = New System.Windows.Forms.Label
+        Me.DeletionLog = New System.Windows.Forms.ListView
+        Me.DeletionLogLabel = New System.Windows.Forms.Label
         Me.SuspendLayout()
         '
         'Cancel
@@ -50,14 +50,14 @@ Partial Class DeleteForm
         Me.OK.Text = "OK"
         Me.OK.UseVisualStyleBackColor = True
         '
-        'Label1
+        'ReasonLabel
         '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(12, 15)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(163, 13)
-        Me.Label1.TabIndex = 0
-        Me.Label1.Text = "Reason (leave empty for default):"
+        Me.ReasonLabel.AutoSize = True
+        Me.ReasonLabel.Location = New System.Drawing.Point(12, 15)
+        Me.ReasonLabel.Name = "ReasonLabel"
+        Me.ReasonLabel.Size = New System.Drawing.Size(163, 13)
+        Me.ReasonLabel.TabIndex = 0
+        Me.ReasonLabel.Text = "Reason (leave empty for default):"
         '
         'Reason
         '
@@ -70,41 +70,41 @@ Partial Class DeleteForm
         Me.Reason.Size = New System.Drawing.Size(381, 21)
         Me.Reason.TabIndex = 1
         '
-        'DeleteLog
+        'DeletionLog
         '
-        Me.DeleteLog.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+        Me.DeletionLog.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.DeleteLog.FullRowSelect = True
-        Me.DeleteLog.GridLines = True
-        Me.DeleteLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
-        Me.DeleteLog.Location = New System.Drawing.Point(13, 61)
-        Me.DeleteLog.MultiSelect = False
-        Me.DeleteLog.Name = "DeleteLog"
-        Me.DeleteLog.ShowGroups = False
-        Me.DeleteLog.Size = New System.Drawing.Size(550, 108)
-        Me.DeleteLog.TabIndex = 3
-        Me.DeleteLog.UseCompatibleStateImageBehavior = False
-        Me.DeleteLog.View = System.Windows.Forms.View.Details
+        Me.DeletionLog.FullRowSelect = True
+        Me.DeletionLog.GridLines = True
+        Me.DeletionLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
+        Me.DeletionLog.Location = New System.Drawing.Point(13, 61)
+        Me.DeletionLog.MultiSelect = False
+        Me.DeletionLog.Name = "DeletionLog"
+        Me.DeletionLog.ShowGroups = False
+        Me.DeletionLog.Size = New System.Drawing.Size(550, 108)
+        Me.DeletionLog.TabIndex = 3
+        Me.DeletionLog.UseCompatibleStateImageBehavior = False
+        Me.DeletionLog.View = System.Windows.Forms.View.Details
         '
-        'Label2
+        'DeletionLogLabel
         '
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(12, 45)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(66, 13)
-        Me.Label2.TabIndex = 2
-        Me.Label2.Text = "Deletion log:"
+        Me.DeletionLogLabel.AutoSize = True
+        Me.DeletionLogLabel.Location = New System.Drawing.Point(12, 45)
+        Me.DeletionLogLabel.Name = "DeletionLogLabel"
+        Me.DeletionLogLabel.Size = New System.Drawing.Size(66, 13)
+        Me.DeletionLogLabel.TabIndex = 2
+        Me.DeletionLogLabel.Text = "Deletion log:"
         '
         'DeleteForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(575, 213)
-        Me.Controls.Add(Me.Label2)
-        Me.Controls.Add(Me.DeleteLog)
+        Me.Controls.Add(Me.DeletionLogLabel)
+        Me.Controls.Add(Me.DeletionLog)
         Me.Controls.Add(Me.Reason)
-        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.ReasonLabel)
         Me.Controls.Add(Me.OK)
         Me.Controls.Add(Me.Cancel)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
@@ -120,8 +120,8 @@ Partial Class DeleteForm
     End Sub
     Friend WithEvents Cancel As System.Windows.Forms.Button
     Friend WithEvents OK As System.Windows.Forms.Button
-    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents ReasonLabel As System.Windows.Forms.Label
     Friend WithEvents Reason As System.Windows.Forms.ComboBox
-    Friend WithEvents DeleteLog As System.Windows.Forms.ListView
-    Friend WithEvents Label2 As System.Windows.Forms.Label
+    Friend WithEvents DeletionLog As System.Windows.Forms.ListView
+    Friend WithEvents DeletionLogLabel As System.Windows.Forms.Label
 End Class

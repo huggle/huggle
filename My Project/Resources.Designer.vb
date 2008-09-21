@@ -60,6 +60,17 @@ Namespace My.Resources
             End Set
         End Property
         
+        '''<summary>
+        '''  Looks up a localized string similar to &lt;pre&gt;
+        '''name:Български
+        '''&lt;/pre&gt;.
+        '''</summary>
+        Friend ReadOnly Property bg() As String
+            Get
+                Return ResourceManager.GetString("bg", resourceCulture)
+            End Get
+        End Property
+        
         Friend ReadOnly Property blob_anon() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("blob_anon", resourceCulture)
@@ -284,6 +295,17 @@ Namespace My.Resources
             End Get
         End Property
         
+        '''<summary>
+        '''  Looks up a localized string similar to &lt;pre&gt;
+        '''name:Deutsch
+        '''&lt;/pre&gt;.
+        '''</summary>
+        Friend ReadOnly Property de() As String
+            Get
+                Return ResourceManager.GetString("de", resourceCulture)
+            End Get
+        End Property
+        
         Friend ReadOnly Property diff_next() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("diff_next", resourceCulture)
@@ -306,11 +328,45 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to name:English.
+        '''  Looks up a localized string similar to &lt;pre&gt;
+        '''name:                    English
+        '''&lt;/pre&gt;
+        '''
+        '''=== General ===
+        '''&lt;pre&gt;
+        '''accept:                    OK
+        '''add:                       Add
+        '''apply:                     Apply
+        '''cancel:                    Cancel
+        '''continue:                  Continue
+        '''delete:                    Delete
+        '''error:                     Error
+        '''exit:                      Exit
+        '''remove:                    Remove
+        '''selectfile:                Browse...
+        '''&lt;/pre&gt;
+        '''
+        '''=== About ===
+        '''&lt;pre&gt;
+        '''about-contributors:       Contributors
+        '''&lt;/pre&gt;
+        '''
+        '''=== Configu [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property en() As String
             Get
                 Return ResourceManager.GetString("en", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to &lt;pre&gt;
+        '''name:Español
+        '''&lt;/pre&gt;.
+        '''</summary>
+        Friend ReadOnly Property es() As String
+            Get
+                Return ResourceManager.GetString("es", resourceCulture)
             End Get
         End Property
         
@@ -398,6 +454,17 @@ Namespace My.Resources
             End Get
         End Property
         
+        '''<summary>
+        '''  Looks up a localized string similar to &lt;pre&gt;
+        '''name:Norsk (bokmål)
+        '''&lt;/pre&gt;.
+        '''</summary>
+        Friend ReadOnly Property no() As String
+            Get
+                Return ResourceManager.GetString("no", resourceCulture)
+            End Get
+        End Property
+        
         Friend ReadOnly Property page_delete() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("page_delete", resourceCulture)
@@ -444,6 +511,28 @@ Namespace My.Resources
             Get
                 Dim obj As Object = ResourceManager.GetObject("page_watch", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to &lt;pre&gt;
+        '''name:Português
+        '''&lt;/pre&gt;.
+        '''</summary>
+        Friend ReadOnly Property pt() As String
+            Get
+                Return ResourceManager.GetString("pt", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to &lt;pre&gt;
+        '''name:Русский
+        '''&lt;/pre&gt;.
+        '''</summary>
+        Friend ReadOnly Property ru() As String
+            Get
+                Return ResourceManager.GetString("ru", resourceCulture)
             End Get
         End Property
         

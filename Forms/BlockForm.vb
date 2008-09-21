@@ -7,14 +7,15 @@ Class BlockForm
 
     Private Sub BlockForm_Load() Handles Me.Load
         Icon = My.Resources.icon_red_button
-        Text = "Block " & User.Name
+        Text = Msg("block-title", User.Name)
+        Localize(Me, "block")
 
-        If Config.BlockMessageDefault Then BlockMessage.SelectedIndex = 1 Else BlockMessage.SelectedIndex = 0
+        If Config.BlockMessageDefault Then Message.SelectedIndex = 1 Else Message.SelectedIndex = 0
 
-        Expiry.Items.AddRange(Config.BlockExpiryOptions.ToArray)
+        Duration.Items.AddRange(Config.BlockExpiryOptions.ToArray)
 
         If User.Anonymous AndAlso User.SharedIP Then
-            SharedIPWarning.Text = "Note: " & User.Name & " is tagged as a dynamic or shared IP address."
+            SharedIPWarning.Text = Msg("block-sharedipwarning", User.Name)
             SharedIPWarning.Visible = True
             Reason.SelectedIndex = 2
         Else
@@ -25,10 +26,9 @@ Class BlockForm
         If User.Anonymous Then
             For Each Item As String In Config.SensitiveAddresses
                 If New Regex(Item.Substring(0, Item.IndexOf(";"))).IsMatch(User.Name) Then
-                    If MessageBox.Show("This IP address is listed as 'sensitive' for the following reason:" & _
-                        LF & LF & "   " & Item.Substring(Item.IndexOf(";") + 1) & _
-                        LF & LF & "Continue anyway?", "Huggle", _
-                        MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = DialogResult.No Then
+                    If MessageBox.Show(Msg("block-sensitivewarning", Item.Substring(Item.IndexOf(";") + 1)), _
+                        "Huggle", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) _
+                        = DialogResult.No Then
 
                         DialogResult = DialogResult.Cancel
                         Close()
@@ -83,7 +83,7 @@ Class BlockForm
     End Sub
 
     Private Sub Reason_SelectedIndexChanged() Handles Reason.SelectedIndexChanged
-        If Reason.Text.StartsWith("{{") Then BlockMessage.Text = Reason.Text
+        If Reason.Text.StartsWith("{{") Then Message.Text = Reason.Text
     End Sub
 
 End Class

@@ -5,6 +5,7 @@ Partial Class Main
 
         SetShortcutDisplayText()
         SetTooltipText()
+        SetMenuText()
         SetQueueSelector()
 
         CurrentTab.ShowNewEdits = Config.ShowNewEdits
@@ -16,8 +17,8 @@ Partial Class Main
         PageDeleteB.Visible = (Administrator AndAlso Config.Delete)
         PagePatrol.Visible = Config.Patrol
         PageProtect.Visible = (Administrator AndAlso Config.Protect)
-        PageRequestProtection.Visible = Config.ProtectionRequests
-        PageTagDelete.Visible = (Config.Speedy OrElse Config.Prod OrElse Config.Xfd)
+        PageReqProtection.Visible = Config.ProtectionRequests
+        PageReqDeletion.Visible = (Config.Speedy OrElse Config.Prod OrElse Config.Xfd)
         PageTagDeleteB.Visible = (Config.Speedy OrElse Config.Prod OrElse Config.Xfd)
         PageTagProd.Visible = Config.Prod
         PageTagSpeedy.Visible = Config.Speedy
@@ -56,7 +57,7 @@ Partial Class Main
 
         While j < RevertMenu.Items.Count
             If Not (TypeOf RevertMenu.Items(j) Is ToolStripSeparator) AndAlso _
-            RevertMenu.Items(j) IsNot DiffRevertSummary AndAlso RevertMenu.Items(j) IsNot DiffRevertCurrentOnly _
+            RevertMenu.Items(j) IsNot RevertAdvanced AndAlso RevertMenu.Items(j) IsNot RevertCurrentOnly _
             Then RevertMenu.Items.RemoveAt(j) Else j += 1
         End While
 
@@ -97,7 +98,7 @@ Partial Class Main
                 NewItem.Text = Item.Substring(Item.IndexOf(";") + 1).Replace(Convert.ToChar(1), ";")
                 NewItem.Tag = CObj(Item.Substring(0, Item.IndexOf(";")).Replace(Convert.ToChar(1), ";"))
                 AddHandler NewItem.Click, AddressOf GoToItem_Click
-                GoToMenu.DropDownItems.Add(NewItem)
+                MenuGoto.DropDownItems.Add(NewItem)
             End If
         Next Item
 
@@ -141,11 +142,11 @@ Partial Class Main
             AndAlso CurrentQueue IsNot Nothing Then
 
             If CurrentPage.IsArticleTalkPage Then
-                PageSwitchTalk.Text = "Switch to article"
+                PageSwitchTalk.Text = Msg("main-page-switchtoarticle")
             ElseIf CurrentPage.IsTalkPage Then
-                PageSwitchTalk.Text = "Switch to subject page"
+                PageSwitchTalk.Text = Msg("main-page-switchtosubject")
             Else
-                PageSwitchTalk.Text = "Switch to talk page"
+                PageSwitchTalk.Text = Msg("main-page-switchtotalk")
             End If
 
             Select Case CurrentPage.Space.Name
@@ -157,7 +158,7 @@ Partial Class Main
             End Select
 
             If CurrentQueue.Type = QueueType.FixedList _
-                Then QueueClear.Text = "Reset" Else QueueClear.Text = "Clear current"
+                Then QueueClear.Text = Msg("main-queue-reset") Else QueueClear.Text = Msg("main-queue-clear")
 
             Dim Editable As Boolean = (CurrentPage.EditLevel <> "sysop" OrElse Administrator)
 
@@ -174,8 +175,8 @@ Partial Class Main
             ContribsNextB.Enabled = (CurrentEdit.NextByUser IsNot Nothing)
             ContribsLastB.Enabled = (CurrentEdit.User.LastEdit IsNot Nothing _
                 AndAlso CurrentEdit.User.LastEdit IsNot CurrentEdit)
-            DiffNextB.Enabled = (CurrentQueue.Edits.Count > 0)
-            DiffRevertB.Enabled = (CurrentEdit IsNot CurrentPage.FirstEdit AndAlso Not RevertTimer.Enabled _
+            NextDiffB.Enabled = (CurrentQueue.Edits.Count > 0)
+            RevertB.Enabled = (CurrentEdit IsNot CurrentPage.FirstEdit AndAlso Not RevertTimer.Enabled _
                 AndAlso Editable)
             HistoryB.Enabled = (CurrentEdit.Page.FirstEdit Is Nothing)
             HistoryDiffToCurB.Enabled = (Not CurrentEdit Is CurrentPage.LastEdit) AndAlso (Not CurrentEdit.Multiple)
@@ -192,10 +193,10 @@ Partial Class Main
             PageMove.Enabled = CurrentPage.IsMovable
             PagePatrol.Enabled = (Not CurrentPage.Patrolled)
             PageProtect.Enabled = True
-            PageRequestProtection.Enabled = True
+            PageReqProtection.Enabled = True
             PageTag.Enabled = Editable
             PageTagB.Enabled = Editable
-            PageTagDelete.Enabled = Editable
+            PageReqDeletion.Enabled = Editable
             PageTagDeleteB.Enabled = Editable
             PageTagProd.Enabled = Editable
             PageTagSpeedy.Enabled = Editable
@@ -205,7 +206,7 @@ Partial Class Main
             PageWatch.Enabled = True
             PageWatchB.Enabled = True
             PageXfd.Enabled = Editable
-            RevertWarnB.Enabled = (DiffRevertB.Enabled AndAlso Not CurrentUser.Ignored AndAlso Editable _
+            RevertWarnB.Enabled = (RevertB.Enabled AndAlso Not CurrentUser.Ignored AndAlso Editable _
                 AndAlso Config.WarningSeries.Count > 0)
             QueueClear.Enabled = (CurrentQueue.Edits.Count > 0)
             QueueNext.Enabled = (CurrentQueue.Edits.Count > 0)
@@ -228,7 +229,7 @@ Partial Class Main
             UserReportB.Enabled = (Not CurrentUser.Ignored AndAlso CurrentUser.Level < UserLevel.Blocked)
             UserTalk.Enabled = True
             UserTalkB.Enabled = True
-            UserTemplateB.Enabled = (Not CurrentUser.Ignored)
+            TemplateB.Enabled = (Not CurrentUser.Ignored)
             UserWarn.Enabled = (Not CurrentUser.Ignored AndAlso Config.WarningSeries.Count > 0)
             WarnB.Enabled = (Not CurrentUser.Ignored AndAlso Config.WarningSeries.Count > 0)
 
@@ -237,11 +238,11 @@ Partial Class Main
             Next Item
 
             For Each Item As ToolStripItem In RevertMenu.Items
-                Item.Enabled = DiffRevertB.Enabled
+                Item.Enabled = RevertB.Enabled
             Next Item
 
             For Each Item As ToolStripItem In TemplateMenu.Items
-                Item.Enabled = UserTemplateB.Enabled
+                Item.Enabled = TemplateB.Enabled
             Next Item
 
             For Each Item As ToolStripItem In TagDeleteMenu.Items
@@ -272,20 +273,20 @@ Partial Class Main
     Sub UpdateWatchButton()
         If Watchlist.Contains(CurrentEdit.Page.SubjectPage) AndAlso PageWatch.Text = "Watch" Then
             PageWatchB.Image = My.Resources.page_unwatch
-            PageWatch.Text = "Unwatch"
+            PageWatch.Text = Msg("main-page-unwatch")
         ElseIf PageWatch.Text = "Unwatch" AndAlso Not Watchlist.Contains(CurrentEdit.Page.SubjectPage) Then
             PageWatchB.Image = My.Resources.page_watch
-            PageWatch.Text = "Watch"
+            PageWatch.Text = Msg("main-page-watch")
         End If
     End Sub
 
     Sub UpdateIgnoreButton()
-        If CurrentUser.Ignored AndAlso UserIgnore.Text = "Ignore" Then
+        If CurrentUser.Ignored AndAlso UserIgnore.Text = Msg("main-user-ignore") Then
             UserIgnoreB.Image = My.Resources.user_unwhitelist
-            UserIgnore.Text = "Unignore"
-        ElseIf Not CurrentUser.Ignored AndAlso UserIgnore.Text = "Unignore" Then
+            UserIgnore.Text = Msg("main-user-unignore")
+        ElseIf Not CurrentUser.Ignored AndAlso UserIgnore.Text = Msg("main-user-unignore") Then
             UserIgnoreB.Image = My.Resources.user_whitelist
-            UserIgnore.Text = "Ignore"
+            UserIgnore.Text = Msg("main-user-ignore")
         End If
     End Sub
 
@@ -313,13 +314,16 @@ Partial Class Main
                 If QueueClear.Enabled Then QueueClear_Click()
 
             Case Is = ShortcutKeys("Show next diff")
-                If DiffNextB.Enabled Then DiffNextB_Click()
+                If NextDiffB.Enabled Then DiffNextB_Click()
 
             Case Is = ShortcutKeys("View user talk page")
                 If UserTalkB.Enabled Then UserTalk_Click()
 
-            Case Is = ShortcutKeys("Report / block user")
+            Case Is = ShortcutKeys("Report user")
                 If UserReportB.Enabled AndAlso UserReportB.Visible Then UserReportVandalism_Click()
+
+            Case Is = ShortcutKeys("Block user")
+                If UserBlockB.Enabled AndAlso UserBlockB.Visible Then UserBlockB_Click()
 
             Case Is = ShortcutKeys("Latest contribution")
                 If ContribsLastB.Enabled Then ContribsLast_Click()
@@ -357,7 +361,7 @@ Partial Class Main
                 If PageWatchB.Enabled Then WatchPage_Click()
 
             Case Is = ShortcutKeys("Show new messages")
-                If SystemShowNewMessages.Enabled Then SystemShowNewMessages_Click()
+                If SystemMessages.Enabled Then SystemShowNewMessages_Click()
 
             Case Is = ShortcutKeys("Message user")
                 If UserMessageB.Enabled Then UserMessage_Click()
@@ -375,7 +379,7 @@ Partial Class Main
                 If RevertWarnB.Enabled Then RevertWarnB_ButtonClick()
 
             Case Is = ShortcutKeys("Revert")
-                If DiffRevertB.Enabled Then Revert_Click()
+                If RevertB.Enabled Then Revert_Click()
 
             Case Is = ShortcutKeys("Nominate for deletion")
                 If PageXfd.Enabled Then PageNominate_Click()
@@ -384,7 +388,7 @@ Partial Class Main
                 If PageTagDeleteB.Enabled Then PageTagDeleteB.ShowDropDown()
 
             Case Is = ShortcutKeys("Post template message")
-                If UserTemplateB.Enabled Then UserTemplateB.ShowDropDown()
+                If TemplateB.Enabled Then TemplateB.ShowDropDown()
 
             Case Is = ShortcutKeys("Retrieve user contributions")
                 If ContribsB.Enabled Then UserContribs_Click()
@@ -405,7 +409,7 @@ Partial Class Main
                 If HistoryNextB.Enabled Then HistoryNext_Click()
 
             Case Is = ShortcutKeys("Revert with custom summary")
-                If DiffRevertB.Enabled Then DiffRevertSummary_Click()
+                If RevertB.Enabled Then DiffRevertSummary_Click()
 
             Case Is = ShortcutKeys("Previous contribution")
                 If ContribsPrevB.Enabled Then ContribsPrev_Click()
@@ -474,7 +478,7 @@ Partial Class Main
                 If Config.WarningSeries.Contains("unsourced") Then RevertAndWarn("unsourced")
 
             Case Is = ShortcutKeys("Request protection")
-                If PageRequestProtection.Enabled Then PageRequestProtection_Click()
+                If PageReqProtection.Enabled Then PageRequestProtection_Click()
         End Select
 
         e.Handled = True
@@ -489,7 +493,7 @@ Partial Class Main
         SetSDItem(BrowserNewTab, "New tab")
         SetSDItem(BrowserOpen, "Open page in external browser")
         SetSDItem(HelpAbout, "About")
-        SetSDItem(HelpDocs, "Help")
+        SetSDItem(HelpDocumentation, "Help")
         SetSDItem(PageDelete, "Delete page")
         SetSDItem(PageEdit, "Edit page")
         SetSDItem(PageHistory, "Retrieve page history")
@@ -498,14 +502,14 @@ Partial Class Main
         SetSDItem(PageXfd, "Nominate for deletion")
         SetSDItem(PageTagProd, "Proposed deletion")
         SetSDItem(PageProtect, "Protect page")
-        SetSDItem(PageRequestProtection, "Request protection")
+        SetSDItem(PageReqProtection, "Request protection")
         SetSDItem(PageTag, "Tag page")
         SetSDItem(PageView, "View this revision")
         SetSDItem(PageViewLatest, "View current revision")
         SetSDItem(PageWatch, "Watch page")
         SetSDItem(QueueClear, "Clear queue")
         SetSDItem(QueueNext, "Show next diff")
-        SetSDItem(SystemShowNewMessages, "Show new messages")
+        SetSDItem(SystemMessages, "Show new messages")
         SetSDItem(UserBlock, "Report / block user")
         SetSDItem(UserContribs, "Retrieve user contributions")
         SetSDItem(UserIgnore, "Ignore user")
@@ -540,8 +544,8 @@ Partial Class Main
         SetTTItem(ContribsLastB, "Latest contribution")
         SetTTItem(ContribsNextB, "Next contribution")
         SetTTItem(ContribsPrevB, "Previous contribution")
-        SetTTItem(DiffNextB, "Show next diff")
-        SetTTItem(DiffRevertB, "Revert")
+        SetTTItem(NextDiffB, "Show next diff")
+        SetTTItem(RevertB, "Revert")
         SetTTItem(RevertWarnB, "Revert and warn")
         SetTTItem(HistoryB, "Retrieve page history")
         SetTTItem(HistoryDiffToCurB, "Diff to current revision")
@@ -559,7 +563,8 @@ Partial Class Main
         SetTTItem(UserMessageB, "Message user")
         SetTTItem(UserReportB, "Report user")
         SetTTItem(UserTalkB, "View user talk page")
-        SetTTItem(UserTemplateB, "Post template message")
+        SetTTItem(UserBlockB, "Block user")
+        SetTTItem(TemplateB, "Post template message")
         SetTTItem(WarnB, "Warn")
     End Sub
 
@@ -571,11 +576,12 @@ Partial Class Main
     End Sub
 
     Private Sub SetTTItem(ByVal Item As ToolStripItem, ByVal Key As String)
-        If ShortcutKeys.ContainsKey(Key) Then
-            If Item.ToolTipText.Contains("[") Then _
-                Item.ToolTipText = Item.ToolTipText.Substring(0, Item.ToolTipText.IndexOf("["))
-            If ShortcutKeys(Key).Key <> Keys.None Then Item.ToolTipText &= "[" & ShortcutKeys(Key).ToString & "]"
-        End If
+        Dim Name As String = Item.Name
+        If Name.EndsWith("B") Then Name = Name.Substring(0, Name.Length - 1)
+        Item.ToolTipText = Msg("main-tip-" & Name)
+
+        If ShortcutKeys.ContainsKey(Key) AndAlso ShortcutKeys(Key).Key <> Keys.None _
+            Then Item.ToolTipText &= " [" & ShortcutKeys(Key).ToString & "]"
     End Sub
 
     Public Sub SetQueueSelector()
@@ -585,12 +591,33 @@ Partial Class Main
             QueueSelector.Items.Add(Item)
         Next Item
 
-        QueueSelector.Items.Add("Add...")
+        QueueSelector.Items.Add(Msg("main-addqueue"))
         If CurrentQueue IsNot Nothing Then QueueSelector.SelectedItem = CurrentQueue.Name
     End Sub
 
     Private Sub KeyDelayTimer_Tick() Handles KeyDelayTimer.Tick
         KeyDelayTimer.Stop()
+    End Sub
+
+    Private Sub SetMenuText()
+        For Each Menu As ToolStripMenuItem In TopMenu.Items
+            For Each MenuItem As ToolStripItem In Menu.DropDownItems
+                If Not TypeOf MenuItem Is ToolStripSeparator _
+                    Then MenuItem.Text = Msg("main-" & Menu.Name.Replace("Menu", "") & "-" & _
+                    MenuItem.Name.Substring(Menu.Name.Replace("Menu", "").Length))
+            Next MenuItem
+
+            Menu.Text = Msg("main-" & Menu.Name.Substring(4))
+        Next Menu
+
+        Contribs.Text = Msg("main-contribs")
+        History.Text = Msg("main-history")
+        PageLabel.Text = Msg("main-page")
+        UserLabel.Text = Msg("main-user")
+        UserMessageOther.Text = Msg("main-usermessageother")
+        RevertAdvanced.Text = Msg("main-advanced")
+        RevertWarnAdvanced.Text = Msg("main-advanced")
+        WarnAdvanced.Text = Msg("main-advanced")
     End Sub
 
 End Class

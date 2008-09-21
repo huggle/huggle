@@ -24,19 +24,19 @@ Partial Class UserInfoForm
     Private Sub InitializeComponent()
         Me.WarnLog = New System.Windows.Forms.ListView
         Me.BlockLog = New System.Windows.Forms.ListView
-        Me.BlockLabel = New System.Windows.Forms.Label
-        Me.WarnLabel = New System.Windows.Forms.Label
+        Me.BlockLogLabel = New System.Windows.Forms.Label
+        Me.WarnLogLabel = New System.Windows.Forms.Label
         Me.OK = New System.Windows.Forms.Button
         Me.SharedIPLabel = New System.Windows.Forms.Label
-        Me.EditCount = New System.Windows.Forms.Label
-        Me.WhitelistedLabel = New System.Windows.Forms.Label
-        Me.EditCountLabel = New System.Windows.Forms.Label
-        Me.Whitelisted = New System.Windows.Forms.Label
+        Me.Edits = New System.Windows.Forms.Label
+        Me.IgnoredLabel = New System.Windows.Forms.Label
+        Me.EditsLabel = New System.Windows.Forms.Label
+        Me.Ignored = New System.Windows.Forms.Label
         Me.SharedIP = New System.Windows.Forms.Label
-        Me.Label3 = New System.Windows.Forms.Label
-        Me.Label4 = New System.Windows.Forms.Label
+        Me.SessionEditsLabel = New System.Windows.Forms.Label
+        Me.AnonymousLabel = New System.Windows.Forms.Label
         Me.Anonymous = New System.Windows.Forms.Label
-        Me.SessionEditCount = New System.Windows.Forms.Label
+        Me.SessionEdits = New System.Windows.Forms.Label
         Me.SuspendLayout()
         '
         'WarnLog
@@ -72,23 +72,23 @@ Partial Class UserInfoForm
         Me.BlockLog.UseCompatibleStateImageBehavior = False
         Me.BlockLog.View = System.Windows.Forms.View.Details
         '
-        'BlockLabel
+        'BlockLogLabel
         '
-        Me.BlockLabel.AutoSize = True
-        Me.BlockLabel.Location = New System.Drawing.Point(9, 58)
-        Me.BlockLabel.Name = "BlockLabel"
-        Me.BlockLabel.Size = New System.Drawing.Size(42, 13)
-        Me.BlockLabel.TabIndex = 6
-        Me.BlockLabel.Text = "Blocks:"
+        Me.BlockLogLabel.AutoSize = True
+        Me.BlockLogLabel.Location = New System.Drawing.Point(9, 58)
+        Me.BlockLogLabel.Name = "BlockLogLabel"
+        Me.BlockLogLabel.Size = New System.Drawing.Size(42, 13)
+        Me.BlockLogLabel.TabIndex = 6
+        Me.BlockLogLabel.Text = "Blocks:"
         '
-        'WarnLabel
+        'WarnLogLabel
         '
-        Me.WarnLabel.AutoSize = True
-        Me.WarnLabel.Location = New System.Drawing.Point(9, 180)
-        Me.WarnLabel.Name = "WarnLabel"
-        Me.WarnLabel.Size = New System.Drawing.Size(55, 13)
-        Me.WarnLabel.TabIndex = 8
-        Me.WarnLabel.Text = "Warnings:"
+        Me.WarnLogLabel.AutoSize = True
+        Me.WarnLogLabel.Location = New System.Drawing.Point(9, 180)
+        Me.WarnLogLabel.Name = "WarnLogLabel"
+        Me.WarnLogLabel.Size = New System.Drawing.Size(55, 13)
+        Me.WarnLogLabel.TabIndex = 8
+        Me.WarnLogLabel.Text = "Warnings:"
         '
         'OK
         '
@@ -109,41 +109,41 @@ Partial Class UserInfoForm
         Me.SharedIPLabel.TabIndex = 0
         Me.SharedIPLabel.Text = "Shared/dynamic IP:"
         '
-        'EditCount
+        'Edits
         '
-        Me.EditCount.AutoSize = True
-        Me.EditCount.Location = New System.Drawing.Point(452, 9)
-        Me.EditCount.Name = "EditCount"
-        Me.EditCount.Size = New System.Drawing.Size(16, 13)
-        Me.EditCount.TabIndex = 5
-        Me.EditCount.Text = "..."
+        Me.Edits.AutoSize = True
+        Me.Edits.Location = New System.Drawing.Point(452, 9)
+        Me.Edits.Name = "Edits"
+        Me.Edits.Size = New System.Drawing.Size(16, 13)
+        Me.Edits.TabIndex = 5
+        Me.Edits.Text = "..."
         '
-        'WhitelistedLabel
+        'IgnoredLabel
         '
-        Me.WhitelistedLabel.AutoSize = True
-        Me.WhitelistedLabel.Location = New System.Drawing.Point(175, 9)
-        Me.WhitelistedLabel.Name = "WhitelistedLabel"
-        Me.WhitelistedLabel.Size = New System.Drawing.Size(62, 13)
-        Me.WhitelistedLabel.TabIndex = 2
-        Me.WhitelistedLabel.Text = "Whitelisted:"
+        Me.IgnoredLabel.AutoSize = True
+        Me.IgnoredLabel.Location = New System.Drawing.Point(175, 9)
+        Me.IgnoredLabel.Name = "IgnoredLabel"
+        Me.IgnoredLabel.Size = New System.Drawing.Size(62, 13)
+        Me.IgnoredLabel.TabIndex = 2
+        Me.IgnoredLabel.Text = "Whitelisted:"
         '
-        'EditCountLabel
+        'EditsLabel
         '
-        Me.EditCountLabel.AutoSize = True
-        Me.EditCountLabel.Location = New System.Drawing.Point(354, 9)
-        Me.EditCountLabel.Name = "EditCountLabel"
-        Me.EditCountLabel.Size = New System.Drawing.Size(84, 13)
-        Me.EditCountLabel.TabIndex = 4
-        Me.EditCountLabel.Text = "Number of edits:"
+        Me.EditsLabel.AutoSize = True
+        Me.EditsLabel.Location = New System.Drawing.Point(354, 9)
+        Me.EditsLabel.Name = "EditsLabel"
+        Me.EditsLabel.Size = New System.Drawing.Size(84, 13)
+        Me.EditsLabel.TabIndex = 4
+        Me.EditsLabel.Text = "Number of edits:"
         '
-        'Whitelisted
+        'Ignored
         '
-        Me.Whitelisted.AutoSize = True
-        Me.Whitelisted.Location = New System.Drawing.Point(285, 9)
-        Me.Whitelisted.Name = "Whitelisted"
-        Me.Whitelisted.Size = New System.Drawing.Size(21, 13)
-        Me.Whitelisted.TabIndex = 3
-        Me.Whitelisted.Text = "No"
+        Me.Ignored.AutoSize = True
+        Me.Ignored.Location = New System.Drawing.Point(285, 9)
+        Me.Ignored.Name = "Ignored"
+        Me.Ignored.Size = New System.Drawing.Size(21, 13)
+        Me.Ignored.TabIndex = 3
+        Me.Ignored.Text = "No"
         '
         'SharedIP
         '
@@ -154,23 +154,23 @@ Partial Class UserInfoForm
         Me.SharedIP.TabIndex = 1
         Me.SharedIP.Text = "No"
         '
-        'Label3
+        'SessionEditsLabel
         '
-        Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(354, 31)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(90, 13)
-        Me.Label3.TabIndex = 11
-        Me.Label3.Text = "Edits this session:"
+        Me.SessionEditsLabel.AutoSize = True
+        Me.SessionEditsLabel.Location = New System.Drawing.Point(354, 31)
+        Me.SessionEditsLabel.Name = "SessionEditsLabel"
+        Me.SessionEditsLabel.Size = New System.Drawing.Size(90, 13)
+        Me.SessionEditsLabel.TabIndex = 11
+        Me.SessionEditsLabel.Text = "Edits this session:"
         '
-        'Label4
+        'AnonymousLabel
         '
-        Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(9, 9)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(65, 13)
-        Me.Label4.TabIndex = 12
-        Me.Label4.Text = "Anonymous:"
+        Me.AnonymousLabel.AutoSize = True
+        Me.AnonymousLabel.Location = New System.Drawing.Point(9, 9)
+        Me.AnonymousLabel.Name = "AnonymousLabel"
+        Me.AnonymousLabel.Size = New System.Drawing.Size(65, 13)
+        Me.AnonymousLabel.TabIndex = 12
+        Me.AnonymousLabel.Text = "Anonymous:"
         '
         'Anonymous
         '
@@ -181,33 +181,33 @@ Partial Class UserInfoForm
         Me.Anonymous.TabIndex = 13
         Me.Anonymous.Text = "No"
         '
-        'SessionEditCount
+        'SessionEdits
         '
-        Me.SessionEditCount.AutoSize = True
-        Me.SessionEditCount.Location = New System.Drawing.Point(452, 31)
-        Me.SessionEditCount.Name = "SessionEditCount"
-        Me.SessionEditCount.Size = New System.Drawing.Size(16, 13)
-        Me.SessionEditCount.TabIndex = 14
-        Me.SessionEditCount.Text = "..."
+        Me.SessionEdits.AutoSize = True
+        Me.SessionEdits.Location = New System.Drawing.Point(452, 31)
+        Me.SessionEdits.Name = "SessionEdits"
+        Me.SessionEdits.Size = New System.Drawing.Size(16, 13)
+        Me.SessionEdits.TabIndex = 14
+        Me.SessionEdits.Text = "..."
         '
         'UserInfoForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(542, 368)
-        Me.Controls.Add(Me.SessionEditCount)
+        Me.Controls.Add(Me.SessionEdits)
         Me.Controls.Add(Me.Anonymous)
-        Me.Controls.Add(Me.Label4)
-        Me.Controls.Add(Me.Label3)
+        Me.Controls.Add(Me.AnonymousLabel)
+        Me.Controls.Add(Me.SessionEditsLabel)
         Me.Controls.Add(Me.SharedIP)
-        Me.Controls.Add(Me.Whitelisted)
-        Me.Controls.Add(Me.EditCountLabel)
-        Me.Controls.Add(Me.WhitelistedLabel)
-        Me.Controls.Add(Me.EditCount)
+        Me.Controls.Add(Me.Ignored)
+        Me.Controls.Add(Me.EditsLabel)
+        Me.Controls.Add(Me.IgnoredLabel)
+        Me.Controls.Add(Me.Edits)
         Me.Controls.Add(Me.SharedIPLabel)
         Me.Controls.Add(Me.OK)
-        Me.Controls.Add(Me.WarnLabel)
-        Me.Controls.Add(Me.BlockLabel)
+        Me.Controls.Add(Me.WarnLogLabel)
+        Me.Controls.Add(Me.BlockLogLabel)
         Me.Controls.Add(Me.WarnLog)
         Me.Controls.Add(Me.BlockLog)
         Me.KeyPreview = True
@@ -223,17 +223,17 @@ Partial Class UserInfoForm
     End Sub
     Friend WithEvents WarnLog As System.Windows.Forms.ListView
     Friend WithEvents BlockLog As System.Windows.Forms.ListView
-    Friend WithEvents BlockLabel As System.Windows.Forms.Label
-    Friend WithEvents WarnLabel As System.Windows.Forms.Label
+    Friend WithEvents BlockLogLabel As System.Windows.Forms.Label
+    Friend WithEvents WarnLogLabel As System.Windows.Forms.Label
     Friend WithEvents OK As System.Windows.Forms.Button
     Friend WithEvents SharedIPLabel As System.Windows.Forms.Label
-    Friend WithEvents EditCount As System.Windows.Forms.Label
-    Friend WithEvents WhitelistedLabel As System.Windows.Forms.Label
-    Friend WithEvents EditCountLabel As System.Windows.Forms.Label
-    Friend WithEvents Whitelisted As System.Windows.Forms.Label
+    Friend WithEvents Edits As System.Windows.Forms.Label
+    Friend WithEvents IgnoredLabel As System.Windows.Forms.Label
+    Friend WithEvents EditsLabel As System.Windows.Forms.Label
+    Friend WithEvents Ignored As System.Windows.Forms.Label
     Friend WithEvents SharedIP As System.Windows.Forms.Label
-    Friend WithEvents Label3 As System.Windows.Forms.Label
-    Friend WithEvents Label4 As System.Windows.Forms.Label
+    Friend WithEvents SessionEditsLabel As System.Windows.Forms.Label
+    Friend WithEvents AnonymousLabel As System.Windows.Forms.Label
     Friend WithEvents Anonymous As System.Windows.Forms.Label
-    Friend WithEvents SessionEditCount As System.Windows.Forms.Label
+    Friend WithEvents SessionEdits As System.Windows.Forms.Label
 End Class

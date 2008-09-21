@@ -5,7 +5,9 @@ Class RevertForm
 
     Private Sub RevertForm_Load() Handles Me.Load
         Icon = My.Resources.icon_red_button
-        Text = "Revert " & Edit.Page.Name
+        Text = Msg("revert-title", Edit.Page.Name)
+        Localize(Me, "revert")
+
         Summary.Items.AddRange(Config.RevertSummaries.ToArray)
         Summary.Text = LastSummary
         Summary.Focus()

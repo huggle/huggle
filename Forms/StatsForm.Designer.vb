@@ -24,7 +24,7 @@ Partial Class StatsForm
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Me.OK = New System.Windows.Forms.Button
-        Me.Label1 = New System.Windows.Forms.Label
+        Me.ActionsLabel = New System.Windows.Forms.Label
         Me.StatsTimer = New System.Windows.Forms.Timer(Me.components)
         Me.Actions = New Huggle.ListView2
         Me.Session = New System.Windows.Forms.Label
@@ -40,14 +40,14 @@ Partial Class StatsForm
         Me.OK.Text = "Close"
         Me.OK.UseVisualStyleBackColor = True
         '
-        'Label1
+        'ActionsLabel
         '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(12, 9)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(102, 13)
-        Me.Label1.TabIndex = 1
-        Me.Label1.Text = "Actions this session:"
+        Me.ActionsLabel.AutoSize = True
+        Me.ActionsLabel.Location = New System.Drawing.Point(12, 9)
+        Me.ActionsLabel.Name = "ActionsLabel"
+        Me.ActionsLabel.Size = New System.Drawing.Size(102, 13)
+        Me.ActionsLabel.TabIndex = 1
+        Me.ActionsLabel.Text = "Actions this session:"
         '
         'StatsTimer
         '
@@ -86,7 +86,7 @@ Partial Class StatsForm
         Me.ClientSize = New System.Drawing.Size(554, 248)
         Me.Controls.Add(Me.Session)
         Me.Controls.Add(Me.Actions)
-        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.ActionsLabel)
         Me.Controls.Add(Me.OK)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.KeyPreview = True
@@ -99,7 +99,7 @@ Partial Class StatsForm
 
     End Sub
     Friend WithEvents OK As System.Windows.Forms.Button
-    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents ActionsLabel As System.Windows.Forms.Label
     Friend WithEvents Actions As Huggle.ListView2
     Private WithEvents StatsTimer As System.Windows.Forms.Timer
     Friend WithEvents Session As System.Windows.Forms.Label

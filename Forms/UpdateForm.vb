@@ -7,16 +7,15 @@ Class UpdateForm
 
     Private Sub VersionForm_Load() Handles Me.Load
         Icon = My.Resources.icon_red_button
+        Text = Msg("update-title")
 
-        Message.Text = "This version of Huggle is out of date." & LF
+        Message.Text = Msg("update-notification") & CRLF
 
-        If Config.Version >= Config.MinVersion Then Message.Text &= "Updating to the latest version, " & _
-            VersionString(Config.LatestVersion) & ", is recommended, and may be required in future."
+        If Config.Version >= Config.MinVersion _
+            Then Message.Text &= Msg("update-optional", VersionString(Config.LatestVersion)) _
+            Else Message.Text &= Msg("update-required", VersionString(Config.LatestVersion))
 
-        If Config.Version < Config.MinVersion Then Message.Text &= "You must update to the latest version, " & _
-            VersionString(Config.LatestVersion) & "."
-
-        Message.Text &= LF & "Download and run the latest version now?"
+        Message.Text &= CRLF & Msg("update-prompt")
     End Sub
 
     Private Sub VersionForm_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles Me.KeyDown
@@ -31,7 +30,7 @@ Class UpdateForm
     Private Sub Update_Click() Handles Download.Click
         Download.Enabled = False
         Progress.Visible = True
-        Status.Text = "Downloading new version..."
+        Status.Text = Msg("update-progress")
 
         Request = New UpdateRequest
         Request.FileName = FileName
@@ -47,7 +46,7 @@ Class UpdateForm
             Progress.Value = 0
             Progress.Visible = False
             Download.Enabled = True
-            Status.Text = "Failed to download new version."
+            Status.Text = Msg("update-error")
         End If
     End Sub
 

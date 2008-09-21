@@ -24,7 +24,7 @@ Partial Class RevertForm
     Private Sub InitializeComponent()
         Me.Cancel = New System.Windows.Forms.Button
         Me.OK = New System.Windows.Forms.Button
-        Me.Label1 = New System.Windows.Forms.Label
+        Me.SummaryLabel = New System.Windows.Forms.Label
         Me.Summary = New System.Windows.Forms.ComboBox
         Me.CurrentOnly = New System.Windows.Forms.CheckBox
         Me.SuspendLayout()
@@ -49,14 +49,14 @@ Partial Class RevertForm
         Me.OK.Text = "OK"
         Me.OK.UseVisualStyleBackColor = True
         '
-        'Label1
+        'SummaryLabel
         '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(12, 9)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(200, 13)
-        Me.Label1.TabIndex = 0
-        Me.Label1.Text = "Revert summary (leave blank for default):"
+        Me.SummaryLabel.AutoSize = True
+        Me.SummaryLabel.Location = New System.Drawing.Point(12, 9)
+        Me.SummaryLabel.Name = "SummaryLabel"
+        Me.SummaryLabel.Size = New System.Drawing.Size(200, 13)
+        Me.SummaryLabel.TabIndex = 0
+        Me.SummaryLabel.Text = "Revert summary (leave blank for default):"
         '
         'Summary
         '
@@ -87,7 +87,7 @@ Partial Class RevertForm
         Me.ClientSize = New System.Drawing.Size(441, 85)
         Me.Controls.Add(Me.CurrentOnly)
         Me.Controls.Add(Me.Summary)
-        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.SummaryLabel)
         Me.Controls.Add(Me.OK)
         Me.Controls.Add(Me.Cancel)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
@@ -103,7 +103,7 @@ Partial Class RevertForm
     End Sub
     Friend WithEvents Cancel As System.Windows.Forms.Button
     Friend WithEvents OK As System.Windows.Forms.Button
-    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents SummaryLabel As System.Windows.Forms.Label
     Friend WithEvents Summary As System.Windows.Forms.ComboBox
     Friend WithEvents CurrentOnly As System.Windows.Forms.CheckBox
 End Class

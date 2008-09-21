@@ -72,12 +72,15 @@ Module Irc
         RegexOptions.Compiled)
 
     Private Sub IrcProcess()
+        If Config.IrcServer Is Nothing Then Exit Sub
+
         Connecting = True
 
         'Username in RC feed IRC channels is "h_" followed by random 6-digit number
         Config.IrcUsername = "h_" & New Random(Date.UtcNow.Millisecond).NextDouble.ToString.Substring(2, 6)
 
         Try
+
             Dim Stream As NetworkStream = New TcpClient(Config.IrcServer, Config.IrcPort).GetStream
             Dim Reader As New StreamReader(Stream, System.Text.Encoding.UTF8)
             Dim Writer As New StreamWriter(Stream)

@@ -136,11 +136,11 @@ Class Main
         If Not LoggingOut Then ClosingForm.ShowDialog()
     End Sub
 
-    Private Sub Revert_Click() Handles DiffRevertB.ButtonClick
+    Private Sub Revert_Click() Handles RevertB.ButtonClick
         DoRevert(CurrentEdit)
     End Sub
 
-    Sub DiffNextB_Click() Handles QueueNext.Click, DiffNextB.Click
+    Sub DiffNextB_Click() Handles QueueNext.Click, NextDiffB.Click
         ShowNextEdit()
     End Sub
 
@@ -167,7 +167,7 @@ Class Main
 
         Dim NewCommand As New Command
         NewCommand.User = User
-        NewCommand.Description = "Ignore " & User.Name
+        NewCommand.Description = Msg("main-user-ignore") & " " & User.Name
         NewCommand.Type = CommandType.Ignore
         AddToUndoList(NewCommand)
 
@@ -193,7 +193,7 @@ Class Main
 
         Dim NewCommand As New Command
         NewCommand.User = User
-        NewCommand.Description = "Unignore " & User.Name
+        NewCommand.Description = Msg("main-user-unignore") & " " & User.Name
         NewCommand.Type = CommandType.Unignore
         AddToUndoList(NewCommand)
 
@@ -481,14 +481,14 @@ Class Main
             Then DisplayUrl(Config.SitePath & "w/index.php?title=" & UrlEncode(CurrentPage.Name) & "&oldid=" & CurrentEdit.Id)
     End Sub
 
-    Private Sub DiffRevertSummary_Click() Handles DiffRevertSummary.Click
+    Private Sub DiffRevertSummary_Click() Handles RevertAdvanced.Click
         If CurrentEdit IsNot Nothing AndAlso CurrentEdit.Prev IsNot Nothing Then
             Dim NewRevertForm As New RevertForm
 
             NewRevertForm.Edit = CurrentEdit
 
             If NewRevertForm.ShowDialog = DialogResult.OK Then
-                DiffRevertB.Enabled = False
+                RevertB.Enabled = False
                 RevertWarnB.Enabled = False
                 Reverting = True
                 RevertTimer.Interval = 5000
@@ -502,7 +502,7 @@ Class Main
         Reverting = False
 
         If CurrentEdit IsNot Nothing Then
-            DiffRevertB.Enabled = True
+            RevertB.Enabled = True
             If CurrentEdit.User IsNot Nothing AndAlso Not CurrentEdit.User.Ignored Then RevertWarnB.Enabled = True
         End If
     End Sub
@@ -560,7 +560,7 @@ Class Main
     Private Sub Warn_Click() Handles UserWarn.Click, WarnAdvanced.Click
         If CurrentUser IsNot Nothing Then
             Dim NewWarningForm As New WarningForm
-            NewWarningForm.ThisUser = CurrentUser
+            NewWarningForm.User = CurrentUser
 
             If NewWarningForm.ShowDialog() = DialogResult.OK Then WarnB.Enabled = False
         End If
@@ -613,7 +613,7 @@ Class Main
         If CurrentEdit.Page IsNot Nothing Then
             Dim NewTagForm As New TagForm
 
-            NewTagForm.ThisPage = CurrentEdit.Page
+            NewTagForm.Page = CurrentEdit.Page
             NewTagForm.ToSpeedy.Enabled = PageTagSpeedy.Enabled
             NewTagForm.ToProd.Enabled = PageTagProd.Enabled
             NewTagForm.ShowDialog()
@@ -738,9 +738,9 @@ Class Main
         CurrentTab.HistoryForward()
     End Sub
 
-    Private Sub SystemShowNewMessages_Click() Handles SystemShowNewMessages.Click
+    Private Sub SystemShowNewMessages_Click() Handles SystemMessages.Click
         DisplayEdit(User.Me.TalkPage.LastEdit)
-        SystemShowNewMessages.Enabled = False
+        SystemMessages.Enabled = False
     End Sub
 
     Sub BlockUser(ByVal ThisUser As User)
@@ -750,16 +750,16 @@ Class Main
         NewBlockForm.Reason.Text = Config.BlockReason
 
         If ThisUser.Anonymous Then
-            NewBlockForm.BlockEmail.Enabled = False
-            NewBlockForm.EnableAutoblock.Enabled = False
+            NewBlockForm.Email.Enabled = False
+            NewBlockForm.Autoblock.Enabled = False
             NewBlockForm.AnonOnly.Checked = True
-            NewBlockForm.BlockCreation.Checked = True
-            NewBlockForm.Expiry.Text = Config.BlockTimeAnon
+            NewBlockForm.Creation.Checked = True
+            NewBlockForm.Duration.Text = Config.BlockTimeAnon
         Else
             NewBlockForm.AnonOnly.Enabled = False
-            NewBlockForm.EnableAutoblock.Checked = True
-            NewBlockForm.BlockCreation.Checked = True
-            NewBlockForm.Expiry.Text = Config.BlockTime
+            NewBlockForm.Autoblock.Checked = True
+            NewBlockForm.Creation.Checked = True
+            NewBlockForm.Duration.Text = Config.BlockTime
         End If
 
         If NewBlockForm.ShowDialog = DialogResult.OK Then
@@ -769,14 +769,14 @@ Class Main
             NewBlockRequest.User = NewBlockForm.User
             NewBlockRequest.Reason = NewBlockForm.Reason.Text
             NewBlockRequest.AnonOnly = NewBlockForm.AnonOnly.Checked
-            NewBlockRequest.BlockCreation = NewBlockForm.BlockCreation.Checked
-            NewBlockRequest.BlockEmail = NewBlockForm.BlockEmail.Checked
-            NewBlockRequest.Autoblock = NewBlockForm.EnableAutoblock.Checked
-            NewBlockRequest.Notify = (NewBlockForm.BlockMessage.Text <> "" _
-                AndAlso NewBlockForm.BlockMessage.Text <> "(none)")
-            NewBlockRequest.Expiry = NewBlockForm.Expiry.Text
-            If NewBlockForm.BlockMessage.Text <> "(standard block message)" _
-                Then NewBlockRequest.NotifyTemplate = NewBlockForm.BlockMessage.Text
+            NewBlockRequest.BlockCreation = NewBlockForm.Creation.Checked
+            NewBlockRequest.BlockEmail = NewBlockForm.Email.Checked
+            NewBlockRequest.Autoblock = NewBlockForm.Autoblock.Checked
+            NewBlockRequest.Notify = (NewBlockForm.Message.Text <> "" _
+                AndAlso NewBlockForm.Message.Text <> "(none)")
+            NewBlockRequest.Expiry = NewBlockForm.Duration.Text
+            If NewBlockForm.Message.Text <> "(standard block message)" _
+                Then NewBlockRequest.NotifyTemplate = NewBlockForm.Message.Text
             NewBlockRequest.Start()
         End If
     End Sub
@@ -816,7 +816,7 @@ Class Main
 
     Private Sub TrayRestore_Click() Handles TrayRestore.Click
         Visible = Not Visible
-        If Visible Then TrayRestore.Text = "Minimize" Else TrayRestore.Text = "Restore"
+        If Visible Then TrayRestore.Text = Msg("minimizewindow") Else TrayRestore.Text = Msg("restorewindow")
     End Sub
 
     Private Sub TrayExit_Click() Handles TrayExit.Click
@@ -828,7 +828,7 @@ Class Main
     End Sub
 
     Private Sub TrayIcon_BalloonTipClicked() Handles TrayIcon.BalloonTipClicked
-        If SystemShowNewMessages.Enabled Then SystemShowNewMessages_Click()
+        If SystemMessages.Enabled Then SystemShowNewMessages_Click()
         If Not Visible Then TrayRestore_Click()
     End Sub
 
@@ -889,7 +889,7 @@ Class Main
         End If
     End Sub
 
-    Private Sub HelpDocs_Click() Handles HelpDocs.Click
+    Private Sub HelpDocs_Click() Handles HelpDocumentation.Click
         OpenUrlInBrowser(Config.DocsLocation)
     End Sub
 
@@ -922,7 +922,7 @@ Class Main
     End Sub
 
     Private Sub PageRequestProtection_Click() _
-        Handles PageRequestProtection.Click
+        Handles PageReqProtection.Click
 
         If CurrentEdit IsNot Nothing AndAlso CurrentEdit.Page IsNot Nothing Then
 
@@ -1036,8 +1036,8 @@ Class Main
         Next Item
 
         If Edits > 0 AndAlso (Date.UtcNow - FirstTime).TotalMinutes > 0 _
-            Then Stats.Text = CStr(CInt(Edits / (Date.UtcNow - FirstTime).TotalMinutes)) & " edits per minute, " _
-            & CStr(CInt(Reverts / (Date.UtcNow - FirstTime).TotalMinutes)) & " reversions per minute"
+            Then Stats.Text = Msg("main-stats", CStr(CInt(Edits / (Date.UtcNow - FirstTime).TotalMinutes)), _
+            CStr(CInt(Reverts / (Date.UtcNow - FirstTime).TotalMinutes)))
     End Sub
 
     Private Sub QueueArea_MouseDown(ByVal s As Object, ByVal e As MouseEventArgs) Handles QueueArea.MouseDown
@@ -1313,7 +1313,7 @@ Class Main
         Next Item
 
         DrawQueue()
-        DiffNextB.Enabled = False
+        NextDiffB.Enabled = False
         Log("Reconnecting to IRC recent changes feed")
         Irc.Reconnect()
     End Sub
@@ -1426,7 +1426,7 @@ Class Main
             If Item.ForeColor <> Color.Red Then LogItems.Add(Item.SubItems(1).Text)
         Next Item
 
-        Dialog.Title = "Save log"
+        Dialog.Title = Msg("main-savelogtitle")
         Dialog.FileName = "huggle-log.txt"
         Dialog.Filter = "Text file|*.txt"
 
@@ -1436,7 +1436,7 @@ Class Main
         End If
     End Sub
 
-    Private Sub PageShowHistoryPage_Click() Handles PageShowHistoryPage.Click
+    Private Sub PageShowHistoryPage_Click() Handles PageHistoryPage.Click
         If CurrentPage IsNot Nothing Then DisplayUrl(Config.SitePath & "w/index.php?title=" & _
             UrlEncode(CurrentPage.Name.Replace(" ", "_")) & "&action=history")
     End Sub
@@ -1466,7 +1466,7 @@ Class Main
     End Sub
 
     Private Sub QueueSelector_SelectedIndexChanged() Handles QueueSelector.SelectedIndexChanged
-        If QueueSelector.SelectedItem.ToString = "Add..." Then
+        If QueueSelector.SelectedItem.ToString = Msg("main-addqueue") Then
             Dim NewQueueForm As New QueueForm
             NewQueueForm.ShowDialog()
         Else
@@ -1532,11 +1532,11 @@ Class Main
         End If
     End Sub
 
-    Private Sub GoMyTalk_Click() Handles GoMyTalk.Click
+    Private Sub GoMyTalk_Click() Handles GotoMyTalk.Click
         SetCurrentPage(User.Me.TalkPage, True)
     End Sub
 
-    Private Sub GoMyContribs_Click() Handles GoMyContribs.Click
+    Private Sub GoMyContribs_Click() Handles GotoMyContribs.Click
         SetCurrentUser(User.Me, True)
     End Sub
 
@@ -1585,7 +1585,7 @@ Class Main
         Status.Items.Clear()
     End Sub
 
-    Private Sub SystemListBuilder_Click() Handles SystemListBuilder.Click
+    Private Sub SystemListBuilder_Click() Handles SystemLists.Click
         Dim NewForm As New ListForm
         NewForm.Show()
     End Sub
@@ -1614,18 +1614,15 @@ Class Main
     End Sub
 
     Public Sub StartRevert()
-        DiffRevertB.Enabled = False
+        RevertB.Enabled = False
         RevertWarnB.Enabled = False
         Reverting = True
         RevertTimer.Interval = 5000
         RevertTimer.Start()
     End Sub
 
-    Private Sub DiffRevertCurrentOnly_Click() Handles DiffRevertCurrentOnly.Click
+    Private Sub DiffRevertCurrentOnly_Click() Handles RevertCurrentOnly.Click
         DoRevert(CurrentEdit, CurrentOnly:=True)
     End Sub
 
-    Private Sub Status_ItemActivate(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Status.ItemActivate
-
-    End Sub
 End Class

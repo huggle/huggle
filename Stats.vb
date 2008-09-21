@@ -6,8 +6,9 @@
 
     Public Class Group
 
-        Public Shared ItemNames As String() = {"Edits", "Assisted edits", "Huggle edits", "Reverts", _
-            "Warnings", "Reports", "Tags", "Notifications", "Blocks", "Deletes", "Protections"}
+        Public Shared ItemNames As String() = {Msg("stats-edits"), Msg("stats-assisted"), Msg("stats-huggle"), _
+            Msg("stats-reverts"), Msg("stats-warnings"), Msg("stats-reports"), Msg("stats-tags"), _
+            Msg("stats-notifications"), Msg("stats-blocks"), Msg("stats-deletes"), Msg("stats-protections")}
 
         Public Items As New Dictionary(Of String, Integer)
 
@@ -29,59 +30,60 @@
     End Class
 
     Shared Sub New()
-        For Each Item As String In New String() {"All users", "Me", "Ignored", "Anonymous", "Bots", "Other"}
+        For Each Item As String In New String() {Msg("stats-allusers"), Msg("stats-me"), Msg("stats-ignored"), _
+            Msg("stats-anon"), Msg("stats-bots"), Msg("stats-other")}
             Groups.Add(Item, New Group)
         Next Item
     End Sub
 
     Public Shared Sub Update(ByVal Item As Edit)
         'Update statistics and edit counts
-        UpdateGroup("All users", Item)
+        UpdateGroup(Msg("stats-allusers"), Item)
 
         If Item.User IsNot Nothing Then _
-            If Item.User.IsMe Then UpdateGroup("Me", Item) _
-            Else If Item.User.Anonymous Then UpdateGroup("Anonymous", Item) _
-            Else If Item.User.Bot Then UpdateGroup("Bots", Item) _
-            Else If Item.User.Ignored Then UpdateGroup("Ignored", Item) _
-            Else UpdateGroup("Other", Item)
+            If Item.User.IsMe Then UpdateGroup(Msg("stats-me"), Item) _
+            Else If Item.User.Anonymous Then UpdateGroup(Msg("stats-anon"), Item) _
+            Else If Item.User.Bot Then UpdateGroup(Msg("stats-bots"), Item) _
+            Else If Item.User.Ignored Then UpdateGroup(Msg("stats-ignored"), Item) _
+            Else UpdateGroup(Msg("stats-other"), Item)
     End Sub
 
     Public Shared Sub UpdateGroup(ByVal Name As String, ByVal Item As Edit)
         Dim Group As Group = Groups(Name)
 
-        Group("Edits") += 1
+        Group(Msg("stats-edits")) += 1
 
-        If Item.Type = EditType.Notification Then Group("Notifications") += 1
-        If Item.Type = EditType.Report Then Group("Reports") += 1
-        If Item.Type = EditType.Revert Then Group("Reverts") += 1
-        If Item.Type = EditType.Tag Then Group("Tags") += 1
-        If Item.Type = EditType.Warning Then Group("Warnings") += 1
-        If Item.Assisted Then Group("Assisted edits") += 1
-        If Item.IsHuggleEdit Then Group("Huggle edits") += 1
+        If Item.Type = EditType.Notification Then Group(Msg("stats-notifications")) += 1
+        If Item.Type = EditType.Report Then Group(Msg("stats-reports")) += 1
+        If Item.Type = EditType.Revert Then Group(Msg("stats-reverts")) += 1
+        If Item.Type = EditType.Tag Then Group(Msg("stats-tags")) += 1
+        If Item.Type = EditType.Warning Then Group(Msg("stats-warnings")) += 1
+        If Item.Assisted Then Group(Msg("stats-assisted")) += 1
+        If Item.IsHuggleEdit Then Group(Msg("stats-huggle")) += 1
     End Sub
 
     Public Shared Sub Update(ByVal Item As Block)
-        Groups("All users")("Blocks") += 1
+        Groups(Msg("stats-allusers"))(Msg("stats-blocks")) += 1
 
         If Item.Admin IsNot Nothing Then _
-            If Item.Admin.IsMe Then Groups("Me")("Blocks") += 1 _
-            Else Groups("Ignored")("Blocks") += 1
+            If Item.Admin.IsMe Then Groups(Msg("stats-me"))(Msg("stats-blocks")) += 1 _
+            Else Groups(Msg("stats-ignored"))(Msg("stats-blocks")) += 1
     End Sub
 
     Public Shared Sub Update(ByVal Item As Delete)
-        Groups("All users")("Deletes") += 1
+        Groups(Msg("stats-allusers"))(Msg("stats-deletes")) += 1
 
         If Item.Admin IsNot Nothing Then _
-            If Item.Admin.IsMe Then Groups("Me")("Deletes") += 1 _
-            Else Groups("Ignored")("Deletes") += 1
+            If Item.Admin.IsMe Then Groups(Msg("stats-me"))(Msg("stats-deletes")) += 1 _
+            Else Groups(Msg("stats-ignored"))(Msg("stats-deletes")) += 1
     End Sub
 
     Public Shared Sub Update(ByVal Item As Protection)
-        Groups("All users")("Protections") += 1
+        Groups(Msg("stats-allusers"))(Msg("stats-protections")) += 1
 
         If Item.Admin IsNot Nothing Then _
-            If Item.Admin.IsMe Then Groups("Me")("Protections") += 1 _
-            Else Groups("Ignored")("Protections") += 1
+            If Item.Admin.IsMe Then Groups(Msg("stats-me"))(Msg("stats-protections")) += 1 _
+            Else Groups(Msg("stats-ignored"))(Msg("stats-protections")) += 1
     End Sub
 
 End Class

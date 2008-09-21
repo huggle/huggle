@@ -2,6 +2,8 @@ Class StatsForm
 
     Private Sub StatsForm_Load() Handles Me.Load
         Icon = My.Resources.icon_red_button
+        Text = Msg("stats-title")
+        Localize(Me, "stats")
         RefreshStats()
     End Sub
 
@@ -32,8 +34,8 @@ Class StatsForm
 
         Dim SessionTime As TimeSpan = (Date.UtcNow - StartTime)
 
-        Session.Text = "Session time: " & SessionTime.Hours & ":" & SessionTime.Minutes.ToString.PadLeft(2, "0"c) _
-            & ":" & SessionTime.Seconds.ToString.PadLeft(2, "0"c)
+        Session.Text = Msg("stats-session", SessionTime.Hours & ":" & SessionTime.Minutes.ToString.PadLeft(2, "0"c) _
+            & ":" & SessionTime.Seconds.ToString.PadLeft(2, "0"c))
     End Sub
 
     Private Sub Actions_ColumnWidthChanging(ByVal s As Object, ByVal e As ColumnWidthChangingEventArgs) _

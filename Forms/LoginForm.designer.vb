@@ -121,33 +121,33 @@ Partial Class LoginForm
         '
         'ProxyDomainLabel
         '
-        Me.ProxyDomainLabel.AutoSize = True
         Me.ProxyDomainLabel.Enabled = False
-        Me.ProxyDomainLabel.Location = New System.Drawing.Point(130, 75)
+        Me.ProxyDomainLabel.Location = New System.Drawing.Point(129, 75)
         Me.ProxyDomainLabel.Name = "ProxyDomainLabel"
-        Me.ProxyDomainLabel.Size = New System.Drawing.Size(46, 13)
+        Me.ProxyDomainLabel.Size = New System.Drawing.Size(47, 17)
         Me.ProxyDomainLabel.TabIndex = 5
         Me.ProxyDomainLabel.Text = "Domain:"
+        Me.ProxyDomainLabel.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'ProxyPasswordLabel
         '
-        Me.ProxyPasswordLabel.AutoSize = True
         Me.ProxyPasswordLabel.Enabled = False
-        Me.ProxyPasswordLabel.Location = New System.Drawing.Point(8, 127)
+        Me.ProxyPasswordLabel.Location = New System.Drawing.Point(3, 127)
         Me.ProxyPasswordLabel.Name = "ProxyPasswordLabel"
-        Me.ProxyPasswordLabel.Size = New System.Drawing.Size(56, 13)
+        Me.ProxyPasswordLabel.Size = New System.Drawing.Size(61, 17)
         Me.ProxyPasswordLabel.TabIndex = 9
         Me.ProxyPasswordLabel.Text = "Password:"
+        Me.ProxyPasswordLabel.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'ProxyUsernameLabel
         '
-        Me.ProxyUsernameLabel.AutoSize = True
         Me.ProxyUsernameLabel.Enabled = False
-        Me.ProxyUsernameLabel.Location = New System.Drawing.Point(6, 101)
+        Me.ProxyUsernameLabel.Location = New System.Drawing.Point(3, 101)
         Me.ProxyUsernameLabel.Name = "ProxyUsernameLabel"
-        Me.ProxyUsernameLabel.Size = New System.Drawing.Size(58, 13)
+        Me.ProxyUsernameLabel.Size = New System.Drawing.Size(61, 17)
         Me.ProxyUsernameLabel.TabIndex = 7
         Me.ProxyUsernameLabel.Text = "Username:"
+        Me.ProxyUsernameLabel.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'ProxyPassword
         '
@@ -174,23 +174,23 @@ Partial Class LoginForm
         '
         'ProxyPortLabel
         '
-        Me.ProxyPortLabel.AutoSize = True
         Me.ProxyPortLabel.Enabled = False
-        Me.ProxyPortLabel.Location = New System.Drawing.Point(35, 75)
+        Me.ProxyPortLabel.Location = New System.Drawing.Point(3, 75)
         Me.ProxyPortLabel.Name = "ProxyPortLabel"
-        Me.ProxyPortLabel.Size = New System.Drawing.Size(29, 13)
+        Me.ProxyPortLabel.Size = New System.Drawing.Size(61, 17)
         Me.ProxyPortLabel.TabIndex = 3
         Me.ProxyPortLabel.Text = "Port:"
+        Me.ProxyPortLabel.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'ProxyAddressLabel
         '
-        Me.ProxyAddressLabel.AutoSize = True
         Me.ProxyAddressLabel.Enabled = False
-        Me.ProxyAddressLabel.Location = New System.Drawing.Point(16, 49)
+        Me.ProxyAddressLabel.Location = New System.Drawing.Point(3, 49)
         Me.ProxyAddressLabel.Name = "ProxyAddressLabel"
-        Me.ProxyAddressLabel.Size = New System.Drawing.Size(48, 13)
+        Me.ProxyAddressLabel.Size = New System.Drawing.Size(61, 17)
         Me.ProxyAddressLabel.TabIndex = 1
         Me.ProxyAddressLabel.Text = "Address:"
+        Me.ProxyAddressLabel.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'ProxyAddress
         '
@@ -217,30 +217,30 @@ Partial Class LoginForm
         '
         'ProjectLabel
         '
-        Me.ProjectLabel.AutoSize = True
-        Me.ProjectLabel.Location = New System.Drawing.Point(33, 119)
+        Me.ProjectLabel.Location = New System.Drawing.Point(0, 119)
         Me.ProjectLabel.Name = "ProjectLabel"
-        Me.ProjectLabel.Size = New System.Drawing.Size(43, 13)
+        Me.ProjectLabel.Size = New System.Drawing.Size(76, 18)
         Me.ProjectLabel.TabIndex = 0
         Me.ProjectLabel.Text = "Project:"
+        Me.ProjectLabel.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'PasswordLabel
         '
-        Me.PasswordLabel.AutoSize = True
-        Me.PasswordLabel.Location = New System.Drawing.Point(20, 172)
+        Me.PasswordLabel.Location = New System.Drawing.Point(0, 172)
         Me.PasswordLabel.Name = "PasswordLabel"
-        Me.PasswordLabel.Size = New System.Drawing.Size(56, 13)
+        Me.PasswordLabel.Size = New System.Drawing.Size(76, 17)
         Me.PasswordLabel.TabIndex = 4
         Me.PasswordLabel.Text = "Password:"
+        Me.PasswordLabel.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'UsernameLabel
         '
-        Me.UsernameLabel.AutoSize = True
-        Me.UsernameLabel.Location = New System.Drawing.Point(18, 146)
+        Me.UsernameLabel.Location = New System.Drawing.Point(0, 146)
         Me.UsernameLabel.Name = "UsernameLabel"
-        Me.UsernameLabel.Size = New System.Drawing.Size(58, 13)
+        Me.UsernameLabel.Size = New System.Drawing.Size(76, 17)
         Me.UsernameLabel.TabIndex = 2
         Me.UsernameLabel.Text = "Username:"
+        Me.UsernameLabel.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'Password
         '
@@ -322,12 +322,12 @@ Partial Class LoginForm
         '
         'LanguageLabel
         '
-        Me.LanguageLabel.AutoSize = True
-        Me.LanguageLabel.Location = New System.Drawing.Point(18, 92)
+        Me.LanguageLabel.Location = New System.Drawing.Point(0, 92)
         Me.LanguageLabel.Name = "LanguageLabel"
-        Me.LanguageLabel.Size = New System.Drawing.Size(58, 13)
+        Me.LanguageLabel.Size = New System.Drawing.Size(76, 18)
         Me.LanguageLabel.TabIndex = 15
         Me.LanguageLabel.Text = "Language:"
+        Me.LanguageLabel.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'Language
         '

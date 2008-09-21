@@ -11,7 +11,12 @@ Class EditForm
 
     Private Sub EditForm_Load() Handles Me.Load
         Icon = My.Resources.icon_red_button
-        Text = "Editing " & Page.Name
+        Text = Msg("edit-title", Page.Name)
+        Localize(Me, "edit")
+        EditTab.Text = Msg("edit-edittab")
+        PreviewTab.Text = Msg("edit-previewtab")
+        ChangesTab.Text = Msg("edit-changestab")
+
         Summary.Text = Config.DefaultSummary
         Minor.Checked = Config.MinorManual
         Watch.Checked = (Watchlist.Contains(Page) OrElse Config.WatchManual)
@@ -76,7 +81,7 @@ Class EditForm
         Minor.Enabled = False
         Watch.Enabled = False
         Save.Enabled = False
-        Cancel.Text = "Close"
+        Cancel.Text = Msg("close")
         WaitMessage.Text = "Saving page..."
         WaitMessage.Visible = True
 
@@ -178,7 +183,7 @@ Class EditForm
     End Sub
 
     Private Sub DoHighlight()
-        If ViewSyntaxColoring.Checked Then
+        If ViewSyntax.Checked Then
             Timer.Interval = HighlightTimeout
             Timer.Start()
 
@@ -234,7 +239,7 @@ Class EditForm
     End Sub
 
     Private Sub EditCut_Click() Handles EditCut.Click
-        AddUndoItem(PageText.Text, "Cut")
+        AddUndoItem(PageText.Text, Msg("edit-cut"))
         PageText.Cut()
         EditPaste.Enabled = Clipboard.ContainsText
     End Sub
@@ -245,18 +250,18 @@ Class EditForm
     End Sub
 
     Private Sub EditPaste_Click() Handles EditPaste.Click
-        AddUndoItem(PageText.Text, "Paste")
+        AddUndoItem(PageText.Text, Msg("edit-paste"))
         PageText.Paste()
     End Sub
 
     Private Sub EditDelete_Click() Handles EditDelete.Click
-        AddUndoItem(PageText.Text, "Delete")
+        AddUndoItem(PageText.Text, Msg("edit-delete"))
         PageText.Text = PageText.Text.Substring(0, PageText.SelectionStart) & _
             PageText.Text.Substring(PageText.SelectionStart + PageText.SelectionLength)
     End Sub
 
-    Private Sub ViewSyntaxColoring_Click() Handles ViewSyntaxColoring.Click
-        If ViewSyntaxColoring.Checked Then
+    Private Sub ViewSyntaxColoring_Click() Handles ViewSyntax.Click
+        If ViewSyntax.Checked Then
             DoHighlight()
         Else
             SettingText = True
@@ -296,18 +301,18 @@ Class EditForm
     Private Sub RefreshUndo()
         If CanUndo() Then
             EditUndo.Enabled = True
-            EditUndo.Text = "Undo " & UndoActionName()
+            EditUndo.Text = Msg("edit-edit-undo") & " " & UndoActionName()
         Else
             EditUndo.Enabled = False
-            EditUndo.Text = "Undo"
+            EditUndo.Text = Msg("edit-edit-undo")
         End If
 
         If CanRedo() Then
             EditRedo.Enabled = True
-            EditRedo.Text = "Redo " & RedoActionName()
+            EditRedo.Text = Msg("edit-edit-redo") & " " & RedoActionName()
         Else
             EditRedo.Enabled = False
-            EditRedo.Text = "Redo"
+            EditRedo.Text = Msg("edit-edit-redo")
         End If
     End Sub
 
@@ -320,7 +325,7 @@ Class EditForm
     End Sub
 
     Private Sub Timer_Tick() Handles Timer.Tick
-        ViewSyntaxColoring.Checked = False
+        ViewSyntax.Checked = False
         CurrentRequest.Cancel()
         Timer.Stop()
     End Sub
@@ -348,9 +353,10 @@ Class EditForm
             If(MatchCase.Checked, StringComparison.Ordinal, StringComparison.OrdinalIgnoreCase))
 
         If Index = -1 Then
+            'Reached end of page, continue from top
             Index = PageText.Text.IndexOf(Find.Text, _
                 If(MatchCase.Checked, StringComparison.Ordinal, StringComparison.OrdinalIgnoreCase))
-            If Index > -1 Then FindInfo.Text = "Reached end of page, continued from top"
+            If Index > -1 Then FindInfo.Text = Msg("edit-searchwrapstart")
         Else
             FindInfo.Text = ""
         End If
@@ -364,9 +370,10 @@ Class EditForm
             If(MatchCase.Checked, StringComparison.Ordinal, StringComparison.OrdinalIgnoreCase))
 
         If Index = -1 Then
+            'Reached top of page, continue from end
             Index = PageText.Text.LastIndexOf(Find.Text, _
                 If(MatchCase.Checked, StringComparison.Ordinal, StringComparison.OrdinalIgnoreCase))
-            If Index > -1 Then FindInfo.Text = "Reached top of page, continued from end"
+            If Index > -1 Then FindInfo.Text = Msg("edit-searchwrapend")
         Else
             FindInfo.Text = ""
         End If
@@ -377,23 +384,23 @@ Class EditForm
     Private Sub ShowFindResult(ByVal Index As Integer)
         If Index = -1 Then
             PageText.Select(0, 0)
-            ReplaceB.Enabled = False
+            ReplaceAll.Enabled = False
         Else
             PageText.Select(Index, Find.Text.Length)
-            ReplaceB.Enabled = True
+            ReplaceAll.Enabled = True
         End If
 
         If Find.Text.Length = 0 Or Index > -1 Then
             Find.BackColor = Color.FromKnownColor(KnownColor.Window)
             Find.ForeColor = Color.FromKnownColor(KnownColor.WindowText)
         Else
-            FindInfo.Text = "Phrase not found"
+            FindInfo.Text = Msg("edit-searchnotfound")
             Find.BackColor = Color.LightCoral
             Find.ForeColor = Color.White
         End If
     End Sub
 
-    Private Sub ReplaceB_Click() Handles ReplaceB.Click
+    Private Sub ReplaceB_Click() Handles ReplaceAll.Click
         PageText.Text = PageText.Text.Replace(Find.Text, Replace.Text)
     End Sub
 

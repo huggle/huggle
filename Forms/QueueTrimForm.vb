@@ -2,6 +2,8 @@ Class QueueTrimForm
 
     Private Sub QueueTrimForm_Load() Handles Me.Load
         Icon = My.Resources.icon_red_button
+        Text = Msg("queuetrim-title")
+        Localize(Me, "queuetrim")
     End Sub
 
     Private Sub QueueTrimForm_FormClosing() Handles Me.FormClosing

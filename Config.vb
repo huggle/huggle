@@ -12,7 +12,7 @@ Class Configuration
     Public ReadOnly HistoryBlockSize As Integer = 100
     Public ReadOnly HistoryScrollSpeed As Integer = 25
     Public ReadOnly IrcConnectionTimeout As Integer = 60000
-    Public ReadOnly Languages As String() = {"en", "test"}
+    Public ReadOnly Languages As String() = {"en", "bg", "de", "es", "no", "pt", "ru", "test"}
     Public ReadOnly QueueSize As Integer = 5000
     Public ReadOnly QueueWidth As Integer = 160
 
@@ -675,11 +675,20 @@ Module ConfigIO
         'Load localized message files
         Config.Messages.Clear()
         LoadLanguage("en", My.Resources.en)
+        LoadLanguage("bg", My.Resources.bg)
+        LoadLanguage("de", My.Resources.de)
+        LoadLanguage("es", My.Resources.es)
+        LoadLanguage("no", My.Resources.no)
+        LoadLanguage("pt", My.Resources.pt)
+        LoadLanguage("ru", My.Resources.ru)
 
 #If DEBUG Then
-        LoadLanguage("test", "name:Test")
+        LoadLanguage("test", "name:[Test]")
         Config.DefaultLanguage = "test"
 #End If
+
+        If Config.Language Is Nothing OrElse Not Config.Messages.ContainsKey(Config.Language) _
+            Then Config.Language = Config.DefaultLanguage
     End Sub
 
     Private Sub LoadLanguage(ByVal Name As String, ByVal MessageFile As String)
@@ -692,7 +701,7 @@ Module ConfigIO
                     Dim MsgName As String = Item.Substring(0, Item.IndexOf(":")).Trim(" "c)
                     Dim MsgValue As String = Item.Substring(Item.IndexOf(":") + 1).Trim(" "c)
 
-                    Config.Messages(Name).Add(MsgName, MsgValue)
+                    Config.Messages(Name).Add(MsgName.ToLower, MsgValue)
                 End If
             Next Item
         End If

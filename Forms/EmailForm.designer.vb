@@ -22,23 +22,23 @@ Partial Class EmailForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.Label1 = New System.Windows.Forms.Label
+        Me.SubjectLabel = New System.Windows.Forms.Label
         Me.Subject = New System.Windows.Forms.TextBox
-        Me.Label2 = New System.Windows.Forms.Label
+        Me.MessageLabel = New System.Windows.Forms.Label
         Me.Message = New System.Windows.Forms.TextBox
         Me.Cancel = New System.Windows.Forms.Button
-        Me.OK = New System.Windows.Forms.Button
+        Me.Send = New System.Windows.Forms.Button
         Me.CcMe = New System.Windows.Forms.CheckBox
         Me.SuspendLayout()
         '
-        'Label1
+        'SubjectLabel
         '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(12, 15)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(46, 13)
-        Me.Label1.TabIndex = 0
-        Me.Label1.Text = "Subject:"
+        Me.SubjectLabel.AutoSize = True
+        Me.SubjectLabel.Location = New System.Drawing.Point(12, 15)
+        Me.SubjectLabel.Name = "SubjectLabel"
+        Me.SubjectLabel.Size = New System.Drawing.Size(46, 13)
+        Me.SubjectLabel.TabIndex = 0
+        Me.SubjectLabel.Text = "Subject:"
         '
         'Subject
         '
@@ -49,14 +49,14 @@ Partial Class EmailForm
         Me.Subject.Size = New System.Drawing.Size(467, 20)
         Me.Subject.TabIndex = 1
         '
-        'Label2
+        'MessageLabel
         '
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(5, 41)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(53, 13)
-        Me.Label2.TabIndex = 2
-        Me.Label2.Text = "Message:"
+        Me.MessageLabel.AutoSize = True
+        Me.MessageLabel.Location = New System.Drawing.Point(5, 41)
+        Me.MessageLabel.Name = "MessageLabel"
+        Me.MessageLabel.Size = New System.Drawing.Size(53, 13)
+        Me.MessageLabel.TabIndex = 2
+        Me.MessageLabel.Text = "Message:"
         '
         'Message
         '
@@ -66,36 +66,37 @@ Partial Class EmailForm
         Me.Message.Location = New System.Drawing.Point(64, 38)
         Me.Message.Multiline = True
         Me.Message.Name = "Message"
-        Me.Message.Size = New System.Drawing.Size(467, 244)
+        Me.Message.Size = New System.Drawing.Size(467, 249)
         Me.Message.TabIndex = 3
         '
         'Cancel
         '
         Me.Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Cancel.Location = New System.Drawing.Point(456, 312)
+        Me.Cancel.Location = New System.Drawing.Point(456, 293)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
         Me.Cancel.TabIndex = 4
         Me.Cancel.Text = "Cancel"
         Me.Cancel.UseVisualStyleBackColor = True
         '
-        'OK
+        'Send
         '
-        Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.OK.Enabled = False
-        Me.OK.Location = New System.Drawing.Point(375, 312)
-        Me.OK.Name = "OK"
-        Me.OK.Size = New System.Drawing.Size(75, 23)
-        Me.OK.TabIndex = 4
-        Me.OK.Text = "Send"
-        Me.OK.UseVisualStyleBackColor = True
+        Me.Send.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Send.Enabled = False
+        Me.Send.Location = New System.Drawing.Point(375, 293)
+        Me.Send.Name = "Send"
+        Me.Send.Size = New System.Drawing.Size(75, 23)
+        Me.Send.TabIndex = 4
+        Me.Send.Text = "Send"
+        Me.Send.UseVisualStyleBackColor = True
         '
         'CcMe
         '
+        Me.CcMe.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.CcMe.AutoSize = True
         Me.CcMe.Checked = True
         Me.CcMe.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CcMe.Location = New System.Drawing.Point(64, 312)
+        Me.CcMe.Location = New System.Drawing.Point(64, 297)
         Me.CcMe.Name = "CcMe"
         Me.CcMe.Size = New System.Drawing.Size(182, 17)
         Me.CcMe.TabIndex = 5
@@ -106,14 +107,14 @@ Partial Class EmailForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(543, 347)
+        Me.ClientSize = New System.Drawing.Size(543, 328)
         Me.Controls.Add(Me.CcMe)
-        Me.Controls.Add(Me.OK)
+        Me.Controls.Add(Me.Send)
         Me.Controls.Add(Me.Cancel)
         Me.Controls.Add(Me.Message)
-        Me.Controls.Add(Me.Label2)
+        Me.Controls.Add(Me.MessageLabel)
         Me.Controls.Add(Me.Subject)
-        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.SubjectLabel)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.KeyPreview = True
         Me.MaximizeBox = False
@@ -124,11 +125,11 @@ Partial Class EmailForm
         Me.PerformLayout()
 
     End Sub
-    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents SubjectLabel As System.Windows.Forms.Label
     Friend WithEvents Subject As System.Windows.Forms.TextBox
-    Friend WithEvents Label2 As System.Windows.Forms.Label
+    Friend WithEvents MessageLabel As System.Windows.Forms.Label
     Friend WithEvents Message As System.Windows.Forms.TextBox
     Friend WithEvents Cancel As System.Windows.Forms.Button
-    Friend WithEvents OK As System.Windows.Forms.Button
+    Friend WithEvents Send As System.Windows.Forms.Button
     Friend WithEvents CcMe As System.Windows.Forms.CheckBox
 End Class

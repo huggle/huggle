@@ -23,37 +23,37 @@ Partial Class RequestsForm
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Me.Label1 = New System.Windows.Forms.Label
+        Me.CancelledLabel = New System.Windows.Forms.Label
         Me.Label2 = New System.Windows.Forms.Label
-        Me.Label3 = New System.Windows.Forms.Label
+        Me.FailedLabel = New System.Windows.Forms.Label
         Me.Label4 = New System.Windows.Forms.Label
-        Me.Label5 = New System.Windows.Forms.Label
+        Me.InProgressLabel = New System.Windows.Forms.Label
         Me.Label6 = New System.Windows.Forms.Label
-        Me.Label7 = New System.Windows.Forms.Label
+        Me.CompletedLabel = New System.Windows.Forms.Label
         Me.Label8 = New System.Windows.Forms.Label
         Me.CancelAll = New System.Windows.Forms.Button
         Me.OK = New System.Windows.Forms.Button
         Me.Clear = New System.Windows.Forms.Button
         Me.ListMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.CopyListItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.CancelItem = New System.Windows.Forms.ToolStripMenuItem
         Me.List = New Huggle.ListView2
         Me.DateColumn = New System.Windows.Forms.ColumnHeader
         Me.TypeColumn = New System.Windows.Forms.ColumnHeader
         Me.ActionColumn = New System.Windows.Forms.ColumnHeader
         Me.QueryColumn = New System.Windows.Forms.ColumnHeader
-        Me.CancelItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ListMenu.SuspendLayout()
         Me.SuspendLayout()
         '
-        'Label1
+        'CancelledLabel
         '
-        Me.Label1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(32, 330)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(54, 13)
-        Me.Label1.TabIndex = 1
-        Me.Label1.Text = "Cancelled"
+        Me.CancelledLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.CancelledLabel.AutoSize = True
+        Me.CancelledLabel.Location = New System.Drawing.Point(32, 330)
+        Me.CancelledLabel.Name = "CancelledLabel"
+        Me.CancelledLabel.Size = New System.Drawing.Size(54, 13)
+        Me.CancelledLabel.TabIndex = 1
+        Me.CancelledLabel.Text = "Cancelled"
         '
         'Label2
         '
@@ -66,15 +66,15 @@ Partial Class RequestsForm
         Me.Label2.TabIndex = 2
         Me.Label2.Text = "   "
         '
-        'Label3
+        'FailedLabel
         '
-        Me.Label3.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(128, 330)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(35, 13)
-        Me.Label3.TabIndex = 1
-        Me.Label3.Text = "Failed"
+        Me.FailedLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.FailedLabel.AutoSize = True
+        Me.FailedLabel.Location = New System.Drawing.Point(128, 330)
+        Me.FailedLabel.Name = "FailedLabel"
+        Me.FailedLabel.Size = New System.Drawing.Size(35, 13)
+        Me.FailedLabel.TabIndex = 1
+        Me.FailedLabel.Text = "Failed"
         '
         'Label4
         '
@@ -87,15 +87,15 @@ Partial Class RequestsForm
         Me.Label4.TabIndex = 2
         Me.Label4.Text = "   "
         '
-        'Label5
+        'InProgressLabel
         '
-        Me.Label5.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(204, 330)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(59, 13)
-        Me.Label5.TabIndex = 1
-        Me.Label5.Text = "In progress"
+        Me.InProgressLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.InProgressLabel.AutoSize = True
+        Me.InProgressLabel.Location = New System.Drawing.Point(204, 330)
+        Me.InProgressLabel.Name = "InProgressLabel"
+        Me.InProgressLabel.Size = New System.Drawing.Size(59, 13)
+        Me.InProgressLabel.TabIndex = 1
+        Me.InProgressLabel.Text = "In progress"
         '
         'Label6
         '
@@ -108,15 +108,15 @@ Partial Class RequestsForm
         Me.Label6.TabIndex = 2
         Me.Label6.Text = "   "
         '
-        'Label7
+        'CompletedLabel
         '
-        Me.Label7.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(301, 331)
-        Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(57, 13)
-        Me.Label7.TabIndex = 1
-        Me.Label7.Text = "Completed"
+        Me.CompletedLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.CompletedLabel.AutoSize = True
+        Me.CompletedLabel.Location = New System.Drawing.Point(301, 331)
+        Me.CompletedLabel.Name = "CompletedLabel"
+        Me.CompletedLabel.Size = New System.Drawing.Size(57, 13)
+        Me.CompletedLabel.TabIndex = 1
+        Me.CompletedLabel.Text = "Completed"
         '
         'Label8
         '
@@ -163,13 +163,19 @@ Partial Class RequestsForm
         '
         Me.ListMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CopyListItem, Me.CancelItem})
         Me.ListMenu.Name = "ListMenu"
-        Me.ListMenu.Size = New System.Drawing.Size(153, 70)
+        Me.ListMenu.Size = New System.Drawing.Size(133, 48)
         '
         'CopyListItem
         '
         Me.CopyListItem.Name = "CopyListItem"
-        Me.CopyListItem.Size = New System.Drawing.Size(152, 22)
+        Me.CopyListItem.Size = New System.Drawing.Size(132, 22)
         Me.CopyListItem.Text = "Copy Query"
+        '
+        'CancelItem
+        '
+        Me.CancelItem.Name = "CancelItem"
+        Me.CancelItem.Size = New System.Drawing.Size(132, 22)
+        Me.CancelItem.Text = "Cancel"
         '
         'List
         '
@@ -209,12 +215,6 @@ Partial Class RequestsForm
         Me.QueryColumn.Text = "Query"
         Me.QueryColumn.Width = 373
         '
-        'CancelItem
-        '
-        Me.CancelItem.Name = "CancelItem"
-        Me.CancelItem.Size = New System.Drawing.Size(152, 22)
-        Me.CancelItem.Text = "Cancel"
-        '
         'RequestsForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -225,13 +225,13 @@ Partial Class RequestsForm
         Me.Controls.Add(Me.Clear)
         Me.Controls.Add(Me.CancelAll)
         Me.Controls.Add(Me.Label8)
-        Me.Controls.Add(Me.Label7)
+        Me.Controls.Add(Me.CompletedLabel)
         Me.Controls.Add(Me.Label6)
-        Me.Controls.Add(Me.Label5)
+        Me.Controls.Add(Me.InProgressLabel)
         Me.Controls.Add(Me.Label4)
-        Me.Controls.Add(Me.Label3)
+        Me.Controls.Add(Me.FailedLabel)
         Me.Controls.Add(Me.Label2)
-        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.CancelledLabel)
         Me.Controls.Add(Me.List)
         Me.KeyPreview = True
         Me.Name = "RequestsForm"
@@ -247,13 +247,13 @@ Partial Class RequestsForm
     Friend WithEvents TypeColumn As System.Windows.Forms.ColumnHeader
     Friend WithEvents ActionColumn As System.Windows.Forms.ColumnHeader
     Friend WithEvents QueryColumn As System.Windows.Forms.ColumnHeader
-    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents CancelledLabel As System.Windows.Forms.Label
     Friend WithEvents Label2 As System.Windows.Forms.Label
-    Friend WithEvents Label3 As System.Windows.Forms.Label
+    Friend WithEvents FailedLabel As System.Windows.Forms.Label
     Friend WithEvents Label4 As System.Windows.Forms.Label
-    Friend WithEvents Label5 As System.Windows.Forms.Label
+    Friend WithEvents InProgressLabel As System.Windows.Forms.Label
     Friend WithEvents Label6 As System.Windows.Forms.Label
-    Friend WithEvents Label7 As System.Windows.Forms.Label
+    Friend WithEvents CompletedLabel As System.Windows.Forms.Label
     Friend WithEvents Label8 As System.Windows.Forms.Label
     Friend WithEvents CancelAll As System.Windows.Forms.Button
     Friend WithEvents OK As System.Windows.Forms.Button

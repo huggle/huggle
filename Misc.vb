@@ -3,7 +3,6 @@ Imports System.Net
 Imports System.Text.RegularExpressions
 Imports System.Web.HttpUtility
 
-<DebuggerStepThrough()> _
 Module Misc
 
     'Globals
@@ -377,6 +376,24 @@ Module Misc
         Return Path.Substring(0, Path.LastIndexOf("\"))
     End Function
 
+    Sub Localize(ByVal Control As Control, ByVal Prefix As String)
+        'Use localized string for a control's text where necessary; recurse through all child controls
+        For Each Item As Control In Control.Controls
+            If TypeOf Item Is Label OrElse TypeOf Item Is CheckBox OrElse TypeOf Item Is RadioButton OrElse _
+                TypeOf Item Is Button OrElse TypeOf Item Is GroupBox OrElse TypeOf Item Is Huggle.TriState Then
+
+                If Config.Language = "test" OrElse Config.Messages(Config.Language).ContainsKey _
+                    (Prefix & "-" & Item.Name.Replace("Label", "").ToLower) Then
+                    Item.Text = Msg(Prefix & "-" & Item.Name.Replace("Label", "").ToLower)
+                ElseIf Config.Messages(Config.Language).ContainsKey(Item.Name.ToLower) Then
+                    Item.Text = Msg(Item.Name.ToLower)
+                End If
+            End If
+
+            Localize(Item, Prefix)
+        Next Item
+    End Sub
+
     Sub Log(ByVal Message As String, Optional ByVal Tag As Object = Nothing)
         If MainForm Is Nothing Then LogBuffer.Add(Message) Else MainForm.Log(Message, Tag)
     End Sub
@@ -390,13 +407,20 @@ Module Misc
     Function Msg(ByVal Name As String, ByVal ParamArray Params() As String) As String
         'Returns a formatted message string localized to the user's language,
         'or in the default language if no localized message is available
-        If Config.Messages(Config.Language).ContainsKey(Name) Then
-            Return String.Format(Config.Messages(Config.Language)(Name), Params)
-        ElseIf Config.Messages(Config.DefaultLanguage).ContainsKey(Name) Then
-            Return String.Format(Config.Messages(Config.DefaultLanguage)(Name), Params)
-        Else
-            Return "[" & Name & "]"
-        End If
+        Try
+            If Config.Messages(Config.Language).ContainsKey(Name.ToLower) Then
+                Return String.Format(Config.Messages(Config.Language)(Name.ToLower), Params)
+            ElseIf Config.Messages(Config.DefaultLanguage).ContainsKey(Name.ToLower) Then
+                Return String.Format(Config.Messages(Config.DefaultLanguage)(Name.ToLower), Params)
+            Else
+                'Message does not exist in localized or default form. Output the message name instead.
+                Return "[" & Name.ToLower & "]"
+            End If
+
+        Catch ex As FormatException
+            'Message string didn't provide correct formatting placeholders. Output the message name instead.
+            Return "[" & Name.ToLower & "]"
+        End Try
     End Function
 
     Function OpenUrlInBrowser(ByVal Url As String) As Boolean

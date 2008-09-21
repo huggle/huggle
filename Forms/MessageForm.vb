@@ -4,7 +4,8 @@ Class MessageForm
 
     Private Sub MessageForm_Load() Handles Me.Load
         Icon = My.Resources.icon_red_button
-        Text = "Message " & User.Name
+        Text = Msg("message-title", User.Name)
+        Localize(Me, "message")
     End Sub
 
     Private Sub OK_Click() Handles OK.Click

@@ -4,7 +4,18 @@ Class RevertAndWarnForm
 
     Private Sub RevertAndWarnForm_Load() Handles Me.Load
         Icon = My.Resources.icon_red_button
-        Text = "Revert and warn " & User.Name
+        Text = Msg("revertandwarn-title", User.Name)
+
+        SummaryLabel.Text = Msg("revert-summary")
+        CurrentOnly.Text = Msg("revert-currentonly")
+        LevelGroup.Text = Msg("warning-levelgroup")
+        LevelAuto.Text = Msg("warning-levelauto")
+        Level1.Text = Msg("warning-level1")
+        Level2.Text = Msg("warning-level2")
+        Level3.Text = Msg("warning-level3")
+        LevelFinal.Text = Msg("warning-level4")
+        WarnType.Text = Msg("warning-warntype")
+        WarnLogLabel.Text = Msg("warning-warnlog")
 
         Summary.Items.AddRange(Config.RevertSummaries.ToArray)
 
@@ -25,7 +36,18 @@ Class RevertAndWarnForm
         NewWarnLogRequest.Start()
     End Sub
 
-    Private Sub Close_Click() Handles Cancel.Click
+    Private Sub RevertAndWarnForm_FormClosing() Handles Me.FormClosing
+        If DialogResult <> DialogResult.OK Then DialogResult = DialogResult.Cancel
+    End Sub
+
+    Private Sub RevertAndWarnForm_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles Me.KeyDown
+        Select Case e.KeyCode
+            Case Keys.Escape : Cancel_Click()
+            Case Keys.Enter : OK_Click()
+        End Select
+    End Sub
+
+    Private Sub Cancel_Click() Handles Cancel.Click
         DialogResult = DialogResult.Cancel
         Close()
     End Sub
@@ -44,17 +66,6 @@ Class RevertAndWarnForm
         MainForm.RevertAndWarn(WarnType.Text, Level)
         DialogResult = DialogResult.OK
         Close()
-    End Sub
-
-    Private Sub RevertAndWarnForm_FormClosing() Handles Me.FormClosing
-        If DialogResult <> DialogResult.OK Then DialogResult = DialogResult.Cancel
-    End Sub
-
-    Private Sub RevertAndWarnForm_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles Me.KeyDown
-        Select Case e.KeyCode
-            Case Keys.Escape : Close_Click()
-            Case Keys.Enter : OK_Click()
-        End Select
     End Sub
 
 End Class

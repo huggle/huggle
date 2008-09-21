@@ -4,8 +4,8 @@ Class UserInfoForm
 
     Private Sub UserInfoForm_Load() Handles Me.Load
         Icon = My.Resources.icon_red_button
-        Text = "User information for '" & User.Name & "'"
-
+        Text = Msg("userinfo-title", User.Name)
+        Localize(Me, "userinfo")
         RefreshData()
 
         BlockLog.Columns.Add("", 300)
@@ -43,10 +43,11 @@ Class UserInfoForm
     End Sub
 
     Public Sub RefreshData()
-        SessionEditCount.Text = CStr(User.SessionEditCount)
-        If User.Ignored Then Whitelisted.Text = "Yes" Else Whitelisted.Text = "No"
-        If User.SharedIP Then SharedIP.Text = "Yes" Else SharedIP.Text = "No"
-        If User.EditCount > -1 Then EditCount.Text = CStr(User.EditCount)
+        SessionEdits.Text = CStr(User.SessionEditCount)
+        If User.Anonymous Then Anonymous.Text = Msg("yes") Else Anonymous.Text = Msg("no")
+        If User.Ignored Then Ignored.Text = Msg("yes") Else Ignored.Text = Msg("no")
+        If User.SharedIP Then SharedIP.Text = Msg("yes") Else SharedIP.Text = Msg("no")
+        If User.EditCount > -1 Then Edits.Text = CStr(User.EditCount)
     End Sub
 
     Public Sub RefreshWarnings()

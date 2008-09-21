@@ -32,7 +32,7 @@ Partial Class EditForm
         Me.Tabs = New System.Windows.Forms.TabControl
         Me.EditTab = New System.Windows.Forms.TabPage
         Me.FindGroup = New System.Windows.Forms.GroupBox
-        Me.ReplaceB = New System.Windows.Forms.Button
+        Me.ReplaceAll = New System.Windows.Forms.Button
         Me.ReplaceLabel = New System.Windows.Forms.Label
         Me.Replace = New System.Windows.Forms.TextBox
         Me.FindInfo = New System.Windows.Forms.Label
@@ -68,7 +68,7 @@ Partial Class EditForm
         Me.PageSave = New System.Windows.Forms.ToolStripMenuItem
         Me.PageCancel = New System.Windows.Forms.ToolStripMenuItem
         Me.ViewMenu = New System.Windows.Forms.ToolStripMenuItem
-        Me.ViewSyntaxColoring = New System.Windows.Forms.ToolStripMenuItem
+        Me.ViewSyntax = New System.Windows.Forms.ToolStripMenuItem
         Me.Tabs.SuspendLayout()
         Me.EditTab.SuspendLayout()
         Me.FindGroup.SuspendLayout()
@@ -177,7 +177,7 @@ Partial Class EditForm
         '
         Me.FindGroup.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.FindGroup.Controls.Add(Me.ReplaceB)
+        Me.FindGroup.Controls.Add(Me.ReplaceAll)
         Me.FindGroup.Controls.Add(Me.ReplaceLabel)
         Me.FindGroup.Controls.Add(Me.Replace)
         Me.FindGroup.Controls.Add(Me.FindInfo)
@@ -192,15 +192,15 @@ Partial Class EditForm
         Me.FindGroup.TabIndex = 2
         Me.FindGroup.TabStop = False
         '
-        'ReplaceB
+        'ReplaceAll
         '
-        Me.ReplaceB.Enabled = False
-        Me.ReplaceB.Location = New System.Drawing.Point(676, 12)
-        Me.ReplaceB.Name = "ReplaceB"
-        Me.ReplaceB.Size = New System.Drawing.Size(75, 23)
-        Me.ReplaceB.TabIndex = 8
-        Me.ReplaceB.Text = "Replace all"
-        Me.ReplaceB.UseVisualStyleBackColor = True
+        Me.ReplaceAll.Enabled = False
+        Me.ReplaceAll.Location = New System.Drawing.Point(676, 12)
+        Me.ReplaceAll.Name = "ReplaceAll"
+        Me.ReplaceAll.Size = New System.Drawing.Size(75, 23)
+        Me.ReplaceAll.TabIndex = 8
+        Me.ReplaceAll.Text = "Replace all"
+        Me.ReplaceAll.UseVisualStyleBackColor = True
         '
         'ReplaceLabel
         '
@@ -310,7 +310,6 @@ Partial Class EditForm
         '
         Me.EditStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EditUndo, Me.EditRedo, Me.Separator1, Me.EditCut, Me.EditCopy, Me.EditPaste, Me.EditDelete, Me.Separator3, Me.EditSelectAll, Me.Separator4, Me.EditFind})
         Me.EditStrip.Name = "ContextMenu"
-        Me.EditStrip.OwnerItem = Me.EditMenu
         Me.EditStrip.Size = New System.Drawing.Size(118, 198)
         '
         'EditUndo
@@ -462,42 +461,42 @@ Partial Class EditForm
         'PageSaveToFile
         '
         Me.PageSaveToFile.Name = "PageSaveToFile"
-        Me.PageSaveToFile.Size = New System.Drawing.Size(140, 22)
+        Me.PageSaveToFile.Size = New System.Drawing.Size(152, 22)
         Me.PageSaveToFile.Text = "Save to file..."
         '
         'Separator2
         '
         Me.Separator2.Name = "Separator2"
-        Me.Separator2.Size = New System.Drawing.Size(137, 6)
+        Me.Separator2.Size = New System.Drawing.Size(149, 6)
         '
         'PageSave
         '
         Me.PageSave.Name = "PageSave"
-        Me.PageSave.Size = New System.Drawing.Size(140, 22)
+        Me.PageSave.Size = New System.Drawing.Size(152, 22)
         Me.PageSave.Text = "Save"
         '
         'PageCancel
         '
         Me.PageCancel.Name = "PageCancel"
         Me.PageCancel.ShortcutKeyDisplayString = ""
-        Me.PageCancel.Size = New System.Drawing.Size(140, 22)
+        Me.PageCancel.Size = New System.Drawing.Size(152, 22)
         Me.PageCancel.Text = "Cancel"
         '
         'ViewMenu
         '
-        Me.ViewMenu.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ViewSyntaxColoring})
+        Me.ViewMenu.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ViewSyntax})
         Me.ViewMenu.Name = "ViewMenu"
         Me.ViewMenu.Size = New System.Drawing.Size(41, 20)
         Me.ViewMenu.Text = "View"
         '
-        'ViewSyntaxColoring
+        'ViewSyntax
         '
-        Me.ViewSyntaxColoring.Checked = True
-        Me.ViewSyntaxColoring.CheckOnClick = True
-        Me.ViewSyntaxColoring.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.ViewSyntaxColoring.Name = "ViewSyntaxColoring"
-        Me.ViewSyntaxColoring.Size = New System.Drawing.Size(148, 22)
-        Me.ViewSyntaxColoring.Text = "Syntax coloring"
+        Me.ViewSyntax.Checked = True
+        Me.ViewSyntax.CheckOnClick = True
+        Me.ViewSyntax.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.ViewSyntax.Name = "ViewSyntax"
+        Me.ViewSyntax.Size = New System.Drawing.Size(152, 22)
+        Me.ViewSyntax.Text = "Syntax coloring"
         '
         'EditForm
         '
@@ -551,7 +550,7 @@ Partial Class EditForm
     Friend WithEvents Separator2 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents PageCancel As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ViewMenu As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ViewSyntaxColoring As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ViewSyntax As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents EditStrip As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents EditDelete As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents EditPaste As System.Windows.Forms.ToolStripMenuItem
@@ -566,7 +565,7 @@ Partial Class EditForm
     Friend WithEvents Separator4 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents EditFind As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents FindGroup As System.Windows.Forms.GroupBox
-    Friend WithEvents ReplaceB As System.Windows.Forms.Button
+    Friend WithEvents ReplaceAll As System.Windows.Forms.Button
     Friend WithEvents ReplaceLabel As System.Windows.Forms.Label
     Friend WithEvents Replace As System.Windows.Forms.TextBox
     Friend WithEvents FindInfo As System.Windows.Forms.Label

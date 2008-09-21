@@ -13,7 +13,7 @@
         End Set
     End Property
 
-    Public Property Label() As String
+    Public Overrides Property Text() As String
         Get
             Return _Text.Text
         End Get

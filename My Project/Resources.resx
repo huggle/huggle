@@ -325,4 +325,22 @@
   <data name="en" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Localization\en.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="bg" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Localization\bg.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
+  </data>
+  <data name="de" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Localization\de.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="es" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Localization\es.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="no" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Localization\no.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="pt" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Localization\pt.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="ru" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Localization\ru.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
+  </data>
 </root>

@@ -1,22 +1,23 @@
 Class TagForm
 
-    Public ThisPage As Page
+    Public Page As Page
 
     Private Sub TagForm_Load() Handles Me.Load
         Icon = My.Resources.icon_red_button
-        Text = "Tag " & ThisPage.Name
+        Text = Msg("tag-title", Page.Name)
+        Localize(Me, "tag")
 
         ToSpeedy.Visible = Config.Speedy
         ToProd.Visible = Config.Prod
 
         TagSelector.Items.AddRange(Config.Tags.ToArray)
-        TagText.Text = LastTagText
-        TagText.Focus()
-        TagText.SelectAll()
+        Tags.Text = LastTagText
+        Tags.Focus()
+        Tags.SelectAll()
     End Sub
 
     Private Sub OK_Click() Handles OK.Click
-        If TagText.Text <> "" Then
+        If Tags.Text <> "" Then
             DialogResult = DialogResult.OK
             Close()
         End If
@@ -31,21 +32,21 @@ Class TagForm
         If DialogResult <> DialogResult.OK Then DialogResult = DialogResult.Cancel
 
         If DialogResult = DialogResult.OK Then
-            LastTagText = TagText.Text
-            If Summary.Text = "" Then Summary.Text = TagText.Text.Replace(LF, " ")
+            LastTagText = Tags.Text
+            If Summary.Text = "" Then Summary.Text = Tags.Text.Replace(LF, " ")
 
             Dim NewRequest As New TagRequest
 
             NewRequest.Page = CurrentEdit.Page
             NewRequest.Summary = Summary.Text
-            NewRequest.Tag = TagText.Text
+            NewRequest.Tag = Tags.Text
             NewRequest.InsertAtEnd = InsertAtEnd.Checked
             NewRequest.Start()
         End If
     End Sub
 
     Private Sub Summary_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles Summary.KeyDown
-        If e.KeyCode = Keys.Enter AndAlso TagText.Text <> "" Then
+        If e.KeyCode = Keys.Enter AndAlso Tags.Text <> "" Then
             DialogResult = DialogResult.OK
             Close()
         End If
@@ -55,22 +56,22 @@ Class TagForm
         If e.KeyCode = Keys.Escape Then Close()
     End Sub
 
-    Private Sub TagText_TextChanged() Handles TagText.TextChanged
-        OK.Enabled = (TagText.Text <> "")
-        Summary.Text = TagText.Text.Replace(LF, " ")
+    Private Sub TagText_TextChanged() Handles Tags.TextChanged
+        OK.Enabled = (Tags.Text <> "")
+        Summary.Text = Tags.Text.Replace(LF, " ")
         If Summary.Text.Length > 250 Then Summary.Text = Summary.Text.Substring(0, 250)
     End Sub
 
     Private Sub TagSelector_SelectedIndexChanged() Handles TagSelector.SelectedIndexChanged
-        If Not TagText.Text.Contains(CStr(TagSelector.Items(TagSelector.SelectedIndex))) Then
-            If TagText.Text <> "" Then TagText.Text &= LF
-            TagText.Text &= CStr(TagSelector.Items(TagSelector.SelectedIndex))
+        If Not Tags.Text.Contains(CStr(TagSelector.Items(TagSelector.SelectedIndex))) Then
+            If Tags.Text <> "" Then Tags.Text &= LF
+            Tags.Text &= CStr(TagSelector.Items(TagSelector.SelectedIndex))
         End If
     End Sub
 
     Private Sub Explanation_LinkClicked() Handles Explanation.LinkClicked
         Dim NewEditForm As New EditForm
-        NewEditForm.Page = ThisPage
+        NewEditForm.Page = Page
         NewEditForm.Show()
 
         DialogResult = DialogResult.Cancel

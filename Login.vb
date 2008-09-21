@@ -55,7 +55,7 @@ Namespace Requests
 
         Private Sub Process()
             'Log in... can't use the API here because it locks you out after a wrong password
-            UpdateStatus("Logging in...")
+            UpdateStatus(Msg("login-progress-start"))
 
             Try
                 Dim LoginResult As LoginResult = DoLogin()
@@ -63,20 +63,20 @@ Namespace Requests
                 Select Case LoginResult
                     'Outcomes for what posibly could go wrong when logging in
                     Case LoginResult.Failed
-                        Abort("Unable to log in.")
+                        Abort(Msg("login-error-unknown"))
 
                     Case LoginResult.NoUser
-                        Abort("User does not exist.")
+                        Abort(Msg("login-error-nouser"))
 
                     Case LoginResult.InvalidUsername
-                        Abort("Invalid username.")
+                        Abort(Msg("login-error-invalid"))
 
                     Case LoginResult.CaptchaNeeded
                         Callback(AddressOf CaptchaNeeded)
 
                     Case LoginResult.WrongPassword
-                        If CaptchaId Is Nothing Then Abort("Incorrect password.") _
-                            Else Abort("Incorrect password or confirmation code.")
+                        If CaptchaId Is Nothing Then Abort(Msg("login-error-password")) _
+                            Else Abort(Msg("login-error-captcha"))
                         CaptchaId = Nothing
                 End Select
 
@@ -91,17 +91,17 @@ Namespace Requests
             If State = States.Cancelled Then Thread.CurrentThread.Abort()
 
             'Get global configuration
-            UpdateStatus("Checking global configuration...")
+            UpdateStatus(Msg("login-progress-global"))
 
             Dim GlobalConfigRequest As New GlobalConfigRequest
 
             If Not GlobalConfigRequest.Process Then
-                Abort("Failed to load global configuration page.")
+                Abort(Msg("login-error-global"))
                 Exit Sub
             End If
 
             If Not Config.EnabledForAll Then
-                Abort("Huggle is currently disabled on all projects.")
+                Abort(Msg("login-error-alldisabled"))
                 Exit Sub
             End If
 
@@ -111,19 +111,19 @@ Namespace Requests
             If Config.IrcMode AndAlso (Config.IrcChannel IsNot Nothing) Then IrcConnect()
 
             'Get project configuration
-            UpdateStatus("Checking project configuration...")
+            UpdateStatus(Msg("login-progress-project"))
 
             Dim ConfigRequest As New ConfigRequest
 
             If Not ConfigRequest.GetProjectConfig Then
-                Abort("Failed to load project configuration page.")
+                Abort(Msg("login-error-project"))
                 Exit Sub
             End If
 
             'Notify user of new version
             If Config.LatestVersion > Config.Version Then
                 If Config.MinVersion > Config.Version Then
-                    Abort("Version is out of date. Update to the latest version.")
+                    Abort(Msg("login-error-version"))
                     Callback(AddressOf ShowNewVersionForm)
                     Exit Sub
                 End If
@@ -132,20 +132,20 @@ Namespace Requests
             End If
 
             If Not Config.EnabledForAll Then
-                Abort("Huggle is currently disabled on this project.")
+                Abort(Msg("login-error-projdisabled"))
                 Exit Sub
             End If
 
             If State = States.Cancelled Then Thread.CurrentThread.Abort()
 
             'Get user configuration
-            UpdateStatus("Checking user configuration...")
+            UpdateStatus(Msg("login-progress-user"))
 
             Dim UserConfigResult As Boolean = ConfigRequest.GetUserConfig
 
             If Config.RequireConfig AndAlso (Not UserConfigResult OrElse Not Config.Enabled) Then
                 Config.ConfigChanged = True
-                Abort("Huggle is not enabled for your account, check user configuration page.")
+                Abort(Msg("login-error-disabled"))
                 Exit Sub
             End If
 
@@ -158,7 +158,7 @@ Namespace Requests
             If State = States.Cancelled Then Thread.CurrentThread.Abort()
 
             'Get user information and groups
-            UpdateStatus("Checking user rights...")
+            UpdateStatus(Msg("login-progress-rights"))
 
             Dim Result As String = GetApi("action=query&format=xml&meta=userinfo&uiprop=rights|editcount")
 
@@ -167,14 +167,14 @@ Namespace Requests
                 Result = Result.Substring(0, Result.IndexOf("</userinfo>"))
 
                 If Result.Contains("anon=""""") Then
-                    Abort("Failed to retrieve user rights.")
+                    Abort(Msg("login-error-rights"))
                     Exit Sub
                 End If
 
                 Dim EditCount As Integer = CInt(FindString(Result, "editcount=""", """"))
 
                 If EditCount < Config.RequireEdits Then
-                    Abort("Use of Huggle on this project requires at least " & CStr(Config.RequireEdits) & " edits.")
+                    Abort(Msg("login-error-count", CStr(Config.RequireEdits)))
                     Exit Sub
                 End If
 
@@ -194,22 +194,22 @@ Namespace Requests
                 Administrator = AdminAvailable AndAlso Config.UseAdminFunctions
 
                 If Config.RequireAdmin AndAlso Not AdminAvailable Then
-                    Abort("Use of Huggle on this project requires an administrator account.")
+                    Abort(Msg("login-error-admin"))
                     Exit Sub
                 End If
 
                 If Not Autoconfirmed AndAlso Config.Project = "en.wikipedia" Then
-                    Abort("Use of Huggle on this project requires that your account is autoconfirmed.")
+                    Abort(Msg("login-error-autoconfirmed"))
                     Exit Sub
                 End If
 
                 If Config.RequireRollback AndAlso Not RollbackAvailable Then
-                    Abort("Use of Huggle on this project requires rollback.")
+                    Abort(Msg("login-error-rollback"))
                     Exit Sub
                 End If
 
             Else
-                Abort("Failed to retrive user rights.")
+                Abort(Msg("login-error-rights"))
                 Exit Sub
             End If
 
@@ -217,7 +217,7 @@ Namespace Requests
 
             If Config.RequireTime > 0 Then
                 'Get account creation date
-                UpdateStatus("Checking account creation date...")
+                UpdateStatus(Msg("login-progress-age"))
 
                 Result = GetApi("action=query&format=xml&list=logevents&letype=newusers&letitle=" & _
                     UrlEncode(User.Me.UserPage.Name))
@@ -233,8 +233,7 @@ Namespace Requests
                     Date.TryParse(CreationDateString, CreationDate)
 
                     If CreationDate.AddDays(Config.RequireTime) < Date.UtcNow Then
-                        Abort("Use of Huggle on this project requires an account at least " & _
-                            CStr(Config.RequireTime) & " days old.")
+                        Abort(Msg("login-error-age", CStr(Config.RequireTime)))
                         Exit Sub
                     End If
                 End If
@@ -244,12 +243,12 @@ Namespace Requests
 
             'Check user list. If approval required, deny access to users not on the list, otherwise add them
             If Config.UserListLocation IsNot Nothing Then
-                UpdateStatus("Checking user list...")
+                UpdateStatus(Msg("login-progress-userlist"))
 
                 Dim UserList As String = GetPageText(Config.UserListLocation)
 
                 If UserList Is Nothing AndAlso Config.Approval Then
-                    Abort("Failed to load user list.")
+                    Abort(Msg("login-error-userlist"))
                     Exit Sub
                 End If
 
@@ -257,7 +256,7 @@ Namespace Requests
                     UserList.Contains("[[Special:Contributions/" & Config.Username & "|" & Config.Username & "]]") Then
 
                     If Config.Approval Then
-                        Abort("Use of Huggle on this project requires approval.")
+                        Abort(Msg("login-error-approval"))
                         Exit Sub
                     End If
 
@@ -289,13 +288,13 @@ Namespace Requests
 
             If Config.WhitelistLocation IsNot Nothing Then
                 'Get whitelist
-                UpdateStatus("Retrieving user whitelist...")
+                UpdateStatus(Msg("login-progress-whitelist"))
 
                 Result = GetApi("action=query&format=xml&titles=" & Config.WhitelistLocation & _
                     "&prop=revisions&rvlimit=1&rvprop=content")
 
                 If Result Is Nothing Then
-                    Abort("Failed to load user whitelist.")
+                    Abort(Msg("login-error-whitelist"))
                     Exit Sub
                 End If
 
@@ -316,7 +315,7 @@ Namespace Requests
             If State = States.Cancelled Then Thread.CurrentThread.Abort()
 
             'Get bot list
-            UpdateStatus("Retrieving bot list...")
+            UpdateStatus(Msg("login-progress-botlist"))
 
             Result = GetApi("action=query&format=xml&list=allusers&augroup=bot&aulimit=500")
 
@@ -338,12 +337,12 @@ Namespace Requests
             If State = States.Cancelled Then Thread.CurrentThread.Abort()
 
             'Get watchlist
-            UpdateStatus("Retrieving watchlist...")
+            UpdateStatus(Msg("login-progress-watchlist"))
 
             Result = GetText("title=Special:Watchlist/raw")
 
             If Result Is Nothing Then
-                Abort("Failed to load watchlist.")
+                Abort(Msg("login-error-watchlist"))
                 Exit Sub
             End If
 
@@ -366,7 +365,7 @@ Namespace Requests
         End Sub
 
         Private Sub ShowNewVersionForm()
-            Dim NewForm As New VersionForm
+            Dim NewForm As New UpdateForm
             NewForm.ShowDialog()
         End Sub
 
@@ -380,7 +379,7 @@ Namespace Requests
             Else
                 CaptchaId = Nothing
                 CaptchaWord = Nothing
-                Abort("Captcha not solved.")
+                Abort(Msg("login-error-nocaptcha"))
             End If
         End Sub
 

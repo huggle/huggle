@@ -24,14 +24,14 @@ Partial Class MessageForm
     Private Sub InitializeComponent()
         Me.Subject = New System.Windows.Forms.TextBox
         Me.Message = New System.Windows.Forms.TextBox
-        Me.Label1 = New System.Windows.Forms.Label
-        Me.Label2 = New System.Windows.Forms.Label
+        Me.SubjectLabel = New System.Windows.Forms.Label
+        Me.MessageLabel = New System.Windows.Forms.Label
         Me.Cancel = New System.Windows.Forms.Button
         Me.OK = New System.Windows.Forms.Button
         Me.AutoSign = New System.Windows.Forms.CheckBox
         Me.Summary = New System.Windows.Forms.TextBox
-        Me.Label3 = New System.Windows.Forms.Label
-        Me.Label4 = New System.Windows.Forms.Label
+        Me.Help = New System.Windows.Forms.Label
+        Me.SummaryLabel = New System.Windows.Forms.Label
         Me.SuspendLayout()
         '
         'Subject
@@ -56,23 +56,23 @@ Partial Class MessageForm
         Me.Message.Size = New System.Drawing.Size(445, 133)
         Me.Message.TabIndex = 4
         '
-        'Label1
+        'SubjectLabel
         '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(21, 54)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(46, 13)
-        Me.Label1.TabIndex = 1
-        Me.Label1.Text = "Subject:"
+        Me.SubjectLabel.AutoSize = True
+        Me.SubjectLabel.Location = New System.Drawing.Point(21, 54)
+        Me.SubjectLabel.Name = "SubjectLabel"
+        Me.SubjectLabel.Size = New System.Drawing.Size(46, 13)
+        Me.SubjectLabel.TabIndex = 1
+        Me.SubjectLabel.Text = "Subject:"
         '
-        'Label2
+        'MessageLabel
         '
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(14, 80)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(53, 13)
-        Me.Label2.TabIndex = 3
-        Me.Label2.Text = "Message:"
+        Me.MessageLabel.AutoSize = True
+        Me.MessageLabel.Location = New System.Drawing.Point(14, 80)
+        Me.MessageLabel.Name = "MessageLabel"
+        Me.MessageLabel.Size = New System.Drawing.Size(53, 13)
+        Me.MessageLabel.TabIndex = 3
+        Me.MessageLabel.Text = "Message:"
         '
         'Cancel
         '
@@ -103,9 +103,9 @@ Partial Class MessageForm
         Me.AutoSign.CheckState = System.Windows.Forms.CheckState.Checked
         Me.AutoSign.Location = New System.Drawing.Point(73, 216)
         Me.AutoSign.Name = "AutoSign"
-        Me.AutoSign.Size = New System.Drawing.Size(210, 17)
+        Me.AutoSign.Size = New System.Drawing.Size(173, 17)
         Me.AutoSign.TabIndex = 5
-        Me.AutoSign.Text = "Automatically append signature (~~~~)"
+        Me.AutoSign.Text = "Automatically append signature"
         Me.AutoSign.UseVisualStyleBackColor = True
         '
         'Summary
@@ -117,38 +117,38 @@ Partial Class MessageForm
         Me.Summary.Size = New System.Drawing.Size(445, 20)
         Me.Summary.TabIndex = 7
         '
-        'Label3
+        'Help
         '
-        Me.Label3.Location = New System.Drawing.Point(73, 12)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(459, 30)
-        Me.Label3.TabIndex = 0
-        Me.Label3.Text = "Specify one or both of Subject and Summary." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "If no summary is given the subject w" & _
-            "ill be used; if no subject is given no header will be added."
+        Me.Help.Location = New System.Drawing.Point(73, 12)
+        Me.Help.Name = "Help"
+        Me.Help.Size = New System.Drawing.Size(445, 30)
+        Me.Help.TabIndex = 0
+        Me.Help.Text = "Specify one or both of Subject and Summary. If no summary is given, the subject w" & _
+            "ill be used; if no subject is given, no header will be added."
         '
-        'Label4
+        'SummaryLabel
         '
-        Me.Label4.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(14, 242)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(53, 13)
-        Me.Label4.TabIndex = 6
-        Me.Label4.Text = "Summary:"
+        Me.SummaryLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.SummaryLabel.AutoSize = True
+        Me.SummaryLabel.Location = New System.Drawing.Point(14, 242)
+        Me.SummaryLabel.Name = "SummaryLabel"
+        Me.SummaryLabel.Size = New System.Drawing.Size(53, 13)
+        Me.SummaryLabel.TabIndex = 6
+        Me.SummaryLabel.Text = "Summary:"
         '
         'MessageForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(530, 300)
-        Me.Controls.Add(Me.Label4)
-        Me.Controls.Add(Me.Label3)
+        Me.Controls.Add(Me.SummaryLabel)
+        Me.Controls.Add(Me.Help)
         Me.Controls.Add(Me.Summary)
         Me.Controls.Add(Me.AutoSign)
         Me.Controls.Add(Me.OK)
         Me.Controls.Add(Me.Cancel)
-        Me.Controls.Add(Me.Label2)
-        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.MessageLabel)
+        Me.Controls.Add(Me.SubjectLabel)
         Me.Controls.Add(Me.Message)
         Me.Controls.Add(Me.Subject)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
@@ -164,12 +164,12 @@ Partial Class MessageForm
     End Sub
     Friend WithEvents Subject As System.Windows.Forms.TextBox
     Friend WithEvents Message As System.Windows.Forms.TextBox
-    Friend WithEvents Label1 As System.Windows.Forms.Label
-    Friend WithEvents Label2 As System.Windows.Forms.Label
+    Friend WithEvents SubjectLabel As System.Windows.Forms.Label
+    Friend WithEvents MessageLabel As System.Windows.Forms.Label
     Friend WithEvents Cancel As System.Windows.Forms.Button
     Friend WithEvents OK As System.Windows.Forms.Button
     Friend WithEvents AutoSign As System.Windows.Forms.CheckBox
     Friend WithEvents Summary As System.Windows.Forms.TextBox
-    Friend WithEvents Label3 As System.Windows.Forms.Label
-    Friend WithEvents Label4 As System.Windows.Forms.Label
+    Friend WithEvents Help As System.Windows.Forms.Label
+    Friend WithEvents SummaryLabel As System.Windows.Forms.Label
 End Class

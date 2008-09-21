@@ -579,7 +579,13 @@
     <None Include="Resources\icons\user-warn.png" />
     <None Include="Resources\icons\user-whitelist.png" />
     <None Include="Resources\WikiPageHtml.txt" />
-    <Content Include="Localization\en.txt" />
+    <None Include="Localization\bg.txt" />
+    <None Include="Localization\de.txt" />
+    <None Include="Localization\en.txt" />
+    <None Include="Localization\es.txt" />
+    <None Include="Localization\no.txt" />
+    <None Include="Localization\pt.txt" />
+    <None Include="Localization\ru.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
 </Project>

@@ -6,6 +6,8 @@ Class CaptchaForm
 
     Private Sub CaptchaForm_Load() Handles Me.Load
         Icon = My.Resources.icon_red_button
+        Text = Msg("login-captchatitle")
+        OK.Text = Msg("accept")
 
         Dim Client As New WebClient, TempFileName As String = System.IO.Path.GetTempFileName
 

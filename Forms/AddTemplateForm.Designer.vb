@@ -26,9 +26,10 @@ Partial Class AddTemplateForm
         Me.OK = New System.Windows.Forms.Button
         Me.DisplayTextBox = New System.Windows.Forms.TextBox
         Me.TemplateBox = New System.Windows.Forms.TextBox
-        Me.Label1 = New System.Windows.Forms.Label
-        Me.Label2 = New System.Windows.Forms.Label
-        Me.Label3 = New System.Windows.Forms.Label
+        Me.DisplayTextLabel = New System.Windows.Forms.Label
+        Me.TemplateLabel = New System.Windows.Forms.Label
+        Me.TemplateEnd = New System.Windows.Forms.Label
+        Me.TemplateStart = New System.Windows.Forms.Label
         Me.SuspendLayout()
         '
         'Cancel
@@ -70,42 +71,52 @@ Partial Class AddTemplateForm
         Me.TemplateBox.Size = New System.Drawing.Size(185, 20)
         Me.TemplateBox.TabIndex = 3
         '
-        'Label1
+        'DisplayTextLabel
         '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(12, 15)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(64, 13)
-        Me.Label1.TabIndex = 0
-        Me.Label1.Text = "Display text:"
+        Me.DisplayTextLabel.AutoSize = True
+        Me.DisplayTextLabel.Location = New System.Drawing.Point(12, 15)
+        Me.DisplayTextLabel.Name = "DisplayTextLabel"
+        Me.DisplayTextLabel.Size = New System.Drawing.Size(64, 13)
+        Me.DisplayTextLabel.TabIndex = 0
+        Me.DisplayTextLabel.Text = "Display text:"
         '
-        'Label2
+        'TemplateLabel
         '
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(22, 41)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(102, 13)
-        Me.Label2.TabIndex = 2
-        Me.Label2.Text = "Template:    {{subst:"
+        Me.TemplateLabel.AutoSize = True
+        Me.TemplateLabel.Location = New System.Drawing.Point(22, 41)
+        Me.TemplateLabel.Name = "TemplateLabel"
+        Me.TemplateLabel.Size = New System.Drawing.Size(54, 13)
+        Me.TemplateLabel.TabIndex = 2
+        Me.TemplateLabel.Text = "Template:"
         '
-        'Label3
+        'TemplateEnd
         '
-        Me.Label3.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(313, 41)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(15, 13)
-        Me.Label3.TabIndex = 6
-        Me.Label3.Text = "}}"
+        Me.TemplateEnd.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TemplateEnd.AutoSize = True
+        Me.TemplateEnd.Location = New System.Drawing.Point(313, 41)
+        Me.TemplateEnd.Name = "TemplateEnd"
+        Me.TemplateEnd.Size = New System.Drawing.Size(15, 13)
+        Me.TemplateEnd.TabIndex = 6
+        Me.TemplateEnd.Text = "}}"
+        '
+        'TemplateStart
+        '
+        Me.TemplateStart.AutoSize = True
+        Me.TemplateStart.Location = New System.Drawing.Point(82, 41)
+        Me.TemplateStart.Name = "TemplateStart"
+        Me.TemplateStart.Size = New System.Drawing.Size(43, 13)
+        Me.TemplateStart.TabIndex = 2
+        Me.TemplateStart.Text = "{{subst:"
         '
         'AddTemplateForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(338, 97)
-        Me.Controls.Add(Me.Label3)
-        Me.Controls.Add(Me.Label2)
-        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.TemplateEnd)
+        Me.Controls.Add(Me.TemplateStart)
+        Me.Controls.Add(Me.TemplateLabel)
+        Me.Controls.Add(Me.DisplayTextLabel)
         Me.Controls.Add(Me.TemplateBox)
         Me.Controls.Add(Me.DisplayTextBox)
         Me.Controls.Add(Me.OK)
@@ -126,7 +137,8 @@ Partial Class AddTemplateForm
     Private WithEvents OK As System.Windows.Forms.Button
     Private WithEvents DisplayTextBox As System.Windows.Forms.TextBox
     Private WithEvents TemplateBox As System.Windows.Forms.TextBox
-    Private WithEvents Label1 As System.Windows.Forms.Label
-    Private WithEvents Label2 As System.Windows.Forms.Label
-    Private WithEvents Label3 As System.Windows.Forms.Label
+    Private WithEvents DisplayTextLabel As System.Windows.Forms.Label
+    Private WithEvents TemplateLabel As System.Windows.Forms.Label
+    Private WithEvents TemplateEnd As System.Windows.Forms.Label
+    Private WithEvents TemplateStart As System.Windows.Forms.Label
 End Class
