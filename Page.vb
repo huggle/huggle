@@ -108,7 +108,7 @@ Class Page
 
     Public ReadOnly Property Owner() As User
         Get
-            If Space Is Space.User OrElse Space Is Space.UserTalk AndAlso Name.Contains(":") Then
+            If (Space Is Space.User OrElse Space Is Space.UserTalk) AndAlso Name.Contains(":") Then
                 Dim Username As String = Name.Substring(Name.IndexOf(":"))
                 If Username.Contains("/") Then Username = Username.Substring(0, Username.IndexOf("/"))
                 Return GetUser(Username)
