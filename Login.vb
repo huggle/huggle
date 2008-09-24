@@ -5,10 +5,10 @@ Imports System.Web.HttpUtility
 
 Module Login
 
-    Public CaptchaId, CaptchaWord, SessionCookie As String, Proxy As IWebProxy
+    Public CaptchaId, CaptchaWord As String, Proxy As IWebProxy
 
-    Public Sub ConfigureProxy(ByVal Enabled As Boolean, ByVal Address As String, ByVal Port As Integer, ByVal Username As String, _
-        ByVal Password As String, ByVal Domain As String)
+    Public Sub ConfigureProxy(ByVal Enabled As Boolean, ByVal Address As String, ByVal Port As Integer, _
+        ByVal Username As String, ByVal Password As String, ByVal Domain As String)
 
         Dim Wp As WebProxy
 

@@ -68,6 +68,7 @@ Module Shortcuts
         ShortcutKeys.Clear()
 
         ShortcutKeys("About") = New Shortcut(Keys.None)
+        ShortcutKeys("Block user") = New Shortcut(Keys.B, True)
         ShortcutKeys("Browse back") = New Shortcut(Keys.OemOpenBrackets)
         ShortcutKeys("Browse forward") = New Shortcut(Keys.OemCloseBrackets)
         ShortcutKeys("Cancel") = New Shortcut(Keys.Escape)
@@ -96,7 +97,7 @@ Module Shortcuts
         ShortcutKeys("Previous tab") = New Shortcut(Keys.Tab, , , True)
         ShortcutKeys("Proposed deletion") = New Shortcut(Keys.P)
         ShortcutKeys("Protect page") = New Shortcut(Keys.None)
-        ShortcutKeys("Report / block user") = New Shortcut(Keys.B)
+        ShortcutKeys("Report user") = New Shortcut(Keys.B)
         ShortcutKeys("Request deletion") = New Shortcut(Keys.S)
         ShortcutKeys("Request protection") = New Shortcut(Keys.None)
         ShortcutKeys("Retrieve page history") = New Shortcut(Keys.H)
