@@ -139,7 +139,7 @@ Namespace Requests
         End Sub
 
         Protected Function DoLogin() As LoginResult
-            Dim Client As New WebClient, Result As String = "", Retries As Integer = 3
+            Dim Client As New WebClient2, Result As String = "", Retries As Integer = 3
 
             Mode = Modes.Get
             Query = "title=Special:Userlogin"
@@ -168,8 +168,8 @@ Namespace Requests
                 If Retries = 0 Then Return LoginResult.Failed
 
                 If Client.ResponseHeaders(HttpResponseHeader.SetCookie) IsNot Nothing Then
-                    SessionCookie = Client.ResponseHeaders(HttpResponseHeader.SetCookie)
-                    SessionCookie = SessionCookie.Substring(0, SessionCookie.IndexOf(";") + 1)
+                    Cookie = Client.ResponseHeaders(HttpResponseHeader.SetCookie)
+                    Cookie = Cookie.Substring(0, Cookie.IndexOf(";") + 1)
                 End If
 
                 If Result.Contains("<div class='captcha'>") Then
@@ -187,7 +187,7 @@ Namespace Requests
             Do
                 Client.Headers.Add(HttpRequestHeader.UserAgent, Config.UserAgent)
                 Client.Headers.Add(HttpRequestHeader.ContentType, "application/x-www-form-urlencoded")
-                Client.Headers.Add(HttpRequestHeader.Cookie, SessionCookie)
+                Client.Headers.Add(HttpRequestHeader.Cookie, Cookie)
                 Client.Proxy = Login.Proxy
 
                 Retries -= 1
@@ -199,7 +199,7 @@ Namespace Requests
                 Try
                     'Pass username/password in post data
                     Result = UTF8.GetString(Client.UploadData(Config.SitePath & _
-                        "w/index.php?title=Special:Userlogin&action=submitlogin&type=login", UTF8.GetBytes(PostString)))
+                        "w/index.php?title=Special:Userlogin&action=submitlogin", UTF8.GetBytes(PostString)))
 
                     If State = States.Cancelled Then Return LoginResult.Cancelled
 
@@ -217,44 +217,12 @@ Namespace Requests
             If Result.Contains("<span id=""mw-wrongpassword"">") Then Return LoginResult.WrongPassword
             If Result.Contains("<div id=""userloginForm"">") Then Return LoginResult.Failed
 
-            Dim CookiePrefix As String, LoginCookie As String = Client.ResponseHeaders(HttpResponseHeader.SetCookie)
+            'Set cookie
+            Cookie = ""
 
-            If Config.Project = "localhost" Then CookiePrefix = "wikidb" _
-                Else CookiePrefix = Config.Project.Substring(0, Config.Project.IndexOf(".")) & "wiki"
-
-            Dim Userid As String = LoginCookie.Substring(LoginCookie.IndexOf(CookiePrefix & "UserID=") _
-                + CookiePrefix.Length + 7)
-            Userid = Userid.Substring(0, Userid.IndexOf(";"))
-
-            'SUL-enabled accounts work differently
-            If LoginCookie.Contains("centralauth_User=") Then
-
-                Dim CaUserName As String = LoginCookie.Substring(LoginCookie.IndexOf("centralauth_User=") + 17)
-                CaUserName = CaUserName.Substring(0, CaUserName.IndexOf(";"))
-
-                Dim CaToken As String = LoginCookie.Substring(LoginCookie.IndexOf("centralauth_Token=") + 18)
-                CaToken = CaToken.Substring(0, CaToken.IndexOf(";"))
-
-                Cookie = CookiePrefix & "UserID=" & UrlEncode(Userid) & "; " & CookiePrefix & "UserName=" & _
-                    UrlEncode(Config.Username) & "; " & "centralauth_User=" & UrlEncode(Config.Username) & "; " & _
-                    "centralauth_Token=" & UrlEncode(CaToken) & ";"
-
-                If SessionCookie IsNot Nothing Then Cookie &= " " & SessionCookie
-
-                If LoginCookie.Contains("centralauth_Session=") Then
-                    Dim CaSession As String = LoginCookie.Substring(LoginCookie.IndexOf("centralauth_Session=") + 20)
-                    CaSession = CaSession.Substring(0, CaSession.IndexOf(";"))
-                    Cookie &= " centralauth_Session=" & UrlEncode(CaSession) & ";"
-                End If
-
-            Else
-                Dim Token As String = LoginCookie.Substring(LoginCookie.IndexOf(CookiePrefix & "Token=") _
-                    + CookiePrefix.Length + 6)
-                Token = Token.Substring(0, Token.IndexOf(";"))
-
-                Cookie = CookiePrefix & "UserID=" & UrlEncode(Userid) & "; " & CookiePrefix & "UserName=" & _
-                UrlEncode(Config.Username) & "; " & CookiePrefix & "Token=" & UrlEncode(Token) & "; " & SessionCookie
-            End If
+            For Each Item As Cookie In Client.Cookies.GetCookies(New Uri(Config.SitePath))
+                Cookie &= Item.ToString & ";"
+            Next Item
 
             Return LoginResult.Success
         End Function
