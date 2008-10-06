@@ -75,7 +75,8 @@ Module Highlight
 
         Private Directives() As String = {"#REDIRECT", "__FORCETOC__", "__HIDDENCAT__", "__INDEX__", _
             "__NEWSECTIONLINK__", "__NOCC__", "__NOCONTENTCONVERT__", "__NOEDITSECTION__", "__NOGALLERY__", _
-            "__NOINDEX__", "__NOTC__", "__NOTITLECONVERT__", "__NOTOC__", "__STATICREDIRECT__", "__TOC__"}
+            "__NOHEADER__", "__NOINDEX__", "__NOTC__", "__NOTITLECONVERT__", "__NOTOC__", "__STATICREDIRECT__", _
+            "__TOC__"}
 
         Public Delegate Sub HighlightCallback(ByVal Result As String)
 
