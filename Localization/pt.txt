@@ -1,3 +1,485 @@
 <pre>
-name:Português
+name:                      Português
+</pre>
+
+=== General ===
+<pre>
+add:                       Adicionar
+apply:                     Aplicar
+cancel:                    Cancelar
+clear:                     Apagar
+close:                     Fechar
+continue:                  Continuar
+copy:                      Copiar
+delete:                    Eliminar
+error:                     Erro
+exit:                      Sair
+minimizewindow:            Minimizar
+no:                        Não
+ok:                        Sim
+remove:                    Remover
+rename:                    Renonear
+restorewindow:             Restaurar
+save:                      Gravar
+selectfile:                Selecionar...
+yes:                       Sim
+</pre>
+
+=== About form ===
+<pre>
+about-contributors:        Colaboradores:
+</pre>
+
+=== Block form ===
+<pre>
+block-title:               Bloquear {0}
+block-reason:              Razão:
+block-duration:            Duração:
+block-message:             Mensagem na página de discussão:
+block-anononly:            Bloquear apenas anónimos
+block-creation:            Bloquear criação de conta
+block-autoblock:           Ativar autobloqueios
+block-email:               Bloquear e-mail
+block-usertalk:            Disc
+block-usercontribs:        Contribs
+block-blockloglabel:       Relatório de bloqueios:
+block-warnloglabel:        Avisos:
+block-sharedipwarning:     Nota: {0} está marcado como sendo um IP partilhado.
+block-sensitivewarning:    Este endereço IP está marcado como 'sensível' pela seguinte razão:\n\n   {0}\n\nContinuar?
+</pre>
+
+=== Closing form ===
+<pre>
+closing-whitelist:         Atualização automática da lista...
+closing-config:            Atualização automática da configuração...
+</pre>
+
+=== Configuration form ===
+<pre>
+config-title:              Opções
+config-rememberme:         Lembrar nome de usuário
+config-rememberpassword:   Lembrar palavra-chave
+config-autowhitelist:      Adicionar automaticamente usuários à lista branca
+config-openinbrowser:      Abrir hiperligações numa nova janela do navegador externo
+config-shownewedits:       Mostrar novas edições na página automaticamente caso elas ocorram
+config-preloads:           Ativar pré-carregamento de diffs
+config-ircmode:            Usar se possível o feed IRC para as mudanças recentes
+config-ircport:            Porta do IRC (6664 - 6669)
+config-difffontsize:       Tamanho da fonte na janela de diffs
+config-logfile:            Ficheiro de relatórios
+config-viewlocalconfig:    Ver pasta de configuração local
+config-trayicon:           Mostrar ícone na barra de tarefas do Windows
+config-startupmessage:     Mostrar mensagem de inicialização do Huggle
+config-showlog:            Mostrar relatório
+config-showqueue:          Mostrar fila de edições a rever
+config-rightalignqueue:    Mostrar fila de edições a rever no lado direito
+config-showtooltips:       Mostrar tooltips nos menus
+config-shortcutlist:       Teclas de atalho
+config-shortcutaction:     Ação
+config-shortcut:           Atalho
+config-changeshortcut:     Alterar atalho para {0}
+config-noshortcut:         Nenhum
+config-defaults:           Restaurar
+config-minor:              Marcar como edição menor
+config-watchlist:          Adicionar às páginas vigiadas
+config-defaultsummary:     Sumário padrão para edições manuais
+config-undosummary:        Sumário para edições minhas canceladas
+config-confirmmultiple:    Pedir confirmação ao reverter várias edições do mesmo usuário
+config-confirmsame:        Pedir confirmação ao reverter para uma edição do mesmo usuário
+config-confirmselfrevert:  Pedir confirmação ao reverter edições minhas (excluindo desfazer)
+config-autoadvance:        Após reverter, mostrar automaticamente a próxima edição a rever
+config-userollback:        Usar rollback caso esteja disponível
+config-revertsummaries:    Sumários de edição disponíveis no menu
+config-clearsummaries:     Sumários introduzidos manualmente são memorizados entre sessões; clicar para apagá-los
+config-reportlinkexamples: Incluir ligações para edições de vandalismo ao reportar vândalos aos administradores
+config-extendreports:      Após vandalismo posterior acrescentar novas ligações na página de reportar vândalos
+config-autoreportgroup:    Reportar automaticamente
+config-autoreport:         Quando me for perguntado se quero dar um aviso final a um usuário
+config-reportnone:         Não fazer nada
+config-reportprompt:       Perguntar se quero reportar o vândalo
+config-reportauto:         Reportar vândalo automaticamente
+config-templates:          Mensagens de predefinição para usuários
+config-templatetext:       Texto
+config-template:           Predefinição
+config-highlightgroup:     Cores de destaque da sintaxe
+config-useadminfunctions:  Usar opções de administradores caso seja possível
+config-promptforblock:     Perguntar se quero bloquear ao avisar pela última vez um usuário
+config-blockreason:        Razão padrão do bloqueio 
+config-blocktime:          Duração padrão do bloqueio para
+config-blocktimeanon:      usuários anónimos
+config-blocktimereg:       usuários registados
+config-summaryprompt:      Introduza o sumário
+config-defaultsprompt:     Restaurar padrão?
+config-logbrowsetitle:     Localização do ficheiro de relatórios
+config-shortcutconflict:   O atalho '{0}' é igual ao atalho de '{1}'.
+config-addtemplate:        Adicionar predefinição
+</pre>
+
+=== Delete form ===
+<pre>
+delete-title:              Eliminar {0}
+delete-reason:             Razão (para a razão padrão deixar em branco):
+delete-deletionlog:        Relatório de eliminações:
+</pre>
+
+=== Edit form ===
+<pre>
+edit-title:                Editando {0}
+edit-summary:              Sumário:
+edit-minor:                Edição menor
+edit-watch:                Vigiar esta página
+edit-page:                 Página
+edit-edit:                 Editar
+edit-view:                 Ver
+edit-page-savetofile:      Gravar para o ficheiro...
+edit-page-save:            Gravar
+edit-page-cancel:          Cancelar
+edit-edit-undo:            Desfazer
+edit-edit-redo:            Refazer
+edit-edit-cut:             Recortar
+edit-edit-copy:            Copiar
+edit-edit-paste:           Colar
+edit-edit-delete:          Apagar
+edit-edit-selectall:       Selecionar tudo
+edit-edit-find:            Procurar
+edit-view-syntax:          Cores de destaque da sintaxe
+edit-matchcase:            Correspondência
+edit-find:                 Procurar:
+edit-replace:              Substituir:
+edit-findnext:             Seguinte
+edit-findprevious:         Anterior
+edit-replaceall:           Substituir tudo
+edit-edittab:              Editar
+edit-previewtab:           Prever
+edit-changestab:           Alterações
+edit-searchnotfound:       Sem resultados
+edit-searchwrapstart:      Atingido o final da página, a continuar do início
+edit-searchwrapend:        Atingido o início da página, a continuar do final
+</pre>
+
+=== E-mail form ===
+<pre>
+email-title:               E-mail {0}
+email-subject:             Assunto:
+email-message:             Mensagem:
+email-ccme:                Enviar uma cópia deste e-mail para a minha caixa de correio
+email-send:                Enviar
+</pre>
+
+=== IRC feed ===
+<pre>
+irc-connected:             Ligado ao feed de IRC de mudanças recentes
+irc-disconnected:          Perdeu-se a ligação ao feed de IRC de mudanças recentes; a ligar...
+irc-nochannel:             Não foi encontrado o canal IRC para {0}. A usar como alternativa os pedidos API apesar de serem lentos
+irc-error:                 Não foi possível ligar ao feed de IRC de mudanças recentes. A usar como alternativa os pedidos API apesar de serem lentos
+</pre>
+
+=== Login ===
+<pre>
+login-language:            Língua:
+login-project:             Projeto:
+login-username:            Usuário:
+login-password:            Palavra-passe:
+login-proxygroup:          Definições de proxy
+login-proxy:               Usar um servidor proxy
+login-proxyaddress:        Endereço:
+login-proxyport:           Porta:
+login-proxydomain:         Domínio:
+login-start:               Login
+login-captchatitle:        Captcha necessário para entra na conta
+
+login-progress-start:      A entrar na conta...
+login-progress-global:     A verificar a configuração global...
+login-progress-project:    A verificar a configuração do projeto...
+login-progress-user:       A verificar a configuração do usuário...
+login-progress-rights:     A verificar os privilégios de usuário...
+login-progress-age:        A verificar a data de criação de conta...
+login-progress-userlist:   A verificar a lista de usuários...
+login-progress-whitelist:  A receber a lista branca de usuários...
+login-progress-botlist:    A receber a lista de robôs...
+login-progress-watchlist:  A receber a lista de páginas vigiadas...
+
+login-error-admin:         Para usar o Huggle no projeto que escolheu é necessário ser administrador.
+login-error-age:           Para usar o Huggle no projeto que escolheu é necessário ter uma conta de usuário criada à pelo menos {0} dias.
+login-error-alldisabled:   O Huggle neste momento está bloqueado em todos os projetos. Provavelmente é uma medida temporária.
+login-error-approval:      Para usar o Huggle no projeto que escolheu é necessária a aprovação prévia.
+login-error-autoconfirmed: Para usar o Huggle no projeto que escolheu é necessário que a sua conta seja autoconfirmada.
+login-error-cancelled:     Cancelado.
+login-error-captcha:       Introduziu uma palavra-chave ou código de confirmação Captcha incorretos.
+login-error-count:         Para usar o Huggle no projeto que escolheu são necessárias pelo menos {0} edições.
+login-error-disabled:      O Huggle não está ativo na sua conta de usuário. Verifique a sua página de configuração pessoal.
+login-error-global:        O Huggle não conseguiu carregar a página de configuração global.
+login-error-invalid:       Introduziu um nome de usuário inválido.
+login-error-nocaptcha:     Código de confirmação Captcha errado.
+login-error-nouser:        A conta de usuário não existe.
+login-error-password:      Palavra-chave errada.
+login-error-project:       Não foi possível carregar a página de configuração do projeto.
+login-error-projdisabled:  O Huggle neste momento está bloqueado no projeto que escolheu. Provavelmente é uma medida temporária.
+login-error-rights:        Não foi possível obter os privilégios de usuário.
+login-error-rollback:      O Huggle necessita de privilégio de rollback no projecto que escolheu.
+login-error-unknown:       Não foi possível entrar na conta de usuário.
+login-error-userlist:      O Huggle não conseguiu obter a lista de usuários aprovados que o podem utilizar.
+login-error-version:       Esta versão foi descontinuada. Por favor faça uma atualização para a última versão do Huggle.
+login-error-watchlist:     Não foi possível carregar a lista de páginas vigiadas.
+login-error-whitelist:     Não foi possível carregar a lista branca de usuários.
+</pre>
+
+=== Main window ===
+<pre>
+main-page:                 Página
+main-user:                 Usuário
+main-contribs:             Contribs
+main-history:              História
+main-system:               Sistema
+main-system-messages:      Mostrar novas mensagens
+main-system-reconnectirc:  Tornar a ligar ao feed de IRC
+main-system-savelog:       Gravar relatório...
+main-system-lists:         Construtor de listas...
+main-system-requests:      Pedidos...
+main-system-statistics:    Estatísticas...
+main-system-showlog:       Mostrar relatório
+main-system-showqueue:     Mostrar fila de edições a rever
+main-system-options:       Opções...
+main-system-logout:        Sair da conta
+main-system-exit:          Sair do Huggle
+main-queue:                Fila de edições
+main-queue-next:           Seguinte
+main-queue-trim:           Reduzir
+main-queue-clear:          Apagar lista atual
+main-queue-reset:          Reset
+main-queue-clearall:       Apagar todas as listas
+main-queue-options:        Gerir listas...
+main-goto:                 Ir para
+main-goto-mytalk:          Minha página de discussão
+main-goto-mycontribs:      Minhas edições
+main-page-switchtotalk:    Mudar para a página de discussão
+main-page-switchtosubject: Mudar para a página principal
+main-page-switchtoarticle: Mudar para a página do artigo
+main-page-view:            Ver esta edição
+main-page-viewlatest:      Ver a última edição
+main-page-history:         Carregar história
+main-page-historypage:     Mostrar página da história
+main-page-edit:            Editar
+main-page-tag:             Marcar
+main-page-reqdeletion:     Pedir eliminação
+main-page-reqprotection:   Pedir proteção
+main-page-watch:           Vigiar
+main-page-unwatch:         Deixar de vigiar
+main-page-purge:           Atualizar
+main-page-patrol:          Marcar como patrulhada
+main-page-move:            Mover...
+main-page-protect:         Proteger...
+main-page-delete:          Eliminar...
+main-user-info:            Mostrar informações do usuário
+main-user-ignore:          Ignorar
+main-user-unignore:        Deixar de ignorar
+main-user-contribs:        Carregar contribuições do usuário
+main-user-talk:            Ver página de discussão
+main-user-message:         Mensagem...
+main-user-email:           E-mail...
+main-user-warn:            Avisar...
+main-user-report:          Reportar
+main-user-block:           Bloquear...
+main-browser:              Navegador
+main-browser-newtab:       Nova aba
+main-browser-closetab:     Fechar aba
+main-browser-closeothers:  Fechar todas as outras abas
+main-browser-back:         Anterior
+main-browser-forward:      Seguinte
+main-browser-open:         Ver página no navegador externo
+main-browser-newedits:     Mostar novas edições feitas na página
+main-browser-newcontribs:  Mostrar novas edições do usuário
+main-help:                 Ajuda
+main-help-documentation:   Documentação
+main-help-feedback:        Feedback
+main-help-about:           Sobre o Huggle...
+main-addqueue:             Adicionar...
+main-savelogtitle:         Gravar relatório
+main-usermessageother:     Outra mensagem...
+main-advanced:             Avançado...
+main-stats:                {0} edições por minuto, {1} reversões por minuto
+
+main-tip-revertwarn:       Reverter esta edição e avisar o usuário
+main-tip-nextdiff:         Mostrar a próxima edição a rever
+main-tip-revert:           Reverter esta edição
+main-tip-template:         Enviar uma mensagem predefinida ao usuário
+main-tip-warn:             Avisar usuário
+main-tip-cancel:           Cancelar todas as ações pendentes
+main-tip-undo:             Desfazer minhas ações recentes
+main-tip-browserback:      Anterior
+main-tip-browserforward:   Seguinte
+main-tip-browseropen:      Ver no navegador externo
+main-tip-browsernewtab:    Nova aba
+main-tip-browserclosetab:  Fechar aba
+main-tip-history:          Receber a história da página
+main-tip-historyprev:      Mostrar edição anterior desta página
+main-tip-historynext:      Mostrar edição seguinte desta página
+main-tip-historylast:      Mostrar última edição desta página
+main-tip-historydifftocur: Mostrar alterações entre esta edição e a última edição desta página
+main-tip-contribs:         Receber edições feitas pelo usuário
+main-tip-contribsprev:     Mostrar edição anterior deste usuário
+main-tip-contribsnext:     Mostrar edição seguinte deste usuário
+main-tip-contribslast:     Mostrar última edição deste usuário
+main-tip-pageview:         Ver esta edição
+main-tip-pageedit:         Editar esta página
+main-tip-pagewatch:        Vigiar esta página
+main-tip-pagetag:          Marcar esta página com uma predefinição
+main-tip-pagetagdelete:    Marcar esta página para eliminação
+main-tip-pagedelete:       Eliminar esta página
+main-tip-userinfo:         Mostrar informações sobre o usuário
+main-tip-usertalk:         Mostrar a página de discussão do usuário
+main-tip-usermessage:      Enviar mensagem a este usuário
+main-tip-userignore:       Ignorar todas as edições deste usuário
+main-tip-userreport:       Reportar este usuário
+main-tip-userblock:        Bloquear este usuário
+</pre>
+
+=== Message form ===
+<pre>
+message-title:             Mensagem {0}
+message-help:              Introduza um ou ambos os campos de Assunto e Sumário. Se não introduzir o sumário, será usado o assunto. Se não introduzir o assunto, não será criada uma secção.
+message-subject:           Assunto:
+message-message:           Mensagem:
+message-summary:           Sumário:
+message-autosign:          Adicionar automaticamente a assinatura
+</pre>
+
+=== Queue form ===
+<pre>
+queue-title:               Fila de edições a rever
+queue-queues:              Filas de edições:
+queue-typegroup:           Tipo de fila de edições a rever
+queue-listselector:        Lista:
+queue-listbuilder:         Construtor de listas...
+queue-sortorder:           Ordem:
+queue-removeviewed:        Remover edição quando visualizada
+queue-removeold:           Remover edições anteriores da mesma página
+queue-removeafter:         Remover edições após
+queue-removeaftertime:     minutos
+queue-preload:             Ativar pré-carregamento de edições quando esta fila de edições for selecionada
+queue-ignorepages:         Ignorar edições de páginas na lista de páginas ignoradas
+queue-pagefiltersgroup:    Filtros de títulos de páginas
+queue-pageregex:           Título corresponde à expressão regular:
+queue-namespaces:          Domínios:
+queue-applylabel:          Clicar em Aplicar para aplicar estes filtros à lista de páginas existente.
+queue-editfiltersgroup:    Editar filtros
+queue-userregex:           Nome de usuário corresponde à expressão regular:
+queue-summaryregex:        Sumário de edição corresponde à expressão regular:
+queue-filternewpage:       Página nova
+queue-filterownuserspace:  Pág. e subpáginas do usuário
+queue-filteranonymous:     Usuário anónimo
+queue-filterignored:       Usuário ignorado
+queue-filterreverts:       Reverter
+queue-filternotifications: Notificação
+queue-filterwarnings:      Aviso
+queue-filtertags:          Marcação com predefinição
+queue-filterbot:           Edição de robô
+queue-filterassisted:      Edição assistida
+queue-filterhuggle:        Edição com Huggle
+queue-filterme:            Minhas edições
+queue-examplelabel1:       Requerer este atributo
+queue-examplelabel2:       Excluir este atributo
+queue-examplelabel3:       Não verificar este atributo
+</pre>
+
+=== Queue trim form ===
+<pre>
+queuetrim-title:           Remover edições da fila
+queuetrim-age:             Retirar todas as edições a rever mais antigas do que
+queuetrim-ageunit:         minutos
+</pre>
+
+=== Requests form ===
+<pre>
+requests-title:            Pedidos
+requests-cancelall:        Cancelar tudo
+requests-cancelled:        Cancelado
+requests-inprogress:       A executar
+requests-failed:           Falhou
+requests-completed:        Bem sucedido
+requests-time:             Hora
+requests-type:             Tipo
+requests-query:            Pedido
+</pre>
+
+=== Revert form ===
+<pre>
+revert-title:              Reverter {0}
+revert-summary:            Sumário da reversão (para padrão deixar em branco):
+revert-currentonly:        Reverter apenas a edição selecionada
+</pre>
+
+=== Revert and warn form ===
+<pre>
+revertandwarn-title:       Reverter e avisar {0}
+</pre>
+
+=== Statistics form ===
+<pre>
+stats-title:               Estatísticas
+stats-actions:             Eventos nesta sessão:
+stats-session:             Tempo decorrido da sessão: {0}
+stats-edits:               Edições
+stats-assisted:            Edições assistidas
+stats-huggle:              Edições no Huggle
+stats-reverts:             Reversões
+stats-warnings:            Avisos
+stats-reports:             Reportes
+stats-tags:                Marcações
+stats-notifications:       Notificações
+stats-blocks:              Bloqueios
+stats-deletes:             Eliminações
+stats-protections:         Proteções
+stats-allusers:            Todos os usuários
+stats-me:                  Eu
+stats-ignored:             Ignorados
+stats-anon:                Anónimos
+stats-bots:                Robôs
+stats-other:               Outros
+</pre>
+
+=== Tag form ===
+<pre>
+tag-title:                 Marcar {0}
+tag-tagselector:           Adicionar marcação:
+tag-tags:                  Marcações:
+tag-summary:               Sumário:
+tag-insertatend:           Inserir no final da página
+</pre>
+
+=== Update form ===
+<pre>
+update-title:              Nova versão disponível
+update-notification:       Esta versão do Huggle está desatualizada.
+update-required:           Tem de atualizar para a última versão, {0}.
+update-optional:           Recomenda-se que atualize para a última versão, {0}, que poderá ser obrigatória futuramente.
+update-prompt:             Descarregar e correr a última versão agora?
+update-download:           Atualizar
+update-progress:           A descarregar a nova versão...
+update-error:              Não foi possível descarregar a nova versão.
+</pre>
+
+=== User info form ===
+<pre>
+userinfo-title:            Informações sobre o usuário '{0}'
+userinfo-anonymous:        Anónimo:
+userinfo-ignored:          Na lista branca:
+userinfo-edits:            Número de edições:
+userinfo-sessionedits:     Edições nesta sessão:
+userinfo-sharedip:         IP partilhado/dinâmico:
+userinfo-blocklog:         Bloqueios:
+userinfo-warnlog:          Avisos:
+</pre>
+
+=== Warning form ===
+<pre>
+warning-title:             Aviso {0}
+warning-levelgroup:        Nível de aviso
+warning-levelauto:         Automático
+warning-level1:            Nível 1
+warning-level2:            Nível 2
+warning-level3:            Nível 3
+warning-level4:            Nível 4 (final)
+warning-warntype:          Tipo de aviso:
+warning-warnlog:           Avisos a este usuário:
 </pre>
