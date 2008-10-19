@@ -5,62 +5,38 @@ Namespace Requests
 
     Class UserMessageRequest : Inherits Request
 
-        Public User As User
-        Public Summary, Message, Title, AvoidText As String
+        'Post a message on a user's discussion page
+
+        Public User As User, Summary, Message, Title, AvoidText As String
         Public Watch, Minor, AutoSign As Boolean
 
-        Public Sub Start()
-            LogProgress("Messaging '" & User.Name & "'...")
+        Protected Overrides Sub Process()
+            LogProgress(Msg("usermessage-progress", User.Name))
 
-            Dim RequestThread As New Thread(AddressOf Process)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
-        End Sub
+            Dim Result As ApiResult = GetText(User.TalkPage)
 
-        Private Sub Process()
-            Dim Data As EditData = GetEditData(User.TalkPage)
-
-            If Data.Error Then
-                Callback(AddressOf Failed)
+            If Result.Error Then
+                Fail(Msg("usermessage-fail", User.Name), Result.ErrorMessage)
                 Exit Sub
             End If
 
-            If AvoidText IsNot Nothing AndAlso Data.Text.ToLower.Contains(AvoidText.ToLower) Then
-                Callback(AddressOf ExistingMessage)
+            Dim Text As String = HtmlDecode(FindString(Result.Text, "<rev>", "</rev>"))
+
+            If AvoidText IsNot Nothing AndAlso Text.ToLower.Contains(AvoidText.ToLower) Then
+                Fail(Msg("usermessage-fail", User.Name), Msg("usermessage-duplicate"))
                 Exit Sub
             End If
 
-            Data.Text &= LF
-            If Title <> "" Then Data.Text &= "== " & Title & " ==" & LF & LF
-            Data.Text &= Message
-            If AutoSign Then Data.Text &= " ~~~~"
-            Data.Summary = Summary
-            Data.Minor = Minor
-            Data.Watch = Watch
+            Text &= LF
+            If Title <> "" Then Text &= "== " & Title & " ==" & LF & LF
+            Text &= Message
+            If AutoSign Then Text &= " ~~~~"
 
-            Data = PostEdit(Data)
+            Result = PostEdit(User.TalkPage, Text, Summary, Minor:=Minor, Watch:=Watch)
 
-            If Data.Error Then Callback(AddressOf Failed) Else Callback(AddressOf Done)
-        End Sub
+            If Result.Error Then Fail(Msg("usermessage-fail", User.Name)) Else Complete()
 
-        Private Sub Done()
-            If Config.WatchOther Then
-                If Not Watchlist.Contains(User.UserPage) Then Watchlist.Add(User.UserPage)
-                MainForm.UpdateWatchButton()
-            End If
-
-            If State = States.Cancelled Then UndoEdit(User.TalkPage) Else Complete()
-        End Sub
-
-        Private Sub ExistingMessage()
-            Log("Did not post message '" & Title & "' for '" & User.Name & _
-                "', as a message about the same thing was already present")
-            Fail()
-        End Sub
-
-        Private Sub Failed()
-            Log("Failed to post message '" & Title & "' for & '" & User.Name & "'")
-            Fail()
+            If State = States.Cancelled Then UndoEdit(User.TalkPage)
         End Sub
 
     End Class
@@ -69,34 +45,34 @@ Namespace Requests
 
         Public Edit As Edit, Type As String = "warning", Level As Integer
 
-        Public Sub Start()
-            If Edit IsNot Nothing AndAlso Not Edit.User.Ignored Then
-                If Edit.User.Level = UserLevel.ReportedAIV Then
-                    AlreadyReported()
-                ElseIf Edit.User.Level = UserLevel.Blocked Then
-                    AlreadyBlocked()
-                Else
-                    LogProgress("Warning '" & Edit.User.Name & "'...")
-                    Dim RequestThread As New Thread(AddressOf Process)
-                    RequestThread.IsBackground = True
-                    RequestThread.Start()
-                End If
-            End If
-        End Sub
+        Protected Overrides Sub Process()
 
-        Private Sub Process()
-            Dim Data As EditData = GetEditData(Edit.User.TalkPage)
+            If Edit.User.Ignored Then
 
-            If Data.Error Then
-                Callback(AddressOf Failed)
+            ElseIf Edit.User.Level = UserLevel.ReportedAIV Then
+                AlreadyReported()
+
+            ElseIf Edit.User.Level = UserLevel.Blocked Then
+                Fail(Msg("warn-fail", Edit.User.Name), Msg("warn-alreadyblocked"))
                 Exit Sub
             End If
 
-            Data.Minor = Config.MinorWarnings
-            Data.Watch = Config.WatchWarnings
-            If Data.Text.Length > 1 Then Data.Text &= LF
+            LogProgress(Msg("warn-progress", Edit.User.Name))
 
-            Dim ExistingWarnings As List(Of Warning) = ProcessUserTalk(Data.Text, Edit.User)
+            Dim NewRequest As New WarningLogRequest
+            NewRequest.User = Edit.User
+            Dim Result As ApiResult = GetText(Edit.User.TalkPage)
+
+            If Result.Error Then
+                Fail("warn-fail", Result.ErrorMessage)
+                Exit Sub
+            End If
+
+            Dim Text As String = HtmlDecode(FindString(Result.Text, "<rev>", "</rev>"))
+
+            If String.IsNullOrEmpty(Text) Then Text = "" Else Text &= LF
+
+            Dim ExistingWarnings As List(Of Warning) = ProcessUserTalk(Text, Edit.User)
             Dim ExistingWarnLevel As UserLevel = UserLevel.None
 
             For Each Item As Warning In ExistingWarnings
@@ -109,7 +85,7 @@ Namespace Requests
             Next Item
 
             If Edit.User.LastEdit IsNot Nothing AndAlso Edit.User.WarnTime > Edit.User.LastEdit.Time Then
-                Callback(AddressOf OldEdit)
+                Fail(Msg("warn-fail", Edit.User.Name), Msg("warn-oldedit"))
                 Exit Sub
             End If
 
@@ -152,7 +128,7 @@ Namespace Requests
                         Exit Sub
 
                     Case UserLevel.Blocked
-                        Callback(AddressOf AlreadyBlocked)
+                        Fail(Msg("warn-fail", Edit.User.Name), Msg("warn-alreadyblocked"))
                         Exit Sub
                 End Select
 
@@ -182,31 +158,30 @@ Namespace Requests
             End Select
 
             WarningNeeded = Config.WarningMessages(Type & WarnLevelName)
-            Data.Summary = WarnSummary.Replace("$1", Edit.Page.Name)
 
-            If Config.MonthHeadings AndAlso Not (Data.Text.ToLower.Contains("== " & _
+            If Config.MonthHeadings AndAlso Not (Text.ToLower.Contains("== " & _
                 GetMonthName(Date.UtcNow.Month).ToLower & " " & CStr(Date.UtcNow.Year) & " ==")) _
-                AndAlso Not (Data.Text.ToLower.Contains("==" & GetMonthName(Date.UtcNow.Month).ToLower _
-                & " " & CStr(Date.UtcNow.Year) & "==")) Then Data.Text &= "== " & _
+                AndAlso Not (Text.ToLower.Contains("==" & GetMonthName(Date.UtcNow.Month).ToLower _
+                & " " & CStr(Date.UtcNow.Year) & "==")) Then Text &= "== " & _
                 GetMonthName(Date.UtcNow.Month) & " " & CStr(Date.UtcNow.Year) & " ==" & LF & LF
 
-            Data.Text &= _
-                WarningNeeded.Replace("$1", Edit.Page.Name).Replace("$2", _
+            Text &= WarningNeeded.Replace("$1", Edit.Page.Name).Replace("$2", _
                 Config.SitePath & "wiki/" & UrlEncode(Edit.Page.Name) & "?diff=" & Edit.Id)
 
-            If WarningNeeded.Length > 0 Then Data = PostEdit(Data)
+            Result = PostEdit(Edit.User.TalkPage, Text, WarnSummary.Replace("$1", Edit.Page.Name), _
+                Minor:=Config.MinorWarnings, Watch:=Config.WatchWarnings)
 
-            If Data.Error Then Callback(AddressOf Failed) Else Callback(AddressOf Done)
+            If Result.Error Then Fail(Msg("warn-fail", Edit.User.Name), Result.ErrorMessage) Else Complete()
+
+            If State = States.Cancelled Then UndoEdit(Edit.User.TalkPage)
         End Sub
 
         Private Sub ReportNeeded()
-            Log("Did not warn '" & Edit.User.Name & "' because they already have a final warning")
-
             If Administrator AndAlso Config.Block Then
                 If Config.PromptForBlock Then MainForm.BlockUser(Edit.User)
 
             ElseIf Config.AIV AndAlso Config.AutoReport Then
-                Dim NewReportRequest As New AIVReportRequest
+                Dim NewReportRequest As New VandalReportRequest
                 NewReportRequest.User = Edit.User
                 NewReportRequest.Reason = Config.ReportReason
                 NewReportRequest.Start()
@@ -215,16 +190,7 @@ Namespace Requests
                 MainForm.ReportUser(Edit.User, Edit)
             End If
 
-            Complete()
-        End Sub
-
-        Private Sub Done()
-            If Config.WatchWarnings Then
-                If Not Watchlist.Contains(Edit.User.UserPage) Then Watchlist.Add(Edit.User.UserPage)
-                MainForm.UpdateWatchButton()
-            End If
-
-            If State = States.Cancelled Then UndoEdit(Edit.User.TalkPage) Else Complete()
+            Fail(Msg("warn-fail", Edit.User.Name), Msg("warn-alreadyfinal"))
         End Sub
 
         Private Sub AlreadyReported()
@@ -233,32 +199,15 @@ Namespace Requests
             Else
                 'Already reported... but do we want it extended?
                 If Config.AutoReport AndAlso Config.ReportLinkDiffs AndAlso Config.ExtendReports Then
-                    Dim NewRequest As New AIVReportRequest
+                    Dim NewRequest As New VandalReportRequest
                     NewRequest.User = Edit.User
                     NewRequest.Edit = Edit
                     NewRequest.Reason = Config.ReportReason
                     NewRequest.Start()
-                Else
-                    Log("Did not warn '" & Edit.User.Name & "' because they have already been reported.")
                 End If
             End If
 
-            Fail()
-        End Sub
-
-        Private Sub AlreadyBlocked()
-            Log("Did not warn '" & Edit.User.Name & "' because they have already been blocked.")
-            Fail()
-        End Sub
-
-        Private Sub Failed()
-            Log("Failed to warn '" & Edit.User.Name & "'.")
-            Fail()
-        End Sub
-
-        Private Sub OldEdit()
-            Log("Did not warn '" & Edit.User.Name & "', because they have not edited since their latest warning")
-            Fail()
+            Fail(Msg("warn-fail", Edit.User.Name), Msg("warn-alreadyreported"))
         End Sub
 
     End Class
@@ -267,47 +216,33 @@ Namespace Requests
 
         Public User As User, Expiry, Reason, Template As String
 
-        Public Sub Start()
-            LogProgress("Notifying '" & User.Name & "' of block...")
+        Protected Overrides Sub Process()
+            LogProgress(Msg("blocknotify-progress", User.Name))
 
-            Dim RequestThread As New Thread(AddressOf Process)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
-        End Sub
+            Dim Result As ApiResult = GetText(User.TalkPage)
 
-        Private Sub Process()
-            Dim Data As EditData = GetEditData(User.TalkPage)
-
-            If Data.Error Then
-                Callback(AddressOf Failed)
+            If Result.Error Then
+                Fail(Msg("blocknotify-fail", User.Name))
                 Exit Sub
             End If
 
+            Dim Text As String = HtmlDecode(FindString(Result.Text, "<rev>", "</rev>"))
+
             If Template Is Nothing Then
                 If (Expiry = "indefinite" OrElse Expiry = "infinite") _
-                    Then Data.Text &= LF & Config.BlockMessageIndef.Replace("$1", Reason) _
-                    Else Data.Text &= LF & Config.BlockMessage.Replace("$2", Reason).Replace("$1", Expiry)
+                    Then Text &= LF & Config.BlockMessageIndef.Replace("$1", Reason) _
+                    Else Text &= LF & Config.BlockMessage.Replace("$2", Reason).Replace("$1", Expiry)
             Else
 
-                Data.Text &= LF & Template & " ~~~~"
+                Text &= LF & Template & " ~~~~"
             End If
 
-            Data.Minor = Config.MinorReports
-            Data.Watch = Config.WatchReports
-            Data.Summary = Config.BlockSummary
+            Result = PostEdit(User.TalkPage, Text, Config.BlockSummary, Minor:=Config.MinorNotifications, _
+                Watch:=Config.WatchNotifications)
 
-            Data = PostEdit(Data)
+            If Result.Error Then Fail(Msg("blocknotify-fail", User.Name), Result.ErrorMessage) Else Complete()
 
-            If Data.Error Then Callback(AddressOf Failed) Else Callback(AddressOf Done)
-        End Sub
-
-        Private Sub Done()
-            If State = States.Cancelled Then UndoEdit(User.TalkPage) Else Complete()
-        End Sub
-
-        Private Sub Failed()
-            Log("Failed to post block notification for '" & User.Name & "'")
-            Fail()
+            If State = States.Cancelled Then UndoEdit(User.TalkPage)
         End Sub
 
     End Class

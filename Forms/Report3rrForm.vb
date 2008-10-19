@@ -9,13 +9,7 @@ Class Report3rrForm
         Icon = My.Resources.icon_red_button
         Text = "Report three-revert rule violation by " & User.Name
         Message.Focus()
-        WarnLog.Columns.Add("", 300)
-        WarnLog.Items.Add("Retrieving warnings, please wait...")
-
-        Dim NewWarnLogRequest As New WarningLogRequest
-        NewWarnLogRequest.Target = WarnLog
-        NewWarnLogRequest.User = User
-        NewWarnLogRequest.Start()
+        WarnLog.User = User
     End Sub
 
     Private Sub Report3rrForm_FormClosing() Handles Me.FormClosing
@@ -130,21 +124,23 @@ Class Report3rrForm
         End If
     End Sub
 
-    Private Sub Find3rr(ByVal Result As Request.Output)
+    Private Sub Find3rr(ByVal Result As RequestResult)
         Dim NewRequest As New ThreeRevertRuleCheckRequest
         TrrRequest = NewRequest
         NewRequest.User = User
         NewRequest.Start(AddressOf Find3rrDone)
     End Sub
 
-    Private Sub Find3rrDone(ByVal Result As Request.Output, ByVal BaseEdit As Edit, ByVal Reverts As List(Of Edit))
-        Me.BaseEdit = BaseEdit
-        Me.Reverts = Reverts
+    Private Sub Find3rrDone(ByVal Result As RequestResult)
+
+        Me.BaseEdit = CType(Result, ThreeRevertRuleCheckRequest.ThreeRevertRuleCheckResult).BaseEdit
+        Me.Reverts = CType(Result, ThreeRevertRuleCheckRequest.ThreeRevertRuleCheckResult).Reverts
+
         Search.Text = "Search"
         Throbber.Stop()
 
-        If Not Result.Success Then
-            Status.Text = "Error while searching for three-revert rule violations."
+        If Result.Error Then
+            Status.Text = Result.ErrorMessage
         ElseIf BaseEdit Is Nothing Then
             Status.Text = "No three-revert rule violations found."
         Else

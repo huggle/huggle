@@ -8,87 +8,42 @@ Namespace Requests
 
     Class BlockLogRequest : Inherits Request
 
-        Public ThisUser As User, Target As ListView
+        'Retrieve block log for a user
 
-        Public Sub Start()
-            Dim RequestThread As New Thread(AddressOf Process)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
-        End Sub
+        Public User As User
 
-        Private Sub Process()
-            Result = GetApi("format=xml&action=query&list=logevents&letype=block&letitle=User:" & _
-                UrlEncode(ThisUser.Name) & "&lelimit=50").Replace(LF, "")
+        Protected Overrides Sub Process()
+            Dim Result As ApiResult = GetApi("action=query&list=logevents&letype=block&lelimit=50&letitle=" & _
+                UrlEncode(User.Userpage.Name))
 
-            Dim LogMatches As MatchCollection = _
-                New Regex("<item logid=""[0-9]+"" pageid=""[0-9]+"" ns=""2"" title=""User:[^""]+"" " & _
-                "type=""block"" action=""(block|unblock)"" user=""([^""]+)"" timestamp=""([^""]+)"" " & _
-                "comment=""([^""]+)""[^<]*(<block flags=""([^""]*)"" duration=""([^""]*)"")?", _
-                RegexOptions.Compiled).Matches(Result)
-
-            If Result Is Nothing Then
-                Callback(AddressOf Failed)
+            If Result.Error Then
+                Fail(Msg("blocklog-fail", User.Name), Result.ErrorMessage)
                 Exit Sub
             End If
 
-            If ThisUser.Blocks IsNot Nothing Then ThisUser.Blocks.Clear()
+            If User.Blocks IsNot Nothing Then User.Blocks.Clear()
 
-            If LogMatches.Count > 0 Then
-                If ThisUser.Blocks Is Nothing Then ThisUser.Blocks = New List(Of Block)
+            Dim LogText As String = FindString(Result.Text, "<logevents>", "</logevents>")
 
-                For Each Item As Match In LogMatches
+            If LogText IsNot Nothing Then
+                If User.Blocks Is Nothing Then User.Blocks = New List(Of Block)
+
+                For Each Item As String In Split(LogText, "<item ")
                     Dim NewBlock As New Block
 
-                    NewBlock.Time = CDate(Item.Groups(3).Value)
-                    NewBlock.Action = HtmlDecode(Item.Groups(1).Value)
-                    NewBlock.Duration = HtmlDecode(Item.Groups(7).Value)
-                    NewBlock.Options = HtmlDecode(Item.Groups(6).Value)
-                    NewBlock.Admin = GetUser(HtmlDecode(Item.Groups(2).Value))
-                    NewBlock.Comment = HtmlDecode(Item.Groups(4).Value)
+                    NewBlock.User = User
+                    NewBlock.Time = CDate(GetParameter(Item, "timestamp"))
+                    NewBlock.Action = GetParameter(Item, "action")
+                    NewBlock.Duration = GetParameter(Item, "duration")
+                    NewBlock.Options = GetParameter(Item, "flags")
+                    NewBlock.Admin = GetUser(GetParameter(Item, "user"))
+                    NewBlock.Comment = GetParameter(Item, "comment")
 
-                    If ThisUser.Blocks Is Nothing Then ThisUser.Blocks = New List(Of Block)
-                    ThisUser.Blocks.Add(NewBlock)
+                    User.Blocks.Add(NewBlock)
                 Next Item
             End If
 
-            Callback(AddressOf Done)
-        End Sub
-
-        Private Sub Done()
-            If Target IsNot Nothing Then
-                If ThisUser.Blocks Is Nothing OrElse ThisUser.Blocks.Count = 0 Then
-                    If Target.Items.Count > 0 Then Target.Items(0).Text = "No block log for this user."
-                Else
-                    Target.Items.Clear()
-                    Target.Columns.Clear()
-                    Target.Columns.Add("Date", 105)
-                    Target.Columns.Add("Action", 50)
-                    Target.Columns.Add("Duration", 60)
-                    Target.Columns.Add("Options", 70)
-                    Target.Columns.Add("Admin", 90)
-                    Target.Columns.Add("Comment", 100)
-
-                    For Each Item As Block In ThisUser.Blocks
-                        Dim NewItem As New ListViewItem
-                        NewItem.Text = Item.Time.ToShortDateString & " " & Item.Time.ToShortTimeString
-                        NewItem.SubItems.Add(Item.Action)
-                        NewItem.SubItems.Add(Item.Duration)
-                        NewItem.SubItems.Add(Item.Options)
-                        NewItem.SubItems.Add(Item.Admin.Name)
-                        NewItem.SubItems.Add(TrimSummary(Item.Comment))
-
-                        Target.Items.Add(NewItem)
-                    Next Item
-                End If
-            End If
-
             Complete()
-        End Sub
-
-        Private Sub Failed()
-            If Target IsNot Nothing AndAlso Target.Items.Count > 0 _
-                Then Target.Items(0).Text = "Failed to retrieve block log."
-            Fail()
         End Sub
 
     End Class
@@ -96,27 +51,34 @@ Namespace Requests
     Class DiffRequest : Inherits Request
 
         Public Edit As Edit, Tab As BrowserTab
+        Private Shared _PreloadCount As Integer
 
-        Public Sub Start()
+        Private Result As String
+
+        Public Shared Property PreloadCount() As Integer
+            Get
+                Return _PreloadCount
+            End Get
+            Set(ByVal value As Integer)
+                _PreloadCount = value
+            End Set
+        End Property
+
+        Protected Overrides Sub Process()
             If Tab Is Nothing Then Tab = CurrentTab
             Edit.Cached = Edit.CacheState.Caching
 
-            Dim RequestThread As New Thread(AddressOf Process)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
-        End Sub
-
-        Private Sub Process()
             Dim Oldid As String = If(Edit.Oldid = "-1", "prev", Edit.Oldid)
 
             'Using &action=render here would make things far simpler; unfortunately, that was broken for
             'image diff pages in 2007 and it would appear that nobody cares.
 
-            Result = GetText("title=" & UrlEncode(Edit.Page.Name) _
+            Result = GetUrl(Config.SitePath & "w/index.php?title=" & UrlEncode(Edit.Page.Name) _
                 & "&diff=" & Edit.Id & "&oldid=" & Oldid & "&diffonly=1&uselang=en")
 
             If Result Is Nothing Then
-                Callback(AddressOf Failed)
+                Edit.Cached = Edit.CacheState.Uncached
+                Fail(Msg("diff-fail", Edit.Page.Name), Msg("error-noresponse"))
                 Exit Sub
 
             ElseIf Result.Contains("<div id=""mw-missing-article"">") _
@@ -145,23 +107,26 @@ Namespace Requests
                         EditChange & "</div>" & Result
                 End If
 
-                Callback(AddressOf Done)
+                Complete()
 
             ElseIf Result.Contains("<div class=""firstrevisionheader""") Then
                 'This is the first revision to the page... so no diff
                 Callback(AddressOf ReachedEnd)
 
             Else
-                Callback(AddressOf Failed)
+                Edit.Cached = Edit.CacheState.Uncached
+                Fail()
             End If
         End Sub
 
-        Private Sub Done()
-            ProcessDiff(Edit, Result, Tab)
-            Complete()
+        Protected Overrides Sub Done()
+            PreloadCount -= 1
+            If Result IsNot Nothing Then ProcessDiff(Edit, Result, Tab)
         End Sub
 
         Private Sub ReachedEnd()
+            PreloadCount -= 1
+
             'Mark this as the start of the history
             Edit.Prev = NullEdit
             Edit.Oldid = "-1"
@@ -177,17 +142,12 @@ Namespace Requests
         End Sub
 
         Private Sub Deleted()
+            PreloadCount -= 1
             If LatestDiffRequest Is Me Then CurrentTab.Browser.DocumentText = _
                 "<div style=""font-family: Arial"">" & _
                 "This revision has been deleted, never existed, or exists " & _
                 "but the server handling the request does not know it yet.</div>"
-
             Complete()
-        End Sub
-
-        Private Sub Failed()
-            Edit.Cached = Edit.CacheState.Uncached
-            Fail()
         End Sub
 
     End Class
@@ -196,71 +156,31 @@ Namespace Requests
 
         'Fetch page history
 
-        Public Page As Page, BlockSize As Integer, DisplayWhenDone, GetContent As Boolean
+        Public Page As Page, BlockSize As Integer, GetContent As Boolean
 
-        Public Sub Start(Optional ByVal Done As RequestCallback = Nothing)
-            _Done = Done
+        Protected Overrides Sub Process()
+
             BlockSize = Config.HistoryBlockSize
             If GetContent Then BlockSize = Math.Min(ApiLimit() \ 10, BlockSize)
-            If Page.HistoryOffset Is Nothing Then Page.HistoryOffset = ""
 
-            Dim RequestThread As New Thread(AddressOf Process)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
-        End Sub
-
-        Private Sub Process()
-            Dim QueryString As String = "format=xml&action=query&prop=revisions&titles=" & _
-                UrlEncode(Page.Name) & "&rvlimit=" & CStr(BlockSize) & "&rvprop=ids|timestamp|user|comment"
+            Dim QueryString As String = "action=query&prop=revisions&titles=" & UrlEncode(Page.Name) & _
+                "&rvlimit=" & CStr(BlockSize) & "&rvprop=ids|timestamp|user|comment"
 
             If GetContent Then QueryString &= "|content"
-            If Page.HistoryOffset <> "" Then QueryString &= "&rvstartid=" & Page.HistoryOffset
+            If Page.HistoryOffset IsNot Nothing Then QueryString &= "&rvstartid=" & Page.HistoryOffset
 
-            Result = GetApi(QueryString)
+            Dim Result As ApiResult = GetApi(QueryString)
 
-            If Result Is Nothing Then
-                Callback(AddressOf Failed)
-            ElseIf Result.Contains("<revisions") Then
-                Callback(AddressOf Done)
-            ElseIf Result.Contains("missing="""" />") Then
-                Callback(AddressOf NoPage)
-            ElseIf Result.Contains("invalid="""" />") Then
-                Callback(AddressOf BadTitle)
-            Else
-                Callback(AddressOf Failed)
-            End If
-        End Sub
-
-        Private Sub Done()
-            ProcessHistory(Result, Page)
-            MainForm.DrawHistory()
-
-            If DisplayWhenDone AndAlso Page.LastEdit IsNot Nothing Then
-                DisplayEdit(Page.LastEdit)
-
-                If Page.LastEdit.User.LastEdit Is Nothing Then
-                    Dim NewContribsRequest As New ContribsRequest
-                    NewContribsRequest.User = Page.LastEdit.User
-                    NewContribsRequest.Start()
-                End If
+            If Result.Error Then
+                Fail(Msg("history-fail", Page.Name), Result.ErrorMessage)
+                Exit Sub
             End If
 
-            Complete()
+            Complete(, Result.Text)
         End Sub
 
-        Private Sub BadTitle()
-            MainForm.PageB.ForeColor = Color.Red
-            Fail()
-        End Sub
-
-        Private Sub NoPage()
-            Page.LastEdit = NullEdit
-            MainForm.PageB.ForeColor = Color.Red
-            Fail()
-        End Sub
-
-        Private Sub Failed()
-            Fail()
+        Protected Overrides Sub Done()
+            ProcessHistory(_Result.Text, Page)
         End Sub
 
     End Class
@@ -268,35 +188,28 @@ Namespace Requests
     Class ContribsRequest : Inherits Request
 
         'Fetch user contributions
+        Private Result As ApiResult
 
-        Public User As User
-        Public DisplayWhenDone As Boolean, ReportWhenDone As AIVReportRequest
+        Public User As User, DisplayWhenDone As Boolean, ReportWhenDone As VandalReportRequest
         Public BlockSize As Integer = Config.ContribsBlockSize
 
-        Public Sub Start(Optional ByVal Done As RequestCallback = Nothing)
-            _Done = Done
-            If User.ContribsOffset Is Nothing Then User.ContribsOffset = ""
-
-            Dim RequestThread As New Thread(AddressOf Process)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
-        End Sub
-
-        Private Sub Process()
+        Protected Overrides Sub Process()
             Result = GetApi("action=query&format=xml&list=usercontribs&ucuser=" & _
                 UrlEncode(User.Name) & "&uclimit=" & CStr(BlockSize) & "&ucstart=" & User.ContribsOffset)
 
-            If Result.Contains("<usercontribs />") Then
+            If Result.Error Then
+                Fail()
+            ElseIf Result.Text.Contains("<usercontribs />") Then
                 Callback(AddressOf NoContribs)
-            ElseIf Result.Contains("<usercontribs") Then
-                Callback(AddressOf Done)
+            ElseIf Result.Text.Contains("<usercontribs") Then
+                Complete()
             Else
-                Callback(AddressOf Failed)
+                Fail()
             End If
         End Sub
 
-        Private Sub Done()
-            ProcessContribs(Result, User)
+        Protected Overrides Sub Done()
+            ProcessContribs(Result.Text, User)
             MainForm.DrawContribs()
 
             If DisplayWhenDone AndAlso User.LastEdit IsNot Nothing Then
@@ -319,43 +232,29 @@ Namespace Requests
             Complete()
         End Sub
 
-        Private Sub Failed()
-            Fail()
-        End Sub
-
     End Class
 
     Class BrowserRequest : Inherits Request
 
         Public Url As String, Tab As BrowserTab, HistoryItem As HistoryItem
 
-        Public Sub Start()
+        Protected Overrides Sub Process()
             Tab.LastBrowserRequest = Me
-            Dim RequestThread As New Thread(AddressOf Process)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
+
+            Dim Result As String = GetUrl(Url)
+
+            If Result Is Nothing Then Fail() Else Complete(, Result)
         End Sub
 
-        Private Sub Process()
-            Result = GetUrl(Url)
-            If Result IsNot Nothing Then Callback(AddressOf Done) Else Callback(AddressOf Failed)
-        End Sub
-
-        Private Sub Done()
+        Protected Overrides Sub Done()
             If MainForm.Visible AndAlso Tab.LastBrowserRequest Is Me Then
                 Dim PageName As String = ParseUrl(Url)("title")
                 MainForm.PageB.Text = PageName
-                Result = FormatPageHtml(GetPage(PageName), Result)
-                Tab.Browser.DocumentText = Result
+                _Result.Text = FormatPageHtml(GetPage(PageName), _Result.Text)
+                Tab.Browser.DocumentText = _Result.Text
                 Tab.CurrentUrl = Url
-                If HistoryItem IsNot Nothing Then HistoryItem.Text = Result
+                If HistoryItem IsNot Nothing Then HistoryItem.Text = _Result.Text
             End If
-
-            Complete()
-        End Sub
-
-        Private Sub Failed()
-            Fail()
         End Sub
 
     End Class
@@ -365,26 +264,15 @@ Namespace Requests
         'Get recent changes through the API, if IRC mode not enabled
         'Bearable, but IRC is better
 
-        Public Sub Start()
-            Dim RequestThread As New Thread(AddressOf Process)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
-        End Sub
-
-        Private Sub Process()
-            Result = GetApi("action=query&format=xml&list=recentchanges" & _
+        Protected Overrides Sub Process()
+            Dim Result As ApiResult = GetApi("action=query&list=recentchanges" & _
                 "&rclimit=" & CStr(Config.RcBlockSize) & "&rcprop=user|comment|flags|timestamp|title|ids|sizes")
 
-            If Result IsNot Nothing Then Callback(AddressOf Done) Else Callback(AddressOf Failed)
+            If Result.Error Then Fail(, Result.ErrorMessage) Else Complete(, Result.Text)
         End Sub
 
-        Private Sub Done()
-            ProcessRc(Result)
-            Complete()
-        End Sub
-
-        Private Sub Failed()
-            Fail()
+        Protected Overrides Sub Done()
+            ProcessRc(_Result.Text)
         End Sub
 
     End Class
@@ -396,219 +284,62 @@ Namespace Requests
 
         Public Users As New List(Of User)
 
-        Public Sub Start()
-            If Users.Count > 0 Then
-                Dim RequestThread As New Thread(AddressOf Process)
-                RequestThread.IsBackground = True
-                RequestThread.Start()
-            End If
-        End Sub
-
-        Private Sub Process()
-            Dim Query As String = ""
+        Protected Overrides Sub Process()
+            Dim QueryString As String = "action=query&list=users&usprop=editcount&ususers="
 
             For Each Item As User In Users
-                Query &= UrlEncode(Item.Name) & "|"
+                QueryString &= UrlEncode(Item.Name) & "|"
             Next Item
 
-            Query = Query.Substring(0, Query.Length - 1)
+            QueryString = QueryString.Substring(0, QueryString.Length - 1)
 
-            Result = GetApi("format=xml&action=query&list=users&usprop=editcount&ususers=" & Query)
+            Dim Result As ApiResult = GetApi(QueryString)
 
-            If Result Is Nothing Then
-                Callback(AddressOf Failed)
+            If Result.Error Then
+                Fail(, Result.ErrorMessage)
                 Exit Sub
             End If
 
             Dim EditCounts As New Dictionary(Of User, Integer)
-            Dim Items As String() = Result.Split(New String() {"<user "}, StringSplitOptions.RemoveEmptyEntries)
 
-            For i As Integer = 0 To Items.Length - 1
-                If Items(i).Contains("name=""") AndAlso Items(i).Contains("editcount=""") Then
-                    Dim Username As String = Items(i).Substring(Items(i).IndexOf("name=""") + 6)
-                    Username = Username.Substring(0, Username.IndexOf(""""))
-                    Username = HtmlDecode(Username)
+            For Each Item As String In Split(Result.Text, "<user ")
+                If Item.Contains("name=""") AndAlso Item.Contains("editcount=""") Then
+                    Dim User As User = GetUser(GetParameter(Item, "name"))
+                    Dim Count As Integer = CInt(GetParameter(Item, "editcount"))
 
-                    Dim Count As String = Items(i).Substring(Items(i).IndexOf("editcount=""") + 11)
-                    Count = Count.Substring(0, Count.IndexOf(""""))
-
-                    EditCounts.Add(GetUser(Username), CInt(Count))
-                End If
-            Next i
-
-            Callback(AddressOf Done, CObj(EditCounts))
-        End Sub
-
-        Private Sub Done(ByVal ResultObject As Object)
-            Dim EditCounts As Dictionary(Of User, Integer) = CType(ResultObject, Dictionary(Of User, Integer))
-
-            For Each Item As KeyValuePair(Of User, Integer) In EditCounts
-                Item.Key.EditCount = Item.Value
-                'If user has more edits than Config.WhitelistEditCount
-                If Item.Key.EditCount > Config.WhitelistEditCount Then
-                    'Ignore user
-                    Item.Key.Ignored = True
-                    WhitelistAutoChanges.Add(Item.Key.Name)
+                    If Count > Config.WhitelistEditCount Then User.Ignored = True
+                    WhitelistAutoChanges.Add(User.Name)
                 End If
             Next Item
 
             Complete()
-        End Sub
-
-        Private Sub Failed()
-            Fail()
-        End Sub
-
-    End Class
-
-    Class WatchRequest : Inherits Request
-
-        'Adds page to your watchlist
-
-        Public Page As Page, Manual As Boolean
-
-        Public Sub Start()
-            Dim RequestThread As New Thread(AddressOf Process)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
-        End Sub
-
-        Private Sub Process()
-            Result = GetText("title=" & UrlEncode(Page.Name) & "&action=watch")
-            If Result IsNot Nothing Then Callback(AddressOf Done) Else Callback(AddressOf Failed)
-        End Sub
-
-        Private Sub Done()
-            If Manual Then Log("Added '" & Page.Name & "' to watchlist")
-            If Not Watchlist.Contains(Page.SubjectPage) Then Watchlist.Add(Page.SubjectPage)
-            If CurrentEdit IsNot Nothing AndAlso Page Is CurrentEdit.Page Then MainForm.UpdateWatchButton()
-
-            Complete()
-        End Sub
-
-        Private Sub Failed()
-            Fail()
-        End Sub
-
-    End Class
-
-    Class UnwatchRequest : Inherits Request
-
-        'Removes page from your watchlist
-
-        Public Page As Page, Manual As Boolean
-
-        Public Sub Start()
-            Dim RequestThread As New Thread(AddressOf Process)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
-        End Sub
-
-        Private Sub Process()
-            Result = GetText("title=" & UrlEncode(Page.Name) & "&action=unwatch")
-            If Result IsNot Nothing Then Callback(AddressOf Done) Else Callback(AddressOf Failed)
-        End Sub
-
-        Private Sub Done()
-            If Manual Then Log("Removed '" & Page.Name & "' from watchlist")
-            If Watchlist.Contains(Page.SubjectPage) Then Watchlist.Remove(Page.SubjectPage)
-            If CurrentEdit IsNot Nothing AndAlso Page Is CurrentEdit.Page Then MainForm.UpdateWatchButton()
-
-            Complete()
-        End Sub
-
-        Private Sub Failed()
-            Fail()
         End Sub
 
     End Class
 
     Class WarningLogRequest : Inherits Request
 
-        Public User As User, Target As ListView
+        'Retrieve user's talk page and extract a log of warnings
 
-        Public Sub Start()
+        Public User As User
 
-            Dim RequestThread As New Thread(AddressOf Process)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
-        End Sub
-
-        Private Sub Process()
-            Result = GetApi("action=query&format=xml&prop=revisions&rvprop=content&titles=" & _
+        Protected Overrides Sub Process()
+            Dim Result As ApiResult = GetApi("action=query&format=xml&prop=revisions&rvprop=content&titles=" & _
                 UrlEncode(User.TalkPage.Name))
 
-            If Result Is Nothing Then
-                Callback(AddressOf Failed)
+            If Result.Error Then
+                Fail(Msg("warninglog-fail", User.Name), Result.ErrorMessage)
                 Exit Sub
             End If
 
-            If Result.Contains("<revisions><rev>") Then
-                Result = Result.Substring(Result.IndexOf("<revisions><rev>") + 16)
-                Result = Result.Substring(0, Result.IndexOf("</rev>"))
-                Result = HtmlDecode(Result)
+            Dim Revisions As String = HtmlDecode(FindString(Result.Text, "<revisions><rev>", "</rev>"))
 
-                User.Warnings = ProcessUserTalk(Result, User)
-                If User.Warnings IsNot Nothing Then User.Warnings.Sort(AddressOf SortWarningsByDate)
-            End If
-
-            Callback(AddressOf Done)
-        End Sub
-
-        Private Sub Done()
-            If Target IsNot Nothing Then
-                If User.Warnings Is Nothing OrElse User.Warnings.Count = 0 Then
-                    If Target.Items.Count > 0 Then Target.Items(0).Text = "No warnings for this user."
-                Else
-                    For Each Item As Warning In User.Warnings
-                        If Item.Time.AddHours(Config.WarningAge) > My.Computer.Clock.GmtTime Then
-                            If Item.Level > User.Level Then User.Level = Item.Level
-                            If User.WarnTime < Item.Time Then User.WarnTime = Item.Time
-                        End If
-                    Next Item
-
-                    Target.Items.Clear()
-                    Target.Columns.Clear()
-                    Target.Columns.Add("Date", 100)
-                    Target.Columns.Add("Level", 60)
-                    Target.Columns.Add("Type", 80)
-                    Target.Columns.Add("User", 120)
-
-                    For Each Warning As Warning In User.Warnings
-                        Dim NewItem As New ListViewItem
-
-                        NewItem.Text = Warning.Time.ToShortDateString & " " & Warning.Time.ToShortTimeString
-                        If Warning.Time.AddHours(36) > Date.UtcNow Then NewItem.ForeColor = Color.Blue
-
-                        Select Case Warning.Level
-                            Case UserLevel.Notification : NewItem.SubItems.Add("--")
-                            Case UserLevel.Warn1 : NewItem.SubItems.Add("Level 1")
-                            Case UserLevel.Warn2 : NewItem.SubItems.Add("Level 2")
-                            Case UserLevel.Warn3 : NewItem.SubItems.Add("Level 3")
-                            Case UserLevel.Warn4im : NewItem.SubItems.Add("Level 4im")
-                            Case UserLevel.WarnFinal : NewItem.SubItems.Add("Level 4")
-                            Case UserLevel.Blocked : NewItem.SubItems.Add("Blocked")
-                            Case Else : NewItem.SubItems.Add("--")
-                        End Select
-
-                        NewItem.SubItems.Add(Warning.Type)
-
-                        If Warning.User IsNot Nothing Then NewItem.SubItems.Add(Warning.User.Name) _
-                            Else NewItem.SubItems.Add("?")
-
-                        Target.Items.Add(NewItem)
-                    Next Warning
-                End If
+            If Revisions IsNot Nothing Then
+                User.Warnings = ProcessUserTalk(Revisions, User)
+                User.Warnings.Sort(AddressOf SortWarningsByDate)
             End If
 
             Complete()
-        End Sub
-
-        Private Sub Failed()
-            If Target IsNot Nothing AndAlso Target.Items.Count > 0 _
-                Then Target.Items(0).Text = "No warnings for this user."
-
-            Fail()
         End Sub
 
     End Class
@@ -619,26 +350,16 @@ Namespace Requests
 
         Public Page As Page
 
-        Public Sub Start(Optional ByVal Done As RequestCallback = Nothing)
-            _Done = Done
+        Protected Overrides Sub Process()
+            Dim Result As ApiResult = GetText(Page)
 
-            Dim RequestThread As New Thread(AddressOf Process)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
-        End Sub
+            If Result.Error Then
+                Fail(, Result.ErrorMessage)
+                Exit Sub
+            End If
 
-        Private Sub Process()
-            Result = GetPageText(Page.Name)
-            If Result IsNot Nothing Then Callback(AddressOf Done) Else Callback(AddressOf Failed)
-        End Sub
-
-        Private Sub Done()
-            Page.Text = Result
-            Complete()
-        End Sub
-
-        Private Sub Failed()
-            Fail()
+            Page.Text = HtmlDecode(FindString(Result.Text, "<rev>", "</rev>"))
+            Complete(, Page.Text)
         End Sub
 
     End Class
@@ -649,35 +370,18 @@ Namespace Requests
 
         Public Page As Page, Text As String
 
-        Public Sub Start(Optional ByVal Done As RequestCallback = Nothing)
-            _Done = Done
+        Protected Overrides Sub Process()
+            Dim Result As ApiResult = _
+                PostApi("action=parse", "prop=text" & "&title=" & UrlEncode(Page.Name) & "&text=" & UrlEncode(Text))
 
-            Dim RequestThread As New Thread(AddressOf Process)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
-        End Sub
-
-        Private Sub Process()
-            Result = PostData("title=" & UrlEncode(Page.Name) & "&action=submit", _
-                "wpTextbox1=" & UrlEncode(Text) & "&wpPreview=1&live=1")
-
-            If Result IsNot Nothing Then
-                Result = Result.Substring(Result.IndexOf("<preview>") + 9)
-                Result = Result.Substring(0, Result.IndexOf("</preview>"))
-                Result = HtmlDecode(Result)
-                Result = Result.Substring(Result.IndexOf("</div>") + 6)
-                Callback(AddressOf Done)
-            Else
-                Callback(AddressOf Failed)
+            If Result.Error Then
+                Fail(, Result.ErrorMessage)
+                Exit Sub
             End If
-        End Sub
 
-        Private Sub Done()
-            Complete()
-        End Sub
+            Dim Html As String = MakeHtmlWikiPage(Page.Name, HtmlDecode(FindString(Result.Text, "<text>", "</text>")))
 
-        Private Sub Failed()
-            Fail()
+            Complete(, Html)
         End Sub
 
     End Class
@@ -688,231 +392,128 @@ Namespace Requests
 
         Public Page As Page, Text As String
 
-        Public Sub Start(Optional ByVal Done As RequestCallback = Nothing)
-            _Done = Done
-
-            Dim RequestThread As New Thread(AddressOf Process)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
-        End Sub
-
-        Private Sub Process()
-            Result = PostData("title=" & UrlEncode(Page.Name) & "&action=submit", _
-                "&wpDiff=0&wpStarttime=" & Timestamp(Date.UtcNow) & "&wpEdittime=&wpTextbox1=" & UrlEncode(Text))
+        Protected Overrides Sub Process()
+            Dim Result As String = PostUrl(Config.SitePath & "w/index.php?title=" & UrlEncode(Page.Name) & _
+                "&action=submit", "&wpDiff=0&wpStarttime=" & Timestamp(Date.UtcNow) & _
+                "&wpEdittime=&wpTextbox1=" & UrlEncode(Text))
 
             If Result Is Nothing OrElse Not IsWikiPage(Result) Then
-                Callback(AddressOf Failed)
+                Fail()
             Else
                 Result = Result.Substring(Result.IndexOf("<div id=""wikiDiff"">"))
                 Result = Result.Substring(0, Result.IndexOf("<form"))
-                Callback(AddressOf Done)
+                Complete(, Result)
             End If
-        End Sub
-
-        Private Sub Done()
-            Complete()
-        End Sub
-
-        Private Sub Failed()
-            Fail()
         End Sub
 
     End Class
 
     Class ProtectionLogRequest : Inherits Request
 
+        'Retrieve protection log
+
         Public Page As Page, Target As ListView
 
-        Public Sub Start()
+        Protected Overrides Sub Process()
             If Page.ProtectionsCurrent Then
-                Done()
+                Complete()
                 Exit Sub
             End If
 
-            Dim RequestThread As New Thread(AddressOf Process)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
-        End Sub
+            Dim Result As ApiResult = GetApi("action=query&list=logevents&letype=protect&lelimit=100" & _
+                "&letitle=" & UrlEncode(Page.Name))
 
-        Private Sub Process()
-            Result = GetApi("format=xml&action=query&list=logevents" & _
-                "&letype=protect&lelimit=100&letitle=" & UrlEncode(Page.Name))
-
-            If Result Is Nothing Then
-                Callback(AddressOf Failed)
+            If Result.Error Then
+                Fail(Msg("protectlog-fail", Page.Name), Result.ErrorMessage)
                 Exit Sub
             End If
-
-            Result = Result.Replace(LF, "")
 
             If Page.Protections IsNot Nothing Then Page.Protections.Clear()
+            If Page.Protections Is Nothing Then Page.Protections = New List(Of Protection)
             Page.ProtectionsCurrent = True
 
-            Dim LogMatches As MatchCollection = _
-                New Regex("<item logid=""[0-9]+"" pageid=""[0-9]+"" ns=""[0-9]+"" title=""[^""]+"" " & _
-                "type=""protect"" action=""(protect|unprotect|modify)"" user=""([^""]+)"" timestamp=""([^""]+)"" " & _
-                "comment=""([^""\[]+)?(?:\[(?:edit=(sysop|autoconfirmed))?:?(?:move=(sysop|autoconfirmed))?\])?(?: " & _
-                "\[(cascading)\])?(?: \(expires ([^\(]+)\(UTC\)\))?"" />", RegexOptions.Compiled).Matches(Result)
+            For Each Item As String In Split(FindString(Result.Text, "<logevents>", "</logevents>"), "<item ")
+                Dim NewProtection As New Protection
 
-            If LogMatches.Count > 0 Then
-                If Page.Protections Is Nothing Then Page.Protections = New List(Of Protection)
+                NewProtection.Time = CDate(GetParameter(Item, "timestamp"))
+                NewProtection.Action = GetParameter(Item, "action")
+                NewProtection.Admin = GetUser(GetParameter(Item, "user"))
 
-                For Each Item As Match In LogMatches
-                    Dim NewProtection As New Protection
+                'The API returns protection log entries in one of two different formats 
+                'depending on how old they are, so we have to interpret both
 
-                    NewProtection.Time = CDate(Item.Groups(3).Value)
-                    NewProtection.Action = HtmlDecode(Item.Groups(1).Value)
-                    NewProtection.Admin = GetUser(HtmlDecode(Item.Groups(2).Value))
-                    NewProtection.Summary = HtmlDecode(Item.Groups(4).Value).Trim(" "c)
-                    NewProtection.EditLevel = Item.Groups(5).Value
-                    NewProtection.MoveLevel = Item.Groups(6).Value
-                    NewProtection.Cascading = (Item.Groups(7).Value = "cascading")
-                    Date.TryParse(Item.Groups(8).Value, NewProtection.Expiry)
+                Dim Comment As String = GetParameter(Item, "comment")
+                Dim Param As String = FindString(Item, "<param>", "</param>")
 
-                    If Page.Protections Is Nothing Then Page.Protections = New List(Of Protection)
-                    Page.Protections.Add(NewProtection)
-                Next Item
-            End If
+                If Param Is Nothing Then
+                    'Old format
+                    NewProtection.EditLevel = FindString(Comment, "[edit=", ":")
+                    NewProtection.MoveLevel = FindString(Comment, "move=", "]")
+                    NewProtection.EditExpiry = CDate(FindString(Comment, "(expires ", " (UTC))"))
+                    NewProtection.MoveExpiry = NewProtection.EditExpiry
+                    NewProtection.Cascading = (Comment.Contains("[cascading]"))
 
-            If Page.Protections IsNot Nothing AndAlso (Page.Protections(0).Expiry = Date.MinValue _
-                OrElse Page.Protections(0).Expiry > Date.UtcNow) Then
+                    If Comment.Contains(" [edit=") Then Comment = Comment.Substring(0, Comment.IndexOf(" [edit="))
+                    If Comment.Contains(" [move=") Then Comment = Comment.Substring(0, Comment.IndexOf(" [move="))
+
+                Else
+                    'New format
+                    NewProtection.EditLevel = FindString(Param, "[edit=", "]")
+                    NewProtection.MoveLevel = FindString(Param, "[move=", "]")
+                    NewProtection.EditExpiry = CDate(FindString(FindString(Param, "[edit=", "["), "(expires ", " (UTC))"))
+                    NewProtection.MoveExpiry = CDate(FindString(FindString(Param, "[move="), "(expires ", " (UTC))"))
+                    NewProtection.Cascading = (Param.Contains("[cascading]"))
+                End If
+
+                NewProtection.Summary = Comment
+
+                Page.Protections.Add(NewProtection)
+            Next Item
+
+            If Page.Protections IsNot Nothing AndAlso (Page.Protections(0).EditExpiry = Date.MinValue _
+                OrElse Page.Protections(0).EditExpiry > Date.UtcNow) Then
 
                 Page.EditLevel = Page.Protections(0).EditLevel
                 Page.MoveLevel = Page.Protections(0).MoveLevel
             End If
 
-            Callback(AddressOf Done)
-        End Sub
-
-        Private Sub Done()
-            If Target IsNot Nothing Then
-                If Page.Protections Is Nothing OrElse Page.Protections.Count = 0 Then
-                    Target.Items(0).Text = "No protection log for this page."
-                Else
-                    Target.Items.Clear()
-                    Target.Columns.Clear()
-                    Target.Columns.Add("Date", 110)
-                    Target.Columns.Add("Admin", 100)
-                    Target.Columns.Add("Edit", 50)
-                    Target.Columns.Add("Move", 50)
-                    Target.Columns.Add("Expiry", 110)
-                    Target.Columns.Add("Comment", 120)
-
-                    For Each Item As Protection In Page.Protections
-                        Dim NewListViewItem As New ListViewItem
-
-                        NewListViewItem.Text = Item.Time.ToShortDateString & " " & Item.Time.ToShortTimeString
-                        NewListViewItem.SubItems.Add(Item.Admin.Name)
-                        NewListViewItem.SubItems.Add(Item.EditLevel.Replace("autoconfirmed", "autoc."))
-                        NewListViewItem.SubItems.Add(Item.MoveLevel.Replace("autoconfirmed", "autoc."))
-                        If Item.Expiry = Date.MinValue Then NewListViewItem.SubItems.Add("-") _
-                            Else NewListViewItem.SubItems.Add(Item.Expiry.ToShortDateString & " " & _
-                            Item.Expiry.ToShortTimeString)
-                        NewListViewItem.SubItems.Add(TrimSummary(Item.Summary))
-
-                        Target.Items.Add(NewListViewItem)
-                    Next Item
-                End If
-            End If
-
-            Target.Enabled = False
-            Target.Enabled = True
             Complete()
-        End Sub
-
-        Private Sub Failed()
-            If Target IsNot Nothing AndAlso Target.Items.Count > 0 _
-                Then Target.Items(0).Text = "Failed to retrieve protection log."
-            Fail()
         End Sub
 
     End Class
 
     Class DeleteLogRequest : Inherits Request
 
+        'Retrieve deletion log
+
         Public Page As Page, Target As ListView
 
-        Public Sub Start()
-            If Page.DeletesCurrent Then
-                Done()
+        Protected Overrides Sub Process()
+            Dim Result As ApiResult = GetApi("format=xml&action=query&list=logevents&letype=delete&lelimit=50" & _
+                "&letitle=" & UrlEncode(Page.Name))
+
+            If Result.Error Then
+                Fail(, Result.ErrorMessage)
                 Exit Sub
             End If
-
-            Dim RequestThread As New Thread(AddressOf Process)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
-        End Sub
-
-        Private Sub Process()
-            Result = GetApi("format=xml&action=query&list=logevents" & _
-                "&letype=delete&lelimit=50&letitle=" & UrlEncode(Page.Name))
-
-            If Result Is Nothing Then
-                Callback(AddressOf Failed)
-                Exit Sub
-            End If
-
-            Result = Result.Replace(LF, "")
 
             If Page.Deletes IsNot Nothing Then Page.Deletes.Clear()
+            If Page.Deletes Is Nothing Then Page.Deletes = New List(Of Delete)
             Page.DeletesCurrent = True
 
-            Dim LogMatches As MatchCollection = _
-                New Regex("<item logid=""0"" pageid=""[0-9]+"" ns=""[0-9]+"" title=""[^""]+"" " & _
-                "type=""delete"" action=""(delete|undelete)"" user=""([^""]+)"" timestamp=""([^""]+)"" " & _
-                "comment=""([^""]+)"" />", RegexOptions.Compiled).Matches(Result)
+            For Each Item As String In Split(Result.Text, LF)
+                Dim NewDelete As New Delete
 
-            If LogMatches.Count > 0 Then
-                If Page.Deletes Is Nothing Then Page.Deletes = New List(Of Delete)
+                NewDelete.Page = Page
+                NewDelete.Time = CDate(GetParameter(Item, "timestamp"))
+                NewDelete.Action = GetParameter(Item, "action")
+                NewDelete.Admin = GetUser(GetParameter(Item, "user"))
+                NewDelete.Comment = GetParameter(Item, "comment")
 
-                For Each Item As Match In LogMatches
-                    Dim NewDelete As New Delete
-
-                    NewDelete.Time = CDate(Item.Groups(3).Value)
-                    NewDelete.Action = HtmlDecode(Item.Groups(1).Value)
-                    NewDelete.Admin = GetUser(HtmlDecode(Item.Groups(2).Value))
-                    NewDelete.Comment = HtmlDecode(Item.Groups(4).Value)
-
-                    If Page.Deletes Is Nothing Then Page.Deletes = New List(Of Delete)
-                    Page.Deletes.Add(NewDelete)
-                Next Item
-            End If
-
-            Callback(AddressOf Done)
-        End Sub
-
-        Private Sub Done()
-            If Target IsNot Nothing Then
-                If Page.Deletes Is Nothing OrElse Page.Deletes.Count = 0 Then
-                    Target.Items(0).Text = "No deletion log for this page."
-                Else
-                    Target.Items.Clear()
-                    Target.Columns.Clear()
-                    Target.Columns.Add("Date", 110)
-                    Target.Columns.Add("Action", 50)
-                    Target.Columns.Add("Admin", 100)
-                    Target.Columns.Add("Comment", 200)
-
-                    For Each Item As Delete In Page.Deletes
-                        Dim NewListViewItem As New ListViewItem
-
-                        NewListViewItem.Text = Item.Time.ToShortDateString & " " & Item.Time.ToShortTimeString
-                        NewListViewItem.SubItems.Add(Item.Action)
-                        NewListViewItem.SubItems.Add(Item.Admin.Name)
-                        NewListViewItem.SubItems.Add(TrimSummary(Item.Comment))
-
-                        Target.Items.Add(NewListViewItem)
-                    Next Item
-                End If
-            End If
+                Page.Deletes.Add(NewDelete)
+            Next Item
 
             Complete()
-        End Sub
-
-        Private Sub Failed()
-            If Target IsNot Nothing AndAlso Target.Items.Count > 0 _
-                Then Target.Items(0).Text = "Failed to retrieve deletion log."
-            Fail()
         End Sub
 
     End Class
@@ -923,25 +524,17 @@ Namespace Requests
 
         Public Page As Page
 
-        Public Sub Start()
-            Dim RequestThread As New Thread(AddressOf Process)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
-        End Sub
+        Protected Overrides Sub Process()
+            LogProgress(Msg("purge-progress", Page.Name))
 
-        Private Sub Process()
-            Result = GetText("title=" & UrlEncode(Page.Name) & "&action=purge")
-            If IsWikiPage(Result) Then Callback(AddressOf Done) Else Callback(AddressOf Failed)
-        End Sub
+            Dim Result As ApiResult = GetApi("action=purge&titles=" & UrlEncode(Page.Name))
 
-        Private Sub Done()
-            Log("Purged '" & Page.Name & "'")
-            Complete()
-        End Sub
+            If Result.Error Then
+                Fail(Msg("purge-fail", Page.Name), Result.ErrorMessage)
+                Exit Sub
+            End If
 
-        Private Sub Failed()
-            Log("Failed to purge '" & Page.Name & "'")
-            Fail()
+            Complete(Msg("purge-done", Page.Name))
         End Sub
 
     End Class
@@ -950,35 +543,15 @@ Namespace Requests
 
         'Get message shown to user when logging in
 
-        Public Sub Start(Optional ByVal Done As RequestCallback = Nothing)
-            _Done = Done
+        Protected Overrides Sub Process()
+            Dim Result As ApiResult = GetApi("action=parse&text={{" & Config.StartupMessageLocation & "}}")
 
-            Dim RequestThread As New Thread(AddressOf Process)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
-        End Sub
-
-        Private Sub Process()
-            Result = GetApi("action=parse&format=xml&text={{" & Config.StartupMessageLocation & "}}")
-
-            If Result Is Nothing OrElse Not Result.Contains("<text>") Then
-                Callback(AddressOf Failed)
+            If Result.Error Then
+                Fail(, Result.ErrorMessage)
                 Exit Sub
             End If
 
-            Result = Result.Substring(Result.IndexOf("<text>") + 6)
-            Result = Result.Substring(0, Result.IndexOf("</text>"))
-            Result = HtmlDecode(Result)
-
-            Callback(AddressOf Done)
-        End Sub
-
-        Private Sub Done()
-            Complete()
-        End Sub
-
-        Private Sub Failed()
-            Fail()
+            Complete(, HtmlDecode(FindString(Result.Text, "<text>", "</text>")))
         End Sub
 
     End Class
@@ -987,24 +560,22 @@ Namespace Requests
 
         'Check for three-revert rule violation by specified user
 
-        Private Shadows _Done As ThreeRevertRuleCheckCallback
         Private VersionId As String, RevertIds As New List(Of String)
-
-        Public Delegate Sub ThreeRevertRuleCheckCallback(ByVal Result As Request.Output, _
-            ByVal BaseEdit As Edit, ByVal Reverts As List(Of Edit))
+        Private Shadows _Result As ThreeRevertRuleCheckResult
 
         Public User As User
 
-        Public Sub Start(ByVal Done As ThreeRevertRuleCheckCallback)
-            _Done = Done
+        Class ThreeRevertRuleCheckResult
 
-            Dim RequestThread As New Thread(AddressOf Process)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
-        End Sub
+            Inherits RequestResult
 
-        Private Sub Process()
-            Dim QueryString As String = "action=query&format=xml&prop=revisions&rvprop=ids|content&revids="
+            Public BaseEdit As Edit
+            Public Reverts As List(Of Edit)
+
+        End Class
+
+        Protected Overrides Sub Process()
+            Dim QueryString As String = "action=query&prop=revisions&rvprop=ids|content&revids="
 
             Dim ThisEdit As Edit = User.LastEdit, i As Integer = ApiLimit() \ 10
 
@@ -1016,37 +587,26 @@ Namespace Requests
 
             QueryString = QueryString.Trim("|"c)
 
-            Result = GetApi(QueryString)
+            Dim Result As ApiResult = GetApi(QueryString)
 
-            If Not Result.Contains("<pages>") Then
-                Callback(AddressOf Failed)
+            If Result.Error Then
+                Fail(, Result.ErrorMessage)
                 Exit Sub
             End If
 
             'Search for revisions with the same content
-            Result = Result.Substring(Result.IndexOf("<pages>") + 7)
-            Result = Result.Substring(0, Result.IndexOf("</pages>"))
+            Dim Results As String = FindString(Result.Text, "<pages>", "</pages")
 
-            Dim Pages As New List(Of String)(Result.Split(New String() {"<page "}, StringSplitOptions.RemoveEmptyEntries))
-
-            For Each Page As String In Pages
-                Dim PageName As String = Page.Substring(Page.IndexOf("title=""") + 7)
-                PageName = PageName.Substring(0, PageName.IndexOf(""""))
-
-                Dim PageResult As String = Page.Substring(Page.IndexOf("<revisions>") + 11)
-                PageResult = PageResult.Substring(0, PageResult.IndexOf("</revisions>"))
-
+            For Each Page As String In Split(Results, "<page ")
+                Dim PageResult As String = FindString(Page, "<revisions>", "</revisions>")
                 Dim Revisions As New List(Of String)(PageResult.Split(New String() {"<rev "}, _
                     StringSplitOptions.RemoveEmptyEntries))
                 Dim RevisionMatches As New Dictionary(Of String, List(Of String))
 
                 For Each Revision As String In Revisions
-                    Dim Revid As String = Revision.Substring(Revision.IndexOf("revid=""") + 7)
-                    Revid = Revid.Substring(0, Revid.IndexOf(""""))
+                    Dim Revid As String = GetParameter(Revision, "revid")
 
-                    Revision = Revision.Substring(Revision.IndexOf(">") + 1)
-                    Revision = Revision.Substring(0, Revision.IndexOf("</rev>"))
-                    Revision = HtmlDecode(Revision)
+                    Revision = HtmlDecode(FindString(Revision, ">", "</rev>"))
 
                     If Edit.All.ContainsKey(Revid) Then Edit.All(Revid).Text = Revision
 
@@ -1061,7 +621,35 @@ Namespace Requests
                         'otherwise only three reversions have been made. This means looking further back in the 
                         'page history for an identical revision, possibly by another user
                         RevertIds = Match
-                        Callback(AddressOf HistoryNeeded)
+
+                        Dim NewRequest As New HistoryRequest
+                        NewRequest.Page = Edit.All(RevertIds(0)).Page
+                        NewRequest.GetContent = True
+                        MyBase._Result = NewRequest.Invoke
+
+                        If MyBase._Result.Error Then
+                            Fail(, Result.ErrorMessage)
+                            Exit Sub
+                        End If
+
+                        ThisEdit = Edit.All(RevertIds(0)).Page.LastEdit
+                        Dim TextToFind As String = Edit.All(RevertIds(0)).Text
+
+                        While ThisEdit IsNot NullEdit AndAlso ThisEdit IsNot Nothing
+                            If Not RevertIds.Contains(ThisEdit.Id) AndAlso ThisEdit.Text = TextToFind _
+                                AndAlso ThisEdit.Time < Edit.All(RevertIds(0)).Time Then
+
+                                'Found an older revision identical to the four already found
+                                'meaning they were all reversions
+                                VersionId = ThisEdit.Id
+                                Exit While
+                            End If
+
+                            ThisEdit = ThisEdit.Prev
+                        End While
+
+                        SetResult()
+                        Complete()
                         Exit Sub
 
                     ElseIf Match.Count > 4 Then
@@ -1069,66 +657,57 @@ Namespace Requests
                         VersionId = Match(Match.Count - 1)
                         Match.RemoveAt(Match.Count - 1)
                         RevertIds = Match
-                        Callback(AddressOf Done)
+
+                        SetResult()
+                        Complete()
                         Exit Sub
                     End If
                 Next Match
             Next Page
 
-            Callback(AddressOf Done)
-        End Sub
-
-        Private Sub HistoryNeeded()
-            Dim NewRequest As New HistoryRequest
-            NewRequest.Page = Edit.All(RevertIds(0)).Page
-            NewRequest.GetContent = True
-            NewRequest.Start(AddressOf HistoryDone)
-        End Sub
-
-        Private Sub HistoryDone(ByVal Result As Request.Output)
-            If Not Result.Success Then
-                Failed()
-                Exit Sub
-            End If
-
-            Dim ThisEdit As Edit = Edit.All(RevertIds(0)).Page.LastEdit
-            Dim TextToFind As String = Edit.All(RevertIds(0)).Text
-
-            While ThisEdit IsNot NullEdit AndAlso ThisEdit IsNot Nothing
-                If Not RevertIds.Contains(ThisEdit.Id) AndAlso ThisEdit.Text = TextToFind _
-                    AndAlso ThisEdit.Time < Edit.All(RevertIds(0)).Time Then
-
-                    'Found an older revision identical to the four already found, meaning they were all reversions
-                    VersionId = ThisEdit.Id
-                    Done()
-                    Exit Sub
-                End If
-
-                ThisEdit = ThisEdit.Prev
-            End While
-
-            Done()
-        End Sub
-
-        Private Sub Done()
             Complete()
+        End Sub
 
-            Dim Reverts As New List(Of Edit)
+        Private Sub SetResult()
+            _Result = New ThreeRevertRuleCheckResult
 
             If VersionId Is Nothing Then
-                _Done(New Output(States.Complete, Nothing), Nothing, Reverts)
+                _Result.BaseEdit = Nothing
+                _Result.Reverts = New List(Of Edit)
             Else
+                Dim Reverts As New List(Of Edit)
+
                 For Each Item As String In RevertIds
                     Reverts.Add(Edit.All(Item))
                 Next Item
 
-                _Done(New Output(States.Complete, Nothing), Edit.All(VersionId), Reverts)
+                _Result.BaseEdit = Edit.All(VersionId)
+                _Result.Reverts = Reverts
             End If
+
+            MyBase._Result = _Result
         End Sub
 
-        Private Sub Failed()
-            Fail()
-            _Done(New Output(States.Failed, Nothing), Nothing, Nothing)
+    End Class
+
+    Class WatchlistRequest : Inherits Request
+
+        'Retrieve the user's watchlist
+
+        Protected Overrides Sub Process()
+
+            'Currently, there is no way to do this through the MediaWiki API
+
+            Dim Result As String = GetUrl(Config.SitePath & "w/index.php?title=Special:Watchlist/raw")
+
+            If Result Is Nothing Then
+                Fail(Msg("login-error-watchlist"))
+                Exit Sub
+            End If
+
+            Dim WatchlistText As String = HtmlDecode(FindString(Result, "<textarea", ">", "</textarea>"))
+
+            If WatchlistText Is Nothing Then Fail(Msg("login-error-watchlist")) Else Complete(, WatchlistText)
         End Sub
 
     End Class

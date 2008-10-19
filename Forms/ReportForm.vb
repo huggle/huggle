@@ -11,13 +11,8 @@ Class ReportForm
         If Config.UAA Then Reason.Items.Add("Inappropriate username")
 
         Reason.SelectedIndex = 0
-        WarnLog.Columns.Add("", 300)
-        WarnLog.Items.Add("Retrieving warnings, please wait...")
 
-        Dim NewWarnLogRequest As New WarningLogRequest
-        NewWarnLogRequest.Target = WarnLog
-        NewWarnLogRequest.User = User
-        NewWarnLogRequest.Start()
+        WarnLog.User = User
     End Sub
 
     Private Sub ReportForm_FormClosing() Handles Me.FormClosing
@@ -37,14 +32,14 @@ Class ReportForm
 
         Select Case Reason.Text
             Case "Vandalism after final warning"
-                Dim NewRequest As New AIVReportRequest
+                Dim NewRequest As New VandalReportRequest
                 NewRequest.User = User
                 NewRequest.Edit = Edit
                 NewRequest.Reason = Message.Text
                 NewRequest.Start()
 
             Case "Inappropriate username"
-                Dim NewRequest As New UAAReportRequest
+                Dim NewRequest As New UsernameReportRequest
                 NewRequest.User = User
                 NewRequest.Reason = Message.Text
                 NewRequest.Start()

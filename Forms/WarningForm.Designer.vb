@@ -30,10 +30,10 @@ Partial Class WarningForm
         Me.Level2 = New System.Windows.Forms.RadioButton
         Me.Level1 = New System.Windows.Forms.RadioButton
         Me.LevelAuto = New System.Windows.Forms.RadioButton
-        Me.WarnLog = New System.Windows.Forms.ListView
         Me.WarnLogLabel = New System.Windows.Forms.Label
         Me.WarnTypeLabel = New System.Windows.Forms.Label
         Me.WarnType = New System.Windows.Forms.ComboBox
+        Me.WarnLog = New Huggle.WarnLog
         Me.LevelGroup.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -127,23 +127,6 @@ Partial Class WarningForm
         Me.LevelAuto.Text = "&Automatic"
         Me.LevelAuto.UseVisualStyleBackColor = True
         '
-        'WarnLog
-        '
-        Me.WarnLog.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.WarnLog.FullRowSelect = True
-        Me.WarnLog.GridLines = True
-        Me.WarnLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
-        Me.WarnLog.Location = New System.Drawing.Point(12, 116)
-        Me.WarnLog.MultiSelect = False
-        Me.WarnLog.Name = "WarnLog"
-        Me.WarnLog.ShowGroups = False
-        Me.WarnLog.Size = New System.Drawing.Size(399, 138)
-        Me.WarnLog.TabIndex = 3
-        Me.WarnLog.UseCompatibleStateImageBehavior = False
-        Me.WarnLog.View = System.Windows.Forms.View.Details
-        '
         'WarnLogLabel
         '
         Me.WarnLogLabel.AutoSize = True
@@ -171,15 +154,30 @@ Partial Class WarningForm
         Me.WarnType.Size = New System.Drawing.Size(167, 21)
         Me.WarnType.TabIndex = 7
         '
+        'WarnLog
+        '
+        Me.WarnLog.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.WarnLog.GridLines = True
+        Me.WarnLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
+        Me.WarnLog.Location = New System.Drawing.Point(15, 116)
+        Me.WarnLog.Name = "WarnLog"
+        Me.WarnLog.Size = New System.Drawing.Size(396, 138)
+        Me.WarnLog.TabIndex = 8
+        Me.WarnLog.UseCompatibleStateImageBehavior = False
+        Me.WarnLog.User = Nothing
+        Me.WarnLog.View = System.Windows.Forms.View.Details
+        '
         'WarningForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(423, 295)
+        Me.Controls.Add(Me.WarnLog)
         Me.Controls.Add(Me.WarnType)
         Me.Controls.Add(Me.WarnTypeLabel)
         Me.Controls.Add(Me.WarnLogLabel)
-        Me.Controls.Add(Me.WarnLog)
         Me.Controls.Add(Me.LevelGroup)
         Me.Controls.Add(Me.Cancel)
         Me.Controls.Add(Me.OK)
@@ -204,8 +202,8 @@ Partial Class WarningForm
     Friend WithEvents Level2 As System.Windows.Forms.RadioButton
     Friend WithEvents Level1 As System.Windows.Forms.RadioButton
     Friend WithEvents LevelAuto As System.Windows.Forms.RadioButton
-    Friend WithEvents WarnLog As System.Windows.Forms.ListView
     Friend WithEvents WarnLogLabel As System.Windows.Forms.Label
     Friend WithEvents WarnTypeLabel As System.Windows.Forms.Label
     Friend WithEvents WarnType As System.Windows.Forms.ComboBox
+    Friend WithEvents WarnLog As Huggle.WarnLog
 End Class

@@ -8,7 +8,7 @@
         ContinueButton.Text = Msg("continue")
         ExitButton.Text = Msg("exit")
 
-        Details.Text = Exception.GetType.Name & ": " & Exception.Message & LF & Exception.StackTrace
+        Details.Text = Exception.GetType.Name & ": " & Exception.Message & CRLF & Exception.StackTrace
     End Sub
 
     Private Sub ContinueButton_Click() Handles ContinueButton.Click

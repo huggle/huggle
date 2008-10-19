@@ -33,20 +33,20 @@ Class UpdateForm
         Status.Text = Msg("update-progress")
 
         Request = New UpdateRequest
-        Request.FileName = FileName
+        Request.Filename = FileName
         Request.ProgressBar = Progress
         Request.Start(AddressOf UpdateDone)
     End Sub
 
-    Private Sub UpdateDone(ByVal Result As Request.Output)
-        If Result.Success Then
-            Process.Start(FileName)
-            End
-        Else
+    Private Sub UpdateDone(ByVal Result As RequestResult)
+        If Result.Error Then
             Progress.Value = 0
             Progress.Visible = False
             Download.Enabled = True
-            Status.Text = Msg("update-error")
+            Status.Text = Result.ErrorMessage
+        Else
+            Process.Start(FileName)
+            End
         End If
     End Sub
 

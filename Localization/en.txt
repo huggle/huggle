@@ -46,6 +46,7 @@ block-blockloglabel:       Block log:
 block-warnloglabel:        Warnings:
 block-sharedipwarning:     Note: {0} is tagged as a shared or dynamic IP address.
 block-sensitivewarning:    This IP address is listed as 'sensitive' for the following reason:\n\n   {0}\n\nContinue anyway?
+block-rangeblockwarning:   {0} is already affected by a rangeblock on {1}.\nThis block will override the effect of the rangeblock. Continue?
 </pre>
 
 === Closing form ===
@@ -218,6 +219,7 @@ login-error-projdisabled:  Huggle is currently disabled on this project.
 login-error-rights:        Failed to retrieve user rights.
 login-error-rollback:      Use of Huggle on this project requires rollback.
 login-error-unknown:       Unable to log in.
+login-error-user:          Failed to load user configuration page.
 login-error-userlist:      Failed to load user list.
 login-error-version:       Version is out of date. Update to the latest version.
 login-error-watchlist:     Failed to load watchlist.
@@ -456,7 +458,7 @@ update-optional:           Updating to the latest version, {0}, is recommended, 
 update-prompt:             Download and run the latest version now?
 update-download:           Update
 update-progress:           Downloading new version...
-update-error:              Failed to download new version.
+update-error:              Failed to download new version
 </pre>
 
 === User info form ===
@@ -482,4 +484,137 @@ warning-level3:            Level 3
 warning-level4:            Level 4 (final)
 warning-warntype:          Warning type:
 warning-warnlog:           Warnings for this user:
+</pre>
+
+=== Web requests ===
+<pre>
+error-unknown:             Unknown error
+error-exception:           Error retrieving '{0}'
+error-fail:                Failed to retrieve '{0}'
+error-noresponse:          No response
+error-pagemissing          The page does not exist
+retrying:                  Retrying...
+
+block-done:                Blocked '{0}'
+block-fail:                Did not block '{0}'
+block-progress:            Blocking '{0}'...
+
+blocklog-fail:             Failed to retrieve block log for '{0}'
+blocklog-none:             No block log for '{0}'
+blocklog-progress:         Retrieving block log for '{0}'...
+
+blocknotify-fail:          Did not notify '{0}' of block
+blocknotify-progress:      Notifying '{0}' of block...
+
+delete-done:               Deleted '{0}'
+delete-fail:               Did not delete '{0}'
+delete-progress:           Deleting '{0}'...
+
+deletelog-fail:            Failed to retrieve deletion log for '{0}'
+deletelog-none:            No deletion log for '{0}'
+deletelog-progress:        Retrieving deletion log for '{0}'...
+
+diff-fail:                 Failed to retrieve diff of '{0}'
+
+reqdelete-duplicate:       The page is already tagged
+reqdelete-tagfail:         Did not tag '{0}' for deletion discussion
+reqdelete-redirectfail:    The page is a redirect and no redirect discussion process is defined
+reqdelete-tagprogress:     Tagging '{0}' for deletion discussion...
+
+reqdelete-subpageprogress: Creating deletion discussion subpage for '{0}'...
+reqdelete-subpagefail:     Did not create deletion discussion subpage for '{0}'
+reqdelete-logprogress:     Adding '{0}' to deletion discussion log...
+reqdelete-logfail:         Did not add '{0}' to deletion discussion log
+
+edit-fail:                 Did not edit '{0}'
+edit-progress:             Editing '{0}'...
+
+email-done:                Sent e-mail to '{0}'
+email-fail:                Failed to send e-mail to '{0}'
+email-progress:            Sending e-mail to '{0}'...
+
+history-fail:              Failed to retrieve history of '{0}'
+
+move-done:                 Moved '{0}' to '{1}'
+move-fail:                 Did not move '{0}' to '{1}'
+move-progress:             Moving '{0}' to '{1}'...
+
+notify-fail:               Did not notify the creator of '{0}'
+notify-unknowncreator:     Cannot find page creator
+
+patrol-duplicate:          The page is already patrolled
+patrol-done:               Marked '{0}' as patrolled
+patrol-fail:               Did not mark '{0}' as patrolled
+patrol-notfound:           Cannot find recent-changes id, page is too old
+patrol-progress:           Marking '{0}' as patrolled...
+
+protect-done:              Changed protection level for '{0}'
+protect-fail:              Did not change protection level for '{0}'
+protect-progress:          Changing protection level for '{0}'...
+
+protectlog-fail:           Failed to retrieve protection log for '{0}'
+protectlog-none:           No protection log for '{0}'
+protectlog-progress:       Retrieving protection log for '{0}'...
+
+purge-done:                Purged '{0}'
+purge-fail:                Failed to purge '{0}'
+purge-progress:            Purging '{0}'
+
+report-duplicate:          The user has already been reported
+report-fail:               Did not report '{0}'
+report-progress:           Reporting '{0}'...
+
+saveuserconfig-done:       Updated user configuration page
+saveuserconfig-fail:       Did not update user configuration page
+saveuserconfig-progress:   Updating user configuration page...
+
+loadglobalconfig-fail:     Failed to load global configuration page
+loadprojectconfig-fail:    Failed to load project configuration page
+loaduserconfig-fail:       Failed to load user configuration page
+
+reqprotection-badformat:   Format of request page unknown
+reqprotection-duplicate:   Protection has already been requested
+reqprotection-fail:        Did not request protection of '{0}'
+reqprotection-progress:    Requesting protection of '{0}'...
+
+revert-cannotundo:         Cannot undo due to conflicting intermediate edits
+revert-fail:               Did not revert '{0}'
+revert-nootheruser:        No other user has edited the page
+revert-progress:           Reverting '{0}'...
+
+tag-alreadytagged:         The page has already been tagged
+tag-deleted:               The page has been deleted
+tag-fail:                  Did not tag '{0}'
+tag-progress:              Tagging '{0}'...
+
+speedy-fail:               Did not tag '{0}' for speedy deletion
+speedy-progress:           Tagging '{0}' for speedy deletion...
+
+warnlog-fail:              Failed to retrieve warning log for '{0}'
+warnlog-none:              '{0}' has not been warned
+warnlog-progress:          Retrieving warning log for '{0}'...
+
+unwatch-done:              Removed '{0}' from watchlist
+unwatch-fail:              Failed to remove '{0}' from watchlist
+unwatch-progress:          Removing '{0}' from watchlist...
+
+usermessage-duplicate:     A message about the same thing was already present
+usermessage-fail:          Did not message '{0}'
+usermessage-progress:      Messaging '{0}'...
+
+watch-done:                Added '{0}' to watchlist
+watch-fail:                Failed to add '{0}' to watchlist
+watch-progress:            Adding '{0}' to watchlist...
+
+warn-alreadyfinal:         The user already has a final warning
+warn-alreadyblocked:       The user has already been blocked
+warn-alreadyreported:      The user has already been reported
+warn-oldedit:              The user has not edited since their latest warning
+warn-recent:               The user was warned less than {0} seconds ago
+warn-fail:                 Did not warn '{0}'
+warn-progress:             Warning '{0}'...
+</pre>
+
+<pre>
+api-help:                  No parameters in API query
 </pre>

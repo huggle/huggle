@@ -38,7 +38,7 @@ Class EditForm
             NewGetTextRequest.Page = Page
             NewGetTextRequest.Start(AddressOf GotText)
         Else
-            GotText(New Request.Output(Request.States.Complete, Page.Text))
+            GotText(New RequestResult(Page.Text))
         End If
     End Sub
 
@@ -55,9 +55,11 @@ Class EditForm
         End Select
     End Sub
 
-    Private Sub GotText(ByVal Result As Request.Output)
+    Private Sub GotText(ByVal Result As RequestResult)
         If Visible Then
-            If Result.Success Then
+            If Result.Error Then
+                WaitMessage.Text = Result.ErrorMessage
+            Else
                 PageText.Focus()
                 WaitMessage.Visible = False
                 PageText.Enabled = True
@@ -69,8 +71,6 @@ Class EditForm
                 PageText.Text = Result.Text
                 DoHighlight()
                 SettingText = False
-            Else
-                WaitMessage.Text = "Failed to retrieve page text"
             End If
         End If
     End Sub
@@ -95,12 +95,12 @@ Class EditForm
         NewEditRequest.Start(AddressOf Saved)
     End Sub
 
-    Private Sub Saved(ByVal Result As Request.Output)
-        If Result.Success Then
+    Private Sub Saved(ByVal Result As RequestResult)
+        If Result.Error Then
+            WaitMessage.Text = Result.ErrorMessage
+        Else
             DialogResult = DialogResult.OK
             Close()
-        Else
-            WaitMessage.Text = "Failed to save page"
         End If
     End Sub
 
@@ -132,24 +132,24 @@ Class EditForm
         End If
     End Sub
 
-    Private Sub GotPreview(ByVal Result As Request.Output)
+    Private Sub GotPreview(ByVal Result As RequestResult)
         If Visible AndAlso Preview IsNot Nothing Then
-            If Result.Success Then
+            If Result.Error Then
+                Preview.DocumentText = "<div style=""font-family: Arial"">" & Result.ErrorMessage & "</div>"
+            Else
                 Preview.DocumentText = MakeHtmlWikiPage(Page.Name, Result.Text)
                 PreviewCurrent = True
-            Else
-                Preview.DocumentText = "<div style=""font-family: Arial"">Failed to retrieve preview</div>"
             End If
         End If
     End Sub
 
-    Private Sub GotDiff(ByVal Result As Request.Output)
+    Private Sub GotDiff(ByVal Result As RequestResult)
         If Visible AndAlso Diff IsNot Nothing Then
-            If Result.Success Then
+            If Result.Error Then
+                Diff.DocumentText = "<div style=""font-family: Arial"">" & Result.ErrorMessage & "</div>"
+            Else
                 Diff.DocumentText = MakeHtmlWikiPage(Page.Name, Result.Text)
                 DiffCurrent = True
-            Else
-                Diff.DocumentText = "<div style=""font-family: Arial"">Failed to retrieve diff</div>"
             End If
         End If
     End Sub

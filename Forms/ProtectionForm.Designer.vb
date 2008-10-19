@@ -29,8 +29,8 @@ Partial Class ProtectionForm
         Me.Label2 = New System.Windows.Forms.Label
         Me.TypeSelect = New System.Windows.Forms.ComboBox
         Me.Label3 = New System.Windows.Forms.Label
-        Me.ProtectionLog = New System.Windows.Forms.ListView
         Me.CurrentLevel = New System.Windows.Forms.Label
+        Me.ProtectionLog = New Huggle.PageLog
         Me.SuspendLayout()
         '
         'Cancel
@@ -98,28 +98,11 @@ Partial Class ProtectionForm
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(12, 120)
+        Me.Label3.Location = New System.Drawing.Point(9, 116)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(75, 13)
         Me.Label3.TabIndex = 16
         Me.Label3.Text = "Protection log:"
-        '
-        'ProtectionLog
-        '
-        Me.ProtectionLog.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ProtectionLog.FullRowSelect = True
-        Me.ProtectionLog.GridLines = True
-        Me.ProtectionLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
-        Me.ProtectionLog.Location = New System.Drawing.Point(12, 136)
-        Me.ProtectionLog.MultiSelect = False
-        Me.ProtectionLog.Name = "ProtectionLog"
-        Me.ProtectionLog.ShowGroups = False
-        Me.ProtectionLog.Size = New System.Drawing.Size(533, 94)
-        Me.ProtectionLog.TabIndex = 15
-        Me.ProtectionLog.UseCompatibleStateImageBehavior = False
-        Me.ProtectionLog.View = System.Windows.Forms.View.Details
         '
         'CurrentLevel
         '
@@ -130,14 +113,26 @@ Partial Class ProtectionForm
         Me.CurrentLevel.TabIndex = 17
         Me.CurrentLevel.Text = "Current protection level:"
         '
+        'ProtectionLog
+        '
+        Me.ProtectionLog.GridLines = True
+        Me.ProtectionLog.Location = New System.Drawing.Point(12, 132)
+        Me.ProtectionLog.Mode = Huggle.PageLog.ViewMode.Protect
+        Me.ProtectionLog.Name = "ProtectionLog"
+        Me.ProtectionLog.Page = Nothing
+        Me.ProtectionLog.Size = New System.Drawing.Size(533, 98)
+        Me.ProtectionLog.TabIndex = 18
+        Me.ProtectionLog.UseCompatibleStateImageBehavior = False
+        Me.ProtectionLog.View = System.Windows.Forms.View.Details
+        '
         'ProtectionForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(557, 271)
+        Me.Controls.Add(Me.ProtectionLog)
         Me.Controls.Add(Me.CurrentLevel)
         Me.Controls.Add(Me.Label3)
-        Me.Controls.Add(Me.ProtectionLog)
         Me.Controls.Add(Me.TypeSelect)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Label1)
@@ -162,6 +157,6 @@ Partial Class ProtectionForm
     Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents TypeSelect As System.Windows.Forms.ComboBox
     Friend WithEvents Label3 As System.Windows.Forms.Label
-    Friend WithEvents ProtectionLog As System.Windows.Forms.ListView
     Friend WithEvents CurrentLevel As System.Windows.Forms.Label
+    Friend WithEvents ProtectionLog As Huggle.PageLog
 End Class

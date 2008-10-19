@@ -3,6 +3,7 @@ Imports System.Net
 Imports System.Text.RegularExpressions
 Imports System.Web.HttpUtility
 
+<DebuggerStepThrough()> _
 Module Misc
 
     'Globals
@@ -16,6 +17,7 @@ Module Misc
     Public Cookie As String
     Public CurrentQueue As Queue
     Public CurrentTab As BrowserTab
+    Public EditToken As String
     Public HidingEdit As Boolean = True
     Public HistoryOffset As Integer
     Public LastRcTime As Date
@@ -25,6 +27,7 @@ Module Misc
     Public MainForm As Main
     Public NextCount As New List(Of User)
     Public NullEdit As New Edit
+    Public PatrolToken As String
     Public PendingRequests As New List(Of Request)
     Public PendingWarnings As New List(Of Edit)
     Public QueueNames As New Dictionary(Of String, List(Of String))
@@ -152,7 +155,8 @@ Module Misc
         Public EditLevel As String
         Public MoveLevel As String
         Public Cascading As Boolean
-        Public Expiry As Date
+        Public EditExpiry As Date
+        Public MoveExpiry As Date
         Public Summary As String
     End Class
 
@@ -218,6 +222,17 @@ Module Misc
         Return String.Compare(a, b, StringComparison.OrdinalIgnoreCase)
     End Function
 
+    Sub ControlInvoke(ByVal Control As Control, ByVal Target As Action, ByVal ParamArray Args() As Object)
+        'Works around a syntax oddity whereby Control.Invoke does not accept an AddressOf expression as a 
+        'parameter directly, making expressions unnecessarily complex
+        Control.Invoke(Target, Args)
+    End Sub
+
+    Sub ControlInvoke(Of T)(ByVal Control As Control, ByVal Target As Action(Of T), ByVal Param As T)
+        'As above, with strongly-typed parameter
+        Control.Invoke(Target, Param)
+    End Sub
+
     Function FormatPageHtml(ByVal Page As Page, ByVal Text As String) As String
         'We're only interested in the page here, not the site interface that comes with it.
         'Extract the actual page content and then put some headers back so that it renders properly.
@@ -243,6 +258,15 @@ Module Misc
         Text = "<h1>" & Page.Name & "</h1>" & Text
         Text = MakeHtmlWikiPage(Page.Name, Text)
         Return Text
+    End Function
+
+    Function GetParameter(ByVal Source As String, ByVal Parameter As String) As String
+        If Source Is Nothing Then Return Nothing
+        If Not Source.Contains(Parameter & "=""") Then Return Nothing
+        Source = Source.Substring(Source.IndexOf(Parameter & "=""") + (Parameter & "=""").Length)
+        If Not Source.Contains("""") Then Return Nothing
+        Source = Source.Substring(0, Source.IndexOf(""""))
+        Return HtmlDecode(Source)
     End Function
 
     Function FindString(ByVal Source As String, ByVal [From] As String) As String
@@ -395,8 +419,18 @@ Module Misc
     End Sub
 
     Sub Log(ByVal Message As String, Optional ByVal Tag As Object = Nothing)
-        If MainForm Is Nothing Then LogBuffer.Add(Message) Else MainForm.Log(Message, Tag)
+        Callback(AddressOf LogCallback, New LogArgs With {.Message = Message, .Tag = Tag})
     End Sub
+
+    Sub LogCallback(ByVal ArgsObject As Object)
+        Dim Args As LogArgs = CType(ArgsObject, LogArgs)
+        If MainForm Is Nothing Then LogBuffer.Add(Args.Message) Else MainForm.Log(Args.Message, Args.Tag)
+    End Sub
+
+    Structure LogArgs
+        Public Message As String
+        Public Tag As Object
+    End Structure
 
     Function MakeHtmlWikiPage(ByVal Page As String, ByVal Text As String) As String
         Return My.Resources.WikiPageHtml.Replace("$PATH", Config.SitePath).Replace("$PAGE", Page) _
@@ -408,10 +442,14 @@ Module Misc
         'Returns a formatted message string localized to the user's language,
         'or in the default language if no localized message is available
         Try
-            If Config.Messages(Config.Language).ContainsKey(Name.ToLower) Then
+            If Config.Language IsNot Nothing AndAlso Config.Messages.ContainsKey(Config.Language) _
+                AndAlso Config.Messages(Config.Language).ContainsKey(Name.ToLower) Then
                 Return String.Format(Config.Messages(Config.Language)(Name.ToLower), Params)
-            ElseIf Config.Messages(Config.DefaultLanguage).ContainsKey(Name.ToLower) Then
+
+            ElseIf Config.Messages.ContainsKey(Config.DefaultLanguage) _
+                AndAlso Config.Messages(Config.DefaultLanguage).ContainsKey(Name.ToLower) Then
                 Return String.Format(Config.Messages(Config.DefaultLanguage)(Name.ToLower), Params)
+
             Else
                 'Message does not exist in localized or default form. Output the message name instead.
                 Return "[" & Name.ToLower & "]"
@@ -421,6 +459,10 @@ Module Misc
             'Message string didn't provide correct formatting placeholders. Output the message name instead.
             Return "[" & Name.ToLower & "]"
         End Try
+    End Function
+
+    Function MsgExists(ByVal Name As String) As Boolean
+        Return Config.Messages(Config.Language).ContainsKey(Name.ToLower)
     End Function
 
     Function OpenUrlInBrowser(ByVal Url As String) As Boolean
@@ -493,6 +535,10 @@ Module Misc
         Return Date.Compare(Y.Time, X.Time)
     End Function
 
+    Function Split(ByVal Source As String, ByVal Delimiter As String) As String()
+        Return Source.Split(New String() {Delimiter}, StringSplitOptions.RemoveEmptyEntries)
+    End Function
+
     Function StripHTML(ByVal Text As String) As String
         'Removes anything with < > around it
         If Text Is Nothing Then Return Nothing
@@ -527,6 +573,10 @@ Module Misc
         Return Summary
     End Function
 
+    Function Truncate(ByVal Str As String, ByVal Length As Integer) As String
+        If Length < Str.Length Then Return Str.Substring(0, Length) & "..." Else Return Str
+    End Function
+
     Function VersionString(ByVal Version As Version) As String
         Return Version.Major & "." & Version.Minor & "." & Version.Build
     End Function
@@ -539,28 +589,5 @@ Module Misc
     Function WikiUrl(ByVal Url As String) As Boolean
         Return (Url.StartsWith(Config.SitePath & "w/index.php?") OrElse Url.StartsWith(Config.SitePath & "wiki/"))
     End Function
-
-    Public Class WebClient2
-
-        Inherits WebClient
-
-        'Extend WebClient so we can attach a CookieContainer to each request
-        'so cookies sent with redirection responses don't get lost
-
-        Private _Cookies As New CookieContainer
-
-        Public ReadOnly Property Cookies() As CookieContainer
-            Get
-                Return _Cookies
-            End Get
-        End Property
-
-        Protected Overrides Function GetWebRequest(ByVal Address As Uri) As WebRequest
-            Dim Request As HttpWebRequest = CType(MyBase.GetWebRequest(Address), HttpWebRequest)
-            Request.CookieContainer = _Cookies
-            Return Request
-        End Function
-
-    End Class
 
 End Module

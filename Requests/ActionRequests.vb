@@ -10,42 +10,34 @@ Namespace Requests
     Class BlockRequest : Inherits Request
 
         'Block a user
-
-        Public User As User, Reason, Expiry, NotifyTemplate As String
+        Public User As User, Summary, Expiry, NotifyTemplate As String
         Public AnonOnly, Autoblock, BlockEmail, BlockCreation, Notify As Boolean
 
-        Public Sub Start()
-            LogProgress("Blocking '" & User.Name & "'...")
+        Protected Overrides Sub Process()
+            LogProgress(Msg("block-progress", User.Name))
 
-            Dim RequestThread As New Thread(AddressOf Process)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
-        End Sub
+            Dim Result As ApiResult
 
-        Private Sub Process()
             'Check for range block already affecting IP address
             If User.Anonymous Then
-                Dim Rangeblocks As String = _
-                    GetApi("format=xml&action=query&list=blocks&bkip=" & UrlEncode(User.Name))
+                Result = GetApi("action=query&list=blocks&bkip=" & UrlEncode(User.Name))
 
-                If Rangeblocks.Contains("<blocks>") Then
-                    Rangeblocks = Rangeblocks.Substring(Rangeblocks.IndexOf("<blocks>") + 8)
-                    Rangeblocks = Rangeblocks.Substring(0, Rangeblocks.IndexOf("</blocks>"))
+                If Result.Error Then
+                    Fail(Msg("block-fail", User.Name), Result.ErrorMessage)
+                    Exit Sub
+                End If
 
-                    For Each Item As String In Rangeblocks.Split(New String() {"<block "}, _
-                        StringSplitOptions.RemoveEmptyEntries)
+                If Result.Text.Contains("<blocks>") Then
+                    For Each Item As String In Split(FindString(Result.Text, "<blocks>", "</blocks>"), "<block ")
 
-                        Dim BlockedUser As String = Item.Substring(Item.IndexOf("user=""") + 6)
-                        BlockedUser = BlockedUser.Substring(0, BlockedUser.IndexOf(""""))
-                        BlockedUser = HtmlDecode(BlockedUser)
+                        Dim BlockedUser As String = GetParameter(Item, "user")
 
                         If BlockedUser.Contains("/") Then
-                            If MessageBox.Show(User.Name & " is already affected by a rangeblock on " & BlockedUser & _
-                                "." & LF & "This block will override the effect of the rangeblock. Continue?", _
+                            If MessageBox.Show(Msg("block-rangeblockwarning", User.Name, BlockedUser), _
                                 "Huggle", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, _
                                 MessageBoxDefaultButton.Button2) = DialogResult.No Then
 
-                                Callback(AddressOf Failed)
+                                Cancel()
                                 Exit Sub
                             End If
 
@@ -55,49 +47,145 @@ Namespace Requests
                 End If
             End If
 
-            Dim Result As String = GetText("title=Special:Blockip/" & UrlEncode(User.Name))
-            Dim EditTokenMatch As Match = Regex.Match(Result, _
-                "<input name=""wpEditToken"" type=""hidden"" value=""(.*?)"" />", RegexOptions.Compiled)
+            'Get token
+            Result = GetApi("action=query&prop=info&titles=-&intoken=block")
 
-            If Not EditTokenMatch.Success Then
-                Callback(AddressOf Failed)
+            If Result.Error Then
+                Fail(Msg("block-fail", User.Name), Result.ErrorMessage)
                 Exit Sub
             End If
 
-            Dim EditToken As String = EditTokenMatch.Groups(1).Value
+            Dim Token As String = GetParameter(Result.Text, "blocktoken")
 
-            Dim PostString As String = "wpBlockAddress=" & UrlEncode(User.Name) & _
-                "&wpBlockReasonList=other" & "&wpBlockReason=" & UrlEncode(Reason) & _
-                "&wpBlockExpiry=" & UrlEncode(Expiry) & "&wpEditToken=" & UrlEncode(EditToken)
+            'Block user
+            Dim PostString As String = "user=" & UrlEncode(User.Name) & _
+                "&reason=" & UrlEncode(Summary) & "&expiry=" & UrlEncode(Expiry) & "&token=" & UrlEncode(Token)
 
-            If BlockCreation Then PostString &= "&wpCreateAccount=1"
-            If BlockEmail Then PostString &= "&wpEmailBan=1"
-            If Autoblock Then PostString &= "&wpEnableAutoblock=1"
-            If AnonOnly Then PostString &= "&wpAnonOnly=1"
+            If BlockCreation Then PostString &= "&nocreate"
+            If BlockEmail Then PostString &= "&noemail"
+            If Autoblock Then PostString &= "&autoblock"
+            If AnonOnly Then PostString &= "&anononly"
 
-            Result = PostData("title=Special:Blockip&action=submit", PostString)
+            Result = PostApi("action=block", PostString)
 
-            If IsWikiPage(Result) Then Callback(AddressOf Done) Else Callback(AddressOf Failed)
+            If Result.Error _
+                Then Fail(Msg("block-fail", User.Name), Result.ErrorMessage) _
+                Else Complete(Msg("block-done", User.Name))
         End Sub
 
-        Private Sub Done()
-            If Notify Then
+        Protected Overrides Sub Done()
+            'Notify user of block
+            If State = States.Complete AndAlso Notify Then
                 Dim NewRequest As New BlockNotificationRequest
 
                 NewRequest.User = User
                 NewRequest.Expiry = Expiry
-                NewRequest.Reason = Reason
+                NewRequest.Reason = Summary
                 NewRequest.Template = NotifyTemplate
                 NewRequest.Start()
             End If
-
-            Complete()
         End Sub
 
-        Private Sub Failed()
-            Log("Failed to block '" & User.Name & "'")
-            If CurrentEdit.User Is User Then MainForm.UserReportB.Enabled = True
-            Fail()
+    End Class
+
+    Class DeleteRequest : Inherits Request
+
+        'Delete a page
+
+        Public Page As Page, Summary As String, Watch As Boolean
+
+        Protected Overrides Sub Process()
+            LogProgress(Msg("delete-progress", Page.Name))
+
+            'Get token
+            Dim Result As ApiResult = GetApi("action=query&prop=info&intoken=delete&titles=" & UrlEncode(Page.Name))
+
+            If Result.Error Then
+                Fail(Msg("delete-fail", Page.Name), Result.ErrorMessage)
+                Exit Sub
+            End If
+
+            Dim Token As String = GetParameter(Result.Text, "deletetoken")
+
+            'Delete the page
+            Dim PostString As String = "title=" & UrlEncode(Page.Name) & _
+                "&reason=" & UrlEncode(Summary) & "&token=" & UrlEncode(Token)
+
+            If Watch Then PostString &= "&watch"
+
+            Result = PostApi("action=delete", PostString)
+
+            If Result.Error _
+                Then Fail(Msg("delete-fail", Page.Name), Result.ErrorMessage) _
+                Else Complete(Msg("delete-done", Page.Name))
+        End Sub
+
+    End Class
+
+    Class EmailRequest : Inherits Request
+
+        'E-mail a user
+
+        Public User As User, Subject As String = Config.EmailSubject, Message As String, CcMe As Boolean
+
+        Protected Overrides Sub Process()
+            LogProgress(Msg("email-progress", User.Name))
+
+            'Get token
+            Dim Result As ApiResult = GetApi("action=query&prop=info&titles=-&intoken=email")
+
+            If Result.Error Then
+                Fail(Msg("email-fail", User.Name), Result.ErrorMessage)
+                Exit Sub
+            End If
+
+            Dim Token As String = GetParameter(Result.Text, "emailtoken")
+
+            'Send e-mail
+            Dim PostString As String = "target=" & UrlEncode(User.Name) & _
+                "&subject=" & UrlEncode(Subject) & "&text=" & Message & "&token=" & UrlEncode(Token)
+
+            If CcMe Then PostString &= "&ccme"
+
+            Result = PostApi("action=emailuser", PostString)
+
+            If Result.Error _
+                Then Fail(Msg("email-fail", User.Name), Result.ErrorMessage) _
+                Else Complete(Msg("email-done", User.Name))
+        End Sub
+
+    End Class
+
+    Class MoveRequest : Inherits Request
+
+        'Move a page
+
+        Public Page As Page, Target, Summary As String, MoveTalk As Boolean
+
+        Protected Overrides Sub Process()
+            LogProgress(Msg("move-progress", Page.Name, Target))
+
+            'Get token
+            Dim Result As ApiResult = GetApi("action=query&prop=info&intoken=move&titles=" & UrlEncode(Page.Name))
+
+            If Result.Error Then
+                Fail(Msg("move-fail", Page.Name, Target), Result.ErrorMessage)
+                Exit Sub
+            End If
+
+            Dim Token As String = GetParameter(Result.Text, "movetoken")
+
+            'Move the page
+            Dim PostString As String = "from=" & UrlEncode(Page.Name) & "&to=" & UrlEncode(Target) & _
+                "&reason=" & UrlEncode(Summary) & "&token=" & UrlEncode(Token)
+
+            If MoveTalk Then PostString &= "&movetalk"
+
+            Result = PostApi("action=move", PostString)
+
+            If Result.Error _
+                Then Fail(Msg("move-fail", Page.Name, Target), Result.ErrorMessage) _
+                Else Complete(Msg("move-done", Page.Name, Target))
         End Sub
 
     End Class
@@ -108,216 +196,50 @@ Namespace Requests
 
         Public Page As Page
 
-        Public Sub Start()
-            LogProgress("Marking '" & Page.Name & "' as patrolled...")
+        Protected Overrides Sub Process()
+            LogProgress(Msg("patrol-progress", Page.Name))
 
-            Dim RequestThread As New Thread(AddressOf Process)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
-        End Sub
-
-        Private Sub Process()
             'New page patrolling is an awkward hack of an extension and not part of MediaWiki
-            'Viewing a page doesn't give a patrol link, you have to go to Special:Newpages
-            'making it very difficult to mark a given page as patrolled, especially if it's old
+            'Only recent-changes entries, not pages, are associated with a patrol token
+            'making it difficult to mark a given page as patrolled, especially if it's old
 
             If Page.Patrolled Then
-                Callback(AddressOf AlreadyPatrolled)
+                Page.Patrolled = True
+                Fail(Msg("patrol-fail", Page.Name), Msg("patrol-alreadydone"))
                 Exit Sub
             End If
 
-            If Page.Rcid Is Nothing Then
-                Result = GetText("title=Special:Newpages&namespace=all&limit=500")
+            Dim Result As ApiResult
 
-                If Result Is Nothing Then
-                    Callback(AddressOf Failed)
+            If PatrolToken Is Nothing OrElse Page.Rcid Is Nothing Then
+                'Find rcid and/or patrol token
+                Result = GetApi("&rclimit=500&action=query&list=recentchanges&rctype=new&rctoken=patrol")
+
+                If Result.Error Then
+                    Fail(Msg("patrol-fail", Page.Name), Result.ErrorMessage)
                     Exit Sub
                 End If
 
-                Result = Result.Substring(Result.IndexOf("<ul>"))
-                Result = Result.Substring(0, Result.IndexOf("</ul>"))
+                PatrolToken = GetParameter(Result.Text, "patroltoken")
 
-                For Each Item As String In Result.Split(New String() {"</li>"}, StringSplitOptions.None)
-                    If Item.Contains("<a") Then
-                        Dim Url As String = Item.Substring(Item.IndexOf("<a") + 10)
-                        Url = HtmlDecode(Url.Substring(0, Url.IndexOf("""")))
+                For Each Item As String In Split(FindString _
+                    (Result.Text, "<recentchanges>", "</recentchanges>"), "<rc ")
 
-                        If Url.Contains("&rcid=") Then
-                            Url = Url.Substring(Url.IndexOf("?title=") + 7)
-                            Dim Page As Page = GetPage(UrlDecode(Url.Substring(0, Url.IndexOf("&rcid="))))
-                            Page.Rcid = Url.Substring(Url.IndexOf("&rcid=") + 6)
-                            If Page.FirstEdit IsNot Nothing Then Page.FirstEdit.Rcid = Page.Rcid
-                            Page.Patrolled = False
-                        Else
-                            Dim Page As Page = GetPage(UrlDecode(Url.Substring(Url.IndexOf("wiki/") + 5)))
-                            Page.Patrolled = True
-                        End If
-                    End If
+                    GetPage(GetParameter(Item, "title")).Rcid = GetParameter(Item, "rcid")
                 Next Item
             End If
 
-            If Page.Patrolled Then
-                Callback(AddressOf AlreadyPatrolled)
-                Exit Sub
-
-            ElseIf Page.Rcid Is Nothing Then
-                Callback(AddressOf NotFound)
+            If Page.Rcid Is Nothing Then
+                Fail(Msg("patrol-fail", Page.Name), Msg("patrol-notfound"))
                 Exit Sub
             End If
 
-            Result = GetText("title=" & UrlEncode(Page.Name) & "&action=markpatrolled&rcid=" & UrlEncode(Page.Rcid))
+            'Patrol the page
+            Result = GetApi("action=patrol&rcid=" & Page.Rcid & "&token=" & UrlEncode(PatrolToken))
 
-            If Result.Contains("Marked as patrolled") Then Callback(AddressOf Done) Else Callback(AddressOf Failed)
-        End Sub
-
-        Private Sub Done()
-            Page.Patrolled = True
-            Log("Marked '" & Page.Name & "' as patrolled")
-            Complete()
-        End Sub
-
-        Private Sub NotFound()
-            Page.Patrolled = True
-            Log("Did not mark '" & Page.Name & "' as patrolled; cannot find it in the new page log")
-            Fail()
-        End Sub
-
-        Private Sub AlreadyPatrolled()
-            Page.Patrolled = True
-            Log("'" & Page.Name & "' has already been patrolled")
-            Complete()
-        End Sub
-
-        Private Sub Failed()
-            Log("Failed to mark '" & Page.Name & "' as patrolled")
-            Fail()
-        End Sub
-
-    End Class
-
-    Class MoveRequest : Inherits Request
-
-        'Move a page
-
-        Public Page As Page, Target, Reason As String
-
-        Public Sub Start()
-            LogProgress("Moving '" & Page.Name & "'...")
-
-            Dim RequestThread As New Thread(AddressOf Process)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
-        End Sub
-
-        Private Sub Process()
-
-            Dim Result As String = GetText("title=Special:MovePage&target=" & UrlEncode(Page.Name))
-
-            'If you see a page with permission errors stop the process
-            If Result.Contains("<div class=""permissions-errors"">") Then
-                Callback(AddressOf PermissionDenied)
-                Exit Sub
-            End If
-
-            Dim EditTokenMatch As Match = Regex.Match(Result, _
-                "<input name=""wpEditToken"" type=""hidden"" value=""(.*?)"" />", RegexOptions.Compiled)
-
-            'If there is no success stop the process
-            If Not EditTokenMatch.Success Then
-                Callback(AddressOf Failed)
-                Exit Sub
-            End If
-
-            Dim EditToken As String = EditTokenMatch.Groups(1).Value
-            Dim PostString As String = "wpOldTitle=" & UrlEncode(Page.Name) & "&wpNewTitle=" & UrlEncode(Target) & _
-                "&wpReason=" & UrlEncode(Reason) & "&wpEditToken=" & UrlEncode(EditToken)
-
-            'If the tickbox for moving page talk also is ticked append this.
-            If MoveForm.MoveTalk.Checked Then
-                PostString = PostString & "wpMovetalk=1"
-            End If
-
-            'Post the move request
-            Result = PostData("title=Special:MovePage&target=" & UrlEncode(Page.Name) & "&action=submit", PostString)
-
-            'If the move has suceeded call done, if not call fail
-            If Result.Contains("<h1 class=""firstHeading"">Move succeeded</h1>") _
-                Then Callback(AddressOf Done) Else Callback(AddressOf Failed)
-        End Sub
-
-        Private Sub Done()
-            'When the page has been moved and done is called write to log
-            Log("Moved '" & Page.Name & "' to '" & Target & "'")
-            MainForm.PageB.Text = Target
-            Complete()
-        End Sub
-
-        Private Sub Failed()
-            'If the page move has failed write this to log
-            Log("Did not move '" & Page.Name & "' to '" & Target & "'; the target might already exist")
-            Fail()
-        End Sub
-
-        Private Sub PermissionDenied()
-            'If the page move has failed due to permissions write this to log
-            Log("Did not move '" & Page.Name & "' to '" & Target & "' – permission denied.")
-            Fail()
-        End Sub
-
-    End Class
-
-    Class DeleteRequest : Inherits Request
-
-        'Delete a page
-
-        Public Page As Page, Summary As String
-
-        Public Sub Start()
-            Log("Deleting '" & Page.Name & "'...")
-
-            Dim RequestThread As New Thread(AddressOf Process)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
-        End Sub
-
-        Private Sub Process()
-            Dim Result As String = GetText("title=" & UrlEncode(Page.Name) & "&action=delete")
-
-            Dim EditTokenMatch As Match = Regex.Match(Result, _
-                "<input name=""wpEditToken"" type=""hidden"" value=""(.*?)"" />", RegexOptions.Compiled)
-
-            If Not EditTokenMatch.Success Then
-                Callback(AddressOf Failed)
-                Exit Sub
-            End If
-
-            'Use default summary if none supplied
-            If Summary = "" AndAlso Result.Contains("<input name=""wpReason""") Then
-                Summary = Result.Substring(Result.IndexOf("<input name=""wpReason"""))
-                Summary = Summary.Substring(Summary.IndexOf(" value=""") + 8)
-                Summary = Summary.Substring(0, Summary.IndexOf(""""))
-                Summary = HtmlDecode(Summary)
-            End If
-
-            Dim EditToken As String = EditTokenMatch.Groups(1).Value
-            Dim PostString As String = "wpReason=" & UrlEncode(Summary) & "&wpEditToken=" & UrlEncode(EditToken)
-
-            Result = PostData("title=" & UrlEncode(Page.Name) & "&action=delete", PostString)
-
-            If Result.Contains("<h1 class=""firstHeading"">Action complete</h1>") _
-                Then Callback(AddressOf Done) Else Callback(AddressOf Failed)
-        End Sub
-
-        Private Sub Done()
-            Log("Deleted '" & Page.Name & "'")
-            Page.DeletesCurrent = False
-            Complete()
-        End Sub
-
-        Private Sub Failed()
-            Log("Failed to delete '" & Page.Name & "'")
-            If CurrentEdit.Page Is Page Then MainForm.PageDeleteB.Enabled = True
-            Fail()
+            If Result.Error _
+                Then Fail(Msg("patrol-fail", Page.Name), Result.ErrorMessage) _
+                Else Complete(Msg("patrol-done", Page.Name))
         End Sub
 
     End Class
@@ -328,147 +250,56 @@ Namespace Requests
 
         Public Page As Page, EditLevel, MoveLevel, Expiry, Summary As String, Cascade As Boolean
 
-        Public Sub Start()
-            LogProgress("Protecting '" & Page.Name & "'...")
+        Protected Overrides Sub Process()
+            LogProgress(Msg("protect-progress", Page.Name))
 
-            Dim RequestThread As New Thread(AddressOf Process)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
-        End Sub
+            'Get token
+            Dim Result As ApiResult = GetApi("action=query&prop=info&intoken=protect&titles=" & UrlEncode(Page.Name))
 
-        Private Sub Process()
-            Dim Result As String = GetText("title=" & UrlEncode(Page.Name) & "&action=protect")
-
-            Dim EditTokenMatch As Match = Regex.Match(Result, _
-                "<input type=""hidden"" name=""wpEditToken"" value=""(.*?)"" />", RegexOptions.Compiled)
-
-            If Not EditTokenMatch.Success Then
-                Callback(AddressOf Failed)
+            If Result.Error Then
+                Fail(Msg("protect-fail", Page.Name), Result.ErrorMessage)
                 Exit Sub
             End If
 
-            Dim EditToken As String = EditTokenMatch.Groups(1).Value
+            Dim Token As String = GetParameter(Result.Text, "protecttoken")
 
-            Dim PostString As String = "mwProtect-reason=" & UrlEncode(Summary) _
-                    & "&wpEditToken=" & UrlEncode(EditToken) & "&mwProtect-level-edit=" & UrlEncode(EditLevel) _
-                    & "&mwProtect-level-move=" & UrlEncode(MoveLevel) & "&mwProtect-expiry=" & UrlEncode(Expiry)
+            'Protect the page
+            Dim PostString As String = "title=" & UrlEncode(Page.Name) & _
+                "&reason=" & UrlEncode(Summary) & "protections=edit:" & EditLevel & "|move:" & MoveLevel & _
+                "expiry=" & Expiry & "&token=" & UrlEncode(Token)
 
-            If Cascade Then PostString &= "&mwProtect-cascade=1"
+            If Cascade Then PostString &= "&cascade"
 
-            Result = PostData("title=" & UrlEncode(Page.Name) & "&action=protect", PostString)
+            Result = PostApi("action=protect", PostString)
 
-            If Result IsNot Nothing Then Callback(AddressOf Done) Else Callback(AddressOf Failed)
-        End Sub
-
-        Private Sub Done()
-            Log("Protected '" & Page.Name & "'")
-            Page.ProtectionsCurrent = False
-            Complete()
-        End Sub
-
-        Private Sub Failed()
-            Log("Failed to protect '" & Page.Name & "'")
-            Fail()
+            If Result.Error _
+                Then Fail(Msg("protect-fail", Page.Name), Result.ErrorMessage) _
+                Else Complete(Msg("protect-done", Page.Name))
         End Sub
 
     End Class
 
-    Class EmailRequest : Inherits Request
+    Class UnwatchRequest : Inherits Request
 
-        'E-mail a user
+        'Removes page from user's watchlist
 
-        Public User As User, Subject As String = Config.EmailSubject, Message As String, CcMe, ShowForm As Boolean
-        Private Token As String
+        Public Page As Page, Manual As Boolean
 
-        Public Sub GetForm()
-            LogProgress("Getting e-mail form for '" & User.Name & "'...")
+        Protected Overrides Sub Process()
+            If Manual Then LogProgress(Msg("unwatch-progress", Page.Name))
 
-            Dim RequestThread As New Thread(AddressOf GetProcess)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
-        End Sub
+            Dim Result As ApiResult = GetApi("action=watch&unwatch&title=" & UrlEncode(Page.Name))
 
-        Private Sub GetProcess()
-            Dim Result As String = GetText("title=Special:EmailUser&target=" & UrlEncode(User.Name))
-
-            If IsWikiPage(Result) AndAlso Not Result.Contains("<form id=""emailuser""") Then
-                Callback(AddressOf NoEmail)
-                Exit Sub
-            End If
-
-            Dim EditTokenMatch As Match = Regex.Match(Result, _
-                "<input type='hidden' name='wpEditToken' value=""(.*?)"" />", RegexOptions.Compiled)
-
-            If Not EditTokenMatch.Success Then
-                Callback(AddressOf Failed)
-                Exit Sub
-            End If
-
-            Token = EditTokenMatch.Groups(1).Value
-            Callback(AddressOf Done)
-        End Sub
-
-        Private Sub Done()
-            If ShowForm Then
-                DelogProgress()
-
-                Dim NewEmailForm As New EmailForm
-                NewEmailForm.User = User
-                NewEmailForm.Subject.Text = Subject
-                NewEmailForm.Message.Text = Message
-                NewEmailForm.Request = Me
-                NewEmailForm.Show()
+            If Result IsNot Nothing Then
+                If Watchlist.Contains(Page.SubjectPage) Then Watchlist.Remove(Page.SubjectPage)
+                If Manual Then Complete(Msg("unwatch-done", Page.Name)) Else Complete()
             Else
-                PostForm()
+                Fail(Msg("unwatch-fail", Page.Name), Result.ErrorMessage)
             End If
         End Sub
 
-        Private Sub Failed()
-            Log("Failed to retrieve e-mail form for '" & User.Name & "'")
-            Fail()
-        End Sub
-
-        Private Sub NoEmail()
-            If MessageBox.Show("The user '" & User.Name & "' does not have e-mail enabled." & LF & _
-                "Post a discussion page message instead?", "Huggle", MessageBoxButtons.YesNo, _
-                MessageBoxIcon.Exclamation) = DialogResult.Yes Then
-
-                Dim NewMessageForm As New MessageForm
-                NewMessageForm.User = User
-                NewMessageForm.Show()
-            End If
-
-            Fail()
-        End Sub
-
-        Public Sub PostForm()
-            LogProgress("Submitting e-mail form for '" & User.Name & "'...")
-
-            Dim RequestThread As New Thread(AddressOf PostProcess)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
-        End Sub
-
-        Private Sub PostProcess()
-            Dim PostString As String = "wpSubject=" & UrlEncode(Subject) & _
-                "&wpText=" & UrlEncode(Message) & "&wpEditToken=" & UrlEncode(Token)
-
-            If CcMe Then PostString &= "&wpCCMe=1"
-
-            Dim Result As String = PostData("title=Special:EmailUser&target=" & UrlEncode(User.Name) & _
-                "&action=submit", PostString)
-
-            If IsWikiPage(Result) Then Callback(AddressOf PostDone) Else Callback(AddressOf PostFailed)
-        End Sub
-
-        Private Sub PostDone()
-            Log("Sent e-mail to '" & User.Name & "'")
-            Complete()
-        End Sub
-
-        Private Sub PostFailed()
-            Log("Failed to submit e-mail form for '" & User.Name & "'")
-            Fail()
+        Protected Overrides Sub Done()
+            If CurrentEdit IsNot Nothing AndAlso Page Is CurrentEdit.Page Then MainForm.UpdateWatchButton()
         End Sub
 
     End Class
@@ -477,20 +308,11 @@ Namespace Requests
 
         'Download latest version of the application
 
-        Public FileName As String
-        Public ProgressBar As ProgressBar
+        Public Filename As String, ProgressBar As ProgressBar
 
         Private Progress, Total As Integer
 
-        Public Sub Start(Optional ByVal Done As RequestCallback = Nothing)
-            _Done = Done
-
-            Dim RequestThread As New Thread(AddressOf Process)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
-        End Sub
-
-        Private Sub Process()
+        Protected Overrides Sub Process()
             'Download into memory and then write to file
             Try
                 Dim Request As HttpWebRequest = CType(WebRequest.Create(Config.DownloadLocation.Replace("$1", _
@@ -509,22 +331,22 @@ Namespace Requests
                     S = ResponseStream.Read(Buffer, 0, Buffer.Length)
                     MemoryStream.Write(Buffer, 0, S)
                     Progress += S
-                    Callback(AddressOf UpdateProgress)
+                    ControlInvoke(ProgressBar, AddressOf UpdateProgress)
                 Loop While S > 0
 
-                File.WriteAllBytes(FileName, MemoryStream.ToArray)
+                File.WriteAllBytes(Filename, MemoryStream.ToArray)
 
             Catch ex As Exception
-                If State <> States.Cancelled Then Callback(AddressOf Failed)
+                If State <> States.Cancelled Then Fail(Msg("update-error"), ex.Message)
             End Try
 
             If State = States.Cancelled Then
-                If File.Exists(FileName) Then File.Delete(FileName)
+                If File.Exists(Filename) Then File.Delete(Filename)
                 Thread.CurrentThread.Abort()
                 Exit Sub
             End If
 
-            Callback(AddressOf Done)
+            Complete()
         End Sub
 
         Private Sub UpdateProgress()
@@ -534,12 +356,29 @@ Namespace Requests
             End If
         End Sub
 
-        Private Sub Done()
-            Complete()
+    End Class
+
+    Class WatchRequest : Inherits Request
+
+        'Adds page to your watchlist
+
+        Public Page As Page, Manual As Boolean
+
+        Protected Overrides Sub Process()
+            If Manual Then LogProgress(Msg("watch-progress", Page.Name))
+
+            Dim Result As ApiResult = GetApi("action=watch&title=" & UrlEncode(Page.Name))
+
+            If Result IsNot Nothing Then
+                If Not Watchlist.Contains(Page.SubjectPage) Then Watchlist.Add(Page.SubjectPage)
+                If Manual Then Complete(Msg("watch-done", Page.Name)) Else Complete()
+            Else
+                Fail(Msg("watch-fail", Page.Name), Result.ErrorMessage)
+            End If
         End Sub
 
-        Private Sub Failed()
-            Fail()
+        Protected Overrides Sub Done()
+            If CurrentEdit IsNot Nothing AndAlso Page Is CurrentEdit.Page Then MainForm.UpdateWatchButton()
         End Sub
 
     End Class

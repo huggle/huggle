@@ -35,6 +35,13 @@ Class Page
         End Get
     End Property
 
+    Public ReadOnly Property Creator() As User
+        Get
+            If FirstEdit Is Nothing Then Return Nothing
+            Return FirstEdit.User
+        End Get
+    End Property
+
     Public ReadOnly Property Edits() As List(Of Edit)
         Get
             Dim PageEdits As New List(Of Edit)

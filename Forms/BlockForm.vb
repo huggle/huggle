@@ -39,21 +39,8 @@ Class BlockForm
             Next Item
         End If
 
-        BlockLog.Columns.Add("", 300)
-        BlockLog.Items.Add("Retrieving block log, please wait...")
-
-        Dim NewBlockLogRequest As New BlockLogRequest
-        NewBlockLogRequest.Target = BlockLog
-        NewBlockLogRequest.ThisUser = User
-        NewBlockLogRequest.Start()
-
-        WarnLog.Columns.Add("", 300)
-        WarnLog.Items.Add("Retrieving warnings, please wait...")
-
-        Dim NewWarnLogRequest As New WarningLogRequest
-        NewWarnLogRequest.Target = WarnLog
-        NewWarnLogRequest.User = User
-        NewWarnLogRequest.Start()
+        BlockLog.User = User
+        WarnLog.User = User
     End Sub
 
     Private Sub BlockForm_FormClosing() Handles Me.FormClosing

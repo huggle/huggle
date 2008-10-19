@@ -8,18 +8,14 @@ Class UserInfoForm
         Localize(Me, "userinfo")
         RefreshData()
 
-        BlockLog.Columns.Add("", 300)
-        BlockLog.Items.Add("Retrieving block log, please wait...")
-        RefreshBlocks()
-
-        WarnLog.Columns.Add("", 300)
-        WarnLog.Items.Add("Retrieving warnings, please wait...")
-        RefreshWarnings()
+        BlockLog.User = User
+        WarnLog.User = User
 
         If User.EditCount = -1 Then
             If User.Anonymous Then
                 'Edit counts for anonymous users not available through the API, so must use Special:Contributions
-                'and if we're going to do that, might as well parse their contributions too
+                'and if we're going to do that, might as well parse their contributions too,
+                'for which we *can* use the API...
 
                 Dim NewContribsRequest As New ContribsRequest
                 NewContribsRequest.User = User
@@ -47,21 +43,15 @@ Class UserInfoForm
         If User.Anonymous Then Anonymous.Text = Msg("yes") Else Anonymous.Text = Msg("no")
         If User.Ignored Then Ignored.Text = Msg("yes") Else Ignored.Text = Msg("no")
         If User.SharedIP Then SharedIP.Text = Msg("yes") Else SharedIP.Text = Msg("no")
-        If User.EditCount > -1 Then Edits.Text = CStr(User.EditCount)
+        If User.EditCount > -1 Then Edits.Text = CStr(User.EditCount) Else Edits.Text = "..."
     End Sub
 
     Public Sub RefreshWarnings()
-        Dim NewWarnLogRequest As New WarningLogRequest
-        NewWarnLogRequest.Target = WarnLog
-        NewWarnLogRequest.User = User
-        NewWarnLogRequest.Start()
+        WarnLog.Refresh()
     End Sub
 
     Public Sub RefreshBlocks()
-        Dim NewBlockLogRequest As New BlockLogRequest
-        NewBlockLogRequest.Target = BlockLog
-        NewBlockLogRequest.ThisUser = User
-        NewBlockLogRequest.Start()
+        BlockLog.Refresh()
     End Sub
 
 End Class

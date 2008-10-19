@@ -12,15 +12,20 @@ Class Configuration
     Public ReadOnly HistoryBlockSize As Integer = 100
     Public ReadOnly HistoryScrollSpeed As Integer = 25
     Public ReadOnly IrcConnectionTimeout As Integer = 60000
-    Public ReadOnly Languages As String() = {"en", "bg", "de", "es", "no", "pt", "ru", "test"}
     Public ReadOnly QueueSize As Integer = 5000
     Public ReadOnly QueueWidth As Integer = 160
+    Public ReadOnly RequestAttempts As Integer = 3
+    Public ReadOnly RequestRetryInterval As Integer = 1000
+    Public ReadOnly LocalConfigLocation As String = "\config.txt"
+    Public ReadOnly GlobalConfigLocation As String = _
+        "http://meta.wikimedia.org/w/index.php?title=Huggle/GlobalConfig&action=raw"
 
     'Values only used at runtime
 
     Public ConfigChanged As Boolean
     Public ConfigVersion As New Version(0, 0, 0)
     Public DefaultLanguage As String = "en"
+    Public Languages As New List(Of String)(New String() {"en", "bg", "de", "es", "no", "pt", "ru"})
     Public LatestVersion As New Version(0, 0, 0)
     Public Messages As New Dictionary(Of String, Dictionary(Of String, String))
     Public Password As String
@@ -28,7 +33,7 @@ Class Configuration
     Public Version As New Version(Application.ProductVersion)
     Public WarningMessages As New Dictionary(Of String, String)
 
-    Public Projects As New List(Of String)(New String() { _
+    Public ReadOnly Projects As New List(Of String)(New String() { _
         "en.wikipedia;en.wikipedia.org", _
         "bg.wikipedia;bg.wikipedia.org", _
         "de.wikipedia;de.wikipedia.org", _
@@ -230,9 +235,42 @@ End Class
 
 Module ConfigIO
 
-    Public LocalConfigLocation As String = "\config.txt"
-    Public GlobalConfigLocation As String = _
-        "http://meta.wikimedia.org/w/index.php?title=Huggle/GlobalConfig&action=raw"
+    Public Function ProcessConfigFile(ByVal File As String) As Dictionary(Of String, String)
+        'Remove comments and lines without ':', combine multi-line options, replace \n with line break,
+        'strip leading/trailing whitespace and split into key/value pairs
+
+        Dim Items As New List(Of String)(File.Replace(CR, "").Split(LF))
+        Dim Result As New Dictionary(Of String, String)
+
+        Dim i As Integer = 0
+
+        While i < Items.Count
+            If i > 0 AndAlso Items(i).StartsWith(" ") Then
+                Items(i - 1) &= Items(i)
+                Items.RemoveAt(i)
+            ElseIf Items(i).StartsWith("#") OrElse Items(i).StartsWith("<pre") OrElse Not Items(i).Contains(":") Then
+                Items.RemoveAt(i)
+            Else
+                Items(i) = Items(i).Replace("\n", LF).Trim(" "c)
+                i += 1
+            End If
+        End While
+
+        i = 0
+
+        While i < Items.Count
+            Dim ItemName As String = Items(i).Substring(0, Items(i).IndexOf(":")).ToLower
+            Dim ItemValue As String = Items(i).Substring(Items(i).IndexOf(":") + 1)
+
+            If Result.ContainsKey(ItemName) _
+                Then Log("Warning: Duplicate definition for option '" & ItemName & "' in configuration file") _
+                Else Result.Add(ItemName, ItemValue)
+
+            i += 1
+        End While
+
+        Return Result
+    End Function
 
     Public Sub SetGlobalConfigOption(ByVal Name As String, ByVal Value As String)
         'Global config only
@@ -557,8 +595,8 @@ Module ConfigIO
         QueueNames.Clear()
         InitialiseShortcuts()
 
-        If File.Exists(LocalConfigPath() & LocalConfigLocation) Then
-            For Each Item As String In New List(Of String)(File.ReadAllLines(LocalConfigPath() & LocalConfigLocation))
+        If File.Exists(LocalConfigPath() & Config.LocalConfigLocation) Then
+            For Each Item As String In New List(Of String)(File.ReadAllLines(LocalConfigPath() & Config.LocalConfigLocation))
                 If Item.Contains(":") Then
                     Dim OptionName As String = Item.Substring(0, Item.IndexOf(":")), _
                         OptionValue As String = Item.Substring(Item.IndexOf(":") + 1)
@@ -592,6 +630,7 @@ Module ConfigIO
             Next Item
         End If
 
+        If Config.Project Is Nothing Then Config.Project = Config.Projects(0)
         If Config.Language Is Nothing Then Config.Language = Config.DefaultLanguage
     End Sub
 
@@ -659,7 +698,7 @@ Module ConfigIO
 
             Items.Add("revert-summaries:" & String.Join(",", Summaries.ToArray))
 
-            File.WriteAllLines(LocalConfigPath() & LocalConfigLocation, Items.ToArray)
+            File.WriteAllLines(LocalConfigPath() & Config.LocalConfigLocation, Items.ToArray)
         End If
     End Sub
 
@@ -683,6 +722,7 @@ Module ConfigIO
         LoadLanguage("ru", My.Resources.ru)
 
 #If DEBUG Then
+        Config.Languages.Add("test")
         LoadLanguage("test", "name:[Test]")
         Config.DefaultLanguage = "test"
 #End If
@@ -701,7 +741,11 @@ Module ConfigIO
                     Dim MsgName As String = Item.Substring(0, Item.IndexOf(":")).Trim(" "c)
                     Dim MsgValue As String = Item.Substring(Item.IndexOf(":") + 1).Trim(" "c)
 
-                    Config.Messages(Name).Add(MsgName.ToLower, MsgValue)
+                    If Config.Messages(Name).ContainsKey(MsgName) Then
+                        Log("Warning: Duplicate definition of message '" & MsgName & "' in language '" & Name & "'")
+                    Else
+                        Config.Messages(Name).Add(MsgName.ToLower, MsgValue)
+                    End If
                 End If
             Next Item
         End If

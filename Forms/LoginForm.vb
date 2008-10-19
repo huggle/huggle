@@ -16,15 +16,16 @@ Class LoginForm
         LoadLanguages()
 
         For Each Item As String In Config.Languages
-            If Config.Messages(Item).ContainsKey("name") Then Language.Items.Add(Config.Messages(Item)("name"))
+            If Config.Messages.ContainsKey(Item) AndAlso Config.Messages(Item).ContainsKey("name") _
+                Then Language.Items.Add(Config.Messages(Item)("name"))
         Next Item
 
         Language.SelectedItem = Config.Messages(Config.Language)("name")
         If Language.SelectedIndex = -1 Then Language.SelectedItem = Config.Messages(Config.DefaultLanguage)("name")
 
 #If DEBUG Then
-        'If the app is in debug mode add a localhost wiki to the project list
-        If Not Config.Projects.Contains("localhost;localhost") Then Config.Projects.Add("localhost;localhost")
+            'If the app is in debug mode add a localhost wiki to the project list
+            If Not Config.Projects.Contains("localhost;localhost") Then Config.Projects.Add("localhost;localhost")
 #End If
 
         For Each Item As String In Config.Projects

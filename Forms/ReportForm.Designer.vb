@@ -28,8 +28,8 @@ Partial Class ReportForm
         Me.Message = New System.Windows.Forms.TextBox
         Me.ReasonLabel = New System.Windows.Forms.Label
         Me.Reason = New System.Windows.Forms.ComboBox
-        Me.WarnLog = New System.Windows.Forms.ListView
         Me.WarnLogLabel = New System.Windows.Forms.Label
+        Me.WarnLog = New Huggle.WarnLog
         Me.SuspendLayout()
         '
         'Cancel
@@ -91,23 +91,6 @@ Partial Class ReportForm
         Me.Reason.TabIndex = 1
         Me.Reason.TabStop = False
         '
-        'WarnLog
-        '
-        Me.WarnLog.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.WarnLog.FullRowSelect = True
-        Me.WarnLog.GridLines = True
-        Me.WarnLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
-        Me.WarnLog.Location = New System.Drawing.Point(12, 130)
-        Me.WarnLog.MultiSelect = False
-        Me.WarnLog.Name = "WarnLog"
-        Me.WarnLog.ShowGroups = False
-        Me.WarnLog.Size = New System.Drawing.Size(341, 97)
-        Me.WarnLog.TabIndex = 1
-        Me.WarnLog.UseCompatibleStateImageBehavior = False
-        Me.WarnLog.View = System.Windows.Forms.View.Details
-        '
         'WarnLogLabel
         '
         Me.WarnLogLabel.AutoSize = True
@@ -117,13 +100,28 @@ Partial Class ReportForm
         Me.WarnLogLabel.TabIndex = 0
         Me.WarnLogLabel.Text = "Warnings for this user:"
         '
+        'WarnLog
+        '
+        Me.WarnLog.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.WarnLog.GridLines = True
+        Me.WarnLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
+        Me.WarnLog.Location = New System.Drawing.Point(12, 130)
+        Me.WarnLog.Name = "WarnLog"
+        Me.WarnLog.Size = New System.Drawing.Size(341, 97)
+        Me.WarnLog.TabIndex = 7
+        Me.WarnLog.UseCompatibleStateImageBehavior = False
+        Me.WarnLog.User = Nothing
+        Me.WarnLog.View = System.Windows.Forms.View.Details
+        '
         'ReportForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(365, 268)
-        Me.Controls.Add(Me.WarnLogLabel)
         Me.Controls.Add(Me.WarnLog)
+        Me.Controls.Add(Me.WarnLogLabel)
         Me.Controls.Add(Me.OK)
         Me.Controls.Add(Me.Cancel)
         Me.Controls.Add(Me.Message)
@@ -147,6 +145,6 @@ Partial Class ReportForm
     Friend WithEvents Message As System.Windows.Forms.TextBox
     Friend WithEvents ReasonLabel As System.Windows.Forms.Label
     Friend WithEvents Reason As System.Windows.Forms.ComboBox
-    Friend WithEvents WarnLog As System.Windows.Forms.ListView
     Friend WithEvents WarnLogLabel As System.Windows.Forms.Label
+    Friend WithEvents WarnLog As Huggle.WarnLog
 End Class

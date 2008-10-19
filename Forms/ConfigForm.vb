@@ -211,7 +211,7 @@ Class ConfigForm
     End Sub
 
     Private Sub OK_Click() Handles OK.Click
-        Dim NewConfigRequest As New WriteConfigRequest
+        Dim NewConfigRequest As New SaveUserConfigRequest
         NewConfigRequest.Start()
 
         DialogResult = DialogResult.OK

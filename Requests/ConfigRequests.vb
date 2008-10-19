@@ -1,90 +1,24 @@
 Imports System.Threading
+Imports System.Web.HttpUtility
 
 Namespace Requests
 
-    Class ConfigRequest : Inherits Request
+    Class GlobalConfigRequest : Inherits Request
 
-        Public Function GetProjectConfig() As Boolean
-            'Read project config page
-            Dim Result As String = GetPageText(Config.ProjectConfigLocation)
+        'Process global configuration page
 
-            If Result Is Nothing Then
-                Fail()
-                Return False
+        Protected Overrides Sub Process()
+            Dim Result As String = GetUrl(Config.GlobalConfigLocation)
+
+            If String.IsNullOrEmpty(Result) Then
+                Fail(Msg("loadglobalconfig-fail"), Msg("error-unknown"))
+                Exit Sub
             End If
 
-            Dim i As Integer, ConfigItems As New List(Of String)(Result.Split(New String() {LF}, _
-                StringSplitOptions.RemoveEmptyEntries))
-
-            'Combine options broken across several lines into one option
-            While i < ConfigItems.Count
-                If i > 0 AndAlso ConfigItems(i).StartsWith(" ") Then
-                    ConfigItems(i - 1) &= ConfigItems(i)
-                    ConfigItems.RemoveAt(i)
-                ElseIf ConfigItems(i).StartsWith("#") OrElse Not ConfigItems(i).Contains(":") Then
-                    ConfigItems.RemoveAt(i)
-                Else
-                    i += 1
-                End If
-            End While
-
-            For Each Item As String In ConfigItems
-                Dim OptionName As String = Item.Substring(0, Item.IndexOf(":")).ToLower.Trim(" "c)
-                Dim OptionValue As String = Item.Substring(Item.IndexOf(":") + 1) _
-                    .Trim(LF).Replace("\n", LF).Trim(" "c)
+            For Each Item As KeyValuePair(Of String, String) In ProcessConfigFile(Result)
 
                 Try
-                    SetSharedConfigOption(OptionName, OptionValue)
-                    SetProjectConfigOption(OptionName, OptionValue)
-
-                Catch ex As Exception
-                    'Ignore malformed config entries
-                End Try
-            Next Item
-
-            Config.AIV = (Config.AIVLocation IsNot Nothing AndAlso Config.AIVLocation.Length > 0)
-            Config.UAA = (Config.UAALocation IsNot Nothing AndAlso Config.UAALocation.Length > 0)
-            Config.TRR = (Config.TRRLocation IsNot Nothing AndAlso Config.TRRLocation.Length > 0)
-
-            Complete()
-            Return True
-        End Function
-
-        Public Function GetUserConfig() As Boolean
-            'Read user config page
-            Dim Result As String = GetPageText _
-                (Config.UserConfigLocation.Replace("Special:Mypage", "User:" & Config.Username))
-
-            If Result Is Nothing Then
-                Fail()
-                Return False
-            End If
-
-            Config.Enabled = (Not Config.RequireConfig)
-
-            Dim i As Integer, ConfigItems As New List(Of String)(Result.Split(New String() {LF}, _
-                StringSplitOptions.RemoveEmptyEntries))
-
-            'Combine options broken across several lines into one option
-            While i < ConfigItems.Count
-                If i > 0 AndAlso ConfigItems(i).StartsWith(" ") Then
-                    ConfigItems(i - 1) &= ConfigItems(i)
-                    ConfigItems.RemoveAt(i)
-                ElseIf ConfigItems(i).StartsWith("#") OrElse Not ConfigItems(i).Contains(":") Then
-                    ConfigItems.RemoveAt(i)
-                Else
-                    i += 1
-                End If
-            End While
-
-            For Each Item As String In ConfigItems
-                Dim OptionName As String = Item.Substring(0, Item.IndexOf(":")).ToLower.Trim(" "c)
-                Dim OptionValue As String = Item.Substring(Item.IndexOf(":") + 1) _
-                    .Trim(LF).Replace("\n", LF).Trim(" "c)
-
-                Try
-                    SetUserConfigOption(OptionName, OptionValue)
-                    SetSharedConfigOption(OptionName, OptionValue)
+                    SetGlobalConfigOption(Item.Key, Item.Value)
 
                 Catch ex As Exception
                     'Ignore malformed config entries
@@ -92,57 +26,86 @@ Namespace Requests
             Next Item
 
             Complete()
-            Return True
-        End Function
-
-        Public Sub GetUserConfigInThread()
-            Dim RequestThread As New Thread(AddressOf UserConfigThread)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
-        End Sub
-
-        Private Sub UserConfigThread()
-            GetUserConfig()
-            If Config.Enabled Then Callback(AddressOf GetUserConfigDone) Else Callback(AddressOf GetUserConfigFailed)
-        End Sub
-
-        Private Sub GetUserConfigDone()
-            MainForm.UserBlockB.Visible = (Config.UseAdminFunctions AndAlso Administrator)
-            MainForm.UserBlock.Visible = (Config.UseAdminFunctions AndAlso Administrator)
-            MainForm.PageDeleteB.Visible = (Config.UseAdminFunctions AndAlso Administrator)
-            MainForm.PageDelete.Visible = (Config.UseAdminFunctions AndAlso Administrator)
-
-            MainForm.TrayIcon.Visible = Config.TrayIcon
-            Log("Loaded configuration page.")
-            Complete()
-        End Sub
-
-        Private Sub GetUserConfigFailed()
-            Log("Failed to load configuration page.")
-            Fail()
         End Sub
 
     End Class
 
-    Class WriteConfigRequest : Inherits Request
+    Class ProjectConfigRequest : Inherits Request
+
+        'Read project configuration page
+
+        Protected Overrides Sub Process()
+
+            Dim Result As ApiResult = GetApi("action=query&prop=revisions&rvlimit=1&rvprop=content&titles=" & _
+                UrlEncode(Config.ProjectConfigLocation))
+
+            If Result.Error Then
+                Fail(Msg("loadprojectconfig-fail"), Result.ErrorMessage)
+                Exit Sub
+            End If
+
+            Dim ConfigFile As String = HtmlDecode(FindString(Result.Text, "<rev>", "</rev>"))
+
+            For Each Item As KeyValuePair(Of String, String) In ProcessConfigFile(ConfigFile)
+                Try
+                    SetSharedConfigOption(Item.Key, Item.Value)
+                    SetProjectConfigOption(Item.Key, Item.Value)
+
+                Catch ex As Exception
+                    'Ignore malformed config entries
+                End Try
+            Next Item
+
+            Config.AIV = Not String.IsNullOrEmpty(Config.AIVLocation)
+            Config.UAA = Not String.IsNullOrEmpty(Config.UAALocation)
+            Config.TRR = Not String.IsNullOrEmpty(Config.TRRLocation)
+
+            Complete()
+        End Sub
+
+    End Class
+
+    Class UserConfigRequest : Inherits Request
+
+        'Read user configuration page
+
+        Protected Overrides Sub Process()
+            Dim Result As ApiResult = GetApi("action=query&prop=revisions&rvlimit=1&rvprop=content&titles=" & _
+               UrlEncode(GetPage(Config.UserConfigLocation).Name))
+
+            If Result.Error Then
+                Fail(Msg("loaduserconfig-fail"), Result.ErrorMessage)
+                Exit Sub
+            End If
+
+            Dim ConfigFile As String = HtmlDecode(FindString(Result.Text, "<rev>", "</rev>"))
+
+            For Each Item As KeyValuePair(Of String, String) In ProcessConfigFile(ConfigFile)
+                Try
+                    SetSharedConfigOption(Item.Key, Item.Value)
+                    SetUserConfigOption(Item.Key, Item.Value)
+
+                Catch ex As Exception
+                    'Ignore malformed config entries
+                End Try
+            Next Item
+
+            Complete()
+        End Sub
+
+    End Class
+
+    Class SaveUserConfigRequest : Inherits Request
 
         'Update user configuration subpage
 
-        Public Closing As Boolean
+        Protected Overrides Sub Process()
+            LogProgress(Msg("saveuserconfig-progress"))
 
-        Public Sub Start()
-            LogProgress("Updating configuration page...")
+            Dim Result As ApiResult = GetText(Config.UserConfigLocation)
 
-            Dim RequestThread As New Thread(AddressOf Process)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
-        End Sub
-
-        Private Sub Process()
-            Dim Data As EditData = GetEditData(Config.UserConfigLocation)
-
-            If Data.Error Then
-                Callback(AddressOf Failed)
+            If Result.Error Then
+                Fail(Msg("saveuserconfig-fail"), Result.ErrorMessage)
                 Exit Sub
             End If
 
@@ -216,67 +179,13 @@ Namespace Requests
 
             Items.Add("watchlist:" & String.Join(",", WatchItems.ToArray))
 
-            Data.Text = String.Join(LF, Items.ToArray)
-            Data.Minor = True
-            Data.Summary = Config.ConfigSummary
-            Data = PostEdit(Data)
-            If Data.Error Then Callback(AddressOf Failed) Else Callback(AddressOf Done)
+            Result = PostEdit(Config.UserConfigLocation, String.Join(LF, Items.ToArray), _
+                Config.ConfigSummary, Minor:=True)
+
+            If Result.Error _
+                Then Fail(Msg("saveuserconfig-fail"), Result.ErrorMessage) _
+                Else Complete()
         End Sub
-
-        Private Sub Done()
-            If Closing Then ClosingForm.Close()
-            If MainForm IsNot Nothing Then MainForm.Configure()
-            Complete()
-        End Sub
-
-        Private Sub Failed()
-            Log("Failed to update user configuration subpage")
-            Fail()
-        End Sub
-
-    End Class
-
-    Class GlobalConfigRequest : Inherits Request
-
-        'Process global configuration page
-
-        Public Function Process() As Boolean
-            Dim Result As String = GetUrl(GlobalConfigLocation)
-
-            If Result Is Nothing Then
-                Fail()
-                Return False
-            End If
-
-            Dim i As Integer = 1, ConfigItems As New List(Of String)(Result.Split(LF))
-
-            While i < ConfigItems.Count
-                If ConfigItems(i).StartsWith(" ") Then
-                    ConfigItems(i - 1) &= ConfigItems(i)
-                    ConfigItems.RemoveAt(i)
-                Else
-                    i += 1
-                End If
-            End While
-
-            For Each Item As String In ConfigItems
-
-                If (Not Item.StartsWith("#")) AndAlso Item.Contains(":") Then
-                    Dim OptionName As String = Item.Substring(0, Item.IndexOf(":")).ToLower
-                    Dim OptionValue As String = Item.Substring(Item.IndexOf(":") + 1).Trim(LF).Replace("\n", LF)
-
-                    Try
-                        SetGlobalConfigOption(OptionName, OptionValue)
-
-                    Catch ex As Exception
-                        'Ignore malformed config entries
-                    End Try
-                End If
-            Next Item
-
-            Complete()
-            Return True
-        End Function
 
     End Class
 

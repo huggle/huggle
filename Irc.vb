@@ -17,15 +17,15 @@ Module Irc
         IrcThread.Start()
     End Sub
 
-    Dim EditMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07([^]*)14\]\]4 B?(M?)B?10 02.*di" & _
-    "ff=([^&]*)&oldid=([^]*) 5\* 03([^]*) 5\* \(?([^]*)?\) 10([^]*)", RegexOptions.Compiled)
+    Dim EditMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07([^]*)14\]\]4 (M?)B?10 02.*di" & _
+        "ff=([^&]*)&oldid=([^]*) 5\* 03([^]*) 5\* \(?([^]*)?\) 10([^]*)", RegexOptions.Compiled)
 
-    Dim NewPageMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07([^]*)14\]\]4 (M?)N" & _
+    Dim NewPageMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07([^]*)14\]\]4 N(M?)B?" & _
         "10 02[^ ]* 5\* 03([^]*) 5\* \(([^\)]*)\) 10([^]*)", RegexOptions.Compiled)
 
-    Dim BlockMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/block" & _
-        "14\]\]4 block10 02 5\* 03([^]*?) 5\*  10blocked ""02User:([^]*?)10"" \([^\)]*\) " & _
-        "with an expiry time of ([^:]*?): ([^]*?)", RegexOptions.Compiled)
+    Dim BlockMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/block14\]\]4 block" & _
+        "10 02 5\* 03([^]*) 5\*  10blocked 02User:([^]*?)10 \([^\)]*\) with an expiry time of " & _
+        "([^:]*?): ([^]*?)", RegexOptions.Compiled)
 
     Dim UnblockMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/block" & _
         "14\]\]4 unblock10 02 5\* 03([^]*) 5\*  10unblocked 02([^]*)10: ([^]*)?", _
@@ -59,8 +59,9 @@ Module Irc
         "\[\[02([^]*)10\]\]""(?:: )?([^]*)?", RegexOptions.Compiled)
 
     Dim ProtectMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/protect" & _
-        "14\]\]4 protect10 02 5\* 03([^]*) 5\*  10protected 02([^]*)10:([^\[]*)?(?:" & _
-        "\[edit=([a-z]*):move=([a-z]*)\] )?(?:\(expires ([^\(]*) \(UTC\)\))??", RegexOptions.Compiled)
+        "14\]\]4 protect10 02 5\* 03([^]*) 5\*  10protected 02([^]*)10(?: \[edit=([a-z]*)\] " & _
+        "\(expires ([^\(]*) \(UTC\)\))?(?: \[move=([a-z]*)\] \(expires ([^\(]*) \(UTC\)\))?: ([^^C]*)?", _
+        RegexOptions.Compiled)
 
     Dim ModifyMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/protect" & _
         "14\]\]4 modify10 02 5\* 03([^]*) 5\*  10changed protection level for ""\[\[02([^]*)" & _
@@ -242,7 +243,7 @@ Module Irc
                         NewProtection.Summary = Match.Groups(3).Value
                         NewProtection.EditLevel = Match.Groups(4).Value
                         NewProtection.MoveLevel = Match.Groups(5).Value
-                        NewProtection.Expiry = CDate(Match.Groups(6).Value)
+                        NewProtection.EditExpiry = CDate(Match.Groups(6).Value)
 
                         Callback(AddressOf ProcessProtection, CObj(NewProtection))
 
@@ -270,6 +271,8 @@ Module Irc
                     ElseIf CreateUserMatch.IsMatch(Message) Then
                         'Dim Match As Match = CreateUserMatch.Match(Message)
 
+                    ElseIf Message.StartsWith(":rc!~rc@localhost ") Then
+                        Log("Unrecognized IRC message: " & Message)
                     End If
 
                     If Disconnecting Then

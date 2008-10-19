@@ -140,7 +140,7 @@ Class User
         End Get
     End Property
 
-    Public ReadOnly Property UserPage() As Page
+    Public ReadOnly Property Userpage() As Page
         Get
             Return GetPage(Space.User.Name & ":" & Name)
         End Get

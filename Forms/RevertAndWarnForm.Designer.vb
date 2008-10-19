@@ -28,7 +28,6 @@ Partial Class RevertAndWarnForm
         Me.Cancel = New System.Windows.Forms.Button
         Me.WarnType = New System.Windows.Forms.ComboBox
         Me.WarnTypeLabel = New System.Windows.Forms.Label
-        Me.WarnLog = New System.Windows.Forms.ListView
         Me.LevelGroup = New System.Windows.Forms.GroupBox
         Me.LevelFinal = New System.Windows.Forms.RadioButton
         Me.Level3 = New System.Windows.Forms.RadioButton
@@ -37,6 +36,7 @@ Partial Class RevertAndWarnForm
         Me.LevelAuto = New System.Windows.Forms.RadioButton
         Me.WarnLogLabel = New System.Windows.Forms.Label
         Me.CurrentOnly = New System.Windows.Forms.CheckBox
+        Me.WarnLog = New Huggle.WarnLog
         Me.LevelGroup.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -96,22 +96,6 @@ Partial Class RevertAndWarnForm
         Me.WarnTypeLabel.Size = New System.Drawing.Size(73, 13)
         Me.WarnTypeLabel.TabIndex = 2
         Me.WarnTypeLabel.Text = "Warning type:"
-        '
-        'WarnLog
-        '
-        Me.WarnLog.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.WarnLog.FullRowSelect = True
-        Me.WarnLog.GridLines = True
-        Me.WarnLog.Location = New System.Drawing.Point(15, 200)
-        Me.WarnLog.MultiSelect = False
-        Me.WarnLog.Name = "WarnLog"
-        Me.WarnLog.ShowGroups = False
-        Me.WarnLog.Size = New System.Drawing.Size(408, 141)
-        Me.WarnLog.TabIndex = 6
-        Me.WarnLog.UseCompatibleStateImageBehavior = False
-        Me.WarnLog.View = System.Windows.Forms.View.Details
         '
         'LevelGroup
         '
@@ -200,15 +184,30 @@ Partial Class RevertAndWarnForm
         Me.CurrentOnly.Text = "Revert only the selected revision"
         Me.CurrentOnly.UseVisualStyleBackColor = True
         '
+        'WarnLog
+        '
+        Me.WarnLog.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.WarnLog.GridLines = True
+        Me.WarnLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
+        Me.WarnLog.Location = New System.Drawing.Point(15, 200)
+        Me.WarnLog.Name = "WarnLog"
+        Me.WarnLog.Size = New System.Drawing.Size(408, 141)
+        Me.WarnLog.TabIndex = 10
+        Me.WarnLog.UseCompatibleStateImageBehavior = False
+        Me.WarnLog.User = Nothing
+        Me.WarnLog.View = System.Windows.Forms.View.Details
+        '
         'RevertAndWarnForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(435, 382)
+        Me.Controls.Add(Me.WarnLog)
         Me.Controls.Add(Me.CurrentOnly)
         Me.Controls.Add(Me.WarnLogLabel)
         Me.Controls.Add(Me.WarnType)
-        Me.Controls.Add(Me.WarnLog)
         Me.Controls.Add(Me.LevelGroup)
         Me.Controls.Add(Me.WarnTypeLabel)
         Me.Controls.Add(Me.Cancel)
@@ -233,7 +232,6 @@ Partial Class RevertAndWarnForm
     Friend WithEvents Cancel As System.Windows.Forms.Button
     Friend WithEvents WarnType As System.Windows.Forms.ComboBox
     Friend WithEvents WarnTypeLabel As System.Windows.Forms.Label
-    Friend WithEvents WarnLog As System.Windows.Forms.ListView
     Friend WithEvents LevelGroup As System.Windows.Forms.GroupBox
     Friend WithEvents LevelFinal As System.Windows.Forms.RadioButton
     Friend WithEvents Level3 As System.Windows.Forms.RadioButton
@@ -242,4 +240,5 @@ Partial Class RevertAndWarnForm
     Friend WithEvents LevelAuto As System.Windows.Forms.RadioButton
     Friend WithEvents WarnLogLabel As System.Windows.Forms.Label
     Friend WithEvents CurrentOnly As System.Windows.Forms.CheckBox
+    Friend WithEvents WarnLog As Huggle.WarnLog
 End Class

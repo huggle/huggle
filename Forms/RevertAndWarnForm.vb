@@ -30,10 +30,7 @@ Class RevertAndWarnForm
         LevelFinal.Visible = (Config.WarningMode <> "1" AndAlso Config.WarningMode <> "2" _
             AndAlso Config.WarningMode <> "3")
 
-        Dim NewWarnLogRequest As New WarningLogRequest
-        NewWarnLogRequest.Target = WarnLog
-        NewWarnLogRequest.User = User
-        NewWarnLogRequest.Start()
+        WarnLog.User = User
     End Sub
 
     Private Sub RevertAndWarnForm_FormClosing() Handles Me.FormClosing

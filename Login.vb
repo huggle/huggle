@@ -45,15 +45,11 @@ Namespace Requests
 
     Class LoginRequest : Inherits Request
 
+        'Log in to wiki, retrieve configuration settings and other state
+
         Public LoginForm As LoginForm
 
-        Public Sub Start()
-            Dim RequestThread As New Thread(AddressOf Process)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
-        End Sub
-
-        Private Sub Process()
+        Protected Overrides Sub Process()
             'Log in... can't use the API here because it locks you out after a wrong password
             UpdateStatus(Msg("login-progress-start"))
 
@@ -93,10 +89,10 @@ Namespace Requests
             'Get global configuration
             UpdateStatus(Msg("login-progress-global"))
 
-            Dim GlobalConfigRequest As New GlobalConfigRequest
+            Dim GlobalConfigResult As RequestResult = (New GlobalConfigRequest).Invoke
 
-            If Not GlobalConfigRequest.Process Then
-                Abort(Msg("login-error-global"))
+            If GlobalConfigResult.Error Then
+                Abort(Msg("login-error-global"), GlobalConfigResult.ErrorMessage)
                 Exit Sub
             End If
 
@@ -113,22 +109,24 @@ Namespace Requests
             'Get project configuration
             UpdateStatus(Msg("login-progress-project"))
 
-            Dim ConfigRequest As New ConfigRequest
+            Dim ProjectConfigResult As RequestResult = (New ProjectConfigRequest).Invoke
 
-            If Not ConfigRequest.GetProjectConfig Then
-                Abort(Msg("login-error-project"))
+            If ProjectConfigResult.Error Then
+                Abort(Msg("login-error-project"), ProjectConfigResult.ErrorMessage)
                 Exit Sub
             End If
 
             'Notify user of new version
             If Config.LatestVersion > Config.Version Then
+                Dim UpdateForm As New UpdateForm
+
                 If Config.MinVersion > Config.Version Then
                     Abort(Msg("login-error-version"))
-                    Callback(AddressOf ShowNewVersionForm)
+                    UpdateForm.ShowDialog()
                     Exit Sub
                 End If
 
-                Callback(AddressOf ShowNewVersionForm)
+                UpdateForm.ShowDialog()
             End If
 
             If Not Config.EnabledForAll Then
@@ -141,9 +139,14 @@ Namespace Requests
             'Get user configuration
             UpdateStatus(Msg("login-progress-user"))
 
-            Dim UserConfigResult As Boolean = ConfigRequest.GetUserConfig
+            Dim UserConfigResult As RequestResult = (New UserConfigRequest).Invoke
 
-            If Config.RequireConfig AndAlso (Not UserConfigResult OrElse Not Config.Enabled) Then
+            If UserConfigResult.Error Then
+                Abort(Msg("login-error-user"))
+                Exit Sub
+            End If
+
+            If Config.RequireConfig AndAlso Not Config.Enabled Then
                 Config.ConfigChanged = True
                 Abort(Msg("login-error-disabled"))
                 Exit Sub
@@ -160,28 +163,27 @@ Namespace Requests
             'Get user information and groups
             UpdateStatus(Msg("login-progress-rights"))
 
-            Dim Result As String = GetApi("action=query&format=xml&meta=userinfo&uiprop=rights|editcount")
+            Dim Result As ApiResult = GetApi("action=query&meta=userinfo&uiprop=rights|editcount")
 
-            If Result.Contains("<userinfo ") AndAlso Result.Contains("<rights>") Then
-                Result = Result.Substring(Result.IndexOf("<userinfo "))
-                Result = Result.Substring(0, Result.IndexOf("</userinfo>"))
+            If Result.Error Then Abort(Msg("login-error-rights"), Result.ErrorMessage)
 
-                If Result.Contains("anon=""""") Then
-                    Abort(Msg("login-error-rights"))
+            If Result.Text.Contains("<userinfo ") AndAlso Result.Text.Contains("<rights>") Then
+
+                If FindString(Result.Text, "<userinfo", "</userinfo>").Contains("anon=""""") Then
+                    'If we get here, somehow the user is not logged in
+                    Abort(Msg("login-error-rights"), Msg("error-unknown"))
                     Exit Sub
                 End If
 
-                Dim EditCount As Integer = CInt(FindString(Result, "editcount=""", """"))
+                Dim EditCount As Integer = CInt(GetParameter(Result.Text, "editcount"))
 
                 If EditCount < Config.RequireEdits Then
                     Abort(Msg("login-error-count", CStr(Config.RequireEdits)))
                     Exit Sub
                 End If
 
-                Result = FindString(Result, "<rights>", "</rights>")
-
-                Dim Rights As New List(Of String)(Result.Split(New String() {"<r>"}, _
-                    StringSplitOptions.RemoveEmptyEntries))
+                Dim Rights As New List(Of String)(FindString(Result.Text, "<rights>", "</rights>") _
+                    .Split(New String() {"<r>"}, StringSplitOptions.RemoveEmptyEntries))
                 Dim Autoconfirmed, AdminAvailable As Boolean
 
                 For Each Item As String In Rights
@@ -220,17 +222,13 @@ Namespace Requests
                 UpdateStatus(Msg("login-progress-age"))
 
                 Result = GetApi("action=query&format=xml&list=logevents&letype=newusers&letitle=" & _
-                    UrlEncode(User.Me.UserPage.Name))
+                    UrlEncode(User.Me.Userpage.Name))
 
                 'We know the user exists, so if we get an empty result the user must have been created in 2005 or
                 'earlier, before the log existed
-                If Not Result.Contains("<logevents />") AndAlso Result.Contains("<logevents>") Then
-                    Dim CreationDateString As String = Result.Substring(Result.IndexOf("<logevents>"))
-                    CreationDateString = Result.Substring(Result.IndexOf("timestamp=""") + 11)
-                    CreationDateString = Result.Substring(0, Result.IndexOf(""""))
-
+                If Result.Text.Contains("<logevents>") Then
                     Dim CreationDate As Date
-                    Date.TryParse(CreationDateString, CreationDate)
+                    Date.TryParse(FindString(Result.Text, "<logevents>", "timestamp=""", """"), CreationDate)
 
                     If CreationDate.AddDays(Config.RequireTime) < Date.UtcNow Then
                         Abort(Msg("login-error-age", CStr(Config.RequireTime)))
@@ -245,15 +243,15 @@ Namespace Requests
             If Config.UserListLocation IsNot Nothing Then
                 UpdateStatus(Msg("login-progress-userlist"))
 
-                Dim UserList As String = GetPageText(Config.UserListLocation)
+                Result = GetText(Config.UserListLocation)
 
-                If UserList Is Nothing AndAlso Config.Approval Then
-                    Abort(Msg("login-error-userlist"))
+                If Result.Error Then
+                    Abort(Msg("login-error-userlist"), Result.ErrorMessage)
                     Exit Sub
                 End If
 
-                If UserList IsNot Nothing AndAlso Not _
-                    UserList.Contains("[[Special:Contributions/" & Config.Username & "|" & Config.Username & "]]") Then
+                If Not Result.Text.Contains _
+                    ("[[Special:Contributions/" & Config.Username & "|" & Config.Username & "]]") Then
 
                     If Config.Approval Then
                         Abort(Msg("login-error-approval"))
@@ -261,7 +259,7 @@ Namespace Requests
                     End If
 
                     Dim Matches As MatchCollection = _
-                        New Regex("\* \[\[Special:Contributions/([^\|]+)\|[^\|]+\]\]").Matches(UserList)
+                        New Regex("\* \[\[Special:Contributions/([^\|]+)\|[^\|]+\]\]").Matches(Result.Text)
                     Dim ListedUsers As New List(Of String)
 
                     For Each Item As Match In Matches
@@ -271,16 +269,13 @@ Namespace Requests
                     ListedUsers.Add(Config.Username)
                     ListedUsers.Sort(AddressOf CompareUsernames)
 
-                    Dim Data As EditData = GetEditData(Config.UserListLocation)
-                    Data.Text = "{{/Header}}" & LF
+                    Dim Text As String = "{{/Header}}" & LF
 
                     For Each Item As String In ListedUsers
-                        Data.Text &= "* [[Special:Contributions/" & Item & "|" & Item & "]]" & LF
+                        Text &= "* [[Special:Contributions/" & Item & "|" & Item & "]]" & LF
                     Next Item
 
-                    Data.Minor = True
-                    Data.Summary = Config.UserListUpdateSummary.Replace("$1", Config.Username)
-                    PostEdit(Data)
+                    PostEdit(Config.UserListLocation, Text, Config.UserListUpdateSummary, Minor:=True)
                 End If
             End If
 
@@ -290,21 +285,17 @@ Namespace Requests
                 'Get whitelist
                 UpdateStatus(Msg("login-progress-whitelist"))
 
-                Result = GetApi("action=query&format=xml&titles=" & Config.WhitelistLocation & _
-                    "&prop=revisions&rvlimit=1&rvprop=content")
+                Result = GetText(Config.WhitelistLocation)
 
-                If Result Is Nothing Then
-                    Abort(Msg("login-error-whitelist"))
+                If Result.Error Then
+                    Abort(Msg("login-error-whitelist"), Result.ErrorMessage)
                     Exit Sub
                 End If
 
-                If Result.Contains("<rev>") AndAlso Result.Contains("</rev>") Then
-                    Result = Result.Substring(Result.IndexOf("<rev>") + 5)
-                    Result = Result.Substring(0, Result.IndexOf("</rev>"))
-                    Result = HtmlDecode(Result)
+                Dim Text As String = HtmlDecode(FindString(Result.Text, "<rev>", "</rev>"))
 
-                    Whitelist.AddRange(Result.Split(New String() {LF}, StringSplitOptions.None))
-                End If
+                If Text IsNot Nothing Then Whitelist.AddRange(Text.Split _
+                    (New String() {LF}, StringSplitOptions.RemoveEmptyEntries))
 
                 WhitelistLoaded = True
             End If
@@ -317,21 +308,19 @@ Namespace Requests
             'Get bot list
             UpdateStatus(Msg("login-progress-botlist"))
 
-            Result = GetApi("action=query&format=xml&list=allusers&augroup=bot&aulimit=500")
+            Result = GetApi("action=query&list=allusers&augroup=bot&aulimit=500")
 
-            If Result IsNot Nothing AndAlso Result.Contains("<allusers>") Then
-                Result = Result.Substring(Result.IndexOf("<allusers>"))
-                Result = Result.Substring(Result.IndexOf(">") + 1)
-                Result = Result.Substring(0, Result.IndexOf("</allusers>"))
-                Result = HtmlDecode(Result)
+            If Not Result.Error Then
+                Dim UserlistText As String = HtmlDecode(FindString(Result.Text, "<allusers>", "</allusers>"))
 
-                For Each Item As String In Result.Split(New String() {"<u"}, StringSplitOptions.RemoveEmptyEntries)
-                    If Item.Contains("""") Then
-                        Dim Username As String = Item.Substring(Item.IndexOf("""") + 1)
-                        Username = Username.Substring(0, Username.IndexOf(""""))
-                        Bots.Add(Username)
-                    End If
-                Next Item
+                If UserlistText IsNot Nothing Then
+                    For Each Item As String In UserlistText.Split _
+                        (New String() {"<u"}, StringSplitOptions.RemoveEmptyEntries)
+
+                        Dim Username As String = GetParameter(Item, "name")
+                        If Username IsNot Nothing Then Bots.Add(Username)
+                    Next Item
+                End If
             End If
 
             If State = States.Cancelled Then Thread.CurrentThread.Abort()
@@ -339,34 +328,20 @@ Namespace Requests
             'Get watchlist
             UpdateStatus(Msg("login-progress-watchlist"))
 
-            Result = GetText("title=Special:Watchlist/raw")
+            Dim WatchlistResult As RequestResult = (New WatchlistRequest).Invoke
 
-            If Result Is Nothing Then
-                Abort(Msg("login-error-watchlist"))
+            If WatchlistResult.Error Then
+                Abort(WatchlistResult.ErrorMessage)
                 Exit Sub
             End If
 
-            If Result.Contains("<textarea ") Then
-                Result = Result.Substring(Result.IndexOf("<textarea "))
-                Result = Result.Substring(Result.IndexOf(">") + 1)
-                Result = Result.Substring(0, Result.IndexOf("</textarea>"))
-                Result = HtmlDecode(Result)
+            For Each Item As String In Split(Result.Text, LF)
+                Dim Page As Page = GetPage(Item)
+                If Not Watchlist.Contains(Page) Then Watchlist.Add(Page)
+            Next Item
 
-                For Each Item As String In Result.Split(New String() {LF}, StringSplitOptions.RemoveEmptyEntries)
-                    Dim ThisPage As Page = GetPage(Item)
-                    If Not Watchlist.Contains(ThisPage) Then Watchlist.Add(ThisPage)
-                Next Item
-
-                Callback(AddressOf LoginForm.Done)
-                Complete()
-            Else
-                Fail()
-            End If
-        End Sub
-
-        Private Sub ShowNewVersionForm()
-            Dim NewForm As New UpdateForm
-            NewForm.ShowDialog()
+            Callback(AddressOf LoginForm.Done)
+            Complete()
         End Sub
 
         Private Sub CaptchaNeeded()
@@ -388,9 +363,10 @@ Namespace Requests
             Callback(AddressOf LoginForm.UpdateStatus, CObj(Message))
         End Sub
 
-        Private Sub Abort(ByVal Message As String)
+        Private Sub Abort(ByVal Message As String, Optional ByVal Reason As String = Nothing)
+            If Reason IsNot Nothing Then Message &= ": " & Reason
             Callback(AddressOf LoginForm.Abort, CObj(Message))
-            Fail()
+            Fail(Message, Reason)
         End Sub
 
     End Class

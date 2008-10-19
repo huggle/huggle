@@ -24,7 +24,7 @@ Namespace Requests
             QueryParams = _QueryParams
         End Sub
 
-        Public Overridable Sub Start(ByVal Done As ListRequestCallback, _
+        Public Overridable Overloads Sub Start(ByVal Done As ListRequestCallback, _
             Optional ByVal _Progress As ListProgressCallback = Nothing)
 
             _Done = Done
@@ -35,7 +35,7 @@ Namespace Requests
             RequestThread.Start()
         End Sub
 
-        Private Sub Process()
+        Protected Overrides Sub Process()
             Dim ContinueFrom As String = Nothing, Remaining As Integer = Limit
 
             Do
@@ -43,42 +43,34 @@ Namespace Requests
                     "limit=" & Math.Min(Remaining, ApiLimit()) & "&" & QueryParams
                 If ContinueFrom IsNot Nothing Then QueryString &= "&" & TypePrefix & "continue=" & ContinueFrom
 
-                Dim Result As String = GetApi(QueryString)
+                Dim Result As ApiResult = GetApi(QueryString)
 
-                If Result Is Nothing Then
+                If Result.Error Then
                     Callback(AddressOf Failed)
                     Exit Sub
 
-                ElseIf Result.Contains("<" & TypeName & " />") Then
+                ElseIf Result.Text.Contains("<" & TypeName & " />") Then
                     Callback(AddressOf RequestDone)
                     Exit Sub
                 End If
 
-                If Result.Contains("<query-continue>") Then
-                    ContinueFrom = Result.Substring(Result.IndexOf(TypePrefix & "continue=""") + 12)
-                    ContinueFrom = ContinueFrom.Substring(0, ContinueFrom.IndexOf(""""))
-                    ContinueFrom = HtmlDecode(ContinueFrom)
+                If Result.Text.Contains("<query-continue>") Then
+                    ContinueFrom = GetParameter(Result.Text, TypePrefix & "continue")
                 Else
                     ContinueFrom = Nothing
                 End If
 
-                Result = Result.Substring(Result.IndexOf("<" & TypeName & ">") + 17)
-                Result = Result.Substring(0, Result.IndexOf("</" & TypeName & ">"))
-
+                Dim ResultItems As String = FindString(Result.Text, "<" & TypeName & ">", "</" & TypeName & ">")
                 Dim ItemsAdded As Boolean = False
 
-                For Each Item As String In Result.Split("<"c)
-                    If Item.Contains("title=""") Then
-                        Item = Item.Substring(Item.IndexOf("title=""") + 7)
-                        Item = Item.Substring(0, Item.IndexOf(""""))
-                        Item = HtmlDecode(Item)
+                For Each Item As String In ResultItems.Split("<"c)
+                    Item = GetParameter(Item, "title")
 
-                        If Not Items.Contains(Item) AndAlso MyClass.MatchesFilter(Item) Then
-                            Items.Add(Item)
-                            Remaining -= 1
-                            If Remaining <= 0 Then Exit Do
-                            ItemsAdded = True
-                        End If
+                    If Item IsNot Nothing AndAlso Not Items.Contains(Item) AndAlso MyClass.MatchesFilter(Item) Then
+                        Items.Add(Item)
+                        Remaining -= 1
+                        If Remaining <= 0 Then Exit Do
+                        ItemsAdded = True
                     End If
                 Next Item
 

@@ -13,27 +13,19 @@ Namespace Requests
 
         Private Warning As Edit
 
-        Public Sub Start()
-            If Config.TRR Then
-                LogProgress("Reporting " & User.Name & "...")
+        Protected Overrides Sub Process()
+            LogProgress(Msg("report-progress", User.Name))
 
-                Dim RequestThread As New Thread(AddressOf Process)
-                RequestThread.IsBackground = True
-                RequestThread.Start()
-            End If
-        End Sub
+            Dim Result As ApiResult = GetText(Config.TRRLocation, Section:="1")
 
-        Private Sub Process()
-            Dim Data As EditData = GetEditData(Config.TRRLocation, , 1)
-
-            If Data.Error Then
-                Callback(AddressOf Failed)
+            If Result.Error Then
+                Fail(Msg("report-fail", User.Name), Result.ErrorMessage)
                 Exit Sub
             End If
 
-            Dim Report As String = ""
+            Dim Report As String = CRLF
 
-            Report = "== [[User:" & User.Name & "|" & User.Name & "]] reported by [[User:" & User.Me.Name & _
+            Report &= "== [[User:" & User.Name & "|" & User.Name & "]] reported by [[User:" & User.Me.Name & _
                 "|" & User.Me.Name & "]] (Result: ) ==" & CRLF & CRLF
 
             Report &= "* Page: {{article|" & Page.Name & "}}." & CRLF
@@ -57,152 +49,144 @@ Namespace Requests
 
             Report &= "~~~~"
 
-            Data.Text &= CRLF & Report
-            Data.Summary = Config.ReportSummary.Replace("$1", User.Name)
-            Data.Minor = Config.MinorReports
-            Data.Watch = Config.WatchReports OrElse Watchlist.Contains(GetPage(Config.TRRLocation))
+            Result = PostEdit(Config.TRRLocation, Result.Text & Report, Config.ReportSummary.Replace("$1", User.Name), _
+                Section:="1", Minor:=Config.MinorReports, Watch:=Config.WatchReports)
 
-            Data = PostEdit(Data)
-            If Data.Error Then Callback(AddressOf Failed) Else Callback(AddressOf Done)
-        End Sub
-
-        Private Sub Done()
-            Complete()
-        End Sub
-
-        Private Sub Failed()
-            Fail()
+            If Result.Error _
+                Then Fail(Msg("report-fail", User.Name), Result.ErrorMessage) _
+                Else Complete()
         End Sub
 
     End Class
 
-    Class AIVReportRequest : Inherits Request
+    Class VandalReportRequest : Inherits Request
+
+        'Report vandalism
 
         Public User As User, Edit As Edit, Reason As String
 
-        Public Sub Start()
-            If Config.AIV Then
-                Dim GotContribs As Boolean
+        Protected Overrides Sub Process()
+            LogProgress(Msg("report-progress", User.Name))
 
-                If User.FirstEdit IsNot Nothing Then
-                    GotContribs = True
+            'Load all user's contributions if necessary,
+            'to ensure that any other edits from the user are checked
 
-                ElseIf User.LastEdit IsNot Nothing Then
-                    Dim Contrib As Edit = User.LastEdit, i As Integer = 0
+            Dim GotContribs As Boolean
 
-                    While Contrib.PrevByUser IsNot Nothing AndAlso Contrib.PrevByUser IsNot NullEdit
-                        If Contrib.Time.AddHours(Config.WarningAge) < Date.UtcNow Then
-                            GotContribs = True
-                            Exit While
-                        End If
+            If User.FirstEdit IsNot Nothing Then
+                GotContribs = True
 
-                        i += 1
-                        Contrib = Contrib.PrevByUser
-                    End While
+            ElseIf User.LastEdit IsNot Nothing Then
+                Dim Contrib As Edit = User.LastEdit, i As Integer = 0
 
-                    If i >= Config.ContribsBlockSize - 1 Then GotContribs = True
-                End If
+                While Contrib.PrevByUser IsNot Nothing AndAlso Contrib.PrevByUser IsNot NullEdit
+                    If Contrib.Time.AddHours(Config.WarningAge) < Date.UtcNow Then
+                        GotContribs = True
+                        Exit While
+                    End If
 
-                If GotContribs Then
-                    LogProgress("Reporting '" & User.Name & "'...")
+                    i += 1
+                    Contrib = Contrib.PrevByUser
+                End While
 
-                    Dim RequestThread As New Thread(AddressOf Process)
-                    RequestThread.IsBackground = True
-                    RequestThread.Start()
-                Else
-                    Dim NewRequest As New ContribsRequest
-                    NewRequest.User = User
-                    NewRequest.ReportWhenDone = Me
-                    NewRequest.Start()
+                If i >= Config.ContribsBlockSize - 1 Then GotContribs = True
+            End If
+
+            If Not GotContribs Then
+                Dim NewRequest As New ContribsRequest
+                NewRequest.User = User
+
+                Dim ContribsResult As RequestResult = NewRequest.Invoke
+
+                If ContribsResult.Error Then
+                    Fail(Msg("report-fail", User.Name), ContribsResult.ErrorMessage)
+                    Exit Sub
                 End If
             End If
-        End Sub
 
-        Private Sub Process()
+            Dim Result As ApiResult
+
             'Check bot report subpage for report of user
             If Config.AIVBotLocation IsNot Nothing Then
-                Result = GetPageText(Config.AIVBotLocation)
-                Result = Result.ToLower.Replace("_", " ")
+                Result = GetText(Config.AIVBotLocation)
 
-                If Result.ToLower.Contains("{{vandal|" & User.Name.ToLower & "}}") _
-                    OrElse Result.ToLower.Contains("{{vandal|1=" & User.Name.ToLower & "}}") _
-                    OrElse Result.ToLower.Contains("{{ipvandal|" & User.Name.ToLower & "}}") Then
+                If Result.Error Then
+                    Fail(Msg("report-fail", User.Name), Result.ErrorMessage)
+                    Exit Sub
+                End If
+
+                Dim Text As String = Result.Text.ToLower.Replace("_", " ")
+
+                If Text.Contains("{{vandal|" & User.Name.ToLower & "}}") _
+                    OrElse Text.Contains("{{vandal|1=" & User.Name.ToLower & "}}") _
+                    OrElse Text.Contains("{{ipvandal|" & User.Name.ToLower & "}}") Then
 
                     If User.Level < UserLevel.ReportedAIV Then User.Level = UserLevel.ReportedAIV
-                    Callback(AddressOf AlreadyReported)
+
+                    If Result.Error _
+                        Then Fail(Msg("report-fail", User.Name), Result.ErrorMessage) _
+                        Else Fail(Msg("report-fail", User.Name), Msg("report-alreadyreported"))
+
                     Exit Sub
                 End If
             End If
 
-            Dim Data As EditData = GetEditData(GetPage(Config.AIVLocation))
+            Result = GetText(Config.AIVLocation)
 
-            If Data.Error Then
-                Callback(AddressOf Failed)
+            If Result.Error Then
+                Fail(Msg("report-fail", User.Name), Result.ErrorMessage)
                 Exit Sub
             End If
 
-            If Data.Text.ToLower.Contains("{{vandal|" & User.Name.ToLower & "}}") _
-                OrElse Data.Text.ToLower.Contains("{{vandal|1=" & User.Name.ToLower & "}}") _
-                OrElse Data.Text.ToLower.Contains("{{ipvandal|" & User.Name.ToLower & "}}") Then
+            'Check for existing report
+            If Result.Text.ToLower.Contains("{{vandal|" & User.Name.ToLower & "}}") _
+                OrElse Result.Text.ToLower.Contains("{{vandal|1=" & User.Name.ToLower & "}}") _
+                OrElse Result.Text.ToLower.Contains("{{ipvandal|" & User.Name.ToLower & "}}") Then
 
-                Data.Text = ExtendReport(Data.Text)
-                Data.Summary = Config.ReportExtendSummary.Replace("$1", User.Name)
-                Data.Minor = Config.MinorReports
-                Data.Watch = Config.WatchReports
+                If User.Level < UserLevel.ReportedAIV Then User.Level = UserLevel.ReportedAIV
 
-                If Data.Text Is Nothing Then
-                    If User.Level < UserLevel.ReportedAIV Then User.Level = UserLevel.ReportedAIV
-                    Callback(AddressOf AlreadyReported)
-                    Exit Sub
+                If Config.ExtendReports Then
+                    'Extend report
+                    Dim ExtendedText As String = ExtendReport(Result.Text)
+
+                    If ExtendedText IsNot Nothing Then
+                        Result = PostEdit(Config.AIVLocation, ExtendedText, _
+                            Config.ReportExtendSummary.Replace("$1", User.Name), _
+                            Minor:=Config.MinorReports, Watch:=Config.WatchReports)
+                        If Result.Error Then Fail(Msg("report-fail", User.Name), Result.ErrorMessage) Else Complete()
+                    Else
+                        Fail(Msg("report-fail", User.Name), Msg("report-alreadyreported"))
+                    End If
+                Else
+                    Fail(Msg("report-fail", User.Name), Msg("report-alreadyreported"))
                 End If
 
-                Data = PostEdit(Data)
-                If Data.Error Then Callback(AddressOf AppendFailed) Else Callback(AddressOf Done)
                 Exit Sub
             End If
 
-            If User.Anonymous Then Data.Text &= "* {{IPvandal|" _
-                Else If User.Name.Contains("=") Then Data.Text &= "* {{vandal|1=" _
-                Else Data.Text &= "* {{vandal|"
+            'Report user
+            Dim Report As String = CRLF
 
-            Data.Text &= User.Name & "}} – " & Reason
-            If Config.ReportLinkDiffs Then Data.Text &= LinkDiffs()
-            If User.Level = UserLevel.Warn4im Then Data.Text &= " – " & Config.AivSingleNote
+            If User.Anonymous Then Report &= "* {{IPvandal|" _
+                Else If User.Name.Contains("=") Then Report &= "* {{vandal|1=" _
+                Else Report &= "* {{vandal|"
 
-            Data.Text &= " – ~~~~"
-            Data.Summary = Config.ReportSummary.Replace("$1", User.Name)
-            Data.Minor = Config.MinorReports
-            Data.Watch = Config.WatchReports
+            Report &= User.Name & "}} – " & Reason
+            If Config.ReportLinkDiffs Then Report &= LinkDiffs()
+            If User.Level = UserLevel.Warn4im AndAlso Config.AivSingleNote IsNot Nothing _
+                Then Report &= " – " & Config.AivSingleNote
+            Report &= " – ~~~~"
 
-            Data = PostEdit(Data)
-            If Data.Error Then Callback(AddressOf Failed) Else Callback(AddressOf Done)
+            Result = PostEdit(Config.AIVLocation, Result.Text & Report, Config.ReportSummary.Replace("$1", User.Name), _
+                Minor:=Config.MinorReports, Watch:=Config.WatchReports)
+
+            If Result.Error Then Fail(Msg("report-fail", User.Name), Result.ErrorMessage) Else Complete()
+
+            If State = States.Cancelled Then UndoEdit(Config.AIVLocation)
         End Sub
 
-        Private Sub Done()
-            If Config.WatchReports Then
-                If Not Watchlist.Contains(GetPage(Config.AIVLocation)) Then Watchlist.Add(GetPage(Config.AIVLocation))
-                MainForm.UpdateWatchButton()
-            End If
-
-            If State = States.Cancelled Then UndoEdit(Config.AIVLocation) Else Complete()
-        End Sub
-
-        Private Sub AlreadyReported()
-            Log("Did not report '" & User.Name & "' because they have already been reported")
-            Fail()
-        End Sub
-
-        Private Sub Failed()
-            Log("Failed to report '" & User.Name & "' to AIV")
-            Fail()
-        End Sub
-
-        Private Sub AppendFailed()
-            Fail()
-        End Sub
-
+        'Extend an existing report in the same format
         Private Function ExtendReport(ByVal Text As String) As String
-
             Dim ReportIndex As Integer, ReportLine As String = ""
 
             If Text.Contains("{{vandal|" & User.Name & "}}") _
@@ -265,79 +249,65 @@ Namespace Requests
 
     End Class
 
-    Class UAAReportRequest : Inherits Request
+    Class UsernameReportRequest : Inherits Request
 
-        'Post a UAA report
+        'Report username
 
         Public User As User, Reason As String
 
-        Public Sub Start()
-            If Config.UAA Then
-                LogProgress("Reporting '" & User.Name & "'...")
+        Protected Overrides Sub Process()
+            LogProgress(Msg("report-progress", User.Name))
 
-                Dim RequestThread As New Thread(AddressOf Process)
-                RequestThread.IsBackground = True
-                RequestThread.Start()
-            End If
-        End Sub
+            Dim Result As ApiResult, Text As String
 
-        Private Sub Process()
             'Check bot report subpage for report of user
             If Config.UAABotLocation IsNot Nothing Then
-                Result = GetPageText(Config.UAABotLocation)
-                Result = Result.ToLower.Replace("_", " ")
+                Result = GetText(Config.UAABotLocation)
 
-                If Result.ToLower.Contains("{{userlinks|" & User.Name.ToLower & "}}") _
-                    OrElse Result.ToLower.Contains("{{userlinks|1=" & User.Name.ToLower & "}}") Then
+                Text = HtmlDecode(FindString(Result.Text, "<rev>", "</rev>")).ToLower.Replace("_", " ")
+
+                If Text.Contains("{{userlinks|" & User.Name.ToLower & "}}") _
+                    OrElse Text.Contains("{{userlinks|1=" & User.Name.ToLower & "}}") Then
 
                     If User.Level < UserLevel.ReportedUAA Then User.Level = UserLevel.ReportedUAA
-                    Callback(AddressOf AlreadyReported)
+
+                    If Result.Error _
+                        Then Fail(Msg("report-fail", User.Name), Result.ErrorMessage) _
+                        Else Fail(Msg("report-fail", User.Name), Msg("report-alreadyreported"))
+
                     Exit Sub
                 End If
             End If
 
-            Dim Data As EditData = GetEditData(GetPage(Config.UAALocation))
+            Result = GetText(Config.UAALocation)
 
-            If Data.Error Then
-                Callback(AddressOf Failed)
+            If Result.Error Then
+                Fail(Msg("report-fail", User.Name), Result.ErrorMessage)
                 Exit Sub
             End If
 
-            If Data.Text.ToLower.Contains("{{userlinks|" & User.Name & "}}") _
-                OrElse Data.Text.ToLower.Contains("{{userlinks|1=" & User.Name & "}}") Then
+            Text = HtmlDecode(FindString(Result.Text, "<rev>", "</rev>")).ToLower.Replace("_", " ")
+
+            'Check for existing report
+            If Text.Contains("{{userlinks|" & User.Name & "}}") _
+                OrElse Text.Contains("{{userlinks|1=" & User.Name & "}}") Then
 
                 If User.Level < UserLevel.ReportedUAA Then User.Level = UserLevel.ReportedUAA
-                Callback(AddressOf AlreadyReported)
+                Fail(Msg("report-fail", User.Name), Msg("report-alreadyreported"))
                 Exit Sub
             End If
 
-            Data.Text &= LF & "* {{userlinks|"
-            If User.Name.Contains("=") Then Data.Text &= "1="
-            Data.Text &= User.Name & "}} – " & Reason & " – ~~~~"
-            Data.Summary = Config.ReportSummary.Replace("$1", User.Name)
+            'Report user
+            Text &= LF & "* {{userlinks|"
+            If User.Name.Contains("=") Then Text &= "1="
+            Text &= User.Name & "}} – " & Reason & " – ~~~~"
 
-            Data = PostEdit(Data)
+            Result = PostEdit(Config.UAALocation, Text, Config.ReportSummary.Replace("$1", User.Name), _
+                Minor:=Config.MinorReports, Watch:=Config.WatchReports)
 
-            If Data.Error Then Callback(AddressOf Failed) Else Callback(AddressOf Done)
-        End Sub
+            If Result.Error Then Fail(Msg("report-fail", User.Name), Result.ErrorMessage) Else Complete()
 
-        Private Sub Done()
-            If Config.WatchReports Then
-                If Not Watchlist.Contains(GetPage(Config.UAALocation)) Then Watchlist.Add(GetPage(Config.UAALocation))
-                MainForm.UpdateWatchButton()
-            End If
-
-            If State = States.Cancelled Then UndoEdit(Config.UAALocation) Else Complete()
-        End Sub
-
-        Private Sub AlreadyReported()
-            Log("Did not post UAA report for '" & User.Name & "' because they have already been reported")
-            Fail()
-        End Sub
-
-        Private Sub Failed()
-            Log("Failed to report '" & User.Name & "' to UAA")
-            Fail()
+            If State = States.Cancelled Then UndoEdit(Config.UAALocation)
         End Sub
 
     End Class

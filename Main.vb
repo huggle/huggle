@@ -658,35 +658,37 @@ Class Main
                 Dim NewMoveRequest As New MoveRequest
                 NewMoveRequest.Page = CurrentEdit.Page
                 NewMoveRequest.Target = NewMovePageForm.Target.Text
-                NewMoveRequest.Reason = NewMovePageForm.Reason.Text
+                NewMoveRequest.Summary = NewMovePageForm.Reason.Text
                 NewMoveRequest.Start()
             End If
         End If
     End Sub
 
-    Sub Log(ByVal Message As String, Optional ByVal Tag As Object = Nothing, Optional ByVal InProgress As Boolean = False)
-        Dim NewListViewItem As New ListViewItem
-        If InProgress Then NewListViewItem.ForeColor = Color.Red
-        If Tag IsNot Nothing Then NewListViewItem.Tag = Tag
-        NewListViewItem.SubItems.Add(Date.Now.Year.ToString & "-" & Date.Now.Month.ToString.PadLeft(2, "0"c) _
+    Sub Log(ByVal Message As String, Optional ByVal Tag As Object = Nothing, _
+        Optional ByVal InProgress As Boolean = False)
+
+        Dim NewItem As New ListViewItem
+        If InProgress Then NewItem.ForeColor = Color.Red
+        If Tag IsNot Nothing Then NewItem.Tag = Tag
+        NewItem.SubItems.Add(Date.Now.Year.ToString & "-" & Date.Now.Month.ToString.PadLeft(2, "0"c) _
             & "-" & Date.Now.Day.ToString.PadLeft(2, "0"c) & " " & Date.Now.ToLongTimeString _
             & UtcOffset() & " -- " & Message)
 
         If InProgress Then
-            Status.Items.Insert(0, NewListViewItem)
+            Status.Items.Insert(0, NewItem)
         Else
             Dim i As Integer = 0
 
             While i < Status.Items.Count
                 If Status.Items(i).ForeColor <> Color.Red Then
-                    Status.Items.Insert(i, NewListViewItem)
+                    Status.Items.Insert(i, NewItem)
                     Exit Sub
                 End If
 
                 i += 1
             End While
 
-            Status.Items.Insert(0, NewListViewItem)
+            Status.Items.Insert(0, NewItem)
         End If
 
         UpdateCancelButton()
@@ -767,7 +769,7 @@ Class Main
 
             Dim NewBlockRequest As New BlockRequest
             NewBlockRequest.User = NewBlockForm.User
-            NewBlockRequest.Reason = NewBlockForm.Reason.Text
+            NewBlockRequest.Summary = NewBlockForm.Reason.Text
             NewBlockRequest.AnonOnly = NewBlockForm.AnonOnly.Checked
             NewBlockRequest.BlockCreation = NewBlockForm.Creation.Checked
             NewBlockRequest.BlockEmail = NewBlockForm.Email.Checked
@@ -1010,8 +1012,8 @@ Class Main
     End Sub
 
     Private Sub SystemReloadConfig_Click()
-        Dim NewGetConfigRequest As New ConfigRequest
-        NewGetConfigRequest.GetUserConfigInThread()
+        Dim NewRequest As New UserConfigRequest
+        NewRequest.Start()
     End Sub
 
     Private Sub ShowLog_Click() Handles SystemShowLog.Click
@@ -1114,8 +1116,7 @@ Class Main
 
                     Dim NewHistoryRequest As New HistoryRequest
                     NewHistoryRequest.Page = Page
-                    NewHistoryRequest.DisplayWhenDone = True
-                    NewHistoryRequest.Start()
+                    NewHistoryRequest.Start(AddressOf GotPageContent)
                 Else
                     CurrentEdit = Page.LastEdit
                     DisplayEdit(CurrentEdit)
@@ -1567,12 +1568,9 @@ Class Main
     End Sub
 
     Private Sub UserEmail_Click() Handles UserEmail.Click
-        If CurrentUser IsNot Nothing Then
-            Dim NewEmailRequest As New EmailRequest
-            NewEmailRequest.User = CurrentUser
-            NewEmailRequest.ShowForm = True
-            NewEmailRequest.GetForm()
-        End If
+        Dim NewForm As New EmailForm
+        NewForm.User = CurrentUser
+        NewForm.Show()
     End Sub
 
     Private Sub PageSwitchTalk_Click() Handles PageSwitchTalk.Click

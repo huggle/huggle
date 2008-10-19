@@ -27,7 +27,6 @@ Partial Class Report3rrForm
         Me.MessageLabel = New System.Windows.Forms.Label
         Me.Message = New System.Windows.Forms.TextBox
         Me.Search = New System.Windows.Forms.Button
-        Me.WarnLog = New System.Windows.Forms.ListView
         Me.WarnLogLabel = New System.Windows.Forms.Label
         Me.SearchLabel = New System.Windows.Forms.Label
         Me.BaseLabel = New System.Windows.Forms.Label
@@ -41,6 +40,7 @@ Partial Class Report3rrForm
         Me.ReportWarning2 = New System.Windows.Forms.Label
         Me.ReportWarning3 = New System.Windows.Forms.PictureBox
         Me.Throbber = New Huggle.Throbber
+        Me.WarnLog = New Huggle.WarnLog
         CType(Me.ReportWarning3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -93,23 +93,6 @@ Partial Class Report3rrForm
         Me.Search.TabIndex = 1
         Me.Search.Text = "Search"
         Me.Search.UseVisualStyleBackColor = True
-        '
-        'WarnLog
-        '
-        Me.WarnLog.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.WarnLog.FullRowSelect = True
-        Me.WarnLog.GridLines = True
-        Me.WarnLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
-        Me.WarnLog.Location = New System.Drawing.Point(12, 279)
-        Me.WarnLog.MultiSelect = False
-        Me.WarnLog.Name = "WarnLog"
-        Me.WarnLog.ShowGroups = False
-        Me.WarnLog.Size = New System.Drawing.Size(470, 73)
-        Me.WarnLog.TabIndex = 1
-        Me.WarnLog.UseCompatibleStateImageBehavior = False
-        Me.WarnLog.View = System.Windows.Forms.View.Details
         '
         'WarnLogLabel
         '
@@ -243,11 +226,27 @@ Partial Class Report3rrForm
         Me.Throbber.Size = New System.Drawing.Size(53, 10)
         Me.Throbber.TabIndex = 2
         '
+        'WarnLog
+        '
+        Me.WarnLog.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.WarnLog.GridLines = True
+        Me.WarnLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
+        Me.WarnLog.Location = New System.Drawing.Point(15, 279)
+        Me.WarnLog.Name = "WarnLog"
+        Me.WarnLog.Size = New System.Drawing.Size(467, 73)
+        Me.WarnLog.TabIndex = 20
+        Me.WarnLog.UseCompatibleStateImageBehavior = False
+        Me.WarnLog.User = Nothing
+        Me.WarnLog.View = System.Windows.Forms.View.Details
+        '
         'Report3rrForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(494, 393)
+        Me.Controls.Add(Me.WarnLog)
         Me.Controls.Add(Me.Add)
         Me.Controls.Add(Me.ReportWarning1)
         Me.Controls.Add(Me.ReportWarning2)
@@ -258,7 +257,6 @@ Partial Class Report3rrForm
         Me.Controls.Add(Me.RevertsList)
         Me.Controls.Add(Me.Base)
         Me.Controls.Add(Me.RevertsListLabel)
-        Me.Controls.Add(Me.WarnLog)
         Me.Controls.Add(Me.OK)
         Me.Controls.Add(Me.WarnLogLabel)
         Me.Controls.Add(Me.Cancel)
@@ -284,7 +282,6 @@ Partial Class Report3rrForm
     Friend WithEvents MessageLabel As System.Windows.Forms.Label
     Friend WithEvents Message As System.Windows.Forms.TextBox
     Friend WithEvents Search As System.Windows.Forms.Button
-    Friend WithEvents WarnLog As System.Windows.Forms.ListView
     Friend WithEvents WarnLogLabel As System.Windows.Forms.Label
     Friend WithEvents SearchLabel As System.Windows.Forms.Label
     Friend WithEvents BaseLabel As System.Windows.Forms.Label
@@ -298,4 +295,5 @@ Partial Class Report3rrForm
     Friend WithEvents ReportWarning2 As System.Windows.Forms.Label
     Friend WithEvents ReportWarning3 As System.Windows.Forms.PictureBox
     Friend WithEvents Throbber As Huggle.Throbber
+    Friend WithEvents WarnLog As Huggle.WarnLog
 End Class

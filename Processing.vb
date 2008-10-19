@@ -297,8 +297,8 @@ Module Processing
                         'Do nothing if there is a very recent warning to try to compensate for
                         'stupid broken tools that warn for other people's reverts *cough* vandalproof *cough*
 
-                        Log("Did not warn '" & PendingWarnings(i).User.Name & _
-                            "', as they were last warned less than " & CStr(Config.MinWarningWait) & " seconds ago")
+                        Log(Msg("warn-fail", PendingWarnings(i).User.Name) & ": " & Msg("warn-recent", _
+                            CStr(Config.MinWarningWait)))
                     Else
 
                         Dim NewWarningRequest As New WarningRequest
@@ -417,17 +417,18 @@ Module Processing
 
         'Preload diffs
         If CurrentQueue IsNot Nothing AndAlso CurrentQueue.Preload _
-            AndAlso Request.PreloadCount < Config.Preloads + 1 Then
+            AndAlso DiffRequest.PreloadCount < Config.Preloads + 1 Then
 
             For k As Integer = 0 To Math.Min(CurrentQueue.Edits.Count, Config.Preloads) - 1
                 If CurrentQueue.Edits(k).Cached = Edit.CacheState.Uncached Then
+                    CurrentQueue.Edits(k).Cached = Edit.CacheState.Caching
+
                     Dim NewDiffRequest As New DiffRequest
                     NewDiffRequest.Edit = CurrentQueue.Edits(k)
-                    NewDiffRequest.Preload = True
                     NewDiffRequest.Start()
 
-                    Request.PreloadCount += 1
-                    If Request.PreloadCount >= Config.Preloads Then Exit For
+                    DiffRequest.PreloadCount += 1
+                    If DiffRequest.PreloadCount >= Config.Preloads Then Exit For
                 End If
             Next k
         End If
@@ -566,7 +567,7 @@ Module Processing
 
         'Use rollback if possible
         If Rollback AndAlso RollbackAvailable AndAlso Config.UseRollback AndAlso Not Undoing _
-            AndAlso (Edit Is Edit.Page.LastEdit) AndAlso (Edit.RollbackUrl IsNot Nothing) _
+            AndAlso (Edit Is Edit.Page.LastEdit) AndAlso (Edit.RollbackToken IsNot Nothing) _
             AndAlso Not (CurrentOnly AndAlso (Edit.Prev Is Nothing OrElse Edit.User Is Edit.Prev.User)) Then
 
             If Edit Is CurrentEdit Then MainForm.StartRevert()
@@ -733,14 +734,12 @@ Module Processing
     End Sub
 
     Sub ProcessDiff(ByVal Edit As Edit, ByVal DiffText As String, ByVal Tab As BrowserTab)
-
         If Not Edit.Multiple Then
             If DiffText.Contains("<span class=""mw-rollback-link"">") Then
-                Dim RollbackUrl As String = DiffText.Substring(DiffText.IndexOf("<span class=""mw-rollback-link"">"))
-                RollbackUrl = FindString(RollbackUrl, "<a href=""", "?", """")
-                Edit.RollbackUrl = HtmlDecode(RollbackUrl)
+                Dim Rollbacktoken As String = DiffText.Substring(DiffText.IndexOf("<span class=""mw-rollback-link"">"))
+                Edit.RollbackToken = UrlDecode(FindString(Rollbacktoken, "<a href=""", "&amp;token=", """"))
             Else
-                Edit.RollbackUrl = Nothing
+                Edit.RollbackToken = Nothing
             End If
 
             If Edit.Id = "next" OrElse Edit.Id = "cur" AndAlso DiffText.Contains("'>undo</a>)") Then
@@ -936,7 +935,7 @@ Module Processing
         Next i
 
         If Result.Contains("<usercontribs ucstart=""") Then
-            User.ContribsOffset = FindString(Result, "ucstart=""", """")
+            User.ContribsOffset = GetParameter(Result, "ucstart")
         Else
             NextByUser.PrevByUser = NullEdit
             User.FirstEdit = NextByUser
@@ -1205,9 +1204,15 @@ Module Processing
             End If
 
             Dim NewHistoryRequest As New HistoryRequest
-            NewHistoryRequest.DisplayWhenDone = True
             NewHistoryRequest.Page = Edit.Page
-            NewHistoryRequest.Start()
+            NewHistoryRequest.Start(AddressOf GotPageContent)
+        End If
+    End Sub
+
+    Sub GotPageContent(ByVal Result As RequestResult)
+        If CurrentPage.LastEdit IsNot Nothing Then
+            CurrentEdit = CurrentPage.LastEdit
+            DisplayEdit(CurrentEdit)
         End If
     End Sub
 

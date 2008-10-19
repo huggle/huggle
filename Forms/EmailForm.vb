@@ -1,6 +1,6 @@
 ﻿Class EmailForm
 
-    Public User As User, Request As EmailRequest
+    Public User As User
 
     Private Sub EmailForm_Load() Handles Me.Load
         Icon = My.Resources.icon_red_button
@@ -17,18 +17,17 @@
     End Sub
 
     Private Sub OK_Click() Handles Send.Click
-        'When ok is clicked send all of the information gathered
-        Request.Message = Message.Text
-        Request.Subject = Subject.Text
-        Request.CcMe = CcMe.Checked
-        Request.PostForm()
+        Dim NewRequest As New EmailRequest
+        NewRequest.Subject = Subject.Text
+        NewRequest.Message = Message.Text
+        NewRequest.CcMe = CcMe.Checked
+        NewRequest.Start()
 
         DialogResult = DialogResult.OK
         Close()
     End Sub
 
     Private Sub Cancel_Click() Handles Cancel.Click
-        Request.Cancel()
         Close()
     End Sub
 

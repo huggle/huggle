@@ -7,8 +7,7 @@ Class WarningForm
         Text = Msg("warning-title", User.Name)
         Localize(Me, "warning")
 
-        WarnLog.Columns.Add("", 300)
-        WarnLog.Items.Add("Retrieving warnings, please wait...")
+        WarnLog.User = User
         WarnType.Items.AddRange(Config.WarningSeries.ToArray)
         If WarnType.Items.Count > 0 Then WarnType.SelectedIndex = 0
 
@@ -16,11 +15,6 @@ Class WarningForm
         Level3.Visible = (Config.WarningMode <> "1" AndAlso Config.WarningMode <> "2")
         LevelFinal.Visible = (Config.WarningMode <> "1" AndAlso Config.WarningMode <> "2" _
             AndAlso Config.WarningMode <> "3")
-
-        Dim NewWarnLogRequest As New WarningLogRequest
-        NewWarnLogRequest.Target = WarnLog
-        NewWarnLogRequest.User = User
-        NewWarnLogRequest.Start()
     End Sub
 
     Private Sub WarningForm_FormClosing() Handles Me.FormClosing

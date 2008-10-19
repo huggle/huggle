@@ -22,8 +22,6 @@ Partial Class UserInfoForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.WarnLog = New System.Windows.Forms.ListView
-        Me.BlockLog = New System.Windows.Forms.ListView
         Me.BlockLogLabel = New System.Windows.Forms.Label
         Me.WarnLogLabel = New System.Windows.Forms.Label
         Me.OK = New System.Windows.Forms.Button
@@ -37,40 +35,9 @@ Partial Class UserInfoForm
         Me.AnonymousLabel = New System.Windows.Forms.Label
         Me.Anonymous = New System.Windows.Forms.Label
         Me.SessionEdits = New System.Windows.Forms.Label
+        Me.BlockLog = New Huggle.UserLog
+        Me.WarnLog = New Huggle.WarnLog
         Me.SuspendLayout()
-        '
-        'WarnLog
-        '
-        Me.WarnLog.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.WarnLog.FullRowSelect = True
-        Me.WarnLog.GridLines = True
-        Me.WarnLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
-        Me.WarnLog.Location = New System.Drawing.Point(12, 196)
-        Me.WarnLog.MultiSelect = False
-        Me.WarnLog.Name = "WarnLog"
-        Me.WarnLog.ShowGroups = False
-        Me.WarnLog.Size = New System.Drawing.Size(518, 136)
-        Me.WarnLog.TabIndex = 9
-        Me.WarnLog.UseCompatibleStateImageBehavior = False
-        Me.WarnLog.View = System.Windows.Forms.View.Details
-        '
-        'BlockLog
-        '
-        Me.BlockLog.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.BlockLog.FullRowSelect = True
-        Me.BlockLog.GridLines = True
-        Me.BlockLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
-        Me.BlockLog.Location = New System.Drawing.Point(12, 74)
-        Me.BlockLog.MultiSelect = False
-        Me.BlockLog.Name = "BlockLog"
-        Me.BlockLog.ShowGroups = False
-        Me.BlockLog.Size = New System.Drawing.Size(518, 94)
-        Me.BlockLog.TabIndex = 7
-        Me.BlockLog.UseCompatibleStateImageBehavior = False
-        Me.BlockLog.View = System.Windows.Forms.View.Details
         '
         'BlockLogLabel
         '
@@ -190,11 +157,43 @@ Partial Class UserInfoForm
         Me.SessionEdits.TabIndex = 14
         Me.SessionEdits.Text = "..."
         '
+        'BlockLog
+        '
+        Me.BlockLog.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.BlockLog.GridLines = True
+        Me.BlockLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
+        Me.BlockLog.Location = New System.Drawing.Point(12, 74)
+        Me.BlockLog.Name = "BlockLog"
+        Me.BlockLog.Size = New System.Drawing.Size(518, 103)
+        Me.BlockLog.TabIndex = 15
+        Me.BlockLog.UseCompatibleStateImageBehavior = False
+        Me.BlockLog.User = Nothing
+        Me.BlockLog.View = System.Windows.Forms.View.Details
+        '
+        'WarnLog
+        '
+        Me.WarnLog.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.WarnLog.GridLines = True
+        Me.WarnLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
+        Me.WarnLog.Location = New System.Drawing.Point(12, 196)
+        Me.WarnLog.Name = "WarnLog"
+        Me.WarnLog.Size = New System.Drawing.Size(518, 137)
+        Me.WarnLog.TabIndex = 16
+        Me.WarnLog.UseCompatibleStateImageBehavior = False
+        Me.WarnLog.User = Nothing
+        Me.WarnLog.View = System.Windows.Forms.View.Details
+        '
         'UserInfoForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(542, 368)
+        Me.Controls.Add(Me.WarnLog)
+        Me.Controls.Add(Me.BlockLog)
         Me.Controls.Add(Me.SessionEdits)
         Me.Controls.Add(Me.Anonymous)
         Me.Controls.Add(Me.AnonymousLabel)
@@ -208,8 +207,6 @@ Partial Class UserInfoForm
         Me.Controls.Add(Me.OK)
         Me.Controls.Add(Me.WarnLogLabel)
         Me.Controls.Add(Me.BlockLogLabel)
-        Me.Controls.Add(Me.WarnLog)
-        Me.Controls.Add(Me.BlockLog)
         Me.KeyPreview = True
         Me.MaximizeBox = False
         Me.MinimumSize = New System.Drawing.Size(550, 120)
@@ -221,8 +218,6 @@ Partial Class UserInfoForm
         Me.PerformLayout()
 
     End Sub
-    Friend WithEvents WarnLog As System.Windows.Forms.ListView
-    Friend WithEvents BlockLog As System.Windows.Forms.ListView
     Friend WithEvents BlockLogLabel As System.Windows.Forms.Label
     Friend WithEvents WarnLogLabel As System.Windows.Forms.Label
     Friend WithEvents OK As System.Windows.Forms.Button
@@ -236,4 +231,6 @@ Partial Class UserInfoForm
     Friend WithEvents AnonymousLabel As System.Windows.Forms.Label
     Friend WithEvents Anonymous As System.Windows.Forms.Label
     Friend WithEvents SessionEdits As System.Windows.Forms.Label
+    Friend WithEvents BlockLog As Huggle.UserLog
+    Friend WithEvents WarnLog As Huggle.WarnLog
 End Class

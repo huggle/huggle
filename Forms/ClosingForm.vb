@@ -39,23 +39,21 @@ Class ClosingForm
             Progress.Value = 1
             Dim NewUpdateWhitelistRequest As New UpdateWhitelistRequest
             'Call the whitelist updating process
-            NewUpdateWhitelistRequest.Start()
+            NewUpdateWhitelistRequest.Start(AddressOf WhitelistDone)
         Else
             'Is the whitelist doesnt need to be updated go straight to the next task
             WhitelistDone()
         End If
     End Sub
 
-    Public Sub WhitelistDone()
+    Public Sub WhitelistDone(Optional ByVal Result As RequestResult = Nothing)
         'If the config has been changed when running huggle or the version number is incorrect update the config
         If Config.ConfigChanged OrElse (Config.ConfigVersion <> Config.Version) Then
             Status.Text = Msg("closing-config")
             Progress.Value = 2
-            Dim NewWriteConfigRequest As New WriteConfigRequest
-            NewWriteConfigRequest.Closing = True
-            NewWriteConfigRequest.Start()
-        Else
-            Close()
+
+            Dim NewWriteConfigRequest As New SaveUserConfigRequest
+            NewWriteConfigRequest.Invoke()
         End If
     End Sub
 

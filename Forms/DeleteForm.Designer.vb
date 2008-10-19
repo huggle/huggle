@@ -26,8 +26,8 @@ Partial Class DeleteForm
         Me.OK = New System.Windows.Forms.Button
         Me.ReasonLabel = New System.Windows.Forms.Label
         Me.Reason = New System.Windows.Forms.ComboBox
-        Me.DeletionLog = New System.Windows.Forms.ListView
         Me.DeletionLogLabel = New System.Windows.Forms.Label
+        Me.DeletionLog = New Huggle.PageLog
         Me.SuspendLayout()
         '
         'Cancel
@@ -70,23 +70,6 @@ Partial Class DeleteForm
         Me.Reason.Size = New System.Drawing.Size(381, 21)
         Me.Reason.TabIndex = 1
         '
-        'DeletionLog
-        '
-        Me.DeletionLog.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.DeletionLog.FullRowSelect = True
-        Me.DeletionLog.GridLines = True
-        Me.DeletionLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
-        Me.DeletionLog.Location = New System.Drawing.Point(13, 61)
-        Me.DeletionLog.MultiSelect = False
-        Me.DeletionLog.Name = "DeletionLog"
-        Me.DeletionLog.ShowGroups = False
-        Me.DeletionLog.Size = New System.Drawing.Size(550, 108)
-        Me.DeletionLog.TabIndex = 3
-        Me.DeletionLog.UseCompatibleStateImageBehavior = False
-        Me.DeletionLog.View = System.Windows.Forms.View.Details
-        '
         'DeletionLogLabel
         '
         Me.DeletionLogLabel.AutoSize = True
@@ -96,13 +79,28 @@ Partial Class DeleteForm
         Me.DeletionLogLabel.TabIndex = 2
         Me.DeletionLogLabel.Text = "Deletion log:"
         '
+        'DeletionLog
+        '
+        Me.DeletionLog.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.DeletionLog.GridLines = True
+        Me.DeletionLog.Location = New System.Drawing.Point(15, 61)
+        Me.DeletionLog.Mode = Huggle.PageLog.ViewMode.Delete
+        Me.DeletionLog.Name = "DeletionLog"
+        Me.DeletionLog.Page = Nothing
+        Me.DeletionLog.Size = New System.Drawing.Size(548, 111)
+        Me.DeletionLog.TabIndex = 6
+        Me.DeletionLog.UseCompatibleStateImageBehavior = False
+        Me.DeletionLog.View = System.Windows.Forms.View.Details
+        '
         'DeleteForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(575, 213)
-        Me.Controls.Add(Me.DeletionLogLabel)
         Me.Controls.Add(Me.DeletionLog)
+        Me.Controls.Add(Me.DeletionLogLabel)
         Me.Controls.Add(Me.Reason)
         Me.Controls.Add(Me.ReasonLabel)
         Me.Controls.Add(Me.OK)
@@ -122,6 +120,6 @@ Partial Class DeleteForm
     Friend WithEvents OK As System.Windows.Forms.Button
     Friend WithEvents ReasonLabel As System.Windows.Forms.Label
     Friend WithEvents Reason As System.Windows.Forms.ComboBox
-    Friend WithEvents DeletionLog As System.Windows.Forms.ListView
     Friend WithEvents DeletionLogLabel As System.Windows.Forms.Label
+    Friend WithEvents DeletionLog As Huggle.PageLog
 End Class

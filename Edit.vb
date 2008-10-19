@@ -30,7 +30,7 @@ Class Edit
     Public PrevByUser As Edit
     Public Processed As Boolean
     Public Rcid As String
-    Public RollbackUrl As String
+    Public RollbackToken As String
     Public Size As Integer
     Public Summary As String
     Public Text As String

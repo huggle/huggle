@@ -10,40 +10,17 @@ Namespace Requests
 
         Public Page As Page, Text, Summary As String, Minor, Watch, NoAutoSummary As Boolean
 
-        Public Sub Start(Optional ByVal Done As RequestCallback = Nothing)
-            _Done = Done
-            LogProgress("Editing '" & Page.Name & "'...")
+        Protected Overrides Sub Process()
+            LogProgress(Msg("edit-progress", Page.Name))
 
-            Dim RequestThread As New Thread(AddressOf Process)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
+            Dim Result As ApiResult = PostEdit(Page, Text, Summary, _
+                Minor:=Minor, Watch:=Watch, SuppressAutoSummary:=NoAutoSummary)
+
+            If Result.Error Then Fail(Msg("edit-fail", Page.Name), Result.ErrorMessage) Else Complete()
         End Sub
 
-        Private Sub Process()
-            Dim Data As EditData = GetEditData(Page)
-
-            If Data.Error Then
-                Callback(AddressOf Failed)
-                Exit Sub
-            End If
-
-            Data.Minor = Minor
-            Data.Watch = Watch
-            Data.Text = Text
-            Data.Summary = Summary
-            Data.NoAutoSummary = NoAutoSummary
-
-            Data = PostEdit(Data)
-
-            If Data.Error Then Callback(AddressOf Failed) Else Callback(AddressOf Done)
-        End Sub
-
-        Private Sub Done()
-            If State = States.Cancelled Then UndoEdit(Page) Else Complete()
-        End Sub
-
-        Private Sub Failed()
-            Fail()
+        Protected Overrides Sub Done()
+            If State = States.Cancelled Then UndoEdit(Page)
         End Sub
 
     End Class
@@ -56,51 +33,43 @@ Namespace Requests
         Public Tag, Summary, AvoidText As String
         Public ReplacePage, Patrol, InsertAtEnd As Boolean
 
-        Public Sub Start()
-            LogProgress("Tagging '" & Page.Name & "'...")
+        Protected Overrides Sub Process()
+            LogProgress(Msg("tag-progress", Page.Name))
 
-            Dim RequestThread As New Thread(AddressOf Process)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
-        End Sub
+            Dim Result As ApiResult = GetText(Page)
 
-        Private Sub Process()
-            Dim Data As EditData = GetEditData(Page)
-
-            If Data.Error Then
-                Callback(AddressOf Failed)
+            If Result.Error Then
+                Fail(Msg("tag-fail", Page.Name), Result.ErrorMessage)
                 Exit Sub
 
-            ElseIf Data.Creating Then
-                Callback(AddressOf PageDeleted)
+            ElseIf Result.Text.Contains("missing=""") Then
+                Fail(Msg("tag-fail", Page.Name), Msg("tag-deleted"))
                 Exit Sub
 
-            ElseIf AvoidText IsNot Nothing AndAlso Data.Text.Contains(AvoidText) Then
-                Callback(AddressOf AlreadyTagged)
+            ElseIf AvoidText IsNot Nothing AndAlso Result.Text.Contains(AvoidText) Then
+                Fail(Msg("tag-fail", Page.Name), Msg("tag-alreadytagged"))
                 Exit Sub
             End If
 
-            Data.Watch = Config.WatchTags
-            Data.Minor = Config.MinorTags
-            Data.Summary = Summary
+            Dim Text As String = HtmlDecode(FindString(Result.Text, "<rev>", "</rev>"))
 
             If ReplacePage Then
-                Data.Text = Tag
+                Text = Tag
             ElseIf InsertAtEnd Then
-                Data.Text &= LF & Tag
+                Text = Result.Text & LF & Tag
             Else
-                Data.Text = Tag & LF & Data.Text
+                Text = Tag & LF & Result.Text
             End If
 
-            Data = PostEdit(Data)
+            Result = PostEdit(Page, Text, Summary, Minor:=Config.MinorTags, Watch:=Config.WatchTags)
 
-            If Data.Error Then Callback(AddressOf Failed) Else Callback(AddressOf Done)
-        End Sub
+            If Result.Error Then
+                Fail(Msg("tag-fail", Page.Name), Result.ErrorMessage)
+                Exit Sub
 
-        Private Sub Done()
-            If Config.WatchTags Then
-                If Not Watchlist.Contains(Page.SubjectPage) Then Watchlist.Add(Page.SubjectPage)
-                MainForm.UpdateWatchButton()
+            ElseIf State = States.Cancelled Then
+                UndoEdit(Page)
+                Exit Sub
             End If
 
             If Patrol Then
@@ -111,22 +80,7 @@ Namespace Requests
 
             If NotifyRequest IsNot Nothing Then NotifyRequest.Start()
 
-            If State = States.Cancelled Then UndoEdit(Page) Else Complete()
-        End Sub
-
-        Private Sub AlreadyTagged()
-            Log("Did not tag '" & Page.Name & "', as the page was already tagged")
-            Fail()
-        End Sub
-
-        Private Sub PageDeleted()
-            Log("Did not tag '" & Page.Name & "', as the page was deleted")
-            Fail()
-        End Sub
-
-        Private Sub Failed()
-            Log("Failed to tag '" & Page.Name & "'")
-            Fail()
+            Complete()
         End Sub
 
     End Class
@@ -138,27 +92,21 @@ Namespace Requests
         Public Page As Page, Criterion As SpeedyCriterion, Parameter As String
         Public AutoNotify, Notify As Boolean
 
-        Public Sub Start()
-            LogProgress("Tagging '" & Page.Name & "' for speedy deletion...")
+        Protected Overrides Sub Process()
+            LogProgress(Msg("speedy-progress", Page.Name))
 
-            Dim RequestThread As New Thread(AddressOf Process)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
-        End Sub
+            Dim Result As ApiResult = GetText(Page)
 
-        Private Sub Process()
-            Dim Data As EditData = GetEditData(Page)
-
-            If Data.Error Then
-                Callback(AddressOf Failed)
+            If Result.Error Then
+                Fail(, Result.ErrorMessage)
                 Exit Sub
 
-            ElseIf Data.Creating Then
-                Callback(AddressOf PageDeleted)
+            ElseIf Result.Text.Contains("missing=""") Then
+                Fail(Msg("speedy-fail", Page.Name), Msg("tag-deleted"))
                 Exit Sub
 
-            ElseIf Data.Text.Contains("{{db-") Then
-                Callback(AddressOf AlreadyTagged)
+            ElseIf Result.Text.Contains("{{db-") Then
+                Fail(Msg("speedy-fail", Page.Name), Msg("tag-alreadytagged"))
                 Exit Sub
             End If
 
@@ -167,19 +115,18 @@ Namespace Requests
             Tag &= "}}"
             If Page.Space Is Space.Template Then Tag = "<noinclude>" & Tag & "</noinclude>"
 
-            Data.Watch = Config.WatchTags
-            Data.Minor = Config.MinorTags
-            Data.Summary = Config.SpeedySummary.Replace("$1", _
-                "[[WP:SD#" & Criterion.DisplayCode & "|" & SpeedyCriteria(Criterion.DisplayCode).Description & "]]")
+            Dim Text As String = HtmlDecode(FindString(Result.Text, "<rev>", "</rev>"))
 
-            If Criterion.DisplayCode = "G10" Then Data.Text = Tag Else Data.Text = Tag & LF & Data.Text
+            If Criterion.DisplayCode = "G10" Then Text = Tag Else Text = Tag & LF & Text
 
-            Data = PostEdit(Data)
+            Result = PostEdit(Page, Text, Config.SpeedySummary.Replace("$1", "[[WP:SD#" & Criterion.DisplayCode & _
+                "|" & SpeedyCriteria(Criterion.DisplayCode).Description & "]]"), _
+                Minor:=Config.MinorTags, Watch:=Config.WatchTags)
 
-            If Data.Error Then Callback(AddressOf Failed) Else Callback(AddressOf Done)
+            If Result.Error Then Fail(, Result.ErrorMessage) Else Complete()
         End Sub
 
-        Private Sub Done()
+        Protected Overrides Sub Done()
             If Config.WatchTags Then
                 If Not Watchlist.Contains(Page.SubjectPage) Then Watchlist.Add(Page.SubjectPage)
                 MainForm.UpdateWatchButton()
@@ -188,7 +135,6 @@ Namespace Requests
             If State = States.Cancelled Then
                 UndoEdit(Page)
             Else
-                Complete()
 
                 If Config.PatrolSpeedy Then
                     Dim NewPatrolRequest As New PatrolRequest
@@ -199,44 +145,27 @@ Namespace Requests
                 If AutoNotify Then Notify = Criterion.Notify
 
                 If Notify Then
-                    If Page.FirstEdit IsNot Nothing AndAlso Page.FirstEdit.User IsNot Nothing Then
-                        DoNotify()
-                    Else
+                    If Page.Creator Is Nothing Then
+                        'Get page history to find creator
                         Dim NewHistoryRequest As New HistoryRequest
                         NewHistoryRequest.Page = Page
-                        NewHistoryRequest.Start(AddressOf DoNotify)
+                        NewHistoryRequest.Invoke()
+                    End If
+
+                    If Page.Creator Is Nothing Then
+                        Log(Msg("notify-fail", Page.Name) & ": " & Msg("notify-unknowncreator"))
+
+                    ElseIf Page.Creator IsNot User.Me Then
+                        Dim NotifyRequest As New UserMessageRequest
+                        NotifyRequest.Message = Criterion.Message.Replace("$1", Page.Name)
+                        NotifyRequest.Title = Config.SpeedyMessageTitle.Replace("$1", Page.Name)
+                        NotifyRequest.AvoidText = Page.Name
+                        NotifyRequest.Summary = Config.SpeedyMessageSummary.Replace("$1", Page.Name)
+                        NotifyRequest.User = Page.FirstEdit.User
+                        NotifyRequest.Start()
                     End If
                 End If
             End If
-        End Sub
-
-        Private Sub DoNotify(Optional ByVal Result As Request.Output = Nothing)
-            If Page.FirstEdit IsNot Nothing AndAlso Page.FirstEdit.User IsNot Nothing _
-                AndAlso Page.FirstEdit.User IsNot User.Me Then
-
-                Dim NotifyRequest As New UserMessageRequest
-                NotifyRequest.Message = Criterion.Message.Replace("$1", Page.Name)
-                NotifyRequest.Title = Config.SpeedyMessageTitle.Replace("$1", Page.Name)
-                NotifyRequest.AvoidText = Page.Name
-                NotifyRequest.Summary = Config.SpeedyMessageSummary.Replace("$1", Page.Name)
-                NotifyRequest.User = Page.FirstEdit.User
-                NotifyRequest.Start()
-            End If
-        End Sub
-
-        Private Sub PageDeleted()
-            Log("Did not tag '" & Page.Name & "' for speedy deletion, as the page was deleted")
-            Fail()
-        End Sub
-
-        Private Sub AlreadyTagged()
-            Log("Did not tag '" & Page.Name & "' for speedy deletion, as the page was already tagged")
-            Fail()
-        End Sub
-
-        Private Sub Failed()
-            Log("Failed to tag '" & Page.Name & "' for speedy deletion")
-            Fail()
         End Sub
 
     End Class
@@ -247,27 +176,22 @@ Namespace Requests
 
         Public Page As Page, Reason As String, Type As ProtectionType
 
-        Public Sub Start()
-            LogProgress("Requesting protection of '" & Page.Name & "'...")
+        Protected Overrides Sub Process()
+            LogProgress(Msg("reqprotection-progress", Page.Name))
 
-            Dim RequestThread As New Thread(AddressOf Process)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
-        End Sub
+            Dim Result As ApiResult = GetText(Config.ProtectionRequestPage, Section:="1")
 
-        Private Sub Process()
-            Dim Data As EditData = GetEditData(Config.ProtectionRequestPage, Section:=1)
-
-            If Data.Error OrElse Not Data.Text.Contains("{{" & Config.ProtectionRequestPage & "/PRheading}}") Then
-                Callback(AddressOf Failed)
+            If Not Result.Text.Contains("{{" & Config.ProtectionRequestPage & "/PRheading}}") Then
+                Fail(Msg("reqprotection-fail", Page.Name), Msg("reqprotection-badformat"))
                 Exit Sub
             End If
 
-            If Data.Text.Contains("|" & Page.Name & "}}") Then
-                Callback(AddressOf AlreadyRequested)
+            If Result.Text.Contains("|" & Page.Name & "}}") Then
+                Fail(Msg("reqprotection-fail", Page.Name), Msg("reqprotection-alreadyrequested"))
                 Exit Sub
             End If
 
+            Dim Text As String = HtmlDecode(FindString(Result.Text, "<rev>", "</rev>"))
             Dim Header As String
 
             If Page.IsArticleTalkPage Then
@@ -286,45 +210,26 @@ Namespace Requests
                 Case ProtectionType.Semi : Header &= "'''Semi-protection'''. "
             End Select
 
-            Data.Text = Data.Text.Substring(0, Data.Text.IndexOf("====")) & Header & Reason & " ~~~~" _
-                & LF & LF & Data.Text.Substring(Data.Text.IndexOf("===="))
+            Text = Text.Substring(0, Text.IndexOf("====")) & Header & Reason & " ~~~~" _
+                & LF & LF & Text.Substring(Text.IndexOf("===="))
+
+            Dim ProtectionLevel As String = "protection"
 
             Select Case Type
-                Case ProtectionType.Full : Data.Summary = "full protection"
-                Case ProtectionType.Move : Data.Summary = "move protection"
-                Case ProtectionType.Semi : Data.Summary = "semi-protection"
+                Case ProtectionType.Full : ProtectionLevel = "full protection"
+                Case ProtectionType.Move : ProtectionLevel = "move protection"
+                Case ProtectionType.Semi : ProtectionLevel = "semi-protection"
             End Select
 
-            Data.Summary = Config.ProtectionRequestSummary.Replace("$1", Data.Summary).Replace("$2", Page.Name)
+            Result = PostEdit(Config.ProtectionRequestPage, Text, Config.ProtectionRequestSummary.Replace _
+                ("$1", ProtectionLevel).Replace("$2", Page.Name), Section:="1", Minor:=Config.MinorReports, _
+                Watch:=Config.WatchReports)
 
-            Data.Minor = Config.MinorReports
-            Data.Watch = Config.WatchReports
+            If Result.Error _
+                Then Fail(Msg("reqprotection-fail", Page.Text), Result.ErrorMessage) _
+                Else Complete()
 
-            Data = PostEdit(Data)
-
-            If Data.Error Then Callback(AddressOf Failed) Else Callback(AddressOf Done)
-        End Sub
-
-        Private Sub Done()
-            If Config.WatchReports Then
-                If Not Watchlist.Contains(GetPage(Config.ProtectionRequestPage)) _
-                    Then Watchlist.Add(GetPage(Config.ProtectionRequestPage))
-                MainForm.UpdateWatchButton()
-            End If
-
-            Complete()
-            If State = States.Cancelled Then UndoEdit(Config.ProtectionRequestPage) Else Complete()
-        End Sub
-
-        Private Sub AlreadyRequested()
-            Log("Did not request protection of '" & Page.Name & _
-                "' because there is already a protection request for that page")
-            Fail()
-        End Sub
-
-        Private Sub Failed()
-            Log("Failed to request protection of '" & Page.Name & "'")
-            Fail()
+            If State = States.Cancelled Then UndoEdit(Config.ProtectionRequestPage)
         End Sub
 
     End Class
@@ -333,27 +238,19 @@ Namespace Requests
 
         'Update the user whitelist
 
-        Public Sub Start()
+        Protected Overrides Sub Process()
             LogProgress("Updating whitelist...")
 
-            Dim RequestThread As New Thread(AddressOf Process)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
-        End Sub
+            Dim Result As ApiResult = GetText(Config.WhitelistLocation)
 
-        Private Sub Process()
-            Dim Data As EditData = GetEditData(Config.WhitelistLocation)
-
-            If Data.Error Then
-                Callback(AddressOf Done)
+            If Result.Error Then
+                Fail(, Result.ErrorMessage)
                 Exit Sub
             End If
 
             Dim IgnoredUsernames As New List(Of String)
 
-            Dim Items As String() = Data.Text.Split(LF)
-
-            For Each Item As String In Items
+            For Each Item As String In Split(Result.Text, LF)
                 If Item.Length > 0 AndAlso Not (Item.Contains("{") OrElse Item.Contains("<")) _
                     AndAlso Not IgnoredUsernames.Contains(Item) Then IgnoredUsernames.Add(Item)
             Next Item
@@ -370,23 +267,13 @@ Namespace Requests
 
             IgnoredUsernames.Sort(AddressOf CompareUsernames)
 
-            Data.Text = "{{/Header}}" & LF & "<pre>" & LF & _
-                String.Join(LF, IgnoredUsernames.ToArray) & LF & "</pre>"
-            Data.Summary = Config.WhitelistUpdateSummary
-            Data.Minor = True
+            Dim Text As String = HtmlDecode(FindString(Result.Text, "<rev>", "</rev>"))
+            Text = "{{/Header}}" & LF & "<pre>" & LF & String.Join(LF, IgnoredUsernames.ToArray) & LF & "</pre>"
 
-            Data = PostEdit(Data)
+            Result = PostEdit(Config.WhitelistLocation, Text, Config.WhitelistUpdateSummary, Minor:=True)
+
             'If the edit fails call fail, if it is done call done
-            If Data.Error Then Callback(AddressOf Failed) Else Callback(AddressOf Done)
-        End Sub
-
-        Private Sub Done()
-            If State = States.Cancelled Then UndoEdit(Config.WhitelistLocation) Else Complete()
-            ClosingForm.WhitelistDone()
-        End Sub
-
-        Private Sub Failed()
-            Fail()
+            If Result.Error Then Fail(, Result.ErrorMessage) Else Complete()
         End Sub
 
     End Class

@@ -33,9 +33,9 @@ Partial Class ProtectForm
         Me.FullProtection = New System.Windows.Forms.RadioButton
         Me.MoveProtection = New System.Windows.Forms.CheckBox
         Me.SemiProtection = New System.Windows.Forms.RadioButton
-        Me.ProtectionLog = New System.Windows.Forms.ListView
         Me.Label3 = New System.Windows.Forms.Label
         Me.CurrentLevel = New System.Windows.Forms.Label
+        Me.ProtectionLog = New Huggle.PageLog
         Me.ProtectType.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -153,23 +153,6 @@ Partial Class ProtectForm
         Me.SemiProtection.Text = "Semi-protection"
         Me.SemiProtection.UseVisualStyleBackColor = True
         '
-        'ProtectionLog
-        '
-        Me.ProtectionLog.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ProtectionLog.FullRowSelect = True
-        Me.ProtectionLog.GridLines = True
-        Me.ProtectionLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
-        Me.ProtectionLog.Location = New System.Drawing.Point(12, 134)
-        Me.ProtectionLog.MultiSelect = False
-        Me.ProtectionLog.Name = "ProtectionLog"
-        Me.ProtectionLog.ShowGroups = False
-        Me.ProtectionLog.Size = New System.Drawing.Size(547, 109)
-        Me.ProtectionLog.TabIndex = 13
-        Me.ProtectionLog.UseCompatibleStateImageBehavior = False
-        Me.ProtectionLog.View = System.Windows.Forms.View.Details
-        '
         'Label3
         '
         Me.Label3.AutoSize = True
@@ -189,14 +172,29 @@ Partial Class ProtectForm
         Me.CurrentLevel.TabIndex = 18
         Me.CurrentLevel.Text = "Current protection level:"
         '
+        'ProtectionLog
+        '
+        Me.ProtectionLog.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ProtectionLog.GridLines = True
+        Me.ProtectionLog.Location = New System.Drawing.Point(15, 134)
+        Me.ProtectionLog.Mode = Huggle.PageLog.ViewMode.Protect
+        Me.ProtectionLog.Name = "ProtectionLog"
+        Me.ProtectionLog.Page = Nothing
+        Me.ProtectionLog.Size = New System.Drawing.Size(544, 109)
+        Me.ProtectionLog.TabIndex = 19
+        Me.ProtectionLog.UseCompatibleStateImageBehavior = False
+        Me.ProtectionLog.View = System.Windows.Forms.View.Details
+        '
         'ProtectForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(571, 284)
+        Me.Controls.Add(Me.ProtectionLog)
         Me.Controls.Add(Me.CurrentLevel)
         Me.Controls.Add(Me.Label3)
-        Me.Controls.Add(Me.ProtectionLog)
         Me.Controls.Add(Me.ProtectType)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Label1)
@@ -227,8 +225,8 @@ Partial Class ProtectForm
     Friend WithEvents MoveProtection As System.Windows.Forms.CheckBox
     Friend WithEvents FullProtection As System.Windows.Forms.RadioButton
     Friend WithEvents SemiProtection As System.Windows.Forms.RadioButton
-    Friend WithEvents ProtectionLog As System.Windows.Forms.ListView
     Friend WithEvents Label3 As System.Windows.Forms.Label
     Friend WithEvents CurrentLevel As System.Windows.Forms.Label
     Friend WithEvents NoProtection As System.Windows.Forms.RadioButton
+    Friend WithEvents ProtectionLog As Huggle.PageLog
 End Class

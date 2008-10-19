@@ -24,7 +24,6 @@ Partial Class BlockForm
     Private Sub InitializeComponent()
         Me.Cancel = New System.Windows.Forms.Button
         Me.OK = New System.Windows.Forms.Button
-        Me.BlockLog = New System.Windows.Forms.ListView
         Me.Email = New System.Windows.Forms.CheckBox
         Me.Creation = New System.Windows.Forms.CheckBox
         Me.Autoblock = New System.Windows.Forms.CheckBox
@@ -35,12 +34,13 @@ Partial Class BlockForm
         Me.Reason = New System.Windows.Forms.ComboBox
         Me.UserTalk = New System.Windows.Forms.Button
         Me.UserContribs = New System.Windows.Forms.Button
-        Me.WarnLog = New System.Windows.Forms.ListView
         Me.BlockLogLabel = New System.Windows.Forms.Label
         Me.WarnLogLabel = New System.Windows.Forms.Label
         Me.Message = New System.Windows.Forms.ComboBox
         Me.MessageLabel = New System.Windows.Forms.Label
         Me.Duration = New System.Windows.Forms.ComboBox
+        Me.BlockLog = New Huggle.UserLog
+        Me.WarnLog = New Huggle.WarnLog
         Me.SuspendLayout()
         '
         'Cancel
@@ -62,22 +62,6 @@ Partial Class BlockForm
         Me.OK.TabIndex = 17
         Me.OK.Text = "OK"
         Me.OK.UseVisualStyleBackColor = True
-        '
-        'BlockLog
-        '
-        Me.BlockLog.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.BlockLog.FullRowSelect = True
-        Me.BlockLog.GridLines = True
-        Me.BlockLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
-        Me.BlockLog.Location = New System.Drawing.Point(10, 139)
-        Me.BlockLog.MultiSelect = False
-        Me.BlockLog.Name = "BlockLog"
-        Me.BlockLog.ShowGroups = False
-        Me.BlockLog.Size = New System.Drawing.Size(572, 84)
-        Me.BlockLog.TabIndex = 13
-        Me.BlockLog.UseCompatibleStateImageBehavior = False
-        Me.BlockLog.View = System.Windows.Forms.View.Details
         '
         'Email
         '
@@ -157,7 +141,7 @@ Partial Class BlockForm
         Me.Reason.Items.AddRange(New Object() {"[[Wikipedia:Vandalism|Vandalism]]", "[[Wikipedia:Username policy|Inappropriate username]]", "{{anonblock}}", "{{schoolblock}}"})
         Me.Reason.Location = New System.Drawing.Point(65, 12)
         Me.Reason.Name = "Reason"
-        Me.Reason.Size = New System.Drawing.Size(517, 21)
+        Me.Reason.Size = New System.Drawing.Size(516, 21)
         Me.Reason.TabIndex = 1
         '
         'UserTalk
@@ -179,23 +163,6 @@ Partial Class BlockForm
         Me.UserContribs.TabIndex = 11
         Me.UserContribs.Text = "Contribs"
         Me.UserContribs.UseVisualStyleBackColor = True
-        '
-        'WarnLog
-        '
-        Me.WarnLog.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.WarnLog.FullRowSelect = True
-        Me.WarnLog.GridLines = True
-        Me.WarnLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
-        Me.WarnLog.Location = New System.Drawing.Point(10, 250)
-        Me.WarnLog.MultiSelect = False
-        Me.WarnLog.Name = "WarnLog"
-        Me.WarnLog.ShowGroups = False
-        Me.WarnLog.Size = New System.Drawing.Size(572, 121)
-        Me.WarnLog.TabIndex = 15
-        Me.WarnLog.UseCompatibleStateImageBehavior = False
-        Me.WarnLog.View = System.Windows.Forms.View.Details
         '
         'BlockLogLabel
         '
@@ -244,17 +211,46 @@ Partial Class BlockForm
         Me.Duration.Size = New System.Drawing.Size(178, 21)
         Me.Duration.TabIndex = 19
         '
+        'BlockLog
+        '
+        Me.BlockLog.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.BlockLog.GridLines = True
+        Me.BlockLog.Location = New System.Drawing.Point(10, 139)
+        Me.BlockLog.Name = "BlockLog"
+        Me.BlockLog.Size = New System.Drawing.Size(571, 92)
+        Me.BlockLog.TabIndex = 20
+        Me.BlockLog.UseCompatibleStateImageBehavior = False
+        Me.BlockLog.User = Nothing
+        Me.BlockLog.View = System.Windows.Forms.View.Details
+        '
+        'WarnLog
+        '
+        Me.WarnLog.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.WarnLog.GridLines = True
+        Me.WarnLog.Location = New System.Drawing.Point(10, 250)
+        Me.WarnLog.Name = "WarnLog"
+        Me.WarnLog.Size = New System.Drawing.Size(572, 124)
+        Me.WarnLog.TabIndex = 21
+        Me.WarnLog.UseCompatibleStateImageBehavior = False
+        Me.WarnLog.User = Nothing
+        Me.WarnLog.View = System.Windows.Forms.View.Details
+        '
         'BlockForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(594, 412)
+        Me.Controls.Add(Me.WarnLog)
+        Me.Controls.Add(Me.BlockLog)
         Me.Controls.Add(Me.Duration)
         Me.Controls.Add(Me.MessageLabel)
         Me.Controls.Add(Me.Message)
         Me.Controls.Add(Me.WarnLogLabel)
         Me.Controls.Add(Me.BlockLogLabel)
-        Me.Controls.Add(Me.WarnLog)
         Me.Controls.Add(Me.UserContribs)
         Me.Controls.Add(Me.UserTalk)
         Me.Controls.Add(Me.Reason)
@@ -265,7 +261,6 @@ Partial Class BlockForm
         Me.Controls.Add(Me.AnonOnly)
         Me.Controls.Add(Me.DurationLabel)
         Me.Controls.Add(Me.ReasonLabel)
-        Me.Controls.Add(Me.BlockLog)
         Me.Controls.Add(Me.OK)
         Me.Controls.Add(Me.Cancel)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
@@ -281,7 +276,6 @@ Partial Class BlockForm
     End Sub
     Friend WithEvents Cancel As System.Windows.Forms.Button
     Friend WithEvents OK As System.Windows.Forms.Button
-    Friend WithEvents BlockLog As System.Windows.Forms.ListView
     Friend WithEvents Email As System.Windows.Forms.CheckBox
     Friend WithEvents Creation As System.Windows.Forms.CheckBox
     Friend WithEvents Autoblock As System.Windows.Forms.CheckBox
@@ -292,10 +286,11 @@ Partial Class BlockForm
     Friend WithEvents Reason As System.Windows.Forms.ComboBox
     Friend WithEvents UserTalk As System.Windows.Forms.Button
     Friend WithEvents UserContribs As System.Windows.Forms.Button
-    Friend WithEvents WarnLog As System.Windows.Forms.ListView
     Friend WithEvents BlockLogLabel As System.Windows.Forms.Label
     Friend WithEvents WarnLogLabel As System.Windows.Forms.Label
     Friend WithEvents Message As System.Windows.Forms.ComboBox
     Friend WithEvents MessageLabel As System.Windows.Forms.Label
     Friend WithEvents Duration As System.Windows.Forms.ComboBox
+    Friend WithEvents BlockLog As Huggle.UserLog
+    Friend WithEvents WarnLog As Huggle.WarnLog
 End Class

@@ -3,65 +3,68 @@ Imports System.Web.HttpUtility
 
 Namespace Requests
 
-    Class XfdRequest : Inherits Request
+    MustInherit Class XfdRequest : Inherits Request
+
+        'Represents a deletion discussion request
 
         Public Page As Page, Reason As String, Notify As Boolean
-
         Protected LogPath As String
 
-        Protected Function LogDate() As String
-            Return CStr(Date.UtcNow.Year) & " " & GetMonthName(Date.UtcNow.Month) & " " & CStr(Date.UtcNow.Day)
-        End Function
+        Protected ReadOnly Property LogDate() As String
+            Get
+                Return CStr(Date.UtcNow.Year) & " " & GetMonthName(Date.UtcNow.Month) & " " & CStr(Date.UtcNow.Day)
+            End Get
+        End Property
 
-        Protected Function GetNominationSubpage(ByVal Name As String, ByVal Path As String) As String
+        Protected Function GetSubpageName(ByVal Name As String, ByVal Path As String) As RequestResult
             'Check for previous nominations of the same page
             Dim Subpage As String = Name
-            Dim Result As String = GetApi("action=query&format=xml&list=allpages&apnamespace=4&apprefix=" & _
+            Dim Result As ApiResult = GetApi("action=query&list=allpages&apnamespace=4&apprefix=" & _
                 UrlEncode((Path.Substring(Path.IndexOf(":") + 1) & "/" & Name).Replace(" ", "_")))
 
-            If Result IsNot Nothing AndAlso Result.Contains("<allpages>") Then
-                Result = FindString(Result, "<allpages>", "</allpages>")
+            If Result.Error Then Return New RequestResult(, Result.ErrorMessage)
 
-                If Result.Contains(Path & "/" & Name & """") Then
+            If Result.Text.Contains("<allpages>") Then
+                Dim ResultText As String = FindString(Result.Text, "<allpages>", "</allpages>")
+
+                If ResultText.Contains(Path & "/" & Name & """") Then
                     Subpage = Name & " (2nd nomination)"
 
                     Dim i As Integer = 2
 
-                    While Result.Contains(Path & "/" & Name & " (" & Ordinal(i) & " nomination)")
+                    While ResultText.Contains(Path & "/" & Name & " (" & Ordinal(i) & " nomination)")
                         i += 1
                         Subpage = Name & " (" & Ordinal(i) & " nomination)"
                     End While
                 End If
             End If
 
-            Return Subpage
+            Return New RequestResult(Subpage)
         End Function
 
-        Protected Sub RfdNeeded(ByVal DataObject As Object)
+        Protected Sub RfdNeeded()
             Dim NewRfdRequest As New RfdRequest
             NewRfdRequest.Page = Page
-            NewRfdRequest.Data = CType(DataObject, EditData)
             NewRfdRequest.Reason = Reason
             NewRfdRequest.Notify = Notify
-            NewRfdRequest.Start()
+            NewRfdRequest.Invoke()
 
             Complete()
         End Sub
 
-        Protected Sub PageDeleted()
-            Log("Did not tag '" & Page.Name & "' for deletion discussion, because the page does not exist")
-            Fail()
-        End Sub
+        Protected Sub DoNotify()
+            If Page.Creator Is Nothing Then
+                'Get page history to find creator
+                Dim NewHistoryRequest As New HistoryRequest
+                NewHistoryRequest.Page = Page
+                NewHistoryRequest.Invoke()
+            End If
 
-        Protected Sub AlreadyTagged()
-            Log("Did not tag '" & Page.Name & "' for deletion discussion, because it has already been tagged.")
-            Fail()
-        End Sub
+            If Page.Creator Is Nothing Then
+                Log(Msg("notify-fail", Page.Name) & ": " & Msg("notify-unknowncreator"))
 
-        Protected Sub DoNotify(Optional ByVal Result As Request.Output = Nothing)
-            If (Result Is Nothing OrElse Result.Success) AndAlso Page.FirstEdit IsNot Nothing _
-                AndAlso Page.FirstEdit.User IsNot Nothing AndAlso Page.FirstEdit.User IsNot User.Me Then
-
+            ElseIf Page.Creator IsNot User.Me Then
+                'Notify page creator of deletion discussion
                 Dim NewRequest As New UserMessageRequest
                 NewRequest.AvoidText = Page.Name
                 NewRequest.Minor = Config.MinorNotifications
@@ -74,6 +77,71 @@ Namespace Requests
             End If
         End Sub
 
+        Protected Function TagPage(ByVal Tag As String, ByVal Avoid As String, ByVal Redirect As Boolean) _
+            As RequestResult
+
+            LogProgress(Msg("reqdelete-tagprogress", Page.Name))
+
+            Dim Result As ApiResult = GetText(Page)
+
+            If Result.Error Then
+                Return New RequestResult(, Result.ErrorMessage)
+
+            ElseIf Result.Text.Contains("missing=""") Then
+                Return New RequestResult(, Msg("error-pagemissing"))
+            End If
+
+            Dim Text As String = HtmlDecode(FindString(Result.Text, "<rev>", "</rev>"))
+
+            If Text.ToLower.StartsWith("#redirect [[") Then
+                Return New RequestResult(, "rfdneeded")
+
+            ElseIf Text.Contains(Avoid) Then
+                Return New RequestResult(, Msg("reqdelete-duplicate"))
+            End If
+
+            Text = Tag & LF & Text
+
+            Result = PostEdit(Page, Text, Config.XfdSummary, _
+                Minor:=Config.MinorTags, Watch:=Config.WatchTags)
+
+            Return New RequestResult(Result.Text, Result.ErrorMessage)
+        End Function
+
+        Protected Function CreateDiscussionSubpage(ByVal PageName As String, ByVal Text As String) As RequestResult
+            LogProgress(Msg("reqdelete-subpageprogress", Page.Name))
+
+            Dim Result As ApiResult = PostEdit(Config.AfdLocation & "/" & PageName, Text, _
+                Config.XfdDiscussionSummary.Replace("$1", Page.Name), _
+                Minor:=Config.MinorOther, Watch:=Config.WatchOther)
+
+            Return New RequestResult(Result.Text, Result.ErrorMessage)
+        End Function
+
+        Protected Delegate Function UpdateLogDelegate(ByVal Text As String) As String
+
+        Protected Function UpdateLog(ByVal Callback As UpdateLogDelegate, ByVal Summary As String, _
+            Optional ByVal Section As String = Nothing) As RequestResult
+
+            LogProgress(Msg("reqdelete-logprogress", Page.Name))
+
+            Dim Result As ApiResult = GetText(GetPage(LogPath), Section:=Section)
+
+            If Result.Error Then
+                Return New RequestResult(, Result.ErrorMessage)
+                Exit Function
+            End If
+
+            Dim Text As String = HtmlDecode(FindString(Result.Text, "<rev>", "</rev>"))
+
+            Text = Callback(Text)
+
+            Result = PostEdit(GetPage(LogPath), Text, Summary, Section:=Section, _
+                Minor:=Config.MinorOther, Watch:=Config.WatchOther)
+
+            Return New RequestResult(Result.Text, Result.ErrorMessage)
+        End Function
+
     End Class
 
     Class AfdRequest : Inherits XfdRequest
@@ -83,135 +151,59 @@ Namespace Requests
         Public Category As String
         Private Subpage As String
 
-        Public Sub Start()
-            LogProgress("Tagging '" & Page.Name & "' for deletion discussion...")
-            LogPath = Config.AfdLocation & "/Log/" & LogDate() & "#" & Page.Name
+        Protected Overrides Sub Process()
+            LogPath = Config.AfdLocation & "/Log/" & LogDate & "#" & Page.Name
 
-            Dim RequestThread As New Thread(AddressOf TagPage)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
-        End Sub
+            'Get title of discussion subpage
+            Dim Result As RequestResult = GetSubpageName(Page.Name, Config.AfdLocation)
 
-        Private Sub TagPage()
-            Dim Data As EditData = GetEditData(Page)
-
-            If Data.Error Then
-                Callback(AddressOf TagPageFailed)
-                Exit Sub
-
-            ElseIf Data.Creating Then
-                Callback(AddressOf PageDeleted)
-                Exit Sub
-
-            ElseIf Data.Text.ToLower.StartsWith("#redirect [[") Then
-                Callback(AddressOf RfdNeeded, CObj(Data))
-                Exit Sub
-
-            ElseIf Data.Text.Contains("{{AfDM|") Then
-                Callback(AddressOf AlreadyTagged)
+            If Result.Error Then
+                Fail(Msg("reqdelete-tagfail", Page.Name), Result.ErrorMessage)
                 Exit Sub
             End If
 
-            Subpage = GetNominationSubpage(Page.Name, Config.AfdLocation)
+            Subpage = Result.Text
 
             'Tag page
-            Data.Text = "{{subst:afd|" & Subpage & "}}" & LF & Data.Text
-            Data.Minor = Config.MinorTags
-            Data.Watch = Config.WatchTags
-            Data.Summary = Config.XfdSummary.Replace("$1", Config.AfdLocation & "/" & Subpage)
+            Result = TagPage("{{subst:afd|" & Subpage & "}}", "{{AfDM|", Redirect:=False)
 
-            Data = PostEdit(Data)
-
-            If Data.Error Then Callback(AddressOf TagPageFailed) Else Callback(AddressOf TagPageDone)
-        End Sub
-
-        Private Sub TagPageDone()
-            LogProgress("Creating deletion discussion subpage for '" & Page.Name & "'...")
-
-            Dim RequestThread As New Thread(AddressOf CreateSubpage)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
-        End Sub
-
-        Private Sub TagPageFailed()
-            Log("Failed to tag '" & Page.Name & "' for deletion discussion")
-            Fail()
-        End Sub
-
-        Private Sub CreateSubpage()
-            Dim Data As EditData = GetEditData(Config.AfdLocation & "/" & Subpage)
-
-            If Data.Error Then
-                Callback(AddressOf CreateSubpageFailed)
+            If Result.Error Then
+                Fail(Msg("reqdelete-tagfail", Page.Name), Result.ErrorMessage)
                 Exit Sub
             End If
 
-            Data.Text = "{{subst:afd2|pg=" & Page.Name & "|cat=" & Category & "|text=" & Reason & "}} ~~~~"
-            Data.Minor = Config.MinorOther
-            Data.Watch = Config.WatchOther
-            Data.Summary = Config.XfdDiscussionSummary.Replace("$1", Page.Name)
+            'Create discussion subpage
+            Result = CreateDiscussionSubpage(Subpage, _
+                "{{subst:afd2|pg=" & Page.Name & "|cat=" & Category & "|text=" & Reason & "}} ~~~~")
 
-            Data = PostEdit(Data)
-
-            If Data.Error Then Callback(AddressOf CreateSubpageFailed) Else Callback(AddressOf CreateSubpageDone)
-        End Sub
-
-        Private Sub CreateSubpageDone()
-            LogProgress("Updating AfD log for nomination of '" & Page.Name & "'...")
-
-            Dim RequestThread As New Thread(AddressOf UpdateLog)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
-        End Sub
-
-        Private Sub CreateSubpageFailed()
-            Log("Failed to create deletion discussion subpage for '" & Page.Name & "'")
-            Fail()
-        End Sub
-
-        Private Sub UpdateLog()
-            Dim Data As EditData = GetEditData(Config.AfdLocation & "/Log/" & LogDate())
-
-            If Data.Error Then
-                Callback(AddressOf UpdateLogFailed)
+            If Result.Error Then
+                Fail(Msg("reqdelete-subpagefail", Page.Name), Result.ErrorMessage)
                 Exit Sub
             End If
 
-            If Data.Text.Contains("{{" & Config.AfdLocation) Then
-                Data.Text = Data.Text.Substring(0, Data.Text.IndexOf("{{" & Config.AfdLocation)) & _
-                    "{{" & Config.AfdLocation & "/" & Subpage & "}}" & LF & _
-                    Data.Text.Substring(Data.Text.IndexOf("{{" & Config.AfdLocation))
-            Else
-                Data.Text &= LF & "{{" & Config.AfdLocation & "/" & Subpage & "}}"
+            'Update log page
+            Result = UpdateLog(AddressOf UpdateLogCallback, Config.XfdLogSummary.Replace("$1", Subpage))
+
+            If Result.Error Then
+                Fail(Msg("reqdelete-logfail", Page.Name), Result.ErrorMessage)
+                Exit Sub
             End If
 
-            Data.Minor = Config.MinorOther
-            Data.Watch = Config.WatchOther
-            Data.Summary = Config.XfdLogSummary.Replace("$1", Config.AfdLocation & "/" & Subpage)
-
-            Data = PostEdit(Data)
-
-            If Data.Error Then Callback(AddressOf UpdateLogFailed) Else Callback(AddressOf UpdateLogDone)
-        End Sub
-
-        Private Sub UpdateLogDone()
-            If Notify Then
-                If Page.FirstEdit IsNot Nothing AndAlso Page.FirstEdit.User IsNot Nothing Then
-                    DoNotify()
-                Else
-                    Dim NewHistoryRequest As New HistoryRequest
-                    NewHistoryRequest.Page = Page
-                    NewHistoryRequest.Start(AddressOf DoNotify)
-                End If
-            End If
-
+            If Notify Then DoNotify()
             Complete()
         End Sub
 
-        Private Sub UpdateLogFailed()
-            Log("Failed to update AfD log for nomination of '" & Page.Name & "'")
-            Fail()
-        End Sub
+        Protected Function UpdateLogCallback(ByVal Text As String) As String
+            If Text.Contains("{{" & Config.AfdLocation) Then
+                Text = Text.Substring(0, Text.IndexOf("{{" & Config.AfdLocation)) & _
+                    "{{" & Config.AfdLocation & "/" & Subpage & "}}" & LF & _
+                    Text.Substring(Text.IndexOf("{{" & Config.AfdLocation))
+            Else
+                Text &= LF & "{{" & Config.AfdLocation & "/" & Subpage & "}}"
+            End If
+
+            Return Text
+        End Function
 
     End Class
 
@@ -219,95 +211,33 @@ Namespace Requests
 
         'Nominate a category for deletion
 
-        Public Sub Start()
-            LogProgress("Tagging '" & Page.Name & "' for deletion discussion...")
+        Protected Overrides Sub Process()
             LogPath = Config.CfdLocation & "/Log/" & LogDate() & "#" & Page.Name
 
-            Dim RequestThread As New Thread(AddressOf TagPage)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
-        End Sub
+            'Tag page
+            Dim Result As RequestResult = TagPage("{{subst:cfd}}", "<!--BEGIN CFD TEMPLATE-->", Redirect:=False)
 
-        Private Sub TagPage()
-            Dim Data As EditData = GetEditData(Page)
-
-            If Data.Error Then
-                Callback(AddressOf TagPageFailed)
-                Exit Sub
-
-            ElseIf Data.Creating Then
-                Callback(AddressOf PageDeleted)
-                Exit Sub
-
-            ElseIf Data.Text.ToLower.StartsWith("#redirect [[") Then
-                Callback(AddressOf RfdNeeded, CObj(Data))
-                Exit Sub
-
-            ElseIf Data.Text.Contains("<!--BEGIN CFD TEMPLATE-->") Then
-                Callback(AddressOf AlreadyTagged)
+            If Result.Error Then
+                Fail(Msg("reqdelete-tagfail", Page.Name), Result.ErrorMessage)
                 Exit Sub
             End If
 
-            Data.Text = "{{subst:cfd}}" & LF & Data.Text
-            Data.Minor = Config.MinorTags
-            Data.Watch = Config.WatchTags
-            Data.Summary = Config.XfdSummary.Replace("$1", LogPath)
+            'Add discussion to log page
+            Result = UpdateLog(AddressOf UpdateLogCallback, Config.XfdSummary.Replace("$1", LogPath), Section:="2")
 
-            Data = PostEdit(Data)
-
-            If Data.Error Then Callback(AddressOf TagPageFailed) Else Callback(AddressOf TagPageDone)
-        End Sub
-
-        Private Sub TagPageDone()
-            LogProgress("Creating deletion discussion section for '" & Page.Name & "'...")
-
-            Dim RequestThread As New Thread(AddressOf CreateDiscussion)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
-        End Sub
-
-        Private Sub TagPageFailed()
-            Log("Failed to tag '" & Page.Name & "' for deletion discussion")
-            Fail()
-        End Sub
-
-        Private Sub CreateDiscussion()
-            Dim Data As EditData = GetEditData(Config.CfdLocation & "/Log/" & LogDate(), Section:=2)
-
-            If Data.Error Then
-                Callback(AddressOf CreateDiscussionFailed)
+            If Result.Error Then
+                Fail(Msg("reqdelete-logfail", Page.Name), Result.ErrorMessage)
                 Exit Sub
             End If
 
-            Data.Text &= LF & "{{subst:cfd2|" & Page.Name.Substring(Page.Name.IndexOf(":") + 1) & _
-                "|text=" & Reason & " ~~~~}}"
-            Data.Minor = Config.MinorOther
-            Data.Watch = Config.WatchOther
-            Data.Summary = Config.XfdLogSummary.Replace("$1", Page.Name)
-
-            Data = PostEdit(Data)
-
-            If Data.Error Then Callback(AddressOf CreateDiscussionFailed) Else Callback(AddressOf CreateDiscussionDone)
-        End Sub
-
-        Private Sub CreateDiscussionDone()
-            If Notify Then
-                If Page.FirstEdit IsNot Nothing AndAlso Page.FirstEdit.User IsNot Nothing Then
-                    DoNotify()
-                Else
-                    Dim NewHistoryRequest As New HistoryRequest
-                    NewHistoryRequest.Page = Page
-                    NewHistoryRequest.Start(AddressOf DoNotify)
-                End If
-            End If
-
+            If Notify Then DoNotify()
             Complete()
         End Sub
 
-        Private Sub CreateDiscussionFailed()
-            Log("Failed to create deletion discussion section for '" & Page.Name & "'")
-            Fail()
-        End Sub
+        Protected Function UpdateLogCallback(ByVal Text As String) As String
+            Return Text & LF & "{{subst:cfd2|" & Page.Name.Substring(Page.Name.IndexOf(":") + 1) & _
+                "|text=" & Reason & " ~~~~}}"
+        End Function
 
     End Class
 
@@ -317,148 +247,72 @@ Namespace Requests
 
         Private Subpage As String
 
-        Public Sub Start()
-            LogProgress("Tagging '" & Page.Name & "' for deletion discussion...")
+        Protected Overrides Sub Process()
             LogPath = Config.MfdLocation & "#" & Page.Name
 
-            Dim RequestThread As New Thread(AddressOf TagPage)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
-        End Sub
+            'Get title of discussion subpage
+            Dim Result As RequestResult = GetSubpageName(Page.Name, Config.AfdLocation)
 
-        Private Sub TagPage()
-            Dim Data As EditData = GetEditData(Page)
-
-            If Data.Error Then
-                Callback(AddressOf TagPageFailed)
-                Exit Sub
-
-            ElseIf Data.Creating Then
-                Callback(AddressOf PageDeleted)
-                Exit Sub
-
-            ElseIf Data.Text.ToLower.StartsWith("#redirect") Then
-                Callback(AddressOf RfdNeeded, CObj(Data))
-                Exit Sub
-
-            ElseIf Data.Text.Contains("{{mfdtag|") Then
-                Callback(AddressOf AlreadyTagged)
+            If Result.Error Then
+                Fail(Msg("reqdelete-tagfail", Page.Name), Result.ErrorMessage)
                 Exit Sub
             End If
 
-            Subpage = GetNominationSubpage(Page.Name, Config.MfdLocation)
+            Subpage = Result.Text
 
             'Tag page
-            Data.Text = "{{subst:mfd|" & Subpage & "}}" & LF & Data.Text
-            Data.Minor = Config.MinorTags
-            Data.Watch = Config.WatchTags
-            Data.Summary = Config.XfdSummary.Replace("$1", Config.MfdLocation & "/" & Subpage)
+            Result = TagPage("{{subst:mfd|" & Subpage & "}}", "{{mfdtag|", Redirect:=False)
 
-            Data = PostEdit(Data)
-
-            If Data.Error Then Callback(AddressOf TagPageFailed) Else Callback(AddressOf TagPageDone)
-        End Sub
-
-        Private Sub TagPageDone()
-            LogProgress("Creating deletion discussion subpage for '" & Page.Name & "'...")
-
-            Dim RequestThread As New Thread(AddressOf CreateSubpage)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
-        End Sub
-
-        Private Sub TagPageFailed()
-            Log("Failed to tag '" & Page.Name & "' for deletion discussion")
-            Fail()
-        End Sub
-
-        Private Sub CreateSubpage()
-            Dim Data As EditData = GetEditData(GetPage(Config.MfdLocation & "/" & Subpage))
-
-            If Data.Error Then
-                Callback(AddressOf CreateSubpageFailed)
+            If Result.Error Then
+                Fail(Msg("reqdelete-tagfail", Page.Name), Result.ErrorMessage)
                 Exit Sub
             End If
 
-            Data.Text = "{{subst:mfd2|pg=" & Page.Name & "|text=" & Reason & "}} ~~~~"
-            Data.Minor = Config.MinorOther
-            Data.Watch = Config.WatchOther
-            Data.Summary = Config.XfdDiscussionSummary.Replace("$1", Page.Name)
+            'Create discussion subpage
+            Result = CreateDiscussionSubpage(Subpage, _
+                "{{subst:mfd2|pg=" & Page.Name & "|text=" & Reason & "}} ~~~~")
 
-            Data = PostEdit(Data)
-
-            If Data.Error Then Callback(AddressOf CreateSubpageFailed) Else Callback(AddressOf CreateSubpageDone)
-        End Sub
-
-        Private Sub CreateSubpageDone()
-            LogProgress("Updating MfD log for nomination of '" & Page.Name & "'...")
-
-            Dim RequestThread As New Thread(AddressOf UpdateLog)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
-        End Sub
-
-        Private Sub CreateSubpageFailed()
-            Log("Failed to create deletion discussion subpage for '" & Page.Name & "'")
-            Fail()
-        End Sub
-
-        Private Sub UpdateLog()
-            Dim Data As EditData = GetEditData(Config.MfdLocation, , 1)
-
-            If Data.Error Then
-                Callback(AddressOf UpdateLogFailed)
+            If Result.Error Then
+                Fail(Msg("reqdelete-subpagefail", Page.Name), Result.ErrorMessage)
                 Exit Sub
             End If
 
+            'Update log page
+            Result = UpdateLog(AddressOf UpdateLogCallback, Config.XfdLogSummary.Replace("$1", Subpage))
+
+            If Result.Error Then
+                Fail(Msg("reqdelete-logfail", Page.Name), Result.ErrorMessage)
+                Exit Sub
+            End If
+
+            If Notify Then DoNotify()
+            Complete()
+        End Sub
+
+        Protected Function UpdateLogCallback(ByVal Text As String) As String
             'Add day header if necessary
             Dim DayHeader As String = "===[[" & CStr(Date.UtcNow.Year) & "-" & _
                 CStr(Date.UtcNow.Month).PadLeft(2, "0"c) & "-" & CStr(Date.UtcNow.Day).PadLeft(2, "0"c) & "]]==="
 
-            Data.Text = Data.Text.Replace("<!-- " & DayHeader & " -->", LF & DayHeader)
-            Data.Text = Data.Text.Replace("<!--" & DayHeader & "-->", LF & DayHeader)
+            Text = Text.Replace("<!-- " & DayHeader & " -->", LF & DayHeader)
+            Text = Text.Replace("<!--" & DayHeader & "-->", LF & DayHeader)
 
-            If Data.Text.Contains(DayHeader) Then
-                Data.Text = Data.Text.Substring(0, Data.Text.IndexOf(DayHeader) + 20) & LF & "{{" & _
+            If Text.Contains(DayHeader) Then
+                Text = Text.Substring(0, Text.IndexOf(DayHeader) + 20) & LF & "{{" & _
                     Config.MfdLocation & "/" & Subpage & "}}" & _
-                    Data.Text.Substring(Data.Text.IndexOf(DayHeader) + 20)
+                    Text.Substring(Text.IndexOf(DayHeader) + 20)
 
-            ElseIf Data.Text.Contains("===") Then
-                Data.Text = Data.Text.Substring(0, Data.Text.IndexOf("===")) & DayHeader & LF & "{{" & _
+            ElseIf Text.Contains("===") Then
+                Text = Text.Substring(0, Text.IndexOf("===")) & DayHeader & LF & "{{" & _
                     Config.MfdLocation & "/" & Subpage & "}}" & LF & _
-                    Data.Text.Substring(Data.Text.IndexOf("==="))
+                    Text.Substring(Text.IndexOf("==="))
 
             Else
-                Data.Text &= LF & "{{" & Config.MfdLocation & "/" & Subpage & "}}"
+                Text &= LF & "{{" & Config.MfdLocation & "/" & Subpage & "}}"
             End If
 
-            Data.Minor = Config.MinorOther
-            Data.Watch = Config.WatchOther
-            Data.Summary = Config.XfdLogSummary.Replace("$1", Config.MfdLocation & "/" & Subpage)
-
-            Data = PostEdit(Data)
-
-            If Data.Error Then Callback(AddressOf UpdateLogFailed) Else Callback(AddressOf UpdateLogDone)
-        End Sub
-
-        Private Sub UpdateLogDone()
-            Complete()
-
-            If Notify Then
-                If Page.FirstEdit IsNot Nothing AndAlso Page.FirstEdit.User IsNot Nothing Then
-                    DoNotify()
-                Else
-                    Dim NewHistoryRequest As New HistoryRequest
-                    NewHistoryRequest.Page = Page
-                    NewHistoryRequest.Start(AddressOf DoNotify)
-                End If
-            End If
-        End Sub
-
-        Private Sub UpdateLogFailed()
-            Log("Failed to update MfD log for nomination of '" & Page.Name & "'")
-            Fail()
-        End Sub
+            Return Text
+        End Function
 
     End Class
 
@@ -466,104 +320,33 @@ Namespace Requests
 
         'Nominate an image for deletion
 
-        Public Sub Start()
-            LogProgress("Tagging '" & Page.Name & "' for deletion discussion...")
-            LogPath = Config.IfdLocation & "/" & LogDate() & "#" & Page.Name
+        Protected Overrides Sub Process()
+            LogPath = Config.IfdLocation & "/Log/" & LogDate() & "#" & Page.Name
 
-            Dim RequestThread As New Thread(AddressOf TagPage)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
-        End Sub
+            'Tag page
+            Dim Result As RequestResult = TagPage("{{subst:ifd|log=" & LogDate & "}}", "{{IfD doc}}", Redirect:=False)
 
-        Private Sub TagPage()
-            Dim Data As EditData = GetEditData(Page)
-
-            If Data.Error Then
-                Callback(AddressOf TagPageFailed)
-                Exit Sub
-
-            ElseIf Data.Creating Then
-                Callback(AddressOf PageDeleted)
-                Exit Sub
-
-            ElseIf Data.Text.ToLower.StartsWith("#redirect [[") Then
-                Callback(AddressOf RfdNeeded, CObj(Data))
-                Exit Sub
-
-            ElseIf Data.Text.Contains("{{IfD doc}}") Then
-                Callback(AddressOf AlreadyTagged)
+            If Result.Error Then
+                Fail(Msg("reqdelete-tagfail", Page.Name), Result.ErrorMessage)
                 Exit Sub
             End If
 
-            Data.Text = "{{subst:ifd|log=" & LogDate() & "}}" & LF & Data.Text
-            Data.Minor = Config.MinorTags
-            Data.Watch = Config.WatchTags
-            Data.Summary = Config.XfdSummary.Replace("$1", LogPath)
+            'Add discussion to log page
+            Result = UpdateLog(AddressOf UpdateLogCallback, Config.XfdLogSummary.Replace("$1", Page.Name))
 
-            Data = PostEdit(Data)
-
-            If Data.Error Then Callback(AddressOf TagPageFailed) Else Callback(AddressOf TagPageDone)
-        End Sub
-
-        Private Sub TagPageDone()
-            If Page.FirstEdit IsNot Nothing AndAlso Page.FirstEdit.User IsNot Nothing Then
-                LogProgress("Creating deletion discussion section for '" & Page.Name & "'...")
-
-                Dim RequestThread As New Thread(AddressOf CreateDiscussion)
-                RequestThread.IsBackground = True
-                RequestThread.Start()
-            Else
-                Dim NewHistoryRequest As New HistoryRequest
-                NewHistoryRequest.Page = Page
-                NewHistoryRequest.Start(AddressOf GotHistory)
-            End If
-        End Sub
-
-        Private Sub GotHistory(ByVal Result As Request.Output)
-            If Page.FirstEdit IsNot Nothing AndAlso Page.FirstEdit.User IsNot Nothing Then
-                LogProgress("Creating deletion discussion section for '" & Page.Name & "'...")
-
-                Dim RequestThread As New Thread(AddressOf CreateDiscussion)
-                RequestThread.IsBackground = True
-                RequestThread.Start()
-            Else
-                Callback(AddressOf CreateDiscussionFailed)
-            End If
-        End Sub
-
-        Private Sub TagPageFailed()
-            Log("Failed to tag '" & Page.Name & "' for deletion discussion")
-            Fail()
-        End Sub
-
-        Private Sub CreateDiscussion()
-            Dim Data As EditData = GetEditData(Config.IfdLocation & "/" & LogDate())
-
-            If Data.Error Then
-                Callback(AddressOf CreateDiscussionFailed)
+            If Result.Error Then
+                Fail(Msg("reqdelete-logfail", Page.Name), Result.ErrorMessage)
                 Exit Sub
             End If
 
-            Data.Text &= LF & "{{subst:ifd2|" & Page.Name.Substring(Page.Name.IndexOf(":") + 1) & _
-                "|uploader=" & Page.FirstEdit.User.Name & "|reason=" & Reason & "}} ~~~~"
-            Data.Minor = Config.MinorOther
-            Data.Watch = Config.WatchOther
-            Data.Summary = Config.XfdLogSummary.Replace("$1", Page.Name)
-
-            Data = PostEdit(Data)
-
-            If Data.Error Then Callback(AddressOf CreateDiscussionFailed) Else Callback(AddressOf CreateDiscussionDone)
-        End Sub
-
-        Private Sub CreateDiscussionDone()
             If Notify Then DoNotify()
             Complete()
         End Sub
 
-        Private Sub CreateDiscussionFailed()
-            Log("Failed to create deletion discussion section for '" & Page.Name & "'")
-            Fail()
-        End Sub
+        Protected Function UpdateLogCallback(ByVal Text As String) As String
+            Return Text & LF & "{{subst:ifd2|" & Page.Name.Substring(Page.Name.IndexOf(":") + 1) & _
+                "|uploader=" & Page.FirstEdit.User.Name & "|reason=" & Reason & "}} ~~~~"
+        End Function
 
     End Class
 
@@ -571,100 +354,40 @@ Namespace Requests
 
         'Nominate a template for deletion
 
-        Public Sub Start()
-            LogProgress("Tagging '" & Page.Name & "' for deletion discussion...")
+        Protected Overrides Sub Process()
             LogPath = Config.TfdLocation & "/Log/" & LogDate() & "#" & Page.Name
 
-            Dim RequestThread As New Thread(AddressOf TagPage)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
-        End Sub
+            'Tag page
+            Dim Result As RequestResult = _
+                TagPage("<noinclude>{{tfd|" & Page.Name & "}}</noinclude>", "{{tfd|", Redirect:=False)
 
-        Private Sub TagPage()
-            Dim Data As EditData = GetEditData(Page)
-
-            If Data.Error Then
-                Callback(AddressOf TagPageFailed)
-                Exit Sub
-
-            ElseIf Data.Creating Then
-                Callback(AddressOf PageDeleted)
-                Exit Sub
-
-            ElseIf Data.Text.ToLower.StartsWith("#redirect [[") Then
-                Callback(AddressOf RfdNeeded, CObj(Data))
-                Exit Sub
-
-            ElseIf Data.Text.Contains("{{tfd|") Then
-                Callback(AddressOf AlreadyTagged)
+            If Result.Error Then
+                Fail(Msg("reqdelete-tagfail", Page.Name), Result.ErrorMessage)
                 Exit Sub
             End If
 
-            Data.Text = "<noinclude>{{tfd|" & Page.Name & "}}</noinclude>" & LF & Data.Text
-            Data.Minor = Config.MinorTags
-            Data.Watch = Config.WatchTags
-            Data.Summary = Config.XfdSummary.Replace("$1", LogPath)
+            'Add discussion to log page
+            Result = UpdateLog(AddressOf UpdateLogCallback, Config.XfdLogSummary.Replace("$1", Page.Name), Section:="1")
 
-            Data = PostEdit(Data)
-
-            If Data.Error Then Callback(AddressOf TagPageFailed) Else Callback(AddressOf TagPageDone)
-        End Sub
-
-        Private Sub TagPageDone()
-            LogProgress("Creating deletion discussion section for '" & Page.Name & "'...")
-
-            Dim RequestThread As New Thread(AddressOf CreateDiscussion)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
-        End Sub
-
-        Private Sub TagPageFailed()
-            Log("Failed to tag '" & Page.Name & "' for deletion discussion")
-            Fail()
-        End Sub
-
-        Private Sub CreateDiscussion()
-            Dim Data As EditData = GetEditData(Config.CfdLocation & "/Log/" & LogDate(), Section:=1)
-
-            If Data.Error Then
-                Callback(AddressOf CreateDiscussionFailed)
+            If Result.Error Then
+                Fail(Msg("reqdelete-logfail", Page.Name), Result.ErrorMessage)
                 Exit Sub
             End If
 
-            If Data.Text.Contains("====") Then
-                Data.Text = Data.Text.Substring(0, Data.Text.IndexOf("====")) & "{{subst:tfd2|" & Page.Name & _
-                    "|text=" & Reason & " ~~~~}}" & LF & LF & Data.Text.Substring(Data.Text.IndexOf("===="))
-            Else
-                Data.Text &= LF & "{{subst:tfd2|" & Page.Name & "|text=" & Reason & " ~~~~}}"
-            End If
-
-            Data.Minor = Config.MinorOther
-            Data.Watch = Config.WatchOther
-            Data.Summary = Config.XfdLogSummary.Replace("$1", Page.Name)
-
-            Data = PostEdit(Data)
-
-            If Data.Error Then Callback(AddressOf CreateDiscussionFailed) Else Callback(AddressOf CreateDiscussionDone)
-        End Sub
-
-        Private Sub CreateDiscussionDone()
+            If Notify Then DoNotify()
             Complete()
+        End Sub
 
-            If Notify Then
-                If Page.FirstEdit IsNot Nothing AndAlso Page.FirstEdit.User IsNot Nothing Then
-                    DoNotify()
-                Else
-                    Dim NewHistoryRequest As New HistoryRequest
-                    NewHistoryRequest.Page = Page
-                    NewHistoryRequest.Start(AddressOf DoNotify)
-                End If
+        Protected Function UpdateLogCallback(ByVal Text As String) As String
+            If Text.Contains("====") Then
+                Text = Text.Substring(0, Text.IndexOf("====")) & "{{subst:tfd2|" & Page.Name & _
+                    "|text=" & Reason & " ~~~~}}" & LF & LF & Text.Substring(Text.IndexOf("===="))
+            Else
+                Text &= LF & "{{subst:tfd2|" & Page.Name & "|text=" & Reason & " ~~~~}}"
             End If
-        End Sub
 
-        Private Sub CreateDiscussionFailed()
-            Log("Failed to create deletion discussion section for '" & Page.Name & "'")
-            Fail()
-        End Sub
+            Return Text
+        End Function
 
     End Class
 
@@ -672,105 +395,41 @@ Namespace Requests
 
         'Nominate a redirect for deletion
 
-        Public Data As EditData
         Private Target As String
 
-        Public Sub Start()
-            If Config.RfdLocation IsNot Nothing Then
-                LogProgress("Tagging '" & Page.Name & "' for deletion discussion...")
+        Protected Overrides Sub Process()
+            LogPath = Config.RfdLocation & "/Log/" & LogDate() & "#" & Page.Name & " .E2.86.92 " & Target
 
-                Dim RequestThread As New Thread(AddressOf TagPage)
-                RequestThread.IsBackground = True
-                RequestThread.Start()
-            Else
-                Log("Did not tag '" & Page.Name & _
-                    "' for deletion discussion, as it is a redirect and no redirect discussion process is defined")
-                Fail()
-            End If
-        End Sub
+            'Tag page
+            Dim Result As RequestResult = TagPage("{{rfd}}", "{{rfd}}", Redirect:=True)
 
-        Private Sub TagPage()
-            If Not (Data.Text.Contains("[[") AndAlso Data.Text.Contains("]]")) Then
-                Callback(AddressOf TagPageFailed)
-                Exit Sub
-
-            ElseIf Data.Text.Contains("{{rfd}}") Then
-                Callback(AddressOf AlreadyTagged)
+            If Result.Error Then
+                Fail(Msg("reqdelete-tagfail", Page.Name), Result.ErrorMessage)
                 Exit Sub
             End If
 
-            Target = Data.Text.Substring(Data.Text.IndexOf("[[") + 2)
-            If Target.Contains("]]") Then Target = Target.Substring(0, Target.IndexOf("]]"))
+            'Add discussion to log page
+            Result = UpdateLog(AddressOf UpdateLogCallback, Config.XfdLogSummary.Replace("$1", Page.Name))
 
-            Data.Text = "{{rfd}}" & LF & Data.Text
-            Data.Minor = Config.MinorTags
-            Data.Watch = Config.WatchTags
-            Data.Summary = Config.XfdSummary.Replace("$1", Config.RfdLocation & "/Log/" & LogDate() & "#" & _
-                Page.Name & " .E2.86.92 " & Target)
-
-            Data = PostEdit(Data)
-
-            If Data.Error Then Callback(AddressOf TagPageFailed) Else Callback(AddressOf TagPageDone)
-        End Sub
-
-        Private Sub TagPageDone()
-            LogProgress("Creating deletion discussion section for '" & Page.Name & "'...")
-            LogPath = Config.RfdLocation & "/Log/" & LogDate() & "#" & Page.Name
-
-            Dim RequestThread As New Thread(AddressOf CreateDiscussion)
-            RequestThread.IsBackground = True
-            RequestThread.Start()
-        End Sub
-
-        Private Sub TagPageFailed()
-            Log("Failed to tag '" & Page.Name & "' for deletion discussion")
-            Fail()
-        End Sub
-
-        Private Sub CreateDiscussion()
-            Dim Data As EditData = GetEditData(Config.RfdLocation & "/Log/" & LogDate())
-
-            If Data.Error Then
-                Callback(AddressOf CreateDiscussionFailed)
+            If Result.Error Then
+                Fail(Msg("reqdelete-logfail", Page.Name), Result.ErrorMessage)
                 Exit Sub
             End If
 
-            If Data.Text.Contains("====") Then
-                Data.Text = Data.Text.Substring(0, Data.Text.IndexOf("====")) & _
-                    "{{subst:rfd2|redirect=" & Page.Name & "|target=" & Target & "|text=" & Reason & "}} ~~~~" & _
-                    LF & LF & Data.Text.Substring(Data.Text.IndexOf("===="))
-            Else
-                Data.Text &= LF & "{{subst:rfd2|redirect=" & Page.Name & "|target=" & Target & "|text=" & _
-                    Reason & "}} ~~~~"
-            End If
-
-            Data.Minor = Config.MinorOther
-            Data.Watch = Config.WatchOther
-            Data.Summary = Config.XfdLogSummary.Replace("$1", Page.Name)
-
-            Data = PostEdit(Data)
-
-            If Data.Error Then Callback(AddressOf CreateDiscussionFailed) Else Callback(AddressOf CreateDiscussionDone)
-        End Sub
-
-        Private Sub CreateDiscussionDone()
+            If Notify Then DoNotify()
             Complete()
+        End Sub
 
-            If Notify Then
-                If Page.FirstEdit IsNot Nothing AndAlso Page.FirstEdit.User IsNot Nothing Then
-                    DoNotify()
-                Else
-                    Dim NewHistoryRequest As New HistoryRequest
-                    NewHistoryRequest.Page = Page
-                    NewHistoryRequest.Start(AddressOf DoNotify)
-                End If
+        Protected Function UpdateLogCallback(ByVal Text As String) As String
+            If Text.Contains("====") Then
+                Text = Text.Substring(0, Text.IndexOf("====")) & "{{subst:rfd2|redirect=" & Page.Name & "|target=" & _
+                    Target & "|text=" & Reason & "}} ~~~~" & LF & LF & Text.Substring(Text.IndexOf("===="))
+            Else
+                Text &= LF & "{{subst:rfd2|redirect=" & Page.Name & "|target=" & Target & "|text=" & Reason & "}} ~~~~"
             End If
-        End Sub
 
-        Private Sub CreateDiscussionFailed()
-            Log("Failed to create deletion discussion section for '" & Page.Name & "'")
-            Fail()
-        End Sub
+            Return Text
+        End Function
 
     End Class
 
