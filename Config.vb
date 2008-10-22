@@ -25,25 +25,15 @@ Class Configuration
     Public ConfigChanged As Boolean
     Public ConfigVersion As New Version(0, 0, 0)
     Public DefaultLanguage As String = "en"
+    Public DefaultProject As String = "en"
     Public Languages As New List(Of String)(New String() {"en", "bg", "de", "es", "no", "pt", "ru"})
     Public LatestVersion As New Version(0, 0, 0)
     Public Messages As New Dictionary(Of String, Dictionary(Of String, String))
     Public Password As String
-    Public SitePath As String = "http://en.wikipedia.org/"
     Public Version As New Version(Application.ProductVersion)
     Public WarningMessages As New Dictionary(Of String, String)
 
-    Public ReadOnly Projects As New List(Of String)(New String() { _
-        "en.wikipedia;en.wikipedia.org", _
-        "bg.wikipedia;bg.wikipedia.org", _
-        "de.wikipedia;de.wikipedia.org", _
-        "es.wikipedia;es.wikipedia.org", _
-        "no.wikipedia;no.wikipedia.org", _
-        "pt.wikipedia;pt.wikipedia.org", _
-        "ru.wikipedia;ru.wikipedia.org", _
-        "commons;commons.wikimedia.org", _
-        "meta;meta.wikimedia.org", _
-        "test wiki;test.wikipedia.org"})
+    Public Projects As New Dictionary(Of String, String)
 
     'Values stored in local config file
 
@@ -112,6 +102,7 @@ Class Configuration
     Public IrcPort As Integer = 6667
     Public IrcServer As String
     Public IrcUsername As String
+    Public LocalizatonPath As String = "Huggle/Localization/"
     Public LogFile As String
     Public MaxAIVDiffs As Integer = 8
     Public MfdLocation As String
@@ -184,6 +175,7 @@ Class Configuration
     Public TemplateMessages As New List(Of String)
     Public TemplateMessagesGlobal As New List(Of String)
     Public TfdLocation As String
+    Public TranslateLocation As String = "http://en.wikipedia.org/wiki/Wikipedia:Huggle/Localization"
     Public TrayIcon As Boolean
     Public TRR As Boolean
     Public TRRLocation As String
@@ -230,6 +222,12 @@ Class Configuration
     Public Welcome As String
     Public WelcomeAnon As String
     Public WelcomeSummary As String
+
+    Public ReadOnly Property SitePath(Optional ByVal Project As String = Nothing) As String
+        Get
+            If Project Is Nothing Then Return Projects(Config.Project) Else Return Projects(Project)
+        End Get
+    End Property
 
 End Class
 
@@ -592,6 +590,17 @@ Module ConfigIO
     Public Sub LoadLocalConfig()
         'Read from local configuration file
 
+        Config.Projects.Add("en.wikipedia", "http://en.wikipedia.org/")
+        Config.Projects.Add("bg.wikipedia", "http://bg.wikipedia.org/")
+        Config.Projects.Add("de.wikipedia", "http://de.wikipedia.org/")
+        Config.Projects.Add("es.wikipedia", "http://es.wikipedia.org/")
+        Config.Projects.Add("no.wikipedia", "http://no.wikipedia.org/")
+        Config.Projects.Add("pt.wikipedia", "http://pt.wikipedia.org/")
+        Config.Projects.Add("ru.wikipedia", "http://ru.wikipedia.org/")
+        Config.Projects.Add("commons", "http://commons.wikimedia.org/")
+        Config.Projects.Add("meta", "http://meta.wikimedia.org/")
+        Config.Projects.Add("test wiki", "http://test.wikipedia.org/")
+
         QueueNames.Clear()
         InitialiseShortcuts()
 
@@ -630,7 +639,7 @@ Module ConfigIO
             Next Item
         End If
 
-        If Config.Project Is Nothing Then Config.Project = Config.Projects(0)
+        If Config.Project Is Nothing Then Config.Project = Config.DefaultProject
         If Config.Language Is Nothing Then Config.Language = Config.DefaultLanguage
     End Sub
 
@@ -731,7 +740,7 @@ Module ConfigIO
             Then Config.Language = Config.DefaultLanguage
     End Sub
 
-    Private Sub LoadLanguage(ByVal Name As String, ByVal MessageFile As String)
+    Public Sub LoadLanguage(ByVal Name As String, ByVal MessageFile As String)
         'Load message file
         Config.Messages.Add(Name, New Dictionary(Of String, String))
 

@@ -329,6 +329,13 @@ Namespace Requests
 
         'Retrieve data through the MediaWiki API
         Protected Function GetApi(ByVal QueryString As String) As ApiResult
+            Return GetApi(Config.Project, QueryString)
+        End Function
+
+        Protected Function GetApi(ByVal Project As String, ByVal QueryString As String) As ApiResult
+
+            If Project Is Nothing Then Project = Config.Project
+
             Query = QueryString
             Mode = Modes.Get
 
@@ -344,7 +351,7 @@ Namespace Requests
 
                 Try
                     Result = UTF8.GetString(Client.DownloadData _
-                        (Config.SitePath & "w/api.php?format=xml&" & QueryString))
+                        (Config.SitePath(project) & "w/api.php?format=xml&" & querystring))
                 Catch ex As WebException
                     If Retries > 0 Then Log(Msg("error-exception", Truncate(Query, 50)) & ": " & _
                         ex.Message & " " & Msg("retrying"))
