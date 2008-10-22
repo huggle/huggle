@@ -492,7 +492,9 @@ error-unknown:             Unknown error
 error-exception:           Error retrieving '{0}'
 error-fail:                Failed to retrieve '{0}'
 error-noresponse:          No response
-error-pagemissing          The page does not exist
+error-pagemissing:         The page does not exist
+error-apidisabled:         The MediaWiki API is disabled
+
 retrying:                  Retrying...
 
 block-done:                Blocked '{0}'

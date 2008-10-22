@@ -92,7 +92,7 @@ Namespace Requests
             Dim GlobalConfigResult As RequestResult = (New GlobalConfigRequest).Invoke
 
             If GlobalConfigResult.Error Then
-                Abort(Msg("login-error-global"), GlobalConfigResult.ErrorMessage)
+                Abort(GlobalConfigResult.ErrorMessage)
                 Exit Sub
             End If
 
@@ -112,7 +112,7 @@ Namespace Requests
             Dim ProjectConfigResult As RequestResult = (New ProjectConfigRequest).Invoke
 
             If ProjectConfigResult.Error Then
-                Abort(Msg("login-error-project"), ProjectConfigResult.ErrorMessage)
+                Abort(ProjectConfigResult.ErrorMessage)
                 Exit Sub
             End If
 

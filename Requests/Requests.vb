@@ -352,9 +352,13 @@ Namespace Requests
 
             Loop Until Result <> "" OrElse Retries = 0
 
-            If Result = "" Then Return New ApiResult(Nothing, "null", Msg("error-noreponse")) _
-                Else Return New ApiResult(Result, FindString(Result, "<error", "code=""", """"), _
-                FindString(Result, "<error", "info=""", """"))
+            If Result.StartsWith("MediaWiki API is not enabled for this site") _
+                Then Return New ApiResult(Nothing, "error-apidisabled", Msg("error-apidisabled"))
+
+            If Result = "" Then Return New ApiResult(Nothing, "null", Msg("error-noreponse"))
+
+            Return New ApiResult(Result, HtmlDecode(FindString(Result, "<error", "code=""", """")), _
+                HtmlDecode(FindString(Result, "<error", "info=""", """")))
         End Function
 
         'Submit data through the MediaWiki API
@@ -384,8 +388,12 @@ Namespace Requests
 
             Loop Until Result <> "" OrElse Retries = 0
 
-            If Result = "" Then Return New ApiResult(Nothing, "null", Msg("error-noresponse")) _
-                Else Return New ApiResult(Result, HtmlDecode(FindString(Result, "<error", "code=""", """")), _
+            If Result.StartsWith("MediaWiki API is not enabled for this site") _
+                Then Return New ApiResult(Nothing, "error-apidisabled", Msg("error-apidisabled"))
+
+            If Result = "" Then Return New ApiResult(Nothing, "null", Msg("error-noresponse"))
+
+            Return New ApiResult(Result, HtmlDecode(FindString(Result, "<error", "code=""", """")), _
                 HtmlDecode(FindString(Result, "<error", "info=""", """")))
         End Function
 
@@ -486,8 +494,8 @@ Namespace Requests
             Get
                 'Return a localized error message where possible
                 If _ErrorCode Is Nothing Then Return _ErrorMessage
-                If MsgExists("api-" & _ErrorCode) Then Return Msg("api-" & _ErrorCode) & " [" & _ErrorCode & "]"
-                Return _ErrorMessage & " [" & _ErrorCode & "]"
+                If MsgExists("api-" & _ErrorCode) Then Return Msg("api-" & _ErrorCode)
+                Return _ErrorMessage
             End Get
         End Property
 
