@@ -49,6 +49,7 @@ Partial Class LoginForm
         Me.Logo = New System.Windows.Forms.PictureBox
         Me.LanguageLabel = New System.Windows.Forms.Label
         Me.Language = New System.Windows.Forms.ComboBox
+        Me.Translate = New System.Windows.Forms.Button
         Me.ProxyGroup.SuspendLayout()
         CType(Me.Logo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -223,7 +224,7 @@ Partial Class LoginForm
         Me.Project.Location = New System.Drawing.Point(80, 116)
         Me.Project.MaxDropDownItems = 20
         Me.Project.Name = "Project"
-        Me.Project.Size = New System.Drawing.Size(132, 21)
+        Me.Project.Size = New System.Drawing.Size(108, 21)
         Me.Project.TabIndex = 1
         '
         'ProjectLabel
@@ -342,6 +343,8 @@ Partial Class LoginForm
         '
         'Language
         '
+        Me.Language.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Language.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.Language.FormattingEnabled = True
         Me.Language.Location = New System.Drawing.Point(80, 89)
@@ -349,11 +352,22 @@ Partial Class LoginForm
         Me.Language.Size = New System.Drawing.Size(108, 21)
         Me.Language.TabIndex = 16
         '
+        'Translate
+        '
+        Me.Translate.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Translate.Location = New System.Drawing.Point(194, 88)
+        Me.Translate.Name = "Translate"
+        Me.Translate.Size = New System.Drawing.Size(82, 23)
+        Me.Translate.TabIndex = 17
+        Me.Translate.Text = "Translate..."
+        Me.Translate.UseVisualStyleBackColor = True
+        '
         'LoginForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(288, 432)
+        Me.Controls.Add(Me.Translate)
         Me.Controls.Add(Me.Language)
         Me.Controls.Add(Me.LanguageLabel)
         Me.Controls.Add(Me.Logo)
@@ -411,4 +425,5 @@ Partial Class LoginForm
     Friend WithEvents ProxyPort As Huggle.IntegerTextBox
     Friend WithEvents LanguageLabel As System.Windows.Forms.Label
     Friend WithEvents Language As System.Windows.Forms.ComboBox
+    Friend WithEvents Translate As System.Windows.Forms.Button
 End Class

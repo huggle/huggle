@@ -24,12 +24,12 @@ Class LoginForm
         If Language.SelectedIndex = -1 Then Language.SelectedItem = Config.Messages(Config.DefaultLanguage)("name")
 
 #If DEBUG Then
-            'If the app is in debug mode add a localhost wiki to the project list
-            If Not Config.Projects.Contains("localhost;localhost") Then Config.Projects.Add("localhost;localhost")
+        'If the app is in debug mode add a localhost wiki to the project list
+        If Not Config.Projects.ContainsKey("localhost") Then Config.Projects.Add("localhost", "http://localhost/")
 #End If
 
-        For Each Item As String In Config.Projects
-            If Item.Contains(";") Then Project.Items.Add(Item.Substring(0, Item.IndexOf(";")))
+        For Each Item As String In Config.Projects.Keys
+            Project.Items.Add(Item)
         Next Item
 
         If Config.Project IsNot Nothing Then Project.SelectedItem = Config.Project
@@ -60,16 +60,9 @@ Class LoginForm
     Private Sub OK_Click() Handles OK.Click
         LoggingIn = True
 
-        For Each Item As String In Config.Projects
-            If Item.StartsWith(Project.Text & ";") Then
-                Config.Project = Item.Substring(0, Item.IndexOf(";"))
-                Config.SitePath = "http://" & Item.Substring(Item.IndexOf(";") + 1) & "/"
-                Exit For
-            End If
-        Next Item
+        Config.Project = Config.Projects(Project.Text)
 
-        If Config.Project <> "localhost" _
-            Then Config.IrcChannel = "#" & Config.Project.Substring(0, Config.Project.Length)
+        If Config.Project <> "localhost" Then Config.IrcChannel = "#" & Config.Project
 
         Config.IrcMode = (Config.Project <> "localhost")
         Config.ProxyEnabled = Proxy.Checked
@@ -156,6 +149,10 @@ Class LoginForm
         For Each Item As Control In ProxyGroup.Controls
             If Item IsNot Proxy Then Item.Enabled = Proxy.Checked
         Next Item
+    End Sub
+
+    Private Sub Translate_Click() Handles Translate.Click
+        OpenUrlInBrowser(Config.TranslateLocation)
     End Sub
 
     Private Sub Username_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles Username.KeyDown
