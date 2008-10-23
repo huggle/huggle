@@ -31,9 +31,9 @@ Module Irc
         "14\]\]4 unblock10 02 5\* 03([^]*) 5\*  10unblocked 02([^]*)10: ([^]*)?", _
         RegexOptions.Compiled)
 
-    Dim DeleteMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/del" & _
-        "ete14\]\]4 delete10 02 5\* 03([^]*?) 5\*  10deleted ""\[\[02([^]*?)10\]" & _
-        "\]"": ([^]*)", RegexOptions.Compiled)
+    Dim DeleteMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/delete14\]\]4 delete" & _
+        "10 02 5\* 03([^]*) 5\*  10deleted ""\[\[02([^]*)10\]\]""(?:: ([^]*))?", _
+        RegexOptions.Compiled)
 
     Dim RestoreMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/delete" & _
         "14\]\]4 restore10 02 5\* 03([^]*) 5\*  10restored ""\[\[02([^]*)10\]\]""" & _

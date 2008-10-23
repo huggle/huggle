@@ -250,7 +250,7 @@ Namespace Requests
 
             Dim IgnoredUsernames As New List(Of String)
 
-            For Each Item As String In Split(Result.Text, LF)
+            For Each Item As String In Split(HtmlDecode(FindString(Result.Text, "<rev>", "</rev>")), LF)
                 If Item.Length > 0 AndAlso Not (Item.Contains("{") OrElse Item.Contains("<")) _
                     AndAlso Not IgnoredUsernames.Contains(Item) Then IgnoredUsernames.Add(Item)
             Next Item
@@ -272,7 +272,6 @@ Namespace Requests
 
             Result = PostEdit(Config.WhitelistLocation, Text, Config.WhitelistUpdateSummary, Minor:=True)
 
-            'If the edit fails call fail, if it is done call done
             If Result.Error Then Fail(, Result.ErrorMessage) Else Complete()
         End Sub
 

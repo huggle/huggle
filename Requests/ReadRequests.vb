@@ -73,7 +73,7 @@ Namespace Requests
             'Using &action=render here would make things far simpler; unfortunately, that was broken for
             'image diff pages in 2007 and it would appear that nobody cares.
 
-            Result = GetUrl(Config.SitePath & "w/index.php?title=" & UrlEncode(Edit.Page.Name) _
+            Result = GetUrl(SitePath & "w/index.php?title=" & UrlEncode(Edit.Page.Name) _
                 & "&diff=" & Edit.Id & "&oldid=" & Oldid & "&diffonly=1&uselang=en")
 
             If Result Is Nothing Then
@@ -393,7 +393,7 @@ Namespace Requests
         Public Page As Page, Text As String
 
         Protected Overrides Sub Process()
-            Dim Result As String = PostUrl(Config.SitePath & "w/index.php?title=" & UrlEncode(Page.Name) & _
+            Dim Result As String = PostUrl(SitePath & "w/index.php?title=" & UrlEncode(Page.Name) & _
                 "&action=submit", "&wpDiff=0&wpStarttime=" & Timestamp(Date.UtcNow) & _
                 "&wpEdittime=&wpTextbox1=" & UrlEncode(Text))
 
@@ -698,7 +698,7 @@ Namespace Requests
 
             'Currently, there is no way to do this through the MediaWiki API
 
-            Dim Result As String = GetUrl(Config.SitePath & "w/index.php?title=Special:Watchlist/raw")
+            Dim Result As String = GetUrl(SitePath & "w/index.php?title=Special:Watchlist/raw")
 
             If Result Is Nothing Then
                 Fail(Msg("login-error-watchlist"))
@@ -708,6 +708,42 @@ Namespace Requests
             Dim WatchlistText As String = HtmlDecode(FindString(Result, "<textarea", ">", "</textarea>"))
 
             If WatchlistText Is Nothing Then Fail(Msg("login-error-watchlist")) Else Complete(, WatchlistText)
+        End Sub
+
+    End Class
+
+    Class LanguageRequest : Inherits Request
+
+        'Retrieve language pages
+
+        Protected Overrides Sub Process()
+            Dim PathPage As Page = GetPage(Config.LocalizatonPath)
+
+            Dim Result As ApiResult = GetApi("meta", _
+                "action=query&prop=revisions&rvprop=content&generator=allpages&gapnamespace=" & _
+                CStr(PathPage.Space.Number) & "&gapprefix=" & PathPage.BaseName)
+
+            If Result.Error Then
+                Fail(Msg("login-error-language"), Result.ErrorMessage)
+                Exit Sub
+            End If
+
+            Config.Languages.Clear()
+
+            'Load messages for each language
+
+            For Each Page As String In Split(Result.Text, "<page ")
+                Dim Language As String = GetParameter(Page, "title")
+                If Language Is Nothing Then Continue For
+
+                Language = Language.Substring(Language.LastIndexOf("/") + 1)
+                Config.Languages.Add(Language)
+
+                Dim Text As String = HtmlDecode(FindString(Page, "<rev>", "</rev>"))
+                LoadLanguage(Language, Text)
+            Next Page
+
+            If Config.Languages.Count = 0 Then Fail("No localization files found.")
         End Sub
 
     End Class

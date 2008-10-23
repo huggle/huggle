@@ -433,7 +433,7 @@ Module Misc
     End Structure
 
     Function MakeHtmlWikiPage(ByVal Page As String, ByVal Text As String) As String
-        Return My.Resources.WikiPageHtml.Replace("$PATH", Config.SitePath).Replace("$PAGE", Page) _
+        Return My.Resources.WikiPageHtml.Replace("$PATH", SitePath).Replace("$PAGE", Page) _
             .Replace("$USER", Config.Username).Replace("$FONTSIZE", CStr(CInt((CInt(Config.DiffFontSize) * 1.2)))) & _
             "<body>" & Text & "</body></html>"
     End Function
@@ -531,6 +531,10 @@ Module Misc
         Return Params
     End Function
 
+    Function SitePath(Optional ByVal Project As String = Nothing) As String
+        If Project Is Nothing Then Return Config.Projects(Config.Project) Else Return Config.Projects(Project)
+    End Function
+
     Function SortWarningsByDate(ByVal X As Warning, ByVal Y As Warning) As Integer
         Return Date.Compare(Y.Time, X.Time)
     End Function
@@ -587,7 +591,7 @@ Module Misc
     End Function
 
     Function WikiUrl(ByVal Url As String) As Boolean
-        Return (Url.StartsWith(Config.SitePath & "w/index.php?") OrElse Url.StartsWith(Config.SitePath & "wiki/"))
+        Return (Url.StartsWith(SitePath & "w/index.php?") OrElse Url.StartsWith(SitePath & "wiki/"))
     End Function
 
 End Module

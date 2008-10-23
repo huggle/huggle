@@ -472,13 +472,13 @@ Class Main
     End Sub
 
     Sub PageViewLatest_Click() Handles PageViewLatest.Click
-        If CurrentPage IsNot Nothing Then DisplayUrl(Config.SitePath & "w/index.php?title=" & _
+        If CurrentPage IsNot Nothing Then DisplayUrl(SitePath() & "w/index.php?title=" & _
             UrlEncode(CurrentPage.Name.Replace(" ", "_")))
     End Sub
 
     Sub PageView_Click() Handles PageView.Click, PageViewB.Click
         If CurrentEdit IsNot Nothing AndAlso CurrentPage IsNot Nothing _
-            Then DisplayUrl(Config.SitePath & "w/index.php?title=" & UrlEncode(CurrentPage.Name) & "&oldid=" & CurrentEdit.Id)
+            Then DisplayUrl(SitePath() & "w/index.php?title=" & UrlEncode(CurrentPage.Name) & "&oldid=" & CurrentEdit.Id)
     End Sub
 
     Private Sub DiffRevertSummary_Click() Handles RevertAdvanced.Click
@@ -515,7 +515,7 @@ Class Main
         If CurrentEdit IsNot Nothing AndAlso CurrentEdit.User IsNot Nothing Then
             Dim NewBrowserRequest As New BrowserRequest
             NewBrowserRequest.Tab = CurrentTab
-            NewBrowserRequest.Url = Config.SitePath & "w/index.php?title=" & UrlEncode(CurrentUser.TalkPage.Name)
+            NewBrowserRequest.Url = SitePath() & "w/index.php?title=" & UrlEncode(CurrentUser.TalkPage.Name)
             NewBrowserRequest.Start()
 
             Dim NewWarnLevelRequest As New WarningLogRequest
@@ -1438,7 +1438,7 @@ Class Main
     End Sub
 
     Private Sub PageShowHistoryPage_Click() Handles PageHistoryPage.Click
-        If CurrentPage IsNot Nothing Then DisplayUrl(Config.SitePath & "w/index.php?title=" & _
+        If CurrentPage IsNot Nothing Then DisplayUrl(SitePath() & "w/index.php?title=" & _
             UrlEncode(CurrentPage.Name.Replace(" ", "_")) & "&action=history")
     End Sub
 

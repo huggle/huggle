@@ -60,8 +60,7 @@ Class LoginForm
     Private Sub OK_Click() Handles OK.Click
         LoggingIn = True
 
-        Config.Project = Config.Projects(Project.Text)
-
+        Config.Project = Project.Text
         If Config.Project <> "localhost" Then Config.IrcChannel = "#" & Config.Project
 
         Config.IrcMode = (Config.Project <> "localhost")

@@ -187,9 +187,11 @@ login-proxyaddress:        Address:
 login-proxyport:           Port:
 login-proxydomain:         Domain:
 login-start:               Login
+login-translate:           Translate...
 login-captchatitle:        Captcha required to log in
 
 login-progress-start:      Logging in...
+login-progress-language:   Updating message files...
 login-progress-global:     Checking global configuration...
 login-progress-project:    Checking project configuration...
 login-progress-user:       Checking user configuration...
@@ -211,6 +213,7 @@ login-error-count:         Use of Huggle on this project requires at least {0} e
 login-error-disabled:      Huggle is not enabled for your account, check user configuration page.
 login-error-global:        Failed to load global configuration page.
 login-error-invalid:       Invalid username.
+login-error-language:      Failed to load message files.
 login-error-nocaptcha:     Captcha not solved.
 login-error-nouser:        User does not exist.
 login-error-password:      Incorrect password.
@@ -617,6 +620,7 @@ warn-fail:                 Did not warn '{0}'
 warn-progress:             Warning '{0}'...
 </pre>
 
+=== API ===
 <pre>
 api-help:                  No parameters in API query
 </pre>

@@ -1138,7 +1138,7 @@ Module Processing
                 'For the first revision to the page, show the revision
                 Dim NewRequest As New BrowserRequest
                 NewRequest.Tab = CurrentTab
-                NewRequest.Url = Config.SitePath & "w/index.php?title=" & UrlEncode(Edit.Page.Name) & "&oldid=" & Edit.Id
+                NewRequest.Url = SitePath & "w/index.php?title=" & UrlEncode(Edit.Page.Name) & "&oldid=" & Edit.Id
                 NewRequest.Start()
 
             Else
@@ -1156,14 +1156,14 @@ Module Processing
                             "System -> Show new messages or press M to view them.</div>" & DiffText
 
                         'Replace relative URLs with absolute ones
-                        DiffText = DiffText.Replace("href=""/wiki/", "href=""" & Config.SitePath & "wiki/")
-                        DiffText = DiffText.Replace("href='/wiki/", "href='" & Config.SitePath & "wiki/")
-                        DiffText = DiffText.Replace("href=""/w/", "href=""" & Config.SitePath & "w/")
-                        DiffText = DiffText.Replace("href='/w/", "href='" & Config.SitePath & "w/")
+                        DiffText = DiffText.Replace("href=""/wiki/", "href=""" & SitePath & "wiki/")
+                        DiffText = DiffText.Replace("href='/wiki/", "href='" & SitePath & "wiki/")
+                        DiffText = DiffText.Replace("href=""/w/", "href=""" & SitePath & "w/")
+                        DiffText = DiffText.Replace("href='/w/", "href='" & SitePath & "w/")
 
                         DocumentText = MakeHtmlWikiPage(Edit.Page.Name, DiffText)
 
-                        Tab.CurrentUrl = Config.SitePath & "w/index.php?title=" & UrlEncode(Edit.Page.Name) & _
+                        Tab.CurrentUrl = SitePath & "w/index.php?title=" & UrlEncode(Edit.Page.Name) & _
                             "&diff=" & Edit.Id & "&oldid=" & Edit.Oldid
                         Tab.Browser.DocumentText = DocumentText
                     End If

@@ -166,7 +166,7 @@ Namespace Requests
                 GetMonthName(Date.UtcNow.Month) & " " & CStr(Date.UtcNow.Year) & " ==" & LF & LF
 
             Text &= WarningNeeded.Replace("$1", Edit.Page.Name).Replace("$2", _
-                Config.SitePath & "wiki/" & UrlEncode(Edit.Page.Name) & "?diff=" & Edit.Id)
+                SitePath & "wiki/" & UrlEncode(Edit.Page.Name) & "?diff=" & Edit.Id)
 
             Result = PostEdit(Edit.User.TalkPage, Text, WarnSummary.Replace("$1", Edit.Page.Name), _
                 Minor:=Config.MinorWarnings, Watch:=Config.WatchWarnings)

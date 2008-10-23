@@ -15,10 +15,10 @@ Module Login
         If (Address = "") Then
             Port = 80
 
-            Dim ProxyString As String = CStr(My.Computer.Registry.GetValue _
+            Dim ProxyString As String = CStr(Microsoft.Win32.Registry.GetValue _
                 ("HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings", "ProxyServer", ""))
 
-            Dim ProxyEnabled As Boolean = CBool(My.Computer.Registry.GetValue _
+            Dim ProxyEnabled As Boolean = CBool(Microsoft.Win32.Registry.GetValue _
                 ("HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings", "ProxyEnable", False))
 
             If (Not ProxyEnabled Or ProxyString = "") Then
@@ -85,6 +85,16 @@ Namespace Requests
             End Try
 
             If State = States.Cancelled Then Thread.CurrentThread.Abort()
+
+            'Update language files
+            UpdateStatus(Msg("login-progress-language"))
+
+            Dim LanguageResult As RequestResult = (New LanguageRequest).Invoke
+
+            If LanguageResult.Error Then
+                Abort(LanguageResult.ErrorMessage)
+                Exit Sub
+            End If
 
             'Get global configuration
             UpdateStatus(Msg("login-progress-global"))

@@ -8,14 +8,15 @@ Namespace Requests
         'Process global configuration page
 
         Protected Overrides Sub Process()
-            Dim Result As String = GetUrl(Config.GlobalConfigLocation)
+            Dim Result As ApiResult = GetApi("meta", "action=query&prop=revisions&rvlimit=1&rvprop=content&titles=" & _
+                Config.GlobalConfigLocation)
 
-            If String.IsNullOrEmpty(Result) Then
-                Fail(Msg("loadglobalconfig-fail"), Msg("error-unknown"))
+            If Result.Error Then
+                Fail(Msg("loadglobalconfig-fail"), Result.ErrorMessage)
                 Exit Sub
             End If
 
-            For Each Item As KeyValuePair(Of String, String) In ProcessConfigFile(Result)
+            For Each Item As KeyValuePair(Of String, String) In ProcessConfigFile(Result.Text)
 
                 Try
                     SetGlobalConfigOption(Item.Key, Item.Value)

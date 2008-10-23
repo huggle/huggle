@@ -196,7 +196,7 @@ Namespace Requests
                     Retries -= 1
 
                     Try
-                        Result = UTF8.GetString(Client.DownloadData(Config.SitePath & _
+                        Result = UTF8.GetString(Client.DownloadData(SitePath & _
                             "w/index.php?title=Special:Userlogin"))
                         If State = States.Cancelled Then Return LoginResult.Cancelled
 
@@ -237,7 +237,7 @@ Namespace Requests
                     "&wpCaptchaWord=" & Login.CaptchaWord
 
                 Try
-                    Result = UTF8.GetString(Client.UploadData(Config.SitePath & _
+                    Result = UTF8.GetString(Client.UploadData(SitePath & _
                         "w/index.php?title=Special:Userlogin&action=submitlogin", UTF8.GetBytes(PostString)))
 
                     If State = States.Cancelled Then Return LoginResult.Cancelled
@@ -259,7 +259,7 @@ Namespace Requests
             'Set cookie
             Cookie = ""
 
-            For Each Item As Cookie In Client.Cookies.GetCookies(New Uri(Config.SitePath))
+            For Each Item As Cookie In Client.Cookies.GetCookies(New Uri(SitePath))
                 Cookie &= Item.ToString & "; "
             Next Item
 
@@ -335,7 +335,6 @@ Namespace Requests
         Protected Function GetApi(ByVal Project As String, ByVal QueryString As String) As ApiResult
 
             If Project Is Nothing Then Project = Config.Project
-
             Query = QueryString
             Mode = Modes.Get
 
@@ -351,7 +350,7 @@ Namespace Requests
 
                 Try
                     Result = UTF8.GetString(Client.DownloadData _
-                        (Config.SitePath(project) & "w/api.php?format=xml&" & querystring))
+                        (SitePath(Project) & "w/api.php?format=xml&" & QueryString))
                 Catch ex As WebException
                     If Retries > 0 Then Log(Msg("error-exception", Truncate(Query, 50)) & ": " & _
                         ex.Message & " " & Msg("retrying"))
@@ -386,7 +385,7 @@ Namespace Requests
 
                 Try
                     Result = UTF8.GetString(Client.UploadData _
-                        (Config.SitePath & "w/api.php?format=xml&" & QueryString, UTF8.GetBytes(PostString)))
+                        (SitePath & "w/api.php?format=xml&" & QueryString, UTF8.GetBytes(PostString)))
 
                 Catch ex As WebException
                     If Retries > 0 Then Log(Msg("error-exception", Truncate(Query, 50)) & ": " & _

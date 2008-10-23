@@ -62,11 +62,11 @@ Class BlockForm
     End Sub
 
     Private Sub UserTalk_Click() Handles UserTalk.Click
-        OpenUrlInBrowser(Config.SitePath & "w/index.php?title=" & urlencode(User.TalkPage.Name))
+        OpenUrlInBrowser(SitePath() & "w/index.php?title=" & UrlEncode(User.TalkPage.Name))
     End Sub
 
     Private Sub UserContribs_Click() Handles UserContribs.Click
-        OpenUrlInBrowser(Config.SitePath & "w/index.php?title=Special:Contributions/" & User.Name)
+        OpenUrlInBrowser(SitePath() & "w/index.php?title=Special:Contributions/" & User.Name)
     End Sub
 
     Private Sub Reason_SelectedIndexChanged() Handles Reason.SelectedIndexChanged

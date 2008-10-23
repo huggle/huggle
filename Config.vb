@@ -17,8 +17,7 @@ Class Configuration
     Public ReadOnly RequestAttempts As Integer = 3
     Public ReadOnly RequestRetryInterval As Integer = 1000
     Public ReadOnly LocalConfigLocation As String = "\config.txt"
-    Public ReadOnly GlobalConfigLocation As String = _
-        "http://meta.wikimedia.org/w/index.php?title=Huggle/GlobalConfig&action=raw"
+    Public ReadOnly GlobalConfigLocation As String = "Huggle/GlobalConfig"
 
     'Values only used at runtime
 
@@ -175,7 +174,7 @@ Class Configuration
     Public TemplateMessages As New List(Of String)
     Public TemplateMessagesGlobal As New List(Of String)
     Public TfdLocation As String
-    Public TranslateLocation As String = "http://en.wikipedia.org/wiki/Wikipedia:Huggle/Localization"
+    Public TranslateLocation As String = "http://meta.wikimedia.org/wiki/Huggle/Localization"
     Public TrayIcon As Boolean
     Public TRR As Boolean
     Public TRRLocation As String
@@ -222,12 +221,6 @@ Class Configuration
     Public Welcome As String
     Public WelcomeAnon As String
     Public WelcomeSummary As String
-
-    Public ReadOnly Property SitePath(Optional ByVal Project As String = Nothing) As String
-        Get
-            If Project Is Nothing Then Return Projects(Config.Project) Else Return Projects(Project)
-        End Get
-    End Property
 
 End Class
 
@@ -742,13 +735,14 @@ Module ConfigIO
 
     Public Sub LoadLanguage(ByVal Name As String, ByVal MessageFile As String)
         'Load message file
+        If Config.Messages.ContainsKey(Name) Then Config.Messages.Remove(Name)
         Config.Messages.Add(Name, New Dictionary(Of String, String))
 
         If MessageFile IsNot Nothing Then
-            For Each Item As String In MessageFile.Split(New String() {CRLF}, StringSplitOptions.RemoveEmptyEntries)
+            For Each Item As String In MessageFile.Split(New String() {LF}, StringSplitOptions.RemoveEmptyEntries)
                 If Item.Contains(":") Then
-                    Dim MsgName As String = Item.Substring(0, Item.IndexOf(":")).Trim(" "c)
-                    Dim MsgValue As String = Item.Substring(Item.IndexOf(":") + 1).Trim(" "c)
+                    Dim MsgName As String = Item.Substring(0, Item.IndexOf(":")).Trim(" "c, CR)
+                    Dim MsgValue As String = Item.Substring(Item.IndexOf(":") + 1).Trim(" "c, CR)
 
                     If Config.Messages(Name).ContainsKey(MsgName) Then
                         Log("Warning: Duplicate definition of message '" & MsgName & "' in language '" & Name & "'")
