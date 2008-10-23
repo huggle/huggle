@@ -58,10 +58,9 @@ Module Irc
         "14\]\]4 overwrite10 02 5\* 03([^]*) 5\*  10uploaded a new version of """ & _
         "\[\[02([^]*)10\]\]""(?:: )?([^]*)?", RegexOptions.Compiled)
 
-    Dim ProtectMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/protect" & _
-        "14\]\]4 protect10 02 5\* 03([^]*) 5\*  10protected 02([^]*)10(?: \[edit=([a-z]*)\] " & _
-        "\(expires ([^\(]*) \(UTC\)\))?(?: \[move=([a-z]*)\] \(expires ([^\(]*) \(UTC\)\))?: ([^^C]*)?", _
-        RegexOptions.Compiled)
+    Dim ProtectMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/protect14\]\]4 " & _
+        "protect10 02 5\* 03([^]*) 5\*  10protected 02([^]*)10(?: \[edit=([a-z]*)\] \(([^\)]*" & _
+        "\)?)\))?(?: \[move=([a-z]*)\] \(([^\)]*\)?)\))?: ([^^C]*)?", RegexOptions.Compiled)
 
     Dim ModifyMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/protect" & _
         "14\]\]4 modify10 02 5\* 03([^]*) 5\*  10changed protection level for ""\[\[02([^]*)" & _
@@ -227,10 +226,11 @@ Module Irc
 
                         NewProtection.Admin = GetUser(Match.Groups(1).Value)
                         NewProtection.Page = GetPage(Match.Groups(2).Value)
-                        NewProtection.Summary = Match.Groups(3).Value
-                        NewProtection.EditLevel = Match.Groups(4).Value
+                        NewProtection.EditLevel = Match.Groups(3).Value
+                        NewProtection.EditExpiry = ProcessExpiry(Match.Groups(4).Value)
                         NewProtection.MoveLevel = Match.Groups(5).Value
-                        'NewProtection.Expiry = CDate(Match.Groups(6).Value)
+                        NewProtection.MoveExpiry = ProcessExpiry(Match.Groups(6).Value)
+                        NewProtection.Summary = Match.Groups(7).Value
 
                         Callback(AddressOf ProcessProtection, CObj(NewProtection))
 
@@ -329,6 +329,14 @@ Module Irc
         ProcessNewEdit(Edit)
         If MainForm IsNot Nothing AndAlso MainForm.Visible Then MainForm.RefreshInterface()
     End Sub
+
+    Private Function ProcessExpiry(ByVal Text As String) As Date
+        If String.IsNullOrEmpty(Text) Then Return Date.MinValue
+
+        If Text = "indefinite" Then Return Date.MaxValue
+
+        Return CDate(FindString(Text, " "))
+    End Function
 
     Private Sub IrcLog(ByVal Message As String)
         Callback(AddressOf IrcLogCallback, CObj(Message))
