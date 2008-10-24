@@ -18,7 +18,7 @@ Module Irc
     End Sub
 
     Dim EditMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07([^]*)14\]\]4 (M?)B?10 02.*di" & _
-        "ff=([^&]*)&oldid=([^]*) 5\* 03([^]*) 5\* \(?([^]*)?\) 10([^]*)", RegexOptions.Compiled)
+        "ff=([^&]*)&oldid=([^]*) 5\* 03([^]*) 5\* \(?([^]*)?\) 10([^]*)?", RegexOptions.Compiled)
 
     Dim NewPageMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07([^]*)14\]\]4 N(M?)B?" & _
         "10 02[^ ]* 5\* 03([^]*) 5\* \(([^\)]*)\) 10([^]*)", RegexOptions.Compiled)
@@ -335,7 +335,7 @@ Module Irc
 
         If Text = "indefinite" Then Return Date.MaxValue
 
-        Return CDate(FindString(Text, " "))
+        Return CDate(FindString(Text, " ").Replace(" (UTC)", ""))
     End Function
 
     Private Sub IrcLog(ByVal Message As String)
