@@ -17,7 +17,7 @@ Class Configuration
     Public ReadOnly RequestAttempts As Integer = 3
     Public ReadOnly RequestRetryInterval As Integer = 1000
     Public ReadOnly LocalConfigLocation As String = "\config.txt"
-    Public ReadOnly GlobalConfigLocation As String = "Huggle/GlobalConfig"
+    Public ReadOnly GlobalConfigLocation As String = "Huggle/Config"
 
     'Values only used at runtime
 
@@ -273,9 +273,11 @@ Module ConfigIO
             Case "documentation" : Config.DocsLocation = Value
             Case "feedback" : Config.FeedbackLocation = Value
             Case "irc-server" : Config.IrcServer = Value
+            Case "min-version" : Config.MinVersion = ParseVersion(Value)
             Case "sensitive-addresses" : SetSensitiveAddresses(Value)
             Case "user-agent" : Config.UserAgent = Value.Replace("$1", Config.Version.ToString)
             Case "user-config" : Config.UserConfigLocation = Value
+            Case "version" : Config.LatestVersion = ParseVersion(Value)
         End Select
     End Sub
 
@@ -391,7 +393,6 @@ Module ConfigIO
             Case "manual-revert-summary" : Config.RevertSummary = Value
             Case "multiple-revert-summary-parts" : Config.MultipleRevertSummaryParts = GetList(Value)
             Case "mfd" : Config.MfdLocation = Value
-            Case "min-version" : SetMinVersion(Value)
             Case "namespace-aliases" : SetNamespaceAliases(GetList(Value))
             Case "namespace-names" : SetNamespaceNames(GetList(Value))
             Case "page-blanked-pattern" : Config.PageBlankedPattern = New Regex(Value, RegexOptions.Compiled)
@@ -426,7 +427,6 @@ Module ConfigIO
             Case "update-whitelist-manual" : Config.UpdateWhitelistManual = CBool(Value)
             Case "userlist" : Config.UserListLocation = Value
             Case "userlist-update-summary" : Config.UserListUpdateSummary = Value
-            Case "version" : SetLatestVersion(Value)
             Case "warning-im-level" : Config.WarningImLevel = CBool(Value)
             Case "warning-mode" : Config.WarningMode = Value
             Case "warning-month-headings" : Config.MonthHeadings = CBool(Value)
@@ -461,11 +461,6 @@ Module ConfigIO
         Next Item
     End Sub
 
-    Private Sub SetLatestVersion(ByVal VersionString As String)
-        Config.LatestVersion = New Version(CInt(VersionString.Substring(0, 1)), _
-            CInt(VersionString.Substring(2, 1)), CInt(VersionString.Substring(4)))
-    End Sub
-
     Private Sub SetMinor(ByVal Value As String)
         Config.MinorManual = False
         Config.MinorNotifications = False
@@ -490,10 +485,10 @@ Module ConfigIO
         Next Item
     End Sub
 
-    Private Sub SetMinVersion(ByVal VersionString As String)
-        Config.MinVersion = New Version(CInt(VersionString.Substring(0, 1)), _
+    Private Function ParseVersion(ByVal VersionString As String) As Version
+        Return New Version(CInt(VersionString.Substring(0, 1)), _
             CInt(VersionString.Substring(2, 1)), CInt(VersionString.Substring(4)))
-    End Sub
+    End Function
 
     Private Sub SetNamespaceNames(ByVal Items As List(Of String))
         For Each Item As String In Items

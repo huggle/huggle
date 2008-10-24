@@ -113,19 +113,6 @@ Namespace Requests
 
             If State = States.Cancelled Then Thread.CurrentThread.Abort()
 
-            'Connect to IRC, if required (on separate thread)
-            If Config.IrcMode AndAlso (Config.IrcChannel IsNot Nothing) Then IrcConnect()
-
-            'Get project configuration
-            UpdateStatus(Msg("login-progress-project"))
-
-            Dim ProjectConfigResult As RequestResult = (New ProjectConfigRequest).Invoke
-
-            If ProjectConfigResult.Error Then
-                Abort(ProjectConfigResult.ErrorMessage)
-                Exit Sub
-            End If
-
             'Notify user of new version
             If Config.LatestVersion > Config.Version Then
                 Dim UpdateForm As New UpdateForm
@@ -137,6 +124,19 @@ Namespace Requests
                 End If
 
                 UpdateForm.ShowDialog()
+            End If
+
+            'Connect to IRC, if required (on separate thread)
+            If Config.IrcMode AndAlso (Config.IrcChannel IsNot Nothing) Then IrcConnect()
+
+            'Get project configuration
+            UpdateStatus(Msg("login-progress-project"))
+
+            Dim ProjectConfigResult As RequestResult = (New ProjectConfigRequest).Invoke
+
+            If ProjectConfigResult.Error Then
+                Abort(ProjectConfigResult.ErrorMessage)
+                Exit Sub
             End If
 
             If Not Config.EnabledForAll Then
@@ -349,6 +349,8 @@ Namespace Requests
                 Dim Page As Page = GetPage(Item)
                 If Not Watchlist.Contains(Page) Then Watchlist.Add(Page)
             Next Item
+
+            If State = States.Cancelled Then Thread.CurrentThread.Abort()
 
             Callback(AddressOf LoginForm.Done)
             Complete()
