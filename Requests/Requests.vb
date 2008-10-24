@@ -181,7 +181,7 @@ Namespace Requests
         End Sub
 
         Protected Function DoLogin() As LoginResult
-            Dim Client As New WebClient2, Result As String = "", Retries As Integer = 3
+            Dim Client As New Huggle.WebClient, Result As String = "", Retries As Integer = 3
 
             Mode = Modes.Get
             Query = "title=Special:Userlogin"
@@ -189,7 +189,6 @@ Namespace Requests
             If Login.CaptchaId Is Nothing Then
                 'Get login form, to check whether captcha is needed
                 Do
-                    Client.Headers.Add(HttpRequestHeader.UserAgent, Config.UserAgent)
                     Client.Headers.Add(HttpRequestHeader.ContentType, "application/x-www-form-urlencoded")
                     Client.Proxy = Proxy
 
@@ -208,11 +207,6 @@ Namespace Requests
 
                 If Retries = 0 Then Return LoginResult.Failed
 
-                If Client.ResponseHeaders(HttpResponseHeader.SetCookie) IsNot Nothing Then
-                    Cookie = Client.ResponseHeaders(HttpResponseHeader.SetCookie)
-                    Cookie = Cookie.Substring(0, Cookie.IndexOf(";") + 1)
-                End If
-
                 If Result.Contains("<div class='captcha'>") Then
                     Login.CaptchaId = Result.Substring(Result.IndexOf("id=""wpCaptchaId"" value=""") + 24)
                     Login.CaptchaId = Login.CaptchaId.Substring(0, Login.CaptchaId.IndexOf(""""))
@@ -225,9 +219,7 @@ Namespace Requests
             Query = "title=Special:Userlogin&action=submitlogin&type=login"
 
             Do
-                Client.Headers.Add(HttpRequestHeader.UserAgent, Config.UserAgent)
                 Client.Headers.Add(HttpRequestHeader.ContentType, "application/x-www-form-urlencoded")
-                Client.Headers.Add(HttpRequestHeader.Cookie, Cookie)
                 Client.Proxy = Login.Proxy
 
                 Retries -= 1
@@ -256,15 +248,6 @@ Namespace Requests
             If Result.Contains("<span id=""mw-wrongpassword"">") Then Return LoginResult.WrongPassword
             If Result.Contains("<div id=""userloginForm"">") Then Return LoginResult.Failed
 
-            'Set cookie
-            Cookie = ""
-
-            For Each Item As Cookie In Client.Cookies.GetCookies(New Uri(SitePath))
-                Cookie &= Item.ToString & "; "
-            Next Item
-
-            Cookie = Cookie.Trim(" "c)
-
             Return LoginResult.Success
         End Function
 
@@ -273,11 +256,9 @@ Namespace Requests
             If Url.Contains("?") Then Query = Url.Substring(Url.IndexOf("?") + 1) Else Query = Url
             Mode = Modes.Get
 
-            Dim Client As New WebClient, Retries As Integer = Config.RequestAttempts, Result As String = Nothing
+            Dim Client As New Huggle.WebClient, Retries As Integer = Config.RequestAttempts, Result As String = Nothing
 
             Do
-                Client.Headers.Add(HttpRequestHeader.UserAgent, Config.UserAgent)
-                Client.Headers.Add(HttpRequestHeader.Cookie, Cookie)
                 Client.Proxy = Login.Proxy
 
                 If Retries < Config.RequestAttempts Then Thread.Sleep(Config.RequestRetryInterval)
@@ -302,11 +283,9 @@ Namespace Requests
             If Url.Contains("?") Then Query = Url.Substring(Url.IndexOf("?") + 1) Else Query = Url
             Mode = Modes.Get
 
-            Dim Client As New WebClient, Retries As Integer = Config.RequestAttempts, Result As String = Nothing
+            Dim Client As New Huggle.WebClient, Retries As Integer = Config.RequestAttempts, Result As String = Nothing
 
             Do
-                Client.Headers.Add(HttpRequestHeader.UserAgent, Config.UserAgent)
-                Client.Headers.Add(HttpRequestHeader.Cookie, Cookie)
                 Client.Headers.Add(HttpRequestHeader.ContentType, "application/x-www-form-urlencoded")
                 Client.Proxy = Login.Proxy
 
@@ -338,11 +317,9 @@ Namespace Requests
             Query = QueryString
             Mode = Modes.Get
 
-            Dim Client As New WebClient, Retries As Integer = Config.RequestAttempts, Result As String = ""
+            Dim Client As New Huggle.WebClient, Retries As Integer = Config.RequestAttempts, Result As String = ""
 
             Do
-                Client.Headers.Add(HttpRequestHeader.UserAgent, Config.UserAgent)
-                Client.Headers.Add(HttpRequestHeader.Cookie, Cookie)
                 Client.Proxy = Login.Proxy
 
                 If Retries < Config.RequestAttempts Then Thread.Sleep(Config.RequestRetryInterval)
@@ -372,11 +349,9 @@ Namespace Requests
             Query = QueryString
             Mode = Modes.Post
 
-            Dim Client As New WebClient, Retries As Integer = Config.RequestAttempts, Result As String = ""
+            Dim Client As New Huggle.WebClient, Retries As Integer = Config.RequestAttempts, Result As String = ""
 
             Do
-                Client.Headers.Add(HttpRequestHeader.UserAgent, Config.UserAgent)
-                Client.Headers.Add(HttpRequestHeader.Cookie, Cookie)
                 Client.Headers.Add(HttpRequestHeader.ContentType, "application/x-www-form-urlencoded")
                 Client.Proxy = Login.Proxy
 

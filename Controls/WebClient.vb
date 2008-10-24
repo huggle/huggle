@@ -1,9 +1,9 @@
 Imports System.Net
 
 <DebuggerStepThrough()> _
-Class WebClient2
+Class WebClient
 
-    Inherits WebClient
+    Inherits System.Net.WebClient
 
     'Extend WebClient so we can attach a CookieContainer to each request
     'so cookies sent with redirection responses don't get lost
@@ -19,6 +19,8 @@ Class WebClient2
     Protected Overrides Function GetWebRequest(ByVal Address As Uri) As WebRequest
         Dim Request As HttpWebRequest = CType(MyBase.GetWebRequest(Address), HttpWebRequest)
         Request.CookieContainer = _Cookies
+        Request.AutomaticDecompression = DecompressionMethods.GZip
+        Request.UserAgent = Config.UserAgent
         Return Request
     End Function
 

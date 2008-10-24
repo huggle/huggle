@@ -76,8 +76,10 @@ Class Configuration
     Public ConfigSummary As String
     Public ConfirmIgnored As Boolean = True
     Public ConfirmMultiple As Boolean
+    Public ConfirmRange As Boolean = True
     Public ConfirmSame As Boolean = True
     Public ConfirmSelfRevert As Boolean = True
+    Public ConfirmWarned As Boolean = True
     Public CountBatchSize As Integer = 20
     Public CustomRevertSummaries As New List(Of String)
     Public DefaultSummary As String = ""
@@ -305,8 +307,10 @@ Module ConfigIO
             Case "block-summary" : Config.BlockSummary = "Notification: Blocked"
             Case "confirm-ignored" : Config.ConfirmIgnored = CBool(Value)
             Case "confirm-multiple" : Config.ConfirmMultiple = CBool(Value)
+            Case "confirm-range" : Config.ConfirmRange = CBool(Value)
             Case "confirm-same" : Config.ConfirmSame = CBool(Value)
             Case "confirm-self-revert" : Config.ConfirmSelfRevert = CBool(Value)
+            Case "confirm-warned" : Config.ConfirmWarned = CBool(Value)
             Case "default-summary" : Config.DefaultSummary = Value
             Case "diff-font-size" : Config.DiffFontSize = Value
             Case "irc-port" : Config.IrcPort = CInt(Value)

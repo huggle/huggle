@@ -81,7 +81,7 @@
     <Compile Include="Controls\TriState.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\WebClient2.vb">
+    <Compile Include="Controls\WebClient.vb">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Drawing.vb" />
