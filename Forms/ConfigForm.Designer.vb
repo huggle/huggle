@@ -129,6 +129,8 @@ Partial Class ConfigForm
         Me.PromptForBlock = New System.Windows.Forms.CheckBox
         Me.UseAdminFunctions = New System.Windows.Forms.CheckBox
         Me.ViewLocalConfig = New System.Windows.Forms.LinkLabel
+        Me.ConfirmWarned = New System.Windows.Forms.CheckBox
+        Me.ConfirmRange = New System.Windows.Forms.CheckBox
         Me.Tabs.SuspendLayout()
         Me.GeneralTab.SuspendLayout()
         CType(Me.DiffFontSize, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -148,7 +150,7 @@ Partial Class ConfigForm
         'Cancel
         '
         Me.Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Cancel.Location = New System.Drawing.Point(446, 334)
+        Me.Cancel.Location = New System.Drawing.Point(446, 355)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
         Me.Cancel.TabIndex = 1
@@ -158,7 +160,7 @@ Partial Class ConfigForm
         'OK
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.OK.Location = New System.Drawing.Point(365, 334)
+        Me.OK.Location = New System.Drawing.Point(365, 355)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
         Me.OK.TabIndex = 0
@@ -183,7 +185,7 @@ Partial Class ConfigForm
         Me.Tabs.Location = New System.Drawing.Point(6, 10)
         Me.Tabs.Name = "Tabs"
         Me.Tabs.SelectedIndex = 0
-        Me.Tabs.Size = New System.Drawing.Size(519, 318)
+        Me.Tabs.Size = New System.Drawing.Size(519, 339)
         Me.Tabs.TabIndex = 2
         '
         'GeneralTab
@@ -625,6 +627,8 @@ Partial Class ConfigForm
         '
         'RevertTab
         '
+        Me.RevertTab.Controls.Add(Me.ConfirmRange)
+        Me.RevertTab.Controls.Add(Me.ConfirmWarned)
         Me.RevertTab.Controls.Add(Me.ClearSummaries)
         Me.RevertTab.Controls.Add(Me.ClearSummariesLabel)
         Me.RevertTab.Controls.Add(Me.ConfirmSelfRevert)
@@ -639,7 +643,7 @@ Partial Class ConfigForm
         Me.RevertTab.Location = New System.Drawing.Point(4, 23)
         Me.RevertTab.Name = "RevertTab"
         Me.RevertTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.RevertTab.Size = New System.Drawing.Size(511, 291)
+        Me.RevertTab.Size = New System.Drawing.Size(511, 312)
         Me.RevertTab.TabIndex = 5
         Me.RevertTab.Text = "Reverting"
         Me.RevertTab.UseVisualStyleBackColor = True
@@ -648,7 +652,7 @@ Partial Class ConfigForm
         '
         Me.ClearSummaries.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.ClearSummaries.Enabled = False
-        Me.ClearSummaries.Location = New System.Drawing.Point(433, 257)
+        Me.ClearSummaries.Location = New System.Drawing.Point(430, 278)
         Me.ClearSummaries.Name = "ClearSummaries"
         Me.ClearSummaries.Size = New System.Drawing.Size(75, 23)
         Me.ClearSummaries.TabIndex = 36
@@ -659,7 +663,7 @@ Partial Class ConfigForm
         '
         Me.ClearSummariesLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.ClearSummariesLabel.AutoSize = True
-        Me.ClearSummariesLabel.Location = New System.Drawing.Point(6, 262)
+        Me.ClearSummariesLabel.Location = New System.Drawing.Point(6, 283)
         Me.ClearSummariesLabel.Name = "ClearSummariesLabel"
         Me.ClearSummariesLabel.Size = New System.Drawing.Size(395, 13)
         Me.ClearSummariesLabel.TabIndex = 35
@@ -678,7 +682,7 @@ Partial Class ConfigForm
         'AddSummary
         '
         Me.AddSummary.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.AddSummary.Location = New System.Drawing.Point(6, 230)
+        Me.AddSummary.Location = New System.Drawing.Point(6, 251)
         Me.AddSummary.Name = "AddSummary"
         Me.AddSummary.Size = New System.Drawing.Size(62, 23)
         Me.AddSummary.TabIndex = 33
@@ -689,7 +693,7 @@ Partial Class ConfigForm
         '
         Me.RemoveSummary.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.RemoveSummary.Enabled = False
-        Me.RemoveSummary.Location = New System.Drawing.Point(74, 230)
+        Me.RemoveSummary.Location = New System.Drawing.Point(74, 251)
         Me.RemoveSummary.Name = "RemoveSummary"
         Me.RemoveSummary.Size = New System.Drawing.Size(62, 23)
         Me.RemoveSummary.TabIndex = 32
@@ -699,7 +703,7 @@ Partial Class ConfigForm
         'RevertSummariesLabel
         '
         Me.RevertSummariesLabel.AutoSize = True
-        Me.RevertSummariesLabel.Location = New System.Drawing.Point(3, 133)
+        Me.RevertSummariesLabel.Location = New System.Drawing.Point(3, 173)
         Me.RevertSummariesLabel.Name = "RevertSummariesLabel"
         Me.RevertSummariesLabel.Size = New System.Drawing.Size(195, 13)
         Me.RevertSummariesLabel.TabIndex = 31
@@ -712,15 +716,15 @@ Partial Class ConfigForm
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.RevertSummaries.FormattingEnabled = True
         Me.RevertSummaries.IntegralHeight = False
-        Me.RevertSummaries.Location = New System.Drawing.Point(6, 149)
+        Me.RevertSummaries.Location = New System.Drawing.Point(6, 189)
         Me.RevertSummaries.Name = "RevertSummaries"
-        Me.RevertSummaries.Size = New System.Drawing.Size(393, 75)
+        Me.RevertSummaries.Size = New System.Drawing.Size(393, 56)
         Me.RevertSummaries.TabIndex = 30
         '
         'UseRollback
         '
         Me.UseRollback.AutoSize = True
-        Me.UseRollback.Location = New System.Drawing.Point(9, 107)
+        Me.UseRollback.Location = New System.Drawing.Point(9, 153)
         Me.UseRollback.Name = "UseRollback"
         Me.UseRollback.Size = New System.Drawing.Size(138, 17)
         Me.UseRollback.TabIndex = 29
@@ -730,7 +734,7 @@ Partial Class ConfigForm
         'AutoAdvance
         '
         Me.AutoAdvance.AutoSize = True
-        Me.AutoAdvance.Location = New System.Drawing.Point(9, 84)
+        Me.AutoAdvance.Location = New System.Drawing.Point(9, 130)
         Me.AutoAdvance.Name = "AutoAdvance"
         Me.AutoAdvance.Size = New System.Drawing.Size(259, 17)
         Me.AutoAdvance.TabIndex = 28
@@ -1257,20 +1261,42 @@ Partial Class ConfigForm
         '
         'ViewLocalConfig
         '
+        Me.ViewLocalConfig.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.ViewLocalConfig.AutoSize = True
-        Me.ViewLocalConfig.Location = New System.Drawing.Point(7, 339)
+        Me.ViewLocalConfig.Location = New System.Drawing.Point(7, 360)
         Me.ViewLocalConfig.Name = "ViewLocalConfig"
         Me.ViewLocalConfig.Size = New System.Drawing.Size(148, 13)
         Me.ViewLocalConfig.TabIndex = 3
         Me.ViewLocalConfig.TabStop = True
         Me.ViewLocalConfig.Text = "View local configuration folder"
         '
+        'ConfirmWarned
+        '
+        Me.ConfirmWarned.AutoSize = True
+        Me.ConfirmWarned.Location = New System.Drawing.Point(9, 84)
+        Me.ConfirmWarned.Name = "ConfirmWarned"
+        Me.ConfirmWarned.Size = New System.Drawing.Size(238, 17)
+        Me.ConfirmWarned.TabIndex = 37
+        Me.ConfirmWarned.Text = "Confirm reversion to an edit by a warned user"
+        Me.ConfirmWarned.UseVisualStyleBackColor = True
+        '
+        'ConfirmRange
+        '
+        Me.ConfirmRange.AutoSize = True
+        Me.ConfirmRange.Location = New System.Drawing.Point(9, 107)
+        Me.ConfirmRange.Name = "ConfirmRange"
+        Me.ConfirmRange.Size = New System.Drawing.Size(481, 17)
+        Me.ConfirmRange.TabIndex = 37
+        Me.ConfirmRange.Text = "Confirm reversion to edit by an anonymous user in the same /16 range as the user " & _
+            "being reverted"
+        Me.ConfirmRange.UseVisualStyleBackColor = True
+        '
         'ConfigForm
         '
         Me.AcceptButton = Me.OK
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(531, 367)
+        Me.ClientSize = New System.Drawing.Size(531, 388)
         Me.Controls.Add(Me.ViewLocalConfig)
         Me.Controls.Add(Me.Tabs)
         Me.Controls.Add(Me.OK)
@@ -1416,4 +1442,6 @@ Partial Class ConfigForm
     Friend WithEvents RememberPassword As System.Windows.Forms.CheckBox
     Friend WithEvents RememberMe As System.Windows.Forms.CheckBox
     Friend WithEvents ViewLocalConfig As System.Windows.Forms.LinkLabel
+    Friend WithEvents ConfirmRange As System.Windows.Forms.CheckBox
+    Friend WithEvents ConfirmWarned As System.Windows.Forms.CheckBox
 End Class

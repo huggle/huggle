@@ -61,6 +61,8 @@ Class ConfigForm
         ConfirmMultiple.Checked = Config.ConfirmMultiple
         ConfirmSame.Checked = Config.ConfirmSame
         ConfirmSelfRevert.Checked = Config.ConfirmSelfRevert
+        ConfirmWarned.Checked = Config.ConfirmWarned
+        ConfirmRange.Checked = Config.ConfirmRange
         AutoAdvance.Checked = Config.AutoAdvance
         UseRollback.Checked = Config.UseRollback
 
@@ -171,6 +173,8 @@ Class ConfigForm
             Config.ConfirmMultiple = ConfirmMultiple.Checked
             Config.ConfirmSame = ConfirmSame.Checked
             Config.ConfirmSelfRevert = ConfirmSelfRevert.Checked
+            Config.ConfirmWarned = ConfirmWarned.Checked
+            Config.ConfirmRange = ConfirmRange.Checked
             Config.AutoAdvance = AutoAdvance.Checked
             Config.UseRollback = UseRollback.Checked
 

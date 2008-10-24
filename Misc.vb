@@ -14,7 +14,6 @@ Module Misc
     Public Bots As New List(Of String)
     Public ContribsOffset As Integer
     Public Config As Configuration
-    Public Cookie As String
     Public CurrentQueue As Queue
     Public CurrentTab As BrowserTab
     Public EditToken As String

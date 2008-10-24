@@ -80,6 +80,16 @@ Class User
         End Get
     End Property
 
+    Public ReadOnly Property Range() As String
+        Get
+            If Not Anonymous Then Return Nothing
+
+            Dim NamePart As String = Name.Substring(0, Name.LastIndexOf("."))
+            NamePart = NamePart.Substring(0, NamePart.LastIndexOf("."))
+            Return NamePart
+        End Get
+    End Property
+
     Public Property Ignored() As Boolean
         Get
             Return _Ignored

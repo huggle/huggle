@@ -12,6 +12,10 @@ Module Processing
     Sub ProcessEdit(ByVal Edit As Edit)
         If Edit Is Nothing Then Exit Sub
 
+        If Edit.Summary.Contains("Ц") Then
+            Dim a As Integer = 0
+        End If
+
         If Edit.Time = Date.MinValue Then Edit.Time = Date.SpecifyKind(Date.UtcNow, DateTimeKind.Utc)
         If Edit.Oldid Is Nothing Then Edit.Oldid = "prev"
 
@@ -564,6 +568,22 @@ Module Processing
                     Return False
             End Select
         End If
+
+        'Confirm revert to revision by a warned user
+        If Not Undoing AndAlso Edit.Prev IsNot Nothing AndAlso Edit.Prev.User IsNot Nothing _
+            AndAlso Edit.Prev.User.Level >= UserLevel.Warn1 AndAlso _
+            MessageBox.Show("This will revert to a revision by " & Edit.User.Name & _
+            "; this user has previously been warned. Continue with this?", "Huggle", _
+            MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.No Then Return False
+
+        'Confirm revert to revision by anonymous user in same /16 block as user being reverted
+        If Not Undoing AndAlso Edit.Prev IsNot Nothing AndAlso Edit.Prev.User IsNot Nothing AndAlso _
+            Edit.Prev.User.Anonymous AndAlso Edit.User.Anonymous AndAlso Edit.Prev.User IsNot Edit.User AndAlso _
+            Edit.Prev.User.Range = Edit.User.Range AndAlso _
+            MessageBox.Show("The author of the target revision, " & Edit.Prev.User.Name & _
+            ", is in the same range as the author of the current revision, " & Edit.User.Name & _
+            ", and may be the same person; ensure the target revision is correct before proceeding. Continue?", _
+            "Huggle", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.No Then Return False
 
         'Use rollback if possible
         If Rollback AndAlso RollbackAvailable AndAlso Config.UseRollback AndAlso Not Undoing _
