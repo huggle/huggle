@@ -27,8 +27,8 @@ Module Irc
         "10 02 5\* 03([^]*) 5\*  10blocked 02User:([^]*?)10 \([^\)]*\) with an expiry time of " & _
         "([^:]*?): ([^]*?)", RegexOptions.Compiled)
 
-    Dim UnblockMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/block" & _
-        "14\]\]4 unblock10 02 5\* 03([^]*) 5\*  10unblocked 02([^]*)10: ([^]*)?", _
+    Dim UnblockMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/block14\]\]4 unblock" & _
+        "10 02 5\* 03([^]*) 5\*  10unblocked ""02User:([^]*)10""(?:: ([^]*))??", _
         RegexOptions.Compiled)
 
     Dim DeleteMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/delete14\]\]4 delete" & _
@@ -59,17 +59,22 @@ Module Irc
         "\[\[02([^]*)10\]\]""(?:: )?([^]*)?", RegexOptions.Compiled)
 
     Dim ProtectMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/protect14\]\]4 " & _
-        "protect10 02 5\* 03([^]*) 5\*  10protected 02([^]*)10(?: \[edit=([a-z]*)\] \(([^\)]*" & _
-        "\)?)\))?(?: \[move=([a-z]*)\] \(([^\)]*\)?)\))?: ([^^C]*)?", RegexOptions.Compiled)
-
-    Dim ModifyMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/protect" & _
-        "14\]\]4 modify10 02 5\* 03([^]*) 5\*  10changed protection level for ""\[\[02([^]*)" & _
-        "10\]\]"":([^\[]*)?(?:\[edit=([a-z]*):move=([a-z]*)\])? \(expires ([^\(]*) \(UTC\)\)", _
+        "protect10 02 5\* 03([^]*) 5\*  10protected 02([^]*)10(?: \[edit=([a-z]*)\] \(([^\)]*\)" & _
+        "?)\))?(?: \[move=([a-z]*)\] \(([^\)]*\)?)\))?(?: \[create=([a-z]*)\]  \(([^\)]*\)?)\))?(?:: ([^^C]*))??", _
         RegexOptions.Compiled)
+
+    Dim ModifyMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/protect14\]\]4 " & _
+        "modify10 02 5\* 03([^]*) 5\*  10changed protection level for ""\[\[02([^]*)10\]\]""(?: " & _
+        "\[edit=([a-z]*)\] \(([^\)]*\)?)\))?(?: \[move=([a-z]*)\] \(([^\)]*\)?)\))?(?: \[create=([a-z]*)\]  " & _
+        "\(([^\)]*\)?)\))?(?:: ([^^C]*))??", RegexOptions.Compiled)
 
     Dim UnprotectMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/protect" & _
         "14\]\]4 unprotect10 02 5\* 03([^]*) 5\*  10unprotected 02([^]*)10: ([^]*)?", _
         RegexOptions.Compiled)
+
+    Dim RenameUserMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/renameuser" & _
+        "14\]\]4 renameuser10 02 5\* 03([^]*) 5\*  10has renamed ([^ ]*) to ""([^""]*)"": " & _
+        "(?:[^\.]*)\. Reason: ([^]*)", RegexOptions.Compiled)
 
     Private Sub IrcProcess()
         If Config.IrcServer Is Nothing Then Exit Sub
@@ -230,7 +235,9 @@ Module Irc
                         NewProtection.EditExpiry = ProcessExpiry(Match.Groups(4).Value)
                         NewProtection.MoveLevel = Match.Groups(5).Value
                         NewProtection.MoveExpiry = ProcessExpiry(Match.Groups(6).Value)
-                        NewProtection.Summary = Match.Groups(7).Value
+                        NewProtection.CreateLevel = Match.Groups(7).Value
+                        NewProtection.CreateExpiry = ProcessExpiry(Match.Groups(8).Value)
+                        NewProtection.Summary = Match.Groups(9).Value
 
                         Callback(AddressOf ProcessProtection, CObj(NewProtection))
 
@@ -240,10 +247,13 @@ Module Irc
 
                         NewProtection.Admin = GetUser(Match.Groups(1).Value)
                         NewProtection.Page = GetPage(Match.Groups(2).Value)
-                        NewProtection.Summary = Match.Groups(3).Value
-                        NewProtection.EditLevel = Match.Groups(4).Value
+                        NewProtection.EditLevel = Match.Groups(3).Value
+                        NewProtection.EditExpiry = ProcessExpiry(Match.Groups(4).Value)
                         NewProtection.MoveLevel = Match.Groups(5).Value
-                        NewProtection.EditExpiry = CDate(Match.Groups(6).Value)
+                        NewProtection.MoveExpiry = ProcessExpiry(Match.Groups(6).Value)
+                        NewProtection.CreateLevel = Match.Groups(7).Value
+                        NewProtection.CreateExpiry = ProcessExpiry(Match.Groups(8).Value)
+                        NewProtection.Summary = Match.Groups(9).Value
 
                         Callback(AddressOf ProcessProtection, CObj(NewProtection))
 
@@ -270,6 +280,9 @@ Module Irc
 
                     ElseIf CreateUserMatch.IsMatch(Message) Then
                         'Dim Match As Match = CreateUserMatch.Match(Message)
+
+                    ElseIf RenameUserMatch.IsMatch(Message) Then
+                        'Dim Match As Match = RenameUserMatch.Match(Message)
 
                     ElseIf Message.StartsWith(":rc!~rc@localhost ") Then
                         Log("Unrecognized IRC message: " & Message)
