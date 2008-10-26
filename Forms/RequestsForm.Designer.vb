@@ -49,7 +49,7 @@ Partial Class RequestsForm
         '
         Me.CancelledLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.CancelledLabel.AutoSize = True
-        Me.CancelledLabel.Location = New System.Drawing.Point(32, 330)
+        Me.CancelledLabel.Location = New System.Drawing.Point(32, 336)
         Me.CancelledLabel.Name = "CancelledLabel"
         Me.CancelledLabel.Size = New System.Drawing.Size(54, 13)
         Me.CancelledLabel.TabIndex = 1
@@ -60,7 +60,7 @@ Partial Class RequestsForm
         Me.Label2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Label2.BackColor = System.Drawing.Color.DarkGray
         Me.Label2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.Label2.Location = New System.Drawing.Point(12, 330)
+        Me.Label2.Location = New System.Drawing.Point(12, 336)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(14, 14)
         Me.Label2.TabIndex = 2
@@ -70,7 +70,7 @@ Partial Class RequestsForm
         '
         Me.FailedLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.FailedLabel.AutoSize = True
-        Me.FailedLabel.Location = New System.Drawing.Point(128, 330)
+        Me.FailedLabel.Location = New System.Drawing.Point(128, 336)
         Me.FailedLabel.Name = "FailedLabel"
         Me.FailedLabel.Size = New System.Drawing.Size(35, 13)
         Me.FailedLabel.TabIndex = 1
@@ -81,7 +81,7 @@ Partial Class RequestsForm
         Me.Label4.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Label4.BackColor = System.Drawing.Color.LightCoral
         Me.Label4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.Label4.Location = New System.Drawing.Point(108, 330)
+        Me.Label4.Location = New System.Drawing.Point(108, 336)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(14, 14)
         Me.Label4.TabIndex = 2
@@ -91,7 +91,7 @@ Partial Class RequestsForm
         '
         Me.InProgressLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.InProgressLabel.AutoSize = True
-        Me.InProgressLabel.Location = New System.Drawing.Point(204, 330)
+        Me.InProgressLabel.Location = New System.Drawing.Point(204, 336)
         Me.InProgressLabel.Name = "InProgressLabel"
         Me.InProgressLabel.Size = New System.Drawing.Size(59, 13)
         Me.InProgressLabel.TabIndex = 1
@@ -102,7 +102,7 @@ Partial Class RequestsForm
         Me.Label6.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Label6.BackColor = System.Drawing.Color.LightSteelBlue
         Me.Label6.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.Label6.Location = New System.Drawing.Point(184, 330)
+        Me.Label6.Location = New System.Drawing.Point(184, 336)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(14, 14)
         Me.Label6.TabIndex = 2
@@ -112,7 +112,7 @@ Partial Class RequestsForm
         '
         Me.CompletedLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.CompletedLabel.AutoSize = True
-        Me.CompletedLabel.Location = New System.Drawing.Point(301, 331)
+        Me.CompletedLabel.Location = New System.Drawing.Point(301, 337)
         Me.CompletedLabel.Name = "CompletedLabel"
         Me.CompletedLabel.Size = New System.Drawing.Size(57, 13)
         Me.CompletedLabel.TabIndex = 1
@@ -123,7 +123,7 @@ Partial Class RequestsForm
         Me.Label8.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Label8.BackColor = System.Drawing.Color.White
         Me.Label8.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.Label8.Location = New System.Drawing.Point(281, 330)
+        Me.Label8.Location = New System.Drawing.Point(281, 336)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(14, 14)
         Me.Label8.TabIndex = 2
@@ -132,7 +132,7 @@ Partial Class RequestsForm
         'CancelAll
         '
         Me.CancelAll.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.CancelAll.Location = New System.Drawing.Point(393, 326)
+        Me.CancelAll.Location = New System.Drawing.Point(366, 332)
         Me.CancelAll.Name = "CancelAll"
         Me.CancelAll.Size = New System.Drawing.Size(75, 23)
         Me.CancelAll.TabIndex = 3
@@ -142,7 +142,7 @@ Partial Class RequestsForm
         'OK
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.OK.Location = New System.Drawing.Point(555, 326)
+        Me.OK.Location = New System.Drawing.Point(528, 332)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
         Me.OK.TabIndex = 3
@@ -152,7 +152,7 @@ Partial Class RequestsForm
         'Clear
         '
         Me.Clear.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Clear.Location = New System.Drawing.Point(474, 326)
+        Me.Clear.Location = New System.Drawing.Point(447, 332)
         Me.Clear.Name = "Clear"
         Me.Clear.Size = New System.Drawing.Size(75, 23)
         Me.Clear.TabIndex = 3
@@ -190,7 +190,7 @@ Partial Class RequestsForm
         Me.List.Location = New System.Drawing.Point(12, 12)
         Me.List.MultiSelect = False
         Me.List.Name = "List"
-        Me.List.Size = New System.Drawing.Size(618, 307)
+        Me.List.Size = New System.Drawing.Size(591, 313)
         Me.List.TabIndex = 0
         Me.List.UseCompatibleStateImageBehavior = False
         Me.List.View = System.Windows.Forms.View.Details
@@ -220,7 +220,7 @@ Partial Class RequestsForm
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoScroll = True
-        Me.ClientSize = New System.Drawing.Size(642, 356)
+        Me.ClientSize = New System.Drawing.Size(615, 362)
         Me.Controls.Add(Me.OK)
         Me.Controls.Add(Me.Clear)
         Me.Controls.Add(Me.CancelAll)
@@ -234,6 +234,7 @@ Partial Class RequestsForm
         Me.Controls.Add(Me.CancelledLabel)
         Me.Controls.Add(Me.List)
         Me.KeyPreview = True
+        Me.MinimumSize = New System.Drawing.Size(623, 0)
         Me.Name = "RequestsForm"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Requests"
