@@ -39,7 +39,7 @@ Partial Class TagForm
         'Cancel
         '
         Me.Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Cancel.Location = New System.Drawing.Point(379, 235)
+        Me.Cancel.Location = New System.Drawing.Point(299, 242)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
         Me.Cancel.TabIndex = 9
@@ -50,7 +50,7 @@ Partial Class TagForm
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.OK.Enabled = False
-        Me.OK.Location = New System.Drawing.Point(298, 235)
+        Me.OK.Location = New System.Drawing.Point(218, 242)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
         Me.OK.TabIndex = 8
@@ -70,7 +70,7 @@ Partial Class TagForm
         '
         Me.SummaryLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.SummaryLabel.AutoSize = True
-        Me.SummaryLabel.Location = New System.Drawing.Point(12, 186)
+        Me.SummaryLabel.Location = New System.Drawing.Point(12, 193)
         Me.SummaryLabel.Name = "SummaryLabel"
         Me.SummaryLabel.Size = New System.Drawing.Size(56, 13)
         Me.SummaryLabel.TabIndex = 5
@@ -80,10 +80,10 @@ Partial Class TagForm
         '
         Me.Summary.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Summary.Location = New System.Drawing.Point(66, 183)
+        Me.Summary.Location = New System.Drawing.Point(66, 190)
         Me.Summary.MaxLength = 250
         Me.Summary.Name = "Summary"
-        Me.Summary.Size = New System.Drawing.Size(388, 20)
+        Me.Summary.Size = New System.Drawing.Size(308, 20)
         Me.Summary.TabIndex = 6
         '
         'TagSelector
@@ -94,7 +94,7 @@ Partial Class TagForm
         Me.TagSelector.FormattingEnabled = True
         Me.TagSelector.Location = New System.Drawing.Point(66, 47)
         Me.TagSelector.Name = "TagSelector"
-        Me.TagSelector.Size = New System.Drawing.Size(387, 21)
+        Me.TagSelector.Size = New System.Drawing.Size(307, 21)
         Me.TagSelector.TabIndex = 2
         '
         'TagSelectorLabel
@@ -110,7 +110,7 @@ Partial Class TagForm
         '
         Me.ToSpeedy.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.ToSpeedy.Enabled = False
-        Me.ToSpeedy.Location = New System.Drawing.Point(12, 235)
+        Me.ToSpeedy.Location = New System.Drawing.Point(12, 242)
         Me.ToSpeedy.Name = "ToSpeedy"
         Me.ToSpeedy.Size = New System.Drawing.Size(75, 23)
         Me.ToSpeedy.TabIndex = 10
@@ -121,7 +121,7 @@ Partial Class TagForm
         '
         Me.ToProd.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.ToProd.Enabled = False
-        Me.ToProd.Location = New System.Drawing.Point(93, 235)
+        Me.ToProd.Location = New System.Drawing.Point(93, 242)
         Me.ToProd.Name = "ToProd"
         Me.ToProd.Size = New System.Drawing.Size(75, 23)
         Me.ToProd.TabIndex = 11
@@ -135,7 +135,7 @@ Partial Class TagForm
         Me.Explanation.LinkArea = New System.Windows.Forms.LinkArea(91, 22)
         Me.Explanation.Location = New System.Drawing.Point(12, 9)
         Me.Explanation.Name = "Explanation"
-        Me.Explanation.Size = New System.Drawing.Size(442, 35)
+        Me.Explanation.Size = New System.Drawing.Size(362, 35)
         Me.Explanation.TabIndex = 0
         Me.Explanation.TabStop = True
         Me.Explanation.Text = "Tags will be inserted at the start or end of the page." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "For anything more advance" & _
@@ -146,7 +146,7 @@ Partial Class TagForm
         '
         Me.InsertAtEnd.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.InsertAtEnd.AutoSize = True
-        Me.InsertAtEnd.Location = New System.Drawing.Point(66, 209)
+        Me.InsertAtEnd.Location = New System.Drawing.Point(66, 216)
         Me.InsertAtEnd.Name = "InsertAtEnd"
         Me.InsertAtEnd.Size = New System.Drawing.Size(160, 17)
         Me.InsertAtEnd.TabIndex = 7
@@ -156,14 +156,15 @@ Partial Class TagForm
         'Tags
         '
         Me.Tags.AcceptsTab = True
-        Me.Tags.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.Tags.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Tags.DetectUrls = False
         Me.Tags.Font = New System.Drawing.Font("Courier New", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Tags.Location = New System.Drawing.Point(66, 73)
         Me.Tags.Name = "Tags"
         Me.Tags.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical
-        Me.Tags.Size = New System.Drawing.Size(387, 104)
+        Me.Tags.Size = New System.Drawing.Size(307, 111)
         Me.Tags.TabIndex = 12
         Me.Tags.Text = ""
         '
@@ -171,7 +172,7 @@ Partial Class TagForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(466, 270)
+        Me.ClientSize = New System.Drawing.Size(386, 277)
         Me.Controls.Add(Me.Tags)
         Me.Controls.Add(Me.InsertAtEnd)
         Me.Controls.Add(Me.Explanation)
@@ -188,6 +189,7 @@ Partial Class TagForm
         Me.KeyPreview = True
         Me.MaximizeBox = False
         Me.MinimizeBox = False
+        Me.MinimumSize = New System.Drawing.Size(375, 214)
         Me.Name = "TagForm"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "Tag page"
