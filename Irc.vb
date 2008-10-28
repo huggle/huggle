@@ -255,6 +255,7 @@ Module Irc
                         NewProtection.CreateExpiry = ProcessExpiry(Match.Groups(8).Value)
                         NewProtection.Summary = Match.Groups(9).Value
 
+
                         Callback(AddressOf ProcessProtection, CObj(NewProtection))
 
                     ElseIf UnprotectMatch.IsMatch(Message) Then

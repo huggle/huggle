@@ -153,9 +153,11 @@ Module Misc
         Public Page As Page
         Public EditLevel As String
         Public MoveLevel As String
+        Public CreateLevel As String
         Public Cascading As Boolean
         Public EditExpiry As Date
         Public MoveExpiry As Date
+        Public CreateExpiry As Date
         Public Summary As String
     End Class
 
