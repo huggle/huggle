@@ -119,9 +119,11 @@ Partial Class MessageForm
         '
         'Help
         '
+        Me.Help.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Help.Location = New System.Drawing.Point(73, 12)
         Me.Help.Name = "Help"
-        Me.Help.Size = New System.Drawing.Size(445, 30)
+        Me.Help.Size = New System.Drawing.Size(449, 30)
         Me.Help.TabIndex = 0
         Me.Help.Text = "Specify one or both of Subject and Summary. If no summary is given, the subject w" & _
             "ill be used; if no subject is given, no header will be added."
@@ -155,6 +157,7 @@ Partial Class MessageForm
         Me.KeyPreview = True
         Me.MaximizeBox = False
         Me.MinimizeBox = False
+        Me.MinimumSize = New System.Drawing.Size(433, 230)
         Me.Name = "MessageForm"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "New message"
