@@ -341,11 +341,11 @@ Namespace Requests
             Dim WatchlistResult As RequestResult = (New WatchlistRequest).Invoke
 
             If WatchlistResult.Error Then
-                Abort(WatchlistResult.ErrorMessage)
+                Abort(Msg("login-error-watchlist"), WatchlistResult.ErrorMessage)
                 Exit Sub
             End If
 
-            For Each Item As String In Split(Result.Text, LF)
+            For Each Item As String In Split(WatchlistResult.Text, CRLF)
                 Dim Page As Page = GetPage(Item)
                 If Not Watchlist.Contains(Page) Then Watchlist.Add(Page)
             Next Item

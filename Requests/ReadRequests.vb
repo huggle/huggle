@@ -691,28 +691,6 @@ Namespace Requests
 
     End Class
 
-    Class WatchlistRequest : Inherits Request
-
-        'Retrieve the user's watchlist
-
-        Protected Overrides Sub Process()
-
-            'Currently, there is no way to do this through the MediaWiki API
-
-            Dim Result As String = GetUrl(SitePath & "w/index.php?title=Special:Watchlist/raw")
-
-            If Result Is Nothing Then
-                Fail(Msg("login-error-watchlist"))
-                Exit Sub
-            End If
-
-            Dim WatchlistText As String = HtmlDecode(FindString(Result, "<textarea", ">", "</textarea>"))
-
-            If WatchlistText Is Nothing Then Fail(Msg("login-error-watchlist")) Else Complete(, WatchlistText)
-        End Sub
-
-    End Class
-
     Class UpdateLanguagesRequest : Inherits Request
 
         'Check for localization updates, retrieve appropriate pages

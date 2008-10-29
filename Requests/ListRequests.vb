@@ -39,7 +39,7 @@ Namespace Requests
             Dim ContinueFrom As String = Nothing, Remaining As Integer = Limit
 
             Do
-                Dim QueryString As String = "action=query&format=xml&list=" & TypeName & "&" & TypePrefix & _
+                Dim QueryString As String = "action=query&list=" & TypeName & "&" & TypePrefix & _
                     "limit=" & Math.Min(Remaining, ApiLimit()) & "&" & QueryParams
                 If ContinueFrom IsNot Nothing Then QueryString &= "&" & TypePrefix & "continue=" & ContinueFrom
 
@@ -50,7 +50,7 @@ Namespace Requests
                     Exit Sub
 
                 ElseIf Result.Text.Contains("<" & TypeName & " />") Then
-                    Callback(AddressOf RequestDone)
+                    Complete(, String.Join(CRLF, Items.ToArray))
                     Exit Sub
                 End If
 
@@ -78,19 +78,19 @@ Namespace Requests
 
             Loop Until ContinueFrom Is Nothing
 
+            Complete(, String.Join(CRLF, Items.ToArray))
             Callback(AddressOf RequestDone)
         End Sub
 
         Protected Overridable Function MatchesFilter(ByVal Title As String) As Boolean
             If Title < From Then Return False
-            If Not Spaces.Contains(GetPage(Title).Space) Then Return False
+            If Spaces.Count > 0 AndAlso Not Spaces.Contains(GetPage(Title).Space) Then Return False
             If TitleRegex IsNot Nothing AndAlso Not TitleRegex.IsMatch(Title) Then Return False
             Return True
         End Function
 
         Private Sub RequestDone()
-            Complete()
-            _Done(Items)
+            If _Done IsNot Nothing Then _Done(Items)
         End Sub
 
         Private Sub Progressed(ByVal ListObject As Object)
@@ -200,6 +200,16 @@ Namespace Requests
 
         Sub New(ByVal Page As String)
             MyBase.New("templates", "tl", "prop=templates&titles=" & UrlEncode(Page))
+        End Sub
+
+    End Class
+
+    Class WatchlistRequest : Inherits ListRequest
+
+        'Get contents of user's watchlist
+
+        Sub New()
+            MyBase.New("watchlistraw", "wr", "")
         End Sub
 
     End Class
