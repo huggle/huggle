@@ -774,6 +774,7 @@ Class Main
             NewBlockRequest.AnonOnly = NewBlockForm.AnonOnly.Checked
             NewBlockRequest.BlockCreation = NewBlockForm.Creation.Checked
             NewBlockRequest.BlockEmail = NewBlockForm.Email.Checked
+            NewBlockRequest.BlockTalkEdit = NewBlockForm.TalkEdit.Checked
             NewBlockRequest.Autoblock = NewBlockForm.Autoblock.Checked
             NewBlockRequest.Notify = (NewBlockForm.Message.Text <> "" _
                 AndAlso NewBlockForm.Message.Text <> "(none)")

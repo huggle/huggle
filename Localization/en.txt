@@ -40,6 +40,7 @@ block-anononly:            Block anonymous users only
 block-creation:            Block account creation
 block-autoblock:           Enable autoblocks
 block-email:               Block e-mail
+block-talkedit:            Block editing of user talk page by user
 block-usertalk:            Talk
 block-usercontribs:        Contribs
 block-blockloglabel:       Block log:
