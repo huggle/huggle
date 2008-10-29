@@ -24,8 +24,8 @@ Module Irc
         "10 02[^ ]* 5\* 03([^]*) 5\* \(([^\)]*)\) 10([^]*)", RegexOptions.Compiled)
 
     Dim BlockMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/block14\]\]4 block" & _
-        "10 02 5\* 03([^]*) 5\*  10blocked 02User:([^]*?)10 \([^\)]*\) with an expiry time of " & _
-        "([^:]*?): ([^]*?)", RegexOptions.Compiled)
+        "10 02 5\* 03([^]*) 5\*  10blocked User:([^]*?) \(([^\)]*)\) with an expiry time of ([^:]*?): " & _
+        "([^]*?)", RegexOptions.Compiled)
 
     Dim UnblockMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/block14\]\]4 unblock" & _
         "10 02 5\* 03([^]*) 5\*  10unblocked ""02User:([^]*)10""(?:: ([^]*))??", _
