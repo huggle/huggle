@@ -41,10 +41,7 @@ Class RevertForm
     End Sub
 
     Private Sub Summary_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles Summary.KeyDown
-        If e.KeyCode = Keys.Enter Then
-            DialogResult = DialogResult.OK
-            Close()
-        End If
+        If e.KeyCode = Keys.Enter Then OK_Click()
     End Sub
 
 End Class
