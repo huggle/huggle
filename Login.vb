@@ -89,7 +89,7 @@ Namespace Requests
             'Update language files
             UpdateStatus(Msg("login-progress-language"))
 
-            Dim LanguageResult As RequestResult = (New LanguageRequest).Invoke
+            Dim LanguageResult As RequestResult = (New UpdateLanguagesRequest).Invoke
 
             If LanguageResult.Error Then
                 Abort(LanguageResult.ErrorMessage)

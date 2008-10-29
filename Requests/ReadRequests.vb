@@ -1,3 +1,4 @@
+Imports System.IO
 Imports System.Net
 Imports System.Text.Encoding
 Imports System.Text.RegularExpressions
@@ -712,15 +713,14 @@ Namespace Requests
 
     End Class
 
-    Class LanguageRequest : Inherits Request
+    Class UpdateLanguagesRequest : Inherits Request
 
-        'Retrieve language pages
+        'Check for localization updates, retrieve appropriate pages
 
         Protected Overrides Sub Process()
             Dim PathPage As Page = GetPage(Config.LocalizatonPath)
 
-            Dim Result As ApiResult = GetApi("meta", _
-                "action=query&prop=revisions&rvprop=content&generator=allpages&gapnamespace=" & _
+            Dim Result As ApiResult = GetApi("meta", "action=query&prop=info&generator=allpages&gapnamespace=" & _
                 CStr(PathPage.Space.Number) & "&gapprefix=" & PathPage.BaseName)
 
             If Result.Error Then
@@ -728,22 +728,51 @@ Namespace Requests
                 Exit Sub
             End If
 
-            Config.Languages.Clear()
+            Dim ToUpdate As New List(Of String)
 
-            'Load messages for each language
+            For Each Page As String In Split(Result.Text, "<page ")
+                Dim Lang As String = GetParameter(Page, "title")
+                If Lang Is Nothing Then Continue For
+                Lang = Lang.Substring(Lang.LastIndexOf("/") + 1)
+
+                Dim PageTimestamp As Date = CDate(GetParameter(Page, "touched"))
+                Dim FileTimestamp As Date
+
+                If File.Exists(ConfigIO.L10nLocation & Path.DirectorySeparatorChar & Lang & ".txt") Then _
+                    FileTimestamp = File.GetLastWriteTime(ConfigIO.L10nLocation & Path.DirectorySeparatorChar & Lang & ".txt")
+
+                'If local copy of localization does not exist or is out of date
+                If PageTimestamp > FileTimestamp Then ToUpdate.Add(Config.LocalizatonPath & Lang)
+            Next Page
+
+            If ToUpdate.Count = 0 Then
+                Complete()
+                Exit Sub
+            End If
+
+            Result = GetApi("meta", "action=query&prop=revisions&rvprop=content&titles=" & _
+                String.Join("|", ToUpdate.ToArray))
+
+            If Result.Error Then
+                Fail(Msg("login-error-language"), Result.ErrorMessage)
+                Exit Sub
+            End If
+
+            'Store messages locally
 
             For Each Page As String In Split(Result.Text, "<page ")
                 Dim Language As String = GetParameter(Page, "title")
                 If Language Is Nothing Then Continue For
-
                 Language = Language.Substring(Language.LastIndexOf("/") + 1)
-                Config.Languages.Add(Language)
 
-                Dim Text As String = HtmlDecode(FindString(Page, "<rev>", "</rev>"))
-                LoadLanguage(Language, Text)
+                Dim Text As String = HtmlDecode(FindString(Page, "<rev>", "</rev>")).Replace(LF, CRLF)
+
+                If Directory.Exists(ConfigIO.L10nLocation) _
+                    OrElse Directory.CreateDirectory(ConfigIO.L10nLocation).Exists _
+                    Then File.WriteAllText(ConfigIO.L10nLocation & "\" & Language & ".txt", Text)
             Next Page
 
-            If Config.Languages.Count = 0 Then Fail("No localization files found.")
+            If Config.Languages.Count = 0 Then Fail("No localization files found.") Else Complete()
         End Sub
 
     End Class

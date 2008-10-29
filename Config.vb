@@ -25,7 +25,7 @@ Class Configuration
     Public ConfigVersion As New Version(0, 0, 0)
     Public DefaultLanguage As String = "en"
     Public DefaultProject As String = "en"
-    Public Languages As New List(Of String)(New String() {"en", "bg", "de", "es", "no", "pt", "ru"})
+    Public Languages As New List(Of String)
     Public LatestVersion As New Version(0, 0, 0)
     Public Messages As New Dictionary(Of String, Dictionary(Of String, String))
     Public Password As String
@@ -714,19 +714,24 @@ Module ConfigIO
     Public Sub LoadLanguages()
         'Load localized message files
         Config.Messages.Clear()
-        LoadLanguage("en", My.Resources.en)
-        LoadLanguage("bg", My.Resources.bg)
-        LoadLanguage("de", My.Resources.de)
-        LoadLanguage("es", My.Resources.es)
-        LoadLanguage("no", My.Resources.no)
-        LoadLanguage("pt", My.Resources.pt)
-        LoadLanguage("ru", My.Resources.ru)
+        Config.Languages.Clear()
 
-#If DEBUG Then
-        Config.Languages.Add("test")
-        LoadLanguage("test", "name:[Test]")
-        Config.DefaultLanguage = "test"
-#End If
+        If Not Directory.Exists(L10nLocation) OrElse Directory.GetFiles(L10nLocation).Length = 0 Then
+            'On first run, use the built-in localization files to get as far as displaying the login screen
+            LoadLanguage("en", My.Resources.en)
+            LoadLanguage("bg", My.Resources.bg)
+            LoadLanguage("de", My.Resources.de)
+            LoadLanguage("es", My.Resources.es)
+            LoadLanguage("no", My.Resources.no)
+            LoadLanguage("pt", My.Resources.pt)
+            LoadLanguage("ru", My.Resources.ru)
+
+        Else
+            For Each FileName As String In Directory.GetFiles(L10nLocation)
+                LoadLanguage(Path.GetFileNameWithoutExtension(FileName), _
+                    File.ReadAllText(L10nLocation() & Path.DirectorySeparatorChar & Path.GetFileName(FileName)))
+            Next FileName
+        End If
 
         If Config.Language Is Nothing OrElse Not Config.Messages.ContainsKey(Config.Language) _
             Then Config.Language = Config.DefaultLanguage
@@ -734,6 +739,7 @@ Module ConfigIO
 
     Public Sub LoadLanguage(ByVal Name As String, ByVal MessageFile As String)
         'Load message file
+        If Not Config.Languages.Contains(Name) Then Config.Languages.Add(Name)
         If Config.Messages.ContainsKey(Name) Then Config.Messages.Remove(Name)
         Config.Messages.Add(Name, New Dictionary(Of String, String))
 
@@ -987,6 +993,10 @@ Module ConfigIO
 
     Private Function QueuesLocation() As String
         Return LocalConfigPath() & "\Queues\" & Config.Project
+    End Function
+
+    Public Function L10nLocation() As String
+        Return LocalConfigPath() & "\Localization"
     End Function
 
 End Module
