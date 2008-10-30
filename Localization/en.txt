@@ -216,6 +216,7 @@ login-error-global:        Failed to load global configuration page.
 login-error-invalid:       Invalid username.
 login-error-language:      Failed to load message files.
 login-error-nocaptcha:     Captcha not solved.
+login-error-noconfig:      This project does not have a Huggle configuration page.
 login-error-nouser:        User does not exist.
 login-error-password:      Incorrect password.
 login-error-project:       Failed to load project configuration page.

@@ -47,6 +47,11 @@ Namespace Requests
 
             Dim ConfigFile As String = HtmlDecode(FindString(Result.Text, "<rev>", "</rev>"))
 
+            If ConfigFile Is Nothing Then
+                Fail(Msg("login-error-noconfig"))
+                Exit Sub
+            End If
+
             For Each Item As KeyValuePair(Of String, String) In ProcessConfigFile(ConfigFile)
                 Try
                     SetSharedConfigOption(Item.Key, Item.Value)

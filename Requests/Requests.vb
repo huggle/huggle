@@ -86,12 +86,21 @@ Namespace Requests
 
         'Fail the request, optionally with specific error message
         Protected Sub Fail(Optional ByVal Details As String = Nothing, Optional ByVal Reason As String = Nothing)
-            If Details Is Nothing Then Details = Msg("error-fail", Truncate(Query, 50))
-            If Reason Is Nothing Then Reason = Msg("error-unknown")
-
             State = States.Failed
-            Log(Details & ": " & Reason)
-            _Result = New RequestResult(Nothing, Details & ": " & Reason)
+
+            If Reason Is Nothing AndAlso Details Is Nothing Then
+                Reason = Msg("error-unknown")
+                Details = Msg("error-fail", Truncate(Query, 50))
+            End If
+
+            If Reason Is Nothing Then
+                Log(Details)
+                _Result = New RequestResult(Nothing, Details)
+            Else
+                Log(Details & ": " & Reason)
+                _Result = New RequestResult(Nothing, Details & ": " & Reason)
+            End If
+
             Callback(AddressOf EndRequest)
         End Sub
 
