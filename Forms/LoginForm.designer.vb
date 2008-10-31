@@ -25,6 +25,7 @@ Partial Class LoginForm
         Me.OK = New System.Windows.Forms.Button
         Me.Cancel = New System.Windows.Forms.Button
         Me.ProxyGroup = New System.Windows.Forms.GroupBox
+        Me.ProxyPort = New Huggle.IntegerTextBox
         Me.Proxy = New System.Windows.Forms.CheckBox
         Me.ProxyDomain = New System.Windows.Forms.TextBox
         Me.ProxyDomainLabel = New System.Windows.Forms.Label
@@ -49,16 +50,15 @@ Partial Class LoginForm
         Me.LanguageLabel = New System.Windows.Forms.Label
         Me.Language = New System.Windows.Forms.ComboBox
         Me.Translate = New System.Windows.Forms.Button
-        Me.ProxyPort = New Huggle.IntegerTextBox
         Me.ProxyGroup.SuspendLayout()
         CType(Me.Logo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'OK
         '
-        Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.OK.Enabled = False
-        Me.OK.Location = New System.Drawing.Point(152, 350)
+        Me.OK.Location = New System.Drawing.Point(152, 197)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
         Me.OK.TabIndex = 7
@@ -67,8 +67,8 @@ Partial Class LoginForm
         '
         'Cancel
         '
-        Me.Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Cancel.Location = New System.Drawing.Point(233, 350)
+        Me.Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Cancel.Location = New System.Drawing.Point(233, 197)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
         Me.Cancel.TabIndex = 8
@@ -77,8 +77,7 @@ Partial Class LoginForm
         '
         'ProxyGroup
         '
-        Me.ProxyGroup.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.ProxyGroup.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.ProxyGroup.Controls.Add(Me.ProxyPort)
         Me.ProxyGroup.Controls.Add(Me.Proxy)
@@ -93,11 +92,22 @@ Partial Class LoginForm
         Me.ProxyGroup.Controls.Add(Me.ProxyAddress)
         Me.ProxyGroup.Location = New System.Drawing.Point(12, 196)
         Me.ProxyGroup.Name = "ProxyGroup"
-        Me.ProxyGroup.Size = New System.Drawing.Size(296, 148)
+        Me.ProxyGroup.Size = New System.Drawing.Size(296, 153)
         Me.ProxyGroup.TabIndex = 6
         Me.ProxyGroup.TabStop = False
         Me.ProxyGroup.Text = "Proxy settings"
         Me.ProxyGroup.Visible = False
+        '
+        'ProxyPort
+        '
+        Me.ProxyPort.Enabled = False
+        Me.ProxyPort.Location = New System.Drawing.Point(68, 72)
+        Me.ProxyPort.MaxLength = 5
+        Me.ProxyPort.Name = "ProxyPort"
+        Me.ProxyPort.Size = New System.Drawing.Size(55, 20)
+        Me.ProxyPort.TabIndex = 4
+        Me.ProxyPort.Text = "80"
+        Me.ProxyPort.Value = 80
         '
         'Proxy
         '
@@ -266,9 +276,9 @@ Partial Class LoginForm
         '
         'Status
         '
-        Me.Status.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.Status.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Status.Location = New System.Drawing.Point(12, 375)
+        Me.Status.Location = New System.Drawing.Point(12, 222)
         Me.Status.Name = "Status"
         Me.Status.Size = New System.Drawing.Size(296, 28)
         Me.Status.TabIndex = 11
@@ -276,10 +286,10 @@ Partial Class LoginForm
         '
         'Progress
         '
-        Me.Progress.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.Progress.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Progress.Enabled = False
-        Me.Progress.Location = New System.Drawing.Point(12, 404)
+        Me.Progress.Location = New System.Drawing.Point(12, 251)
         Me.Progress.Maximum = 10
         Me.Progress.Name = "Progress"
         Me.Progress.Size = New System.Drawing.Size(296, 19)
@@ -289,9 +299,9 @@ Partial Class LoginForm
         '
         'ShowProxySettings
         '
-        Me.ShowProxySettings.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.ShowProxySettings.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ShowProxySettings.Location = New System.Drawing.Point(12, 350)
+        Me.ShowProxySettings.Location = New System.Drawing.Point(12, 197)
         Me.ShowProxySettings.Name = "ShowProxySettings"
         Me.ShowProxySettings.Size = New System.Drawing.Size(134, 23)
         Me.ShowProxySettings.TabIndex = 10
@@ -300,9 +310,9 @@ Partial Class LoginForm
         '
         'HideProxySettings
         '
-        Me.HideProxySettings.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.HideProxySettings.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.HideProxySettings.Location = New System.Drawing.Point(12, 350)
+        Me.HideProxySettings.Location = New System.Drawing.Point(12, 197)
         Me.HideProxySettings.Name = "HideProxySettings"
         Me.HideProxySettings.Size = New System.Drawing.Size(134, 23)
         Me.HideProxySettings.TabIndex = 9
@@ -353,22 +363,11 @@ Partial Class LoginForm
         Me.Translate.Text = "Translate..."
         Me.Translate.UseVisualStyleBackColor = True
         '
-        'ProxyPort
-        '
-        Me.ProxyPort.Enabled = False
-        Me.ProxyPort.Location = New System.Drawing.Point(68, 72)
-        Me.ProxyPort.MaxLength = 5
-        Me.ProxyPort.Name = "ProxyPort"
-        Me.ProxyPort.Size = New System.Drawing.Size(55, 20)
-        Me.ProxyPort.TabIndex = 4
-        Me.ProxyPort.Text = "80"
-        Me.ProxyPort.Value = 80
-        '
         'LoginForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(320, 435)
+        Me.ClientSize = New System.Drawing.Size(320, 282)
         Me.Controls.Add(Me.Translate)
         Me.Controls.Add(Me.Language)
         Me.Controls.Add(Me.LanguageLabel)
@@ -376,7 +375,6 @@ Partial Class LoginForm
         Me.Controls.Add(Me.ShowProxySettings)
         Me.Controls.Add(Me.Status)
         Me.Controls.Add(Me.Progress)
-        Me.Controls.Add(Me.ProxyGroup)
         Me.Controls.Add(Me.Cancel)
         Me.Controls.Add(Me.OK)
         Me.Controls.Add(Me.ProjectLabel)
@@ -386,6 +384,7 @@ Partial Class LoginForm
         Me.Controls.Add(Me.UsernameLabel)
         Me.Controls.Add(Me.PasswordLabel)
         Me.Controls.Add(Me.HideProxySettings)
+        Me.Controls.Add(Me.ProxyGroup)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.KeyPreview = True
         Me.MaximizeBox = False

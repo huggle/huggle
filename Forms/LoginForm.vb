@@ -9,7 +9,7 @@ Class LoginForm
     Private Sub LoginForm_Load() Handles Me.Load
         SyncContext = SynchronizationContext.Current
         Icon = My.Resources.icon_red_button
-        Height = 314
+
 
         Config = New Configuration
         LoadLocalConfig()
@@ -103,6 +103,11 @@ Class LoginForm
 
     Private Sub HideProxySettings_Click() Handles HideProxySettings.Click
         Height -= 160
+
+        For Each Item As Control In New Control() {ShowProxySettings, HideProxySettings, OK, Cancel, Status, Progress}
+            Item.Top -= 160
+        Next Item
+
         ProxyGroup.Visible = False
         HideProxySettings.Visible = False
         ShowProxySettings.Visible = True
@@ -138,6 +143,11 @@ Class LoginForm
 
     Private Sub ShowProxySettings_Click() Handles ShowProxySettings.Click
         Height += 160
+
+        For Each Item As Control In New Control() {ShowProxySettings, HideProxySettings, OK, Cancel, Status, Progress}
+            Item.Top += 160
+        Next Item
+
         ProxyGroup.Visible = True
         HideProxySettings.Visible = True
         ShowProxySettings.Visible = False
