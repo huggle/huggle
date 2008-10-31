@@ -439,6 +439,11 @@ Module Misc
             "<body>" & Text & "</body></html>"
     End Function
 
+    'Detect whether Mono is being used
+    Function Mono() As Boolean
+        Return (Type.GetType("Mono.Runtime") IsNot Nothing)
+    End Function
+
     Function Msg(ByVal Name As String, ByVal ParamArray Params() As String) As String
         'Returns a formatted message string localized to the user's language,
         'or in the default language if no localized message is available

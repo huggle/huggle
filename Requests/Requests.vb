@@ -195,8 +195,7 @@ Namespace Requests
         Protected Function DoWebRequest(ByVal Url As String, Optional ByVal PostString As String = Nothing) As String
             Dim Request As HttpWebRequest = CType(HttpWebRequest.Create(Url), HttpWebRequest)
 
-            Request.Headers.Add(HttpRequestHeader.AcceptEncoding, "gzip")
-            Request.AutomaticDecompression = DecompressionMethods.GZip
+            If Not Mono() Then SetAcceptCompression(Request)
             Request.CookieContainer = _Cookies
             Request.Proxy = Proxy
             Request.UserAgent = Config.UserAgent
@@ -219,6 +218,12 @@ Namespace Requests
             Return Result
         End Function
 
+        'Isolate from above; not implemented in Mono
+        Private Sub SetAcceptCompression(ByRef Request As HttpWebRequest)
+            Request.Headers.Add(HttpRequestHeader.AcceptEncoding, "gzip")
+            Request.AutomaticDecompression = DecompressionMethods.GZip
+        End Sub
+
         Protected Function DoLogin() As LoginResult
             Dim Result As String = "", Retries As Integer = 3
 
@@ -239,6 +244,8 @@ Namespace Requests
                     End Try
 
                 Loop Until IsWikiPage(Result) OrElse Retries = 0
+
+                File.WriteAllText("debug.txt", Result)
 
                 If State = States.Cancelled Then Return LoginResult.Cancelled
                 If Retries = 0 Then Return LoginResult.Failed
