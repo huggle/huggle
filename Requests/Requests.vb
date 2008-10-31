@@ -375,8 +375,12 @@ Namespace Requests
 
             If Result = "" Then Return New ApiResult(Nothing, "null", Msg("error-noresponse"))
 
-            Return New ApiResult(Result, HtmlDecode(FindString(Result, "<error", "code=""", """")), _
-                HtmlDecode(FindString(Result, "<error", "info=""", """")))
+            If FindString(Result, "<error", "</error>") Is Nothing Then
+                Return New ApiResult(Result, Nothing, Nothing)
+            Else
+                Return New ApiResult(Result, HtmlDecode(FindString(Result, "<error", "code=""", """")), _
+                    HtmlDecode(FindString(Result, "<error", "info=""", """")))
+            End If
         End Function
 
         'Submit data through the MediaWiki API
@@ -405,8 +409,12 @@ Namespace Requests
 
             If Result = "" Then Return New ApiResult(Nothing, "null", Msg("error-noresponse"))
 
-            Return New ApiResult(Result, HtmlDecode(FindString(Result, "<error", "code=""", """")), _
-                HtmlDecode(FindString(Result, "<error", "info=""", """")))
+            If FindString(Result, "<error", "</error>") Is Nothing Then
+                Return New ApiResult(Result, Nothing, Nothing)
+            Else
+                Return New ApiResult(Result, HtmlDecode(FindString(Result, "<error", "code=""", """")), _
+                    HtmlDecode(FindString(Result, "<error", "info=""", """")))
+            End If
         End Function
 
         'Get the text of a page
