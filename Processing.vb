@@ -1183,9 +1183,17 @@ Module Processing
 
                         DocumentText = MakeHtmlWikiPage(Edit.Page.Name, DiffText)
 
-                        Tab.CurrentUrl = SitePath & "w/index.php?title=" & UrlEncode(Edit.Page.Name) & _
+                        Tab.CurrentUrl = SitePath() & "w/index.php?title=" & UrlEncode(Edit.Page.Name) & _
                             "&diff=" & Edit.Id & "&oldid=" & Edit.Oldid
-                        Tab.Browser.DocumentText = DocumentText
+
+                        Try
+                            Tab.Browser.DocumentText = DocumentText
+
+                        Catch ex As System.Runtime.InteropServices.COMException
+                            'If an attempt is made to set the DocumentText property while it is 
+                            'still being  set from a previous call, it seems to throw a COMException
+                            'just swallow it for now
+                        End Try
                     End If
 
                     Edit.Cached = Edit.CacheState.Viewed
