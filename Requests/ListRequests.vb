@@ -46,7 +46,7 @@ Namespace Requests
                 Dim Result As ApiResult = GetApi(QueryString)
 
                 If Result.Error Then
-                    Callback(AddressOf Failed)
+                    Fail(Result.ErrorMessage)
                     Exit Sub
 
                 ElseIf Result.Text.Contains("<" & TypeName & " />") Then
@@ -98,8 +98,7 @@ Namespace Requests
         End Sub
 
         Private Sub Failed()
-            Fail()
-            _Done(Nothing)
+            If _Done IsNot Nothing Then _Done(Nothing)
         End Sub
 
     End Class

@@ -1737,7 +1737,7 @@ Module Processing
         'Find old warning templates
         For Each Item As Match In Regex.Matches(Text, _
             "<!-- Template:(.block[^>]*|[Ss]pam[^>]*|[Vv]w[^>]*|[Tt]est[^>]*|[Aa]non vandal[^>]*|" & _
-            "[Ww]elcome-anon-vandal[^>]*|[Ww]elcome-?vandal[^>]*|[Bb]latantvandal[^>]*|[Aa]ttack[^>]*) -->" & _
+            "[Ww]elcome-anon-vandal[^>]*|[Ww]elcomevandal[^>]*|[Bb]latantvandal[^>]*|[Aa]ttack[^>]*) -->" & _
             ".*\[\[User( talk)?:([^|]*).*(\d{2}:\d{2}, \d+ [a-zA-Z]+ \d{4}) \(UTC\)", RegexOptions.Compiled)
 
             Dim NewWarning As New Warning

@@ -592,7 +592,7 @@ Module Misc
     End Function
 
     Function WikiUrl(ByVal Url As String) As Boolean
-        Return (Url.StartsWith(SitePath & "w/index.php?") OrElse Url.StartsWith(SitePath & "wiki/"))
+        Return (Url.StartsWith(SitePath() & "w/index.php?") OrElse Url.StartsWith(SitePath() & "wiki/"))
     End Function
 
 End Module

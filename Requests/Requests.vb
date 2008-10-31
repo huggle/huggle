@@ -1,3 +1,4 @@
+Imports System.IO
 Imports System.Net
 Imports System.Text.Encoding
 Imports System.Text.RegularExpressions
@@ -11,6 +12,7 @@ Namespace Requests
         'Base class of all Web requests
 
         Private _Query As String, _StartTime As Date, _Mode As Modes, _State As States, _Done As RequestCallback
+        Private Shared _Cookies As New CookieContainer
         Protected _Result As New RequestResult
 
         Public Delegate Sub RequestCallback(ByVal Result As RequestResult)
@@ -189,31 +191,56 @@ Namespace Requests
             UndoEdit(GetPage(Page))
         End Sub
 
+        'Make a Web request, setting appropriate headers
+        Protected Function DoWebRequest(ByVal Url As String, Optional ByVal PostString As String = Nothing) As String
+            Dim Request As HttpWebRequest = CType(HttpWebRequest.Create(Url), HttpWebRequest)
+
+            Request.Headers.Add(HttpRequestHeader.AcceptEncoding, "gzip")
+            Request.AutomaticDecompression = DecompressionMethods.GZip
+            Request.CookieContainer = _Cookies
+            Request.Proxy = Proxy
+            Request.UserAgent = Config.UserAgent
+
+            If PostString IsNot Nothing Then
+                Dim PostData As Byte() = UTF8.GetBytes(PostString)
+
+                Request.ContentLength = PostData.Length
+                Request.ContentType = "application/x-www-form-urlencoded"
+                Request.Method = "POST"
+
+                Dim RequestStream As Stream = Request.GetRequestStream
+                RequestStream.Write(PostData, 0, PostData.Length)
+                RequestStream.Close()
+            End If
+
+            Dim ResponseStream As New StreamReader(Request.GetResponse.GetResponseStream, UTF8)
+            Dim Result As String = ResponseStream.ReadToEnd
+            ResponseStream.Close()
+            Return Result
+        End Function
+
         Protected Function DoLogin() As LoginResult
-            Dim Client As New Huggle.WebClient, Result As String = "", Retries As Integer = 3
+            Dim Result As String = "", Retries As Integer = 3
 
             Mode = Modes.Get
             Query = "title=Special:Userlogin"
 
             If Login.CaptchaId Is Nothing Then
                 'Get login form, to check whether captcha is needed
-                Do
-                    Client.Headers.Add(HttpRequestHeader.ContentType, "application/x-www-form-urlencoded")
-                    Client.Proxy = Proxy
 
+                Do
                     Retries -= 1
 
                     Try
-                        Result = UTF8.GetString(Client.DownloadData(SitePath & _
-                            "w/index.php?title=Special:Userlogin"))
-                        If State = States.Cancelled Then Return LoginResult.Cancelled
+                        Result = DoWebRequest(SitePath() & "w/index.php?title=Special:Userlogin")
 
-                    Catch ex As WebException
+                    Catch ex As Exception
                         If State = States.Cancelled Then Return LoginResult.Cancelled Else Throw
                     End Try
 
                 Loop Until IsWikiPage(Result) OrElse Retries = 0
 
+                If State = States.Cancelled Then Return LoginResult.Cancelled
                 If Retries = 0 Then Return LoginResult.Failed
 
                 If Result.Contains("<div class='captcha'>") Then
@@ -228,9 +255,6 @@ Namespace Requests
             Query = "title=Special:Userlogin&action=submitlogin&type=login"
 
             Do
-                Client.Headers.Add(HttpRequestHeader.ContentType, "application/x-www-form-urlencoded")
-                Client.Proxy = Login.Proxy
-
                 Retries -= 1
 
                 Dim PostString As String = "wpName=" & UrlEncode(Config.Username) & "&wpRemember=1" & _
@@ -238,8 +262,8 @@ Namespace Requests
                     "&wpCaptchaWord=" & Login.CaptchaWord
 
                 Try
-                    Result = UTF8.GetString(Client.UploadData(SitePath & _
-                        "w/index.php?title=Special:Userlogin&action=submitlogin", UTF8.GetBytes(PostString)))
+                    Result = DoWebRequest _
+                        (SitePath() & "w/index.php?title=Special:Userlogin&action=submitlogin", PostString)
 
                     If State = States.Cancelled Then Return LoginResult.Cancelled
 
@@ -265,16 +289,15 @@ Namespace Requests
             If Url.Contains("?") Then Query = Url.Substring(Url.IndexOf("?") + 1) Else Query = Url
             Mode = Modes.Get
 
-            Dim Client As New Huggle.WebClient, Retries As Integer = Config.RequestAttempts, Result As String = Nothing
+            Dim Retries As Integer = Config.RequestAttempts, Result As String = Nothing
 
             Do
-                Client.Proxy = Login.Proxy
-
                 If Retries < Config.RequestAttempts Then Thread.Sleep(Config.RequestRetryInterval)
                 Retries -= 1
 
                 Try
-                    Result = UTF8.GetString(Client.DownloadData(Url))
+                    Result = DoWebRequest(Url)
+
                 Catch ex As WebException
                     If Retries > 0 Then Log(Msg("error-exception", Truncate(Query, 50)) & ": " & _
                         ex.Message & " " & Msg("retrying"))
@@ -292,17 +315,15 @@ Namespace Requests
             If Url.Contains("?") Then Query = Url.Substring(Url.IndexOf("?") + 1) Else Query = Url
             Mode = Modes.Get
 
-            Dim Client As New Huggle.WebClient, Retries As Integer = Config.RequestAttempts, Result As String = Nothing
+            Dim Retries As Integer = Config.RequestAttempts, Result As String = Nothing
 
             Do
-                Client.Headers.Add(HttpRequestHeader.ContentType, "application/x-www-form-urlencoded")
-                Client.Proxy = Login.Proxy
-
                 If Retries < Config.RequestAttempts Then Thread.Sleep(Config.RequestRetryInterval)
                 Retries -= 1
 
                 Try
-                    Result = UTF8.GetString(Client.UploadData(Url, UTF8.GetBytes(PostString)))
+                    Result = DoWebRequest(Url, PostString)
+
                 Catch ex As WebException
                     If Retries > 0 Then Log(Msg("error-exception", Truncate(Query, 50)) & ": " & _
                         ex.Message & " " & Msg("retrying"))
@@ -326,17 +347,15 @@ Namespace Requests
             Query = QueryString
             Mode = Modes.Get
 
-            Dim Client As New Huggle.WebClient, Retries As Integer = Config.RequestAttempts, Result As String = ""
+            Dim Retries As Integer = Config.RequestAttempts, Result As String = ""
 
             Do
-                Client.Proxy = Login.Proxy
-
                 If Retries < Config.RequestAttempts Then Thread.Sleep(Config.RequestRetryInterval)
                 Retries -= 1
 
                 Try
-                    Result = UTF8.GetString(Client.DownloadData _
-                        (SitePath(Project) & "w/api.php?format=xml&" & QueryString))
+                    Result = DoWebRequest(SitePath(Project) & "w/api.php?format=xml&" & QueryString)
+
                 Catch ex As WebException
                     If Retries > 0 Then Log(Msg("error-exception", Truncate(Query, 50)) & ": " & _
                         ex.Message & " " & Msg("retrying"))
@@ -347,7 +366,7 @@ Namespace Requests
             If Result.StartsWith("MediaWiki API is not enabled for this site") _
                 Then Return New ApiResult(Nothing, "error-apidisabled", Msg("error-apidisabled"))
 
-            If Result = "" Then Return New ApiResult(Nothing, "null", Msg("error-noreponse"))
+            If Result = "" Then Return New ApiResult(Nothing, "null", Msg("error-noresponse"))
 
             Return New ApiResult(Result, HtmlDecode(FindString(Result, "<error", "code=""", """")), _
                 HtmlDecode(FindString(Result, "<error", "info=""", """")))
@@ -358,18 +377,14 @@ Namespace Requests
             Query = QueryString
             Mode = Modes.Post
 
-            Dim Client As New Huggle.WebClient, Retries As Integer = Config.RequestAttempts, Result As String = ""
+            Dim Retries As Integer = Config.RequestAttempts, Result As String = ""
 
             Do
-                Client.Headers.Add(HttpRequestHeader.ContentType, "application/x-www-form-urlencoded")
-                Client.Proxy = Login.Proxy
-
                 If Retries < Config.RequestAttempts Then Thread.Sleep(Config.RequestRetryInterval)
                 Retries -= 1
 
                 Try
-                    Result = UTF8.GetString(Client.UploadData _
-                        (SitePath & "w/api.php?format=xml&" & QueryString, UTF8.GetBytes(PostString)))
+                    Result = DoWebRequest(SitePath() & "w/api.php?format=xml&" & QueryString, PostString)
 
                 Catch ex As WebException
                     If Retries > 0 Then Log(Msg("error-exception", Truncate(Query, 50)) & ": " & _

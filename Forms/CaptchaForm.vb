@@ -9,12 +9,13 @@ Class CaptchaForm
         Text = Msg("login-captchatitle")
         OK.Text = Msg("accept")
 
-        Dim Client As New Huggle.WebClient, TempFileName As String = System.IO.Path.GetTempFileName
+        Dim Client As New WebClient, TempFileName As String = System.IO.Path.GetTempFileName
 
         Client.Proxy = Login.Proxy
 
         'Get the captcha
-        Client.DownloadFile(SitePath() & "w/index.php?title=Special:Captcha/image&wpCaptchaId=" & CaptchaId, TempFileName)
+        Client.DownloadFile(SitePath() & "w/index.php?title=Special:Captcha/image&wpCaptchaId=" & CaptchaId, _
+            TempFileName)
         Captcha.Image = New Bitmap(TempFileName)
 
         'Size the captcha in form correctly
