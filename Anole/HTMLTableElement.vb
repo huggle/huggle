@@ -24,6 +24,17 @@ Namespace Anole
             End Set
         End Property
 
+        Protected myBorderColor As Color
+
+        Public Property BorderColor() As Color
+            Get
+                Return myBorderColor
+            End Get
+            Set(ByVal value As Color)
+                myBorderColor = value
+            End Set
+        End Property
+
         Protected myCellSpacing As Integer
 
         Public Property CellSpacing() As Integer
@@ -51,6 +62,7 @@ Namespace Anole
 
             'Get backcolor or use document default color
             Me.BackColor = Me.ParseColor(xnode, "bgcolor", document.BackColor)
+            Me.myBorderColor = Me.ParseColor(xnode, "bordercolor", Color.Black)
             Me.myTargetWidth = Me.ParseInt(xnode, "width", 0)
             Me.myBorderSize = Me.ParseInt(xnode, "borders", 1)
             Me.myCellPadding = Me.ParseInt(xnode, "cellpadding", 0)
@@ -66,14 +78,13 @@ Namespace Anole
             nRowCount = Me.Children.Count
             Dim firstrow As HTMLTRElement
 
-            If nRowCount > 0 Then
-                firstrow = TryCast(Me.Children(0), HTMLTRElement)
-                If firstrow Is Nothing Then Return
-                nColCount = firstrow.Children.Count
-            Else
-                'No rows in table
-                Return
-            End If
+            If nRowCount = 0 Then Return
+
+            firstrow = TryCast(Me.Children(0), HTMLTRElement)
+            If firstrow Is Nothing Then Return
+            nColCount = firstrow.Children.Count
+
+            If nColCount = 0 Then Return
 
             'If the table width is not set, assume
             'that the width is the width of the renderer

@@ -24,7 +24,7 @@ Namespace Anole
         End Sub
 
         Public Overloads Overrides Sub Paint(ByVal g As Graphics)
-            Dim p As New Pen(Color.Red)
+            Dim p As New Pen(myTableElement.BorderColor)
             g.DrawRectangle(p, Left, Top, Width, Height)
 
             Dim l As Integer = Me.Left

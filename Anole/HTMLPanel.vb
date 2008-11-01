@@ -48,7 +48,6 @@ Namespace Anole
 
             myPictureBox = New PictureBox()
             myPictureBox.Location = New Point(0, 0)
-            AddHandler myPictureBox.MouseDown, AddressOf myPictureBox_MouseDown
             Me.Controls.Add(myPictureBox)
         End Sub
 
@@ -169,7 +168,7 @@ Namespace Anole
             'this.Invalidate();
         End Sub
 
-        Private Sub myPictureBox_MouseDown(ByVal sender As Object, ByVal e As MouseEventArgs)
+        Private Sub myPictureBox_MouseDown(ByVal sender As Object, ByVal e As MouseEventArgs) Handles myPictureBox.MouseDown
             'Check to see if mouse was pressed down on a hyperlink
             Dim docx As Integer = e.X
             Dim docy As Integer = e.Y
