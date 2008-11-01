@@ -23,11 +23,6 @@ Class LoginForm
         Language.SelectedItem = Config.Messages(Config.Language)("name")
         If Language.SelectedIndex = -1 Then Language.SelectedItem = Config.Messages(Config.DefaultLanguage)("name")
 
-#If DEBUG Then
-        'If the app is in debug mode add a localhost wiki to the project list
-        If Not Config.Projects.ContainsKey("localhost") Then Config.Projects.Add("localhost", "http://localhost/")
-#End If
-
         For Each Item As String In Config.Projects.Keys
             Project.Items.Add(Item)
         Next Item

@@ -6,6 +6,13 @@ Class Configuration
 
     'Configuration
 
+    Public Sub New()
+#If DEBUG Then
+        'If the app is in debug mode add a localhost wiki to the project list
+        If Not Projects.ContainsKey("localhost") Then Projects.Add("localhost", "http://localhost/")
+#End If
+    End Sub
+
     'Constants
 
     Public ReadOnly ContribsBlockSize As Integer = 100

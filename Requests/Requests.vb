@@ -245,8 +245,6 @@ Namespace Requests
 
                 Loop Until IsWikiPage(Result) OrElse Retries = 0
 
-                File.WriteAllText("debug.txt", Result)
-
                 If State = States.Cancelled Then Return LoginResult.Cancelled
                 If Retries = 0 Then Return LoginResult.Failed
 
