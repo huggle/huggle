@@ -229,8 +229,15 @@ Class EditForm
             .Replace("*", "").Replace("?", "").Replace("""", "'") & ".txt"
         NewSaveFileDialog.Filter = "Text file|*.txt"
 
-        If NewSaveFileDialog.ShowDialog = DialogResult.OK _
-            Then File.WriteAllText(NewSaveFileDialog.FileName, PageText.Text)
+        Dim Result As DialogResult
+
+        Try
+            Result = NewSaveFileDialog.ShowDialog
+            If Result = DialogResult.OK Then File.WriteAllText(NewSaveFileDialog.FileName, PageText.Text)
+
+        Catch ex As IOException
+            MessageBox.Show("Cannot save file to selected destination: " & ex.Message)
+        End Try
     End Sub
 
     Private Sub PageCancel_Click() Handles PageCancel.Click
