@@ -14,7 +14,7 @@ Namespace Requests
         Public User As User
 
         Protected Overrides Sub Process()
-            Dim Result As ApiResult = GetApi("action=query&list=logevents&letype=block&lelimit=50&letitle=" & _
+            Dim Result As ApiResult = DoApiRequest("action=query&list=logevents&letype=block&lelimit=50&letitle=" & _
                 UrlEncode(User.Userpage.Name))
 
             If Result.Error Then
@@ -74,7 +74,7 @@ Namespace Requests
             'Using &action=render here would make things far simpler; unfortunately, that was broken for
             'image diff pages in 2007 and it would appear that nobody cares.
 
-            Result = GetUrl(SitePath & "w/index.php?title=" & UrlEncode(Edit.Page.Name) _
+            Result = DoUrlRequest(SitePath() & "w/index.php?title=" & UrlEncode(Edit.Page.Name) _
                 & "&diff=" & Edit.Id & "&oldid=" & Oldid & "&diffonly=1&uselang=en")
 
             If Result Is Nothing Then
@@ -170,7 +170,7 @@ Namespace Requests
             If GetContent Then QueryString &= "|content"
             If Page.HistoryOffset IsNot Nothing Then QueryString &= "&rvstartid=" & Page.HistoryOffset
 
-            Dim Result As ApiResult = GetApi(QueryString)
+            Dim Result As ApiResult = DoApiRequest(QueryString)
 
             If Result.Error Then
                 Fail(Msg("history-fail", Page.Name), Result.ErrorMessage)
@@ -195,7 +195,7 @@ Namespace Requests
         Public BlockSize As Integer = Config.ContribsBlockSize
 
         Protected Overrides Sub Process()
-            Result = GetApi("action=query&format=xml&list=usercontribs&ucuser=" & _
+            Result = DoApiRequest("action=query&format=xml&list=usercontribs&ucuser=" & _
                 UrlEncode(User.Name) & "&uclimit=" & CStr(BlockSize) & "&ucstart=" & User.ContribsOffset)
 
             If Result.Error Then
@@ -242,7 +242,7 @@ Namespace Requests
         Protected Overrides Sub Process()
             Tab.LastBrowserRequest = Me
 
-            Dim Result As String = GetUrl(Url)
+            Dim Result As String = DoUrlRequest(Url)
 
             If Result Is Nothing Then Fail() Else Complete(, Result)
         End Sub
@@ -266,7 +266,7 @@ Namespace Requests
         'Bearable, but IRC is better
 
         Protected Overrides Sub Process()
-            Dim Result As ApiResult = GetApi("action=query&list=recentchanges" & _
+            Dim Result As ApiResult = DoApiRequest("action=query&list=recentchanges" & _
                 "&rclimit=" & CStr(Config.RcBlockSize) & "&rcprop=user|comment|flags|timestamp|title|ids|sizes")
 
             If Result.Error Then Fail(, Result.ErrorMessage) Else Complete(, Result.Text)
@@ -294,7 +294,7 @@ Namespace Requests
 
             QueryString = QueryString.Substring(0, QueryString.Length - 1)
 
-            Dim Result As ApiResult = GetApi(QueryString)
+            Dim Result As ApiResult = DoApiRequest(QueryString)
 
             If Result.Error Then
                 Fail(, Result.ErrorMessage)
@@ -325,7 +325,7 @@ Namespace Requests
         Public User As User
 
         Protected Overrides Sub Process()
-            Dim Result As ApiResult = GetApi("action=query&format=xml&prop=revisions&rvprop=content&titles=" & _
+            Dim Result As ApiResult = DoApiRequest("action=query&format=xml&prop=revisions&rvprop=content&titles=" & _
                 UrlEncode(User.TalkPage.Name))
 
             If Result.Error Then
@@ -373,7 +373,7 @@ Namespace Requests
 
         Protected Overrides Sub Process()
             Dim Result As ApiResult = _
-                PostApi("action=parse", "prop=text" & "&title=" & UrlEncode(Page.Name) & "&text=" & UrlEncode(Text))
+                DoApiRequest("action=parse", "prop=text" & "&title=" & UrlEncode(Page.Name) & "&text=" & UrlEncode(Text))
 
             If Result.Error Then
                 Fail(, Result.ErrorMessage)
@@ -394,7 +394,7 @@ Namespace Requests
         Public Page As Page, Text As String
 
         Protected Overrides Sub Process()
-            Dim Result As String = PostUrl(SitePath & "w/index.php?title=" & UrlEncode(Page.Name) & _
+            Dim Result As String = DoUrlRequest(SitePath() & "w/index.php?title=" & UrlEncode(Page.Name) & _
                 "&action=submit", "&wpDiff=0&wpStarttime=" & Timestamp(Date.UtcNow) & _
                 "&wpEdittime=&wpTextbox1=" & UrlEncode(Text))
 
@@ -421,7 +421,7 @@ Namespace Requests
                 Exit Sub
             End If
 
-            Dim Result As ApiResult = GetApi("action=query&list=logevents&letype=protect&lelimit=100" & _
+            Dim Result As ApiResult = DoApiRequest("action=query&list=logevents&letype=protect&lelimit=100" & _
                 "&letitle=" & UrlEncode(Page.Name))
 
             If Result.Error Then
@@ -490,7 +490,7 @@ Namespace Requests
         Public Page As Page, Target As ListView
 
         Protected Overrides Sub Process()
-            Dim Result As ApiResult = GetApi("format=xml&action=query&list=logevents&letype=delete&lelimit=50" & _
+            Dim Result As ApiResult = DoApiRequest("format=xml&action=query&list=logevents&letype=delete&lelimit=50" & _
                 "&letitle=" & UrlEncode(Page.Name))
 
             If Result.Error Then
@@ -528,7 +528,7 @@ Namespace Requests
         Protected Overrides Sub Process()
             LogProgress(Msg("purge-progress", Page.Name))
 
-            Dim Result As ApiResult = GetApi("action=purge&titles=" & UrlEncode(Page.Name))
+            Dim Result As ApiResult = DoApiRequest("action=purge&titles=" & UrlEncode(Page.Name))
 
             If Result.Error Then
                 Fail(Msg("purge-fail", Page.Name), Result.ErrorMessage)
@@ -545,7 +545,7 @@ Namespace Requests
         'Get message shown to user when logging in
 
         Protected Overrides Sub Process()
-            Dim Result As ApiResult = GetApi("action=parse&text={{" & Config.StartupMessageLocation & "}}")
+            Dim Result As ApiResult = DoApiRequest("action=parse&text={{" & Config.StartupMessageLocation & "}}")
 
             If Result.Error Then
                 Fail(, Result.ErrorMessage)
@@ -588,7 +588,7 @@ Namespace Requests
 
             QueryString = QueryString.Trim("|"c)
 
-            Dim Result As ApiResult = GetApi(QueryString)
+            Dim Result As ApiResult = DoApiRequest(QueryString)
 
             If Result.Error Then
                 Fail(, Result.ErrorMessage)
@@ -698,8 +698,8 @@ Namespace Requests
         Protected Overrides Sub Process()
             Dim PathPage As Page = GetPage(Config.LocalizatonPath)
 
-            Dim Result As ApiResult = GetApi("meta", "action=query&prop=info&generator=allpages&gapnamespace=" & _
-                CStr(PathPage.Space.Number) & "&gapprefix=" & PathPage.BaseName)
+            Dim Result As ApiResult = DoApiRequest("action=query&prop=info&generator=allpages&gapnamespace=" & _
+                CStr(PathPage.Space.Number) & "&gapprefix=" & PathPage.BaseName, Project:="meta")
 
             If Result.Error Then
                 Fail(Msg("login-error-language"), Result.ErrorMessage)
@@ -728,8 +728,8 @@ Namespace Requests
                 Exit Sub
             End If
 
-            Result = GetApi("meta", "action=query&prop=revisions&rvprop=content&titles=" & _
-                String.Join("|", ToUpdate.ToArray))
+            Result = DoApiRequest("action=query&prop=revisions&rvprop=content&titles=" & _
+                String.Join("|", ToUpdate.ToArray), Project:="meta")
 
             If Result.Error Then
                 Fail(Msg("login-error-language"), Result.ErrorMessage)

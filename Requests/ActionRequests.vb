@@ -20,7 +20,7 @@ Namespace Requests
 
             'Check for range block already affecting IP address
             If User.Anonymous Then
-                Result = GetApi("action=query&list=blocks&bkip=" & UrlEncode(User.Name))
+                Result = DoApiRequest("action=query&list=blocks&bkip=" & UrlEncode(User.Name))
 
                 If Result.Error Then
                     Fail(Msg("block-fail", User.Name), Result.ErrorMessage)
@@ -48,7 +48,7 @@ Namespace Requests
             End If
 
             'Get token
-            Result = GetApi("action=query&prop=info&titles=-&intoken=block")
+            Result = DoApiRequest("action=query&prop=info&titles=-&intoken=block")
 
             If Result.Error Then
                 Fail(Msg("block-fail", User.Name), Result.ErrorMessage)
@@ -69,7 +69,7 @@ Namespace Requests
             'API defaults to NOT allowing user to edit talk page, even though this is usually not what is wanted
             If Not BlockTalkEdit Then PostString &= "&allowusertalk"
 
-            Result = PostApi("action=block", PostString)
+            Result = DoApiRequest("action=block", PostString)
 
             If Result.Error _
                 Then Fail(Msg("block-fail", User.Name), Result.ErrorMessage) _
@@ -101,7 +101,7 @@ Namespace Requests
             LogProgress(Msg("delete-progress", Page.Name))
 
             'Get token
-            Dim Result As ApiResult = GetApi("action=query&prop=info&intoken=delete&titles=" & UrlEncode(Page.Name))
+            Dim Result As ApiResult = DoApiRequest("action=query&prop=info&intoken=delete&titles=" & UrlEncode(Page.Name))
 
             If Result.Error Then
                 Fail(Msg("delete-fail", Page.Name), Result.ErrorMessage)
@@ -116,7 +116,7 @@ Namespace Requests
 
             If Watch Then PostString &= "&watch"
 
-            Result = PostApi("action=delete", PostString)
+            Result = DoApiRequest("action=delete", PostString)
 
             If Result.Error _
                 Then Fail(Msg("delete-fail", Page.Name), Result.ErrorMessage) _
@@ -135,7 +135,7 @@ Namespace Requests
             LogProgress(Msg("email-progress", User.Name))
 
             'Get token
-            Dim Result As ApiResult = GetApi("action=query&prop=info&titles=-&intoken=email")
+            Dim Result As ApiResult = DoApiRequest("action=query&prop=info&titles=-&intoken=email")
 
             If Result.Error Then
                 Fail(Msg("email-fail", User.Name), Result.ErrorMessage)
@@ -150,7 +150,7 @@ Namespace Requests
 
             If CcMe Then PostString &= "&ccme"
 
-            Result = PostApi("action=emailuser", PostString)
+            Result = DoApiRequest("action=emailuser", PostString)
 
             If Result.Error _
                 Then Fail(Msg("email-fail", User.Name), Result.ErrorMessage) _
@@ -169,7 +169,7 @@ Namespace Requests
             LogProgress(Msg("move-progress", Page.Name, Target))
 
             'Get token
-            Dim Result As ApiResult = GetApi("action=query&prop=info&intoken=move&titles=" & UrlEncode(Page.Name))
+            Dim Result As ApiResult = DoApiRequest("action=query&prop=info&intoken=move&titles=" & UrlEncode(Page.Name))
 
             If Result.Error Then
                 Fail(Msg("move-fail", Page.Name, Target), Result.ErrorMessage)
@@ -184,7 +184,7 @@ Namespace Requests
 
             If MoveTalk Then PostString &= "&movetalk"
 
-            Result = PostApi("action=move", PostString)
+            Result = DoApiRequest("action=move", PostString)
 
             If Result.Error _
                 Then Fail(Msg("move-fail", Page.Name, Target), Result.ErrorMessage) _
@@ -216,7 +216,7 @@ Namespace Requests
 
             If PatrolToken Is Nothing OrElse Page.Rcid Is Nothing Then
                 'Find rcid and/or patrol token
-                Result = GetApi("&rclimit=500&action=query&list=recentchanges&rctype=new&rctoken=patrol")
+                Result = DoApiRequest("&rclimit=500&action=query&list=recentchanges&rctype=new&rctoken=patrol")
 
                 If Result.Error Then
                     Fail(Msg("patrol-fail", Page.Name), Result.ErrorMessage)
@@ -238,7 +238,7 @@ Namespace Requests
             End If
 
             'Patrol the page
-            Result = GetApi("action=patrol&rcid=" & Page.Rcid & "&token=" & UrlEncode(PatrolToken))
+            Result = DoApiRequest("action=patrol&rcid=" & Page.Rcid & "&token=" & UrlEncode(PatrolToken))
 
             If Result.Error _
                 Then Fail(Msg("patrol-fail", Page.Name), Result.ErrorMessage) _
@@ -257,7 +257,7 @@ Namespace Requests
             LogProgress(Msg("protect-progress", Page.Name))
 
             'Get token
-            Dim Result As ApiResult = GetApi("action=query&prop=info&intoken=protect&titles=" & UrlEncode(Page.Name))
+            Dim Result As ApiResult = DoApiRequest("action=query&prop=info&intoken=protect&titles=" & UrlEncode(Page.Name))
 
             If Result.Error Then
                 Fail(Msg("protect-fail", Page.Name), Result.ErrorMessage)
@@ -273,7 +273,7 @@ Namespace Requests
 
             If Cascade Then PostString &= "&cascade"
 
-            Result = PostApi("action=protect", PostString)
+            Result = DoApiRequest("action=protect", PostString)
 
             If Result.Error _
                 Then Fail(Msg("protect-fail", Page.Name), Result.ErrorMessage) _
@@ -291,7 +291,7 @@ Namespace Requests
         Protected Overrides Sub Process()
             If Manual Then LogProgress(Msg("unwatch-progress", Page.Name))
 
-            Dim Result As ApiResult = GetApi("action=watch&unwatch&title=" & UrlEncode(Page.Name))
+            Dim Result As ApiResult = DoApiRequest("action=watch&unwatch&title=" & UrlEncode(Page.Name))
 
             If Result IsNot Nothing Then
                 If Watchlist.Contains(Page.SubjectPage) Then Watchlist.Remove(Page.SubjectPage)
@@ -370,7 +370,7 @@ Namespace Requests
         Protected Overrides Sub Process()
             If Manual Then LogProgress(Msg("watch-progress", Page.Name))
 
-            Dim Result As ApiResult = GetApi("action=watch&title=" & UrlEncode(Page.Name))
+            Dim Result As ApiResult = DoApiRequest("action=watch&title=" & UrlEncode(Page.Name))
 
             If Result IsNot Nothing Then
                 If Not Watchlist.Contains(Page.SubjectPage) Then Watchlist.Add(Page.SubjectPage)

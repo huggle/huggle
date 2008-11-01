@@ -43,7 +43,7 @@ Namespace Requests
                     "limit=" & Math.Min(Remaining, ApiLimit()) & "&" & QueryParams
                 If ContinueFrom IsNot Nothing Then QueryString &= "&" & TypePrefix & "continue=" & ContinueFrom
 
-                Dim Result As ApiResult = GetApi(QueryString)
+                Dim Result As ApiResult = DoApiRequest(QueryString)
 
                 If Result.Error Then
                     Fail(Result.ErrorMessage)

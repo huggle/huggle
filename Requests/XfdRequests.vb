@@ -19,7 +19,7 @@ Namespace Requests
         Protected Function GetSubpageName(ByVal Name As String, ByVal Path As String) As RequestResult
             'Check for previous nominations of the same page
             Dim Subpage As String = Name
-            Dim Result As ApiResult = GetApi("action=query&list=allpages&apnamespace=4&apprefix=" & _
+            Dim Result As ApiResult = DoApiRequest("action=query&list=allpages&apnamespace=4&apprefix=" & _
                 UrlEncode((Path.Substring(Path.IndexOf(":") + 1) & "/" & Name).Replace(" ", "_")))
 
             If Result.Error Then Return New RequestResult(, Result.ErrorMessage)

@@ -19,6 +19,7 @@ Class Configuration
     Public ReadOnly HistoryBlockSize As Integer = 100
     Public ReadOnly HistoryScrollSpeed As Integer = 25
     Public ReadOnly IrcConnectionTimeout As Integer = 60000
+    Public ReadOnly RequestTimeout As Integer = 30000
     Public ReadOnly QueueSize As Integer = 5000
     Public ReadOnly QueueWidth As Integer = 160
     Public ReadOnly RequestAttempts As Integer = 3

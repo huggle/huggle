@@ -8,8 +8,8 @@ Namespace Requests
         'Process global configuration page
 
         Protected Overrides Sub Process()
-            Dim Result As ApiResult = GetApi("meta", "action=query&prop=revisions&rvlimit=1&rvprop=content&titles=" & _
-                Config.GlobalConfigLocation)
+            Dim Result As ApiResult = DoApiRequest("action=query&prop=revisions&rvlimit=1&rvprop=content&titles=" & _
+                Config.GlobalConfigLocation, Project:="meta")
 
             If Result.Error Then
                 Fail(Msg("loadglobalconfig-fail"), Result.ErrorMessage)
@@ -37,7 +37,7 @@ Namespace Requests
 
         Protected Overrides Sub Process()
 
-            Dim Result As ApiResult = GetApi("action=query&prop=revisions&rvlimit=1&rvprop=content&titles=" & _
+            Dim Result As ApiResult = DoApiRequest("action=query&prop=revisions&rvlimit=1&rvprop=content&titles=" & _
                 UrlEncode(Config.ProjectConfigLocation))
 
             If Result.Error Then
@@ -76,7 +76,7 @@ Namespace Requests
         'Read user configuration page
 
         Protected Overrides Sub Process()
-            Dim Result As ApiResult = GetApi("action=query&prop=revisions&rvlimit=1&rvprop=content&titles=" & _
+            Dim Result As ApiResult = DoApiRequest("action=query&prop=revisions&rvlimit=1&rvprop=content&titles=" & _
                UrlEncode(GetPage(Config.UserConfigLocation).Name))
 
             If Result.Error Then
@@ -86,15 +86,17 @@ Namespace Requests
 
             Dim ConfigFile As String = HtmlDecode(FindString(Result.Text, "<rev>", "</rev>"))
 
-            For Each Item As KeyValuePair(Of String, String) In ProcessConfigFile(ConfigFile)
-                Try
-                    SetSharedConfigOption(Item.Key, Item.Value)
-                    SetUserConfigOption(Item.Key, Item.Value)
+            If ConfigFile IsNot Nothing Then
+                For Each Item As KeyValuePair(Of String, String) In ProcessConfigFile(ConfigFile)
+                    Try
+                        SetSharedConfigOption(Item.Key, Item.Value)
+                        SetUserConfigOption(Item.Key, Item.Value)
 
-                Catch ex As Exception
-                    'Ignore malformed config entries
-                End Try
-            Next Item
+                    Catch ex As Exception
+                        'Ignore malformed config entries
+                    End Try
+                Next Item
+            End If
 
             Complete()
         End Sub

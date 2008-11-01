@@ -171,16 +171,6 @@ Namespace Requests
             End If
         End Sub
 
-        'Remove any in-progress log entry for this request
-        Protected Sub DelogProgress()
-            Callback(AddressOf DelogProgressCallback)
-        End Sub
-
-        'Helper function for above
-        Private Sub DelogProgressCallback()
-            If MainForm IsNot Nothing Then MainForm.Delog(Me)
-        End Sub
-
         'Undo an edit that had already saved when the request was cancelled
         Protected Sub UndoEdit(ByVal Page As Page)
             If Page.LastEdit IsNot Nothing AndAlso Page.LastEdit.User.IsMe _
@@ -198,6 +188,8 @@ Namespace Requests
             If Not Mono() Then SetAcceptCompression(Request)
             Request.CookieContainer = _Cookies
             Request.Proxy = Proxy
+            Request.ReadWriteTimeout = Config.RequestTimeout
+            Request.Timeout = Config.RequestTimeout
             Request.UserAgent = Config.UserAgent
 
             If PostString IsNot Nothing Then
@@ -215,6 +207,7 @@ Namespace Requests
             Dim ResponseStream As New StreamReader(Request.GetResponse.GetResponseStream, UTF8)
             Dim Result As String = ResponseStream.ReadToEnd
             ResponseStream.Close()
+
             Return Result
         End Function
 
@@ -225,60 +218,24 @@ Namespace Requests
         End Sub
 
         Protected Function DoLogin() As LoginResult
-            Dim Result As String = "", Retries As Integer = 3
+            Dim Result As String = DoUrlRequest(SitePath() & "w/index.php?title=Special:Userlogin")
 
-            Mode = Modes.Get
-            Query = "title=Special:Userlogin"
+            If Result Is Nothing OrElse Not IsWikiPage(Result) Then Return LoginResult.Failed
 
-            If Login.CaptchaId Is Nothing Then
-                'Get login form, to check whether captcha is needed
+            If Result.Contains("<div class='captcha'>") Then
+                Login.CaptchaId = Result.Substring(Result.IndexOf("id=""wpCaptchaId"" value=""") + 24)
+                Login.CaptchaId = Login.CaptchaId.Substring(0, Login.CaptchaId.IndexOf(""""))
 
-                Do
-                    Retries -= 1
-
-                    Try
-                        Result = DoWebRequest(SitePath() & "w/index.php?title=Special:Userlogin")
-
-                    Catch ex As Exception
-                        If State = States.Cancelled Then Return LoginResult.Cancelled Else Throw
-                    End Try
-
-                Loop Until IsWikiPage(Result) OrElse Retries = 0
-
-                If State = States.Cancelled Then Return LoginResult.Cancelled
-                If Retries = 0 Then Return LoginResult.Failed
-
-                If Result.Contains("<div class='captcha'>") Then
-                    Login.CaptchaId = Result.Substring(Result.IndexOf("id=""wpCaptchaId"" value=""") + 24)
-                    Login.CaptchaId = Login.CaptchaId.Substring(0, Login.CaptchaId.IndexOf(""""))
-
-                    Return LoginResult.CaptchaNeeded
-                End If
+                Return LoginResult.CaptchaNeeded
             End If
 
-            Mode = Modes.Post
-            Query = "title=Special:Userlogin&action=submitlogin&type=login"
+            Dim PostString As String = "wpName=" & UrlEncode(Config.Username) & "&wpRemember=1" & _
+                "&wpPassword=" & UrlEncode(Config.Password) & "&wpCaptchaId=" & Login.CaptchaId & _
+                "&wpCaptchaWord=" & Login.CaptchaWord
 
-            Do
-                Retries -= 1
-
-                Dim PostString As String = "wpName=" & UrlEncode(Config.Username) & "&wpRemember=1" & _
-                    "&wpPassword=" & UrlEncode(Config.Password) & "&wpCaptchaId=" & Login.CaptchaId & _
-                    "&wpCaptchaWord=" & Login.CaptchaWord
-
-                Try
-                    Result = DoWebRequest _
-                        (SitePath() & "w/index.php?title=Special:Userlogin&action=submitlogin", PostString)
-
-                    If State = States.Cancelled Then Return LoginResult.Cancelled
-
-                Catch ex As WebException
-                    Thread.Sleep(1000)
-                End Try
-
-            Loop Until IsWikiPage(Result) OrElse Retries = 0
-
-            If Retries = 0 Then Return LoginResult.Failed
+            Result = DoUrlRequest(SitePath() & "w/index.php?title=Special:Userlogin&action=submitlogin", PostString)
+            
+            If Result Is Nothing OrElse Not IsWikiPage(Result) Then Return LoginResult.Failed
 
             If Result.Contains("<span id=""mw-noname"">") Then Return LoginResult.InvalidUsername
             If Result.Contains("<span id=""mw-nosuchuser"">") Then Return LoginResult.NoUser
@@ -289,36 +246,11 @@ Namespace Requests
             Return LoginResult.Success
         End Function
 
-        Protected Function GetUrl(ByVal Url As String) As String
+        'Make an arbitrary Web request
+        Protected Function DoUrlRequest(ByVal Url As String, Optional ByVal PostString As String = Nothing) As String
 
             If Url.Contains("?") Then Query = Url.Substring(Url.IndexOf("?") + 1) Else Query = Url
-            Mode = Modes.Get
-
-            Dim Retries As Integer = Config.RequestAttempts, Result As String = Nothing
-
-            Do
-                If Retries < Config.RequestAttempts Then Thread.Sleep(Config.RequestRetryInterval)
-                Retries -= 1
-
-                Try
-                    Result = DoWebRequest(Url)
-
-                Catch ex As WebException
-                    If Retries > 0 Then Log(Msg("error-exception", Truncate(Query, 50)) & ": " & _
-                        ex.Message & " " & Msg("retrying"))
-                End Try
-
-                If State = States.Cancelled Then Thread.CurrentThread.Abort()
-
-            Loop Until Retries = 0 OrElse Result IsNot Nothing
-
-            If Retries = 0 Then Return Nothing Else Return Result
-        End Function
-
-        Protected Function PostUrl(ByVal Url As String, ByVal PostString As String) As String
-
-            If Url.Contains("?") Then Query = Url.Substring(Url.IndexOf("?") + 1) Else Query = Url
-            Mode = Modes.Get
+            If PostString Is Nothing Then Mode = Modes.Get Else Mode = Modes.Post
 
             Dim Retries As Integer = Config.RequestAttempts, Result As String = Nothing
 
@@ -330,6 +262,8 @@ Namespace Requests
                     Result = DoWebRequest(Url, PostString)
 
                 Catch ex As WebException
+                    If ex.Status = WebExceptionStatus.Timeout Then Throw New WebException(Msg("error-timeout"))
+
                     If Retries > 0 Then Log(Msg("error-exception", Truncate(Query, 50)) & ": " & _
                         ex.Message & " " & Msg("retrying"))
                 End Try
@@ -341,16 +275,14 @@ Namespace Requests
             If Retries = 0 Then Return Nothing Else Return Result
         End Function
 
-        'Retrieve data through the MediaWiki API
-        Protected Function GetApi(ByVal QueryString As String) As ApiResult
-            Return GetApi(Config.Project, QueryString)
-        End Function
-
-        Protected Function GetApi(ByVal Project As String, ByVal QueryString As String) As ApiResult
+        'Retrieve/submit data through the MediaWiki API
+        Protected Function DoApiRequest(ByVal QueryString As String, _
+            Optional ByVal PostString As String = Nothing, Optional ByVal Project As String = Nothing) As ApiResult
 
             If Project Is Nothing Then Project = Config.Project
+
             Query = QueryString
-            Mode = Modes.Get
+            If PostString Is Nothing Then Mode = Modes.Get Else Mode = Modes.Post
 
             Dim Retries As Integer = Config.RequestAttempts, Result As String = ""
 
@@ -359,43 +291,12 @@ Namespace Requests
                 Retries -= 1
 
                 Try
-                    Result = DoWebRequest(SitePath(Project) & "w/api.php?format=xml&" & QueryString)
+                    Result = DoWebRequest(SitePath(Project) & "w/api.php?format=xml&" & QueryString, PostString)
 
                 Catch ex As WebException
-                    If Retries > 0 Then Log(Msg("error-exception", Truncate(Query, 50)) & ": " & _
-                        ex.Message & " " & Msg("retrying"))
-                End Try
+                    If ex.Status = WebExceptionStatus.Timeout _
+                        Then Return New ApiResult(Nothing, "error-timeout", Msg("error-timeout"))
 
-            Loop Until Result <> "" OrElse Retries = 0
-
-            If Result.StartsWith("MediaWiki API is not enabled for this site") _
-                Then Return New ApiResult(Nothing, "error-apidisabled", Msg("error-apidisabled"))
-
-            If Result = "" Then Return New ApiResult(Nothing, "null", Msg("error-noresponse"))
-
-            If FindString(Result, "<error", "</error>") Is Nothing Then
-                Return New ApiResult(Result, Nothing, Nothing)
-            Else
-                Return New ApiResult(Result, HtmlDecode(FindString(Result, "<error", "code=""", """")), _
-                    HtmlDecode(FindString(Result, "<error", "info=""", """")))
-            End If
-        End Function
-
-        'Submit data through the MediaWiki API
-        Protected Function PostApi(ByVal QueryString As String, ByVal PostString As String) As ApiResult
-            Query = QueryString
-            Mode = Modes.Post
-
-            Dim Retries As Integer = Config.RequestAttempts, Result As String = ""
-
-            Do
-                If Retries < Config.RequestAttempts Then Thread.Sleep(Config.RequestRetryInterval)
-                Retries -= 1
-
-                Try
-                    Result = DoWebRequest(SitePath() & "w/api.php?format=xml&" & QueryString, PostString)
-
-                Catch ex As WebException
                     If Retries > 0 Then Log(Msg("error-exception", Truncate(Query, 50)) & ": " & _
                         ex.Message & " " & Msg("retrying"))
                 End Try
@@ -425,7 +326,7 @@ Namespace Requests
             If Section IsNot Nothing Then QueryString &= "&rvsection=" & UrlEncode(Section)
             If Revision IsNot Nothing Then QueryString &= "&startid=" & UrlEncode(Revision)
 
-            Return GetApi(QueryString)
+            Return DoApiRequest(QueryString)
         End Function
 
         Protected Function GetText(ByVal Page As Page, Optional ByVal Revision As String = Nothing, _
@@ -444,7 +345,7 @@ Namespace Requests
 
             'Get edit token
             If EditToken Is Nothing Then
-                Result = GetApi("action=query&prop=info&intoken=edit&titles=" & UrlEncode(Page.Name))
+                Result = DoApiRequest("action=query&prop=info&intoken=edit&titles=" & UrlEncode(Page.Name))
                 If Result.Error Then Return Result
                 EditToken = GetParameter(Result.Text, "edittoken")
             End If
@@ -462,7 +363,7 @@ Namespace Requests
             If Minor Then QueryString &= "&minor"
             If Watch Then QueryString &= "&watch"
 
-            Result = PostApi("action=edit", QueryString)
+            Result = DoApiRequest("action=edit", QueryString)
             If Not Result.Error AndAlso Not Watchlist.Contains(Page.SubjectPage) Then Watchlist.Add(Page.SubjectPage)
 
             Return Result

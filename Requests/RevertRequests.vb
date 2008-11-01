@@ -138,7 +138,7 @@ Namespace Requests
                  "&user=" & UrlEncode(Edit.User.Name) & "&token=" & UrlEncode(Edit.RollbackToken) & _
                  "&summary=" & UrlEncode(Summary)
 
-            Dim Result As ApiResult = PostApi("action=rollback", QueryString)
+            Dim Result As ApiResult = DoApiRequest("action=rollback", QueryString)
 
             If Result.Error Then Fail(Msg("revert-fail", Edit.Page.Name), Result.ErrorMessage) Else Complete()
         End Sub
@@ -167,7 +167,7 @@ Namespace Requests
         Protected Overrides Sub Process()
             LogProgress(Msg("revert-progress", Page.Name))
 
-            Dim Result As ApiResult = GetApi("action=query&prop=revisions&rvlimit=1&rvprop=user|content" & _
+            Dim Result As ApiResult = DoApiRequest("action=query&prop=revisions&rvlimit=1&rvprop=user|content" & _
                 "&titles=" & UrlEncode(Page.Name) & "&rvexcludeuser=" & UrlEncode(ExcludeUser.Name))
 
             If Result.Error Then
@@ -214,7 +214,7 @@ Namespace Requests
 
             '"Undo" function is not available through the API
 
-            Dim Result As String = GetUrl(SitePath & "w/index.php?title=" & UrlEncode(Edit.Page.Name) & _
+            Dim Result As String = DoUrlRequest(SitePath() & "w/index.php?title=" & UrlEncode(Edit.Page.Name) & _
                 "&action=edit&undo=" & Edit.Id)
 
             If Result Is Nothing Then

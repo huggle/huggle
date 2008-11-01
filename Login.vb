@@ -173,7 +173,7 @@ Namespace Requests
             'Get user information and groups
             UpdateStatus(Msg("login-progress-rights"))
 
-            Dim Result As ApiResult = GetApi("action=query&meta=userinfo&uiprop=rights|editcount")
+            Dim Result As ApiResult = DoApiRequest("action=query&meta=userinfo&uiprop=rights|editcount")
 
             If Result.Error Then Abort(Msg("login-error-rights"), Result.ErrorMessage)
 
@@ -231,7 +231,7 @@ Namespace Requests
                 'Get account creation date
                 UpdateStatus(Msg("login-progress-age"))
 
-                Result = GetApi("action=query&format=xml&list=logevents&letype=newusers&letitle=" & _
+                Result = DoApiRequest("action=query&format=xml&list=logevents&letype=newusers&letitle=" & _
                     UrlEncode(User.Me.Userpage.Name))
 
                 'We know the user exists, so if we get an empty result the user must have been created in 2005 or
@@ -318,7 +318,7 @@ Namespace Requests
             'Get bot list
             UpdateStatus(Msg("login-progress-botlist"))
 
-            Result = GetApi("action=query&list=allusers&augroup=bot&aulimit=500")
+            Result = DoApiRequest("action=query&list=allusers&augroup=bot&aulimit=500")
 
             If Not Result.Error Then
                 Dim UserlistText As String = HtmlDecode(FindString(Result.Text, "<allusers>", "</allusers>"))
