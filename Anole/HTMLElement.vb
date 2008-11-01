@@ -1,17 +1,14 @@
-Imports System
-Imports System.Xml
 Imports System.Collections
-Imports System.Drawing
 Imports System.Text
 
 Namespace Anole
-    ''' <summary>
-    ''' Base class for all HTML Elements.
-    ''' </summary>
+
     Public Class HTMLElement
-        'Properties
+
+        ' Base class for all HTML Elements
         
         Protected myHTMLDocument As HTMLDocument
+
         Public Property HTMLDocument() As HTMLDocument
             Get
                 Return myHTMLDocument
@@ -22,6 +19,7 @@ Namespace Anole
         End Property
         
         Protected myBackColor As Color
+
         Public Property BackColor() As Color
             Get
                 Return myBackColor
@@ -32,6 +30,7 @@ Namespace Anole
         End Property
         
         Protected myForeColor As Color
+
         Public Property ForeColor() As Color
             Get
                 Return myForeColor
@@ -42,6 +41,7 @@ Namespace Anole
         End Property
         
         Protected myWidth As Integer
+
         Public Property Width() As Integer
             Get
                 Return myWidth
@@ -52,6 +52,7 @@ Namespace Anole
         End Property
         
         Protected myHeight As Integer
+
         Public Property Height() As Integer
             Get
                 Return myHeight
@@ -62,6 +63,7 @@ Namespace Anole
         End Property
         
         Protected myFont As Font
+
         Public Property Font() As Font
             Get
                 Return myFont
@@ -72,6 +74,7 @@ Namespace Anole
         End Property
         
         Protected myParent As HTMLElement
+
         Public Property Parent() As HTMLElement
             Get
                 Return myParent
@@ -82,6 +85,7 @@ Namespace Anole
         End Property
         
         Protected myChildren As ArrayList
+
         Public Property Children() As ArrayList
             Get
                 Return myChildren
@@ -92,6 +96,7 @@ Namespace Anole
         End Property
         
         Protected myType As String
+
         Public Property Type() As String
             Get
                 Return myType
@@ -102,6 +107,7 @@ Namespace Anole
         End Property
         
         Protected myText As String
+
         Public Property Text() As String
             Get
                 Return myText
@@ -112,6 +118,7 @@ Namespace Anole
         End Property
         
         Protected myNode As XmlNode
+
         Public Property XmlNode() As XmlNode
             Get
                 Return myNode
@@ -122,6 +129,7 @@ Namespace Anole
         End Property
         
         Protected myParser As HTMLParser
+
         Public Property Parser() As HTMLParser
             Get
                 Return myParser
@@ -132,6 +140,7 @@ Namespace Anole
         End Property
         
         Protected myAlignment As HTMLAlignment
+
         Public Property Alignment() As HTMLAlignment
             Get
                 Return myAlignment
@@ -142,6 +151,7 @@ Namespace Anole
         End Property
         
         Protected myVAlignment As HTMLVAlignment
+
         Public Property VAlignment() As HTMLVAlignment
             Get
                 Return myVAlignment
@@ -152,6 +162,7 @@ Namespace Anole
         End Property
         
         Protected myName As String
+
         Public Property Name() As String
             Get
                 Return myName
@@ -203,15 +214,11 @@ Namespace Anole
             End If
         End Sub
         
-        ''' <summary>
-        ''' Layout is called by HTMLRenderer to instruct HTMLElements to
-        ''' create Render items in bands owned by the calling renderer.
-        ''' Different HTML elements (i.e. Table cells, images etc.) should
-        ''' override this function as needed for their specific layout requiremtns.
-        ''' This base class does text layout only.
-        ''' </summary>
-        ''' <param name="renderer"></param>
-        ''' <param name="g"></param>
+        ' Layout is called by HTMLRenderer to instruct HTMLElements to
+        ' create Render items in bands owned by the calling renderer.
+        ' Different HTML elements (i.e. Table cells, images etc.) should
+        ' override this function as needed for their specific layout requiremtns.
+        ' This base class does text layout only.
         Public Overridable Sub Layout(renderer As HTMLRenderer, g As Graphics)
             If Me.Text.Length <> 0 Then
                 Dim i As Integer
@@ -293,48 +300,20 @@ Namespace Anole
             End If
             For Each childnode As XmlNode In xnode.ChildNodes
                 Select Case childnode.Name.ToUpper()
-                    Case "BODY"
-                        Children.Add(New HTMLBodyElement(Me.myHTMLDocument, Me, childnode))
-                        Exit Select
-                    Case "FONT"
-                        Children.Add(New HTMLFontElement(Me.myHTMLDocument, Me, childnode))
-                        Exit Select
-                    Case "B"
-                        Children.Add(New HTMLBoldElement(Me.myHTMLDocument, Me, childnode))
-                        Exit Select
-                    Case "U"
-                        Children.Add(New HTMLUnderscoreElement(Me.myHTMLDocument, Me, childnode))
-                        Exit Select
-                    Case "I"
-                        Children.Add(New HTMLItalicElement(Me.myHTMLDocument, Me, childnode))
-                        Exit Select
-                    Case "BR"
-                        Children.Add(New HTMLBRElement(Me.myHTMLDocument, Me, childnode))
-                        Exit Select
-                    Case "HR"
-                        Children.Add(New HTMLHRElement(Me.myHTMLDocument, Me, childnode))
-                        Exit Select
-                    Case "A"
-                        Children.Add(New HTMLAElement(Me.myHTMLDocument, Me, childnode))
-                        Exit Select
-                    Case "CENTER"
-                        Children.Add(New HTMLCenterElement(Me.myHTMLDocument, Me, childnode))
-                        Exit Select
-                    Case "IMG"
-                        Children.Add(New HTMLImageElement(Me.myHTMLDocument, Me, childnode))
-                        Exit Select
-                    Case "TABLE"
-                        Children.Add(New HTMLTableElement(Me.myHTMLDocument, Me, childnode))
-                        Exit Select
-                    Case "TR"
-                        Children.Add(New HTMLTRElement(Me.myHTMLDocument, Me, childnode))
-                        Exit Select
-                    Case "TD"
-                        Children.Add(New HTMLTDElement(Me.myHTMLDocument, Me, childnode))
-                        Exit Select
-                    Case Else
-                        Children.Add(New HTMLElement(Me.myHTMLDocument, Me, childnode))
-                        Exit Select
+                    Case "BODY" : Children.Add(New HTMLBodyElement(myHTMLDocument, Me, childnode))
+                    Case "FONT" : Children.Add(New HTMLFontElement(myHTMLDocument, Me, childnode))
+                    Case "B" : Children.Add(New HTMLBoldElement(myHTMLDocument, Me, childnode))
+                    Case "U" : Children.Add(New HTMLUnderscoreElement(myHTMLDocument, Me, childnode))
+                    Case "I" : Children.Add(New HTMLItalicElement(myHTMLDocument, Me, childnode))
+                    Case "BR" : Children.Add(New HTMLBRElement(myHTMLDocument, Me, childnode))
+                    Case "HR" : Children.Add(New HTMLHRElement(myHTMLDocument, Me, childnode))
+                    Case "A" : Children.Add(New HTMLAElement(myHTMLDocument, Me, childnode))
+                    Case "CENTER" : Children.Add(New HTMLCenterElement(myHTMLDocument, Me, childnode))
+                    Case "IMG" : Children.Add(New HTMLImageElement(myHTMLDocument, Me, childnode))
+                    Case "TABLE" : Children.Add(New HTMLTableElement(myHTMLDocument, Me, childnode))
+                    Case "TR" : Children.Add(New HTMLTRElement(myHTMLDocument, Me, childnode))
+                    Case "TD" : Children.Add(New HTMLTDElement(myHTMLDocument, Me, childnode))
+                    Case Else : Children.Add(New HTMLElement(myHTMLDocument, Me, childnode))
                 End Select
             Next
         End Sub
@@ -345,9 +324,7 @@ Namespace Anole
         
         Protected Sub ParseName(xnode As XmlNode)
             Me.Name = ParseString(xnode, "name", "")
-            If Me.Parent Is Nothing Then
-                Me.myHTMLDocument.Name = Me.Name
-            End If
+            If Me.Parent Is Nothing Then Me.myHTMLDocument.Name = Me.Name
         End Sub
         
         Protected Sub ParseBackColor(xnode As XmlNode)
@@ -360,60 +337,48 @@ Namespace Anole
         
         Protected Function ParseColor(xnode As XmlNode, attrname As String, defaultcolor As Color) As Color
             Dim sColorString As String = Me.ParseString(xnode, attrname, "")
-            If sColorString.Length = 0 Then
-                Return defaultcolor
-            End If
+            If sColorString.Length = 0 Then Return defaultcolor
             Return HTMLColorParser.ParseColor(sColorString)
         End Function
         
         Protected Function ParseAlignment(xnode As XmlNode, defaultalignment As HTMLAlignment) As HTMLAlignment
             Dim sAlign As String = Me.ParseString(xnode, "align", "left")
+
             Select Case sAlign.ToUpper()
-                Case "LEFT"
-                    Return HTMLAlignment.Left
-                Case "CENTER"
-                    Return HTMLAlignment.Center
-                Case "RIGHT"
-                    Return HTMLAlignment.Right
-                Case "JUSTIFY"
-                    Return HTMLAlignment.Justify
-                Case Else
-                    Return defaultalignment
+                Case "LEFT" : Return HTMLAlignment.Left
+                Case "CENTER" : Return HTMLAlignment.Center
+                Case "RIGHT" : Return HTMLAlignment.Right
+                Case "JUSTIFY" : Return HTMLAlignment.Justify
+                Case Else : Return defaultalignment
             End Select
         End Function
-        
         
         Protected Sub ParseForeColor(xnode As XmlNode)
             Me.ForeColor = HTMLColorParser.ParseColor(Me.ParseString(xnode, "color", "black"))
         End Sub
         
-        
         Protected Function ParseString(xnode As XmlNode, aname As String, sdefault As String) As String
             Try
                 Dim attr As XmlNode = xnode.Attributes.GetNamedItem(aname)
-                If attr IsNot Nothing Then
-                    Return attr.Value.ToString()
-                End If
+                If attr IsNot Nothing Then Return attr.Value.ToString()
                 Return sdefault
-            Catch generatedExceptionName As Exception
+
+            Catch ex As Exception
                 Return sdefault
             End Try
-            
         End Function
         
         Protected Function ParseInt(xnode As XmlNode, aname As String, ndefault As Integer) As Integer
             Dim attr As XmlNode = xnode.Attributes.GetNamedItem(aname)
-            If attr IsNot Nothing Then
-                Return Int32.Parse(attr.Value.ToString())
-            End If
+            If attr IsNot Nothing Then Return Integer.Parse(attr.Value.ToString())
+
             Return ndefault
         End Function
         
         Protected Function ParseFloat(xnode As XmlNode, aname As String, ndefault As Single) As Single
             Dim attr As XmlNode = xnode.Attributes.GetNamedItem(aname)
-            If attr IsNot Nothing Then
-                Return CSng([Double].Parse(attr.Value.ToString()))
-            End If
+            If attr IsNot Nothing Then Return CSng(Double.Parse(attr.Value.ToString()))
+
             Return ndefault
         End Function
         
@@ -421,18 +386,16 @@ Namespace Anole
             Dim s As String
             s = "<" + Me.Type + " fontsize=" + Me.Font.Size.ToString() + ">"
             s += Me.Text
+
             For Each childelement As HTMLElement In Children
                 s += childelement.ToString()
-            Next
+            Next childelement
+
             s += "</" + Me.Type + ">"
             Return s
         End Function
         
-        
-        
     End Class
-    
-    
     
     Public Enum HTMLAlignment
         Center
@@ -446,4 +409,5 @@ Namespace Anole
         Middle
         Bottom
     End Enum
+
 End Namespace

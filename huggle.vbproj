@@ -39,6 +39,7 @@
     <Import Include="System.Diagnostics" />
     <Import Include="System.Drawing" />
     <Import Include="System.Windows.Forms" />
+    <Import Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Anole\HTMLAElement.vb" />

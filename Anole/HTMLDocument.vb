@@ -1,16 +1,12 @@
-Imports System
-Imports System.Drawing
 Imports System.IO
 Imports System.Text
 
 Namespace Anole
-    ''' <summary>
-    ''' Summary description for HTMLDocument.
-    ''' </summary>
-    ''' 
+
     Public Class HTMLDocument
         
         Protected myName As String
+
         Public Property Name() As String
             Get
                 Return myName
@@ -21,6 +17,7 @@ Namespace Anole
         End Property
         
         Protected myHTML As String
+
         Public Property HTML() As String
             Get
                 Return myHTML
@@ -31,6 +28,7 @@ Namespace Anole
         End Property
         
         Protected myBackColor As Color
+
         Public Property BackColor() As Color
             Get
                 Return myBackColor
@@ -41,6 +39,7 @@ Namespace Anole
         End Property
         
         Protected myALinkColor As Color
+
         Public Property ALinkColor() As Color
             Get
                 Return myALinkColor
@@ -51,6 +50,7 @@ Namespace Anole
         End Property
         
         Protected myWidth As Integer
+
         Public Property Width() As Integer
             Get
                 Return myWidth
@@ -61,6 +61,7 @@ Namespace Anole
         End Property
         
         Protected myRootElement As HTMLElement
+
         Public Property RootElement() As HTMLElement
             Get
                 Return myRootElement
@@ -88,21 +89,17 @@ Namespace Anole
             Dim f As New FileStream(sFileName, FileMode.Open, FileAccess.Read)
             Dim buffer As Byte() = New Byte(2047) {}
             Dim bytesread As Integer = 1
-            Dim sb As System.Text.StringBuilder
-            sb = New StringBuilder()
+            Dim sb As New StringBuilder
+
             Do
                 bytesread = f.Read(buffer, 0, 2048)
-                If bytesread > 0 Then
-                    sb.Append(System.Text.ASCIIEncoding.ASCII.GetString(buffer, 0, bytesread))
-                End If
+                If bytesread > 0 Then sb.Append(ASCIIEncoding.ASCII.GetString(buffer, 0, bytesread))
             Loop While bytesread <> 0
+
             f.Close()
             LoadHTML(sb.ToString())
         End Sub
         
-        
-        
-        
-        
     End Class
+
 End Namespace

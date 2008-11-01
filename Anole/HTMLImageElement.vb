@@ -1,54 +1,47 @@
-Imports System
-Imports System.Drawing
-Imports System.Xml
 Imports System.IO
 Imports System.Reflection
-Imports System.Windows.Forms
 
 Namespace Anole
-    ''' <summary>
-    ''' Summary description for HTMLImageElement.
-    ''' </summary>
-    Public Class HTMLImageElement
-        Inherits HTMLElement
+
+    Public Class HTMLImageElement : Inherits HTMLElement
+
         Protected mySource As String
+
         Public Property Source() As String
             Get
                 Return mySource
             End Get
-            Set
+            Set(ByVal value As String)
                 mySource = value
             End Set
         End Property
-        
+
         Protected myBitmap As Bitmap
+
         Public Property Bitmap() As Bitmap
             Get
                 Return myBitmap
             End Get
-            Set
+            Set(ByVal value As Bitmap)
                 myBitmap = value
             End Set
         End Property
-        
-        Public Sub New(ByRef document As HTMLDocument, parent As HTMLElement, xnode As XmlNode)
+
+        Public Sub New(ByRef document As HTMLDocument, ByVal parent As HTMLElement, ByVal xnode As XmlNode)
             Initialize(document, parent, xnode)
-            
+
             'Parse the image name
             mySource = ParseString(xnode, "src", "")
-            
+
             'See if file exists
-            If Not System.IO.File.Exists(mySource) Then
+            If Not File.Exists(mySource) Then
                 'See if the file exists in the current directory
                 Dim sPath As String = Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetModules()(0).FullyQualifiedName) + "\"
-                If System.IO.File.Exists(sPath + mySource) Then
-                    mySource = sPath + mySource
-                End If
+                If File.Exists(sPath + mySource) Then mySource = sPath + mySource
             End If
-            If Not System.IO.File.Exists(mySource) Then
-                Return
-            End If
-            
+
+            If Not File.Exists(mySource) Then Return
+
             'Load the bitmap
             Try
                 myBitmap = New Bitmap(mySource)
@@ -59,18 +52,16 @@ Namespace Anole
                 myBitmap = Nothing
             End Try
         End Sub
-        
-        Public Overloads Overrides Sub Layout(renderer As HTMLRenderer, g As Graphics)
-            If myBitmap Is Nothing Then
-                Return
-            End If
+
+        Public Overloads Overrides Sub Layout(ByVal renderer As HTMLRenderer, ByVal g As Graphics)
+            If myBitmap Is Nothing Then Return
+
             Dim band As HTMLRenderBand = renderer.CurrentBand()
-            If band.WidthRemaining() < myBitmap.Width Then
-                band = renderer.NewBand()
-            End If
-            
+
+            If band.WidthRemaining() < myBitmap.Width Then band = renderer.NewBand()
             band.AddItem(New HTMLRenderImage(Me))
-            
         End Sub
+
     End Class
+
 End Namespace

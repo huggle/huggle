@@ -1,17 +1,13 @@
-﻿Imports System
-Imports System.Collections
-Imports System.Drawing
-Imports System.Windows.Forms
+﻿Imports System.Collections
 
 Namespace Anole
-    ''' <summary>
-    ''' Summary description for HTMLRenderer.
-    ''' </summary>
+
     Public Class HTMLRenderer
+
         Private myRenderBands As ArrayList
         Private myTargetWidth As Integer
-
         Private myWidth As Integer
+
         Public Property Width() As Integer
             Get
                 Return myWidth
@@ -22,6 +18,7 @@ Namespace Anole
         End Property
 
         Private myHeight As Integer
+
         Public Property Height() As Integer
             Get
                 Return myHeight
@@ -41,9 +38,7 @@ Namespace Anole
         End Property
 
         Public Sub New(ByVal element As HTMLElement, ByVal targetwidth As Integer)
-            If element Is Nothing Then
-                Return
-            End If
+            If element Is Nothing Then Return
 
             myWidth = 0
             myHeight = 0
@@ -56,17 +51,16 @@ Namespace Anole
             element.Layout(Me, g)
 
             'Calculate band tops
-            Dim top As Integer = 0
-            Dim width As Integer = 0
+            Dim top, width As Integer
+
             For Each band As HTMLRenderBand In myRenderBands
                 band.Top = top
                 top += band.Height + 1
                 band.ComputeItemCoords()
                 width = Math.Max(width, band.Width)
-            Next
+            Next band
 
             Me.Height = top
-
             Me.Width = width
         End Sub
 
@@ -87,52 +81,41 @@ Namespace Anole
             Next
         End Sub
 
-        ''' <summary>
-        ''' Returns the item whose
-        ''' bounding rectangle contains the specified point.
-        ''' Used for hyperlink hit-testing.
-        ''' </summary>
-        ''' <param name="x"></param>
-        ''' <param name="y"></param>
-        ''' <returns></returns>
+        ' Returns the item whose bounding rectangle contains the specified point.
+        ' Used for hyperlink hit-testing.
         Public Function LocateItem(ByVal x As Integer, ByVal y As Integer) As HTMLRenderItem
             For Each band As HTMLRenderBand In Me.myRenderBands
-                If y >= band.Top Then
-                    If y <= band.Top + band.Height Then
-                        Return band.LocateItem(x, y)
-                    End If
-                End If
-            Next
+                If y >= band.Top AndAlso y <= band.Top + band.Height Then Return band.LocateItem(x, y)
+            Next band
+
             Return Nothing
         End Function
 
-        ''' <summary>
-        ''' Returns the x,y coordinate of the upper left
-        ''' corner of the item with the given name
-        ''' </summary>
-        ''' <param name="aname"></param>
-        ''' <returns></returns>
+        ' Returns the x,y coordinate of the upper left
+        ' corner of the item with the given name
         Public Function LocateItem(ByVal aname As String) As Point
             Dim item As HTMLRenderItem
+
             For Each band As HTMLRenderBand In Me.myRenderBands
                 item = band.LocateItem(aname)
-                If item IsNot Nothing Then
-                    Return New Point(item.Left, item.Top)
-                End If
-            Next
+                If item IsNot Nothing Then Return New Point(item.Left, item.Top)
+            Next band
+
             Return Point.Empty
         End Function
 
         Public Overloads Overrides Function ToString() As String
             Dim s As String = "<HTMLRenderer "
+
             For Each band As HTMLRenderBand In myRenderBands
                 s += band.ToString()
-            Next
+            Next band
+
             s += " HTMLRenderer>"
             Return s
         End Function
 
-
     End Class
+
 End Namespace
 
