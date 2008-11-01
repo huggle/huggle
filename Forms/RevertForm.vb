@@ -4,7 +4,7 @@ Class RevertForm
     Private Shared LastSummary As String
 
     Private Sub RevertForm_Load() Handles Me.Load
-        Icon = My.Resources.icon_red_button
+        Icon = My.Resources.huggle_icon
         Text = Msg("revert-title", Edit.Page.Name)
         Localize(Me, "revert")
 

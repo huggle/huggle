@@ -3,7 +3,7 @@ Class UserInfoForm
     Public User As User
 
     Private Sub UserInfoForm_Load() Handles Me.Load
-        Icon = My.Resources.icon_red_button
+        Icon = My.Resources.huggle_icon
         Text = Msg("userinfo-title", User.Name)
         Localize(Me, "userinfo")
         RefreshData()

@@ -10,7 +10,7 @@ Class EditForm
     Private PreviewCurrent, DiffCurrent, SettingText, Undoing As Boolean, CurrentRequest As HighlightRequest
 
     Private Sub EditForm_Load() Handles Me.Load
-        Icon = My.Resources.icon_red_button
+        Icon = My.Resources.huggle_icon
         Text = Msg("edit-title", Page.Name)
         Localize(Me, "edit")
         EditTab.Text = Msg("edit-edittab")

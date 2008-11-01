@@ -3,7 +3,7 @@ Class ReportForm
     Public User As User, Edit As Edit
 
     Private Sub ReportForm_Load() Handles Me.Load
-        Icon = My.Resources.icon_red_button
+        Icon = My.Resources.huggle_icon
         Text = "Report " & User.Name
         Message.Focus()
 

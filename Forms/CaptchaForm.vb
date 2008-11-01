@@ -5,7 +5,7 @@ Class CaptchaForm
     Public CaptchaId As String
 
     Private Sub CaptchaForm_Load() Handles Me.Load
-        Icon = My.Resources.icon_red_button
+        Icon = My.Resources.huggle_icon
         Text = Msg("login-captchatitle")
         OK.Text = Msg("accept")
 

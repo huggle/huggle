@@ -5,7 +5,7 @@ Class ListActionsForm
     Public List As List(Of String), Form As ListForm
 
     Private Sub ListFiltersForm_Load() Handles Me.Load
-        Icon = My.Resources.icon_red_button
+        Icon = My.Resources.huggle_icon
         NamespaceTransformSelector.SelectedIndex = 0
 
         For Each Item As Space In Space.All

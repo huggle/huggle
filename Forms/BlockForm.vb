@@ -6,7 +6,7 @@ Class BlockForm
     Public User As User
 
     Private Sub BlockForm_Load() Handles Me.Load
-        Icon = My.Resources.icon_red_button
+        Icon = My.Resources.huggle_icon
         Text = Msg("block-title", User.Name)
         Localize(Me, "block")
 

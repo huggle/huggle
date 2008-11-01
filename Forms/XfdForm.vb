@@ -3,7 +3,7 @@ Class XfdForm
     Public Page As Page
 
     Private Sub XfdForm_Load() Handles Me.Load
-        Icon = My.Resources.icon_red_button
+        Icon = My.Resources.huggle_icon
         Text = "Nominate '" & Page.Name & "' for deletion"
         Category.Visible = Page.IsArticle
         CategoryLabel.Visible = Page.IsArticle

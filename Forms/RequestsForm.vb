@@ -1,7 +1,7 @@
 ﻿Class RequestsForm
 
     Private Sub RequestsForm_Load() Handles Me.Load
-        Icon = My.Resources.icon_red_button
+        Icon = My.Resources.huggle_icon
         Text = Msg("requests-title")
 
         List.Columns(0).Text = Msg("requests-time")

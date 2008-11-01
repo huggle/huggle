@@ -3,7 +3,7 @@
     Public User As User
 
     Private Sub EmailForm_Load() Handles Me.Load
-        Icon = My.Resources.icon_red_button
+        Icon = My.Resources.huggle_icon
         Text = Msg("email-title", User.Name)
         Localize(Me, "email")
     End Sub

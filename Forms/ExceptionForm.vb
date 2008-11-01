@@ -3,7 +3,7 @@
     Public Exception As Exception
 
     Private Sub ExceptionForm_Load() Handles Me.Load
-        Icon = My.Resources.icon_red_button
+        Icon = My.Resources.huggle_icon
         Text = Msg("error")
         ContinueButton.Text = Msg("continue")
         ExitButton.Text = Msg("exit")

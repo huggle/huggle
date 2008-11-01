@@ -6,7 +6,7 @@ Class Report3rrForm
     Private BaseEdit As Edit, Reverts As New List(Of Edit)
 
     Private Sub Report3rrForm_Load() Handles Me.Load
-        Icon = My.Resources.icon_red_button
+        Icon = My.Resources.huggle_icon
         Text = "Report three-revert rule violation by " & User.Name
         Message.Focus()
         WarnLog.User = User

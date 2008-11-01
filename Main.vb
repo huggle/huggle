@@ -14,8 +14,8 @@ Class Main
     Private WithEvents KeyDelayTimer As New Windows.Forms.Timer
 
     Public Sub Initialize()
-        Icon = My.Resources.icon_red_button
-        TrayIcon.Icon = My.Resources.icon_red_button
+        Icon = My.Resources.huggle_icon
+        TrayIcon.Icon = My.Resources.huggle_icon
         KeyDelayTimer.Interval = 10
         ScrollTimer.Interval = 1000 \ Config.HistoryScrollSpeed
         LoadLists()

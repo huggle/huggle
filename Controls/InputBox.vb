@@ -1,7 +1,7 @@
 ﻿Class InputBox
 
     Private Sub InputBox_Load(ByVal s As Object, ByVal e As EventArgs) Handles Me.Load
-        Icon = My.Resources.icon_red_button
+        Icon = My.Resources.huggle_icon
     End Sub
 
     Private Sub InputBox_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles Me.KeyDown

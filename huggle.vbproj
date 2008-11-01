@@ -8,7 +8,7 @@
     <RootNamespace>Huggle</RootNamespace>
     <OutputType>WinExe</OutputType>
     <MyType>WindowsForms</MyType>
-    <ApplicationIcon>Resources\icon_red_button.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\huggle.ico</ApplicationIcon>
     <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
     <AssemblyName>huggle</AssemblyName>
   </PropertyGroup>
@@ -514,7 +514,6 @@
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
     </None>
     <None Include="My Project\app.manifest" />
-    <None Include="Resources\icon_red_button.ico" />
     <None Include="Resources\icons\diff-next.png" />
     <None Include="Resources\blobs\blob-anon.png" />
     <None Include="Resources\blobs\blob-blank.png" />
@@ -590,6 +589,9 @@
     <None Include="Localization\no.txt" />
     <None Include="Localization\pt.txt" />
     <None Include="Localization\ru.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\huggle.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
 </Project>

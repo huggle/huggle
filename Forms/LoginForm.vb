@@ -8,7 +8,7 @@ Class LoginForm
 
     Private Sub LoginForm_Load() Handles Me.Load
         SyncContext = SynchronizationContext.Current
-        Icon = My.Resources.icon_red_button
+        Icon = My.Resources.huggle_icon
 
 
         Config = New Configuration

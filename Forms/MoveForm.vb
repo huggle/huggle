@@ -5,7 +5,7 @@ Class MoveForm
     Public Page As Page
 
     Private Sub MoveForm_Load() Handles Me.Load
-        Icon = My.Resources.icon_red_button
+        Icon = My.Resources.huggle_icon
         Text = "Move " & Page.Name
         Target.Text = Page.Name
         MoveTalk.Visible = Page.IsTalkPage

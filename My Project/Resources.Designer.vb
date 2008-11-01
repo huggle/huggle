@@ -468,17 +468,17 @@ Namespace My.Resources
             End Get
         End Property
         
+        Friend ReadOnly Property huggle_icon() As System.Drawing.Icon
+            Get
+                Dim obj As Object = ResourceManager.GetObject("huggle_icon", resourceCulture)
+                Return CType(obj,System.Drawing.Icon)
+            End Get
+        End Property
+        
         Friend ReadOnly Property huggle_logo() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("huggle_logo", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
-            End Get
-        End Property
-        
-        Friend ReadOnly Property icon_red_button() As System.Drawing.Icon
-            Get
-                Dim obj As Object = ResourceManager.GetObject("icon_red_button", resourceCulture)
-                Return CType(obj,System.Drawing.Icon)
             End Get
         End Property
         

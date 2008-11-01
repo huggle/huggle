@@ -14,7 +14,7 @@ Class ListForm
     End Property
 
     Private Sub ListForm_Load() Handles Me.Load
-        Icon = My.Resources.icon_red_button
+        Icon = My.Resources.huggle_icon
         Tip.Active = Config.ShowToolTips
 
         SourceType.Items.AddRange(New String() {"Manually add pages", "Backlinks", "Category", "Category (recursive)", _

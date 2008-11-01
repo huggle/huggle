@@ -3,7 +3,7 @@ Class RevertAndWarnForm
     Public User As User
 
     Private Sub RevertAndWarnForm_Load() Handles Me.Load
-        Icon = My.Resources.icon_red_button
+        Icon = My.Resources.huggle_icon
         Text = Msg("revertandwarn-title", User.Name)
 
         SummaryLabel.Text = Msg("revert-summary")

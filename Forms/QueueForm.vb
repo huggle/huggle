@@ -9,7 +9,7 @@ Class QueueForm
     End Property
 
     Private Sub QueueForm_Load() Handles Me.Load
-        Icon = My.Resources.icon_red_button
+        Icon = My.Resources.huggle_icon
         Text = Msg("queue-title")
         Localize(Me, "queue")
         Tip.Active = Config.ShowToolTips

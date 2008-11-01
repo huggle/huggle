@@ -6,7 +6,7 @@ Class UpdateForm
     Private Request As UpdateRequest
 
     Private Sub VersionForm_Load() Handles Me.Load
-        Icon = My.Resources.icon_red_button
+        Icon = My.Resources.huggle_icon
         Text = Msg("update-title")
 
         Message.Text = Msg("update-notification") & CRLF
