@@ -127,7 +127,7 @@ Namespace Requests
             End If
 
             'Connect to IRC, if required (on separate thread)
-            If Config.IrcMode AndAlso (Config.IrcChannel IsNot Nothing) Then IrcConnect()
+            If Config.IrcMode Then IrcConnect()
 
             'Get project configuration
             UpdateStatus(Msg("login-progress-project"))
@@ -210,7 +210,7 @@ Namespace Requests
                     Exit Sub
                 End If
 
-                If Not Autoconfirmed AndAlso Config.Project = "en.wikipedia" Then
+                If Not Autoconfirmed AndAlso Config.RequireAutoconfirmed Then
                     Abort(Msg("login-error-autoconfirmed"))
                     Exit Sub
                 End If

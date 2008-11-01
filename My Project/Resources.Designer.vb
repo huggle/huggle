@@ -297,12 +297,45 @@ Namespace My.Resources
         
         '''<summary>
         '''  Looks up a localized string similar to &lt;pre&gt;
-        '''name:Deutsch
-        '''&lt;/pre&gt;.
+        '''name:                    Deutsch
+        '''&lt;/pre&gt;
+        '''
+        '''=== General ===
+        '''&lt;pre&gt;
+        '''add:                       Hinzufügen
+        '''apply:                     Übernehmen
+        '''cancel:                    Abbrechen
+        '''clear:                     Leeren
+        '''close:                     Schließen
+        '''continue:                  Weiter
+        '''copy:                      Kopieren
+        '''delete:                    Löschen
+        '''error:                     Fehler
+        '''exit:                      Beenden
+        '''minimizewindow:            Minimieren
+        '''no:                        Nei [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property de() As String
             Get
                 Return ResourceManager.GetString("de", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to projects:
+        '''	bg.wikipedia;http://bg.wikipedia.org/w/;#bg.wikipedia,
+        '''	de.wikipedia;http://de.wikipedia.org/w/;#de.wikipedia,
+        '''	en.wikipedia;http://en.wikipedia.org/w/;#en.wikipedia,
+        '''	no.wikipedia;http://no.wikipedia.org/w/;#no.wikipedia,
+        '''	pt.wikipedia;http://pt.wikipedia.org/w/;#pt.wikipedia,
+        '''	ru.wikipedia;http://ru.wikipedia.org/w/;#ru.wikipedia,
+        '''	commons;http://commons.wikimedia.org/w/;#commons.wikimedia,
+        '''	meta;http://meta.wikimedia.org/w/;#meta.wikimedia,
+        '''	test wiki;http://test.wikipedia.org/w/;#tes [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend ReadOnly Property DefaultLocalConfig() As String
+            Get
+                Return ResourceManager.GetString("DefaultLocalConfig", resourceCulture)
             End Get
         End Property
         
@@ -334,24 +367,19 @@ Namespace My.Resources
         '''
         '''=== General ===
         '''&lt;pre&gt;
-        '''accept:                    OK
         '''add:                       Add
         '''apply:                     Apply
         '''cancel:                    Cancel
+        '''clear:                     Clear
+        '''close:                     Close
         '''continue:                  Continue
+        '''copy:                      Copy
         '''delete:                    Delete
         '''error:                     Error
         '''exit:                      Exit
-        '''remove:                    Remove
-        '''selectfile:                Browse...
-        '''&lt;/pre&gt;
-        '''
-        '''=== About ===
-        '''&lt;pre&gt;
-        '''about-contributors:       Contributors
-        '''&lt;/pre&gt;
-        '''
-        '''=== Configu [rest of string was truncated]&quot;;.
+        '''minimizewindow:            Minimize
+        '''no:                        No
+        '''ok:                        O [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property en() As String
             Get
@@ -516,8 +544,24 @@ Namespace My.Resources
         
         '''<summary>
         '''  Looks up a localized string similar to &lt;pre&gt;
-        '''name:Português
-        '''&lt;/pre&gt;.
+        '''name:                      Português
+        '''&lt;/pre&gt;
+        '''
+        '''=== General ===
+        '''&lt;pre&gt;
+        '''add:                       Adicionar
+        '''apply:                     Aplicar
+        '''cancel:                    Cancelar
+        '''clear:                     Apagar
+        '''close:                     Fechar
+        '''continue:                  Continuar
+        '''copy:                      Copiar
+        '''delete:                    Eliminar
+        '''error:                     Erro
+        '''exit:                      Sair
+        '''minimizewindow:            Minimizar
+        '''no:                        Não
+        '''ok:    [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property pt() As String
             Get

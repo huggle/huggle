@@ -218,7 +218,7 @@ Namespace Requests
         End Sub
 
         Protected Function DoLogin() As LoginResult
-            Dim Result As String = DoUrlRequest(SitePath() & "w/index.php?title=Special:Userlogin")
+            Dim Result As String = DoUrlRequest(SitePath() & "index.php?title=Special:Userlogin")
 
             If Result Is Nothing OrElse Not IsWikiPage(Result) Then Return LoginResult.Failed
 
@@ -233,7 +233,7 @@ Namespace Requests
                 "&wpPassword=" & UrlEncode(Config.Password) & "&wpCaptchaId=" & Login.CaptchaId & _
                 "&wpCaptchaWord=" & Login.CaptchaWord
 
-            Result = DoUrlRequest(SitePath() & "w/index.php?title=Special:Userlogin&action=submitlogin", PostString)
+            Result = DoUrlRequest(SitePath() & "index.php?title=Special:Userlogin&action=submitlogin", PostString)
             
             If Result Is Nothing OrElse Not IsWikiPage(Result) Then Return LoginResult.Failed
 
@@ -279,7 +279,7 @@ Namespace Requests
         Protected Function DoApiRequest(ByVal QueryString As String, _
             Optional ByVal PostString As String = Nothing, Optional ByVal Project As String = Nothing) As ApiResult
 
-            If Project Is Nothing Then Project = Config.Project
+            If Project Is Nothing Then Project = Config.Project.Name
 
             Query = QueryString
             If PostString Is Nothing Then Mode = Modes.Get Else Mode = Modes.Post
@@ -291,7 +291,7 @@ Namespace Requests
                 Retries -= 1
 
                 Try
-                    Result = DoWebRequest(SitePath(Project) & "w/api.php?format=xml&" & QueryString, PostString)
+                    Result = DoWebRequest(SitePath(Project) & "api.php?format=xml&" & QueryString, PostString)
 
                 Catch ex As WebException
                     If ex.Status = WebExceptionStatus.Timeout _

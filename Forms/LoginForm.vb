@@ -55,10 +55,9 @@ Class LoginForm
     Private Sub OK_Click() Handles OK.Click
         LoggingIn = True
 
-        Config.Project = Project.Text
-        If Config.Project <> "localhost" Then Config.IrcChannel = "#" & Config.Project
-
-        Config.IrcMode = (Config.Project <> "localhost")
+        Config.Project = Config.Projects(Project.Text)
+        Config.IrcMode = (Config.Project.IrcChannel IsNot Nothing)
+        Config.RequireAutoconfirmed = (Config.Project.Name = "en.wikipedia")
         Config.ProxyEnabled = Proxy.Checked
         Config.ProxyPort = ProxyPort.Text
         Config.ProxyServer = ProxyAddress.Text.Replace("http://", "")

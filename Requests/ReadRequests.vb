@@ -74,7 +74,7 @@ Namespace Requests
             'Using &action=render here would make things far simpler; unfortunately, that was broken for
             'image diff pages in 2007 and it would appear that nobody cares.
 
-            Result = DoUrlRequest(SitePath() & "w/index.php?title=" & UrlEncode(Edit.Page.Name) _
+            Result = DoUrlRequest(SitePath() & "index.php?title=" & UrlEncode(Edit.Page.Name) _
                 & "&diff=" & Edit.Id & "&oldid=" & Oldid & "&diffonly=1&uselang=en")
 
             If Result Is Nothing Then
@@ -394,7 +394,7 @@ Namespace Requests
         Public Page As Page, Text As String
 
         Protected Overrides Sub Process()
-            Dim Result As String = DoUrlRequest(SitePath() & "w/index.php?title=" & UrlEncode(Page.Name) & _
+            Dim Result As String = DoUrlRequest(SitePath() & "index.php?title=" & UrlEncode(Page.Name) & _
                 "&action=submit", "&wpDiff=0&wpStarttime=" & Timestamp(Date.UtcNow) & _
                 "&wpEdittime=&wpTextbox1=" & UrlEncode(Text))
 

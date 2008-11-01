@@ -146,6 +146,12 @@ Module Misc
         Public Summary As String
     End Class
 
+    Class Project
+        Public Name As String
+        Public Path As String
+        Public IrcChannel As String
+    End Class
+
     Class Protection
         Public Time As Date
         Public Admin As User
@@ -321,7 +327,7 @@ Module Misc
     Function GetMonthName(ByVal Number As Integer) As String
         'Yes, I know about MonthName(). But I have to localize.
 
-        Select Case Config.Project
+        Select Case Config.Project.Name
             Case "es.wikipedia"
                 Select Case Number
                     Case 1 : Return "enero"
@@ -538,7 +544,7 @@ Module Misc
     End Function
 
     Function SitePath(Optional ByVal Project As String = Nothing) As String
-        If Project Is Nothing Then Return Config.Projects(Config.Project) Else Return Config.Projects(Project)
+        If Project Is Nothing Then Return Config.Project.Path Else Return Config.Projects(Project).Path
     End Function
 
     Function SortWarningsByDate(ByVal X As Warning, ByVal Y As Warning) As Integer

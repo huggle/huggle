@@ -9,7 +9,12 @@ Class Configuration
     Public Sub New()
 #If DEBUG Then
         'If the app is in debug mode add a localhost wiki to the project list
-        If Not Projects.ContainsKey("localhost") Then Projects.Add("localhost", "http://localhost/")
+        If Not Projects.ContainsKey("localhost") Then
+            Dim NewProject As New Project
+            NewProject.Name = "localhost"
+            NewProject.Path = "http://localhost/w/"
+            Projects.Add("localhost", NewProject)
+        End If
 #End If
     End Sub
 
@@ -32,20 +37,19 @@ Class Configuration
     Public ConfigChanged As Boolean
     Public ConfigVersion As New Version(0, 0, 0)
     Public DefaultLanguage As String = "en"
-    Public DefaultProject As String = "en"
+    Public DefaultProject As Project
     Public Languages As New List(Of String)
     Public LatestVersion As New Version(0, 0, 0)
     Public Messages As New Dictionary(Of String, Dictionary(Of String, String))
     Public Password As String
+    Public Projects As New Dictionary(Of String, Project)
     Public Version As New Version(Application.ProductVersion)
     Public WarningMessages As New Dictionary(Of String, String)
-
-    Public Projects As New Dictionary(Of String, String)
 
     'Values stored in local config file
 
     Public Language As String
-    Public Project As String
+    Public Project As Project
     Public ProxyUsername As String
     Public ProxyUserDomain As String
     Public ProxyServer As String
@@ -106,7 +110,6 @@ Class Configuration
     Public IfdLocation As String
     Public IgnoredPages As New List(Of String)
     Public Initialised As Boolean
-    Public IrcChannel As String
     Public IrcMode As Boolean
     Public IrcPort As Integer = 6667
     Public IrcServer As String
@@ -155,6 +158,7 @@ Class Configuration
     Public ReportReason As String = "vandalism"
     Public ReportSummary As String
     Public RequireAdmin As Boolean
+    Public RequireAutoconfirmed As Boolean
     Public RequireConfig As Boolean
     Public RequireEdits As Integer
     Public RequireRollback As Boolean
@@ -240,14 +244,14 @@ Module ConfigIO
         'Remove comments and lines without ':', combine multi-line options, replace \n with line break,
         'strip leading/trailing whitespace and split into key/value pairs
 
-        Dim Items As New List(Of String)(File.Replace(CR, "").Split(LF))
+        Dim Items As New List(Of String)(File.Replace(CR, "").Replace(Tab, "    ").Split(LF))
         Dim Result As New Dictionary(Of String, String)
 
         Dim i As Integer = 0
 
         While i < Items.Count
             If i > 0 AndAlso Items(i).StartsWith(" ") Then
-                Items(i - 1) &= Items(i)
+                Items(i - 1) &= Items(i).Trim(" "c)
                 Items.RemoveAt(i)
             ElseIf Items(i).StartsWith("#") OrElse Items(i).StartsWith("<pre") OrElse Not Items(i).Contains(":") Then
                 Items.RemoveAt(i)
@@ -590,57 +594,77 @@ Module ConfigIO
     Public Sub LoadLocalConfig()
         'Read from local configuration file
 
-        Config.Projects.Add("en.wikipedia", "http://en.wikipedia.org/")
-        Config.Projects.Add("bg.wikipedia", "http://bg.wikipedia.org/")
-        Config.Projects.Add("de.wikipedia", "http://de.wikipedia.org/")
-        Config.Projects.Add("es.wikipedia", "http://es.wikipedia.org/")
-        Config.Projects.Add("no.wikipedia", "http://no.wikipedia.org/")
-        Config.Projects.Add("pt.wikipedia", "http://pt.wikipedia.org/")
-        Config.Projects.Add("ru.wikipedia", "http://ru.wikipedia.org/")
-        Config.Projects.Add("commons", "http://commons.wikimedia.org/")
-        Config.Projects.Add("meta", "http://meta.wikimedia.org/")
-        Config.Projects.Add("test wiki", "http://test.wikipedia.org/")
+        If Not File.Exists(LocalConfigPath() & Config.LocalConfigLocation) _
+            Then File.WriteAllText(LocalConfigPath() & Config.LocalConfigLocation, My.Resources.DefaultLocalConfig)
 
         QueueNames.Clear()
         InitialiseShortcuts()
 
         If File.Exists(LocalConfigPath() & Config.LocalConfigLocation) Then
-            For Each Item As String In New List(Of String)(File.ReadAllLines(LocalConfigPath() & Config.LocalConfigLocation))
-                If Item.Contains(":") Then
-                    Dim OptionName As String = Item.Substring(0, Item.IndexOf(":")), _
-                        OptionValue As String = Item.Substring(Item.IndexOf(":") + 1)
+            For Each Item As KeyValuePair(Of String, String) In _
+                ProcessConfigFile(File.ReadAllText(LocalConfigPath() & Config.LocalConfigLocation))
 
-                    Select Case OptionName
-                        Case "irc" : Config.IrcMode = CBool(OptionValue)
-                        Case "language" : Config.Language = OptionValue
-                        Case "log-file" : Config.LogFile = OptionValue
-                        Case "password" : Config.Password = OptionValue : Config.RememberPassword = True
-                        Case "project" : Config.Project = OptionValue
-                        Case "proxy-enabled" : Config.ProxyEnabled = CBool(OptionValue)
-                        Case "proxy-port" : Config.ProxyPort = OptionValue
-                        Case "proxy-server" : Config.ProxyServer = OptionValue
-                        Case "proxy-userdomain" : Config.ProxyUserDomain = OptionValue
-                        Case "proxy-username" : Config.ProxyUsername = OptionValue
-                        Case "queue-right-align" : Config.RightAlignQueue = CBool(OptionValue)
-                        Case "startup-message" : Config.StartupMessage = CBool(OptionValue)
-                        Case "username" : Config.Username = OptionValue
-                        Case "window-height" : Config.WindowSize.Height = CInt(OptionValue)
-                        Case "window-left" : Config.WindowPosition.X = CInt(OptionValue)
-                        Case "window-maximize" : Config.WindowMaximize = CBool(OptionValue)
-                        Case "window-top" : Config.WindowPosition.Y = CInt(OptionValue)
-                        Case "window-width" : Config.WindowSize.Width = CInt(OptionValue)
-                        Case "shortcuts" : SetShortcutsFromConfig(OptionValue)
-                        Case "revert-summaries" : SetRevertSummaries(OptionValue)
+                SetLocalConfigOption(Item.Key, Item.Value)
+            Next Item
+        End If
 
-                        Case Else : If OptionName.StartsWith("queues-") _
-                            Then QueueNames.Add(OptionName.Substring(7), GetList(OptionValue))
-                    End Select
-                End If
+        'Load projects if not already present; for compatibility with config files from previous versions
+        If Config.Projects.Count = 0 Then
+            For Each Item As KeyValuePair(Of String, String) In ProcessConfigFile(My.Resources.DefaultLocalConfig)
+                SetLocalConfigOption(Item.Key, Item.Value)
             Next Item
         End If
 
         If Config.Project Is Nothing Then Config.Project = Config.DefaultProject
         If Config.Language Is Nothing Then Config.Language = Config.DefaultLanguage
+    End Sub
+
+    Private Sub SetLocalConfigOption(ByVal OptionName As String, ByVal OptionValue As String)
+        Select Case OptionName
+            Case "irc" : Config.IrcMode = CBool(OptionValue)
+            Case "language" : Config.Language = OptionValue
+            Case "log-file" : Config.LogFile = OptionValue
+            Case "password" : Config.Password = OptionValue : Config.RememberPassword = True
+            Case "project" : Config.Project = Config.Projects(OptionValue)
+            Case "projects" : SetProjects(OptionValue)
+            Case "proxy-enabled" : Config.ProxyEnabled = CBool(OptionValue)
+            Case "proxy-port" : Config.ProxyPort = OptionValue
+            Case "proxy-server" : Config.ProxyServer = OptionValue
+            Case "proxy-userdomain" : Config.ProxyUserDomain = OptionValue
+            Case "proxy-username" : Config.ProxyUsername = OptionValue
+            Case "queue-right-align" : Config.RightAlignQueue = CBool(OptionValue)
+            Case "startup-message" : Config.StartupMessage = CBool(OptionValue)
+            Case "username" : Config.Username = OptionValue
+            Case "window-height" : Config.WindowSize.Height = CInt(OptionValue)
+            Case "window-left" : Config.WindowPosition.X = CInt(OptionValue)
+            Case "window-maximize" : Config.WindowMaximize = CBool(OptionValue)
+            Case "window-top" : Config.WindowPosition.Y = CInt(OptionValue)
+            Case "window-width" : Config.WindowSize.Width = CInt(OptionValue)
+            Case "shortcuts" : SetShortcutsFromConfig(OptionValue)
+            Case "revert-summaries" : SetRevertSummaries(OptionValue)
+
+            Case Else : If OptionName.StartsWith("queues-") _
+                Then QueueNames.Add(OptionName.Substring(7), GetList(OptionValue))
+        End Select
+    End Sub
+
+    Private Sub SetProjects(ByVal Value As String)
+        For Each Item As String In Value.Replace(LF, "").Replace("\,", Convert.ToChar(1)).Split _
+            (New String() {","}, StringSplitOptions.RemoveEmptyEntries)
+
+            Item = Item.Trim(" "c).Replace(Convert.ToChar(1), ",")
+
+            Dim Subitems As String() = Item.Split(";"c)
+
+            If Subitems.Length >= 2 Then
+                Dim NewProject As New Project
+                NewProject.Name = Subitems(0).Trim(" "c)
+                NewProject.Path = Subitems(1).Trim(" "c)
+                If Subitems.Length >= 3 Then NewProject.IrcChannel = Subitems(2).Trim(" "c)
+
+                Config.Projects.Add(NewProject.Name, NewProject)
+            End If
+        Next Item
     End Sub
 
     Private Sub SetShortcutsFromConfig(ByVal Value As String)
@@ -666,7 +690,14 @@ Module ConfigIO
             Items.Add("language:" & CStr(Config.Language))
             Items.Add("log-file:" & Config.LogFile)
             If Config.RememberPassword Then Items.Add("password:" & Config.Password)
-            Items.Add("project:" & Config.Project)
+
+            Items.Add("projects:")
+
+            For Each Project As Project In Config.Projects.Values
+                Items.Add("    " & Project.Name & ";" & Project.Path & ";" & Project.IrcChannel)
+            Next Project
+
+            Items.Add("project:" & Config.Project.Name)
             Items.Add("proxy-enabled:" & CStr(Config.ProxyEnabled).ToLower)
             Items.Add("proxy-port:" & Config.ProxyPort)
             Items.Add("proxy-server:" & Config.ProxyServer)
@@ -798,17 +829,17 @@ Module ConfigIO
     End Sub
 
     Private Function ListsLocation() As String
-        Return LocalConfigPath() & "\Lists\" & Config.Project
+        Return LocalConfigPath() & "\Lists\" & Config.Project.Name
     End Function
 
     Public Sub SetQueues()
         Queue.All.Clear()
 
-        If Not QueueNames.ContainsKey(Config.Project) Then QueueNames.Add(Config.Project, New List(Of String))
+        If Not QueueNames.ContainsKey(Config.Project.Name) Then QueueNames.Add(Config.Project.Name, New List(Of String))
 
         'Load queues from application data subfolder
         If Directory.Exists(QueuesLocation) Then
-            For Each Name As String In QueueNames(Config.Project)
+            For Each Name As String In QueueNames(Config.Project.Name)
                 Dim Items As New List(Of String)(File.ReadAllLines(QueuesLocation() & "\" & Name & ".txt"))
                 Dim Queue As Queue = Nothing
 
@@ -1000,7 +1031,7 @@ Module ConfigIO
     End Sub
 
     Private Function QueuesLocation() As String
-        Return LocalConfigPath() & "\Queues\" & Config.Project
+        Return LocalConfigPath() & "\Queues\" & Config.Project.Name
     End Function
 
     Public Function L10nLocation() As String

@@ -388,7 +388,7 @@ Class ListForm
 
     Private Sub OpenPageInBrowser() Handles ListPages.DoubleClick, ListMenuView.Click
         If ListPages.SelectedIndex > -1 _
-            Then OpenUrlInBrowser(SitePath() & "w/index.php?title=" & UrlEncode(ListPages.SelectedItem.ToString))
+            Then OpenUrlInBrowser(SitePath() & "index.php?title=" & UrlEncode(ListPages.SelectedItem.ToString))
     End Sub
 
     Private Sub RefreshInterface()

@@ -34,10 +34,10 @@ Class QueueForm
 
     Private Sub QueueForm_FormClosing(ByVal s As Object, ByVal e As FormClosingEventArgs) Handles Me.FormClosing
         Misc.CurrentQueue = Me.CurrentQueue
-        QueueNames(Config.Project).Clear()
+        QueueNames(Config.Project.Name).Clear()
 
         For Each Item As String In QueueList.Items
-            QueueNames(Config.Project).Add(Item)
+            QueueNames(Config.Project.Name).Add(Item)
         Next Item
 
         MainForm.SetQueueSelector()

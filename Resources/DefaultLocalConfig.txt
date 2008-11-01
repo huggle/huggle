@@ -1,0 +1,10 @@
+﻿projects:
+	bg.wikipedia;http://bg.wikipedia.org/w/;#bg.wikipedia,
+	de.wikipedia;http://de.wikipedia.org/w/;#de.wikipedia,
+	en.wikipedia;http://en.wikipedia.org/w/;#en.wikipedia,
+	no.wikipedia;http://no.wikipedia.org/w/;#no.wikipedia,
+	pt.wikipedia;http://pt.wikipedia.org/w/;#pt.wikipedia,
+	ru.wikipedia;http://ru.wikipedia.org/w/;#ru.wikipedia,
+	commons;http://commons.wikimedia.org/w/;#commons.wikimedia,
+	meta;http://meta.wikimedia.org/w/;#meta.wikimedia,
+	test wiki;http://test.wikipedia.org/w/;#test.wikipedia

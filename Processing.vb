@@ -1158,7 +1158,7 @@ Module Processing
                 'For the first revision to the page, show the revision
                 Dim NewRequest As New BrowserRequest
                 NewRequest.Tab = CurrentTab
-                NewRequest.Url = SitePath & "w/index.php?title=" & UrlEncode(Edit.Page.Name) & "&oldid=" & Edit.Id
+                NewRequest.Url = SitePath() & "index.php?title=" & UrlEncode(Edit.Page.Name) & "&oldid=" & Edit.Id
                 NewRequest.Start()
 
             Else
@@ -1605,6 +1605,9 @@ Module Processing
 
         'Hgilbert
         If Summary.Contains("avoid vandalising") Then Return UserLevel.Warning
+
+        'WereSpielChequers
+        If Summary.Contains("welcome warning") Then Return UserLevel.Warn1
 
         'Derumi
         If Summary.Contains("welcome/warn") OrElse Summary.Contains("welcome/minor warn") Then Return UserLevel.Warning

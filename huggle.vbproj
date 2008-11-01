@@ -30,6 +30,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
     <Import Include="huggle.Requests" />
@@ -40,6 +41,28 @@
     <Import Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Anole\HTMLAElement.vb" />
+    <Compile Include="Anole\HTMLBodyElement.vb" />
+    <Compile Include="Anole\HTMLBRElement.vb" />
+    <Compile Include="Anole\HTMLCenterElement.vb" />
+    <Compile Include="Anole\HTMLColorParser.vb" />
+    <Compile Include="Anole\HTMLDocument.vb" />
+    <Compile Include="Anole\HTMLElement.vb" />
+    <Compile Include="Anole\HTMLFontElement.vb" />
+    <Compile Include="Anole\HTMLHRElement.vb" />
+    <Compile Include="Anole\HTMLImageElement.vb" />
+    <Compile Include="Anole\HTMLPanel.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Anole\HTMLParser.vb" />
+    <Compile Include="Anole\HTMLRenderBand.vb" />
+    <Compile Include="Anole\HTMLRenderBookmark.vb" />
+    <Compile Include="Anole\HTMLRenderer.vb" />
+    <Compile Include="Anole\HTMLRenderHRItem.vb" />
+    <Compile Include="Anole\HTMLRenderImage.vb" />
+    <Compile Include="Anole\HTMLRenderItem.vb" />
+    <Compile Include="Anole\HTMLRenderTableItem.vb" />
+    <Compile Include="Anole\HTMLTableElement.vb" />
     <Compile Include="ApplicationEvents.vb" />
     <Compile Include="Config.vb" />
     <Compile Include="Controls\BrowserTab.Designer.vb">
@@ -544,6 +567,7 @@
     <None Include="Resources\blobs\blob-warn-3.png" />
     <None Include="Resources\blobs\blob-warn-4.png" />
     <None Include="Resources\blobs\blob-warning.png" />
+    <None Include="Resources\DefaultLocalConfig.txt" />
     <None Include="Resources\huggle-logo.png" />
     <None Include="Resources\icons\browser-add-tab.png" />
     <None Include="Resources\icons\browser-next.png" />
@@ -594,6 +618,10 @@
     <None Include="Localization\no.txt" />
     <None Include="Localization\pt.txt" />
     <None Include="Localization\ru.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Anole\COPYING.txt" />
+    <Content Include="Anole\Test1.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
 </Project>
