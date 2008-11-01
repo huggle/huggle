@@ -36,7 +36,13 @@ Class Main
             Else WindowState = FormWindowState.Normal
 
         SystemReconnectIRC.Enabled = Config.IrcMode
-        Splitter.SplitterDistance = Splitter.Height - 100
+
+        Try
+            Splitter.SplitterDistance = Splitter.Height - 100
+        Catch ex As ArgumentOutOfRangeException
+
+        End Try
+
         StartTime = Date.UtcNow
 
         HistoryStrip.AutoSize = False

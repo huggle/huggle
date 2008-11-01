@@ -22,7 +22,7 @@ Partial Class BrowserTab
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.Browser = New System.Windows.Forms.WebBrowser
+        Me.Browser = New Huggle.WebBrowser
         Me.SuspendLayout()
         '
         'Browser
@@ -47,6 +47,6 @@ Partial Class BrowserTab
         Me.ResumeLayout(False)
 
     End Sub
-    Friend WithEvents Browser As System.Windows.Forms.WebBrowser
+    Friend WithEvents Browser As Huggle.WebBrowser
 
 End Class

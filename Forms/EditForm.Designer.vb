@@ -57,9 +57,9 @@ Partial Class EditForm
         Me.EditFind = New System.Windows.Forms.ToolStripMenuItem
         Me.EditMenu = New System.Windows.Forms.ToolStripMenuItem
         Me.PreviewTab = New System.Windows.Forms.TabPage
-        Me.Preview = New System.Windows.Forms.WebBrowser
+        Me.Preview = New Huggle.WebBrowser
         Me.ChangesTab = New System.Windows.Forms.TabPage
-        Me.Diff = New System.Windows.Forms.WebBrowser
+        Me.Diff = New Huggle.WebBrowser
         Me.KeystrokeTimer = New System.Windows.Forms.Timer(Me.components)
         Me.MenuBar = New System.Windows.Forms.MenuStrip
         Me.PageMenu = New System.Windows.Forms.ToolStripMenuItem
@@ -540,7 +540,7 @@ Partial Class EditForm
     Friend WithEvents EditTab As System.Windows.Forms.TabPage
     Friend WithEvents WaitMessage As System.Windows.Forms.Label
     Friend WithEvents PreviewTab As System.Windows.Forms.TabPage
-    Friend WithEvents Preview As System.Windows.Forms.WebBrowser
+    Friend WithEvents Preview As Huggle.WebBrowser
     Friend WithEvents KeystrokeTimer As System.Windows.Forms.Timer
     Friend WithEvents PageText As System.Windows.Forms.RichTextBox
     Friend WithEvents MenuBar As System.Windows.Forms.MenuStrip
@@ -575,5 +575,5 @@ Partial Class EditForm
     Friend WithEvents Find As System.Windows.Forms.TextBox
     Friend WithEvents FindLabel As System.Windows.Forms.Label
     Friend WithEvents ChangesTab As System.Windows.Forms.TabPage
-    Friend WithEvents Diff As System.Windows.Forms.WebBrowser
+    Friend WithEvents Diff As Huggle.WebBrowser
 End Class

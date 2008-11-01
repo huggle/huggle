@@ -280,6 +280,9 @@
     <Compile Include="Forms\WarningForm.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Controls\WebBrowser.vb">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Forms\XfdForm.Designer.vb">
       <DependentUpon>XfdForm.vb</DependentUpon>
     </Compile>
