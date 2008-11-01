@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{FC19B5D8-8BC9-49F9-B517-4BB6F2EC4D97}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Anole2</RootNamespace>
+    <AssemblyName>Anole2</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <StartupObject>Anole.AnoleTestForm</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AnoleTestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HTMLAElement.cs" />
+    <Compile Include="HTMLBodyElement.cs" />
+    <Compile Include="HTMLBRElement.cs" />
+    <Compile Include="HTMLCenterElement.cs" />
+    <Compile Include="HTMLColorParser.cs" />
+    <Compile Include="HTMLDocument.cs" />
+    <Compile Include="HTMLElement.cs" />
+    <Compile Include="HTMLFontElement.cs" />
+    <Compile Include="HTMLHRElement.cs" />
+    <Compile Include="HTMLImageElement.cs" />
+    <Compile Include="HTMLPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HTMLParser.cs" />
+    <Compile Include="HTMLRenderBand.cs" />
+    <Compile Include="HTMLRenderBookmark.cs" />
+    <Compile Include="HTMLRenderer.cs" />
+    <Compile Include="HTMLRenderHRItem.cs" />
+    <Compile Include="HTMLRenderImage.cs" />
+    <Compile Include="HTMLRenderItem.cs" />
+    <Compile Include="HTMLRenderTableItem.cs" />
+    <Compile Include="HTMLTableElement.cs" />
+    <Compile Include="AssemblyInfo.cs" />
+    <EmbeddedResource Include="AnoleTestForm.resx">
+      <DependentUpon>AnoleTestForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="COPYING.txt" />
+    <Content Include="TableTest.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test1.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
