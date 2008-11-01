@@ -46,6 +46,7 @@ Class Main
         StartTime = Date.UtcNow
 
         HistoryStrip.AutoSize = False
+        If Mono() Then HistoryStrip.LayoutStyle = ToolStripLayoutStyle.HorizontalStackWithOverflow
         MainStrip.Location = New Point(3, 24)
         HistoryStrip.Location = New Point(406, 24)
         NavigationStrip.Location = New Point(3, 79)

@@ -433,45 +433,47 @@ Namespace Requests
             If Page.Protections Is Nothing Then Page.Protections = New List(Of Protection)
             Page.ProtectionsCurrent = True
 
-            For Each Item As String In Split(FindString(Result.Text, "<logevents>", "</logevents>"), "<item ")
-                Dim NewProtection As New Protection
+            If Result.Text.Contains("<logevents>") Then
+                For Each Item As String In Split(FindString(Result.Text, "<logevents>", "</logevents>"), "<item ")
+                    Dim NewProtection As New Protection
 
-                NewProtection.Time = CDate(GetParameter(Item, "timestamp"))
-                NewProtection.Action = GetParameter(Item, "action")
-                NewProtection.Admin = GetUser(GetParameter(Item, "user"))
+                    NewProtection.Time = CDate(GetParameter(Item, "timestamp"))
+                    NewProtection.Action = GetParameter(Item, "action")
+                    NewProtection.Admin = GetUser(GetParameter(Item, "user"))
 
-                'The API returns protection log entries in one of two different formats 
-                'depending on how old they are, so we have to interpret both
+                    'The API returns protection log entries in one of two different formats 
+                    'depending on how old they are, so we have to interpret both
 
-                Dim Comment As String = GetParameter(Item, "comment")
-                Dim Param As String = FindString(Item, "<param>", "</param>")
+                    Dim Comment As String = GetParameter(Item, "comment")
+                    Dim Param As String = FindString(Item, "<param>", "</param>")
 
-                If Param Is Nothing Then
-                    'Old format
-                    NewProtection.EditLevel = FindString(Comment, "[edit=", ":")
-                    NewProtection.MoveLevel = FindString(Comment, "move=", "]")
-                    NewProtection.EditExpiry = CDate(FindString(Comment, "(expires ", " (UTC))"))
-                    NewProtection.MoveExpiry = NewProtection.EditExpiry
-                    NewProtection.Cascading = (Comment.Contains("[cascading]"))
+                    If Param Is Nothing Then
+                        'Old format
+                        NewProtection.EditLevel = FindString(Comment, "[edit=", ":")
+                        NewProtection.MoveLevel = FindString(Comment, "move=", "]")
+                        NewProtection.EditExpiry = CDate(FindString(Comment, "(expires ", " (UTC))"))
+                        NewProtection.MoveExpiry = NewProtection.EditExpiry
+                        NewProtection.Cascading = (Comment.Contains("[cascading]"))
 
-                    If Comment.Contains(" [edit=") Then Comment = Comment.Substring(0, Comment.IndexOf(" [edit="))
-                    If Comment.Contains(" [move=") Then Comment = Comment.Substring(0, Comment.IndexOf(" [move="))
+                        If Comment.Contains(" [edit=") Then Comment = Comment.Substring(0, Comment.IndexOf(" [edit="))
+                        If Comment.Contains(" [move=") Then Comment = Comment.Substring(0, Comment.IndexOf(" [move="))
 
-                Else
-                    'New format
-                    NewProtection.EditLevel = FindString(Param, "[edit=", "]")
-                    NewProtection.MoveLevel = FindString(Param, "[move=", "]")
-                    NewProtection.EditExpiry = CDate(FindString(FindString(Param, "[edit=", "["), "(expires ", " (UTC))"))
-                    NewProtection.MoveExpiry = CDate(FindString(FindString(Param, "[move="), "(expires ", " (UTC))"))
-                    NewProtection.Cascading = (Param.Contains("[cascading]"))
-                End If
+                    Else
+                        'New format
+                        NewProtection.EditLevel = FindString(Param, "[edit=", "]")
+                        NewProtection.MoveLevel = FindString(Param, "[move=", "]")
+                        NewProtection.EditExpiry = CDate(FindString(FindString(Param, "[edit=", "["), "(expires ", " (UTC))"))
+                        NewProtection.MoveExpiry = CDate(FindString(FindString(Param, "[move="), "(expires ", " (UTC))"))
+                        NewProtection.Cascading = (Param.Contains("[cascading]"))
+                    End If
 
-                NewProtection.Summary = Comment
+                    NewProtection.Summary = Comment
 
-                Page.Protections.Add(NewProtection)
-            Next Item
+                    Page.Protections.Add(NewProtection)
+                Next Item
+            End If
 
-            If Page.Protections IsNot Nothing AndAlso (Page.Protections(0).EditExpiry = Date.MinValue _
+            If Page.Protections.Count > 0 AndAlso (Page.Protections(0).EditExpiry = Date.MinValue _
                 OrElse Page.Protections(0).EditExpiry > Date.UtcNow) Then
 
                 Page.EditLevel = Page.Protections(0).EditLevel
