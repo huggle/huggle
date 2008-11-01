@@ -19,11 +19,11 @@
         End Get
         Set(ByVal value As User)
             _User = value
-            Refresh()
+            RefreshLog()
         End Set
     End Property
 
-    Public Overrides Sub Refresh()
+    Public Sub RefreshLog()
         Clear()
 
         If User IsNot Nothing Then

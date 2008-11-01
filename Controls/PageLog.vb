@@ -19,7 +19,7 @@
         End Get
         Set(ByVal value As Page)
             _Page = value
-            Refresh()
+            RefreshLog()
         End Set
     End Property
 
@@ -29,11 +29,11 @@
         End Get
         Set(ByVal value As ViewMode)
             _Mode = value
-            Refresh()
+            RefreshLog()
         End Set
     End Property
 
-    Public Overrides Sub Refresh()
+    Public Sub RefreshLog()
         Clear()
 
         If Page IsNot Nothing Then
