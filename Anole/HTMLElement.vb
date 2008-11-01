@@ -226,7 +226,7 @@ Namespace Anole
                 'Split text into substrings delimited by spaces
                 'and line feeds
                 Dim sSubStrings As String()
-                sSubStrings = Me.Text.Split(New Char() {" "c, LF})
+                sSubStrings = Me.Text.Split(New Char() {" "c, Convert.ToChar(13)})
                 
                 
                 'Measure the width of each substring based on the current font
@@ -295,9 +295,8 @@ Namespace Anole
         End Sub
         
         Protected Sub ParseChildren(xnode As XmlNode)
-            If Not xnode.HasChildNodes Then
-                Return
-            End If
+            If Not xnode.HasChildNodes Then Return
+
             For Each childnode As XmlNode In xnode.ChildNodes
                 Select Case childnode.Name.ToUpper()
                     Case "BODY" : Children.Add(New HTMLBodyElement(myHTMLDocument, Me, childnode))
@@ -315,7 +314,7 @@ Namespace Anole
                     Case "TD" : Children.Add(New HTMLTDElement(myHTMLDocument, Me, childnode))
                     Case Else : Children.Add(New HTMLElement(myHTMLDocument, Me, childnode))
                 End Select
-            Next
+            Next childnode
         End Sub
         
         Protected Sub ParseCommonAttributes(xnode As XmlNode)

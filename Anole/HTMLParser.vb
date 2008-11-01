@@ -10,6 +10,7 @@ Namespace Anole
             Try
                 Dim s As String = Document.HTML.Replace("<br>", "<br/>").Replace("<hr>", "<hr/>")
                 _Document.LoadXml(s)
+                Document.RootElement = New HTMLElement(Document, Nothing, _Document.DocumentElement)
 
             Catch ex As Exception
 

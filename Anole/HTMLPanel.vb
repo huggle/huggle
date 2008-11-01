@@ -19,6 +19,7 @@ Namespace Anole
 
         Public Sub New()
             InitializeComponent()
+            SizeScrollBars()
             myDocument = New HTMLDocument()
             bIgnoreScrolling = False
         End Sub
@@ -28,11 +29,13 @@ Namespace Anole
                 Return myDocument.HTML
             End Get
             Set(ByVal value As String)
-                Me.LoadHTML(value)
+                Me.LoadHTML("<xml>" & value & "</xml>")
             End Set
         End Property
 
         Private Sub InitializeComponent()
+            BackColor = Color.White
+
             myHScrollBar = New HScrollBar()
             Me.Controls.Add(myHScrollBar)
             AddHandler myHScrollBar.ValueChanged, AddressOf myHScrollBar_ValueChanged
@@ -47,8 +50,6 @@ Namespace Anole
             myPictureBox.Location = New Point(0, 0)
             AddHandler myPictureBox.MouseDown, AddressOf myPictureBox_MouseDown
             Me.Controls.Add(myPictureBox)
-
-            SizeScrollBars()
         End Sub
 
         Public Sub LoadHTML(ByVal sHTML As String)

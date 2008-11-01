@@ -64,12 +64,14 @@ Namespace Anole
             Dim nColCount As Integer = 0
 
             nRowCount = Me.Children.Count
-            Dim firstrow As HTMLTRElement = TryCast(Me.Children(0), HTMLTRElement)
+            Dim firstrow As HTMLTRElement
 
             If nRowCount > 0 Then
+                firstrow = TryCast(Me.Children(0), HTMLTRElement)
+                If firstrow Is Nothing Then Return
                 nColCount = firstrow.Children.Count
             Else
-                System.Windows.Forms.MessageBox.Show("No rows in table")
+                'No rows in table
                 Return
             End If
 
@@ -144,7 +146,7 @@ Namespace Anole
             Dim td As HTMLTDElement
             Dim rowheight As Integer = 0
 
-            For i As Integer = 0 To Me.Children.Count - 1
+            For i As Integer = 0 To Math.Min(Me.Children.Count - 1, nColumnWidths.Length - 1)
                 'Create a renderer and have it render our td item and all its children
                 td = TryCast(Me.Children(i), HTMLTDElement)
                 r = New HTMLRenderer(td, nColumnWidths(i))
