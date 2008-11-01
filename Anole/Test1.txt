@@ -1,0 +1,122 @@
+<html name="Test1.txt">
+<body bgcolor="#FFFFF">
+<a name="contents"/>
+<font color="#000000">
+<hr/>
+<center>
+<br/>
+<img src="anole_150px.gif"/><br/>
+<font size="8"><i>created by E. Bruce Shankle III</i></font><br/>
+The tiny HTML renderer written entirely in C#<br/>
+<u><b>Table Of Contents</b></u><br/>
+(click a link below)<br/>
+</center>
+<a href="#info">Info</a><br/>
+<a href="#supportedtags">Supported Tags</a><br/>
+<a href="#fontsupport">Font Support</a><br/>
+<a href="#wordwrapping">Wordwrapping</a><br/>
+<a href="#images">Images</a><br/>
+<a href="#limitations">Limitations</a><br/>
+
+<br/>
+<hr/>
+<a name="info"/>
+<center><b><u>Information and Usage</u></b></center>
+The Anole renderer supports a <u>subset</u> of HTML
+for small-scale usage in .NET Compact Framework
+applications which need rich formatting for data
+presentation.
+<br/>
+This is a test application for the
+HTMLPanel class which allows you to experiment.
+<br/>
+<a href="#contents">Back to Contents</a><br/>
+<hr/>
+<a name="supportedtags"/>
+<center><b><u>Supported Tags</u></b></center>
+<font color="green"><b>&lt;html&gt;</b></font>: root HTML tag<br/>
+<font color="green"><b>&lt;br&gt;</b></font>: line-break tag<br/>
+<font color="green"><b>&lt;font&gt;</b></font>: font tag<br/>
+<font color="green"><b>&lt;b&gt;</b></font>: bold tag<br/>
+<font color="green"><b>&lt;i&gt;</b></font>: italics tag<br/>
+<font color="green"><b>&lt;u&gt;</b></font>: underscore tag<br/>
+<font color="green"><b>&lt;hr&gt;</b></font>: horizontal rule<br/>
+<font color="green"><b>&lt;center&gt;</b></font>: center tag<br/>
+<font color="green"><b>&lt;img&gt;</b></font>: image tag<br/>
+<font color="green"><b>&lt;a&gt;</b></font>: anchor tag (links to internal bookmarks only for now, I am working on an event firing system such that anchors can fire delegated events, link color currently hard-coded to blue, will add alink support to body tag soon)<br/>
+<font color="green"><b>&lt;body&gt;</b></font>: body tag (bgcolor=color only supported attribute)<br/>
+<br/>
+<a href="#contents">Back to Contents</a><br/>
+<hr/>
+<a name="fontsupport"/>
+<center><b><u>Font Support</u></b></center>
+In addition to the italics, bold, and underscore tags (see above)
+you can control other details about fonts using the font tag.
+The Anole renderer suppors the following font attributes:<br/>
+<b>*</b> name <i>(Arial, Tahoma, Courier, any installed TrueType font name)</i><br/>
+<b>*</b> size <i>(Point size for the font)</i><br/>
+<b>*</b> color<br/>
+<b>Supported font colors:</b><br/>
+In addition to standard HTML colors (like #FF00FF) you can use<br/>
+<b>
+<font color="red">red,</font>
+<font color="green">green,</font>
+<font color="blue">blue,</font>
+<font color="purple">purple,</font>
+<font color="yellow">yellow,</font>
+<font color="pink">pink,</font>
+<font color="black">black,</font>
+<font color="gray">gray,</font>
+<font color="brown">brown,</font> and
+<font color="orange">orange</font>
+</b>
+<br/>
+<a href="#contents">Back to Contents</a><br/>
+<hr/>
+<a name="wordwrapping"/>
+<center><b>Word Wrapping</b></center>
+The Anole renderer supports automatic word-wrapping even with
+lines of text which have varying font styles.
+For <font size="20">example</font> <i>this</i> <font size="5">line</font> <u>of text</u> is automatically wrapped properly.
+If a word cannot be wrapped, then the document width is increased in order to fit
+that word within the document, but the width is not used in centering calculations
+or for the horizontal rule tag.
+<b>For example: </b><i>ThisIsAVeryLongWordThisIsAVeryLongWordThisIsAVeryLongWordThisIsAVeryLongWordThisIsAVeryLongWord.</i>
+<br/>
+<a href="#contents">Back to Contents</a><br/>
+<hr/>
+
+<a name="images"/>
+<center><b>Images</b></center>
+They say a picture is worth a thousand words.
+Yes images are supported.
+<center>
+<img src="lochnesssmall.jpg"/><br/>
+<b>Bruce and his Airplane</b>
+</center>
+<br/>
+<a href="#contents">Back to Contents</a><br/>
+<hr/>
+
+<a name="limitations"/>
+<center><b>Limitations</b></center>
+The Anole renderer is not a full-blown HTML rendering engine like Internet Explorer or Mozilla and
+lacks many of their features (CSS, Javascript, etc.) and it has to work within the 
+confines of the .NET Compact Framework which means it isn't &quot;Super Fast&quot;.
+<br/>
+In addition, HTML is a very lose standard which allows you to perform
+some 'tricks' which may not work in this renderer. Some tags
+will not behave in the renderer as you might expect,
+so be sure to test your application thoroughly....there may be bugs.... :)
+<br/>
+For better performance use valid XML. Instead of using
+&lt;br&gt;, use &lt;br/&gt;. Instead of using &lt;hr&gt;, use &lt;hr/&gt;.
+You don't <i>have</i> to do this but the renderer will perform better if you do.
+<br/>
+<a href="#contents">Back to Contents</a><br/>
+
+</font>
+</body>
+
+</html>
+ 
