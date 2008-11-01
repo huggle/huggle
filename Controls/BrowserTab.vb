@@ -101,6 +101,7 @@ Class BrowserTab
         If Url.StartsWith("about:/") Then Url = SitePath() & Url.Substring(7)
         If Url.StartsWith("about:#") Then Url = SitePath() & "wiki/" & Edit.Page.Name & Url.Substring(6)
         If Url = "about:blank" Then Exit Sub
+        If Url.StartsWith("file:///") Then Exit Sub
         e.Cancel = True
 
         If Config.OpenInBrowser Then
