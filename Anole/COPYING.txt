@@ -1,5 +1,0 @@
-﻿Anole is an HTML render I wrote in C# for the .NET compact framework. It is now used in several commercial handheld applications where the overhead of PocketIE is too great or the developer needed a very customized GUI.
-
-The source for Anole is free, just please give me some credit if you use it in your application.
-	
- © 2008 E. Bruce Shankle III ALL RIGHTS RESERVED
