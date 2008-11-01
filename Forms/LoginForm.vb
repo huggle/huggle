@@ -191,7 +191,7 @@ Class LoginForm
         MainForm = New Main
         MainForm.Show()
         MainForm.Initialize()
-        Close()
+        Hide()
     End Sub
 
     Sub UpdateStatus(ByVal MessageObject As Object)
