@@ -10,7 +10,7 @@ Namespace Anole
         Protected myVScrollBar As VScrollBar
         Protected bIgnoreScrolling As Boolean
         Protected myBitmap As Bitmap
-        Protected myPictureBox As PictureBox
+        Protected WithEvents myPictureBox As PictureBox
         Protected myButton As Button
 
         'Delegate subscribers must implement to listen to hyperlink clicks
@@ -150,13 +150,6 @@ Namespace Anole
                 End If
             End If
 
-            If myHScrollBar.Visible AndAlso myVScrollBar.Visible Then
-                myButton.Visible = True
-                myButton.Left = Me.Width - 16
-                myButton.Top = Me.Height - 16
-                myButton.BringToFront()
-            End If
-
             bIgnoreScrolling = False
         End Sub
 
@@ -199,6 +192,17 @@ Namespace Anole
                     End If
                 End If
             End If
+        End Sub
+
+        Private Sub myPictureBox_MouseLeave(ByVal sender As Object, ByVal e As System.EventArgs) Handles myPictureBox.MouseLeave
+            Cursor = Cursors.Default
+        End Sub
+
+        Private Sub myPictureBox_MouseMove(ByVal s As Object, ByVal e As MouseEventArgs) Handles myPictureBox.MouseMove
+            Dim o As Anole.HTMLRenderItem = myRenderer.LocateItem(e.X, e.Y)
+
+            If o IsNot Nothing AndAlso TypeOf o.Element.Parent Is Anole.HTMLAElement _
+                Then Cursor = Cursors.Hand Else Cursor = Cursors.Default
         End Sub
 
     End Class
