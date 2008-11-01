@@ -181,8 +181,6 @@ Class Configuration
     Public SpeedyMessageSummary As String
     Public SpeedyMessageTitle As String
     Public SpeedySummary As String
-    Public StartupMessage As Boolean = True
-    Public StartupMessageLocation As String
     Public Summary As String
     Public Tags As New List(Of String)
     Public TemplateMessages As New List(Of String)
@@ -430,7 +428,6 @@ Module ConfigIO
             Case "single-revert-summary" : Config.SingleRevertSummary = Value
             Case "speedy-delete-summary" : Config.SpeedyDeleteSummary = Value
             Case "speedy-options" : SetSpeedyOptions(Value)
-            Case "startup-message-location" : Config.StartupMessageLocation = Value
             Case "summary" : Config.Summary = Value
             Case "templates" : Config.TemplateMessagesGlobal = GetList(Value)
             Case "tfd" : Config.TfdLocation = Value
@@ -633,7 +630,6 @@ Module ConfigIO
             Case "proxy-userdomain" : Config.ProxyUserDomain = OptionValue
             Case "proxy-username" : Config.ProxyUsername = OptionValue
             Case "queue-right-align" : Config.RightAlignQueue = CBool(OptionValue)
-            Case "startup-message" : Config.StartupMessage = CBool(OptionValue)
             Case "username" : Config.Username = OptionValue
             Case "window-height" : Config.WindowSize.Height = CInt(OptionValue)
             Case "window-left" : Config.WindowPosition.X = CInt(OptionValue)
@@ -694,7 +690,8 @@ Module ConfigIO
             Items.Add("projects:")
 
             For Each Project As Project In Config.Projects.Values
-                Items.Add("    " & Project.Name & ";" & Project.Path & ";" & Project.IrcChannel)
+                If Project.Name <> "localhost" _
+                    Then Items.Add("    " & Project.Name & ";" & Project.Path & ";" & Project.IrcChannel & ",")
             Next Project
 
             Items.Add("project:" & Config.Project.Name)
@@ -713,7 +710,6 @@ Module ConfigIO
             Next Project
 
             Items.Add("queue-right-align:" & CStr(Config.RightAlignQueue).ToLower)
-            Items.Add("startup-message:" & CStr(Config.StartupMessage).ToLower)
             If Config.RememberMe Then Items.Add("username:" & Config.Username)
             Items.Add("window-height:" & CStr(MainForm.Height))
             Items.Add("window-left:" & CStr(MainForm.Left))

@@ -24,7 +24,6 @@ Class ConfigForm
         RememberPassword.Checked = Config.RememberPassword
         AutoWhitelist.Checked = Config.AutoWhitelist
         TrayIcon.Checked = Config.TrayIcon
-        StartupMessage.Checked = Config.StartupMessage
         ShowQueue.Checked = Config.ShowQueue
         RightAlignQueue.Checked = Config.RightAlignQueue
         ShowLog.Checked = Config.ShowLog
@@ -141,7 +140,6 @@ Class ConfigForm
             Config.ShowQueue = ShowQueue.Checked
             Config.RightAlignQueue = RightAlignQueue.Checked
             Config.ShowLog = ShowLog.Checked
-            Config.StartupMessage = StartupMessage.Checked
             Config.ShowToolTips = ShowToolTips.Checked
             Config.OpenInBrowser = OpenInBrowser.Checked
             Config.ShowNewEdits = ShowNewEdits.Checked

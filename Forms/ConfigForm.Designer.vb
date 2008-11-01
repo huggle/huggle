@@ -46,7 +46,6 @@ Partial Class ConfigForm
         Me.RightAlignQueue = New System.Windows.Forms.CheckBox
         Me.ShowQueue = New System.Windows.Forms.CheckBox
         Me.ShowLog = New System.Windows.Forms.CheckBox
-        Me.StartupMessage = New System.Windows.Forms.CheckBox
         Me.ShowToolTips = New System.Windows.Forms.CheckBox
         Me.TrayIcon = New System.Windows.Forms.CheckBox
         Me.KeyboardTab = New System.Windows.Forms.TabPage
@@ -68,6 +67,8 @@ Partial Class ConfigForm
         Me.Watchlist = New System.Windows.Forms.CheckedListBox
         Me.Minor = New System.Windows.Forms.CheckedListBox
         Me.RevertTab = New System.Windows.Forms.TabPage
+        Me.ConfirmRange = New System.Windows.Forms.CheckBox
+        Me.ConfirmWarned = New System.Windows.Forms.CheckBox
         Me.ClearSummaries = New System.Windows.Forms.Button
         Me.ClearSummariesLabel = New System.Windows.Forms.Label
         Me.ConfirmSelfRevert = New System.Windows.Forms.CheckBox
@@ -129,8 +130,6 @@ Partial Class ConfigForm
         Me.PromptForBlock = New System.Windows.Forms.CheckBox
         Me.UseAdminFunctions = New System.Windows.Forms.CheckBox
         Me.ViewLocalConfig = New System.Windows.Forms.LinkLabel
-        Me.ConfirmWarned = New System.Windows.Forms.CheckBox
-        Me.ConfirmRange = New System.Windows.Forms.CheckBox
         Me.Tabs.SuspendLayout()
         Me.GeneralTab.SuspendLayout()
         CType(Me.DiffFontSize, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -209,7 +208,7 @@ Partial Class ConfigForm
         Me.GeneralTab.Location = New System.Drawing.Point(4, 23)
         Me.GeneralTab.Name = "GeneralTab"
         Me.GeneralTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.GeneralTab.Size = New System.Drawing.Size(511, 291)
+        Me.GeneralTab.Size = New System.Drawing.Size(511, 312)
         Me.GeneralTab.TabIndex = 0
         Me.GeneralTab.Text = "General"
         Me.GeneralTab.UseVisualStyleBackColor = True
@@ -371,13 +370,12 @@ Partial Class ConfigForm
         Me.InterfaceTab.Controls.Add(Me.RightAlignQueue)
         Me.InterfaceTab.Controls.Add(Me.ShowQueue)
         Me.InterfaceTab.Controls.Add(Me.ShowLog)
-        Me.InterfaceTab.Controls.Add(Me.StartupMessage)
         Me.InterfaceTab.Controls.Add(Me.ShowToolTips)
         Me.InterfaceTab.Controls.Add(Me.TrayIcon)
         Me.InterfaceTab.Location = New System.Drawing.Point(4, 23)
         Me.InterfaceTab.Name = "InterfaceTab"
         Me.InterfaceTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.InterfaceTab.Size = New System.Drawing.Size(511, 291)
+        Me.InterfaceTab.Size = New System.Drawing.Size(511, 312)
         Me.InterfaceTab.TabIndex = 9
         Me.InterfaceTab.Text = "Interface"
         Me.InterfaceTab.UseVisualStyleBackColor = True
@@ -385,7 +383,7 @@ Partial Class ConfigForm
         'RightAlignQueue
         '
         Me.RightAlignQueue.AutoSize = True
-        Me.RightAlignQueue.Location = New System.Drawing.Point(9, 107)
+        Me.RightAlignQueue.Location = New System.Drawing.Point(9, 84)
         Me.RightAlignQueue.Name = "RightAlignQueue"
         Me.RightAlignQueue.Size = New System.Drawing.Size(211, 17)
         Me.RightAlignQueue.TabIndex = 46
@@ -395,7 +393,7 @@ Partial Class ConfigForm
         'ShowQueue
         '
         Me.ShowQueue.AutoSize = True
-        Me.ShowQueue.Location = New System.Drawing.Point(9, 84)
+        Me.ShowQueue.Location = New System.Drawing.Point(9, 61)
         Me.ShowQueue.Name = "ShowQueue"
         Me.ShowQueue.Size = New System.Drawing.Size(125, 17)
         Me.ShowQueue.TabIndex = 45
@@ -405,27 +403,17 @@ Partial Class ConfigForm
         'ShowLog
         '
         Me.ShowLog.AutoSize = True
-        Me.ShowLog.Location = New System.Drawing.Point(9, 61)
+        Me.ShowLog.Location = New System.Drawing.Point(9, 38)
         Me.ShowLog.Name = "ShowLog"
         Me.ShowLog.Size = New System.Drawing.Size(70, 17)
         Me.ShowLog.TabIndex = 44
         Me.ShowLog.Text = "Show log"
         Me.ShowLog.UseVisualStyleBackColor = True
         '
-        'StartupMessage
-        '
-        Me.StartupMessage.AutoSize = True
-        Me.StartupMessage.Location = New System.Drawing.Point(9, 38)
-        Me.StartupMessage.Name = "StartupMessage"
-        Me.StartupMessage.Size = New System.Drawing.Size(133, 17)
-        Me.StartupMessage.TabIndex = 43
-        Me.StartupMessage.Text = "Show startup message"
-        Me.StartupMessage.UseVisualStyleBackColor = True
-        '
         'ShowToolTips
         '
         Me.ShowToolTips.AutoSize = True
-        Me.ShowToolTips.Location = New System.Drawing.Point(9, 130)
+        Me.ShowToolTips.Location = New System.Drawing.Point(9, 107)
         Me.ShowToolTips.Name = "ShowToolTips"
         Me.ShowToolTips.Size = New System.Drawing.Size(138, 17)
         Me.ShowToolTips.TabIndex = 42
@@ -453,7 +441,7 @@ Partial Class ConfigForm
         Me.KeyboardTab.Location = New System.Drawing.Point(4, 23)
         Me.KeyboardTab.Name = "KeyboardTab"
         Me.KeyboardTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.KeyboardTab.Size = New System.Drawing.Size(511, 291)
+        Me.KeyboardTab.Size = New System.Drawing.Size(511, 312)
         Me.KeyboardTab.TabIndex = 7
         Me.KeyboardTab.Text = "Keyboard"
         Me.KeyboardTab.UseVisualStyleBackColor = True
@@ -552,7 +540,7 @@ Partial Class ConfigForm
         Me.EditingTab.Location = New System.Drawing.Point(4, 23)
         Me.EditingTab.Name = "EditingTab"
         Me.EditingTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.EditingTab.Size = New System.Drawing.Size(511, 291)
+        Me.EditingTab.Size = New System.Drawing.Size(511, 312)
         Me.EditingTab.TabIndex = 2
         Me.EditingTab.Text = "Editing"
         Me.EditingTab.UseVisualStyleBackColor = True
@@ -647,6 +635,27 @@ Partial Class ConfigForm
         Me.RevertTab.TabIndex = 5
         Me.RevertTab.Text = "Reverting"
         Me.RevertTab.UseVisualStyleBackColor = True
+        '
+        'ConfirmRange
+        '
+        Me.ConfirmRange.AutoSize = True
+        Me.ConfirmRange.Location = New System.Drawing.Point(9, 107)
+        Me.ConfirmRange.Name = "ConfirmRange"
+        Me.ConfirmRange.Size = New System.Drawing.Size(481, 17)
+        Me.ConfirmRange.TabIndex = 37
+        Me.ConfirmRange.Text = "Confirm reversion to edit by an anonymous user in the same /16 range as the user " & _
+            "being reverted"
+        Me.ConfirmRange.UseVisualStyleBackColor = True
+        '
+        'ConfirmWarned
+        '
+        Me.ConfirmWarned.AutoSize = True
+        Me.ConfirmWarned.Location = New System.Drawing.Point(9, 84)
+        Me.ConfirmWarned.Name = "ConfirmWarned"
+        Me.ConfirmWarned.Size = New System.Drawing.Size(238, 17)
+        Me.ConfirmWarned.TabIndex = 37
+        Me.ConfirmWarned.Text = "Confirm reversion to an edit by a warned user"
+        Me.ConfirmWarned.UseVisualStyleBackColor = True
         '
         'ClearSummaries
         '
@@ -769,7 +778,7 @@ Partial Class ConfigForm
         Me.ReportingTab.Location = New System.Drawing.Point(4, 23)
         Me.ReportingTab.Name = "ReportingTab"
         Me.ReportingTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.ReportingTab.Size = New System.Drawing.Size(511, 291)
+        Me.ReportingTab.Size = New System.Drawing.Size(511, 312)
         Me.ReportingTab.TabIndex = 3
         Me.ReportingTab.Text = "Reporting"
         Me.ReportingTab.UseVisualStyleBackColor = True
@@ -860,7 +869,7 @@ Partial Class ConfigForm
         Me.TemplatesTab.Location = New System.Drawing.Point(4, 23)
         Me.TemplatesTab.Name = "TemplatesTab"
         Me.TemplatesTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.TemplatesTab.Size = New System.Drawing.Size(511, 291)
+        Me.TemplatesTab.Size = New System.Drawing.Size(511, 312)
         Me.TemplatesTab.TabIndex = 6
         Me.TemplatesTab.Text = "Templates"
         Me.TemplatesTab.UseVisualStyleBackColor = True
@@ -927,7 +936,7 @@ Partial Class ConfigForm
         Me.EditorTab.Location = New System.Drawing.Point(4, 23)
         Me.EditorTab.Name = "EditorTab"
         Me.EditorTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.EditorTab.Size = New System.Drawing.Size(511, 291)
+        Me.EditorTab.Size = New System.Drawing.Size(511, 312)
         Me.EditorTab.TabIndex = 8
         Me.EditorTab.Text = "Editor"
         Me.EditorTab.UseVisualStyleBackColor = True
@@ -1177,7 +1186,7 @@ Partial Class ConfigForm
         Me.AdminTab.Controls.Add(Me.UseAdminFunctions)
         Me.AdminTab.Location = New System.Drawing.Point(4, 23)
         Me.AdminTab.Name = "AdminTab"
-        Me.AdminTab.Size = New System.Drawing.Size(511, 291)
+        Me.AdminTab.Size = New System.Drawing.Size(511, 312)
         Me.AdminTab.TabIndex = 1
         Me.AdminTab.Text = "Admin"
         Me.AdminTab.UseVisualStyleBackColor = True
@@ -1269,27 +1278,6 @@ Partial Class ConfigForm
         Me.ViewLocalConfig.TabIndex = 3
         Me.ViewLocalConfig.TabStop = True
         Me.ViewLocalConfig.Text = "View local configuration folder"
-        '
-        'ConfirmWarned
-        '
-        Me.ConfirmWarned.AutoSize = True
-        Me.ConfirmWarned.Location = New System.Drawing.Point(9, 84)
-        Me.ConfirmWarned.Name = "ConfirmWarned"
-        Me.ConfirmWarned.Size = New System.Drawing.Size(238, 17)
-        Me.ConfirmWarned.TabIndex = 37
-        Me.ConfirmWarned.Text = "Confirm reversion to an edit by a warned user"
-        Me.ConfirmWarned.UseVisualStyleBackColor = True
-        '
-        'ConfirmRange
-        '
-        Me.ConfirmRange.AutoSize = True
-        Me.ConfirmRange.Location = New System.Drawing.Point(9, 107)
-        Me.ConfirmRange.Name = "ConfirmRange"
-        Me.ConfirmRange.Size = New System.Drawing.Size(481, 17)
-        Me.ConfirmRange.TabIndex = 37
-        Me.ConfirmRange.Text = "Confirm reversion to edit by an anonymous user in the same /16 range as the user " & _
-            "being reverted"
-        Me.ConfirmRange.UseVisualStyleBackColor = True
         '
         'ConfigForm
         '
@@ -1433,7 +1421,6 @@ Partial Class ConfigForm
     Friend WithEvents InterfaceTab As System.Windows.Forms.TabPage
     Friend WithEvents ShowQueue As System.Windows.Forms.CheckBox
     Friend WithEvents ShowLog As System.Windows.Forms.CheckBox
-    Friend WithEvents StartupMessage As System.Windows.Forms.CheckBox
     Friend WithEvents ShowToolTips As System.Windows.Forms.CheckBox
     Friend WithEvents TrayIcon As System.Windows.Forms.CheckBox
     Friend WithEvents RightAlignQueue As System.Windows.Forms.CheckBox

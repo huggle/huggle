@@ -188,16 +188,10 @@ Class LoginForm
     End Sub
 
     Sub Done()
-        If Config.StartupMessage AndAlso Config.StartupMessageLocation IsNot Nothing Then
-            Dim NewStartupForm As New StartupForm
-            NewStartupForm.Show()
-            Close()
-        Else
-            MainForm = New Main
-            MainForm.Show()
-            MainForm.Initialize()
-            Close()
-        End If
+        MainForm = New Main
+        MainForm.Show()
+        MainForm.Initialize()
+        Close()
     End Sub
 
     Sub UpdateStatus(ByVal MessageObject As Object)

@@ -540,23 +540,6 @@ Namespace Requests
 
     End Class
 
-    Class StartupMessageRequest : Inherits Request
-
-        'Get message shown to user when logging in
-
-        Protected Overrides Sub Process()
-            Dim Result As ApiResult = DoApiRequest("action=parse&text={{" & Config.StartupMessageLocation & "}}")
-
-            If Result.Error Then
-                Fail(, Result.ErrorMessage)
-                Exit Sub
-            End If
-
-            Complete(, HtmlDecode(FindString(Result.Text, "<text>", "</text>")))
-        End Sub
-
-    End Class
-
     Class ThreeRevertRuleCheckRequest : Inherits Request
 
         'Check for three-revert rule violation by specified user
