@@ -431,69 +431,68 @@ Module ConfigIO
                 SetLocalConfigOption(Item.Key, Item.Value)
             Next Item
         End If
-
-        If Config.Language Is Nothing Then Config.Language = Config.DefaultLanguage
     End Sub
 
     Public Sub SaveLocalConfig()
         'Write to local configuration file
+        Dim Items As New List(Of String)
+
+        Items.Add("irc:" & CStr(Config.IrcMode).ToLower)
+        Items.Add("language:" & CStr(Config.Language))
+        Items.Add("log-file:" & Config.LogFile)
+        If Config.RememberPassword Then Items.Add("password:" & Config.Password)
+
+        Items.Add("projects:")
+
+        For Each Project As Project In Config.Projects.Values
+            If Project.Name <> "localhost" _
+                Then Items.Add("    " & Project.Name & ";" & Project.Path & ";" & Project.IrcChannel & ",")
+        Next Project
+
+        Items.Add("project:" & Config.Project.Name)
+        Items.Add("proxy-enabled:" & CStr(Config.ProxyEnabled).ToLower)
+        Items.Add("proxy-port:" & Config.ProxyPort)
+        Items.Add("proxy-server:" & Config.ProxyServer)
+        Items.Add("proxy-userdomain:" & Config.ProxyUserDomain)
+        Items.Add("proxy-username:" & Config.ProxyUsername)
+
+        For Each Project As String In QueueNames.Keys
+            For Each Item As String In QueueNames(Project)
+                Item = Item.Replace(",", "\,")
+            Next Item
+
+            Items.Add("queues-" & Project & ":" & String.Join(",", QueueNames(Project).ToArray))
+        Next Project
+
+        Items.Add("queue-right-align:" & CStr(Config.RightAlignQueue).ToLower)
+        If Config.RememberMe Then Items.Add("username:" & Config.Username)
+
         If MainForm IsNot Nothing Then
-            Dim Items As New List(Of String)
-
-            Items.Add("irc:" & CStr(Config.IrcMode).ToLower)
-            Items.Add("language:" & CStr(Config.Language))
-            Items.Add("log-file:" & Config.LogFile)
-            If Config.RememberPassword Then Items.Add("password:" & Config.Password)
-
-            Items.Add("projects:")
-
-            For Each Project As Project In Config.Projects.Values
-                If Project.Name <> "localhost" _
-                    Then Items.Add("    " & Project.Name & ";" & Project.Path & ";" & Project.IrcChannel & ",")
-            Next Project
-
-            Items.Add("project:" & Config.Project.Name)
-            Items.Add("proxy-enabled:" & CStr(Config.ProxyEnabled).ToLower)
-            Items.Add("proxy-port:" & Config.ProxyPort)
-            Items.Add("proxy-server:" & Config.ProxyServer)
-            Items.Add("proxy-userdomain:" & Config.ProxyUserDomain)
-            Items.Add("proxy-username:" & Config.ProxyUsername)
-
-            For Each Project As String In QueueNames.Keys
-                For Each Item As String In QueueNames(Project)
-                    Item = Item.Replace(",", "\,")
-                Next Item
-
-                Items.Add("queues-" & Project & ":" & String.Join(",", QueueNames(Project).ToArray))
-            Next Project
-
-            Items.Add("queue-right-align:" & CStr(Config.RightAlignQueue).ToLower)
-            If Config.RememberMe Then Items.Add("username:" & Config.Username)
             Items.Add("window-height:" & CStr(MainForm.Height))
             Items.Add("window-left:" & CStr(MainForm.Left))
             Items.Add("window-maximize:" & CStr(MainForm.WindowState = FormWindowState.Maximized).ToLower)
             Items.Add("window-top:" & CStr(MainForm.Top))
             Items.Add("window-width:" & CStr(MainForm.Width))
-
-            Dim Shortcuts As New List(Of String)
-
-            For Each Item As KeyValuePair(Of String, Shortcut) In ShortcutKeys
-                Shortcuts.Add(Item.Key & ";" & CInt(Item.Value.Key).ToString & ";" & CInt(Item.Value.Control) _
-                    .ToString & ";" & CInt(Item.Value.Alt).ToString & ";" & CInt(Item.Value.Shift).ToString)
-            Next Item
-
-            Items.Add("shortcuts:" & String.Join(",", Shortcuts.ToArray))
-
-            Dim Summaries As New List(Of String)
-
-            For Each Item As String In Config.RevertSummaries
-                If Not Summaries.Contains(Item) Then Summaries.Add(Item.Replace(",", "\,"))
-            Next Item
-
-            Items.Add("revert-summaries:" & String.Join(",", Summaries.ToArray))
-
-            File.WriteAllLines(LocalConfigPath() & Config.LocalConfigLocation, Items.ToArray)
         End If
+
+        Dim Shortcuts As New List(Of String)
+
+        For Each Item As KeyValuePair(Of String, Shortcut) In ShortcutKeys
+            Shortcuts.Add(Item.Key & ";" & CInt(Item.Value.Key).ToString & ";" & CInt(Item.Value.Control) _
+                .ToString & ";" & CInt(Item.Value.Alt).ToString & ";" & CInt(Item.Value.Shift).ToString)
+        Next Item
+
+        Items.Add("shortcuts:" & String.Join(",", Shortcuts.ToArray))
+
+        Dim Summaries As New List(Of String)
+
+        For Each Item As String In Config.RevertSummaries
+            If Not Summaries.Contains(Item) Then Summaries.Add(Item.Replace(",", "\,"))
+        Next Item
+
+        Items.Add("revert-summaries:" & String.Join(",", Summaries.ToArray))
+
+        File.WriteAllLines(LocalConfigPath() & Config.LocalConfigLocation, Items.ToArray)
     End Sub
 
     Public Sub LoadLanguages()
@@ -557,21 +556,23 @@ Module ConfigIO
     End Sub
 
     Public Sub SaveLists()
-        'Create subfolder if it does not exist
-        If Not Directory.Exists(ListsLocation) AndAlso Not Directory.CreateDirectory(ListsLocation).Exists Then
-            MessageBox.Show("Unable to save page lists; could not create sub-folder.", "Huggle", _
-                MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Exit Sub
+        If AllLists.Count > 0 Then
+            'Create subfolder if it does not exist
+            If Not Directory.Exists(ListsLocation) AndAlso Not Directory.CreateDirectory(ListsLocation).Exists Then
+                MessageBox.Show("Unable to save page lists; could not create sub-folder.", "Huggle", _
+                    MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Exit Sub
+            End If
+
+            For Each Path As String In Directory.GetFiles(ListsLocation)
+                File.Delete(Path)
+            Next Path
+
+            'Write lists to application data subfolder
+            For Each List As KeyValuePair(Of String, List(Of String)) In AllLists
+                File.WriteAllLines(ListsLocation() & "\" & List.Key & ".txt", List.Value.ToArray)
+            Next List
         End If
-
-        For Each Path As String In Directory.GetFiles(ListsLocation)
-            File.Delete(Path)
-        Next Path
-
-        'Write lists to application data subfolder
-        For Each List As KeyValuePair(Of String, List(Of String)) In AllLists
-            File.WriteAllLines(ListsLocation() & "\" & List.Key & ".txt", List.Value.ToArray)
-        Next List
     End Sub
 
     Public Sub LoadQueues()
@@ -582,14 +583,19 @@ Module ConfigIO
         'Load queues from application data subfolder
         If Directory.Exists(QueuesLocation) Then
             For Each QueueName As String In QueueNames(Config.Project.Name)
-                Dim Queue As Queue = Nothing
 
-                For Each Item As KeyValuePair(Of String, String) In _
+                Dim ConfigItems As Dictionary(Of String, String) = _
                     ProcessConfigFile(File.ReadAllText(QueuesLocation() & "\" & QueueName & ".txt"))
-                    SetQueueOption(Queue, Item.Key, Item.Value)
-                Next Item
 
-                If Queue IsNot Nothing Then Queue.Reset()
+                If ConfigItems.ContainsKey("name") Then
+                    Dim Queue As New Queue(ConfigItems("name"))
+
+                    For Each Item As KeyValuePair(Of String, String) In ConfigItems
+                        SetQueueOption(Queue, Item.Key, Item.Value)
+                    Next Item
+
+                    If Queue IsNot Nothing Then Queue.Reset()
+                End If
             Next QueueName
         End If
 
@@ -657,7 +663,6 @@ Module ConfigIO
 
     Private Sub SetQueueOption(ByVal Queue As Queue, ByVal Name As String, ByVal Value As String)
         Select Case Name
-            Case "name" : Queue = New Queue(Value)
             Case "filter-anonymous" : Queue.FilterAnonymous = CType(Value, QueueFilter)
             Case "filter-assisted" : Queue.FilterAssisted = CType(Value, QueueFilter)
             Case "filter-bot" : Queue.FilterBot = CType(Value, QueueFilter)

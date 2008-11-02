@@ -13,6 +13,7 @@ Class LoginForm
         Config = New Configuration
         LoadLocalConfig()
         LoadLanguages()
+        SaveLocalConfig()
 
         For Each Item As String In Config.Languages
             If Config.Messages.ContainsKey(Item) AndAlso Config.Messages(Item).ContainsKey("name") _

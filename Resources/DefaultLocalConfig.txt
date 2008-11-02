@@ -9,4 +9,4 @@
     meta;http://meta.wikimedia.org/w/;#meta.wikimedia,
     test wiki;http://test.wikipedia.org/w/;#test.wikipedia
     
-default-project:en.wikipedia
+project:en.wikipedia
