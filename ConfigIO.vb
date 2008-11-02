@@ -28,7 +28,7 @@ Module ConfigIO
 
         For Each Item As String In Items
             Dim Name As String = Item.Split(":"c)(0).ToLower
-            Dim Value As String = Item.Split(":"c)(1)
+            Dim Value As String = Item.Substring(Item.IndexOf(":"c) + 1)
 
             If Result.ContainsKey(Name) _
                 Then Log("Warning: Duplicate definition for option '" & Name & "' in configuration file") _
@@ -43,7 +43,7 @@ Module ConfigIO
         Dim List As New List(Of String)
 
         For Each Item As String In Value.Replace("\,", Convert.ToChar(1)).Split(","c)
-            Item = Item.Trim(" "c, Tab, LF).Replace(Convert.ToChar(1), ",")
+            Item = Item.Trim(" "c, Tab, CR, LF).Replace(Convert.ToChar(1), ",")
             If Not List.Contains(Item) AndAlso Item.Length > 0 Then List.Add(Item)
         Next Item
 
@@ -55,7 +55,7 @@ Module ConfigIO
         Dim Result As New Dictionary(Of String, String)
 
         For Each Item As String In GetList(Text)
-            Item = Item.Replace("\;", Convert.ToChar(2))
+            Item = Item.Trim(" "c, Tab, CR, LF).Replace("\;", Convert.ToChar(2))
 
             If Item.Contains(";") Then
                 Dim Key As String = Item.Split(";"c)(0).Replace(Convert.ToChar(2), ";")
@@ -74,8 +74,8 @@ Module ConfigIO
         For Each Record As String In GetList(Text)
             Dim List As New List(Of String)
 
-            For Each Field As String In Record.Replace(";", Convert.ToChar(2))
-                Field = Field.Trim(" "c, Tab, LF).Replace(Convert.ToChar(2), ";")
+            For Each Field As String In Record.Replace("\;", Convert.ToChar(2)).Split(";"c)
+                Field = Field.Trim(" "c, Tab, CR, LF).Replace(Convert.ToChar(2), ";")
                 If List.Count < Fields Then List.Add(Field)
             Next Field
 
@@ -432,7 +432,6 @@ Module ConfigIO
             Next Item
         End If
 
-        If Config.Project Is Nothing Then Config.Project = Config.DefaultProject
         If Config.Language Is Nothing Then Config.Language = Config.DefaultLanguage
     End Sub
 

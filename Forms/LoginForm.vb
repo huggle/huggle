@@ -10,7 +10,6 @@ Class LoginForm
         SyncContext = SynchronizationContext.Current
         Icon = My.Resources.huggle_icon
 
-
         Config = New Configuration
         LoadLocalConfig()
         LoadLanguages()
@@ -20,14 +19,14 @@ Class LoginForm
                 Then Language.Items.Add(Config.Messages(Item)("name"))
         Next Item
 
-        Language.SelectedItem = Config.Messages(Config.Language)("name")
-        If Language.SelectedIndex = -1 Then Language.SelectedItem = Config.Messages(Config.DefaultLanguage)("name")
+        If Config.Language IsNot Nothing Then Language.SelectedItem = Config.Messages(Config.Language)("name")
+        If Language.SelectedIndex = -1 Then Language.SelectedIndex = 0
 
         For Each Item As String In Config.Projects.Keys
             Project.Items.Add(Item)
         Next Item
 
-        If Config.Project IsNot Nothing Then Project.SelectedItem = Config.Project
+        If Config.Project IsNot Nothing Then Project.SelectedItem = Config.Project.Name
         If Project.SelectedIndex = -1 Then Project.SelectedIndex = 0
 
         Proxy.Checked = Config.ProxyEnabled

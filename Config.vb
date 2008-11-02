@@ -37,7 +37,6 @@ Class Configuration
     Public ConfigChanged As Boolean
     Public ConfigVersion As New Version(0, 0, 0)
     Public DefaultLanguage As String = "en"
-    Public DefaultProject As Project
     Public Languages As New List(Of String)
     Public LatestVersion As New Version(0, 0, 0)
     Public Messages As New Dictionary(Of String, Dictionary(Of String, String))
