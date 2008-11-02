@@ -432,9 +432,13 @@ Module Misc
             "<body>" & Text & "</body></html>"
     End Function
 
+    Dim UsingMono As Boolean = Nothing
+
     'Detect whether Mono is being used
     Function Mono() As Boolean
-        Return (Type.GetType("Mono.Runtime") IsNot Nothing)
+        If UsingMono = Nothing Then UsingMono = (Type.GetType("Mono.Runtime") IsNot Nothing)
+
+        Return UsingMono
     End Function
 
     Function Msg(ByVal Name As String, ByVal ParamArray Params() As String) As String
