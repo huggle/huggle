@@ -145,12 +145,6 @@ Module Misc
         Public Summary As String
     End Class
 
-    Class Project
-        Public Name As String
-        Public Path As String
-        Public IrcChannel As String
-    End Class
-
     Class Protection
         Public Time As Date
         Public Admin As User
@@ -314,7 +308,7 @@ Module Misc
     Function GetMonthName(ByVal Number As Integer) As String
         'Yes, I know about MonthName(). But I have to localize.
 
-        Select Case Config.Project.Name
+        Select Case Config.Project
             Case "es.wikipedia"
                 Select Case Number
                     Case 1 : Return "enero"
@@ -427,17 +421,26 @@ Module Misc
     End Structure
 
     Function MakeHtmlWikiPage(ByVal Page As String, ByVal Text As String) As String
-        Return My.Resources.WikiPageHtml.Replace("$PATH", SitePath).Replace("$PAGE", Page) _
+        Return My.Resources.WikiPageHtml.Replace("$PATH", Config.Projects(Config.Project)).Replace("$PAGE", Page) _
             .Replace("$USER", Config.Username).Replace("$FONTSIZE", CStr(CInt((CInt(Config.DiffFontSize) * 1.2)))) & _
             "<body>" & Text & "</body></html>"
     End Function
 
-    Dim UsingMono As Boolean = Nothing
+    Function MakePath(ByVal ParamArray Items As String()) As String
+        For Each Item As String In Items
+            If Item.StartsWith(Path.DirectorySeparatorChar) OrElse Item.StartsWith(Path.AltDirectorySeparatorChar) _
+                Then Item = Item.Substring(1)
+            If Item.EndsWith(Path.DirectorySeparatorChar) OrElse Item.EndsWith(Path.AltDirectorySeparatorChar) _
+                Then Item = Item.Substring(0, Item.Length - 1)
+        Next Item
+
+        Return String.Join(Path.DirectorySeparatorChar, Items)
+    End Function
 
     'Detect whether Mono is being used
     Function Mono() As Boolean
+        Static UsingMono As Boolean = Nothing
         If UsingMono = Nothing Then UsingMono = (Type.GetType("Mono.Runtime") IsNot Nothing)
-
         Return UsingMono
     End Function
 
@@ -468,14 +471,12 @@ Module Misc
         Return Config.Messages(Config.Language).ContainsKey(Name.ToLower)
     End Function
 
-    Function OpenUrlInBrowser(ByVal Url As String) As Boolean
+    Sub OpenUrlInBrowser(ByVal Url As String)
         Try
             Process.Start(Url)
-            Return True
         Catch
-            Return False
         End Try
-    End Function
+    End Sub
 
     Function Ordinal(ByVal N As Integer) As String
         If (N Mod 100) \ 10 = 1 Then Return CStr(N) & "th"
@@ -534,8 +535,12 @@ Module Misc
         Return Params
     End Function
 
-    Function SitePath(Optional ByVal Project As String = Nothing) As String
-        If Project Is Nothing Then Return Config.Project.Path Else Return Config.Projects(Project).Path
+    Function SitePath() As String
+        Return Config.Projects(Config.Project) & Config.WikiPath
+    End Function
+
+    Function ShortSitePath() As String
+        Return Config.Projects(Config.Project) & Config.ShortWikiPath
     End Function
 
     Function SortWarningsByDate(ByVal X As Warning, ByVal Y As Warning) As Integer
@@ -594,7 +599,7 @@ Module Misc
     End Function
 
     Function WikiUrl(ByVal Url As String) As Boolean
-        Return (Url.StartsWith(SitePath() & "w/index.php?") OrElse Url.StartsWith(SitePath() & "wiki/"))
+        Return (Url.StartsWith(SitePath() & "index.php?") OrElse Url.StartsWith(ShortSitePath()))
     End Function
 
 End Module

@@ -14,6 +14,8 @@ Class ClosingForm
         SaveLists()
         SaveQueues()
 
+        If Mono() Then WebBrowser.ClearTempFiles()
+
         If Config.IrcMode Then Irc.Disconnect()
 
         If Config.LogFile IsNot Nothing AndAlso Config.LogFile.Length > 0 Then

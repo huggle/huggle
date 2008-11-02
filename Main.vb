@@ -5,7 +5,7 @@ Imports System.Web.HttpUtility
 
 Class Main
 
-    Public Reverting As Boolean
+    Public Reverting, DisplayingEdit As Boolean
     Private LoggingOut As Boolean
 
     'Timer is enabled when a key is pressed and prevents both MainForm.Main.KeyDown and
@@ -480,13 +480,13 @@ Class Main
     End Sub
 
     Sub PageViewLatest_Click() Handles PageViewLatest.Click
-        If CurrentPage IsNot Nothing Then DisplayUrl(SitePath() & "index.php?title=" & _
-            UrlEncode(CurrentPage.Name.Replace(" ", "_")))
+        If CurrentPage IsNot Nothing Then DisplayUrl _
+            (SitePath() & "index.php?title=" & UrlEncode(CurrentPage.Name.Replace(" ", "_")))
     End Sub
 
     Sub PageView_Click() Handles PageView.Click, PageViewB.Click
-        If CurrentEdit IsNot Nothing AndAlso CurrentPage IsNot Nothing _
-            Then DisplayUrl(SitePath() & "index.php?title=" & UrlEncode(CurrentPage.Name) & "&oldid=" & CurrentEdit.Id)
+        If CurrentEdit IsNot Nothing AndAlso CurrentPage IsNot Nothing Then DisplayUrl _
+            (SitePath() & "index.php?title=" & UrlEncode(CurrentPage.Name) & "&oldid=" & CurrentEdit.Id)
     End Sub
 
     Private Sub DiffRevertSummary_Click() Handles RevertAdvanced.Click
@@ -757,46 +757,13 @@ Class Main
         Dim NewBlockForm As New BlockForm
 
         NewBlockForm.User = ThisUser
-        NewBlockForm.Reason.Text = Config.BlockReason
-
-        If ThisUser.Anonymous Then
-            NewBlockForm.Email.Enabled = False
-            NewBlockForm.Autoblock.Enabled = False
-            NewBlockForm.AnonOnly.Checked = True
-            NewBlockForm.Creation.Checked = True
-            NewBlockForm.Duration.Text = Config.BlockTimeAnon
-        Else
-            NewBlockForm.AnonOnly.Enabled = False
-            NewBlockForm.Autoblock.Checked = True
-            NewBlockForm.Creation.Checked = True
-            NewBlockForm.Duration.Text = Config.BlockTime
-        End If
-
-        If NewBlockForm.ShowDialog = DialogResult.OK Then
-            UserReportB.Enabled = False
-
-            Dim NewBlockRequest As New BlockRequest
-            NewBlockRequest.User = NewBlockForm.User
-            NewBlockRequest.Summary = NewBlockForm.Reason.Text
-            NewBlockRequest.AnonOnly = NewBlockForm.AnonOnly.Checked
-            NewBlockRequest.BlockCreation = NewBlockForm.Creation.Checked
-            NewBlockRequest.BlockEmail = NewBlockForm.Email.Checked
-            NewBlockRequest.BlockTalkEdit = NewBlockForm.TalkEdit.Checked
-            NewBlockRequest.Autoblock = NewBlockForm.Autoblock.Checked
-            NewBlockRequest.Notify = (NewBlockForm.Message.Text <> "" _
-                AndAlso NewBlockForm.Message.Text <> "(none)")
-            NewBlockRequest.Expiry = NewBlockForm.Duration.Text
-            If NewBlockForm.Message.Text <> "(standard block message)" _
-                Then NewBlockRequest.NotifyTemplate = NewBlockForm.Message.Text
-            NewBlockRequest.Start()
-        End If
+        NewBlockForm.Show()
     End Sub
 
     Sub ReportUser(ByVal User As User, Optional ByVal Edit As Edit = Nothing)
         Dim NewUserReport As New ReportForm
         NewUserReport.User = User
         NewUserReport.Edit = Edit
-        NewUserReport.Message.Text = Config.ReportReason
         NewUserReport.Show()
     End Sub
 
@@ -1087,7 +1054,7 @@ Class Main
         End If
     End Sub
 
-    Public Sub SetCurrentUser(ByVal User As User, ByVal DisplayLast As Boolean)
+    Public Sub SetCurrentUser(ByVal User As User, Optional ByVal DisplayLast As Boolean = False)
         If User IsNot Nothing Then
             If DisplayLast AndAlso User IsNot CurrentUser Then
                 If User.LastEdit Is Nothing OrElse User.LastEdit.User Is Nothing Then
@@ -1108,14 +1075,16 @@ Class Main
                 RefreshInterface()
             End If
 
+            DisplayingEdit = True
             If User IsNot CurrentUser Then ContribsOffset = 0
             If Not UserB.Items.Contains(User.Name) Then UserB.Items.Add(User.Name)
             UserB.Text = User.Name
             DrawContribs()
+            DisplayingEdit = False
         End If
     End Sub
 
-    Public Sub SetCurrentPage(ByVal Page As Page, ByVal DisplayLast As Boolean)
+    Public Sub SetCurrentPage(ByVal Page As Page, Optional ByVal DisplayLast As Boolean = False)
         If Page IsNot Nothing Then
             If DisplayLast AndAlso Page IsNot CurrentPage Then
                 If Page.LastEdit Is Nothing Then
@@ -1135,10 +1104,13 @@ Class Main
                 RefreshInterface()
             End If
 
+            DisplayingEdit = True
             If Page IsNot CurrentPage Then HistoryOffset = 0
             If Not PageB.Items.Contains(Page.Name) Then PageB.Items.Add(Page.Name)
             PageB.Text = Page.Name
             If CurrentEdit.Page IsNot Nothing Then Tabs.SelectedTab.Text = CurrentEdit.Page.Name
+            DisplayingEdit = False
+
             DrawHistory()
         End If
     End Sub
@@ -1174,11 +1146,13 @@ Class Main
     End Sub
 
     Private Sub PageB_SelectedIndexChanged() Handles PageB.SelectedIndexChanged
-        If CurrentPage Is Nothing OrElse PageB.Text <> CurrentPage.Name Then SetCurrentPage(GetPage(PageB.Text), True)
+        If Not DisplayingEdit AndAlso _
+            (CurrentPage Is Nothing OrElse PageB.Text <> CurrentPage.Name) Then SetCurrentPage(GetPage(PageB.Text), True)
     End Sub
 
     Private Sub UserB_SelectedIndexChanged() Handles UserB.SelectedIndexChanged
-        If CurrentUser Is Nothing OrElse UserB.Text <> CurrentUser.Name Then SetCurrentUser(GetUser(UserB.Text), True)
+        If Not DisplayingEdit AndAlso _
+            (CurrentUser Is Nothing OrElse UserB.Text <> CurrentUser.Name) Then SetCurrentUser(GetUser(UserB.Text), True)
     End Sub
 
     Public Sub AddToUndoList(ByVal ThisCommand As Command)
@@ -1447,8 +1421,8 @@ Class Main
     End Sub
 
     Private Sub PageShowHistoryPage_Click() Handles PageHistoryPage.Click
-        If CurrentPage IsNot Nothing Then DisplayUrl(SitePath() & "index.php?title=" & _
-            UrlEncode(CurrentPage.Name.Replace(" ", "_")) & "&action=history")
+        If CurrentPage IsNot Nothing Then DisplayUrl _
+            (SitePath() & "index.php?title=" & UrlEncode(CurrentPage.Name.Replace(" ", "_")) & "&action=history")
     End Sub
 
     Private Sub WarnError_Click() Handles WarnError.Click

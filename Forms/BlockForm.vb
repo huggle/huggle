@@ -10,6 +10,21 @@ Class BlockForm
         Text = Msg("block-title", User.Name)
         Localize(Me, "block")
 
+        Reason.Text = Config.BlockReason
+
+        If User.Anonymous Then
+            Email.Enabled = False
+            Autoblock.Enabled = False
+            AnonOnly.Checked = True
+            Creation.Checked = True
+            Duration.Text = Config.BlockTimeAnon
+        Else
+            AnonOnly.Enabled = False
+            Autoblock.Checked = True
+            Creation.Checked = True
+            Duration.Text = Config.BlockTime
+        End If
+
         If Config.BlockMessageDefault Then Message.SelectedIndex = 1 Else Message.SelectedIndex = 0
 
         Duration.Items.AddRange(Config.BlockExpiryOptions.ToArray)
@@ -53,7 +68,19 @@ Class BlockForm
     End Sub
 
     Private Sub OK_Click() Handles OK.Click
-        DialogResult = DialogResult.OK
+        Dim NewBlockRequest As New BlockRequest
+        NewBlockRequest.User = User
+        NewBlockRequest.Summary = Reason.Text
+        NewBlockRequest.AnonOnly = AnonOnly.Checked
+        NewBlockRequest.BlockCreation = Creation.Checked
+        NewBlockRequest.BlockEmail = Email.Checked
+        NewBlockRequest.BlockTalkEdit = TalkEdit.Checked
+        NewBlockRequest.Autoblock = Autoblock.Checked
+        NewBlockRequest.Notify = (Message.Text <> "" AndAlso Message.Text <> "(none)")
+        NewBlockRequest.Expiry = Duration.Text
+        If Message.Text <> "(standard block message)" Then NewBlockRequest.NotifyTemplate = Message.Text
+        NewBlockRequest.Start()
+
         Close()
     End Sub
 
@@ -66,7 +93,7 @@ Class BlockForm
     End Sub
 
     Private Sub UserContribs_Click() Handles UserContribs.Click
-        OpenUrlInBrowser(SitePath() & "index.php?title=Special:Contributions/" & User.Name)
+        OpenUrlInBrowser(SitePath() & "index.php?title=Special:Contributions/" & UrlEncode(User.Name))
     End Sub
 
     Private Sub Reason_SelectedIndexChanged() Handles Reason.SelectedIndexChanged

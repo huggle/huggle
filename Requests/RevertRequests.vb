@@ -214,8 +214,8 @@ Namespace Requests
 
             '"Undo" function is not available through the API
 
-            Dim Result As String = DoUrlRequest(SitePath() & "index.php?title=" & UrlEncode(Edit.Page.Name) & _
-                "&action=edit&undo=" & Edit.Id)
+            Dim Result As String = DoUrlRequest(SitePath() & "index.php?title=" & _
+                UrlEncode(Edit.Page.Name) & "&action=edit&undo=" & Edit.Id)
 
             If Result Is Nothing Then
                 Fail(Msg("revert-fail", Edit.Page.Name))

@@ -394,8 +394,8 @@ Namespace Requests
         Public Page As Page, Text As String
 
         Protected Overrides Sub Process()
-            Dim Result As String = DoUrlRequest(SitePath() & "index.php?title=" & UrlEncode(Page.Name) & _
-                "&action=submit", "&wpDiff=0&wpStarttime=" & Timestamp(Date.UtcNow) & _
+            Dim Result As String = DoUrlRequest(SitePath() & "index.php?title=" & _
+                UrlEncode(Page.Name) & "&action=submit", "&wpDiff=0&wpStarttime=" & Timestamp(Date.UtcNow) & _
                 "&wpEdittime=&wpTextbox1=" & UrlEncode(Text))
 
             If Result Is Nothing OrElse Not IsWikiPage(Result) Then
@@ -684,7 +684,7 @@ Namespace Requests
             Dim PathPage As Page = GetPage(Config.LocalizatonPath)
 
             Dim Result As ApiResult = DoApiRequest("action=query&prop=info&generator=allpages&gapnamespace=" & _
-                CStr(PathPage.Space.Number) & "&gapprefix=" & PathPage.BaseName, Project:="meta")
+                CStr(PathPage.Space.Number) & "&gapprefix=" & PathPage.BaseName, Project:=Config.Projects("meta"))
 
             If Result.Error Then
                 Fail(Msg("login-error-language"), Result.ErrorMessage)
@@ -714,7 +714,7 @@ Namespace Requests
             End If
 
             Result = DoApiRequest("action=query&prop=revisions&rvprop=content&titles=" & _
-                String.Join("|", ToUpdate.ToArray), Project:="meta")
+                String.Join("|", ToUpdate.ToArray), Project:=Config.Projects("meta"))
 
             If Result.Error Then
                 Fail(Msg("login-error-language"), Result.ErrorMessage)

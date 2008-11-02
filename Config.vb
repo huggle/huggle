@@ -9,12 +9,7 @@ Class Configuration
     Public Sub New()
 #If DEBUG Then
         'If the app is in debug mode add a localhost wiki to the project list
-        If Not Projects.ContainsKey("localhost") Then
-            Dim NewProject As New Project
-            NewProject.Name = "localhost"
-            NewProject.Path = "http://localhost/w/"
-            Projects.Add("localhost", NewProject)
-        End If
+        If Not Projects.ContainsKey("localhost") Then Projects.Add("localhost", "http://localhost/")
 #End If
     End Sub
 
@@ -24,13 +19,15 @@ Class Configuration
     Public ReadOnly HistoryBlockSize As Integer = 100
     Public ReadOnly HistoryScrollSpeed As Integer = 25
     Public ReadOnly IrcConnectionTimeout As Integer = 60000
+    Public ReadOnly LocalConfigLocation As String = "config.txt"
     Public ReadOnly RequestTimeout As Integer = 30000
     Public ReadOnly QueueSize As Integer = 5000
     Public ReadOnly QueueWidth As Integer = 160
     Public ReadOnly RequestAttempts As Integer = 3
     Public ReadOnly RequestRetryInterval As Integer = 1000
-    Public ReadOnly LocalConfigLocation As String = "\config.txt"
+    Public ReadOnly ShortWikiPath As String = "wiki/"
     Public ReadOnly GlobalConfigLocation As String = "Huggle/Config"
+    Public ReadOnly WikiPath As String = "w/"
 
     'Values only used at runtime
 
@@ -41,14 +38,12 @@ Class Configuration
     Public LatestVersion As New Version(0, 0, 0)
     Public Messages As New Dictionary(Of String, Dictionary(Of String, String))
     Public Password As String
-    Public Projects As New Dictionary(Of String, Project)
     Public Version As New Version(Application.ProductVersion)
     Public WarningMessages As New Dictionary(Of String, String)
 
     'Values stored in local config file
 
     Public Language As String
-    Public Project As Project
     Public ProxyUsername As String
     Public ProxyUserDomain As String
     Public ProxyServer As String
@@ -109,6 +104,7 @@ Class Configuration
     Public IfdLocation As String
     Public IgnoredPages As New List(Of String)
     Public Initialised As Boolean
+    Public IrcChannel As String
     Public IrcMode As Boolean
     Public IrcPort As Integer = 6667
     Public IrcServer As String
@@ -141,6 +137,8 @@ Class Configuration
     Public ProdMessageSummary As String
     Public ProdMessageTitle As String
     Public ProdSummary As String
+    Public Project As String
+    Public Projects As New Dictionary(Of String, String)
     Public ProjectConfigLocation As String
     Public PromptForBlock As Boolean = True
     Public PromptForReport As Boolean

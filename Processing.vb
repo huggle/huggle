@@ -1176,14 +1176,14 @@ Module Processing
                             "System -> Show new messages or press M to view them.</div>" & DiffText
 
                         'Replace relative URLs with absolute ones
-                        DiffText = DiffText.Replace("href=""/wiki/", "href=""" & SitePath & "wiki/")
-                        DiffText = DiffText.Replace("href='/wiki/", "href='" & SitePath & "wiki/")
-                        DiffText = DiffText.Replace("href=""/w/", "href=""" & SitePath & "w/")
-                        DiffText = DiffText.Replace("href='/w/", "href='" & SitePath & "w/")
+                        DiffText = DiffText.Replace("href=""/wiki/", "href=""" & Config.Projects(Config.Project) & "wiki/")
+                        DiffText = DiffText.Replace("href='/wiki/", "href='" & Config.Projects(Config.Project) & "wiki/")
+                        DiffText = DiffText.Replace("href=""/w/", "href=""" & Config.Projects(Config.Project) & "w/")
+                        DiffText = DiffText.Replace("href='/w/", "href='" & Config.Projects(Config.Project) & "w/")
 
                         DocumentText = MakeHtmlWikiPage(Edit.Page.Name, DiffText)
 
-                        Tab.CurrentUrl = SitePath() & "w/index.php?title=" & UrlEncode(Edit.Page.Name) & _
+                        Tab.CurrentUrl = SitePath() & "index.php?title=" & UrlEncode(Edit.Page.Name) & _
                             "&diff=" & Edit.Id & "&oldid=" & Edit.Oldid
 
                         Try

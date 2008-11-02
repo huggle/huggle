@@ -14,8 +14,8 @@ Class CaptchaForm
         Client.Proxy = Login.Proxy
 
         'Get the captcha
-        Client.DownloadFile(SitePath() & "index.php?title=Special:Captcha/image&wpCaptchaId=" & CaptchaId, _
-            TempFileName)
+        Client.DownloadFile(SitePath() & "index.php?title=Special:Captcha/image&wpCaptchaId=" & _
+            CaptchaId, TempFileName)
         Captcha.Image = New Bitmap(TempFileName)
 
         'Size the captcha in form correctly

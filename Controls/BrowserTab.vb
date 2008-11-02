@@ -98,10 +98,16 @@ Class BrowserTab
         Handles Browser.Navigating
 
         Dim Url As String = e.Url.ToString
+
+        If Url = "about:blank" OrElse Url.StartsWith("file:///") Then Exit Sub
         If Url.StartsWith("about:/") Then Url = SitePath() & Url.Substring(7)
-        If Url.StartsWith("about:#") Then Url = SitePath() & "wiki/" & Edit.Page.Name & Url.Substring(6)
-        If Url = "about:blank" Then Exit Sub
-        If Url.StartsWith("file:///") Then Exit Sub
+
+        If Url.StartsWith("about:#") Then
+            If Config.ShortWikiPath Is Nothing _
+                Then Url = SitePath() & "index.php?title=" & UrlEncode(Edit.Page.Name) & Url.Substring(6) _
+                Else Url = ShortSitePath() & UrlEncode(Edit.Page.Name) & Url.Substring(6)
+        End If
+
         e.Cancel = True
 
         If Config.OpenInBrowser Then

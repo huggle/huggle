@@ -103,6 +103,7 @@ Module ConfigIO
             Case "feedback" : Config.FeedbackLocation = Value
             Case "irc-server" : Config.IrcServer = Value
             Case "min-version" : Config.MinVersion = ParseVersion(Value)
+            Case "projects" : Config.Projects = GetDictionary(Value)
             Case "sensitive-addresses" : Config.SensitiveAddresses = GetDictionary(Value)
             Case "user-agent" : Config.UserAgent = Value.Replace("$1", Config.Version.ToString)
             Case "user-config" : Config.UserConfigLocation = Value
@@ -198,6 +199,7 @@ Module ConfigIO
             Case "email-subject" : Config.EmailSubject = Value
             Case "enable-all" : Config.EnabledForAll = CBool(Value)
             Case "go" : Config.GoToPages = GetList(Value)
+            Case "irc-channel" : Config.IrcChannel = Value
             Case "ifd" : Config.IfdLocation = Value
             Case "ignore" : Config.IgnoredPages = GetList(Value)
             Case "manual-revert-summary" : Config.RevertSummary = Value
@@ -216,6 +218,7 @@ Module ConfigIO
             Case "protection-request-summary" : Config.ProtectionRequestSummary = Value
             Case "rc-block-size" : Config.RcBlockSize = CInt(Value)
             Case "require-admin" : Config.RequireAdmin = CBool(Value)
+            Case "require-autconfirmed" : Config.RequireAutoconfirmed = CBool(Value)
             Case "require-config" : Config.RequireConfig = CBool(Value)
             Case "require-edits" : Config.RequireEdits = CInt(Value)
             Case "require-rollback" : Config.RequireRollback = CBool(Value)
@@ -271,7 +274,7 @@ Module ConfigIO
             Case "log-file" : Config.LogFile = Value
             Case "password" : Config.Password = Value : Config.RememberPassword = True
             Case "project" : Config.Project = Config.Projects(Value)
-            Case "projects" : SetProjects(Value)
+            Case "projects" : Config.Projects = GetDictionary(Value)
             Case "proxy-enabled" : Config.ProxyEnabled = CBool(Value)
             Case "proxy-port" : Config.ProxyPort = Value
             Case "proxy-server" : Config.ProxyServer = Value
@@ -311,20 +314,6 @@ Module ConfigIO
     Private Sub SetNamespaceAliases(ByVal Value As String)
         For Each Item As KeyValuePair(Of String, String) In GetDictionary(Value)
             If Not Space.Aliases.ContainsKey(Item.Key) Then Space.Aliases.Add(Item.Key, CInt(Item.Value))
-        Next Item
-    End Sub
-
-    Private Sub SetProjects(ByVal Value As String)
-        Config.Projects.Clear()
-
-        For Each Item As List(Of String) In GetRecordList(Value, 3)
-            Dim NewProject As New Project
-
-            NewProject.Name = Item(0)
-            NewProject.Path = Item(1)
-            NewProject.IrcChannel = Item(2)
-
-            Config.Projects.Add(NewProject.Name, NewProject)
         Next Item
     End Sub
 
@@ -393,29 +382,29 @@ Module ConfigIO
     End Sub
 
     Public Function L10nLocation() As String
-        Return LocalConfigPath() & "\Localization"
+        Return MakePath(LocalConfigPath(), "Localization")
     End Function
 
     Public Function ListsLocation() As String
-        Return LocalConfigPath() & "\Lists\" & Config.Project.Name
+        Return MakePath(LocalConfigPath(), "Lists", Config.Project)
     End Function
 
     Public Function QueuesLocation() As String
-        Return LocalConfigPath() & "\Queues\" & Config.Project.Name
+        Return MakePath(LocalConfigPath(), "Queues", Config.Project)
     End Function
 
     Public Sub LoadLocalConfig()
         'Read from local configuration file
 
-        If Not File.Exists(LocalConfigPath() & Config.LocalConfigLocation) _
-            Then File.WriteAllText(LocalConfigPath() & Config.LocalConfigLocation, My.Resources.DefaultLocalConfig)
+        If Not File.Exists(MakePath(LocalConfigPath, Config.LocalConfigLocation)) Then _
+            File.WriteAllText(MakePath(LocalConfigPath, Config.LocalConfigLocation), My.Resources.DefaultLocalConfig)
 
         QueueNames.Clear()
         InitialiseShortcuts()
 
-        If File.Exists(LocalConfigPath() & Config.LocalConfigLocation) Then
+        If File.Exists(MakePath(LocalConfigPath, Config.LocalConfigLocation)) Then
             For Each Item As KeyValuePair(Of String, String) In _
-                ProcessConfigFile(File.ReadAllText(LocalConfigPath() & Config.LocalConfigLocation))
+                ProcessConfigFile(File.ReadAllText(MakePath(LocalConfigPath, Config.LocalConfigLocation)))
 
                 Try
                     SetLocalConfigOption(Item.Key, Item.Value)
@@ -444,12 +433,11 @@ Module ConfigIO
 
         Items.Add("projects:")
 
-        For Each Project As Project In Config.Projects.Values
-            If Project.Name <> "localhost" _
-                Then Items.Add("    " & Project.Name & ";" & Project.Path & ";" & Project.IrcChannel & ",")
-        Next Project
+        For Each Item As KeyValuePair(Of String, String) In Config.Projects
+            If Item.Key <> "localhost" Then Items.Add("    " & Item.Key & ";" & Item.Value & ",")
+        Next Item
 
-        Items.Add("project:" & Config.Project.Name)
+        Items.Add("project:" & Config.Project)
         Items.Add("proxy-enabled:" & CStr(Config.ProxyEnabled).ToLower)
         Items.Add("proxy-port:" & Config.ProxyPort)
         Items.Add("proxy-server:" & Config.ProxyServer)
@@ -492,7 +480,7 @@ Module ConfigIO
 
         Items.Add("revert-summaries:" & String.Join(",", Summaries.ToArray))
 
-        File.WriteAllLines(LocalConfigPath() & Config.LocalConfigLocation, Items.ToArray)
+        File.WriteAllLines(MakePath(LocalConfigPath() & Config.LocalConfigLocation), Items.ToArray)
     End Sub
 
     Public Sub LoadLanguages()
@@ -512,8 +500,7 @@ Module ConfigIO
 
         Else
             For Each FileName As String In Directory.GetFiles(L10nLocation)
-                LoadLanguage(Path.GetFileNameWithoutExtension(FileName), _
-                    File.ReadAllText(L10nLocation() & Path.DirectorySeparatorChar & Path.GetFileName(FileName)))
+                LoadLanguage(Path.GetFileNameWithoutExtension(FileName), File.ReadAllText(FileName))
             Next FileName
         End If
 
@@ -548,10 +535,10 @@ Module ConfigIO
 
         'Load lists from application data subfolder
         If Directory.Exists(ListsLocation) Then
-            For Each Path As String In Directory.GetFiles(ListsLocation)
-                AllLists.Add(Path.Substring(Path.LastIndexOf("\") + 1, Path.Length - Path.LastIndexOf("\") - 5), _
-                    New List(Of String)(File.ReadAllLines(Path)))
-            Next Path
+            For Each FileName As String In Directory.GetFiles(ListsLocation)
+                AllLists.Add(Path.GetFileNameWithoutExtension(FileName), _
+                    New List(Of String)(File.ReadAllLines(FileName)))
+            Next FileName
         End If
     End Sub
 
@@ -578,11 +565,11 @@ Module ConfigIO
     Public Sub LoadQueues()
         Queue.All.Clear()
 
-        If Not QueueNames.ContainsKey(Config.Project.Name) Then QueueNames.Add(Config.Project.Name, New List(Of String))
+        If Not QueueNames.ContainsKey(Config.Project) Then QueueNames.Add(Config.Project, New List(Of String))
 
         'Load queues from application data subfolder
         If Directory.Exists(QueuesLocation) Then
-            For Each QueueName As String In QueueNames(Config.Project.Name)
+            For Each QueueName As String In QueueNames(Config.Project)
 
                 Dim ConfigItems As Dictionary(Of String, String) = _
                     ProcessConfigFile(File.ReadAllText(QueuesLocation() & "\" & QueueName & ".txt"))

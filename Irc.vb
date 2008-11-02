@@ -92,7 +92,7 @@ Module Irc
 
             Writer.WriteLine("USER " & Config.IrcUsername & " 8 * :" & Config.IrcUsername)
             Writer.WriteLine("NICK " & Config.IrcUsername)
-            Writer.WriteLine("JOIN " & Config.Project.IrcChannel)
+            Writer.WriteLine("JOIN " & Config.IrcChannel)
             Writer.Flush()
 
             Dim Message As String = ""
@@ -111,7 +111,7 @@ Module Irc
                         IrcLog("Connected to IRC recent changes feed")
 
                     ElseIf Message.StartsWith(":" & Config.IrcServer & " 403") Then
-                        IrcLog("IRC channel '" & Config.Project.IrcChannel & "' not found; using slower API queries instead")
+                        IrcLog("IRC channel '" & Config.IrcChannel & "' not found; using slower API queries instead")
                         Config.IrcMode = False
                         Disconnecting = True
 

@@ -5,6 +5,8 @@ Class ReportForm
     Private Sub ReportForm_Load() Handles Me.Load
         Icon = My.Resources.huggle_icon
         Text = "Report " & User.Name
+
+        Message.Text = Config.ReportReason
         Message.Focus()
 
         If Config.AIV Then Reason.Items.Add("Vandalism after final warning")

@@ -279,7 +279,7 @@ Namespace Requests
         Protected Function DoApiRequest(ByVal QueryString As String, _
             Optional ByVal PostString As String = Nothing, Optional ByVal Project As String = Nothing) As ApiResult
 
-            If Project Is Nothing Then Project = Config.Project.Name
+            If Project Is Nothing Then Project = Config.Project
 
             Query = QueryString
             If PostString Is Nothing Then Mode = Modes.Get Else Mode = Modes.Post
@@ -291,7 +291,8 @@ Namespace Requests
                 Retries -= 1
 
                 Try
-                    Result = DoWebRequest(SitePath(Project) & "api.php?format=xml&" & QueryString, PostString)
+                    Result = DoWebRequest(Config.Projects(Project) & Config.WikiPath & "api.php?format=xml&" & _
+                        QueryString, PostString)
 
                 Catch ex As WebException
                     If ex.Status = WebExceptionStatus.Timeout _

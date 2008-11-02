@@ -13,7 +13,6 @@ Class LoginForm
         Config = New Configuration
         LoadLocalConfig()
         LoadLanguages()
-        SaveLocalConfig()
 
         For Each Item As String In Config.Languages
             If Config.Messages.ContainsKey(Item) AndAlso Config.Messages(Item).ContainsKey("name") _
@@ -27,7 +26,7 @@ Class LoginForm
             Project.Items.Add(Item)
         Next Item
 
-        If Config.Project IsNot Nothing Then Project.SelectedItem = Config.Project.Name
+        If Config.Project IsNot Nothing Then Project.SelectedItem = Config.Project
         If Project.SelectedIndex = -1 Then Project.SelectedIndex = 0
 
         Proxy.Checked = Config.ProxyEnabled
@@ -55,9 +54,7 @@ Class LoginForm
     Private Sub OK_Click() Handles OK.Click
         LoggingIn = True
 
-        Config.Project = Config.Projects(Project.Text)
-        Config.IrcMode = (Config.Project.IrcChannel IsNot Nothing)
-        Config.RequireAutoconfirmed = (Config.Project.Name = "en.wikipedia")
+        Config.Project = Project.Text
         Config.ProxyEnabled = Proxy.Checked
         Config.ProxyPort = ProxyPort.Text
         Config.ProxyServer = ProxyAddress.Text.Replace("http://", "")

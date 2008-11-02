@@ -46,7 +46,7 @@ Class Queue
         _RemoveViewed = True
         _Spaces.AddRange(Space.All)
         _Type = QueueType.Live
-        If Not QueueNames(Config.Project.Name).Contains(Name) Then QueueNames(Config.Project.Name).Add(Name)
+        If Not QueueNames(Config.Project).Contains(Name) Then QueueNames(Config.Project).Add(Name)
         All.Add(Name, Me)
     End Sub
 

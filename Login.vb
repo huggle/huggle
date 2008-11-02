@@ -126,9 +126,6 @@ Namespace Requests
                 UpdateForm.ShowDialog()
             End If
 
-            'Connect to IRC, if required (on separate thread)
-            If Config.IrcMode Then IrcConnect()
-
             'Get project configuration
             UpdateStatus(Msg("login-progress-project"))
 
@@ -145,6 +142,9 @@ Namespace Requests
             End If
 
             If State = States.Cancelled Then Thread.CurrentThread.Abort()
+
+            'Connect to IRC, if required (on separate thread)
+            If Config.IrcMode Then IrcConnect()
 
             'Get user configuration
             UpdateStatus(Msg("login-progress-user"))
