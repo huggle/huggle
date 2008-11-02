@@ -8,7 +8,7 @@ Class DeleteForm
         Localize(Me, "delete")
 
         If Config.Speedy Then
-            For Each Item As SpeedyCriterion In SpeedyCriteria.Values
+            For Each Item As SpeedyCriterion In Config.SpeedyCriteria.Values
                 If Item.Code = "G8" AndAlso Page.IsTalkPage _
                     OrElse (Item.Code <> "G8" AndAlso Item.Code.StartsWith("G")) _
                     OrElse (Item.Code.StartsWith("A") AndAlso Page.Space.Name = "") _
@@ -40,9 +40,9 @@ Class DeleteForm
         Dim Summary As String
 
         If Reason.SelectedIndex > -1 Then
-            Dim Criterion As SpeedyCriterion = SpeedyCriteria(Reason.Text.Substring(0, 3).Trim(" "c).ToUpper)
+            Dim Criterion As SpeedyCriterion = Config.SpeedyCriteria(Reason.Text.Substring(0, 3).Trim(" "c).ToUpper)
             Summary = Config.SpeedyDeleteSummary.Replace("$1", _
-                "[[WP:SD#" & Criterion.DisplayCode & "|" & SpeedyCriteria(Criterion.DisplayCode).Description & "]]")
+                "[[WP:SD#" & Criterion.DisplayCode & "|" & Config.SpeedyCriteria(Criterion.DisplayCode).Description & "]]")
         Else
             Summary = Reason.Text
         End If

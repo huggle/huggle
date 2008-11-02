@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="ApplicationEvents.vb" />
     <Compile Include="Config.vb" />
+    <Compile Include="ConfigIO.vb" />
     <Compile Include="Controls\BrowserTab.Designer.vb">
       <DependentUpon>BrowserTab.vb</DependentUpon>
     </Compile>
@@ -539,6 +540,7 @@
     <None Include="Resources\blobs\blob-warn-4.png" />
     <None Include="Resources\blobs\blob-warning.png" />
     <None Include="Resources\DefaultLocalConfig.txt" />
+    <None Include="Resources\huggle.ico" />
     <None Include="Resources\huggle-logo.png" />
     <None Include="Resources\icons\browser-add-tab.png" />
     <None Include="Resources\icons\browser-next.png" />
@@ -589,9 +591,6 @@
     <None Include="Localization\no.txt" />
     <None Include="Localization\pt.txt" />
     <None Include="Localization\ru.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\huggle.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
 </Project>

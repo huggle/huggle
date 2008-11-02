@@ -6,7 +6,7 @@ Class SpeedyForm
         Icon = My.Resources.huggle_icon
         Text = "Speedy tag " & Page.Name
 
-        For Each Item As SpeedyCriterion In SpeedyCriteria.Values
+        For Each Item As SpeedyCriterion In Config.SpeedyCriteria.Values
             If Item.Code = "G8" AndAlso Page.IsTalkPage _
                 OrElse (Item.Code <> "G8" AndAlso Item.Code.StartsWith("G")) _
                 OrElse (Item.Code.StartsWith("A") AndAlso Page.IsArticle) _
@@ -41,7 +41,7 @@ Class SpeedyForm
 
             Dim NewSpeedyRequest As New SpeedyRequest
             NewSpeedyRequest.Page = Page
-            NewSpeedyRequest.Criterion = SpeedyCriteria(Criterion.Text.Substring(0, Criterion.Text.IndexOf(" ")))
+            NewSpeedyRequest.Criterion = Config.SpeedyCriteria(Criterion.Text.Substring(0, Criterion.Text.IndexOf(" ")))
             NewSpeedyRequest.Notify = NotifyCreator.Checked
             NewSpeedyRequest.Parameter = Param.Text
             NewSpeedyRequest.Start()
@@ -59,7 +59,7 @@ Class SpeedyForm
 
     Private Sub Criterion_TextChanged() Handles Criterion.TextChanged
         If Criterion.SelectedIndex > -1 _
-            Then NotifyCreator.Checked = SpeedyCriteria(Criterion.Text.Substring(0, Criterion.Text.IndexOf(" "))).Notify
+            Then NotifyCreator.Checked = Config.SpeedyCriteria(Criterion.Text.Substring(0, Criterion.Text.IndexOf(" "))).Notify
     End Sub
 
     Private Sub SpeedyTagForm_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles MyBase.KeyDown
@@ -70,7 +70,7 @@ Class SpeedyForm
         Handles Criterion.SelectedIndexChanged
 
         If Criterion.SelectedIndex > -1 _
-            Then NotifyCreator.Checked = SpeedyCriteria(Criterion.Text.Substring(0, Criterion.Text.IndexOf(" "))).Notify
+            Then NotifyCreator.Checked = Config.SpeedyCriteria(Criterion.Text.Substring(0, Criterion.Text.IndexOf(" "))).Notify
         OK.Enabled = (Criterion.SelectedIndex <> -1)
 
         If Criterion.Text.Substring(0, Criterion.Text.IndexOf(" ")) = "G12" Then

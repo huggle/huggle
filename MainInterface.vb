@@ -103,7 +103,7 @@ Partial Class Main
         Next Item
 
         'Add speedy deletion criteria to menu
-        For Each Item As SpeedyCriterion In SpeedyCriteria.Values
+        For Each Item As SpeedyCriterion In Config.SpeedyCriteria.Values
             Dim NewItem As New ToolStripMenuItem
             NewItem.Name = "Speedy" & Item.Code
             NewItem.Text = Item.DisplayCode & " - " & Item.Description

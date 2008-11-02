@@ -19,7 +19,7 @@ Class Main
         KeyDelayTimer.Interval = 10
         ScrollTimer.Interval = 1000 \ Config.HistoryScrollSpeed
         LoadLists()
-        SetQueues()
+        LoadQueues()
 
         'Temporary bugfix
         If Config.RollbackSummary IsNot Nothing Then _
@@ -1416,7 +1416,7 @@ Class Main
     Private Sub Speedy_Click(ByVal sender As Object, ByVal e As EventArgs)
         Dim NewSpeedyRequest As New SpeedyRequest
         NewSpeedyRequest.AutoNotify = True
-        NewSpeedyRequest.Criterion = SpeedyCriteria(CType(sender, ToolStripMenuItem).Name.Substring(6))
+        NewSpeedyRequest.Criterion = Config.SpeedyCriteria(CType(sender, ToolStripMenuItem).Name.Substring(6))
         NewSpeedyRequest.Page = CurrentPage
         NewSpeedyRequest.Start()
     End Sub

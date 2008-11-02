@@ -31,7 +31,6 @@ Module Misc
     Public PendingWarnings As New List(Of Edit)
     Public QueueNames As New Dictionary(Of String, List(Of String))
     Public RollbackAvailable As Boolean
-    Public SpeedyCriteria As New Dictionary(Of String, SpeedyCriterion)
     Public StartTime As Date
     Public SyncContext As Threading.SynchronizationContext
     Public Undo As New List(Of Command)
@@ -310,18 +309,6 @@ Module Misc
         Source = Source.Substring(Source.IndexOf(From3) + From3.Length)
         If Not Source.Contains([To]) Then Return Source
         Return Source.Substring(0, Source.IndexOf([To]))
-    End Function
-
-    Function GetList(ByVal Value As String) As List(Of String)
-        'Converts a comma-separated list to a List(Of String)
-        Dim List As New List(Of String)
-
-        For Each Item As String In Value.Replace("\,", Convert.ToChar(1)).Split(","c)
-            Item = Item.Trim(" "c, Tab, LF).Replace(Convert.ToChar(1), ",")
-            If Not List.Contains(Item) AndAlso Item.Length > 0 Then List.Add(Item)
-        Next Item
-
-        Return List
     End Function
 
     Function GetMonthName(ByVal Number As Integer) As String

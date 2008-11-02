@@ -24,10 +24,10 @@ Class BlockForm
 
         'Check sensitive IP addresses list
         If User.Anonymous Then
-            For Each Item As String In Config.SensitiveAddresses
-                If New Regex(Item.Substring(0, Item.IndexOf(";"))).IsMatch(User.Name) Then
-                    If MessageBox.Show(Msg("block-sensitivewarning", Item.Substring(Item.IndexOf(";") + 1)), _
-                        "Huggle", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) _
+            For Each Item As String In Config.SensitiveAddresses.Keys
+                If New Regex(Item).IsMatch(User.Name) Then
+                    If MessageBox.Show(Msg("block-sensitivewarning", Config.SensitiveAddresses(Item)), "Huggle", _
+                        MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) _
                         = DialogResult.No Then
 
                         DialogResult = DialogResult.Cancel

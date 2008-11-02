@@ -120,7 +120,7 @@ Namespace Requests
             If Criterion.DisplayCode = "G10" Then Text = Tag Else Text = Tag & LF & Text
 
             Result = PostEdit(Page, Text, Config.SpeedySummary.Replace("$1", "[[WP:SD#" & Criterion.DisplayCode & _
-                "|" & SpeedyCriteria(Criterion.DisplayCode).Description & "]]"), _
+                "|" & Config.SpeedyCriteria(Criterion.DisplayCode).Description & "]]"), _
                 Minor:=Config.MinorTags, Watch:=Config.WatchTags)
 
             If Result.Error Then Fail(, Result.ErrorMessage) Else Complete()
