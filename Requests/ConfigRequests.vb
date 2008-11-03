@@ -9,7 +9,7 @@ Namespace Requests
 
         Protected Overrides Sub Process()
             Dim Result As ApiResult = DoApiRequest("action=query&prop=revisions&rvlimit=1&rvprop=content&titles=" & _
-                Config.GlobalConfigLocation, Project:=Config.Projects("meta"))
+                Config.GlobalConfigLocation, Project:="meta")
 
             If Result.Error Then
                 Fail(Msg("loadglobalconfig-fail"), Result.ErrorMessage)

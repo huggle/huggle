@@ -500,9 +500,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\RegexBox.resx">
       <DependentUpon>RegexBox.vb</DependentUpon>
@@ -584,13 +584,9 @@
     <None Include="Resources\icons\user-warn.png" />
     <None Include="Resources\icons\user-whitelist.png" />
     <None Include="Resources\WikiPageHtml.txt" />
-    <None Include="Localization\bg.txt" />
     <None Include="Localization\de.txt" />
     <None Include="Localization\en.txt" />
-    <None Include="Localization\es.txt" />
-    <None Include="Localization\no.txt" />
     <None Include="Localization\pt.txt" />
-    <None Include="Localization\ru.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
 </Project>

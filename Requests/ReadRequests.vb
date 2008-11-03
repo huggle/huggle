@@ -195,7 +195,7 @@ Namespace Requests
         Public BlockSize As Integer = Config.ContribsBlockSize
 
         Protected Overrides Sub Process()
-            Result = DoApiRequest("action=query&format=xml&list=usercontribs&ucuser=" & _
+            Result = DoApiRequest("action=query&list=usercontribs&ucuser=" & _
                 UrlEncode(User.Name) & "&uclimit=" & CStr(BlockSize) & "&ucstart=" & User.ContribsOffset)
 
             If Result.Error Then
@@ -325,7 +325,7 @@ Namespace Requests
         Public User As User
 
         Protected Overrides Sub Process()
-            Dim Result As ApiResult = DoApiRequest("action=query&format=xml&prop=revisions&rvprop=content&titles=" & _
+            Dim Result As ApiResult = DoApiRequest("action=query&prop=revisions&rvprop=content&titles=" & _
                 UrlEncode(User.TalkPage.Name))
 
             If Result.Error Then
@@ -492,7 +492,7 @@ Namespace Requests
         Public Page As Page, Target As ListView
 
         Protected Overrides Sub Process()
-            Dim Result As ApiResult = DoApiRequest("format=xml&action=query&list=logevents&letype=delete&lelimit=50" & _
+            Dim Result As ApiResult = DoApiRequest("action=query&list=logevents&letype=delete&lelimit=50" & _
                 "&letitle=" & UrlEncode(Page.Name))
 
             If Result.Error Then
@@ -684,7 +684,7 @@ Namespace Requests
             Dim PathPage As Page = GetPage(Config.LocalizatonPath)
 
             Dim Result As ApiResult = DoApiRequest("action=query&prop=info&generator=allpages&gapnamespace=" & _
-                CStr(PathPage.Space.Number) & "&gapprefix=" & PathPage.BaseName, Project:=Config.Projects("meta"))
+                CStr(PathPage.Space.Number) & "&gapprefix=" & PathPage.BaseName, Project:="meta")
 
             If Result.Error Then
                 Fail(Msg("login-error-language"), Result.ErrorMessage)
@@ -702,7 +702,7 @@ Namespace Requests
                 Dim FileTimestamp As Date
 
                 If File.Exists(ConfigIO.L10nLocation & Path.DirectorySeparatorChar & Lang & ".txt") Then _
-                    FileTimestamp = File.GetLastWriteTime(ConfigIO.L10nLocation & Path.DirectorySeparatorChar & Lang & ".txt")
+                    FileTimestamp = File.GetLastWriteTime(MakePath(ConfigIO.L10nLocation, Lang & ".txt"))
 
                 'If local copy of localization does not exist or is out of date
                 If PageTimestamp > FileTimestamp Then ToUpdate.Add(Config.LocalizatonPath & Lang)
@@ -714,7 +714,7 @@ Namespace Requests
             End If
 
             Result = DoApiRequest("action=query&prop=revisions&rvprop=content&titles=" & _
-                String.Join("|", ToUpdate.ToArray), Project:=Config.Projects("meta"))
+                String.Join("|", ToUpdate.ToArray), Project:="meta")
 
             If Result.Error Then
                 Fail(Msg("login-error-language"), Result.ErrorMessage)
@@ -722,7 +722,6 @@ Namespace Requests
             End If
 
             'Store messages locally
-
             For Each Page As String In Split(Result.Text, "<page ")
                 Dim Language As String = GetParameter(Page, "title")
                 If Language Is Nothing Then Continue For
@@ -730,9 +729,11 @@ Namespace Requests
 
                 Dim Text As String = HtmlDecode(FindString(Page, "<rev>", "</rev>")).Replace(LF, CRLF)
 
-                If Directory.Exists(ConfigIO.L10nLocation) _
-                    OrElse Directory.CreateDirectory(ConfigIO.L10nLocation).Exists _
-                    Then File.WriteAllText(ConfigIO.L10nLocation & "\" & Language & ".txt", Text)
+                'Ignore incomplete localizations
+                If Not Text.Contains("'''INCOMPLETE'''" & CRLF) _
+                    AndAlso (Directory.Exists(ConfigIO.L10nLocation) _
+                    OrElse Directory.CreateDirectory(ConfigIO.L10nLocation).Exists) _
+                    Then File.WriteAllText(MakePath(ConfigIO.L10nLocation, Language & ".txt"), Text)
             Next Page
 
             If Config.Languages.Count = 0 Then Fail("No localization files found.") Else Complete()

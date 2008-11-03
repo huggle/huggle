@@ -1,3 +1,0 @@
-<pre>
-name:Español
-</pre>

@@ -140,7 +140,6 @@ Class Main
     Private Sub Main_FormClosing() Handles Me.FormClosing
         TrayIcon.Visible = False
         Visible = False
-
         If Not LoggingOut Then ClosingForm.ShowDialog()
     End Sub
 
@@ -1532,6 +1531,11 @@ Class Main
         LoggingOut = True
         Irc.Disconnect()
 
+        'Save everything
+        SaveLocalConfig()
+        SaveLists()
+        SaveQueues()
+
         'Clear various things
         Bots.Clear()
         Edit.All.Clear()
@@ -1544,6 +1548,7 @@ Class Main
         Undo.Clear()
         Watchlist.Clear()
         Whitelist.Clear()
+        Request.ClearCookies()
 
         Dim NewLoginForm As New LoginForm
         NewLoginForm.Show()

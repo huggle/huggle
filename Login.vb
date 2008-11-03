@@ -231,7 +231,7 @@ Namespace Requests
                 'Get account creation date
                 UpdateStatus(Msg("login-progress-age"))
 
-                Result = DoApiRequest("action=query&format=xml&list=logevents&letype=newusers&letitle=" & _
+                Result = DoApiRequest("action=query&list=logevents&letype=newusers&letitle=" & _
                     UrlEncode(User.Me.Userpage.Name))
 
                 'We know the user exists, so if we get an empty result the user must have been created in 2005 or

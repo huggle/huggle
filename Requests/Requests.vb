@@ -24,6 +24,10 @@ Namespace Requests
             Callback(AddressOf UpdateForms)
         End Sub
 
+        Public Shared Sub ClearCookies()
+            _Cookies = New CookieContainer
+        End Sub
+
         Public ReadOnly Property StartTime() As Date
             Get
                 Return _StartTime

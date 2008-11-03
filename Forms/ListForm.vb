@@ -213,7 +213,12 @@ Class ListForm
                 Items.Add("*[[" & Item & "]]")
             Next Item
 
-            File.WriteAllLines(Dialog.FileName, Items.ToArray)
+            Try
+                File.WriteAllLines(Dialog.FileName, Items.ToArray)
+            Catch ex As IOException
+                MessageBox.Show("Unable to save list:" & CRLF & ex.Message, "Huggle", _
+                    MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
         End If
     End Sub
 

@@ -60,17 +60,6 @@ Namespace My.Resources
             End Set
         End Property
         
-        '''<summary>
-        '''  Looks up a localized string similar to &lt;pre&gt;
-        '''name:Български
-        '''&lt;/pre&gt;.
-        '''</summary>
-        Friend ReadOnly Property bg() As String
-            Get
-                Return ResourceManager.GetString("bg", resourceCulture)
-            End Get
-        End Property
-        
         Friend ReadOnly Property blob_anon() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("blob_anon", resourceCulture)
@@ -323,15 +312,17 @@ Namespace My.Resources
         
         '''<summary>
         '''  Looks up a localized string similar to projects:
-        '''	bg.wikipedia;http://bg.wikipedia.org/w/;#bg.wikipedia,
-        '''	de.wikipedia;http://de.wikipedia.org/w/;#de.wikipedia,
-        '''	en.wikipedia;http://en.wikipedia.org/w/;#en.wikipedia,
-        '''	no.wikipedia;http://no.wikipedia.org/w/;#no.wikipedia,
-        '''	pt.wikipedia;http://pt.wikipedia.org/w/;#pt.wikipedia,
-        '''	ru.wikipedia;http://ru.wikipedia.org/w/;#ru.wikipedia,
-        '''	commons;http://commons.wikimedia.org/w/;#commons.wikimedia,
-        '''	meta;http://meta.wikimedia.org/w/;#meta.wikimedia,
-        '''	test wiki;http://test.wikipedia.org/w/;#tes [rest of string was truncated]&quot;;.
+        '''    bg.wikipedia;http://bg.wikipedia.org/,
+        '''    de.wikipedia;http://de.wikipedia.org/,
+        '''    en.wikipedia;http://en.wikipedia.org/,
+        '''    no.wikipedia;http://no.wikipedia.org/,
+        '''    pt.wikipedia;http://pt.wikipedia.org/,
+        '''    ru.wikipedia;http://ru.wikipedia.org/,
+        '''    commons;http://commons.wikimedia.org/,
+        '''    meta;http://meta.wikimedia.org/,
+        '''    test wiki;http://test.wikipedia.org/,
+        '''    
+        '''project:en.wikipedia.
         '''</summary>
         Friend ReadOnly Property DefaultLocalConfig() As String
             Get
@@ -384,17 +375,6 @@ Namespace My.Resources
         Friend ReadOnly Property en() As String
             Get
                 Return ResourceManager.GetString("en", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to &lt;pre&gt;
-        '''name:Español
-        '''&lt;/pre&gt;.
-        '''</summary>
-        Friend ReadOnly Property es() As String
-            Get
-                Return ResourceManager.GetString("es", resourceCulture)
             End Get
         End Property
         
@@ -482,17 +462,6 @@ Namespace My.Resources
             End Get
         End Property
         
-        '''<summary>
-        '''  Looks up a localized string similar to &lt;pre&gt;
-        '''name:Norsk (bokmål)
-        '''&lt;/pre&gt;.
-        '''</summary>
-        Friend ReadOnly Property no() As String
-            Get
-                Return ResourceManager.GetString("no", resourceCulture)
-            End Get
-        End Property
-        
         Friend ReadOnly Property page_delete() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("page_delete", resourceCulture)
@@ -566,17 +535,6 @@ Namespace My.Resources
         Friend ReadOnly Property pt() As String
             Get
                 Return ResourceManager.GetString("pt", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to &lt;pre&gt;
-        '''name:Русский
-        '''&lt;/pre&gt;.
-        '''</summary>
-        Friend ReadOnly Property ru() As String
-            Get
-                Return ResourceManager.GetString("ru", resourceCulture)
             End Get
         End Property
         

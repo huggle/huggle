@@ -273,7 +273,7 @@ Module ConfigIO
             Case "language" : Config.Language = Value
             Case "log-file" : Config.LogFile = Value
             Case "password" : Config.Password = Value : Config.RememberPassword = True
-            Case "project" : Config.Project = Config.Projects(Value)
+            Case "project" : Config.Project = Value
             Case "projects" : Config.Projects = GetDictionary(Value)
             Case "proxy-enabled" : Config.ProxyEnabled = CBool(Value)
             Case "proxy-port" : Config.ProxyPort = Value
@@ -396,8 +396,18 @@ Module ConfigIO
     Public Sub LoadLocalConfig()
         'Read from local configuration file
 
-        If Not File.Exists(MakePath(LocalConfigPath, Config.LocalConfigLocation)) Then _
-            File.WriteAllText(MakePath(LocalConfigPath, Config.LocalConfigLocation), My.Resources.DefaultLocalConfig)
+        If Not File.Exists(MakePath(LocalConfigPath, Config.LocalConfigLocation)) Then
+            Try
+                For Each List As KeyValuePair(Of String, List(Of String)) In AllLists
+                    File.WriteAllText(MakePath(LocalConfigPath, Config.LocalConfigLocation), _
+                        My.Resources.DefaultLocalConfig)
+                Next List
+
+            Catch ex As Exception
+                MessageBox.Show("Unable to create configuration file: " & CRLF & ex.Message, "Huggle", _
+                    MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
+        End If
 
         QueueNames.Clear()
         InitialiseShortcuts()
@@ -480,7 +490,12 @@ Module ConfigIO
 
         Items.Add("revert-summaries:" & String.Join(",", Summaries.ToArray))
 
-        File.WriteAllLines(MakePath(LocalConfigPath() & Config.LocalConfigLocation), Items.ToArray)
+        Try
+            File.WriteAllLines(MakePath(LocalConfigPath(), Config.LocalConfigLocation), Items.ToArray)
+        Catch ex As Exception
+            MessageBox.Show("Unable to save Huggle configuration: " & CRLF & ex.Message, "Huggle", _
+                MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
     Public Sub LoadLanguages()
@@ -491,12 +506,8 @@ Module ConfigIO
         If Not Directory.Exists(L10nLocation) OrElse Directory.GetFiles(L10nLocation).Length = 0 Then
             'On first run, use the built-in localization files to get as far as displaying the login screen
             LoadLanguage("en", My.Resources.en)
-            LoadLanguage("bg", My.Resources.bg)
             LoadLanguage("de", My.Resources.de)
-            LoadLanguage("es", My.Resources.es)
-            LoadLanguage("no", My.Resources.no)
             LoadLanguage("pt", My.Resources.pt)
-            LoadLanguage("ru", My.Resources.ru)
 
         Else
             For Each FileName As String In Directory.GetFiles(L10nLocation)
@@ -556,9 +567,14 @@ Module ConfigIO
             Next Path
 
             'Write lists to application data subfolder
-            For Each List As KeyValuePair(Of String, List(Of String)) In AllLists
-                File.WriteAllLines(ListsLocation() & "\" & List.Key & ".txt", List.Value.ToArray)
-            Next List
+            Try
+                For Each List As KeyValuePair(Of String, List(Of String)) In AllLists
+                    File.WriteAllLines(ListsLocation() & "\" & List.Key & ".txt", List.Value.ToArray)
+                Next List
+            Catch ex As Exception
+                MessageBox.Show("Unable to save lists: " & CRLF & ex.Message, "Huggle", _
+                    MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
         End If
     End Sub
 
@@ -644,7 +660,14 @@ Module ConfigIO
             If Queue.SummaryRegex IsNot Nothing Then Items.Add("summary-regex:" & Queue.SummaryRegex.ToString)
             If Queue.UserRegex IsNot Nothing Then Items.Add("user-regex:" & Queue.UserRegex.ToString)
 
-            File.WriteAllLines(QueuesLocation() & "\" & Queue.Name & ".txt", Items.ToArray)
+            Try
+                For Each List As KeyValuePair(Of String, List(Of String)) In AllLists
+                    File.WriteAllLines(MakePath(QueuesLocation(), Queue.Name & ".txt"), Items.ToArray)
+                Next List
+            Catch ex As Exception
+                MessageBox.Show("Unable to save queues: " & CRLF & ex.Message, "Huggle", _
+                    MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
         Next Queue
     End Sub
 
