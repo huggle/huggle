@@ -12,7 +12,7 @@ Namespace Requests
         'Base class of all Web requests
 
         Private _Query As String, _StartTime As Date, _Mode As Modes, _State As States, _Done As RequestCallback
-        Private Shared _Cookies As New CookieContainer
+        Private Shared _Cookie As String
         Protected _Result As New RequestResult
 
         Public Delegate Sub RequestCallback(ByVal Result As RequestResult)
@@ -25,7 +25,7 @@ Namespace Requests
         End Sub
 
         Public Shared Sub ClearCookies()
-            _Cookies = New CookieContainer
+            _Cookie = Nothing
         End Sub
 
         Public ReadOnly Property StartTime() As Date
@@ -186,11 +186,14 @@ Namespace Requests
         End Sub
 
         'Make a Web request, setting appropriate headers
-        Protected Function DoWebRequest(ByVal Url As String, Optional ByVal PostString As String = Nothing) As String
+        Protected Function DoWebRequest(ByVal Url As String, Optional ByVal PostString As String = Nothing, _
+            Optional ByVal Login As Boolean = False) As String
+
             Dim Request As HttpWebRequest = CType(HttpWebRequest.Create(Url), HttpWebRequest)
 
             If Not Mono() Then SetAcceptCompression(Request)
-            Request.CookieContainer = _Cookies
+            If Login Then Request.AllowAutoRedirect = False
+            Request.Headers(HttpRequestHeader.Cookie) = _Cookie
             Request.Proxy = Proxy
             Request.ReadWriteTimeout = Config.RequestTimeout
             Request.Timeout = Config.RequestTimeout
@@ -208,9 +211,57 @@ Namespace Requests
                 RequestStream.Close()
             End If
 
-            Dim ResponseStream As New StreamReader(Request.GetResponse.GetResponseStream, UTF8)
+            Dim Response As WebResponse = Request.GetResponse
+            Dim ResponseStream As New StreamReader(Response.GetResponseStream, UTF8)
             Dim Result As String = ResponseStream.ReadToEnd
             ResponseStream.Close()
+
+            'Set cookies
+            If Login AndAlso Response.Headers(HttpResponseHeader.SetCookie) IsNot Nothing Then
+                Dim LoginCookie As String = Response.Headers(HttpResponseHeader.SetCookie)
+                Dim CookiePrefix As String
+
+                If Config.Project = "localhost" Then CookiePrefix = "wikidb" Else _
+                    CookiePrefix = Config.Projects(Config.Project).Substring(7)
+                CookiePrefix = CookiePrefix.Substring(0, CookiePrefix.IndexOf(".")) & "wiki"
+
+                If LoginCookie.Contains(CookiePrefix & "UserID=") Then
+                    Dim Userid As String = LoginCookie.Substring(LoginCookie.IndexOf(CookiePrefix & "UserID=") _
+                        + CookiePrefix.Length + 7)
+                    Userid = Userid.Substring(0, Userid.IndexOf(";"))
+
+                    If LoginCookie.Contains("centralauth_User=") Then
+                        'Unified login
+                        Dim CaUserName As String = LoginCookie.Substring(LoginCookie.IndexOf("centralauth_User=") + 17)
+                        CaUserName = CaUserName.Substring(0, CaUserName.IndexOf(";"))
+
+                        Dim CaToken As String = LoginCookie.Substring(LoginCookie.IndexOf("centralauth_Token=") + 18)
+                        CaToken = CaToken.Substring(0, CaToken.IndexOf(";"))
+
+                        _Cookie &= CookiePrefix & "UserID=" & UrlEncode(Userid) & "; " & CookiePrefix & "UserName=" & _
+                            UrlEncode(Config.Username) & "; " & "centralauth_User=" & UrlEncode(Config.Username) & "; " & _
+                            "centralauth_Token=" & UrlEncode(CaToken) & ";"
+
+                        If LoginCookie.Contains("centralauth_Session=") Then
+                            Dim CaSession As String = LoginCookie.Substring(LoginCookie.IndexOf("centralauth_Session=") + 20)
+                            CaSession = CaSession.Substring(0, CaSession.IndexOf(";"))
+                            _Cookie &= " centralauth_Session=" & UrlEncode(CaSession) & ";"
+                        End If
+
+                    Else
+                        'Non-unified login
+                        Dim Token As String = LoginCookie.Substring(LoginCookie.IndexOf(CookiePrefix & "Token=") _
+                            + CookiePrefix.Length + 6)
+                        Token = Token.Substring(0, Token.IndexOf(";"))
+
+                        _Cookie &= CookiePrefix & "UserID=" & UrlEncode(Userid) & "; " & CookiePrefix & "UserName=" & _
+                        UrlEncode(Config.Username) & "; " & CookiePrefix & "Token=" & UrlEncode(Token) & ";"
+                    End If
+
+                Else
+                    _Cookie = LoginCookie.Substring(0, LoginCookie.IndexOf(";") + 1) & " "
+                End If
+            End If
 
             Return Result
         End Function
@@ -222,7 +273,7 @@ Namespace Requests
         End Sub
 
         Protected Function DoLogin() As LoginResult
-            Dim Result As String = DoUrlRequest(SitePath() & "index.php?title=Special:Userlogin")
+            Dim Result As String = DoUrlRequest(SitePath() & "index.php?title=Special:UserLogin")
 
             If Result Is Nothing OrElse Not IsWikiPage(Result) Then Return LoginResult.Failed
 
@@ -237,8 +288,11 @@ Namespace Requests
                 "&wpPassword=" & UrlEncode(Config.Password) & "&wpCaptchaId=" & Login.CaptchaId & _
                 "&wpCaptchaWord=" & Login.CaptchaWord
 
-            Result = DoUrlRequest(SitePath() & "index.php?title=Special:Userlogin&action=submitlogin", PostString)
-            
+            Result = DoUrlRequest(SitePath() & "index.php?title=Special:UserLogin&action=submitlogin", PostString, True)
+
+            'Because we turned off redirection, non-unified logins will get a blank page back instead
+            If Result = "" Then Return LoginResult.Success
+
             If Result Is Nothing OrElse Not IsWikiPage(Result) Then Return LoginResult.Failed
 
             If Result.Contains("<span id=""mw-noname"">") Then Return LoginResult.InvalidUsername
@@ -251,7 +305,8 @@ Namespace Requests
         End Function
 
         'Make an arbitrary Web request
-        Protected Function DoUrlRequest(ByVal Url As String, Optional ByVal PostString As String = Nothing) As String
+        Protected Function DoUrlRequest(ByVal Url As String, Optional ByVal PostString As String = Nothing, _
+            Optional ByVal Login As Boolean = False) As String
 
             If Url.Contains("?") Then Query = Url.Substring(Url.IndexOf("?") + 1) Else Query = Url
             If PostString Is Nothing Then Mode = Modes.Get Else Mode = Modes.Post
@@ -263,7 +318,7 @@ Namespace Requests
                 Retries -= 1
 
                 Try
-                    Result = DoWebRequest(Url, PostString)
+                    Result = DoWebRequest(Url, PostString, Login)
 
                 Catch ex As WebException
                     If ex.Status = WebExceptionStatus.Timeout Then Throw New WebException(Msg("error-timeout"))
