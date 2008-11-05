@@ -54,11 +54,9 @@ Namespace Requests
                     Exit Sub
                 End If
 
-                If Result.Text.Contains("<query-continue>") Then
-                    ContinueFrom = GetParameter(Result.Text, TypePrefix & "continue")
-                Else
-                    ContinueFrom = Nothing
-                End If
+                If Result.Text.Contains("<query-continue>") _
+                    Then ContinueFrom = GetParameter(Result.Text, TypePrefix & "continue") _
+                    Else ContinueFrom = Nothing
 
                 Dim ResultItems As String = FindString(Result.Text, "<" & TypeName & ">", "</" & TypeName & ">")
                 Dim ItemsAdded As Boolean = False

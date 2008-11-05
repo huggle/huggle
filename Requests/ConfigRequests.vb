@@ -26,6 +26,11 @@ Namespace Requests
                 End Try
             Next Item
 
+#If DEBUG Then
+            'If the app is in debug mode add a localhost wiki to the project list
+            If Not Config.Projects.ContainsKey("localhost") Then Config.Projects.Add("localhost", "http://localhost/")
+#End If
+
             Complete()
         End Sub
 

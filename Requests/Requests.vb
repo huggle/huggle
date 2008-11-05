@@ -305,7 +305,6 @@ Namespace Requests
                     If Retries > 0 Then Log(Msg("error-exception", Truncate(Query, 50)) & ": " & _
                         ex.Message & " " & Msg("retrying"))
                 End Try
-
             Loop Until Result <> "" OrElse Retries = 0
 
             If Result.StartsWith("MediaWiki API is not enabled for this site") _
@@ -313,11 +312,13 @@ Namespace Requests
 
             If Result = "" Then Return New ApiResult(Nothing, "null", Msg("error-noresponse"))
 
-            If FindString(Result, "<error", "</error>") Is Nothing Then
-                Return New ApiResult(Result, Nothing, Nothing)
-            Else
+            If FindString(Result, "<error", "</error>") IsNot Nothing Then
                 Return New ApiResult(Result, HtmlDecode(FindString(Result, "<error", "code=""", """")), _
                     HtmlDecode(FindString(Result, "<error", "info=""", """")))
+            ElseIf FindString(Result, "<warnings>", "</warnings>") IsNot Nothing Then
+                Return New ApiResult(Result, "warning", HtmlDecode(FindString(Result, "<warnings>", "<query>", "</query>")))
+            Else
+                Return New ApiResult(Result, Nothing, Nothing)
             End If
         End Function
 

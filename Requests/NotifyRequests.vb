@@ -165,7 +165,7 @@ Namespace Requests
                 & " " & CStr(Date.UtcNow.Year) & "==")) Then Text &= "== " & _
                 GetMonthName(Date.UtcNow.Month) & " " & CStr(Date.UtcNow.Year) & " ==" & LF & LF
 
-            Text &= WarningNeeded.Replace("$1", Edit.Page.Name).Replace("$2", _
+            Text &= LF & WarningNeeded.Replace("$1", Edit.Page.Name).Replace("$2", _
                 ShortSitePath() & UrlEncode(Edit.Page.Name) & "?diff=" & Edit.Id)
 
             Result = PostEdit(Edit.User.TalkPage, Text, WarnSummary.Replace("$1", Edit.Page.Name), _

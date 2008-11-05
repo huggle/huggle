@@ -14,14 +14,14 @@ Class StatsForm
     Private Sub RefreshStats()
         Actions.BeginUpdate()
         Actions.Clear()
-        Actions.Columns.Add("", 100)
+        Actions.Columns.Add("", 150)
 
         For Each Column As String In Stats.Groups.Keys
-            Actions.Columns.Add(Column, 70)
+            Actions.Columns.Add(Msg("stats-" & Column), 70)
         Next Column
 
         For Each Row As String In Stats.Group.ItemNames
-            Dim NewItem As New ListViewItem(Row)
+            Dim NewItem As New ListViewItem(Msg("stats-" & Row))
 
             For Each Column As String In Stats.Groups.Keys
                 NewItem.SubItems.Add(Stats.Groups(Column)(Row).ToString)

@@ -6,13 +6,6 @@ Class Configuration
 
     'Configuration
 
-    Public Sub New()
-#If DEBUG Then
-        'If the app is in debug mode add a localhost wiki to the project list
-        If Not Projects.ContainsKey("localhost") Then Projects.Add("localhost", "http://localhost/")
-#End If
-    End Sub
-
     'Constants
 
     Public ReadOnly ContribsBlockSize As Integer = 100
@@ -214,6 +207,8 @@ Class Configuration
     Public WatchWarnings As Boolean
     Public WhitelistEditCount As Integer = 500
     Public WhitelistLocation As String
+    Public WhitelistSplit As Boolean
+    Public WhitelistTimestamps As New Dictionary(Of String, String)
     Public WhitelistUpdateSummary As String
     Public Xfd As Boolean
     Public XfdDiscussionSummary As String

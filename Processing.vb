@@ -1394,13 +1394,13 @@ Module Processing
             For Each Item As String In New String() _
                 {"test 5", "test5", "test 6", "test6", "test 7", "test7", "notification: blocked", "indef blocked", _
                 "you have been temporarily blocked", "block notice", "you have been blocked", "temporary block", _
-                "vandalblock", "+block", "+indefblock", "+anonblock"}
+                "vandalblock", "+block", "+indefblock", "+anonblock", "your ip address has been blocked"}
 
                 If Summary.Contains(Item) Then Return UserLevel.Blocked
             Next Item
 
             'Animum
-            If TrimSummary(Summary).Contains("Due to recent vandalism from this account, it has been blocked") _
+            If TrimSummary(Summary).Contains("due to recent vandalism from this account, it has been blocked") _
                 Then Return UserLevel.Blocked
         End If
 

@@ -1535,6 +1535,7 @@ Class Main
         SaveLocalConfig()
         SaveLists()
         SaveQueues()
+        SaveWhitelist()
 
         'Clear various things
         Bots.Clear()

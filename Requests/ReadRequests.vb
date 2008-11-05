@@ -741,4 +741,75 @@ Namespace Requests
 
     End Class
 
+    Class WhitelistRequest : Inherits Request
+
+        'Get the whitelist
+
+        Protected Overrides Sub Process()
+            Dim Result As ApiResult
+
+            'Check for subpages
+            Dim PathPage As Page = GetPage(Config.WhitelistLocation)
+
+            Result = DoApiRequest("action=query&prop=info&generator=allpages&gapnamespace=" & _
+                CStr(PathPage.Space.Number) & "&gapprefix=" & PathPage.BaseName)
+
+            If Result.Error Then
+                Fail(Result.ErrorMessage)
+                Exit Sub
+            End If
+
+            Dim WhitelistPath As String = MakePath(WhitelistsLocation(), Config.Project & ".txt")
+            Dim ToUpdate As New List(Of String)
+
+            If File.Exists(WhitelistPath) Then Whitelist = New List(Of String)(File.ReadAllLines(WhitelistPath))
+
+            For Each Page As String In Split(Result.Text, "<page ")
+                Dim Name As String = GetParameter(Page, "title")
+                If Name Is Nothing Then Continue For
+                If Name.EndsWith("/Header") Then Continue For
+
+                Dim PageTimestamp As Date = CDate(GetParameter(Page, "touched"))
+                Dim LocalTimestamp As Date
+
+                If Config.WhitelistTimestamps.ContainsKey(Config.Project & "::" & Name) _
+                    Then LocalTimestamp = CDate(Config.WhitelistTimestamps(Config.Project & "::" & Name))
+
+                'If local copy of whitelist does not exist or is out of date
+                If PageTimestamp > LocalTimestamp Then ToUpdate.Add(Name)
+            Next Page
+
+            If ToUpdate.Count = 0 Then
+                Complete()
+                Exit Sub
+            End If
+
+            Result = DoApiRequest("action=query&prop=revisions&rvprop=content&titles=" & _
+                String.Join("|", ToUpdate.ToArray))
+
+            If Result.Error Then
+                Fail(Msg("login-error-language"), Result.ErrorMessage)
+                Exit Sub
+            End If
+
+            For Each Page As String In Split(Result.Text, "<page ")
+                Dim Name As String = GetParameter(Page, "title")
+                If Name Is Nothing Then Continue For
+                Name = Config.Project & "::" & Name
+
+                If Config.WhitelistTimestamps.ContainsKey(Name) _
+                    Then Config.WhitelistTimestamps(Name) = Date.UtcNow.ToString _
+                    Else Config.WhitelistTimestamps.Add(Name, Date.UtcNow.ToString)
+
+                For Each Item As String In Split(HtmlDecode(FindString(Page, "<rev", "</rev>")), LF)
+                    If Not Whitelist.Contains(Item) Then Whitelist.Add(Item)
+                Next Item
+            Next Page
+
+            Whitelist.Sort()
+            Complete()
+        End Sub
+
+    End Class
+
 End Namespace

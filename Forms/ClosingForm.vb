@@ -13,6 +13,7 @@ Class ClosingForm
         SaveLocalConfig()
         SaveLists()
         SaveQueues()
+        SaveWhitelist()
 
         If Mono() Then WebBrowser.ClearTempFiles()
 

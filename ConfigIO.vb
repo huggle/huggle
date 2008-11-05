@@ -282,6 +282,7 @@ Module ConfigIO
             Case "proxy-username" : Config.ProxyUsername = Value
             Case "queue-right-align" : Config.RightAlignQueue = CBool(Value)
             Case "username" : Config.Username = Value
+            Case "whitelist-timestamps" : Config.WhitelistTimestamps = GetDictionary(Value)
             Case "window-height" : Config.WindowSize.Height = CInt(Value)
             Case "window-left" : Config.WindowPosition.X = CInt(Value)
             Case "window-maximize" : Config.WindowMaximize = CBool(Value)
@@ -393,6 +394,10 @@ Module ConfigIO
         Return MakePath(LocalConfigPath(), "Queues", Config.Project)
     End Function
 
+    Public Function WhitelistsLocation() As String
+        Return MakePath(LocalConfigPath(), "Whitelists")
+    End Function
+
     Public Sub LoadLocalConfig()
         'Read from local configuration file
 
@@ -430,6 +435,11 @@ Module ConfigIO
                 SetLocalConfigOption(Item.Key, Item.Value)
             Next Item
         End If
+
+#If DEBUG Then
+        'If the app is in debug mode add a localhost wiki to the project list
+        If Not Config.Projects.ContainsKey("localhost") Then Config.Projects.Add("localhost", "http://localhost/")
+#End If
     End Sub
 
     Public Sub SaveLocalConfig()
@@ -464,6 +474,12 @@ Module ConfigIO
 
         Items.Add("queue-right-align:" & CStr(Config.RightAlignQueue).ToLower)
         If Config.RememberMe Then Items.Add("username:" & Config.Username)
+
+        Items.Add("whitelist-timestamps:")
+
+        For Each Item As KeyValuePair(Of String, String) In Config.WhitelistTimestamps
+            Items.Add("   " & Item.Key & ";" & Item.Value & ",")
+        Next Item
 
         If MainForm IsNot Nothing Then
             Items.Add("window-height:" & CStr(MainForm.Height))
@@ -586,18 +602,20 @@ Module ConfigIO
         'Load queues from application data subfolder
         If Directory.Exists(QueuesLocation) Then
             For Each QueueName As String In QueueNames(Config.Project)
+                If File.Exists(MakePath(QueuesLocation, QueueName & ".txt")) Then
 
-                Dim ConfigItems As Dictionary(Of String, String) = _
-                    ProcessConfigFile(File.ReadAllText(QueuesLocation() & "\" & QueueName & ".txt"))
+                    Dim ConfigItems As Dictionary(Of String, String) = _
+                        ProcessConfigFile(File.ReadAllText(MakePath(QueuesLocation(), QueueName & ".txt")))
 
-                If ConfigItems.ContainsKey("name") Then
-                    Dim Queue As New Queue(ConfigItems("name"))
+                    If ConfigItems.ContainsKey("name") Then
+                        Dim Queue As New Queue(ConfigItems("name"))
 
-                    For Each Item As KeyValuePair(Of String, String) In ConfigItems
-                        SetQueueOption(Queue, Item.Key, Item.Value)
-                    Next Item
+                        For Each Item As KeyValuePair(Of String, String) In ConfigItems
+                            SetQueueOption(Queue, Item.Key, Item.Value)
+                        Next Item
 
-                    If Queue IsNot Nothing Then Queue.Reset()
+                        Queue.Reset()
+                    End If
                 End If
             Next QueueName
         End If
@@ -778,5 +796,16 @@ Module ConfigIO
             Case Else : Return QueueType.Live
         End Select
     End Function
+
+    Public Sub SaveWhitelist()
+        If Whitelist.Count > 0 Then
+            Try
+                If Directory.Exists(WhitelistsLocation()) OrElse Directory.CreateDirectory(WhitelistsLocation()).Exists _
+                    Then File.WriteAllLines(MakePath(WhitelistsLocation(), Config.Project & ".txt"), Whitelist.ToArray)
+            Catch ex As IOException
+                Log("Unable to save whitelist: " & ex.Message)
+            End Try
+        End If
+    End Sub
 
 End Module

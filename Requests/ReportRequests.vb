@@ -104,7 +104,7 @@ Namespace Requests
                 End If
             End If
 
-            Dim Result As ApiResult
+            Dim Result As ApiResult, Text As String
 
             'Check bot report subpage for report of user
             If Config.AIVBotLocation IsNot Nothing Then
@@ -115,7 +115,7 @@ Namespace Requests
                     Exit Sub
                 End If
 
-                Dim Text As String = Result.Text.ToLower.Replace("_", " ")
+                Text = Result.Text.ToLower.Replace("_", " ")
 
                 If Text.Contains("{{vandal|" & User.Name.ToLower & "}}") _
                     OrElse Text.Contains("{{vandal|1=" & User.Name.ToLower & "}}") _
@@ -138,16 +138,18 @@ Namespace Requests
                 Exit Sub
             End If
 
+            Text = HtmlDecode(FindString(Result.Text, "<rev", "</rev"))
+
             'Check for existing report
-            If Result.Text.ToLower.Contains("{{vandal|" & User.Name.ToLower & "}}") _
-                OrElse Result.Text.ToLower.Contains("{{vandal|1=" & User.Name.ToLower & "}}") _
-                OrElse Result.Text.ToLower.Contains("{{ipvandal|" & User.Name.ToLower & "}}") Then
+            If Text.ToLower.Contains("{{vandal|" & User.Name.ToLower & "}}") _
+                OrElse Text.ToLower.Contains("{{vandal|1=" & User.Name.ToLower & "}}") _
+                OrElse Text.ToLower.Contains("{{ipvandal|" & User.Name.ToLower & "}}") Then
 
                 If User.Level < UserLevel.ReportedAIV Then User.Level = UserLevel.ReportedAIV
 
                 If Config.ExtendReports Then
                     'Extend report
-                    Dim ExtendedText As String = ExtendReport(Result.Text)
+                    Dim ExtendedText As String = ExtendReport(Text)
 
                     If ExtendedText IsNot Nothing Then
                         Result = PostEdit(Config.AIVLocation, ExtendedText, _
@@ -177,7 +179,7 @@ Namespace Requests
                 Then Report &= " – " & Config.AivSingleNote
             Report &= " – ~~~~"
 
-            Result = PostEdit(Config.AIVLocation, Result.Text & Report, Config.ReportSummary.Replace("$1", User.Name), _
+            Result = PostEdit(Config.AIVLocation, Text & Report, Config.ReportSummary.Replace("$1", User.Name), _
                 Minor:=Config.MinorReports, Watch:=Config.WatchReports)
 
             If Result.Error Then Fail(Msg("report-fail", User.Name), Result.ErrorMessage) Else Complete()
