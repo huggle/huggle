@@ -393,16 +393,24 @@ Class Main
         If CurrentEdit IsNot Nothing AndAlso CurrentEdit.Page IsNot Nothing Then
             Dim NewHistoryRequest As New HistoryRequest
             NewHistoryRequest.Page = CurrentEdit.Page
-            NewHistoryRequest.Start()
+            NewHistoryRequest.Start(AddressOf GotHistory)
         End If
+    End Sub
+
+    Private Sub GotHistory(ByVal Result As RequestResult)
+        If Not Result.Error Then DrawHistory()
     End Sub
 
     Private Sub UserContribs_Click() Handles UserContribs.Click, ContribsB.Click
         If CurrentEdit IsNot Nothing Then
             Dim NewContribsRequest As New ContribsRequest
             NewContribsRequest.User = CurrentEdit.User
-            NewContribsRequest.Start()
+            NewContribsRequest.Start(AddressOf GotContribs)
         End If
+    End Sub
+
+    Private Sub GotContribs(ByVal Result As RequestResult)
+        If Not Result.Error Then DrawContribs()
     End Sub
 
     Private Sub HistoryScrollTimer_Tick() Handles ScrollTimer.Tick

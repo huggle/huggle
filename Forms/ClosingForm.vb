@@ -16,8 +16,8 @@ Class ClosingForm
         SaveWhitelist()
 
         If Mono() Then WebBrowser.ClearTempFiles()
-
         If Config.IrcMode Then Irc.Disconnect()
+        If Config.ConfigVersion <> Config.Version Then Config.ConfigChanged = True
 
         If Config.LogFile IsNot Nothing AndAlso Config.LogFile.Length > 0 Then
             Dim LogItems As New List(Of String)
@@ -26,38 +26,47 @@ Class ClosingForm
                 If Item.ForeColor <> Color.Red Then LogItems.Insert(0, Item.SubItems(1).Text)
             Next Item
 
-            File.AppendAllText(Config.LogFile, CRLF & String.Join(CRLF, LogItems.ToArray))
+            Try
+                File.AppendAllText(Config.LogFile, CRLF & String.Join(CRLF, LogItems.ToArray))
+            Catch ex As IOException
+                MessageBox.Show("Unable to update log file: " & ex.Message, "Huggle", _
+                    MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
         End If
-
-        'Doing a final user edit count on users to be counted before close
-        Dim NewCountRequest As New CountRequest
-        NewCountRequest.Users.AddRange(NextCount)
-        NewCountRequest.Start()
-        NextCount.Clear()
 
         If Config.UpdateWhitelist AndAlso (WhitelistAutoChanges.Count > 0 _
             OrElse (Config.UpdateWhitelistManual AndAlso WhitelistManualChanges.Count > 0)) Then
+            UpdateWhitelist()
 
-            Status.Text = Msg("closing-whitelist")
-            Progress.Value = 1
-            Dim NewUpdateWhitelistRequest As New UpdateWhitelistRequest
-            'Call the whitelist updating process
-            NewUpdateWhitelistRequest.Start(AddressOf WhitelistDone)
-        Else
-            'Is the whitelist doesnt need to be updated go straight to the next task
-            WhitelistDone()
+        ElseIf Config.ConfigChanged Then
+            UpdateUserConfig()
         End If
+
+        End
+    End Sub
+
+    Private Sub UpdateWhitelist()
+        Status.Text = Msg("closing-whitelist")
+        Progress.Value = 1
+
+        Dim NewRequest As New UpdateWhitelistRequest
+        NewRequest.Start(AddressOf WhitelistDone)
     End Sub
 
     Public Sub WhitelistDone(Optional ByVal Result As RequestResult = Nothing)
-        'If the config has been changed when running huggle or the version number is incorrect update the config
-        If Config.ConfigChanged OrElse (Config.ConfigVersion <> Config.Version) Then
-            Status.Text = Msg("closing-config")
-            Progress.Value = 2
+        If Config.ConfigChanged Then UpdateUserConfig()
+    End Sub
 
-            Dim NewWriteConfigRequest As New SaveUserConfigRequest
-            NewWriteConfigRequest.Invoke()
-        End If
+    Private Sub UpdateUserConfig()
+        Status.Text = Msg("closing-config")
+        Progress.Value = 2
+
+        Dim NewRequest As New SaveUserConfigRequest
+        NewRequest.Start(AddressOf UpdateUserConfigDone)
+    End Sub
+
+    Public Sub UpdateUserConfigDone(ByVal Result As RequestResult)
+        End
     End Sub
 
 End Class

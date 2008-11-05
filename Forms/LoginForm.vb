@@ -54,13 +54,11 @@ Class LoginForm
     Private Sub OK_Click() Handles OK.Click
         LoggingIn = True
 
-        Config.Project = Project.Text
         Config.ProxyEnabled = Proxy.Checked
         Config.ProxyPort = ProxyPort.Text
         Config.ProxyServer = ProxyAddress.Text.Replace("http://", "")
         Config.ProxyUserDomain = ProxyDomain.Text
         Config.ProxyUsername = ProxyUsername.Text
-        Config.Username = User.SanitizeName(Username.Text)
         Config.Password = Password.Text
 
         For Each Item As Control In Controls
@@ -88,6 +86,7 @@ Class LoginForm
             Request.Cancel()
             Abort(Msg("login-error-cancelled"))
         Else
+            SaveLocalConfig()
             End
         End If
     End Sub
@@ -145,6 +144,10 @@ Class LoginForm
         HideProxySettings.Focus()
     End Sub
 
+    Private Sub Project_SelectedIndexChanged() Handles Project.SelectedIndexChanged
+        Config.Project = Project.Text
+    End Sub
+
     Private Sub Proxy_CheckedChanged() Handles Proxy.CheckedChanged
         For Each Item As Control In ProxyGroup.Controls
             If Item IsNot Proxy Then Item.Enabled = Proxy.Checked
@@ -160,6 +163,7 @@ Class LoginForm
     End Sub
 
     Private Sub Username_TextChanged() Handles Username.TextChanged
+        Config.Username = User.SanitizeName(Username.Text)
         OK.Enabled = (Username.Text <> "" AndAlso Password.Text <> "")
     End Sub
 
