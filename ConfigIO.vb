@@ -262,6 +262,7 @@ Module ConfigIO
         Select Case Name
             Case "revert-summaries" : If Value <> "" Then Config.RevertSummaries = GetList(Value)
             Case "templates" : Config.TemplateMessages = GetList(Value)
+            Case "username-listed" : Config.UsernameListed = CBool(Value)
             Case "version" : Config.ConfigVersion = ParseVersion(Value)
         End Select
     End Sub
@@ -281,6 +282,8 @@ Module ConfigIO
             Case "proxy-userdomain" : Config.ProxyUserDomain = Value
             Case "proxy-username" : Config.ProxyUsername = Value
             Case "queue-right-align" : Config.RightAlignQueue = CBool(Value)
+            Case "revert-summaries" : Config.RevertSummaries = GetList(Value)
+            Case "shortcuts" : SetShortcuts(Value)
             Case "username" : Config.Username = Value
             Case "whitelist-timestamps" : Config.WhitelistTimestamps = GetDictionary(Value)
             Case "window-height" : Config.WindowSize.Height = CInt(Value)
@@ -288,8 +291,6 @@ Module ConfigIO
             Case "window-maximize" : Config.WindowMaximize = CBool(Value)
             Case "window-top" : Config.WindowPosition.Y = CInt(Value)
             Case "window-width" : Config.WindowSize.Width = CInt(Value)
-            Case "shortcuts" : SetShortcuts(Value)
-            Case "revert-summaries" : Config.RevertSummaries = GetList(Value)
 
             Case Else : If Name.StartsWith("queues-") Then QueueNames.Add(Name.Substring(7), GetList(Value))
         End Select
@@ -466,7 +467,6 @@ Module ConfigIO
 
         Items.Add("queue-right-align:" & CStr(Config.RightAlignQueue).ToLower)
         If Config.RememberMe Then Items.Add("username:" & Config.Username)
-
         Items.Add("whitelist-timestamps:")
 
         For Each Item As KeyValuePair(Of String, String) In Config.WhitelistTimestamps

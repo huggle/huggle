@@ -115,13 +115,6 @@ Namespace Requests
         Protected Overrides Sub Process()
             LogProgress(Msg("saveuserconfig-progress"))
 
-            Dim Result As ApiResult = GetText(Config.UserConfigLocation)
-
-            If Result.Error Then
-                Fail(Msg("saveuserconfig-fail"), Result.ErrorMessage)
-                Exit Sub
-            End If
-
             Dim Items As New List(Of String)
 
             Items.Add("enable:true")
@@ -181,6 +174,7 @@ Namespace Requests
             Items.Add("tray-icon:" & CStr(Config.TrayIcon).ToLower)
             Items.Add("undo-summary:" & Config.UndoSummary)
             Items.Add("update-whitelist:" & CStr(Config.UpdateWhitelist).ToLower)
+            Items.Add("username-listed:" & CStr(Config.UsernameListed).ToLower)
 
             Dim WatchItems As New List(Of String)
 
@@ -194,12 +188,10 @@ Namespace Requests
 
             Items.Add("watchlist:" & String.Join(",", WatchItems.ToArray))
 
-            Result = PostEdit(Config.UserConfigLocation, String.Join(LF, Items.ToArray), _
+            Dim Result As ApiResult = PostEdit(Config.UserConfigLocation, String.Join(LF, Items.ToArray), _
                 Config.ConfigSummary, Minor:=True)
 
-            If Result.Error _
-                Then Fail(Msg("saveuserconfig-fail"), Result.ErrorMessage) _
-                Else Complete()
+            If Result.Error Then Fail(Msg("saveuserconfig-fail"), Result.ErrorMessage) Else Complete()
         End Sub
 
     End Class

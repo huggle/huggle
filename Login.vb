@@ -166,10 +166,12 @@ Namespace Requests
 
             If State = States.Cancelled Then Thread.CurrentThread.Abort()
 
-            'Get user information and groups
+            'Get user information, groups and account creation date
             UpdateStatus(Msg("login-progress-rights"))
 
-            Dim Result As ApiResult = DoApiRequest("action=query&meta=userinfo&uiprop=rights|editcount")
+            Dim Result As ApiResult = DoApiRequest _
+                ("action=query&meta=userinfo&uiprop=rights|editcount&list=logevents&letype=newusers&letitle=" & _
+                 UrlEncode(User.Me.Userpage.Name))
 
             If Result.Error Then Abort(Msg("login-error-rights"), Result.ErrorMessage)
 
@@ -188,16 +190,13 @@ Namespace Requests
                     Exit Sub
                 End If
 
-                Dim Rights As New List(Of String)(FindString(Result.Text, "<rights>", "</rights>") _
+                Dim Rights As New List(Of String)(FindString(Result.Text, "<rights>", "</rights>").Replace("</r>", "") _
                     .Split(New String() {"<r>"}, StringSplitOptions.RemoveEmptyEntries))
                 Dim Autoconfirmed, AdminAvailable As Boolean
 
-                For Each Item As String In Rights
-                    Item = Item.Replace("</r>", "").Trim(" "c, LF).ToLower
-                    If Item = "rollback" Then RollbackAvailable = True
-                    If Item = "autoconfirmed" Then Autoconfirmed = True
-                    If Item = "block" Then AdminAvailable = True
-                Next Item
+                If Rights.Contains("rollback") Then RollbackAvailable = True
+                If Rights.Contains("autoconfirmed") Then Autoconfirmed = True
+                If Rights.Contains("block") Then AdminAvailable = True
 
                 Administrator = AdminAvailable AndAlso Config.UseAdminFunctions
 
@@ -206,7 +205,7 @@ Namespace Requests
                     Exit Sub
                 End If
 
-                If Not Autoconfirmed AndAlso Config.RequireAutoconfirmed Then
+                If Config.RequireAutoconfirmed AndAlso Not Autoconfirmed Then
                     Abort(Msg("login-error-autoconfirmed"))
                     Exit Sub
                 End If
@@ -221,22 +220,14 @@ Namespace Requests
                 Exit Sub
             End If
 
-            If State = States.Cancelled Then Thread.CurrentThread.Abort()
-
             If Config.RequireTime > 0 Then
-                'Get account creation date
-                UpdateStatus(Msg("login-progress-age"))
-
-                Result = DoApiRequest("action=query&list=logevents&letype=newusers&letitle=" & _
-                    UrlEncode(User.Me.Userpage.Name))
-
-                'We know the user exists, so if we get an empty result the user must have been created in 2005 or
-                'earlier, before the log existed
+                'We know the user exists, so if we get an empty result the user must have been 
+                'created in 2005 or earlier, before the log existed
                 If Result.Text.Contains("<logevents>") Then
-                    Dim CreationDate As Date
-                    Date.TryParse(FindString(Result.Text, "<logevents>", "timestamp=""", """"), CreationDate)
+                    Dim CreationDate As Date = Date.MinValue
+                    Date.TryParse(GetParameter(Result.Text, "timestamp"), CreationDate)
 
-                    If CreationDate.AddDays(Config.RequireTime) < Date.UtcNow Then
+                    If CreationDate = Date.MinValue OrElse CreationDate.AddDays(Config.RequireTime) > Date.UtcNow Then
                         Abort(Msg("login-error-age", CStr(Config.RequireTime)))
                         Exit Sub
                     End If
@@ -246,7 +237,7 @@ Namespace Requests
             If State = States.Cancelled Then Thread.CurrentThread.Abort()
 
             'Check user list. If approval required, deny access to users not on the list, otherwise add them
-            If Config.UserListLocation IsNot Nothing Then
+            If Config.UserListLocation IsNot Nothing AndAlso (Config.Approval OrElse Not Config.UsernameListed) Then
                 UpdateStatus(Msg("login-progress-userlist"))
 
                 Result = GetText(Config.UserListLocation)
@@ -282,6 +273,11 @@ Namespace Requests
                     Next Item
 
                     PostEdit(Config.UserListLocation, Text, Config.UserListUpdateSummary, Minor:=True)
+                End If
+
+                If Config.UsernameListed = False Then
+                    Config.UsernameListed = True
+                    Config.ConfigChanged = True
                 End If
             End If
 

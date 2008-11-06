@@ -266,7 +266,7 @@ Namespace Requests
                 End If
             End If
 
-                Return Result
+            Return Result
         End Function
 
         'Isolate from above; not implemented in Mono
@@ -370,9 +370,9 @@ Namespace Requests
 
             If Result = "" Then Return New ApiResult(Nothing, "null", Msg("error-noresponse"))
 
-            If FindString(Result, "<error", "</error>") IsNot Nothing Then
-                Return New ApiResult(Result, HtmlDecode(FindString(Result, "<error", "code=""", """")), _
-                    HtmlDecode(FindString(Result, "<error", "info=""", """")))
+            If FindString(Result, "<error ") IsNot Nothing Then
+                Return New ApiResult(Result, HtmlDecode(FindString(Result, "<error ", "code=""", """")), _
+                    HtmlDecode(FindString(Result, "<error ", "info=""", """")))
             ElseIf FindString(Result, "<warnings>", "</warnings>") IsNot Nothing Then
                 Return New ApiResult(Result, "warning", HtmlDecode(FindString(Result, "<warnings>", "<query>", "</query>")))
             Else
@@ -385,7 +385,7 @@ Namespace Requests
             Optional ByVal Section As String = Nothing) As ApiResult
 
             Dim QueryString As String = "action=query&prop=revisions&rvlimit=1&rvprop=content&titles=" & _
-                UrlEncode(PageName)
+                UrlEncode(Page.SanitizeTitle(PageName))
 
             If Section IsNot Nothing Then QueryString &= "&rvsection=" & UrlEncode(Section)
             If Revision IsNot Nothing Then QueryString &= "&startid=" & UrlEncode(Revision)
@@ -402,16 +402,19 @@ Namespace Requests
         'Make an edit through the MediaWiki API
         Protected Function PostEdit(ByVal Page As Page, ByVal Text As String, ByVal Summary As String, _
             Optional ByVal Section As String = Nothing, Optional ByVal Minor As Boolean = False, _
-            Optional ByVal Watch As Boolean = False, Optional ByVal SuppressAutoSummary As Boolean = False) _
-            As ApiResult
+            Optional ByVal Watch As Boolean = False, Optional ByVal SuppressAutoSummary As Boolean = False, _
+            Optional ByVal AllowCreate As Boolean = True) As ApiResult
 
-            Dim Result As ApiResult
+            Dim Result As ApiResult, Token As String
 
             'Get edit token
-            If EditToken Is Nothing Then
+            If Section IsNot Nothing OrElse EditToken Is Nothing Then
                 Result = DoApiRequest("action=query&prop=info&intoken=edit&titles=" & UrlEncode(Page.Name))
                 If Result.Error Then Return Result
-                EditToken = GetParameter(Result.Text, "edittoken")
+                Token = GetParameter(Result.Text, "edittoken")
+                If Section Is Nothing Then EditToken = Token
+            Else
+                Token = EditToken
             End If
 
             'Edit page
@@ -421,7 +424,7 @@ Namespace Requests
             If Config.Summary IsNot Nothing AndAlso Not SuppressAutoSummary _
                 Then QueryString &= UrlEncode(" " & Config.Summary)
 
-            QueryString &= "&token=" & UrlEncode(EditToken)
+            QueryString &= "&token=" & UrlEncode(Token)
 
             If Section IsNot Nothing Then QueryString &= "&section=" & UrlEncode(Section)
             If Minor Then QueryString &= "&minor"

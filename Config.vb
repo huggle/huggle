@@ -193,6 +193,7 @@ Class Configuration
     Public UserConfigLocation As String = "Special:Mypage/huggle.css"
     Public UserListLocation As String
     Public UserListUpdateSummary As String
+    Public UsernameListed As Boolean
     Public UseRollback As Boolean = True
     Public WarningAge As Integer = 36
     Public WarningImLevel As Boolean

@@ -2,10 +2,6 @@ Imports System.IO
 
 Class ClosingForm
 
-    Private Sub ClosingForm_FormClosing() Handles Me.FormClosing
-        End
-    End Sub
-
     Private Sub ClosingForm_Load() Handles Me.Load
         Icon = My.Resources.huggle_icon
 
@@ -37,12 +33,11 @@ Class ClosingForm
         If Config.UpdateWhitelist AndAlso (WhitelistAutoChanges.Count > 0 _
             OrElse (Config.UpdateWhitelistManual AndAlso WhitelistManualChanges.Count > 0)) Then
             UpdateWhitelist()
-
         ElseIf Config.ConfigChanged Then
             UpdateUserConfig()
+        Else
+            End
         End If
-
-        End
     End Sub
 
     Private Sub UpdateWhitelist()
@@ -54,7 +49,11 @@ Class ClosingForm
     End Sub
 
     Public Sub WhitelistDone(Optional ByVal Result As RequestResult = Nothing)
-        If Config.ConfigChanged Then UpdateUserConfig()
+        If Config.ConfigChanged Then
+            UpdateUserConfig()
+        Else
+            End
+        End If
     End Sub
 
     Private Sub UpdateUserConfig()
