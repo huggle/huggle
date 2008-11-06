@@ -58,17 +58,13 @@ Namespace Requests
 
                 Select Case LoginResult
                     'Outcomes for what posibly could go wrong when logging in
-                    Case LoginResult.Failed
-                        Abort(Msg("login-error-unknown"))
+                    Case LoginResult.CaptchaNeeded : Callback(AddressOf CaptchaNeeded)
 
-                    Case LoginResult.NoUser
-                        Abort(Msg("login-error-nouser"))
+                    Case LoginResult.Failed : Abort(Msg("login-error-unknown"))
 
-                    Case LoginResult.InvalidUsername
-                        Abort(Msg("login-error-invalid"))
+                    Case LoginResult.InvalidUsername : Abort(Msg("login-error-invalid"))
 
-                    Case LoginResult.CaptchaNeeded
-                        Callback(AddressOf CaptchaNeeded)
+                    Case LoginResult.NoUser : Abort(Msg("login-error-nouser"))
 
                     Case LoginResult.WrongPassword
                         If CaptchaId Is Nothing Then Abort(Msg("login-error-password")) _
@@ -181,7 +177,7 @@ Namespace Requests
 
                 If FindString(Result.Text, "<userinfo", "</userinfo>").Contains("anon=""""") Then
                     'If we get here, somehow the user is not logged in
-                    Abort(Msg("login-error-rights"), Msg("error-unknown"))
+                    Abort(Msg("login-error-rights"), Msg("login-error-unknown"))
                     Exit Sub
                 End If
 

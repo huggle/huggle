@@ -184,6 +184,8 @@ Class LoginForm
         LoadLanguages()
 
         Config.Language = CurrentLanguage
+        Config.Project = Project.Text
+        Config.Username = Username.Text
 
         If Username.Text = "" Then Username.Focus() Else If Password.Text = "" Then Password.Focus() Else OK.Focus()
     End Sub
