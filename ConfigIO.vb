@@ -448,7 +448,7 @@ Module ConfigIO
 
         Items.Add("irc:" & CStr(Config.IrcMode).ToLower)
         Items.Add("language:" & CStr(Config.Language))
-        Items.Add("log-file:" & Config.LogFile)
+        If Not String.IsNullOrEmpty(Config.LogFile) Then Items.Add("log-file:" & Config.LogFile)
         If Config.RememberPassword Then Items.Add("password:" & Config.Password)
 
         Items.Add("projects:")
@@ -459,18 +459,10 @@ Module ConfigIO
 
         Items.Add("project:" & Config.Project)
         Items.Add("proxy-enabled:" & CStr(Config.ProxyEnabled).ToLower)
-        Items.Add("proxy-port:" & Config.ProxyPort)
-        Items.Add("proxy-server:" & Config.ProxyServer)
-        Items.Add("proxy-userdomain:" & Config.ProxyUserDomain)
-        Items.Add("proxy-username:" & Config.ProxyUsername)
-
-        For Each Project As String In QueueNames.Keys
-            For Each Item As String In QueueNames(Project)
-                Item = Item.Replace(",", "\,")
-            Next Item
-
-            Items.Add("queues-" & Project & ":" & String.Join(",", QueueNames(Project).ToArray))
-        Next Project
+        If Not String.IsNullOrEmpty(Config.ProxyPort) Then Items.Add("proxy-port:" & Config.ProxyPort)
+        If Not String.IsNullOrEmpty(Config.ProxyServer) Then Items.Add("proxy-server:" & Config.ProxyServer)
+        If Not String.IsNullOrEmpty(Config.ProxyUserDomain) Then Items.Add("proxy-userdomain:" & Config.ProxyUserDomain)
+        If Not String.IsNullOrEmpty(Config.ProxyUsername) Then Items.Add("proxy-username:" & Config.ProxyUsername)
 
         Items.Add("queue-right-align:" & CStr(Config.RightAlignQueue).ToLower)
         If Config.RememberMe Then Items.Add("username:" & Config.Username)
@@ -489,14 +481,12 @@ Module ConfigIO
             Items.Add("window-width:" & CStr(MainForm.Width))
         End If
 
-        Dim Shortcuts As New List(Of String)
+        Items.Add("shortcuts:")
 
         For Each Item As KeyValuePair(Of String, Shortcut) In ShortcutKeys
-            Shortcuts.Add(Item.Key & ";" & CInt(Item.Value.Key).ToString & ";" & CInt(Item.Value.Control) _
-                .ToString & ";" & CInt(Item.Value.Alt).ToString & ";" & CInt(Item.Value.Shift).ToString)
+            Items.Add("   " & Item.Key & ";" & CInt(Item.Value.Key).ToString & ";" & CInt(Item.Value.Control) _
+                .ToString & ";" & CInt(Item.Value.Alt).ToString & ";" & CInt(Item.Value.Shift).ToString & ",")
         Next Item
-
-        Items.Add("shortcuts:" & String.Join(",", Shortcuts.ToArray))
 
         Dim Summaries As New List(Of String)
 
@@ -601,23 +591,22 @@ Module ConfigIO
 
         'Load queues from application data subfolder
         If Directory.Exists(QueuesLocation) Then
-            For Each QueueName As String In QueueNames(Config.Project)
-                If File.Exists(MakePath(QueuesLocation, QueueName & ".txt")) Then
+            For Each QueuePath As String In Directory.GetFiles(QueuesLocation)
+                QueueNames(Config.Project).Add(Path.GetFileNameWithoutExtension(QueuePath))
 
-                    Dim ConfigItems As Dictionary(Of String, String) = _
-                        ProcessConfigFile(File.ReadAllText(MakePath(QueuesLocation(), QueueName & ".txt")))
+                Dim ConfigItems As Dictionary(Of String, String) = ProcessConfigFile(File.ReadAllText(QueuePath))
 
-                    If ConfigItems.ContainsKey("name") Then
-                        Dim Queue As New Queue(ConfigItems("name"))
+                If ConfigItems.ContainsKey("name") Then
+                    Dim Queue As New Queue(ConfigItems("name"))
 
-                        For Each Item As KeyValuePair(Of String, String) In ConfigItems
-                            SetQueueOption(Queue, Item.Key, Item.Value)
-                        Next Item
+                    For Each Item As KeyValuePair(Of String, String) In ConfigItems
+                        SetQueueOption(Queue, Item.Key, Item.Value)
+                    Next Item
 
-                        Queue.Reset()
-                    End If
+                    Queue.Reset()
                 End If
-            Next QueueName
+
+            Next QueuePath
         End If
 
         If Queue.All.ContainsKey("Filtered edits") Then Queue.Default = Queue.All("Filtered edits")
@@ -679,9 +668,8 @@ Module ConfigIO
             If Queue.UserRegex IsNot Nothing Then Items.Add("user-regex:" & Queue.UserRegex.ToString)
 
             Try
-                For Each List As KeyValuePair(Of String, List(Of String)) In AllLists
-                    File.WriteAllLines(MakePath(QueuesLocation(), Queue.Name & ".txt"), Items.ToArray)
-                Next List
+                File.WriteAllLines(MakePath(QueuesLocation(), Queue.Name & ".txt"), Items.ToArray)
+
             Catch ex As Exception
                 MessageBox.Show("Unable to save queues: " & CRLF & ex.Message, "Huggle", _
                     MessageBoxButtons.OK, MessageBoxIcon.Error)

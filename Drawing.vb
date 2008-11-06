@@ -31,7 +31,7 @@ Module Drawing
                     End Select
 
                     If Edit.Assisted AndAlso Edit.Type = EditType.None AndAlso Edit.WarningLevel = UserLevel.None _
-                        AndAlso Not Edit.User.Bot Then Gfx.DrawString("*", New Font(FontFamily.GenericSansSerif, _
+                        AndAlso Not Edit.Bot Then Gfx.DrawString("*", New Font(FontFamily.GenericSansSerif, _
                         14, FontStyle.Regular), Brushes.Black, X + 2, 3)
 
                     If Edit.Id = CurrentEdit.Id Then
@@ -108,7 +108,7 @@ Module Drawing
                     End Select
 
                     If Edit.Assisted AndAlso Edit.Type = EditType.None AndAlso Edit.WarningLevel = UserLevel.None _
-                        AndAlso Not Edit.User.Bot Then Gfx.DrawString("*", New Font(FontFamily.GenericSansSerif, _
+                        AndAlso Not Edit.Bot Then Gfx.DrawString("*", New Font(FontFamily.GenericSansSerif, _
                         14, FontStyle.Regular), Brushes.Black, X + 2, 3)
 
                     If Edit Is Edit.Page.LastEdit Then Gfx.DrawRectangle(Pens.DarkBlue, X, 2, 15, 15)

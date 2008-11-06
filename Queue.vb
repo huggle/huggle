@@ -446,7 +446,7 @@ Class Queue
 
         Return QueueFilterMatch(_FilterAnonymous, Edit.User.Anonymous) _
             AndAlso QueueFilterMatch(_FilterAssisted, Edit.Assisted) _
-            AndAlso QueueFilterMatch(_FilterBot, Edit.User.Bot) _
+            AndAlso QueueFilterMatch(_FilterBot, Edit.Bot) _
             AndAlso QueueFilterMatch(_FilterHuggle, Edit.IsHuggleEdit) _
             AndAlso QueueFilterMatch(_FilterIgnored, Edit.User.Ignored) _
             AndAlso QueueFilterMatch(_FilterMe, Edit.User.IsMe) _

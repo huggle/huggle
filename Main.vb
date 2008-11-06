@@ -1546,7 +1546,6 @@ Class Main
         SaveWhitelist()
 
         'Clear various things
-        Bots.Clear()
         Edit.All.Clear()
         Page.ClearAll()
         Queue.All.Clear()

@@ -221,9 +221,12 @@ Namespace Requests
                 Dim LoginCookie As String = Response.Headers(HttpResponseHeader.SetCookie)
                 Dim CookiePrefix As String
 
-                If Config.Project = "localhost" Then CookiePrefix = "wikidb" Else _
+                If Config.Project = "localhost" Then
+                    CookiePrefix = "wikidb"
+                Else
                     CookiePrefix = Config.Projects(Config.Project).Substring(7)
-                CookiePrefix = CookiePrefix.Substring(0, CookiePrefix.IndexOf(".")) & "wiki"
+                    CookiePrefix = CookiePrefix.Substring(0, CookiePrefix.IndexOf(".")) & "wiki"
+                End If
 
                 If LoginCookie.Contains(CookiePrefix & "UserID=") Then
                     Dim Userid As String = LoginCookie.Substring(LoginCookie.IndexOf(CookiePrefix & "UserID=") _
@@ -263,7 +266,7 @@ Namespace Requests
                 End If
             End If
 
-            Return Result
+                Return Result
         End Function
 
         'Isolate from above; not implemented in Mono

@@ -14,7 +14,6 @@ Class User
     Private _Anonymous As Boolean
     Private _EditCount As Integer
     Private _Ignored As Boolean
-    Private _Bot As Boolean
     Private _Level As UserLevel
     Private _Name As String
     Private _SessionEditCount As Integer
@@ -33,8 +32,7 @@ Class User
         _Name = Name
         _EditCount = -1
         _Anonymous = AnonymousRegex.IsMatch(Name)
-        _Bot = Bots.Contains(Name)
-        _Ignored = _Bot OrElse Whitelist.Contains(Name)
+        _Ignored = Whitelist.Contains(Name)
         All.Add(Name, Me)
     End Sub
 
@@ -47,12 +45,6 @@ Class User
     Public ReadOnly Property Anonymous() As Boolean
         Get
             Return _Anonymous
-        End Get
-    End Property
-
-    Public ReadOnly Property Bot() As Boolean
-        Get
-            Return _Bot
         End Get
     End Property
 

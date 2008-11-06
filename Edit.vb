@@ -14,6 +14,7 @@ Class Edit
     End Sub
 
     Public Assisted As Boolean
+    Public Bot As Boolean
     Public Cached As CacheState
     Public Change As Integer
     Public Deleted As Boolean
@@ -73,7 +74,7 @@ Class Edit
                         If User.IsMe Then
                             Return My.Resources.blob_me
 
-                        ElseIf User.Bot Then
+                        ElseIf Bot Then
                             Return My.Resources.blob_bot
 
                         ElseIf User.Ignored Then
@@ -123,8 +124,8 @@ Class Edit
             If x.User.Ignored AndAlso Not y.User.Ignored Then Return 1
             If y.User.Ignored AndAlso Not x.User.Ignored Then Return -1
 
-            If x.User.Bot AndAlso Not y.User.Bot Then Return 1
-            If y.User.Bot AndAlso Not x.User.Bot Then Return -1
+            If x.Bot AndAlso Not y.Bot Then Return 1
+            If y.Bot AndAlso Not x.Bot Then Return -1
 
             If x.Type > y.Type AndAlso x.Type >= EditType.ReplacedWith Then Return -1
             If y.Type > x.Type AndAlso y.Type >= EditType.ReplacedWith Then Return 1

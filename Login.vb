@@ -301,50 +301,31 @@ Namespace Requests
                 WhitelistLoaded = True
             End If
 
-                'In case user is not already on the whitelist (usually will be)
-                User.Me.Ignored = True
+            'In case user is not already on the whitelist (usually will be)
+            If Not Whitelist.Contains(User.Me.Name) Then WhitelistAutoChanges.Add(User.Me.Name)
+            User.Me.Ignored = True
 
-                If State = States.Cancelled Then Thread.CurrentThread.Abort()
+            If State = States.Cancelled Then Thread.CurrentThread.Abort()
 
-                'Get bot list
-                UpdateStatus(Msg("login-progress-botlist"))
+            'Get watchlist
+            UpdateStatus(Msg("login-progress-watchlist"))
 
-                Result = DoApiRequest("action=query&list=allusers&augroup=bot&aulimit=500")
+            Dim WatchlistResult As RequestResult = (New WatchlistRequest).Invoke
 
-                If Not Result.Error Then
-                    Dim UserlistText As String = HtmlDecode(FindString(Result.Text, "<allusers>", "</allusers>"))
+            If WatchlistResult.Error Then
+                Abort(Msg("login-error-watchlist"), WatchlistResult.ErrorMessage)
+                Exit Sub
+            End If
 
-                    If UserlistText IsNot Nothing Then
-                        For Each Item As String In UserlistText.Split _
-                            (New String() {"<u"}, StringSplitOptions.RemoveEmptyEntries)
+            For Each Item As String In Split(WatchlistResult.Text, CRLF)
+                Dim Page As Page = GetPage(Item)
+                If Not Watchlist.Contains(Page) Then Watchlist.Add(Page)
+            Next Item
 
-                            Dim Username As String = GetParameter(Item, "name")
-                            If Username IsNot Nothing Then Bots.Add(Username)
-                        Next Item
-                    End If
-                End If
+            If State = States.Cancelled Then Thread.CurrentThread.Abort()
 
-                If State = States.Cancelled Then Thread.CurrentThread.Abort()
-
-                'Get watchlist
-                UpdateStatus(Msg("login-progress-watchlist"))
-
-                Dim WatchlistResult As RequestResult = (New WatchlistRequest).Invoke
-
-                If WatchlistResult.Error Then
-                    Abort(Msg("login-error-watchlist"), WatchlistResult.ErrorMessage)
-                    Exit Sub
-                End If
-
-                For Each Item As String In Split(WatchlistResult.Text, CRLF)
-                    Dim Page As Page = GetPage(Item)
-                    If Not Watchlist.Contains(Page) Then Watchlist.Add(Page)
-                Next Item
-
-                If State = States.Cancelled Then Thread.CurrentThread.Abort()
-
-                Callback(AddressOf LoginForm.Done)
-                Complete()
+            Callback(AddressOf LoginForm.Done)
+            Complete()
         End Sub
 
         Private Sub CaptchaNeeded()

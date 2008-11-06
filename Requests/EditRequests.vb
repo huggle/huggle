@@ -248,27 +248,27 @@ Namespace Requests
                 Exit Sub
             End If
 
-            Dim IgnoredUsernames As New List(Of String)
+            Dim ExistingList As New List(Of String)
 
             For Each Item As String In Split(HtmlDecode(FindString(Result.Text, "<rev>", "</rev>")), LF)
                 If Item.Length > 0 AndAlso Not (Item.Contains("{") OrElse Item.Contains("<")) _
-                    AndAlso Not IgnoredUsernames.Contains(Item) Then IgnoredUsernames.Add(Item)
+                    Then ExistingList.Add(Item)
             Next Item
 
             For Each Item As String In WhitelistAutoChanges
-                If Not IgnoredUsernames.Contains(Item) Then IgnoredUsernames.Add(Item)
+                If Not ExistingList.Contains(Item) Then ExistingList.Add(Item)
             Next Item
 
             If Config.UpdateWhitelistManual Then
                 For Each Item As String In WhitelistManualChanges
-                    If Not IgnoredUsernames.Contains(Item) Then IgnoredUsernames.Add(Item)
+                    If Not ExistingList.Contains(Item) Then ExistingList.Add(Item)
                 Next Item
             End If
 
-            IgnoredUsernames.Sort(AddressOf CompareUsernames)
+            ExistingList.Sort(AddressOf CompareUsernames)
 
             Dim Text As String = HtmlDecode(FindString(Result.Text, "<rev>", "</rev>"))
-            Text = "{{/Header}}" & LF & "<pre>" & LF & String.Join(LF, IgnoredUsernames.ToArray) & LF & "</pre>"
+            Text = "{{/Header}}" & LF & "<pre>" & LF & String.Join(LF, ExistingList.ToArray) & LF & "</pre>"
 
             Result = PostEdit(Config.WhitelistLocation, Text, Config.WhitelistUpdateSummary, Minor:=True)
 

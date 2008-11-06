@@ -759,10 +759,8 @@ Namespace Requests
                 Exit Sub
             End If
 
-            Dim WhitelistPath As String = MakePath(WhitelistsLocation(), Config.Project & ".txt")
-            Dim ToUpdate As New List(Of String)
-
-            If File.Exists(WhitelistPath) Then Whitelist = New List(Of String)(File.ReadAllLines(WhitelistPath))
+            Dim Pages As New List(Of String)
+            Dim NeedsUpdate As Boolean
 
             For Each Page As String In Split(Result.Text, "<page ")
                 Dim Name As String = GetParameter(Page, "title")
@@ -770,22 +768,24 @@ Namespace Requests
                 If Name.EndsWith("/Header") Then Continue For
 
                 Dim PageTimestamp As Date = CDate(GetParameter(Page, "touched"))
-                Dim LocalTimestamp As Date
+                Dim LocalTimestamp As Date = Date.MinValue
 
                 If Config.WhitelistTimestamps.ContainsKey(Config.Project & "::" & Name) _
-                    Then LocalTimestamp = CDate(Config.WhitelistTimestamps(Config.Project & "::" & Name))
+                    Then Date.TryParse(Config.WhitelistTimestamps(Config.Project & "::" & Name), LocalTimestamp)
 
                 'If local copy of whitelist does not exist or is out of date
-                If PageTimestamp > LocalTimestamp Then ToUpdate.Add(Name)
+                If PageTimestamp > LocalTimestamp Then NeedsUpdate = True
+                Pages.Add(Name)
             Next Page
 
-            If ToUpdate.Count = 0 Then
+            If Not NeedsUpdate Then
+                Dim WhitelistPath As String = MakePath(WhitelistsLocation(), Config.Project & ".txt")
+                If File.Exists(WhitelistPath) Then Whitelist = New List(Of String)(File.ReadAllLines(WhitelistPath))
                 Complete()
                 Exit Sub
             End If
 
-            Result = DoApiRequest("action=query&prop=revisions&rvprop=content&titles=" & _
-                String.Join("|", ToUpdate.ToArray))
+            Result = DoApiRequest("action=query&prop=revisions&rvprop=content&titles=" & String.Join("|", Pages.ToArray))
 
             If Result.Error Then
                 Fail(Msg("login-error-language"), Result.ErrorMessage)
@@ -801,12 +801,9 @@ Namespace Requests
                     Then Config.WhitelistTimestamps(Name) = Date.UtcNow.ToString _
                     Else Config.WhitelistTimestamps.Add(Name, Date.UtcNow.ToString)
 
-                For Each Item As String In Split(HtmlDecode(FindString(Page, "<rev", "</rev>")), LF)
-                    If Not Whitelist.Contains(Item) Then Whitelist.Add(Item)
-                Next Item
+                Whitelist.AddRange(Split(HtmlDecode(FindString(Page, "<rev", "</rev>")), LF))
             Next Page
 
-            Whitelist.Sort()
             Complete()
         End Sub
 

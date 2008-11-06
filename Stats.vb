@@ -41,7 +41,7 @@
         If Item.User IsNot Nothing Then _
             If Item.User.IsMe Then UpdateGroup("me", Item) _
             Else If Item.User.Anonymous Then UpdateGroup("anon", Item) _
-            Else If Item.User.Bot Then UpdateGroup("bots", Item) _
+            Else If Item.Bot Then UpdateGroup("bots", Item) _
             Else If Item.User.Ignored Then UpdateGroup("ignored", Item) _
             Else UpdateGroup("other", Item)
     End Sub

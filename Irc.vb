@@ -17,10 +17,10 @@ Module Irc
         IrcThread.Start()
     End Sub
 
-    Dim EditMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07([^]*)14\]\]4 (M?)B?10 02.*di" & _
+    Dim EditMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07([^]*)14\]\]4 (M?)(B?)10 02.*di" & _
         "ff=([^&]*)&oldid=([^]*) 5\* 03([^]*) 5\* \(?([^]*)?\) 10([^]*)?", RegexOptions.Compiled)
 
-    Dim NewPageMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07([^]*)14\]\]4 N(M?)B?" & _
+    Dim NewPageMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07([^]*)14\]\]4 N(M?)(B?)" & _
         "10 02[^ ]* 5\* 03([^]*) 5\* \(([^\)]*)\) 10([^]*)", RegexOptions.Compiled)
 
     Dim BlockMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/block14\]\]4 block" & _
@@ -124,11 +124,12 @@ Module Irc
                         Dim Match As Match = EditMatch.Match(Message)
 
                         NewEdit.Page = GetPage(Match.Groups(1).Value)
-                        NewEdit.User = GetUser(Match.Groups(5).Value)
-                        NewEdit.Id = Match.Groups(3).Value
-                        NewEdit.Oldid = Match.Groups(4).Value
-                        NewEdit.Change = CInt(Match.Groups(6).Value)
-                        NewEdit.Summary = Match.Groups(7).Value
+                        NewEdit.User = GetUser(Match.Groups(6).Value)
+                        NewEdit.Bot = Not String.IsNullOrEmpty(Match.Groups(3).Value)
+                        NewEdit.Id = Match.Groups(4).Value
+                        NewEdit.Oldid = Match.Groups(5).Value
+                        NewEdit.Change = CInt(Match.Groups(7).Value)
+                        NewEdit.Summary = Match.Groups(8).Value
 
                         Callback(AddressOf ProcessIrcEdit, CObj(NewEdit))
 
@@ -137,11 +138,12 @@ Module Irc
                         Dim Match As Match = NewPageMatch.Match(Message)
 
                         NewEdit.Page = GetPage(Match.Groups(1).Value)
-                        NewEdit.User = GetUser(Match.Groups(3).Value)
+                        NewEdit.User = GetUser(Match.Groups(4).Value)
+                        NewEdit.Bot = Not String.IsNullOrEmpty(Match.Groups(3).Value)
                         NewEdit.Id = "cur"
                         NewEdit.Oldid = "-1"
-                        NewEdit.Change = CInt(Match.Groups(4).Value)
-                        NewEdit.Summary = Match.Groups(5).Value
+                        NewEdit.Change = CInt(Match.Groups(5).Value)
+                        NewEdit.Summary = Match.Groups(6).Value
                         NewEdit.Prev = NullEdit
                         NewEdit.NewPage = True
 
