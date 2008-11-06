@@ -31,7 +31,8 @@ Class Page
 
     Public ReadOnly Property BaseName() As String
         Get
-            If Space Is Space.Article Then Return Name Else Return Name.Substring(Space.Name.Length + 1)
+            If Space Is Space.Article OrElse Name.Length <= Space.Name.Length + 1 Then Return Name _
+                Else Return Name.Substring(Space.Name.Length + 1)
         End Get
     End Property
 
