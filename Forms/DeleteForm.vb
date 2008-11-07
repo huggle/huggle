@@ -40,7 +40,8 @@ Class DeleteForm
         Dim Summary As String
 
         If Reason.SelectedIndex > -1 Then
-            Dim Criterion As SpeedyCriterion = Config.SpeedyCriteria(Reason.Text.Substring(0, 3).Trim(" "c).ToUpper)
+            Dim CriterionName As String = Reason.Text.Substring(0, Reason.Text.IndexOf(" "))
+            Dim Criterion As SpeedyCriterion = Config.SpeedyCriteria(CriterionName)
             Summary = Config.SpeedyDeleteSummary.Replace("$1", _
                 "[[WP:SD#" & Criterion.DisplayCode & "|" & Config.SpeedyCriteria(Criterion.DisplayCode).Description & "]]")
         Else
