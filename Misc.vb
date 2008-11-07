@@ -382,9 +382,7 @@ Module Misc
     End Function
 
     Function LocalConfigPath() As String
-        Dim Path As String = Application.UserAppDataPath
-        Path = Path.Substring(0, Path.LastIndexOf("\"))
-        Return Path.Substring(0, Path.LastIndexOf("\"))
+        Return MakePath(Application.StartupPath, "Config")
     End Function
 
     Sub Localize(ByVal Control As Control, ByVal Prefix As String)
