@@ -6,7 +6,7 @@ Class ReportForm
         Icon = My.Resources.huggle_icon
         Text = "Report " & User.Name
 
-        Message.Text = Config.ReportReason
+        Message.Text = Config.VandalReportReason
         Message.Focus()
 
         If Config.AIV Then Reason.Items.Add("Vandalism after final warning")
@@ -34,11 +34,19 @@ Class ReportForm
 
         Select Case Reason.Text
             Case "Vandalism after final warning"
-                Dim NewRequest As New VandalReportRequest
-                NewRequest.User = User
-                NewRequest.Edit = Edit
-                NewRequest.Reason = Message.Text
-                NewRequest.Start()
+                If Config.Project = "es.wikipedia" Then
+                    Dim NewRequest As New VandalReportEsRequest
+                    NewRequest.User = User
+                    NewRequest.Edit = Edit
+                    NewRequest.Reason = Message.Text
+                    NewRequest.Start()
+                Else
+                    Dim NewRequest As New VandalReportRequest
+                    NewRequest.User = User
+                    NewRequest.Edit = Edit
+                    NewRequest.Reason = Message.Text
+                    NewRequest.Start()
+                End If
 
             Case "Inappropriate username"
                 Dim NewRequest As New UsernameReportRequest
@@ -58,11 +66,11 @@ Class ReportForm
     Private Sub Reason_SelectedIndexChanged() Handles Reason.SelectedIndexChanged
         Select Case Reason.Text
             Case "Vandalism after final warning"
-                If Message.Text = "" OrElse Message.Text = "inappropriate username" Then Message.Text = "vandalism"
+                If Message.Text = "" OrElse Message.Text = "inappropriate username" Then Message.Text = Config.VandalReportReason
                 Height = 311
 
             Case "Inappropriate username"
-                If Message.Text = "" OrElse Message.Text = "vandalism" Then Message.Text = "inappropriate username"
+                If Message.Text = "" OrElse Message.Text = Config.VandalReportReason Then Message.Text = "inappropriate username"
                 Height = 311
         End Select
     End Sub

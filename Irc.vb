@@ -47,7 +47,7 @@ Module Irc
         "14\]\]4 create10 02 5\* 03([^]*?) 5\*  10New user account", RegexOptions.Compiled)
 
     Dim CreateUserMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/newusers" & _
-        "14\]\]4 create210 02 5\* 03([^]*?) 5\*  10created new account 02User:([^]*)10", _
+        "14\]\]4 create210 02 5\* 03([^]*?) 5\*  10created new account User:([^]*)", _
         RegexOptions.Compiled)
 
     Dim UploadMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/upload" & _
@@ -59,8 +59,8 @@ Module Irc
         "\[\[02([^]*)10\]\]""(?:: )?([^]*)?", RegexOptions.Compiled)
 
     Dim ProtectMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/protect14\]\]4 " & _
-        "protect10 02 5\* 03([^]*) 5\*  10protected 02([^]*)10(?: \[edit=([a-z]*)\] \(([^\)]*\)" & _
-        "?)\))?(?: \[move=([a-z]*)\] \(([^\)]*\)?)\))?(?: \[create=([a-z]*)\]  \(([^\)]*\)?)\))?(?:: ([^^C]*))??", _
+        "protect10 02 5\* 03([^]*) 5\*  10protected ([^\[]*)(?:\[edit=([a-z]*)\] \(([^\)]*\)" & _
+        "?)\))?(?:\[move=([a-z]*)\] \(([^\)]*\)?)\))?(?:\[create=([a-z]*)\]  \(([^\)]*\)?)\))?(?:: ([^^C]*))??", _
         RegexOptions.Compiled)
 
     Dim ModifyMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/protect14\]\]4 " & _

@@ -289,7 +289,6 @@ Namespace Requests
             If Config.Projects.ContainsKey(Project) Then ProjectUrl = Config.Projects(Project) _
                 Else ProjectUrl = "http://meta.wikimedia.org/"
 
-
             Query = QueryString
             If PostString Is Nothing Then Mode = Modes.Get Else Mode = Modes.Post
 

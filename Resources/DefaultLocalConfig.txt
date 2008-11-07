@@ -2,6 +2,7 @@
     bg.wikipedia;http://bg.wikipedia.org/,
     de.wikipedia;http://de.wikipedia.org/,
     en.wikipedia;http://en.wikipedia.org/,
+    es.wikipedia;http://es.wikipedia.org/,
     no.wikipedia;http://no.wikipedia.org/,
     pt.wikipedia;http://pt.wikipedia.org/,
     ru.wikipedia;http://ru.wikipedia.org/,

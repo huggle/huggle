@@ -191,7 +191,7 @@ Namespace Requests
         'Fetch user contributions
         Private Result As ApiResult
 
-        Public User As User, DisplayWhenDone As Boolean, ReportWhenDone As VandalReportRequest
+        Public User As User, DisplayWhenDone As Boolean
         Public BlockSize As Integer = Config.ContribsBlockSize
 
         Protected Overrides Sub Process()
@@ -222,7 +222,6 @@ Namespace Requests
                 End If
             End If
 
-            If ReportWhenDone IsNot Nothing Then ReportWhenDone.Start()
             Complete()
         End Sub
 
@@ -503,17 +502,21 @@ Namespace Requests
             If Page.Deletes Is Nothing Then Page.Deletes = New List(Of Delete)
             Page.DeletesCurrent = True
 
-            For Each Item As String In Split(Result.Text, LF)
-                Dim NewDelete As New Delete
+            Dim Results As String = FindString(Result.Text, "<logevents>", "</logevents>")
 
-                NewDelete.Page = Page
-                NewDelete.Time = CDate(GetParameter(Item, "timestamp"))
-                NewDelete.Action = GetParameter(Item, "action")
-                NewDelete.Admin = GetUser(GetParameter(Item, "user"))
-                NewDelete.Comment = GetParameter(Item, "comment")
+            If Results IsNot Nothing Then
+                For Each Item As String In Split(Result.Text, LF)
+                    Dim NewDelete As New Delete
 
-                Page.Deletes.Add(NewDelete)
-            Next Item
+                    NewDelete.Page = Page
+                    NewDelete.Time = CDate(GetParameter(Item, "timestamp"))
+                    NewDelete.Action = GetParameter(Item, "action")
+                    NewDelete.Admin = GetUser(GetParameter(Item, "user"))
+                    NewDelete.Comment = GetParameter(Item, "comment")
+
+                    Page.Deletes.Add(NewDelete)
+                Next Item
+            End If
 
             Complete()
         End Sub

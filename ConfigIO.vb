@@ -162,6 +162,7 @@ Module ConfigIO
             Case "tray-icon" : Config.TrayIcon = CBool(Value)
             Case "undo-summary" : Config.UndoSummary = Value
             Case "update-whitelist" : Config.UpdateWhitelist = CBool(Value)
+            Case "vandal-report-reason" : Config.VandalReportReason = Value
             Case "watchlist" : SetWatch(Value)
             Case "welcome" : Config.Welcome = Value
             Case "welcome-anon" : Config.WelcomeAnon = Value

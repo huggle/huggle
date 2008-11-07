@@ -181,16 +181,23 @@ Namespace Requests
                 If Config.PromptForBlock Then MainForm.BlockUser(Edit.User)
 
             ElseIf Config.AIV AndAlso Config.AutoReport Then
-                Dim NewReportRequest As New VandalReportRequest
-                NewReportRequest.User = Edit.User
-                NewReportRequest.Reason = Config.ReportReason
-                NewReportRequest.Start()
+                If Config.Project = "es.wikipedia" Then
+                    Dim NewRequest As New VandalReportEsRequest
+                    NewRequest.User = Edit.User
+                    NewRequest.Reason = Config.VandalReportReason
+                    NewRequest.Start()
+                Else
+                    Dim NewRequest As New VandalReportRequest
+                    NewRequest.User = Edit.User
+                    NewRequest.Reason = Config.VandalReportReason
+                    NewRequest.Start()
+                End If
 
-            ElseIf Config.AIV AndAlso Config.PromptForReport Then
-                MainForm.ReportUser(Edit.User, Edit)
-            End If
+                ElseIf Config.AIV AndAlso Config.PromptForReport Then
+                    MainForm.ReportUser(Edit.User, Edit)
+                End If
 
-            Fail(Msg("warn-fail", Edit.User.Name), Msg("warn-alreadyfinal"))
+                Fail(Msg("warn-fail", Edit.User.Name), Msg("warn-alreadyfinal"))
         End Sub
 
         Private Sub AlreadyReported()
@@ -199,11 +206,19 @@ Namespace Requests
             Else
                 'Already reported... but do we want it extended?
                 If Config.AutoReport AndAlso Config.ReportLinkDiffs AndAlso Config.ExtendReports Then
-                    Dim NewRequest As New VandalReportRequest
-                    NewRequest.User = Edit.User
-                    NewRequest.Edit = Edit
-                    NewRequest.Reason = Config.ReportReason
-                    NewRequest.Start()
+                    If Config.Project = "es.wikipedia" Then
+                        Dim NewRequest As New VandalReportEsRequest
+                        NewRequest.User = Edit.User
+                        NewRequest.Edit = Edit
+                        NewRequest.Reason = Config.VandalReportReason
+                        NewRequest.Start()
+                    Else
+                        Dim NewRequest As New VandalReportRequest
+                        NewRequest.User = Edit.User
+                        NewRequest.Edit = Edit
+                        NewRequest.Reason = Config.VandalReportReason
+                        NewRequest.Start()
+                    End If
                 End If
             End If
 

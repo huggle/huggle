@@ -145,7 +145,6 @@ Class Configuration
     Public RcBlockSize As Integer = 100
     Public ReportExtendSummary As String
     Public ReportLinkDiffs As Boolean
-    Public ReportReason As String = "vandalism"
     Public ReportSummary As String
     Public RequireAdmin As Boolean
     Public RequireAutoconfirmed As Boolean
@@ -195,6 +194,7 @@ Class Configuration
     Public UserListUpdateSummary As String
     Public UsernameListed As Boolean
     Public UseRollback As Boolean = True
+    Public VandalReportReason As String
     Public WarningAge As Integer = 36
     Public WarningImLevel As Boolean
     Public WarningMode As String
