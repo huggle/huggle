@@ -267,10 +267,10 @@ Namespace Requests
                     Result = DoWebRequest(Url, PostString)
 
                 Catch ex As WebException
-                    If ex.Status = WebExceptionStatus.Timeout Then Throw New WebException(Msg("error-timeout"))
-
-                    If Retries > 0 Then Log(Msg("error-exception", Truncate(Query, 50)) & ": " & _
-                        ex.Message & " " & Msg("retrying"))
+                    If Retries = 0 Then
+                        If ex.Status = WebExceptionStatus.Timeout _
+                            Then Throw New WebException(Msg("error-timeout")) Else Throw
+                    End If
                 End Try
 
                 If State = States.Cancelled Then Thread.CurrentThread.Abort()

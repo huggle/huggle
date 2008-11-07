@@ -618,8 +618,9 @@ Module Processing
         End If
 
         'Confirm revert to another revision by the same user
-        If Not Undoing AndAlso Edit.Prev IsNot Nothing AndAlso Edit.Prev.User Is Edit.User AndAlso Config.ConfirmSame _
-            AndAlso MessageBox.Show("This will revert to another revision by the user that is being reverted, " _
+        If Not Undoing AndAlso Edit.Prev IsNot Nothing AndAlso Edit.Prev.User Is Edit.User _
+            AndAlso Config.ConfirmSame AndAlso Edit.User IsNot User.Me AndAlso _
+            MessageBox.Show("This will revert to another revision by the user that is being reverted, " _
             & Edit.User.Name & ". Continue with this?", "Huggle", MessageBoxButtons.YesNo, _
             MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = DialogResult.No Then Return False
 
@@ -811,15 +812,7 @@ Module Processing
             End If
 
             If Edit.Prev.User Is Nothing AndAlso DiffText.Contains("<div id=""mw-diff-otitle2"">") Then
-                Dim Username As String = FindString(DiffText, "<div id=""mw-diff-otitle2"">", "</a>")
-
-                If Username.Contains("title=""" & Space.User.Name & ":") Then _
-                    Username = Username.Substring(Username.IndexOf("title=""" & Space.User.Name & ":") + 12) _
-                    Else Username = Username.Substring(Username.IndexOf("title=""Special:Contributions/") + 29)
-
-                Username = Username.Substring(0, Username.IndexOf(""""))
-                Username = HtmlDecode(Username.Replace(" (page does not exist)", ""))
-
+                Dim Username As String = HtmlDecode(FindString(DiffText, "<div id=""mw-diff-otitle2"">", ">", "</a>"))
                 Edit.Prev.User = GetUser(Username)
             End If
 

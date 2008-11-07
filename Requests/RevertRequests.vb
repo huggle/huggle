@@ -1,3 +1,4 @@
+Imports System.Net
 Imports System.Text.Encoding
 Imports System.Threading
 Imports System.Web.HttpUtility
@@ -187,12 +188,12 @@ Namespace Requests
                 Exit Sub
             End If
 
-            Dim OldUser As String = GetParameter(FindString(Result.Text, "<rev", ">"), "user")
+            Dim OldUser As String = GetParameter(FindString(Result.Text, "<rev", "</rev>"), "user")
 
             If Summary Is Nothing Then Summary = Config.RevertSummary
             Summary = Summary.Replace("$1", ExcludeUser.Name).Replace("$2", OldUser)
 
-            Dim Text As String = HtmlDecode(FindString(Result.Text, "<rev", ">", "</rev>"))
+            Dim Text As String = HtmlDecode(FindString(Result.Text, "<rev ", ">", "</rev>"))
 
             Result = PostEdit(Page, Text, Summary, Minor:=Config.MinorReverts, Watch:=Config.WatchReverts)
 
@@ -214,8 +215,16 @@ Namespace Requests
 
             '"Undo" function is not available through the API
 
-            Dim Result As String = DoUrlRequest(SitePath() & "index.php?title=" & _
-                UrlEncode(Edit.Page.Name) & "&action=edit&undo=" & Edit.Id)
+            Dim Result As String = Nothing
+
+            Try
+                Result = DoUrlRequest(SitePath() & "index.php?title=" & _
+                    UrlEncode(Edit.Page.Name) & "&action=edit&undo=" & Edit.Id)
+
+            Catch ex As WebException
+                Fail(Msg("revert-fail", Edit.Page.Name), ex.Message)
+                Exit Sub
+            End Try
 
             If Result Is Nothing Then
                 Fail(Msg("revert-fail", Edit.Page.Name))

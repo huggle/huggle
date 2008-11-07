@@ -74,8 +74,13 @@ Namespace Requests
             'Using &action=render here would make things far simpler; unfortunately, that was broken for
             'image diff pages in 2007 and it would appear that nobody cares.
 
-            Result = DoUrlRequest(SitePath() & "index.php?title=" & UrlEncode(Edit.Page.Name) _
-                & "&diff=" & Edit.Id & "&oldid=" & Oldid & "&diffonly=1&uselang=en")
+            Try
+                Result = DoUrlRequest(SitePath() & "index.php?title=" & UrlEncode(Edit.Page.Name) _
+                    & "&diff=" & Edit.Id & "&oldid=" & Oldid & "&diffonly=1&uselang=en")
+            Catch ex As WebException
+                Fail(Msg("diff-fail", Edit.Page.Name), ex.Message)
+                Exit Sub
+            End Try
 
             If Result Is Nothing Then
                 Edit.Cached = Edit.CacheState.Uncached
@@ -239,8 +244,14 @@ Namespace Requests
 
         Protected Overrides Sub Process()
             Tab.LastBrowserRequest = Me
+            Dim Result As String
 
-            Dim Result As String = DoUrlRequest(Url)
+            Try
+                Result = DoUrlRequest(Url)
+            Catch ex As WebException
+                Fail(ex.Message)
+                Exit Sub
+            End Try
 
             If Result Is Nothing Then Fail() Else Complete(, Result)
         End Sub
@@ -392,10 +403,17 @@ Namespace Requests
         Public Page As Page, Text As String
 
         Protected Overrides Sub Process()
-            Dim Result As String = DoUrlRequest(SitePath() & "index.php?title=" & _
-                UrlEncode(Page.Name) & "&action=submit", "&wpDiff=0&wpStarttime=" & Timestamp(Date.UtcNow) & _
-                "&wpEdittime=&wpTextbox1=" & UrlEncode(Text))
+            Dim Result As String = Nothing
 
+            Try
+                Result = DoUrlRequest(SitePath() & "index.php?title=" & UrlEncode(Page.Name) & "&action=submit", _
+                    "&wpDiff=0&wpStarttime=" & Timestamp(Date.UtcNow) & "&wpEdittime=&wpTextbox1=" & UrlEncode(Text))
+
+            Catch ex As WebException
+                Fail(ex.Message)
+                Exit Sub
+            End Try
+            
             If Result Is Nothing OrElse Not IsWikiPage(Result) Then
                 Fail()
             Else
