@@ -603,11 +603,12 @@ Partial Class Main
         For Each Menu As ToolStripMenuItem In TopMenu.Items
             For Each MenuItem As ToolStripItem In Menu.DropDownItems
                 If Not TypeOf MenuItem Is ToolStripSeparator _
+                    AndAlso MenuItem.Name.Length > (Menu.Name.Length - 4) _
                     Then MenuItem.Text = Msg("main-" & Menu.Name.Replace("Menu", "") & "-" & _
                     MenuItem.Name.Substring(Menu.Name.Replace("Menu", "").Length))
             Next MenuItem
 
-            Menu.Text = Msg("main-" & Menu.Name.Substring(4))
+            If Menu.Name.Length >= 5 Then Menu.Text = Msg("main-" & Menu.Name.Substring(4))
         Next Menu
 
         Contribs.Text = Msg("main-contribs")
