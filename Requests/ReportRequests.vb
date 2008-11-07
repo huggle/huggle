@@ -212,6 +212,7 @@ Namespace Requests
             Dim Diffs As Integer
             If Not Integer.TryParse(DiffNumber, Diffs) Then Return Nothing
             If Diffs = 0 OrElse Diffs >= Config.MaxAIVDiffs Then Return Nothing
+            Diffs += 1
 
             ReportLine = ReportLine.Substring(0, ReportLine.IndexOf("]</span>") + 1) & ", [" _
                 & ShortSitePath() & UrlEncode(Edit.Page.Name.Replace(" ", "_")) & "?diff=" _

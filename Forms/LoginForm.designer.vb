@@ -25,7 +25,6 @@ Partial Class LoginForm
         Me.OK = New System.Windows.Forms.Button
         Me.Cancel = New System.Windows.Forms.Button
         Me.ProxyGroup = New System.Windows.Forms.GroupBox
-        Me.ProxyPort = New Huggle.IntegerTextBox
         Me.Proxy = New System.Windows.Forms.CheckBox
         Me.ProxyDomain = New System.Windows.Forms.TextBox
         Me.ProxyDomainLabel = New System.Windows.Forms.Label
@@ -50,6 +49,7 @@ Partial Class LoginForm
         Me.LanguageLabel = New System.Windows.Forms.Label
         Me.Language = New System.Windows.Forms.ComboBox
         Me.Translate = New System.Windows.Forms.Button
+        Me.ProxyPort = New Huggle.IntegerTextBox
         Me.ProxyGroup.SuspendLayout()
         CType(Me.Logo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -61,7 +61,7 @@ Partial Class LoginForm
         Me.OK.Location = New System.Drawing.Point(152, 197)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
-        Me.OK.TabIndex = 7
+        Me.OK.TabIndex = 9
         Me.OK.Text = "Login"
         Me.OK.UseVisualStyleBackColor = True
         '
@@ -71,7 +71,7 @@ Partial Class LoginForm
         Me.Cancel.Location = New System.Drawing.Point(233, 197)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
-        Me.Cancel.TabIndex = 8
+        Me.Cancel.TabIndex = 10
         Me.Cancel.Text = "Exit"
         Me.Cancel.UseVisualStyleBackColor = True
         '
@@ -93,21 +93,10 @@ Partial Class LoginForm
         Me.ProxyGroup.Location = New System.Drawing.Point(12, 196)
         Me.ProxyGroup.Name = "ProxyGroup"
         Me.ProxyGroup.Size = New System.Drawing.Size(296, 153)
-        Me.ProxyGroup.TabIndex = 6
+        Me.ProxyGroup.TabIndex = 12
         Me.ProxyGroup.TabStop = False
         Me.ProxyGroup.Text = "Proxy settings"
         Me.ProxyGroup.Visible = False
-        '
-        'ProxyPort
-        '
-        Me.ProxyPort.Enabled = False
-        Me.ProxyPort.Location = New System.Drawing.Point(68, 72)
-        Me.ProxyPort.MaxLength = 5
-        Me.ProxyPort.Name = "ProxyPort"
-        Me.ProxyPort.Size = New System.Drawing.Size(55, 20)
-        Me.ProxyPort.TabIndex = 4
-        Me.ProxyPort.Text = "80"
-        Me.ProxyPort.Value = 80
         '
         'Proxy
         '
@@ -224,14 +213,14 @@ Partial Class LoginForm
         Me.Project.MaxDropDownItems = 20
         Me.Project.Name = "Project"
         Me.Project.Size = New System.Drawing.Size(140, 21)
-        Me.Project.TabIndex = 1
+        Me.Project.TabIndex = 4
         '
         'ProjectLabel
         '
         Me.ProjectLabel.Location = New System.Drawing.Point(0, 119)
         Me.ProjectLabel.Name = "ProjectLabel"
         Me.ProjectLabel.Size = New System.Drawing.Size(76, 17)
-        Me.ProjectLabel.TabIndex = 0
+        Me.ProjectLabel.TabIndex = 3
         Me.ProjectLabel.Text = "Project:"
         Me.ProjectLabel.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
@@ -240,7 +229,7 @@ Partial Class LoginForm
         Me.PasswordLabel.Location = New System.Drawing.Point(0, 172)
         Me.PasswordLabel.Name = "PasswordLabel"
         Me.PasswordLabel.Size = New System.Drawing.Size(76, 17)
-        Me.PasswordLabel.TabIndex = 4
+        Me.PasswordLabel.TabIndex = 7
         Me.PasswordLabel.Text = "Password:"
         Me.PasswordLabel.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
@@ -249,7 +238,7 @@ Partial Class LoginForm
         Me.UsernameLabel.Location = New System.Drawing.Point(0, 146)
         Me.UsernameLabel.Name = "UsernameLabel"
         Me.UsernameLabel.Size = New System.Drawing.Size(76, 17)
-        Me.UsernameLabel.TabIndex = 2
+        Me.UsernameLabel.TabIndex = 5
         Me.UsernameLabel.Text = "Username:"
         Me.UsernameLabel.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
@@ -262,7 +251,7 @@ Partial Class LoginForm
         Me.Password.Name = "Password"
         Me.Password.PasswordChar = Global.Microsoft.VisualBasic.ChrW(9679)
         Me.Password.Size = New System.Drawing.Size(208, 20)
-        Me.Password.TabIndex = 5
+        Me.Password.TabIndex = 8
         '
         'Username
         '
@@ -272,7 +261,7 @@ Partial Class LoginForm
         Me.Username.MaxLength = 255
         Me.Username.Name = "Username"
         Me.Username.Size = New System.Drawing.Size(208, 20)
-        Me.Username.TabIndex = 3
+        Me.Username.TabIndex = 6
         '
         'Status
         '
@@ -281,7 +270,7 @@ Partial Class LoginForm
         Me.Status.Location = New System.Drawing.Point(12, 222)
         Me.Status.Name = "Status"
         Me.Status.Size = New System.Drawing.Size(296, 28)
-        Me.Status.TabIndex = 11
+        Me.Status.TabIndex = 13
         Me.Status.Text = " "
         '
         'Progress
@@ -290,12 +279,12 @@ Partial Class LoginForm
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Progress.Enabled = False
         Me.Progress.Location = New System.Drawing.Point(12, 251)
-        Me.Progress.Maximum = 10
+        Me.Progress.Maximum = 9
         Me.Progress.Name = "Progress"
         Me.Progress.Size = New System.Drawing.Size(296, 19)
         Me.Progress.Step = 1
         Me.Progress.Style = System.Windows.Forms.ProgressBarStyle.Continuous
-        Me.Progress.TabIndex = 12
+        Me.Progress.TabIndex = 14
         '
         'ShowProxySettings
         '
@@ -304,7 +293,7 @@ Partial Class LoginForm
         Me.ShowProxySettings.Location = New System.Drawing.Point(12, 197)
         Me.ShowProxySettings.Name = "ShowProxySettings"
         Me.ShowProxySettings.Size = New System.Drawing.Size(134, 23)
-        Me.ShowProxySettings.TabIndex = 10
+        Me.ShowProxySettings.TabIndex = 11
         Me.ShowProxySettings.Text = "Proxy settings >>"
         Me.ShowProxySettings.UseVisualStyleBackColor = True
         '
@@ -315,7 +304,7 @@ Partial Class LoginForm
         Me.HideProxySettings.Location = New System.Drawing.Point(12, 197)
         Me.HideProxySettings.Name = "HideProxySettings"
         Me.HideProxySettings.Size = New System.Drawing.Size(134, 23)
-        Me.HideProxySettings.TabIndex = 9
+        Me.HideProxySettings.TabIndex = 13
         Me.HideProxySettings.Text = "<< Proxy settings"
         Me.HideProxySettings.UseVisualStyleBackColor = True
         Me.HideProxySettings.Visible = False
@@ -338,7 +327,7 @@ Partial Class LoginForm
         Me.LanguageLabel.Location = New System.Drawing.Point(0, 92)
         Me.LanguageLabel.Name = "LanguageLabel"
         Me.LanguageLabel.Size = New System.Drawing.Size(76, 17)
-        Me.LanguageLabel.TabIndex = 15
+        Me.LanguageLabel.TabIndex = 0
         Me.LanguageLabel.Text = "Language:"
         Me.LanguageLabel.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
@@ -351,7 +340,7 @@ Partial Class LoginForm
         Me.Language.Location = New System.Drawing.Point(80, 89)
         Me.Language.Name = "Language"
         Me.Language.Size = New System.Drawing.Size(140, 21)
-        Me.Language.TabIndex = 16
+        Me.Language.TabIndex = 1
         '
         'Translate
         '
@@ -359,20 +348,31 @@ Partial Class LoginForm
         Me.Translate.Location = New System.Drawing.Point(226, 88)
         Me.Translate.Name = "Translate"
         Me.Translate.Size = New System.Drawing.Size(82, 23)
-        Me.Translate.TabIndex = 17
+        Me.Translate.TabIndex = 2
         Me.Translate.Text = "Translate..."
         Me.Translate.UseVisualStyleBackColor = True
+        '
+        'ProxyPort
+        '
+        Me.ProxyPort.Enabled = False
+        Me.ProxyPort.Location = New System.Drawing.Point(68, 72)
+        Me.ProxyPort.MaxLength = 5
+        Me.ProxyPort.Name = "ProxyPort"
+        Me.ProxyPort.Size = New System.Drawing.Size(55, 20)
+        Me.ProxyPort.TabIndex = 4
+        Me.ProxyPort.Text = "80"
+        Me.ProxyPort.Value = 80
         '
         'LoginForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(320, 282)
+        Me.Controls.Add(Me.ShowProxySettings)
         Me.Controls.Add(Me.Translate)
         Me.Controls.Add(Me.Language)
         Me.Controls.Add(Me.LanguageLabel)
         Me.Controls.Add(Me.Logo)
-        Me.Controls.Add(Me.ShowProxySettings)
         Me.Controls.Add(Me.Status)
         Me.Controls.Add(Me.Progress)
         Me.Controls.Add(Me.Cancel)

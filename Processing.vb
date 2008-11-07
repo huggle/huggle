@@ -973,7 +973,8 @@ Module Processing
             End If
         End If
 
-        MainForm.RefreshInterface()
+        If User Is CurrentUser Then Callback(AddressOf MainForm.DrawContribs)
+        Callback(AddressOf MainForm.RefreshInterface)
     End Sub
 
     Sub ProcessRc(ByVal Result As String)

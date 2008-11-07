@@ -211,7 +211,6 @@ Namespace Requests
 
         Protected Overrides Sub Done()
             ProcessContribs(Result.Text, User)
-            MainForm.DrawContribs()
 
             If DisplayWhenDone AndAlso User.LastEdit IsNot Nothing Then
                 DisplayEdit(User.LastEdit)
