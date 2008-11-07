@@ -166,7 +166,7 @@ Namespace Requests
                 GetMonthName(Date.UtcNow.Month) & " " & CStr(Date.UtcNow.Year) & " ==" & LF & LF
 
             Text &= LF & WarningNeeded.Replace("$1", Edit.Page.Name).Replace("$2", _
-                ShortSitePath() & UrlEncode(Edit.Page.Name) & "?diff=" & Edit.Id)
+                ShortSitePath() & UrlEncode(Edit.Page.Name.Replace(" ", "_")) & "?diff=" & Edit.Id)
 
             Result = PostEdit(Edit.User.TalkPage, Text, WarnSummary.Replace("$1", Edit.Page.Name), _
                 Minor:=Config.MinorWarnings, Watch:=Config.WatchWarnings)
