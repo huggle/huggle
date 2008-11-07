@@ -995,7 +995,7 @@ Class Main
     End Sub
 
     Private Sub SystemReloadConfig_Click()
-        Dim NewRequest As New UserConfigRequest
+        Dim NewRequest As New ConfigRequest
         NewRequest.Start()
     End Sub
 

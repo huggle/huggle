@@ -30,7 +30,7 @@ Class ClosingForm
             End Try
         End If
 
-        If Config.UpdateWhitelist AndAlso (WhitelistAutoChanges.Count > 0 _
+        If Config.WhitelistLocation IsNot Nothing AndAlso Config.UpdateWhitelist AndAlso (WhitelistAutoChanges.Count > 0 _
             OrElse (Config.UpdateWhitelistManual AndAlso WhitelistManualChanges.Count > 0)) Then
             UpdateWhitelist()
         ElseIf Config.ConfigChanged Then

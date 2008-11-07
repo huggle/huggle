@@ -25,6 +25,7 @@ Partial Class LoginForm
         Me.OK = New System.Windows.Forms.Button
         Me.Cancel = New System.Windows.Forms.Button
         Me.ProxyGroup = New System.Windows.Forms.GroupBox
+        Me.ProxyPort = New Huggle.IntegerTextBox
         Me.Proxy = New System.Windows.Forms.CheckBox
         Me.ProxyDomain = New System.Windows.Forms.TextBox
         Me.ProxyDomainLabel = New System.Windows.Forms.Label
@@ -49,7 +50,6 @@ Partial Class LoginForm
         Me.LanguageLabel = New System.Windows.Forms.Label
         Me.Language = New System.Windows.Forms.ComboBox
         Me.Translate = New System.Windows.Forms.Button
-        Me.ProxyPort = New Huggle.IntegerTextBox
         Me.ProxyGroup.SuspendLayout()
         CType(Me.Logo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -97,6 +97,17 @@ Partial Class LoginForm
         Me.ProxyGroup.TabStop = False
         Me.ProxyGroup.Text = "Proxy settings"
         Me.ProxyGroup.Visible = False
+        '
+        'ProxyPort
+        '
+        Me.ProxyPort.Enabled = False
+        Me.ProxyPort.Location = New System.Drawing.Point(68, 72)
+        Me.ProxyPort.MaxLength = 5
+        Me.ProxyPort.Name = "ProxyPort"
+        Me.ProxyPort.Size = New System.Drawing.Size(55, 20)
+        Me.ProxyPort.TabIndex = 4
+        Me.ProxyPort.Text = "80"
+        Me.ProxyPort.Value = 80
         '
         'Proxy
         '
@@ -279,7 +290,7 @@ Partial Class LoginForm
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Progress.Enabled = False
         Me.Progress.Location = New System.Drawing.Point(12, 251)
-        Me.Progress.Maximum = 9
+        Me.Progress.Maximum = 6
         Me.Progress.Name = "Progress"
         Me.Progress.Size = New System.Drawing.Size(296, 19)
         Me.Progress.Step = 1
@@ -351,17 +362,6 @@ Partial Class LoginForm
         Me.Translate.TabIndex = 2
         Me.Translate.Text = "Translate..."
         Me.Translate.UseVisualStyleBackColor = True
-        '
-        'ProxyPort
-        '
-        Me.ProxyPort.Enabled = False
-        Me.ProxyPort.Location = New System.Drawing.Point(68, 72)
-        Me.ProxyPort.MaxLength = 5
-        Me.ProxyPort.Name = "ProxyPort"
-        Me.ProxyPort.Size = New System.Drawing.Size(55, 20)
-        Me.ProxyPort.TabIndex = 4
-        Me.ProxyPort.Text = "80"
-        Me.ProxyPort.Value = 80
         '
         'LoginForm
         '

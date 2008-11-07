@@ -5,8 +5,6 @@
     no.wikipedia;http://no.wikipedia.org/,
     pt.wikipedia;http://pt.wikipedia.org/,
     ru.wikipedia;http://ru.wikipedia.org/,
-    commons;http://commons.wikimedia.org/,
-    meta;http://meta.wikimedia.org/,
-    test wiki;http://test.wikipedia.org/,
+    test wiki;http://test.wikipedia.org/
     
 project:en.wikipedia

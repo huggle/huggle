@@ -284,7 +284,11 @@ Namespace Requests
         Protected Function DoApiRequest(ByVal QueryString As String, _
             Optional ByVal PostString As String = Nothing, Optional ByVal Project As String = Nothing) As ApiResult
 
+            Dim ProjectUrl As String
             If Project Is Nothing Then Project = Config.Project
+            If Config.Projects.ContainsKey(Project) Then ProjectUrl = Config.Projects(Project) _
+                Else ProjectUrl = "http://meta.wikimedia.org/"
+
 
             Query = QueryString
             If PostString Is Nothing Then Mode = Modes.Get Else Mode = Modes.Post
@@ -296,8 +300,7 @@ Namespace Requests
                 Retries -= 1
 
                 Try
-                    Result = DoWebRequest(Config.Projects(Project) & Config.WikiPath & "api.php?format=xml&" & _
-                        QueryString, PostString)
+                    Result = DoWebRequest(ProjectUrl & Config.WikiPath & "api.php?format=xml&" & QueryString, PostString)
 
                 Catch ex As WebException
                     If ex.Status = WebExceptionStatus.Timeout _

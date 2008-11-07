@@ -122,33 +122,18 @@ Namespace Requests
                 UpdateForm.ShowDialog()
             End If
 
-            'Get project configuration
-            UpdateStatus(Msg("login-progress-project"))
+            'Get project and user configuration
+            UpdateStatus(Msg("login-progress-config"))
 
-            Dim ProjectConfigResult As RequestResult = (New ProjectConfigRequest).Invoke
+            Dim ConfigResult As RequestResult = (New ConfigRequest).Invoke
 
-            If ProjectConfigResult.Error Then
-                Abort(ProjectConfigResult.ErrorMessage)
+            If ConfigResult.Error Then
+                Abort(ConfigResult.ErrorMessage)
                 Exit Sub
             End If
 
             If Not Config.EnabledForAll Then
                 Abort(Msg("login-error-projdisabled"))
-                Exit Sub
-            End If
-
-            If State = States.Cancelled Then Thread.CurrentThread.Abort()
-
-            'Connect to IRC, if required (on separate thread)
-            If Config.IrcMode Then IrcConnect()
-
-            'Get user configuration
-            UpdateStatus(Msg("login-progress-user"))
-
-            Dim UserConfigResult As RequestResult = (New UserConfigRequest).Invoke
-
-            If UserConfigResult.Error Then
-                Abort(Msg("login-error-user"))
                 Exit Sub
             End If
 
@@ -158,96 +143,23 @@ Namespace Requests
                 Exit Sub
             End If
 
-            If Config.TemplateMessages.Count = 0 Then Config.TemplateMessages = Config.TemplateMessagesGlobal
-
-            If Config.WarnSummary2 Is Nothing Then Config.WarnSummary2 = Config.WarnSummary
-            If Config.WarnSummary3 Is Nothing Then Config.WarnSummary3 = Config.WarnSummary
-            If Config.WarnSummary4 Is Nothing Then Config.WarnSummary4 = Config.WarnSummary
-
             If State = States.Cancelled Then Thread.CurrentThread.Abort()
 
-            'Get user information, groups and account creation date
-            UpdateStatus(Msg("login-progress-rights"))
-
-            Dim Result As ApiResult = DoApiRequest _
-                ("action=query&meta=userinfo&uiprop=rights|editcount&list=logevents&letype=newusers&letitle=" & _
-                 UrlEncode(User.Me.Userpage.Name))
-
-            If Result.Error Then Abort(Msg("login-error-rights"), Result.ErrorMessage)
-
-            If Result.Text.Contains("<userinfo ") AndAlso Result.Text.Contains("<rights>") Then
-
-                If FindString(Result.Text, "<userinfo", "</userinfo>").Contains("anon=""""") Then
-                    'If we get here, somehow the user is not logged in
-                    Abort(Msg("login-error-rights"), Msg("login-error-unknown"))
-                    Exit Sub
-                End If
-
-                Dim EditCount As Integer = CInt(GetParameter(Result.Text, "editcount"))
-
-                If EditCount < Config.RequireEdits Then
-                    Abort(Msg("login-error-count", CStr(Config.RequireEdits)))
-                    Exit Sub
-                End If
-
-                Dim Rights As New List(Of String)(FindString(Result.Text, "<rights>", "</rights>").Replace("</r>", "") _
-                    .Split(New String() {"<r>"}, StringSplitOptions.RemoveEmptyEntries))
-                Dim Autoconfirmed, AdminAvailable As Boolean
-
-                If Rights.Contains("rollback") Then RollbackAvailable = True
-                If Rights.Contains("autoconfirmed") Then Autoconfirmed = True
-                If Rights.Contains("block") Then AdminAvailable = True
-
-                Administrator = AdminAvailable AndAlso Config.UseAdminFunctions
-
-                If Config.RequireAdmin AndAlso Not AdminAvailable Then
-                    Abort(Msg("login-error-admin"))
-                    Exit Sub
-                End If
-
-                If Config.RequireAutoconfirmed AndAlso Not Autoconfirmed Then
-                    Abort(Msg("login-error-autoconfirmed"))
-                    Exit Sub
-                End If
-
-                If Config.RequireRollback AndAlso Not RollbackAvailable Then
-                    Abort(Msg("login-error-rollback"))
-                    Exit Sub
-                End If
-
-            Else
-                Abort(Msg("login-error-rights"))
-                Exit Sub
-            End If
-
-            If Config.RequireTime > 0 Then
-                'We know the user exists, so if we get an empty result the user must have been 
-                'created in 2005 or earlier, before the log existed
-                If Result.Text.Contains("<logevents>") Then
-                    Dim CreationDate As Date = Date.MinValue
-                    Date.TryParse(GetParameter(Result.Text, "timestamp"), CreationDate)
-
-                    If CreationDate = Date.MinValue OrElse CreationDate.AddDays(Config.RequireTime) > Date.UtcNow Then
-                        Abort(Msg("login-error-age", CStr(Config.RequireTime)))
-                        Exit Sub
-                    End If
-                End If
-            End If
-
-            If State = States.Cancelled Then Thread.CurrentThread.Abort()
+            'Connect to IRC, if required (on separate thread)
+            If Config.IrcMode Then IrcConnect()
 
             'Check user list. If approval required, deny access to users not on the list, otherwise add them
             If Config.UserListLocation IsNot Nothing AndAlso (Config.Approval OrElse Not Config.UsernameListed) Then
                 UpdateStatus(Msg("login-progress-userlist"))
 
-                Result = GetText(Config.UserListLocation)
+                Dim UserlistResult As ApiResult = GetText(Config.UserListLocation)
 
-                If Result.Error Then
-                    Abort(Msg("login-error-userlist"), Result.ErrorMessage)
+                If UserlistResult.Error Then
+                    Abort(Msg("login-error-userlist"), UserlistResult.ErrorMessage)
                     Exit Sub
                 End If
 
-                If Not Result.Text.Contains _
+                If Not UserlistResult.Text.Contains _
                     ("[[Special:Contributions/" & Config.Username & "|" & Config.Username & "]]") Then
 
                     If Config.Approval Then
@@ -256,7 +168,7 @@ Namespace Requests
                     End If
 
                     Dim Matches As MatchCollection = _
-                        New Regex("\* \[\[Special:Contributions/([^\|]+)\|[^\|]+\]\]").Matches(Result.Text)
+                        New Regex("\* \[\[Special:Contributions/([^\|]+)\|[^\|]+\]\]").Matches(UserlistResult.Text)
                     Dim ListedUsers As New List(Of String)
 
                     For Each Item As Match In Matches
@@ -291,7 +203,7 @@ Namespace Requests
                 Dim WhitelistResult As RequestResult = (New WhitelistRequest).Invoke
 
                 If WhitelistResult.Error Then
-                    Abort(Msg("login-error-whitelist"), Result.ErrorMessage)
+                    Abort(Msg("login-error-whitelist"), WhitelistResult.ErrorMessage)
                     Exit Sub
                 End If
 
@@ -301,23 +213,6 @@ Namespace Requests
             'In case user is not already on the whitelist (usually will be)
             If Not Whitelist.Contains(User.Me.Name) Then WhitelistAutoChanges.Add(User.Me.Name)
             User.Me.Ignored = True
-
-            If State = States.Cancelled Then Thread.CurrentThread.Abort()
-
-            'Get watchlist
-            UpdateStatus(Msg("login-progress-watchlist"))
-
-            Dim WatchlistResult As RequestResult = (New WatchlistRequest).Invoke
-
-            If WatchlistResult.Error Then
-                Abort(Msg("login-error-watchlist"), WatchlistResult.ErrorMessage)
-                Exit Sub
-            End If
-
-            For Each Item As String In Split(WatchlistResult.Text, CRLF)
-                Dim Page As Page = GetPage(Item)
-                If Not Watchlist.Contains(Page) Then Watchlist.Add(Page)
-            Next Item
 
             If State = States.Cancelled Then Thread.CurrentThread.Abort()
 

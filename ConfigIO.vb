@@ -430,7 +430,7 @@ Module ConfigIO
             Next Item
         End If
 
-        'Load projects if not already present; for compatibility with config files from previous versions
+        'Load projects if not already present
         If Config.Projects.Count = 0 Then
             For Each Item As KeyValuePair(Of String, String) In ProcessConfigFile(My.Resources.DefaultLocalConfig)
                 SetLocalConfigOption(Item.Key, Item.Value)
