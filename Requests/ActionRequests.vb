@@ -100,6 +100,10 @@ Namespace Requests
         Protected Overrides Sub Process()
             LogProgress(Msg("delete-progress", Page.Name))
 
+            'If the user declined to give a reason, don't send a blank summary because the
+            'page content will be used instead, which is sometimes not what the user wants
+            If String.IsNullOrEmpty(Summary) Then Summary = "-"
+
             'Get token
             Dim Result As ApiResult = DoApiRequest("action=query&prop=info&intoken=delete&titles=" & UrlEncode(Page.Name))
 

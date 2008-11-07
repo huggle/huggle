@@ -55,19 +55,19 @@ Partial Class DeleteForm
         Me.ReasonLabel.AutoSize = True
         Me.ReasonLabel.Location = New System.Drawing.Point(12, 15)
         Me.ReasonLabel.Name = "ReasonLabel"
-        Me.ReasonLabel.Size = New System.Drawing.Size(163, 13)
+        Me.ReasonLabel.Size = New System.Drawing.Size(47, 13)
         Me.ReasonLabel.TabIndex = 0
-        Me.ReasonLabel.Text = "Reason (leave empty for default):"
+        Me.ReasonLabel.Text = "Reason:"
         '
         'Reason
         '
         Me.Reason.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Reason.FormattingEnabled = True
-        Me.Reason.Location = New System.Drawing.Point(182, 12)
+        Me.Reason.Location = New System.Drawing.Point(65, 12)
         Me.Reason.MaxDropDownItems = 20
         Me.Reason.Name = "Reason"
-        Me.Reason.Size = New System.Drawing.Size(381, 21)
+        Me.Reason.Size = New System.Drawing.Size(498, 21)
         Me.Reason.TabIndex = 1
         '
         'DeletionLogLabel
@@ -85,6 +85,7 @@ Partial Class DeleteForm
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.DeletionLog.GridLines = True
+        Me.DeletionLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
         Me.DeletionLog.Location = New System.Drawing.Point(15, 61)
         Me.DeletionLog.Mode = Huggle.PageLog.ViewMode.Delete
         Me.DeletionLog.Name = "DeletionLog"
