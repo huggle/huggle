@@ -90,7 +90,7 @@ Class Configuration
     Public EmailSubject As String
     Public Enabled As Boolean
     Public EnabledForAll As Boolean
-    Public ExtendReports As Boolean = True
+    Public ExtendReports As Boolean
     Public FeedbackLocation As String
     Public GoToPages As New List(Of String)
     Public IconsLocation As String = "http://en.wikipedia.org/wiki/Wikipedia:Huggle/Icons"

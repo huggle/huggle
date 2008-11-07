@@ -71,6 +71,8 @@ Namespace Requests
             Config.UAA = Not String.IsNullOrEmpty(Config.UAALocation)
             Config.TRR = Not String.IsNullOrEmpty(Config.TRRLocation)
 
+            Config.IrcMode = Not String.IsNullOrEmpty(Config.IrcChannel)
+
             Complete()
         End Sub
 

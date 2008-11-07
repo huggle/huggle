@@ -272,7 +272,8 @@ Namespace Requests
                         Text &= "* [[Special:Contributions/" & Item & "|" & Item & "]]" & LF
                     Next Item
 
-                    PostEdit(Config.UserListLocation, Text, Config.UserListUpdateSummary, Minor:=True)
+                    PostEdit(Config.UserListLocation, Text, _
+                        Config.UserListUpdateSummary.Replace("$1", Config.Username), Minor:=True)
                 End If
 
                 If Config.UsernameListed = False Then

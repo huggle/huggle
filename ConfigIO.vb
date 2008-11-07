@@ -447,7 +447,6 @@ Module ConfigIO
         'Write to local configuration file
         Dim Items As New List(Of String)
 
-        Items.Add("irc:" & CStr(Config.IrcMode).ToLower)
         Items.Add("language:" & CStr(Config.Language))
         If Not String.IsNullOrEmpty(Config.LogFile) Then Items.Add("log-file:" & Config.LogFile)
         If Config.RememberPassword Then Items.Add("password:" & Config.Password)
