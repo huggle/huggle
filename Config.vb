@@ -156,6 +156,7 @@ Class Configuration
     Public RfdLocation As String
     Public RightAlignQueue As Boolean
     Public RollbackSummary As String
+    Public SaveConfig As Boolean = True
     Public SensitiveAddresses As New Dictionary(Of String, String)
     Public SharedIPTemplates As New List(Of String)
     Public ShowNewEdits As Boolean = True

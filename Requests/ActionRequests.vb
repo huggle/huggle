@@ -211,7 +211,6 @@ Namespace Requests
             'making it difficult to mark a given page as patrolled, especially if it's old
 
             If Page.Patrolled Then
-                Page.Patrolled = True
                 Fail(Msg("patrol-fail", Page.Name), Msg("patrol-alreadydone"))
                 Exit Sub
             End If
@@ -220,20 +219,28 @@ Namespace Requests
 
             If PatrolToken Is Nothing OrElse Page.Rcid Is Nothing Then
                 'Find rcid and/or patrol token
-                Result = DoApiRequest("&rclimit=500&action=query&list=recentchanges&rctype=new&rctoken=patrol")
+                Dim QueryString As String = "action=query&rclimit=500&list=recentchanges" & _
+                    "&rcprop=title|ids|patrolled&rctype=new"
+                If PatrolToken Is Nothing Then QueryString &= "&rctoken=patrol"
+
+                Result = DoApiRequest(QueryString)
 
                 If Result.Error Then
                     Fail(Msg("patrol-fail", Page.Name), Result.ErrorMessage)
                     Exit Sub
                 End If
 
-                PatrolToken = GetParameter(Result.Text, "patroltoken")
+                If PatrolToken Is Nothing Then PatrolToken = GetParameter(Result.Text, "patroltoken")
 
-                For Each Item As String In Split(FindString _
-                    (Result.Text, "<recentchanges>", "</recentchanges>"), "<rc ")
-
+                For Each Item As String In Split(FindString(Result.Text, "<recentchanges>", "</recentchanges>"), "<rc ")
                     GetPage(GetParameter(Item, "title")).Rcid = GetParameter(Item, "rcid")
+                    If Item.Contains("patrolled=""""") Then GetPage(Item).Patrolled = True
                 Next Item
+            End If
+
+            If Page.Patrolled Then
+                Fail(Msg("patrol-fail", Page.Name), Msg("patrol-alreadydone"))
+                Exit Sub
             End If
 
             If Page.Rcid Is Nothing Then
@@ -244,9 +251,16 @@ Namespace Requests
             'Patrol the page
             Result = DoApiRequest("action=patrol&rcid=" & Page.Rcid & "&token=" & UrlEncode(PatrolToken))
 
-            If Result.Error _
-                Then Fail(Msg("patrol-fail", Page.Name), Result.ErrorMessage) _
-                Else Complete(Msg("patrol-done", Page.Name))
+            If Result.Error Then
+                Fail(Msg("patrol-fail", Page.Name), Result.ErrorMessage)
+            Else
+                Page.Patrolled = True
+                Complete(Msg("patrol-done", Page.Name))
+            End If
+        End Sub
+
+        Protected Overrides Sub Done()
+            If Page Is CurrentPage AndAlso MainForm IsNot Nothing Then MainForm.RefreshInterface()
         End Sub
 
     End Class

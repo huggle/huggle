@@ -37,7 +37,7 @@ Class ClosingForm
         If Config.WhitelistLocation IsNot Nothing AndAlso Config.UpdateWhitelist AndAlso (WhitelistAutoChanges.Count > 0 _
             OrElse (Config.UpdateWhitelistManual AndAlso WhitelistManualChanges.Count > 0)) Then
             UpdateWhitelist()
-        ElseIf Config.ConfigChanged Then
+        ElseIf Config.ConfigChanged AndAlso Config.SaveConfig Then
             UpdateUserConfig()
         Else
             End
@@ -53,7 +53,7 @@ Class ClosingForm
     End Sub
 
     Public Sub WhitelistDone(Optional ByVal Result As RequestResult = Nothing)
-        If Config.ConfigChanged Then
+        If Config.ConfigChanged AndAlso Config.SaveConfig Then
             UpdateUserConfig()
         Else
             End

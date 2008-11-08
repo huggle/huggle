@@ -126,7 +126,7 @@ Namespace Requests
         'Carry out the request on the same thread and return its result
         Public Function Invoke() As RequestResult
             Process()
-            Done()
+            Callback(AddressOf ThreadDone)
             Return _Result
         End Function
 
