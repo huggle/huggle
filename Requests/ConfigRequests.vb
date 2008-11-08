@@ -259,7 +259,7 @@ Namespace Requests
             If Config.WatchDelete Then WatchItems.Add("delete")
 
             If WatchItems.Count = 0 Then WatchItems.Add("none")
-            Items.Add("watchlist:" & String.Join(",", WatchItems.ToArray))
+            Items.Add("watch:" & String.Join(",", WatchItems.ToArray))
 
             Dim Result As ApiResult = PostEdit(Config.UserConfigLocation, String.Join(LF, Items.ToArray), _
                 Config.ConfigSummary, Minor:=True)

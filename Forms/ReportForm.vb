@@ -34,19 +34,11 @@ Class ReportForm
 
         Select Case Reason.Text
             Case "Vandalism after final warning"
-                If Config.Project = "es.wikipedia" Then
-                    Dim NewRequest As New VandalReportEsRequest
-                    NewRequest.User = User
-                    NewRequest.Edit = Edit
-                    NewRequest.Reason = Message.Text
-                    NewRequest.Start()
-                Else
-                    Dim NewRequest As New VandalReportRequest
-                    NewRequest.User = User
-                    NewRequest.Edit = Edit
-                    NewRequest.Reason = Message.Text
-                    NewRequest.Start()
-                End If
+                Dim NewRequest As New VandalReportRequest
+                NewRequest.User = User
+                NewRequest.Edit = Edit
+                NewRequest.Reason = Message.Text
+                NewRequest.Start()
 
             Case "Inappropriate username"
                 Dim NewRequest As New UsernameReportRequest

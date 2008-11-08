@@ -108,7 +108,7 @@ Class Configuration
     Public IrcUsername As String
     Public LocalizatonPath As String = "Huggle/Localization/"
     Public LogFile As String
-    Public MaxAIVDiffs As Integer = 8
+    Public MaxReportLinks As Integer = 6
     Public MfdLocation As String
     Public Minor As New Dictionary(Of String, Boolean)
     Public MinVersion As Version
@@ -142,7 +142,7 @@ Class Configuration
     Public QueueBuilderLimit As Integer = 10
     Public RcBlockSize As Integer = 100
     Public ReportExtendSummary As String
-    Public ReportLinkDiffs As Boolean
+    Public ReportLinkDiffs As Boolean = True
     Public ReportSummary As String
     Public RequireAdmin As Boolean
     Public RequireAutoconfirmed As Boolean
