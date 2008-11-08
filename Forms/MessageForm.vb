@@ -18,9 +18,10 @@ Class MessageForm
             NewRequest.Title = Subject.Text
             If Summary.Text = "" Then NewRequest.Summary = "/* " & Subject.Text & " */ - new section" _
                 Else NewRequest.Summary = Summary.Text
-            NewRequest.Watch = Config.WatchNotifications
-            NewRequest.Minor = Config.MinorNotifications
+            NewRequest.Watch = Config.Watch("message")
+            NewRequest.Minor = Config.Minor("message")
             NewRequest.AutoSign = AutoSign.Checked
+            NewRequest.SuppressAutoSummary = True
             NewRequest.Start()
 
             Close()

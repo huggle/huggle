@@ -22,6 +22,10 @@ Class Configuration
     Public ReadOnly GlobalConfigLocation As String = "Huggle/Config"
     Public ReadOnly WikiPath As String = "w/"
 
+    Public ReadOnly EditTypes As String() = _
+        {"blocknote", "deletenote", "deletetag", "deletereq", "manual", "message", "prodtag", _
+         "protectreq", "report", "revert", "speedytag", "tag", "warning"}
+
     'Values only used at runtime
 
     Public ConfigChanged As Boolean
@@ -106,13 +110,7 @@ Class Configuration
     Public LogFile As String
     Public MaxAIVDiffs As Integer = 8
     Public MfdLocation As String
-    Public MinorManual As Boolean
-    Public MinorNotifications As Boolean
-    Public MinorOther As Boolean
-    Public MinorReports As Boolean
-    Public MinorReverts As Boolean = True
-    Public MinorTags As Boolean
-    Public MinorWarnings As Boolean
+    Public Minor As New Dictionary(Of String, Boolean)
     Public MinVersion As Version
     Public MinWarningWait As Integer = 10
     Public MonthHeadings As Boolean
@@ -199,13 +197,7 @@ Class Configuration
     Public WarningImLevel As Boolean
     Public WarningMode As String
     Public WarningSeries As New List(Of String)
-    Public WatchManual As Boolean
-    Public WatchNotifications As Boolean
-    Public WatchOther As Boolean
-    Public WatchReports As Boolean
-    Public WatchReverts As Boolean
-    Public WatchTags As Boolean
-    Public WatchWarnings As Boolean
+    Public Watch As New Dictionary(Of String, Boolean)
     Public WhitelistEditCount As Integer = 500
     Public WhitelistLocation As String
     Public WhitelistSplit As Boolean
@@ -224,6 +216,7 @@ Class Configuration
     Public WarnSummary3 As String
     Public WarnSummary4 As String
 
+    Public WatchDelete As Boolean
     Public Welcome As String
     Public WelcomeAnon As String
     Public WelcomeSummary As String

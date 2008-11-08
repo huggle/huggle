@@ -50,7 +50,7 @@ Namespace Requests
             Report &= "~~~~"
 
             Result = PostEdit(Config.TRRLocation, Result.Text & Report, Config.ReportSummary.Replace("$1", User.Name), _
-                Section:="1", Minor:=Config.MinorReports, Watch:=Config.WatchReports)
+                Section:="1", Minor:=Config.Minor("report"), Watch:=Config.Watch("report"))
 
             If Result.Error _
                 Then Fail(Msg("report-fail", User.Name), Result.ErrorMessage) _
@@ -154,7 +154,7 @@ Namespace Requests
                     If ExtendedText IsNot Nothing Then
                         Result = PostEdit(Config.AIVLocation, ExtendedText, _
                             Config.ReportExtendSummary.Replace("$1", User.Name), _
-                            Minor:=Config.MinorReports, Watch:=Config.WatchReports)
+                            Minor:=Config.Minor("report"), Watch:=Config.Watch("report"))
                         If Result.Error Then Fail(Msg("report-fail", User.Name), Result.ErrorMessage) Else Complete()
                     Else
                         Fail(Msg("report-fail", User.Name), Msg("report-alreadyreported"))
@@ -180,7 +180,7 @@ Namespace Requests
             Report &= " – ~~~~"
 
             Result = PostEdit(Config.AIVLocation, Text & Report, Config.ReportSummary.Replace("$1", User.Name), _
-                Minor:=Config.MinorReports, Watch:=Config.WatchReports)
+                Minor:=Config.Minor("report"), Watch:=Config.Watch("report"))
 
             If Result.Error Then Fail(Msg("report-fail", User.Name), Result.ErrorMessage) Else Complete()
 
@@ -332,7 +332,7 @@ Namespace Requests
             Report &= CRLF & "* Usuario que reporta: ~~~~" & CRLF & "* Acción administrativa:" & CRLF
 
             Result = PostEdit(Config.AIVLocation, Text & Report, Config.ReportSummary.Replace("$1", User.Name), _
-                Minor:=Config.MinorReports, Watch:=Config.WatchReports)
+                Minor:=Config.Minor("report"), Watch:=Config.Watch("report"))
 
             If Result.Error Then Fail(Msg("report-fail", User.Name), Result.ErrorMessage) Else Complete()
 
@@ -419,7 +419,7 @@ Namespace Requests
             Text &= User.Name & "}} – " & Reason & " – ~~~~"
 
             Result = PostEdit(Config.UAALocation, Text, Config.ReportSummary.Replace("$1", User.Name), _
-                Minor:=Config.MinorReports, Watch:=Config.WatchReports)
+                Minor:=Config.Minor("report"), Watch:=Config.Watch("report"))
 
             If Result.Error Then Fail(Msg("report-fail", User.Name), Result.ErrorMessage) Else Complete()
 

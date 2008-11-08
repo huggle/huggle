@@ -67,8 +67,8 @@ Namespace Requests
                 'Notify page creator of deletion discussion
                 Dim NewRequest As New UserMessageRequest
                 NewRequest.AvoidText = Page.Name
-                NewRequest.Minor = Config.MinorNotifications
-                NewRequest.Watch = Config.WatchNotifications
+                NewRequest.Minor = Config.Minor("deletenote")
+                NewRequest.Watch = Config.Watch("deletenote")
                 NewRequest.User = Page.FirstEdit.User
                 NewRequest.Title = Config.XfdMessageTitle.Replace("$1", Page.Name)
                 NewRequest.Summary = Config.XfdMessageSummary.Replace("$1", Page.Name)
@@ -103,7 +103,7 @@ Namespace Requests
             Text = Tag & LF & Text
 
             Result = PostEdit(Page, Text, Config.XfdSummary, _
-                Minor:=Config.MinorTags, Watch:=Config.WatchTags)
+                Minor:=Config.Minor("deletetag"), Watch:=Config.Watch("deletetag"))
 
             Return New RequestResult(Result.Text, Result.ErrorMessage)
         End Function
@@ -113,7 +113,7 @@ Namespace Requests
 
             Dim Result As ApiResult = PostEdit(Config.AfdLocation & "/" & PageName, Text, _
                 Config.XfdDiscussionSummary.Replace("$1", Page.Name), _
-                Minor:=Config.MinorOther, Watch:=Config.WatchOther)
+                Minor:=Config.Minor("deletereq"), Watch:=Config.Watch("deletereq"))
 
             Return New RequestResult(Result.Text, Result.ErrorMessage)
         End Function
@@ -137,7 +137,7 @@ Namespace Requests
             Text = Callback(Text)
 
             Result = PostEdit(GetPage(LogPath), Text, Summary, Section:=Section, _
-                Minor:=Config.MinorOther, Watch:=Config.WatchOther)
+                Minor:=Config.Minor("deletereq"), Watch:=Config.Watch("deletereq"))
 
             Return New RequestResult(Result.Text, Result.ErrorMessage)
         End Function

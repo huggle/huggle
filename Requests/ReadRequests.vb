@@ -342,14 +342,14 @@ Namespace Requests
                 Exit Sub
             End If
 
-            Dim Revisions As String = HtmlDecode(FindString(Result.Text, "<revisions><rev>", "</rev>"))
+            Dim Text As String = HtmlDecode(FindString(Result.Text, "<revisions><rev>", "</rev>"))
 
-            If Revisions IsNot Nothing Then
-                User.Warnings = ProcessUserTalk(Revisions, User)
+            If Text IsNot Nothing Then
+                User.Warnings = ProcessUserTalk(Text, User)
                 User.Warnings.Sort(AddressOf SortWarningsByDate)
             End If
 
-            Complete()
+            Complete(, Text)
         End Sub
 
     End Class

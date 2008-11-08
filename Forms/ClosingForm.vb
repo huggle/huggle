@@ -2,6 +2,10 @@ Imports System.IO
 
 Class ClosingForm
 
+    Private Sub ClosingForm_FormClosing() Handles Me.FormClosing
+        End
+    End Sub
+
     Private Sub ClosingForm_Load() Handles Me.Load
         Icon = My.Resources.huggle_icon
 

@@ -31,7 +31,7 @@ Namespace Requests
                 Then Summary = Summary.Replace("$1", Edit.Page.LastEdit.User.Name).Replace("$2", Edit.User.Name) _
                 Else Summary = GetReversionSummary(Edit)
 
-            Result = PostEdit(Edit.Page, Text, Summary, Minor:=Config.MinorReverts, Watch:=Config.WatchReverts)
+            Result = PostEdit(Edit.Page, Text, Summary, Minor:=Config.Minor("revert"), Watch:=Config.Watch("revert"))
 
             If Result.Error Then
                 Fail(Msg("revert-fail", Edit.Page.Name), Result.ErrorMessage)
@@ -146,7 +146,7 @@ Namespace Requests
 
         Protected Overrides Sub Done()
             If Not _Result.Error Then
-                If Config.WatchReverts AndAlso Not Watchlist.Contains(Edit.Page.SubjectPage) Then
+                If Config.Watch("revert") AndAlso Not Watchlist.Contains(Edit.Page.SubjectPage) Then
                     Dim NewRequest As New WatchRequest
                     NewRequest.Page = Edit.Page
                     NewRequest.Start()
@@ -195,7 +195,7 @@ Namespace Requests
 
             Dim Text As String = HtmlDecode(FindString(Result.Text, "<rev ", ">", "</rev>"))
 
-            Result = PostEdit(Page, Text, Summary, Minor:=Config.MinorReverts, Watch:=Config.WatchReverts)
+            Result = PostEdit(Page, Text, Summary, Minor:=Config.Minor("revert"), Watch:=Config.Watch("revert"))
 
             If Result.Error Then Fail(Msg("revert-fail", Page.Name), Result.ErrorMessage) Else Complete()
 
@@ -253,7 +253,7 @@ Namespace Requests
             If State = States.Cancelled Then Thread.CurrentThread.Abort()
 
             Dim Result2 As ApiResult = PostEdit(Edit.Page, Text, Summary, _
-                Minor:=Config.MinorReverts, Watch:=Config.WatchReverts)
+                Minor:=Config.Minor("revert"), Watch:=Config.Watch("revert"))
 
             If Result2.Error Then Fail(Msg("revert-fail", Edit.Page.Name), Result2.ErrorMessage) Else Complete()
 

@@ -120,6 +120,7 @@ Partial Class ConfigForm
         Me.Label20 = New System.Windows.Forms.Label
         Me.ColorComment = New System.Windows.Forms.Button
         Me.AdminTab = New System.Windows.Forms.TabPage
+        Me.WatchDelete = New System.Windows.Forms.CheckBox
         Me.BlockTime = New System.Windows.Forms.TextBox
         Me.BlockTimeRegLabel = New System.Windows.Forms.Label
         Me.BlockTimeAnonLabel = New System.Windows.Forms.Label
@@ -547,7 +548,7 @@ Partial Class ConfigForm
         '
         'UndoSummary
         '
-        Me.UndoSummary.Location = New System.Drawing.Point(9, 216)
+        Me.UndoSummary.Location = New System.Drawing.Point(9, 271)
         Me.UndoSummary.Name = "UndoSummary"
         Me.UndoSummary.Size = New System.Drawing.Size(343, 20)
         Me.UndoSummary.TabIndex = 15
@@ -555,7 +556,7 @@ Partial Class ConfigForm
         'UndoSummaryLabel
         '
         Me.UndoSummaryLabel.AutoSize = True
-        Me.UndoSummaryLabel.Location = New System.Drawing.Point(6, 200)
+        Me.UndoSummaryLabel.Location = New System.Drawing.Point(6, 255)
         Me.UndoSummaryLabel.Name = "UndoSummaryLabel"
         Me.UndoSummaryLabel.Size = New System.Drawing.Size(171, 13)
         Me.UndoSummaryLabel.TabIndex = 14
@@ -563,7 +564,7 @@ Partial Class ConfigForm
         '
         'DefaultSummary
         '
-        Me.DefaultSummary.Location = New System.Drawing.Point(9, 171)
+        Me.DefaultSummary.Location = New System.Drawing.Point(9, 226)
         Me.DefaultSummary.Name = "DefaultSummary"
         Me.DefaultSummary.Size = New System.Drawing.Size(343, 20)
         Me.DefaultSummary.TabIndex = 13
@@ -571,7 +572,7 @@ Partial Class ConfigForm
         'DefaultSummaryLabel
         '
         Me.DefaultSummaryLabel.AutoSize = True
-        Me.DefaultSummaryLabel.Location = New System.Drawing.Point(6, 155)
+        Me.DefaultSummaryLabel.Location = New System.Drawing.Point(6, 210)
         Me.DefaultSummaryLabel.Name = "DefaultSummaryLabel"
         Me.DefaultSummaryLabel.Size = New System.Drawing.Size(165, 13)
         Me.DefaultSummaryLabel.TabIndex = 12
@@ -580,7 +581,7 @@ Partial Class ConfigForm
         'WatchlistLabel
         '
         Me.WatchlistLabel.AutoSize = True
-        Me.WatchlistLabel.Location = New System.Drawing.Point(167, 15)
+        Me.WatchlistLabel.Location = New System.Drawing.Point(249, 15)
         Me.WatchlistLabel.Name = "WatchlistLabel"
         Me.WatchlistLabel.Size = New System.Drawing.Size(85, 13)
         Me.WatchlistLabel.TabIndex = 11
@@ -598,19 +599,17 @@ Partial Class ConfigForm
         'Watchlist
         '
         Me.Watchlist.FormattingEnabled = True
-        Me.Watchlist.Items.AddRange(New Object() {"Reverts", "Warnings", "Tags", "Reports", "Notifications", "Manual edits", "Other"})
-        Me.Watchlist.Location = New System.Drawing.Point(170, 31)
+        Me.Watchlist.Location = New System.Drawing.Point(252, 31)
         Me.Watchlist.Name = "Watchlist"
-        Me.Watchlist.Size = New System.Drawing.Size(155, 109)
+        Me.Watchlist.Size = New System.Drawing.Size(237, 169)
         Me.Watchlist.TabIndex = 9
         '
         'Minor
         '
         Me.Minor.FormattingEnabled = True
-        Me.Minor.Items.AddRange(New Object() {"Reverts", "Warnings", "Tags", "Reports", "Notifications", "Manual edits", "Other"})
         Me.Minor.Location = New System.Drawing.Point(9, 31)
         Me.Minor.Name = "Minor"
-        Me.Minor.Size = New System.Drawing.Size(155, 109)
+        Me.Minor.Size = New System.Drawing.Size(237, 169)
         Me.Minor.TabIndex = 8
         '
         'RevertTab
@@ -1175,6 +1174,7 @@ Partial Class ConfigForm
         '
         'AdminTab
         '
+        Me.AdminTab.Controls.Add(Me.WatchDelete)
         Me.AdminTab.Controls.Add(Me.BlockTime)
         Me.AdminTab.Controls.Add(Me.BlockTimeRegLabel)
         Me.AdminTab.Controls.Add(Me.BlockTimeAnonLabel)
@@ -1190,6 +1190,16 @@ Partial Class ConfigForm
         Me.AdminTab.TabIndex = 1
         Me.AdminTab.Text = "Admin"
         Me.AdminTab.UseVisualStyleBackColor = True
+        '
+        'WatchDelete
+        '
+        Me.WatchDelete.AutoSize = True
+        Me.WatchDelete.Location = New System.Drawing.Point(9, 177)
+        Me.WatchDelete.Name = "WatchDelete"
+        Me.WatchDelete.Size = New System.Drawing.Size(171, 17)
+        Me.WatchDelete.TabIndex = 9
+        Me.WatchDelete.Text = "Add deleted pages to watchlist"
+        Me.WatchDelete.UseVisualStyleBackColor = True
         '
         'BlockTime
         '
@@ -1431,4 +1441,5 @@ Partial Class ConfigForm
     Friend WithEvents ViewLocalConfig As System.Windows.Forms.LinkLabel
     Friend WithEvents ConfirmRange As System.Windows.Forms.CheckBox
     Friend WithEvents ConfirmWarned As System.Windows.Forms.CheckBox
+    Friend WithEvents WatchDelete As System.Windows.Forms.CheckBox
 End Class

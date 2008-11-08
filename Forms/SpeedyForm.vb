@@ -15,6 +15,7 @@ Class SpeedyForm
                 OrElse (Item.Code.StartsWith("P") AndAlso Page.Space.Name = "Portal") _
                 OrElse (Item.Code.StartsWith("T") AndAlso Page.Space.Name = "Template") _
                 OrElse (Item.Code.StartsWith("U") AndAlso Page.Space.Name.StartsWith("User")) _
+                OrElse True _
                 Then Criterion.Items.Add(Item.Code & " - " & Item.Description)
         Next Item
         'Hide the param features and make the form the rigth size for when not included

@@ -24,6 +24,8 @@ Class ProdForm
             Dim NewRequest As New TagRequest
 
             NewRequest.Page = CurrentPage
+            NewRequest.Minor = Config.Minor("prodtag")
+            NewRequest.Watch = Config.Watch("prodtag")
             NewRequest.Tag = "{{subst:prod|" & Reason.Text & "}}"
             NewRequest.Summary = Config.ProdSummary.Replace("$1", Reason.Text)
             NewRequest.AvoidText = "{{dated prod|"
@@ -32,6 +34,8 @@ Class ProdForm
                 NewRequest.NotifyRequest = New UserMessageRequest
                 NewRequest.NotifyRequest.Message = Config.ProdMessage.Replace("$1", CurrentPage.Name) _
                     .Replace("$2", Reason.Text)
+                NewRequest.NotifyRequest.Minor = Config.Minor("deletenote")
+                NewRequest.NotifyRequest.Watch = Config.Watch("deletenote")
                 NewRequest.NotifyRequest.Title = Config.ProdMessageTitle.Replace("$1", CurrentPage.Name)
                 NewRequest.NotifyRequest.AvoidText = CurrentPage.Name
                 NewRequest.NotifyRequest.Summary = Config.ProdMessageSummary.Replace("$1", CurrentPage.Name)

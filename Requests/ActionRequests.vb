@@ -95,7 +95,7 @@ Namespace Requests
 
         'Delete a page
 
-        Public Page As Page, Summary As String, Watch As Boolean
+        Public Page As Page, Summary As String
 
         Protected Overrides Sub Process()
             LogProgress(Msg("delete-progress", Page.Name))
@@ -118,7 +118,7 @@ Namespace Requests
             Dim PostString As String = "title=" & UrlEncode(Page.Name) & _
                 "&reason=" & UrlEncode(Summary) & "&token=" & UrlEncode(Token)
 
-            If Watch Then PostString &= "&watch"
+            If Config.WatchDelete Then PostString &= "&watch"
 
             Result = DoApiRequest("action=delete", PostString)
 

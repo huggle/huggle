@@ -298,14 +298,9 @@ Module ConfigIO
     End Sub
 
     Private Sub SetMinor(ByVal Value As String)
-        Dim Items As List(Of String) = GetList(Value.ToLower)
-
-        Config.MinorManual = (Items.Contains("manual"))
-        Config.MinorNotifications = (Items.Contains("notifications"))
-        Config.MinorOther = (Items.Contains("reports"))
-        Config.MinorReverts = (Items.Contains("reverts"))
-        Config.MinorTags = (Items.Contains("tags"))
-        Config.MinorWarnings = (Items.Contains("warnings"))
+        For Each Item As String In GetList(Value.ToLower)
+            If Config.Minor.ContainsKey(Item) Then Config.Minor(Item) = True
+        Next Item
     End Sub
 
     Private Sub SetNamespaceNames(ByVal Value As String)
@@ -374,14 +369,12 @@ Module ConfigIO
     End Sub
 
     Private Sub SetWatch(ByVal Value As String)
-        Dim Items As List(Of String) = GetList(Value.ToLower)
+        Config.WatchDelete = False
 
-        Config.WatchManual = (Items.Contains("manual"))
-        Config.WatchNotifications = (Items.Contains("notifications"))
-        Config.WatchOther = (Items.Contains("reports"))
-        Config.WatchReverts = (Items.Contains("reverts"))
-        Config.WatchTags = (Items.Contains("tags"))
-        Config.WatchWarnings = (Items.Contains("warnings"))
+        For Each Item As String In GetList(Value.ToLower)
+            If Config.Watch.ContainsKey(Item) Then Config.Watch(Item) = True
+            If Item = "delete" Then Config.WatchDelete = True
+        Next Item
     End Sub
 
     Public Function L10nLocation() As String

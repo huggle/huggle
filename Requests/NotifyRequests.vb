@@ -8,7 +8,8 @@ Namespace Requests
         'Post a message on a user's discussion page
 
         Public User As User, Summary, Message, Title, AvoidText As String
-        Public Watch, Minor, AutoSign As Boolean
+        Public Watch As Boolean = Config.Watch("message"), Minor As Boolean = Config.Minor("message")
+        Public AutoSign, SuppressAutoSummary As Boolean
 
         Protected Overrides Sub Process()
             LogProgress(Msg("usermessage-progress", User.Name))
@@ -32,7 +33,8 @@ Namespace Requests
             Text &= Message
             If AutoSign Then Text &= " ~~~~"
 
-            Result = PostEdit(User.TalkPage, Text, Summary, Minor:=Minor, Watch:=Watch)
+            Result = PostEdit(User.TalkPage, Text, Summary, Minor:=Minor, Watch:=Watch, _
+                SuppressAutoSummary:=SuppressAutoSummary)
 
             If Result.Error Then Fail(Msg("usermessage-fail", User.Name)) Else Complete()
 
@@ -59,8 +61,6 @@ Namespace Requests
 
             LogProgress(Msg("warn-progress", Edit.User.Name))
 
-            Dim NewRequest As New WarningLogRequest
-            NewRequest.User = Edit.User
             Dim Result As ApiResult = GetText(Edit.User.TalkPage)
 
             If Result.Error Then
@@ -169,7 +169,7 @@ Namespace Requests
                 ShortSitePath() & UrlEncode(Edit.Page.Name.Replace(" ", "_")) & "?diff=" & Edit.Id)
 
             Result = PostEdit(Edit.User.TalkPage, Text, WarnSummary.Replace("$1", Edit.Page.Name), _
-                Minor:=Config.MinorWarnings, Watch:=Config.WatchWarnings)
+                Minor:=Config.Minor("warning"), Watch:=Config.Watch("warning"))
 
             If Result.Error Then Fail(Msg("warn-fail", Edit.User.Name), Result.ErrorMessage) Else Complete()
 
@@ -252,8 +252,8 @@ Namespace Requests
                 Text &= LF & Template & " ~~~~"
             End If
 
-            Result = PostEdit(User.TalkPage, Text, Config.BlockSummary, Minor:=Config.MinorNotifications, _
-                Watch:=Config.WatchNotifications)
+            Result = PostEdit(User.TalkPage, Text, Config.BlockSummary, _
+                Minor:=Config.Minor("blocknote"), Watch:=Config.Watch("blocknote"))
 
             If Result.Error Then Fail(Msg("blocknotify-fail", User.Name), Result.ErrorMessage) Else Complete()
 

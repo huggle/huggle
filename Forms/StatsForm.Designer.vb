@@ -33,7 +33,7 @@ Partial Class StatsForm
         'OK
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.OK.Location = New System.Drawing.Point(467, 213)
+        Me.OK.Location = New System.Drawing.Point(537, 213)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
         Me.OK.TabIndex = 0
@@ -65,7 +65,7 @@ Partial Class StatsForm
         Me.Actions.Location = New System.Drawing.Point(12, 25)
         Me.Actions.MultiSelect = False
         Me.Actions.Name = "Actions"
-        Me.Actions.Size = New System.Drawing.Size(530, 182)
+        Me.Actions.Size = New System.Drawing.Size(600, 182)
         Me.Actions.TabIndex = 2
         Me.Actions.UseCompatibleStateImageBehavior = False
         Me.Actions.View = System.Windows.Forms.View.Details
@@ -83,7 +83,7 @@ Partial Class StatsForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(554, 248)
+        Me.ClientSize = New System.Drawing.Size(624, 248)
         Me.Controls.Add(Me.Session)
         Me.Controls.Add(Me.Actions)
         Me.Controls.Add(Me.ActionsLabel)

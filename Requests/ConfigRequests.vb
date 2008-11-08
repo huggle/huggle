@@ -53,28 +53,21 @@ Namespace Requests
                 Exit Sub
             End If
 
-            Dim UserConfigFile As String = HtmlDecode(FindString(Result.Text, "<rev>", "</rev>"))
+            Config.Watch.Clear()
+            Config.Minor.Clear()
 
-            If UserConfigFile IsNot Nothing Then
-                For Each Item As KeyValuePair(Of String, String) In ProcessConfigFile(UserConfigFile)
-                    Try
-                        SetSharedConfigOption(Item.Key, Item.Value)
-                        SetUserConfigOption(Item.Key, Item.Value)
+            For Each Item As String In Config.EditTypes
+                Config.Watch.Add(Item, False)
+                Config.Minor.Add(Item, False)
+            Next Item
 
-                    Catch ex As Exception
-                        'Ignore malformed config entries
-                    End Try
-                Next Item
-            End If
+            Dim ProjectConfigFile As String = HtmlDecode(FindString(FindString(Result.Text, "<page", _
+                "ns=""" & GetPage(Config.ProjectConfigLocation).Space.Number & """", "</page>"), "<rev>", "</rev>"))
 
-            If Config.TemplateMessages.Count = 0 Then Config.TemplateMessages = Config.TemplateMessagesGlobal
+            Dim UserConfigFile As String = HtmlDecode(FindString(FindString(Result.Text, "<page", _
+                "ns=""" & GetPage(Config.UserConfigLocation).Space.Number & """", "</page>"), "<rev>", "</rev>"))
 
-            If Config.WarnSummary2 Is Nothing Then Config.WarnSummary2 = Config.WarnSummary
-            If Config.WarnSummary3 Is Nothing Then Config.WarnSummary3 = Config.WarnSummary
-            If Config.WarnSummary4 Is Nothing Then Config.WarnSummary4 = Config.WarnSummary
-
-            Dim ProjectConfigFile As String = HtmlDecode(FindString(FindString(Result.Text, "</rev>"), "<rev>", "</rev>"))
-
+            'Set project config
             If ProjectConfigFile Is Nothing Then
                 Fail(Msg("login-error-noconfig"))
                 Exit Sub
@@ -96,6 +89,24 @@ Namespace Requests
 
             Config.IrcMode = Not String.IsNullOrEmpty(Config.IrcChannel)
 
+            'Set user config
+            If UserConfigFile IsNot Nothing Then
+                For Each Item As KeyValuePair(Of String, String) In ProcessConfigFile(UserConfigFile)
+                    Try
+                        SetSharedConfigOption(Item.Key, Item.Value)
+                        SetUserConfigOption(Item.Key, Item.Value)
+
+                    Catch ex As Exception
+                        'Ignore malformed config entries
+                    End Try
+                Next Item
+            End If
+
+            If Config.TemplateMessages.Count = 0 Then Config.TemplateMessages = Config.TemplateMessagesGlobal
+
+            If Config.WarnSummary2 Is Nothing Then Config.WarnSummary2 = Config.WarnSummary
+            If Config.WarnSummary3 Is Nothing Then Config.WarnSummary3 = Config.WarnSummary
+            If Config.WarnSummary4 Is Nothing Then Config.WarnSummary4 = Config.WarnSummary
 
             Dim Userinfo As String = FindString(Result.Text, "<userinfo", "</userinfo>")
 
@@ -106,6 +117,7 @@ Namespace Requests
                     Exit Sub
                 End If
 
+                'Check user's edit count
                 Dim EditCount As Integer = CInt(GetParameter(Userinfo, "editcount"))
 
                 If EditCount < Config.RequireEdits Then
@@ -200,15 +212,13 @@ Namespace Requests
 
             Dim MinorItems As New List(Of String)
 
-            If Config.MinorReverts Then MinorItems.Add("reverts")
-            If Config.MinorWarnings Then MinorItems.Add("warnings")
-            If Config.MinorTags Then MinorItems.Add("tags")
-            If Config.MinorReports Then MinorItems.Add("reports")
-            If Config.MinorNotifications Then MinorItems.Add("notifications")
-            If Config.MinorOther Then MinorItems.Add("other")
-            If MinorItems.Count = 0 Then MinorItems.Add("none")
+            For Each Item As KeyValuePair(Of String, Boolean) In Config.Minor
+                If Item.Value Then MinorItems.Add(Item.Key)
+            Next Item
 
+            If MinorItems.Count = 0 Then MinorItems.Add("none")
             Items.Add("minor:" & String.Join(",", MinorItems.ToArray))
+
             Items.Add("open-in-browser:" & CStr(Config.OpenInBrowser).ToLower)
             Items.Add("preload:" & CStr(Config.Preloads))
 
@@ -242,14 +252,13 @@ Namespace Requests
 
             Dim WatchItems As New List(Of String)
 
-            If Config.WatchReverts Then WatchItems.Add("reverts")
-            If Config.WatchWarnings Then WatchItems.Add("warnings")
-            If Config.WatchTags Then WatchItems.Add("tags")
-            If Config.WatchReports Then WatchItems.Add("reports")
-            If Config.WatchNotifications Then WatchItems.Add("notifications")
-            If Config.WatchOther Then WatchItems.Add("other")
-            If WatchItems.Count = 0 Then WatchItems.Add("none")
+            For Each Item As KeyValuePair(Of String, Boolean) In Config.Watch
+                If Item.Value Then WatchItems.Add(Item.Key)
+            Next Item
 
+            If Config.WatchDelete Then WatchItems.Add("delete")
+
+            If WatchItems.Count = 0 Then WatchItems.Add("none")
             Items.Add("watchlist:" & String.Join(",", WatchItems.ToArray))
 
             Dim Result As ApiResult = PostEdit(Config.UserConfigLocation, String.Join(LF, Items.ToArray), _

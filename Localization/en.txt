@@ -1,5 +1,5 @@
 ﻿<pre>
-name:                    English
+name:                      English
 </pre>
 
 === General ===
@@ -25,6 +25,24 @@ selectfile:                Browse...
 yes:                       Yes
 </pre>
 
+=== Edit types ===
+<pre>
+edittype-blocknote:        Block notifications
+edittype-deletenote:       Deletion request notifications
+edittype-deletetag:        Deletion discussion tags
+edittype-deletereq:        Other deletion discussion edits
+edittype-manual:           Manual edits
+edittype-message:          User messages
+edittype-note:             Other notifications
+edittype-prodtag:          Proposed deletion tags
+edittype-protectreq:       Protection requests
+edittype-report:           Reports
+edittype-revert:           Reverts
+edittype-speedytag:        Speedy deletion tags
+edittype-tag:              Other tags
+edittype-warning:          Warnings
+</pre>
+
 === About form ===
 <pre>
 about-contributors:        Contributors:
@@ -40,7 +58,6 @@ block-anononly:            Block anonymous users only
 block-creation:            Block account creation
 block-autoblock:           Enable autoblocks
 block-email:               Block e-mail
-block-talkedit:            Block editing of user talk page by user
 block-usertalk:            Talk
 block-usercontribs:        Contribs
 block-blockloglabel:       Block log:
@@ -120,7 +137,7 @@ config-addtemplate:        Add template
 === Delete form ===
 <pre>
 delete-title:              Delete {0}
-delete-reason:             Reason (leave empty for default):
+delete-reason:             Reason:
 delete-deletionlog:        Deletion log:
 </pre>
 
@@ -194,14 +211,9 @@ login-captchatitle:        Captcha required to log in
 login-progress-start:      Logging in...
 login-progress-language:   Updating message files...
 login-progress-global:     Checking global configuration...
-login-progress-project:    Checking project configuration...
-login-progress-user:       Checking user configuration...
-login-progress-rights:     Checking user rights...
-login-progress-age:        Checking account creation date...
+login-progress-config:     Checking configuration pages...
 login-progress-userlist:   Checking user list...
 login-progress-whitelist:  Retrieving user whitelist...
-login-progress-botlist:    Retrieving bot list...
-login-progress-watchlist:  Retrieving watchlist...
 
 login-error-admin:         Use of Huggle on this project requires an administrator account.
 login-error-age:           Use of Huggle on this project requires an account at least {0} days old.
@@ -210,6 +222,7 @@ login-error-approval:      Use of Huggle on this project requires approval.
 login-error-autoconfirmed: Use of Huggle on this project requires that your account is autoconfirmed.
 login-error-cancelled:     Cancelled.
 login-error-captcha:       Incorrect password or confirmation code.
+login-error-config:        Failed to load configuration pages.
 login-error-count:         Use of Huggle on this project requires at least {0} edits.
 login-error-disabled:      Huggle is not enabled for your account, check user configuration page.
 login-error-global:        Failed to load global configuration page.
@@ -219,15 +232,11 @@ login-error-nocaptcha:     Captcha not solved.
 login-error-noconfig:      This project does not have a Huggle configuration page.
 login-error-nouser:        User does not exist.
 login-error-password:      Incorrect password.
-login-error-project:       Failed to load project configuration page.
 login-error-projdisabled:  Huggle is currently disabled on this project.
-login-error-rights:        Failed to retrieve user rights.
 login-error-rollback:      Use of Huggle on this project requires rollback.
 login-error-unknown:       Unable to log in.
-login-error-user:          Failed to load user configuration page.
 login-error-userlist:      Failed to load user list.
 login-error-version:       Version is out of date. Update to the latest version.
-login-error-watchlist:     Failed to load watchlist.
 login-error-whitelist:     Failed to load user whitelist.
 </pre>
 

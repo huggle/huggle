@@ -531,7 +531,8 @@ Module Processing
             Dim NewRequest As New EditRequest
             NewRequest.Text = ""
             NewRequest.Page = Edit.Page
-            NewRequest.Minor = Config.MinorReverts
+            NewRequest.Minor = Config.Minor("revert")
+            NewRequest.Watch = Config.Watch("revert")
             If Undoing Then NewRequest.Summary = Config.UndoSummary Else NewRequest.Summary = _
                 "Revert edit by [[Special:Contributions/" & Config.Username & "|" & Config.Username & "]]"
             NewRequest.Start()

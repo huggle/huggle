@@ -31,6 +31,7 @@ Namespace Requests
 
         Public Page As Page, NotifyRequest As UserMessageRequest
         Public Tag, Summary, AvoidText As String
+        Public Minor As Boolean = Config.Minor("tag"), Watch As Boolean = Config.Watch("tag")
         Public ReplacePage, Patrol, InsertAtEnd As Boolean
 
         Protected Overrides Sub Process()
@@ -61,7 +62,7 @@ Namespace Requests
                 Text = Tag & LF & Result.Text
             End If
 
-            Result = PostEdit(Page, Text, Summary, Minor:=Config.MinorTags, Watch:=Config.WatchTags)
+            Result = PostEdit(Page, Text, Summary, Minor:=Minor, Watch:=Watch)
 
             If Result.Error Then
                 Fail(Msg("tag-fail", Page.Name), Result.ErrorMessage)
@@ -121,13 +122,13 @@ Namespace Requests
 
             Result = PostEdit(Page, Text, Config.SpeedySummary.Replace("$1", "[[WP:SD#" & Criterion.DisplayCode & _
                 "|" & Config.SpeedyCriteria(Criterion.DisplayCode).Description & "]]"), _
-                Minor:=Config.MinorTags, Watch:=Config.WatchTags)
+                Minor:=Config.Minor("speedytag"), Watch:=Config.Watch("speedytag"))
 
             If Result.Error Then Fail(, Result.ErrorMessage) Else Complete()
         End Sub
 
         Protected Overrides Sub Done()
-            If Config.WatchTags Then
+            If Config.Watch("speedytag") Then
                 If Not Watchlist.Contains(Page.SubjectPage) Then Watchlist.Add(Page.SubjectPage)
                 MainForm.UpdateWatchButton()
             End If
@@ -222,8 +223,8 @@ Namespace Requests
             End Select
 
             Result = PostEdit(Config.ProtectionRequestPage, Text, Config.ProtectionRequestSummary.Replace _
-                ("$1", ProtectionLevel).Replace("$2", Page.Name), Section:="1", Minor:=Config.MinorReports, _
-                Watch:=Config.WatchReports)
+                ("$1", ProtectionLevel).Replace("$2", Page.Name), Section:="1", Minor:=Config.Minor("protectreq"), _
+                Watch:=Config.Watch("protectreq"))
 
             If Result.Error _
                 Then Fail(Msg("reqprotection-fail", Page.Text), Result.ErrorMessage) _

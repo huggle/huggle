@@ -16,7 +16,7 @@ Class ConfigForm
         Templates.Columns(0).Text = Msg("config-templatetext")
         Templates.Columns(1).Text = Msg("config-template")
         ViewLocalConfig.Text = Msg("config-viewlocalconfig")
-        OK.Text = Msg("accept")
+        OK.Text = Msg("ok")
         Cancel.Text = Msg("cancel")
 
         'Set to current config values
@@ -38,22 +38,6 @@ Class ConfigForm
         DiffFontSize.Value = CInt(Config.DiffFontSize)
         LogFile.Text = Config.LogFile
 
-        If Config.MinorReverts Then Minor.SetItemChecked(0, True)
-        If Config.MinorWarnings Then Minor.SetItemChecked(1, True)
-        If Config.MinorTags Then Minor.SetItemChecked(2, True)
-        If Config.MinorReports Then Minor.SetItemChecked(3, True)
-        If Config.MinorNotifications Then Minor.SetItemChecked(4, True)
-        If Config.MinorManual Then Minor.SetItemChecked(5, True)
-        If Config.MinorOther Then Minor.SetItemChecked(6, True)
-
-        If Config.WatchReverts Then Watchlist.SetItemChecked(0, True)
-        If Config.WatchWarnings Then Watchlist.SetItemChecked(1, True)
-        If Config.WatchTags Then Watchlist.SetItemChecked(2, True)
-        If Config.WatchReports Then Watchlist.SetItemChecked(3, True)
-        If Config.WatchNotifications Then Watchlist.SetItemChecked(4, True)
-        If Config.WatchManual Then Watchlist.SetItemChecked(5, True)
-        If Config.WatchOther Then Watchlist.SetItemChecked(6, True)
-
         DefaultSummary.Text = Config.DefaultSummary
         UndoSummary.Text = Config.UndoSummary
 
@@ -64,6 +48,14 @@ Class ConfigForm
         ConfirmRange.Checked = Config.ConfirmRange
         AutoAdvance.Checked = Config.AutoAdvance
         UseRollback.Checked = Config.UseRollback
+
+        For Each Item As KeyValuePair(Of String, Boolean) In Config.Minor
+            Minor.Items.Add(Msg("edittype-" & Item.Key), Item.Value)
+        Next Item
+
+        For Each Item As KeyValuePair(Of String, Boolean) In Config.Watch
+            Watchlist.Items.Add(Msg("edittype-" & Item.Key), Item.Value)
+        Next Item
 
         For Each Item As String In Config.CustomRevertSummaries
             RevertSummaries.Items.Add(Item)
@@ -92,6 +84,7 @@ Class ConfigForm
         BlockReason.Text = Config.BlockReason
         BlockTime.Text = Config.BlockTime
         BlockTimeAnon.Text = Config.BlockTimeAnon
+        WatchDelete.Checked = Config.WatchDelete
 
         ColorComment.BackColor = Highlight.CommentC
         ColorExternalLink.BackColor = Highlight.ExternalC
@@ -149,22 +142,6 @@ Class ConfigForm
             Config.DiffFontSize = CStr(DiffFontSize.Value)
             Config.LogFile = LogFile.Text
 
-            Config.MinorReverts = Minor.CheckedIndices.Contains(0)
-            Config.MinorWarnings = Minor.CheckedIndices.Contains(1)
-            Config.MinorTags = Minor.CheckedIndices.Contains(2)
-            Config.MinorReports = Minor.CheckedIndices.Contains(3)
-            Config.MinorNotifications = Minor.CheckedIndices.Contains(4)
-            Config.MinorManual = Minor.CheckedIndices.Contains(5)
-            Config.MinorOther = Minor.CheckedIndices.Contains(6)
-
-            Config.WatchReverts = Watchlist.CheckedIndices.Contains(0)
-            Config.WatchWarnings = Watchlist.CheckedIndices.Contains(1)
-            Config.WatchTags = Watchlist.CheckedIndices.Contains(2)
-            Config.WatchReports = Watchlist.CheckedIndices.Contains(3)
-            Config.WatchNotifications = Watchlist.CheckedIndices.Contains(4)
-            Config.WatchManual = Watchlist.CheckedIndices.Contains(5)
-            Config.WatchOther = Watchlist.CheckedIndices.Contains(6)
-
             Config.DefaultSummary = DefaultSummary.Text
             Config.UndoSummary = UndoSummary.Text
 
@@ -175,6 +152,36 @@ Class ConfigForm
             Config.ConfirmRange = ConfirmRange.Checked
             Config.AutoAdvance = AutoAdvance.Checked
             Config.UseRollback = UseRollback.Checked
+
+            For Each Item As String In Config.Watch.Keys
+                Config.Minor(Item) = False
+            Next Item
+
+            For Each Item As String In Config.Minor.Keys
+                Config.Watch(Item) = False
+            Next Item
+
+            For Each Item As Object In Minor.CheckedItems
+                Dim ItemName As String = CStr(Item)
+
+                For Each Item2 As String In Config.Minor.Keys
+                    If ItemName = Msg("edittype-" & Item2) Then
+                        Config.Minor(Item2) = True
+                        Exit For
+                    End If
+                Next Item2
+            Next Item
+
+            For Each Item As Object In Watchlist.CheckedItems
+                Dim ItemName As String = CStr(Item)
+
+                For Each Item2 As String In Config.Watch.Keys
+                    If ItemName = Msg("edittype-" & Item2) Then
+                        Config.Watch(Item2) = True
+                        Exit For
+                    End If
+                Next Item2
+            Next Item
 
             Config.CustomRevertSummaries.Clear()
 
@@ -199,6 +206,7 @@ Class ConfigForm
             Config.BlockReason = BlockReason.Text
             Config.BlockTime = BlockTime.Text
             Config.BlockTimeAnon = BlockTimeAnon.Text
+            Config.WatchDelete = WatchDelete.Checked
 
         Else
             DialogResult = DialogResult.Cancel

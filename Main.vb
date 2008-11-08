@@ -1258,7 +1258,8 @@ Class Main
                 Else NewRequest.Message = Config.Welcome
             NewRequest.AutoSign = True
             NewRequest.Summary = Config.WelcomeSummary
-            NewRequest.Minor = Config.MinorNotifications
+            NewRequest.Minor = Config.Minor("note")
+            NewRequest.Watch = Config.Watch("note")
             NewRequest.AvoidText = "<!-- Template:Welcome"
             NewRequest.Start()
         End If
@@ -1279,7 +1280,8 @@ Class Main
             NewRequest.Message = "{{subst:" & CStr(MenuItem.Tag) & "}}"
             NewRequest.AutoSign = True
             NewRequest.Summary = "Notification: {{[[Template:" & CStr(MenuItem.Tag) & "|" & CStr(MenuItem.Tag) & "]]}}"
-            NewRequest.Minor = Config.MinorNotifications
+            NewRequest.Minor = Config.Minor("note")
+            NewRequest.Watch = Config.Watch("note")
             NewRequest.AvoidText = "<!-- Template:" & CStr(MenuItem.Tag)
             NewRequest.Start()
         End If

@@ -18,8 +18,8 @@ Class EditForm
         ChangesTab.Text = Msg("edit-changestab")
 
         Summary.Text = Config.DefaultSummary
-        Minor.Checked = Config.MinorManual
-        Watch.Checked = (Watchlist.Contains(Page) OrElse Config.WatchManual)
+        Minor.Checked = Config.Minor("manual")
+        Watch.Checked = (Watchlist.Contains(Page) OrElse Config.Watch("manual"))
         WaitMessage.Text = "Retrieving page text..."
         EditPaste.Enabled = Clipboard.ContainsText
 
