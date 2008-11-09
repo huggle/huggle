@@ -197,7 +197,7 @@ Class Configuration
     Public WarningAge As Integer = 36
     Public WarningImLevel As Boolean
     Public WarningMode As String
-    Public WarningSeries As New List(Of String)
+    Public WarningTypes As New Dictionary(Of String, String)
     Public Watch As New Dictionary(Of String, Boolean)
     Public WhitelistEditCount As Integer = 500
     Public WhitelistLocation As String

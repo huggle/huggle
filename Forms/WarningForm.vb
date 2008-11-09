@@ -7,8 +7,11 @@ Class WarningForm
         Text = Msg("warning-title", User.Name)
         Localize(Me, "warning")
 
+        For Each Item As String In Config.WarningTypes.Values
+            WarnType.Items.Add(Item)
+        Next Item
+
         WarnLog.User = User
-        WarnType.Items.AddRange(Config.WarningSeries.ToArray)
         If WarnType.Items.Count > 0 Then WarnType.SelectedIndex = 0
 
         Level2.Visible = (Config.WarningMode <> "1")
@@ -50,7 +53,13 @@ Class WarningForm
         If Level3.Checked Then NewWarningRequest.Level = 3
         If LevelFinal.Checked Then NewWarningRequest.Level = 4
 
-        NewWarningRequest.Type = WarnType.SelectedItem.ToString
+        For Each Item As KeyValuePair(Of String, String) In Config.WarningTypes
+            If Item.Value = WarnType.Text Then
+                NewWarningRequest.Type = Item.Key
+                Exit For
+            End If
+        Next Item
+
         NewWarningRequest.Start()
 
         Close()

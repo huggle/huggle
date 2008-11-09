@@ -30,23 +30,24 @@ Partial Class Main
         UserMessageWelcome.Visible = (Config.Welcome IsNot Nothing)
         UserReport.Visible = Config.AIV OrElse Config.UAA OrElse Config.TRR
         UserReportB.Visible = Config.AIV OrElse Config.UAA OrElse Config.TRR
-        UserWarn.Visible = Config.WarningSeries.Count > 0
+        UserWarn.Visible = Config.WarningTypes.Count > 0
 
-        WarnVandalism.Visible = Config.WarningSeries.Contains("warning")
-        WarnSpam.Visible = Config.WarningSeries.Contains("spam")
-        WarnAttack.Visible = Config.WarningSeries.Contains("attack")
-        WarnTest.Visible = Config.WarningSeries.Contains("test")
-        WarnDelete.Visible = Config.WarningSeries.Contains("delete")
-        WarnNpov.Visible = Config.WarningSeries.Contains("npov")
-        WarnError.Visible = Config.WarningSeries.Contains("error")
+        'Add warning types to warn menu and revert-and-warn menu
+        For Each WarningType As KeyValuePair(Of String, String) In Config.WarningTypes
+            Dim NewMenuItem As New ToolStripMenuItem
+            NewMenuItem.Name = "warn-" & WarningType.Key
+            NewMenuItem.Tag = WarningType.Key
+            NewMenuItem.Text = WarningType.Value
+            AddHandler NewMenuItem.Click, AddressOf WarnItem_Click
+            WarnMenu.Items.Insert(WarnMenu.Items.Count - 2, NewMenuItem)
 
-        RevertWarnVandalism.Visible = Config.WarningSeries.Contains("warning")
-        RevertWarnSpam.Visible = Config.WarningSeries.Contains("spam")
-        RevertWarnAttack.Visible = Config.WarningSeries.Contains("attack")
-        RevertWarnTest.Visible = Config.WarningSeries.Contains("test")
-        RevertWarnDelete.Visible = Config.WarningSeries.Contains("delete")
-        RevertWarnNpov.Visible = Config.WarningSeries.Contains("npov")
-        RevertWarnError.Visible = Config.WarningSeries.Contains("error")
+            Dim NewMenuItem2 As New ToolStripMenuItem
+            NewMenuItem2.Name = "revert-warn-" & WarningType.Key
+            NewMenuItem2.Tag = WarningType.Key
+            NewMenuItem2.Text = WarningType.Value
+            AddHandler NewMenuItem2.Click, AddressOf RevertWarnItem_Click
+            RevertWarnMenu.Items.Insert(RevertWarnMenu.Items.Count - 2, NewMenuItem2)
+        Next WarningType
 
         For Each Item As ToolStrip In New ToolStrip() {MainStrip, HistoryStrip, NavigationStrip, ActionsStrip}
             Item.ShowItemToolTips = Config.ShowToolTips
@@ -207,7 +208,7 @@ Partial Class Main
             PageWatchB.Enabled = True
             PageXfd.Enabled = Editable
             RevertWarnB.Enabled = (RevertB.Enabled AndAlso Not CurrentUser.Ignored AndAlso Editable _
-                AndAlso Config.WarningSeries.Count > 0)
+                AndAlso Config.WarningTypes.Count > 0)
             QueueClear.Enabled = (CurrentQueue.Edits.Count > 0)
             QueueNext.Enabled = (CurrentQueue.Edits.Count > 0)
             QueueTrim.Enabled = (CurrentQueue.Edits.Count > 0)
@@ -230,8 +231,8 @@ Partial Class Main
             UserTalk.Enabled = True
             UserTalkB.Enabled = True
             TemplateB.Enabled = (Not CurrentUser.Ignored)
-            UserWarn.Enabled = (Not CurrentUser.Ignored AndAlso Config.WarningSeries.Count > 0)
-            WarnB.Enabled = (Not CurrentUser.Ignored AndAlso Config.WarningSeries.Count > 0)
+            UserWarn.Enabled = (Not CurrentUser.Ignored AndAlso Config.WarningTypes.Count > 0)
+            WarnB.Enabled = (Not CurrentUser.Ignored AndAlso Config.WarningTypes.Count > 0)
 
             For Each Item As ToolStripItem In WarnMenu.Items
                 Item.Enabled = WarnB.Enabled
@@ -435,48 +436,6 @@ Partial Class Main
             Case Is = ShortcutKeys("Previous tab")
                 Tabs.SelectedIndex = (Tabs.SelectedIndex - 1) Mod Tabs.TabCount
 
-            Case Is = ShortcutKeys("Warn - vandalism")
-                If WarnB.Enabled AndAlso Config.WarningSeries.Contains("warning") Then WarnVandalism_Click()
-
-            Case Is = ShortcutKeys("Warn - spam")
-                If WarnB.Enabled AndAlso Config.WarningSeries.Contains("spam") Then WarnSpam_Click()
-
-            Case Is = ShortcutKeys("Warn - editing tests")
-                If WarnB.Enabled AndAlso Config.WarningSeries.Contains("test") Then WarnTest_Click()
-
-            Case Is = ShortcutKeys("Warn - removing content")
-                If WarnB.Enabled AndAlso Config.WarningSeries.Contains("delete") Then WarnDelete_Click()
-
-            Case Is = ShortcutKeys("Warn - personal attacks")
-                If WarnB.Enabled AndAlso Config.WarningSeries.Contains("attack") Then WarnAttacks_Click()
-
-            Case Is = ShortcutKeys("Warn - factual errors")
-                If WarnB.Enabled AndAlso Config.WarningSeries.Contains("error") Then WarnError_Click()
-
-            Case Is = ShortcutKeys("Warn - biased content")
-                If WarnB.Enabled AndAlso Config.WarningSeries.Contains("npov") Then WarnNpov_Click()
-
-            Case Is = ShortcutKeys("Revert and warn - spam")
-                If Config.WarningSeries.Contains("spam") Then RevertAndWarn("spam")
-
-            Case Is = ShortcutKeys("Revert and warn - editing tests")
-                If Config.WarningSeries.Contains("test") Then RevertAndWarn("test")
-
-            Case Is = ShortcutKeys("Revert and warn - removing content")
-                If Config.WarningSeries.Contains("delete") Then RevertAndWarn("delete")
-
-            Case Is = ShortcutKeys("Revert and warn - personal attacks")
-                If Config.WarningSeries.Contains("attack") Then RevertAndWarn("attack")
-
-            Case Is = ShortcutKeys("Revert and warn - factual errors")
-                If Config.WarningSeries.Contains("error") Then RevertAndWarn("error")
-
-            Case Is = ShortcutKeys("Revert and warn - biased content")
-                If Config.WarningSeries.Contains("npov") Then RevertAndWarn("npov")
-
-            Case Is = ShortcutKeys("Revert and warn - unsourced content")
-                If Config.WarningSeries.Contains("unsourced") Then RevertAndWarn("unsourced")
-
             Case Is = ShortcutKeys("Request protection")
                 If PageReqProtection.Enabled Then PageRequestProtection_Click()
         End Select
@@ -517,20 +476,6 @@ Partial Class Main
         SetSDItem(UserMessage, "Message user")
         SetSDItem(UserReport, "Report user")
         SetSDItem(UserTalk, "View user talk page")
-        SetSDItem(WarnVandalism, "Warn - vandalism")
-        SetSDItem(WarnSpam, "Warn - spam")
-        SetSDItem(WarnTest, "Warn - editing tests")
-        SetSDItem(WarnDelete, "Warn - removing content")
-        SetSDItem(WarnAttack, "Warn - personal attacks")
-        SetSDItem(WarnError, "Warn - factual errors")
-        SetSDItem(WarnNpov, "Warn - biased content")
-        SetSDItem(RevertWarnVandalism, "Revert and warn")
-        SetSDItem(RevertWarnSpam, "Revert and warn - spam")
-        SetSDItem(RevertWarnTest, "Revert and warn - editing tests")
-        SetSDItem(RevertWarnDelete, "Revert and warn - removing content")
-        SetSDItem(RevertWarnAttack, "Revert and warn - personal attacks")
-        SetSDItem(RevertWarnError, "Revert and warn - factual errors")
-        SetSDItem(RevertWarnNpov, "Revert and warn - biased content")
     End Sub
 
     Private Sub SetTooltipText()

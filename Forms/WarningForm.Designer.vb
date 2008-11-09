@@ -150,8 +150,9 @@ Partial Class WarningForm
         Me.WarnType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.WarnType.FormattingEnabled = True
         Me.WarnType.Location = New System.Drawing.Point(94, 67)
+        Me.WarnType.MaxDropDownItems = 20
         Me.WarnType.Name = "WarnType"
-        Me.WarnType.Size = New System.Drawing.Size(167, 21)
+        Me.WarnType.Size = New System.Drawing.Size(199, 21)
         Me.WarnType.TabIndex = 7
         '
         'WarnLog

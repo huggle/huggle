@@ -21,7 +21,11 @@ Class RevertAndWarnForm
 
         WarnLog.Columns.Add("", 300)
         WarnLog.Items.Add("Retrieving warnings, please wait...")
-        WarnType.Items.AddRange(Config.WarningSeries.ToArray)
+
+        For Each Item As String In Config.WarningTypes.Values
+            WarnType.Items.Add(Item)
+        Next Item
+
         If WarnType.Items.Count > 0 Then WarnType.SelectedIndex = 0
         WarnType.Focus()
 
@@ -60,7 +64,13 @@ Class RevertAndWarnForm
         If Level3.Checked Then Level = UserLevel.Warn3
         If LevelFinal.Checked Then Level = UserLevel.WarnFinal
 
-        MainForm.RevertAndWarn(WarnType.Text, Level)
+        For Each Item As KeyValuePair(Of String, String) In Config.WarningTypes
+            If Item.Value = WarnType.Text Then
+                MainForm.RevertAndWarn(Item.Key, Level)
+                Exit For
+            End If
+        Next Item
+
         DialogResult = DialogResult.OK
         Close()
     End Sub

@@ -187,7 +187,7 @@ Module ConfigIO
             Case "warn-summary-4" : Config.WarnSummary4 = Value
 
             Case Else 'Warnings
-                If Config.WarningSeries.Contains(Regex.Match(Name, "(.*)(1|2|3|4|4im)").Groups(1).Value) _
+                If Config.WarningTypes.ContainsKey(Regex.Match(Name, "(.*)(1|2|3|4|4im)").Groups(1).Value) _
                     Then Config.WarningMessages.Add(Name, Value)
         End Select
     End Sub
@@ -261,8 +261,8 @@ Module ConfigIO
             Case "warning-im-level" : Config.WarningImLevel = CBool(Value)
             Case "warning-mode" : Config.WarningMode = Value
             Case "warning-month-headings" : Config.MonthHeadings = CBool(Value)
-            Case "warning-series" : Config.WarningSeries = GetList(Value)
             Case "welcome-summary" : Config.WelcomeSummary = Value
+            Case "warning-types" : Config.WarningTypes = GetDictionary(Value)
             Case "whitelist" : Config.WhitelistLocation = Value
             Case "whitelist-edit-count" : Config.WhitelistEditCount = CInt(Value)
             Case "whitelist-update-summary" : Config.WhitelistUpdateSummary = Value

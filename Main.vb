@@ -1210,46 +1210,6 @@ Class Main
         Next Item
     End Sub
 
-    Private Sub WarnVandalism_Click() Handles WarnVandalism.Click
-        Dim NewRequest As New WarningRequest
-        NewRequest.Level = 0
-        NewRequest.Edit = CurrentEdit
-        NewRequest.Type = "warning"
-        NewRequest.Start()
-    End Sub
-
-    Private Sub WarnSpam_Click() Handles WarnSpam.Click
-        Dim NewRequest As New WarningRequest
-        NewRequest.Level = 0
-        NewRequest.Edit = CurrentEdit
-        NewRequest.Type = "spam"
-        NewRequest.Start()
-    End Sub
-
-    Private Sub WarnTest_Click() Handles WarnTest.Click
-        Dim NewRequest As New WarningRequest
-        NewRequest.Level = 0
-        NewRequest.Edit = CurrentEdit
-        NewRequest.Type = "test"
-        NewRequest.Start()
-    End Sub
-
-    Private Sub WarnDelete_Click() Handles WarnDelete.Click
-        Dim NewRequest As New WarningRequest
-        NewRequest.Level = 0
-        NewRequest.Edit = CurrentEdit
-        NewRequest.Type = "delete"
-        NewRequest.Start()
-    End Sub
-
-    Private Sub WarnAttacks_Click() Handles WarnAttack.Click
-        Dim NewRequest As New WarningRequest
-        NewRequest.Level = 0
-        NewRequest.Edit = CurrentEdit
-        NewRequest.Type = "attack"
-        NewRequest.Start()
-    End Sub
-
     Private Sub UserMessageWelcome_Click() Handles UserMessageWelcome.Click
         If CurrentUser IsNot Nothing Then
             Dim NewRequest As New UserMessageRequest
@@ -1434,30 +1394,6 @@ Class Main
             (SitePath() & "index.php?title=" & UrlEncode(CurrentPage.Name.Replace(" ", "_")) & "&action=history")
     End Sub
 
-    Private Sub WarnError_Click() Handles WarnError.Click
-        Dim NewRequest As New WarningRequest
-        NewRequest.Level = 0
-        NewRequest.Edit = CurrentEdit
-        NewRequest.Type = "error"
-        NewRequest.Start()
-    End Sub
-
-    Private Sub WarnNpov_Click() Handles WarnNpov.Click
-        Dim NewRequest As New WarningRequest
-        NewRequest.Level = 0
-        NewRequest.Edit = CurrentEdit
-        NewRequest.Type = "npov"
-        NewRequest.Start()
-    End Sub
-
-    Private Sub WarnBio_Click() Handles WarnBio.Click
-        Dim NewRequest As New WarningRequest
-        NewRequest.Level = 0
-        NewRequest.Edit = CurrentEdit
-        NewRequest.Type = "bio"
-        NewRequest.Start()
-    End Sub
-
     Private Sub QueueSelector_SelectedIndexChanged() Handles QueueSelector.SelectedIndexChanged
         If QueueSelector.SelectedItem.ToString = Msg("main-addqueue") Then
             Dim NewQueueForm As New QueueForm
@@ -1473,38 +1409,6 @@ Class Main
     Private Sub QueueEditSources_Click() Handles QueueOptions.Click
         Dim NewQueueForm As New QueueForm
         NewQueueForm.Show()
-    End Sub
-
-    Private Sub RevertWarnVandalism_Click() Handles RevertWarnVandalism.Click
-        RevertAndWarn("warning")
-    End Sub
-
-    Private Sub RevertWarnSpam_Click() Handles RevertWarnSpam.Click
-        RevertAndWarn("spam")
-    End Sub
-
-    Private Sub RevertWarnTest_Click() Handles RevertWarnTest.Click
-        RevertAndWarn("test")
-    End Sub
-
-    Private Sub RevertWarnDelete_Click() Handles RevertWarnDelete.Click
-        RevertAndWarn("delete")
-    End Sub
-
-    Private Sub RevertWarnAttack_Click() Handles RevertWarnAttack.Click
-        RevertAndWarn("attack")
-    End Sub
-
-    Private Sub RevertWarnError_Click() Handles RevertWarnError.Click
-        RevertAndWarn("error")
-    End Sub
-
-    Private Sub RevertWarnNpov_Click() Handles RevertWarnNpov.Click
-        RevertAndWarn("npov")
-    End Sub
-
-    Private Sub RevertWarnBio_Click() Handles RevertWarnBio.Click
-        RevertAndWarn("bio")
     End Sub
 
     Private Sub RevertAndWarnAdvanced_Click() Handles RevertWarnAdvanced.Click
@@ -1619,6 +1523,18 @@ Class Main
 
     Private Sub DiffRevertCurrentOnly_Click() Handles RevertCurrentOnly.Click
         DoRevert(CurrentEdit, CurrentOnly:=True)
+    End Sub
+
+    Private Sub WarnItem_Click(ByVal Sender As Object, ByVal e As EventArgs)
+        Dim NewRequest As New WarningRequest
+        NewRequest.Level = 0
+        NewRequest.Edit = CurrentEdit
+        NewRequest.Type = CType(Sender, ToolStripMenuItem).Tag.ToString
+        NewRequest.Start()
+    End Sub
+
+    Private Sub RevertWarnItem_Click(ByVal Sender As Object, ByVal e As EventArgs)
+        RevertAndWarn(CType(Sender, ToolStripMenuItem).Tag.ToString)
     End Sub
 
 End Class
