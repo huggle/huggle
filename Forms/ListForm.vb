@@ -96,8 +96,11 @@ Class ListForm
     Private Sub CopyList_Click() Handles CopyList.Click
         Dim Name As String = InputBox.Show("Copy to:", NextName)
 
+        'If the name has any characters in it
         If Name.Length > 0 Then
+            'If one of the lists contains the current name
             If AllLists.ContainsKey(Name) Then
+                'Show a message box saying that the name has already been used
                 MessageBox.Show("A list with the name '" & Name & "' already exists. Choose another name.", _
                     "Huggle", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Else
@@ -429,6 +432,7 @@ Class ListForm
                 If Item IsNot Lists.SelectedItem Then Lists.Items.Add(Item.ToString)
             Next Item
 
+
             If ListSelector.Items.Count = 0 Then ListSelector.Text = "" Else ListSelector.SelectedIndex = 0
 
             Combine.Enabled = Not Throbber.Active AndAlso Lists.SelectedIndex > -1 _
@@ -458,6 +462,8 @@ Class ListForm
 
     Private Sub SelectList()
         Select Case SourceType.Text
+            'This is a list of the sources that can be used when creating a list in the list builder
+            'Also shown is the method of retreiving the list
             Case "Manually add pages" : GotList(New List(Of String)(Source.Text.Split("|"c)))
             Case "Backlinks" : GetList(New BacklinksRequest(Source.Text))
             Case "Category" : GetList(New CategoryRequest(Source.Text.Replace("Category:", "")))

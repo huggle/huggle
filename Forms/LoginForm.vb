@@ -10,10 +10,12 @@ Class LoginForm
         SyncContext = SynchronizationContext.Current
         Icon = My.Resources.huggle_icon
 
+        'Locat the local and languages config file
         Config = New Configuration
         LoadLocalConfig()
         LoadLanguages()
 
+        'Unlist the languages config and add the languages that have translations to the list for login
         For Each Item As String In Config.Languages
             If Config.Messages.ContainsKey(Item) AndAlso Config.Messages(Item).ContainsKey("name") _
                 Then Language.Items.Add(Config.Messages(Item)("name"))
@@ -191,6 +193,7 @@ Class LoginForm
     End Sub
 
     Sub Done()
+        'On DONE show and load the main form
         MainForm = New Main
         MainForm.Show()
         MainForm.Initialize()
