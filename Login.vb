@@ -6,7 +6,10 @@ Imports System.Web.HttpUtility
 Module Login
 
     Public CaptchaId, CaptchaWord As String, Proxy As IWebProxy
-
+    '----PROXY SCRIPT----
+    'Origionaly made by schallot here http://schallot.googlepages.com/huggle
+    'Developed by the huggle team for use in huggle
+    '--------------------
     Public Sub ConfigureProxy(ByVal Enabled As Boolean, ByVal Address As String, ByVal Port As Integer, _
         ByVal Username As String, ByVal Password As String, ByVal Domain As String)
 
