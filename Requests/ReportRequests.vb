@@ -216,7 +216,7 @@ Namespace Requests
 
                     If Config.ReportLinkDiffs Then Report &= LinkDiffs()
 
-                    Report &= " ~~~~" & CRLF
+                    Report &= " - ~~~~" & CRLF
             End Select
 
             Result = PostEdit(Config.AIVLocation, Text & Report, Config.ReportSummary.Replace("$1", User.Name), _

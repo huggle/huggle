@@ -9,30 +9,41 @@ Module ConfigIO
         'Remove comments and lines without ':', combine multi-line options, replace \n with line break,
         'strip leading/trailing whitespace and split into keys/values
 
-        Dim Items As New List(Of String)(File.Replace(CR, "").Replace(Tab, "   ").Split(LF))
+        Dim Items As New List(Of String)(File.Replace(CR, "").Replace(Tab, "    ").Split(LF))
         Dim Result As New Dictionary(Of String, String)
 
-        Dim i As Integer
+        Dim i As Integer, Indent As Integer
 
         While i < Items.Count
             If i > 0 AndAlso Items(i).StartsWith(" ") Then
-                Items(i - 1) &= Items(i).Trim(" "c)
+                If Indent = 0 Then
+                    While Items(i)(Indent) = " "
+                        Indent += 1
+                    End While
+                End If
+
+                For j As Integer = 1 To Indent
+                    Items(i) = Items(i).Substring(1)
+                    If Not Items(i).StartsWith(" ") Then Exit For
+                Next j
+
+                Items(i - 1) &= Convert.ToChar(2) & Items(i).TrimEnd(" "c)
                 Items.RemoveAt(i)
+
             ElseIf Items(i).StartsWith("#") OrElse Items(i).StartsWith("<") OrElse Not Items(i).Contains(":") Then
                 Items.RemoveAt(i)
             Else
+                Indent = 0
                 Items(i) = Items(i).Replace("\n", LF).Trim(" "c)
                 i += 1
             End If
         End While
 
         For Each Item As String In Items
-            Dim Name As String = Item.Split(":"c)(0).ToLower
+            Dim Name As String = Item.Split(":"c)(0)
             Dim Value As String = Item.Substring(Item.IndexOf(":"c) + 1)
 
-            If Result.ContainsKey(Name) _
-                Then Log("Warning: Duplicate definition for option '" & Name & "' in configuration file") _
-                Else Result.Add(Name, Value)
+            If Not Result.ContainsKey(Name) Then Result.Add(Name, Value)
         Next Item
 
         Return Result
@@ -42,7 +53,7 @@ Module ConfigIO
     Function GetList(ByVal Value As String) As List(Of String)
         Dim List As New List(Of String)
 
-        For Each Item As String In Value.Replace("\,", Convert.ToChar(1)).Split(","c)
+        For Each Item As String In Value.Replace(Convert.ToChar(2), "").Replace("\,", Convert.ToChar(1)).Split(","c)
             Item = Item.Trim(" "c, Tab, CR, LF).Replace(Convert.ToChar(1), ",")
             If Not List.Contains(Item) AndAlso Item.Length > 0 Then List.Add(Item)
         Next Item
@@ -87,6 +98,10 @@ Module ConfigIO
         Next Record
 
         Return Result
+    End Function
+
+    Function GetNestedConfig(ByVal Text As String) As Dictionary(Of String, String)
+        Return ProcessConfigFile(Text.Replace(Convert.ToChar(2), LF))
     End Function
 
     'Convert a string of the form x.y.zzzz to a Version
@@ -195,6 +210,7 @@ Module ConfigIO
             Case "cfd" : Config.CfdLocation = Value
             Case "config-summary" : Config.ConfigSummary = Value
             Case "count-batch-size" : Config.CountBatchSize = CInt(Value)
+
             Case "delete" : Config.Delete = CBool(Value)
             Case "email" : Config.Email = CBool(Value)
             Case "email-subject" : Config.EmailSubject = Value
@@ -217,6 +233,7 @@ Module ConfigIO
             Case "protection-request-page" : Config.ProtectionRequestPage = Value
             Case "protection-request-reason" : Config.ProtectionRequestReason = Value
             Case "protection-request-summary" : Config.ProtectionRequestSummary = Value
+            Case "queues" : SetQueues(Value)
             Case "rc-block-size" : Config.RcBlockSize = CInt(Value)
             Case "require-admin" : Config.RequireAdmin = CBool(Value)
             Case "require-autconfirmed" : Config.RequireAutoconfirmed = CBool(Value)
@@ -313,6 +330,22 @@ Module ConfigIO
     Private Sub SetNamespaceAliases(ByVal Value As String)
         For Each Item As KeyValuePair(Of String, String) In GetDictionary(Value)
             If Not Space.Aliases.ContainsKey(Item.Key) Then Space.Aliases.Add(Item.Key, CInt(Item.Value))
+        Next Item
+    End Sub
+
+    Private Sub SetQueues(ByVal Value As String)
+        For Each Item As KeyValuePair(Of String, String) In GetNestedConfig(Value)
+            If Queue.All.ContainsKey(Item.Key) Then Queue.All.Remove(Item.Key)
+
+            Dim NewQueue As New Queue(Item.Key)
+
+            For Each Subitem As KeyValuePair(Of String, String) In GetNestedConfig(Item.Value)
+                SetQueueOption(NewQueue, Subitem.Key, Subitem.Value)
+            Next Subitem
+
+            If NewQueue.Spaces.Count = 0 Then NewQueue.Spaces.AddRange(Space.All)
+
+            NewQueue.Reset()
         Next Item
     End Sub
 
@@ -579,10 +612,6 @@ Module ConfigIO
     End Sub
 
     Public Sub LoadQueues()
-        Queue.All.Clear()
-
-        If Not QueueNames.ContainsKey(Config.Project) Then QueueNames.Add(Config.Project, New List(Of String))
-
         'Load queues from application data subfolder
         If Directory.Exists(QueuesLocation) Then
             For Each QueuePath As String In Directory.GetFiles(QueuesLocation)
@@ -591,20 +620,21 @@ Module ConfigIO
                 Dim ConfigItems As Dictionary(Of String, String) = ProcessConfigFile(File.ReadAllText(QueuePath))
 
                 If ConfigItems.ContainsKey("name") Then
-                    Dim Queue As New Queue(ConfigItems("name"))
+                    If Queue.All.ContainsKey(ConfigItems("name")) Then Queue.All.Remove(ConfigItems("name"))
+                    Dim NewQueue As New Queue(ConfigItems("name"))
 
                     For Each Item As KeyValuePair(Of String, String) In ConfigItems
-                        SetQueueOption(Queue, Item.Key, Item.Value)
+                        SetQueueOption(NewQueue, Item.Key, Item.Value)
                     Next Item
 
-                    Queue.Reset()
+                    NewQueue.Reset()
                 End If
 
             Next QueuePath
         End If
 
+        If Queue.All.Count = 0 Then SetDefaultQueues()
         If Queue.All.ContainsKey("Filtered edits") Then Queue.Default = Queue.All("Filtered edits")
-        SetDefaultQueues()
     End Sub
 
     Public Sub SaveQueues()
@@ -673,25 +703,25 @@ Module ConfigIO
 
     Private Sub SetQueueOption(ByVal Queue As Queue, ByVal Name As String, ByVal Value As String)
         Select Case Name
-            Case "filter-anonymous" : Queue.FilterAnonymous = CType(Value, QueueFilter)
-            Case "filter-assisted" : Queue.FilterAssisted = CType(Value, QueueFilter)
-            Case "filter-bot" : Queue.FilterBot = CType(Value, QueueFilter)
-            Case "filter-huggle" : Queue.FilterHuggle = CType(Value, QueueFilter)
-            Case "filter-ignored" : Queue.FilterIgnored = CType(Value, QueueFilter)
-            Case "filter-me" : Queue.FilterMe = CType(Value, QueueFilter)
-            Case "filter-new-pages" : Queue.FilterNewPage = CType(Value, QueueFilter)
-            Case "filter-notifications" : Queue.FilterNotifications = CType(Value, QueueFilter)
-            Case "filter-own-userspace" : Queue.FilterOwnUserspace = CType(Value, QueueFilter)
-            Case "filter-reverts" : Queue.FilterReverts = CType(Value, QueueFilter)
-            Case "filter-tags" : Queue.FilterTags = CType(Value, QueueFilter)
-            Case "filter-warnings" : Queue.FilterWarnings = CType(Value, QueueFilter)
+            Case "filter-anonymous" : Queue.FilterAnonymous = GetQueueFilter(Value)
+            Case "filter-assisted" : Queue.FilterAssisted = GetQueueFilter(Value)
+            Case "filter-bot" : Queue.FilterBot = GetQueueFilter(Value)
+            Case "filter-huggle" : Queue.FilterHuggle = GetQueueFilter(Value)
+            Case "filter-ignored" : Queue.FilterIgnored = GetQueueFilter(Value)
+            Case "filter-me" : Queue.FilterMe = GetQueueFilter(Value)
+            Case "filter-new-pages" : Queue.FilterNewPage = GetQueueFilter(Value)
+            Case "filter-notifications" : Queue.FilterNotifications = GetQueueFilter(Value)
+            Case "filter-own-userspace" : Queue.FilterOwnUserspace = GetQueueFilter(Value)
+            Case "filter-reverts" : Queue.FilterReverts = GetQueueFilter(Value)
+            Case "filter-tags" : Queue.FilterTags = GetQueueFilter(Value)
+            Case "filter-warnings" : Queue.FilterWarnings = GetQueueFilter(Value)
             Case "ignore-pages" : Queue.IgnorePages = CBool(Value)
             Case "list" : If AllLists.ContainsKey(Value) Then Queue.ListName = Value
             Case "page-regex" : Queue.PageRegex = New Regex(Value, RegexOptions.Compiled)
             Case "remove-after" : Queue.RemoveAfter = CInt(Value)
             Case "remove-old" : Queue.RemoveOld = CBool(Value)
             Case "remove-viewed" : Queue.RemoveViewed = CBool(Value)
-            Case "sort-order" : Queue.SortOrder = CType(Value, QueueSortOrder)
+            Case "sort-order" : Queue.SortOrder = SetQueueSortOrder(Value)
             Case "spaces" : Queue.Spaces.AddRange(SetQueueSpaces(Value))
             Case "summary-regex" : Queue.SummaryRegex = New Regex(Value, RegexOptions.Compiled)
             Case "type" : Queue.Type = SetQueueType(Value)
@@ -717,11 +747,13 @@ Module ConfigIO
             Queue.Default.Reset()
         End If
 
-        If Not Queue.All.ContainsKey("New pages") Then
-            Dim NewQueue As New Queue("New pages")
+        If Not Queue.All.ContainsKey("Filtered new pages") Then
+            Dim NewQueue As New Queue("Filtered new pages")
             NewQueue.Type = QueueType.Live
             NewQueue.SortOrder = QueueSortOrder.Time
             NewQueue.FilterNewPage = QueueFilter.Require
+            NewQueue.FilterIgnored = QueueFilter.Exclude
+            NewQueue.Spaces = New List(Of Space)(New Space() {Space.Article})
             NewQueue.Reset()
         End If
 
@@ -733,48 +765,51 @@ Module ConfigIO
             NewQueue.Reset()
         End If
 
-        If Not Queue.All.ContainsKey("My edits") Then
-            Dim NewQueue As New Queue("My edits")
+        If Not Queue.All.ContainsKey("All new pages") Then
+            Dim NewQueue As New Queue("All new pages")
             NewQueue.Type = QueueType.Live
             NewQueue.SortOrder = QueueSortOrder.Time
-            NewQueue.FilterMe = QueueFilter.Require
-            NewQueue.Preload = False
-            NewQueue.RemoveViewed = False
-            NewQueue.Reset()
-        End If
-
-        If Not Queue.All.ContainsKey("Huggle edits") Then
-            Dim NewQueue As New Queue("Huggle edits")
-            NewQueue.Type = QueueType.Live
-            NewQueue.SortOrder = QueueSortOrder.Time
-            NewQueue.FilterHuggle = QueueFilter.Require
-            NewQueue.Reset()
-        End If
-
-        If Not Queue.All.ContainsKey("All assisted edits") Then
-            Dim NewQueue As New Queue("All assisted edits")
-            NewQueue.Type = QueueType.Live
-            NewQueue.SortOrder = QueueSortOrder.Time
-            NewQueue.FilterAssisted = QueueFilter.Require
-            NewQueue.FilterBot = QueueFilter.Exclude
+            NewQueue.FilterNewPage = QueueFilter.Require
             NewQueue.Reset()
         End If
     End Sub
+
+    Private Function GetQueueFilter(ByVal Value As String) As QueueFilter
+        Select Case Value.ToLower
+            Case "0", "exclude" : Return QueueFilter.Exclude
+            Case "1", "require" : Return QueueFilter.Require
+            Case "2", "none" : Return QueueFilter.None
+        End Select
+    End Function
 
     Private Function SetQueueSpaces(ByVal Value As String) As List(Of Space)
         Dim Spaces As New List(Of Space)
 
         For Each Item As String In GetList(Value)
-            If Not Spaces.Contains(Space.GetSpace(CInt(Item))) Then Spaces.Add(Space.GetSpace(CInt(Item)))
+            If Item = "all" Then
+                For Each Space As Space In Space.All
+                    If Not Spaces.Contains(Space) Then Spaces.Add(Space)
+                Next Space
+            Else
+                If Not Spaces.Contains(Space.GetSpace(CInt(Item))) Then Spaces.Add(Space.GetSpace(CInt(Item)))
+            End If
         Next Item
 
         Return Spaces
     End Function
 
+    Private Function SetQueueSortOrder(ByVal Value As String) As QueueSortOrder
+        Select Case Value.ToLower
+            Case "0", "time" : Return QueueSortOrder.Time
+            Case "1", "timereverse", "time-reverse" : Return QueueSortOrder.TimeReverse
+            Case "2", "quality" : Return QueueSortOrder.Quality
+        End Select
+    End Function
+
     Private Function SetQueueType(ByVal Value As String) As QueueType
-        Select Case Value
-            Case "FixedList" : Return QueueType.FixedList
-            Case "LiveList" : Return QueueType.LiveList
+        Select Case Value.ToLower
+            Case "fixedlist", "fixed-list" : Return QueueType.FixedList
+            Case "livelist", "live-list" : Return QueueType.LiveList
             Case Else : Return QueueType.Live
         End Select
     End Function
