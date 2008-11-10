@@ -69,7 +69,7 @@ Module Irc
         "\(([^\)]*\)?)\))?(?:: ([^^C]*))??", RegexOptions.Compiled)
 
     Dim UnprotectMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/protect" & _
-        "14\]\]4 unprotect10 02 5\* 03([^]*) 5\*  10unprotected 02([^]*)10: ([^]*)?", _
+        "14\]\]4 unprotect10 02 5\* 03([^]*) 5\*  10unprotected ([^]*): ([^]*)?", _
         RegexOptions.Compiled)
 
     Dim RenameUserMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/renameuser" & _

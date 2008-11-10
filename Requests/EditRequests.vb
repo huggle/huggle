@@ -54,12 +54,17 @@ Namespace Requests
 
             Dim Text As String = HtmlDecode(FindString(Result.Text, "<rev>", "</rev>"))
 
+            If Text Is Nothing Then
+                Fail(Msg("tag-fail", Page.Name))
+                Exit Sub
+            End If
+
             If ReplacePage Then
                 Text = Tag
             ElseIf InsertAtEnd Then
-                Text = Result.Text & LF & Tag
+                Text = Text & LF & Tag
             Else
-                Text = Tag & LF & Result.Text
+                Text = Tag & LF & Text
             End If
 
             Result = PostEdit(Page, Text, Summary, Minor:=Minor, Watch:=Watch)

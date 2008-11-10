@@ -171,7 +171,6 @@ Class Configuration
     Public SpeedyMessageSummary As String
     Public SpeedyMessageTitle As String
     Public SpeedySummary As String
-    Public SpeedyTemplates As New Dictionary(Of String, List(Of String))
     Public Summary As String
     Public Tags As New List(Of String)
     Public TemplateMessages As New List(Of String)
