@@ -361,10 +361,9 @@ Module Processing
         End If
 
         'Check for new messages
-        If Edit.Page Is User.Me.TalkPage Then
+        If Edit.Page Is User.Me.TalkPage AndAlso Not Edit.Bot Then
             MainForm.SystemMessages.Enabled = Not Edit.User.IsMe
-            If MainForm.SystemMessages.Enabled AndAlso Config.TrayIcon _
-                Then MainForm.TrayIcon.ShowBalloonTip(10000)
+            If MainForm.SystemMessages.Enabled AndAlso Config.TrayIcon Then MainForm.TrayIcon.ShowBalloonTip(10000)
         End If
 
         'Warnings
@@ -1452,19 +1451,41 @@ Module Processing
 
         'Find old warning templates
         For Each Item As Match In Regex.Matches(Text, _
-            "<!-- Template:(.block[^>]*|[Ss]pam[^>]*|[Vv]w[^>]*|[Tt]est[^>]*|[Aa]non vandal[^>]*|" & _
+            "<!-- Template:(.+block[^>]*|[Ss]pam[^>]*|[Vv]w[^>]*|[Tt]est[^>]*|[Aa]non vandal[^>]*|" & _
             "[Ww]elcome-anon-vandal[^>]*|[Ww]elcomevandal[^>]*|[Bb]latantvandal[^>]*|[Aa]ttack[^>]*) -->" & _
-            ".*\[\[User( talk)?:([^|]*).*(\d{2}:\d{2}, \d+ [a-zA-Z]+ \d{4}) \(UTC\)", RegexOptions.Compiled)
+            ".*\[\[User(?: talk)?:([^|]*).*(\d{2}:\d{2}, \d+ [a-zA-Z]+ \d{4}) \(UTC\)", RegexOptions.Compiled)
 
             Dim NewWarning As New Warning
-            NewWarning.Time = Date.SpecifyKind(CDate(Item.Groups(4).Value), DateTimeKind.Utc)
-            If Item.Groups(3).Value <> "" Then NewWarning.User = GetUser(Item.Groups(3).Value)
-
+            NewWarning.Time = Date.SpecifyKind(CDate(Item.Groups(3).Value), DateTimeKind.Utc)
+            If Item.Groups(2).Value <> "" Then NewWarning.User = GetUser(Item.Groups(2).Value)
             NewWarning.Type = Item.Groups(1).Value.ToLower
-            If NewWarning.Type.Contains(" ") _
-                Then NewWarning.Type = NewWarning.Type.Substring(0, NewWarning.Type.IndexOf(" "))
-            If NewWarning.Type.Contains("-") _
-                Then NewWarning.Type = NewWarning.Type.Substring(0, NewWarning.Type.IndexOf("-"))
+
+            If NewWarning.Type.StartsWith("test2") Then NewWarning.Level = UserLevel.Warn2 _
+                Else If NewWarning.Type.StartsWith("test3") Then NewWarning.Level = UserLevel.Warn3 _
+                Else If NewWarning.Type.StartsWith("test4") Then NewWarning.Level = UserLevel.WarnFinal _
+                Else If NewWarning.Type.StartsWith("test5") Then NewWarning.Level = UserLevel.Blocked _
+                Else If NewWarning.Type.StartsWith("blatantvandal") Then NewWarning.Level = UserLevel.Warn4im _
+                Else If NewWarning.Type.Contains("block") Then NewWarning.Level = UserLevel.Blocked _
+                Else NewWarning.Level = UserLevel.Warn1
+
+            If NewWarning.Type.StartsWith("test") Then NewWarning.Type = "test"
+            If NewWarning.Time.AddHours(Config.WarningAge) > Date.UtcNow Then RecentWarnings += 1
+
+            Warnings.Add(NewWarning)
+        Next Item
+
+        'Find old warning templates with signature first
+        For Each Item As Match In Regex.Matches(Text, _
+            "\[\[User(?: talk)?:([^|]*).*(\d{2}:\d{2}, \d+ [a-zA-Z]+ \d{4}) \(UTC\).*" & _
+            "<!-- Template:(.+block[^>]*|[Ss]pam[^>]*|[Vv]w[^>]*|[Tt]est[^>]*|[Aa]non vandal[^>]*|" & _
+            "[Ww]elcome-anon-vandal[^>]*|[Ww]elcomevandal[^>]*|[Bb]latantvandal[^>]*|[Aa]ttack[^>]*) -->", _
+            RegexOptions.Compiled)
+
+            Dim NewWarning As New Warning
+            NewWarning.Time = Date.SpecifyKind(CDate(Item.Groups(2).Value), DateTimeKind.Utc)
+            If Item.Groups(1).Value <> "" Then NewWarning.User = GetUser(Item.Groups(1).Value)
+            NewWarning.Type = Item.Groups(3).Value.ToLower
+            If NewWarning.Type.StartsWith("uw-") Then NewWarning.Type = NewWarning.Type.Substring(3)
 
             If NewWarning.Type.StartsWith("test2") Then NewWarning.Level = UserLevel.Warn2 _
                 Else If NewWarning.Type.StartsWith("test3") Then NewWarning.Level = UserLevel.Warn3 _
