@@ -1398,6 +1398,8 @@ Class Main
             NewQueueForm.ShowDialog()
         Else
             CurrentQueue = Queue.All(QueueSelector.SelectedItem.ToString)
+            If CurrentQueue.Type = QueueType.Dynamic AndAlso Not CurrentQueue.RefreshAlways _
+                Then CurrentQueue.ForceUpdate()
         End If
 
         DrawQueue()

@@ -18,7 +18,8 @@ Class QueuePanel
         Dim Length As Integer = Math.Min(Queue.Edits.Count - 1, (Height \ 20) - 2)
 
         Gfx.Graphics.Clear(Color.FromKnownColor(KnownColor.Control))
-        Count.Text = CStr(Queue.Edits.Count) & " items"
+        If Queue.Refreshing Then Count.Text = Msg("main-queue-query") _
+            Else Count.Text = Msg("main-queue-count", CStr(Queue.Edits.Count))
 
         For i As Integer = 0 To Length
             If MainForm.QueueScroll.Value + i > Queue.Edits.Count - 1 Then

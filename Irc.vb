@@ -102,16 +102,16 @@ Module Irc
                     Message = Reader.ReadLine
 
                     If Message.StartsWith("ERROR ") Then
-                        IrcLog("Connection to IRC recent changes feed lost; reconnecting")
+                        IrcLog(Msg("irc-disconnected"))
                         Reconnecting = True
 
                     ElseIf Message.StartsWith(":" & Config.IrcServer & " 001") AndAlso Not Connected Then
                         Connected = True
                         Connecting = False
-                        IrcLog("Connected to IRC recent changes feed")
+                        IrcLog(Msg("irc-connected"))
 
                     ElseIf Message.StartsWith(":" & Config.IrcServer & " 403") Then
-                        IrcLog("IRC channel '" & Config.IrcChannel & "' not found; using slower API queries instead")
+                        IrcLog(Msg("irc-nochannel", Config.IrcChannel))
                         Config.IrcMode = False
                         Disconnecting = True
 
@@ -315,13 +315,13 @@ Module Irc
 
         Catch ex As SocketException
             'Server didn't like the connection; give up
-            IrcLog("Unable to connect to IRC recent changes feed; using slower API queries instead [" & ex.Message & "]")
+            IrcLog(Msg("irc-error"))
             Connecting = False
             Config.IrcMode = False
 
         Catch ex As IOException
             'Feed was disconnected; retry
-            IrcLog("Connection to IRC recent changes feed lost; reconnecting")
+            IrcLog(Msg("irc-disconnected"))
             Callback(AddressOf IrcConnect)
         End Try
     End Sub
@@ -331,8 +331,7 @@ Module Irc
             'No error but connection not established; IRC is probably being intercepted by a firewall
             'Abort thread and fall back to API queries
             IrcThread.Abort()
-            IrcLog("Unable to connect to IRC recent changes feed. IRC is probably being blocked by a firewall. " & _
-                "Using slower API queries instead")
+            IrcLog(Msg("irc-error"))
             Connecting = False
             Config.IrcMode = False
         End If

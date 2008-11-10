@@ -6,6 +6,7 @@ prod[\}\-:2]
 proposed deletion
 ^db$
 db-
+ db tag$
 (marked for|tagged for|requesting) speedy deletion
 speedy deletion request
 adding \{\{.+\}\} to article

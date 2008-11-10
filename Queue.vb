@@ -35,6 +35,7 @@ Class Queue
     Private _PageRegex As Regex
     Private _Pages As List(Of String)
     Private _Preload As Boolean
+    Private _Refreshing As Boolean
     Private _RefreshAlways As Boolean
     Private _RefreshReAdd As Boolean
     Private _RemovedPages As List(Of String)
@@ -233,7 +234,7 @@ Class Queue
         End Get
         Set(ByVal value As String)
             _ListName = value
-            If value Is Nothing Then _Pages = Nothing Else _Pages = AllLists(_ListName)
+            If String.IsNullOrEmpty(value) Then _Pages = Nothing Else _Pages = AllLists(_ListName)
             _NeedsReset = True
         End Set
     End Property
@@ -271,6 +272,12 @@ Class Queue
         Set(ByVal value As Boolean)
             _Preload = value
         End Set
+    End Property
+
+    Public ReadOnly Property Refreshing() As Boolean
+        Get
+            Return _Refreshing
+        End Get
     End Property
 
     Public Property RefreshAlways() As Boolean
@@ -389,6 +396,14 @@ Class Queue
         Return (a IsNot b)
     End Operator
 
+    Public Sub ForceUpdate()
+        If Type = QueueType.Dynamic Then
+            RefreshTimer.Stop()
+            RefreshTimer_Tick()
+            RefreshTimer.Start()
+        End If
+    End Sub
+
     Public Sub Reset()
         'Reset a queue - clear a live one, populate a fixed one
 
@@ -481,6 +496,7 @@ Class Queue
     Public Sub RemoveViewedEdit(ByVal Edit As Edit)
         'Remove an edit that has been viewed, possibly on another queue
         If _RemoveViewed AndAlso Items IsNot Nothing Then Items.Remove(Edit)
+        If _Type = QueueType.Dynamic AndAlso Not _RefreshReAdd Then _RemovedPages.Add(Edit.Page.Name)
     End Sub
 
     Public Function MatchesFilter(ByVal PageName As String) As Boolean
@@ -537,6 +553,9 @@ Class Queue
                     NewRequest.Spaces = _Spaces
                     NewRequest.TitleRegex = _PageRegex
                     NewRequest.Start(AddressOf GotList)
+
+                    _Refreshing = True
+                    MainForm.DrawQueue()
             End Select
         End If
     End Sub
@@ -563,6 +582,9 @@ Class Queue
                 End If
             Next Item
         End If
+
+        _Refreshing = False
+        MainForm.DrawQueue()
     End Sub
 
 End Class

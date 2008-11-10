@@ -222,6 +222,7 @@ Class QueueForm
                 Case QueueType.FixedList : FixedList.Checked = True
                 Case QueueType.LiveList : LiveList.Checked = True
                 Case QueueType.Live : Live.Checked = True
+                Case QueueType.Dynamic : DynamicList.Checked = True
             End Select
 
             Select Case CurrentQueue.SortOrder

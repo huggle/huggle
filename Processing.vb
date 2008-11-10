@@ -763,14 +763,13 @@ Module Processing
                 Edit.RollbackToken = Nothing
             End If
 
-            If Edit.Id = "next" OrElse Edit.Id = "cur" AndAlso DiffText.Contains("'>undo</a>)") Then
-                Dim Diff As String = DiffText.Substring(DiffText.IndexOf("'>undo</a>)") - 20)
-                Edit.Id = FindString(Diff, "undo=", "'")
+            If Edit.Id = "next" OrElse Edit.Id = "cur" AndAlso DiffText.Contains("<div id=""mw-diff-ntitle1"">") Then
+                Edit.Id = FindString(DiffText, "<div id=""mw-diff-ntitle1""><strong><a", "oldid=", "'")
             End If
 
-            If Edit.All.ContainsKey(Edit.Id) Then Edit = Edit.All(Edit.Id)
+            If Edit.Id <> "cur" AndAlso Edit.All.ContainsKey(Edit.Id) Then Edit = Edit.All(Edit.Id)
 
-            If Edit.Oldid = "prev" AndAlso DiffText.Contains("<div id=""mw-diff-otitle1""><strong><a") Then
+            If Edit.Oldid = "prev" AndAlso DiffText.Contains("<div id=""mw-diff-otitle1"">") Then
                 Edit.Oldid = FindString(DiffText, "<div id=""mw-diff-otitle1""><strong><a", "oldid=", "'")
             End If
 
@@ -793,11 +792,13 @@ Module Processing
 
                 If Time.Contains("Revision as of ") Then
                     Time = FindString(Time, "Revision as of ")
-                    Edit.Time = Date.SpecifyKind(CDate(Time), DateTimeKind.Local).ToUniversalTime
+                    If Date.TryParse(Time, Edit.Time) _
+                        Then Edit.Time = Date.SpecifyKind(CDate(Time), DateTimeKind.Local).ToUniversalTime
 
                 ElseIf Time.Contains("Current revision") Then
                     Time = FindString(Time, "Current revision</a> (", ")")
-                    Edit.Time = Date.SpecifyKind(CDate(Time), DateTimeKind.Local).ToUniversalTime
+                    If Date.TryParse(Time, Edit.Time) _
+                        Then Edit.Time = Date.SpecifyKind(CDate(Time), DateTimeKind.Local).ToUniversalTime
                 End If
             End If
 
@@ -1127,7 +1128,7 @@ Module Processing
 
         If Tab Is Nothing Then Tab = CurrentTab
 
-        If Edit IsNot Nothing AndAlso Edit.Page IsNot Nothing AndAlso Edit.User IsNot Nothing Then
+        If Edit IsNot Nothing AndAlso Edit.Page IsNot Nothing Then
 
             'Add edit to browsing history
             If Not InBrowsingHistory AndAlso (Tab.History.Count = 0 OrElse (Not Tab.History(0).Edit Is Edit)) _

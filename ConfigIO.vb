@@ -15,7 +15,7 @@ Module ConfigIO
         Dim i As Integer, Indent As Integer
 
         While i < Items.Count
-            If i > 0 AndAlso Items(i).StartsWith(" ") Then
+            If i > 0 AndAlso Items(i).StartsWith(" ") AndAlso Items(i).Replace(" ", "") <> "" Then
                 If Indent = 0 Then
                     While Items(i)(Indent) = " "
                         Indent += 1
@@ -675,10 +675,17 @@ Module ConfigIO
             If Queue.ListName IsNot Nothing Then Items.Add("list:" & Queue.ListName)
             If Queue.PageRegex IsNot Nothing Then Items.Add("page-regex:" & Queue.PageRegex.ToString)
 
+            Items.Add("refresh-always:" & CStr(Queue.RefreshAlways))
+            Items.Add("refresh-interval:" & CStr(Queue.RefreshInterval))
+            Items.Add("refresh-readd:" & CStr(Queue.RefreshReAdd))
+
             Items.Add("remove-after:" & CStr(Queue.RemoveAfter).ToLower)
             Items.Add("remove-old:" & CStr(Queue.RemoveOld).ToLower)
             Items.Add("remove-viewed:" & CStr(Queue.RemoveViewed))
             Items.Add("sort-order:" & CStr(CInt(Queue.SortOrder)))
+
+            Items.Add("source:" & Queue.DynamicSource)
+            Items.Add("source-type:" & Queue.DynamicSourceType)
 
             If Queue.Spaces.Count > 0 Then
                 Dim Spaces As New List(Of String)
@@ -721,10 +728,15 @@ Module ConfigIO
             Case "ignore-pages" : Queue.IgnorePages = CBool(Value)
             Case "list" : If AllLists.ContainsKey(Value) Then Queue.ListName = Value
             Case "page-regex" : Queue.PageRegex = New Regex(Value, RegexOptions.Compiled)
+            Case "refresh-always" : Queue.RefreshAlways = CBool(Value)
+            Case "refresh-interval" : Queue.RefreshInterval = CInt(Value)
+            Case "refresh-readd" : Queue.RefreshReAdd = CBool(Value)
             Case "remove-after" : Queue.RemoveAfter = CInt(Value)
             Case "remove-old" : Queue.RemoveOld = CBool(Value)
             Case "remove-viewed" : Queue.RemoveViewed = CBool(Value)
             Case "sort-order" : Queue.SortOrder = SetQueueSortOrder(Value)
+            Case "source" : Queue.DynamicSource = Value
+            Case "source-type" : Queue.DynamicSourceType = Value
             Case "spaces" : Queue.Spaces.AddRange(SetQueueSpaces(Value))
             Case "summary-regex" : Queue.SummaryRegex = New Regex(Value, RegexOptions.Compiled)
             Case "type" : Queue.Type = SetQueueType(Value)
@@ -813,6 +825,7 @@ Module ConfigIO
         Select Case Value.ToLower
             Case "fixedlist", "fixed-list" : Return QueueType.FixedList
             Case "livelist", "live-list" : Return QueueType.LiveList
+            Case "dynamic" : Return QueueType.Dynamic
             Case Else : Return QueueType.Live
         End Select
     End Function

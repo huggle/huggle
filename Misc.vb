@@ -391,7 +391,7 @@ Module Misc
             If TypeOf Item Is Label OrElse TypeOf Item Is CheckBox OrElse TypeOf Item Is RadioButton OrElse _
                 TypeOf Item Is Button OrElse TypeOf Item Is GroupBox OrElse TypeOf Item Is Huggle.TriState Then
 
-                If Config.Language = "test" OrElse Config.Messages(Config.Language).ContainsKey _
+                If Config.Messages(Config.Language).ContainsKey _
                     (Prefix & "-" & Item.Name.Replace("Label", "").ToLower) Then
                     Item.Text = Msg(Prefix & "-" & Item.Name.Replace("Label", "").ToLower)
                 ElseIf Config.Messages(Config.Language).ContainsKey(Item.Name.ToLower) Then

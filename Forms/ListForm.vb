@@ -17,6 +17,13 @@ Class ListForm
         Icon = My.Resources.huggle_icon
         Tip.Active = Config.ShowToolTips
 
+        Localize(Me, "list")
+        AddList.Text = Msg("add")
+        DeleteList.Text = Msg("delete")
+        CopyList.Text = Msg("copy")
+        RenameList.Text = Msg("rename")
+        CloseButton.Text = Msg("close")
+
         SourceType.Items.AddRange(New String() {"Manually add pages", "Backlinks", "Category", "Category (recursive)", _
             "Existing list", "External link uses", "File", "Image uses", "Images on page", "Links on page", _
             "Search", "Templates on page", "Transclusions", "User contributions", "Watchlist"})
@@ -62,7 +69,7 @@ Class ListForm
 
     Private Sub Browse_Click() Handles Browse.Click
         Dim Dialog As New OpenFileDialog
-        Dialog.Title = "Add text file to list"
+        Dialog.Title = Msg("list-browsetitle")
         Dialog.Filter = "All files|*.*"
 
         If Dialog.ShowDialog() = DialogResult.OK Then Source.Text = Dialog.FileName
@@ -71,8 +78,8 @@ Class ListForm
     Private Sub Cancel_Click() Handles Cancel.Click
         Throbber.Stop()
         CurrentRequest.Cancel()
-        Cancel.Text = "Cancel"
-        Progress.Text = "Cancelled."
+        Cancel.Text = Msg("cancel")
+        Progress.Text = Msg("list-query-cancelled")
         RefreshInterface()
     End Sub
 
@@ -94,15 +101,15 @@ Class ListForm
     End Sub
 
     Private Sub CopyList_Click() Handles CopyList.Click
-        Dim Name As String = InputBox.Show("Copy to:", NextName)
+        Dim Name As String = InputBox.Show(Msg("list-copyto"), NextName)
 
         'If the name has any characters in it
         If Name.Length > 0 Then
             'If one of the lists contains the current name
             If AllLists.ContainsKey(Name) Then
                 'Show a message box saying that the name has already been used
-                MessageBox.Show("A list with the name '" & Name & "' already exists. Choose another name.", _
-                    "Huggle", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                MessageBox.Show(Msg("list-duplicatename", Name), "Huggle", _
+                    MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Else
                 Dim NewList As New List(Of String)(CurrentList)
                 AllLists.Add(Name, NewList)
@@ -114,7 +121,7 @@ Class ListForm
     End Sub
 
     Private Sub DeleteList_Click() Handles DeleteList.Click
-        If Lists.SelectedIndex > -1 AndAlso MessageBox.Show("Delete list '" & Lists.SelectedItem.ToString & "'?", _
+        If Lists.SelectedIndex > -1 AndAlso MessageBox.Show(Msg("list-deleteconfirm", Lists.SelectedItem.ToString), _
             "Huggle", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) _
             = DialogResult.Yes Then
 
@@ -175,12 +182,12 @@ Class ListForm
 
     Private Sub RenameList_Click() Handles RenameList.Click
         Dim OldName As String = Lists.SelectedItem.ToString
-        Dim NewName As String = InputBox.Show("Enter new name:", OldName)
+        Dim NewName As String = InputBox.Show(Msg("list-renameprompt"), OldName)
 
         If NewName IsNot Nothing AndAlso NewName.Length > 0 AndAlso NewName <> OldName Then
             If AllLists.ContainsKey(NewName) Then
-                MessageBox.Show("A list with the name '" & NewName & "' already exists. Choose another name.", _
-                    "Huggle", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                MessageBox.Show(Msg("list-duplicatename", NewName), "Huggle", _
+                    MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Else
                 Dim ThisList As List(Of String) = CurrentList
                 AllLists.Remove(OldName)
@@ -207,7 +214,7 @@ Class ListForm
         Dim Dialog As New SaveFileDialog
         Dialog.FileName = Lists.SelectedItem.ToString & ".txt"
         Dialog.Filter = "Text file|*.txt"
-        Dialog.Title = "Save queue"
+        Dialog.Title = Msg("list-savetitle")
 
         If Dialog.ShowDialog = DialogResult.OK Then
             Dim Items As New List(Of String)
@@ -219,7 +226,7 @@ Class ListForm
             Try
                 File.WriteAllLines(Dialog.FileName, Items.ToArray)
             Catch ex As IOException
-                MessageBox.Show("Unable to save list:" & CRLF & ex.Message, "Huggle", _
+                MessageBox.Show(Msg("list-savefailed") & CRLF & ex.Message, "Huggle", _
                     MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
         End If
@@ -310,12 +317,12 @@ Class ListForm
         CurrentRequest = Request
         CurrentRequest.Limit = CInt(Limit.Value)
         CurrentRequest.List = CurrentList
-        CurrentRequest.From = From.Text
+        CurrentRequest.From = Start.Text
         CurrentRequest.TitleRegex = TitleRegex
         CurrentRequest.Spaces = New List(Of Space)(Spaces)
         CurrentRequest.Start(AddressOf GotList, AddressOf ListProgress)
 
-        Progress.Text = "Running query..."
+        Progress.Text = Msg("list-query-progress")
         Throbber.Start()
         RefreshInterface()
         Cancel.Focus()
@@ -323,7 +330,7 @@ Class ListForm
 
     Private Sub GotList(ByVal Titles As List(Of String))
         If Titles Is Nothing Then
-            Progress.Text = "Query failed."
+            Progress.Text = Msg("list-query-fail")
             Exit Sub
         End If
 
@@ -335,9 +342,9 @@ Class ListForm
         Next Title
 
         If ValidItems.Count = 0 Then
-            Progress.Text = "Query returned no results."
+            Progress.Text = Msg("list-query-noresults")
         Else
-            Progress.Text = ValidItems.Count & " results returned."
+            Progress.Text = Msg("list-query-results", CStr(ValidItems.Count))
 
             Select Case Mode
                 Case "combine" : CombineItems(ValidItems)
@@ -385,7 +392,7 @@ Class ListForm
 
         If PartialResult IsNot Nothing AndAlso PartialResult.Count > 0 Then
             If Mode = "combine" Then
-                Cancel.Text = "Stop"
+                Cancel.Text = Msg("list-stop")
                 CombineItems(PartialResult)
                 CurrentQueue.NeedsReset = False
             End If
@@ -400,13 +407,13 @@ Class ListForm
     End Sub
 
     Private Sub RefreshInterface()
-        Combine.Text = If(ListPages.Items.Count = 0, "Add", "Combine")
-        Count.Text = CStr(ListPages.Items.Count) & " items"
+        Combine.Text = If(ListPages.Items.Count = 0, Msg("add"), Msg("list-combine"))
+        Count.Text = Msg("list-count", CStr(ListPages.Items.Count))
         ListPages.ContextMenuStrip = If(ListPages.Items.Count > 0, ListMenu, Nothing)
         Source.Width = If(SourceType.Text = "File", 137, 210)
 
         For Each Item As Control In New Control() _
-            {Actions, CopyList, FromLabel, Limit, LimitLabel, DeleteList, ListSelector, RenameList, SourceLabel, _
+            {Actions, CopyList, StartLabel, Limit, LimitLabel, DeleteList, ListSelector, RenameList, SourceLabel, _
                 SourceTypeLabel, SourceType}
             Item.Enabled = (Not Throbber.Active AndAlso Lists.SelectedIndex > -1)
         Next Item
@@ -416,10 +423,10 @@ Class ListForm
         Cancel.Visible = Throbber.Active
         Clear.Enabled = (Not Throbber.Active AndAlso ListPages.Items.Count > 0 AndAlso Lists.SelectedIndex > -1)
         Count.Visible = (Lists.SelectedIndex > -1)
-        From.Enabled = (Not Throbber.Active AndAlso SourceType.Text <> "Manually add pages" AndAlso Lists.SelectedIndex > -1)
+        Start.Enabled = (Not Throbber.Active AndAlso SourceType.Text <> "Manually add pages" AndAlso Lists.SelectedIndex > -1)
         ListEmpty.Visible = (Lists.SelectedIndex > -1 AndAlso ListPages.Items.Count = 0)
         ListPages.Enabled = (Not Throbber.Active)
-        ListsEmpty.Visible = (Lists.Items.Count = 0)
+        NoLists.Visible = (Lists.Items.Count = 0)
         ListSelector.Visible = (SourceType.Text = "Existing list")
         Save.Enabled = (ListPages.Items.Count > 0 AndAlso Not Throbber.Active AndAlso Lists.SelectedIndex > -1)
         Source.Enabled = (Limit.Enabled AndAlso Not Throbber.Active AndAlso Lists.SelectedIndex > -1)

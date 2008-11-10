@@ -25,8 +25,8 @@ Partial Class ListForm
         Me.components = New System.ComponentModel.Container
         Me.Lists = New System.Windows.Forms.ListBox
         Me.ListEmpty = New System.Windows.Forms.Label
-        Me.FromLabel = New System.Windows.Forms.Label
-        Me.From = New System.Windows.Forms.TextBox
+        Me.StartLabel = New System.Windows.Forms.Label
+        Me.Start = New System.Windows.Forms.TextBox
         Me.Cancel = New System.Windows.Forms.Button
         Me.Progress = New System.Windows.Forms.Label
         Me.LimitLabel = New System.Windows.Forms.Label
@@ -35,7 +35,6 @@ Partial Class ListForm
         Me.Save = New System.Windows.Forms.Button
         Me.ListSelector = New System.Windows.Forms.ComboBox
         Me.Limit = New System.Windows.Forms.NumericUpDown
-        Me.Throbber = New Huggle.Throbber
         Me.Count = New System.Windows.Forms.Label
         Me.SourceLabel = New System.Windows.Forms.Label
         Me.Exclude = New System.Windows.Forms.Button
@@ -50,13 +49,14 @@ Partial Class ListForm
         Me.RenameList = New System.Windows.Forms.Button
         Me.DeleteList = New System.Windows.Forms.Button
         Me.AddList = New System.Windows.Forms.Button
-        Me.ListsEmpty = New System.Windows.Forms.Label
+        Me.NoLists = New System.Windows.Forms.Label
         Me.Tip = New System.Windows.Forms.ToolTip(Me.components)
         Me.ListMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ListMenuView = New System.Windows.Forms.ToolStripMenuItem
         Me.ListMenuEdit = New System.Windows.Forms.ToolStripMenuItem
         Me.ListMenuRemove = New System.Windows.Forms.ToolStripMenuItem
         Me.CloseButton = New System.Windows.Forms.Button
+        Me.Throbber = New Huggle.Throbber
         CType(Me.Limit, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ListMenu.SuspendLayout()
         Me.SuspendLayout()
@@ -83,23 +83,23 @@ Partial Class ListForm
         Me.ListEmpty.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         Me.ListEmpty.Visible = False
         '
-        'FromLabel
+        'StartLabel
         '
-        Me.FromLabel.AutoSize = True
-        Me.FromLabel.Location = New System.Drawing.Point(431, 15)
-        Me.FromLabel.Name = "FromLabel"
-        Me.FromLabel.Size = New System.Drawing.Size(33, 13)
-        Me.FromLabel.TabIndex = 8
-        Me.FromLabel.Text = "From:"
+        Me.StartLabel.AutoSize = True
+        Me.StartLabel.Location = New System.Drawing.Point(431, 15)
+        Me.StartLabel.Name = "StartLabel"
+        Me.StartLabel.Size = New System.Drawing.Size(33, 13)
+        Me.StartLabel.TabIndex = 8
+        Me.StartLabel.Text = "From:"
         '
-        'From
+        'Start
         '
-        Me.From.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.Start.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.From.Location = New System.Drawing.Point(466, 12)
-        Me.From.Name = "From"
-        Me.From.Size = New System.Drawing.Size(107, 20)
-        Me.From.TabIndex = 9
+        Me.Start.Location = New System.Drawing.Point(466, 12)
+        Me.Start.Name = "Start"
+        Me.Start.Size = New System.Drawing.Size(107, 20)
+        Me.Start.TabIndex = 9
         '
         'Cancel
         '
@@ -190,14 +190,6 @@ Partial Class ListForm
         Me.Limit.TabIndex = 14
         Me.Limit.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.Limit.Value = New Decimal(New Integer() {1, 0, 0, 0})
-        '
-        'Throbber
-        '
-        Me.Throbber.BackColor = System.Drawing.Color.White
-        Me.Throbber.Location = New System.Drawing.Point(195, 72)
-        Me.Throbber.Name = "Throbber"
-        Me.Throbber.Size = New System.Drawing.Size(58, 10)
-        Me.Throbber.TabIndex = 15
         '
         'Count
         '
@@ -347,18 +339,18 @@ Partial Class ListForm
         Me.AddList.Text = "Add"
         Me.AddList.UseVisualStyleBackColor = True
         '
-        'ListsEmpty
+        'NoLists
         '
-        Me.ListsEmpty.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.ListsEmpty.BackColor = System.Drawing.SystemColors.Window
-        Me.ListsEmpty.ForeColor = System.Drawing.SystemColors.InactiveCaption
-        Me.ListsEmpty.Location = New System.Drawing.Point(21, 161)
-        Me.ListsEmpty.Name = "ListsEmpty"
-        Me.ListsEmpty.Size = New System.Drawing.Size(138, 36)
-        Me.ListsEmpty.TabIndex = 1
-        Me.ListsEmpty.Text = "No lists defined" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Click ""Add"" to create one"
-        Me.ListsEmpty.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        Me.ListsEmpty.Visible = False
+        Me.NoLists.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.NoLists.BackColor = System.Drawing.SystemColors.Window
+        Me.NoLists.ForeColor = System.Drawing.SystemColors.InactiveCaption
+        Me.NoLists.Location = New System.Drawing.Point(21, 161)
+        Me.NoLists.Name = "NoLists"
+        Me.NoLists.Size = New System.Drawing.Size(138, 36)
+        Me.NoLists.TabIndex = 1
+        Me.NoLists.Text = "No lists defined" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Click ""Add"" to create one"
+        Me.NoLists.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.NoLists.Visible = False
         '
         'ListMenu
         '
@@ -393,20 +385,28 @@ Partial Class ListForm
         Me.CloseButton.Text = "Close"
         Me.CloseButton.UseVisualStyleBackColor = True
         '
+        'Throbber
+        '
+        Me.Throbber.BackColor = System.Drawing.Color.White
+        Me.Throbber.Location = New System.Drawing.Point(195, 72)
+        Me.Throbber.Name = "Throbber"
+        Me.Throbber.Size = New System.Drawing.Size(58, 10)
+        Me.Throbber.TabIndex = 15
+        '
         'ListForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(585, 421)
         Me.Controls.Add(Me.CloseButton)
-        Me.Controls.Add(Me.ListsEmpty)
+        Me.Controls.Add(Me.NoLists)
         Me.Controls.Add(Me.CopyList)
         Me.Controls.Add(Me.RenameList)
         Me.Controls.Add(Me.DeleteList)
         Me.Controls.Add(Me.AddList)
         Me.Controls.Add(Me.ListEmpty)
-        Me.Controls.Add(Me.FromLabel)
-        Me.Controls.Add(Me.From)
+        Me.Controls.Add(Me.StartLabel)
+        Me.Controls.Add(Me.Start)
         Me.Controls.Add(Me.Progress)
         Me.Controls.Add(Me.LimitLabel)
         Me.Controls.Add(Me.ListSelector)
@@ -441,8 +441,8 @@ Partial Class ListForm
     End Sub
     Friend WithEvents Lists As System.Windows.Forms.ListBox
     Friend WithEvents ListEmpty As System.Windows.Forms.Label
-    Friend WithEvents FromLabel As System.Windows.Forms.Label
-    Friend WithEvents From As System.Windows.Forms.TextBox
+    Friend WithEvents StartLabel As System.Windows.Forms.Label
+    Friend WithEvents Start As System.Windows.Forms.TextBox
     Friend WithEvents Cancel As System.Windows.Forms.Button
     Friend WithEvents Progress As System.Windows.Forms.Label
     Friend WithEvents LimitLabel As System.Windows.Forms.Label
@@ -466,7 +466,7 @@ Partial Class ListForm
     Friend WithEvents RenameList As System.Windows.Forms.Button
     Friend WithEvents DeleteList As System.Windows.Forms.Button
     Friend WithEvents AddList As System.Windows.Forms.Button
-    Friend WithEvents ListsEmpty As System.Windows.Forms.Label
+    Friend WithEvents NoLists As System.Windows.Forms.Label
     Friend WithEvents Tip As System.Windows.Forms.ToolTip
     Friend WithEvents ListMenu As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents ListMenuView As System.Windows.Forms.ToolStripMenuItem
