@@ -162,6 +162,7 @@ Partial Class UserInfoForm
         Me.BlockLog.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.BlockLog.FullRowSelect = True
         Me.BlockLog.GridLines = True
         Me.BlockLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
         Me.BlockLog.Location = New System.Drawing.Point(12, 74)
@@ -177,6 +178,7 @@ Partial Class UserInfoForm
         Me.WarnLog.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.WarnLog.FullRowSelect = True
         Me.WarnLog.GridLines = True
         Me.WarnLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
         Me.WarnLog.Location = New System.Drawing.Point(12, 196)

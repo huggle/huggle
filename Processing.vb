@@ -12,10 +12,6 @@ Module Processing
     Sub ProcessEdit(ByVal Edit As Edit)
         If Edit Is Nothing Then Exit Sub
 
-        If Edit.Summary.Contains("Ц") Then
-            Dim a As Integer = 0
-        End If
-
         If Edit.Time = Date.MinValue Then Edit.Time = Date.SpecifyKind(Date.UtcNow, DateTimeKind.Utc)
         If Edit.Oldid Is Nothing Then Edit.Oldid = "prev"
 
@@ -1343,313 +1339,31 @@ Module Processing
         End If
     End Sub
 
-    Function IsTagFromSummary(ByVal ThisEdit As Edit) As Boolean
-        Dim Summary As String = ThisEdit.Summary.ToLower
-
+    Function IsTagFromSummary(ByVal Edit As Edit) As Boolean
         'Try to interpret as many styles of summary as possible without too many mistakes
-        If Summary = "" Then Return False
+        If String.IsNullOrEmpty(Edit.Summary) Then Return False
+        Dim Summary As String = TrimSummary(Edit.Summary.ToLower)
 
-        If Summary = "prod" OrElse Summary.Contains(" prod ") _
-            OrElse Summary.Contains("{prod") OrElse Summary.Contains("prod}") _
-            OrElse Summary.Contains(":prod") OrElse Summary.Contains("prod2") _
-            OrElse Summary.Contains("prod-") OrElse Summary.Contains("prod:") _
-            OrElse (Summary.Contains("prodding for deletion") OrElse Summary.Contains("proposed deletion") _
-            OrElse Summary.Contains("proposed for deletion")) AndAlso ThisEdit.Page.IsArticle Then Return True
-
-        If Summary.Contains("db-") OrElse Summary = "db" Then Return True
-
-        If Summary.Contains("requesting speedy deletion") _
-            OrElse Summary.Contains("speedy deletion request") _
-            OrElse Summary.Contains("marked for speedy deletion") _
-            OrElse (Summary.Contains("tagging for") AndAlso (Summary.Contains("speedy deletion") _
-            OrElse Summary.Contains("proposed deletion"))) Then Return True
-
-        If Summary.StartsWith("nominated for deletion") Then Return True
-
-        If (Summary = "afd" OrElse Summary.Contains(":afd") OrElse Summary.Contains("{afd") _
-            OrElse Summary.Contains("afd}") OrElse Summary.StartsWith("afd ")) _
-            AndAlso ThisEdit.Page.IsArticle AndAlso ThisEdit.Change > 0 Then Return True
+        For Each Item As String In Split(My.Resources.TagSummaries, CRLF)
+            If Regex.IsMatch(Summary, Item) Then Return True
+        Next Item
 
         Return False
     End Function
 
     Function GetUserLevelFromSummary(ByVal Edit As Edit) As UserLevel
         'Try to interpret as many styles of summary as possible without too many mistakes
-
         If Edit.User Is Edit.Page.Owner Then Return UserLevel.None
         If Edit.Type = EditType.Revert Then Return UserLevel.None
-        If Edit.Summary Is Nothing OrElse Edit.Summary.Length = 0 Then Return UserLevel.None
-        Dim Summary As String = Edit.Summary.ToLower
+        If String.IsNullOrEmpty(Edit.Summary) Then Return UserLevel.None
+        Dim Summary As String = TrimSummary(Edit.Summary.ToLower)
 
-        'Only parse block notifications issued by ignored users, to avoid parsing vandalism
-        If Edit.User.Ignored Then
-            If Summary = "block" OrElse Summary = "blocked" Then Return UserLevel.Blocked
-
-            For Each Item As String In New String() {"v5", "v6", "v7", "t5", "t6", "t7", "d5", "d6", "d7"}
-                If Summary.EndsWith(Item) Then Return UserLevel.Blocked
-            Next Item
-
-            For Each Item As String In New String() _
-                {"test 5", "test5", "test 6", "test6", "test 7", "test7", "notification: blocked", "indef blocked", _
-                "you have been temporarily blocked", "block notice", "you have been blocked", "temporary block", _
-                "vandalblock", "+block", "+indefblock", "+anonblock", "your ip address has been blocked"}
-
-                If Summary.Contains(Item) Then Return UserLevel.Blocked
-            Next Item
-
-            'Animum
-            If TrimSummary(Summary).Contains("due to recent vandalism from this account, it has been blocked") _
-                Then Return UserLevel.Blocked
-        End If
-
-        'Guest9999
-        If TrimSummary(Summary).Contains("informing of speedy delete nomination") Then Return UserLevel.Notification
-
-        'BJBot
-        If Summary.Contains("orphaned fair use image tagging") Then Return UserLevel.Notification
-
-        'Mecu
-        If Summary.Contains("warning: image missing fair use rationale") Then Return UserLevel.Notification
-
-        'ClueBot
-        If Summary.StartsWith("warning ") Then
-            If Summary.EndsWith("#1") Then Return UserLevel.Warn1
-            If Summary.EndsWith("#2") Then Return UserLevel.Warn2
-            If Summary.EndsWith("#3") Then Return UserLevel.Warn3
-            If Summary.EndsWith("#4") Then Return UserLevel.WarnFinal
-        End If
-
-        '{{uw-vandalism1}}, {{uw-vandalism1|Foo}}, ...
-        If Summary.Contains("1}}") OrElse Summary.Contains("1|") Then Return UserLevel.Warn1
-        If Summary.Contains("2}}") OrElse Summary.Contains("2|") Then Return UserLevel.Warn2
-        If Summary.Contains("3}}") OrElse Summary.Contains("3|") Then Return UserLevel.Warn3
-        If Summary.Contains("4}}") OrElse Summary.Contains("4|") Then Return UserLevel.WarnFinal
-
-        '{{test1-n}}
-        If Summary.Contains("1-n}}") Then Return UserLevel.Warn1
-        If Summary.Contains("2-n}}") Then Return UserLevel.Warn2
-        If Summary.Contains("3-n}}") Then Return UserLevel.Warn3
-        If Summary.Contains("4-n}}") Then Return UserLevel.WarnFinal
-
-        If Summary.Contains("warn1") Then Return UserLevel.Warn1
-        If Summary.Contains("warn2") Then Return UserLevel.Warn2
-        If Summary.Contains("warn3") Then Return UserLevel.Warn3
-        If Summary.Contains("warn4") Then Return UserLevel.WarnFinal
-
-        If Summary.Contains("warn 1") Then Return UserLevel.Warn1
-        If Summary.Contains("warn 2") Then Return UserLevel.Warn2
-        If Summary.Contains("warn 3") Then Return UserLevel.Warn3
-        If Summary.Contains("warn 4") Then Return UserLevel.WarnFinal
-
-        If Summary.Contains("test1") Then Return UserLevel.Warn1
-        If Summary.Contains("test2") Then Return UserLevel.Warn2
-        If Summary.Contains("test3") Then Return UserLevel.Warn3
-        If Summary.Contains("test4") Then Return UserLevel.WarnFinal
-
-        If Summary.Contains("test 1") Then Return UserLevel.Warn1
-        If Summary.Contains("test 2") Then Return UserLevel.Warn2
-        If Summary.Contains("test 3") Then Return UserLevel.Warn3
-        If Summary.Contains("test 4") Then Return UserLevel.WarnFinal
-
-        If Summary.Contains("vand1") Then Return UserLevel.Warn1
-        If Summary.Contains("vand2") Then Return UserLevel.Warn2
-        If Summary.Contains("vand3") Then Return UserLevel.Warn3
-        If Summary.Contains("vand4") Then Return UserLevel.WarnFinal
-
-        If Summary.Contains("vand 1") Then Return UserLevel.Warn1
-        If Summary.Contains("vand 2") Then Return UserLevel.Warn2
-        If Summary.Contains("vand 3") Then Return UserLevel.Warn3
-        If Summary.Contains("vand 4") Then Return UserLevel.WarnFinal
-
-        'VirginiaProp
-        If Summary.Contains("vandal1") Then Return UserLevel.Warn1
-        If Summary.Contains("vandal2") Then Return UserLevel.Warn2
-        If Summary.Contains("vandal3") Then Return UserLevel.Warn3
-        If Summary.Contains("vandal4") Then Return UserLevel.WarnFinal
-
-        'Oda Mari
-        If Summary.Contains("vandal 1") Then Return UserLevel.Warn1
-        If Summary.Contains("vandal 2") Then Return UserLevel.Warn2
-        If Summary.Contains("vandal 3") Then Return UserLevel.Warn3
-        If Summary.Contains("vandal 4") Then Return UserLevel.WarnFinal
-
-        If Summary.Contains("delete 1") Then Return UserLevel.Warn1
-        If Summary.Contains("delete 2") Then Return UserLevel.Warn2
-        If Summary.Contains("delete 3") Then Return UserLevel.Warn3
-        If Summary.Contains("delete 4") Then Return UserLevel.WarnFinal
-
-        If Summary.Contains("warning 1") Then Return UserLevel.Warn1
-        If Summary.Contains("warning 2") Then Return UserLevel.Warn2
-        If Summary.Contains("warning 3") Then Return UserLevel.Warn3
-        If Summary.Contains("warning 4") Then Return UserLevel.WarnFinal
-
-        If Summary.Contains("vandalism 1") Then Return UserLevel.Warn1
-        If Summary.Contains("vandalism 2") Then Return UserLevel.Warn2
-        If Summary.Contains("vandalism 3") Then Return UserLevel.Warn3
-        If Summary.Contains("vandalism 4") Then Return UserLevel.WarnFinal
-
-        If Summary.Contains("vandalism1") Then Return UserLevel.Warn1
-        If Summary.Contains("vandalism2") Then Return UserLevel.Warn2
-        If Summary.Contains("vandalism3") Then Return UserLevel.Warn3
-        If Summary.Contains("vandalism4") Then Return UserLevel.WarnFinal
-
-        'Lradrama
-        If Summary.Contains("level 1") Then Return UserLevel.Warn1
-        If Summary.Contains("level 2") Then Return UserLevel.Warn2
-        If Summary.Contains("level 3") Then Return UserLevel.Warn3
-        If Summary.Contains("level 4") Then Return UserLevel.WarnFinal
-
-        'Searchme
-        If Summary.Contains("test0") Then Return UserLevel.Warn1
-        If Summary.Contains("test 0") Then Return UserLevel.Warn1
-
-        ' Kbh3rd
-        If Summary.StartsWith("vandalizing in") Then
-            Select Case Summary.Substring(Summary.Length - 3, 3)
-                Case "/4/" : Return UserLevel.WarnFinal
-                Case "/3/" : Return UserLevel.Warn3
-                Case "/2/" : Return UserLevel.Warn2
-                Case "/1/" : Return UserLevel.Warn1
-                Case Else : Return UserLevel.Warn1
-            End Select
-        End If
-
-        'ArielGold
-        If Summary.StartsWith("1st blanking notice") Then Return UserLevel.Warn1
-        If Summary.StartsWith("1st notice") Then Return UserLevel.Warn1
-        If Summary.StartsWith("2nd warn") Then Return UserLevel.Warn2
-        If Summary.StartsWith("3rd warn") Then Return UserLevel.Warn3
-        If Summary.StartsWith("4th warn") Then Return UserLevel.WarnFinal
-
-        'Katr67
-        If Summary.StartsWith("first warning") Then Return UserLevel.Warn1
-        If Summary.StartsWith("second warning") Then Return UserLevel.Warn2
-        If Summary.StartsWith("third warning") Then Return UserLevel.Warn3
-        If Summary.StartsWith("fourth warning") Then Return UserLevel.WarnFinal
-        If Summary.StartsWith("final warning") Then Return UserLevel.WarnFinal
-
-        If Summary.Contains("uw-selfrevert") Then Return UserLevel.Notification
-        If Summary.Contains("uw-unsourced") Then Return UserLevel.Notification
-
-        If Summary.Contains("uw-") Then
-            Select Case Summary.Substring(Summary.Length - 1, 1)
-                Case "4" : Return UserLevel.WarnFinal
-                Case "3" : Return UserLevel.Warn3
-                Case "2" : Return UserLevel.Warn2
-                Case "1" : Return UserLevel.Warn1
-                Case Else : Return UserLevel.Warn1
-            End Select
-        End If
-
-        If Summary.Contains("{{uw-") Then Return UserLevel.Warn1
-
-        'Alison
-        If Summary.EndsWith("w1") Then Return UserLevel.Warn1
-        If Summary.EndsWith("w2") Then Return UserLevel.Warn2
-        If Summary.EndsWith("w3") Then Return UserLevel.Warn3
-        If Summary.EndsWith("w4") Then Return UserLevel.WarnFinal
-
-        If Summary.EndsWith("t1") Then Return UserLevel.Warn1
-        If Summary.EndsWith("t2") Then Return UserLevel.Warn2
-        If Summary.EndsWith("t3") Then Return UserLevel.Warn3
-        If Summary.EndsWith("t4") Then Return UserLevel.WarnFinal
-
-        If Summary.EndsWith("v1") Then Return UserLevel.Warn1
-        If Summary.EndsWith("v2") Then Return UserLevel.Warn2
-        If Summary.EndsWith("v3") Then Return UserLevel.Warn3
-        If Summary.EndsWith("v4") Then Return UserLevel.WarnFinal
-
-        If Summary.EndsWith("d1") Then Return UserLevel.Warn1
-        If Summary.EndsWith("d2") Then Return UserLevel.Warn2
-        If Summary.EndsWith("d3") Then Return UserLevel.Warn3
-        If Summary.EndsWith("d4") Then Return UserLevel.WarnFinal
-
-        If Summary.Contains("blank1") Then Return UserLevel.Warn1
-        If Summary.Contains("blank2") Then Return UserLevel.Warn2
-        If Summary.Contains("blank3") Then Return UserLevel.Warn3
-        If Summary.Contains("blank4") Then Return UserLevel.WarnFinal
-
-        If Summary = "+bv" Then Return UserLevel.WarnFinal
-        If Summary = "bv" Then Return UserLevel.WarnFinal
-        If Summary = "bv warning" Then Return UserLevel.WarnFinal
-
-        'D. Recorder
-        If Summary.EndsWith(" bv") Then Return UserLevel.WarnFinal
-
-        'Excirial
-        If Summary.Contains("4im") Then Return UserLevel.WarnFinal
-
-        '"warnings" that shouldn't be
-        If Summary.StartsWith("general note: adding useless trivia") Then Return UserLevel.Notification
-        If Summary.StartsWith("warning: adding useless trivia") Then Return UserLevel.Notification
-        If Summary.StartsWith("general note: adding spam links") Then Return UserLevel.Notification
-
-        If Summary.StartsWith("message re.") Then Return UserLevel.Warn1
-        If Summary.StartsWith("general note: ") Then Return UserLevel.Warn1
-        If Summary.StartsWith("caution: ") Then Return UserLevel.Warn2
-        If Summary.StartsWith("warning: ") Then Return UserLevel.Warn3
-
-        If Summary.Contains("final warn") Then Return UserLevel.WarnFinal
-        If Summary.Contains("only warn") Then Return UserLevel.WarnFinal
-        If Summary.Contains("first warn") Then Return UserLevel.Warn1
-        If Summary.Contains("second warn") Then Return UserLevel.Warn2
-        If Summary.Contains("third warn") Then Return UserLevel.Warn3
-
-        'MWT
-        If Summary.Contains("message regarding") AndAlso Summary.Contains("article using") Then Return UserLevel.Warning
-
-        'EWS23
-        If Summary.StartsWith("experimenting in") Then Return UserLevel.Warning
-
-        'Hgilbert
-        If Summary.Contains("avoid vandalising") Then Return UserLevel.Warning
-
-        'WereSpielChequers
-        If Summary.Contains("welcome warning") Then Return UserLevel.Warn1
-
-        'Derumi
-        If Summary.Contains("welcome/warn") OrElse Summary.Contains("welcome/minor warn") Then Return UserLevel.Warning
-
-        '(someone whose name I forgot...)
-        If Summary.Contains("repeated vandalism") Then Return UserLevel.Warning
-
-        'NawlinWiki
-        If Summary = "v" Then Return UserLevel.Warning
-        If Summary = "t" Then Return UserLevel.Warning
-
-        'VoABot II
-        If Summary.StartsWith("bot - notifying user of reverted changes") Then Return UserLevel.Warn1
-
-        'CounterVandalismBot
-        If Summary.StartsWith("automatic warning regarding") Then Return UserLevel.Warn1
-
-        If Summary.StartsWith("your recent edit") Then Return UserLevel.Warning
-        If Summary.StartsWith("your edit") Then Return UserLevel.Warning
-        If Summary.StartsWith("regarding your change to") Then Return UserLevel.Warning
-
-        If Summary.Contains("vandalism to") Then Return UserLevel.Warning
-        If Summary.Contains("vandalism in") Then Return UserLevel.Warning
-
-        'AlexiusHoratius
-        If Summary = GetMonthName(My.Computer.Clock.GmtTime.Month) & " " & CStr(My.Computer.Clock.GmtTime.Year) _
-            Then Return UserLevel.Warning
-
-        If Summary.Contains(GetMonthName(My.Computer.Clock.GmtTime.Month) & " " & CStr(My.Computer.Clock.GmtTime.Year)) _
-            AndAlso Summary.Contains("new section") Then Return UserLevel.Warning
-
-        For Each Item As String In New String() {"notice: ", "notification: "}
-            If Summary.StartsWith(Item) Then Return UserLevel.Notification
+        For Each Item As KeyValuePair(Of Regex, UserLevel) In Config.UserTalkSummaries
+            If Item.Key.IsMatch(Summary) AndAlso (Item.Value <> UserLevel.Blocked OrElse Edit.User.Ignored) Then
+                Dim a As String = Item.Key.ToString
+                Return Item.Value
+            End If
         Next Item
-
-        For Each Item As String In New String() _
-            {"welcome", "prod nomination of", "nn-warn", "message from antispambot", _
-             "proposed deletion of article you created", "nonsensepage", "prodwarning", "notice of possible deletion"}
-
-            If Summary.Contains(Item) Then Return UserLevel.Notification
-        Next Item
-
-        If Summary.Contains("warning") Then Return UserLevel.Warning
-        If Summary.StartsWith("warn") Then Return UserLevel.Warning
 
         Return UserLevel.None
     End Function

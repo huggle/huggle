@@ -10,6 +10,7 @@ Class Queue
     Public Shared [Default] As Queue
 
     Private Items As SortedList(Of Edit)
+    Private WithEvents RefreshTimer As New Timer
 
     Private _FilterAnonymous As QueueFilter = QueueFilter.None
     Private _FilterAssisted As QueueFilter = QueueFilter.None
@@ -24,6 +25,9 @@ Class Queue
     Private _FilterTags As QueueFilter = QueueFilter.None
     Private _FilterWarnings As QueueFilter = QueueFilter.None
 
+    Private _DynamicLimit As Integer
+    Private _DynamicSourceType As String
+    Private _DynamicSource As String
     Private _IgnorePages As Boolean
     Private _ListName As String
     Private _Name As String
@@ -31,6 +35,9 @@ Class Queue
     Private _PageRegex As Regex
     Private _Pages As List(Of String)
     Private _Preload As Boolean
+    Private _RefreshAlways As Boolean
+    Private _RefreshReAdd As Boolean
+    Private _RemovedPages As List(Of String)
     Private _RemoveOld As Boolean
     Private _RemoveAfter As Integer
     Private _RemoveViewed As Boolean
@@ -46,6 +53,9 @@ Class Queue
         _RemoveViewed = True
         _Spaces.AddRange(Space.All)
         _Type = QueueType.Live
+        _RefreshTimer.Interval = 30000
+        _DynamicLimit = 500
+        _RefreshReAdd = True
         If Not QueueNames.ContainsKey(Config.Project) Then QueueNames(Config.Project) = New List(Of String)
         If Not QueueNames(Config.Project).Contains(Name) Then QueueNames(Config.Project).Add(Name)
         All.Add(Name, Me)
@@ -66,6 +76,24 @@ Class Queue
             All.Remove(_Name)
             _Name = value
             All.Add(value, Me)
+        End Set
+    End Property
+
+    Public Property DynamicSource As String
+        Get
+            Return _DynamicSource
+        End Get
+        Set(ByVal value As String)
+            _DynamicSource = value
+        End Set
+    End Property
+
+    Public Property DynamicSourceType As String
+        Get
+            Return _DynamicSourceType
+        End Get
+        Set(ByVal value As String)
+            _DynamicSourceType = value
         End Set
     End Property
 
@@ -245,6 +273,33 @@ Class Queue
         End Set
     End Property
 
+    Public Property RefreshAlways() As Boolean
+        Get
+            Return _RefreshAlways
+        End Get
+        Set(ByVal value As Boolean)
+            _RefreshAlways = value
+        End Set
+    End Property
+
+    Public Property RefreshInterval() As Integer
+        Get
+            Return _RefreshTimer.Interval \ 1000
+        End Get
+        Set(ByVal value As Integer)
+            _RefreshTimer.Interval = value * 1000
+        End Set
+    End Property
+
+    Public Property RefreshReAdd() As Boolean
+        Get
+            Return _RefreshReAdd
+        End Get
+        Set(ByVal value As Boolean)
+            _RefreshReAdd = value
+        End Set
+    End Property
+
     Public Property RemoveAfter() As Integer
         Get
             Return _RemoveAfter
@@ -340,7 +395,7 @@ Class Queue
         'Define sort order
         Dim Comparer As IComparer(Of Edit)
 
-        If Type = QueueType.FixedList Then
+        If Type = QueueType.FixedList OrElse Type = QueueType.Dynamic Then
             Comparer = New Edit.CompareByPageName
         ElseIf SortOrder = QueueSortOrder.Quality Then
             Comparer = New Edit.CompareByQuality
@@ -350,27 +405,32 @@ Class Queue
             Comparer = New Edit.CompareByTimeReverse
         End If
 
-        If _Pages Is Nothing Then
-            Items = New SortedList(Of Edit)(Comparer)
-        Else
-            Items = New SortedList(Of Edit)(Comparer)
-
-            'Populate a fixed queue
-            If _Type = QueueType.FixedList Then
-                For Each Item As String In _Pages
-                    Dim Page As Page = GetPage(Item)
-
-                    If Page.LastEdit IsNot Nothing Then
-                        Items.Add(Page.LastEdit)
-                    Else
-                        Dim NewEdit As New Edit
-                        NewEdit.Page = Page
-                        NewEdit.Id = "cur"
-                        NewEdit.Oldid = "prev"
-                        Items.Add(NewEdit)
-                    End If
-                Next Item
+        If Type = QueueType.Dynamic Then
+            If Not _RefreshTimer.Enabled Then
+                RefreshTimer_Tick()
+                _RefreshTimer.Start()
             End If
+        Else
+            _RefreshTimer.Stop()
+        End If
+
+        Items = New SortedList(Of Edit)(Comparer)
+
+        'Populate a fixed queue
+        If _Pages IsNot Nothing AndAlso _Type = QueueType.FixedList Then
+            For Each Item As String In _Pages
+                Dim Page As Page = GetPage(Item)
+
+                If Page.LastEdit IsNot Nothing Then
+                    Items.Add(Page.LastEdit)
+                Else
+                    Dim NewEdit As New Edit
+                    NewEdit.Page = Page
+                    NewEdit.Id = "cur"
+                    NewEdit.Oldid = "prev"
+                    Items.Add(NewEdit)
+                End If
+            Next Item
         End If
 
         _NeedsReset = False
@@ -436,7 +496,7 @@ Class Queue
         'Determines whether an edit matches this queue's filter
         If Edit.Deleted Then Return False
 
-        If _Type = QueueType.FixedList Then Return False
+        If _Type = QueueType.FixedList OrElse _Type = QueueType.Dynamic Then Return False
         If _Type = QueueType.LiveList AndAlso (_Pages Is Nothing OrElse Not _Pages.Contains(Edit.Page.Name)) _
             Then Return False
         If _Spaces.Count > 0 AndAlso Not _Spaces.Contains(Edit.Page.Space) Then Return False
@@ -468,6 +528,43 @@ Class Queue
         End Select
     End Function
 
+    Private Sub RefreshTimer_Tick() Handles RefreshTimer.Tick
+        If Type = QueueType.Dynamic AndAlso (_RefreshAlways OrElse CurrentQueue Is Me) Then
+            Select Case _DynamicSourceType
+                Case "category"
+                    Dim NewRequest As New CategoryRequest(_DynamicSource)
+                    NewRequest.Limit = _DynamicLimit
+                    NewRequest.Spaces = _Spaces
+                    NewRequest.TitleRegex = _PageRegex
+                    NewRequest.Start(AddressOf GotList)
+            End Select
+        End If
+    End Sub
+
+    Private Sub GotList(ByVal Result As List(Of String))
+        If Result IsNot Nothing Then
+            If _Pages Is Nothing Then _Pages = New List(Of String)
+            _Pages.Clear()
+            Items.Clear()
+
+            For Each Item As String In Result
+                If _RefreshReAdd OrElse Not _RemovedPages.Contains(Item) Then _Pages.Add(Item)
+
+                Dim Page As Page = GetPage(Item)
+
+                If Page.LastEdit IsNot Nothing Then
+                    Items.Add(Page.LastEdit)
+                Else
+                    Dim NewEdit As New Edit
+                    NewEdit.Page = Page
+                    NewEdit.Id = "cur"
+                    NewEdit.Oldid = "prev"
+                    Items.Add(NewEdit)
+                End If
+            Next Item
+        End If
+    End Sub
+
 End Class
 
 Enum QueueSortOrder As Integer
@@ -475,7 +572,7 @@ Enum QueueSortOrder As Integer
 End Enum
 
 Enum QueueType As Integer
-    : FixedList : LiveList : Live
+    : FixedList : LiveList : Live : Dynamic
 End Enum
 
 Enum QueueFilter As Integer

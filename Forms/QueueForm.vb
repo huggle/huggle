@@ -29,6 +29,7 @@ Class QueueForm
         SetListSelector()
         If QueueList.Items.Count > 0 AndAlso QueueList.Items.Count > MainForm.QueueSelector.SelectedIndex _
             Then QueueList.SelectedIndex = MainForm.QueueSelector.SelectedIndex
+        If DynamicSourceType.Items.Count > 0 Then DynamicSourceType.SelectedIndex = 0
         RefreshInterface()
     End Sub
 
@@ -62,11 +63,13 @@ Class QueueForm
     End Sub
 
     Private Sub ApplyFilters_Click() Handles Apply.Click
-        Dim i As Integer
+        If CurrentQueue.Pages IsNot Nothing Then
+            Dim i As Integer
 
-        While i < CurrentQueue.Pages.Count
-            If CurrentQueue.MatchesFilter(CurrentQueue.Pages(i)) Then i += 1 Else CurrentQueue.Pages.RemoveAt(i)
-        End While
+            While i < CurrentQueue.Pages.Count
+                If CurrentQueue.MatchesFilter(CurrentQueue.Pages(i)) Then i += 1 Else CurrentQueue.Pages.RemoveAt(i)
+            End While
+        End If
     End Sub
 
     Private Sub Copy_Click() Handles Copy.Click
@@ -248,6 +251,12 @@ Class QueueForm
             If CurrentQueue.UserRegex Is Nothing Then UserRegex.Text = Nothing _
                 Else UserRegex.Text = CurrentQueue.UserRegex.ToString
 
+            DynamicSourceType.Text = CurrentQueue.DynamicSourceType
+            DynamicSource.Text = CurrentQueue.DynamicSource
+            RefreshAlways.Checked = CurrentQueue.RefreshAlways
+            RefreshInterval.Value = CurrentQueue.RefreshInterval
+            RefreshReAdd.Checked = CurrentQueue.RefreshReAdd
+
             IgnorePages.Checked = CurrentQueue.IgnorePages
             RemoveAfter.Checked = (CurrentQueue.RemoveAfter > 0)
             If CurrentQueue.RemoveAfter > RemoveAfterTime.Minimum Then RemoveAfterTime.Value = _
@@ -307,12 +316,13 @@ Class QueueForm
     End Sub
 
     Private Sub TypeGroup_CheckedChanged() _
-        Handles FixedList.CheckedChanged, LiveList.CheckedChanged, Live.CheckedChanged
+        Handles FixedList.CheckedChanged, LiveList.CheckedChanged, Live.CheckedChanged, DynamicList.CheckedChanged
 
         If CurrentQueue IsNot Nothing Then
             If FixedList.Checked Then : CurrentQueue.Type = QueueType.FixedList
             ElseIf LiveList.Checked Then : CurrentQueue.Type = QueueType.LiveList
             ElseIf Live.Checked Then : CurrentQueue.Type = QueueType.Live
+            ElseIf DynamicList.Checked Then : CurrentQueue.Type = QueueType.Dynamic
             End If
         End If
 
@@ -335,22 +345,35 @@ Class QueueForm
 
     Private Sub RefreshInterface()
         If CurrentQueue IsNot Nothing Then
+            Select Case CurrentQueue.Type
+                Case QueueType.Live
+                    HideTab(PagesTab)
+                    HideTab(DynamicListTab)
+                    ShowTab(OptionsTab)
+                    ShowTab(TitleFiltersTab)
+                    ShowTab(EditFiltersTab)
 
-            If CurrentQueue.Type = QueueType.Live Then
-                If Tabs.TabPages.Contains(PagesTab) Then Tabs.TabPages.Remove(PagesTab)
-                If Not Tabs.TabPages.Contains(TitleFiltersTab) Then Tabs.TabPages.Add(TitleFiltersTab)
-            Else
-                If Not Tabs.TabPages.Contains(PagesTab) Then Tabs.TabPages.Insert(2, PagesTab)
-                If Tabs.TabPages.Contains(TitleFiltersTab) Then Tabs.TabPages.Remove(TitleFiltersTab)
-            End If
+                Case QueueType.LiveList
+                    HideTab(DynamicListTab)
+                    ShowTab(OptionsTab)
+                    ShowTab(PagesTab)
+                    ShowTab(TitleFiltersTab)
+                    ShowTab(EditFiltersTab)
 
-            If CurrentQueue.Type = QueueType.FixedList Then
-                If Tabs.TabPages.Contains(EditFiltersTab) Then Tabs.TabPages.Remove(EditFiltersTab)
-                If Tabs.TabPages.Contains(OptionsTab) Then Tabs.TabPages.Remove(OptionsTab)
-            Else
-                If Not Tabs.TabPages.Contains(EditFiltersTab) Then Tabs.TabPages.Add(EditFiltersTab)
-                If Not Tabs.TabPages.Contains(OptionsTab) Then Tabs.TabPages.Insert(0, OptionsTab)
-            End If
+                Case QueueType.FixedList
+                    HideTab(DynamicListTab)
+                    HideTab(OptionsTab)
+                    HideTab(TitleFiltersTab)
+                    HideTab(EditFiltersTab)
+                    ShowTab(PagesTab)
+
+                Case QueueType.Dynamic
+                    HideTab(PagesTab)
+                    HideTab(OptionsTab)
+                    HideTab(EditFiltersTab)
+                    ShowTab(DynamicListTab)
+                    ShowTab(TitleFiltersTab)
+            End Select
 
             Apply.Visible = (CurrentQueue.Type <> QueueType.Live)
             ApplyFiltersLabel.Visible = (CurrentQueue.Type <> QueueType.Live)
@@ -364,6 +387,14 @@ Class QueueForm
         QueuesEmpty.Visible = (QueueList.Items.Count = 0)
         Tabs.Enabled = (QueueList.SelectedIndex > -1)
         TypeGroup.Enabled = (QueueList.SelectedIndex > -1)
+    End Sub
+
+    Private Sub ShowTab(ByVal Tab As TabPage)
+        If Not Tabs.TabPages.Contains(Tab) Then Tabs.TabPages.Add(Tab)
+    End Sub
+
+    Private Sub HideTab(ByVal Tab As TabPage)
+        If Tabs.TabPages.Contains(Tab) Then Tabs.TabPages.Remove(Tab)
     End Sub
 
     Public Sub SetListSelector()
@@ -395,6 +426,40 @@ Class QueueForm
         QueueList.Items.RemoveAt(Index)
         QueueList.Items.Insert(Index + 1, Queue.Name)
         QueueList.SelectedIndex = Index + 1
+    End Sub
+
+    Private Sub DynamicSourceType_SelectedIndexChanged() Handles DynamicSourceType.SelectedIndexChanged
+        If CurrentQueue IsNot Nothing Then CurrentQueue.DynamicSourceType = DynamicSourceType.Text
+
+        Select Case DynamicSourceType.Text
+            Case "Category" : DynamicSourceLabel.Text = "Category:"
+        End Select
+    End Sub
+
+    Private Sub DynamicSource_TextChanged() Handles DynamicSource.TextChanged
+        If CurrentQueue IsNot Nothing Then CurrentQueue.DynamicSource = DynamicSource.Text
+    End Sub
+
+    Private Sub RefreshInterval_ValueChanged() Handles RefreshInterval.ValueChanged
+        If CurrentQueue IsNot Nothing Then CurrentQueue.RefreshInterval = CInt(RefreshInterval.Value)
+    End Sub
+
+    Private Sub RefreshAlways_CheckedChanged() Handles RefreshAlways.CheckedChanged
+        If CurrentQueue IsNot Nothing Then CurrentQueue.RefreshAlways = RefreshAlways.Checked
+    End Sub
+
+    Private Sub RefreshReAdd_CheckedChanged() Handles RefreshReAdd.CheckedChanged
+        If CurrentQueue IsNot Nothing Then CurrentQueue.RefreshReAdd = RefreshReAdd.Checked
+    End Sub
+
+    Private Sub CheckAllSpaces_Click() Handles CheckAllSpaces.Click
+        If CurrentQueue IsNot Nothing Then
+            If CurrentQueue.Spaces.Count = 0 _
+                Then CurrentQueue.Spaces.AddRange(Space.All) _
+                Else CurrentQueue.Spaces.Clear()
+
+            RefreshInterface()
+        End If
     End Sub
 
 End Class

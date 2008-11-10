@@ -317,8 +317,11 @@ Namespace Requests
                     Dim User As User = GetUser(GetParameter(Item, "name"))
                     Dim Count As Integer = CInt(GetParameter(Item, "editcount"))
 
-                    If Count > Config.WhitelistEditCount Then User.Ignored = True
-                    WhitelistAutoChanges.Add(User.Name)
+                    User.EditCount = Count
+                    If Count > Config.WhitelistEditCount Then
+                        User.Ignored = True
+                        WhitelistAutoChanges.Add(User.Name)
+                    End If
                 End If
             Next Item
 

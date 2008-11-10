@@ -32,6 +32,7 @@ Partial Class QueueForm
         Me.Tip = New System.Windows.Forms.ToolTip(Me.components)
         Me.QueuesEmpty = New System.Windows.Forms.Label
         Me.TypeGroup = New System.Windows.Forms.GroupBox
+        Me.DynamicList = New System.Windows.Forms.RadioButton
         Me.Live = New System.Windows.Forms.RadioButton
         Me.LiveList = New System.Windows.Forms.RadioButton
         Me.FixedList = New System.Windows.Forms.RadioButton
@@ -41,6 +42,16 @@ Partial Class QueueForm
         Me.ListSelector = New System.Windows.Forms.ComboBox
         Me.ListSelectorLabel = New System.Windows.Forms.Label
         Me.QueuePages = New System.Windows.Forms.ListBox
+        Me.DynamicListTab = New System.Windows.Forms.TabPage
+        Me.DynamicSource = New System.Windows.Forms.TextBox
+        Me.DynamicSourceType = New System.Windows.Forms.ComboBox
+        Me.RefreshInterval = New System.Windows.Forms.NumericUpDown
+        Me.Label4 = New System.Windows.Forms.Label
+        Me.Label3 = New System.Windows.Forms.Label
+        Me.RefreshAlways = New System.Windows.Forms.CheckBox
+        Me.RefreshReAdd = New System.Windows.Forms.CheckBox
+        Me.DynamicSourceLabel = New System.Windows.Forms.Label
+        Me.DynamicSourceTypeLabel = New System.Windows.Forms.Label
         Me.OptionsTab = New System.Windows.Forms.TabPage
         Me.IgnorePages = New System.Windows.Forms.CheckBox
         Me.RemoveAfter = New System.Windows.Forms.CheckBox
@@ -55,7 +66,6 @@ Partial Class QueueForm
         Me.Apply = New System.Windows.Forms.Button
         Me.ApplyFiltersLabel = New System.Windows.Forms.Label
         Me.PageFiltersGroup = New System.Windows.Forms.GroupBox
-        Me.PageRegex = New Huggle.RegexBox
         Me.NamespacesLabel = New System.Windows.Forms.Label
         Me.Namespaces = New System.Windows.Forms.CheckedListBox
         Me.PageRegexLabel = New System.Windows.Forms.Label
@@ -64,6 +74,12 @@ Partial Class QueueForm
         Me.ExampleLabel2 = New System.Windows.Forms.Label
         Me.ExampleLabel1 = New System.Windows.Forms.Label
         Me.EditFiltersGroup = New System.Windows.Forms.GroupBox
+        Me.SummaryRegexLabel = New System.Windows.Forms.Label
+        Me.UserRegexLabel = New System.Windows.Forms.Label
+        Me.OK = New System.Windows.Forms.Button
+        Me.MoveUp = New System.Windows.Forms.Button
+        Me.MoveDown = New System.Windows.Forms.Button
+        Me.PageRegex = New Huggle.RegexBox
         Me.FilterBot = New Huggle.TriState
         Me.SummaryRegex = New Huggle.RegexBox
         Me.UserRegex = New Huggle.RegexBox
@@ -78,17 +94,15 @@ Partial Class QueueForm
         Me.FilterIgnored = New Huggle.TriState
         Me.FilterAnonymous = New Huggle.TriState
         Me.FilterNewPage = New Huggle.TriState
-        Me.SummaryRegexLabel = New System.Windows.Forms.Label
-        Me.UserRegexLabel = New System.Windows.Forms.Label
         Me.Example2 = New Huggle.TriState
         Me.Example1 = New Huggle.TriState
         Me.Example3 = New Huggle.TriState
-        Me.OK = New System.Windows.Forms.Button
-        Me.MoveUp = New System.Windows.Forms.Button
-        Me.MoveDown = New System.Windows.Forms.Button
+        Me.CheckAllSpaces = New System.Windows.Forms.Button
         Me.TypeGroup.SuspendLayout()
         Me.Tabs.SuspendLayout()
         Me.PagesTab.SuspendLayout()
+        Me.DynamicListTab.SuspendLayout()
+        CType(Me.RefreshInterval, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.OptionsTab.SuspendLayout()
         CType(Me.RemoveAfterTime, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TitleFiltersTab.SuspendLayout()
@@ -105,7 +119,7 @@ Partial Class QueueForm
         Me.QueueList.IntegralHeight = False
         Me.QueueList.Location = New System.Drawing.Point(12, 28)
         Me.QueueList.Name = "QueueList"
-        Me.QueueList.Size = New System.Drawing.Size(156, 370)
+        Me.QueueList.Size = New System.Drawing.Size(156, 390)
         Me.QueueList.TabIndex = 1
         '
         'QueuesLabel
@@ -120,7 +134,7 @@ Partial Class QueueForm
         'Add
         '
         Me.Add.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.Add.Location = New System.Drawing.Point(12, 404)
+        Me.Add.Location = New System.Drawing.Point(12, 424)
         Me.Add.Name = "Add"
         Me.Add.Size = New System.Drawing.Size(60, 23)
         Me.Add.TabIndex = 3
@@ -132,7 +146,7 @@ Partial Class QueueForm
         '
         Me.Delete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Delete.Enabled = False
-        Me.Delete.Location = New System.Drawing.Point(78, 404)
+        Me.Delete.Location = New System.Drawing.Point(78, 424)
         Me.Delete.Name = "Delete"
         Me.Delete.Size = New System.Drawing.Size(61, 23)
         Me.Delete.TabIndex = 4
@@ -144,7 +158,7 @@ Partial Class QueueForm
         '
         Me.Rename.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Rename.Enabled = False
-        Me.Rename.Location = New System.Drawing.Point(78, 433)
+        Me.Rename.Location = New System.Drawing.Point(78, 453)
         Me.Rename.Name = "Rename"
         Me.Rename.Size = New System.Drawing.Size(61, 23)
         Me.Rename.TabIndex = 6
@@ -156,7 +170,7 @@ Partial Class QueueForm
         '
         Me.Copy.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Copy.Enabled = False
-        Me.Copy.Location = New System.Drawing.Point(12, 433)
+        Me.Copy.Location = New System.Drawing.Point(12, 453)
         Me.Copy.Name = "Copy"
         Me.Copy.Size = New System.Drawing.Size(60, 23)
         Me.Copy.TabIndex = 5
@@ -169,7 +183,7 @@ Partial Class QueueForm
         Me.QueuesEmpty.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.QueuesEmpty.BackColor = System.Drawing.SystemColors.Window
         Me.QueuesEmpty.ForeColor = System.Drawing.SystemColors.InactiveCaption
-        Me.QueuesEmpty.Location = New System.Drawing.Point(21, 183)
+        Me.QueuesEmpty.Location = New System.Drawing.Point(21, 193)
         Me.QueuesEmpty.Name = "QueuesEmpty"
         Me.QueuesEmpty.Size = New System.Drawing.Size(138, 36)
         Me.QueuesEmpty.TabIndex = 2
@@ -181,25 +195,37 @@ Partial Class QueueForm
         '
         Me.TypeGroup.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TypeGroup.Controls.Add(Me.DynamicList)
         Me.TypeGroup.Controls.Add(Me.Live)
         Me.TypeGroup.Controls.Add(Me.LiveList)
         Me.TypeGroup.Controls.Add(Me.FixedList)
         Me.TypeGroup.Location = New System.Drawing.Point(186, 12)
         Me.TypeGroup.Name = "TypeGroup"
-        Me.TypeGroup.Size = New System.Drawing.Size(416, 90)
+        Me.TypeGroup.Size = New System.Drawing.Size(416, 116)
         Me.TypeGroup.TabIndex = 7
         Me.TypeGroup.TabStop = False
         Me.TypeGroup.Text = "Queue type"
         '
+        'DynamicList
+        '
+        Me.DynamicList.AutoSize = True
+        Me.DynamicList.Location = New System.Drawing.Point(10, 65)
+        Me.DynamicList.Name = "DynamicList"
+        Me.DynamicList.Size = New System.Drawing.Size(392, 17)
+        Me.DynamicList.TabIndex = 2
+        Me.DynamicList.TabStop = True
+        Me.DynamicList.Text = "Dynamic list: Use a list of pages periodically generated from a specified source"
+        Me.DynamicList.UseVisualStyleBackColor = True
+        '
         'Live
         '
         Me.Live.AutoSize = True
-        Me.Live.Location = New System.Drawing.Point(10, 65)
+        Me.Live.Location = New System.Drawing.Point(10, 88)
         Me.Live.Name = "Live"
-        Me.Live.Size = New System.Drawing.Size(300, 17)
+        Me.Live.Size = New System.Drawing.Size(293, 17)
         Me.Live.TabIndex = 2
         Me.Live.TabStop = True
-        Me.Live.Text = "Live: Don't use a list; show any edit that matches the filters"
+        Me.Live.Text = "Don't use a list, just show any edit that matches the filters"
         Me.Live.UseVisualStyleBackColor = True
         '
         'LiveList
@@ -207,10 +233,10 @@ Partial Class QueueForm
         Me.LiveList.AutoSize = True
         Me.LiveList.Location = New System.Drawing.Point(10, 42)
         Me.LiveList.Name = "LiveList"
-        Me.LiveList.Size = New System.Drawing.Size(358, 17)
+        Me.LiveList.Size = New System.Drawing.Size(383, 17)
         Me.LiveList.TabIndex = 1
         Me.LiveList.TabStop = True
-        Me.LiveList.Text = "Live list: Use a list of pages, show edits to those pages as they happen"
+        Me.LiveList.Text = "Live fixed list: Use a list of pages, show edits to those pages as they happen"
         Me.LiveList.UseVisualStyleBackColor = True
         '
         'FixedList
@@ -229,13 +255,14 @@ Partial Class QueueForm
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Tabs.Controls.Add(Me.PagesTab)
+        Me.Tabs.Controls.Add(Me.DynamicListTab)
         Me.Tabs.Controls.Add(Me.OptionsTab)
         Me.Tabs.Controls.Add(Me.TitleFiltersTab)
         Me.Tabs.Controls.Add(Me.EditFiltersTab)
-        Me.Tabs.Location = New System.Drawing.Point(186, 108)
+        Me.Tabs.Location = New System.Drawing.Point(186, 134)
         Me.Tabs.Name = "Tabs"
         Me.Tabs.SelectedIndex = 0
-        Me.Tabs.Size = New System.Drawing.Size(416, 319)
+        Me.Tabs.Size = New System.Drawing.Size(416, 313)
         Me.Tabs.TabIndex = 8
         '
         'PagesTab
@@ -248,7 +275,7 @@ Partial Class QueueForm
         Me.PagesTab.Location = New System.Drawing.Point(4, 22)
         Me.PagesTab.Name = "PagesTab"
         Me.PagesTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.PagesTab.Size = New System.Drawing.Size(408, 293)
+        Me.PagesTab.Size = New System.Drawing.Size(408, 287)
         Me.PagesTab.TabIndex = 0
         Me.PagesTab.Text = "Page list"
         Me.PagesTab.UseVisualStyleBackColor = True
@@ -292,8 +319,109 @@ Partial Class QueueForm
         Me.QueuePages.IntegralHeight = False
         Me.QueuePages.Location = New System.Drawing.Point(6, 40)
         Me.QueuePages.Name = "QueuePages"
-        Me.QueuePages.Size = New System.Drawing.Size(396, 218)
+        Me.QueuePages.Size = New System.Drawing.Size(396, 241)
         Me.QueuePages.TabIndex = 3
+        '
+        'DynamicListTab
+        '
+        Me.DynamicListTab.Controls.Add(Me.DynamicSource)
+        Me.DynamicListTab.Controls.Add(Me.DynamicSourceType)
+        Me.DynamicListTab.Controls.Add(Me.RefreshInterval)
+        Me.DynamicListTab.Controls.Add(Me.Label4)
+        Me.DynamicListTab.Controls.Add(Me.Label3)
+        Me.DynamicListTab.Controls.Add(Me.RefreshAlways)
+        Me.DynamicListTab.Controls.Add(Me.RefreshReAdd)
+        Me.DynamicListTab.Controls.Add(Me.DynamicSourceLabel)
+        Me.DynamicListTab.Controls.Add(Me.DynamicSourceTypeLabel)
+        Me.DynamicListTab.Location = New System.Drawing.Point(4, 22)
+        Me.DynamicListTab.Name = "DynamicListTab"
+        Me.DynamicListTab.Size = New System.Drawing.Size(408, 287)
+        Me.DynamicListTab.TabIndex = 4
+        Me.DynamicListTab.Text = "List source"
+        Me.DynamicListTab.UseVisualStyleBackColor = True
+        '
+        'DynamicSource
+        '
+        Me.DynamicSource.Location = New System.Drawing.Point(88, 42)
+        Me.DynamicSource.Name = "DynamicSource"
+        Me.DynamicSource.Size = New System.Drawing.Size(211, 20)
+        Me.DynamicSource.TabIndex = 5
+        '
+        'DynamicSourceType
+        '
+        Me.DynamicSourceType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.DynamicSourceType.FormattingEnabled = True
+        Me.DynamicSourceType.Items.AddRange(New Object() {"Category"})
+        Me.DynamicSourceType.Location = New System.Drawing.Point(88, 15)
+        Me.DynamicSourceType.Name = "DynamicSourceType"
+        Me.DynamicSourceType.Size = New System.Drawing.Size(211, 21)
+        Me.DynamicSourceType.TabIndex = 4
+        '
+        'RefreshInterval
+        '
+        Me.RefreshInterval.Location = New System.Drawing.Point(109, 77)
+        Me.RefreshInterval.Maximum = New Decimal(New Integer() {600, 0, 0, 0})
+        Me.RefreshInterval.Minimum = New Decimal(New Integer() {15, 0, 0, 0})
+        Me.RefreshInterval.Name = "RefreshInterval"
+        Me.RefreshInterval.Size = New System.Drawing.Size(53, 20)
+        Me.RefreshInterval.TabIndex = 3
+        Me.RefreshInterval.Value = New Decimal(New Integer() {30, 0, 0, 0})
+        '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.Location = New System.Drawing.Point(168, 79)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(47, 13)
+        Me.Label4.TabIndex = 2
+        Me.Label4.Text = "seconds"
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Location = New System.Drawing.Point(15, 79)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(88, 13)
+        Me.Label3.TabIndex = 2
+        Me.Label3.Text = "Refresh list every"
+        '
+        'RefreshAlways
+        '
+        Me.RefreshAlways.AutoSize = True
+        Me.RefreshAlways.Location = New System.Drawing.Point(18, 109)
+        Me.RefreshAlways.Name = "RefreshAlways"
+        Me.RefreshAlways.Size = New System.Drawing.Size(227, 17)
+        Me.RefreshAlways.TabIndex = 1
+        Me.RefreshAlways.Text = "Refresh list even when queue is not active"
+        Me.RefreshAlways.UseVisualStyleBackColor = True
+        '
+        'RefreshReAdd
+        '
+        Me.RefreshReAdd.AutoSize = True
+        Me.RefreshReAdd.Location = New System.Drawing.Point(18, 132)
+        Me.RefreshReAdd.Name = "RefreshReAdd"
+        Me.RefreshReAdd.Size = New System.Drawing.Size(313, 17)
+        Me.RefreshReAdd.TabIndex = 1
+        Me.RefreshReAdd.Text = "When refreshing, re-add pages that were previously removed"
+        Me.RefreshReAdd.UseVisualStyleBackColor = True
+        '
+        'DynamicSourceLabel
+        '
+        Me.DynamicSourceLabel.AutoSize = True
+        Me.DynamicSourceLabel.Location = New System.Drawing.Point(38, 45)
+        Me.DynamicSourceLabel.Name = "DynamicSourceLabel"
+        Me.DynamicSourceLabel.Size = New System.Drawing.Size(44, 13)
+        Me.DynamicSourceLabel.TabIndex = 0
+        Me.DynamicSourceLabel.Text = "Source:"
+        '
+        'DynamicSourceTypeLabel
+        '
+        Me.DynamicSourceTypeLabel.AutoSize = True
+        Me.DynamicSourceTypeLabel.Location = New System.Drawing.Point(15, 18)
+        Me.DynamicSourceTypeLabel.Name = "DynamicSourceTypeLabel"
+        Me.DynamicSourceTypeLabel.Size = New System.Drawing.Size(67, 13)
+        Me.DynamicSourceTypeLabel.TabIndex = 0
+        Me.DynamicSourceTypeLabel.Text = "Source type:"
         '
         'OptionsTab
         '
@@ -309,7 +437,7 @@ Partial Class QueueForm
         Me.OptionsTab.Location = New System.Drawing.Point(4, 22)
         Me.OptionsTab.Name = "OptionsTab"
         Me.OptionsTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.OptionsTab.Size = New System.Drawing.Size(408, 293)
+        Me.OptionsTab.Size = New System.Drawing.Size(408, 287)
         Me.OptionsTab.TabIndex = 3
         Me.OptionsTab.Text = "Queue options"
         Me.OptionsTab.UseVisualStyleBackColor = True
@@ -412,7 +540,7 @@ Partial Class QueueForm
         Me.TitleFiltersTab.Location = New System.Drawing.Point(4, 22)
         Me.TitleFiltersTab.Name = "TitleFiltersTab"
         Me.TitleFiltersTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.TitleFiltersTab.Size = New System.Drawing.Size(408, 293)
+        Me.TitleFiltersTab.Size = New System.Drawing.Size(408, 287)
         Me.TitleFiltersTab.TabIndex = 1
         Me.TitleFiltersTab.Text = "Page title filters"
         Me.TitleFiltersTab.UseVisualStyleBackColor = True
@@ -442,6 +570,7 @@ Partial Class QueueForm
         Me.PageFiltersGroup.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.PageFiltersGroup.Controls.Add(Me.CheckAllSpaces)
         Me.PageFiltersGroup.Controls.Add(Me.PageRegex)
         Me.PageFiltersGroup.Controls.Add(Me.NamespacesLabel)
         Me.PageFiltersGroup.Controls.Add(Me.Namespaces)
@@ -452,15 +581,6 @@ Partial Class QueueForm
         Me.PageFiltersGroup.TabIndex = 0
         Me.PageFiltersGroup.TabStop = False
         Me.PageFiltersGroup.Text = "Page title filters"
-        '
-        'PageRegex
-        '
-        Me.PageRegex.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.PageRegex.Location = New System.Drawing.Point(173, 19)
-        Me.PageRegex.Name = "PageRegex"
-        Me.PageRegex.Size = New System.Drawing.Size(217, 38)
-        Me.PageRegex.TabIndex = 1
         '
         'NamespacesLabel
         '
@@ -503,7 +623,7 @@ Partial Class QueueForm
         Me.EditFiltersTab.Controls.Add(Me.Example3)
         Me.EditFiltersTab.Location = New System.Drawing.Point(4, 22)
         Me.EditFiltersTab.Name = "EditFiltersTab"
-        Me.EditFiltersTab.Size = New System.Drawing.Size(408, 293)
+        Me.EditFiltersTab.Size = New System.Drawing.Size(408, 287)
         Me.EditFiltersTab.TabIndex = 2
         Me.EditFiltersTab.Text = "Filters"
         Me.EditFiltersTab.UseVisualStyleBackColor = True
@@ -512,7 +632,7 @@ Partial Class QueueForm
         '
         Me.ExampleLabel3.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.ExampleLabel3.AutoSize = True
-        Me.ExampleLabel3.Location = New System.Drawing.Point(280, 267)
+        Me.ExampleLabel3.Location = New System.Drawing.Point(280, 262)
         Me.ExampleLabel3.Name = "ExampleLabel3"
         Me.ExampleLabel3.Size = New System.Drawing.Size(125, 13)
         Me.ExampleLabel3.TabIndex = 4
@@ -522,7 +642,7 @@ Partial Class QueueForm
         '
         Me.ExampleLabel2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.ExampleLabel2.AutoSize = True
-        Me.ExampleLabel2.Location = New System.Drawing.Point(150, 267)
+        Me.ExampleLabel2.Location = New System.Drawing.Point(150, 262)
         Me.ExampleLabel2.Name = "ExampleLabel2"
         Me.ExampleLabel2.Size = New System.Drawing.Size(105, 13)
         Me.ExampleLabel2.TabIndex = 4
@@ -532,7 +652,7 @@ Partial Class QueueForm
         '
         Me.ExampleLabel1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.ExampleLabel1.AutoSize = True
-        Me.ExampleLabel1.Location = New System.Drawing.Point(23, 267)
+        Me.ExampleLabel1.Location = New System.Drawing.Point(23, 262)
         Me.ExampleLabel1.Name = "ExampleLabel1"
         Me.ExampleLabel1.Size = New System.Drawing.Size(104, 13)
         Me.ExampleLabel1.TabIndex = 4
@@ -561,10 +681,69 @@ Partial Class QueueForm
         Me.EditFiltersGroup.Controls.Add(Me.UserRegexLabel)
         Me.EditFiltersGroup.Location = New System.Drawing.Point(6, 6)
         Me.EditFiltersGroup.Name = "EditFiltersGroup"
-        Me.EditFiltersGroup.Size = New System.Drawing.Size(396, 254)
+        Me.EditFiltersGroup.Size = New System.Drawing.Size(396, 245)
         Me.EditFiltersGroup.TabIndex = 0
         Me.EditFiltersGroup.TabStop = False
         Me.EditFiltersGroup.Text = "Edit filters"
+        '
+        'SummaryRegexLabel
+        '
+        Me.SummaryRegexLabel.AutoSize = True
+        Me.SummaryRegexLabel.Location = New System.Drawing.Point(11, 60)
+        Me.SummaryRegexLabel.Name = "SummaryRegexLabel"
+        Me.SummaryRegexLabel.Size = New System.Drawing.Size(184, 13)
+        Me.SummaryRegexLabel.TabIndex = 0
+        Me.SummaryRegexLabel.Text = "Summary matches regular expression:"
+        '
+        'UserRegexLabel
+        '
+        Me.UserRegexLabel.AutoSize = True
+        Me.UserRegexLabel.Location = New System.Drawing.Point(6, 22)
+        Me.UserRegexLabel.Name = "UserRegexLabel"
+        Me.UserRegexLabel.Size = New System.Drawing.Size(189, 13)
+        Me.UserRegexLabel.TabIndex = 0
+        Me.UserRegexLabel.Text = "Username matches regular expression:"
+        '
+        'OK
+        '
+        Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.OK.Location = New System.Drawing.Point(527, 453)
+        Me.OK.Name = "OK"
+        Me.OK.Size = New System.Drawing.Size(75, 23)
+        Me.OK.TabIndex = 9
+        Me.OK.Text = "Close"
+        Me.OK.UseVisualStyleBackColor = True
+        '
+        'MoveUp
+        '
+        Me.MoveUp.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.MoveUp.Enabled = False
+        Me.MoveUp.Image = Global.Huggle.My.Resources.Resources.gray_up
+        Me.MoveUp.Location = New System.Drawing.Point(145, 424)
+        Me.MoveUp.Name = "MoveUp"
+        Me.MoveUp.Size = New System.Drawing.Size(23, 23)
+        Me.MoveUp.TabIndex = 4
+        Me.MoveUp.UseVisualStyleBackColor = True
+        '
+        'MoveDown
+        '
+        Me.MoveDown.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.MoveDown.Enabled = False
+        Me.MoveDown.Image = Global.Huggle.My.Resources.Resources.gray_down
+        Me.MoveDown.Location = New System.Drawing.Point(145, 453)
+        Me.MoveDown.Name = "MoveDown"
+        Me.MoveDown.Size = New System.Drawing.Size(23, 23)
+        Me.MoveDown.TabIndex = 4
+        Me.MoveDown.UseVisualStyleBackColor = True
+        '
+        'PageRegex
+        '
+        Me.PageRegex.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.PageRegex.Location = New System.Drawing.Point(173, 19)
+        Me.PageRegex.Name = "PageRegex"
+        Me.PageRegex.Size = New System.Drawing.Size(217, 38)
+        Me.PageRegex.TabIndex = 1
         '
         'FilterBot
         '
@@ -716,30 +895,12 @@ Partial Class QueueForm
         Me.FilterNewPage.State = System.Windows.Forms.CheckState.Indeterminate
         Me.FilterNewPage.TabIndex = 2
         '
-        'SummaryRegexLabel
-        '
-        Me.SummaryRegexLabel.AutoSize = True
-        Me.SummaryRegexLabel.Location = New System.Drawing.Point(11, 60)
-        Me.SummaryRegexLabel.Name = "SummaryRegexLabel"
-        Me.SummaryRegexLabel.Size = New System.Drawing.Size(184, 13)
-        Me.SummaryRegexLabel.TabIndex = 0
-        Me.SummaryRegexLabel.Text = "Summary matches regular expression:"
-        '
-        'UserRegexLabel
-        '
-        Me.UserRegexLabel.AutoSize = True
-        Me.UserRegexLabel.Location = New System.Drawing.Point(6, 22)
-        Me.UserRegexLabel.Name = "UserRegexLabel"
-        Me.UserRegexLabel.Size = New System.Drawing.Size(189, 13)
-        Me.UserRegexLabel.TabIndex = 0
-        Me.UserRegexLabel.Text = "Username matches regular expression:"
-        '
         'Example2
         '
         Me.Example2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Example2.BackColor = System.Drawing.SystemColors.Window
         Me.Example2.Enabled = False
-        Me.Example2.Location = New System.Drawing.Point(132, 266)
+        Me.Example2.Location = New System.Drawing.Point(132, 261)
         Me.Example2.MaximumSize = New System.Drawing.Size(640, 16)
         Me.Example2.MinimumSize = New System.Drawing.Size(16, 16)
         Me.Example2.Name = "Example2"
@@ -752,7 +913,7 @@ Partial Class QueueForm
         Me.Example1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Example1.BackColor = System.Drawing.SystemColors.Window
         Me.Example1.Enabled = False
-        Me.Example1.Location = New System.Drawing.Point(6, 266)
+        Me.Example1.Location = New System.Drawing.Point(6, 261)
         Me.Example1.MaximumSize = New System.Drawing.Size(640, 16)
         Me.Example1.MinimumSize = New System.Drawing.Size(16, 16)
         Me.Example1.Name = "Example1"
@@ -765,7 +926,7 @@ Partial Class QueueForm
         Me.Example3.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Example3.BackColor = System.Drawing.SystemColors.Window
         Me.Example3.Enabled = False
-        Me.Example3.Location = New System.Drawing.Point(263, 266)
+        Me.Example3.Location = New System.Drawing.Point(263, 261)
         Me.Example3.MaximumSize = New System.Drawing.Size(640, 16)
         Me.Example3.MinimumSize = New System.Drawing.Size(16, 16)
         Me.Example3.Name = "Example3"
@@ -773,41 +934,20 @@ Partial Class QueueForm
         Me.Example3.State = System.Windows.Forms.CheckState.Indeterminate
         Me.Example3.TabIndex = 3
         '
-        'OK
+        'CheckAllSpaces
         '
-        Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.OK.Location = New System.Drawing.Point(527, 433)
-        Me.OK.Name = "OK"
-        Me.OK.Size = New System.Drawing.Size(75, 23)
-        Me.OK.TabIndex = 9
-        Me.OK.Text = "Close"
-        Me.OK.UseVisualStyleBackColor = True
-        '
-        'MoveUp
-        '
-        Me.MoveUp.Enabled = False
-        Me.MoveUp.Image = Global.Huggle.My.Resources.Resources.gray_up
-        Me.MoveUp.Location = New System.Drawing.Point(145, 404)
-        Me.MoveUp.Name = "MoveUp"
-        Me.MoveUp.Size = New System.Drawing.Size(23, 23)
-        Me.MoveUp.TabIndex = 4
-        Me.MoveUp.UseVisualStyleBackColor = True
-        '
-        'MoveDown
-        '
-        Me.MoveDown.Enabled = False
-        Me.MoveDown.Image = Global.Huggle.My.Resources.Resources.gray_down
-        Me.MoveDown.Location = New System.Drawing.Point(145, 433)
-        Me.MoveDown.Name = "MoveDown"
-        Me.MoveDown.Size = New System.Drawing.Size(23, 23)
-        Me.MoveDown.TabIndex = 4
-        Me.MoveDown.UseVisualStyleBackColor = True
+        Me.CheckAllSpaces.Location = New System.Drawing.Point(6, 190)
+        Me.CheckAllSpaces.Name = "CheckAllSpaces"
+        Me.CheckAllSpaces.Size = New System.Drawing.Size(107, 23)
+        Me.CheckAllSpaces.TabIndex = 4
+        Me.CheckAllSpaces.Text = "Check/clear all"
+        Me.CheckAllSpaces.UseVisualStyleBackColor = True
         '
         'QueueForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(614, 468)
+        Me.ClientSize = New System.Drawing.Size(614, 488)
         Me.Controls.Add(Me.MoveDown)
         Me.Controls.Add(Me.MoveUp)
         Me.Controls.Add(Me.OK)
@@ -831,6 +971,9 @@ Partial Class QueueForm
         Me.Tabs.ResumeLayout(False)
         Me.PagesTab.ResumeLayout(False)
         Me.PagesTab.PerformLayout()
+        Me.DynamicListTab.ResumeLayout(False)
+        Me.DynamicListTab.PerformLayout()
+        CType(Me.RefreshInterval, System.ComponentModel.ISupportInitialize).EndInit()
         Me.OptionsTab.ResumeLayout(False)
         Me.OptionsTab.PerformLayout()
         CType(Me.RemoveAfterTime, System.ComponentModel.ISupportInitialize).EndInit()
@@ -909,4 +1052,16 @@ Partial Class QueueForm
     Friend WithEvents FilterMe As Huggle.TriState
     Friend WithEvents MoveUp As System.Windows.Forms.Button
     Friend WithEvents MoveDown As System.Windows.Forms.Button
+    Friend WithEvents DynamicListTab As System.Windows.Forms.TabPage
+    Friend WithEvents RefreshInterval As System.Windows.Forms.NumericUpDown
+    Friend WithEvents Label3 As System.Windows.Forms.Label
+    Friend WithEvents RefreshReAdd As System.Windows.Forms.CheckBox
+    Friend WithEvents DynamicSourceLabel As System.Windows.Forms.Label
+    Friend WithEvents DynamicSourceTypeLabel As System.Windows.Forms.Label
+    Friend WithEvents DynamicSource As System.Windows.Forms.TextBox
+    Friend WithEvents DynamicSourceType As System.Windows.Forms.ComboBox
+    Friend WithEvents Label4 As System.Windows.Forms.Label
+    Friend WithEvents RefreshAlways As System.Windows.Forms.CheckBox
+    Friend WithEvents DynamicList As System.Windows.Forms.RadioButton
+    Friend WithEvents CheckAllSpaces As System.Windows.Forms.Button
 End Class

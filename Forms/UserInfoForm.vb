@@ -20,12 +20,12 @@ Class UserInfoForm
                 Dim NewContribsRequest As New ContribsRequest
                 NewContribsRequest.User = User
                 NewContribsRequest.BlockSize = 500
-                NewContribsRequest.Start()
+                NewContribsRequest.Start(AddressOf GotCount)
 
             Else
                 Dim NewCountRequest As New CountRequest
                 NewCountRequest.Users.Add(User)
-                NewCountRequest.Start()
+                NewCountRequest.Start(AddressOf GotCount)
             End If
         End If
     End Sub
@@ -38,11 +38,19 @@ Class UserInfoForm
         Close()
     End Sub
 
+    Private Sub GotCount(ByVal Result As RequestResult)
+        If Not Result.Error Then RefreshData()
+    End Sub
+
     Public Sub RefreshData()
         SessionEdits.Text = CStr(User.SessionEditCount)
         If User.Anonymous Then Anonymous.Text = Msg("yes") Else Anonymous.Text = Msg("no")
         If User.Ignored Then Ignored.Text = Msg("yes") Else Ignored.Text = Msg("no")
         If User.SharedIP Then SharedIP.Text = Msg("yes") Else SharedIP.Text = Msg("no")
+        Edits.Invoke(New Action(AddressOf SetEdits))
+    End Sub
+
+    Private Sub SetEdits()
         If User.EditCount > -1 Then Edits.Text = CStr(User.EditCount) Else Edits.Text = "..."
     End Sub
 

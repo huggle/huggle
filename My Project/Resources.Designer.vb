@@ -315,12 +315,11 @@ Namespace My.Resources
         '''    bg.wikipedia;http://bg.wikipedia.org/,
         '''    de.wikipedia;http://de.wikipedia.org/,
         '''    en.wikipedia;http://en.wikipedia.org/,
+        '''    es.wikipedia;http://es.wikipedia.org/,
         '''    no.wikipedia;http://no.wikipedia.org/,
         '''    pt.wikipedia;http://pt.wikipedia.org/,
         '''    ru.wikipedia;http://ru.wikipedia.org/,
-        '''    commons;http://commons.wikimedia.org/,
-        '''    meta;http://meta.wikimedia.org/,
-        '''    test wiki;http://test.wikipedia.org/,
+        '''    test wiki;http://test.wikipedia.org/
         '''    
         '''project:en.wikipedia.
         '''</summary>
@@ -353,7 +352,7 @@ Namespace My.Resources
         
         '''<summary>
         '''  Looks up a localized string similar to &lt;pre&gt;
-        '''name:                    English
+        '''name:                      English
         '''&lt;/pre&gt;
         '''
         '''=== General ===
@@ -370,7 +369,7 @@ Namespace My.Resources
         '''exit:                      Exit
         '''minimizewindow:            Minimize
         '''no:                        No
-        '''ok:                        O [rest of string was truncated]&quot;;.
+        '''ok:                        [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property en() As String
             Get
@@ -538,6 +537,30 @@ Namespace My.Resources
             End Get
         End Property
         
+        '''<summary>
+        '''  Looks up a localized string similar to ^prod$
+        ''' prod 
+        '''[\{:]prod
+        '''prod[\}-:2]
+        '''prodding for deletion
+        '''proposed for deletion
+        '''proposed deletion
+        '''^db$
+        '''db-
+        '''(marked for|tagged for|requesting) speedy deletion
+        '''speedy deletion request
+        '''adding \{\{.+\}\} to article
+        '''nominated for deletion
+        '''^afd$
+        '''[\{:]afd
+        '''afd[ \}].
+        '''</summary>
+        Friend ReadOnly Property TagSummaries() As String
+            Get
+                Return ResourceManager.GetString("TagSummaries", resourceCulture)
+            End Get
+        End Property
+        
         Friend ReadOnly Property tri_no() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("tri_no", resourceCulture)
@@ -626,6 +649,36 @@ Namespace My.Resources
             Get
                 Dim obj As Object = ResourceManager.GetObject("user_whitelist", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to b	^block(ed)?$
+        '''b	[dtv][5-7]$
+        '''b	test ?[5-7]
+        '''b	notification: blocked
+        '''b	(you have|your ip address has) been (temporarily )?blocked
+        '''b	block notice
+        '''b	\+block
+        '''b	\+?(anon|indef|vandal)block(ed)?
+        '''b	temporary block
+        '''b	due to recent vandalism from this account, it has been blocked
+        '''
+        '''n	informing of speedy delete nomination
+        '''n	orphaned fair use image tagging
+        '''n	warning: image missing fair use rationale
+        '''
+        '''w1	^warning .+ #1$
+        '''w2	^warning .+ #2$
+        '''w3	^warning .+ #3$
+        '''w4	^warning .+ #4$
+        '''
+        '''w1	1(-n)?(\}\}|\|)
+        '''w2	2 [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend ReadOnly Property WarningSummaries() As String
+            Get
+                Return ResourceManager.GetString("WarningSummaries", resourceCulture)
             End Get
         End Property
         

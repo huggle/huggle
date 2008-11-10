@@ -24,13 +24,16 @@
             Dim a As Integer = 0, b As Integer = Items.Count, n As Integer
 
             While a <> b
-                'CInt rounds .5 to the nearest even interval, but we need to round up
-                n = CInt(b + a + 0.1) \ 2
+                n = CInt(Math.Ceiling((b + a) \ 2))
                 If Comparer.Compare(Item, Items(n)) > 0 Then a = n + 1 Else b = n
             End While
 
             Items.Insert(a, Item)
         End If
+    End Sub
+
+    Public Sub Clear()
+        Items.Clear()
     End Sub
 
     Public ReadOnly Property Contains(ByVal Item As T) As Boolean

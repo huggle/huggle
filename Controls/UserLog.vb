@@ -2,12 +2,13 @@
 
     'Control for displaying user log
 
-    Inherits ListView
+    Inherits ListView2
 
     Private _User As User
 
     Sub New()
         DoubleBuffered = True
+        FullRowSelect = True
         View = Windows.Forms.View.Details
         GridLines = True
         HeaderStyle = ColumnHeaderStyle.Nonclickable

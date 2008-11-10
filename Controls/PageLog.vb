@@ -2,16 +2,9 @@
 
     'Control for displaying page log
 
-    Inherits ListView
+    Inherits ListView2
 
     Private _Page As Page, _Mode As ViewMode
-
-    Sub New()
-        DoubleBuffered = True
-        View = Windows.Forms.View.Details
-        GridLines = True
-        HeaderStyle = ColumnHeaderStyle.Nonclickable
-    End Sub
 
     Public Property Page() As Page
         Get

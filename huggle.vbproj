@@ -51,6 +51,9 @@
     <Compile Include="Controls\BrowserTab.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Controls\ListView2.vb">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\UserLog.vb">
       <SubType>Component</SubType>
     </Compile>
@@ -292,9 +295,6 @@
     </Compile>
     <Compile Include="Highlight.vb" />
     <Compile Include="Irc.vb" />
-    <Compile Include="Controls\ListView2.vb">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Login.vb" />
     <Compile Include="Main.Designer.vb">
       <DependentUpon>Main.vb</DependentUpon>
@@ -587,6 +587,10 @@
     <None Include="Localization\de.txt" />
     <None Include="Localization\en.txt" />
     <None Include="Localization\pt.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\TagSummaries.txt" />
+    <Content Include="Resources\WarningSummaries.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
 </Project>

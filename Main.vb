@@ -18,8 +18,6 @@ Class Main
         TrayIcon.Icon = My.Resources.huggle_icon
         KeyDelayTimer.Interval = 10
         ScrollTimer.Interval = 1000 \ Config.HistoryScrollSpeed
-        LoadLists()
-        LoadQueues()
 
         'Temporary bugfix
         If Config.RollbackSummary IsNot Nothing Then _

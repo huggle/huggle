@@ -193,6 +193,7 @@ Class Configuration
     Public UserListUpdateSummary As String
     Public UsernameListed As Boolean
     Public UseRollback As Boolean = True
+    Public UserTalkSummaries As New Dictionary(Of Regex, UserLevel)
     Public VandalReportReason As String
     Public WarningAge As Integer = 36
     Public WarningImLevel As Boolean

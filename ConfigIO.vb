@@ -469,6 +469,8 @@ Module ConfigIO
         'If the app is in debug mode add a localhost wiki to the project list
         If Not Config.Projects.ContainsKey("localhost") Then Config.Projects.Add("localhost", "http://localhost/")
 #End If
+
+        SetUserTalkSummaries(My.Resources.WarningSummaries)
     End Sub
 
     Public Sub SaveLocalConfig()
@@ -615,6 +617,7 @@ Module ConfigIO
         'Load queues from application data subfolder
         If Directory.Exists(QueuesLocation) Then
             For Each QueuePath As String In Directory.GetFiles(QueuesLocation)
+                If Not QueueNames.ContainsKey(Config.Project) Then QueueNames.Add(Config.Project, New List(Of String))
                 QueueNames(Config.Project).Add(Path.GetFileNameWithoutExtension(QueuePath))
 
                 Dim ConfigItems As Dictionary(Of String, String) = ProcessConfigFile(File.ReadAllText(QueuePath))
@@ -823,6 +826,34 @@ Module ConfigIO
                 Log("Unable to save whitelist: " & ex.Message)
             End Try
         End If
+    End Sub
+
+    Public Sub SetUserTalkSummaries(ByVal Text As String)
+        Config.UserTalkSummaries.Clear()
+
+        For Each Item As String In Split(Text, CRLF)
+            If Item.Contains(Tab) Then
+                Dim LevelName As String = Item.Substring(0, Item.IndexOf(Tab))
+                Dim Value As String = Item.Substring(Item.IndexOf(Tab) + 1)
+
+                If Not String.IsNullOrEmpty(Value) Then
+                    Dim Level As UserLevel = UserLevel.None
+
+                    Select Case LevelName
+                        Case "b" : Level = UserLevel.Blocked
+                        Case "n" : Level = UserLevel.Notification
+                        Case "w" : Level = UserLevel.Warning
+                        Case "w1" : Level = UserLevel.Warn1
+                        Case "w2" : Level = UserLevel.Warn2
+                        Case "w3" : Level = UserLevel.Warn3
+                        Case "w4" : Level = UserLevel.WarnFinal
+                        Case Else : Continue For
+                    End Select
+
+                    Config.UserTalkSummaries.Add(New Regex(Value, RegexOptions.Compiled), Level)
+                End If
+            End If
+        Next Item
     End Sub
 
 End Module

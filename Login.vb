@@ -53,6 +53,9 @@ Namespace Requests
         Public LoginForm As LoginForm
 
         Protected Overrides Sub Process()
+            LoadLists()
+            LoadQueues()
+
             'Log in... can't use the API here because it locks you out after a wrong password
             UpdateStatus(Msg("login-progress-start"))
 
