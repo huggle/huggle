@@ -28,12 +28,14 @@ Partial Class DeleteForm
         Me.Reason = New System.Windows.Forms.ComboBox
         Me.DeletionLogLabel = New System.Windows.Forms.Label
         Me.DeletionLog = New Huggle.PageLog
+        Me.Throbber = New Huggle.Throbber
+        Me.Progress = New System.Windows.Forms.Label
         Me.SuspendLayout()
         '
         'Cancel
         '
         Me.Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Cancel.Location = New System.Drawing.Point(488, 178)
+        Me.Cancel.Location = New System.Drawing.Point(407, 201)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
         Me.Cancel.TabIndex = 5
@@ -43,7 +45,7 @@ Partial Class DeleteForm
         'OK
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.OK.Location = New System.Drawing.Point(407, 178)
+        Me.OK.Location = New System.Drawing.Point(326, 201)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
         Me.OK.TabIndex = 4
@@ -67,13 +69,13 @@ Partial Class DeleteForm
         Me.Reason.Location = New System.Drawing.Point(65, 12)
         Me.Reason.MaxDropDownItems = 20
         Me.Reason.Name = "Reason"
-        Me.Reason.Size = New System.Drawing.Size(498, 21)
+        Me.Reason.Size = New System.Drawing.Size(417, 21)
         Me.Reason.TabIndex = 1
         '
         'DeletionLogLabel
         '
         Me.DeletionLogLabel.AutoSize = True
-        Me.DeletionLogLabel.Location = New System.Drawing.Point(12, 45)
+        Me.DeletionLogLabel.Location = New System.Drawing.Point(12, 66)
         Me.DeletionLogLabel.Name = "DeletionLogLabel"
         Me.DeletionLogLabel.Size = New System.Drawing.Size(66, 13)
         Me.DeletionLogLabel.TabIndex = 2
@@ -84,22 +86,42 @@ Partial Class DeleteForm
         Me.DeletionLog.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.DeletionLog.FullRowSelect = True
         Me.DeletionLog.GridLines = True
         Me.DeletionLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
-        Me.DeletionLog.Location = New System.Drawing.Point(15, 61)
+        Me.DeletionLog.Location = New System.Drawing.Point(15, 82)
         Me.DeletionLog.Mode = Huggle.PageLog.ViewMode.Delete
         Me.DeletionLog.Name = "DeletionLog"
         Me.DeletionLog.Page = Nothing
-        Me.DeletionLog.Size = New System.Drawing.Size(548, 111)
+        Me.DeletionLog.Size = New System.Drawing.Size(467, 113)
         Me.DeletionLog.TabIndex = 6
         Me.DeletionLog.UseCompatibleStateImageBehavior = False
         Me.DeletionLog.View = System.Windows.Forms.View.Details
+        '
+        'Throbber
+        '
+        Me.Throbber.BackColor = System.Drawing.Color.Gainsboro
+        Me.Throbber.Location = New System.Drawing.Point(65, 40)
+        Me.Throbber.Name = "Throbber"
+        Me.Throbber.Size = New System.Drawing.Size(58, 10)
+        Me.Throbber.TabIndex = 7
+        '
+        'Progress
+        '
+        Me.Progress.AutoSize = True
+        Me.Progress.Location = New System.Drawing.Point(137, 40)
+        Me.Progress.Name = "Progress"
+        Me.Progress.Size = New System.Drawing.Size(10, 13)
+        Me.Progress.TabIndex = 8
+        Me.Progress.Text = " "
         '
         'DeleteForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(575, 213)
+        Me.ClientSize = New System.Drawing.Size(494, 236)
+        Me.Controls.Add(Me.Progress)
+        Me.Controls.Add(Me.Throbber)
         Me.Controls.Add(Me.DeletionLog)
         Me.Controls.Add(Me.DeletionLogLabel)
         Me.Controls.Add(Me.Reason)
@@ -123,4 +145,6 @@ Partial Class DeleteForm
     Friend WithEvents Reason As System.Windows.Forms.ComboBox
     Friend WithEvents DeletionLogLabel As System.Windows.Forms.Label
     Friend WithEvents DeletionLog As Huggle.PageLog
+    Friend WithEvents Throbber As Huggle.Throbber
+    Friend WithEvents Progress As System.Windows.Forms.Label
 End Class

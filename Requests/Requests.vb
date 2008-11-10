@@ -319,7 +319,8 @@ Namespace Requests
                 Return New ApiResult(Result, HtmlDecode(FindString(Result, "<error ", "code=""", """")), _
                     HtmlDecode(FindString(Result, "<error ", "info=""", """")))
             ElseIf FindString(Result, "<warnings>", "</warnings>") IsNot Nothing Then
-                Return New ApiResult(Result, "warning", HtmlDecode(FindString(Result, "<warnings>", "<query>", "</query>")))
+                Return New ApiResult(Result, "warning", _
+                    HtmlDecode(StripHTML(FindString(Result, "<warnings>", "</warnings>"))))
             Else
                 Return New ApiResult(Result, Nothing, Nothing)
             End If

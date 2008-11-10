@@ -1,3 +1,5 @@
+Imports System.Web.HttpUtility
+
 Class DeleteForm
 
     Public Page As Page
@@ -21,13 +23,51 @@ Class DeleteForm
             Next Item
         End If
 
-        DeletionLog.Columns.Add("", 300)
-        DeletionLog.Items.Add("Retrieving deletion log, please wait...")
+        If Page.SpeedyCriterion IsNot Nothing Then
+            SetReason()
+        Else
+            Dim NewApiRequest As New ApiRequest
+            NewApiRequest.ApiQuery = "action=parse&prop=templates&page=" & UrlEncode(Page.Name)
+            NewApiRequest.Start(AddressOf GotTemplates)
+            Progress.Text = "Checking tags..."
+            Throbber.Start()
+        End If
 
-        Dim NewRequest As New DeleteLogRequest
-        NewRequest.Target = DeletionLog
-        NewRequest.Page = Page
-        NewRequest.Start()
+        DeletionLog.Page = Page
+    End Sub
+
+    Private Sub GotTemplates(ByVal Result As RequestResult)
+        Throbber.Stop()
+
+        If Result.Error Then
+            Progress.Text = Result.ErrorMessage
+            Exit Sub
+        End If
+
+        If Result.Text.Contains("<templates>") Then
+            For Each Item As String In Split(FindString(Result.Text, "<templates>", "</templates>"), "</tl>")
+                Dim Template As String = FindString(FindString(Item, ">"), ":")
+
+                If Template IsNot Nothing AndAlso Template.StartsWith("Db-") _
+                    AndAlso Config.SpeedyCriteria.ContainsKey(Template.Substring(3).ToUpper) Then
+
+                    Page.SpeedyCriterion = Config.SpeedyCriteria(Template.Substring(3).ToUpper)
+                    Exit For
+                End If
+            Next Item
+        End If
+
+        Progress.Text = ""
+        If Page.SpeedyCriterion Is Nothing Then Progress.Text = "" Else SetReason()
+    End Sub
+
+    Private Sub SetReason()
+        For Each Item As String In Reason.Items
+            If Item.StartsWith(Page.SpeedyCriterion.Code) Then
+                Reason.SelectedItem = Item
+                Exit For
+            End If
+        Next Item
     End Sub
 
     Private Sub DeleteForm_FormClosing() Handles Me.FormClosing
@@ -75,7 +115,4 @@ Class DeleteForm
         End If
     End Sub
 
-    Private Sub DeletionLog_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DeletionLog.SelectedIndexChanged
-
-    End Sub
 End Class

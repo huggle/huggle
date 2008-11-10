@@ -1,19 +1,13 @@
 Class ProtectForm
 
-    Public ThisPage As Page
+    Public Page As Page
 
     Private Sub ProtectForm_Load() Handles Me.Load
         Icon = My.Resources.huggle_icon
-        Text = "Protect " & ThisPage.Name
+        Text = "Protect " & Page.Name
         Reason.Text = Config.ProtectionReason
-
-        ProtectionLog.Columns.Add("", 300)
-        ProtectionLog.Items.Add("Retrieving protection log, please wait...")
-
-        Dim NewRequest As New ProtectionLogRequest
-        NewRequest.Target = ProtectionLog
-        NewRequest.Page = ThisPage
-        NewRequest.Start()
+        Expiry.Text = Config.ProtectionTime
+        ProtectionLog.Page = Page
     End Sub
 
     Private Sub ProtectForm_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles MyBase.KeyDown
@@ -22,7 +16,7 @@ Class ProtectForm
 
     Private Sub OK_Click() Handles OK.Click
         Dim NewRequest As New ProtectRequest
-        NewRequest.Page = ThisPage
+        NewRequest.Page = Page
         NewRequest.Summary = Reason.Text
         If SemiProtection.Checked Then NewRequest.EditLevel = "autoconfirmed" _
             Else If FullProtection.Checked Then NewRequest.EditLevel = "sysop"
@@ -43,25 +37,19 @@ Class ProtectForm
         OK.Enabled = (Reason.Text <> "")
     End Sub
 
-    Private Sub ProtectionLog_EnabledChanged() _
-        Handles ProtectionLog.EnabledChanged
-
+    Private Sub ProtectionLog_EnabledChanged() Handles ProtectionLog.EnabledChanged
         CurrentLevel.Text = "Current protection level: "
 
-        If ThisPage.EditLevel = "" AndAlso ThisPage.MoveLevel = "" Then CurrentLevel.Text &= "no protection"
-        If ThisPage.EditLevel <> "" Then CurrentLevel.Text &= "edit:" & ThisPage.EditLevel & " "
-        If ThisPage.MoveLevel <> "" Then CurrentLevel.Text &= "move:" & ThisPage.MoveLevel
+        If Page.EditLevel = "" AndAlso Page.MoveLevel = "" Then CurrentLevel.Text &= "no protection"
+        If Page.EditLevel <> "" Then CurrentLevel.Text &= "edit:" & Page.EditLevel & " "
+        If Page.MoveLevel <> "" Then CurrentLevel.Text &= "move:" & Page.MoveLevel
     End Sub
 
-    Private Sub SemiProtection_CheckedChanged() _
-        Handles SemiProtection.CheckedChanged
-
+    Private Sub SemiProtection_CheckedChanged() Handles SemiProtection.CheckedChanged
         If SemiProtection.Checked Then MoveProtection.Checked = False
     End Sub
 
-    Private Sub FullProtection_CheckedChanged() _
-        Handles FullProtection.CheckedChanged
-
+    Private Sub FullProtection_CheckedChanged() Handles FullProtection.CheckedChanged
         If FullProtection.Checked Then MoveProtection.Checked = True
     End Sub
 

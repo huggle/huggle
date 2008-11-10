@@ -19,6 +19,7 @@ Class Page
     Public HistoryOffset As String
     Public Patrolled As Boolean
     Public Rcid As String
+    Public SpeedyCriterion As SpeedyCriterion
     Public Text As String
     Public EditLevel As String
     Public MoveLevel As String

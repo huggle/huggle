@@ -645,11 +645,7 @@ Class Main
         If CurrentPage IsNot Nothing Then
             Dim NewDeleteForm As New DeleteForm
             NewDeleteForm.Page = CurrentPage
-
-            If NewDeleteForm.ShowDialog = DialogResult.OK Then
-                PageDelete.Enabled = False
-                PageDeleteB.Enabled = False
-            End If
+            NewDeleteForm.Show()
         End If
     End Sub
 
@@ -1054,7 +1050,7 @@ Class Main
     Private Sub PageProtect_Click() Handles PageProtect.Click
         If CurrentPage IsNot Nothing Then
             Dim NewProtectForm As New ProtectForm
-            NewProtectForm.ThisPage = CurrentPage
+            NewProtectForm.Page = CurrentPage
             NewProtectForm.ShowDialog()
         End If
     End Sub

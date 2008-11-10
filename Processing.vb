@@ -261,6 +261,7 @@ Module Processing
 
         Edit.Page.Exists = True
         Edit.Page.Text = Nothing
+        Edit.Page.SpeedyCriterion = Nothing
         Edit.Page.LastEdit = Edit
         Edit.User.LastEdit = Edit
 

@@ -139,6 +139,7 @@ Class Configuration
     Public ProtectionRequestPage As String
     Public ProtectionRequestReason As String
     Public ProtectionRequestSummary As String
+    Public ProtectionTime As String = "indefinite"
     Public QueueBuilderLimit As Integer = 10
     Public RcBlockSize As Integer = 100
     Public ReportExtendSummary As String
@@ -170,6 +171,7 @@ Class Configuration
     Public SpeedyMessageSummary As String
     Public SpeedyMessageTitle As String
     Public SpeedySummary As String
+    Public SpeedyTemplates As New Dictionary(Of String, List(Of String))
     Public Summary As String
     Public Tags As New List(Of String)
     Public TemplateMessages As New List(Of String)

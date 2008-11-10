@@ -223,6 +223,8 @@ Namespace Requests
             If State = States.Cancelled Then Thread.CurrentThread.Abort()
 
             Callback(AddressOf LoginForm.Done)
+            Administrator = True
+            Config.UseAdminFunctions = True
             Complete()
         End Sub
 

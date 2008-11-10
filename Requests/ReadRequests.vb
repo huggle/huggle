@@ -7,6 +7,20 @@ Imports System.Web.HttpUtility
 
 Namespace Requests
 
+    Class ApiRequest : Inherits Request
+
+        'Make an arbitrary API query
+
+        Public ApiQuery As String
+
+        Protected Overrides Sub Process()
+            Dim Result As ApiResult = DoApiRequest(ApiQuery)
+
+            If Result.Error Then Fail(, Result.ErrorMessage) Else Complete(, Result.Text)
+        End Sub
+
+    End Class
+
     Class BlockLogRequest : Inherits Request
 
         'Retrieve block log for a user
