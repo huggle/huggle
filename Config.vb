@@ -23,7 +23,7 @@ Class Configuration
     Public ReadOnly WikiPath As String = "w/"
 
     Public ReadOnly EditTypes As String() = _
-        {"blocknote", "deletenote", "deletetag", "deletereq", "manual", "message", "prodtag", _
+        {"blocknote", "deletenote", "deletetag", "deletereq", "manual", "message", "note", "prodtag", _
          "protectreq", "report", "revert", "speedytag", "tag", "warning"}
 
     'Values only used at runtime

@@ -84,6 +84,7 @@ w	vandalism (in|to)
 
 n	^(notice|notification): 
 n	welcome
+n	welcoming user
 n	prod nomination of
 n	nn-warn
 n	message from antispambot

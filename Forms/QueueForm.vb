@@ -29,7 +29,6 @@ Class QueueForm
         SetListSelector()
         If QueueList.Items.Count > 0 AndAlso QueueList.Items.Count > MainForm.QueueSelector.SelectedIndex _
             Then QueueList.SelectedIndex = MainForm.QueueSelector.SelectedIndex
-        If DynamicSourceType.Items.Count > 0 Then DynamicSourceType.SelectedIndex = 0
         RefreshInterface()
     End Sub
 
@@ -268,6 +267,8 @@ Class QueueForm
             If CurrentQueue.Pages Is Nothing Then ListSelector.SelectedIndex = 0 _
                 Else ListSelector.SelectedItem = CurrentQueue.ListName
 
+            If DynamicSourceType.SelectedIndex = -1 Then DynamicSourceType.SelectedIndex = 0
+
             For i As Integer = 0 To Namespaces.Items.Count - 1
                 Namespaces.SetItemChecked(i, CurrentQueue.Spaces.Contains(CType(Namespaces.Items(i), Space)))
             Next i
@@ -458,7 +459,9 @@ Class QueueForm
                 Then CurrentQueue.Spaces.AddRange(Space.All) _
                 Else CurrentQueue.Spaces.Clear()
 
-            RefreshInterface()
+            For i As Integer = 0 To Namespaces.Items.Count - 1
+                Namespaces.SetItemChecked(i, CurrentQueue.Spaces.Contains(CType(Namespaces.Items(i), Space)))
+            Next i
         End If
     End Sub
 

@@ -1,16 +1,14 @@
 ﻿^prod$
  prod 
 [\{:]prod
-prod[\}-:2]
-prodding for deletion
-proposed for deletion
+prod[\}\-:2]
+(nominated|prodding|proposed) for deletion
 proposed deletion
 ^db$
 db-
 (marked for|tagged for|requesting) speedy deletion
 speedy deletion request
 adding \{\{.+\}\} to article
-nominated for deletion
 ^afd$
 [\{:]afd
 afd[ \}]
