@@ -349,6 +349,7 @@ Partial Class LoginForm
         Me.Language.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.Language.FormattingEnabled = True
         Me.Language.Location = New System.Drawing.Point(80, 89)
+        Me.Language.MaxDropDownItems = 20
         Me.Language.Name = "Language"
         Me.Language.Size = New System.Drawing.Size(140, 21)
         Me.Language.TabIndex = 1

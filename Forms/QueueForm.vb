@@ -284,6 +284,10 @@ Class QueueForm
         RemoveAfterTime.Enabled = RemoveAfter.Checked
     End Sub
 
+    Private Sub RemoveOld_CheckedChanged() Handles RemoveOld.CheckedChanged
+        If CurrentQueue IsNot Nothing Then CurrentQueue.RemoveOld = RemoveOld.Checked
+    End Sub
+
     Private Sub RemoveViewed_CheckedChanged() Handles RemoveViewed.CheckedChanged
         If CurrentQueue IsNot Nothing Then CurrentQueue.RemoveViewed = RemoveViewed.Checked
     End Sub
@@ -313,7 +317,7 @@ Class QueueForm
         End If
     End Sub
 
-    Private Sub SummaryRegex_Leave() Handles UserRegex.Leave
+    Private Sub SummaryRegex_Leave() Handles SummaryRegex.Leave
         CurrentQueue.SummaryRegex = SummaryRegex.Regex
     End Sub
 

@@ -722,7 +722,7 @@ Namespace Requests
                 Lang = Lang.Substring(Lang.LastIndexOf("/") + 1)
 
                 Dim PageTimestamp As Date = CDate(GetParameter(Page, "touched"))
-                Dim FileTimestamp As Date
+                Dim FileTimestamp As Date = Date.MinValue
 
                 If File.Exists(ConfigIO.L10nLocation & Path.DirectorySeparatorChar & Lang & ".txt") Then _
                     FileTimestamp = File.GetLastWriteTime(MakePath(ConfigIO.L10nLocation, Lang & ".txt"))
@@ -753,8 +753,11 @@ Namespace Requests
                 Dim Text As String = HtmlDecode(FindString(Page, "<rev>", "</rev>")).Replace(LF, CRLF)
 
                 'Ignore incomplete localizations
-                If Not Text.Contains("'''INCOMPLETE'''" & CRLF) _
-                    AndAlso (Directory.Exists(ConfigIO.L10nLocation) _
+#If Not Debug Then
+                If Text.Contains("'''INCOMPLETE'''" & CRLF) then Continue For
+#End If
+
+                If (Directory.Exists(ConfigIO.L10nLocation) _
                     OrElse Directory.CreateDirectory(ConfigIO.L10nLocation).Exists) _
                     Then File.WriteAllText(MakePath(ConfigIO.L10nLocation, Language & ".txt"), Text)
             Next Page
