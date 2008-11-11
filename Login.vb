@@ -16,20 +16,22 @@ Module Login
         Dim Wp As WebProxy
 
         If (Address = "") Then
+            'If the addrsss is nothing then port = 80
             Port = 80
-
+            'Also import the Internet explorer settings from the registry
             Dim ProxyString As String = CStr(Microsoft.Win32.Registry.GetValue _
                 ("HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings", "ProxyServer", ""))
-
+            'And import them again from the registry
             Dim ProxyEnabled As Boolean = CBool(Microsoft.Win32.Registry.GetValue _
                 ("HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings", "ProxyEnable", False))
-
+            'If the proxy isnt enabled or there is no string then...
             If (Not ProxyEnabled Or ProxyString = "") Then
                 Wp = New WebProxy
             Else
                 Wp = New WebProxy("http://" & ProxyString & "/", True)
             End If
         ElseIf Enabled Then
+            'If enabled then, If the port is out of range of the normal port then set the port to 80 (standard)
             If Port <= 0 Or Port >= 65536 Then Port = 80
 
             Wp = New WebProxy("http://" & Address & ":" & CStr(Port) & "/", True)
@@ -63,7 +65,7 @@ Namespace Requests
                 Dim LoginResult As LoginResult = DoLogin()
 
                 Select Case LoginResult
-                    'Outcomes for what posibly could go wrong when logging in
+                    'Outcomes for what posibly could go wrong when logging in using the loclaisation code e.g. login-error-invalid
                     Case LoginResult.CaptchaNeeded : Callback(AddressOf CaptchaNeeded)
 
                     Case LoginResult.Failed : Abort(Msg("login-error-unknown"))
@@ -103,11 +105,13 @@ Namespace Requests
 
             Dim GlobalConfigResult As RequestResult = (New GlobalConfigRequest).Invoke
 
+            'If the global config has an error then show relevant error
             If GlobalConfigResult.Error Then
                 Abort(GlobalConfigResult.ErrorMessage)
                 Exit Sub
             End If
 
+            'If the global config is set to not enabled for all the show relevant error
             If Not Config.EnabledForAll Then
                 Abort(Msg("login-error-alldisabled"))
                 Exit Sub
@@ -119,6 +123,7 @@ Namespace Requests
             If Config.LatestVersion > Config.Version Then
                 Dim UpdateForm As New UpdateForm
 
+                'If the current version is smaller than the min version abort with error
                 If Config.MinVersion > Config.Version Then
                     Abort(Msg("login-error-version"))
                     UpdateForm.ShowDialog()
@@ -138,11 +143,13 @@ Namespace Requests
                 Exit Sub
             End If
 
+            'If the project config is set to not enabeled then show relevant error
             If Not Config.EnabledForAll Then
                 Abort(Msg("login-error-projdisabled"))
                 Exit Sub
             End If
 
+            'If a config is required and the user config is not set to "enable:true" error
             If Config.RequireConfig AndAlso Not Config.Enabled Then
                 Config.ConfigChanged = True
                 Abort(Msg("login-error-disabled"))
@@ -208,6 +215,7 @@ Namespace Requests
 
                 Dim WhitelistResult As RequestResult = (New WhitelistRequest).Invoke
 
+                'If something errored with the getting of the whitelist say so
                 If WhitelistResult.Error Then
                     Abort(Msg("login-error-whitelist"), WhitelistResult.ErrorMessage)
                     Exit Sub
@@ -218,6 +226,7 @@ Namespace Requests
 
             'In case user is not already on the whitelist (usually will be)
             If Not Whitelist.Contains(User.Me.Name) Then WhitelistAutoChanges.Add(User.Me.Name)
+            'Ignore self (Add self to whitelist)
             User.Me.Ignored = True
 
             If State = States.Cancelled Then Thread.CurrentThread.Abort()
@@ -233,9 +242,11 @@ Namespace Requests
             NewCaptchaForm.CaptchaId = CaptchaId
 
             If NewCaptchaForm.ShowDialog = DialogResult.OK Then
+                'If the captcha word is the answer the user inputed then start
                 CaptchaWord = NewCaptchaForm.Answer.Text
                 Start()
             Else
+                'Else, set the captach is and word to nothing and abort the process with an error message
                 CaptchaId = Nothing
                 CaptchaWord = Nothing
                 Abort(Msg("login-error-nocaptcha"))
