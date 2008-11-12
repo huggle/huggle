@@ -1,3 +1,4 @@
+Imports System.IO
 Imports System.Text.RegularExpressions
 
 Class QueueForm
@@ -271,6 +272,7 @@ Class QueueForm
                 Else ListSelector.SelectedItem = CurrentQueue.ListName
 
             If DynamicSourceType.SelectedIndex = -1 Then DynamicSourceType.SelectedIndex = 0
+            If UserSourceType.SelectedIndex = -1 Then UserSourceType.SelectedIndex = 0
 
             For i As Integer = 0 To Namespaces.Items.Count - 1
                 Namespaces.SetItemChecked(i, CurrentQueue.Spaces.Contains(CType(Namespaces.Items(i), Space)))
@@ -356,33 +358,33 @@ Class QueueForm
             Select Case CurrentQueue.Type
                 Case QueueType.Live
                     HideTab(PagesTab)
-                    ShowTab(UsersTab)
                     HideTab(DynamicListTab)
                     ShowTab(OptionsTab)
                     ShowTab(TitleFiltersTab)
                     ShowTab(EditFiltersTab)
+                    ShowTab(UsersTab)
 
                 Case QueueType.LiveList
                     HideTab(DynamicListTab)
                     ShowTab(OptionsTab)
                     ShowTab(PagesTab)
-                    ShowTab(UsersTab)
                     ShowTab(TitleFiltersTab)
                     ShowTab(EditFiltersTab)
+                    ShowTab(UsersTab)
 
                 Case QueueType.FixedList
-                    HideTab(UsersTab)
                     HideTab(DynamicListTab)
                     HideTab(OptionsTab)
                     HideTab(TitleFiltersTab)
                     HideTab(EditFiltersTab)
+                    HideTab(UsersTab)
                     ShowTab(PagesTab)
 
                 Case QueueType.Dynamic
                     HideTab(PagesTab)
-                    HideTab(UsersTab)
                     HideTab(OptionsTab)
                     HideTab(EditFiltersTab)
+                    HideTab(UsersTab)
                     ShowTab(DynamicListTab)
                     ShowTab(TitleFiltersTab)
             End Select
@@ -401,6 +403,7 @@ Class QueueForm
         QueuesEmpty.Visible = (QueueList.Items.Count = 0)
         Tabs.Enabled = (QueueList.SelectedIndex > -1)
         TypeGroup.Enabled = (QueueList.SelectedIndex > -1)
+        UserCount.Text = CStr(Users.Items.Count) & " items"
     End Sub
 
     Private Sub ShowTab(ByVal Tab As TabPage)
@@ -478,18 +481,16 @@ Class QueueForm
         End If
     End Sub
 
-    Private Sub AddUser_Click(ByVal s As Object, ByVal e As EventArgs) Handles AddUser.Click
-        Dim UserName As String = InputBox.Show("Enter user name:")
+    Private Sub AddUser_Click() Handles AddUser.Click
+        Select Case UserSourceType.Text
+            Case "(Manually add items)" : GotUserList(New List(Of String)(New String() {UserSource.Text}))
+            Case "Text file" : GotUserList(New List(Of String)(File.ReadAllLines(UserSource.Text)))
+        End Select
 
-        If Not String.IsNullOrEmpty(UserName) Then
-            UserName = User.SanitizeName(UserName)
-            If Not Users.Items.Contains(UserName) Then Users.Items.Add(UserName)
-            If Not CurrentQueue.Users.Contains(UserName) Then CurrentQueue.Users.Add(UserName)
-            RefreshInterface()
-        End If
+        UserSource.Clear()
     End Sub
 
-    Private Sub RemoveUser_Click(ByVal s As Object, ByVal e As EventArgs) Handles RemoveUser.Click
+    Private Sub RemoveUser_Click() Handles RemoveUser.Click
         If Users.SelectedIndex > -1 Then
             If CurrentQueue.Users.Contains(Users.SelectedItem.ToString) Then CurrentQueue.Users.Remove(Users.SelectedItem.ToString)
             Users.Items.RemoveAt(Users.SelectedIndex)
@@ -497,14 +498,51 @@ Class QueueForm
         End If
     End Sub
 
-    Private Sub ClearUsers_Click(ByVal s As Object, ByVal e As EventArgs) Handles ClearUsers.Click
+    Private Sub ClearUsers_Click() Handles ClearUsers.Click
         Users.Items.Clear()
         CurrentQueue.Users.Clear()
         RefreshInterface()
     End Sub
 
-    Private Sub Users_SelectedIndexChanged(ByVal s As Object, ByVal e As EventArgs) Handles Users.SelectedIndexChanged
+    Private Sub Users_SelectedIndexChanged() Handles Users.SelectedIndexChanged
         RemoveUser.Enabled = (Users.SelectedIndex > -1)
+    End Sub
+
+    Private Sub UserSourceType_SelectedIndexChanged() Handles UserSourceType.SelectedIndexChanged
+        Select Case UserSourceType.Text
+            Case "(Manually add items)" : UserSourceLabel.Text = "Username:"
+            Case "Text file" : UserSourceLabel.Text = "File:"
+        End Select
+
+        UserBrowse.Visible = (UserSourceType.Text = "File")
+    End Sub
+
+    Private Sub UserSource_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles UserSource.KeyDown
+        If e.KeyCode = Keys.Enter AndAlso UserSource.Text <> "" Then AddUser_Click()
+    End Sub
+
+    Private Sub GotUserList(ByVal List As List(Of String))
+        Users.SuspendLayout()
+
+        For Each Item As String In List
+            Item = User.SanitizeName(Item)
+            If Item IsNot Nothing AndAlso Not Users.Items.Contains(Item) Then Users.Items.Add(Item)
+        Next Item
+
+        Users.ResumeLayout()
+        RefreshInterface()
+    End Sub
+
+    Private Sub UserBrowse_Click() Handles UserBrowse.Click
+        Dim Dialog As New OpenFileDialog
+        Dialog.Title = "User list"
+        Dialog.Filter = "All files|*.*"
+
+        If Dialog.ShowDialog = DialogResult.OK Then UserSource.Text = Dialog.FileName
+    End Sub
+
+    Private Sub UserSource_TextChanged() Handles UserSource.TextChanged
+        AddUser.Enabled = (UserSource.Text.Length > 0)
     End Sub
 
 End Class

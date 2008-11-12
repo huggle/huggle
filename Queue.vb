@@ -556,7 +556,9 @@ Class Queue
     End Function
 
     Private Sub RefreshTimer_Tick() Handles RefreshTimer.Tick
-        If Type = QueueType.Dynamic AndAlso (_RefreshAlways OrElse CurrentQueue Is Me) Then
+        If Type = QueueType.Dynamic AndAlso Not _NeedsReset AndAlso (_RefreshAlways OrElse CurrentQueue Is Me) Then
+            RefreshTimer.Stop()
+
             Select Case _DynamicSourceType
                 Case "category"
                     Dim NewRequest As New CategoryRequest(_DynamicSource)
@@ -595,6 +597,7 @@ Class Queue
         End If
 
         _Refreshing = False
+        RefreshTimer.Start()
         MainForm.DrawQueue()
     End Sub
 

@@ -188,10 +188,9 @@ Class User
             .Replace("<", "").Replace(">", "").Replace("#", "").Replace(Tab, "").Replace(LF, "") _
             .Replace("_", " ").Trim(" "c)
 
-        While Name.StartsWith(":")
-            Name = Name.Substring(1)
-        End While
-
+        If Name.EndsWith(":") Then Return Nothing
+        Name = Name.Substring(Name.LastIndexOf(":") + 1)
+        
         If Name Is Nothing OrElse Name.Length = 0 Then Return Nothing
 
         'Capitalize
