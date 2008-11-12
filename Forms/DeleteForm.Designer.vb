@@ -30,12 +30,13 @@ Partial Class DeleteForm
         Me.DeletionLog = New Huggle.PageLog
         Me.Throbber = New Huggle.Throbber
         Me.Progress = New System.Windows.Forms.Label
+        Me.Notify = New System.Windows.Forms.CheckBox
         Me.SuspendLayout()
         '
         'Cancel
         '
         Me.Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Cancel.Location = New System.Drawing.Point(407, 201)
+        Me.Cancel.Location = New System.Drawing.Point(407, 215)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
         Me.Cancel.TabIndex = 5
@@ -45,7 +46,7 @@ Partial Class DeleteForm
         'OK
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.OK.Location = New System.Drawing.Point(326, 201)
+        Me.OK.Location = New System.Drawing.Point(326, 215)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
         Me.OK.TabIndex = 4
@@ -75,7 +76,7 @@ Partial Class DeleteForm
         'DeletionLogLabel
         '
         Me.DeletionLogLabel.AutoSize = True
-        Me.DeletionLogLabel.Location = New System.Drawing.Point(12, 66)
+        Me.DeletionLogLabel.Location = New System.Drawing.Point(12, 83)
         Me.DeletionLogLabel.Name = "DeletionLogLabel"
         Me.DeletionLogLabel.Size = New System.Drawing.Size(66, 13)
         Me.DeletionLogLabel.TabIndex = 2
@@ -89,11 +90,11 @@ Partial Class DeleteForm
         Me.DeletionLog.FullRowSelect = True
         Me.DeletionLog.GridLines = True
         Me.DeletionLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
-        Me.DeletionLog.Location = New System.Drawing.Point(15, 82)
+        Me.DeletionLog.Location = New System.Drawing.Point(15, 99)
         Me.DeletionLog.Mode = Huggle.PageLog.ViewMode.Delete
         Me.DeletionLog.Name = "DeletionLog"
         Me.DeletionLog.Page = Nothing
-        Me.DeletionLog.Size = New System.Drawing.Size(467, 113)
+        Me.DeletionLog.Size = New System.Drawing.Size(467, 110)
         Me.DeletionLog.TabIndex = 6
         Me.DeletionLog.UseCompatibleStateImageBehavior = False
         Me.DeletionLog.View = System.Windows.Forms.View.Details
@@ -115,11 +116,23 @@ Partial Class DeleteForm
         Me.Progress.TabIndex = 8
         Me.Progress.Text = " "
         '
+        'Notify
+        '
+        Me.Notify.AutoSize = True
+        Me.Notify.Enabled = False
+        Me.Notify.Location = New System.Drawing.Point(65, 59)
+        Me.Notify.Name = "Notify"
+        Me.Notify.Size = New System.Drawing.Size(89, 17)
+        Me.Notify.TabIndex = 9
+        Me.Notify.Text = "Notify creator"
+        Me.Notify.UseVisualStyleBackColor = True
+        '
         'DeleteForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(494, 236)
+        Me.ClientSize = New System.Drawing.Size(494, 250)
+        Me.Controls.Add(Me.Notify)
         Me.Controls.Add(Me.Progress)
         Me.Controls.Add(Me.Throbber)
         Me.Controls.Add(Me.DeletionLog)
@@ -147,4 +160,5 @@ Partial Class DeleteForm
     Friend WithEvents DeletionLog As Huggle.PageLog
     Friend WithEvents Throbber As Huggle.Throbber
     Friend WithEvents Progress As System.Windows.Forms.Label
+    Friend WithEvents Notify As System.Windows.Forms.CheckBox
 End Class

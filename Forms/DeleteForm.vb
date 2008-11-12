@@ -77,13 +77,13 @@ Class DeleteForm
     Private Sub OK_Click() Handles OK.Click
         DialogResult = DialogResult.OK
 
-        Dim Summary As String
+        Dim Summary As String, Criterion As SpeedyCriterion = Nothing
 
         If Reason.SelectedIndex > -1 Then
-            Dim CriterionName As String = Reason.Text.Substring(0, Reason.Text.IndexOf(" "))
-            Dim Criterion As SpeedyCriterion = Config.SpeedyCriteria(CriterionName)
-            Summary = Config.SpeedyDeleteSummary.Replace("$1", _
-                "[[WP:SD#" & Criterion.DisplayCode & "|" & Config.SpeedyCriteria(Criterion.DisplayCode).Description & "]]")
+            Dim CriterionName As String = Reason.Text.Substring(0, Reason.Text.IndexOfAny(" -".ToCharArray))
+            Criterion = Config.SpeedyCriteria(CriterionName)
+            Summary = Config.SpeedyDeleteSummary.Replace("$1", "[[WP:SD#" & _
+                Criterion.DisplayCode & "|" & Config.SpeedyCriteria(Criterion.DisplayCode).Description & "]]")
         Else
             Summary = Reason.Text
         End If
@@ -91,6 +91,15 @@ Class DeleteForm
         Dim NewDeleteRequest As New DeleteRequest
         NewDeleteRequest.Page = Page
         NewDeleteRequest.Summary = Summary
+
+        If Notify.Enabled AndAlso Notify.Checked Then
+            NewDeleteRequest.NotifyRequest = New UserMessageRequest
+            NewDeleteRequest.NotifyRequest.AvoidText = Page.Name
+            NewDeleteRequest.NotifyRequest.Message = Criterion.Message.Replace("$1", Page.Name)
+            NewDeleteRequest.NotifyRequest.Summary = Config.SpeedyMessageSummary.Replace("$1", Page.Name)
+            NewDeleteRequest.NotifyRequest.Title = Config.SpeedyMessageTitle.Replace("$1", Page.Name)
+        End If
+
         NewDeleteRequest.Start()
 
         Close()
@@ -113,6 +122,12 @@ Class DeleteForm
             DialogResult = DialogResult.OK
             Close()
         End If
+    End Sub
+
+    Private Sub Reason_SelectedIndexChanged() Handles Reason.SelectedIndexChanged
+        Notify.Enabled = (Reason.SelectedIndex > -1)
+        If Notify.Enabled Then Notify.Checked = _
+            Config.SpeedyCriteria(Reason.Text.Substring(0, Reason.Text.IndexOfAny(" -".ToCharArray))).Notify
     End Sub
 
 End Class

@@ -22,6 +22,7 @@ Namespace Requests
             End If
 
             Dim Text As String = HtmlDecode(FindString(Result.Text, "<rev>", "</rev>"))
+            If Text Is Nothing Then Text = ""
 
             If AvoidText IsNot Nothing AndAlso Text.ToLower.Contains(AvoidText.ToLower) Then
                 Fail(Msg("usermessage-fail", User.Name), Msg("usermessage-duplicate"))

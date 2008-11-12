@@ -95,7 +95,7 @@ Namespace Requests
 
         'Delete a page
 
-        Public Page As Page, Summary As String
+        Public Page As Page, Summary As String, NotifyRequest As UserMessageRequest
 
         Protected Overrides Sub Process()
             LogProgress(Msg("delete-progress", Page.Name))
@@ -122,9 +122,28 @@ Namespace Requests
 
             Result = DoApiRequest("action=delete", PostString)
 
-            If Result.Error _
-                Then Fail(Msg("delete-fail", Page.Name), Result.ErrorMessage) _
-                Else Complete(Msg("delete-done", Page.Name))
+            If Result.Error Then
+                Fail(Msg("delete-fail", Page.Name), Result.ErrorMessage)
+            Else
+                Complete(Msg("delete-done", Page.Name))
+
+                If NotifyRequest IsNot Nothing Then
+                    If Page.Creator Is Nothing Then
+                        'Get page history to find creator
+                        Dim NewHistoryRequest As New HistoryRequest
+                        NewHistoryRequest.Page = Page
+                        NewHistoryRequest.Invoke()
+                    End If
+
+                    If Page.Creator Is Nothing Then
+                        Log(Msg("notify-fail", Page.Name) & ": " & Msg("notify-unknowncreator"))
+
+                    ElseIf Page.Creator IsNot User.Me Then
+                        NotifyRequest.User = Page.Creator
+                        NotifyRequest.Start()
+                    End If
+                End If
+            End If
         End Sub
 
     End Class
