@@ -41,10 +41,16 @@ Namespace Requests
 
             If Result.Error Then
                 Fail(Msg("revert-fail", Edit.Page.Name), Result.ErrorMessage)
-            Else
+                Exit Sub
+            End If
+
+            If FindString(Result.Text, "<edit", ">").Contains("nochange=""""") Then
+                Fail(Msg("revert-nochange", Edit.Page.Name), Result.ErrorMessage)
+                Exit Sub
+            End If
+
                 Complete()
                 If State = States.Cancelled Then UndoEdit(Edit.Page)
-            End If
         End Sub
 
         Private Function GetReversionSummary(ByVal Edit As Edit) As String
