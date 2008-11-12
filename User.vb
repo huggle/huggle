@@ -21,6 +21,7 @@ Class User
 
     Public FirstEdit As Edit
     Public LastEdit As Edit
+    Public Bot As Boolean
     Public WarnTime As Date
     Public Warnings As List(Of Warning)
     Public WarningsCurrent As Boolean

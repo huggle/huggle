@@ -60,11 +60,12 @@ Class Main
     Sub DrawHistory()
         If CurrentPage Is Nothing Then Exit Sub
 
-        History.Image = Drawing.History(CurrentPage)
-        HistoryScrollRB.Enabled = (HistoryOffset > 0)
+        History.Page = CurrentPage
+        HistoryStrip.Refresh()
+        HistoryScrollRB.Enabled = (History.Offset > 0)
 
         Dim ThisEdit As Edit = CurrentPage.LastEdit
-        Dim X As Integer = History.Width - 18 + (HistoryOffset * 17)
+        Dim X As Integer = History.Width - 18 + (History.Offset * 17)
         Dim EnableScroll As Boolean
 
         While ThisEdit IsNot Nothing AndAlso ThisEdit IsNot NullEdit
@@ -78,17 +79,18 @@ Class Main
         End While
 
         HistoryScrollLB.Enabled = EnableScroll
-        If CurrentEdit.Page.FirstEdit Is Nothing Then HistoryB.Enabled = True
+        If CurrentPage.FirstEdit Is Nothing Then HistoryB.Enabled = True
     End Sub
 
     Sub DrawContribs()
         If CurrentUser Is Nothing Then Exit Sub
 
-        Contribs.Image = Drawing.Contribs(CurrentUser)
-        ContribsScrollRB.Enabled = (ContribsOffset > 0)
+        Contribs.User = CurrentUser
+        HistoryStrip.Refresh()
+        ContribsScrollRB.Enabled = (Contribs.Offset > 0)
 
         Dim ThisEdit As Edit = CurrentUser.LastEdit
-        Dim X As Integer = Contribs.Width - 18 + (ContribsOffset * 17)
+        Dim X As Integer = Contribs.Width - 18 + (Contribs.Offset * 17)
         Dim EnableScroll As Boolean
 
         While ThisEdit IsNot Nothing AndAlso ThisEdit IsNot NullEdit
@@ -286,56 +288,70 @@ Class Main
     Public HistorySelectionStart As Integer
 
     Private Sub History_MouseDown(ByVal s As Object, ByVal e As MouseEventArgs) Handles History.MouseDown
-        HistorySelectionStart = CInt((History.Width - e.X - 10) / 17) + HistoryOffset
+        If CurrentEdit IsNot Nothing Then
+            HistorySelectionStart = CInt((History.Width - e.X - 10) / 17) + History.Offset
 
-        If e.Button = MouseButtons.Left Then
-            DisplayHistoryItem(HistorySelectionStart)
+            If e.Button = MouseButtons.Left Then
+                History.NewerEdit = CurrentEdit
+                History.OlderEdit = CurrentEdit.Prev
 
-        ElseIf e.Button = MouseButtons.Right Then
-            Dim ThisEdit As Edit = CurrentEdit.Page.LastEdit
+                DisplayHistoryItem(HistorySelectionStart)
 
-            For i As Integer = 0 To HistorySelectionStart - 1
-                If ThisEdit.Prev Is Nothing OrElse ThisEdit.Prev Is NullEdit Then Exit Sub
-                ThisEdit = ThisEdit.Prev
-            Next i
+            ElseIf e.Button = MouseButtons.Right Then
+                History.NewerEdit = CurrentPage.LastEdit
 
-            ShowDiffToCur(ThisEdit)
+                Dim ThisEdit As Edit = CurrentPage.LastEdit
+
+                For i As Integer = 0 To HistorySelectionStart - 1
+                    If ThisEdit.Prev Is Nothing OrElse ThisEdit.Prev Is NullEdit Then Exit Sub
+                    ThisEdit = ThisEdit.Prev
+                Next i
+
+                History.OlderEdit = ThisEdit
+
+                ShowDiffToCur(ThisEdit)
+            End If
+
+            DrawHistory()
         End If
-
-        DrawHistory()
     End Sub
 
     Private Sub History_MouseUp(ByVal s As Object, ByVal e As MouseEventArgs) Handles History.MouseUp
-        If HistorySelectionStart > 0 AndAlso e.Button = MouseButtons.Left Then
-            Dim Position As Integer = CInt((History.Width - e.X - 10) / 17) + HistoryOffset
+        If CurrentEdit IsNot Nothing Then
+            If HistorySelectionStart > 0 AndAlso e.Button = MouseButtons.Left Then
+                Dim Position As Integer = CInt((History.Width - e.X - 10) / 17) + History.Offset
 
-            If Position <> HistorySelectionStart Then
-                Dim OlderEdit As Edit = CurrentEdit.Page.LastEdit
+                If Position <> HistorySelectionStart Then
+                    Dim OlderEdit As Edit = CurrentPage.LastEdit
 
-                For i As Integer = 0 To Math.Max(Position, HistorySelectionStart) - 1
-                    If OlderEdit.Prev Is Nothing OrElse OlderEdit.Prev Is NullEdit Then Exit Sub
-                    OlderEdit = OlderEdit.Prev
-                Next i
+                    For i As Integer = 0 To Math.Max(Position, HistorySelectionStart) - 1
+                        If OlderEdit.Prev Is Nothing OrElse OlderEdit.Prev Is NullEdit Then Exit Sub
+                        OlderEdit = OlderEdit.Prev
+                    Next i
 
-                Dim NewerEdit As Edit = CurrentEdit.Page.LastEdit
+                    History.OlderEdit = OlderEdit
 
-                For i As Integer = 0 To Math.Min(Position, HistorySelectionStart) - 1
-                    If NewerEdit.Prev Is Nothing OrElse NewerEdit.Prev Is NullEdit Then Exit Sub
-                    NewerEdit = NewerEdit.Prev
-                Next i
+                    Dim NewerEdit As Edit = CurrentPage.LastEdit
 
-                ShowDiffBetween(OlderEdit, NewerEdit)
+                    For i As Integer = 0 To Math.Min(Position, HistorySelectionStart) - 1
+                        If NewerEdit.Prev Is Nothing OrElse NewerEdit.Prev Is NullEdit Then Exit Sub
+                        NewerEdit = NewerEdit.Prev
+                    Next i
 
+                    History.NewerEdit = NewerEdit
+
+                    ShowDiffBetween(OlderEdit, NewerEdit)
+                End If
+
+                HistorySelectionStart = 0
             End If
-
-            HistorySelectionStart = 0
         End If
     End Sub
 
     Private Sub History_MouseMove(ByVal s As Object, ByVal e As MouseEventArgs) Handles History.MouseMove
         If CurrentPage IsNot Nothing AndAlso CurrentPage.LastEdit IsNot Nothing Then
 
-            Dim Position As Integer = CInt((History.Width - e.X - 10) / 17) + HistoryOffset
+            Dim Position As Integer = CInt((History.Width - e.X - 10) / 17) + History.Offset
             Dim ThisEdit As Edit = CurrentPage.LastEdit
 
             For i As Integer = 0 To Position - 1
@@ -354,21 +370,33 @@ Class Main
         End If
     End Sub
 
-    Private Sub HistoryContribs_MouseLeave() _
-        Handles History.MouseLeave, Contribs.MouseLeave
-
+    Private Sub HistoryContribs_MouseLeave() Handles History.MouseLeave, Contribs.MouseLeave
         EditInfo.Visible = False
     End Sub
 
     Private Sub Contribs_MouseDown(ByVal s As Object, ByVal e As MouseEventArgs) Handles Contribs.MouseDown
-        DisplayContribsItem(CInt((Contribs.Width - e.X - 10) / 17) + ContribsOffset)
+
+        If CurrentUser IsNot Nothing AndAlso CurrentUser.LastEdit IsNot Nothing Then
+            Dim Position As Integer = CInt((Contribs.Width - e.X - 10) / 17) + Contribs.Offset
+
+            Dim Edit As Edit = CurrentUser.LastEdit
+
+            For i As Integer = 0 To Position - 1
+                If Edit.PrevByUser Is Nothing OrElse Edit.PrevByUser Is NullEdit Then Exit Sub
+                Edit = Edit.PrevByUser
+            Next i
+
+            Contribs.SelectedEdit = Edit
+            DisplayEdit(Edit)
+        End If
+
         DrawContribs()
     End Sub
 
     Private Sub Contribs_MouseMove(ByVal s As Object, ByVal e As MouseEventArgs) Handles Contribs.MouseMove
         If CurrentUser IsNot Nothing AndAlso CurrentUser.LastEdit IsNot Nothing Then
 
-            Dim Position As Integer = CInt((Contribs.Width - e.X - 10) / 17) + ContribsOffset
+            Dim Position As Integer = CInt((Contribs.Width - e.X - 10) / 17) + Contribs.Offset
             Dim ThisEdit As Edit = CurrentUser.LastEdit
 
             For i As Integer = 0 To Position - 1
@@ -388,9 +416,9 @@ Class Main
     End Sub
 
     Private Sub ViewHistory_Click() Handles PageHistory.Click, HistoryB.Click
-        If CurrentEdit IsNot Nothing AndAlso CurrentEdit.Page IsNot Nothing Then
+        If CurrentPage IsNot Nothing Then
             Dim NewHistoryRequest As New HistoryRequest
-            NewHistoryRequest.Page = CurrentEdit.Page
+            NewHistoryRequest.Page = CurrentPage
             NewHistoryRequest.Start(AddressOf GotHistory)
         End If
     End Sub
@@ -448,7 +476,7 @@ Class Main
 
     Sub HistoryLeft()
         If HistoryScrollLB.Enabled Then
-            HistoryOffset += 1
+            History.Offset += 1
             DrawHistory()
             If Not HistoryScrollLB.Enabled Then ScrollTimer.Stop()
         End If
@@ -456,8 +484,8 @@ Class Main
 
     Sub HistoryRight()
         If HistoryScrollRB.Enabled Then
-            If HistoryOffset > 0 Then
-                HistoryOffset -= 1
+            If History.Offset > 0 Then
+                History.Offset -= 1
                 DrawHistory()
             End If
 
@@ -467,7 +495,7 @@ Class Main
 
     Sub ContribsLeft()
         If ContribsScrollLB.Enabled Then
-            ContribsOffset += 1
+            Contribs.Offset += 1
             DrawContribs()
             If Not ContribsScrollLB.Enabled Then ScrollTimer.Stop()
         End If
@@ -475,8 +503,8 @@ Class Main
 
     Sub ContribsRight()
         If ContribsScrollRB.Enabled Then
-            If ContribsOffset > 0 Then
-                ContribsOffset -= 1
+            If Contribs.Offset > 0 Then
+                Contribs.Offset -= 1
                 DrawContribs()
             End If
 
@@ -538,15 +566,15 @@ Class Main
     End Sub
 
     Private Sub HistoryScrollLast_Click()
-        If HistoryOffset > 0 Then
-            HistoryOffset = 0
+        If History.Offset > 0 Then
+            History.Offset = 0
             DrawHistory()
         End If
     End Sub
 
     Private Sub ContribsScrollLast_Click()
-        If ContribsOffset > 0 Then
-            ContribsOffset = 0
+        If Contribs.Offset > 0 Then
+            Contribs.Offset = 0
             DrawContribs()
         End If
     End Sub
@@ -1076,8 +1104,10 @@ Class Main
                 RefreshInterface()
             End If
 
+            If CurrentUser Is User Then Contribs.SelectedEdit = CurrentEdit
+
             DisplayingEdit = True
-            If User IsNot CurrentUser Then ContribsOffset = 0
+            If User IsNot CurrentUser Then Contribs.Offset = 0
             If Not UserB.Items.Contains(User.Name) Then UserB.Items.Add(User.Name)
             UserB.Text = User.Name
             DrawContribs()
@@ -1105,13 +1135,18 @@ Class Main
                 RefreshInterface()
             End If
 
+            If Page Is CurrentPage AndAlso CurrentEdit.Id IsNot Nothing Then
+                History.NewerEdit = Edit.All(CurrentEdit.Id)
+                If Edit.All.ContainsKey(CurrentEdit.Oldid) Then History.OlderEdit = Edit.All(CurrentEdit.Oldid) _
+                    Else History.OlderEdit = CurrentEdit.Prev
+            End If
+
             DisplayingEdit = True
-            If Page IsNot CurrentPage Then HistoryOffset = 0
+            If Page IsNot CurrentPage Then History.Offset = 0
             If Not PageB.Items.Contains(Page.Name) Then PageB.Items.Add(Page.Name)
             PageB.Text = Page.Name
             If CurrentEdit.Page IsNot Nothing Then Tabs.SelectedTab.Text = CurrentEdit.Page.Name
             DisplayingEdit = False
-
             DrawHistory()
         End If
     End Sub
@@ -1316,12 +1351,12 @@ Class Main
 
     Private Sub PageB_TextChanged() Handles PageB.TextChanged
         PageB.ForeColor = Color.Black
-        HistoryOffset = 0
+        History.Offset = 0
     End Sub
 
     Private Sub UserB_TextChanged() Handles UserB.TextChanged
         UserB.ForeColor = Color.Black
-        ContribsOffset = 0
+        Contribs.Offset = 0
     End Sub
 
     Private Sub PageMarkPatrolled_Click() Handles PagePatrol.Click

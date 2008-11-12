@@ -164,13 +164,13 @@ Partial Class Main
         Me.PageB = New System.Windows.Forms.ToolStripComboBox
         Me.HistoryB = New System.Windows.Forms.ToolStripButton
         Me.HistoryScrollLB = New System.Windows.Forms.ToolStripButton
-        Me.History = New System.Windows.Forms.ToolStripLabel
+        Me.History = New Huggle.HistoryStrip
         Me.HistoryScrollRB = New System.Windows.Forms.ToolStripButton
         Me.UserLabel = New System.Windows.Forms.ToolStripLabel
         Me.UserB = New System.Windows.Forms.ToolStripComboBox
         Me.ContribsB = New System.Windows.Forms.ToolStripButton
         Me.ContribsScrollLB = New System.Windows.Forms.ToolStripButton
-        Me.Contribs = New System.Windows.Forms.ToolStripLabel
+        Me.Contribs = New Huggle.ContribsStrip
         Me.ContribsScrollRB = New System.Windows.Forms.ToolStripButton
         Me.NavigationStrip = New System.Windows.Forms.ToolStrip
         Me.BrowserBackB = New System.Windows.Forms.ToolStripSplitButton
@@ -1813,7 +1813,7 @@ Partial Class Main
     Friend WithEvents HistoryStrip As System.Windows.Forms.ToolStrip
     Friend WithEvents PageB As System.Windows.Forms.ToolStripComboBox
     Friend WithEvents HistoryB As System.Windows.Forms.ToolStripButton
-    Friend WithEvents History As System.Windows.Forms.ToolStripLabel
+    Friend WithEvents History As Huggle.HistoryStrip
     Friend WithEvents PageLabel As System.Windows.Forms.ToolStripLabel
     Friend WithEvents UserLabel As System.Windows.Forms.ToolStripLabel
     Friend WithEvents UserB As System.Windows.Forms.ToolStripComboBox
@@ -1833,7 +1833,7 @@ Partial Class Main
     Friend WithEvents HistoryScrollLB As System.Windows.Forms.ToolStripButton
     Friend WithEvents HistoryScrollRB As System.Windows.Forms.ToolStripButton
     Friend WithEvents ContribsScrollLB As System.Windows.Forms.ToolStripButton
-    Friend WithEvents Contribs As System.Windows.Forms.ToolStripLabel
+    Friend WithEvents Contribs As Huggle.ContribsStrip
     Friend WithEvents ContribsScrollRB As System.Windows.Forms.ToolStripButton
     Friend WithEvents Stats As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents NextDiffB As System.Windows.Forms.ToolStripButton

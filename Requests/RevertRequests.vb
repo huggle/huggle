@@ -25,7 +25,7 @@ Namespace Requests
                 Exit Sub
             End If
 
-            Dim Text As String = HtmlDecode(FindString(Result.Text, "<rev ", ">", "</rev>"))
+            Dim Text As String = HtmlDecode(FindString(Result.Text, "<revisions>", "<rev", ">", "</rev>"))
 
             If Summary IsNot Nothing _
                 Then Summary = Summary.Replace("$1", Edit.Page.LastEdit.User.Name).Replace("$2", Edit.User.Name) _

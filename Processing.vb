@@ -14,6 +14,7 @@ Module Processing
 
         If Edit.Time = Date.MinValue Then Edit.Time = Date.SpecifyKind(Date.UtcNow, DateTimeKind.Utc)
         If Edit.Oldid Is Nothing Then Edit.Oldid = "prev"
+        If Edit.Bot Then Edit.User.Bot = True
 
         'Auto summaries
         If (Config.PageBlankedPattern IsNot Nothing AndAlso Config.PageBlankedPattern.IsMatch(Edit.Summary)) _
@@ -1298,7 +1299,7 @@ Module Processing
             NewEdit.Time = CurrentEdit.Page.LastEdit.Time
             NewEdit.Summary = CurrentEdit.Page.LastEdit.Summary
             NewEdit.Prev = ThisEdit
-            NewEdit.[Next] = CurrentEdit.Page.LastEdit.[Next]
+            NewEdit.Next = CurrentEdit.Page.LastEdit.Next
             NewEdit.PrevByUser = CurrentEdit.PrevByUser
             NewEdit.NextByUser = CurrentEdit.NextByUser
             NewEdit.Multiple = True
@@ -1322,22 +1323,6 @@ Module Processing
         Edit.Multiple = True
 
         DisplayEdit(Edit)
-    End Sub
-
-    Sub DisplayContribsItem(ByVal Index As Integer)
-        If CurrentEdit IsNot Nothing AndAlso CurrentEdit.User IsNot Nothing _
-            AndAlso CurrentEdit.User.LastEdit IsNot Nothing Then
-
-            Dim ThisEdit As Edit = CurrentEdit.User.LastEdit
-
-            For i As Integer = 0 To Index - 1
-                If ThisEdit.PrevByUser Is Nothing OrElse ThisEdit.PrevByUser Is NullEdit Then Exit Sub
-
-                ThisEdit = ThisEdit.PrevByUser
-            Next i
-
-            DisplayEdit(ThisEdit)
-        End If
     End Sub
 
     Function IsTagFromSummary(ByVal Edit As Edit) As Boolean

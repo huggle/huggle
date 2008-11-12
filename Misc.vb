@@ -11,13 +11,11 @@ Module Misc
     Public Administrator As Boolean
     Public AllLists As New Dictionary(Of String, List(Of String))
     Public AllRequests As New List(Of Request)
-    Public ContribsOffset As Integer
     Public Config As Configuration
     Public CurrentQueue As Queue
     Public CurrentTab As BrowserTab
     Public EditToken As String
     Public HidingEdit As Boolean = True
-    Public HistoryOffset As Integer
     Public LastRcTime As Date
     Public LastTagText As String = ""
     Public LatestDiffRequest As DiffRequest

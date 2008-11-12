@@ -74,7 +74,7 @@ Class Edit
                         If User.IsMe Then
                             Return My.Resources.blob_me
 
-                        ElseIf Bot Then
+                        ElseIf Bot OrElse User.Bot Then
                             Return My.Resources.blob_bot
 
                         ElseIf User.Ignored Then
