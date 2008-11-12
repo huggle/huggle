@@ -700,6 +700,7 @@ Module ConfigIO
 
             If Queue.SummaryRegex IsNot Nothing Then Items.Add("summary-regex:" & Queue.SummaryRegex.ToString)
             If Queue.UserRegex IsNot Nothing Then Items.Add("user-regex:" & Queue.UserRegex.ToString)
+            If Queue.Users.Count > 0 Then Items.Add("users:" & String.Join(",", Queue.Users.ToArray))
 
             Try
                 File.WriteAllLines(MakePath(QueuesLocation(), Queue.Name & ".txt"), Items.ToArray)
@@ -741,6 +742,7 @@ Module ConfigIO
             Case "summary-regex" : Queue.SummaryRegex = New Regex(Value, RegexOptions.Compiled)
             Case "type" : Queue.Type = SetQueueType(Value)
             Case "user-regex" : Queue.UserRegex = New Regex(Value, RegexOptions.Compiled)
+            Case "users" : Queue.Users = GetList(Value)
         End Select
     End Sub
 

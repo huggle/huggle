@@ -42,6 +42,12 @@ Partial Class QueueForm
         Me.ListSelector = New System.Windows.Forms.ComboBox
         Me.ListSelectorLabel = New System.Windows.Forms.Label
         Me.QueuePages = New System.Windows.Forms.ListBox
+        Me.UsersTab = New System.Windows.Forms.TabPage
+        Me.ClearUsers = New System.Windows.Forms.Button
+        Me.RemoveUser = New System.Windows.Forms.Button
+        Me.AddUser = New System.Windows.Forms.Button
+        Me.Label1 = New System.Windows.Forms.Label
+        Me.Users = New System.Windows.Forms.ListBox
         Me.DynamicListTab = New System.Windows.Forms.TabPage
         Me.DynamicSource = New System.Windows.Forms.TextBox
         Me.DynamicSourceType = New System.Windows.Forms.ComboBox
@@ -66,6 +72,8 @@ Partial Class QueueForm
         Me.Apply = New System.Windows.Forms.Button
         Me.ApplyFiltersLabel = New System.Windows.Forms.Label
         Me.PageFiltersGroup = New System.Windows.Forms.GroupBox
+        Me.CheckAllSpaces = New System.Windows.Forms.Button
+        Me.PageRegex = New Huggle.RegexBox
         Me.NamespacesLabel = New System.Windows.Forms.Label
         Me.Namespaces = New System.Windows.Forms.CheckedListBox
         Me.PageRegexLabel = New System.Windows.Forms.Label
@@ -74,12 +82,6 @@ Partial Class QueueForm
         Me.ExampleLabel2 = New System.Windows.Forms.Label
         Me.ExampleLabel1 = New System.Windows.Forms.Label
         Me.EditFiltersGroup = New System.Windows.Forms.GroupBox
-        Me.SummaryRegexLabel = New System.Windows.Forms.Label
-        Me.UserRegexLabel = New System.Windows.Forms.Label
-        Me.OK = New System.Windows.Forms.Button
-        Me.MoveUp = New System.Windows.Forms.Button
-        Me.MoveDown = New System.Windows.Forms.Button
-        Me.PageRegex = New Huggle.RegexBox
         Me.FilterBot = New Huggle.TriState
         Me.SummaryRegex = New Huggle.RegexBox
         Me.UserRegex = New Huggle.RegexBox
@@ -94,13 +96,18 @@ Partial Class QueueForm
         Me.FilterIgnored = New Huggle.TriState
         Me.FilterAnonymous = New Huggle.TriState
         Me.FilterNewPage = New Huggle.TriState
+        Me.SummaryRegexLabel = New System.Windows.Forms.Label
+        Me.UserRegexLabel = New System.Windows.Forms.Label
         Me.Example2 = New Huggle.TriState
         Me.Example1 = New Huggle.TriState
         Me.Example3 = New Huggle.TriState
-        Me.CheckAllSpaces = New System.Windows.Forms.Button
+        Me.OK = New System.Windows.Forms.Button
+        Me.MoveUp = New System.Windows.Forms.Button
+        Me.MoveDown = New System.Windows.Forms.Button
         Me.TypeGroup.SuspendLayout()
         Me.Tabs.SuspendLayout()
         Me.PagesTab.SuspendLayout()
+        Me.UsersTab.SuspendLayout()
         Me.DynamicListTab.SuspendLayout()
         CType(Me.RefreshInterval, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.OptionsTab.SuspendLayout()
@@ -204,7 +211,7 @@ Partial Class QueueForm
         Me.TypeGroup.Size = New System.Drawing.Size(416, 116)
         Me.TypeGroup.TabIndex = 7
         Me.TypeGroup.TabStop = False
-        Me.TypeGroup.Text = "Queue type"
+        Me.TypeGroup.Text = "Page list type"
         '
         'DynamicList
         '
@@ -255,6 +262,7 @@ Partial Class QueueForm
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Tabs.Controls.Add(Me.PagesTab)
+        Me.Tabs.Controls.Add(Me.UsersTab)
         Me.Tabs.Controls.Add(Me.DynamicListTab)
         Me.Tabs.Controls.Add(Me.OptionsTab)
         Me.Tabs.Controls.Add(Me.TitleFiltersTab)
@@ -321,6 +329,67 @@ Partial Class QueueForm
         Me.QueuePages.Name = "QueuePages"
         Me.QueuePages.Size = New System.Drawing.Size(396, 241)
         Me.QueuePages.TabIndex = 3
+        '
+        'UsersTab
+        '
+        Me.UsersTab.Controls.Add(Me.ClearUsers)
+        Me.UsersTab.Controls.Add(Me.RemoveUser)
+        Me.UsersTab.Controls.Add(Me.AddUser)
+        Me.UsersTab.Controls.Add(Me.Label1)
+        Me.UsersTab.Controls.Add(Me.Users)
+        Me.UsersTab.Location = New System.Drawing.Point(4, 22)
+        Me.UsersTab.Name = "UsersTab"
+        Me.UsersTab.Padding = New System.Windows.Forms.Padding(3)
+        Me.UsersTab.Size = New System.Drawing.Size(408, 287)
+        Me.UsersTab.TabIndex = 5
+        Me.UsersTab.Text = "User list"
+        Me.UsersTab.UseVisualStyleBackColor = True
+        '
+        'ClearUsers
+        '
+        Me.ClearUsers.Location = New System.Drawing.Point(171, 258)
+        Me.ClearUsers.Name = "ClearUsers"
+        Me.ClearUsers.Size = New System.Drawing.Size(75, 23)
+        Me.ClearUsers.TabIndex = 4
+        Me.ClearUsers.Text = "Clear"
+        Me.ClearUsers.UseVisualStyleBackColor = True
+        '
+        'RemoveUser
+        '
+        Me.RemoveUser.Location = New System.Drawing.Point(90, 258)
+        Me.RemoveUser.Name = "RemoveUser"
+        Me.RemoveUser.Size = New System.Drawing.Size(75, 23)
+        Me.RemoveUser.TabIndex = 3
+        Me.RemoveUser.Text = "Remove"
+        Me.RemoveUser.UseVisualStyleBackColor = True
+        '
+        'AddUser
+        '
+        Me.AddUser.Location = New System.Drawing.Point(9, 258)
+        Me.AddUser.Name = "AddUser"
+        Me.AddUser.Size = New System.Drawing.Size(75, 23)
+        Me.AddUser.TabIndex = 2
+        Me.AddUser.Text = "Add"
+        Me.AddUser.UseVisualStyleBackColor = True
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(6, 14)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(188, 13)
+        Me.Label1.TabIndex = 0
+        Me.Label1.Text = "Show only edits by the following users:"
+        '
+        'Users
+        '
+        Me.Users.FormattingEnabled = True
+        Me.Users.IntegralHeight = False
+        Me.Users.Location = New System.Drawing.Point(9, 30)
+        Me.Users.Name = "Users"
+        Me.Users.Size = New System.Drawing.Size(237, 222)
+        Me.Users.Sorted = True
+        Me.Users.TabIndex = 1
         '
         'DynamicListTab
         '
@@ -582,6 +651,24 @@ Partial Class QueueForm
         Me.PageFiltersGroup.TabStop = False
         Me.PageFiltersGroup.Text = "Page title filters"
         '
+        'CheckAllSpaces
+        '
+        Me.CheckAllSpaces.Location = New System.Drawing.Point(6, 190)
+        Me.CheckAllSpaces.Name = "CheckAllSpaces"
+        Me.CheckAllSpaces.Size = New System.Drawing.Size(107, 23)
+        Me.CheckAllSpaces.TabIndex = 4
+        Me.CheckAllSpaces.Text = "Check/clear all"
+        Me.CheckAllSpaces.UseVisualStyleBackColor = True
+        '
+        'PageRegex
+        '
+        Me.PageRegex.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.PageRegex.Location = New System.Drawing.Point(173, 19)
+        Me.PageRegex.Name = "PageRegex"
+        Me.PageRegex.Size = New System.Drawing.Size(217, 38)
+        Me.PageRegex.TabIndex = 1
+        '
         'NamespacesLabel
         '
         Me.NamespacesLabel.AutoSize = True
@@ -685,65 +772,6 @@ Partial Class QueueForm
         Me.EditFiltersGroup.TabIndex = 0
         Me.EditFiltersGroup.TabStop = False
         Me.EditFiltersGroup.Text = "Edit filters"
-        '
-        'SummaryRegexLabel
-        '
-        Me.SummaryRegexLabel.AutoSize = True
-        Me.SummaryRegexLabel.Location = New System.Drawing.Point(11, 60)
-        Me.SummaryRegexLabel.Name = "SummaryRegexLabel"
-        Me.SummaryRegexLabel.Size = New System.Drawing.Size(184, 13)
-        Me.SummaryRegexLabel.TabIndex = 0
-        Me.SummaryRegexLabel.Text = "Summary matches regular expression:"
-        '
-        'UserRegexLabel
-        '
-        Me.UserRegexLabel.AutoSize = True
-        Me.UserRegexLabel.Location = New System.Drawing.Point(6, 22)
-        Me.UserRegexLabel.Name = "UserRegexLabel"
-        Me.UserRegexLabel.Size = New System.Drawing.Size(189, 13)
-        Me.UserRegexLabel.TabIndex = 0
-        Me.UserRegexLabel.Text = "Username matches regular expression:"
-        '
-        'OK
-        '
-        Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.OK.Location = New System.Drawing.Point(527, 453)
-        Me.OK.Name = "OK"
-        Me.OK.Size = New System.Drawing.Size(75, 23)
-        Me.OK.TabIndex = 9
-        Me.OK.Text = "Close"
-        Me.OK.UseVisualStyleBackColor = True
-        '
-        'MoveUp
-        '
-        Me.MoveUp.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.MoveUp.Enabled = False
-        Me.MoveUp.Image = Global.Huggle.My.Resources.Resources.gray_up
-        Me.MoveUp.Location = New System.Drawing.Point(145, 424)
-        Me.MoveUp.Name = "MoveUp"
-        Me.MoveUp.Size = New System.Drawing.Size(23, 23)
-        Me.MoveUp.TabIndex = 4
-        Me.MoveUp.UseVisualStyleBackColor = True
-        '
-        'MoveDown
-        '
-        Me.MoveDown.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.MoveDown.Enabled = False
-        Me.MoveDown.Image = Global.Huggle.My.Resources.Resources.gray_down
-        Me.MoveDown.Location = New System.Drawing.Point(145, 453)
-        Me.MoveDown.Name = "MoveDown"
-        Me.MoveDown.Size = New System.Drawing.Size(23, 23)
-        Me.MoveDown.TabIndex = 4
-        Me.MoveDown.UseVisualStyleBackColor = True
-        '
-        'PageRegex
-        '
-        Me.PageRegex.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.PageRegex.Location = New System.Drawing.Point(173, 19)
-        Me.PageRegex.Name = "PageRegex"
-        Me.PageRegex.Size = New System.Drawing.Size(217, 38)
-        Me.PageRegex.TabIndex = 1
         '
         'FilterBot
         '
@@ -895,6 +923,24 @@ Partial Class QueueForm
         Me.FilterNewPage.State = System.Windows.Forms.CheckState.Indeterminate
         Me.FilterNewPage.TabIndex = 2
         '
+        'SummaryRegexLabel
+        '
+        Me.SummaryRegexLabel.AutoSize = True
+        Me.SummaryRegexLabel.Location = New System.Drawing.Point(11, 60)
+        Me.SummaryRegexLabel.Name = "SummaryRegexLabel"
+        Me.SummaryRegexLabel.Size = New System.Drawing.Size(184, 13)
+        Me.SummaryRegexLabel.TabIndex = 0
+        Me.SummaryRegexLabel.Text = "Summary matches regular expression:"
+        '
+        'UserRegexLabel
+        '
+        Me.UserRegexLabel.AutoSize = True
+        Me.UserRegexLabel.Location = New System.Drawing.Point(6, 22)
+        Me.UserRegexLabel.Name = "UserRegexLabel"
+        Me.UserRegexLabel.Size = New System.Drawing.Size(189, 13)
+        Me.UserRegexLabel.TabIndex = 0
+        Me.UserRegexLabel.Text = "Username matches regular expression:"
+        '
         'Example2
         '
         Me.Example2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -934,14 +980,37 @@ Partial Class QueueForm
         Me.Example3.State = System.Windows.Forms.CheckState.Indeterminate
         Me.Example3.TabIndex = 3
         '
-        'CheckAllSpaces
+        'OK
         '
-        Me.CheckAllSpaces.Location = New System.Drawing.Point(6, 190)
-        Me.CheckAllSpaces.Name = "CheckAllSpaces"
-        Me.CheckAllSpaces.Size = New System.Drawing.Size(107, 23)
-        Me.CheckAllSpaces.TabIndex = 4
-        Me.CheckAllSpaces.Text = "Check/clear all"
-        Me.CheckAllSpaces.UseVisualStyleBackColor = True
+        Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.OK.Location = New System.Drawing.Point(527, 453)
+        Me.OK.Name = "OK"
+        Me.OK.Size = New System.Drawing.Size(75, 23)
+        Me.OK.TabIndex = 9
+        Me.OK.Text = "Close"
+        Me.OK.UseVisualStyleBackColor = True
+        '
+        'MoveUp
+        '
+        Me.MoveUp.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.MoveUp.Enabled = False
+        Me.MoveUp.Image = Global.Huggle.My.Resources.Resources.gray_up
+        Me.MoveUp.Location = New System.Drawing.Point(145, 424)
+        Me.MoveUp.Name = "MoveUp"
+        Me.MoveUp.Size = New System.Drawing.Size(23, 23)
+        Me.MoveUp.TabIndex = 4
+        Me.MoveUp.UseVisualStyleBackColor = True
+        '
+        'MoveDown
+        '
+        Me.MoveDown.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.MoveDown.Enabled = False
+        Me.MoveDown.Image = Global.Huggle.My.Resources.Resources.gray_down
+        Me.MoveDown.Location = New System.Drawing.Point(145, 453)
+        Me.MoveDown.Name = "MoveDown"
+        Me.MoveDown.Size = New System.Drawing.Size(23, 23)
+        Me.MoveDown.TabIndex = 4
+        Me.MoveDown.UseVisualStyleBackColor = True
         '
         'QueueForm
         '
@@ -971,6 +1040,8 @@ Partial Class QueueForm
         Me.Tabs.ResumeLayout(False)
         Me.PagesTab.ResumeLayout(False)
         Me.PagesTab.PerformLayout()
+        Me.UsersTab.ResumeLayout(False)
+        Me.UsersTab.PerformLayout()
         Me.DynamicListTab.ResumeLayout(False)
         Me.DynamicListTab.PerformLayout()
         CType(Me.RefreshInterval, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1064,4 +1135,10 @@ Partial Class QueueForm
     Friend WithEvents RefreshAlways As System.Windows.Forms.CheckBox
     Friend WithEvents DynamicList As System.Windows.Forms.RadioButton
     Friend WithEvents CheckAllSpaces As System.Windows.Forms.Button
+    Friend WithEvents UsersTab As System.Windows.Forms.TabPage
+    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents Users As System.Windows.Forms.ListBox
+    Friend WithEvents ClearUsers As System.Windows.Forms.Button
+    Friend WithEvents RemoveUser As System.Windows.Forms.Button
+    Friend WithEvents AddUser As System.Windows.Forms.Button
 End Class

@@ -47,6 +47,7 @@ Class Queue
     Private _SummaryRegex As Regex
     Private _Type As QueueType
     Private _UserRegex As Regex
+    Private _Users As New List(Of String)
 
     Public Sub New(ByVal Name As String)
         _Name = Name
@@ -375,6 +376,15 @@ Class Queue
         End Set
     End Property
 
+    Public Property Users() As List(Of String)
+        Get
+            Return _Users
+        End Get
+        Set(ByVal value As List(Of String))
+            _Users = value
+        End Set
+    End Property
+
     Public Property UserRegex() As Regex
         Get
             Return _UserRegex
@@ -520,6 +530,7 @@ Class Queue
         If _UserRegex IsNot Nothing AndAlso Not _UserRegex.IsMatch(Edit.User.Name) Then Return False
         If _SummaryRegex IsNot Nothing AndAlso Not _SummaryRegex.IsMatch(Edit.Summary) Then Return False
         If _IgnorePages AndAlso Config.IgnoredPages.Contains(Edit.Page.Name) Then Return False
+        If _Users.Count > 0 AndAlso Not Users.Contains(Edit.User.Name) Then Return False
 
         Return QueueFilterMatch(_FilterAnonymous, Edit.User.Anonymous) _
             AndAlso QueueFilterMatch(_FilterAssisted, Edit.Assisted) _

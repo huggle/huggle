@@ -265,6 +265,8 @@ Class QueueForm
             RemoveViewed.Checked = CurrentQueue.RemoveViewed
             Preload.Checked = CurrentQueue.Preload
 
+            Users.Items.AddRange(CurrentQueue.Users.ToArray)
+
             If CurrentQueue.Pages Is Nothing Then ListSelector.SelectedIndex = 0 _
                 Else ListSelector.SelectedItem = CurrentQueue.ListName
 
@@ -354,6 +356,7 @@ Class QueueForm
             Select Case CurrentQueue.Type
                 Case QueueType.Live
                     HideTab(PagesTab)
+                    ShowTab(UsersTab)
                     HideTab(DynamicListTab)
                     ShowTab(OptionsTab)
                     ShowTab(TitleFiltersTab)
@@ -363,10 +366,12 @@ Class QueueForm
                     HideTab(DynamicListTab)
                     ShowTab(OptionsTab)
                     ShowTab(PagesTab)
+                    ShowTab(UsersTab)
                     ShowTab(TitleFiltersTab)
                     ShowTab(EditFiltersTab)
 
                 Case QueueType.FixedList
+                    HideTab(UsersTab)
                     HideTab(DynamicListTab)
                     HideTab(OptionsTab)
                     HideTab(TitleFiltersTab)
@@ -375,6 +380,7 @@ Class QueueForm
 
                 Case QueueType.Dynamic
                     HideTab(PagesTab)
+                    HideTab(UsersTab)
                     HideTab(OptionsTab)
                     HideTab(EditFiltersTab)
                     ShowTab(DynamicListTab)
@@ -385,6 +391,8 @@ Class QueueForm
             ApplyFiltersLabel.Visible = (CurrentQueue.Type <> QueueType.Live)
         End If
 
+        RemoveUser.Enabled = (Users.SelectedIndex > -1)
+        ClearUsers.Enabled = (Users.Items.Count > 0)
         Delete.Enabled = (QueueList.SelectedIndex > -1)
         MoveUp.Enabled = (QueueList.SelectedIndex > 0)
         MoveDown.Enabled = (QueueList.SelectedIndex > -1 AndAlso QueueList.SelectedIndex < QueueList.Items.Count - 1)
@@ -468,6 +476,35 @@ Class QueueForm
                 Namespaces.SetItemChecked(i, CurrentQueue.Spaces.Contains(CType(Namespaces.Items(i), Space)))
             Next i
         End If
+    End Sub
+
+    Private Sub AddUser_Click(ByVal s As Object, ByVal e As EventArgs) Handles AddUser.Click
+        Dim UserName As String = InputBox.Show("Enter user name:")
+
+        If Not String.IsNullOrEmpty(UserName) Then
+            UserName = User.SanitizeName(UserName)
+            If Not Users.Items.Contains(UserName) Then Users.Items.Add(UserName)
+            If Not CurrentQueue.Users.Contains(UserName) Then CurrentQueue.Users.Add(UserName)
+            RefreshInterface()
+        End If
+    End Sub
+
+    Private Sub RemoveUser_Click(ByVal s As Object, ByVal e As EventArgs) Handles RemoveUser.Click
+        If Users.SelectedIndex > -1 Then
+            If CurrentQueue.Users.Contains(Users.SelectedItem.ToString) Then CurrentQueue.Users.Remove(Users.SelectedItem.ToString)
+            Users.Items.RemoveAt(Users.SelectedIndex)
+            RefreshInterface()
+        End If
+    End Sub
+
+    Private Sub ClearUsers_Click(ByVal s As Object, ByVal e As EventArgs) Handles ClearUsers.Click
+        Users.Items.Clear()
+        CurrentQueue.Users.Clear()
+        RefreshInterface()
+    End Sub
+
+    Private Sub Users_SelectedIndexChanged(ByVal s As Object, ByVal e As EventArgs) Handles Users.SelectedIndexChanged
+        RemoveUser.Enabled = (Users.SelectedIndex > -1)
     End Sub
 
 End Class
