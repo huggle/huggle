@@ -344,8 +344,17 @@ Partial Class Main
             Case Is = ShortcutKeys("Tag page")
                 If PageTagB.Enabled Then TagPage_Click()
 
-            Case Is = ShortcutKeys("Retrieve page history")
+            Case Is = ShortcutKeys("Retrieve recent page history")
                 If HistoryB.Enabled Then ViewHistory_Click()
+
+            Case Is = ShortcutKeys("Retrieve full page history")
+                If CurrentPage IsNot Nothing Then
+                    Dim NewRequest As New HistoryRequest
+                    NewRequest.Page = CurrentPage
+                    NewRequest.BlockSize = 500
+                    NewRequest.Full = True
+                    NewRequest.Start()
+                End If
 
             Case Is = ShortcutKeys("Ignore user")
                 If UserIgnoreB.Enabled AndAlso CurrentEdit IsNot Nothing AndAlso CurrentEdit.User IsNot Nothing _

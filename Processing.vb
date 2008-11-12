@@ -898,11 +898,13 @@ Module Processing
         If Result.Contains("<revisions rvstartid=""") Then
             Page.HistoryOffset = NextEdit.Id
         Else
+            Page.HistoryOffset = Nothing
             NextEdit.Prev = NullEdit
             Page.FirstEdit = NextEdit
         End If
 
         MainForm.RefreshInterface()
+        MainForm.DrawHistory()
     End Sub
 
     Private ContribsRegex As New Regex _

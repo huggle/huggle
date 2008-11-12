@@ -61,7 +61,9 @@
 
             'Draw selection box
             If NewerPosition > -1 AndAlso OlderPosition > -1 Then
-                If OlderEdit.Id = NewerEdit.Prev.Id Then
+                If OlderEdit IsNot Nothing AndAlso NewerEdit IsNot Nothing AndAlso NewerEdit.Prev IsNot Nothing _
+                    AndAlso OlderEdit.Id = NewerEdit.Prev.Id Then
+
                     Gfx.DrawRectangle(New Pen(Color.Red, 2), OlderPosition, 1, 35, 18)
                 Else
                     Gfx.DrawRectangle(New Pen(Color.Red, 2), OlderPosition, 1, 18, 18)

@@ -176,31 +176,49 @@ Namespace Requests
 
         'Fetch page history
 
-        Public Page As Page, BlockSize As Integer, GetContent As Boolean
+        Public Page As Page, BlockSize As Integer, Full, GetContent As Boolean
+        Private FullTotal As Integer, FullLimit As Integer = 5000
 
         Protected Overrides Sub Process()
+            Dim Result As ApiResult, Offset As String = Page.HistoryOffset
 
-            BlockSize = Config.HistoryBlockSize
-            If GetContent Then BlockSize = Math.Min(ApiLimit() \ 10, BlockSize)
+            Do
+                If Full Then LogProgress("Retrieving history for '" & Page.Name & "' (" & FullTotal & ")...")
 
-            Dim QueryString As String = "action=query&prop=revisions&titles=" & UrlEncode(Page.Name) & _
-                "&rvlimit=" & CStr(BlockSize) & "&rvprop=ids|timestamp|user|comment"
+                BlockSize = Config.HistoryBlockSize
+                If GetContent Then BlockSize = Math.Min(ApiLimit() \ 10, BlockSize)
 
-            If GetContent Then QueryString &= "|content"
-            If Page.HistoryOffset IsNot Nothing Then QueryString &= "&rvstartid=" & Page.HistoryOffset
+                Dim QueryString As String = "action=query&prop=revisions&titles=" & UrlEncode(Page.Name) & _
+                    "&rvlimit=" & CStr(BlockSize) & "&rvprop=ids|timestamp|user|comment"
 
-            Dim Result As ApiResult = DoApiRequest(QueryString)
+                If GetContent Then QueryString &= "|content"
+                If Offset IsNot Nothing Then QueryString &= "&rvstartid=" & Offset
 
-            If Result.Error Then
-                Fail(Msg("history-fail", Page.Name), Result.ErrorMessage)
-                Exit Sub
-            End If
+                Result = DoApiRequest(QueryString)
+
+                If Result.Error Then
+                    Fail(Msg("history-fail", Page.Name), Result.ErrorMessage)
+                    Exit Sub
+                End If
+
+                If Full Then
+                    FullTotal += BlockSize
+                    _Result = New RequestResult(Result.Text)
+                    Callback(AddressOf ProcessHistoryPart)
+                End If
+
+                Offset = GetParameter(Result.Text, "rvstartid")
+            Loop Until Not Full OrElse FullTotal >= FullLimit OrElse Offset Is Nothing
 
             Complete(, Result.Text)
         End Sub
 
-        Protected Overrides Sub Done()
+        Private Sub ProcessHistoryPart()
             ProcessHistory(_Result.Text, Page)
+        End Sub
+
+        Protected Overrides Sub Done()
+            ProcessHistoryPart()
         End Sub
 
     End Class
