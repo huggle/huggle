@@ -351,7 +351,7 @@ Partial Class Main
                 If CurrentPage IsNot Nothing Then
                     Dim NewRequest As New HistoryRequest
                     NewRequest.Page = CurrentPage
-                    NewRequest.BlockSize = 500
+                    NewRequest.BlockSize = Config.FullHistoryBlockSize
                     NewRequest.Full = True
                     NewRequest.Start()
                 End If

@@ -80,6 +80,7 @@ Module Irc
         If Config.IrcServer Is Nothing Then Exit Sub
 
         Connecting = True
+        Log(Msg("irc-connecting"))
 
         'Username in RC feed IRC channels is "h_" followed by random 6-digit number
         Config.IrcUsername = "h_" & New Random(Date.UtcNow.Millisecond).NextDouble.ToString.Substring(2, 6)

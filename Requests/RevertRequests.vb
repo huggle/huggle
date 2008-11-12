@@ -31,6 +31,12 @@ Namespace Requests
                 Then Summary = Summary.Replace("$1", Edit.Page.LastEdit.User.Name).Replace("$2", Edit.User.Name) _
                 Else Summary = GetReversionSummary(Edit)
 
+            If CustomReverts.ContainsKey(Edit.Page) Then CustomReverts.Remove(Edit.Page)
+
+            Dim FullSummary As String = Summary
+            If Config.Summary IsNot Nothing Then FullSummary &= " " & Config.Summary
+            CustomReverts.Add(Edit.Page, FullSummary)
+
             Result = PostEdit(Edit.Page, Text, Summary, Minor:=Config.Minor("revert"), Watch:=Config.Watch("revert"))
 
             If Result.Error Then
@@ -249,6 +255,10 @@ Namespace Requests
 
             If Summary Is Nothing Then Summary = Config.SingleRevertSummary
             Summary = Summary.Replace("$1", Edit.User.Name)
+
+            Dim FullSummary As String = Summary
+            If Config.Summary IsNot Nothing Then FullSummary &= " " & Config.Summary
+            CustomReverts.Add(Edit.Page, FullSummary)
 
             If State = States.Cancelled Then Thread.CurrentThread.Abort()
 

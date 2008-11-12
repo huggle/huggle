@@ -176,16 +176,14 @@ Namespace Requests
 
         'Fetch page history
 
-        Public Page As Page, BlockSize As Integer, Full, GetContent As Boolean
+        Public Page As Page, BlockSize As Integer = Config.HistoryBlockSize, Full, GetContent As Boolean
         Private FullTotal As Integer, FullLimit As Integer = 5000
 
         Protected Overrides Sub Process()
             Dim Result As ApiResult, Offset As String = Page.HistoryOffset
 
             Do
-                If Full Then LogProgress("Retrieving history for '" & Page.Name & "' (" & FullTotal & ")...")
-
-                BlockSize = Config.HistoryBlockSize
+                If Full Then LogProgress(Msg("history-progress", Page.Name, CStr(FullTotal)))
                 If GetContent Then BlockSize = Math.Min(ApiLimit() \ 10, BlockSize)
 
                 Dim QueryString As String = "action=query&prop=revisions&titles=" & UrlEncode(Page.Name) & _

@@ -11,6 +11,7 @@ Class Configuration
     Public ReadOnly ContribsBlockSize As Integer = 100
     Public ReadOnly HistoryBlockSize As Integer = 100
     Public ReadOnly HistoryScrollSpeed As Integer = 25
+    Public ReadOnly FullHistoryBlockSize As Integer = 500
     Public ReadOnly IrcConnectionTimeout As Integer = 60000
     Public ReadOnly LocalConfigLocation As String = "config.txt"
     Public ReadOnly RequestTimeout As Integer = 30000

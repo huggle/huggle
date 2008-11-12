@@ -266,6 +266,11 @@ Module Processing
         Edit.Page.LastEdit = Edit
         Edit.User.LastEdit = Edit
 
+        If CustomReverts.ContainsKey(Edit.Page) Then
+            If Edit.User Is User.Me AndAlso Edit.Summary = CustomReverts(Edit.Page) Then Edit.Type = EditType.Revert
+            CustomReverts.Remove(Edit.Page)
+        End If
+
         'Update statistics and edit counts
         Stats.Update(Edit)
         Edit.User.SessionEditCount += 1

@@ -334,7 +334,7 @@ Namespace Requests
                 UrlEncode(Page.SanitizeTitle(PageName))
 
             If Section IsNot Nothing Then QueryString &= "&rvsection=" & UrlEncode(Section)
-            If Revision IsNot Nothing Then QueryString &= "&startid=" & UrlEncode(Revision)
+            If Revision IsNot Nothing Then QueryString &= "&rvstartid=" & UrlEncode(Revision)
 
             Return DoApiRequest(QueryString)
         End Function

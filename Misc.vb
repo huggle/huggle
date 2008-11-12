@@ -12,6 +12,7 @@ Module Misc
     Public AllLists As New Dictionary(Of String, List(Of String))
     Public AllRequests As New List(Of Request)
     Public Config As Configuration
+    Public CustomReverts As New Dictionary(Of Page, String)
     Public CurrentQueue As Queue
     Public CurrentTab As BrowserTab
     Public EditToken As String
