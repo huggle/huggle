@@ -30,6 +30,7 @@ Class ConfigForm
         ShowToolTips.Checked = Config.ShowToolTips
         OpenInBrowser.Checked = Config.OpenInBrowser
         ShowNewEdits.Checked = Config.ShowNewEdits
+        ShowNewMessages.Checked = Config.ShowNewMessages
         Preloading.Checked = (Config.Preloads > 0)
         Preloads.Enabled = Preloading.Checked
         Preloads.Value = Math.Max(Math.Min(Config.Preloads, Preloads.Maximum), Preloads.Minimum)
@@ -136,6 +137,7 @@ Class ConfigForm
             Config.ShowToolTips = ShowToolTips.Checked
             Config.OpenInBrowser = OpenInBrowser.Checked
             Config.ShowNewEdits = ShowNewEdits.Checked
+            Config.ShowNewMessages = ShowNewMessages.Checked
             If Preloading.Checked Then Config.Preloads = CInt(Preloads.Value) Else Config.Preloads = 0
             Config.IrcMode = IrcMode.Checked
             Config.IrcPort = CInt(IrcPort.Text)

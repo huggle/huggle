@@ -303,6 +303,7 @@ Module ConfigIO
             Case "queue-right-align" : Config.RightAlignQueue = CBool(Value)
             Case "revert-summaries" : Config.RevertSummaries = GetList(Value)
             Case "shortcuts" : SetShortcuts(Value)
+            Case "show-new-messages" : Config.ShowNewMessages = CBool(Value)
             Case "username" : Config.Username = Value
             Case "whitelist-timestamps" : Config.WhitelistTimestamps = GetDictionary(Value)
             Case "window-height" : Config.WindowSize.Height = CInt(Value)
@@ -495,6 +496,7 @@ Module ConfigIO
         If Not String.IsNullOrEmpty(Config.ProxyUsername) Then Items.Add("proxy-username:" & Config.ProxyUsername)
 
         Items.Add("queue-right-align:" & CStr(Config.RightAlignQueue).ToLower)
+        Items.Add("show-new-messages" & CStr(Config.ShowNewMessages).ToLower)
         If Config.RememberMe Then Items.Add("username:" & Config.Username)
         Items.Add("whitelist-timestamps:")
 

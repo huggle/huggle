@@ -1173,10 +1173,9 @@ Module Processing
                         DiffText = Edit.Diff
 
                         'Notify user of new messages
-                        If MainForm.SystemMessages.Enabled _
-                            AndAlso (Not Edit.Page Is User.Me.TalkPage) _
-                            Then DiffText = "<div class=""usermessage"">You have new messages; select " & _
-                            "System -> Show new messages or press M to view them.</div>" & DiffText
+                        If Config.ShowNewMessages AndAlso MainForm.SystemMessages.Enabled _
+                            AndAlso (Edit.Page IsNot User.Me.TalkPage) Then _
+                            DiffText = "<div class=""usermessage"">" & Msg("main-new-messages") & "</div>" & DiffText
 
                         'Replace relative URLs with absolute ones
                         DiffText = DiffText.Replace("href=""/wiki/", "href=""" & Config.Projects(Config.Project) & "wiki/")

@@ -163,6 +163,7 @@ Class Configuration
     Public SharedIPTemplates As New List(Of String)
     Public ShowNewEdits As Boolean = True
     Public ShowLog As Boolean = True
+    Public ShowNewMessages As Boolean = True
     Public ShowQueue As Boolean = True
     Public ShowToolTips As Boolean = True
     Public SingleRevertSummary As String

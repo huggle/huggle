@@ -46,6 +46,7 @@ Partial Class ConfigForm
         Me.RightAlignQueue = New System.Windows.Forms.CheckBox
         Me.ShowQueue = New System.Windows.Forms.CheckBox
         Me.ShowLog = New System.Windows.Forms.CheckBox
+        Me.ShowNewMessages = New System.Windows.Forms.CheckBox
         Me.ShowToolTips = New System.Windows.Forms.CheckBox
         Me.TrayIcon = New System.Windows.Forms.CheckBox
         Me.KeyboardTab = New System.Windows.Forms.TabPage
@@ -371,6 +372,7 @@ Partial Class ConfigForm
         Me.InterfaceTab.Controls.Add(Me.RightAlignQueue)
         Me.InterfaceTab.Controls.Add(Me.ShowQueue)
         Me.InterfaceTab.Controls.Add(Me.ShowLog)
+        Me.InterfaceTab.Controls.Add(Me.ShowNewMessages)
         Me.InterfaceTab.Controls.Add(Me.ShowToolTips)
         Me.InterfaceTab.Controls.Add(Me.TrayIcon)
         Me.InterfaceTab.Location = New System.Drawing.Point(4, 23)
@@ -410,6 +412,16 @@ Partial Class ConfigForm
         Me.ShowLog.TabIndex = 44
         Me.ShowLog.Text = "Show log"
         Me.ShowLog.UseVisualStyleBackColor = True
+        '
+        'ShowNewMessages
+        '
+        Me.ShowNewMessages.AutoSize = True
+        Me.ShowNewMessages.Location = New System.Drawing.Point(9, 130)
+        Me.ShowNewMessages.Name = "ShowNewMessages"
+        Me.ShowNewMessages.Size = New System.Drawing.Size(144, 17)
+        Me.ShowNewMessages.TabIndex = 42
+        Me.ShowNewMessages.Text = "Show new messages bar"
+        Me.ShowNewMessages.UseVisualStyleBackColor = True
         '
         'ShowToolTips
         '
@@ -1442,4 +1454,5 @@ Partial Class ConfigForm
     Friend WithEvents ConfirmRange As System.Windows.Forms.CheckBox
     Friend WithEvents ConfirmWarned As System.Windows.Forms.CheckBox
     Friend WithEvents WatchDelete As System.Windows.Forms.CheckBox
+    Friend WithEvents ShowNewMessages As System.Windows.Forms.CheckBox
 End Class
