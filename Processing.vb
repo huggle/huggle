@@ -505,6 +505,9 @@ Module Processing
 
         If Edit Is Nothing OrElse Edit.Page Is Nothing OrElse Edit.User Is Nothing Then Return False
 
+        Dim LastEditor As User
+        If Edit.Page.LastEdit IsNot Nothing Then LastEditor = Edit.Page.LastEdit.User Else LastEditor = Nothing
+
         'Confirm self-reversion
         If Config.ConfirmSelfRevert AndAlso Not Undoing AndAlso Edit.User.IsMe _
             AndAlso (Edit.Page.FirstEdit Is Nothing OrElse Edit.Id <> Edit.Page.FirstEdit.Id) _
@@ -615,6 +618,7 @@ Module Processing
             Dim NewRequest As New FakeRollbackRequest
             NewRequest.Page = Edit.Page
             NewRequest.ExcludeUser = Edit.User
+            NewRequest.LastUser = LastEditor
             NewRequest.Summary = Summary
             NewRequest.Start()
             Return True
@@ -640,6 +644,7 @@ Module Processing
             'Plain old reversion
             Dim NewRequest As New RevertRequest
             NewRequest.Edit = Edit.Prev
+            NewRequest.LastUser = LastEditor
             NewRequest.Summary = Summary
             NewRequest.Start()
             Return True

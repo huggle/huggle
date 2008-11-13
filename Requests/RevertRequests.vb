@@ -9,7 +9,7 @@ Namespace Requests
 
         'Revert to something
 
-        Public Edit As Edit, Summary As String
+        Public Edit As Edit, Summary As String, LastUser As User
 
         Protected Overrides Sub Process()
             LogProgress(Msg("revert-progress", Edit.Page.Name))
@@ -37,6 +37,11 @@ Namespace Requests
             If Config.Summary IsNot Nothing Then FullSummary &= " " & Config.Summary
             CustomReverts.Add(Edit.Page, FullSummary)
 
+            If Edit.Page.LastEdit.User IsNot LastUser AndAlso Edit.Page.LastEdit.User.Ignored Then
+                Fail(Msg("revert-fail", Edit.Page.Name), Msg("revert-conflict", Edit.Page.LastEdit.User.Name))
+                Exit Sub
+            End If
+
             Result = PostEdit(Edit.Page, Text, Summary, Minor:=Config.Minor("revert"), Watch:=Config.Watch("revert"))
 
             If Result.Error Then
@@ -49,8 +54,8 @@ Namespace Requests
                 Exit Sub
             End If
 
-                Complete()
-                If State = States.Cancelled Then UndoEdit(Edit.Page)
+            Complete()
+            If State = States.Cancelled Then UndoEdit(Edit.Page)
         End Sub
 
         Private Function GetReversionSummary(ByVal Edit As Edit) As String
@@ -175,7 +180,7 @@ Namespace Requests
         'Finds the last revision not by the same user as the most recent revision, using the API,
         'then reverts to that revision. Like rollback, but much slower. Used when rollback is not available.
 
-        Public Page As Page, ExcludeUser As User, Summary As String
+        Public Page As Page, ExcludeUser As User, LastUser As User, Summary As String
 
         Protected Overrides Sub Process()
             LogProgress(Msg("revert-progress", Page.Name))
@@ -206,6 +211,11 @@ Namespace Requests
             Summary = Summary.Replace("$1", ExcludeUser.Name).Replace("$2", OldUser)
 
             Dim Text As String = HtmlDecode(FindString(Result.Text, "<rev ", ">", "</rev>"))
+
+            If Page.LastEdit.User IsNot LastUser AndAlso Page.LastEdit.User.Ignored Then
+                Fail(Msg("revert-fail", Page.Name), Msg("revert-conflict", Page.LastEdit.User.Name))
+                Exit Sub
+            End If
 
             Result = PostEdit(Page, Text, Summary, Minor:=Config.Minor("revert"), Watch:=Config.Watch("revert"))
 
