@@ -142,6 +142,7 @@ Class Configuration
     Public ProtectionRequestSummary As String
     Public ProtectionTime As String = "indefinite"
     Public QueueBuilderLimit As Integer = 10
+    Public QuickSight As Boolean
     Public RcBlockSize As Integer = 100
     Public ReportExtendSummary As String
     Public ReportLinkDiffs As Boolean = True

@@ -234,6 +234,7 @@ Module ConfigIO
             Case "protection-request-reason" : Config.ProtectionRequestReason = Value
             Case "protection-request-summary" : Config.ProtectionRequestSummary = Value
             Case "queues" : SetQueues(Value)
+            Case "quick-sight" : Config.QuickSight = CBool(Value)
             Case "rc-block-size" : Config.RcBlockSize = CInt(Value)
             Case "require-admin" : Config.RequireAdmin = CBool(Value)
             Case "require-autconfirmed" : Config.RequireAutoconfirmed = CBool(Value)

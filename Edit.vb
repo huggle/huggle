@@ -32,6 +32,8 @@ Class Edit
     Public Processed As Boolean
     Public Rcid As String
     Public RollbackToken As String
+    Public SightPostData As String
+    Public Sighted As Boolean
     Public Size As Integer
     Public Summary As String
     Public Text As String

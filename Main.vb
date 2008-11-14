@@ -1568,12 +1568,17 @@ Class Main
         RevertAndWarn(CType(Sender, ToolStripMenuItem).Tag.ToString)
     End Sub
 
-    Private Sub RevisionSight_Click(ByVal s As Object, ByVal e As EventArgs) Handles RevisionSight.Click
+    Private Sub RevisionSight_Click() Handles RevisionSight.Click
         If CurrentEdit IsNot Nothing Then
             Dim NewRequest As New SightRequest
             NewRequest.Edit = CurrentEdit
             NewRequest.Start()
         End If
+    End Sub
+
+    Private Sub SightAndNext_Click() Handles SightAndNext.Click
+        RevisionSight_Click()
+        ShowNextEdit()
     End Sub
 
 End Class

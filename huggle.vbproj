@@ -594,6 +594,8 @@
     <None Include="Localization\pt.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\icons\revision-sight.png" />
+    <Content Include="Resources\icons\sight-and-next.png" />
     <Content Include="Resources\TagSummaries.txt" />
     <Content Include="Resources\WarningSummaries.txt" />
   </ItemGroup>

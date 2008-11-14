@@ -433,37 +433,42 @@ Namespace Requests
 
             'No API for this. UI scraping required
 
+            Dim Result As String
+
             LogProgress(Msg("sight-progress", Edit.Page.Name))
 
-            Dim Result As String = DoUrlRequest(SitePath() & _
-                "index.php?title=" & UrlEncode(Edit.Page.Name) & "&diff=" & UrlEncode(Edit.Id) & "&oldid=prev")
+            If String.IsNullOrEmpty(Edit.SightPostData) Then
+                Result = DoUrlRequest(SitePath() & "index.php?title=" & UrlEncode(Edit.Page.Name))
+
+                If Result Is Nothing Then
+                    Fail(Msg("sight-fail", Edit.Page.Name))
+                    Exit Sub
+                End If
+
+                Dim ReviewForm As String = FindString(Result, "<fieldset class=""flaggedrevs_reviewform", "</fieldset>")
+
+                If ReviewForm Is Nothing Then
+                    Fail(Msg("sight-fail", Edit.Page.Name))
+                    Exit Sub
+                End If
+
+                Edit.SightPostData = ""
+
+                For Each Item As String In Split(ReviewForm, "<input")
+                    If GetParameter(Item, "name") IsNot Nothing AndAlso GetParameter(Item, "value") IsNot Nothing _
+                        Then Edit.SightPostData &= GetParameter(Item, "name") & "=" & _
+                        UrlEncode(GetParameter(Item, "value")) & "&"
+                Next Item
+            End If
+
+            Result = DoUrlRequest(SitePath() & "index.php?title=Special:RevisionReview&action=submit", Edit.SightPostData)
 
             If Result Is Nothing Then
                 Fail(Msg("sight-fail", Edit.Page.Name))
                 Exit Sub
             End If
 
-            Result = FindString(Result, "<fieldset class=""flaggedrevs_reviewform", "</fieldset>")
-
-            If Result Is Nothing Then
-                Fail(Msg("sight-fail", Edit.Page.Name))
-                Exit Sub
-            End If
-
-            Dim PostString As String = ""
-
-            For Each Item As String In Split(Result, "<input")
-                If GetParameter(Item, "name") IsNot Nothing AndAlso GetParameter(Item, "value") IsNot Nothing _
-                    Then PostString &= GetParameter(Item, "name") & "=" & UrlEncode(GetParameter(Item, "value")) & "&"
-            Next Item
-
-            Result = DoUrlRequest(SitePath() & "index.php?title=Special:RevisionReview&action=submit", PostString)
-
-            If Result Is Nothing Then
-                Fail(Msg("sight-fail", Edit.Page.Name))
-                Exit Sub
-            End If
-
+            Edit.Sighted = True
             Complete(Msg("sight-done", Edit.Page.Name))
         End Sub
 

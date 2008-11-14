@@ -14,6 +14,7 @@ Partial Class Main
         Splitter.Panel2Collapsed = Not Config.ShowLog
 
         RevisionSight.Visible = Config.Sight AndAlso Config.Rights.Contains("review")
+        SightAndNext.Visible = Config.Sight AndAlso Config.Rights.Contains("review")
 
         PageDelete.Visible = (Config.UseAdminFunctions AndAlso Config.Rights.Contains("delete") AndAlso Config.Delete)
         PageDeleteB.Visible = PageDelete.Visible
@@ -214,11 +215,13 @@ Partial Class Main
             RevisionPrevious.Enabled = HistoryPrevB.Enabled
             RevisionNext.Enabled = HistoryNextB.Enabled
             RevisionLatest.Enabled = HistoryLastB.Enabled
+            RevisionSight.Enabled = (Not CurrentEdit.Sighted)
             RevertWarnB.Enabled = (RevertB.Enabled AndAlso Not CurrentUser.Ignored AndAlso Editable _
                 AndAlso Config.WarningTypes.Count > 0)
             QueueClear.Enabled = (CurrentQueue.Edits.Count > 0)
             QueueNext.Enabled = (CurrentQueue.Edits.Count > 0)
             QueueTrim.Enabled = (CurrentQueue.Edits.Count > 0)
+            SightAndNext.Enabled = (Not CurrentEdit.Sighted)
             SystemReconnectIRC.Enabled = (Config.IrcMode = True)
             SystemShowQueue.Checked = Config.ShowQueue
             SystemShowLog.Checked = Config.ShowLog

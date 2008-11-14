@@ -537,20 +537,33 @@ Namespace My.Resources
             End Get
         End Property
         
+        Friend ReadOnly Property revision_sight() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("revision_sight", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property sight_and_next() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("sight_and_next", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
         '''<summary>
         '''  Looks up a localized string similar to ^prod$
         ''' prod 
         '''[\{:]prod
-        '''prod[\}-:2]
-        '''prodding for deletion
-        '''proposed for deletion
+        '''prod[\}\-:2]
+        '''(nominated|prodding|proposed) for deletion
         '''proposed deletion
         '''^db$
         '''db-
+        ''' db tag$
         '''(marked for|tagged for|requesting) speedy deletion
         '''speedy deletion request
         '''adding \{\{.+\}\} to article
-        '''nominated for deletion
         '''^afd$
         '''[\{:]afd
         '''afd[ \}].

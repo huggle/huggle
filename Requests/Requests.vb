@@ -87,6 +87,7 @@ Namespace Requests
         'Cancel the request
         Public Sub Cancel()
             State = States.Cancelled
+            If PendingRequests.Contains(Me) Then PendingRequests.Remove(Me)
             Callback(AddressOf EndRequest)
         End Sub
 

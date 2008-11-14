@@ -88,9 +88,13 @@ Namespace Requests
             'Using &action=render here would make things far simpler; unfortunately, that was broken for
             'image diff pages in 2007 and it would appear that nobody cares.
 
+            Dim QueryString As String = SitePath() & "index.php?title=" & UrlEncode(Edit.Page.Name) _
+                    & "&diff=" & Edit.Id & "&oldid=" & Oldid & "&uselang=en"
+
+            If Not Config.QuickSight OrElse Edit.Sighted Then Result &= "diffonly=1"
+
             Try
-                Result = DoUrlRequest(SitePath() & "index.php?title=" & UrlEncode(Edit.Page.Name) _
-                    & "&diff=" & Edit.Id & "&oldid=" & Oldid & "&diffonly=1&uselang=en")
+                Result = DoUrlRequest(QueryString)
             Catch ex As WebException
                 Fail(Msg("diff-fail", Edit.Page.Name), ex.Message)
                 Exit Sub
@@ -105,6 +109,20 @@ Namespace Requests
                 OrElse Result.Contains("The database did not find the text of a page that it should have found") Then
                 Callback(AddressOf Deleted)
                 Exit Sub
+            End If
+
+            If Config.QuickSight AndAlso Not Edit.Sighted Then
+                Dim ReviewForm As String = FindString(Result, "<fieldset class=""flaggedrevs_reviewform", "</fieldset>")
+
+                If ReviewForm IsNot Nothing Then
+                    Edit.SightPostData = ""
+
+                    For Each Item As String In Split(ReviewForm, "<input")
+                        If GetParameter(Item, "name") IsNot Nothing AndAlso GetParameter(Item, "value") IsNot Nothing _
+                            Then Edit.SightPostData &= GetParameter(Item, "name") & "=" & _
+                            UrlEncode(GetParameter(Item, "value")) & "&"
+                    Next Item
+                End If
             End If
 
             If Result.Contains(">undo</a>)") Then
