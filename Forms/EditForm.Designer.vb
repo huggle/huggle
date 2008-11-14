@@ -42,7 +42,7 @@ Partial Class EditForm
         Me.Find = New System.Windows.Forms.TextBox
         Me.FindLabel = New System.Windows.Forms.Label
         Me.WaitMessage = New System.Windows.Forms.Label
-        Me.PageText = New System.Windows.Forms.RichTextBox
+        Me.PageText = New Huggle.WikiTextBox
         Me.EditStrip = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.EditUndo = New System.Windows.Forms.ToolStripMenuItem
         Me.EditRedo = New System.Windows.Forms.ToolStripMenuItem
@@ -55,11 +55,11 @@ Partial Class EditForm
         Me.EditSelectAll = New System.Windows.Forms.ToolStripMenuItem
         Me.Separator4 = New System.Windows.Forms.ToolStripSeparator
         Me.EditFind = New System.Windows.Forms.ToolStripMenuItem
-        Me.EditMenu = New System.Windows.Forms.ToolStripMenuItem
         Me.PreviewTab = New System.Windows.Forms.TabPage
         Me.Preview = New Huggle.WebBrowser
         Me.ChangesTab = New System.Windows.Forms.TabPage
         Me.Diff = New Huggle.WebBrowser
+        Me.EditMenu = New System.Windows.Forms.ToolStripMenuItem
         Me.KeystrokeTimer = New System.Windows.Forms.Timer(Me.components)
         Me.MenuBar = New System.Windows.Forms.MenuStrip
         Me.PageMenu = New System.Windows.Forms.ToolStripMenuItem
@@ -310,6 +310,7 @@ Partial Class EditForm
         '
         Me.EditStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EditUndo, Me.EditRedo, Me.Separator1, Me.EditCut, Me.EditCopy, Me.EditPaste, Me.EditDelete, Me.Separator3, Me.EditSelectAll, Me.Separator4, Me.EditFind})
         Me.EditStrip.Name = "ContextMenu"
+        Me.EditStrip.OwnerItem = Me.EditMenu
         Me.EditStrip.Size = New System.Drawing.Size(118, 198)
         '
         'EditUndo
@@ -382,13 +383,6 @@ Partial Class EditForm
         Me.EditFind.Size = New System.Drawing.Size(117, 22)
         Me.EditFind.Text = "Find"
         '
-        'EditMenu
-        '
-        Me.EditMenu.DropDown = Me.EditStrip
-        Me.EditMenu.Name = "EditMenu"
-        Me.EditMenu.Size = New System.Drawing.Size(37, 20)
-        Me.EditMenu.Text = "Edit"
-        '
         'PreviewTab
         '
         Me.PreviewTab.Controls.Add(Me.Preview)
@@ -437,6 +431,13 @@ Partial Class EditForm
         Me.Diff.TabIndex = 1
         Me.Diff.WebBrowserShortcutsEnabled = False
         '
+        'EditMenu
+        '
+        Me.EditMenu.DropDown = Me.EditStrip
+        Me.EditMenu.Name = "EditMenu"
+        Me.EditMenu.Size = New System.Drawing.Size(37, 20)
+        Me.EditMenu.Text = "Edit"
+        '
         'KeystrokeTimer
         '
         Me.KeystrokeTimer.Enabled = True
@@ -461,25 +462,25 @@ Partial Class EditForm
         'PageSaveToFile
         '
         Me.PageSaveToFile.Name = "PageSaveToFile"
-        Me.PageSaveToFile.Size = New System.Drawing.Size(152, 22)
+        Me.PageSaveToFile.Size = New System.Drawing.Size(140, 22)
         Me.PageSaveToFile.Text = "Save to file..."
         '
         'Separator2
         '
         Me.Separator2.Name = "Separator2"
-        Me.Separator2.Size = New System.Drawing.Size(149, 6)
+        Me.Separator2.Size = New System.Drawing.Size(137, 6)
         '
         'PageSave
         '
         Me.PageSave.Name = "PageSave"
-        Me.PageSave.Size = New System.Drawing.Size(152, 22)
+        Me.PageSave.Size = New System.Drawing.Size(140, 22)
         Me.PageSave.Text = "Save"
         '
         'PageCancel
         '
         Me.PageCancel.Name = "PageCancel"
         Me.PageCancel.ShortcutKeyDisplayString = ""
-        Me.PageCancel.Size = New System.Drawing.Size(152, 22)
+        Me.PageCancel.Size = New System.Drawing.Size(140, 22)
         Me.PageCancel.Text = "Cancel"
         '
         'ViewMenu
@@ -495,7 +496,7 @@ Partial Class EditForm
         Me.ViewSyntax.CheckOnClick = True
         Me.ViewSyntax.CheckState = System.Windows.Forms.CheckState.Checked
         Me.ViewSyntax.Name = "ViewSyntax"
-        Me.ViewSyntax.Size = New System.Drawing.Size(152, 22)
+        Me.ViewSyntax.Size = New System.Drawing.Size(148, 22)
         Me.ViewSyntax.Text = "Syntax coloring"
         '
         'EditForm
@@ -542,7 +543,7 @@ Partial Class EditForm
     Friend WithEvents PreviewTab As System.Windows.Forms.TabPage
     Friend WithEvents Preview As Huggle.WebBrowser
     Friend WithEvents KeystrokeTimer As System.Windows.Forms.Timer
-    Friend WithEvents PageText As System.Windows.Forms.RichTextBox
+    Friend WithEvents PageText As Huggle.WikiTextBox
     Friend WithEvents MenuBar As System.Windows.Forms.MenuStrip
     Friend WithEvents PageMenu As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents PageSaveToFile As System.Windows.Forms.ToolStripMenuItem

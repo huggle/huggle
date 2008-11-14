@@ -1581,4 +1581,12 @@ Class Main
         ShowNextEdit()
     End Sub
 
+    Private Sub UserReportSock_Click() Handles UserReportSock.Click
+        If CurrentUser IsNot Nothing Then
+            Dim NewForm As New SockReportForm
+            NewForm.User = CurrentUser
+            NewForm.Show()
+        End If
+    End Sub
+
 End Class

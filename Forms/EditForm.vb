@@ -4,14 +4,12 @@ Class EditForm
 
     Public Page As Page
 
-    Private Declare Function LockWindowUpdate Lib "user32" (ByVal hWnd As IntPtr) As Integer
-    Private WithEvents Timer As New Timer
-    Private HighlightTimeout As Integer = 2000
-    Private PreviewCurrent, DiffCurrent, SettingText, Undoing As Boolean, CurrentRequest As HighlightRequest
+    Private PreviewCurrent, DiffCurrent, Undoing As Boolean
 
     Private Sub EditForm_Load() Handles Me.Load
         Icon = My.Resources.huggle_icon
         Text = Msg("edit-title", Page.Name)
+        PageText.SetHighlighting(True)
         Localize(Me, "edit")
         EditTab.Text = Msg("edit-edittab")
         PreviewTab.Text = Msg("edit-previewtab")
@@ -23,20 +21,10 @@ Class EditForm
         WaitMessage.Text = "Retrieving page text..."
         EditPaste.Enabled = Clipboard.ContainsText
 
-        For Each Item As FontFamily In (New System.Drawing.Text.InstalledFontCollection).Families
-            If Item.Name = "Consolas" Then
-                PageText.Font = New Font(Item, PageText.Font.Size)
-                Highlight.FontName = Highlight.FontName.Replace("Courier New", "Consolas")
-                Exit For
-            End If
-        Next Item
-
-        PageText.Rtf = Highlight.RtfHeader & Highlight.RtfFooter
-
         If Page.Text Is Nothing Then
-            Dim NewGetTextRequest As New PageTextRequest
-            NewGetTextRequest.Page = Page
-            NewGetTextRequest.Start(AddressOf GotText)
+            Dim NewRequest As New PageTextRequest
+            NewRequest.Page = Page
+            NewRequest.Start(AddressOf GotText)
         Else
             GotText(New RequestResult(Page.Text))
         End If
@@ -67,10 +55,7 @@ Class EditForm
                 Minor.Enabled = True
                 Watch.Enabled = True
                 Save.Enabled = True
-                SettingText = True
-                PageText.Text = Result.Text
-                DoHighlight()
-                SettingText = False
+                PageText.SetText(Result.Text)
             End If
         End If
     End Sub
@@ -162,58 +147,20 @@ Class EditForm
     End Sub
 
     Private Sub PageText_TextChanged() Handles PageText.TextChanged
-        If Not SettingText Then
-            PreviewCurrent = False
-            DiffCurrent = False
-            KeystrokeTimer.Stop()
-            KeystrokeTimer.Start()
+        PreviewCurrent = False
+        DiffCurrent = False
 
-            If Not Undoing Then
-                If CanUndo() AndAlso UndoActionName() = "Typing" _
-                    Then ModifyUndoItem(PageText.Text) _
-                    Else AddUndoItem(PageText.Text, "Typing")
+        If Not Undoing Then
+            If CanUndo() AndAlso UndoActionName() = "Typing" _
+                Then ModifyUndoItem(PageText.Text) _
+                Else AddUndoItem(PageText.Text, "Typing")
 
-                RefreshUndo()
-            End If
+            RefreshUndo()
         End If
     End Sub
 
     Private Sub PageText_LinkClicked(ByVal s As Object, ByVal e As LinkClickedEventArgs) Handles PageText.LinkClicked
         OpenUrlInBrowser(e.LinkText)
-    End Sub
-
-    Private Sub DoHighlight()
-        If ViewSyntax.Checked Then
-            Timer.Interval = HighlightTimeout
-            Timer.Start()
-
-            CurrentRequest = New HighlightRequest
-            CurrentRequest.Start(PageText.Text, AddressOf HighlightDone)
-        End If
-    End Sub
-
-    Private Sub KeystrokeTimer_Tick() Handles KeystrokeTimer.Tick
-        KeystrokeTimer.Stop()
-        DoHighlight()
-    End Sub
-
-    Private Sub HighlightDone(ByVal Result As String)
-        Timer.Stop()
-
-        Dim Pos As Integer = PageText.SelectionStart
-        Dim Length As Integer = PageText.SelectionLength
-        Dim StartOfLowestLine As Integer = PageText.GetFirstCharIndexFromLine(PageText.GetLineFromCharIndex _
-            (Math.Max(0, PageText.GetCharIndexFromPosition(New Point(0, PageText.Height))) - 1))
-
-        LockWindowUpdate(PageText.Handle)
-        SettingText = True
-        PageText.Rtf = Result
-        SettingText = False
-        PageText.SelectionStart = StartOfLowestLine
-        PageText.SelectionLength = 1
-        PageText.SelectionStart = Pos
-        PageText.SelectionLength = Length
-        LockWindowUpdate(IntPtr.Zero)
     End Sub
 
     Private Sub Browser_Navigating(ByVal s As Object, ByVal e As WebBrowserNavigatingEventArgs) _
@@ -241,7 +188,7 @@ Class EditForm
     End Sub
 
     Private Sub PageCancel_Click() Handles PageCancel.Click
-        DialogResult = Windows.Forms.DialogResult.Cancel
+        DialogResult = DialogResult.Cancel
         Close()
     End Sub
 
@@ -268,19 +215,7 @@ Class EditForm
     End Sub
 
     Private Sub ViewSyntaxColoring_Click() Handles ViewSyntax.Click
-        If ViewSyntax.Checked Then
-            DoHighlight()
-        Else
-            SettingText = True
-
-            Dim Source As String = PageText.Text
-            Source = Highlight.RtfEscape(Source)
-            Source = Highlight.RtfHeader & Source
-            Source &= Highlight.RtfFooter
-            PageText.Rtf = Source
-
-            SettingText = False
-        End If
+        PageText.SetHighlighting(ViewSyntax.Checked)
     End Sub
 
     Private Sub PageText_SelectionChanged() Handles PageText.SelectionChanged
@@ -292,7 +227,6 @@ Class EditForm
     Private Sub EditUndo_Click() Handles EditUndo.Click
         If CanUndo() Then
             Undo()
-            DoHighlight()
             RefreshUndo()
         End If
     End Sub
@@ -300,7 +234,6 @@ Class EditForm
     Private Sub EditRedo_Click() Handles EditRedo.Click
         If CanRedo() Then
             Redo()
-            DoHighlight()
             RefreshUndo()
         End If
     End Sub
@@ -329,12 +262,6 @@ Class EditForm
 
     Private Sub EditFind_Click() Handles EditFind.Click
         Find.Focus()
-    End Sub
-
-    Private Sub Timer_Tick() Handles Timer.Tick
-        ViewSyntax.Checked = False
-        CurrentRequest.Cancel()
-        Timer.Stop()
     End Sub
 
     Private Sub FindText_TextChanged() Handles Find.TextChanged
@@ -427,14 +354,14 @@ Class EditForm
     Private Sub Undo()
         UndoIndex -= 1
         Undoing = True
-        PageText.Text = UndoItems(UndoIndex).Text
+        PageText.SetText(UndoItems(UndoIndex).Text)
         Undoing = False
     End Sub
 
     Private Sub Redo()
         UndoIndex += 1
         Undoing = True
-        PageText.Text = UndoItems(UndoIndex).Text
+        PageText.SetText(UndoItems(UndoIndex).Text)
         Undoing = False
     End Sub
 

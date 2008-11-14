@@ -86,6 +86,7 @@ Namespace Requests
             Config.AIV = Not String.IsNullOrEmpty(Config.AIVLocation)
             Config.UAA = Not String.IsNullOrEmpty(Config.UAALocation)
             Config.TRR = Not String.IsNullOrEmpty(Config.TRRLocation)
+            Config.SockReports = Not String.IsNullOrEmpty(Config.SockReportLocation)
 
             Config.IrcMode = Not String.IsNullOrEmpty(Config.IrcChannel)
 

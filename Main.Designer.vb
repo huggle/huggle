@@ -140,8 +140,13 @@ Partial Class Main
         Me.QueueContainer = New System.Windows.Forms.Panel
         Me.QueueScroll = New System.Windows.Forms.VScrollBar
         Me.QueueSelector = New System.Windows.Forms.ComboBox
+        Me.QueueArea = New Huggle.QueuePanel
         Me.Tabs = New System.Windows.Forms.TabControl
         Me.TabPage1 = New System.Windows.Forms.TabPage
+        Me.InitialTab = New Huggle.BrowserTab
+        Me.Status = New Huggle.ListView2
+        Me.Url = New System.Windows.Forms.ColumnHeader
+        Me.Details = New System.Windows.Forms.ColumnHeader
         Me.ToolContainer = New System.Windows.Forms.ToolStripContainer
         Me.MainStrip = New System.Windows.Forms.ToolStrip
         Me.RevertWarnB = New System.Windows.Forms.ToolStripSplitButton
@@ -149,6 +154,7 @@ Partial Class Main
         Me.Separator24 = New System.Windows.Forms.ToolStripSeparator
         Me.RevertWarnAdvanced = New System.Windows.Forms.ToolStripMenuItem
         Me.NextDiffB = New System.Windows.Forms.ToolStripButton
+        Me.SightAndNext = New System.Windows.Forms.ToolStripButton
         Me.Separator17 = New System.Windows.Forms.ToolStripSeparator
         Me.TemplateB = New System.Windows.Forms.ToolStripDropDownButton
         Me.TemplateMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
@@ -165,17 +171,18 @@ Partial Class Main
         Me.UndoB = New System.Windows.Forms.ToolStripDropDownButton
         Me.UndoMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.Separator19 = New System.Windows.Forms.ToolStripSeparator
-        Me.SightAndNext = New System.Windows.Forms.ToolStripButton
         Me.HistoryStrip = New System.Windows.Forms.ToolStrip
         Me.PageLabel = New System.Windows.Forms.ToolStripLabel
         Me.PageB = New System.Windows.Forms.ToolStripComboBox
         Me.HistoryB = New System.Windows.Forms.ToolStripButton
         Me.HistoryScrollLB = New System.Windows.Forms.ToolStripButton
+        Me.History = New Huggle.HistoryStrip
         Me.HistoryScrollRB = New System.Windows.Forms.ToolStripButton
         Me.UserLabel = New System.Windows.Forms.ToolStripLabel
         Me.UserB = New System.Windows.Forms.ToolStripComboBox
         Me.ContribsB = New System.Windows.Forms.ToolStripButton
         Me.ContribsScrollLB = New System.Windows.Forms.ToolStripButton
+        Me.Contribs = New Huggle.ContribsStrip
         Me.ContribsScrollRB = New System.Windows.Forms.ToolStripButton
         Me.NavigationStrip = New System.Windows.Forms.ToolStrip
         Me.BrowserBackB = New System.Windows.Forms.ToolStripSplitButton
@@ -207,13 +214,7 @@ Partial Class Main
         Me.UserBlockB = New System.Windows.Forms.ToolStripButton
         Me.RateUpdateTimer = New System.Windows.Forms.Timer(Me.components)
         Me.EditInfo = New Huggle.EditInfoPanel
-        Me.QueueArea = New Huggle.QueuePanel
-        Me.InitialTab = New Huggle.BrowserTab
-        Me.Status = New Huggle.ListView2
-        Me.Url = New System.Windows.Forms.ColumnHeader
-        Me.Details = New System.Windows.Forms.ColumnHeader
-        Me.History = New Huggle.HistoryStrip
-        Me.Contribs = New Huggle.ContribsStrip
+        Me.UserReportSock = New System.Windows.Forms.ToolStripMenuItem
         Me.LogMenu.SuspendLayout()
         Me.TrayMenu.SuspendLayout()
         Me.TopMenu.SuspendLayout()
@@ -487,20 +488,21 @@ Partial Class Main
         'RevisionView
         '
         Me.RevisionView.Name = "RevisionView"
-        Me.RevisionView.Size = New System.Drawing.Size(152, 22)
+        Me.RevisionView.Size = New System.Drawing.Size(115, 22)
         Me.RevisionView.Text = "View"
         '
         'RevisionRevert
         '
         Me.RevisionRevert.DropDown = Me.RevertMenu
         Me.RevisionRevert.Name = "RevisionRevert"
-        Me.RevisionRevert.Size = New System.Drawing.Size(152, 22)
+        Me.RevisionRevert.Size = New System.Drawing.Size(115, 22)
         Me.RevisionRevert.Text = "Revert"
         '
         'RevertMenu
         '
         Me.RevertMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RevertCurrentOnly, Me.Separator28, Me.Separator20, Me.RevertAdvanced})
         Me.RevertMenu.Name = "RevertMenu"
+        Me.RevertMenu.OwnerItem = Me.RevertB
         Me.RevertMenu.Size = New System.Drawing.Size(191, 60)
         '
         'RevertCurrentOnly
@@ -529,35 +531,35 @@ Partial Class Main
         'Separator30
         '
         Me.Separator30.Name = "Separator30"
-        Me.Separator30.Size = New System.Drawing.Size(149, 6)
+        Me.Separator30.Size = New System.Drawing.Size(112, 6)
         '
         'RevisionPrevious
         '
         Me.RevisionPrevious.Name = "RevisionPrevious"
-        Me.RevisionPrevious.Size = New System.Drawing.Size(152, 22)
+        Me.RevisionPrevious.Size = New System.Drawing.Size(115, 22)
         Me.RevisionPrevious.Text = "Previous"
         '
         'RevisionNext
         '
         Me.RevisionNext.Name = "RevisionNext"
-        Me.RevisionNext.Size = New System.Drawing.Size(152, 22)
+        Me.RevisionNext.Size = New System.Drawing.Size(115, 22)
         Me.RevisionNext.Text = "Next"
         '
         'RevisionLatest
         '
         Me.RevisionLatest.Name = "RevisionLatest"
-        Me.RevisionLatest.Size = New System.Drawing.Size(152, 22)
+        Me.RevisionLatest.Size = New System.Drawing.Size(115, 22)
         Me.RevisionLatest.Text = "Latest"
         '
         'Separator31
         '
         Me.Separator31.Name = "Separator31"
-        Me.Separator31.Size = New System.Drawing.Size(149, 6)
+        Me.Separator31.Size = New System.Drawing.Size(112, 6)
         '
         'RevisionSight
         '
         Me.RevisionSight.Name = "RevisionSight"
-        Me.RevisionSight.Size = New System.Drawing.Size(152, 22)
+        Me.RevisionSight.Size = New System.Drawing.Size(115, 22)
         Me.RevisionSight.Text = "Sight"
         '
         'MenuPage
@@ -628,7 +630,7 @@ Partial Class Main
         '
         Me.TagDeleteMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PageXfd, Me.PageTagProd, Me.PageTagSpeedy, Me.Separator23})
         Me.TagDeleteMenu.Name = "SpeedyMenu"
-        Me.TagDeleteMenu.OwnerItem = Me.PageTagDeleteB
+        Me.TagDeleteMenu.OwnerItem = Me.PageReqDeletion
         Me.TagDeleteMenu.Size = New System.Drawing.Size(190, 76)
         '
         'PageXfd
@@ -800,10 +802,10 @@ Partial Class Main
         '
         'ReportMenu
         '
-        Me.ReportMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.UserReportVandalism, Me.UserReportUsername, Me.UserReport3rr})
+        Me.ReportMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.UserReportVandalism, Me.UserReportUsername, Me.UserReport3rr, Me.UserReportSock})
         Me.ReportMenu.Name = "ReportMenu"
         Me.ReportMenu.OwnerItem = Me.UserReportB
-        Me.ReportMenu.Size = New System.Drawing.Size(213, 70)
+        Me.ReportMenu.Size = New System.Drawing.Size(213, 114)
         '
         'UserReportVandalism
         '
@@ -1033,6 +1035,17 @@ Partial Class Main
         Me.QueueSelector.Size = New System.Drawing.Size(159, 21)
         Me.QueueSelector.TabIndex = 49
         '
+        'QueueArea
+        '
+        Me.QueueArea.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.QueueArea.BackColor = System.Drawing.SystemColors.Control
+        Me.QueueArea.Location = New System.Drawing.Point(0, 32)
+        Me.QueueArea.Name = "QueueArea"
+        Me.QueueArea.Size = New System.Drawing.Size(160, 120)
+        Me.QueueArea.TabIndex = 50
+        '
         'Tabs
         '
         Me.Tabs.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
@@ -1058,6 +1071,39 @@ Partial Class Main
         Me.TabPage1.Size = New System.Drawing.Size(601, 143)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.UseVisualStyleBackColor = True
+        '
+        'InitialTab
+        '
+        Me.InitialTab.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.InitialTab.Location = New System.Drawing.Point(0, 0)
+        Me.InitialTab.Name = "InitialTab"
+        Me.InitialTab.Size = New System.Drawing.Size(601, 143)
+        Me.InitialTab.TabIndex = 0
+        '
+        'Status
+        '
+        Me.Status.Activation = System.Windows.Forms.ItemActivation.OneClick
+        Me.Status.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.Url, Me.Details})
+        Me.Status.ContextMenuStrip = Me.LogMenu
+        Me.Status.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Status.FullRowSelect = True
+        Me.Status.GridLines = True
+        Me.Status.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
+        Me.Status.Location = New System.Drawing.Point(0, 0)
+        Me.Status.MultiSelect = False
+        Me.Status.Name = "Status"
+        Me.Status.Size = New System.Drawing.Size(792, 86)
+        Me.Status.TabIndex = 0
+        Me.Status.UseCompatibleStateImageBehavior = False
+        Me.Status.View = System.Windows.Forms.View.Details
+        '
+        'Url
+        '
+        Me.Url.Width = 0
+        '
+        'Details
+        '
+        Me.Details.Width = 770
         '
         'ToolContainer
         '
@@ -1090,7 +1136,7 @@ Partial Class Main
         Me.MainStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RevertWarnB, Me.NextDiffB, Me.SightAndNext, Me.Separator17, Me.RevertB, Me.TemplateB, Me.WarnB, Me.Separator9, Me.CancelB, Me.UndoB, Me.Separator19})
         Me.MainStrip.Location = New System.Drawing.Point(3, 24)
         Me.MainStrip.Name = "MainStrip"
-        Me.MainStrip.Size = New System.Drawing.Size(441, 55)
+        Me.MainStrip.Size = New System.Drawing.Size(410, 55)
         Me.MainStrip.TabIndex = 2
         '
         'RevertWarnB
@@ -1134,6 +1180,16 @@ Partial Class Main
         Me.NextDiffB.Name = "NextDiffB"
         Me.NextDiffB.Size = New System.Drawing.Size(52, 52)
         Me.NextDiffB.ToolTipText = "Show the next revision in the queue [Space]"
+        '
+        'SightAndNext
+        '
+        Me.SightAndNext.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.SightAndNext.Enabled = False
+        Me.SightAndNext.Image = Global.Huggle.My.Resources.Resources.sight_and_next
+        Me.SightAndNext.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.SightAndNext.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.SightAndNext.Name = "SightAndNext"
+        Me.SightAndNext.Size = New System.Drawing.Size(52, 52)
         '
         'Separator17
         '
@@ -1258,16 +1314,6 @@ Partial Class Main
         Me.Separator19.Name = "Separator19"
         Me.Separator19.Size = New System.Drawing.Size(6, 55)
         '
-        'SightAndNext
-        '
-        Me.SightAndNext.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.SightAndNext.Enabled = False
-        Me.SightAndNext.Image = Global.Huggle.My.Resources.Resources.sight_and_next
-        Me.SightAndNext.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
-        Me.SightAndNext.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.SightAndNext.Name = "SightAndNext"
-        Me.SightAndNext.Size = New System.Drawing.Size(52, 52)
-        '
         'HistoryStrip
         '
         Me.HistoryStrip.CanOverflow = False
@@ -1330,6 +1376,17 @@ Partial Class Main
         Me.HistoryScrollLB.Name = "HistoryScrollLB"
         Me.HistoryScrollLB.Size = New System.Drawing.Size(23, 21)
         '
+        'History
+        '
+        Me.History.AutoSize = False
+        Me.History.BackColor = System.Drawing.Color.Gainsboro
+        Me.History.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.History.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.History.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.History.Margin = New System.Windows.Forms.Padding(1, 4, 1, 0)
+        Me.History.Name = "History"
+        Me.History.Size = New System.Drawing.Size(60, 20)
+        '
         'HistoryScrollRB
         '
         Me.HistoryScrollRB.AutoSize = False
@@ -1390,6 +1447,17 @@ Partial Class Main
         Me.ContribsScrollLB.Margin = New System.Windows.Forms.Padding(1, 4, 1, 0)
         Me.ContribsScrollLB.Name = "ContribsScrollLB"
         Me.ContribsScrollLB.Size = New System.Drawing.Size(23, 21)
+        '
+        'Contribs
+        '
+        Me.Contribs.AutoSize = False
+        Me.Contribs.BackColor = System.Drawing.Color.Gainsboro
+        Me.Contribs.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.Contribs.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.Contribs.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.Contribs.Margin = New System.Windows.Forms.Padding(1, 4, 1, 0)
+        Me.Contribs.Name = "Contribs"
+        Me.Contribs.Size = New System.Drawing.Size(60, 20)
         '
         'ContribsScrollRB
         '
@@ -1571,7 +1639,7 @@ Partial Class Main
         Me.ActionsStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PageViewB, Me.PageEditB, Me.PageWatchB, Me.PageTagB, Me.PageTagDeleteB, Me.PageDeleteB, Me.Separator15, Me.UserInfoB, Me.UserTalkB, Me.UserMessageB, Me.UserIgnoreB, Me.UserReportB, Me.UserBlockB})
         Me.ActionsStrip.Location = New System.Drawing.Point(3, 139)
         Me.ActionsStrip.Name = "ActionsStrip"
-        Me.ActionsStrip.Size = New System.Drawing.Size(393, 35)
+        Me.ActionsStrip.Size = New System.Drawing.Size(424, 35)
         Me.ActionsStrip.TabIndex = 5
         '
         'PageViewB
@@ -1692,71 +1760,11 @@ Partial Class Main
         Me.EditInfo.TabIndex = 46
         Me.EditInfo.Visible = False
         '
-        'QueueArea
+        'UserReportSock
         '
-        Me.QueueArea.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.QueueArea.BackColor = System.Drawing.SystemColors.Control
-        Me.QueueArea.Location = New System.Drawing.Point(0, 32)
-        Me.QueueArea.Name = "QueueArea"
-        Me.QueueArea.Size = New System.Drawing.Size(160, 120)
-        Me.QueueArea.TabIndex = 50
-        '
-        'InitialTab
-        '
-        Me.InitialTab.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.InitialTab.Location = New System.Drawing.Point(0, 0)
-        Me.InitialTab.Name = "InitialTab"
-        Me.InitialTab.Size = New System.Drawing.Size(601, 143)
-        Me.InitialTab.TabIndex = 0
-        '
-        'Status
-        '
-        Me.Status.Activation = System.Windows.Forms.ItemActivation.OneClick
-        Me.Status.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.Url, Me.Details})
-        Me.Status.ContextMenuStrip = Me.LogMenu
-        Me.Status.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Status.FullRowSelect = True
-        Me.Status.GridLines = True
-        Me.Status.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
-        Me.Status.Location = New System.Drawing.Point(0, 0)
-        Me.Status.MultiSelect = False
-        Me.Status.Name = "Status"
-        Me.Status.Size = New System.Drawing.Size(792, 86)
-        Me.Status.TabIndex = 0
-        Me.Status.UseCompatibleStateImageBehavior = False
-        Me.Status.View = System.Windows.Forms.View.Details
-        '
-        'Url
-        '
-        Me.Url.Width = 0
-        '
-        'Details
-        '
-        Me.Details.Width = 770
-        '
-        'History
-        '
-        Me.History.AutoSize = False
-        Me.History.BackColor = System.Drawing.Color.Gainsboro
-        Me.History.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.History.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.History.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
-        Me.History.Margin = New System.Windows.Forms.Padding(1, 4, 1, 0)
-        Me.History.Name = "History"
-        Me.History.Size = New System.Drawing.Size(60, 20)
-        '
-        'Contribs
-        '
-        Me.Contribs.AutoSize = False
-        Me.Contribs.BackColor = System.Drawing.Color.Gainsboro
-        Me.Contribs.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.Contribs.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.Contribs.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
-        Me.Contribs.Margin = New System.Windows.Forms.Padding(1, 4, 1, 0)
-        Me.Contribs.Name = "Contribs"
-        Me.Contribs.Size = New System.Drawing.Size(60, 20)
+        Me.UserReportSock.Name = "UserReportSock"
+        Me.UserReportSock.Size = New System.Drawing.Size(212, 22)
+        Me.UserReportSock.Text = "Abuse of multiple accounts"
         '
         'Main
         '
@@ -1995,4 +2003,5 @@ Partial Class Main
     Friend WithEvents Separator31 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents RevisionSight As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents SightAndNext As System.Windows.Forms.ToolStripButton
+    Friend WithEvents UserReportSock As System.Windows.Forms.ToolStripMenuItem
 End Class

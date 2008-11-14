@@ -170,6 +170,8 @@ Class Configuration
     Public ShowToolTips As Boolean = True
     Public Sight As Boolean
     Public SingleRevertSummary As String
+    Public SockReports As Boolean
+    Public SockReportLocation As String
     Public Speedy As Boolean
     Public SpeedyCriteria As New Dictionary(Of String, SpeedyCriterion)
     Public SpeedyDeleteSummary As String

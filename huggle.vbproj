@@ -60,6 +60,9 @@
     <Compile Include="Controls\ListView2.vb">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controls\WikiTextBox.vb">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\UserLog.vb">
       <SubType>Component</SubType>
     </Compile>
@@ -251,6 +254,12 @@
       <DependentUpon>RevertAndWarnForm.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\RevertAndWarnForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SockReportForm.Designer.vb">
+      <DependentUpon>SockReportForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\SockReportForm.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\SpeedyForm.Designer.vb">
@@ -470,6 +479,9 @@
     <EmbeddedResource Include="Forms\RevertAndWarnForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>RevertAndWarnForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SockReportForm.resx">
+      <DependentUpon>SockReportForm.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\SpeedyForm.resx">
       <DependentUpon>SpeedyForm.vb</DependentUpon>

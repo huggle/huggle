@@ -32,8 +32,14 @@ Partial Class Main
         UserBlockB.Visible = UserBlock.Visible
         UserEmail.Visible = Config.Email
         UserMessageWelcome.Visible = (Config.Welcome IsNot Nothing)
-        UserReport.Visible = Config.AIV OrElse Config.UAA OrElse Config.TRR
-        UserReportB.Visible = Config.AIV OrElse Config.UAA OrElse Config.TRR
+        UserReport.Visible = Config.AIV OrElse Config.UAA OrElse Config.TRR OrElse Config.SockReports
+        UserReportB.Visible = Config.AIV OrElse Config.UAA OrElse Config.TRR OrElse Config.SockReports
+
+        UserReportVandalism.Visible = Config.AIV
+        UserReportUsername.Visible = Config.UAA
+        UserReport3rr.Visible = Config.TRR
+        UserReportSock.Visible = Config.SockReports
+
         UserWarn.Visible = Config.WarningTypes.Count > 0
 
         'Add warning types to warn menu and revert-and-warn menu

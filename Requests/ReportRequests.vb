@@ -361,4 +361,82 @@ Namespace Requests
 
     End Class
 
+    Class SockReportRequest : Inherits Request
+
+        'Report abuse of multiple accounts
+
+        Public User As User, Accounts As List(Of String), Details As String
+
+        Protected Overrides Sub Process()
+            LogProgress(Msg("report-progress", User.Name))
+
+            Dim Result As ApiResult = DoApiRequest("action=query&prop=info&titles=" & _
+                Config.SockReportLocation & "/" & UrlEncode(User.Name))
+
+            If Result.Error Then
+                Fail(Msg("report-fail", User.Name), Result.ErrorMessage)
+                Exit Sub
+            End If
+
+            If Not Result.Text.Contains("missing=""""") Then
+                Fail(Msg("report-fail", User.Name), "report for user already exists")
+                Exit Sub
+            End If
+
+            Dim Report As String = ""
+
+            Report &= "===[[User:" & User.Name & "]]===" & LF & LF
+            Report &= "{{socklinks|1=" & User.Name & "}}" & LF & LF
+            Report &= ";Known or suspected alternate accounts" & LF
+
+            For Each Item As String In Accounts
+                Report &= "* {{socklinks|1=" & User.Name & "}}" & LF
+            Next Item
+
+            Report &= LF
+            Report &= ";Reported by" & LF
+            Report &= "* ~~~~" & LF & LF
+            Report &= ";Details of abuse" & LF
+            Report &= Details & LF & LF
+            Report &= ";Comments" & LF
+            Report &= LF
+            Report &= ";Conclusions" & LF
+            Report &= LF
+            Report &= "----" & LF
+
+            Result = PostEdit(Config.SockReportLocation & "/" & User.Name, Report, _
+                Config.ReportSummary.Replace("$1", User.Name), Minor:=Config.Minor("report"), Watch:=Config.Watch("report"))
+
+            If Result.Error Then
+                Fail(Msg("report-fail", User.Name), Result.ErrorMessage)
+                Exit Sub
+            End If
+
+            Result = GetText(Config.SockReportLocation, Section:="3")
+
+            If Result.Error Then
+                Fail(Msg("report-fail", User.Name), Result.ErrorMessage)
+                Exit Sub
+            End If
+
+            Dim Text As String = Result.Text
+
+            If Text.Contains("{{") _
+                Then Text = Text.Substring(0, Text.IndexOf("{{")) & "{{" & Config.SockReportLocation & "/" & _
+                User.Name & "}}" & LF & Text.Substring(Text.IndexOf("{{")) _
+                Else Text &= "{{" & Config.SockReportLocation & "/" & User.Name & "}}"
+
+            Result = PostEdit(Config.SockReportLocation, Text, Config.ReportSummary.Replace("$1", User.Name), _
+                Section:="3", Minor:=Config.Minor("report"), Watch:=Config.Watch("report"))
+
+            If Result.Error Then
+                Fail(Msg("report-fail", User.Name), Result.ErrorMessage)
+                Exit Sub
+            End If
+
+            Complete()
+        End Sub
+
+    End Class
+
 End Namespace

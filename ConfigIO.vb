@@ -250,6 +250,7 @@ Module ConfigIO
             Case "shared-ip-templates" : Config.SharedIPTemplates = GetList(Value)
             Case "sight" : Config.Sight = CBool(Value)
             Case "single-revert-summary" : Config.SingleRevertSummary = Value
+            Case "sock-reports" : Config.SockReportLocation = Value
             Case "speedy-delete-summary" : Config.SpeedyDeleteSummary = Value
             Case "speedy-options" : SetSpeedyOptions(Value)
             Case "summary" : Config.Summary = Value

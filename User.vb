@@ -34,7 +34,7 @@ Class User
         _EditCount = -1
         _Anonymous = AnonymousRegex.IsMatch(Name)
         _Ignored = Whitelist.Contains(Name)
-        All.Add(Name, Me)
+        If Not All.ContainsKey(Name) Then All.Add(Name, Me)
     End Sub
 
     Public Shared ReadOnly Property [Me]() As User
