@@ -93,6 +93,7 @@ config-showlog:            Show log
 config-showqueue:          Show revision queue
 config-rightalignqueue:    Show queue on the right of the window
 config-showtooltips:       Show tooltips on menus
+config-shownewmessages:    Show new messages bar
 config-shortcutlist:       Keyboard shortcuts
 config-shortcutaction:     Action
 config-shortcut:           Shortcut
@@ -188,9 +189,37 @@ email-send:                Send
 === IRC feed ===
 <pre>
 irc-connected:             Connected to IRC recent changes feed
+irc-connecting:            Attempting connection to IRC recent changes feed; this make take a few moments...
 irc-disconnected:          Connection to IRC recent changes feed lost; reconnecting...
 irc-nochannel:             IRC channel for {0} not found; using slower API queries instead
 irc-error:                 Unable to connect to IRC recent changes feed. Using slower API queries instead
+</pre>
+
+=== List form ===
+<pre>
+list-actions:              Actions and Filters...
+list-browsetitle:          Add text file to list
+list-combine:              Combine
+list-copyto:               Copy to:
+list-count:                {0} items
+list-deleteconfirm:        Delete list '{0}'?
+list-duplicatename:        A list with the name '{0}' already exists. Choose another name.
+list-intersect:            Intersect
+list-limit:                Up to:
+list-listempty:            No items in list\nEnter a source and click "Add"
+list-nolists:              No lists defined\nClick "Add" to create one
+list-query-cancelled:      Cancelled.
+list-query-fail:           Query failed.
+list-query-noresults:      Query returned no results.
+list-query-progress:       Running query...
+list-query-results:        {0} results returned.
+list-renameprompt:         Enter new name:
+list-replace:              Replace
+list-savefailed:           Unable to save list:
+list-savetitle:            Save list
+list-sourcetype:           Source type:
+list-start:                From:
+list-stop:                 Stop
 </pre>
 
 === Login ===
@@ -246,6 +275,7 @@ main-page:                 Page
 main-user:                 User
 main-contribs:             Contribs
 main-history:              History
+main-new-messages:         You have new messages; select System -> Show new messages or press M to view them.
 main-system:               System
 main-system-messages:      Show new messages
 main-system-reconnectirc:  Reconnect IRC feed
@@ -262,16 +292,24 @@ main-queue:                Queue
 main-queue-next:           Next
 main-queue-trim:           Trim
 main-queue-clear:          Clear current
+main-queue-count:          {0} items
+main-queue-query:          Running query...
 main-queue-reset:          Reset
 main-queue-clearall:       Clear all
 main-queue-options:        Manage Queues...
 main-goto:                 Go to
 main-goto-mytalk:          My talk page
 main-goto-mycontribs:      My contributions
+main-revision:             Revision
+main-revision-view:        View
+main-revision-revert:      Revert
+main-revision-previous:    Previous
+main-revision-next:        Next
+main-revision-latest:      Latest
+main-revision-sight:       Sight
 main-page-switchtotalk:    Switch to talk page
 main-page-switchtosubject: Switch to subject page
 main-page-switchtoarticle: Switch to article
-main-page-view:            View this revision
 main-page-viewlatest:      View latest revision
 main-page-history:         Retrieve history
 main-page-historypage:     Show history page
@@ -551,6 +589,7 @@ email-fail:                Failed to send e-mail to '{0}'
 email-progress:            Sending e-mail to '{0}'...
 
 history-fail:              Failed to retrieve history of '{0}'
+history-progress:          Retrieving history of '{0}' ({1})...
 
 move-done:                 Moved '{0}' to '{1}'
 move-fail:                 Did not move '{0}' to '{1}'
@@ -595,7 +634,9 @@ reqprotection-fail:        Did not request protection of '{0}'
 reqprotection-progress:    Requesting protection of '{0}'...
 
 revert-cannotundo:         Cannot undo due to conflicting intermediate edits
+revert-conflict:           The page was edited by ignored user '{0}'
 revert-fail:               Did not revert '{0}'
+revert-nochange:           The content of the target revision is identical to that of the current revision
 revert-nootheruser:        No other user has edited the page
 revert-progress:           Reverting '{0}'...
 
@@ -603,6 +644,10 @@ tag-alreadytagged:         The page has already been tagged
 tag-deleted:               The page has been deleted
 tag-fail:                  Did not tag '{0}'
 tag-progress:              Tagging '{0}'...
+
+sight-done:                Marked revision {0} of '{1}' as sighted
+sight-fail:                Failed to sight revision {0} of '{1}'
+sight-progress:            Marking revision {0} of '{1}' as sighted
 
 speedy-fail:               Did not tag '{0}' for speedy deletion
 speedy-progress:           Tagging '{0}' for speedy deletion...

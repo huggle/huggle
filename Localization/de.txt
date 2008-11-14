@@ -1,5 +1,5 @@
 <pre>
-name:                    Deutsch
+name:                      Deutsch
 </pre>
 
 === General ===
@@ -119,7 +119,7 @@ config-addtemplate:        Vorlage hinzufügen
 === Delete form ===
 <pre>
 delete-title:              Lösche {0}
-delete-reason:             Grund (leer lassen für Standard-Grund):
+delete-reason:             Grund:
 delete-deletionlog:        Löschlogbuch:
 </pre>
 
@@ -193,14 +193,9 @@ login-captchatitle:        CAPTCHA benötigt zum Login
 login-progress-start:      Logge ein...
 login-progress-language:   Aktualisiere Nachrichtendateien...
 login-progress-global:     Überprüfe lokale Konfiguration...
-login-progress-project:    Überprüfe Projekt-Konfiguration...
-login-progress-user:       Überprüfe Benutzer Konfiguration...
-login-progress-rights:     Überprüfe Benutzer-Rechte...
-login-progress-age:        Überprüfe Erstellungsdatum des Benutzers...
+login-progress-config:     Überprüfe Konfigurationsseiten...
 login-progress-userlist:   Überprüfe Benutzer-Liste...
 login-progress-whitelist:  Lade Benutzer-Whitelist herunter...
-login-progress-botlist:    Lade Bot-Liste herunter...
-login-progress-watchlist:  Lade Beobachtungsliste herunter...
 
 login-error-admin:         Die Verwendung von Huggle auf diesem Projekt erfordert Administrator-Status.
 login-error-age:           Die Verwendung von Huggle auf diesem Projekt erfordert ein Benutzerkonto das mindestens {0} Tage alt ist.
@@ -209,6 +204,7 @@ login-error-approval:      Die Verwendung von Huggle auf diesem Projekt erforder
 login-error-autoconfirmed: Die Verwendung von Huggle auf diesem Projekt erfordert "bestätigter Benutzer"-Status.
 login-error-cancelled:     Abgebrochen.
 login-error-captcha:       Falsches Passwort oder Code.
+login-error-config:        Konnte Konfigurationsseiten nicht laden.
 login-error-count:         Die Verwendung von Huggle auf diesem Projekt erfordert mindestens {0} Beiträge.
 login-error-disabled:      Huggle ist für diesen Account nicht aktiviert, überprüfe Benutzer-Konfigurationsseite.
 login-error-global:        Konnte globale Konfigurations-Seite nicht laden.
@@ -217,15 +213,11 @@ login-error-language:      Konnte Nachrichten-Dateien nicht laden.
 login-error-nocaptcha:     CAPTCHA nicht gelöst.
 login-error-nouser:        Benutzer existiert nicht.
 login-error-password:      Falsches Password.
-login-error-project:       Konnte Projekt-Konfigurationsseite nicht laden.
 login-error-projdisabled:  Huggle ist auf diesem Projekt zur Zeit deaktiviert.
-login-error-rights:        Konnte Benutzerrechte nicht laden.
 login-error-rollback:      Benutzung von Huggle auf diesem Projekt erfordert "rollback"-Rechte.
 login-error-unknown:       Anmeldung fehlgeschlagen.
-login-error-user:          Konnte Benutzer Konfigurations-Seite nicht laden.
 login-error-userlist:      Konnte Benutzer-Liste nicht laden.
 login-error-version:       Version veraltet. Bitte neuere Version verwenden.
-login-error-watchlist:     Konnte Beobachtungsliste nicht laden.
 login-error-whitelist:     Konnte Benutzer-Whitelist nicht laden.
 </pre>
 
@@ -421,206 +413,206 @@ revertandwarn-title:       {0} rückgängigmachen und verwarnen
 
 === Statistics form ===
 <pre>
-stats-title:               Statistics
-stats-actions:             Actions this session:
-stats-session:             Session time: {0}
-stats-edits:               Edits
-stats-assisted:            Assisted edits
-stats-huggle:              Huggle edits
-stats-reverts:             Reverts
-stats-warnings:            Warnings
-stats-reports:             Reports
-stats-tags:                Tags
-stats-notifications:       Notifications
-stats-blocks:              Blocks
-stats-deletes:             Deletes
-stats-protections:         Protections
-stats-allusers:            All users
-stats-me:                  Me
-stats-ignored:             Ignored
-stats-anon:                Anonymous
+stats-title:               Statistiken
+stats-actions:             Diese Sitzung:
+stats-session:             Sitzungsdauer: {0}
+stats-edits:               Änderungen
+stats-assisted:            Toolgestützte Änderungen
+stats-huggle:              Huggle Änderungen
+stats-reverts:             Zurücksetzungen
+stats-warnings:            Warnungen
+stats-reports:             Meldungen
+stats-tags:                Markierungen
+stats-notifications:       Benachrichtigungen
+stats-blocks:              Benutzersperrungen
+stats-deletes:             Löschungen
+stats-protections:         Seitensperrungen
+stats-allusers:            Alle Benutzer
+stats-me:                  Ich
+stats-ignored:             Ignorierte
+stats-anon:                Anonyme
 stats-bots:                Bots
-stats-other:               Other
+stats-other:               Andere
 </pre>
 
 === Tag form ===
 <pre>
-tag-title:                 Tag {0}
-tag-tagselector:           Add tag:
-tag-tags:                  Tag(s):
-tag-summary:               Summary:
-tag-insertatend:           Insert at the end of the page
+tag-title:                 {0} markieren
+tag-tagselector:           Markierung hinzufügen:
+tag-tags:                  Markierung(en):
+tag-summary:               Zusammenfassung:
+tag-insertatend:           Am Ende der Seite anfügen
 </pre>
 
 === Update form ===
 <pre>
-update-title:              New version available
-update-notification:       This version of Huggle is out of date.
-update-required:           You must update to the latest version, {0}.
-update-optional:           Updating to the latest version, {0}, is recommended, and may be required in future.
-update-prompt:             Download and run the latest version now?
+update-title:              Neue Version verfügbar
+update-notification:       Diese Huggle-Version ist veraltet.
+update-required:           Update auf neueste Version ({0}) ist erforderlich.
+update-optional:           Update auf neueste Version ({0}) ist empfohlen und kann in Zukunft erforderlich sein.
+update-prompt:             Neueste Version jetzt herunterladen und ausführen?
 update-download:           Update
-update-progress:           Downloading new version...
-update-error:              Failed to download new version
+update-progress:           Lade neue Version...
+update-error:              Fehler beim Herunterladen der neuesten Version
 </pre>
 
 === User info form ===
 <pre>
-userinfo-title:            User information for '{0}'
-userinfo-anonymous:        Anonymous:
-userinfo-ignored:          Whitelisted:
-userinfo-edits:            Number of edits:
-userinfo-sessionedits:     Edits this session:
-userinfo-sharedip:         Shared/dynamic IP:
-userinfo-blocklog:         Blocks:
-userinfo-warnlog:          Warnings:
+userinfo-title:            Benutzer-Information für '{0}'
+userinfo-anonymous:        Anonym:
+userinfo-ignored:          Auf Whitelist:
+userinfo-edits:            Zahl der Beiträge:
+userinfo-sessionedits:     Beiträge in dieser Sitzung:
+userinfo-sharedip:         Gemeinsam genutzte/dynamische IP:
+userinfo-blocklog:         Sperrungen:
+userinfo-warnlog:          Warnungen:
 </pre>
 
 === Warning form ===
 <pre>
-warning-title:             Warn {0}
-warning-levelgroup:        Warning level
-warning-levelauto:         Automatic
-warning-level1:            Level 1
-warning-level2:            Level 2
-warning-level3:            Level 3
-warning-level4:            Level 4 (final)
-warning-warntype:          Warning type:
-warning-warnlog:           Warnings for this user:
+warning-title:             {0} verwarnen
+warning-levelgroup:        Warnungs-Stufe
+warning-levelauto:         Automatisch
+warning-level1:            Stufe 1
+warning-level2:            Stufe 2
+warning-level3:            Stufe 3
+warning-level4:            Stufe 4 (finale Warnung)
+warning-warntype:          Art der Warnung:
+warning-warnlog:           Verwarnungen dieses Benutzers:
 </pre>
 
 === Web requests ===
 <pre>
-error-unknown:             Unknown error
-error-exception:           Error retrieving '{0}'
-error-fail:                Failed to retrieve '{0}'
-error-noresponse:          No response
-error-pagemissing:         The page does not exist
-error-apidisabled:         The MediaWiki API is disabled
+error-unknown:             Unbekannter Fehler
+error-exception:           Fehler beim Laden von '{0}'
+error-fail:                Fehler beim Laden von '{0}'
+error-noresponse:          Keine Rückmeldung
+error-pagemissing:         Seite existiert nicht
+error-apidisabled:         MediaWiki API ist deaktiviert
 
-retrying:                  Retrying...
+retrying:                  Versuche erneut...
 
-block-done:                Blocked '{0}'
-block-fail:                Did not block '{0}'
-block-progress:            Blocking '{0}'...
+block-done:                '{0}' gesperrt
+block-fail:                '{0}' wurde nicht gesperrt
+block-progress:            Sperre '{0}'...
 
-blocklog-fail:             Failed to retrieve block log for '{0}'
-blocklog-none:             No block log for '{0}'
-blocklog-progress:         Retrieving block log for '{0}'...
+blocklog-fail:             Konnte Sperrlogbuch für '{0}' nicht laden
+blocklog-none:             Kein Sperrlogbuch für '{0}' vorhanden
+blocklog-progress:         Lade Sperrlogbuch von '{0}'...
 
-blocknotify-fail:          Did not notify '{0}' of block
-blocknotify-progress:      Notifying '{0}' of block...
+blocknotify-fail:          '{0}' wurde nicht von der Sperrung unterrichtet
+blocknotify-progress:      Unterrichte '{0}' über Sperrung...
 
-delete-done:               Deleted '{0}'
-delete-fail:               Did not delete '{0}'
-delete-progress:           Deleting '{0}'...
+delete-done:               '{0}' gelöscht
+delete-fail:               '{0}' wurde nicht gelöscht
+delete-progress:           Lösche '{0}'...
 
-deletelog-fail:            Failed to retrieve deletion log for '{0}'
-deletelog-none:            No deletion log for '{0}'
-deletelog-progress:        Retrieving deletion log for '{0}'...
+deletelog-fail:            Löschlogbuch für '{0}' konnte nicht geladen werden
+deletelog-none:            Kein Löschlogbuch für '{0}'
+deletelog-progress:        Lade Löschlogbuch für '{0}'...
 
-diff-fail:                 Failed to retrieve diff of '{0}'
+diff-fail:                 Konnte Vergleich (Diff) für '{0}' nicht laden
 
-reqdelete-duplicate:       The page is already tagged
-reqdelete-tagfail:         Did not tag '{0}' for deletion discussion
-reqdelete-redirectfail:    The page is a redirect and no redirect discussion process is defined
-reqdelete-tagprogress:     Tagging '{0}' for deletion discussion...
+reqdelete-duplicate:       Seite bereits markiert
+reqdelete-tagfail:         '{0}' wurde nicht für Löschdiskussion vorgeschlagen
+reqdelete-redirectfail:    Die Seite ist eine Weiterleitung und kein Prozess zur Diskussion darüber ist festgelegt
+reqdelete-tagprogress:     Schlage '{0}' für Löschdiskussion vor...
 
-reqdelete-subpageprogress: Creating deletion discussion subpage for '{0}'...
-reqdelete-subpagefail:     Did not create deletion discussion subpage for '{0}'
-reqdelete-logprogress:     Adding '{0}' to deletion discussion log...
-reqdelete-logfail:         Did not add '{0}' to deletion discussion log
+reqdelete-subpageprogress: Lege Diskussionsseite für '{0}' an...
+reqdelete-subpagefail:     Diskussionsseite zur Löschung von '{0}' wurde nicht angelegt
+reqdelete-logprogress:     Füge '{0}' dem Löschdiskussionenlogbuch hinzu...
+reqdelete-logfail:         Konnte '{0}' dem Löschdiskussionenlogbuch nicht hinzufügen
 
-edit-fail:                 Did not edit '{0}'
-edit-progress:             Editing '{0}'...
+edit-fail:                 '{0}' wurde nicht bearbeitet
+edit-progress:             Bearbeite '{0}'...
 
-email-done:                Sent e-mail to '{0}'
-email-fail:                Failed to send e-mail to '{0}'
-email-progress:            Sending e-mail to '{0}'...
+email-done:                E-mail an '{0}' gesendet
+email-fail:                E-Mail an '{0}' konnte nicht gesendet werden
+email-progress:            Sende E-Mail an '{0}'...
 
-history-fail:              Failed to retrieve history of '{0}'
+history-fail:              Konnte Versionsgeschichte von '{0}' nicht laden
 
-move-done:                 Moved '{0}' to '{1}'
-move-fail:                 Did not move '{0}' to '{1}'
-move-progress:             Moving '{0}' to '{1}'...
+move-done:                 '{0}' nach '{1}' verschoben
+move-fail:                 '{0}' wurde nicht nach '{1}' verschoben
+move-progress:             Verschiebe '{0}' nach '{1}'...
 
-notify-fail:               Did not notify the creator of '{0}'
-notify-unknowncreator:     Cannot find page creator
+notify-fail:               Ersteller von '{0}' nicht informiert
+notify-unknowncreator:     Seiten-Ersteller unbekannt
 
-patrol-duplicate:          The page is already patrolled
-patrol-done:               Marked '{0}' as patrolled
-patrol-fail:               Did not mark '{0}' as patrolled
-patrol-notfound:           Cannot find recent-changes id, page is too old
-patrol-progress:           Marking '{0}' as patrolled...
+patrol-duplicate:          Seite bereits patrolliert
+patrol-done:               '{0}' als patrolliert markiert
+patrol-fail:               '{0}' wurde nicht als patrolliert markiert
+patrol-notfound:           Letzte-Änderungen-ID nicht gefunden, Seite zu alt
+patrol-progress:           Markiere '{0}' als patrolliert...
 
-protect-done:              Changed protection level for '{0}'
-protect-fail:              Did not change protection level for '{0}'
-protect-progress:          Changing protection level for '{0}'...
+protect-done:              Sperrung für '{0}' wurde geändert
+protect-fail:              Sperrung für '{0}' wurde nicht geändert
+protect-progress:          Ändere Sperrung für '{0}'...
 
-protectlog-fail:           Failed to retrieve protection log for '{0}'
-protectlog-none:           No protection log for '{0}'
-protectlog-progress:       Retrieving protection log for '{0}'...
+protectlog-fail:           Seitensperrlogbuch für '{0}' konnte nicht geladen werden
+protectlog-none:           Kein Seitenschutzlogbuch für '{0}' vorhanden
+protectlog-progress:       Lese Seitenschutzlogbuch von '{0}' ein...
 
-purge-done:                Purged '{0}'
-purge-fail:                Failed to purge '{0}'
-purge-progress:            Purging '{0}'
+purge-done:                Cache für '{0}' geleert
+purge-fail:                Cache für '{0}' konnte nicht geleert werden
+purge-progress:            Leere Cache von '{0}'
 
-report-duplicate:          The user has already been reported
-report-fail:               Did not report '{0}'
-report-progress:           Reporting '{0}'...
+report-duplicate:          Dieser Benutzer wurde bereits gemeldet
+report-fail:               '{0}' wurde nicht gemeldet
+report-progress:           Melde '{0}'...
 
-saveuserconfig-done:       Updated user configuration page
-saveuserconfig-fail:       Did not update user configuration page
-saveuserconfig-progress:   Updating user configuration page...
+saveuserconfig-done:       Benutzer-Konfiguration aktualisiert
+saveuserconfig-fail:       Benutzer-Konfiguation wurde nicht aktualisiert
+saveuserconfig-progress:   Aktualisiere Benutzer-Konfiguration...
 
-loadglobalconfig-fail:     Failed to load global configuration page
-loadprojectconfig-fail:    Failed to load project configuration page
-loaduserconfig-fail:       Failed to load user configuration page
+loadglobalconfig-fail:     Globale Konfiguration konnte nicht geladen werden
+loadprojectconfig-fail:    Projektbezogene Konfiguration konnte nicht geladen werden
+loaduserconfig-fail:       Benutzer-Konfiguration konnte nicht geladen werden
 
-reqprotection-badformat:   Format of request page unknown
-reqprotection-duplicate:   Protection has already been requested
-reqprotection-fail:        Did not request protection of '{0}'
-reqprotection-progress:    Requesting protection of '{0}'...
+reqprotection-badformat:   Format der Antragsseite unbekannt
+reqprotection-duplicate:   Seitensperrung bereits beantragt
+reqprotection-fail:        Seitensperrung von '{0}' wurde nicht beantragt
+reqprotection-progress:    Beantrage Seitensperrung von '{0}'...
 
-revert-cannotundo:         Cannot undo due to conflicting intermediate edits
-revert-fail:               Did not revert '{0}'
-revert-nootheruser:        No other user has edited the page
-revert-progress:           Reverting '{0}'...
+revert-cannotundo:         Konnte nicht entfernen aufgrund mittlerweile geschehener anderer Änderungen
+revert-fail:               '{0}' wurde nicht rückgängiggemacht
+revert-nootheruser:        Kein anderer Benutzer hat die Seite bearbeitet
+revert-progress:           Mache '{0}' rückgängig...
 
-tag-alreadytagged:         The page has already been tagged
-tag-deleted:               The page has been deleted
-tag-fail:                  Did not tag '{0}'
-tag-progress:              Tagging '{0}'...
+tag-alreadytagged:         Seite bereits markiert
+tag-deleted:               Seite wurde gelöscht
+tag-fail:                  '{0}' wurde nicht markiert
+tag-progress:              Markiere '{0}'...
 
-speedy-fail:               Did not tag '{0}' for speedy deletion
-speedy-progress:           Tagging '{0}' for speedy deletion...
+speedy-fail:               '{0}' wurde nicht zur Schnelllöschung markiert
+speedy-progress:           Markiere '{0}' für Schnellöschung...
 
-warnlog-fail:              Failed to retrieve warning log for '{0}'
-warnlog-none:              '{0}' has not been warned
-warnlog-progress:          Retrieving warning log for '{0}'...
+warnlog-fail:              Konnte Warnungen für '{0}' nicht laden
+warnlog-none:              '{0}' wurde noch nicht verwarnt
+warnlog-progress:          Lade Warnungen für '{0}'...
 
-unwatch-done:              Removed '{0}' from watchlist
-unwatch-fail:              Failed to remove '{0}' from watchlist
-unwatch-progress:          Removing '{0}' from watchlist...
+unwatch-done:              '{0}' wurde von der Beobachtungsliste entfernt
+unwatch-fail:              '{0}' konnte nicht von der Beobachtungsliste entfernt werden
+unwatch-progress:          Entferne '{0}' von der Beobachtungsliste...
 
-usermessage-duplicate:     A message about the same thing was already present
-usermessage-fail:          Did not message '{0}'
-usermessage-progress:      Messaging '{0}'...
+usermessage-duplicate:     Eine Nachricht über diese Sache war bereits vorhanden
+usermessage-fail:          '{0}' wurde nicht benachrichtigt
+usermessage-progress:      Benachrichtige '{0}'...
 
-watch-done:                Added '{0}' to watchlist
-watch-fail:                Failed to add '{0}' to watchlist
-watch-progress:            Adding '{0}' to watchlist...
+watch-done:                '{0}' wurde zur Beobachtungsliste hinzugefügt
+watch-fail:                '{0}' konnte nicht zur Beobachtungsliste hinzugefügt werden
+watch-progress:            Füge '{0}' zur Beobachtungsliste hinzu...
 
-warn-alreadyfinal:         The user already has a final warning
-warn-alreadyblocked:       The user has already been blocked
-warn-alreadyreported:      The user has already been reported
-warn-oldedit:              The user has not edited since their latest warning
-warn-recent:               The user was warned less than {0} seconds ago
-warn-fail:                 Did not warn '{0}'
-warn-progress:             Warning '{0}'...
+warn-alreadyfinal:         Der Benutzer hat bereits die letzte Warnung erhalten
+warn-alreadyblocked:       Der Benutzer wurde bereits gesperrt
+warn-alreadyreported:      Der Benutzer wurde bereits gemeldet
+warn-oldedit:              Der Benutzer hat seit der letzten Warnung keine Beiträge mehr geschrieben
+warn-recent:               Der Benutzer wurde bereits vor weniger als {0} Sekunden verwarnt
+warn-fail:                 '{0}' wurde nicht verwarnt
+warn-progress:             Verwarn '{0}'...
 </pre>
 
 === API ===
 <pre>
-api-help:                  No parameters in API query
+api-help:                  Keine Parameter in API Anfrage
 </pre>

@@ -18,11 +18,29 @@ minimizewindow:            Minimizar
 no:                        Não
 ok:                        Sim
 remove:                    Remover
-rename:                    Renonear
+rename:                    Renomear
 restorewindow:             Restaurar
 save:                      Gravar
 selectfile:                Selecionar...
 yes:                       Sim
+</pre>
+
+=== Edit types ===
+<pre>
+edittype-blocknote:        Notificações de bloqueio
+edittype-deletenote:       Notificações de pedidos de eliminação
+edittype-deletetag:        Deletion discussion tags
+edittype-deletereq:        Other deletion discussion edits
+edittype-manual:           Edições manuais
+edittype-message:          Mensagens de usuário
+edittype-note:             Outras notificações
+edittype-prodtag:          Marcações de propostas para eliminar
+edittype-protectreq:       Pedidos de proteção
+edittype-report:           Reports
+edittype-revert:           Reversões
+edittype-speedytag:        Marcações de eliminação rápida
+edittype-tag:              Outras marcações
+edittype-warning:          Avisos
 </pre>
 
 === About form ===
@@ -39,7 +57,7 @@ block-message:             Mensagem na página de discussão:
 block-anononly:            Bloquear apenas anónimos
 block-creation:            Bloquear criação de conta
 block-autoblock:           Ativar autobloqueios
-block-email:               Bloquear e-mail
+block-email:               Bloquear email
 block-usertalk:            Disc
 block-usercontribs:        Contribs
 block-blockloglabel:       Relatório de bloqueios:
@@ -118,7 +136,7 @@ config-addtemplate:        Adicionar predefinição
 === Delete form ===
 <pre>
 delete-title:              Eliminar {0}
-delete-reason:             Razão (para a razão padrão deixar em branco):
+delete-reason:             Razão:
 delete-deletionlog:        Relatório de eliminações:
 </pre>
 
@@ -159,19 +177,47 @@ edit-searchwrapend:        Atingido o início da página, a continuar do final
 
 === E-mail form ===
 <pre>
-email-title:               E-mail {0}
+email-title:               Email {0}
 email-subject:             Assunto:
 email-message:             Mensagem:
-email-ccme:                Enviar uma cópia deste e-mail para a minha caixa de correio
+email-ccme:                Enviar uma cópia deste email para a minha caixa de correio
 email-send:                Enviar
 </pre>
 
 === IRC feed ===
 <pre>
 irc-connected:             Ligado ao feed de IRC de mudanças recentes
+irc-connecting:            A ligar ao feed IRC de mudanças recentes; aguarde um momento...
 irc-disconnected:          Perdeu-se a ligação ao feed de IRC de mudanças recentes; a ligar...
 irc-nochannel:             Não foi encontrado o canal IRC para {0}. A usar como alternativa os pedidos API apesar de serem lentos
 irc-error:                 Não foi possível ligar ao feed de IRC de mudanças recentes. A usar como alternativa os pedidos API apesar de serem lentos
+</pre>
+
+=== List form ===
+<pre>
+list-actions:              Ações e filtros...
+list-browsetitle:          Add text file to list
+list-combine:              Combinar
+list-copyto:               Copiar para:
+list-count:                {0} itens
+list-deleteconfirm:        Eliminar a lista '{0}'?
+list-duplicatename:        Já existe uma lista com o nome '{0}'. Escolha outro nome.
+list-intersect:            Interseção
+list-limit:                Até:
+list-listempty:            A lista não tem intens\nEspecifique o "Tipo de fonte" e clique no botão "Adicionar"
+list-nolists:              Não existem listas\nClique em "Adicionar" para criar uma
+list-query-cancelled:      Cancelado.
+list-query-fail:           O pedido falhou.
+list-query-noresults:      O pedido não obteve resultados.
+list-query-progress:       A fazer o pedido...
+list-query-results:        {0} resultados recebidos.
+list-renameprompt:         Introduza o novo nome:
+list-replace:              Substituir
+list-savefailed:           Não foi possível gravar a lista:
+list-savetitle:            Gravar lista
+list-sourcetype:           Tipo de fonte:
+list-start:                De:
+list-stop:                 Parar
 </pre>
 
 === Login ===
@@ -186,18 +232,14 @@ login-proxyaddress:        Endereço:
 login-proxyport:           Porta:
 login-proxydomain:         Domínio:
 login-start:               Login
-login-captchatitle:        Captcha necessário para entra na conta
+login-captchatitle:        Captcha necessário para entrar na conta
+login-translate:           Traduzir...
 
 login-progress-start:      A entrar na conta...
 login-progress-global:     A verificar a configuração global...
-login-progress-project:    A verificar a configuração do projeto...
-login-progress-user:       A verificar a configuração do usuário...
-login-progress-rights:     A verificar os privilégios de usuário...
-login-progress-age:        A verificar a data de criação de conta...
+login-progress-config:     A verificar a configuração...
 login-progress-userlist:   A verificar a lista de usuários...
 login-progress-whitelist:  A receber a lista branca de usuários...
-login-progress-botlist:    A receber a lista de robôs...
-login-progress-watchlist:  A receber a lista de páginas vigiadas...
 
 login-error-admin:         Para usar o Huggle no projeto que escolheu é necessário ser administrador.
 login-error-age:           Para usar o Huggle no projeto que escolheu é necessário ter uma conta de usuário criada à pelo menos {0} dias.
@@ -206,21 +248,20 @@ login-error-approval:      Para usar o Huggle no projeto que escolheu é necessár
 login-error-autoconfirmed: Para usar o Huggle no projeto que escolheu é necessário que a sua conta seja autoconfirmada.
 login-error-cancelled:     Cancelado.
 login-error-captcha:       Introduziu uma palavra-chave ou código de confirmação Captcha incorretos.
+login-error-config:        Não foi possível carregar a página de configuração.
 login-error-count:         Para usar o Huggle no projeto que escolheu são necessárias pelo menos {0} edições.
 login-error-disabled:      O Huggle não está ativo na sua conta de usuário. Verifique a sua página de configuração pessoal.
 login-error-global:        O Huggle não conseguiu carregar a página de configuração global.
 login-error-invalid:       Introduziu um nome de usuário inválido.
 login-error-nocaptcha:     Código de confirmação Captcha errado.
+login-error-noconfig:      Este projeto não tem uma página de configuração do Huggle.
 login-error-nouser:        A conta de usuário não existe.
 login-error-password:      Palavra-chave errada.
-login-error-project:       Não foi possível carregar a página de configuração do projeto.
 login-error-projdisabled:  O Huggle neste momento está bloqueado no projeto que escolheu. Provavelmente é uma medida temporária.
-login-error-rights:        Não foi possível obter os privilégios de usuário.
 login-error-rollback:      O Huggle necessita de privilégio de rollback no projecto que escolheu.
 login-error-unknown:       Não foi possível entrar na conta de usuário.
 login-error-userlist:      O Huggle não conseguiu obter a lista de usuários aprovados que o podem utilizar.
 login-error-version:       Esta versão foi descontinuada. Por favor faça uma atualização para a última versão do Huggle.
-login-error-watchlist:     Não foi possível carregar a lista de páginas vigiadas.
 login-error-whitelist:     Não foi possível carregar a lista branca de usuários.
 </pre>
 
@@ -246,6 +287,8 @@ main-queue:                Fila de edições
 main-queue-next:           Seguinte
 main-queue-trim:           Reduzir
 main-queue-clear:          Apagar lista atual
+main-queue-count:          {0} itens
+main-queue-query:          Running query...
 main-queue-reset:          Reset
 main-queue-clearall:       Apagar todas as listas
 main-queue-options:        Gerir listas...
@@ -276,7 +319,7 @@ main-user-unignore:        Deixar de ignorar
 main-user-contribs:        Carregar contribuições do usuário
 main-user-talk:            Ver página de discussão
 main-user-message:         Mensagem...
-main-user-email:           E-mail...
+main-user-email:           Email...
 main-user-warn:            Avisar...
 main-user-report:          Reportar
 main-user-block:           Bloquear...
@@ -482,4 +525,143 @@ warning-level3:            Nível 3
 warning-level4:            Nível 4 (final)
 warning-warntype:          Tipo de aviso:
 warning-warnlog:           Avisos a este usuário:
+</pre>
+
+=== Web requests ===
+<pre>
+error-apidisabled:         O MediaWiki API está desativado
+error-exception:           Erro ao receber '{0}'
+error-fail:                Não foi possível receber '{0}'
+error-noresponse:          Sem resposta
+error-pagemissing:         A página não existe
+error-timeout:             Foi excedido o tempo de resposta do servidor.
+error-unknown:             Erro desconhecido
+
+retrying:                  A tentar de novo...
+
+block-done:                '{0}' bloqueado
+block-fail:                O bloqueio de '{0}' falhou
+block-progress:            A bloquear '{0}'...
+
+blocklog-fail:             Erro ao receber o relatório de bloqueio para '{0}'
+blocklog-none:             Não existem entradas no relatório de bloqueios para '{0}'
+blocklog-progress:         A receber o relatório de bloqueios para '{0}'...
+
+blocknotify-fail:          Não foi possível notificar '{0}' do bloqueio
+blocknotify-progress:      A notificar '{0}' do bloqueio...
+
+delete-done:               '{0}' foi eliminada
+delete-fail:               Não foi possível eliminar '{0}'
+delete-progress:           A eliminar '{0}'...
+
+deletelog-fail:            Não foi possível receber o relatório de eliminação para '{0}'
+deletelog-none:            Não existem entradas no relatório de eliminações para '{0}'
+deletelog-progress:        A receber o relatório de eliminações para '{0}'...
+
+diff-fail:                 Não foi possível receber o dif de '{0}'
+
+reqdelete-duplicate:       A página já foi proposta para eliminação
+reqdelete-tagfail:         Não foi possível propor '{0}' para eliminação
+reqdelete-redirectfail:    A página é um redirecionamento e não existe a página respetiva de proposta de eliminação
+reqdelete-tagprogress:     A propor '{0}' para eliminação...
+
+reqdelete-subpageprogress: A criar a página de proposta para eliminação de '{0}'...
+reqdelete-subpagefail:     Não foi possível criar a página de proposta para eliminação de '{0}'
+reqdelete-logprogress:     A adicionar '{0}' ao registo de páginas propostas para eliminação...
+reqdelete-logfail:         Não foi possível adicionar '{0}' ao registo de páginas propostas para eliminação
+
+edit-fail:                 Não foi possível editar '{0}'
+edit-progress:             A editar '{0}'...
+
+email-done:                Email enviado para '{0}'
+email-fail:                Ocorreu um erro ao enviar o email para '{0}'
+email-progress:            A enviar email para '{0}'...
+
+history-fail:              Ocorreu um erro ao receber o histórico de '{0}'
+history-progress:          A receber o histórico de '{0}' ({1})...
+
+move-done:                 '{0}' movida para '{1}'
+move-fail:                 Não foi possível mover '{0}' para '{1}'
+move-progress:             A mover '{0}' para '{1}'...
+
+notify-fail:               Não foi possível notificar o criador de '{0}'
+notify-unknowncreator:     Não foi possível determinar o criador da página
+
+patrol-duplicate:          Esta página já está patrulhada
+patrol-done:               '{0}' marcada como patrulhada
+patrol-fail:               Não foi possível marcar '{0}' como patrulhada
+patrol-notfound:           Não foi possível econtrar o id nas mudanças recentes porque a página é demasiado antiga
+patrol-progress:           A marcar '{0}' como patrulhada...
+
+protect-done:              Nível de proteção de '{0}' foi alterado
+protect-fail:              Não foi possível alterar o nível de proteção de '{0}'
+protect-progress:          A alterar o nível de proteção de '{0}'...
+
+protectlog-fail:           Não foi possível receber o registo de proteção de páginas para '{0}'
+protectlog-none:           Não existe uma entrada no registo de proteção de páguinas para '{0}'
+protectlog-progress:       A receber o registo de proteção de páguinas para '{0}'...
+
+purge-done:                '{0}' recarregada
+purge-fail:                Não foi possível recarregar '{0}'
+purge-progress:            A recarregar '{0}'
+
+report-duplicate:          O usuário já foi reportado aos administradores
+report-fail:               Não foi possível reportar '{0}' aos administradores
+report-progress:           A reportar '{0}'...
+
+saveuserconfig-done:       A página de configuração de usuário foi atualizada
+saveuserconfig-fail:       Não foi possível atualizar a página de configuração de usuário
+saveuserconfig-progress:   A atualizar a página de configuração de usuário
+
+loadglobalconfig-fail:     Não foi possível carregar a página de configuração global
+loadprojectconfig-fail:    Não foi possível carregar a página de configuração do projeto
+loaduserconfig-fail:       Não foi possível carregar a página de configuração de usuário
+
+reqprotection-badformat:   A página de pedidos tem um formato desconhecido pelo Huggle
+reqprotection-duplicate:   A proteção já foi requisitada
+reqprotection-fail:        Não foi possível pedir a proteção de '{0}'
+reqprotection-progress:    A fazer o pedido de proteção de '{0}'...
+
+revert-cannotundo:         Não foi possível desfazer as edições devido a conflitos de edições intermédias
+revert-fail:               Não foi possível reverter '{0}'
+revert-nochange:           O conteúdo da edição para a qual quer reverter é idêntico à última edição
+revert-nootheruser:        A página só foi editada por um usuário
+revert-progress:           A reverter '{0}'...
+
+tag-alreadytagged:         A página já está marcada
+tag-deleted:               A página foi eliminada
+tag-fail:                  Não foi possível marcar '{0}'
+tag-progress:              A marcar '{0}'...
+
+speedy-fail:               Não foi possível marcar '{0}' para eliminação rápida
+speedy-progress:           A marcar '{0}' para eliminação rápida...
+
+warnlog-fail:              Não foi possível receber o registo de avisos de '{0}'
+warnlog-none:              '{0}' não foi avisado
+warnlog-progress:          A receber o registo de avisos de '{0}'...
+
+unwatch-done:              '{0}' removida da lista de páginas vigiadas
+unwatch-fail:              Não foi possível remover '{0}' da lista de páginas vigiadas
+unwatch-progress:          A remover '{0}' da lista de páginas vigiadas...
+
+usermessage-duplicate:     Já existe uma mensagem sobre o mesmo assunto na página de discussão do usuário
+usermessage-fail:          Não foi possível enviar a mensagem a '{0}'
+usermessage-progress:      A enviar a mensagem a '{0}'...
+
+watch-done:                '{0}' adicionada à lista de páginas vigiadas
+watch-fail:                Não foi possível adicionar '{0}' à lista de páginas vigiadas
+watch-progress:            A adicionar '{0}' à lista de páginas vigiadas...
+
+warn-alreadyfinal:         O usuário já tem um aviso final
+warn-alreadyblocked:       O usuário já foi bloqueado
+warn-alreadyreported:      O usuário já foi reportado aos administradores
+warn-oldedit:              O usuário não fez mais edições após o último aviso
+warn-recent:               O usuário já foi avisado à menos de {0} segundos atrás
+warn-fail:                 Não foi possível avisar '{0}'
+warn-progress:             A avisar '{0}'...
+</pre>
+
+=== API ===
+<pre>
+api-help:                  Não existem parâmetros no API query
 </pre>
