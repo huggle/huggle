@@ -1427,10 +1427,12 @@ Class Main
         If QueueSelector.SelectedItem.ToString = Msg("main-addqueue") Then
             Dim NewQueueForm As New QueueForm
             NewQueueForm.ShowDialog()
-        Else
+        ElseIf Queue.All.ContainsKey(QueueSelector.SelectedItem.ToString) Then
             CurrentQueue = Queue.All(QueueSelector.SelectedItem.ToString)
             If CurrentQueue.Type = QueueType.Dynamic AndAlso Not CurrentQueue.RefreshAlways _
                 Then CurrentQueue.ForceUpdate()
+        Else
+            CurrentQueue = Nothing
         End If
 
         DrawQueue()
