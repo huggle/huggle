@@ -178,7 +178,7 @@ Namespace Requests
         End Sub
 
         Private Sub ReportNeeded()
-            If Administrator AndAlso Config.Block Then
+            If Config.Rights.Contains("block") AndAlso Config.Block Then
                 If Config.PromptForBlock Then MainForm.BlockUser(Edit.User)
 
             ElseIf Config.AIV AndAlso Config.AutoReport Then
@@ -195,7 +195,7 @@ Namespace Requests
         End Sub
 
         Private Sub AlreadyReported()
-            If Administrator AndAlso Config.Block Then
+            If Config.Rights.Contains("block") AndAlso Config.Block Then
                 If Config.PromptForBlock Then MainForm.BlockUser(Edit.User)
             Else
                 'Already reported... but do we want it extended?

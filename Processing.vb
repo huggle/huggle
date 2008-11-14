@@ -485,7 +485,7 @@ Module Processing
     End Sub
 
     Sub UserDeleteRequest(ByVal Page As Page)
-        If Administrator Then
+        If Config.Rights.Contains("delete") Then
             Dim NewDeleteForm As New DeleteForm
             NewDeleteForm.Page = Page
             NewDeleteForm.Reason.Text = Config.SpeedySummary.Replace("$1", "[[WP:SD#G7|requested by page creator]]")
@@ -553,7 +553,8 @@ Module Processing
 
             Dim Prompt As String = "Edit is the only edit to the page. "
 
-            If Administrator Then Prompt &= "Delete page instead?" Else Prompt &= "Tag for speedy deletion instead?"
+            If Config.Rights.Contains("delete") Then Prompt &= "Delete page instead?" _
+                Else Prompt &= "Tag for speedy deletion instead?"
             If MessageBox.Show(Prompt, "Huggle", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes _
             Then UserDeleteRequest(Edit.Page)
 
@@ -564,7 +565,8 @@ Module Processing
         If Edit.Page.FirstEdit IsNot Nothing AndAlso Config.Speedy AndAlso Edit.User Is Edit.Page.FirstEdit.User Then
 
             Dim Prompt As String = "Last edit was made by page creator, '" & Edit.User.Name & "'. "
-            If Administrator Then Prompt &= "Delete page instead?" Else Prompt &= "Tag for speedy deletion instead?"
+            If Config.Rights.Contains("delete") Then Prompt &= "Delete page instead?" _
+                Else Prompt &= "Tag for speedy deletion instead?"
 
             Select Case MessageBox.Show(Prompt, "Huggle", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
 
@@ -596,7 +598,7 @@ Module Processing
             = DialogResult.No Then Return False
 
         'Use rollback if possible
-        If Rollback AndAlso RollbackAvailable AndAlso Config.UseRollback AndAlso Not Undoing _
+        If Rollback AndAlso Config.Rights.Contains("rollback") AndAlso Config.UseRollback AndAlso Not Undoing _
             AndAlso (Edit Is Edit.Page.LastEdit) AndAlso (Edit.RollbackToken IsNot Nothing) _
             AndAlso Not (CurrentOnly AndAlso (Edit.Prev Is Nothing OrElse Edit.User Is Edit.Prev.User)) Then
 

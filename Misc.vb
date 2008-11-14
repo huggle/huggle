@@ -8,7 +8,6 @@ Module Misc
 
     'Globals
 
-    Public Administrator As Boolean
     Public AllLists As New Dictionary(Of String, List(Of String))
     Public AllRequests As New List(Of Request)
     Public Config As Configuration
@@ -28,7 +27,6 @@ Module Misc
     Public PendingRequests As New List(Of Request)
     Public PendingWarnings As New List(Of Edit)
     Public QueueNames As New Dictionary(Of String, List(Of String))
-    Public RollbackAvailable As Boolean
     Public StartTime As Date
     Public SyncContext As Threading.SynchronizationContext
     Public Undo As New List(Of Command)
@@ -189,7 +187,7 @@ Module Misc
     End Class
 
     Function ApiLimit() As Integer
-        If Administrator Then Return 5000 Else Return 500
+        If Config.Rights.Contains("apihighlimits") Then Return 5000 Else Return 500
     End Function
 
     Function ArrayContains(Of T)(ByVal Array As T(), ByVal Value As T) As Boolean
@@ -200,8 +198,7 @@ Module Misc
         Return False
     End Function
 
-    Sub Callback(ByVal Target As Threading.SendOrPostCallback, _
-    Optional ByVal PostData As Object = Nothing)
+    Sub Callback(ByVal Target As Threading.SendOrPostCallback, Optional ByVal PostData As Object = Nothing)
         'Invoke a method on the main thread
         SyncContext.Post(Target, PostData)
     End Sub

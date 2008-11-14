@@ -124,7 +124,7 @@ Class BrowserTab
                 If Params("title").Contains("/") _
                     Then UserName = Params("title").Substring(Params("title").IndexOf("/") + 1) _
                     Else If Params.ContainsKey("user") Then UserName = Params("user")
-                If UserName IsNot Nothing AndAlso Administrator Then MainForm.BlockUser(GetUser(UserName))
+                If UserName IsNot Nothing AndAlso Config.Rights.Contains("block") Then MainForm.BlockUser(GetUser(UserName))
 
             ElseIf Params("title") = "Special:Contributions" AndAlso Params.ContainsKey("target") Then
                 MainForm.SetCurrentUser(GetUser(Params("target")), True)

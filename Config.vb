@@ -157,6 +157,7 @@ Class Configuration
     Public RevertSummaries As New List(Of String)
     Public RfdLocation As String
     Public RightAlignQueue As Boolean
+    Public Rights As New List(Of String)
     Public RollbackSummary As String
     Public SaveConfig As Boolean = True
     Public SensitiveAddresses As New Dictionary(Of String, String)
@@ -166,6 +167,7 @@ Class Configuration
     Public ShowNewMessages As Boolean = True
     Public ShowQueue As Boolean = True
     Public ShowToolTips As Boolean = True
+    Public Sight As Boolean
     Public SingleRevertSummary As String
     Public Speedy As Boolean
     Public SpeedyCriteria As New Dictionary(Of String, SpeedyCriterion)

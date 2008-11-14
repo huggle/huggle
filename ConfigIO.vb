@@ -247,6 +247,7 @@ Module ConfigIO
             Case "rfd" : Config.RfdLocation = Value
             Case "save-config" : Config.SaveConfig = CBool(Value)
             Case "shared-ip-templates" : Config.SharedIPTemplates = GetList(Value)
+            Case "sight" : Config.Sight = CBool(Value)
             Case "single-revert-summary" : Config.SingleRevertSummary = Value
             Case "speedy-delete-summary" : Config.SpeedyDeleteSummary = Value
             Case "speedy-options" : SetSpeedyOptions(Value)

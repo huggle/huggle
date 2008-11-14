@@ -517,7 +517,7 @@ Class Main
             (SitePath() & "index.php?title=" & UrlEncode(CurrentPage.Name.Replace(" ", "_")))
     End Sub
 
-    Sub PageView_Click() Handles PageView.Click, PageViewB.Click
+    Sub PageView_Click() Handles PageViewB.Click, RevisionView.Click
         If CurrentEdit IsNot Nothing AndAlso CurrentPage IsNot Nothing Then DisplayUrl _
             (SitePath() & "index.php?title=" & UrlEncode(CurrentPage.Name) & "&oldid=" & CurrentEdit.Id)
     End Sub
@@ -1043,7 +1043,7 @@ Class Main
         Next Item
 
         If Edits > 0 AndAlso (Date.UtcNow - FirstTime).TotalMinutes > 0 _
-            Then Stats.Text = Msg("main-stats", CStr(CInt(Edits / (Date.UtcNow - FirstTime).TotalMinutes)), _
+            Then MenuStats.Text = Msg("main-stats", CStr(CInt(Edits / (Date.UtcNow - FirstTime).TotalMinutes)), _
             CStr(CInt(Reverts / (Date.UtcNow - FirstTime).TotalMinutes)))
     End Sub
 
@@ -1345,7 +1345,7 @@ Class Main
         NewConfigForm.ShowDialog()
     End Sub
 
-    Private Sub Stats_Click() Handles Stats.Click, SystemStatistics.Click
+    Private Sub Stats_Click() Handles MenuStats.Click, SystemStatistics.Click
         StatsForm.Show()
     End Sub
 
@@ -1566,6 +1566,14 @@ Class Main
 
     Private Sub RevertWarnItem_Click(ByVal Sender As Object, ByVal e As EventArgs)
         RevertAndWarn(CType(Sender, ToolStripMenuItem).Tag.ToString)
+    End Sub
+
+    Private Sub RevisionSight_Click(ByVal s As Object, ByVal e As EventArgs) Handles RevisionSight.Click
+        If CurrentEdit IsNot Nothing Then
+            Dim NewRequest As New SightRequest
+            NewRequest.Edit = CurrentEdit
+            NewRequest.Start()
+        End If
     End Sub
 
 End Class

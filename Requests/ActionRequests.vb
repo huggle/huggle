@@ -423,4 +423,50 @@ Namespace Requests
 
     End Class
 
+    Class SightRequest : Inherits Request
+
+        'Sight a revision
+
+        Public Edit As Edit
+
+        Protected Overrides Sub Process()
+
+            'No API for this. UI scraping required
+
+            LogProgress(Msg("sight-progress", Edit.Page.Name))
+
+            Dim Result As String = DoUrlRequest(SitePath() & _
+                "index.php?title=" & UrlEncode(Edit.Page.Name) & "&diff=" & UrlEncode(Edit.Id) & "&oldid=prev")
+
+            If Result Is Nothing Then
+                Fail(Msg("sight-fail", Edit.Page.Name))
+                Exit Sub
+            End If
+
+            Result = FindString(Result, "<fieldset class=""flaggedrevs_reviewform", "</fieldset>")
+
+            If Result Is Nothing Then
+                Fail(Msg("sight-fail", Edit.Page.Name))
+                Exit Sub
+            End If
+
+            Dim PostString As String = ""
+
+            For Each Item As String In Split(Result, "<input")
+                If GetParameter(Item, "name") IsNot Nothing AndAlso GetParameter(Item, "value") IsNot Nothing _
+                    Then PostString &= GetParameter(Item, "name") & "=" & UrlEncode(GetParameter(Item, "value")) & "&"
+            Next Item
+
+            Result = DoUrlRequest(SitePath() & "index.php?title=Special:RevisionReview&action=submit", PostString)
+
+            If Result Is Nothing Then
+                Fail(Msg("sight-fail", Edit.Page.Name))
+                Exit Sub
+            End If
+
+            Complete(Msg("sight-done", Edit.Page.Name))
+        End Sub
+
+    End Class
+
 End Namespace

@@ -125,28 +125,31 @@ Namespace Requests
                     Exit Sub
                 End If
 
-                Dim Rights As New List(Of String)(FindString(Userinfo, "<rights>", "</rights>").Replace("</r>", "") _
+                Config.Rights = New List(Of String)(FindString(Userinfo, "<rights>", "</rights>").Replace("</r>", "") _
                     .Split(New String() {"<r>"}, StringSplitOptions.RemoveEmptyEntries))
-                Dim Autoconfirmed, AdminAvailable As Boolean
 
-                If Rights.Contains("rollback") Then RollbackAvailable = True
-                If Rights.Contains("autoconfirmed") Then Autoconfirmed = True
-                If Rights.Contains("block") Then AdminAvailable = True
-
-                Administrator = AdminAvailable AndAlso Config.UseAdminFunctions
-
-                If Config.RequireAdmin AndAlso Not AdminAvailable Then
+                If Config.RequireAdmin AndAlso Not Config.Rights.Contains("block") Then
                     Fail(Msg("login-error-admin"))
                     Exit Sub
                 End If
 
-                If Config.RequireAutoconfirmed AndAlso Not Autoconfirmed Then
+                If Config.RequireAutoconfirmed AndAlso Not Config.Rights.Contains("autoconfirmed") Then
                     Fail(Msg("login-error-autoconfirmed"))
                     Exit Sub
                 End If
 
-                If Config.RequireRollback AndAlso Not RollbackAvailable Then
+                If Config.RequireRollback AndAlso Not Config.Rights.Contains("rollback") Then
                     Fail(Msg("login-error-rollback"))
+                    Exit Sub
+                End If
+
+                If Not Config.Rights.Contains("writeapi") Then
+                    Fail("Your account is not permitted to edit through the MediaWiki API, which is required by Huggle")
+                    Exit Sub
+                End If
+
+                If Not Config.Rights.Contains("edit") Then
+                    Fail("Your account is not permitted to edit.")
                     Exit Sub
                 End If
 

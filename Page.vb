@@ -81,13 +81,14 @@ Class Page
 
     Public ReadOnly Property IsEditable() As Boolean
         Get
-            Return Not ((EditLevel = "sysop" OrElse Space.Locked) AndAlso Not Administrator)
+            Return Not ((EditLevel = "sysop" OrElse Space.Locked) AndAlso Not Config.Rights.Contains("protect"))
         End Get
     End Property
 
     Public ReadOnly Property IsMovable() As Boolean
         Get
-            Return Not (Space.Unmovable OrElse ((MoveLevel = "sysop" OrElse Space.Locked) AndAlso Not Administrator))
+            Return Not (Space.Unmovable OrElse ((MoveLevel = "sysop" OrElse Space.Locked) _
+                AndAlso Not Config.Rights.Contains("protect")))
         End Get
     End Property
 

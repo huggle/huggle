@@ -13,10 +13,13 @@ Partial Class Main
         QueueContainer.Width = Config.QueueWidth + QueueScroll.Width
         Splitter.Panel2Collapsed = Not Config.ShowLog
 
-        PageDelete.Visible = (Administrator AndAlso Config.Delete)
-        PageDeleteB.Visible = (Administrator AndAlso Config.Delete)
-        PagePatrol.Visible = Config.Patrol
-        PageProtect.Visible = (Administrator AndAlso Config.Protect)
+        RevisionSight.Visible = Config.Sight AndAlso Config.Rights.Contains("review")
+
+        PageDelete.Visible = (Config.UseAdminFunctions AndAlso Config.Rights.Contains("delete") AndAlso Config.Delete)
+        PageDeleteB.Visible = PageDelete.Visible
+        PageMove.Visible = (Config.Rights.Contains("move"))
+        PagePatrol.Visible = Config.Patrol AndAlso Config.Rights.Contains("patrol")
+        PageProtect.Visible = (Config.UseAdminFunctions AndAlso Config.Rights.Contains("protect") AndAlso Config.Protect)
         PageReqProtection.Visible = Config.ProtectionRequests
         PageReqDeletion.Visible = (Config.Speedy OrElse Config.Prod OrElse Config.Xfd)
         PageTagDeleteB.Visible = (Config.Speedy OrElse Config.Prod OrElse Config.Xfd)
@@ -24,8 +27,8 @@ Partial Class Main
         PageTagSpeedy.Visible = Config.Speedy
         PageXfd.Visible = Config.Xfd
 
-        UserBlock.Visible = (Administrator AndAlso Config.UseAdminFunctions AndAlso Config.Block)
-        UserBlockB.Visible = (Administrator AndAlso Config.UseAdminFunctions AndAlso Config.Block)
+        UserBlock.Visible = (Config.UseAdminFunctions AndAlso Config.Rights.Contains("block") AndAlso Config.Block)
+        UserBlockB.Visible = UserBlock.Visible
         UserEmail.Visible = Config.Email
         UserMessageWelcome.Visible = (Config.Welcome IsNot Nothing)
         UserReport.Visible = Config.AIV OrElse Config.UAA OrElse Config.TRR
@@ -161,7 +164,8 @@ Partial Class Main
             If CurrentQueue.Type = QueueType.FixedList _
                 Then QueueClear.Text = Msg("main-queue-reset") Else QueueClear.Text = Msg("main-queue-clear")
 
-            Dim Editable As Boolean = (CurrentPage.EditLevel <> "sysop" OrElse Administrator)
+            'For some reason in MediaWiki 'change protection level' and 'edit protected pages' are the same thing
+            Dim Editable As Boolean = (CurrentPage.EditLevel <> "sysop" OrElse Config.Rights.Contains("protect"))
 
             BrowserBack.Enabled = (CurrentTab.HistoryIndex < CurrentTab.History.Count - 1)
             BrowserBackB.Enabled = (CurrentTab.HistoryIndex < CurrentTab.History.Count - 1)
@@ -201,12 +205,15 @@ Partial Class Main
             PageTagDeleteB.Enabled = Editable
             PageTagProd.Enabled = Editable
             PageTagSpeedy.Enabled = Editable
-            PageView.Enabled = True
             PageViewB.Enabled = True
             PageViewLatest.Enabled = True
             PageWatch.Enabled = True
             PageWatchB.Enabled = True
             PageXfd.Enabled = Editable
+            RevisionRevert.Enabled = RevertB.Enabled
+            RevisionPrevious.Enabled = HistoryPrevB.Enabled
+            RevisionNext.Enabled = HistoryNextB.Enabled
+            RevisionLatest.Enabled = HistoryLastB.Enabled
             RevertWarnB.Enabled = (RevertB.Enabled AndAlso Not CurrentUser.Ignored AndAlso Editable _
                 AndAlso Config.WarningTypes.Count > 0)
             QueueClear.Enabled = (CurrentQueue.Edits.Count > 0)
@@ -333,7 +340,7 @@ Partial Class Main
                 If HistoryLastB.Enabled Then HistoryLast_Click()
 
             Case Is = ShortcutKeys("Delete page")
-                If PageDeleteB.Enabled AndAlso PageDeleteB.Visible AndAlso Administrator Then PageDelete_Click()
+                If PageDeleteB.Enabled AndAlso PageDeleteB.Visible Then PageDelete_Click()
 
             Case Is = ShortcutKeys("Diff to current revision")
                 If HistoryDiffToCurB.Enabled Then HistoryDiffToCur_Click()
@@ -472,11 +479,11 @@ Partial Class Main
         SetSDItem(PageProtect, "Protect page")
         SetSDItem(PageReqProtection, "Request protection")
         SetSDItem(PageTag, "Tag page")
-        SetSDItem(PageView, "View this revision")
         SetSDItem(PageViewLatest, "View current revision")
         SetSDItem(PageWatch, "Watch page")
         SetSDItem(QueueClear, "Clear queue")
         SetSDItem(QueueNext, "Show next diff")
+        SetSDItem(RevisionView, "View this revision")
         SetSDItem(SystemMessages, "Show new messages")
         SetSDItem(UserBlock, "Block user")
         SetSDItem(UserContribs, "Retrieve user contributions")
