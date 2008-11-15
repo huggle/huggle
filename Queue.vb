@@ -25,6 +25,7 @@ Class Queue
     Private _FilterTags As QueueFilter = QueueFilter.None
     Private _FilterWarnings As QueueFilter = QueueFilter.None
 
+    Private _Diffs As DiffMode
     Private _DynamicLimit As Integer
     Private _DynamicSourceType As String
     Private _DynamicSource As String
@@ -34,7 +35,6 @@ Class Queue
     Private _NeedsReset As Boolean
     Private _PageRegex As Regex
     Private _Pages As List(Of String)
-    Private _Preload As Boolean
     Private _Refreshing As Boolean
     Private _RefreshAlways As Boolean
     Private _RefreshReAdd As Boolean
@@ -42,16 +42,18 @@ Class Queue
     Private _RemoveOld As Boolean
     Private _RemoveAfter As Integer
     Private _RemoveViewed As Boolean
+    Private _RevisionRegex As Regex
     Private _SortOrder As QueueSortOrder
     Private _Spaces As New List(Of Space)
     Private _SummaryRegex As Regex
+    Private _TrayNotification As Boolean
     Private _Type As QueueType
     Private _UserRegex As Regex
     Private _Users As New List(Of String)
 
     Public Sub New(ByVal Name As String)
         _Name = Name
-        _Preload = True
+        _Diffs = DiffMode.None
         _RemoveViewed = True
         _Spaces.AddRange(Space.All)
         _Type = QueueType.Live
@@ -78,6 +80,16 @@ Class Queue
             All.Remove(_Name)
             _Name = value
             All.Add(value, Me)
+        End Set
+    End Property
+
+    Public Property DiffMode() As DiffMode
+        Get
+            Return _Diffs
+        End Get
+        Set(ByVal value As DiffMode)
+            _Diffs = value
+            _NeedsReset = True
         End Set
     End Property
 
@@ -266,15 +278,6 @@ Class Queue
         End Get
     End Property
 
-    Public Property Preload() As Boolean
-        Get
-            Return _Preload
-        End Get
-        Set(ByVal value As Boolean)
-            _Preload = value
-        End Set
-    End Property
-
     Public ReadOnly Property Refreshing() As Boolean
         Get
             Return _Refreshing
@@ -335,6 +338,17 @@ Class Queue
         End Set
     End Property
 
+    Public Property RevisionRegex() As Regex
+        Get
+            Return _RevisionRegex
+        End Get
+        Set(ByVal value As Regex)
+            If value Is Nothing OrElse _RevisionRegex Is Nothing OrElse value.ToString <> _RevisionRegex.ToString _
+                Then _NeedsReset = True
+            _RevisionRegex = value
+        End Set
+    End Property
+
     Public Property SortOrder() As QueueSortOrder
         Get
             Return _SortOrder
@@ -363,6 +377,15 @@ Class Queue
             If value Is Nothing OrElse _SummaryRegex Is Nothing OrElse value.ToString <> _SummaryRegex.ToString _
                 Then _NeedsReset = True
             _SummaryRegex = value
+        End Set
+    End Property
+
+    Public Property TrayNotification() As Boolean
+        Get
+            Return _TrayNotification
+        End Get
+        Set(ByVal value As Boolean)
+            _TrayNotification = value
         End Set
     End Property
 
@@ -467,6 +490,8 @@ Class Queue
 
             'Add edit to the queue
             Items.Add(Edit)
+            If Config.TrayIcon AndAlso TrayNotification Then MainForm.TrayIcon.ShowBalloonTip(10000, _
+                "'" & Name & "' matched revision", Edit.Page.Name & " edited by " & Edit.User.Name, ToolTipIcon.None)
             If Items.Count > Config.QueueSize Then Items.RemoveAt(Items.Count - 1)
         End If
     End Sub
@@ -516,6 +541,10 @@ Class Queue
         If _PageRegex IsNot Nothing AndAlso Not _PageRegex.IsMatch(PageName) Then Return False
 
         Return True
+    End Function
+
+    Public Function MatchesContentFilter(ByVal Edit As Edit) As Boolean
+        Return (_RevisionRegex Is Nothing OrElse _RevisionRegex.IsMatch(Edit.ChangedContent))
     End Function
 
     Public Function MatchesFilter(ByVal Edit As Edit) As Boolean
@@ -602,6 +631,10 @@ Class Queue
     End Sub
 
 End Class
+
+Enum DiffMode As Integer
+    : None : Preload : All
+End Enum
 
 Enum QueueSortOrder As Integer
     : Time : TimeReverse : Quality

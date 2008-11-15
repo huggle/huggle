@@ -66,7 +66,8 @@ Namespace Requests
     Class DiffRequest : Inherits Request
 
         Public Edit As Edit, Tab As BrowserTab
-        Private Shared _PreloadCount As Integer
+        Private Shared _PreloadCount As Integer, _RequestCount As Integer
+        Private Shared MaxSimultaneousRequests As Integer = 10
 
         Private Result As String
 
@@ -80,8 +81,15 @@ Namespace Requests
         End Property
 
         Protected Overrides Sub Process()
+            _RequestCount += 1
+
+            If _RequestCount >= MaxSimultaneousRequests Then
+                Done()
+                Exit Sub
+            End If
+
             If Tab Is Nothing Then Tab = CurrentTab
-            Edit.Cached = Edit.CacheState.Caching
+            Edit.DiffCacheState = Edit.CacheState.Caching
 
             Dim Oldid As String = If(Edit.Oldid = "-1", "prev", Edit.Oldid)
 
@@ -101,7 +109,7 @@ Namespace Requests
             End Try
 
             If Result Is Nothing Then
-                Edit.Cached = Edit.CacheState.Uncached
+                Edit.DiffCacheState = Edit.CacheState.Uncached
                 Fail(Msg("diff-fail", Edit.Page.Name), Msg("error-noresponse"))
                 Exit Sub
 
@@ -152,13 +160,14 @@ Namespace Requests
                 Callback(AddressOf ReachedEnd)
 
             Else
-                Edit.Cached = Edit.CacheState.Uncached
+                Edit.DiffCacheState = Edit.CacheState.Uncached
                 Fail()
             End If
         End Sub
 
         Protected Overrides Sub Done()
             PreloadCount -= 1
+            _RequestCount -= 1
             If Result IsNot Nothing Then ProcessDiff(Edit, Result, Tab)
         End Sub
 
@@ -168,7 +177,7 @@ Namespace Requests
             'Mark this as the start of the history
             Edit.Prev = NullEdit
             Edit.Oldid = "-1"
-            Edit.Cached = Edit.CacheState.Cached
+            Edit.DiffCacheState = Edit.CacheState.Cached
 
             If LatestDiffRequest Is Me Then
                 MainForm.HistoryPrevB.Enabled = False

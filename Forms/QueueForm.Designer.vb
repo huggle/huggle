@@ -42,18 +42,6 @@ Partial Class QueueForm
         Me.ListSelector = New System.Windows.Forms.ComboBox
         Me.ListSelectorLabel = New System.Windows.Forms.Label
         Me.QueuePages = New System.Windows.Forms.ListBox
-        Me.UsersTab = New System.Windows.Forms.TabPage
-        Me.UserGroup = New System.Windows.Forms.GroupBox
-        Me.UserCount = New System.Windows.Forms.Label
-        Me.UserBrowse = New System.Windows.Forms.Button
-        Me.UserSource = New System.Windows.Forms.TextBox
-        Me.UserSourceLabel = New System.Windows.Forms.Label
-        Me.UserSourceTypeLabel = New System.Windows.Forms.Label
-        Me.ClearUsers = New System.Windows.Forms.Button
-        Me.RemoveUser = New System.Windows.Forms.Button
-        Me.UserSourceType = New System.Windows.Forms.ComboBox
-        Me.AddUser = New System.Windows.Forms.Button
-        Me.Users = New System.Windows.Forms.ListBox
         Me.DynamicListTab = New System.Windows.Forms.TabPage
         Me.DynamicSource = New System.Windows.Forms.TextBox
         Me.DynamicSourceType = New System.Windows.Forms.ComboBox
@@ -65,11 +53,14 @@ Partial Class QueueForm
         Me.DynamicSourceLabel = New System.Windows.Forms.Label
         Me.DynamicSourceTypeLabel = New System.Windows.Forms.Label
         Me.OptionsTab = New System.Windows.Forms.TabPage
+        Me.PreloadGroup = New System.Windows.Forms.GroupBox
+        Me.AllDiffs = New System.Windows.Forms.RadioButton
+        Me.PreloadDiffs = New System.Windows.Forms.RadioButton
+        Me.NoDiffs = New System.Windows.Forms.RadioButton
         Me.IgnorePages = New System.Windows.Forms.CheckBox
         Me.RemoveAfter = New System.Windows.Forms.CheckBox
         Me.RemoveAfterTime = New System.Windows.Forms.NumericUpDown
         Me.RemoveAfterTimeLabel = New System.Windows.Forms.Label
-        Me.Preload = New System.Windows.Forms.CheckBox
         Me.RemoveViewed = New System.Windows.Forms.CheckBox
         Me.RemoveOld = New System.Windows.Forms.CheckBox
         Me.SortOrderLabel = New System.Windows.Forms.Label
@@ -107,22 +98,43 @@ Partial Class QueueForm
         Me.Example2 = New Huggle.TriState
         Me.Example1 = New Huggle.TriState
         Me.Example3 = New Huggle.TriState
+        Me.UsersTab = New System.Windows.Forms.TabPage
+        Me.UserGroup = New System.Windows.Forms.GroupBox
+        Me.UserCount = New System.Windows.Forms.Label
+        Me.UserBrowse = New System.Windows.Forms.Button
+        Me.UserSource = New System.Windows.Forms.TextBox
+        Me.UserSourceLabel = New System.Windows.Forms.Label
+        Me.UserSourceTypeLabel = New System.Windows.Forms.Label
+        Me.ClearUsers = New System.Windows.Forms.Button
+        Me.RemoveUser = New System.Windows.Forms.Button
+        Me.UserSourceType = New System.Windows.Forms.ComboBox
+        Me.AddUser = New System.Windows.Forms.Button
+        Me.Users = New System.Windows.Forms.ListBox
+        Me.RevisionTab = New System.Windows.Forms.TabPage
+        Me.RevisionGroup = New System.Windows.Forms.GroupBox
+        Me.RevisionTabNote = New System.Windows.Forms.Label
+        Me.RevisionRegexLabel = New System.Windows.Forms.Label
+        Me.RevisionRegex = New Huggle.RegexBox
         Me.OK = New System.Windows.Forms.Button
         Me.MoveUp = New System.Windows.Forms.Button
         Me.MoveDown = New System.Windows.Forms.Button
+        Me.TrayNotification = New System.Windows.Forms.CheckBox
         Me.TypeGroup.SuspendLayout()
         Me.Tabs.SuspendLayout()
         Me.PagesTab.SuspendLayout()
-        Me.UsersTab.SuspendLayout()
-        Me.UserGroup.SuspendLayout()
         Me.DynamicListTab.SuspendLayout()
         CType(Me.RefreshInterval, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.OptionsTab.SuspendLayout()
+        Me.PreloadGroup.SuspendLayout()
         CType(Me.RemoveAfterTime, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TitleFiltersTab.SuspendLayout()
         Me.PageFiltersGroup.SuspendLayout()
         Me.EditFiltersTab.SuspendLayout()
         Me.EditFiltersGroup.SuspendLayout()
+        Me.UsersTab.SuspendLayout()
+        Me.UserGroup.SuspendLayout()
+        Me.RevisionTab.SuspendLayout()
+        Me.RevisionGroup.SuspendLayout()
         Me.SuspendLayout()
         '
         'QueueList
@@ -215,7 +227,7 @@ Partial Class QueueForm
         Me.TypeGroup.Controls.Add(Me.FixedList)
         Me.TypeGroup.Location = New System.Drawing.Point(186, 12)
         Me.TypeGroup.Name = "TypeGroup"
-        Me.TypeGroup.Size = New System.Drawing.Size(416, 116)
+        Me.TypeGroup.Size = New System.Drawing.Size(446, 116)
         Me.TypeGroup.TabIndex = 7
         Me.TypeGroup.TabStop = False
         Me.TypeGroup.Text = "Page list type"
@@ -274,10 +286,11 @@ Partial Class QueueForm
         Me.Tabs.Controls.Add(Me.TitleFiltersTab)
         Me.Tabs.Controls.Add(Me.EditFiltersTab)
         Me.Tabs.Controls.Add(Me.UsersTab)
+        Me.Tabs.Controls.Add(Me.RevisionTab)
         Me.Tabs.Location = New System.Drawing.Point(186, 134)
         Me.Tabs.Name = "Tabs"
         Me.Tabs.SelectedIndex = 0
-        Me.Tabs.Size = New System.Drawing.Size(416, 313)
+        Me.Tabs.Size = New System.Drawing.Size(446, 313)
         Me.Tabs.TabIndex = 8
         '
         'PagesTab
@@ -290,7 +303,7 @@ Partial Class QueueForm
         Me.PagesTab.Location = New System.Drawing.Point(4, 22)
         Me.PagesTab.Name = "PagesTab"
         Me.PagesTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.PagesTab.Size = New System.Drawing.Size(408, 287)
+        Me.PagesTab.Size = New System.Drawing.Size(438, 287)
         Me.PagesTab.TabIndex = 0
         Me.PagesTab.Text = "Page list"
         Me.PagesTab.UseVisualStyleBackColor = True
@@ -298,7 +311,7 @@ Partial Class QueueForm
         'ListBuilder
         '
         Me.ListBuilder.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ListBuilder.Location = New System.Drawing.Point(309, 10)
+        Me.ListBuilder.Location = New System.Drawing.Point(339, 10)
         Me.ListBuilder.Name = "ListBuilder"
         Me.ListBuilder.Size = New System.Drawing.Size(93, 23)
         Me.ListBuilder.TabIndex = 2
@@ -313,7 +326,7 @@ Partial Class QueueForm
         Me.ListSelector.FormattingEnabled = True
         Me.ListSelector.Location = New System.Drawing.Point(34, 11)
         Me.ListSelector.Name = "ListSelector"
-        Me.ListSelector.Size = New System.Drawing.Size(269, 21)
+        Me.ListSelector.Size = New System.Drawing.Size(299, 21)
         Me.ListSelector.TabIndex = 1
         '
         'ListSelectorLabel
@@ -334,132 +347,8 @@ Partial Class QueueForm
         Me.QueuePages.IntegralHeight = False
         Me.QueuePages.Location = New System.Drawing.Point(6, 40)
         Me.QueuePages.Name = "QueuePages"
-        Me.QueuePages.Size = New System.Drawing.Size(396, 241)
+        Me.QueuePages.Size = New System.Drawing.Size(426, 241)
         Me.QueuePages.TabIndex = 3
-        '
-        'UsersTab
-        '
-        Me.UsersTab.Controls.Add(Me.UserGroup)
-        Me.UsersTab.Location = New System.Drawing.Point(4, 22)
-        Me.UsersTab.Name = "UsersTab"
-        Me.UsersTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.UsersTab.Size = New System.Drawing.Size(408, 287)
-        Me.UsersTab.TabIndex = 5
-        Me.UsersTab.Text = "User list"
-        Me.UsersTab.UseVisualStyleBackColor = True
-        '
-        'UserGroup
-        '
-        Me.UserGroup.Controls.Add(Me.UserCount)
-        Me.UserGroup.Controls.Add(Me.UserBrowse)
-        Me.UserGroup.Controls.Add(Me.UserSource)
-        Me.UserGroup.Controls.Add(Me.UserSourceLabel)
-        Me.UserGroup.Controls.Add(Me.UserSourceTypeLabel)
-        Me.UserGroup.Controls.Add(Me.ClearUsers)
-        Me.UserGroup.Controls.Add(Me.RemoveUser)
-        Me.UserGroup.Controls.Add(Me.UserSourceType)
-        Me.UserGroup.Controls.Add(Me.AddUser)
-        Me.UserGroup.Controls.Add(Me.Users)
-        Me.UserGroup.Location = New System.Drawing.Point(6, 6)
-        Me.UserGroup.Name = "UserGroup"
-        Me.UserGroup.Size = New System.Drawing.Size(396, 275)
-        Me.UserGroup.TabIndex = 7
-        Me.UserGroup.TabStop = False
-        Me.UserGroup.Text = "Show only edits from these users"
-        '
-        'UserCount
-        '
-        Me.UserCount.AutoSize = True
-        Me.UserCount.Location = New System.Drawing.Point(6, 92)
-        Me.UserCount.Name = "UserCount"
-        Me.UserCount.Size = New System.Drawing.Size(40, 13)
-        Me.UserCount.TabIndex = 12
-        Me.UserCount.Text = "0 items"
-        '
-        'UserBrowse
-        '
-        Me.UserBrowse.Location = New System.Drawing.Point(252, 53)
-        Me.UserBrowse.Name = "UserBrowse"
-        Me.UserBrowse.Size = New System.Drawing.Size(70, 23)
-        Me.UserBrowse.TabIndex = 11
-        Me.UserBrowse.Text = "Browse..."
-        Me.UserBrowse.UseVisualStyleBackColor = True
-        Me.UserBrowse.Visible = False
-        '
-        'UserSource
-        '
-        Me.UserSource.Location = New System.Drawing.Point(79, 56)
-        Me.UserSource.Name = "UserSource"
-        Me.UserSource.Size = New System.Drawing.Size(167, 20)
-        Me.UserSource.TabIndex = 10
-        '
-        'UserSourceLabel
-        '
-        Me.UserSourceLabel.AutoSize = True
-        Me.UserSourceLabel.Location = New System.Drawing.Point(29, 59)
-        Me.UserSourceLabel.Name = "UserSourceLabel"
-        Me.UserSourceLabel.Size = New System.Drawing.Size(44, 13)
-        Me.UserSourceLabel.TabIndex = 9
-        Me.UserSourceLabel.Text = "Source:"
-        Me.UserSourceLabel.TextAlign = System.Drawing.ContentAlignment.TopRight
-        '
-        'UserSourceTypeLabel
-        '
-        Me.UserSourceTypeLabel.AutoSize = True
-        Me.UserSourceTypeLabel.Location = New System.Drawing.Point(6, 32)
-        Me.UserSourceTypeLabel.Name = "UserSourceTypeLabel"
-        Me.UserSourceTypeLabel.Size = New System.Drawing.Size(67, 13)
-        Me.UserSourceTypeLabel.TabIndex = 8
-        Me.UserSourceTypeLabel.Text = "Source type:"
-        '
-        'ClearUsers
-        '
-        Me.ClearUsers.Location = New System.Drawing.Point(90, 239)
-        Me.ClearUsers.Name = "ClearUsers"
-        Me.ClearUsers.Size = New System.Drawing.Size(75, 23)
-        Me.ClearUsers.TabIndex = 4
-        Me.ClearUsers.Text = "Clear"
-        Me.ClearUsers.UseVisualStyleBackColor = True
-        '
-        'RemoveUser
-        '
-        Me.RemoveUser.Location = New System.Drawing.Point(9, 239)
-        Me.RemoveUser.Name = "RemoveUser"
-        Me.RemoveUser.Size = New System.Drawing.Size(75, 23)
-        Me.RemoveUser.TabIndex = 3
-        Me.RemoveUser.Text = "Remove"
-        Me.RemoveUser.UseVisualStyleBackColor = True
-        '
-        'UserSourceType
-        '
-        Me.UserSourceType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.UserSourceType.FormattingEnabled = True
-        Me.UserSourceType.Items.AddRange(New Object() {"(Manually add items)", "Text file"})
-        Me.UserSourceType.Location = New System.Drawing.Point(79, 29)
-        Me.UserSourceType.Name = "UserSourceType"
-        Me.UserSourceType.Size = New System.Drawing.Size(167, 21)
-        Me.UserSourceType.TabIndex = 7
-        '
-        'AddUser
-        '
-        Me.AddUser.Location = New System.Drawing.Point(176, 82)
-        Me.AddUser.Name = "AddUser"
-        Me.AddUser.Size = New System.Drawing.Size(70, 23)
-        Me.AddUser.TabIndex = 2
-        Me.AddUser.Text = "Add"
-        Me.AddUser.UseVisualStyleBackColor = True
-        '
-        'Users
-        '
-        Me.Users.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.Users.FormattingEnabled = True
-        Me.Users.IntegralHeight = False
-        Me.Users.Location = New System.Drawing.Point(9, 111)
-        Me.Users.Name = "Users"
-        Me.Users.Size = New System.Drawing.Size(237, 122)
-        Me.Users.Sorted = True
-        Me.Users.TabIndex = 1
         '
         'DynamicListTab
         '
@@ -474,7 +363,7 @@ Partial Class QueueForm
         Me.DynamicListTab.Controls.Add(Me.DynamicSourceTypeLabel)
         Me.DynamicListTab.Location = New System.Drawing.Point(4, 22)
         Me.DynamicListTab.Name = "DynamicListTab"
-        Me.DynamicListTab.Size = New System.Drawing.Size(408, 287)
+        Me.DynamicListTab.Size = New System.Drawing.Size(438, 287)
         Me.DynamicListTab.TabIndex = 4
         Me.DynamicListTab.Text = "List source"
         Me.DynamicListTab.UseVisualStyleBackColor = True
@@ -564,11 +453,12 @@ Partial Class QueueForm
         '
         'OptionsTab
         '
+        Me.OptionsTab.Controls.Add(Me.PreloadGroup)
+        Me.OptionsTab.Controls.Add(Me.TrayNotification)
         Me.OptionsTab.Controls.Add(Me.IgnorePages)
         Me.OptionsTab.Controls.Add(Me.RemoveAfter)
         Me.OptionsTab.Controls.Add(Me.RemoveAfterTime)
         Me.OptionsTab.Controls.Add(Me.RemoveAfterTimeLabel)
-        Me.OptionsTab.Controls.Add(Me.Preload)
         Me.OptionsTab.Controls.Add(Me.RemoveViewed)
         Me.OptionsTab.Controls.Add(Me.RemoveOld)
         Me.OptionsTab.Controls.Add(Me.SortOrderLabel)
@@ -576,15 +466,62 @@ Partial Class QueueForm
         Me.OptionsTab.Location = New System.Drawing.Point(4, 22)
         Me.OptionsTab.Name = "OptionsTab"
         Me.OptionsTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.OptionsTab.Size = New System.Drawing.Size(408, 287)
+        Me.OptionsTab.Size = New System.Drawing.Size(438, 287)
         Me.OptionsTab.TabIndex = 3
         Me.OptionsTab.Text = "Queue options"
         Me.OptionsTab.UseVisualStyleBackColor = True
         '
+        'PreloadGroup
+        '
+        Me.PreloadGroup.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.PreloadGroup.Controls.Add(Me.AllDiffs)
+        Me.PreloadGroup.Controls.Add(Me.PreloadDiffs)
+        Me.PreloadGroup.Controls.Add(Me.NoDiffs)
+        Me.PreloadGroup.Location = New System.Drawing.Point(17, 182)
+        Me.PreloadGroup.Name = "PreloadGroup"
+        Me.PreloadGroup.Size = New System.Drawing.Size(402, 89)
+        Me.PreloadGroup.TabIndex = 12
+        Me.PreloadGroup.TabStop = False
+        Me.PreloadGroup.Text = "Diffs"
+        '
+        'AllDiffs
+        '
+        Me.AllDiffs.AutoSize = True
+        Me.AllDiffs.Location = New System.Drawing.Point(11, 66)
+        Me.AllDiffs.Name = "AllDiffs"
+        Me.AllDiffs.Size = New System.Drawing.Size(357, 17)
+        Me.AllDiffs.TabIndex = 0
+        Me.AllDiffs.TabStop = True
+        Me.AllDiffs.Text = "Load diffs for every revision in the queue (do not use on large queues!)"
+        Me.AllDiffs.UseVisualStyleBackColor = True
+        '
+        'PreloadDiffs
+        '
+        Me.PreloadDiffs.AutoSize = True
+        Me.PreloadDiffs.Location = New System.Drawing.Point(11, 42)
+        Me.PreloadDiffs.Name = "PreloadDiffs"
+        Me.PreloadDiffs.Size = New System.Drawing.Size(346, 17)
+        Me.PreloadDiffs.TabIndex = 0
+        Me.PreloadDiffs.TabStop = True
+        Me.PreloadDiffs.Text = "Preload diffs when queue is active, if system options are set to do so"
+        Me.PreloadDiffs.UseVisualStyleBackColor = True
+        '
+        'NoDiffs
+        '
+        Me.NoDiffs.AutoSize = True
+        Me.NoDiffs.Location = New System.Drawing.Point(11, 19)
+        Me.NoDiffs.Name = "NoDiffs"
+        Me.NoDiffs.Size = New System.Drawing.Size(226, 17)
+        Me.NoDiffs.TabIndex = 0
+        Me.NoDiffs.TabStop = True
+        Me.NoDiffs.Text = "Load diffs only when the revision is viewed"
+        Me.NoDiffs.UseVisualStyleBackColor = True
+        '
         'IgnorePages
         '
         Me.IgnorePages.AutoSize = True
-        Me.IgnorePages.Location = New System.Drawing.Point(17, 145)
+        Me.IgnorePages.Location = New System.Drawing.Point(17, 122)
         Me.IgnorePages.Name = "IgnorePages"
         Me.IgnorePages.Size = New System.Drawing.Size(243, 17)
         Me.IgnorePages.TabIndex = 11
@@ -620,16 +557,6 @@ Partial Class QueueForm
         Me.RemoveAfterTimeLabel.Size = New System.Drawing.Size(43, 13)
         Me.RemoveAfterTimeLabel.TabIndex = 6
         Me.RemoveAfterTimeLabel.Text = "minutes"
-        '
-        'Preload
-        '
-        Me.Preload.AutoSize = True
-        Me.Preload.Location = New System.Drawing.Point(17, 122)
-        Me.Preload.Name = "Preload"
-        Me.Preload.Size = New System.Drawing.Size(301, 17)
-        Me.Preload.TabIndex = 2
-        Me.Preload.Text = "Enable preloading of revisions when this queue is selected"
-        Me.Preload.UseVisualStyleBackColor = True
         '
         'RemoveViewed
         '
@@ -679,15 +606,15 @@ Partial Class QueueForm
         Me.TitleFiltersTab.Location = New System.Drawing.Point(4, 22)
         Me.TitleFiltersTab.Name = "TitleFiltersTab"
         Me.TitleFiltersTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.TitleFiltersTab.Size = New System.Drawing.Size(408, 287)
+        Me.TitleFiltersTab.Size = New System.Drawing.Size(438, 287)
         Me.TitleFiltersTab.TabIndex = 1
-        Me.TitleFiltersTab.Text = "Page title filters"
+        Me.TitleFiltersTab.Text = "Page title"
         Me.TitleFiltersTab.UseVisualStyleBackColor = True
         '
         'Apply
         '
         Me.Apply.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Apply.Location = New System.Drawing.Point(327, 258)
+        Me.Apply.Location = New System.Drawing.Point(357, 258)
         Me.Apply.Name = "Apply"
         Me.Apply.Size = New System.Drawing.Size(75, 23)
         Me.Apply.TabIndex = 2
@@ -716,7 +643,7 @@ Partial Class QueueForm
         Me.PageFiltersGroup.Controls.Add(Me.PageRegexLabel)
         Me.PageFiltersGroup.Location = New System.Drawing.Point(6, 6)
         Me.PageFiltersGroup.Name = "PageFiltersGroup"
-        Me.PageFiltersGroup.Size = New System.Drawing.Size(396, 246)
+        Me.PageFiltersGroup.Size = New System.Drawing.Size(426, 246)
         Me.PageFiltersGroup.TabIndex = 0
         Me.PageFiltersGroup.TabStop = False
         Me.PageFiltersGroup.Text = "Page title filters"
@@ -735,8 +662,9 @@ Partial Class QueueForm
         Me.PageRegex.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.PageRegex.Location = New System.Drawing.Point(173, 19)
+        Me.PageRegex.Multiline = False
         Me.PageRegex.Name = "PageRegex"
-        Me.PageRegex.Size = New System.Drawing.Size(217, 38)
+        Me.PageRegex.Size = New System.Drawing.Size(247, 38)
         Me.PageRegex.TabIndex = 1
         '
         'NamespacesLabel
@@ -757,7 +685,7 @@ Partial Class QueueForm
         Me.Namespaces.Location = New System.Drawing.Point(6, 60)
         Me.Namespaces.MultiColumn = True
         Me.Namespaces.Name = "Namespaces"
-        Me.Namespaces.Size = New System.Drawing.Size(384, 124)
+        Me.Namespaces.Size = New System.Drawing.Size(414, 124)
         Me.Namespaces.TabIndex = 3
         '
         'PageRegexLabel
@@ -780,7 +708,7 @@ Partial Class QueueForm
         Me.EditFiltersTab.Controls.Add(Me.Example3)
         Me.EditFiltersTab.Location = New System.Drawing.Point(4, 22)
         Me.EditFiltersTab.Name = "EditFiltersTab"
-        Me.EditFiltersTab.Size = New System.Drawing.Size(408, 287)
+        Me.EditFiltersTab.Size = New System.Drawing.Size(438, 287)
         Me.EditFiltersTab.TabIndex = 2
         Me.EditFiltersTab.Text = "Filters"
         Me.EditFiltersTab.UseVisualStyleBackColor = True
@@ -838,7 +766,7 @@ Partial Class QueueForm
         Me.EditFiltersGroup.Controls.Add(Me.UserRegexLabel)
         Me.EditFiltersGroup.Location = New System.Drawing.Point(6, 6)
         Me.EditFiltersGroup.Name = "EditFiltersGroup"
-        Me.EditFiltersGroup.Size = New System.Drawing.Size(396, 245)
+        Me.EditFiltersGroup.Size = New System.Drawing.Size(422, 245)
         Me.EditFiltersGroup.TabIndex = 0
         Me.EditFiltersGroup.TabStop = False
         Me.EditFiltersGroup.Text = "Edit filters"
@@ -859,8 +787,9 @@ Partial Class QueueForm
         Me.SummaryRegex.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.SummaryRegex.Location = New System.Drawing.Point(201, 58)
+        Me.SummaryRegex.Multiline = False
         Me.SummaryRegex.Name = "SummaryRegex"
-        Me.SummaryRegex.Size = New System.Drawing.Size(189, 38)
+        Me.SummaryRegex.Size = New System.Drawing.Size(215, 38)
         Me.SummaryRegex.TabIndex = 1
         '
         'UserRegex
@@ -868,8 +797,9 @@ Partial Class QueueForm
         Me.UserRegex.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.UserRegex.Location = New System.Drawing.Point(201, 19)
+        Me.UserRegex.Multiline = False
         Me.UserRegex.Name = "UserRegex"
-        Me.UserRegex.Size = New System.Drawing.Size(189, 38)
+        Me.UserRegex.Size = New System.Drawing.Size(212, 38)
         Me.UserRegex.TabIndex = 1
         '
         'FilterAssisted
@@ -1050,10 +980,184 @@ Partial Class QueueForm
         Me.Example3.State = System.Windows.Forms.CheckState.Indeterminate
         Me.Example3.TabIndex = 3
         '
+        'UsersTab
+        '
+        Me.UsersTab.Controls.Add(Me.UserGroup)
+        Me.UsersTab.Location = New System.Drawing.Point(4, 22)
+        Me.UsersTab.Name = "UsersTab"
+        Me.UsersTab.Padding = New System.Windows.Forms.Padding(3)
+        Me.UsersTab.Size = New System.Drawing.Size(438, 287)
+        Me.UsersTab.TabIndex = 5
+        Me.UsersTab.Text = "User list"
+        Me.UsersTab.UseVisualStyleBackColor = True
+        '
+        'UserGroup
+        '
+        Me.UserGroup.Controls.Add(Me.UserCount)
+        Me.UserGroup.Controls.Add(Me.UserBrowse)
+        Me.UserGroup.Controls.Add(Me.UserSource)
+        Me.UserGroup.Controls.Add(Me.UserSourceLabel)
+        Me.UserGroup.Controls.Add(Me.UserSourceTypeLabel)
+        Me.UserGroup.Controls.Add(Me.ClearUsers)
+        Me.UserGroup.Controls.Add(Me.RemoveUser)
+        Me.UserGroup.Controls.Add(Me.UserSourceType)
+        Me.UserGroup.Controls.Add(Me.AddUser)
+        Me.UserGroup.Controls.Add(Me.Users)
+        Me.UserGroup.Location = New System.Drawing.Point(6, 6)
+        Me.UserGroup.Name = "UserGroup"
+        Me.UserGroup.Size = New System.Drawing.Size(426, 275)
+        Me.UserGroup.TabIndex = 7
+        Me.UserGroup.TabStop = False
+        Me.UserGroup.Text = "Show only edits from these users"
+        '
+        'UserCount
+        '
+        Me.UserCount.AutoSize = True
+        Me.UserCount.Location = New System.Drawing.Point(6, 92)
+        Me.UserCount.Name = "UserCount"
+        Me.UserCount.Size = New System.Drawing.Size(40, 13)
+        Me.UserCount.TabIndex = 12
+        Me.UserCount.Text = "0 items"
+        '
+        'UserBrowse
+        '
+        Me.UserBrowse.Location = New System.Drawing.Point(252, 53)
+        Me.UserBrowse.Name = "UserBrowse"
+        Me.UserBrowse.Size = New System.Drawing.Size(70, 23)
+        Me.UserBrowse.TabIndex = 11
+        Me.UserBrowse.Text = "Browse..."
+        Me.UserBrowse.UseVisualStyleBackColor = True
+        Me.UserBrowse.Visible = False
+        '
+        'UserSource
+        '
+        Me.UserSource.Location = New System.Drawing.Point(79, 56)
+        Me.UserSource.Name = "UserSource"
+        Me.UserSource.Size = New System.Drawing.Size(167, 20)
+        Me.UserSource.TabIndex = 10
+        '
+        'UserSourceLabel
+        '
+        Me.UserSourceLabel.Location = New System.Drawing.Point(0, 59)
+        Me.UserSourceLabel.Name = "UserSourceLabel"
+        Me.UserSourceLabel.Size = New System.Drawing.Size(73, 17)
+        Me.UserSourceLabel.TabIndex = 9
+        Me.UserSourceLabel.Text = "Source:"
+        Me.UserSourceLabel.TextAlign = System.Drawing.ContentAlignment.TopRight
+        '
+        'UserSourceTypeLabel
+        '
+        Me.UserSourceTypeLabel.Location = New System.Drawing.Point(0, 32)
+        Me.UserSourceTypeLabel.Name = "UserSourceTypeLabel"
+        Me.UserSourceTypeLabel.Size = New System.Drawing.Size(73, 18)
+        Me.UserSourceTypeLabel.TabIndex = 8
+        Me.UserSourceTypeLabel.Text = "Source type:"
+        Me.UserSourceTypeLabel.TextAlign = System.Drawing.ContentAlignment.TopRight
+        '
+        'ClearUsers
+        '
+        Me.ClearUsers.Location = New System.Drawing.Point(90, 239)
+        Me.ClearUsers.Name = "ClearUsers"
+        Me.ClearUsers.Size = New System.Drawing.Size(75, 23)
+        Me.ClearUsers.TabIndex = 4
+        Me.ClearUsers.Text = "Clear"
+        Me.ClearUsers.UseVisualStyleBackColor = True
+        '
+        'RemoveUser
+        '
+        Me.RemoveUser.Location = New System.Drawing.Point(9, 239)
+        Me.RemoveUser.Name = "RemoveUser"
+        Me.RemoveUser.Size = New System.Drawing.Size(75, 23)
+        Me.RemoveUser.TabIndex = 3
+        Me.RemoveUser.Text = "Remove"
+        Me.RemoveUser.UseVisualStyleBackColor = True
+        '
+        'UserSourceType
+        '
+        Me.UserSourceType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.UserSourceType.FormattingEnabled = True
+        Me.UserSourceType.Items.AddRange(New Object() {"(Manually add items)", "Text file"})
+        Me.UserSourceType.Location = New System.Drawing.Point(79, 29)
+        Me.UserSourceType.Name = "UserSourceType"
+        Me.UserSourceType.Size = New System.Drawing.Size(167, 21)
+        Me.UserSourceType.TabIndex = 7
+        '
+        'AddUser
+        '
+        Me.AddUser.Location = New System.Drawing.Point(252, 82)
+        Me.AddUser.Name = "AddUser"
+        Me.AddUser.Size = New System.Drawing.Size(70, 23)
+        Me.AddUser.TabIndex = 2
+        Me.AddUser.Text = "Add"
+        Me.AddUser.UseVisualStyleBackColor = True
+        '
+        'Users
+        '
+        Me.Users.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.Users.FormattingEnabled = True
+        Me.Users.IntegralHeight = False
+        Me.Users.Location = New System.Drawing.Point(9, 111)
+        Me.Users.Name = "Users"
+        Me.Users.Size = New System.Drawing.Size(313, 122)
+        Me.Users.Sorted = True
+        Me.Users.TabIndex = 1
+        '
+        'RevisionTab
+        '
+        Me.RevisionTab.Controls.Add(Me.RevisionGroup)
+        Me.RevisionTab.Location = New System.Drawing.Point(4, 22)
+        Me.RevisionTab.Name = "RevisionTab"
+        Me.RevisionTab.Size = New System.Drawing.Size(438, 287)
+        Me.RevisionTab.TabIndex = 6
+        Me.RevisionTab.Text = "Revision content"
+        Me.RevisionTab.UseVisualStyleBackColor = True
+        '
+        'RevisionGroup
+        '
+        Me.RevisionGroup.Controls.Add(Me.RevisionTabNote)
+        Me.RevisionGroup.Controls.Add(Me.RevisionRegexLabel)
+        Me.RevisionGroup.Controls.Add(Me.RevisionRegex)
+        Me.RevisionGroup.Location = New System.Drawing.Point(6, 6)
+        Me.RevisionGroup.Name = "RevisionGroup"
+        Me.RevisionGroup.Size = New System.Drawing.Size(423, 270)
+        Me.RevisionGroup.TabIndex = 0
+        Me.RevisionGroup.TabStop = False
+        Me.RevisionGroup.Text = "Revision content filters"
+        '
+        'RevisionTabNote
+        '
+        Me.RevisionTabNote.Location = New System.Drawing.Point(6, 231)
+        Me.RevisionTabNote.Name = "RevisionTabNote"
+        Me.RevisionTabNote.Size = New System.Drawing.Size(411, 39)
+        Me.RevisionTabNote.TabIndex = 4
+        Me.RevisionTabNote.Text = "Queue must load diff of every revision (set on Queue options tab) for settings on" & _
+            " this page to work properly. Do not use with large queues."
+        '
+        'RevisionRegexLabel
+        '
+        Me.RevisionRegexLabel.AutoSize = True
+        Me.RevisionRegexLabel.Location = New System.Drawing.Point(6, 26)
+        Me.RevisionRegexLabel.Name = "RevisionRegexLabel"
+        Me.RevisionRegexLabel.Size = New System.Drawing.Size(385, 13)
+        Me.RevisionRegexLabel.TabIndex = 3
+        Me.RevisionRegexLabel.Text = "Content modified in revision (as determined from diff) matches regular expression" & _
+            ":"
+        '
+        'RevisionRegex
+        '
+        Me.RevisionRegex.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.RevisionRegex.Location = New System.Drawing.Point(9, 45)
+        Me.RevisionRegex.Multiline = True
+        Me.RevisionRegex.Name = "RevisionRegex"
+        Me.RevisionRegex.Size = New System.Drawing.Size(334, 60)
+        Me.RevisionRegex.TabIndex = 2
+        '
         'OK
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.OK.Location = New System.Drawing.Point(527, 453)
+        Me.OK.Location = New System.Drawing.Point(557, 453)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
         Me.OK.TabIndex = 9
@@ -1082,11 +1186,21 @@ Partial Class QueueForm
         Me.MoveDown.TabIndex = 4
         Me.MoveDown.UseVisualStyleBackColor = True
         '
+        'TrayNotification
+        '
+        Me.TrayNotification.Location = New System.Drawing.Point(17, 145)
+        Me.TrayNotification.Name = "TrayNotification"
+        Me.TrayNotification.Size = New System.Drawing.Size(316, 31)
+        Me.TrayNotification.TabIndex = 11
+        Me.TrayNotification.Text = "Show tray notification when a revision is added to this queue" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "(requires ""Show tr" & _
+            "ay icon"" in system options)"
+        Me.TrayNotification.UseVisualStyleBackColor = True
+        '
         'QueueForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(614, 488)
+        Me.ClientSize = New System.Drawing.Size(644, 488)
         Me.Controls.Add(Me.MoveDown)
         Me.Controls.Add(Me.MoveUp)
         Me.Controls.Add(Me.OK)
@@ -1110,14 +1224,13 @@ Partial Class QueueForm
         Me.Tabs.ResumeLayout(False)
         Me.PagesTab.ResumeLayout(False)
         Me.PagesTab.PerformLayout()
-        Me.UsersTab.ResumeLayout(False)
-        Me.UserGroup.ResumeLayout(False)
-        Me.UserGroup.PerformLayout()
         Me.DynamicListTab.ResumeLayout(False)
         Me.DynamicListTab.PerformLayout()
         CType(Me.RefreshInterval, System.ComponentModel.ISupportInitialize).EndInit()
         Me.OptionsTab.ResumeLayout(False)
         Me.OptionsTab.PerformLayout()
+        Me.PreloadGroup.ResumeLayout(False)
+        Me.PreloadGroup.PerformLayout()
         CType(Me.RemoveAfterTime, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TitleFiltersTab.ResumeLayout(False)
         Me.TitleFiltersTab.PerformLayout()
@@ -1127,6 +1240,12 @@ Partial Class QueueForm
         Me.EditFiltersTab.PerformLayout()
         Me.EditFiltersGroup.ResumeLayout(False)
         Me.EditFiltersGroup.PerformLayout()
+        Me.UsersTab.ResumeLayout(False)
+        Me.UserGroup.ResumeLayout(False)
+        Me.UserGroup.PerformLayout()
+        Me.RevisionTab.ResumeLayout(False)
+        Me.RevisionGroup.ResumeLayout(False)
+        Me.RevisionGroup.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1179,7 +1298,6 @@ Partial Class QueueForm
     Friend WithEvents RemoveViewed As System.Windows.Forms.CheckBox
     Friend WithEvents PageRegex As Huggle.RegexBox
     Friend WithEvents UserRegex As Huggle.RegexBox
-    Friend WithEvents Preload As System.Windows.Forms.CheckBox
     Friend WithEvents FilterTags As Huggle.TriState
     Friend WithEvents FilterWarnings As Huggle.TriState
     Friend WithEvents FilterBot As Huggle.TriState
@@ -1218,4 +1336,14 @@ Partial Class QueueForm
     Friend WithEvents UserSourceLabel As System.Windows.Forms.Label
     Friend WithEvents UserCount As System.Windows.Forms.Label
     Friend WithEvents UserBrowse As System.Windows.Forms.Button
+    Friend WithEvents PreloadGroup As System.Windows.Forms.GroupBox
+    Friend WithEvents PreloadDiffs As System.Windows.Forms.RadioButton
+    Friend WithEvents NoDiffs As System.Windows.Forms.RadioButton
+    Friend WithEvents AllDiffs As System.Windows.Forms.RadioButton
+    Friend WithEvents RevisionTab As System.Windows.Forms.TabPage
+    Friend WithEvents RevisionGroup As System.Windows.Forms.GroupBox
+    Friend WithEvents RevisionRegexLabel As System.Windows.Forms.Label
+    Friend WithEvents RevisionRegex As Huggle.RegexBox
+    Friend WithEvents RevisionTabNote As System.Windows.Forms.Label
+    Friend WithEvents TrayNotification As System.Windows.Forms.CheckBox
 End Class

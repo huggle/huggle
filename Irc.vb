@@ -27,6 +27,10 @@ Module Irc
         "10 02 5\* 03([^]*) 5\*  10blocked User:([^]*?) \(([^\)]*)\) with an expiry time of ([^:]*?): " & _
         "([^]*?)", RegexOptions.Compiled)
 
+    Dim ReblockMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/block14\]\]4 reblock" & _
+        "10 02 5\* 03([^]*) 5\*  10changed block settings for \[\[02User:([^]*?)10\]\] " & _
+        "with an expiry time of ([^:]*?) \(([^\)]*)\): ([^]*?)", RegexOptions.Compiled)
+
     Dim UnblockMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/block14\]\]4 unblock" & _
         "10 02 5\* 03([^]*) 5\*  10unblocked ""User:([^]*?)""(?:: ([^]*))??", _
         RegexOptions.Compiled)
@@ -73,7 +77,7 @@ Module Irc
         RegexOptions.Compiled)
 
     Dim RenameUserMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/renameuser" & _
-        "14\]\]4 renameuser10 02 5\* 03([^]*) 5\*  10has renamed ([^ ]*) to ""([^""]*)"": " & _
+        "14\]\]4 renameuser10 02 5\* 03([^]*) 5\*  10renamed ([^ ]*) to ""([^""]*)"": " & _
         "(?:[^\.]*)\. Reason: ([^]*)", RegexOptions.Compiled)
 
     Private Sub IrcProcess()
@@ -175,6 +179,20 @@ Module Irc
                         NewBlock.Options = Match.Groups(3).Value
                         NewBlock.Duration = Match.Groups(4).Value
                         NewBlock.Action = "block"
+                        NewBlock.Comment = Match.Groups(5).Value
+
+                        Callback(AddressOf ProcessBlock, CObj(NewBlock))
+
+                    ElseIf ReblockMatch.IsMatch(Message) Then
+                        Dim NewBlock As New Block
+                        Dim Match As Match = BlockMatch.Match(Message)
+
+                        NewBlock.Time = Date.UtcNow
+                        NewBlock.Admin = GetUser(Match.Groups(1).Value)
+                        NewBlock.User = GetUser(Match.Groups(2).Value)
+                        NewBlock.Options = Match.Groups(4).Value
+                        NewBlock.Duration = Match.Groups(3).Value
+                        NewBlock.Action = "reblock"
                         NewBlock.Comment = Match.Groups(5).Value
 
                         Callback(AddressOf ProcessBlock, CObj(NewBlock))

@@ -1,5 +1,7 @@
 ﻿Class SortedList(Of T)
 
+    Implements IEnumerable(Of T)
+
     'Implements a generic sorted list
     'Differs from System.Collections.Generic.SortedList in that it stores a list of objects, not key-value pairs
     'and tolerates changes to items' sort orders provided they are removed and re-added
@@ -55,5 +57,13 @@
     Public Sub RemoveAt(ByVal Index As Integer)
         If Items.Count > Index Then Items.RemoveAt(Index)
     End Sub
+
+    Public Function GetEnumerator() As IEnumerator(Of T) Implements IEnumerable(Of T).GetEnumerator
+        Return Items.GetEnumerator
+    End Function
+
+    Public Function GetEnumerator1() As Collections.IEnumerator Implements Collections.IEnumerable.GetEnumerator
+        Return Items.GetEnumerator
+    End Function
 
 End Class

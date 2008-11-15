@@ -12,6 +12,15 @@ Class RegexBox
         End Get
     End Property
 
+    Public Property Multiline() As Boolean
+        Get
+            Return Pattern.Multiline
+        End Get
+        Set(ByVal value As Boolean)
+            Pattern.Multiline = value
+        End Set
+    End Property
+
     Public Overrides Property Text() As String
         Get
             Return Pattern.Text

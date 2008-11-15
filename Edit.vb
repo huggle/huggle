@@ -15,10 +15,11 @@ Class Edit
 
     Public Assisted As Boolean
     Public Bot As Boolean
-    Public Cached As CacheState
     Public Change As Integer
+    Public ChangedContent As String
     Public Deleted As Boolean
     Public Diff As String
+    Public DiffCacheState As CacheState
     Public Id As String
     Public LevelToWarn As UserLevel
     Public Multiple As Boolean

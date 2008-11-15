@@ -62,6 +62,15 @@ Class QueueForm
         QueueList.SelectedItem = Name
     End Sub
 
+    Private Sub AddUser_Click() Handles AddUser.Click
+        Select Case UserSourceType.Text
+            Case "(Manually add items)" : GotUserList(New List(Of String)(New String() {UserSource.Text}))
+            Case "Text file" : GotUserList(New List(Of String)(File.ReadAllLines(UserSource.Text)))
+        End Select
+
+        UserSource.Clear()
+    End Sub
+
     Private Sub ApplyFilters_Click() Handles Apply.Click
         If CurrentQueue.Pages IsNot Nothing Then
             Dim i As Integer
@@ -70,6 +79,24 @@ Class QueueForm
                 If CurrentQueue.MatchesFilter(CurrentQueue.Pages(i)) Then i += 1 Else CurrentQueue.Pages.RemoveAt(i)
             End While
         End If
+    End Sub
+
+    Private Sub CheckAllSpaces_Click() Handles CheckAllSpaces.Click
+        If CurrentQueue IsNot Nothing Then
+            If CurrentQueue.Spaces.Count = 0 _
+                Then CurrentQueue.Spaces.AddRange(Space.All) _
+                Else CurrentQueue.Spaces.Clear()
+
+            For i As Integer = 0 To Namespaces.Items.Count - 1
+                Namespaces.SetItemChecked(i, CurrentQueue.Spaces.Contains(CType(Namespaces.Items(i), Space)))
+            Next i
+        End If
+    End Sub
+
+    Private Sub ClearUsers_Click() Handles ClearUsers.Click
+        Users.Items.Clear()
+        CurrentQueue.Users.Clear()
+        RefreshInterface()
     End Sub
 
     Private Sub Copy_Click() Handles Copy.Click
@@ -102,6 +129,32 @@ Class QueueForm
             QueueList.SelectedIndex = QueueList.Items.Count - 1
             MainForm.SetQueueSelector()
         End If
+    End Sub
+
+    Private Sub DiffGroup_CheckedChanged() _
+        Handles NoDiffs.CheckedChanged, PreloadDiffs.CheckedChanged, AllDiffs.CheckedChanged
+
+        If CurrentQueue IsNot Nothing Then
+            If NoDiffs.Checked Then
+                CurrentQueue.DiffMode = DiffMode.None
+            ElseIf PreloadDiffs.Checked Then
+                CurrentQueue.DiffMode = DiffMode.Preload
+            ElseIf AllDiffs.Checked Then
+                CurrentQueue.DiffMode = DiffMode.All
+            End If
+        End If
+    End Sub
+
+    Private Sub DynamicSource_TextChanged() Handles DynamicSource.TextChanged
+        If CurrentQueue IsNot Nothing Then CurrentQueue.DynamicSource = DynamicSource.Text
+    End Sub
+
+    Private Sub DynamicSourceType_SelectedIndexChanged() Handles DynamicSourceType.SelectedIndexChanged
+        If CurrentQueue IsNot Nothing Then CurrentQueue.DynamicSourceType = DynamicSourceType.Text
+
+        Select Case DynamicSourceType.Text
+            Case "Category" : DynamicSourceLabel.Text = "Category:"
+        End Select
     End Sub
 
     Private Sub FilterAnonymous_CheckStateChanged() Handles FilterAnonymous.CheckStateChanged
@@ -197,10 +250,6 @@ Class QueueForm
         CurrentQueue.PageRegex = PageRegex.Regex
     End Sub
 
-    Private Sub Preload_CheckedChanged() Handles Preload.CheckedChanged
-        If CurrentQueue IsNot Nothing Then CurrentQueue.Preload = Preload.Checked
-    End Sub
-
     Private Sub QueueList_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles QueueList.KeyDown
         If e.KeyCode = Keys.Delete AndAlso QueueList.SelectedIndex > -1 Then DeleteQueue_Click()
     End Sub
@@ -251,6 +300,8 @@ Class QueueForm
                 Else SummaryRegex.Text = CurrentQueue.SummaryRegex.ToString
             If CurrentQueue.UserRegex Is Nothing Then UserRegex.Text = Nothing _
                 Else UserRegex.Text = CurrentQueue.UserRegex.ToString
+            If CurrentQueue.RevisionRegex Is Nothing Then RevisionRegex.Text = Nothing _
+                Else RevisionRegex.Text = CurrentQueue.RevisionRegex.ToString
 
             DynamicSourceType.Text = CurrentQueue.DynamicSourceType
             DynamicSource.Text = CurrentQueue.DynamicSource
@@ -264,7 +315,12 @@ Class QueueForm
                 CurrentQueue.RemoveAfter Else RemoveAfterTime.Value = RemoveAfterTime.Minimum
             RemoveOld.Checked = CurrentQueue.RemoveOld
             RemoveViewed.Checked = CurrentQueue.RemoveViewed
-            Preload.Checked = CurrentQueue.Preload
+
+            Select Case CurrentQueue.DiffMode
+                Case DiffMode.None : NoDiffs.Checked = True
+                Case DiffMode.Preload : PreloadDiffs.Checked = True
+                Case DiffMode.All : AllDiffs.Checked = True
+            End Select
 
             Users.Items.AddRange(CurrentQueue.Users.ToArray)
 
@@ -296,6 +352,14 @@ Class QueueForm
         If CurrentQueue IsNot Nothing Then CurrentQueue.RemoveViewed = RemoveViewed.Checked
     End Sub
 
+    Private Sub RemoveUser_Click() Handles RemoveUser.Click
+        If Users.SelectedIndex > -1 Then
+            If CurrentQueue.Users.Contains(Users.SelectedItem.ToString) Then CurrentQueue.Users.Remove(Users.SelectedItem.ToString)
+            Users.Items.RemoveAt(Users.SelectedIndex)
+            RefreshInterface()
+        End If
+    End Sub
+
     Private Sub RenameQueue_Click() Handles Rename.Click
         Dim OldName As String = QueueList.SelectedItem.ToString
         Dim NewName As String = InputBox.Show("Enter new name:", OldName)
@@ -309,6 +373,10 @@ Class QueueForm
                 QueueList.Items(QueueList.SelectedIndex) = NewName
             End If
         End If
+    End Sub
+
+    Private Sub RevisionRegex_Leave() Handles RevisionRegex.Leave
+        CurrentQueue.RevisionRegex = RevisionRegex.Regex
     End Sub
 
     Private Sub SortOrder_SelectedIndexChanged() Handles SortOrder.SelectedIndexChanged
@@ -363,6 +431,7 @@ Class QueueForm
                     ShowTab(TitleFiltersTab)
                     ShowTab(EditFiltersTab)
                     ShowTab(UsersTab)
+                    ShowTab(RevisionTab)
 
                 Case QueueType.LiveList
                     HideTab(DynamicListTab)
@@ -371,6 +440,7 @@ Class QueueForm
                     ShowTab(TitleFiltersTab)
                     ShowTab(EditFiltersTab)
                     ShowTab(UsersTab)
+                    ShowTab(RevisionTab)
 
                 Case QueueType.FixedList
                     HideTab(DynamicListTab)
@@ -378,6 +448,7 @@ Class QueueForm
                     HideTab(TitleFiltersTab)
                     HideTab(EditFiltersTab)
                     HideTab(UsersTab)
+                    HideTab(RevisionTab)
                     ShowTab(PagesTab)
 
                 Case QueueType.Dynamic
@@ -385,6 +456,7 @@ Class QueueForm
                     HideTab(OptionsTab)
                     HideTab(EditFiltersTab)
                     HideTab(UsersTab)
+                    HideTab(RevisionTab)
                     ShowTab(DynamicListTab)
                     ShowTab(TitleFiltersTab)
             End Select
@@ -445,18 +517,6 @@ Class QueueForm
         QueueList.SelectedIndex = Index + 1
     End Sub
 
-    Private Sub DynamicSourceType_SelectedIndexChanged() Handles DynamicSourceType.SelectedIndexChanged
-        If CurrentQueue IsNot Nothing Then CurrentQueue.DynamicSourceType = DynamicSourceType.Text
-
-        Select Case DynamicSourceType.Text
-            Case "Category" : DynamicSourceLabel.Text = "Category:"
-        End Select
-    End Sub
-
-    Private Sub DynamicSource_TextChanged() Handles DynamicSource.TextChanged
-        If CurrentQueue IsNot Nothing Then CurrentQueue.DynamicSource = DynamicSource.Text
-    End Sub
-
     Private Sub RefreshInterval_ValueChanged() Handles RefreshInterval.ValueChanged
         If CurrentQueue IsNot Nothing Then CurrentQueue.RefreshInterval = CInt(RefreshInterval.Value)
     End Sub
@@ -469,43 +529,20 @@ Class QueueForm
         If CurrentQueue IsNot Nothing Then CurrentQueue.RefreshReAdd = RefreshReAdd.Checked
     End Sub
 
-    Private Sub CheckAllSpaces_Click() Handles CheckAllSpaces.Click
-        If CurrentQueue IsNot Nothing Then
-            If CurrentQueue.Spaces.Count = 0 _
-                Then CurrentQueue.Spaces.AddRange(Space.All) _
-                Else CurrentQueue.Spaces.Clear()
-
-            For i As Integer = 0 To Namespaces.Items.Count - 1
-                Namespaces.SetItemChecked(i, CurrentQueue.Spaces.Contains(CType(Namespaces.Items(i), Space)))
-            Next i
-        End If
-    End Sub
-
-    Private Sub AddUser_Click() Handles AddUser.Click
-        Select Case UserSourceType.Text
-            Case "(Manually add items)" : GotUserList(New List(Of String)(New String() {UserSource.Text}))
-            Case "Text file" : GotUserList(New List(Of String)(File.ReadAllLines(UserSource.Text)))
-        End Select
-
-        UserSource.Clear()
-    End Sub
-
-    Private Sub RemoveUser_Click() Handles RemoveUser.Click
-        If Users.SelectedIndex > -1 Then
-            If CurrentQueue.Users.Contains(Users.SelectedItem.ToString) Then CurrentQueue.Users.Remove(Users.SelectedItem.ToString)
-            Users.Items.RemoveAt(Users.SelectedIndex)
-            RefreshInterface()
-        End If
-    End Sub
-
-    Private Sub ClearUsers_Click() Handles ClearUsers.Click
-        Users.Items.Clear()
-        CurrentQueue.Users.Clear()
-        RefreshInterface()
+    Private Sub TrayNotification_CheckedChanged() Handles TrayNotification.CheckedChanged
+        If CurrentQueue IsNot Nothing Then CurrentQueue.TrayNotification = TrayNotification.Checked
     End Sub
 
     Private Sub Users_SelectedIndexChanged() Handles Users.SelectedIndexChanged
         RemoveUser.Enabled = (Users.SelectedIndex > -1)
+    End Sub
+
+    Private Sub UserBrowse_Click() Handles UserBrowse.Click
+        Dim Dialog As New OpenFileDialog
+        Dialog.Title = "User list"
+        Dialog.Filter = "All files|*.*"
+
+        If Dialog.ShowDialog = DialogResult.OK Then UserSource.Text = Dialog.FileName
     End Sub
 
     Private Sub UserSourceType_SelectedIndexChanged() Handles UserSourceType.SelectedIndexChanged
@@ -531,14 +568,6 @@ Class QueueForm
 
         Users.ResumeLayout()
         RefreshInterface()
-    End Sub
-
-    Private Sub UserBrowse_Click() Handles UserBrowse.Click
-        Dim Dialog As New OpenFileDialog
-        Dialog.Title = "User list"
-        Dialog.Filter = "All files|*.*"
-
-        If Dialog.ShowDialog = DialogResult.OK Then UserSource.Text = Dialog.FileName
     End Sub
 
     Private Sub UserSource_TextChanged() Handles UserSource.TextChanged

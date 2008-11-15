@@ -69,11 +69,11 @@ Partial Class Main
         Me.Separator28 = New System.Windows.Forms.ToolStripSeparator
         Me.Separator20 = New System.Windows.Forms.ToolStripSeparator
         Me.RevertAdvanced = New System.Windows.Forms.ToolStripMenuItem
+        Me.RevertB = New System.Windows.Forms.ToolStripSplitButton
         Me.Separator30 = New System.Windows.Forms.ToolStripSeparator
         Me.RevisionPrevious = New System.Windows.Forms.ToolStripMenuItem
         Me.RevisionNext = New System.Windows.Forms.ToolStripMenuItem
         Me.RevisionLatest = New System.Windows.Forms.ToolStripMenuItem
-        Me.Separator31 = New System.Windows.Forms.ToolStripSeparator
         Me.RevisionSight = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuPage = New System.Windows.Forms.ToolStripMenuItem
         Me.PageSwitchTalk = New System.Windows.Forms.ToolStripMenuItem
@@ -90,7 +90,6 @@ Partial Class Main
         Me.PageTagProd = New System.Windows.Forms.ToolStripMenuItem
         Me.PageTagSpeedy = New System.Windows.Forms.ToolStripMenuItem
         Me.Separator23 = New System.Windows.Forms.ToolStripSeparator
-        Me.PageTagDeleteB = New System.Windows.Forms.ToolStripDropDownButton
         Me.PageReqProtection = New System.Windows.Forms.ToolStripMenuItem
         Me.Separator14 = New System.Windows.Forms.ToolStripSeparator
         Me.PageWatch = New System.Windows.Forms.ToolStripMenuItem
@@ -115,6 +114,7 @@ Partial Class Main
         Me.UserReportVandalism = New System.Windows.Forms.ToolStripMenuItem
         Me.UserReportUsername = New System.Windows.Forms.ToolStripMenuItem
         Me.UserReport3rr = New System.Windows.Forms.ToolStripMenuItem
+        Me.UserReportSock = New System.Windows.Forms.ToolStripMenuItem
         Me.UserReportB = New System.Windows.Forms.ToolStripDropDownButton
         Me.UserBlock = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuBrowser = New System.Windows.Forms.ToolStripMenuItem
@@ -135,7 +135,7 @@ Partial Class Main
         Me.Separator16 = New System.Windows.Forms.ToolStripSeparator
         Me.HelpAbout = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuStats = New System.Windows.Forms.ToolStripMenuItem
-        Me.RevertB = New System.Windows.Forms.ToolStripSplitButton
+        Me.PageTagDeleteB = New System.Windows.Forms.ToolStripDropDownButton
         Me.Splitter = New System.Windows.Forms.SplitContainer
         Me.QueueContainer = New System.Windows.Forms.Panel
         Me.QueueScroll = New System.Windows.Forms.VScrollBar
@@ -214,7 +214,6 @@ Partial Class Main
         Me.UserBlockB = New System.Windows.Forms.ToolStripButton
         Me.RateUpdateTimer = New System.Windows.Forms.Timer(Me.components)
         Me.EditInfo = New Huggle.EditInfoPanel
-        Me.UserReportSock = New System.Windows.Forms.ToolStripMenuItem
         Me.LogMenu.SuspendLayout()
         Me.TrayMenu.SuspendLayout()
         Me.TopMenu.SuspendLayout()
@@ -480,7 +479,7 @@ Partial Class Main
         '
         'MenuRevision
         '
-        Me.MenuRevision.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RevisionView, Me.RevisionRevert, Me.Separator30, Me.RevisionPrevious, Me.RevisionNext, Me.RevisionLatest, Me.Separator31, Me.RevisionSight})
+        Me.MenuRevision.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RevisionView, Me.RevisionRevert, Me.RevisionSight, Me.Separator30, Me.RevisionPrevious, Me.RevisionNext, Me.RevisionLatest})
         Me.MenuRevision.Name = "MenuRevision"
         Me.MenuRevision.Size = New System.Drawing.Size(59, 24)
         Me.MenuRevision.Text = "&Revision"
@@ -488,21 +487,21 @@ Partial Class Main
         'RevisionView
         '
         Me.RevisionView.Name = "RevisionView"
-        Me.RevisionView.Size = New System.Drawing.Size(115, 22)
+        Me.RevisionView.Size = New System.Drawing.Size(152, 22)
         Me.RevisionView.Text = "View"
         '
         'RevisionRevert
         '
         Me.RevisionRevert.DropDown = Me.RevertMenu
         Me.RevisionRevert.Name = "RevisionRevert"
-        Me.RevisionRevert.Size = New System.Drawing.Size(115, 22)
+        Me.RevisionRevert.Size = New System.Drawing.Size(152, 22)
         Me.RevisionRevert.Text = "Revert"
         '
         'RevertMenu
         '
         Me.RevertMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RevertCurrentOnly, Me.Separator28, Me.Separator20, Me.RevertAdvanced})
         Me.RevertMenu.Name = "RevertMenu"
-        Me.RevertMenu.OwnerItem = Me.RevertB
+        Me.RevertMenu.OwnerItem = Me.RevisionRevert
         Me.RevertMenu.Size = New System.Drawing.Size(191, 60)
         '
         'RevertCurrentOnly
@@ -528,38 +527,46 @@ Partial Class Main
         Me.RevertAdvanced.Size = New System.Drawing.Size(190, 22)
         Me.RevertAdvanced.Text = "Advanced..."
         '
+        'RevertB
+        '
+        Me.RevertB.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.RevertB.DropDown = Me.RevertMenu
+        Me.RevertB.DropDownButtonWidth = 16
+        Me.RevertB.Enabled = False
+        Me.RevertB.Image = Global.Huggle.My.Resources.Resources.diff_revert
+        Me.RevertB.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
+        Me.RevertB.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.RevertB.Name = "RevertB"
+        Me.RevertB.Size = New System.Drawing.Size(57, 52)
+        Me.RevertB.ToolTipText = "Revert this revision [R]"
+        '
         'Separator30
         '
         Me.Separator30.Name = "Separator30"
-        Me.Separator30.Size = New System.Drawing.Size(112, 6)
+        Me.Separator30.Size = New System.Drawing.Size(149, 6)
         '
         'RevisionPrevious
         '
         Me.RevisionPrevious.Name = "RevisionPrevious"
-        Me.RevisionPrevious.Size = New System.Drawing.Size(115, 22)
+        Me.RevisionPrevious.Size = New System.Drawing.Size(152, 22)
         Me.RevisionPrevious.Text = "Previous"
         '
         'RevisionNext
         '
         Me.RevisionNext.Name = "RevisionNext"
-        Me.RevisionNext.Size = New System.Drawing.Size(115, 22)
+        Me.RevisionNext.Size = New System.Drawing.Size(152, 22)
         Me.RevisionNext.Text = "Next"
         '
         'RevisionLatest
         '
         Me.RevisionLatest.Name = "RevisionLatest"
-        Me.RevisionLatest.Size = New System.Drawing.Size(115, 22)
+        Me.RevisionLatest.Size = New System.Drawing.Size(152, 22)
         Me.RevisionLatest.Text = "Latest"
-        '
-        'Separator31
-        '
-        Me.Separator31.Name = "Separator31"
-        Me.Separator31.Size = New System.Drawing.Size(112, 6)
         '
         'RevisionSight
         '
         Me.RevisionSight.Name = "RevisionSight"
-        Me.RevisionSight.Size = New System.Drawing.Size(115, 22)
+        Me.RevisionSight.Size = New System.Drawing.Size(152, 22)
         Me.RevisionSight.Text = "Sight"
         '
         'MenuPage
@@ -630,7 +637,7 @@ Partial Class Main
         '
         Me.TagDeleteMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PageXfd, Me.PageTagProd, Me.PageTagSpeedy, Me.Separator23})
         Me.TagDeleteMenu.Name = "SpeedyMenu"
-        Me.TagDeleteMenu.OwnerItem = Me.PageReqDeletion
+        Me.TagDeleteMenu.OwnerItem = Me.PageTagDeleteB
         Me.TagDeleteMenu.Size = New System.Drawing.Size(190, 76)
         '
         'PageXfd
@@ -658,18 +665,6 @@ Partial Class Main
         '
         Me.Separator23.Name = "Separator23"
         Me.Separator23.Size = New System.Drawing.Size(186, 6)
-        '
-        'PageTagDeleteB
-        '
-        Me.PageTagDeleteB.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.PageTagDeleteB.DropDown = Me.TagDeleteMenu
-        Me.PageTagDeleteB.Enabled = False
-        Me.PageTagDeleteB.Image = Global.Huggle.My.Resources.Resources.page_tag_delete
-        Me.PageTagDeleteB.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.PageTagDeleteB.Name = "PageTagDeleteB"
-        Me.PageTagDeleteB.ShowDropDownArrow = False
-        Me.PageTagDeleteB.Size = New System.Drawing.Size(32, 32)
-        Me.PageTagDeleteB.ToolTipText = "Tag this page for deletion [S]"
         '
         'PageReqProtection
         '
@@ -804,8 +799,8 @@ Partial Class Main
         '
         Me.ReportMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.UserReportVandalism, Me.UserReportUsername, Me.UserReport3rr, Me.UserReportSock})
         Me.ReportMenu.Name = "ReportMenu"
-        Me.ReportMenu.OwnerItem = Me.UserReportB
-        Me.ReportMenu.Size = New System.Drawing.Size(213, 114)
+        Me.ReportMenu.OwnerItem = Me.UserReport
+        Me.ReportMenu.Size = New System.Drawing.Size(213, 92)
         '
         'UserReportVandalism
         '
@@ -824,6 +819,12 @@ Partial Class Main
         Me.UserReport3rr.Name = "UserReport3rr"
         Me.UserReport3rr.Size = New System.Drawing.Size(212, 22)
         Me.UserReport3rr.Text = "Three-revert rule violation"
+        '
+        'UserReportSock
+        '
+        Me.UserReportSock.Name = "UserReportSock"
+        Me.UserReportSock.Size = New System.Drawing.Size(212, 22)
+        Me.UserReportSock.Text = "Abuse of multiple accounts"
         '
         'UserReportB
         '
@@ -963,18 +964,17 @@ Partial Class Main
         Me.MenuStats.Size = New System.Drawing.Size(22, 24)
         Me.MenuStats.Text = " "
         '
-        'RevertB
+        'PageTagDeleteB
         '
-        Me.RevertB.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.RevertB.DropDown = Me.RevertMenu
-        Me.RevertB.DropDownButtonWidth = 16
-        Me.RevertB.Enabled = False
-        Me.RevertB.Image = Global.Huggle.My.Resources.Resources.diff_revert
-        Me.RevertB.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
-        Me.RevertB.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.RevertB.Name = "RevertB"
-        Me.RevertB.Size = New System.Drawing.Size(57, 52)
-        Me.RevertB.ToolTipText = "Revert this revision [R]"
+        Me.PageTagDeleteB.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.PageTagDeleteB.DropDown = Me.TagDeleteMenu
+        Me.PageTagDeleteB.Enabled = False
+        Me.PageTagDeleteB.Image = Global.Huggle.My.Resources.Resources.page_tag_delete
+        Me.PageTagDeleteB.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.PageTagDeleteB.Name = "PageTagDeleteB"
+        Me.PageTagDeleteB.ShowDropDownArrow = False
+        Me.PageTagDeleteB.Size = New System.Drawing.Size(32, 32)
+        Me.PageTagDeleteB.ToolTipText = "Tag this page for deletion [S]"
         '
         'Splitter
         '
@@ -1639,7 +1639,7 @@ Partial Class Main
         Me.ActionsStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PageViewB, Me.PageEditB, Me.PageWatchB, Me.PageTagB, Me.PageTagDeleteB, Me.PageDeleteB, Me.Separator15, Me.UserInfoB, Me.UserTalkB, Me.UserMessageB, Me.UserIgnoreB, Me.UserReportB, Me.UserBlockB})
         Me.ActionsStrip.Location = New System.Drawing.Point(3, 139)
         Me.ActionsStrip.Name = "ActionsStrip"
-        Me.ActionsStrip.Size = New System.Drawing.Size(424, 35)
+        Me.ActionsStrip.Size = New System.Drawing.Size(393, 35)
         Me.ActionsStrip.TabIndex = 5
         '
         'PageViewB
@@ -1759,12 +1759,6 @@ Partial Class Main
         Me.EditInfo.Size = New System.Drawing.Size(353, 78)
         Me.EditInfo.TabIndex = 46
         Me.EditInfo.Visible = False
-        '
-        'UserReportSock
-        '
-        Me.UserReportSock.Name = "UserReportSock"
-        Me.UserReportSock.Size = New System.Drawing.Size(212, 22)
-        Me.UserReportSock.Text = "Abuse of multiple accounts"
         '
         'Main
         '
@@ -2000,7 +1994,6 @@ Partial Class Main
     Friend WithEvents RevisionPrevious As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents RevisionNext As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents RevisionLatest As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents Separator31 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents RevisionSight As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents SightAndNext As System.Windows.Forms.ToolStripButton
     Friend WithEvents UserReportSock As System.Windows.Forms.ToolStripMenuItem

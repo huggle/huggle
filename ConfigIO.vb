@@ -663,6 +663,7 @@ Module ConfigIO
 
             Items.Add("name:" & Queue.Name)
             Items.Add("type:" & Queue.Type.ToString)
+            Items.Add("diff:" & Queue.DiffMode.ToString)
             Items.Add("filter-anonymous:" & CStr(CInt(Queue.FilterAnonymous)))
             Items.Add("filter-assisted:" & CStr(CInt(Queue.FilterAssisted)))
             Items.Add("filter-bot:" & CStr(CInt(Queue.FilterBot)))
@@ -676,19 +677,16 @@ Module ConfigIO
             Items.Add("filter-tags:" & CStr(CInt(Queue.FilterTags)))
             Items.Add("filter-warnings:" & CStr(CInt(Queue.FilterWarnings)))
             Items.Add("ignore-pages:" & CStr(Queue.IgnorePages).ToLower)
-
             If Queue.ListName IsNot Nothing Then Items.Add("list:" & Queue.ListName)
             If Queue.PageRegex IsNot Nothing Then Items.Add("page-regex:" & Queue.PageRegex.ToString)
-
             Items.Add("refresh-always:" & CStr(Queue.RefreshAlways))
             Items.Add("refresh-interval:" & CStr(Queue.RefreshInterval))
             Items.Add("refresh-readd:" & CStr(Queue.RefreshReAdd))
-
             Items.Add("remove-after:" & CStr(Queue.RemoveAfter).ToLower)
             Items.Add("remove-old:" & CStr(Queue.RemoveOld).ToLower)
             Items.Add("remove-viewed:" & CStr(Queue.RemoveViewed))
+            If Queue.RevisionRegex IsNot Nothing Then Items.Add("revision-regex:" & Queue.RevisionRegex.ToString)
             Items.Add("sort-order:" & CStr(CInt(Queue.SortOrder)))
-
             Items.Add("source:" & Queue.DynamicSource)
             Items.Add("source-type:" & Queue.DynamicSourceType)
 
@@ -704,6 +702,7 @@ Module ConfigIO
             End If
 
             If Queue.SummaryRegex IsNot Nothing Then Items.Add("summary-regex:" & Queue.SummaryRegex.ToString)
+            Items.Add("tray-notification:" & CStr(Queue.TrayNotification).ToLower)
             If Queue.UserRegex IsNot Nothing Then Items.Add("user-regex:" & Queue.UserRegex.ToString)
             If Queue.Users.Count > 0 Then Items.Add("users:" & String.Join(",", Queue.Users.ToArray))
 
@@ -719,6 +718,7 @@ Module ConfigIO
 
     Private Sub SetQueueOption(ByVal Queue As Queue, ByVal Name As String, ByVal Value As String)
         Select Case Name
+            Case "diff" : Queue.DiffMode = SetQueueDiffMode(Value)
             Case "filter-anonymous" : Queue.FilterAnonymous = GetQueueFilter(Value)
             Case "filter-assisted" : Queue.FilterAssisted = GetQueueFilter(Value)
             Case "filter-bot" : Queue.FilterBot = GetQueueFilter(Value)
@@ -737,6 +737,7 @@ Module ConfigIO
             Case "refresh-always" : Queue.RefreshAlways = CBool(Value)
             Case "refresh-interval" : Queue.RefreshInterval = CInt(Value)
             Case "refresh-readd" : Queue.RefreshReAdd = CBool(Value)
+            Case "revision-regex" : Queue.RevisionRegex = New Regex(Value, RegexOptions.Compiled)
             Case "remove-after" : Queue.RemoveAfter = CInt(Value)
             Case "remove-old" : Queue.RemoveOld = CBool(Value)
             Case "remove-viewed" : Queue.RemoveViewed = CBool(Value)
@@ -745,6 +746,7 @@ Module ConfigIO
             Case "source-type" : Queue.DynamicSourceType = Value
             Case "spaces" : Queue.Spaces.AddRange(SetQueueSpaces(Value))
             Case "summary-regex" : Queue.SummaryRegex = New Regex(Value, RegexOptions.Compiled)
+            Case "tray-notification" : Queue.TrayNotification = CBool(Value)
             Case "type" : Queue.Type = SetQueueType(Value)
             Case "user-regex" : Queue.UserRegex = New Regex(Value, RegexOptions.Compiled)
             Case "users" : Queue.Users = GetList(Value)
@@ -783,7 +785,6 @@ Module ConfigIO
             Dim NewQueue As New Queue("All edits")
             NewQueue.Type = QueueType.Live
             NewQueue.SortOrder = QueueSortOrder.Time
-            NewQueue.Preload = False
             NewQueue.Reset()
         End If
 
@@ -795,6 +796,14 @@ Module ConfigIO
             NewQueue.Reset()
         End If
     End Sub
+
+    Private Function SetQueueDiffMode(ByVal Value As String) As DiffMode
+        Select Case Value.ToLower
+            Case "0", "none" : Return DiffMode.None
+            Case "1", "preload" : Return DiffMode.Preload
+            Case "2", "all" : Return DiffMode.All
+        End Select
+    End Function
 
     Private Function GetQueueFilter(ByVal Value As String) As QueueFilter
         Select Case Value.ToLower

@@ -28,7 +28,8 @@ Partial Class RegexBox
         '
         'Pattern
         '
-        Me.Pattern.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.Pattern.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Pattern.Location = New System.Drawing.Point(0, 0)
         Me.Pattern.Margin = New System.Windows.Forms.Padding(0, 0, 0, 3)
@@ -38,8 +39,7 @@ Partial Class RegexBox
         '
         'Status
         '
-        Me.Status.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.Status.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Status.Location = New System.Drawing.Point(0, 23)
         Me.Status.Margin = New System.Windows.Forms.Padding(0)

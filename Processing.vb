@@ -241,8 +241,7 @@ Module Processing
     End Sub
 
     Sub ProcessNewEdit(ByVal Edit As Edit)
-        If Edit.User Is Nothing OrElse Edit.Page Is Nothing OrElse MainForm Is Nothing OrElse Not MainForm.Visible _
-            Then Exit Sub
+        If Edit.User Is Nothing OrElse Edit.Page Is Nothing OrElse MainForm Is Nothing Then Exit Sub
 
         Dim Redraw As Boolean
 
@@ -279,13 +278,19 @@ Module Processing
         'Add edit to queues
         For Each Queue As Queue In Queue.All.Values
             If Queue.MatchesFilter(Edit) Then
-                Queue.AddEdit(Edit)
+                If Queue.RevisionRegex IsNot Nothing AndAlso Queue.DiffMode = DiffMode.All Then
+                    Dim NewRequest As New DiffRequest
+                    NewRequest.Edit = Edit
+                    NewRequest.Start()
+                Else
+                    Queue.AddEdit(Edit)
 
-                If Queue Is CurrentQueue Then
-                    'Keep user's viewing position when adding new items, if not looking at the top of the queue
-                    If Queue.SortOrder = QueueSortOrder.Time AndAlso MainForm.QueueScroll.Value > 0 _
-                        Then MainForm.QueueScroll.Value += 1
-                    Redraw = True
+                    If Queue Is CurrentQueue Then
+                        'Keep user's viewing position when adding new items, if not looking at the top of the queue
+                        If Queue.SortOrder = QueueSortOrder.Time AndAlso MainForm.QueueScroll.Value > 0 _
+                            Then MainForm.QueueScroll.Value += 1
+                        Redraw = True
+                    End If
                 End If
             End If
         Next Queue
@@ -422,16 +427,14 @@ Module Processing
         End If
 
         'Preload diffs
-        If CurrentQueue IsNot Nothing AndAlso CurrentQueue.Preload _
+        If CurrentQueue IsNot Nothing AndAlso CurrentQueue.DiffMode = DiffMode.Preload _
             AndAlso DiffRequest.PreloadCount < Config.Preloads + 1 Then
 
             For k As Integer = 0 To Math.Min(CurrentQueue.Edits.Count, Config.Preloads) - 1
-                If CurrentQueue.Edits(k).Cached = Edit.CacheState.Uncached Then
-                    CurrentQueue.Edits(k).Cached = Edit.CacheState.Caching
-
-                    Dim NewDiffRequest As New DiffRequest
-                    NewDiffRequest.Edit = CurrentQueue.Edits(k)
-                    NewDiffRequest.Start()
+                If CurrentQueue.Edits(k).DiffCacheState = Edit.CacheState.Uncached Then
+                    Dim NewRequest As New DiffRequest
+                    NewRequest.Edit = CurrentQueue.Edits(k)
+                    NewRequest.Start()
 
                     DiffRequest.PreloadCount += 1
                     If DiffRequest.PreloadCount >= Config.Preloads Then Exit For
@@ -858,14 +861,53 @@ Module Processing
             If DiffText.Contains("<div id=""mw-diff-ntitle4"">&nbsp;</div>") Then Edit.Page.LastEdit = Edit
 
             If Not Edit.Prev.Processed Then ProcessEdit(Edit.Prev)
+
+            Edit.ChangedContent = GetChangesFromDiff(DiffText)
+
+            'Queues that have a revision content filter will now know whether they can add this revision
+            For Each Queue As Queue In Queue.All.Values
+                If Queue.RevisionRegex IsNot Nothing AndAlso Queue.MatchesFilter(Edit) _
+                    AndAlso Queue.MatchesContentFilter(Edit) Then Queue.AddEdit(Edit)
+            Next Queue
         End If
 
         Edit.Diff = DiffText
-        Edit.Cached = Edit.CacheState.Cached
+        Edit.DiffCacheState = Edit.CacheState.Cached
 
         If Tab.Edit Is Edit OrElse (Tab.Edit.Next Is Edit AndAlso HidingEdit) _
             Then DisplayEdit(Edit, False, Tab, Not Edit.User.IsMe)
     End Sub
+
+    'Converts an HTML diff into a string containing LF-separated list of changes on 'new' side of diff
+    Function GetChangesFromDiff(ByVal Text As String) As String
+        Dim Changes As String = "", Pos As Integer = 0, TextPart As String
+
+        Pos = Text.IndexOf("<td class=""diff-addedline"">")
+
+        While Pos > -1
+            TextPart = Text.Substring(Pos)
+            Dim Line As String = FindString(TextPart, "<td class=""diff-addedline"">", "</td>")
+
+            If Line.Contains("<span class=""diffchange") Then
+                While Line.Contains("<span class=""diffchange")
+                    Dim Change As String = FindString(Line, "<span class=""diffchange", ">", "</span>")
+
+                    Changes &= HtmlDecode(StripHTML(Change)) & LF
+                    Line = Line.Substring(Line.IndexOf("<span class=""diffchange") + 1)
+                End While
+
+            ElseIf Line.Length > 0 Then
+                'No 'diffchange' spans and nothing on the other side => the whole line was added
+                Dim RowStart As String = Text.Substring(Text.Substring(0, Pos).LastIndexOf("<tr>"))
+                RowStart = RowStart.Substring(0, RowStart.IndexOf("<td class=""diff-addedline"">"))
+                If RowStart.Contains("<td colspan=""2"">&nbsp;</td>") Then Changes &= HtmlDecode(StripHTML(Line)) & LF
+            End If
+
+            Pos = Text.IndexOf("<td class=""diff-addedline"">", Pos + 1)
+        End While
+
+        Return Changes
+    End Function
 
     Sub ProcessHistory(ByVal Result As String, ByVal Page As Page)
 
@@ -1012,7 +1054,7 @@ Module Processing
 
         If CurrentQueue IsNot Nothing Then
             For j As Integer = 0 To Math.Min(CurrentQueue.Edits.Count - 1, Config.Preloads - 1)
-                If CurrentQueue.Edits(j).Cached = Edit.CacheState.Uncached Then
+                If CurrentQueue.Edits(j).DiffCacheState = Edit.CacheState.Uncached Then
                     Dim NewGetDiffRequest As New DiffRequest
                     NewGetDiffRequest.Edit = CurrentQueue.Edits(j)
                     NewGetDiffRequest.Start()
@@ -1162,7 +1204,7 @@ Module Processing
 
             If Edit.Deleted Then
                 Tab.Browser.DocumentText = "<div style=""font-family: Arial"">This revision has been deleted.</div>"
-                Edit.Cached = Edit.CacheState.Viewed
+                Edit.DiffCacheState = Edit.CacheState.Viewed
 
             ElseIf Edit.Prev Is NullEdit Then
                 'For the first revision to the page, show the revision
@@ -1172,7 +1214,7 @@ Module Processing
                 NewRequest.Start()
 
             Else
-                If Edit.Cached = Edit.CacheState.Cached OrElse Edit.Cached = Edit.CacheState.Viewed Then
+                If Edit.DiffCacheState = Edit.CacheState.Cached OrElse Edit.DiffCacheState = Edit.CacheState.Viewed Then
 
                     If Edit.Diff IsNot Nothing Then
                         Dim DocumentText, DiffText As String
@@ -1205,14 +1247,14 @@ Module Processing
                         End Try
                     End If
 
-                    Edit.Cached = Edit.CacheState.Viewed
+                    Edit.DiffCacheState = Edit.CacheState.Viewed
 
                     MainForm.PageB.ForeColor = Color.Black
                     MainForm.RevertTimer.Stop()
                     MainForm.Reverting = False
                     HidingEdit = False
 
-                ElseIf Edit.Cached = Edit.CacheState.Uncached Then
+                ElseIf Edit.DiffCacheState = Edit.CacheState.Uncached Then
                     If Tab Is CurrentTab Then
                         For Each Item As ToolStripItem In New ToolStripItem() _
                             {MainForm.RevertWarnB, MainForm.RevertB, MainForm.WarnB, _

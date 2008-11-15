@@ -189,7 +189,15 @@ Class LoginForm
         Config.Project = Project.Text
         Config.Username = Username.Text
 
-        If Username.Text = "" Then Username.Focus() Else If Password.Text = "" Then Password.Focus() Else OK.Focus()
+        If Status.Text = Msg("login-error-invalid") Then
+            Username.Focus()
+            Username.SelectAll()
+        ElseIf Status.Text = Msg("login-error-password") Then
+            Password.Focus()
+            Password.SelectAll()
+        Else
+            OK.Focus()
+        End If
     End Sub
 
     Sub Done()

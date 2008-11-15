@@ -46,7 +46,7 @@ Class Main
         HistoryStrip.AutoSize = False
         If Mono() Then HistoryStrip.LayoutStyle = ToolStripLayoutStyle.HorizontalStackWithOverflow
         MainStrip.Location = New Point(3, 24)
-        HistoryStrip.Location = New Point(406, 24)
+        HistoryStrip.Location = New Point(426, 24)
         NavigationStrip.Location = New Point(3, 79)
         ActionsStrip.Location = New Point(434, 79)
 
