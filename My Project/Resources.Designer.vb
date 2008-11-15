@@ -286,7 +286,7 @@ Namespace My.Resources
         
         '''<summary>
         '''  Looks up a localized string similar to &lt;pre&gt;
-        '''name:                    Deutsch
+        '''name:                      Deutsch
         '''&lt;/pre&gt;
         '''
         '''=== General ===
@@ -302,7 +302,7 @@ Namespace My.Resources
         '''error:                     Fehler
         '''exit:                      Beenden
         '''minimizewindow:            Minimieren
-        '''no:                        Nei [rest of string was truncated]&quot;;.
+        '''no:                        N [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property de() As String
             Get
