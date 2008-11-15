@@ -11,7 +11,6 @@ Partial Class Main
         CurrentTab.ShowNewEdits = Config.ShowNewEdits
         TrayIcon.Visible = Config.TrayIcon
         QueueContainer.Width = Config.QueueWidth + QueueScroll.Width
-        Splitter.Panel2Collapsed = Not Config.ShowLog
 
         RevisionSight.Visible = Config.Sight AndAlso Config.Rights.Contains("review")
         SightAndNext.Visible = Config.Sight AndAlso Config.Rights.Contains("review")
@@ -148,6 +147,8 @@ Partial Class Main
             Tabs.Width = Tabs.Parent.Width
             QueueContainer.Visible = False
         End If
+
+        If Config.ShowLog Then LayoutPanel.RowStyles(2).Height = 88 Else LayoutPanel.RowStyles(2).Height = 0
 
         If CurrentEdit IsNot Nothing AndAlso CurrentPage IsNot Nothing AndAlso CurrentUser IsNot Nothing _
             AndAlso CurrentQueue IsNot Nothing Then

@@ -378,10 +378,10 @@ Namespace Requests
                 Exit Sub
             End If
 
-            If Not Result.Text.Contains("missing=""""") Then
-                Fail(Msg("report-fail", User.Name), "report for user already exists")
-                Exit Sub
-            End If
+            'If Not Result.Text.Contains("missing=""""") Then
+            '    Fail(Msg("report-fail", User.Name), "report for user already exists")
+            '    Exit Sub
+            'End If
 
             Dim Report As String = ""
 
@@ -389,9 +389,9 @@ Namespace Requests
             Report &= "{{socklinks|1=" & User.Name & "}}" & LF & LF
             Report &= ";Known or suspected alternate accounts" & LF
 
-            For Each Item As String In Accounts
-                Report &= "* {{socklinks|1=" & User.Name & "}}" & LF
-            Next Item
+            For Each Account As String In Accounts
+                Report &= "* {{socklinks|1=" & Account & "}}" & LF
+            Next Account
 
             Report &= LF
             Report &= ";Reported by" & LF
@@ -419,11 +419,11 @@ Namespace Requests
                 Exit Sub
             End If
 
-            Dim Text As String = Result.Text
+            Dim Text As String = HtmlDecode(FindString(Result.Text, "<rev>", "</rev>"))
 
-            If Text.Contains("{{") _
-                Then Text = Text.Substring(0, Text.IndexOf("{{")) & "{{" & Config.SockReportLocation & "/" & _
-                User.Name & "}}" & LF & Text.Substring(Text.IndexOf("{{")) _
+            If Text.Contains(LF & "{{") _
+                Then Text = Text.Substring(0, Text.IndexOf(LF & "{{")) & LF & "{{" & Config.SockReportLocation & "/" & _
+                User.Name & "}}" & Text.Substring(Text.IndexOf(LF & "{{")) _
                 Else Text &= "{{" & Config.SockReportLocation & "/" & User.Name & "}}"
 
             Result = PostEdit(Config.SockReportLocation, Text, Config.ReportSummary.Replace("$1", User.Name), _

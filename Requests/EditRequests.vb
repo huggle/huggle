@@ -95,8 +95,7 @@ Namespace Requests
 
         'Tag a page for speedy deletion
 
-        Public Page As Page, Criterion As SpeedyCriterion, Parameter As String
-        Public AutoNotify, Notify As Boolean
+        Public Page As Page, Criterion As SpeedyCriterion, Parameter As String, AutoNotify, Notify As Boolean
 
         Protected Overrides Sub Process()
             LogProgress(Msg("speedy-progress", Page.Name))
@@ -142,7 +141,7 @@ Namespace Requests
                 UndoEdit(Page)
             Else
 
-                If Config.PatrolSpeedy Then
+                If Config.PatrolSpeedy AndAlso Not Page.Creator Is User.Me Then
                     Dim NewPatrolRequest As New PatrolRequest
                     NewPatrolRequest.Page = Page
                     NewPatrolRequest.Start()

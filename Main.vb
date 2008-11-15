@@ -30,25 +30,11 @@ Class Main
         Location = New Point(Math.Max(32, Config.WindowPosition.X), Math.Max(32, Config.WindowPosition.Y))
         Size = New Size(Math.Max(Config.WindowSize.Width, MinimumSize.Width), _
             Math.Max(Config.WindowSize.Height, MinimumSize.Height))
-        If Config.WindowMaximize Then WindowState = FormWindowState.Maximized _
-            Else WindowState = FormWindowState.Normal
+        If Config.WindowMaximize Then WindowState = FormWindowState.Maximized Else WindowState = FormWindowState.Normal
 
         SystemReconnectIRC.Enabled = Config.IrcMode
 
-        Try
-            Splitter.SplitterDistance = Splitter.Height - 100
-        Catch ex As ArgumentOutOfRangeException
-
-        End Try
-
         StartTime = Date.UtcNow
-
-        HistoryStrip.AutoSize = False
-        If Mono() Then HistoryStrip.LayoutStyle = ToolStripLayoutStyle.HorizontalStackWithOverflow
-        MainStrip.Location = New Point(3, 24)
-        HistoryStrip.Location = New Point(426, 24)
-        NavigationStrip.Location = New Point(3, 79)
-        ActionsStrip.Location = New Point(434, 79)
 
         For Each Item As String In LogBuffer
             Log(Item)
@@ -126,10 +112,13 @@ Class Main
     End Sub
 
     Private Sub Main_ResizeShown() Handles Me.Resize, Me.Shown
-        HistoryStrip.Size = New Size(Math.Max(300, Width - 341), 55)
-        History.Width = Math.Max(1, Width - 706)
-        Contribs.Width = Math.Max(1, Width - 706)
         Status.Columns(1).Width = Width - 30
+        HistoryStrip.Left = MainStrip.Right
+        ContribsStrip.Left = MainStrip.Right
+        HistoryStrip.Width = Width - MainStrip.Right - 3
+        ContribsStrip.Width = Width - MainStrip.Right - 3
+        History.Width = Width - MainStrip.Right - 320
+        Contribs.Width = Width - MainStrip.Right - 320
 
         If Visible Then
             DrawHistory()
@@ -378,7 +367,6 @@ Class Main
 
         If CurrentUser IsNot Nothing AndAlso CurrentUser.LastEdit IsNot Nothing Then
             Dim Position As Integer = CInt((Contribs.Width - e.X - 10) / 17) + Contribs.Offset
-
             Dim Edit As Edit = CurrentUser.LastEdit
 
             For i As Integer = 0 To Position - 1
@@ -394,21 +382,21 @@ Class Main
     End Sub
 
     Private Sub Contribs_MouseMove(ByVal s As Object, ByVal e As MouseEventArgs) Handles Contribs.MouseMove
-        If CurrentUser IsNot Nothing AndAlso CurrentUser.LastEdit IsNot Nothing Then
 
+        If CurrentUser IsNot Nothing AndAlso CurrentUser.LastEdit IsNot Nothing Then
             Dim Position As Integer = CInt((Contribs.Width - e.X - 10) / 17) + Contribs.Offset
-            Dim ThisEdit As Edit = CurrentUser.LastEdit
+            Dim Edit As Edit = CurrentUser.LastEdit
 
             For i As Integer = 0 To Position - 1
-                If ThisEdit.PrevByUser Is Nothing OrElse ThisEdit.PrevByUser Is NullEdit Then
+                If Edit.PrevByUser Is Nothing OrElse Edit.PrevByUser Is NullEdit Then
                     EditInfo.Visible = False
                     Exit Sub
                 End If
 
-                ThisEdit = ThisEdit.PrevByUser
+                Edit = Edit.PrevByUser
             Next i
 
-            EditInfo.SetEdit(ThisEdit, EditInfoPanel.DisplayMode.UserName)
+            EditInfo.SetEdit(Edit, EditInfoPanel.DisplayMode.UserName)
             EditInfo.Left = Width - EditInfo.Width - 12
             EditInfo.Top = 78
             EditInfo.Visible = True
@@ -468,7 +456,7 @@ Class Main
     End Sub
 
     Private Sub ContribsScroll_MouseUp(ByVal Sender As Object, ByVal e As MouseEventArgs) _
-        Handles ContribsScrollLB.MouseUp, ContribsScrollRB.MouseUp
+        Handles ContribsScrollLB.MouseDown, ContribsScrollRB.MouseDown
 
         If Sender Is ContribsScrollLB Then ContribsLeft() Else ContribsRight()
         ScrollTimer.Stop()
@@ -1022,8 +1010,8 @@ Class Main
     End Sub
 
     Private Sub ShowLog_Click() Handles SystemShowLog.Click
-        Splitter.Panel2Collapsed = Not SystemShowLog.Checked
         Config.ShowLog = SystemShowLog.Checked
+        RefreshInterface()
     End Sub
 
     Private Sub ShowQueue_Click() Handles SystemShowQueue.Click
@@ -1322,7 +1310,7 @@ Class Main
             Then e.SuppressKeyPress = True
     End Sub
 
-    Private Sub UserB_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles UserB.KeyDown
+    Private Sub UserB_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs)
         If e.KeyCode = Keys.Enter AndAlso UserB.Text <> "" _
             AndAlso (CurrentUser Is Nothing OrElse CurrentUser.Name <> UserB.Text) Then
 
@@ -1591,4 +1579,34 @@ Class Main
         End If
     End Sub
 
+    Private Sub QueueArea_Paint() Handles QueueArea.Paint
+        DrawQueue()
+    End Sub
+
+    Private Sub HistoryContribs_MouseLeave(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles History.MouseLeave, Contribs.MouseLeave
+
+    End Sub
+    Private Sub UserContribs_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UserContribs.Click, ContribsB.Click
+
+    End Sub
+    Private Sub UserB_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UserB.TextChanged
+
+    End Sub
+    Private Sub UserB_ForeColorChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UserB.ForeColorChanged
+
+    End Sub
+    Private Sub UserB_Leave(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UserB.Leave
+
+    End Sub
+    Private Sub UserB_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UserB.SelectedIndexChanged
+
+    End Sub
+
+    Private Sub QueueArea_Paint(ByVal sender As System.Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles QueueArea.Paint
+
+    End Sub
+
+    Private Sub Status_ItemActivate(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Status.ItemActivate
+
+    End Sub
 End Class

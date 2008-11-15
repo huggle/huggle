@@ -18,27 +18,27 @@ Class SpeedyForm
                 OrElse True _
                 Then Criterion.Items.Add(Item.Code & " - " & Item.Description)
         Next Item
+
         'Hide the param features and make the form the rigth size for when not included
         Param.Visible = False
         ParamLabel.Visible = False
-        Me.Height -= 30
-
+        Height -= 30
     End Sub
 
     Private Sub OK_Click() Handles OK.Click
         If Criterion.SelectedIndex > -1 Then
-            Me.DialogResult = DialogResult.OK
-            Me.Close()
+            DialogResult = DialogResult.OK
+            Close()
         End If
     End Sub
 
     Private Sub Cancel_Click() Handles Cancel.Click
-        Me.DialogResult = DialogResult.Cancel
-        Me.Close()
+        DialogResult = DialogResult.Cancel
+        Close()
     End Sub
 
     Private Sub SpeedyTagForm_FormClosing() Handles Me.FormClosing
-        If Me.DialogResult = DialogResult.OK Then
+        If DialogResult = DialogResult.OK Then
 
             Dim NewSpeedyRequest As New SpeedyRequest
             NewSpeedyRequest.Page = Page
@@ -59,19 +59,17 @@ Class SpeedyForm
     End Sub
 
     Private Sub Criterion_TextChanged() Handles Criterion.TextChanged
-        If Criterion.SelectedIndex > -1 _
-            Then NotifyCreator.Checked = Config.SpeedyCriteria(Criterion.Text.Substring(0, Criterion.Text.IndexOf(" "))).Notify
+        If Criterion.SelectedIndex > -1 Then NotifyCreator.Checked = _
+            Config.SpeedyCriteria(Criterion.Text.Substring(0, Criterion.Text.IndexOf(" "))).Notify
     End Sub
 
     Private Sub SpeedyTagForm_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles MyBase.KeyDown
         If e.KeyCode = Keys.Escape Then Close()
     End Sub
 
-    Private Sub Criterion_SelectedIndexChanged() _
-        Handles Criterion.SelectedIndexChanged
-
-        If Criterion.SelectedIndex > -1 _
-            Then NotifyCreator.Checked = Config.SpeedyCriteria(Criterion.Text.Substring(0, Criterion.Text.IndexOf(" "))).Notify
+    Private Sub Criterion_SelectedIndexChanged() Handles Criterion.SelectedIndexChanged
+        If Criterion.SelectedIndex > -1 Then NotifyCreator.Checked = _
+            Config.SpeedyCriteria(Criterion.Text.Substring(0, Criterion.Text.IndexOf(" "))).Notify
         OK.Enabled = (Criterion.SelectedIndex <> -1)
 
         If Criterion.Text.Substring(0, Criterion.Text.IndexOf(" ")) = "G12" Then

@@ -135,7 +135,7 @@ Partial Class SockReportForm
         Me.KeyPreview = True
         Me.MaximizeBox = False
         Me.Name = "SockReportForm"
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Reporting user"
         Me.ResumeLayout(False)
         Me.PerformLayout()

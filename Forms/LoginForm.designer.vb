@@ -224,6 +224,7 @@ Partial Class LoginForm
         Me.Project.MaxDropDownItems = 20
         Me.Project.Name = "Project"
         Me.Project.Size = New System.Drawing.Size(140, 21)
+        Me.Project.Sorted = True
         Me.Project.TabIndex = 4
         '
         'ProjectLabel
@@ -352,6 +353,7 @@ Partial Class LoginForm
         Me.Language.MaxDropDownItems = 20
         Me.Language.Name = "Language"
         Me.Language.Size = New System.Drawing.Size(140, 21)
+        Me.Language.Sorted = True
         Me.Language.TabIndex = 1
         '
         'Translate

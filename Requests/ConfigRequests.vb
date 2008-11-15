@@ -221,6 +221,8 @@ Namespace Requests
             Next Item
 
             If MinorItems.Count = 0 Then MinorItems.Add("none")
+            MinorItems.Sort()
+
             Items.Add("minor:" & String.Join(",", MinorItems.ToArray))
 
             Items.Add("open-in-browser:" & CStr(Config.OpenInBrowser).ToLower)
@@ -261,8 +263,9 @@ Namespace Requests
             Next Item
 
             If Config.WatchDelete Then WatchItems.Add("delete")
-
             If WatchItems.Count = 0 Then WatchItems.Add("none")
+            WatchItems.Sort()
+
             Items.Add("watch:" & String.Join(",", WatchItems.ToArray))
 
             Dim Result As ApiResult = PostEdit(Config.UserConfigLocation, String.Join(LF, Items.ToArray), _
