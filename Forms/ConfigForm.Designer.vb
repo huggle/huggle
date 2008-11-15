@@ -29,16 +29,18 @@ Partial Class ConfigForm
         Me.RememberPassword = New System.Windows.Forms.CheckBox
         Me.RememberMe = New System.Windows.Forms.CheckBox
         Me.DiffFontSize = New System.Windows.Forms.NumericUpDown
-        Me.Preloads = New System.Windows.Forms.NumericUpDown
+        Me.PreloadCount = New System.Windows.Forms.NumericUpDown
         Me.IrcMode = New System.Windows.Forms.CheckBox
         Me.LogFileBrowse = New System.Windows.Forms.Button
         Me.LogFile = New System.Windows.Forms.TextBox
         Me.LogFileLabel = New System.Windows.Forms.Label
         Me.OpenInBrowser = New System.Windows.Forms.CheckBox
+        Me.Label2 = New System.Windows.Forms.Label
+        Me.Label1 = New System.Windows.Forms.Label
         Me.Label14 = New System.Windows.Forms.Label
         Me.DiffFontSizeLabel = New System.Windows.Forms.Label
         Me.ShowNewEdits = New System.Windows.Forms.CheckBox
-        Me.Preloading = New System.Windows.Forms.CheckBox
+        Me.Preloads = New System.Windows.Forms.CheckBox
         Me.IrcPortLabel = New System.Windows.Forms.Label
         Me.IrcPort = New System.Windows.Forms.TextBox
         Me.AutoWhitelist = New System.Windows.Forms.CheckBox
@@ -68,7 +70,6 @@ Partial Class ConfigForm
         Me.Watchlist = New System.Windows.Forms.CheckedListBox
         Me.Minor = New System.Windows.Forms.CheckedListBox
         Me.RevertTab = New System.Windows.Forms.TabPage
-        Me.ConfirmRange = New System.Windows.Forms.CheckBox
         Me.ConfirmWarned = New System.Windows.Forms.CheckBox
         Me.ClearSummaries = New System.Windows.Forms.Button
         Me.ClearSummariesLabel = New System.Windows.Forms.Label
@@ -81,6 +82,7 @@ Partial Class ConfigForm
         Me.AutoAdvance = New System.Windows.Forms.CheckBox
         Me.ConfirmSame = New System.Windows.Forms.CheckBox
         Me.ConfirmMultiple = New System.Windows.Forms.CheckBox
+        Me.ConfirmRange = New System.Windows.Forms.CheckBox
         Me.ReportingTab = New System.Windows.Forms.TabPage
         Me.ExtendReports = New System.Windows.Forms.CheckBox
         Me.ReportLinkExamples = New System.Windows.Forms.CheckBox
@@ -135,7 +137,7 @@ Partial Class ConfigForm
         Me.Tabs.SuspendLayout()
         Me.GeneralTab.SuspendLayout()
         CType(Me.DiffFontSize, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Preloads, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.PreloadCount, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.InterfaceTab.SuspendLayout()
         Me.KeyboardTab.SuspendLayout()
         Me.EditingTab.SuspendLayout()
@@ -194,16 +196,18 @@ Partial Class ConfigForm
         Me.GeneralTab.Controls.Add(Me.RememberPassword)
         Me.GeneralTab.Controls.Add(Me.RememberMe)
         Me.GeneralTab.Controls.Add(Me.DiffFontSize)
-        Me.GeneralTab.Controls.Add(Me.Preloads)
+        Me.GeneralTab.Controls.Add(Me.PreloadCount)
         Me.GeneralTab.Controls.Add(Me.IrcMode)
         Me.GeneralTab.Controls.Add(Me.LogFileBrowse)
         Me.GeneralTab.Controls.Add(Me.LogFile)
         Me.GeneralTab.Controls.Add(Me.LogFileLabel)
         Me.GeneralTab.Controls.Add(Me.OpenInBrowser)
+        Me.GeneralTab.Controls.Add(Me.Label2)
+        Me.GeneralTab.Controls.Add(Me.Label1)
         Me.GeneralTab.Controls.Add(Me.Label14)
         Me.GeneralTab.Controls.Add(Me.DiffFontSizeLabel)
         Me.GeneralTab.Controls.Add(Me.ShowNewEdits)
-        Me.GeneralTab.Controls.Add(Me.Preloading)
+        Me.GeneralTab.Controls.Add(Me.Preloads)
         Me.GeneralTab.Controls.Add(Me.IrcPortLabel)
         Me.GeneralTab.Controls.Add(Me.IrcPort)
         Me.GeneralTab.Controls.Add(Me.AutoWhitelist)
@@ -237,7 +241,7 @@ Partial Class ConfigForm
         '
         'DiffFontSize
         '
-        Me.DiffFontSize.Location = New System.Drawing.Point(75, 216)
+        Me.DiffFontSize.Location = New System.Drawing.Point(115, 217)
         Me.DiffFontSize.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
         Me.DiffFontSize.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.DiffFontSize.Name = "DiffFontSize"
@@ -245,15 +249,15 @@ Partial Class ConfigForm
         Me.DiffFontSize.TabIndex = 33
         Me.DiffFontSize.Value = New Decimal(New Integer() {1, 0, 0, 0})
         '
-        'Preloads
+        'PreloadCount
         '
-        Me.Preloads.Location = New System.Drawing.Point(190, 127)
-        Me.Preloads.Maximum = New Decimal(New Integer() {5, 0, 0, 0})
-        Me.Preloads.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
-        Me.Preloads.Name = "Preloads"
-        Me.Preloads.Size = New System.Drawing.Size(50, 20)
-        Me.Preloads.TabIndex = 32
-        Me.Preloads.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.PreloadCount.Location = New System.Drawing.Point(190, 127)
+        Me.PreloadCount.Maximum = New Decimal(New Integer() {5, 0, 0, 0})
+        Me.PreloadCount.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.PreloadCount.Name = "PreloadCount"
+        Me.PreloadCount.Size = New System.Drawing.Size(50, 20)
+        Me.PreloadCount.TabIndex = 32
+        Me.PreloadCount.Value = New Decimal(New Integer() {1, 0, 0, 0})
         '
         'IrcMode
         '
@@ -268,7 +272,7 @@ Partial Class ConfigForm
         'LogFileBrowse
         '
         Me.LogFileBrowse.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.LogFileBrowse.Location = New System.Drawing.Point(421, 251)
+        Me.LogFileBrowse.Location = New System.Drawing.Point(421, 252)
         Me.LogFileBrowse.Name = "LogFileBrowse"
         Me.LogFileBrowse.Size = New System.Drawing.Size(75, 23)
         Me.LogFileBrowse.TabIndex = 29
@@ -279,19 +283,19 @@ Partial Class ConfigForm
         '
         Me.LogFile.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.LogFile.Location = New System.Drawing.Point(57, 253)
+        Me.LogFile.Location = New System.Drawing.Point(115, 254)
         Me.LogFile.Name = "LogFile"
-        Me.LogFile.Size = New System.Drawing.Size(358, 20)
+        Me.LogFile.Size = New System.Drawing.Size(300, 20)
         Me.LogFile.TabIndex = 28
         '
         'LogFileLabel
         '
-        Me.LogFileLabel.AutoSize = True
-        Me.LogFileLabel.Location = New System.Drawing.Point(7, 256)
+        Me.LogFileLabel.Location = New System.Drawing.Point(0, 257)
         Me.LogFileLabel.Name = "LogFileLabel"
-        Me.LogFileLabel.Size = New System.Drawing.Size(44, 13)
+        Me.LogFileLabel.Size = New System.Drawing.Size(115, 18)
         Me.LogFileLabel.TabIndex = 27
         Me.LogFileLabel.Text = "Log file:"
+        Me.LogFileLabel.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'OpenInBrowser
         '
@@ -303,10 +307,28 @@ Partial Class ConfigForm
         Me.OpenInBrowser.Text = "Open browser links in new browser window"
         Me.OpenInBrowser.UseVisualStyleBackColor = True
         '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(246, 130)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(34, 13)
+        Me.Label2.TabIndex = 24
+        Me.Label2.Text = "(1 - 5)"
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(167, 185)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(70, 13)
+        Me.Label1.TabIndex = 24
+        Me.Label1.Text = "(6664 - 6669)"
+        '
         'Label14
         '
         Me.Label14.AutoSize = True
-        Me.Label14.Location = New System.Drawing.Point(127, 218)
+        Me.Label14.Location = New System.Drawing.Point(167, 219)
         Me.Label14.Name = "Label14"
         Me.Label14.Size = New System.Drawing.Size(16, 13)
         Me.Label14.TabIndex = 24
@@ -314,12 +336,12 @@ Partial Class ConfigForm
         '
         'DiffFontSizeLabel
         '
-        Me.DiffFontSizeLabel.AutoSize = True
-        Me.DiffFontSizeLabel.Location = New System.Drawing.Point(6, 218)
+        Me.DiffFontSizeLabel.Location = New System.Drawing.Point(0, 219)
         Me.DiffFontSizeLabel.Name = "DiffFontSizeLabel"
-        Me.DiffFontSizeLabel.Size = New System.Drawing.Size(68, 13)
+        Me.DiffFontSizeLabel.Size = New System.Drawing.Size(115, 18)
         Me.DiffFontSizeLabel.TabIndex = 22
         Me.DiffFontSizeLabel.Text = "Diff font size:"
+        Me.DiffFontSizeLabel.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'ShowNewEdits
         '
@@ -331,30 +353,30 @@ Partial Class ConfigForm
         Me.ShowNewEdits.Text = "Show new edits to the selected page as they are made"
         Me.ShowNewEdits.UseVisualStyleBackColor = True
         '
-        'Preloading
+        'Preloads
         '
-        Me.Preloading.AutoSize = True
-        Me.Preloading.Location = New System.Drawing.Point(9, 130)
-        Me.Preloading.Name = "Preloading"
-        Me.Preloading.Size = New System.Drawing.Size(178, 17)
-        Me.Preloading.TabIndex = 9
-        Me.Preloading.Text = "Enable preloading of diffs (1 - 5):"
-        Me.Preloading.UseVisualStyleBackColor = True
+        Me.Preloads.AutoSize = True
+        Me.Preloads.Location = New System.Drawing.Point(9, 130)
+        Me.Preloads.Name = "Preloads"
+        Me.Preloads.Size = New System.Drawing.Size(148, 17)
+        Me.Preloads.TabIndex = 9
+        Me.Preloads.Text = "Enable preloading of diffs:"
+        Me.Preloads.UseVisualStyleBackColor = True
         '
         'IrcPortLabel
         '
-        Me.IrcPortLabel.AutoSize = True
-        Me.IrcPortLabel.Location = New System.Drawing.Point(6, 184)
+        Me.IrcPortLabel.Location = New System.Drawing.Point(0, 185)
         Me.IrcPortLabel.Name = "IrcPortLabel"
-        Me.IrcPortLabel.Size = New System.Drawing.Size(115, 13)
+        Me.IrcPortLabel.Size = New System.Drawing.Size(115, 17)
         Me.IrcPortLabel.TabIndex = 6
-        Me.IrcPortLabel.Text = "IRC port (6664 - 6669):"
+        Me.IrcPortLabel.Text = "IRC port:"
+        Me.IrcPortLabel.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'IrcPort
         '
-        Me.IrcPort.Location = New System.Drawing.Point(127, 181)
+        Me.IrcPort.Location = New System.Drawing.Point(115, 182)
         Me.IrcPort.Name = "IrcPort"
-        Me.IrcPort.Size = New System.Drawing.Size(48, 20)
+        Me.IrcPort.Size = New System.Drawing.Size(50, 20)
         Me.IrcPort.TabIndex = 5
         '
         'AutoWhitelist
@@ -626,7 +648,6 @@ Partial Class ConfigForm
         '
         'RevertTab
         '
-        Me.RevertTab.Controls.Add(Me.ConfirmRange)
         Me.RevertTab.Controls.Add(Me.ConfirmWarned)
         Me.RevertTab.Controls.Add(Me.ClearSummaries)
         Me.RevertTab.Controls.Add(Me.ClearSummariesLabel)
@@ -639,6 +660,7 @@ Partial Class ConfigForm
         Me.RevertTab.Controls.Add(Me.AutoAdvance)
         Me.RevertTab.Controls.Add(Me.ConfirmSame)
         Me.RevertTab.Controls.Add(Me.ConfirmMultiple)
+        Me.RevertTab.Controls.Add(Me.ConfirmRange)
         Me.RevertTab.Location = New System.Drawing.Point(4, 23)
         Me.RevertTab.Name = "RevertTab"
         Me.RevertTab.Padding = New System.Windows.Forms.Padding(3)
@@ -646,17 +668,6 @@ Partial Class ConfigForm
         Me.RevertTab.TabIndex = 5
         Me.RevertTab.Text = "Reverting"
         Me.RevertTab.UseVisualStyleBackColor = True
-        '
-        'ConfirmRange
-        '
-        Me.ConfirmRange.AutoSize = True
-        Me.ConfirmRange.Location = New System.Drawing.Point(9, 107)
-        Me.ConfirmRange.Name = "ConfirmRange"
-        Me.ConfirmRange.Size = New System.Drawing.Size(481, 17)
-        Me.ConfirmRange.TabIndex = 37
-        Me.ConfirmRange.Text = "Confirm reversion to edit by an anonymous user in the same /16 range as the user " & _
-            "being reverted"
-        Me.ConfirmRange.UseVisualStyleBackColor = True
         '
         'ConfirmWarned
         '
@@ -682,10 +693,9 @@ Partial Class ConfigForm
         'ClearSummariesLabel
         '
         Me.ClearSummariesLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.ClearSummariesLabel.AutoSize = True
         Me.ClearSummariesLabel.Location = New System.Drawing.Point(6, 283)
         Me.ClearSummariesLabel.Name = "ClearSummariesLabel"
-        Me.ClearSummariesLabel.Size = New System.Drawing.Size(395, 13)
+        Me.ClearSummariesLabel.Size = New System.Drawing.Size(424, 29)
         Me.ClearSummariesLabel.TabIndex = 35
         Me.ClearSummariesLabel.Text = "Summaries entered manually are remembered across sessions; click to clear these:"
         '
@@ -704,7 +714,7 @@ Partial Class ConfigForm
         Me.AddSummary.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.AddSummary.Location = New System.Drawing.Point(6, 251)
         Me.AddSummary.Name = "AddSummary"
-        Me.AddSummary.Size = New System.Drawing.Size(62, 23)
+        Me.AddSummary.Size = New System.Drawing.Size(70, 23)
         Me.AddSummary.TabIndex = 33
         Me.AddSummary.Text = "Add"
         Me.AddSummary.UseVisualStyleBackColor = True
@@ -713,9 +723,9 @@ Partial Class ConfigForm
         '
         Me.RemoveSummary.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.RemoveSummary.Enabled = False
-        Me.RemoveSummary.Location = New System.Drawing.Point(74, 251)
+        Me.RemoveSummary.Location = New System.Drawing.Point(82, 251)
         Me.RemoveSummary.Name = "RemoveSummary"
-        Me.RemoveSummary.Size = New System.Drawing.Size(62, 23)
+        Me.RemoveSummary.Size = New System.Drawing.Size(70, 23)
         Me.RemoveSummary.TabIndex = 32
         Me.RemoveSummary.Text = "Remove"
         Me.RemoveSummary.UseVisualStyleBackColor = True
@@ -781,6 +791,18 @@ Partial Class ConfigForm
         Me.ConfirmMultiple.Text = "Confirm reversion of multiple edits by the same user"
         Me.ConfirmMultiple.UseVisualStyleBackColor = True
         '
+        'ConfirmRange
+        '
+        Me.ConfirmRange.CheckAlign = System.Drawing.ContentAlignment.TopLeft
+        Me.ConfirmRange.Location = New System.Drawing.Point(9, 107)
+        Me.ConfirmRange.Name = "ConfirmRange"
+        Me.ConfirmRange.Size = New System.Drawing.Size(481, 28)
+        Me.ConfirmRange.TabIndex = 37
+        Me.ConfirmRange.Text = "Confirm reversion to edit by an anonymous user in the same /16 range as the user " & _
+            "being reverted"
+        Me.ConfirmRange.TextAlign = System.Drawing.ContentAlignment.TopLeft
+        Me.ConfirmRange.UseVisualStyleBackColor = True
+        '
         'ReportingTab
         '
         Me.ReportingTab.Controls.Add(Me.ExtendReports)
@@ -824,7 +846,7 @@ Partial Class ConfigForm
         Me.AutoReportGroup.Controls.Add(Me.ReportPrompt)
         Me.AutoReportGroup.Location = New System.Drawing.Point(6, 69)
         Me.AutoReportGroup.Name = "AutoReportGroup"
-        Me.AutoReportGroup.Size = New System.Drawing.Size(302, 109)
+        Me.AutoReportGroup.Size = New System.Drawing.Size(499, 109)
         Me.AutoReportGroup.TabIndex = 2
         Me.AutoReportGroup.TabStop = False
         Me.AutoReportGroup.Text = "Auto-report"
@@ -890,7 +912,7 @@ Partial Class ConfigForm
         Me.AddTemplate.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.AddTemplate.Location = New System.Drawing.Point(6, 249)
         Me.AddTemplate.Name = "AddTemplate"
-        Me.AddTemplate.Size = New System.Drawing.Size(62, 23)
+        Me.AddTemplate.Size = New System.Drawing.Size(70, 23)
         Me.AddTemplate.TabIndex = 35
         Me.AddTemplate.Text = "Add"
         Me.AddTemplate.UseVisualStyleBackColor = True
@@ -899,9 +921,9 @@ Partial Class ConfigForm
         '
         Me.RemoveTemplate.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.RemoveTemplate.Enabled = False
-        Me.RemoveTemplate.Location = New System.Drawing.Point(74, 249)
+        Me.RemoveTemplate.Location = New System.Drawing.Point(82, 249)
         Me.RemoveTemplate.Name = "RemoveTemplate"
-        Me.RemoveTemplate.Size = New System.Drawing.Size(62, 23)
+        Me.RemoveTemplate.Size = New System.Drawing.Size(70, 23)
         Me.RemoveTemplate.TabIndex = 34
         Me.RemoveTemplate.Text = "Remove"
         Me.RemoveTemplate.UseVisualStyleBackColor = True
@@ -1215,28 +1237,28 @@ Partial Class ConfigForm
         '
         'BlockTime
         '
-        Me.BlockTime.Location = New System.Drawing.Point(129, 140)
+        Me.BlockTime.Location = New System.Drawing.Point(163, 140)
         Me.BlockTime.Name = "BlockTime"
         Me.BlockTime.Size = New System.Drawing.Size(100, 20)
         Me.BlockTime.TabIndex = 8
         '
         'BlockTimeRegLabel
         '
-        Me.BlockTimeRegLabel.AutoSize = True
-        Me.BlockTimeRegLabel.Location = New System.Drawing.Point(39, 143)
+        Me.BlockTimeRegLabel.Location = New System.Drawing.Point(2, 143)
         Me.BlockTimeRegLabel.Name = "BlockTimeRegLabel"
-        Me.BlockTimeRegLabel.Size = New System.Drawing.Size(84, 13)
+        Me.BlockTimeRegLabel.Size = New System.Drawing.Size(159, 17)
         Me.BlockTimeRegLabel.TabIndex = 7
         Me.BlockTimeRegLabel.Text = "registered users:"
+        Me.BlockTimeRegLabel.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'BlockTimeAnonLabel
         '
-        Me.BlockTimeAnonLabel.AutoSize = True
-        Me.BlockTimeAnonLabel.Location = New System.Drawing.Point(31, 121)
+        Me.BlockTimeAnonLabel.Location = New System.Drawing.Point(0, 121)
         Me.BlockTimeAnonLabel.Name = "BlockTimeAnonLabel"
-        Me.BlockTimeAnonLabel.Size = New System.Drawing.Size(92, 13)
+        Me.BlockTimeAnonLabel.Size = New System.Drawing.Size(161, 17)
         Me.BlockTimeAnonLabel.TabIndex = 6
         Me.BlockTimeAnonLabel.Text = "anonymous users:"
+        Me.BlockTimeAnonLabel.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'BlockTimeLabel
         '
@@ -1249,23 +1271,23 @@ Partial Class ConfigForm
         '
         'BlockTimeAnon
         '
-        Me.BlockTimeAnon.Location = New System.Drawing.Point(129, 118)
+        Me.BlockTimeAnon.Location = New System.Drawing.Point(163, 118)
         Me.BlockTimeAnon.Name = "BlockTimeAnon"
         Me.BlockTimeAnon.Size = New System.Drawing.Size(100, 20)
         Me.BlockTimeAnon.TabIndex = 4
         '
         'BlockReasonLabel
         '
-        Me.BlockReasonLabel.AutoSize = True
-        Me.BlockReasonLabel.Location = New System.Drawing.Point(6, 67)
+        Me.BlockReasonLabel.Location = New System.Drawing.Point(2, 67)
         Me.BlockReasonLabel.Name = "BlockReasonLabel"
-        Me.BlockReasonLabel.Size = New System.Drawing.Size(108, 13)
+        Me.BlockReasonLabel.Size = New System.Drawing.Size(159, 17)
         Me.BlockReasonLabel.TabIndex = 3
         Me.BlockReasonLabel.Text = "Default block reason:"
+        Me.BlockReasonLabel.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'BlockReason
         '
-        Me.BlockReason.Location = New System.Drawing.Point(120, 64)
+        Me.BlockReason.Location = New System.Drawing.Point(163, 64)
         Me.BlockReason.Name = "BlockReason"
         Me.BlockReason.Size = New System.Drawing.Size(195, 20)
         Me.BlockReason.TabIndex = 2
@@ -1321,7 +1343,7 @@ Partial Class ConfigForm
         Me.GeneralTab.ResumeLayout(False)
         Me.GeneralTab.PerformLayout()
         CType(Me.DiffFontSize, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Preloads, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.PreloadCount, System.ComponentModel.ISupportInitialize).EndInit()
         Me.InterfaceTab.ResumeLayout(False)
         Me.InterfaceTab.PerformLayout()
         Me.KeyboardTab.ResumeLayout(False)
@@ -1364,7 +1386,7 @@ Partial Class ConfigForm
     Friend WithEvents ExtendReports As System.Windows.Forms.CheckBox
     Friend WithEvents ReportLinkExamples As System.Windows.Forms.CheckBox
     Friend WithEvents AutoWhitelist As System.Windows.Forms.CheckBox
-    Friend WithEvents Preloading As System.Windows.Forms.CheckBox
+    Friend WithEvents Preloads As System.Windows.Forms.CheckBox
     Friend WithEvents IrcPortLabel As System.Windows.Forms.Label
     Friend WithEvents IrcPort As System.Windows.Forms.TextBox
     Friend WithEvents ShowNewEdits As System.Windows.Forms.CheckBox
@@ -1393,7 +1415,6 @@ Partial Class ConfigForm
     Friend WithEvents RemoveTemplate As System.Windows.Forms.Button
     Friend WithEvents TemplatesLabel As System.Windows.Forms.Label
     Friend WithEvents Templates As System.Windows.Forms.ListView
-    Friend WithEvents Label14 As System.Windows.Forms.Label
     Friend WithEvents DiffFontSizeLabel As System.Windows.Forms.Label
     Friend WithEvents DefaultSummary As System.Windows.Forms.TextBox
     Friend WithEvents DefaultSummaryLabel As System.Windows.Forms.Label
@@ -1446,7 +1467,7 @@ Partial Class ConfigForm
     Friend WithEvents ShowToolTips As System.Windows.Forms.CheckBox
     Friend WithEvents TrayIcon As System.Windows.Forms.CheckBox
     Friend WithEvents RightAlignQueue As System.Windows.Forms.CheckBox
-    Friend WithEvents Preloads As System.Windows.Forms.NumericUpDown
+    Friend WithEvents PreloadCount As System.Windows.Forms.NumericUpDown
     Friend WithEvents DiffFontSize As System.Windows.Forms.NumericUpDown
     Friend WithEvents RememberPassword As System.Windows.Forms.CheckBox
     Friend WithEvents RememberMe As System.Windows.Forms.CheckBox
@@ -1455,4 +1476,7 @@ Partial Class ConfigForm
     Friend WithEvents ConfirmWarned As System.Windows.Forms.CheckBox
     Friend WithEvents WatchDelete As System.Windows.Forms.CheckBox
     Friend WithEvents ShowNewMessages As System.Windows.Forms.CheckBox
+    Friend WithEvents Label14 As System.Windows.Forms.Label
+    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents Label2 As System.Windows.Forms.Label
 End Class

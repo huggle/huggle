@@ -85,12 +85,12 @@ Partial Class ListForm
         '
         'StartLabel
         '
-        Me.StartLabel.AutoSize = True
-        Me.StartLabel.Location = New System.Drawing.Point(431, 15)
+        Me.StartLabel.Location = New System.Drawing.Point(428, 15)
         Me.StartLabel.Name = "StartLabel"
-        Me.StartLabel.Size = New System.Drawing.Size(33, 13)
+        Me.StartLabel.Size = New System.Drawing.Size(36, 13)
         Me.StartLabel.TabIndex = 8
         Me.StartLabel.Text = "From:"
+        Me.StartLabel.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'Start
         '
@@ -125,12 +125,12 @@ Partial Class ListForm
         'LimitLabel
         '
         Me.LimitLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.LimitLabel.AutoSize = True
-        Me.LimitLabel.Location = New System.Drawing.Point(483, 41)
+        Me.LimitLabel.Location = New System.Drawing.Point(480, 41)
         Me.LimitLabel.Name = "LimitLabel"
-        Me.LimitLabel.Size = New System.Drawing.Size(36, 13)
+        Me.LimitLabel.Size = New System.Drawing.Size(39, 13)
         Me.LimitLabel.TabIndex = 13
         Me.LimitLabel.Text = "Up to:"
+        Me.LimitLabel.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'Actions
         '
@@ -202,9 +202,9 @@ Partial Class ListForm
         '
         'SourceLabel
         '
-        Me.SourceLabel.Location = New System.Drawing.Point(192, 41)
+        Me.SourceLabel.Location = New System.Drawing.Point(174, 41)
         Me.SourceLabel.Name = "SourceLabel"
-        Me.SourceLabel.Size = New System.Drawing.Size(72, 16)
+        Me.SourceLabel.Size = New System.Drawing.Size(90, 17)
         Me.SourceLabel.TabIndex = 10
         Me.SourceLabel.Text = "Source:"
         Me.SourceLabel.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -255,12 +255,12 @@ Partial Class ListForm
         '
         'SourceTypeLabel
         '
-        Me.SourceTypeLabel.AutoSize = True
-        Me.SourceTypeLabel.Location = New System.Drawing.Point(197, 14)
+        Me.SourceTypeLabel.Location = New System.Drawing.Point(177, 14)
         Me.SourceTypeLabel.Name = "SourceTypeLabel"
-        Me.SourceTypeLabel.Size = New System.Drawing.Size(67, 13)
+        Me.SourceTypeLabel.Size = New System.Drawing.Size(87, 14)
         Me.SourceTypeLabel.TabIndex = 6
         Me.SourceTypeLabel.Text = "Source type:"
+        Me.SourceTypeLabel.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'ListPages
         '

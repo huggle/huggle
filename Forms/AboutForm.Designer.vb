@@ -85,12 +85,12 @@ Partial Class AboutForm
         '
         'ContributorsLabel
         '
-        Me.ContributorsLabel.AutoSize = True
-        Me.ContributorsLabel.Location = New System.Drawing.Point(9, 90)
+        Me.ContributorsLabel.Location = New System.Drawing.Point(0, 90)
         Me.ContributorsLabel.Name = "ContributorsLabel"
-        Me.ContributorsLabel.Size = New System.Drawing.Size(66, 13)
+        Me.ContributorsLabel.Size = New System.Drawing.Size(95, 13)
         Me.ContributorsLabel.TabIndex = 0
         Me.ContributorsLabel.Text = "Contributors:"
+        Me.ContributorsLabel.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'Contributor1
         '
@@ -109,7 +109,7 @@ Partial Class AboutForm
         '
         Me.Contributor7.AutoSize = True
         Me.Contributor7.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline
-        Me.Contributor7.Location = New System.Drawing.Point(106, 43)
+        Me.Contributor7.Location = New System.Drawing.Point(98, 43)
         Me.Contributor7.Margin = New System.Windows.Forms.Padding(3)
         Me.Contributor7.Name = "Contributor7"
         Me.Contributor7.Size = New System.Drawing.Size(52, 13)
@@ -135,7 +135,7 @@ Partial Class AboutForm
         '
         Me.Contributor5.AutoSize = True
         Me.Contributor5.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline
-        Me.Contributor5.Location = New System.Drawing.Point(106, 3)
+        Me.Contributor5.Location = New System.Drawing.Point(98, 3)
         Me.Contributor5.Margin = New System.Windows.Forms.Padding(3)
         Me.Contributor5.Name = "Contributor5"
         Me.Contributor5.Size = New System.Drawing.Size(36, 13)
@@ -174,7 +174,7 @@ Partial Class AboutForm
         '
         Me.Contributor6.AutoSize = True
         Me.Contributor6.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline
-        Me.Contributor6.Location = New System.Drawing.Point(106, 23)
+        Me.Contributor6.Location = New System.Drawing.Point(98, 23)
         Me.Contributor6.Margin = New System.Windows.Forms.Padding(3)
         Me.Contributor6.Name = "Contributor6"
         Me.Contributor6.Size = New System.Drawing.Size(38, 13)
@@ -191,7 +191,7 @@ Partial Class AboutForm
         Me.Logo.InitialImage = Nothing
         Me.Logo.Location = New System.Drawing.Point(0, 0)
         Me.Logo.Name = "Logo"
-        Me.Logo.Size = New System.Drawing.Size(300, 80)
+        Me.Logo.Size = New System.Drawing.Size(320, 80)
         Me.Logo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
         Me.Logo.TabIndex = 15
         Me.Logo.TabStop = False
@@ -210,14 +210,14 @@ Partial Class AboutForm
         Me.Contributors.Controls.Add(Me.Contributor5, 1, 0)
         Me.Contributors.Controls.Add(Me.Contributor7, 1, 2)
         Me.Contributors.Controls.Add(Me.Contributor6, 1, 1)
-        Me.Contributors.Location = New System.Drawing.Point(81, 87)
+        Me.Contributors.Location = New System.Drawing.Point(98, 87)
         Me.Contributors.Name = "Contributors"
         Me.Contributors.RowCount = 4
         Me.Contributors.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
         Me.Contributors.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
         Me.Contributors.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
         Me.Contributors.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
-        Me.Contributors.Size = New System.Drawing.Size(207, 80)
+        Me.Contributors.Size = New System.Drawing.Size(190, 80)
         Me.Contributors.TabIndex = 1
         '
         'AboutForm

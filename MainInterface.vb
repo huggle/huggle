@@ -590,6 +590,7 @@ Partial Class Main
         RevertAdvanced.Text = Msg("main-advanced")
         RevertWarnAdvanced.Text = Msg("main-advanced")
         WarnAdvanced.Text = Msg("main-advanced")
+        RevertCurrentOnly.Text = Msg("revert-currentonly")
     End Sub
 
 End Class

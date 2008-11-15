@@ -279,9 +279,13 @@ Module Processing
         For Each Queue As Queue In Queue.All.Values
             If Queue.MatchesFilter(Edit) Then
                 If Queue.RevisionRegex IsNot Nothing AndAlso Queue.DiffMode = DiffMode.All Then
-                    Dim NewRequest As New DiffRequest
-                    NewRequest.Edit = Edit
-                    NewRequest.Start()
+                    If Edit.DiffCacheState = Edit.CacheState.Uncached Then
+                        Edit.DiffCacheState = Huggle.Edit.CacheState.Caching
+
+                        Dim NewRequest As New DiffRequest
+                        NewRequest.Edit = Edit
+                        NewRequest.Start()
+                    End If
                 Else
                     Queue.AddEdit(Edit)
 
@@ -432,6 +436,8 @@ Module Processing
 
             For k As Integer = 0 To Math.Min(CurrentQueue.Edits.Count, Config.Preloads) - 1
                 If CurrentQueue.Edits(k).DiffCacheState = Edit.CacheState.Uncached Then
+                    CurrentQueue.Edits(k).DiffCacheState = Huggle.Edit.CacheState.Caching
+
                     Dim NewRequest As New DiffRequest
                     NewRequest.Edit = CurrentQueue.Edits(k)
                     NewRequest.Start()
@@ -1053,13 +1059,15 @@ Module Processing
         End If
 
         If CurrentQueue IsNot Nothing Then
-            For j As Integer = 0 To Math.Min(CurrentQueue.Edits.Count - 1, Config.Preloads - 1)
-                If CurrentQueue.Edits(j).DiffCacheState = Edit.CacheState.Uncached Then
-                    Dim NewGetDiffRequest As New DiffRequest
-                    NewGetDiffRequest.Edit = CurrentQueue.Edits(j)
-                    NewGetDiffRequest.Start()
+            For i As Integer = 0 To Math.Min(CurrentQueue.Edits.Count - 1, Config.Preloads - 1)
+                If CurrentQueue.Edits(i).DiffCacheState = Edit.CacheState.Uncached Then
+                    CurrentQueue.Edits(i).DiffCacheState = Edit.CacheState.Caching
+
+                    Dim NewRequest As New DiffRequest
+                    NewRequest.Edit = CurrentQueue.Edits(i)
+                    NewRequest.Start()
                 End If
-            Next j
+            Next i
         End If
 
         MainForm.RefreshInterface()
@@ -1267,6 +1275,7 @@ Module Processing
                     End If
 
                     If Not ChangeCurrentEdit Then HidingEdit = True
+                    Edit.DiffCacheState = Edit.CacheState.Caching
                     LatestDiffRequest = New DiffRequest
                     LatestDiffRequest.Edit = Edit
                     LatestDiffRequest.Tab = Tab

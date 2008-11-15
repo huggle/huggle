@@ -18,6 +18,10 @@ Class ConfigForm
         ViewLocalConfig.Text = Msg("config-viewlocalconfig")
         OK.Text = Msg("ok")
         Cancel.Text = Msg("cancel")
+        AddSummary.Text = Msg("add")
+        RemoveSummary.Text = Msg("remove")
+        AddTemplate.Text = Msg("add")
+        RemoveTemplate.Text = Msg("remove")
 
         'Set to current config values
         RememberMe.Checked = Config.RememberMe
@@ -31,9 +35,9 @@ Class ConfigForm
         OpenInBrowser.Checked = Config.OpenInBrowser
         ShowNewEdits.Checked = Config.ShowNewEdits
         ShowNewMessages.Checked = Config.ShowNewMessages
-        Preloading.Checked = (Config.Preloads > 0)
-        Preloads.Enabled = Preloading.Checked
-        Preloads.Value = Math.Max(Math.Min(Config.Preloads, Preloads.Maximum), Preloads.Minimum)
+        Preloads.Checked = (Config.Preloads > 0)
+        PreloadCount.Enabled = Preloads.Checked
+        PreloadCount.Value = Math.Max(Math.Min(Config.Preloads, PreloadCount.Maximum), PreloadCount.Minimum)
         IrcMode.Checked = Config.IrcMode
         IrcPort.Text = CStr(Config.IrcPort)
         DiffFontSize.Value = CInt(Config.DiffFontSize)
@@ -138,7 +142,7 @@ Class ConfigForm
             Config.OpenInBrowser = OpenInBrowser.Checked
             Config.ShowNewEdits = ShowNewEdits.Checked
             Config.ShowNewMessages = ShowNewMessages.Checked
-            If Preloading.Checked Then Config.Preloads = CInt(Preloads.Value) Else Config.Preloads = 0
+            If Preloads.Checked Then Config.Preloads = CInt(PreloadCount.Value) Else Config.Preloads = 0
             Config.IrcMode = IrcMode.Checked
             Config.IrcPort = CInt(IrcPort.Text)
             Config.DiffFontSize = CStr(DiffFontSize.Value)
@@ -314,8 +318,8 @@ Class ConfigForm
         End If
     End Sub
 
-    Private Sub Preloading_CheckedChanged() Handles Preloading.CheckedChanged
-        Preloads.Enabled = (Preloading.Checked)
+    Private Sub Preloading_CheckedChanged() Handles Preloads.CheckedChanged
+        PreloadCount.Enabled = (Preloads.Checked)
     End Sub
 
     Private Sub RememberPassword_CheckedChanged() Handles RememberPassword.CheckedChanged

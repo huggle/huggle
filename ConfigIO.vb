@@ -569,7 +569,7 @@ Module ConfigIO
             For Each Item As String In MessageFile.Split(New String() {LF}, StringSplitOptions.RemoveEmptyEntries)
                 If Item.Contains(":") Then
                     Dim MsgName As String = Item.Substring(0, Item.IndexOf(":")).Trim(" "c, CR)
-                    Dim MsgValue As String = Item.Substring(Item.IndexOf(":") + 1).Trim(" "c, CR)
+                    Dim MsgValue As String = Item.Substring(Item.IndexOf(":") + 1).Trim(" "c, CR).Replace("\n", CRLF)
 
                     If Config.Messages(Name).ContainsKey(MsgName) Then
                         Log("Warning: Duplicate definition of message '" & MsgName & "' in language '" & Name & "'")

@@ -18,6 +18,7 @@ Class ListForm
         Tip.Active = Config.ShowToolTips
 
         Localize(Me, "list")
+        Text = Msg("list-title")
         AddList.Text = Msg("add")
         DeleteList.Text = Msg("delete")
         CopyList.Text = Msg("copy")
