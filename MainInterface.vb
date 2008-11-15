@@ -427,7 +427,7 @@ Partial Class Main
                 If PageViewB.Enabled Then PageView_Click()
 
             Case Is = ShortcutKeys("Warn")
-                If WarnB.Enabled Then WarnB.ShowDropDown()
+                If WarnB.Enabled Then Warn_Click()
 
             Case Is = ShortcutKeys("Next contribution")
                 If ContribsNextB.Enabled Then ContribsNext_Click()

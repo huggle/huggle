@@ -23,49 +23,50 @@ Partial Class ClosingForm
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.Status = New System.Windows.Forms.Label
-        Me.Logo = New System.Windows.Forms.Label
         Me.Progress = New System.Windows.Forms.ProgressBar
+        Me.PictureBox1 = New System.Windows.Forms.PictureBox
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Status
         '
-        Me.Status.Location = New System.Drawing.Point(12, 52)
-        Me.Status.Name = "Status"
-        Me.Status.Size = New System.Drawing.Size(268, 30)
-        Me.Status.TabIndex = 1
-        Me.Status.Text = " "
-        '
-        'Logo
-        '
-        Me.Logo.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.Status.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Logo.Font = New System.Drawing.Font("Tahoma", 27.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Logo.Location = New System.Drawing.Point(12, 2)
-        Me.Logo.Name = "Logo"
-        Me.Logo.Size = New System.Drawing.Size(271, 50)
-        Me.Logo.TabIndex = 0
-        Me.Logo.Text = "huggle"
-        Me.Logo.TextAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.Status.Location = New System.Drawing.Point(12, 82)
+        Me.Status.Name = "Status"
+        Me.Status.Size = New System.Drawing.Size(295, 21)
+        Me.Status.TabIndex = 0
+        Me.Status.Text = " "
         '
         'Progress
         '
         Me.Progress.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Progress.Location = New System.Drawing.Point(15, 85)
+        Me.Progress.Location = New System.Drawing.Point(12, 106)
         Me.Progress.Maximum = 3
         Me.Progress.Name = "Progress"
-        Me.Progress.Size = New System.Drawing.Size(265, 23)
+        Me.Progress.Size = New System.Drawing.Size(295, 23)
         Me.Progress.Step = 1
         Me.Progress.Style = System.Windows.Forms.ProgressBarStyle.Continuous
-        Me.Progress.TabIndex = 2
+        Me.Progress.TabIndex = 1
+        '
+        'PictureBox1
+        '
+        Me.PictureBox1.Image = Global.Huggle.My.Resources.Resources.huggle_logo
+        Me.PictureBox1.Location = New System.Drawing.Point(0, -1)
+        Me.PictureBox1.Name = "PictureBox1"
+        Me.PictureBox1.Size = New System.Drawing.Size(320, 80)
+        Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.PictureBox1.TabIndex = 3
+        Me.PictureBox1.TabStop = False
         '
         'ClosingForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(295, 115)
+        Me.ClientSize = New System.Drawing.Size(319, 141)
+        Me.Controls.Add(Me.PictureBox1)
         Me.Controls.Add(Me.Progress)
-        Me.Controls.Add(Me.Logo)
         Me.Controls.Add(Me.Status)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
@@ -73,10 +74,12 @@ Partial Class ClosingForm
         Me.Name = "ClosingForm"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Huggle"
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
     Friend WithEvents Status As System.Windows.Forms.Label
-    Friend WithEvents Logo As System.Windows.Forms.Label
     Friend WithEvents Progress As System.Windows.Forms.ProgressBar
+    Friend WithEvents PictureBox1 As System.Windows.Forms.PictureBox
 End Class

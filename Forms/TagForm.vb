@@ -90,4 +90,7 @@ Class TagForm
         MainForm.PageTagProd_Click()
     End Sub
 
+    Private Sub TagText_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Tags.TextChanged
+
+    End Sub
 End Class

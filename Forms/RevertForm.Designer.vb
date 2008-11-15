@@ -35,7 +35,7 @@ Partial Class RevertForm
         Me.Cancel.Location = New System.Drawing.Point(354, 52)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
-        Me.Cancel.TabIndex = 3
+        Me.Cancel.TabIndex = 4
         Me.Cancel.Text = "Cancel"
         Me.Cancel.UseVisualStyleBackColor = True
         '
@@ -45,7 +45,7 @@ Partial Class RevertForm
         Me.OK.Location = New System.Drawing.Point(273, 52)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
-        Me.OK.TabIndex = 2
+        Me.OK.TabIndex = 3
         Me.OK.Text = "OK"
         Me.OK.UseVisualStyleBackColor = True
         '
@@ -76,7 +76,7 @@ Partial Class RevertForm
         Me.CurrentOnly.Location = New System.Drawing.Point(15, 52)
         Me.CurrentOnly.Name = "CurrentOnly"
         Me.CurrentOnly.Size = New System.Drawing.Size(180, 17)
-        Me.CurrentOnly.TabIndex = 4
+        Me.CurrentOnly.TabIndex = 2
         Me.CurrentOnly.Text = "Revert only the selected revision"
         Me.CurrentOnly.UseVisualStyleBackColor = True
         '

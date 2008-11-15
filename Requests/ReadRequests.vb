@@ -116,6 +116,7 @@ Namespace Requests
             ElseIf Result.Contains("<div id=""mw-missing-article"">") _
                 OrElse Result.Contains("The database did not find the text of a page that it should have found") Then
                 Callback(AddressOf Deleted)
+                Fail()
                 Exit Sub
             End If
 
@@ -402,7 +403,7 @@ Namespace Requests
                 Exit Sub
             End If
 
-            Dim Text As String = HtmlDecode(FindString(Result.Text, "<revisions><rev>", "</rev>"))
+            Dim Text As String = GetTextFromRev(Result.Text)
 
             If Text IsNot Nothing Then
                 User.Warnings = ProcessUserTalk(Text, User)
@@ -428,7 +429,7 @@ Namespace Requests
                 Exit Sub
             End If
 
-            Page.Text = HtmlDecode(FindString(Result.Text, "<rev>", "</rev>"))
+            Page.Text = GetTextFromRev(Result.Text)
             Complete(, Page.Text)
         End Sub
 
@@ -807,7 +808,7 @@ Namespace Requests
                 If Language Is Nothing Then Continue For
                 Language = Language.Substring(Language.LastIndexOf("/") + 1)
 
-                Dim Text As String = HtmlDecode(FindString(Page, "<rev>", "</rev>")).Replace(LF, CRLF)
+                Dim Text As String = GetTextFromRev(Result.Text).Replace(LF, CRLF)
 
                 'Ignore incomplete localizations
 #If Not Debug Then
@@ -884,7 +885,7 @@ Namespace Requests
                     Then Config.WhitelistTimestamps(Name) = Date.UtcNow.ToString _
                     Else Config.WhitelistTimestamps.Add(Name, Date.UtcNow.ToString)
 
-                Whitelist.AddRange(Split(HtmlDecode(FindString(Page, "<rev", "</rev>")), LF))
+                Whitelist.AddRange(Split(GetTextFromRev(Result.Text), LF))
             Next Page
 
             Complete()

@@ -52,7 +52,7 @@ Namespace Requests
                 Exit Sub
             End If
 
-            Dim Text As String = HtmlDecode(FindString(Result.Text, "<rev>", "</rev>"))
+            Dim Text As String = GetTextFromRev(Result.Text)
 
             If Text Is Nothing Then
                 Fail(Msg("tag-fail", Page.Name))
@@ -120,7 +120,7 @@ Namespace Requests
             Tag &= "}}"
             If Page.Space Is Space.Template Then Tag = "<noinclude>" & Tag & "</noinclude>"
 
-            Dim Text As String = HtmlDecode(FindString(Result.Text, "<rev>", "</rev>"))
+            Dim Text As String = GetTextFromRev(Result.Text)
 
             If Criterion.DisplayCode = "G10" Then Text = Tag Else Text = Tag & LF & Text
 
@@ -196,8 +196,7 @@ Namespace Requests
                 Exit Sub
             End If
 
-            Dim Text As String = HtmlDecode(FindString(Result.Text, "<rev>", "</rev>"))
-            Dim Header As String
+            Dim Text As String = GetTextFromRev(Result.Text), Header As String
 
             If Page.IsArticleTalkPage Then
                 Header = "===={{lat|" & Page.Name & "}}====" & LF
@@ -253,28 +252,25 @@ Namespace Requests
                 Exit Sub
             End If
 
-            Dim ExistingList As New List(Of String)
+            Dim NewWhitelist As New List(Of String)
 
-            For Each Item As String In Split(HtmlDecode(FindString(Result.Text, "<rev>", "</rev>")), LF)
-                If Item.Length > 0 AndAlso Not (Item.Contains("{") OrElse Item.Contains("<")) _
-                    Then ExistingList.Add(Item)
+            For Each Item As String In Split(GetTextFromRev(Result.Text), LF)
+                If Item.Length > 0 AndAlso Not (Item.Contains("{") OrElse Item.Contains("<")) Then NewWhitelist.Add(Item)
             Next Item
 
             For Each Item As String In WhitelistAutoChanges
-                If Not ExistingList.Contains(Item) Then ExistingList.Add(Item)
+                If Not NewWhitelist.Contains(Item) Then NewWhitelist.Add(Item)
             Next Item
 
             If Config.UpdateWhitelistManual Then
                 For Each Item As String In WhitelistManualChanges
-                    If Not ExistingList.Contains(Item) Then ExistingList.Add(Item)
+                    If Not NewWhitelist.Contains(Item) Then NewWhitelist.Add(Item)
                 Next Item
             End If
 
-            ExistingList.Sort(AddressOf CompareUsernames)
+            NewWhitelist.Sort(AddressOf CompareUsernames)
 
-            Dim Text As String = HtmlDecode(FindString(Result.Text, "<rev>", "</rev>"))
-            Text = "{{/Header}}" & LF & "<pre>" & LF & String.Join(LF, ExistingList.ToArray) & LF & "</pre>"
-
+            Dim Text As String = "{{/Header}}" & LF & "<pre>" & LF & String.Join(LF, NewWhitelist.ToArray) & LF & "</pre>"
             Result = PostEdit(Config.WhitelistLocation, Text, Config.WhitelistUpdateSummary, Minor:=True)
 
             If Result.Error Then Fail(, Result.ErrorMessage) Else Complete()

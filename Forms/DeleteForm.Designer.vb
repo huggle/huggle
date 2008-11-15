@@ -39,7 +39,7 @@ Partial Class DeleteForm
         Me.Cancel.Location = New System.Drawing.Point(407, 215)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
-        Me.Cancel.TabIndex = 5
+        Me.Cancel.TabIndex = 8
         Me.Cancel.Text = "Cancel"
         Me.Cancel.UseVisualStyleBackColor = True
         '
@@ -49,7 +49,7 @@ Partial Class DeleteForm
         Me.OK.Location = New System.Drawing.Point(326, 215)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
-        Me.OK.TabIndex = 4
+        Me.OK.TabIndex = 7
         Me.OK.Text = "OK"
         Me.OK.UseVisualStyleBackColor = True
         '
@@ -79,7 +79,7 @@ Partial Class DeleteForm
         Me.DeletionLogLabel.Location = New System.Drawing.Point(12, 83)
         Me.DeletionLogLabel.Name = "DeletionLogLabel"
         Me.DeletionLogLabel.Size = New System.Drawing.Size(66, 13)
-        Me.DeletionLogLabel.TabIndex = 2
+        Me.DeletionLogLabel.TabIndex = 5
         Me.DeletionLogLabel.Text = "Deletion log:"
         '
         'DeletionLog
@@ -105,7 +105,7 @@ Partial Class DeleteForm
         Me.Throbber.Location = New System.Drawing.Point(65, 40)
         Me.Throbber.Name = "Throbber"
         Me.Throbber.Size = New System.Drawing.Size(58, 10)
-        Me.Throbber.TabIndex = 7
+        Me.Throbber.TabIndex = 2
         '
         'Progress
         '
@@ -113,7 +113,7 @@ Partial Class DeleteForm
         Me.Progress.Location = New System.Drawing.Point(137, 40)
         Me.Progress.Name = "Progress"
         Me.Progress.Size = New System.Drawing.Size(10, 13)
-        Me.Progress.TabIndex = 8
+        Me.Progress.TabIndex = 3
         Me.Progress.Text = " "
         '
         'Notify
@@ -123,7 +123,7 @@ Partial Class DeleteForm
         Me.Notify.Location = New System.Drawing.Point(65, 59)
         Me.Notify.Name = "Notify"
         Me.Notify.Size = New System.Drawing.Size(89, 17)
-        Me.Notify.TabIndex = 9
+        Me.Notify.TabIndex = 4
         Me.Notify.Text = "Notify creator"
         Me.Notify.UseVisualStyleBackColor = True
         '

@@ -33,7 +33,7 @@ Partial Class TagForm
         Me.ToProd = New System.Windows.Forms.Button
         Me.Explanation = New System.Windows.Forms.LinkLabel
         Me.InsertAtEnd = New System.Windows.Forms.CheckBox
-        Me.Tags = New System.Windows.Forms.RichTextBox
+        Me.Tags = New Huggle.WikiTextBox
         Me.SuspendLayout()
         '
         'Cancel
@@ -155,17 +155,11 @@ Partial Class TagForm
         '
         'Tags
         '
-        Me.Tags.AcceptsTab = True
-        Me.Tags.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Tags.DetectUrls = False
-        Me.Tags.Font = New System.Drawing.Font("Courier New", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Tags.Location = New System.Drawing.Point(66, 73)
         Me.Tags.Name = "Tags"
-        Me.Tags.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical
-        Me.Tags.Size = New System.Drawing.Size(307, 111)
-        Me.Tags.TabIndex = 12
+        Me.Tags.Size = New System.Drawing.Size(308, 111)
+        Me.Tags.TabIndex = 4
         Me.Tags.Text = ""
         '
         'TagForm
@@ -208,5 +202,5 @@ Partial Class TagForm
     Friend WithEvents ToProd As System.Windows.Forms.Button
     Friend WithEvents Explanation As System.Windows.Forms.LinkLabel
     Friend WithEvents InsertAtEnd As System.Windows.Forms.CheckBox
-    Friend WithEvents Tags As System.Windows.Forms.RichTextBox
+    Friend WithEvents Tags As Huggle.WikiTextBox
 End Class

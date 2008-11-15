@@ -441,7 +441,7 @@ Module ConfigIO
                         My.Resources.DefaultLocalConfig)
                 Next List
 
-            Catch ex As Exception
+            Catch ex As IOException
                 MessageBox.Show("Unable to create configuration file: " & CRLF & ex.Message, "Huggle", _
                     MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
@@ -528,11 +528,13 @@ Module ConfigIO
             If Not Summaries.Contains(Item) Then Summaries.Add(Item.Replace(",", "\,"))
         Next Item
 
-        Items.Add("revert-summaries:" & String.Join(",", Summaries.ToArray))
+        Items.Add("revert-summaries:")
+        Items.Add(String.Join("," & CRLF, Summaries.ToArray))
 
         Try
+            If Not Directory.Exists(LocalConfigPath) Then Directory.CreateDirectory(LocalConfigPath)
             File.WriteAllLines(MakePath(LocalConfigPath(), Config.LocalConfigLocation), Items.ToArray)
-        Catch ex As Exception
+        Catch ex As IOException
             MessageBox.Show("Unable to save Huggle configuration: " & CRLF & ex.Message, "Huggle", _
                 MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
@@ -611,7 +613,7 @@ Module ConfigIO
                 For Each List As KeyValuePair(Of String, List(Of String)) In AllLists
                     File.WriteAllLines(ListsLocation() & "\" & List.Key & ".txt", List.Value.ToArray)
                 Next List
-            Catch ex As Exception
+            Catch ex As IOException
                 MessageBox.Show("Unable to save lists: " & CRLF & ex.Message, "Huggle", _
                     MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
@@ -709,7 +711,7 @@ Module ConfigIO
             Try
                 File.WriteAllLines(MakePath(QueuesLocation(), Queue.Name & ".txt"), Items.ToArray)
 
-            Catch ex As Exception
+            Catch ex As IOException
                 MessageBox.Show("Unable to save queues: " & CRLF & ex.Message, "Huggle", _
                     MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try

@@ -391,6 +391,10 @@ Namespace Requests
             Return PostEdit(GetPage(PageName), Text, Summary, Section, Minor, Watch, SuppressAutoSummary)
         End Function
 
+        Protected Function GetTextFromRev(ByVal Text As String) As String
+            Return HtmlDecode(FindString(Text, "<revisions>", "<rev", ">", "</rev"))
+        End Function
+
     End Class
 
     Class ApiResult

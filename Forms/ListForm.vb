@@ -260,7 +260,7 @@ Class ListForm
         RefreshInterface()
         If SourceType.Text = "File" Then Source.Clear()
 
-        If SourceType.Text = "Existing queue" Then
+        If SourceType.Text = "Existing list" Then
             ListSelector.Focus()
         Else
             Source.Focus()

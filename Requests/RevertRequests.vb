@@ -25,7 +25,7 @@ Namespace Requests
                 Exit Sub
             End If
 
-            Dim Text As String = HtmlDecode(FindString(Result.Text, "<revisions>", "<rev", ">", "</rev>"))
+            Dim Text As String = GetTextFromRev(Result.Text)
 
             If Summary IsNot Nothing _
                 Then Summary = Summary.Replace("$1", Edit.Page.LastEdit.User.Name).Replace("$2", Edit.User.Name) _
@@ -205,12 +205,12 @@ Namespace Requests
                 Exit Sub
             End If
 
-            Dim OldUser As String = GetParameter(FindString(Result.Text, "<rev", "</rev>"), "user")
+            Dim OldUser As String = GetParameter(GetTextFromRev(Result.Text), "user")
 
             If Summary Is Nothing Then Summary = Config.RevertSummary
             Summary = Summary.Replace("$1", ExcludeUser.Name).Replace("$2", OldUser)
 
-            Dim Text As String = HtmlDecode(FindString(Result.Text, "<rev ", ">", "</rev>"))
+            Dim Text As String = GetTextFromRev(Result.Text)
 
             If Page.LastEdit.User IsNot LastUser AndAlso Page.LastEdit.User.Ignored Then
                 Fail(Msg("revert-fail", Page.Name), Msg("revert-conflict", Page.LastEdit.User.Name))

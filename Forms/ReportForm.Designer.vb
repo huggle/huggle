@@ -38,7 +38,7 @@ Partial Class ReportForm
         Me.Cancel.Location = New System.Drawing.Point(278, 233)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
-        Me.Cancel.TabIndex = 6
+        Me.Cancel.TabIndex = 7
         Me.Cancel.Text = "Cancel"
         Me.Cancel.UseVisualStyleBackColor = True
         '
@@ -49,7 +49,7 @@ Partial Class ReportForm
         Me.OK.Location = New System.Drawing.Point(197, 233)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
-        Me.OK.TabIndex = 5
+        Me.OK.TabIndex = 6
         Me.OK.Text = "OK"
         Me.OK.UseVisualStyleBackColor = True
         '
@@ -97,7 +97,7 @@ Partial Class ReportForm
         Me.WarnLogLabel.Location = New System.Drawing.Point(9, 114)
         Me.WarnLogLabel.Name = "WarnLogLabel"
         Me.WarnLogLabel.Size = New System.Drawing.Size(112, 13)
-        Me.WarnLogLabel.TabIndex = 0
+        Me.WarnLogLabel.TabIndex = 4
         Me.WarnLogLabel.Text = "Warnings for this user:"
         '
         'WarnLog
@@ -105,12 +105,13 @@ Partial Class ReportForm
         Me.WarnLog.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.WarnLog.FullRowSelect = True
         Me.WarnLog.GridLines = True
         Me.WarnLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
         Me.WarnLog.Location = New System.Drawing.Point(12, 130)
         Me.WarnLog.Name = "WarnLog"
         Me.WarnLog.Size = New System.Drawing.Size(341, 97)
-        Me.WarnLog.TabIndex = 7
+        Me.WarnLog.TabIndex = 5
         Me.WarnLog.UseCompatibleStateImageBehavior = False
         Me.WarnLog.User = Nothing
         Me.WarnLog.View = System.Windows.Forms.View.Details

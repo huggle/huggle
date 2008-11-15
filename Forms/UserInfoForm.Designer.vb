@@ -45,7 +45,7 @@ Partial Class UserInfoForm
         Me.BlockLogLabel.Location = New System.Drawing.Point(9, 58)
         Me.BlockLogLabel.Name = "BlockLogLabel"
         Me.BlockLogLabel.Size = New System.Drawing.Size(42, 13)
-        Me.BlockLogLabel.TabIndex = 6
+        Me.BlockLogLabel.TabIndex = 10
         Me.BlockLogLabel.Text = "Blocks:"
         '
         'WarnLogLabel
@@ -54,7 +54,7 @@ Partial Class UserInfoForm
         Me.WarnLogLabel.Location = New System.Drawing.Point(9, 180)
         Me.WarnLogLabel.Name = "WarnLogLabel"
         Me.WarnLogLabel.Size = New System.Drawing.Size(55, 13)
-        Me.WarnLogLabel.TabIndex = 8
+        Me.WarnLogLabel.TabIndex = 12
         Me.WarnLogLabel.Text = "Warnings:"
         '
         'OK
@@ -63,7 +63,7 @@ Partial Class UserInfoForm
         Me.OK.Location = New System.Drawing.Point(455, 339)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
-        Me.OK.TabIndex = 10
+        Me.OK.TabIndex = 14
         Me.OK.Text = "Close"
         Me.OK.UseVisualStyleBackColor = True
         '
@@ -73,7 +73,7 @@ Partial Class UserInfoForm
         Me.SharedIPLabel.Location = New System.Drawing.Point(9, 31)
         Me.SharedIPLabel.Name = "SharedIPLabel"
         Me.SharedIPLabel.Size = New System.Drawing.Size(101, 13)
-        Me.SharedIPLabel.TabIndex = 0
+        Me.SharedIPLabel.TabIndex = 6
         Me.SharedIPLabel.Text = "Shared/dynamic IP:"
         '
         'Edits
@@ -118,7 +118,7 @@ Partial Class UserInfoForm
         Me.SharedIP.Location = New System.Drawing.Point(116, 31)
         Me.SharedIP.Name = "SharedIP"
         Me.SharedIP.Size = New System.Drawing.Size(21, 13)
-        Me.SharedIP.TabIndex = 1
+        Me.SharedIP.TabIndex = 7
         Me.SharedIP.Text = "No"
         '
         'SessionEditsLabel
@@ -127,7 +127,7 @@ Partial Class UserInfoForm
         Me.SessionEditsLabel.Location = New System.Drawing.Point(354, 31)
         Me.SessionEditsLabel.Name = "SessionEditsLabel"
         Me.SessionEditsLabel.Size = New System.Drawing.Size(90, 13)
-        Me.SessionEditsLabel.TabIndex = 11
+        Me.SessionEditsLabel.TabIndex = 8
         Me.SessionEditsLabel.Text = "Edits this session:"
         '
         'AnonymousLabel
@@ -136,7 +136,7 @@ Partial Class UserInfoForm
         Me.AnonymousLabel.Location = New System.Drawing.Point(9, 9)
         Me.AnonymousLabel.Name = "AnonymousLabel"
         Me.AnonymousLabel.Size = New System.Drawing.Size(65, 13)
-        Me.AnonymousLabel.TabIndex = 12
+        Me.AnonymousLabel.TabIndex = 0
         Me.AnonymousLabel.Text = "Anonymous:"
         '
         'Anonymous
@@ -145,7 +145,7 @@ Partial Class UserInfoForm
         Me.Anonymous.Location = New System.Drawing.Point(116, 9)
         Me.Anonymous.Name = "Anonymous"
         Me.Anonymous.Size = New System.Drawing.Size(21, 13)
-        Me.Anonymous.TabIndex = 13
+        Me.Anonymous.TabIndex = 1
         Me.Anonymous.Text = "No"
         '
         'SessionEdits
@@ -154,7 +154,7 @@ Partial Class UserInfoForm
         Me.SessionEdits.Location = New System.Drawing.Point(452, 31)
         Me.SessionEdits.Name = "SessionEdits"
         Me.SessionEdits.Size = New System.Drawing.Size(16, 13)
-        Me.SessionEdits.TabIndex = 14
+        Me.SessionEdits.TabIndex = 9
         Me.SessionEdits.Text = "..."
         '
         'BlockLog
@@ -168,7 +168,7 @@ Partial Class UserInfoForm
         Me.BlockLog.Location = New System.Drawing.Point(12, 74)
         Me.BlockLog.Name = "BlockLog"
         Me.BlockLog.Size = New System.Drawing.Size(518, 103)
-        Me.BlockLog.TabIndex = 15
+        Me.BlockLog.TabIndex = 11
         Me.BlockLog.UseCompatibleStateImageBehavior = False
         Me.BlockLog.User = Nothing
         Me.BlockLog.View = System.Windows.Forms.View.Details
@@ -184,7 +184,7 @@ Partial Class UserInfoForm
         Me.WarnLog.Location = New System.Drawing.Point(12, 196)
         Me.WarnLog.Name = "WarnLog"
         Me.WarnLog.Size = New System.Drawing.Size(518, 137)
-        Me.WarnLog.TabIndex = 16
+        Me.WarnLog.TabIndex = 13
         Me.WarnLog.UseCompatibleStateImageBehavior = False
         Me.WarnLog.User = Nothing
         Me.WarnLog.View = System.Windows.Forms.View.Details

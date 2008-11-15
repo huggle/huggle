@@ -50,7 +50,7 @@ Partial Class BlockForm
         Me.Cancel.Location = New System.Drawing.Point(507, 411)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
-        Me.Cancel.TabIndex = 18
+        Me.Cancel.TabIndex = 19
         Me.Cancel.Text = "Cancel"
         Me.Cancel.UseVisualStyleBackColor = True
         '
@@ -60,7 +60,7 @@ Partial Class BlockForm
         Me.OK.Location = New System.Drawing.Point(426, 411)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
-        Me.OK.TabIndex = 17
+        Me.OK.TabIndex = 18
         Me.OK.Text = "OK"
         Me.OK.UseVisualStyleBackColor = True
         '
@@ -130,7 +130,7 @@ Partial Class BlockForm
         Me.SharedIPWarning.Location = New System.Drawing.Point(7, 414)
         Me.SharedIPWarning.Name = "SharedIPWarning"
         Me.SharedIPWarning.Size = New System.Drawing.Size(409, 16)
-        Me.SharedIPWarning.TabIndex = 16
+        Me.SharedIPWarning.TabIndex = 17
         Me.SharedIPWarning.Text = "Note: 255.255.255.255 is tagged as a shared or dynamic IP address."
         Me.SharedIPWarning.Visible = False
         '
@@ -151,7 +151,7 @@ Partial Class BlockForm
         Me.UserTalk.Location = New System.Drawing.Point(426, 73)
         Me.UserTalk.Name = "UserTalk"
         Me.UserTalk.Size = New System.Drawing.Size(75, 23)
-        Me.UserTalk.TabIndex = 10
+        Me.UserTalk.TabIndex = 11
         Me.UserTalk.Text = "Talk"
         Me.UserTalk.UseVisualStyleBackColor = True
         '
@@ -161,7 +161,7 @@ Partial Class BlockForm
         Me.UserContribs.Location = New System.Drawing.Point(507, 73)
         Me.UserContribs.Name = "UserContribs"
         Me.UserContribs.Size = New System.Drawing.Size(75, 23)
-        Me.UserContribs.TabIndex = 11
+        Me.UserContribs.TabIndex = 12
         Me.UserContribs.Text = "Contribs"
         Me.UserContribs.UseVisualStyleBackColor = True
         '
@@ -171,7 +171,7 @@ Partial Class BlockForm
         Me.BlockLogLabel.Location = New System.Drawing.Point(7, 145)
         Me.BlockLogLabel.Name = "BlockLogLabel"
         Me.BlockLogLabel.Size = New System.Drawing.Size(54, 13)
-        Me.BlockLogLabel.TabIndex = 12
+        Me.BlockLogLabel.TabIndex = 13
         Me.BlockLogLabel.Text = "Block log:"
         '
         'WarnLogLabel
@@ -180,7 +180,7 @@ Partial Class BlockForm
         Me.WarnLogLabel.Location = New System.Drawing.Point(7, 252)
         Me.WarnLogLabel.Name = "WarnLogLabel"
         Me.WarnLogLabel.Size = New System.Drawing.Size(55, 13)
-        Me.WarnLogLabel.TabIndex = 14
+        Me.WarnLogLabel.TabIndex = 15
         Me.WarnLogLabel.Text = "Warnings:"
         '
         'Message
@@ -210,19 +210,20 @@ Partial Class BlockForm
         Me.Duration.Location = New System.Drawing.Point(65, 38)
         Me.Duration.Name = "Duration"
         Me.Duration.Size = New System.Drawing.Size(178, 21)
-        Me.Duration.TabIndex = 19
+        Me.Duration.TabIndex = 3
         '
         'BlockLog
         '
         Me.BlockLog.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.BlockLog.FullRowSelect = True
         Me.BlockLog.GridLines = True
         Me.BlockLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
         Me.BlockLog.Location = New System.Drawing.Point(10, 161)
         Me.BlockLog.Name = "BlockLog"
         Me.BlockLog.Size = New System.Drawing.Size(571, 88)
-        Me.BlockLog.TabIndex = 20
+        Me.BlockLog.TabIndex = 14
         Me.BlockLog.UseCompatibleStateImageBehavior = False
         Me.BlockLog.User = Nothing
         Me.BlockLog.View = System.Windows.Forms.View.Details
@@ -232,12 +233,13 @@ Partial Class BlockForm
         Me.WarnLog.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.WarnLog.FullRowSelect = True
         Me.WarnLog.GridLines = True
         Me.WarnLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
         Me.WarnLog.Location = New System.Drawing.Point(10, 268)
         Me.WarnLog.Name = "WarnLog"
         Me.WarnLog.Size = New System.Drawing.Size(572, 137)
-        Me.WarnLog.TabIndex = 21
+        Me.WarnLog.TabIndex = 16
         Me.WarnLog.UseCompatibleStateImageBehavior = False
         Me.WarnLog.User = Nothing
         Me.WarnLog.View = System.Windows.Forms.View.Details
@@ -248,7 +250,7 @@ Partial Class BlockForm
         Me.TalkEdit.Location = New System.Drawing.Point(10, 119)
         Me.TalkEdit.Name = "TalkEdit"
         Me.TalkEdit.Size = New System.Drawing.Size(206, 17)
-        Me.TalkEdit.TabIndex = 7
+        Me.TalkEdit.TabIndex = 10
         Me.TalkEdit.Text = "Block editing of user talk page by user"
         Me.TalkEdit.UseVisualStyleBackColor = True
         '

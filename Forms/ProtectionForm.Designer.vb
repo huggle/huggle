@@ -39,7 +39,7 @@ Partial Class ProtectionForm
         Me.Cancel.Location = New System.Drawing.Point(470, 236)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
-        Me.Cancel.TabIndex = 5
+        Me.Cancel.TabIndex = 8
         Me.Cancel.Text = "Cancel"
         Me.Cancel.UseVisualStyleBackColor = True
         '
@@ -50,7 +50,7 @@ Partial Class ProtectionForm
         Me.OK.Location = New System.Drawing.Point(389, 236)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
-        Me.OK.TabIndex = 4
+        Me.OK.TabIndex = 7
         Me.OK.Text = "OK"
         Me.OK.UseVisualStyleBackColor = True
         '
@@ -101,7 +101,7 @@ Partial Class ProtectionForm
         Me.Label3.Location = New System.Drawing.Point(9, 116)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(75, 13)
-        Me.Label3.TabIndex = 16
+        Me.Label3.TabIndex = 4
         Me.Label3.Text = "Protection log:"
         '
         'CurrentLevel
@@ -110,18 +110,20 @@ Partial Class ProtectionForm
         Me.CurrentLevel.Location = New System.Drawing.Point(9, 241)
         Me.CurrentLevel.Name = "CurrentLevel"
         Me.CurrentLevel.Size = New System.Drawing.Size(119, 13)
-        Me.CurrentLevel.TabIndex = 17
+        Me.CurrentLevel.TabIndex = 6
         Me.CurrentLevel.Text = "Current protection level:"
         '
         'ProtectionLog
         '
+        Me.ProtectionLog.FullRowSelect = True
         Me.ProtectionLog.GridLines = True
+        Me.ProtectionLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
         Me.ProtectionLog.Location = New System.Drawing.Point(12, 132)
         Me.ProtectionLog.Mode = Huggle.PageLog.ViewMode.Protect
         Me.ProtectionLog.Name = "ProtectionLog"
         Me.ProtectionLog.Page = Nothing
         Me.ProtectionLog.Size = New System.Drawing.Size(533, 98)
-        Me.ProtectionLog.TabIndex = 18
+        Me.ProtectionLog.TabIndex = 5
         Me.ProtectionLog.UseCompatibleStateImageBehavior = False
         Me.ProtectionLog.View = System.Windows.Forms.View.Details
         '

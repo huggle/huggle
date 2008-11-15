@@ -57,6 +57,7 @@ Partial Class QueueForm
         Me.AllDiffs = New System.Windows.Forms.RadioButton
         Me.PreloadDiffs = New System.Windows.Forms.RadioButton
         Me.NoDiffs = New System.Windows.Forms.RadioButton
+        Me.TrayNotification = New System.Windows.Forms.CheckBox
         Me.IgnorePages = New System.Windows.Forms.CheckBox
         Me.RemoveAfter = New System.Windows.Forms.CheckBox
         Me.RemoveAfterTime = New System.Windows.Forms.NumericUpDown
@@ -118,7 +119,6 @@ Partial Class QueueForm
         Me.OK = New System.Windows.Forms.Button
         Me.MoveUp = New System.Windows.Forms.Button
         Me.MoveDown = New System.Windows.Forms.Button
-        Me.TrayNotification = New System.Windows.Forms.CheckBox
         Me.TypeGroup.SuspendLayout()
         Me.Tabs.SuspendLayout()
         Me.PagesTab.SuspendLayout()
@@ -228,7 +228,7 @@ Partial Class QueueForm
         Me.TypeGroup.Location = New System.Drawing.Point(186, 12)
         Me.TypeGroup.Name = "TypeGroup"
         Me.TypeGroup.Size = New System.Drawing.Size(446, 116)
-        Me.TypeGroup.TabIndex = 7
+        Me.TypeGroup.TabIndex = 9
         Me.TypeGroup.TabStop = False
         Me.TypeGroup.Text = "Page list type"
         '
@@ -249,7 +249,7 @@ Partial Class QueueForm
         Me.Live.Location = New System.Drawing.Point(10, 88)
         Me.Live.Name = "Live"
         Me.Live.Size = New System.Drawing.Size(293, 17)
-        Me.Live.TabIndex = 2
+        Me.Live.TabIndex = 3
         Me.Live.TabStop = True
         Me.Live.Text = "Don't use a list, just show any edit that matches the filters"
         Me.Live.UseVisualStyleBackColor = True
@@ -291,7 +291,7 @@ Partial Class QueueForm
         Me.Tabs.Name = "Tabs"
         Me.Tabs.SelectedIndex = 0
         Me.Tabs.Size = New System.Drawing.Size(446, 313)
-        Me.Tabs.TabIndex = 8
+        Me.Tabs.TabIndex = 10
         '
         'PagesTab
         '
@@ -373,17 +373,17 @@ Partial Class QueueForm
         Me.DynamicSource.Location = New System.Drawing.Point(88, 42)
         Me.DynamicSource.Name = "DynamicSource"
         Me.DynamicSource.Size = New System.Drawing.Size(211, 20)
-        Me.DynamicSource.TabIndex = 5
+        Me.DynamicSource.TabIndex = 3
         '
         'DynamicSourceType
         '
         Me.DynamicSourceType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.DynamicSourceType.FormattingEnabled = True
-        Me.DynamicSourceType.Items.AddRange(New Object() {"Category"})
         Me.DynamicSourceType.Location = New System.Drawing.Point(88, 15)
+        Me.DynamicSourceType.MaxDropDownItems = 20
         Me.DynamicSourceType.Name = "DynamicSourceType"
         Me.DynamicSourceType.Size = New System.Drawing.Size(211, 21)
-        Me.DynamicSourceType.TabIndex = 4
+        Me.DynamicSourceType.TabIndex = 1
         '
         'RefreshInterval
         '
@@ -392,7 +392,7 @@ Partial Class QueueForm
         Me.RefreshInterval.Minimum = New Decimal(New Integer() {15, 0, 0, 0})
         Me.RefreshInterval.Name = "RefreshInterval"
         Me.RefreshInterval.Size = New System.Drawing.Size(53, 20)
-        Me.RefreshInterval.TabIndex = 3
+        Me.RefreshInterval.TabIndex = 5
         Me.RefreshInterval.Value = New Decimal(New Integer() {30, 0, 0, 0})
         '
         'Label4
@@ -401,7 +401,7 @@ Partial Class QueueForm
         Me.Label4.Location = New System.Drawing.Point(168, 79)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(47, 13)
-        Me.Label4.TabIndex = 2
+        Me.Label4.TabIndex = 6
         Me.Label4.Text = "seconds"
         '
         'Label3
@@ -410,7 +410,7 @@ Partial Class QueueForm
         Me.Label3.Location = New System.Drawing.Point(15, 79)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(88, 13)
-        Me.Label3.TabIndex = 2
+        Me.Label3.TabIndex = 4
         Me.Label3.Text = "Refresh list every"
         '
         'RefreshAlways
@@ -419,7 +419,7 @@ Partial Class QueueForm
         Me.RefreshAlways.Location = New System.Drawing.Point(18, 109)
         Me.RefreshAlways.Name = "RefreshAlways"
         Me.RefreshAlways.Size = New System.Drawing.Size(227, 17)
-        Me.RefreshAlways.TabIndex = 1
+        Me.RefreshAlways.TabIndex = 7
         Me.RefreshAlways.Text = "Refresh list even when queue is not active"
         Me.RefreshAlways.UseVisualStyleBackColor = True
         '
@@ -429,7 +429,7 @@ Partial Class QueueForm
         Me.RefreshReAdd.Location = New System.Drawing.Point(18, 132)
         Me.RefreshReAdd.Name = "RefreshReAdd"
         Me.RefreshReAdd.Size = New System.Drawing.Size(313, 17)
-        Me.RefreshReAdd.TabIndex = 1
+        Me.RefreshReAdd.TabIndex = 8
         Me.RefreshReAdd.Text = "When refreshing, re-add pages that were previously removed"
         Me.RefreshReAdd.UseVisualStyleBackColor = True
         '
@@ -439,7 +439,7 @@ Partial Class QueueForm
         Me.DynamicSourceLabel.Location = New System.Drawing.Point(38, 45)
         Me.DynamicSourceLabel.Name = "DynamicSourceLabel"
         Me.DynamicSourceLabel.Size = New System.Drawing.Size(44, 13)
-        Me.DynamicSourceLabel.TabIndex = 0
+        Me.DynamicSourceLabel.TabIndex = 2
         Me.DynamicSourceLabel.Text = "Source:"
         '
         'DynamicSourceTypeLabel
@@ -481,7 +481,7 @@ Partial Class QueueForm
         Me.PreloadGroup.Location = New System.Drawing.Point(17, 182)
         Me.PreloadGroup.Name = "PreloadGroup"
         Me.PreloadGroup.Size = New System.Drawing.Size(402, 89)
-        Me.PreloadGroup.TabIndex = 12
+        Me.PreloadGroup.TabIndex = 9
         Me.PreloadGroup.TabStop = False
         Me.PreloadGroup.Text = "Diffs"
         '
@@ -490,10 +490,10 @@ Partial Class QueueForm
         Me.AllDiffs.AutoSize = True
         Me.AllDiffs.Location = New System.Drawing.Point(11, 66)
         Me.AllDiffs.Name = "AllDiffs"
-        Me.AllDiffs.Size = New System.Drawing.Size(357, 17)
-        Me.AllDiffs.TabIndex = 0
+        Me.AllDiffs.Size = New System.Drawing.Size(216, 17)
+        Me.AllDiffs.TabIndex = 2
         Me.AllDiffs.TabStop = True
-        Me.AllDiffs.Text = "Load diffs for every revision in the queue (do not use on large queues!)"
+        Me.AllDiffs.Text = "Load diffs for every revision in the queue"
         Me.AllDiffs.UseVisualStyleBackColor = True
         '
         'PreloadDiffs
@@ -501,10 +501,10 @@ Partial Class QueueForm
         Me.PreloadDiffs.AutoSize = True
         Me.PreloadDiffs.Location = New System.Drawing.Point(11, 42)
         Me.PreloadDiffs.Name = "PreloadDiffs"
-        Me.PreloadDiffs.Size = New System.Drawing.Size(346, 17)
-        Me.PreloadDiffs.TabIndex = 0
+        Me.PreloadDiffs.Size = New System.Drawing.Size(187, 17)
+        Me.PreloadDiffs.TabIndex = 1
         Me.PreloadDiffs.TabStop = True
-        Me.PreloadDiffs.Text = "Preload diffs when queue is active, if system options are set to do so"
+        Me.PreloadDiffs.Text = "Preload diffs when queue is active"
         Me.PreloadDiffs.UseVisualStyleBackColor = True
         '
         'NoDiffs
@@ -518,13 +518,23 @@ Partial Class QueueForm
         Me.NoDiffs.Text = "Load diffs only when the revision is viewed"
         Me.NoDiffs.UseVisualStyleBackColor = True
         '
+        'TrayNotification
+        '
+        Me.TrayNotification.AutoSize = True
+        Me.TrayNotification.Location = New System.Drawing.Point(17, 145)
+        Me.TrayNotification.Name = "TrayNotification"
+        Me.TrayNotification.Size = New System.Drawing.Size(311, 17)
+        Me.TrayNotification.TabIndex = 8
+        Me.TrayNotification.Text = "Show tray notification when a revision is added to this queue"
+        Me.TrayNotification.UseVisualStyleBackColor = True
+        '
         'IgnorePages
         '
         Me.IgnorePages.AutoSize = True
         Me.IgnorePages.Location = New System.Drawing.Point(17, 122)
         Me.IgnorePages.Name = "IgnorePages"
         Me.IgnorePages.Size = New System.Drawing.Size(243, 17)
-        Me.IgnorePages.TabIndex = 11
+        Me.IgnorePages.TabIndex = 7
         Me.IgnorePages.Text = "Ignore edits to pages on the ignored pages list"
         Me.IgnorePages.UseVisualStyleBackColor = True
         '
@@ -720,7 +730,7 @@ Partial Class QueueForm
         Me.ExampleLabel3.Location = New System.Drawing.Point(280, 262)
         Me.ExampleLabel3.Name = "ExampleLabel3"
         Me.ExampleLabel3.Size = New System.Drawing.Size(125, 13)
-        Me.ExampleLabel3.TabIndex = 4
+        Me.ExampleLabel3.TabIndex = 6
         Me.ExampleLabel3.Text = "Don't check this attribute"
         '
         'ExampleLabel2
@@ -740,7 +750,7 @@ Partial Class QueueForm
         Me.ExampleLabel1.Location = New System.Drawing.Point(23, 262)
         Me.ExampleLabel1.Name = "ExampleLabel1"
         Me.ExampleLabel1.Size = New System.Drawing.Size(104, 13)
-        Me.ExampleLabel1.TabIndex = 4
+        Me.ExampleLabel1.TabIndex = 2
         Me.ExampleLabel1.Text = "Require this attribute"
         '
         'EditFiltersGroup
@@ -790,7 +800,7 @@ Partial Class QueueForm
         Me.SummaryRegex.Multiline = False
         Me.SummaryRegex.Name = "SummaryRegex"
         Me.SummaryRegex.Size = New System.Drawing.Size(215, 38)
-        Me.SummaryRegex.TabIndex = 1
+        Me.SummaryRegex.TabIndex = 3
         '
         'UserRegex
         '
@@ -811,7 +821,7 @@ Partial Class QueueForm
         Me.FilterAssisted.Name = "FilterAssisted"
         Me.FilterAssisted.Size = New System.Drawing.Size(85, 16)
         Me.FilterAssisted.State = System.Windows.Forms.CheckState.Indeterminate
-        Me.FilterAssisted.TabIndex = 7
+        Me.FilterAssisted.TabIndex = 11
         '
         'FilterHuggle
         '
@@ -822,7 +832,7 @@ Partial Class QueueForm
         Me.FilterHuggle.Name = "FilterHuggle"
         Me.FilterHuggle.Size = New System.Drawing.Size(80, 16)
         Me.FilterHuggle.State = System.Windows.Forms.CheckState.Indeterminate
-        Me.FilterHuggle.TabIndex = 7
+        Me.FilterHuggle.TabIndex = 13
         '
         'FilterMe
         '
@@ -833,7 +843,7 @@ Partial Class QueueForm
         Me.FilterMe.Name = "FilterMe"
         Me.FilterMe.Size = New System.Drawing.Size(60, 16)
         Me.FilterMe.State = System.Windows.Forms.CheckState.Indeterminate
-        Me.FilterMe.TabIndex = 8
+        Me.FilterMe.TabIndex = 15
         '
         'FilterTags
         '
@@ -844,7 +854,7 @@ Partial Class QueueForm
         Me.FilterTags.Name = "FilterTags"
         Me.FilterTags.Size = New System.Drawing.Size(45, 16)
         Me.FilterTags.State = System.Windows.Forms.CheckState.Indeterminate
-        Me.FilterTags.TabIndex = 8
+        Me.FilterTags.TabIndex = 14
         '
         'FilterWarnings
         '
@@ -855,7 +865,7 @@ Partial Class QueueForm
         Me.FilterWarnings.Name = "FilterWarnings"
         Me.FilterWarnings.Size = New System.Drawing.Size(66, 16)
         Me.FilterWarnings.State = System.Windows.Forms.CheckState.Indeterminate
-        Me.FilterWarnings.TabIndex = 8
+        Me.FilterWarnings.TabIndex = 12
         '
         'FilterNotifications
         '
@@ -866,7 +876,7 @@ Partial Class QueueForm
         Me.FilterNotifications.Name = "FilterNotifications"
         Me.FilterNotifications.Size = New System.Drawing.Size(79, 16)
         Me.FilterNotifications.State = System.Windows.Forms.CheckState.Indeterminate
-        Me.FilterNotifications.TabIndex = 8
+        Me.FilterNotifications.TabIndex = 10
         '
         'FilterReverts
         '
@@ -877,7 +887,7 @@ Partial Class QueueForm
         Me.FilterReverts.Name = "FilterReverts"
         Me.FilterReverts.Size = New System.Drawing.Size(58, 16)
         Me.FilterReverts.State = System.Windows.Forms.CheckState.Indeterminate
-        Me.FilterReverts.TabIndex = 6
+        Me.FilterReverts.TabIndex = 8
         '
         'FilterOwnUserspace
         '
@@ -888,7 +898,7 @@ Partial Class QueueForm
         Me.FilterOwnUserspace.Name = "FilterOwnUserspace"
         Me.FilterOwnUserspace.Size = New System.Drawing.Size(130, 16)
         Me.FilterOwnUserspace.State = System.Windows.Forms.CheckState.Indeterminate
-        Me.FilterOwnUserspace.TabIndex = 4
+        Me.FilterOwnUserspace.TabIndex = 6
         '
         'FilterIgnored
         '
@@ -899,7 +909,7 @@ Partial Class QueueForm
         Me.FilterIgnored.Name = "FilterIgnored"
         Me.FilterIgnored.Size = New System.Drawing.Size(85, 16)
         Me.FilterIgnored.State = System.Windows.Forms.CheckState.Indeterminate
-        Me.FilterIgnored.TabIndex = 5
+        Me.FilterIgnored.TabIndex = 7
         '
         'FilterAnonymous
         '
@@ -910,7 +920,7 @@ Partial Class QueueForm
         Me.FilterAnonymous.Name = "FilterAnonymous"
         Me.FilterAnonymous.Size = New System.Drawing.Size(104, 16)
         Me.FilterAnonymous.State = System.Windows.Forms.CheckState.Indeterminate
-        Me.FilterAnonymous.TabIndex = 3
+        Me.FilterAnonymous.TabIndex = 5
         '
         'FilterNewPage
         '
@@ -921,7 +931,7 @@ Partial Class QueueForm
         Me.FilterNewPage.Name = "FilterNewPage"
         Me.FilterNewPage.Size = New System.Drawing.Size(75, 16)
         Me.FilterNewPage.State = System.Windows.Forms.CheckState.Indeterminate
-        Me.FilterNewPage.TabIndex = 2
+        Me.FilterNewPage.TabIndex = 4
         '
         'SummaryRegexLabel
         '
@@ -929,7 +939,7 @@ Partial Class QueueForm
         Me.SummaryRegexLabel.Location = New System.Drawing.Point(11, 60)
         Me.SummaryRegexLabel.Name = "SummaryRegexLabel"
         Me.SummaryRegexLabel.Size = New System.Drawing.Size(184, 13)
-        Me.SummaryRegexLabel.TabIndex = 0
+        Me.SummaryRegexLabel.TabIndex = 2
         Me.SummaryRegexLabel.Text = "Summary matches regular expression:"
         '
         'UserRegexLabel
@@ -952,7 +962,7 @@ Partial Class QueueForm
         Me.Example2.Name = "Example2"
         Me.Example2.Size = New System.Drawing.Size(19, 16)
         Me.Example2.State = System.Windows.Forms.CheckState.Unchecked
-        Me.Example2.TabIndex = 2
+        Me.Example2.TabIndex = 3
         '
         'Example1
         '
@@ -978,7 +988,7 @@ Partial Class QueueForm
         Me.Example3.Name = "Example3"
         Me.Example3.Size = New System.Drawing.Size(19, 16)
         Me.Example3.State = System.Windows.Forms.CheckState.Indeterminate
-        Me.Example3.TabIndex = 3
+        Me.Example3.TabIndex = 5
         '
         'UsersTab
         '
@@ -1006,7 +1016,7 @@ Partial Class QueueForm
         Me.UserGroup.Location = New System.Drawing.Point(6, 6)
         Me.UserGroup.Name = "UserGroup"
         Me.UserGroup.Size = New System.Drawing.Size(426, 275)
-        Me.UserGroup.TabIndex = 7
+        Me.UserGroup.TabIndex = 0
         Me.UserGroup.TabStop = False
         Me.UserGroup.Text = "Show only edits from these users"
         '
@@ -1016,7 +1026,7 @@ Partial Class QueueForm
         Me.UserCount.Location = New System.Drawing.Point(6, 92)
         Me.UserCount.Name = "UserCount"
         Me.UserCount.Size = New System.Drawing.Size(40, 13)
-        Me.UserCount.TabIndex = 12
+        Me.UserCount.TabIndex = 6
         Me.UserCount.Text = "0 items"
         '
         'UserBrowse
@@ -1024,7 +1034,7 @@ Partial Class QueueForm
         Me.UserBrowse.Location = New System.Drawing.Point(252, 53)
         Me.UserBrowse.Name = "UserBrowse"
         Me.UserBrowse.Size = New System.Drawing.Size(70, 23)
-        Me.UserBrowse.TabIndex = 11
+        Me.UserBrowse.TabIndex = 4
         Me.UserBrowse.Text = "Browse..."
         Me.UserBrowse.UseVisualStyleBackColor = True
         Me.UserBrowse.Visible = False
@@ -1034,23 +1044,23 @@ Partial Class QueueForm
         Me.UserSource.Location = New System.Drawing.Point(79, 56)
         Me.UserSource.Name = "UserSource"
         Me.UserSource.Size = New System.Drawing.Size(167, 20)
-        Me.UserSource.TabIndex = 10
+        Me.UserSource.TabIndex = 3
         '
         'UserSourceLabel
         '
-        Me.UserSourceLabel.Location = New System.Drawing.Point(0, 59)
+        Me.UserSourceLabel.Location = New System.Drawing.Point(6, 58)
         Me.UserSourceLabel.Name = "UserSourceLabel"
         Me.UserSourceLabel.Size = New System.Drawing.Size(73, 17)
-        Me.UserSourceLabel.TabIndex = 9
+        Me.UserSourceLabel.TabIndex = 2
         Me.UserSourceLabel.Text = "Source:"
         Me.UserSourceLabel.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'UserSourceTypeLabel
         '
-        Me.UserSourceTypeLabel.Location = New System.Drawing.Point(0, 32)
+        Me.UserSourceTypeLabel.Location = New System.Drawing.Point(6, 32)
         Me.UserSourceTypeLabel.Name = "UserSourceTypeLabel"
         Me.UserSourceTypeLabel.Size = New System.Drawing.Size(73, 18)
-        Me.UserSourceTypeLabel.TabIndex = 8
+        Me.UserSourceTypeLabel.TabIndex = 0
         Me.UserSourceTypeLabel.Text = "Source type:"
         Me.UserSourceTypeLabel.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
@@ -1059,7 +1069,7 @@ Partial Class QueueForm
         Me.ClearUsers.Location = New System.Drawing.Point(90, 239)
         Me.ClearUsers.Name = "ClearUsers"
         Me.ClearUsers.Size = New System.Drawing.Size(75, 23)
-        Me.ClearUsers.TabIndex = 4
+        Me.ClearUsers.TabIndex = 9
         Me.ClearUsers.Text = "Clear"
         Me.ClearUsers.UseVisualStyleBackColor = True
         '
@@ -1068,7 +1078,7 @@ Partial Class QueueForm
         Me.RemoveUser.Location = New System.Drawing.Point(9, 239)
         Me.RemoveUser.Name = "RemoveUser"
         Me.RemoveUser.Size = New System.Drawing.Size(75, 23)
-        Me.RemoveUser.TabIndex = 3
+        Me.RemoveUser.TabIndex = 8
         Me.RemoveUser.Text = "Remove"
         Me.RemoveUser.UseVisualStyleBackColor = True
         '
@@ -1080,14 +1090,14 @@ Partial Class QueueForm
         Me.UserSourceType.Location = New System.Drawing.Point(79, 29)
         Me.UserSourceType.Name = "UserSourceType"
         Me.UserSourceType.Size = New System.Drawing.Size(167, 21)
-        Me.UserSourceType.TabIndex = 7
+        Me.UserSourceType.TabIndex = 1
         '
         'AddUser
         '
         Me.AddUser.Location = New System.Drawing.Point(252, 82)
         Me.AddUser.Name = "AddUser"
         Me.AddUser.Size = New System.Drawing.Size(70, 23)
-        Me.AddUser.TabIndex = 2
+        Me.AddUser.TabIndex = 5
         Me.AddUser.Text = "Add"
         Me.AddUser.UseVisualStyleBackColor = True
         '
@@ -1101,7 +1111,7 @@ Partial Class QueueForm
         Me.Users.Name = "Users"
         Me.Users.Size = New System.Drawing.Size(313, 122)
         Me.Users.Sorted = True
-        Me.Users.TabIndex = 1
+        Me.Users.TabIndex = 7
         '
         'RevisionTab
         '
@@ -1127,10 +1137,10 @@ Partial Class QueueForm
         '
         'RevisionTabNote
         '
-        Me.RevisionTabNote.Location = New System.Drawing.Point(6, 231)
+        Me.RevisionTabNote.Location = New System.Drawing.Point(6, 108)
         Me.RevisionTabNote.Name = "RevisionTabNote"
         Me.RevisionTabNote.Size = New System.Drawing.Size(411, 39)
-        Me.RevisionTabNote.TabIndex = 4
+        Me.RevisionTabNote.TabIndex = 2
         Me.RevisionTabNote.Text = "Queue must load diff of every revision (set on Queue options tab) for settings on" & _
             " this page to work properly. Do not use with large queues."
         '
@@ -1140,7 +1150,7 @@ Partial Class QueueForm
         Me.RevisionRegexLabel.Location = New System.Drawing.Point(6, 26)
         Me.RevisionRegexLabel.Name = "RevisionRegexLabel"
         Me.RevisionRegexLabel.Size = New System.Drawing.Size(385, 13)
-        Me.RevisionRegexLabel.TabIndex = 3
+        Me.RevisionRegexLabel.TabIndex = 0
         Me.RevisionRegexLabel.Text = "Content modified in revision (as determined from diff) matches regular expression" & _
             ":"
         '
@@ -1152,7 +1162,7 @@ Partial Class QueueForm
         Me.RevisionRegex.Multiline = True
         Me.RevisionRegex.Name = "RevisionRegex"
         Me.RevisionRegex.Size = New System.Drawing.Size(334, 60)
-        Me.RevisionRegex.TabIndex = 2
+        Me.RevisionRegex.TabIndex = 1
         '
         'OK
         '
@@ -1160,7 +1170,7 @@ Partial Class QueueForm
         Me.OK.Location = New System.Drawing.Point(557, 453)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
-        Me.OK.TabIndex = 9
+        Me.OK.TabIndex = 11
         Me.OK.Text = "Close"
         Me.OK.UseVisualStyleBackColor = True
         '
@@ -1172,7 +1182,7 @@ Partial Class QueueForm
         Me.MoveUp.Location = New System.Drawing.Point(145, 424)
         Me.MoveUp.Name = "MoveUp"
         Me.MoveUp.Size = New System.Drawing.Size(23, 23)
-        Me.MoveUp.TabIndex = 4
+        Me.MoveUp.TabIndex = 7
         Me.MoveUp.UseVisualStyleBackColor = True
         '
         'MoveDown
@@ -1183,18 +1193,8 @@ Partial Class QueueForm
         Me.MoveDown.Location = New System.Drawing.Point(145, 453)
         Me.MoveDown.Name = "MoveDown"
         Me.MoveDown.Size = New System.Drawing.Size(23, 23)
-        Me.MoveDown.TabIndex = 4
+        Me.MoveDown.TabIndex = 8
         Me.MoveDown.UseVisualStyleBackColor = True
-        '
-        'TrayNotification
-        '
-        Me.TrayNotification.Location = New System.Drawing.Point(17, 145)
-        Me.TrayNotification.Name = "TrayNotification"
-        Me.TrayNotification.Size = New System.Drawing.Size(316, 31)
-        Me.TrayNotification.TabIndex = 11
-        Me.TrayNotification.Text = "Show tray notification when a revision is added to this queue" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "(requires ""Show tr" & _
-            "ay icon"" in system options)"
-        Me.TrayNotification.UseVisualStyleBackColor = True
         '
         'QueueForm
         '

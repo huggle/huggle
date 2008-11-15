@@ -26,9 +26,9 @@ Class Queue
     Private _FilterWarnings As QueueFilter = QueueFilter.None
 
     Private _Diffs As DiffMode
-    Private _DynamicLimit As Integer
-    Private _DynamicSourceType As String
-    Private _DynamicSource As String
+    Private _Limit As Integer
+    Private _SourceType As String
+    Private _Source As String
     Private _IgnorePages As Boolean
     Private _ListName As String
     Private _Name As String
@@ -58,7 +58,7 @@ Class Queue
         _Spaces.AddRange(Space.All)
         _Type = QueueType.Live
         _RefreshTimer.Interval = 30000
-        _DynamicLimit = 500
+        _Limit = 500
         _RefreshReAdd = True
         If Not QueueNames.ContainsKey(Config.Project) Then QueueNames(Config.Project) = New List(Of String)
         If Not QueueNames(Config.Project).Contains(Name) Then QueueNames(Config.Project).Add(Name)
@@ -93,21 +93,21 @@ Class Queue
         End Set
     End Property
 
-    Public Property DynamicSource As String
+    Public Property DynamicSource() As String
         Get
-            Return _DynamicSource
+            Return _Source
         End Get
         Set(ByVal value As String)
-            _DynamicSource = value
+            _Source = value
         End Set
     End Property
 
-    Public Property DynamicSourceType As String
+    Public Property DynamicSourceType() As String
         Get
-            Return _DynamicSourceType
+            Return _SourceType
         End Get
         Set(ByVal value As String)
-            _DynamicSourceType = value
+            _SourceType = value
         End Set
     End Property
 
@@ -588,18 +588,33 @@ Class Queue
         If Type = QueueType.Dynamic AndAlso Not _NeedsReset AndAlso (_RefreshAlways OrElse CurrentQueue Is Me) Then
             RefreshTimer.Stop()
 
-            Select Case _DynamicSourceType
-                Case "category"
-                    Dim NewRequest As New CategoryRequest(_DynamicSource)
-                    NewRequest.Limit = _DynamicLimit
-                    NewRequest.Spaces = _Spaces
-                    NewRequest.TitleRegex = _PageRegex
-                    NewRequest.Start(AddressOf GotList)
-
-                    _Refreshing = True
-                    MainForm.DrawQueue()
+            Select Case _SourceType
+                'This is a list of the sources that can be used when creating a list in the list builder
+                'Also shown is the method of retreiving the list
+                Case "Backlinks" : GetList(New BacklinksRequest(_Source))
+                Case "Category" : GetList(New CategoryRequest(_Source.Replace("Category:", "")))
+                Case "Category (recursive)" : GetList(New RecursiveCategoryRequest(_Source.Replace("Category:", "")))
+                Case "External link uses" : GetList(New ExternalLinkUsageRequest(_Source.Replace("http://", "")))
+                Case "Image uses" : GetList(New ImageUsageRequest(_Source.Replace("Image:", "")))
+                Case "Images on page" : GetList(New ImagesRequest(_Source))
+                Case "Links on page" : GetList(New LinksRequest(_Source))
+                Case "Search" : GetList(New SearchRequest(_Source))
+                Case "Templates on page" : GetList(New TemplatesRequest(_Source))
+                Case "Transclusions" : GetList(New TransclusionsRequest(_Source))
+                Case "User contributions" : GetList(New ContribsListRequest(_Source))
+                Case "Watchlist" : GotList(PageNames(Watchlist))
             End Select
+
+            _Refreshing = True
+            MainForm.DrawQueue()
         End If
+    End Sub
+
+    Private Sub GetList(ByVal Request As ListRequest)
+        Request.Limit = _Limit
+        Request.Spaces = _Spaces
+        Request.TitleRegex = _PageRegex
+        Request.Start(AddressOf GotList)
     End Sub
 
     Private Sub GotList(ByVal Result As List(Of String))

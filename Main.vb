@@ -101,7 +101,7 @@ Class Main
                 QueueScroll.Enabled = True
                 QueueScroll.Maximum = CurrentQueue.Edits.Count - 2
                 QueueScroll.SmallChange = 1
-                QueueScroll.LargeChange = QueueHeight
+                QueueScroll.LargeChange = Math.Max(1, QueueHeight)
             Else
                 QueueScroll.Enabled = False
                 QueueScroll.Value = 0
@@ -586,7 +586,7 @@ Class Main
         End If
     End Sub
 
-    Private Sub Warn_Click() Handles UserWarn.Click, WarnAdvanced.Click
+    Private Sub Warn_Click() Handles WarnAdvanced.Click
         If CurrentUser IsNot Nothing Then
             Dim NewWarningForm As New WarningForm
             NewWarningForm.User = CurrentUser
@@ -1072,7 +1072,7 @@ Class Main
     End Sub
 
     Public Sub SetCurrentUser(ByVal User As User, Optional ByVal DisplayLast As Boolean = False)
-        If User IsNot Nothing Then
+        If User IsNot Nothing AndAlso MainForm IsNot Nothing AndAlso MainForm.Visible Then
             If DisplayLast AndAlso User IsNot CurrentUser Then
                 If User.LastEdit Is Nothing OrElse User.LastEdit.User Is Nothing Then
                     CurrentEdit = New Edit
@@ -1104,7 +1104,7 @@ Class Main
     End Sub
 
     Public Sub SetCurrentPage(ByVal Page As Page, Optional ByVal DisplayLast As Boolean = False)
-        If Page IsNot Nothing Then
+        If Page IsNot Nothing AndAlso MainForm IsNot Nothing AndAlso MainForm.Visible Then
             If DisplayLast AndAlso Page IsNot CurrentPage Then
                 If Page.LastEdit Is Nothing Then
                     CurrentEdit = New Edit

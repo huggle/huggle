@@ -9,6 +9,7 @@
         ExitButton.Text = Msg("exit")
 
         Details.Text = Exception.GetType.Name & ": " & Exception.Message & CRLF & Exception.StackTrace
+        ContinueButton.Focus()
     End Sub
 
     Private Sub ContinueButton_Click() Handles ContinueButton.Click

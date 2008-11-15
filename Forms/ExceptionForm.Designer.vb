@@ -58,7 +58,7 @@ Partial Class ExceptionForm
         Me.ExitButton.Location = New System.Drawing.Point(407, 253)
         Me.ExitButton.Name = "ExitButton"
         Me.ExitButton.Size = New System.Drawing.Size(75, 23)
-        Me.ExitButton.TabIndex = 2
+        Me.ExitButton.TabIndex = 3
         Me.ExitButton.Text = "Exit"
         Me.ExitButton.UseVisualStyleBackColor = True
         '

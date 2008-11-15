@@ -44,7 +44,7 @@ Partial Class WarningForm
         Me.OK.Location = New System.Drawing.Point(255, 260)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
-        Me.OK.TabIndex = 4
+        Me.OK.TabIndex = 5
         Me.OK.Text = "OK"
         Me.OK.UseVisualStyleBackColor = True
         '
@@ -55,7 +55,7 @@ Partial Class WarningForm
         Me.Cancel.Location = New System.Drawing.Point(336, 260)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
-        Me.Cancel.TabIndex = 5
+        Me.Cancel.TabIndex = 6
         Me.Cancel.Text = "Cancel"
         Me.Cancel.UseVisualStyleBackColor = True
         '
@@ -133,7 +133,7 @@ Partial Class WarningForm
         Me.WarnLogLabel.Location = New System.Drawing.Point(12, 100)
         Me.WarnLogLabel.Name = "WarnLogLabel"
         Me.WarnLogLabel.Size = New System.Drawing.Size(112, 13)
-        Me.WarnLogLabel.TabIndex = 2
+        Me.WarnLogLabel.TabIndex = 3
         Me.WarnLogLabel.Text = "Warnings for this user:"
         '
         'WarnTypeLabel
@@ -142,7 +142,7 @@ Partial Class WarningForm
         Me.WarnTypeLabel.Location = New System.Drawing.Point(15, 70)
         Me.WarnTypeLabel.Name = "WarnTypeLabel"
         Me.WarnTypeLabel.Size = New System.Drawing.Size(73, 13)
-        Me.WarnTypeLabel.TabIndex = 6
+        Me.WarnTypeLabel.TabIndex = 1
         Me.WarnTypeLabel.Text = "Warning type:"
         '
         'WarnType
@@ -153,19 +153,20 @@ Partial Class WarningForm
         Me.WarnType.MaxDropDownItems = 20
         Me.WarnType.Name = "WarnType"
         Me.WarnType.Size = New System.Drawing.Size(199, 21)
-        Me.WarnType.TabIndex = 7
+        Me.WarnType.TabIndex = 2
         '
         'WarnLog
         '
         Me.WarnLog.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.WarnLog.FullRowSelect = True
         Me.WarnLog.GridLines = True
         Me.WarnLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
         Me.WarnLog.Location = New System.Drawing.Point(15, 116)
         Me.WarnLog.Name = "WarnLog"
         Me.WarnLog.Size = New System.Drawing.Size(396, 138)
-        Me.WarnLog.TabIndex = 8
+        Me.WarnLog.TabIndex = 4
         Me.WarnLog.UseCompatibleStateImageBehavior = False
         Me.WarnLog.User = Nothing
         Me.WarnLog.View = System.Windows.Forms.View.Details

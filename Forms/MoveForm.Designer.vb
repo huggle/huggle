@@ -37,7 +37,7 @@ Partial Class MoveForm
         Me.Cancel.Location = New System.Drawing.Point(301, 113)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
-        Me.Cancel.TabIndex = 5
+        Me.Cancel.TabIndex = 6
         Me.Cancel.Text = "Cancel"
         Me.Cancel.UseVisualStyleBackColor = True
         '
@@ -48,7 +48,7 @@ Partial Class MoveForm
         Me.OK.Location = New System.Drawing.Point(220, 113)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
-        Me.OK.TabIndex = 4
+        Me.OK.TabIndex = 5
         Me.OK.Text = "OK"
         Me.OK.UseVisualStyleBackColor = True
         '
@@ -93,10 +93,10 @@ Partial Class MoveForm
         'MoveTalk
         '
         Me.MoveTalk.AutoSize = True
-        Me.MoveTalk.Location = New System.Drawing.Point(81, 120)
+        Me.MoveTalk.Location = New System.Drawing.Point(81, 117)
         Me.MoveTalk.Name = "MoveTalk"
         Me.MoveTalk.Size = New System.Drawing.Size(127, 17)
-        Me.MoveTalk.TabIndex = 6
+        Me.MoveTalk.TabIndex = 4
         Me.MoveTalk.Text = "Move page talk page"
         Me.MoveTalk.UseVisualStyleBackColor = True
         Me.MoveTalk.Visible = False

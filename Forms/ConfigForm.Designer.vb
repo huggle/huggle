@@ -156,7 +156,7 @@ Partial Class ConfigForm
         Me.Cancel.Location = New System.Drawing.Point(446, 355)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
-        Me.Cancel.TabIndex = 1
+        Me.Cancel.TabIndex = 3
         Me.Cancel.Text = "Cancel"
         Me.Cancel.UseVisualStyleBackColor = True
         '
@@ -166,7 +166,7 @@ Partial Class ConfigForm
         Me.OK.Location = New System.Drawing.Point(365, 355)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
-        Me.OK.TabIndex = 0
+        Me.OK.TabIndex = 2
         Me.OK.Text = "OK"
         Me.OK.UseVisualStyleBackColor = True
         '
@@ -189,7 +189,7 @@ Partial Class ConfigForm
         Me.Tabs.Name = "Tabs"
         Me.Tabs.SelectedIndex = 0
         Me.Tabs.Size = New System.Drawing.Size(519, 339)
-        Me.Tabs.TabIndex = 2
+        Me.Tabs.TabIndex = 0
         '
         'GeneralTab
         '
@@ -225,7 +225,7 @@ Partial Class ConfigForm
         Me.RememberPassword.Location = New System.Drawing.Point(9, 38)
         Me.RememberPassword.Name = "RememberPassword"
         Me.RememberPassword.Size = New System.Drawing.Size(141, 17)
-        Me.RememberPassword.TabIndex = 34
+        Me.RememberPassword.TabIndex = 1
         Me.RememberPassword.Text = "Remember my password"
         Me.RememberPassword.UseVisualStyleBackColor = True
         '
@@ -235,7 +235,7 @@ Partial Class ConfigForm
         Me.RememberMe.Location = New System.Drawing.Point(9, 15)
         Me.RememberMe.Name = "RememberMe"
         Me.RememberMe.Size = New System.Drawing.Size(142, 17)
-        Me.RememberMe.TabIndex = 34
+        Me.RememberMe.TabIndex = 0
         Me.RememberMe.Text = "Remember my username"
         Me.RememberMe.UseVisualStyleBackColor = True
         '
@@ -246,7 +246,7 @@ Partial Class ConfigForm
         Me.DiffFontSize.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.DiffFontSize.Name = "DiffFontSize"
         Me.DiffFontSize.Size = New System.Drawing.Size(50, 20)
-        Me.DiffFontSize.TabIndex = 33
+        Me.DiffFontSize.TabIndex = 13
         Me.DiffFontSize.Value = New Decimal(New Integer() {1, 0, 0, 0})
         '
         'PreloadCount
@@ -256,7 +256,7 @@ Partial Class ConfigForm
         Me.PreloadCount.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.PreloadCount.Name = "PreloadCount"
         Me.PreloadCount.Size = New System.Drawing.Size(50, 20)
-        Me.PreloadCount.TabIndex = 32
+        Me.PreloadCount.TabIndex = 6
         Me.PreloadCount.Value = New Decimal(New Integer() {1, 0, 0, 0})
         '
         'IrcMode
@@ -265,7 +265,7 @@ Partial Class ConfigForm
         Me.IrcMode.Location = New System.Drawing.Point(9, 153)
         Me.IrcMode.Name = "IrcMode"
         Me.IrcMode.Size = New System.Drawing.Size(231, 17)
-        Me.IrcMode.TabIndex = 31
+        Me.IrcMode.TabIndex = 8
         Me.IrcMode.Text = "Use IRC feed for recent changes if possible"
         Me.IrcMode.UseVisualStyleBackColor = True
         '
@@ -275,7 +275,7 @@ Partial Class ConfigForm
         Me.LogFileBrowse.Location = New System.Drawing.Point(421, 252)
         Me.LogFileBrowse.Name = "LogFileBrowse"
         Me.LogFileBrowse.Size = New System.Drawing.Size(75, 23)
-        Me.LogFileBrowse.TabIndex = 29
+        Me.LogFileBrowse.TabIndex = 17
         Me.LogFileBrowse.Text = "Browse..."
         Me.LogFileBrowse.UseVisualStyleBackColor = True
         '
@@ -286,14 +286,14 @@ Partial Class ConfigForm
         Me.LogFile.Location = New System.Drawing.Point(115, 254)
         Me.LogFile.Name = "LogFile"
         Me.LogFile.Size = New System.Drawing.Size(300, 20)
-        Me.LogFile.TabIndex = 28
+        Me.LogFile.TabIndex = 16
         '
         'LogFileLabel
         '
         Me.LogFileLabel.Location = New System.Drawing.Point(0, 257)
         Me.LogFileLabel.Name = "LogFileLabel"
         Me.LogFileLabel.Size = New System.Drawing.Size(115, 18)
-        Me.LogFileLabel.TabIndex = 27
+        Me.LogFileLabel.TabIndex = 15
         Me.LogFileLabel.Text = "Log file:"
         Me.LogFileLabel.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
@@ -303,7 +303,7 @@ Partial Class ConfigForm
         Me.OpenInBrowser.Location = New System.Drawing.Point(9, 84)
         Me.OpenInBrowser.Name = "OpenInBrowser"
         Me.OpenInBrowser.Size = New System.Drawing.Size(229, 17)
-        Me.OpenInBrowser.TabIndex = 26
+        Me.OpenInBrowser.TabIndex = 3
         Me.OpenInBrowser.Text = "Open browser links in new browser window"
         Me.OpenInBrowser.UseVisualStyleBackColor = True
         '
@@ -313,7 +313,7 @@ Partial Class ConfigForm
         Me.Label2.Location = New System.Drawing.Point(246, 130)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(34, 13)
-        Me.Label2.TabIndex = 24
+        Me.Label2.TabIndex = 7
         Me.Label2.Text = "(1 - 5)"
         '
         'Label1
@@ -322,7 +322,7 @@ Partial Class ConfigForm
         Me.Label1.Location = New System.Drawing.Point(167, 185)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(70, 13)
-        Me.Label1.TabIndex = 24
+        Me.Label1.TabIndex = 11
         Me.Label1.Text = "(6664 - 6669)"
         '
         'Label14
@@ -331,7 +331,7 @@ Partial Class ConfigForm
         Me.Label14.Location = New System.Drawing.Point(167, 219)
         Me.Label14.Name = "Label14"
         Me.Label14.Size = New System.Drawing.Size(16, 13)
-        Me.Label14.TabIndex = 24
+        Me.Label14.TabIndex = 14
         Me.Label14.Text = "pt"
         '
         'DiffFontSizeLabel
@@ -339,7 +339,7 @@ Partial Class ConfigForm
         Me.DiffFontSizeLabel.Location = New System.Drawing.Point(0, 219)
         Me.DiffFontSizeLabel.Name = "DiffFontSizeLabel"
         Me.DiffFontSizeLabel.Size = New System.Drawing.Size(115, 18)
-        Me.DiffFontSizeLabel.TabIndex = 22
+        Me.DiffFontSizeLabel.TabIndex = 12
         Me.DiffFontSizeLabel.Text = "Diff font size:"
         Me.DiffFontSizeLabel.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
@@ -349,7 +349,7 @@ Partial Class ConfigForm
         Me.ShowNewEdits.Location = New System.Drawing.Point(9, 107)
         Me.ShowNewEdits.Name = "ShowNewEdits"
         Me.ShowNewEdits.Size = New System.Drawing.Size(285, 17)
-        Me.ShowNewEdits.TabIndex = 21
+        Me.ShowNewEdits.TabIndex = 4
         Me.ShowNewEdits.Text = "Show new edits to the selected page as they are made"
         Me.ShowNewEdits.UseVisualStyleBackColor = True
         '
@@ -359,7 +359,7 @@ Partial Class ConfigForm
         Me.Preloads.Location = New System.Drawing.Point(9, 130)
         Me.Preloads.Name = "Preloads"
         Me.Preloads.Size = New System.Drawing.Size(148, 17)
-        Me.Preloads.TabIndex = 9
+        Me.Preloads.TabIndex = 5
         Me.Preloads.Text = "Enable preloading of diffs:"
         Me.Preloads.UseVisualStyleBackColor = True
         '
@@ -368,7 +368,7 @@ Partial Class ConfigForm
         Me.IrcPortLabel.Location = New System.Drawing.Point(0, 185)
         Me.IrcPortLabel.Name = "IrcPortLabel"
         Me.IrcPortLabel.Size = New System.Drawing.Size(115, 17)
-        Me.IrcPortLabel.TabIndex = 6
+        Me.IrcPortLabel.TabIndex = 9
         Me.IrcPortLabel.Text = "IRC port:"
         Me.IrcPortLabel.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
@@ -377,7 +377,7 @@ Partial Class ConfigForm
         Me.IrcPort.Location = New System.Drawing.Point(115, 182)
         Me.IrcPort.Name = "IrcPort"
         Me.IrcPort.Size = New System.Drawing.Size(50, 20)
-        Me.IrcPort.TabIndex = 5
+        Me.IrcPort.TabIndex = 10
         '
         'AutoWhitelist
         '
@@ -385,7 +385,7 @@ Partial Class ConfigForm
         Me.AutoWhitelist.Location = New System.Drawing.Point(9, 61)
         Me.AutoWhitelist.Name = "AutoWhitelist"
         Me.AutoWhitelist.Size = New System.Drawing.Size(156, 17)
-        Me.AutoWhitelist.TabIndex = 4
+        Me.AutoWhitelist.TabIndex = 2
         Me.AutoWhitelist.Text = "Automatically whitelist users"
         Me.AutoWhitelist.UseVisualStyleBackColor = True
         '
@@ -411,7 +411,7 @@ Partial Class ConfigForm
         Me.RightAlignQueue.Location = New System.Drawing.Point(9, 84)
         Me.RightAlignQueue.Name = "RightAlignQueue"
         Me.RightAlignQueue.Size = New System.Drawing.Size(211, 17)
-        Me.RightAlignQueue.TabIndex = 46
+        Me.RightAlignQueue.TabIndex = 3
         Me.RightAlignQueue.Text = "Show queue on the right of the window"
         Me.RightAlignQueue.UseVisualStyleBackColor = True
         '
@@ -421,7 +421,7 @@ Partial Class ConfigForm
         Me.ShowQueue.Location = New System.Drawing.Point(9, 61)
         Me.ShowQueue.Name = "ShowQueue"
         Me.ShowQueue.Size = New System.Drawing.Size(125, 17)
-        Me.ShowQueue.TabIndex = 45
+        Me.ShowQueue.TabIndex = 2
         Me.ShowQueue.Text = "Show revision queue"
         Me.ShowQueue.UseVisualStyleBackColor = True
         '
@@ -431,7 +431,7 @@ Partial Class ConfigForm
         Me.ShowLog.Location = New System.Drawing.Point(9, 38)
         Me.ShowLog.Name = "ShowLog"
         Me.ShowLog.Size = New System.Drawing.Size(70, 17)
-        Me.ShowLog.TabIndex = 44
+        Me.ShowLog.TabIndex = 1
         Me.ShowLog.Text = "Show log"
         Me.ShowLog.UseVisualStyleBackColor = True
         '
@@ -441,7 +441,7 @@ Partial Class ConfigForm
         Me.ShowNewMessages.Location = New System.Drawing.Point(9, 130)
         Me.ShowNewMessages.Name = "ShowNewMessages"
         Me.ShowNewMessages.Size = New System.Drawing.Size(144, 17)
-        Me.ShowNewMessages.TabIndex = 42
+        Me.ShowNewMessages.TabIndex = 5
         Me.ShowNewMessages.Text = "Show new messages bar"
         Me.ShowNewMessages.UseVisualStyleBackColor = True
         '
@@ -451,7 +451,7 @@ Partial Class ConfigForm
         Me.ShowToolTips.Location = New System.Drawing.Point(9, 107)
         Me.ShowToolTips.Name = "ShowToolTips"
         Me.ShowToolTips.Size = New System.Drawing.Size(138, 17)
-        Me.ShowToolTips.TabIndex = 42
+        Me.ShowToolTips.TabIndex = 4
         Me.ShowToolTips.Text = "Show tooltips on menus"
         Me.ShowToolTips.UseVisualStyleBackColor = True
         '
@@ -461,7 +461,7 @@ Partial Class ConfigForm
         Me.TrayIcon.Location = New System.Drawing.Point(9, 15)
         Me.TrayIcon.Name = "TrayIcon"
         Me.TrayIcon.Size = New System.Drawing.Size(96, 17)
-        Me.TrayIcon.TabIndex = 41
+        Me.TrayIcon.TabIndex = 0
         Me.TrayIcon.Text = "Show tray icon"
         Me.TrayIcon.UseVisualStyleBackColor = True
         '
@@ -531,7 +531,7 @@ Partial Class ConfigForm
         Me.ShortcutListLabel.Location = New System.Drawing.Point(6, 15)
         Me.ShortcutListLabel.Name = "ShortcutListLabel"
         Me.ShortcutListLabel.Size = New System.Drawing.Size(101, 13)
-        Me.ShortcutListLabel.TabIndex = 1
+        Me.ShortcutListLabel.TabIndex = 0
         Me.ShortcutListLabel.Text = "Keyboard shortcuts:"
         '
         'ShortcutList
@@ -548,7 +548,7 @@ Partial Class ConfigForm
         Me.ShortcutList.MultiSelect = False
         Me.ShortcutList.Name = "ShortcutList"
         Me.ShortcutList.Size = New System.Drawing.Size(499, 210)
-        Me.ShortcutList.TabIndex = 0
+        Me.ShortcutList.TabIndex = 1
         Me.ShortcutList.UseCompatibleStateImageBehavior = False
         Me.ShortcutList.View = System.Windows.Forms.View.Details
         '
@@ -585,7 +585,7 @@ Partial Class ConfigForm
         Me.UndoSummary.Location = New System.Drawing.Point(9, 271)
         Me.UndoSummary.Name = "UndoSummary"
         Me.UndoSummary.Size = New System.Drawing.Size(343, 20)
-        Me.UndoSummary.TabIndex = 15
+        Me.UndoSummary.TabIndex = 7
         '
         'UndoSummaryLabel
         '
@@ -593,7 +593,7 @@ Partial Class ConfigForm
         Me.UndoSummaryLabel.Location = New System.Drawing.Point(6, 255)
         Me.UndoSummaryLabel.Name = "UndoSummaryLabel"
         Me.UndoSummaryLabel.Size = New System.Drawing.Size(171, 13)
-        Me.UndoSummaryLabel.TabIndex = 14
+        Me.UndoSummaryLabel.TabIndex = 6
         Me.UndoSummaryLabel.Text = "Summary when undoing own edits:"
         '
         'DefaultSummary
@@ -601,7 +601,7 @@ Partial Class ConfigForm
         Me.DefaultSummary.Location = New System.Drawing.Point(9, 226)
         Me.DefaultSummary.Name = "DefaultSummary"
         Me.DefaultSummary.Size = New System.Drawing.Size(343, 20)
-        Me.DefaultSummary.TabIndex = 13
+        Me.DefaultSummary.TabIndex = 5
         '
         'DefaultSummaryLabel
         '
@@ -609,7 +609,7 @@ Partial Class ConfigForm
         Me.DefaultSummaryLabel.Location = New System.Drawing.Point(6, 210)
         Me.DefaultSummaryLabel.Name = "DefaultSummaryLabel"
         Me.DefaultSummaryLabel.Size = New System.Drawing.Size(165, 13)
-        Me.DefaultSummaryLabel.TabIndex = 12
+        Me.DefaultSummaryLabel.TabIndex = 4
         Me.DefaultSummaryLabel.Text = "Default summary for manual edits:"
         '
         'WatchlistLabel
@@ -618,7 +618,7 @@ Partial Class ConfigForm
         Me.WatchlistLabel.Location = New System.Drawing.Point(249, 15)
         Me.WatchlistLabel.Name = "WatchlistLabel"
         Me.WatchlistLabel.Size = New System.Drawing.Size(85, 13)
-        Me.WatchlistLabel.TabIndex = 11
+        Me.WatchlistLabel.TabIndex = 2
         Me.WatchlistLabel.Text = "Add to watchlist:"
         '
         'MinorLabel
@@ -627,7 +627,7 @@ Partial Class ConfigForm
         Me.MinorLabel.Location = New System.Drawing.Point(6, 15)
         Me.MinorLabel.Name = "MinorLabel"
         Me.MinorLabel.Size = New System.Drawing.Size(76, 13)
-        Me.MinorLabel.TabIndex = 10
+        Me.MinorLabel.TabIndex = 0
         Me.MinorLabel.Text = "Mark as minor:"
         '
         'Watchlist
@@ -636,7 +636,7 @@ Partial Class ConfigForm
         Me.Watchlist.Location = New System.Drawing.Point(252, 31)
         Me.Watchlist.Name = "Watchlist"
         Me.Watchlist.Size = New System.Drawing.Size(237, 169)
-        Me.Watchlist.TabIndex = 9
+        Me.Watchlist.TabIndex = 3
         '
         'Minor
         '
@@ -644,7 +644,7 @@ Partial Class ConfigForm
         Me.Minor.Location = New System.Drawing.Point(9, 31)
         Me.Minor.Name = "Minor"
         Me.Minor.Size = New System.Drawing.Size(237, 169)
-        Me.Minor.TabIndex = 8
+        Me.Minor.TabIndex = 1
         '
         'RevertTab
         '
@@ -675,7 +675,7 @@ Partial Class ConfigForm
         Me.ConfirmWarned.Location = New System.Drawing.Point(9, 84)
         Me.ConfirmWarned.Name = "ConfirmWarned"
         Me.ConfirmWarned.Size = New System.Drawing.Size(238, 17)
-        Me.ConfirmWarned.TabIndex = 37
+        Me.ConfirmWarned.TabIndex = 3
         Me.ConfirmWarned.Text = "Confirm reversion to an edit by a warned user"
         Me.ConfirmWarned.UseVisualStyleBackColor = True
         '
@@ -686,7 +686,7 @@ Partial Class ConfigForm
         Me.ClearSummaries.Location = New System.Drawing.Point(430, 278)
         Me.ClearSummaries.Name = "ClearSummaries"
         Me.ClearSummaries.Size = New System.Drawing.Size(75, 23)
-        Me.ClearSummaries.TabIndex = 36
+        Me.ClearSummaries.TabIndex = 12
         Me.ClearSummaries.Text = "Clear"
         Me.ClearSummaries.UseVisualStyleBackColor = True
         '
@@ -696,7 +696,7 @@ Partial Class ConfigForm
         Me.ClearSummariesLabel.Location = New System.Drawing.Point(6, 283)
         Me.ClearSummariesLabel.Name = "ClearSummariesLabel"
         Me.ClearSummariesLabel.Size = New System.Drawing.Size(424, 29)
-        Me.ClearSummariesLabel.TabIndex = 35
+        Me.ClearSummariesLabel.TabIndex = 11
         Me.ClearSummariesLabel.Text = "Summaries entered manually are remembered across sessions; click to clear these:"
         '
         'ConfirmSelfRevert
@@ -705,7 +705,7 @@ Partial Class ConfigForm
         Me.ConfirmSelfRevert.Location = New System.Drawing.Point(9, 61)
         Me.ConfirmSelfRevert.Name = "ConfirmSelfRevert"
         Me.ConfirmSelfRevert.Size = New System.Drawing.Size(235, 17)
-        Me.ConfirmSelfRevert.TabIndex = 34
+        Me.ConfirmSelfRevert.TabIndex = 2
         Me.ConfirmSelfRevert.Text = "Confirm reversion of own edits (except undo)"
         Me.ConfirmSelfRevert.UseVisualStyleBackColor = True
         '
@@ -715,7 +715,7 @@ Partial Class ConfigForm
         Me.AddSummary.Location = New System.Drawing.Point(6, 251)
         Me.AddSummary.Name = "AddSummary"
         Me.AddSummary.Size = New System.Drawing.Size(70, 23)
-        Me.AddSummary.TabIndex = 33
+        Me.AddSummary.TabIndex = 9
         Me.AddSummary.Text = "Add"
         Me.AddSummary.UseVisualStyleBackColor = True
         '
@@ -726,7 +726,7 @@ Partial Class ConfigForm
         Me.RemoveSummary.Location = New System.Drawing.Point(82, 251)
         Me.RemoveSummary.Name = "RemoveSummary"
         Me.RemoveSummary.Size = New System.Drawing.Size(70, 23)
-        Me.RemoveSummary.TabIndex = 32
+        Me.RemoveSummary.TabIndex = 10
         Me.RemoveSummary.Text = "Remove"
         Me.RemoveSummary.UseVisualStyleBackColor = True
         '
@@ -736,7 +736,7 @@ Partial Class ConfigForm
         Me.RevertSummariesLabel.Location = New System.Drawing.Point(3, 173)
         Me.RevertSummariesLabel.Name = "RevertSummariesLabel"
         Me.RevertSummariesLabel.Size = New System.Drawing.Size(195, 13)
-        Me.RevertSummariesLabel.TabIndex = 31
+        Me.RevertSummariesLabel.TabIndex = 7
         Me.RevertSummariesLabel.Text = "Reversion summaries available in menu:"
         '
         'RevertSummaries
@@ -749,7 +749,7 @@ Partial Class ConfigForm
         Me.RevertSummaries.Location = New System.Drawing.Point(6, 189)
         Me.RevertSummaries.Name = "RevertSummaries"
         Me.RevertSummaries.Size = New System.Drawing.Size(393, 56)
-        Me.RevertSummaries.TabIndex = 30
+        Me.RevertSummaries.TabIndex = 8
         '
         'UseRollback
         '
@@ -757,7 +757,7 @@ Partial Class ConfigForm
         Me.UseRollback.Location = New System.Drawing.Point(9, 153)
         Me.UseRollback.Name = "UseRollback"
         Me.UseRollback.Size = New System.Drawing.Size(138, 17)
-        Me.UseRollback.TabIndex = 29
+        Me.UseRollback.TabIndex = 6
         Me.UseRollback.Text = "Use rollback if available"
         Me.UseRollback.UseVisualStyleBackColor = True
         '
@@ -767,7 +767,7 @@ Partial Class ConfigForm
         Me.AutoAdvance.Location = New System.Drawing.Point(9, 130)
         Me.AutoAdvance.Name = "AutoAdvance"
         Me.AutoAdvance.Size = New System.Drawing.Size(259, 17)
-        Me.AutoAdvance.TabIndex = 28
+        Me.AutoAdvance.TabIndex = 5
         Me.AutoAdvance.Text = "After reverting, move to the next edit in the queue"
         Me.AutoAdvance.UseVisualStyleBackColor = True
         '
@@ -777,7 +777,7 @@ Partial Class ConfigForm
         Me.ConfirmSame.Location = New System.Drawing.Point(9, 38)
         Me.ConfirmSame.Name = "ConfirmSame"
         Me.ConfirmSame.Size = New System.Drawing.Size(280, 17)
-        Me.ConfirmSame.TabIndex = 27
+        Me.ConfirmSame.TabIndex = 1
         Me.ConfirmSame.Text = "Confirm reversion to an edit by the user being reverted"
         Me.ConfirmSame.UseVisualStyleBackColor = True
         '
@@ -787,7 +787,7 @@ Partial Class ConfigForm
         Me.ConfirmMultiple.Location = New System.Drawing.Point(9, 15)
         Me.ConfirmMultiple.Name = "ConfirmMultiple"
         Me.ConfirmMultiple.Size = New System.Drawing.Size(265, 17)
-        Me.ConfirmMultiple.TabIndex = 26
+        Me.ConfirmMultiple.TabIndex = 0
         Me.ConfirmMultiple.Text = "Confirm reversion of multiple edits by the same user"
         Me.ConfirmMultiple.UseVisualStyleBackColor = True
         '
@@ -797,7 +797,7 @@ Partial Class ConfigForm
         Me.ConfirmRange.Location = New System.Drawing.Point(9, 107)
         Me.ConfirmRange.Name = "ConfirmRange"
         Me.ConfirmRange.Size = New System.Drawing.Size(481, 28)
-        Me.ConfirmRange.TabIndex = 37
+        Me.ConfirmRange.TabIndex = 4
         Me.ConfirmRange.Text = "Confirm reversion to edit by an anonymous user in the same /16 range as the user " & _
             "being reverted"
         Me.ConfirmRange.TextAlign = System.Drawing.ContentAlignment.TopLeft
@@ -822,7 +822,7 @@ Partial Class ConfigForm
         Me.ExtendReports.Location = New System.Drawing.Point(27, 38)
         Me.ExtendReports.Name = "ExtendReports"
         Me.ExtendReports.Size = New System.Drawing.Size(216, 17)
-        Me.ExtendReports.TabIndex = 4
+        Me.ExtendReports.TabIndex = 1
         Me.ExtendReports.Text = "Extend reports after additional vandalism"
         Me.ExtendReports.UseVisualStyleBackColor = True
         '
@@ -832,7 +832,7 @@ Partial Class ConfigForm
         Me.ReportLinkExamples.Location = New System.Drawing.Point(9, 15)
         Me.ReportLinkExamples.Name = "ReportLinkExamples"
         Me.ReportLinkExamples.Size = New System.Drawing.Size(253, 17)
-        Me.ReportLinkExamples.TabIndex = 3
+        Me.ReportLinkExamples.TabIndex = 0
         Me.ReportLinkExamples.Text = "Include links to instances of vandalism in reports"
         Me.ReportLinkExamples.UseVisualStyleBackColor = True
         '
@@ -913,7 +913,7 @@ Partial Class ConfigForm
         Me.AddTemplate.Location = New System.Drawing.Point(6, 249)
         Me.AddTemplate.Name = "AddTemplate"
         Me.AddTemplate.Size = New System.Drawing.Size(70, 23)
-        Me.AddTemplate.TabIndex = 35
+        Me.AddTemplate.TabIndex = 2
         Me.AddTemplate.Text = "Add"
         Me.AddTemplate.UseVisualStyleBackColor = True
         '
@@ -924,7 +924,7 @@ Partial Class ConfigForm
         Me.RemoveTemplate.Location = New System.Drawing.Point(82, 249)
         Me.RemoveTemplate.Name = "RemoveTemplate"
         Me.RemoveTemplate.Size = New System.Drawing.Size(70, 23)
-        Me.RemoveTemplate.TabIndex = 34
+        Me.RemoveTemplate.TabIndex = 3
         Me.RemoveTemplate.Text = "Remove"
         Me.RemoveTemplate.UseVisualStyleBackColor = True
         '
@@ -934,7 +934,7 @@ Partial Class ConfigForm
         Me.TemplatesLabel.Location = New System.Drawing.Point(6, 12)
         Me.TemplatesLabel.Name = "TemplatesLabel"
         Me.TemplatesLabel.Size = New System.Drawing.Size(125, 13)
-        Me.TemplatesLabel.TabIndex = 1
+        Me.TemplatesLabel.TabIndex = 0
         Me.TemplatesLabel.Text = "User template messages:"
         '
         'Templates
@@ -949,7 +949,7 @@ Partial Class ConfigForm
         Me.Templates.Location = New System.Drawing.Point(6, 28)
         Me.Templates.Name = "Templates"
         Me.Templates.Size = New System.Drawing.Size(499, 215)
-        Me.Templates.TabIndex = 0
+        Me.Templates.TabIndex = 1
         Me.Templates.UseCompatibleStateImageBehavior = False
         Me.Templates.View = System.Windows.Forms.View.Details
         '
@@ -1004,7 +1004,7 @@ Partial Class ConfigForm
         Me.HighlightGroup.Location = New System.Drawing.Point(6, 6)
         Me.HighlightGroup.Name = "HighlightGroup"
         Me.HighlightGroup.Size = New System.Drawing.Size(499, 279)
-        Me.HighlightGroup.TabIndex = 1
+        Me.HighlightGroup.TabIndex = 0
         Me.HighlightGroup.TabStop = False
         Me.HighlightGroup.Text = "Syntax highlight colors"
         '
@@ -1014,7 +1014,7 @@ Partial Class ConfigForm
         Me.Label26.Location = New System.Drawing.Point(202, 32)
         Me.Label26.Name = "Label26"
         Me.Label26.Size = New System.Drawing.Size(74, 13)
-        Me.Label26.TabIndex = 13
+        Me.Label26.TabIndex = 12
         Me.Label26.Text = "Parameter call"
         '
         'ColorParamCall
@@ -1023,7 +1023,7 @@ Partial Class ConfigForm
         Me.ColorParamCall.Location = New System.Drawing.Point(309, 27)
         Me.ColorParamCall.Name = "ColorParamCall"
         Me.ColorParamCall.Size = New System.Drawing.Size(44, 23)
-        Me.ColorParamCall.TabIndex = 12
+        Me.ColorParamCall.TabIndex = 13
         Me.ColorParamCall.UseVisualStyleBackColor = False
         '
         'Label25
@@ -1032,7 +1032,7 @@ Partial Class ConfigForm
         Me.Label25.Location = New System.Drawing.Point(18, 177)
         Me.Label25.Name = "Label25"
         Me.Label25.Size = New System.Drawing.Size(55, 13)
-        Me.Label25.TabIndex = 11
+        Me.Label25.TabIndex = 10
         Me.Label25.Text = "HTML tag"
         '
         'ColorHtmlTag
@@ -1041,7 +1041,7 @@ Partial Class ConfigForm
         Me.ColorHtmlTag.Location = New System.Drawing.Point(125, 172)
         Me.ColorHtmlTag.Name = "ColorHtmlTag"
         Me.ColorHtmlTag.Size = New System.Drawing.Size(44, 23)
-        Me.ColorHtmlTag.TabIndex = 10
+        Me.ColorHtmlTag.TabIndex = 11
         Me.ColorHtmlTag.UseVisualStyleBackColor = False
         '
         'Label24
@@ -1050,7 +1050,7 @@ Partial Class ConfigForm
         Me.Label24.Location = New System.Drawing.Point(18, 148)
         Me.Label24.Name = "Label24"
         Me.Label24.Size = New System.Drawing.Size(51, 13)
-        Me.Label24.TabIndex = 9
+        Me.Label24.TabIndex = 8
         Me.Label24.Text = "Template"
         '
         'ColorTemplate
@@ -1059,7 +1059,7 @@ Partial Class ConfigForm
         Me.ColorTemplate.Location = New System.Drawing.Point(125, 143)
         Me.ColorTemplate.Name = "ColorTemplate"
         Me.ColorTemplate.Size = New System.Drawing.Size(44, 23)
-        Me.ColorTemplate.TabIndex = 8
+        Me.ColorTemplate.TabIndex = 9
         Me.ColorTemplate.UseVisualStyleBackColor = False
         '
         'Label30
@@ -1068,7 +1068,7 @@ Partial Class ConfigForm
         Me.Label30.Location = New System.Drawing.Point(202, 61)
         Me.Label30.Name = "Label30"
         Me.Label30.Size = New System.Drawing.Size(84, 13)
-        Me.Label30.TabIndex = 7
+        Me.Label30.TabIndex = 14
         Me.Label30.Text = "Parameter name"
         '
         'Label23
@@ -1077,7 +1077,7 @@ Partial Class ConfigForm
         Me.Label23.Location = New System.Drawing.Point(18, 119)
         Me.Label23.Name = "Label23"
         Me.Label23.Size = New System.Drawing.Size(64, 13)
-        Me.Label23.TabIndex = 7
+        Me.Label23.TabIndex = 6
         Me.Label23.Text = "External link"
         '
         'ColorParamName
@@ -1086,7 +1086,7 @@ Partial Class ConfigForm
         Me.ColorParamName.Location = New System.Drawing.Point(309, 56)
         Me.ColorParamName.Name = "ColorParamName"
         Me.ColorParamName.Size = New System.Drawing.Size(44, 23)
-        Me.ColorParamName.TabIndex = 6
+        Me.ColorParamName.TabIndex = 15
         Me.ColorParamName.UseVisualStyleBackColor = False
         '
         'ColorExternalLink
@@ -1095,7 +1095,7 @@ Partial Class ConfigForm
         Me.ColorExternalLink.Location = New System.Drawing.Point(125, 114)
         Me.ColorExternalLink.Name = "ColorExternalLink"
         Me.ColorExternalLink.Size = New System.Drawing.Size(44, 23)
-        Me.ColorExternalLink.TabIndex = 6
+        Me.ColorExternalLink.TabIndex = 7
         Me.ColorExternalLink.UseVisualStyleBackColor = False
         '
         'Label29
@@ -1104,7 +1104,7 @@ Partial Class ConfigForm
         Me.Label29.Location = New System.Drawing.Point(202, 148)
         Me.Label29.Name = "Label29"
         Me.Label29.Size = New System.Drawing.Size(101, 13)
-        Me.Label29.TabIndex = 5
+        Me.Label29.TabIndex = 20
         Me.Label29.Text = "Template parameter"
         '
         'Label22
@@ -1113,7 +1113,7 @@ Partial Class ConfigForm
         Me.Label22.Location = New System.Drawing.Point(18, 90)
         Me.Label22.Name = "Label22"
         Me.Label22.Size = New System.Drawing.Size(62, 13)
-        Me.Label22.TabIndex = 5
+        Me.Label22.TabIndex = 4
         Me.Label22.Text = "Magic word"
         '
         'ColorParam
@@ -1122,7 +1122,7 @@ Partial Class ConfigForm
         Me.ColorParam.Location = New System.Drawing.Point(309, 143)
         Me.ColorParam.Name = "ColorParam"
         Me.ColorParam.Size = New System.Drawing.Size(44, 23)
-        Me.ColorParam.TabIndex = 4
+        Me.ColorParam.TabIndex = 21
         Me.ColorParam.UseVisualStyleBackColor = False
         '
         'ColorMagicWord
@@ -1131,7 +1131,7 @@ Partial Class ConfigForm
         Me.ColorMagicWord.Location = New System.Drawing.Point(125, 85)
         Me.ColorMagicWord.Name = "ColorMagicWord"
         Me.ColorMagicWord.Size = New System.Drawing.Size(44, 23)
-        Me.ColorMagicWord.TabIndex = 4
+        Me.ColorMagicWord.TabIndex = 5
         Me.ColorMagicWord.UseVisualStyleBackColor = False
         '
         'Label28
@@ -1140,7 +1140,7 @@ Partial Class ConfigForm
         Me.Label28.Location = New System.Drawing.Point(202, 119)
         Me.Label28.Name = "Label28"
         Me.Label28.Size = New System.Drawing.Size(36, 13)
-        Me.Label28.TabIndex = 3
+        Me.Label28.TabIndex = 18
         Me.Label28.Text = "Image"
         '
         'Label21
@@ -1149,7 +1149,7 @@ Partial Class ConfigForm
         Me.Label21.Location = New System.Drawing.Point(18, 61)
         Me.Label21.Name = "Label21"
         Me.Label21.Size = New System.Drawing.Size(27, 13)
-        Me.Label21.TabIndex = 3
+        Me.Label21.TabIndex = 2
         Me.Label21.Text = "Link"
         '
         'ColorImage
@@ -1158,7 +1158,7 @@ Partial Class ConfigForm
         Me.ColorImage.Location = New System.Drawing.Point(309, 114)
         Me.ColorImage.Name = "ColorImage"
         Me.ColorImage.Size = New System.Drawing.Size(44, 23)
-        Me.ColorImage.TabIndex = 2
+        Me.ColorImage.TabIndex = 19
         Me.ColorImage.UseVisualStyleBackColor = False
         '
         'ColorLink
@@ -1167,7 +1167,7 @@ Partial Class ConfigForm
         Me.ColorLink.Location = New System.Drawing.Point(125, 56)
         Me.ColorLink.Name = "ColorLink"
         Me.ColorLink.Size = New System.Drawing.Size(44, 23)
-        Me.ColorLink.TabIndex = 2
+        Me.ColorLink.TabIndex = 3
         Me.ColorLink.UseVisualStyleBackColor = False
         '
         'Label27
@@ -1176,7 +1176,7 @@ Partial Class ConfigForm
         Me.Label27.Location = New System.Drawing.Point(202, 90)
         Me.Label27.Name = "Label27"
         Me.Label27.Size = New System.Drawing.Size(57, 13)
-        Me.Label27.TabIndex = 1
+        Me.Label27.TabIndex = 16
         Me.Label27.Text = "Reference"
         '
         'ColorReference
@@ -1185,7 +1185,7 @@ Partial Class ConfigForm
         Me.ColorReference.Location = New System.Drawing.Point(309, 85)
         Me.ColorReference.Name = "ColorReference"
         Me.ColorReference.Size = New System.Drawing.Size(44, 23)
-        Me.ColorReference.TabIndex = 0
+        Me.ColorReference.TabIndex = 17
         Me.ColorReference.UseVisualStyleBackColor = False
         '
         'Label20
@@ -1194,7 +1194,7 @@ Partial Class ConfigForm
         Me.Label20.Location = New System.Drawing.Point(18, 32)
         Me.Label20.Name = "Label20"
         Me.Label20.Size = New System.Drawing.Size(51, 13)
-        Me.Label20.TabIndex = 1
+        Me.Label20.TabIndex = 0
         Me.Label20.Text = "Comment"
         '
         'ColorComment
@@ -1203,7 +1203,7 @@ Partial Class ConfigForm
         Me.ColorComment.Location = New System.Drawing.Point(125, 27)
         Me.ColorComment.Name = "ColorComment"
         Me.ColorComment.Size = New System.Drawing.Size(44, 23)
-        Me.ColorComment.TabIndex = 0
+        Me.ColorComment.TabIndex = 1
         Me.ColorComment.UseVisualStyleBackColor = False
         '
         'AdminTab
@@ -1256,7 +1256,7 @@ Partial Class ConfigForm
         Me.BlockTimeAnonLabel.Location = New System.Drawing.Point(0, 121)
         Me.BlockTimeAnonLabel.Name = "BlockTimeAnonLabel"
         Me.BlockTimeAnonLabel.Size = New System.Drawing.Size(161, 17)
-        Me.BlockTimeAnonLabel.TabIndex = 6
+        Me.BlockTimeAnonLabel.TabIndex = 5
         Me.BlockTimeAnonLabel.Text = "anonymous users:"
         Me.BlockTimeAnonLabel.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
@@ -1266,7 +1266,7 @@ Partial Class ConfigForm
         Me.BlockTimeLabel.Location = New System.Drawing.Point(6, 98)
         Me.BlockTimeLabel.Name = "BlockTimeLabel"
         Me.BlockTimeLabel.Size = New System.Drawing.Size(126, 13)
-        Me.BlockTimeLabel.TabIndex = 5
+        Me.BlockTimeLabel.TabIndex = 4
         Me.BlockTimeLabel.Text = "Default block duration for"
         '
         'BlockTimeAnon
@@ -1274,14 +1274,14 @@ Partial Class ConfigForm
         Me.BlockTimeAnon.Location = New System.Drawing.Point(163, 118)
         Me.BlockTimeAnon.Name = "BlockTimeAnon"
         Me.BlockTimeAnon.Size = New System.Drawing.Size(100, 20)
-        Me.BlockTimeAnon.TabIndex = 4
+        Me.BlockTimeAnon.TabIndex = 6
         '
         'BlockReasonLabel
         '
         Me.BlockReasonLabel.Location = New System.Drawing.Point(2, 67)
         Me.BlockReasonLabel.Name = "BlockReasonLabel"
         Me.BlockReasonLabel.Size = New System.Drawing.Size(159, 17)
-        Me.BlockReasonLabel.TabIndex = 3
+        Me.BlockReasonLabel.TabIndex = 2
         Me.BlockReasonLabel.Text = "Default block reason:"
         Me.BlockReasonLabel.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
@@ -1290,7 +1290,7 @@ Partial Class ConfigForm
         Me.BlockReason.Location = New System.Drawing.Point(163, 64)
         Me.BlockReason.Name = "BlockReason"
         Me.BlockReason.Size = New System.Drawing.Size(195, 20)
-        Me.BlockReason.TabIndex = 2
+        Me.BlockReason.TabIndex = 3
         '
         'PromptForBlock
         '
@@ -1319,7 +1319,7 @@ Partial Class ConfigForm
         Me.ViewLocalConfig.Location = New System.Drawing.Point(7, 360)
         Me.ViewLocalConfig.Name = "ViewLocalConfig"
         Me.ViewLocalConfig.Size = New System.Drawing.Size(148, 13)
-        Me.ViewLocalConfig.TabIndex = 3
+        Me.ViewLocalConfig.TabIndex = 1
         Me.ViewLocalConfig.TabStop = True
         Me.ViewLocalConfig.Text = "View local configuration folder"
         '

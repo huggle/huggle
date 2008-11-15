@@ -50,17 +50,17 @@ Partial Class UpdateForm
         Me.Cancel.Location = New System.Drawing.Point(390, 55)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
-        Me.Cancel.TabIndex = 1
+        Me.Cancel.TabIndex = 4
         Me.Cancel.Text = "Cancel"
         Me.Cancel.UseVisualStyleBackColor = True
         '
-        'Update
+        'Download
         '
         Me.Download.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Download.Location = New System.Drawing.Point(309, 55)
-        Me.Download.Name = "Update"
+        Me.Download.Name = "Download"
         Me.Download.Size = New System.Drawing.Size(75, 23)
-        Me.Download.TabIndex = 1
+        Me.Download.TabIndex = 3
         Me.Download.Text = "Update"
         Me.Download.UseVisualStyleBackColor = True
         '
@@ -71,7 +71,7 @@ Partial Class UpdateForm
         Me.Status.Location = New System.Drawing.Point(12, 60)
         Me.Status.Name = "Status"
         Me.Status.Size = New System.Drawing.Size(10, 13)
-        Me.Status.TabIndex = 3
+        Me.Status.TabIndex = 1
         Me.Status.Text = " "
         '
         'PictureBox1
@@ -91,10 +91,10 @@ Partial Class UpdateForm
         Me.Progress.Location = New System.Drawing.Point(176, 58)
         Me.Progress.Name = "Progress"
         Me.Progress.Size = New System.Drawing.Size(127, 18)
-        Me.Progress.TabIndex = 5
+        Me.Progress.TabIndex = 2
         Me.Progress.Visible = False
         '
-        'VersionForm
+        'UpdateForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -109,7 +109,7 @@ Partial Class UpdateForm
         Me.KeyPreview = True
         Me.MaximizeBox = False
         Me.MinimizeBox = False
-        Me.Name = "VersionForm"
+        Me.Name = "UpdateForm"
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "New version available"

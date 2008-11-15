@@ -138,7 +138,7 @@ Namespace Requests
                 Exit Sub
             End If
 
-            Text = HtmlDecode(FindString(Result.Text, "<rev>", "</rev"))
+            Text = GetTextFromRev(Result.Text)
 
             'Check for existing report
             Select Case Config.Project
@@ -313,7 +313,7 @@ Namespace Requests
             If Config.UAABotLocation IsNot Nothing Then
                 Result = GetText(Config.UAABotLocation)
 
-                Text = HtmlDecode(FindString(Result.Text, "<rev>", "</rev>")).ToLower.Replace("_", " ")
+                Text = GetTextFromRev(Result.Text).ToLower.Replace("_", " ")
 
                 If Text.Contains("{{userlinks|" & User.Name.ToLower & "}}") _
                     OrElse Text.Contains("{{userlinks|1=" & User.Name.ToLower & "}}") Then
@@ -335,7 +335,7 @@ Namespace Requests
                 Exit Sub
             End If
 
-            Text = HtmlDecode(FindString(Result.Text, "<rev>", "</rev>")).ToLower.Replace("_", " ")
+            Text = GetTextFromRev(Result.Text).ToLower.Replace("_", " ")
 
             'Check for existing report
             If Text.Contains("{{userlinks|" & User.Name & "}}") _
@@ -419,7 +419,7 @@ Namespace Requests
                 Exit Sub
             End If
 
-            Dim Text As String = HtmlDecode(FindString(Result.Text, "<rev>", "</rev>"))
+            Dim Text As String = GetTextFromRev(Result.Text)
 
             If Text.Contains(LF & "{{") _
                 Then Text = Text.Substring(0, Text.IndexOf(LF & "{{")) & LF & "{{" & Config.SockReportLocation & "/" & _

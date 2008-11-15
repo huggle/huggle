@@ -91,7 +91,7 @@ Namespace Requests
                 Return New RequestResult(, Msg("error-pagemissing"))
             End If
 
-            Dim Text As String = HtmlDecode(FindString(Result.Text, "<rev>", "</rev>"))
+            Dim Text As String = GetTextFromRev(Result.Text)
 
             If Text.ToLower.StartsWith("#redirect [[") Then
                 Return New RequestResult(, "rfdneeded")
@@ -132,7 +132,7 @@ Namespace Requests
                 Exit Function
             End If
 
-            Dim Text As String = HtmlDecode(FindString(Result.Text, "<rev>", "</rev>"))
+            Dim Text As String = GetTextFromRev(Result.Text)
 
             Text = Callback(Text)
 

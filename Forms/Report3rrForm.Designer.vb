@@ -50,7 +50,7 @@ Partial Class Report3rrForm
         Me.Cancel.Location = New System.Drawing.Point(407, 358)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
-        Me.Cancel.TabIndex = 6
+        Me.Cancel.TabIndex = 17
         Me.Cancel.Text = "Cancel"
         Me.Cancel.UseVisualStyleBackColor = True
         '
@@ -61,7 +61,7 @@ Partial Class Report3rrForm
         Me.OK.Location = New System.Drawing.Point(326, 358)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
-        Me.OK.TabIndex = 5
+        Me.OK.TabIndex = 16
         Me.OK.Text = "OK"
         Me.OK.UseVisualStyleBackColor = True
         '
@@ -71,7 +71,7 @@ Partial Class Report3rrForm
         Me.MessageLabel.Location = New System.Drawing.Point(6, 214)
         Me.MessageLabel.Name = "MessageLabel"
         Me.MessageLabel.Size = New System.Drawing.Size(105, 13)
-        Me.MessageLabel.TabIndex = 2
+        Me.MessageLabel.TabIndex = 12
         Me.MessageLabel.Text = "Comments (optional):"
         '
         'Message
@@ -82,7 +82,7 @@ Partial Class Report3rrForm
         Me.Message.Multiline = True
         Me.Message.Name = "Message"
         Me.Message.Size = New System.Drawing.Size(365, 40)
-        Me.Message.TabIndex = 3
+        Me.Message.TabIndex = 13
         '
         'Search
         '
@@ -100,7 +100,7 @@ Partial Class Report3rrForm
         Me.WarnLogLabel.Location = New System.Drawing.Point(12, 263)
         Me.WarnLogLabel.Name = "WarnLogLabel"
         Me.WarnLogLabel.Size = New System.Drawing.Size(112, 13)
-        Me.WarnLogLabel.TabIndex = 0
+        Me.WarnLogLabel.TabIndex = 14
         Me.WarnLogLabel.Text = "Warnings for this user:"
         '
         'SearchLabel
@@ -148,7 +148,7 @@ Partial Class Report3rrForm
         Me.Add.Location = New System.Drawing.Point(407, 118)
         Me.Add.Name = "Add"
         Me.Add.Size = New System.Drawing.Size(75, 23)
-        Me.Add.TabIndex = 10
+        Me.Add.TabIndex = 9
         Me.Add.Text = "Add Current"
         Me.Add.UseVisualStyleBackColor = True
         '
@@ -179,7 +179,7 @@ Partial Class Report3rrForm
         Me.ReportWarning1.Location = New System.Drawing.Point(114, 149)
         Me.ReportWarning1.Name = "ReportWarning1"
         Me.ReportWarning1.Size = New System.Drawing.Size(80, 13)
-        Me.ReportWarning1.TabIndex = 9
+        Me.ReportWarning1.TabIndex = 10
         Me.ReportWarning1.Text = "IMPORTANT" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
         Me.ReportWarning1.Visible = False
         '
@@ -231,12 +231,13 @@ Partial Class Report3rrForm
         Me.WarnLog.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.WarnLog.FullRowSelect = True
         Me.WarnLog.GridLines = True
         Me.WarnLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
         Me.WarnLog.Location = New System.Drawing.Point(15, 279)
         Me.WarnLog.Name = "WarnLog"
         Me.WarnLog.Size = New System.Drawing.Size(467, 73)
-        Me.WarnLog.TabIndex = 20
+        Me.WarnLog.TabIndex = 15
         Me.WarnLog.UseCompatibleStateImageBehavior = False
         Me.WarnLog.User = Nothing
         Me.WarnLog.View = System.Windows.Forms.View.Details

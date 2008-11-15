@@ -114,7 +114,7 @@ Partial Class SockReportForm
         Me.Details.Location = New System.Drawing.Point(15, 138)
         Me.Details.Name = "Details"
         Me.Details.Size = New System.Drawing.Size(353, 170)
-        Me.Details.TabIndex = 9
+        Me.Details.TabIndex = 6
         Me.Details.Text = ""
         '
         'SockReportForm

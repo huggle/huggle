@@ -15,14 +15,10 @@ Class SpeedyForm
                 OrElse (Item.Code.StartsWith("P") AndAlso Page.Space.Name = "Portal") _
                 OrElse (Item.Code.StartsWith("T") AndAlso Page.Space.Name = "Template") _
                 OrElse (Item.Code.StartsWith("U") AndAlso Page.Space.Name.StartsWith("User")) _
-                OrElse True _
                 Then Criterion.Items.Add(Item.Code & " - " & Item.Description)
         Next Item
 
-        'Hide the param features and make the form the rigth size for when not included
-        Param.Visible = False
-        ParamLabel.Visible = False
-        Height -= 30
+        Height -= 25
     End Sub
 
     Private Sub OK_Click() Handles OK.Click
@@ -76,17 +72,15 @@ Class SpeedyForm
             'If g12 is selected add the param options and resize the form to allow them to be seen
             Param.Visible = True
             ParamLabel.Visible = True
-            Me.Height += 30
+            Height += 25
+
             'Param text for g12 should be url= so set it
             Param.Text = "url="
-        Else
-            'If any other option is selected (not above)
-            If Param.Visible = True Then 'And the params and still visible
-                'Set the params to not visible and resize form
-                Me.Height -= 30
-                Param.Visible = False
-                ParamLabel.Visible = False
-            End If
+
+        ElseIf Param.Visible Then
+            Height -= 25
+            Param.Visible = False
+            ParamLabel.Visible = False
         End If
     End Sub
 

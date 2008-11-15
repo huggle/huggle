@@ -12,7 +12,18 @@ Class QueueForm
     Private Sub QueueForm_Load() Handles Me.Load
         Icon = My.Resources.huggle_icon
         Text = Msg("queue-title")
+
         Localize(Me, "queue")
+        UserBrowse.Text = Msg("selectfile")
+        AddUser.Text = Msg("add")
+        RemoveUser.Text = Msg("remove")
+        ClearUsers.Text = Msg("clear")
+        UserSourceTypeLabel.Text = Msg("list-sourcetype")
+
+        DynamicSourceType.Items.AddRange(New String() {"Backlinks", "Category", "Category (recursive)", _
+            "Existing list", "External link uses", "File", "Image uses", "Images on page", "Links on page", _
+            "Search", "Templates on page", "Transclusions", "User contributions", "Watchlist"})
+
         Tip.Active = Config.ShowToolTips
 
         QueueList.BeginUpdate()
@@ -153,8 +164,19 @@ Class QueueForm
         If CurrentQueue IsNot Nothing Then CurrentQueue.DynamicSourceType = DynamicSourceType.Text
 
         Select Case DynamicSourceType.Text
-            Case "Category" : DynamicSourceLabel.Text = "Category:"
+            Case "Category", "Category (recursive)" : DynamicSourceLabel.Text = "Category:"
+            Case "Existing list" : DynamicSourceLabel.Text = "List:"
+            Case "External link uses" : DynamicSourceLabel.Text = "URL:"
+            Case "Image uses" : DynamicSourceLabel.Text = "Image:"
+            Case "Search" : DynamicSourceLabel.Text = "Search terms:"
+            Case "User contributions" : DynamicSourceLabel.Text = "User:"
+            Case "Watchlist" : DynamicSourceLabel.Text = ""
+            Case Else : DynamicSourceLabel.Text = "Page:"
         End Select
+
+        RefreshInterface()
+        DynamicSource.Focus()
+        DynamicSource.SelectAll()
     End Sub
 
     Private Sub FilterAnonymous_CheckStateChanged() Handles FilterAnonymous.CheckStateChanged
@@ -475,7 +497,7 @@ Class QueueForm
         QueuesEmpty.Visible = (QueueList.Items.Count = 0)
         Tabs.Enabled = (QueueList.SelectedIndex > -1)
         TypeGroup.Enabled = (QueueList.SelectedIndex > -1)
-        UserCount.Text = CStr(Users.Items.Count) & " items"
+        UserCount.Text = Msg("list-count", CStr(Users.Items.Count))
     End Sub
 
     Private Sub ShowTab(ByVal Tab As TabPage)

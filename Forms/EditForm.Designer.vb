@@ -55,11 +55,11 @@ Partial Class EditForm
         Me.EditSelectAll = New System.Windows.Forms.ToolStripMenuItem
         Me.Separator4 = New System.Windows.Forms.ToolStripSeparator
         Me.EditFind = New System.Windows.Forms.ToolStripMenuItem
+        Me.EditMenu = New System.Windows.Forms.ToolStripMenuItem
         Me.PreviewTab = New System.Windows.Forms.TabPage
         Me.Preview = New Huggle.WebBrowser
         Me.ChangesTab = New System.Windows.Forms.TabPage
         Me.Diff = New Huggle.WebBrowser
-        Me.EditMenu = New System.Windows.Forms.ToolStripMenuItem
         Me.KeystrokeTimer = New System.Windows.Forms.Timer(Me.components)
         Me.MenuBar = New System.Windows.Forms.MenuStrip
         Me.PageMenu = New System.Windows.Forms.ToolStripMenuItem
@@ -158,7 +158,7 @@ Partial Class EditForm
         Me.Tabs.SelectedIndex = 0
         Me.Tabs.Size = New System.Drawing.Size(780, 383)
         Me.Tabs.SizeMode = System.Windows.Forms.TabSizeMode.Fixed
-        Me.Tabs.TabIndex = 0
+        Me.Tabs.TabIndex = 1
         '
         'EditTab
         '
@@ -189,7 +189,7 @@ Partial Class EditForm
         Me.FindGroup.Location = New System.Drawing.Point(6, 307)
         Me.FindGroup.Name = "FindGroup"
         Me.FindGroup.Size = New System.Drawing.Size(760, 42)
-        Me.FindGroup.TabIndex = 2
+        Me.FindGroup.TabIndex = 1
         Me.FindGroup.TabStop = False
         '
         'ReplaceAll
@@ -208,7 +208,7 @@ Partial Class EditForm
         Me.ReplaceLabel.Location = New System.Drawing.Point(444, 17)
         Me.ReplaceLabel.Name = "ReplaceLabel"
         Me.ReplaceLabel.Size = New System.Drawing.Size(50, 13)
-        Me.ReplaceLabel.TabIndex = 7
+        Me.ReplaceLabel.TabIndex = 5
         Me.ReplaceLabel.Text = "Replace:"
         '
         'Replace
@@ -218,7 +218,7 @@ Partial Class EditForm
         Me.Replace.Location = New System.Drawing.Point(500, 14)
         Me.Replace.Name = "Replace"
         Me.Replace.Size = New System.Drawing.Size(170, 20)
-        Me.Replace.TabIndex = 6
+        Me.Replace.TabIndex = 7
         '
         'FindInfo
         '
@@ -226,7 +226,7 @@ Partial Class EditForm
         Me.FindInfo.Location = New System.Drawing.Point(477, 17)
         Me.FindInfo.Name = "FindInfo"
         Me.FindInfo.Size = New System.Drawing.Size(10, 13)
-        Me.FindInfo.TabIndex = 5
+        Me.FindInfo.TabIndex = 6
         Me.FindInfo.Text = " "
         Me.FindInfo.Visible = False
         '
@@ -288,7 +288,7 @@ Partial Class EditForm
         Me.WaitMessage.Location = New System.Drawing.Point(6, 8)
         Me.WaitMessage.Name = "WaitMessage"
         Me.WaitMessage.Size = New System.Drawing.Size(760, 296)
-        Me.WaitMessage.TabIndex = 1
+        Me.WaitMessage.TabIndex = 0
         Me.WaitMessage.Text = " "
         Me.WaitMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
@@ -383,6 +383,13 @@ Partial Class EditForm
         Me.EditFind.Size = New System.Drawing.Size(117, 22)
         Me.EditFind.Text = "Find"
         '
+        'EditMenu
+        '
+        Me.EditMenu.DropDown = Me.EditStrip
+        Me.EditMenu.Name = "EditMenu"
+        Me.EditMenu.Size = New System.Drawing.Size(37, 20)
+        Me.EditMenu.Text = "Edit"
+        '
         'PreviewTab
         '
         Me.PreviewTab.Controls.Add(Me.Preview)
@@ -431,13 +438,6 @@ Partial Class EditForm
         Me.Diff.TabIndex = 1
         Me.Diff.WebBrowserShortcutsEnabled = False
         '
-        'EditMenu
-        '
-        Me.EditMenu.DropDown = Me.EditStrip
-        Me.EditMenu.Name = "EditMenu"
-        Me.EditMenu.Size = New System.Drawing.Size(37, 20)
-        Me.EditMenu.Text = "Edit"
-        '
         'KeystrokeTimer
         '
         Me.KeystrokeTimer.Enabled = True
@@ -449,7 +449,7 @@ Partial Class EditForm
         Me.MenuBar.Location = New System.Drawing.Point(0, 0)
         Me.MenuBar.Name = "MenuBar"
         Me.MenuBar.Size = New System.Drawing.Size(786, 24)
-        Me.MenuBar.TabIndex = 8
+        Me.MenuBar.TabIndex = 0
         Me.MenuBar.Text = "MenuStrip1"
         '
         'PageMenu

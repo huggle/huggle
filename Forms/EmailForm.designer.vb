@@ -75,7 +75,7 @@ Partial Class EmailForm
         Me.Cancel.Location = New System.Drawing.Point(456, 293)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
-        Me.Cancel.TabIndex = 4
+        Me.Cancel.TabIndex = 6
         Me.Cancel.Text = "Cancel"
         Me.Cancel.UseVisualStyleBackColor = True
         '
@@ -86,7 +86,7 @@ Partial Class EmailForm
         Me.Send.Location = New System.Drawing.Point(375, 293)
         Me.Send.Name = "Send"
         Me.Send.Size = New System.Drawing.Size(75, 23)
-        Me.Send.TabIndex = 4
+        Me.Send.TabIndex = 5
         Me.Send.Text = "Send"
         Me.Send.UseVisualStyleBackColor = True
         '
@@ -99,7 +99,7 @@ Partial Class EmailForm
         Me.CcMe.Location = New System.Drawing.Point(64, 297)
         Me.CcMe.Name = "CcMe"
         Me.CcMe.Size = New System.Drawing.Size(182, 17)
-        Me.CcMe.TabIndex = 5
+        Me.CcMe.TabIndex = 4
         Me.CcMe.Text = "E-mail me a copy of this message"
         Me.CcMe.UseVisualStyleBackColor = True
         '

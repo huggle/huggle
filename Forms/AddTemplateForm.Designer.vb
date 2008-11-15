@@ -38,7 +38,7 @@ Partial Class AddTemplateForm
         Me.Cancel.Location = New System.Drawing.Point(251, 63)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
-        Me.Cancel.TabIndex = 5
+        Me.Cancel.TabIndex = 7
         Me.Cancel.Text = "Cancel"
         Me.Cancel.UseVisualStyleBackColor = True
         '
@@ -49,7 +49,7 @@ Partial Class AddTemplateForm
         Me.OK.Location = New System.Drawing.Point(170, 63)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
-        Me.OK.TabIndex = 4
+        Me.OK.TabIndex = 6
         Me.OK.Text = "OK"
         Me.OK.UseVisualStyleBackColor = True
         '
@@ -69,7 +69,7 @@ Partial Class AddTemplateForm
         Me.TemplateBox.Location = New System.Drawing.Point(125, 38)
         Me.TemplateBox.Name = "TemplateBox"
         Me.TemplateBox.Size = New System.Drawing.Size(185, 20)
-        Me.TemplateBox.TabIndex = 3
+        Me.TemplateBox.TabIndex = 4
         '
         'DisplayTextLabel
         '
@@ -96,7 +96,7 @@ Partial Class AddTemplateForm
         Me.TemplateEnd.Location = New System.Drawing.Point(313, 41)
         Me.TemplateEnd.Name = "TemplateEnd"
         Me.TemplateEnd.Size = New System.Drawing.Size(15, 13)
-        Me.TemplateEnd.TabIndex = 6
+        Me.TemplateEnd.TabIndex = 5
         Me.TemplateEnd.Text = "}}"
         '
         'TemplateStart
@@ -105,7 +105,7 @@ Partial Class AddTemplateForm
         Me.TemplateStart.Location = New System.Drawing.Point(82, 41)
         Me.TemplateStart.Name = "TemplateStart"
         Me.TemplateStart.Size = New System.Drawing.Size(43, 13)
-        Me.TemplateStart.TabIndex = 2
+        Me.TemplateStart.TabIndex = 3
         Me.TemplateStart.Text = "{{subst:"
         '
         'AddTemplateForm

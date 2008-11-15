@@ -21,10 +21,10 @@ Namespace Requests
                 Exit Sub
             End If
 
-            Dim Text As String = HtmlDecode(FindString(Result.Text, "<rev>", "</rev>"))
+            Dim Text As String = GetTextFromRev(Result.Text)
             If Text Is Nothing Then Text = ""
 
-            If AvoidText IsNot Nothing AndAlso Text.ToLower.Contains(AvoidText.ToLower) Then
+            If AvoidText IsNot Nothing AndAlso Not Text.ToLower.Contains(AvoidText.ToLower) Then
                 Fail(Msg("usermessage-fail", User.Name), Msg("usermessage-duplicate"))
                 Exit Sub
             End If
@@ -69,7 +69,7 @@ Namespace Requests
                 Exit Sub
             End If
 
-            Dim Text As String = HtmlDecode(FindString(Result.Text, "<rev>", "</rev>"))
+            Dim Text As String = GetTextFromRev(Result.Text)
 
             If String.IsNullOrEmpty(Text) Then Text = "" Else Text &= LF
 
@@ -227,14 +227,13 @@ Namespace Requests
                 Exit Sub
             End If
 
-            Dim Text As String = HtmlDecode(FindString(Result.Text, "<rev>", "</rev>"))
+            Dim Text As String = GetTextFromRev(Result.Text)
 
             If Template Is Nothing Then
                 If (Expiry = "indefinite" OrElse Expiry = "infinite") _
                     Then Text &= LF & Config.BlockMessageIndef.Replace("$1", Reason) _
                     Else Text &= LF & Config.BlockMessage.Replace("$2", Reason).Replace("$1", Expiry)
             Else
-
                 Text &= LF & Template & " ~~~~"
             End If
 

@@ -6,7 +6,7 @@ Class WikiTextBox
 
     Private Declare Function LockWindowUpdate Lib "user32" (ByVal hWnd As IntPtr) As Integer
 
-    Private _Highlight As Boolean, SettingText As Boolean, Request As HighlightRequest, Loading As Boolean = True
+    Private _Highlight As Boolean = True, SettingText As Boolean, Request As HighlightRequest, Loading As Boolean = True
     Private WithEvents KeystrokeTimer As Timer
 
     Public Sub SetHighlighting(ByVal Value As Boolean)

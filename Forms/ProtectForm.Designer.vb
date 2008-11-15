@@ -45,7 +45,7 @@ Partial Class ProtectForm
         Me.OK.Location = New System.Drawing.Point(403, 249)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
-        Me.OK.TabIndex = 5
+        Me.OK.TabIndex = 8
         Me.OK.Text = "OK"
         Me.OK.UseVisualStyleBackColor = True
         '
@@ -55,7 +55,7 @@ Partial Class ProtectForm
         Me.Cancel.Location = New System.Drawing.Point(484, 249)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
-        Me.Cancel.TabIndex = 6
+        Me.Cancel.TabIndex = 9
         Me.Cancel.Text = "Cancel"
         Me.Cancel.UseVisualStyleBackColor = True
         '
@@ -116,7 +116,7 @@ Partial Class ProtectForm
         Me.NoProtection.Location = New System.Drawing.Point(12, 19)
         Me.NoProtection.Name = "NoProtection"
         Me.NoProtection.Size = New System.Drawing.Size(51, 17)
-        Me.NoProtection.TabIndex = 3
+        Me.NoProtection.TabIndex = 0
         Me.NoProtection.Text = "None"
         Me.NoProtection.UseVisualStyleBackColor = True
         '
@@ -126,7 +126,7 @@ Partial Class ProtectForm
         Me.FullProtection.Location = New System.Drawing.Point(12, 65)
         Me.FullProtection.Name = "FullProtection"
         Me.FullProtection.Size = New System.Drawing.Size(91, 17)
-        Me.FullProtection.TabIndex = 1
+        Me.FullProtection.TabIndex = 2
         Me.FullProtection.Text = "Full protection"
         Me.FullProtection.UseVisualStyleBackColor = True
         '
@@ -137,7 +137,7 @@ Partial Class ProtectForm
         Me.MoveProtection.Location = New System.Drawing.Point(12, 88)
         Me.MoveProtection.Name = "MoveProtection"
         Me.MoveProtection.Size = New System.Drawing.Size(103, 17)
-        Me.MoveProtection.TabIndex = 2
+        Me.MoveProtection.TabIndex = 3
         Me.MoveProtection.Text = "Move protection"
         Me.MoveProtection.UseVisualStyleBackColor = True
         '
@@ -148,7 +148,7 @@ Partial Class ProtectForm
         Me.SemiProtection.Location = New System.Drawing.Point(12, 42)
         Me.SemiProtection.Name = "SemiProtection"
         Me.SemiProtection.Size = New System.Drawing.Size(98, 17)
-        Me.SemiProtection.TabIndex = 0
+        Me.SemiProtection.TabIndex = 1
         Me.SemiProtection.TabStop = True
         Me.SemiProtection.Text = "Semi-protection"
         Me.SemiProtection.UseVisualStyleBackColor = True
@@ -159,7 +159,7 @@ Partial Class ProtectForm
         Me.Label3.Location = New System.Drawing.Point(12, 118)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(75, 13)
-        Me.Label3.TabIndex = 14
+        Me.Label3.TabIndex = 5
         Me.Label3.Text = "Protection log:"
         '
         'CurrentLevel
@@ -169,7 +169,7 @@ Partial Class ProtectForm
         Me.CurrentLevel.Location = New System.Drawing.Point(12, 259)
         Me.CurrentLevel.Name = "CurrentLevel"
         Me.CurrentLevel.Size = New System.Drawing.Size(119, 13)
-        Me.CurrentLevel.TabIndex = 18
+        Me.CurrentLevel.TabIndex = 7
         Me.CurrentLevel.Text = "Current protection level:"
         '
         'ProtectionLog
@@ -177,13 +177,15 @@ Partial Class ProtectForm
         Me.ProtectionLog.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ProtectionLog.FullRowSelect = True
         Me.ProtectionLog.GridLines = True
+        Me.ProtectionLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
         Me.ProtectionLog.Location = New System.Drawing.Point(15, 134)
         Me.ProtectionLog.Mode = Huggle.PageLog.ViewMode.Protect
         Me.ProtectionLog.Name = "ProtectionLog"
         Me.ProtectionLog.Page = Nothing
         Me.ProtectionLog.Size = New System.Drawing.Size(544, 109)
-        Me.ProtectionLog.TabIndex = 19
+        Me.ProtectionLog.TabIndex = 6
         Me.ProtectionLog.UseCompatibleStateImageBehavior = False
         Me.ProtectionLog.View = System.Windows.Forms.View.Details
         '

@@ -75,7 +75,7 @@ Partial Class QueueTrimForm
         Me.Age.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.Age.Name = "Age"
         Me.Age.Size = New System.Drawing.Size(44, 20)
-        Me.Age.TabIndex = 5
+        Me.Age.TabIndex = 1
         Me.Age.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.Age.Value = New Decimal(New Integer() {10, 0, 0, 0})
         '

@@ -36,7 +36,7 @@ Partial Class StatsForm
         Me.OK.Location = New System.Drawing.Point(537, 213)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
-        Me.OK.TabIndex = 0
+        Me.OK.TabIndex = 3
         Me.OK.Text = "Close"
         Me.OK.UseVisualStyleBackColor = True
         '
@@ -46,7 +46,7 @@ Partial Class StatsForm
         Me.ActionsLabel.Location = New System.Drawing.Point(12, 9)
         Me.ActionsLabel.Name = "ActionsLabel"
         Me.ActionsLabel.Size = New System.Drawing.Size(102, 13)
-        Me.ActionsLabel.TabIndex = 1
+        Me.ActionsLabel.TabIndex = 0
         Me.ActionsLabel.Text = "Actions this session:"
         '
         'StatsTimer
@@ -66,7 +66,7 @@ Partial Class StatsForm
         Me.Actions.MultiSelect = False
         Me.Actions.Name = "Actions"
         Me.Actions.Size = New System.Drawing.Size(600, 182)
-        Me.Actions.TabIndex = 2
+        Me.Actions.TabIndex = 1
         Me.Actions.UseCompatibleStateImageBehavior = False
         Me.Actions.View = System.Windows.Forms.View.Details
         '
@@ -76,7 +76,7 @@ Partial Class StatsForm
         Me.Session.Location = New System.Drawing.Point(12, 218)
         Me.Session.Name = "Session"
         Me.Session.Size = New System.Drawing.Size(69, 13)
-        Me.Session.TabIndex = 3
+        Me.Session.TabIndex = 2
         Me.Session.Text = "Session time:"
         '
         'StatsForm

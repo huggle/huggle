@@ -52,7 +52,7 @@ Partial Class RequestsForm
         Me.CancelledLabel.Location = New System.Drawing.Point(32, 340)
         Me.CancelledLabel.Name = "CancelledLabel"
         Me.CancelledLabel.Size = New System.Drawing.Size(54, 13)
-        Me.CancelledLabel.TabIndex = 1
+        Me.CancelledLabel.TabIndex = 2
         Me.CancelledLabel.Text = "Cancelled"
         '
         'Label2
@@ -63,7 +63,7 @@ Partial Class RequestsForm
         Me.Label2.Location = New System.Drawing.Point(12, 340)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(14, 14)
-        Me.Label2.TabIndex = 2
+        Me.Label2.TabIndex = 1
         Me.Label2.Text = "   "
         '
         'FailedLabel
@@ -73,7 +73,7 @@ Partial Class RequestsForm
         Me.FailedLabel.Location = New System.Drawing.Point(128, 340)
         Me.FailedLabel.Name = "FailedLabel"
         Me.FailedLabel.Size = New System.Drawing.Size(35, 13)
-        Me.FailedLabel.TabIndex = 1
+        Me.FailedLabel.TabIndex = 4
         Me.FailedLabel.Text = "Failed"
         '
         'Label4
@@ -84,7 +84,7 @@ Partial Class RequestsForm
         Me.Label4.Location = New System.Drawing.Point(108, 340)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(14, 14)
-        Me.Label4.TabIndex = 2
+        Me.Label4.TabIndex = 3
         Me.Label4.Text = "   "
         '
         'InProgressLabel
@@ -94,7 +94,7 @@ Partial Class RequestsForm
         Me.InProgressLabel.Location = New System.Drawing.Point(204, 340)
         Me.InProgressLabel.Name = "InProgressLabel"
         Me.InProgressLabel.Size = New System.Drawing.Size(59, 13)
-        Me.InProgressLabel.TabIndex = 1
+        Me.InProgressLabel.TabIndex = 6
         Me.InProgressLabel.Text = "In progress"
         '
         'Label6
@@ -105,7 +105,7 @@ Partial Class RequestsForm
         Me.Label6.Location = New System.Drawing.Point(184, 340)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(14, 14)
-        Me.Label6.TabIndex = 2
+        Me.Label6.TabIndex = 5
         Me.Label6.Text = "   "
         '
         'CompletedLabel
@@ -115,7 +115,7 @@ Partial Class RequestsForm
         Me.CompletedLabel.Location = New System.Drawing.Point(301, 341)
         Me.CompletedLabel.Name = "CompletedLabel"
         Me.CompletedLabel.Size = New System.Drawing.Size(57, 13)
-        Me.CompletedLabel.TabIndex = 1
+        Me.CompletedLabel.TabIndex = 8
         Me.CompletedLabel.Text = "Completed"
         '
         'Label8
@@ -126,7 +126,7 @@ Partial Class RequestsForm
         Me.Label8.Location = New System.Drawing.Point(281, 340)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(14, 14)
-        Me.Label8.TabIndex = 2
+        Me.Label8.TabIndex = 7
         Me.Label8.Text = "   "
         '
         'CancelAll
@@ -135,7 +135,7 @@ Partial Class RequestsForm
         Me.CancelAll.Location = New System.Drawing.Point(373, 336)
         Me.CancelAll.Name = "CancelAll"
         Me.CancelAll.Size = New System.Drawing.Size(75, 23)
-        Me.CancelAll.TabIndex = 3
+        Me.CancelAll.TabIndex = 9
         Me.CancelAll.Text = "Cancel all"
         Me.CancelAll.UseVisualStyleBackColor = True
         '
@@ -145,7 +145,7 @@ Partial Class RequestsForm
         Me.OK.Location = New System.Drawing.Point(535, 336)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
-        Me.OK.TabIndex = 3
+        Me.OK.TabIndex = 11
         Me.OK.Text = "Close"
         Me.OK.UseVisualStyleBackColor = True
         '
@@ -155,7 +155,7 @@ Partial Class RequestsForm
         Me.Clear.Location = New System.Drawing.Point(454, 336)
         Me.Clear.Name = "Clear"
         Me.Clear.Size = New System.Drawing.Size(75, 23)
-        Me.Clear.TabIndex = 3
+        Me.Clear.TabIndex = 10
         Me.Clear.Text = "Clear"
         Me.Clear.UseVisualStyleBackColor = True
         '
