@@ -240,11 +240,9 @@ Namespace Requests
             NewCaptchaForm.CaptchaId = CaptchaId
 
             If NewCaptchaForm.ShowDialog = DialogResult.OK Then
-                'If the captcha word is the answer the user inputed then start
                 CaptchaWord = NewCaptchaForm.Answer.Text
                 Start()
             Else
-                'Else, set the captach is and word to nothing and abort the process with an error message
                 CaptchaId = Nothing
                 CaptchaWord = Nothing
                 Abort(Msg("login-error-nocaptcha"))

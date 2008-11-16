@@ -40,6 +40,14 @@ Class Main
             Log(Item)
         Next Item
 
+        'Show startup page
+        If Config.StartupPage IsNot Nothing Then
+            Dim NewRequest As New BrowserRequest
+            NewRequest.NoFormatting = True
+            NewRequest.Url = SitePath() & "index.php?title=" & UrlEncode(Config.StartupPage) & "&action=render"
+            NewRequest.Start()
+        End If
+
         Configure()
     End Sub
 
@@ -1133,7 +1141,7 @@ Class Main
             If Page IsNot CurrentPage Then History.Offset = 0
             If Not PageB.Items.Contains(Page.Name) Then PageB.Items.Add(Page.Name)
             PageB.Text = Page.Name
-            If CurrentEdit.Page IsNot Nothing Then Tabs.SelectedTab.Text = CurrentEdit.Page.Name
+            If CurrentPage IsNot Nothing Then Tabs.SelectedTab.Text = CurrentPage.Name
             DisplayingEdit = False
             DrawHistory()
         End If

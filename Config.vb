@@ -10,7 +10,7 @@ Class Configuration
 
     Public ReadOnly ContribsBlockSize As Integer = 100
     Public ReadOnly HistoryBlockSize As Integer = 100
-    Public ReadOnly HistoryScrollSpeed As Integer = 25
+    Public ReadOnly HistoryScrollSpeed As Integer = 40
     Public ReadOnly FullHistoryBlockSize As Integer = 500
     Public ReadOnly IrcConnectionTimeout As Integer = 60000
     Public ReadOnly LocalConfigLocation As String = "config.txt"
@@ -103,7 +103,7 @@ Class Configuration
     Public IgnoredPages As New List(Of String)
     Public Initialised As Boolean
     Public IrcChannel As String
-    Public IrcMode As Boolean
+    Public IrcMode As Boolean = True
     Public IrcPort As Integer = 6667
     Public IrcServer As String
     Public IrcUsername As String
@@ -178,6 +178,7 @@ Class Configuration
     Public SpeedyMessageSummary As String
     Public SpeedyMessageTitle As String
     Public SpeedySummary As String
+    Public StartupPage As String
     Public Summary As String
     Public Tags As New List(Of String)
     Public TemplateMessages As New List(Of String)

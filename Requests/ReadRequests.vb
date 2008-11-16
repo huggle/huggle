@@ -298,9 +298,10 @@ Namespace Requests
 
     Class BrowserRequest : Inherits Request
 
-        Public Url As String, Tab As BrowserTab, HistoryItem As HistoryItem
+        Public Url As String, Tab As BrowserTab, HistoryItem As HistoryItem, NoFormatting As Boolean
 
         Protected Overrides Sub Process()
+            If Tab Is Nothing Then Tab = CurrentTab
             Tab.LastBrowserRequest = Me
             Dim Result As String
 
@@ -318,7 +319,7 @@ Namespace Requests
             If MainForm.Visible AndAlso Tab.LastBrowserRequest Is Me Then
                 Dim PageName As String = ParseUrl(Url)("title")
                 MainForm.PageB.Text = PageName
-                _Result.Text = FormatPageHtml(GetPage(PageName), _Result.Text)
+                If Not NoFormatting Then _Result.Text = FormatPageHtml(GetPage(PageName), _Result.Text)
                 Tab.Browser.DocumentText = _Result.Text
                 Tab.CurrentUrl = Url
                 If HistoryItem IsNot Nothing Then HistoryItem.Text = _Result.Text
@@ -808,12 +809,10 @@ Namespace Requests
                 If Language Is Nothing Then Continue For
                 Language = Language.Substring(Language.LastIndexOf("/") + 1)
 
-                Dim Text As String = GetTextFromRev(Result.Text).Replace(LF, CRLF)
+                Dim Text As String = GetTextFromRev(Page).Replace(LF, CRLF)
 
                 'Ignore incomplete localizations
-#If Not Debug Then
-                If Text.Contains("'''INCOMPLETE'''" & CRLF) then Continue For
-#End If
+                If Text.Contains("'''INCOMPLETE'''" & CRLF) Then Continue For
 
                 If (Directory.Exists(ConfigIO.L10nLocation) _
                     OrElse Directory.CreateDirectory(ConfigIO.L10nLocation).Exists) _

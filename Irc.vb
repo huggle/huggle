@@ -80,6 +80,10 @@ Module Irc
         "14\]\]4 renameuser10 02 5\* 03([^]*) 5\*  10renamed ([^ ]*) to ""([^""]*)"": " & _
         "(?:[^\.]*)\. Reason: ([^]*)", RegexOptions.Compiled)
 
+    Dim UserRightsMatch As New Regex(":rc!~rc@localhost PRIVMSG #[^:]*:14\[\[07Special:Log/rights14\]\]4 rights" & _
+        "10 02 5\* 03([^]*) 5\*  10changed rights for User:(.*) from ([^:]*) to ([^:.]*): " & _
+        "([^]*)", RegexOptions.Compiled)
+
     Private Sub IrcProcess()
         If Config.IrcServer Is Nothing Then Exit Sub
 
@@ -305,6 +309,9 @@ Module Irc
 
                     ElseIf RenameUserMatch.IsMatch(Message) Then
                         'Dim Match As Match = RenameUserMatch.Match(Message)
+
+                    ElseIf UserRightsMatch.IsMatch(Message) Then
+                        'Dim Match As Match = UserRights.Match(Message)
 
                     ElseIf Message.StartsWith(":rc!~rc@localhost ") Then
                         Log("Unrecognized IRC message: " & Message)

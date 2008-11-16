@@ -42,19 +42,21 @@ Module Processing
             End If
 
             'Reverts
-            For Each Item As Regex In Config.RevertPatterns
-                If Item.IsMatch(TrimSummary(Edit.Summary)) Then
-                    Edit.Type = EditType.Revert
+            If Edit.User.Level < UserLevel.Warning Then
+                For Each Item As Regex In Config.RevertPatterns
+                    If Item.IsMatch(TrimSummary(Edit.Summary)) Then
+                        Edit.Type = EditType.Revert
 
-                    If Edit.Page.Level = PageLevel.None Then Edit.Page.Level = PageLevel.Watch
+                        If Edit.Page.Level = PageLevel.None Then Edit.Page.Level = PageLevel.Watch
 
-                    If Edit.Prev IsNot Nothing AndAlso Edit.Prev.User IsNot Nothing _
-                        AndAlso Edit.Prev.User IsNot Edit.User AndAlso Edit.Prev.User.Level = UserLevel.None _
-                        Then Edit.Prev.User.Level = UserLevel.Reverted
+                        If Edit.Prev IsNot Nothing AndAlso Edit.Prev.User IsNot Nothing _
+                            AndAlso Edit.Prev.User IsNot Edit.User AndAlso Edit.Prev.User.Level = UserLevel.None _
+                            Then Edit.Prev.User.Level = UserLevel.Reverted
 
-                    Exit For
-                End If
-            Next Item
+                        Exit For
+                    End If
+                Next Item
+            End If
 
             If Edit.Summary = Config.UndoSummary & " " & Config.Summary Then Edit.Type = EditType.Revert
 
@@ -298,8 +300,6 @@ Module Processing
                 End If
             End If
         Next Queue
-
-        If CurrentEdit Is Nothing Then DisplayEdit(Edit)
 
         'Issue warnings
         Dim i As Integer = 0
@@ -779,6 +779,7 @@ Module Processing
     End Sub
 
     Sub ProcessDiff(ByVal Edit As Edit, ByVal DiffText As String, ByVal Tab As BrowserTab)
+
         If Not Edit.Multiple Then
             If DiffText.Contains("<span class=""mw-rollback-link"">") Then
                 Dim Rollbacktoken As String = DiffText.Substring(DiffText.IndexOf("<span class=""mw-rollback-link"">"))
@@ -882,7 +883,7 @@ Module Processing
         Edit.Diff = DiffText
         Edit.DiffCacheState = Edit.CacheState.Cached
 
-        If Tab.Edit Is Edit OrElse (Tab.Edit.Next Is Edit AndAlso HidingEdit) _
+        If Tab.Edit IsNot Nothing AndAlso (Tab.Edit Is Edit OrElse (Tab.Edit.Next Is Edit AndAlso HidingEdit)) _
             Then DisplayEdit(Edit, False, Tab, Not Edit.User.IsMe)
     End Sub
 
