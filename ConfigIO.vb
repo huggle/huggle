@@ -150,6 +150,7 @@ Module ConfigIO
             Case "confirm-warned" : Config.ConfirmWarned = CBool(Value)
             Case "default-summary" : Config.DefaultSummary = Value
             Case "diff-font-size" : Config.DiffFontSize = Value
+            Case "irc" : Config.UseIrc = CBool(Value)
             Case "irc-port" : Config.IrcPort = CInt(Value)
             Case "minor" : SetMinor(Value)
             Case "open-in-browser" : Config.OpenInBrowser = CBool(Value)
@@ -293,7 +294,6 @@ Module ConfigIO
     Private Sub SetLocalConfigOption(ByVal Name As String, ByVal Value As String)
         'Local config only
         Select Case Name
-            Case "irc" : Config.IrcMode = CBool(Value)
             Case "language" : Config.Language = Value
             Case "log-file" : Config.LogFile = Value
             Case "password" : Config.Password = Value : Config.RememberPassword = True

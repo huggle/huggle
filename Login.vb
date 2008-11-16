@@ -159,7 +159,7 @@ Namespace Requests
             If State = States.Cancelled Then Thread.CurrentThread.Abort()
 
             'Connect to IRC, if required (on separate thread)
-            If Config.IrcMode Then IrcConnect()
+            If Config.UseIrc Then IrcConnect()
 
             'Check user list. If approval required, deny access to users not on the list, otherwise add them
             If Config.UserListLocation IsNot Nothing AndAlso (Config.Approval OrElse Not Config.UsernameListed) Then

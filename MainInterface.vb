@@ -150,6 +150,11 @@ Partial Class Main
 
         If Config.ShowLog Then LayoutPanel.RowStyles(2).Height = 88 Else LayoutPanel.RowStyles(2).Height = 0
 
+        NextDiffB.Enabled = (CurrentQueue.Edits.Count > 0)
+        QueueClear.Enabled = (CurrentQueue.Edits.Count > 0)
+        QueueNext.Enabled = (CurrentQueue.Edits.Count > 0)
+        QueueTrim.Enabled = (CurrentQueue.Edits.Count > 0)
+
         If CurrentEdit IsNot Nothing AndAlso CurrentPage IsNot Nothing AndAlso CurrentUser IsNot Nothing _
             AndAlso CurrentQueue IsNot Nothing Then
 
@@ -188,7 +193,6 @@ Partial Class Main
             ContribsNextB.Enabled = (CurrentEdit.NextByUser IsNot Nothing)
             ContribsLastB.Enabled = (CurrentEdit.User.LastEdit IsNot Nothing _
                 AndAlso CurrentEdit.User.LastEdit IsNot CurrentEdit)
-            NextDiffB.Enabled = (CurrentQueue.Edits.Count > 0)
             RevertB.Enabled = (CurrentEdit IsNot CurrentPage.FirstEdit AndAlso Not RevertTimer.Enabled _
                 AndAlso Editable)
             HistoryB.Enabled = (CurrentEdit.Page.FirstEdit Is Nothing)
@@ -225,11 +229,8 @@ Partial Class Main
             RevisionSight.Enabled = (Not CurrentEdit.Sighted)
             RevertWarnB.Enabled = (RevertB.Enabled AndAlso Not CurrentUser.Ignored AndAlso Editable _
                 AndAlso Config.WarningTypes.Count > 0)
-            QueueClear.Enabled = (CurrentQueue.Edits.Count > 0)
-            QueueNext.Enabled = (CurrentQueue.Edits.Count > 0)
-            QueueTrim.Enabled = (CurrentQueue.Edits.Count > 0)
             SightAndNext.Enabled = (Not CurrentEdit.Sighted)
-            SystemReconnectIRC.Enabled = (Config.IrcMode = True)
+            SystemReconnectIRC.Enabled = (Config.UseIrc = True)
             SystemShowQueue.Checked = Config.ShowQueue
             SystemShowLog.Checked = Config.ShowLog
             UndoB.Enabled = (Undo.Count > 0)

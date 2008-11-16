@@ -201,6 +201,7 @@ Class Configuration
     Public UserListLocation As String
     Public UserListUpdateSummary As String
     Public UsernameListed As Boolean
+    Public UseIrc As Boolean = True
     Public UseRollback As Boolean = True
     Public UserTalkSummaries As New Dictionary(Of Regex, UserLevel)
     Public VandalReportReason As String

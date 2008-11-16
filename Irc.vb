@@ -10,6 +10,7 @@ Module Irc
     Private IrcTimer As Timer
 
     Public Sub IrcConnect()
+        Config.IrcMode = True
         IrcTimer = New Timer(AddressOf IrcTimer_Tick, Nothing, Config.IrcConnectionTimeout, Timeout.Infinite)
 
         IrcThread = New Thread(AddressOf IrcProcess)
@@ -311,10 +312,8 @@ Module Irc
                         'Dim Match As Match = RenameUserMatch.Match(Message)
 
                     ElseIf UserRightsMatch.IsMatch(Message) Then
-                        'Dim Match As Match = UserRights.Match(Message)
+                        'Dim Match As Match = UserRightsMatch.Match(Message)
 
-                    ElseIf Message.StartsWith(":rc!~rc@localhost ") Then
-                        Log("Unrecognized IRC message: " & Message)
                     End If
 
                     If Disconnecting Then
