@@ -40,14 +40,6 @@ Class Main
             Log(Item)
         Next Item
 
-        'Show startup page
-        If Config.StartupPage IsNot Nothing Then
-            Dim NewRequest As New BrowserRequest
-            NewRequest.NoFormatting = True
-            NewRequest.Url = SitePath() & "index.php?title=" & UrlEncode(Config.StartupPage) & "&action=render"
-            NewRequest.Start()
-        End If
-
         Configure()
     End Sub
 
@@ -58,18 +50,18 @@ Class Main
         HistoryStrip.Refresh()
         HistoryScrollRB.Enabled = (History.Offset > 0)
 
-        Dim ThisEdit As Edit = CurrentPage.LastEdit
+        Dim Edit As Edit = CurrentPage.LastEdit
         Dim X As Integer = History.Width - 18 + (History.Offset * 17)
         Dim EnableScroll As Boolean
 
-        While ThisEdit IsNot Nothing AndAlso ThisEdit IsNot NullEdit
+        While Edit IsNot Nothing AndAlso Edit IsNot NullEdit
             If X < 0 Then
                 EnableScroll = True
                 Exit While
             End If
 
             X -= 17
-            ThisEdit = ThisEdit.Prev
+            Edit = Edit.Prev
         End While
 
         HistoryScrollLB.Enabled = EnableScroll
@@ -80,21 +72,21 @@ Class Main
         If CurrentUser Is Nothing Then Exit Sub
 
         Contribs.User = CurrentUser
-        HistoryStrip.Refresh()
+        ContribsStrip.Refresh()
         ContribsScrollRB.Enabled = (Contribs.Offset > 0)
 
-        Dim ThisEdit As Edit = CurrentUser.LastEdit
+        Dim Edit As Edit = CurrentUser.LastEdit
         Dim X As Integer = Contribs.Width - 18 + (Contribs.Offset * 17)
         Dim EnableScroll As Boolean
 
-        While ThisEdit IsNot Nothing AndAlso ThisEdit IsNot NullEdit
+        While Edit IsNot Nothing AndAlso Edit IsNot NullEdit
             If X < 0 Then
                 EnableScroll = True
                 Exit While
             End If
 
             X -= 17
-            ThisEdit = ThisEdit.PrevByUser
+            Edit = Edit.PrevByUser
         End While
 
         ContribsScrollLB.Enabled = EnableScroll
@@ -131,6 +123,15 @@ Class Main
         If Visible Then
             DrawHistory()
             DrawContribs()
+        End If
+    End Sub
+
+    Private Sub ShowStartupPage() Handles Me.Shown
+        If Config.StartupPage IsNot Nothing Then
+            Dim NewRequest As New BrowserRequest
+            NewRequest.NoFormatting = True
+            NewRequest.Url = SitePath() & "index.php?title=" & UrlEncode(Config.StartupPage) & "&action=render"
+            NewRequest.Start()
         End If
     End Sub
 
@@ -424,15 +425,18 @@ Class Main
     End Sub
 
     Private Sub UserContribs_Click() Handles UserContribs.Click, ContribsB.Click
-        If CurrentEdit IsNot Nothing Then
-            Dim NewContribsRequest As New ContribsRequest
-            NewContribsRequest.User = CurrentEdit.User
-            NewContribsRequest.Start(AddressOf GotContribs)
+        If CurrentUser IsNot Nothing Then
+            Dim NewRequest As New ContribsRequest
+            NewRequest.User = CurrentUser
+            NewRequest.Start(AddressOf GotContribs)
         End If
     End Sub
 
     Private Sub GotContribs(ByVal Result As RequestResult)
-        If Not Result.Error Then DrawContribs()
+        If Not Result.Error Then
+            DrawHistory()
+            DrawContribs()
+        End If
     End Sub
 
     Private Sub HistoryScrollTimer_Tick() Handles ScrollTimer.Tick
@@ -1090,7 +1094,7 @@ Class Main
                     Dim NewContribsRequest As New ContribsRequest
                     NewContribsRequest.User = User
                     NewContribsRequest.DisplayWhenDone = True
-                    NewContribsRequest.Start()
+                    NewContribsRequest.Start(AddressOf GotContribs)
                 Else
                     CurrentEdit = User.LastEdit
                     DisplayEdit(CurrentEdit)
@@ -1273,10 +1277,8 @@ Class Main
     End Sub
 
     Private Sub GoToItem_Click(ByVal Sender As Object, ByVal e As EventArgs)
-        If CurrentUser IsNot Nothing Then
-            Dim MenuItem As ToolStripItem = CType(Sender, ToolStripItem)
-            SetCurrentPage(GetPage(CStr(MenuItem.Tag)), True)
-        End If
+        Dim MenuItem As ToolStripItem = CType(Sender, ToolStripItem)
+        SetCurrentPage(GetPage(CStr(MenuItem.Tag)), True)
     End Sub
 
     Private Sub Status_ItemActivate() Handles Status.ItemActivate
@@ -1591,30 +1593,4 @@ Class Main
         DrawQueue()
     End Sub
 
-    Private Sub HistoryContribs_MouseLeave(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles History.MouseLeave, Contribs.MouseLeave
-
-    End Sub
-    Private Sub UserContribs_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UserContribs.Click, ContribsB.Click
-
-    End Sub
-    Private Sub UserB_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UserB.TextChanged
-
-    End Sub
-    Private Sub UserB_ForeColorChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UserB.ForeColorChanged
-
-    End Sub
-    Private Sub UserB_Leave(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UserB.Leave
-
-    End Sub
-    Private Sub UserB_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UserB.SelectedIndexChanged
-
-    End Sub
-
-    Private Sub QueueArea_Paint(ByVal sender As System.Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles QueueArea.Paint
-
-    End Sub
-
-    Private Sub Status_ItemActivate(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Status.ItemActivate
-
-    End Sub
 End Class

@@ -7,7 +7,7 @@ proposed deletion
 ^db$
 db-
  db tag$
-(marked for|tagged for|requesting) speedy deletion
+(marked for|tagged for|tagging for|requesting) speedy deletion
 speedy deletion request
 adding \{\{.+\}\} to article
 ^afd$

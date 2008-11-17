@@ -284,6 +284,8 @@ Partial Class Main
             Next Item
 
             DrawQueue()
+            DrawHistory()
+            DrawContribs()
             UpdateWatchButton()
             UpdateIgnoreButton()
         End If

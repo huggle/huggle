@@ -608,6 +608,13 @@ Module Processing
             "Huggle", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) _
             = DialogResult.No Then Return False
 
+        If Not Edit.User.RecentContribsRetrieved Then
+            Dim NewRequest As New ContribsRequest
+            NewRequest.BlockSize = 10
+            NewRequest.User = Edit.User
+            NewRequest.Start()
+        End If
+
         'Use rollback if possible
         If Rollback AndAlso Config.Rights.Contains("rollback") AndAlso Config.UseRollback AndAlso Not Undoing _
             AndAlso (Edit Is Edit.Page.LastEdit) AndAlso (Edit.RollbackToken IsNot Nothing) _
@@ -977,7 +984,9 @@ Module Processing
 
     Sub ProcessContribs(ByVal Result As String, ByVal User As User)
 
-        Dim Contribs As MatchCollection = ContribsRegex.Matches(Result)
+        Dim Contribs As New List(Of String)(Split(Result, "<item "))
+
+        Contribs.RemoveAt(0)
 
         If Contribs.Count = 0 Then
             If User.LastEdit Is Nothing Then User.LastEdit = NullEdit
@@ -988,7 +997,7 @@ Module Processing
 
         For i As Integer = 0 To Contribs.Count - 1
             Dim Edit As Edit
-            Dim Diff As String = Contribs(i).Groups(1).Value
+            Dim Diff As String = GetParameter(Contribs(i), "revid")
 
             If Edit.All.ContainsKey(Diff) Then Edit = Edit.All(Diff) Else Edit = New Edit
 
@@ -996,12 +1005,13 @@ Module Processing
             If Edit.Oldid Is Nothing Then Edit.Oldid = "prev"
             Edit.User = User
 
-            Edit.Page = GetPage(HtmlDecode(Contribs(i).Groups(3).Value))
+            Edit.Page = GetPage(GetParameter(Contribs(i), "title"))
 
-            If Edit.Page.LastEdit Is Nothing AndAlso Contribs(i).Groups(7).Value <> "" Then Edit.Page.LastEdit = Edit
+            If Edit.Page.LastEdit Is Nothing AndAlso GetParameter(Contribs(i), "top") IsNot Nothing _
+                Then Edit.Page.LastEdit = Edit
 
-            If Edit.Summary Is Nothing Then Edit.Summary = HtmlDecode(Contribs(i).Groups(9).Value)
-            If Edit.Time = Date.MinValue Then Edit.Time = CDate(Contribs(i).Groups(4).Value)
+            If Edit.Summary Is Nothing Then Edit.Summary = GetParameter(Contribs(i), "comment")
+            If Edit.Time = Date.MinValue Then Edit.Time = CDate(GetParameter(Contribs(i), "timestamp"))
 
             If User.LastEdit Is Nothing Then
                 User.LastEdit = Edit
@@ -1012,6 +1022,9 @@ Module Processing
 
             NextByUser = Edit
             ProcessEdit(Edit)
+
+            If Edit Is Edit.Page.LastEdit AndAlso Not (Edit.DiffCacheState = Huggle.Edit.CacheState.Viewed) _
+                AndAlso User.Level >= UserLevel.Warning Then ProcessNewEdit(Edit)
         Next i
 
         If Result.Contains("<usercontribs ucstart=""") Then

@@ -15,7 +15,7 @@ Class SpeedyForm
                 OrElse (Item.Code.StartsWith("P") AndAlso Page.Space.Name = "Portal") _
                 OrElse (Item.Code.StartsWith("T") AndAlso Page.Space.Name = "Template") _
                 OrElse (Item.Code.StartsWith("U") AndAlso Page.Space.Name.StartsWith("User")) _
-                OrElse True Then Criterion.Items.Add(Item.Code & " - " & Item.Description)
+                Then Criterion.Items.Add(Item.Code & " - " & Item.Description)
         Next Item
 
         Height -= 25

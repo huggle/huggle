@@ -296,6 +296,10 @@ Namespace Requests
             Return Links & "</span>"
         End Function
 
+        Protected Overrides Sub Done()
+            If MainForm IsNot Nothing AndAlso MainForm.Visible Then MainForm.DrawContribs()
+        End Sub
+
     End Class
 
     Class UsernameReportRequest : Inherits Request

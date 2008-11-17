@@ -230,6 +230,7 @@ Class ConfigForm
         If Config.SaveConfig Then
             Dim NewRequest As New SaveUserConfigRequest
             NewRequest.Start()
+            SaveLocalConfig()
         End If
 
         DialogResult = DialogResult.OK

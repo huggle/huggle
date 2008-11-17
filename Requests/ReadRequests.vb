@@ -210,8 +210,9 @@ Namespace Requests
         Protected Overrides Sub Process()
             Dim Result As ApiResult, Offset As String = Page.HistoryOffset
 
+            If Full Then LogProgress(Msg("history-progress", Page.Name, CStr(FullTotal)))
+
             Do
-                If Full Then LogProgress(Msg("history-progress", Page.Name, CStr(FullTotal)))
                 If GetContent Then BlockSize = Math.Min(ApiLimit() \ 10, BlockSize)
 
                 Dim QueryString As String = "action=query&prop=revisions&titles=" & UrlEncode(Page.Name) & _
@@ -230,6 +231,7 @@ Namespace Requests
                 If Full Then
                     FullTotal += BlockSize
                     _Result = New RequestResult(Result.Text)
+                    LogProgress(Msg("history-progress", Page.Name, CStr(FullTotal)))
                     Callback(AddressOf ProcessHistoryPart)
                 End If
 
@@ -244,7 +246,8 @@ Namespace Requests
         End Sub
 
         Protected Overrides Sub Done()
-            ProcessHistoryPart()
+            ProcessHistory(_Result.Text, Page)
+            MainForm.Delog(Me)
         End Sub
 
     End Class
@@ -262,13 +265,13 @@ Namespace Requests
                 UrlEncode(User.Name) & "&uclimit=" & CStr(BlockSize) & "&ucstart=" & User.ContribsOffset)
 
             If Result.Error Then
-                Fail()
+                Fail("Failed to retrieve user contributions", Result.ErrorMessage)
             ElseIf Result.Text.Contains("<usercontribs />") Then
                 Callback(AddressOf NoContribs)
             ElseIf Result.Text.Contains("<usercontribs") Then
                 Complete()
             Else
-                Fail()
+                Fail("Failed to retrieve user contributions", Result.ErrorMessage)
             End If
         End Sub
 

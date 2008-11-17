@@ -21,7 +21,7 @@ Class QueueForm
         UserSourceTypeLabel.Text = Msg("list-sourcetype")
 
         DynamicSourceType.Items.AddRange(New String() {"Backlinks", "Category", "Category (recursive)", _
-            "Existing list", "External link uses", "File", "Image uses", "Images on page", "Links on page", _
+            "External link uses", "File", "Image uses", "Images on page", "Links on page", _
             "Search", "Templates on page", "Transclusions", "User contributions", "Watchlist"})
 
         Tip.Active = Config.ShowToolTips

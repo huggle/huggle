@@ -50,7 +50,7 @@ Namespace Requests
             End If
 
             If FindString(Result.Text, "<edit", ">").Contains("nochange=""""") Then
-                Fail(Msg("revert-nochange", Edit.Page.Name), Result.ErrorMessage)
+                Fail(Msg("revert-fail", Edit.Page.Name), Msg("revert-nochange"))
                 Exit Sub
             End If
 

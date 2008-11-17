@@ -28,6 +28,7 @@ Class User
     Public Blocks As List(Of Block)
     Public BlocksCurrent As Boolean
     Public ContribsOffset As String
+    Public RecentContribsRetrieved As Boolean
 
     Public Sub New(ByVal Name As String)
         _Name = Name

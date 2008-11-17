@@ -173,6 +173,7 @@ Namespace Requests
             If MainForm IsNot Nothing Then
                 MainForm.Delog(Me)
                 MainForm.Log(CStr(MessageObject), Me, True)
+                Application.DoEvents()
             End If
         End Sub
 
