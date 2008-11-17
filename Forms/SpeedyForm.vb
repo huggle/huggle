@@ -15,7 +15,7 @@ Class SpeedyForm
                 OrElse (Item.Code.StartsWith("P") AndAlso Page.Space.Name = "Portal") _
                 OrElse (Item.Code.StartsWith("T") AndAlso Page.Space.Name = "Template") _
                 OrElse (Item.Code.StartsWith("U") AndAlso Page.Space.Name.StartsWith("User")) _
-                Then Criterion.Items.Add(Item.Code & " - " & Item.Description)
+                OrElse True Then Criterion.Items.Add(Item.Code & " - " & Item.Description)
         Next Item
 
         Height -= 25
@@ -64,23 +64,25 @@ Class SpeedyForm
     End Sub
 
     Private Sub Criterion_SelectedIndexChanged() Handles Criterion.SelectedIndexChanged
-        If Criterion.SelectedIndex > -1 Then NotifyCreator.Checked = _
-            Config.SpeedyCriteria(Criterion.Text.Substring(0, Criterion.Text.IndexOf(" "))).Notify
-        OK.Enabled = (Criterion.SelectedIndex <> -1)
 
-        If Criterion.Text.Substring(0, Criterion.Text.IndexOf(" ")) = "G12" Then
-            'If g12 is selected add the param options and resize the form to allow them to be seen
-            Param.Visible = True
-            ParamLabel.Visible = True
-            Height += 25
+        If Criterion.SelectedIndex > -1 Then
+            NotifyCreator.Checked = Config.SpeedyCriteria(Criterion.Text.Substring(0, Criterion.Text.IndexOf(" "))).Notify
+            OK.Enabled = (Criterion.SelectedIndex <> -1)
 
-            'Param text for g12 should be url= so set it
-            Param.Text = "url="
+            If Criterion.Text.Substring(0, Criterion.Text.IndexOf(" ")) = "G12" Then
+                'If g12 is selected add the param options and resize the form to allow them to be seen
+                Param.Visible = True
+                ParamLabel.Visible = True
+                Height += 25
 
-        ElseIf Param.Visible Then
-            Height -= 25
-            Param.Visible = False
-            ParamLabel.Visible = False
+                'Param text for g12 should be url= so set it
+                Param.Text = "url="
+
+            ElseIf Param.Visible Then
+                Height -= 25
+                Param.Visible = False
+                ParamLabel.Visible = False
+            End If
         End If
     End Sub
 

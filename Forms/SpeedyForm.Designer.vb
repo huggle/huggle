@@ -34,7 +34,7 @@ Partial Class SpeedyForm
         'Cancel
         '
         Me.Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Cancel.Location = New System.Drawing.Point(218, 92)
+        Me.Cancel.Location = New System.Drawing.Point(337, 92)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
         Me.Cancel.TabIndex = 4
@@ -45,7 +45,7 @@ Partial Class SpeedyForm
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.OK.Enabled = False
-        Me.OK.Location = New System.Drawing.Point(137, 92)
+        Me.OK.Location = New System.Drawing.Point(256, 92)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
         Me.OK.TabIndex = 3
@@ -83,7 +83,7 @@ Partial Class SpeedyForm
         Me.Criterion.Location = New System.Drawing.Point(81, 12)
         Me.Criterion.MaxDropDownItems = 20
         Me.Criterion.Name = "Criterion"
-        Me.Criterion.Size = New System.Drawing.Size(212, 21)
+        Me.Criterion.Size = New System.Drawing.Size(331, 21)
         Me.Criterion.TabIndex = 1
         '
         'ParamLabel
@@ -102,7 +102,7 @@ Partial Class SpeedyForm
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Param.Location = New System.Drawing.Point(81, 39)
         Me.Param.Name = "Param"
-        Me.Param.Size = New System.Drawing.Size(212, 20)
+        Me.Param.Size = New System.Drawing.Size(331, 20)
         Me.Param.TabIndex = 6
         Me.Param.Visible = False
         '
@@ -110,7 +110,7 @@ Partial Class SpeedyForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(305, 127)
+        Me.ClientSize = New System.Drawing.Size(424, 127)
         Me.Controls.Add(Me.Param)
         Me.Controls.Add(Me.ParamLabel)
         Me.Controls.Add(Me.Criterion)
