@@ -294,7 +294,7 @@ Class ConfigForm
             Dim NewShortcut As New Shortcut(e.KeyCode, e.Control, e.Alt, e.Shift)
 
             'Detect conflicts
-            For Each Item As KeyValuePair(Of String, Shortcut) In ShortcutKeys
+            For Each Item As KeyValuePair(Of String, Shortcut) In ShortcutKeysClone
                 If Item.Key <> ShortcutList.SelectedItems(0).Text AndAlso Item.Value = NewShortcut Then
                     MessageBox.Show(Msg("config-shortcutconflict", NewShortcut.ToString, Item.Key), "Huggle", _
                         MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
