@@ -215,7 +215,7 @@ Partial Class Main
             PageTagB.Enabled = Editable
             PageReqDeletion.Enabled = Editable
             PageTagDeleteB.Enabled = Editable
-            PageTagProd.Enabled = Editable
+            PageTagProd.Enabled = (Editable AndAlso CurrentPage.Space Is Space.Article)
             PageTagSpeedy.Enabled = Editable
             PageViewB.Enabled = True
             PageViewLatest.Enabled = True

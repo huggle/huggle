@@ -1268,7 +1268,7 @@ Class Main
             NewRequest.User = CurrentUser
             NewRequest.Message = "{{subst:" & CStr(MenuItem.Tag) & "}}"
             NewRequest.AutoSign = True
-            NewRequest.Summary = "Notification: {{[[Template:" & CStr(MenuItem.Tag) & "|" & CStr(MenuItem.Tag) & "]]}}"
+            NewRequest.Summary = Config.TemplateMessageSummary.Replace("$1", MenuItem.Text)
             NewRequest.Minor = Config.Minor("note")
             NewRequest.Watch = Config.Watch("note")
             NewRequest.AvoidText = "<!-- Template:" & CStr(MenuItem.Tag)
@@ -1320,7 +1320,7 @@ Class Main
             Then e.SuppressKeyPress = True
     End Sub
 
-    Private Sub UserB_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs)
+    Private Sub UserB_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles UserB.KeyDown
         If e.KeyCode = Keys.Enter AndAlso UserB.Text <> "" _
             AndAlso (CurrentUser Is Nothing OrElse CurrentUser.Name <> UserB.Text) Then
 

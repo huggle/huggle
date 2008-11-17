@@ -181,6 +181,7 @@ Class Configuration
     Public StartupPage As String
     Public Summary As String
     Public Tags As New List(Of String)
+    Public TemplateMessageSummary As String
     Public TemplateMessages As New List(Of String)
     Public TemplateMessagesGlobal As New List(Of String)
     Public TfdLocation As String

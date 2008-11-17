@@ -256,6 +256,7 @@ Module ConfigIO
             Case "speedy-options" : SetSpeedyOptions(Value)
             Case "startup-message-location" : Config.StartupPage = Value
             Case "summary" : Config.Summary = Value
+            Case "template-message-summary" : Config.TemplateMessageSummary = Value
             Case "templates" : Config.TemplateMessagesGlobal = GetList(Value)
             Case "tfd" : Config.TfdLocation = Value
             Case "uaa" : Config.UAALocation = Value

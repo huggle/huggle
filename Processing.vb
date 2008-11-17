@@ -268,7 +268,7 @@ Module Processing
         Edit.User.LastEdit = Edit
 
         If CustomReverts.ContainsKey(Edit.Page) Then
-            If Edit.User Is User.Me AndAlso Edit.Summary = CustomReverts(Edit.Page) Then Edit.Type = EditType.Revert
+            If Edit.User.IsMe AndAlso Edit.Summary = CustomReverts(Edit.Page) Then Edit.Type = EditType.Revert
             CustomReverts.Remove(Edit.Page)
         End If
 
@@ -383,7 +383,7 @@ Module Processing
         End If
 
         'Warnings
-        If Edit.Page.Space Is Space.UserTalk AndAlso Not Edit.Page.Name.Contains("/") Then
+        If Edit.Page.Space Is Space.UserTalk AndAlso Not Edit.Page.IsSubpage Then
             Dim PageOwner As User = GetUser(Edit.Page.Name.Substring(10))
             Dim WarningLevel As UserLevel = GetUserLevelFromSummary(Edit)
 
@@ -608,7 +608,9 @@ Module Processing
             "Huggle", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) _
             = DialogResult.No Then Return False
 
-        If Not Edit.User.RecentContribsRetrieved Then
+        If Not Edit.User.Ignored AndAlso Not Edit.User.IsMe AndAlso Not Edit.User.RecentContribsRetrieved Then
+            Edit.User.RecentContribsRetrieved = True
+
             Dim NewRequest As New ContribsRequest
             NewRequest.BlockSize = 10
             NewRequest.User = Edit.User
@@ -1134,8 +1136,6 @@ Module Processing
     End Sub
 
     Sub ProcessRcLog(ByVal Match As Match)
-        Dim a As String = Match.Groups(2).Value
-
         Select Case HtmlDecode(Match.Groups(2).Value)
             Case "Special:Log/block"
                 Dim NewBlock As New Block
@@ -1419,16 +1419,14 @@ Module Processing
 
     Function GetUserLevelFromSummary(ByVal Edit As Edit) As UserLevel
         'Try to interpret as many styles of summary as possible without too many mistakes
-        If Edit.User Is Edit.Page.Owner Then Return UserLevel.None
+        If Edit.User Is Edit.Page.Owner AndAlso Not Edit.User.IsMe Then Return UserLevel.None
         If Edit.Type = EditType.Revert Then Return UserLevel.None
         If String.IsNullOrEmpty(Edit.Summary) Then Return UserLevel.None
         Dim Summary As String = TrimSummary(Edit.Summary.ToLower)
 
         For Each Item As KeyValuePair(Of Regex, UserLevel) In Config.UserTalkSummaries
-            If Item.Key.IsMatch(Summary) AndAlso (Item.Value <> UserLevel.Blocked OrElse Edit.User.Ignored) Then
-                Dim a As String = Item.Key.ToString
-                Return Item.Value
-            End If
+            If Item.Key.IsMatch(Summary) AndAlso (Item.Value <> UserLevel.Blocked OrElse Edit.User.Ignored) _
+                Then Return Item.Value
         Next Item
 
         Return UserLevel.None

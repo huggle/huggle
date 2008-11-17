@@ -24,12 +24,12 @@ Namespace Requests
             Dim Text As String = GetTextFromRev(Result.Text)
             If Text Is Nothing Then Text = ""
 
-            If AvoidText IsNot Nothing AndAlso Not Text.ToLower.Contains(AvoidText.ToLower) Then
+            If AvoidText IsNot Nothing AndAlso Text.ToLower.Contains(AvoidText.ToLower) Then
                 Fail(Msg("usermessage-fail", User.Name), Msg("usermessage-duplicate"))
                 Exit Sub
             End If
 
-            Text &= LF
+            Text &= LF & LF
             If Title <> "" Then Text &= "== " & Title & " ==" & LF & LF
             Text &= Message
             If AutoSign Then Text &= " ~~~~"
@@ -163,8 +163,8 @@ Namespace Requests
             If Config.MonthHeadings AndAlso Not (Text.ToLower.Contains("== " & _
                 GetMonthName(Date.UtcNow.Month).ToLower & " " & CStr(Date.UtcNow.Year) & " ==")) _
                 AndAlso Not (Text.ToLower.Contains("==" & GetMonthName(Date.UtcNow.Month).ToLower _
-                & " " & CStr(Date.UtcNow.Year) & "==")) Then Text &= "== " & _
-                GetMonthName(Date.UtcNow.Month) & " " & CStr(Date.UtcNow.Year) & " ==" & LF & LF
+                & " " & CStr(Date.UtcNow.Year) & "==")) _
+                Then Text &= LF & "== " & GetMonthName(Date.UtcNow.Month) & " " & CStr(Date.UtcNow.Year) & " ==" & LF
 
             Text &= LF & WarningNeeded.Replace("$1", Edit.Page.Name).Replace("$2", _
                 ShortSitePath() & UrlEncode(Edit.Page.Name.Replace(" ", "_")) & "?diff=" & Edit.Id)

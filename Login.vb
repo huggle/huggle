@@ -55,6 +55,7 @@ Namespace Requests
         Public LoginForm As LoginForm
 
         Protected Overrides Sub Process()
+            LogBuffer.Clear()
             LoadLists()
             LoadQueues()
 
