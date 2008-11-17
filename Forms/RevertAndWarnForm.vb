@@ -57,6 +57,8 @@ Class RevertAndWarnForm
         If Not Config.RevertSummaries.Contains(Summary.Text) Then Config.RevertSummaries.Add(Summary.Text)
 
         Dim Level As UserLevel
+        Dim RevertSummary As String = Summary.Text
+        If RevertSummary = "" Then RevertSummary = Nothing
 
         If LevelAuto.Checked Then Level = UserLevel.None
         If Level1.Checked Then Level = UserLevel.Warn1
@@ -66,7 +68,7 @@ Class RevertAndWarnForm
 
         For Each Item As KeyValuePair(Of String, String) In Config.WarningTypes
             If Item.Value = WarnType.Text Then
-                MainForm.RevertAndWarn(Item.Key, Level)
+                MainForm.RevertAndWarn(Item.Key, Level, RevertSummary)
                 Exit For
             End If
         Next Item
