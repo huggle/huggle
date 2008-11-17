@@ -934,7 +934,7 @@ Class Main
         If CurrentEdit IsNot Nothing AndAlso CurrentEdit.Page IsNot Nothing Then
 
             Dim NewReqProtectionForm As New ProtectionForm
-            NewReqProtectionForm.ThisPage = CurrentEdit.Page
+            NewReqProtectionForm.Page = CurrentEdit.Page
 
             If NewReqProtectionForm.ShowDialog = DialogResult.OK Then
                 Dim NewRequest As New ReqProtectionRequest

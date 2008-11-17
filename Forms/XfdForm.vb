@@ -4,7 +4,9 @@ Class XfdForm
 
     Private Sub XfdForm_Load() Handles Me.Load
         Icon = My.Resources.huggle_icon
-        Text = "Nominate '" & Page.Name & "' for deletion"
+        Text = Msg("xfd-title", Page.Name)
+        Localize(Me, "xfd")
+
         Category.Visible = Page.IsArticle
         CategoryLabel.Visible = Page.IsArticle
         If Category.Visible Then Category.SelectedIndex = 0

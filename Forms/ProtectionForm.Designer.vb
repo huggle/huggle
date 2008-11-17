@@ -25,10 +25,10 @@ Partial Class ProtectionForm
         Me.Cancel = New System.Windows.Forms.Button
         Me.OK = New System.Windows.Forms.Button
         Me.Reason = New System.Windows.Forms.TextBox
-        Me.Label1 = New System.Windows.Forms.Label
-        Me.Label2 = New System.Windows.Forms.Label
+        Me.ReasonLabel = New System.Windows.Forms.Label
+        Me.TypeLabel = New System.Windows.Forms.Label
         Me.TypeSelect = New System.Windows.Forms.ComboBox
-        Me.Label3 = New System.Windows.Forms.Label
+        Me.LogLabel = New System.Windows.Forms.Label
         Me.CurrentLevel = New System.Windows.Forms.Label
         Me.ProtectionLog = New Huggle.PageLog
         Me.SuspendLayout()
@@ -58,30 +58,30 @@ Partial Class ProtectionForm
         '
         Me.Reason.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Reason.Location = New System.Drawing.Point(65, 39)
+        Me.Reason.Location = New System.Drawing.Point(95, 39)
         Me.Reason.Multiline = True
         Me.Reason.Name = "Reason"
         Me.Reason.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.Reason.Size = New System.Drawing.Size(480, 71)
+        Me.Reason.Size = New System.Drawing.Size(450, 71)
         Me.Reason.TabIndex = 3
         '
-        'Label1
+        'ReasonLabel
         '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(12, 42)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(47, 13)
-        Me.Label1.TabIndex = 2
-        Me.Label1.Text = "Reason:"
+        Me.ReasonLabel.AutoSize = True
+        Me.ReasonLabel.Location = New System.Drawing.Point(46, 42)
+        Me.ReasonLabel.Name = "ReasonLabel"
+        Me.ReasonLabel.Size = New System.Drawing.Size(47, 13)
+        Me.ReasonLabel.TabIndex = 2
+        Me.ReasonLabel.Text = "Reason:"
         '
-        'Label2
+        'TypeLabel
         '
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(24, 15)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(34, 13)
-        Me.Label2.TabIndex = 0
-        Me.Label2.Text = "Type:"
+        Me.TypeLabel.AutoSize = True
+        Me.TypeLabel.Location = New System.Drawing.Point(12, 15)
+        Me.TypeLabel.Name = "TypeLabel"
+        Me.TypeLabel.Size = New System.Drawing.Size(81, 13)
+        Me.TypeLabel.TabIndex = 0
+        Me.TypeLabel.Text = "Protection type:"
         '
         'TypeSelect
         '
@@ -90,19 +90,19 @@ Partial Class ProtectionForm
         Me.TypeSelect.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.TypeSelect.FormattingEnabled = True
         Me.TypeSelect.Items.AddRange(New Object() {"Semi-protection", "Full protection", "Move protection"})
-        Me.TypeSelect.Location = New System.Drawing.Point(64, 12)
+        Me.TypeSelect.Location = New System.Drawing.Point(95, 12)
         Me.TypeSelect.Name = "TypeSelect"
         Me.TypeSelect.Size = New System.Drawing.Size(209, 21)
         Me.TypeSelect.TabIndex = 1
         '
-        'Label3
+        'LogLabel
         '
-        Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(9, 116)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(75, 13)
-        Me.Label3.TabIndex = 4
-        Me.Label3.Text = "Protection log:"
+        Me.LogLabel.AutoSize = True
+        Me.LogLabel.Location = New System.Drawing.Point(9, 116)
+        Me.LogLabel.Name = "LogLabel"
+        Me.LogLabel.Size = New System.Drawing.Size(75, 13)
+        Me.LogLabel.TabIndex = 4
+        Me.LogLabel.Text = "Protection log:"
         '
         'CurrentLevel
         '
@@ -134,10 +134,10 @@ Partial Class ProtectionForm
         Me.ClientSize = New System.Drawing.Size(557, 271)
         Me.Controls.Add(Me.ProtectionLog)
         Me.Controls.Add(Me.CurrentLevel)
-        Me.Controls.Add(Me.Label3)
+        Me.Controls.Add(Me.LogLabel)
         Me.Controls.Add(Me.TypeSelect)
-        Me.Controls.Add(Me.Label2)
-        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.TypeLabel)
+        Me.Controls.Add(Me.ReasonLabel)
         Me.Controls.Add(Me.Reason)
         Me.Controls.Add(Me.OK)
         Me.Controls.Add(Me.Cancel)
@@ -155,10 +155,10 @@ Partial Class ProtectionForm
     Friend WithEvents Cancel As System.Windows.Forms.Button
     Friend WithEvents OK As System.Windows.Forms.Button
     Friend WithEvents Reason As System.Windows.Forms.TextBox
-    Friend WithEvents Label1 As System.Windows.Forms.Label
-    Friend WithEvents Label2 As System.Windows.Forms.Label
+    Friend WithEvents ReasonLabel As System.Windows.Forms.Label
+    Friend WithEvents TypeLabel As System.Windows.Forms.Label
     Friend WithEvents TypeSelect As System.Windows.Forms.ComboBox
-    Friend WithEvents Label3 As System.Windows.Forms.Label
+    Friend WithEvents LogLabel As System.Windows.Forms.Label
     Friend WithEvents CurrentLevel As System.Windows.Forms.Label
     Friend WithEvents ProtectionLog As Huggle.PageLog
 End Class

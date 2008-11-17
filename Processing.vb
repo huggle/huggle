@@ -522,20 +522,18 @@ Module Processing
         'Confirm self-reversion
         If Config.ConfirmSelfRevert AndAlso Not Undoing AndAlso Edit.User.IsMe _
             AndAlso (Edit.Page.FirstEdit Is Nothing OrElse Edit.Id <> Edit.Page.FirstEdit.Id) _
-            AndAlso MessageBox.Show("This will revert your own edit. Continue?", "Huggle", _
-            MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = DialogResult.No _
-            Then Return False
+            AndAlso MessageBox.Show(Msg("revert-confirm-self"), "Huggle", MessageBoxButtons.YesNo, _
+            MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = DialogResult.No Then Return False
 
         'Confirm reversion of whitelisted user
-        If Config.ConfirmIgnored AndAlso Edit.User.Ignored AndAlso Not Edit.User.IsMe _
-            AndAlso MessageBox.Show("Revert edit by whitelisted user '" & Edit.User.Name & "'?", "Huggle", _
-            MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = DialogResult.No _
-            Then Return False
+        If Config.ConfirmIgnored AndAlso Edit.User.Ignored AndAlso Not Edit.User.IsMe AndAlso _
+            MessageBox.Show(Msg("revert-confirm-ignored", Edit.User.Name), "Huggle", MessageBoxButtons.YesNo, _
+            MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = DialogResult.No Then Return False
 
         'Confirm reversion of multiple edits
         If Config.ConfirmMultiple AndAlso Edit.Prev IsNot Nothing AndAlso Edit.User Is Edit.Prev.User _
-            AndAlso MessageBox.Show("This will revert multiple edits by '" & Edit.User.Name & "'. Continue?", _
-            "Huggle", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.No Then Return False
+            AndAlso MessageBox.Show(Msg("revert-confirm-multiple", Edit.User.Name), "Huggle", _
+            MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.No Then Return False
 
         If Not Undoing AndAlso Edit.User.Level = UserLevel.None Then Edit.User.Level = UserLevel.Reverted
         If Not Undoing AndAlso Edit.Page.Level = PageLevel.None Then Edit.Page.Level = PageLevel.Watch
@@ -558,14 +556,14 @@ Module Processing
         'If reverting first edit to page, offer to tag for speedy deletion
         If Edit.Page.FirstEdit IsNot Nothing AndAlso Edit.Id = Edit.Page.FirstEdit.Id Then
             If Not Config.Speedy Then
-                MessageBox.Show("Edit is the first edit to the page; unable to revert.")
+                MessageBox.Show(Msg("revert-error-first"))
                 Return False
             End If
 
-            Dim Prompt As String = "Edit is the only edit to the page. "
+            Dim Prompt As String = Msg("revert-only") & " "
 
-            If Config.Rights.Contains("delete") Then Prompt &= "Delete page instead?" _
-                Else Prompt &= "Tag for speedy deletion instead?"
+            If Config.Rights.Contains("delete") _
+                Then Prompt &= Msg("revert-delete-instead") Else Prompt &= Msg("revert-speedy-instead")
             If MessageBox.Show(Prompt, "Huggle", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes _
             Then UserDeleteRequest(Edit.Page)
 
@@ -575,9 +573,9 @@ Module Processing
         'If reverting page creator, offer to tag for speedy deletion
         If Edit.Page.FirstEdit IsNot Nothing AndAlso Config.Speedy AndAlso Edit.User Is Edit.Page.FirstEdit.User Then
 
-            Dim Prompt As String = "Last edit was made by page creator, '" & Edit.User.Name & "'. "
-            If Config.Rights.Contains("delete") Then Prompt &= "Delete page instead?" _
-                Else Prompt &= "Tag for speedy deletion instead?"
+            Dim Prompt As String = Msg("revert-creator", Edit.User.Name)
+            If Config.Rights.Contains("delete") _
+                Then Prompt &= Msg("revert-delete-instead") Else Prompt &= Msg("revert-speedy-instead")
 
             Select Case MessageBox.Show(Prompt, "Huggle", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
 
@@ -593,20 +591,15 @@ Module Processing
         'Confirm revert to revision by a warned user
         If Not Undoing AndAlso Edit.Prev IsNot Nothing AndAlso Edit.Prev.User IsNot Nothing _
             AndAlso Edit.Prev.User IsNot Edit.User AndAlso Edit.Prev.User.Level >= UserLevel.Warn1 AndAlso _
-            MessageBox.Show("This will revert to a revision by " & Edit.User.Name & _
-            "; this user has previously been warned. Continue with this?", "Huggle", _
-            MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = DialogResult.No _
-            Then Return False
+            MessageBox.Show(Msg("revert-confirm-warned", Edit.User.Name), "Huggle", MessageBoxButtons.YesNo, _
+            MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = DialogResult.No Then Return False
 
         'Confirm revert to revision by anonymous user in same /16 block as user being reverted
         If Not Undoing AndAlso Edit.Prev IsNot Nothing AndAlso Edit.Prev.User IsNot Nothing AndAlso _
             Edit.Prev.User.Anonymous AndAlso Edit.User.Anonymous AndAlso Edit.Prev.User IsNot Edit.User AndAlso _
-            Edit.Prev.User.Range = Edit.User.Range AndAlso _
-            MessageBox.Show("The author of the target revision, " & Edit.Prev.User.Name & _
-            ", is in the same range as the author of the current revision, " & Edit.User.Name & _
-            ", and may be the same person; ensure the target revision is correct before proceeding. Continue?", _
-            "Huggle", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) _
-            = DialogResult.No Then Return False
+            Edit.Prev.User.Range = Edit.User.Range AndAlso MessageBox.Show(Msg("revert-confirm-range", _
+            Edit.User.Name, Edit.Prev.User.Name), "Huggle", MessageBoxButtons.YesNo, MessageBoxIcon.Question, _
+            MessageBoxDefaultButton.Button2) = DialogResult.No Then Return False
 
         If Not Edit.User.Ignored AndAlso Not Edit.User.IsMe AndAlso Not Edit.User.RecentContribsRetrieved Then
             Edit.User.RecentContribsRetrieved = True
@@ -649,8 +642,7 @@ Module Processing
         'Confirm revert to another revision by the same user
         If Not Undoing AndAlso Edit.Prev IsNot Nothing AndAlso Edit.Prev.User Is Edit.User _
             AndAlso Config.ConfirmSame AndAlso Edit.User IsNot User.Me AndAlso _
-            MessageBox.Show("This will revert to another revision by the user that is being reverted, " _
-            & Edit.User.Name & ". Continue with this?", "Huggle", MessageBoxButtons.YesNo, _
+            MessageBox.Show(Msg("revert-confirm-same", Edit.User.Name), "Huggle", MessageBoxButtons.YesNo, _
             MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = DialogResult.No Then Return False
 
         If Edit Is CurrentEdit Then MainForm.StartRevert()
@@ -1227,7 +1219,7 @@ Module Processing
             End If
 
             If Edit.Deleted Then
-                Tab.Browser.DocumentText = "<div style=""font-family: Arial"">This revision has been deleted.</div>"
+                Tab.Browser.DocumentText = "<div style=""font-family: Arial"">" & Msg("diff-deleted") & "</div>"
                 Edit.DiffCacheState = Edit.CacheState.Viewed
 
             ElseIf Edit.Prev Is NullEdit Then

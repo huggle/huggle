@@ -4,7 +4,8 @@ Class ProtectForm
 
     Private Sub ProtectForm_Load() Handles Me.Load
         Icon = My.Resources.huggle_icon
-        Text = "Protect " & Page.Name
+        Text = Msg("protect-title", Page.Name)
+        Localize(Me, "protect")
         Reason.Text = Config.ProtectionReason
         Expiry.Text = Config.ProtectionTime
         ProtectionLog.Page = Page
@@ -38,9 +39,9 @@ Class ProtectForm
     End Sub
 
     Private Sub ProtectionLog_EnabledChanged() Handles ProtectionLog.EnabledChanged
-        CurrentLevel.Text = "Current protection level: "
+        CurrentLevel.Text = Msg("protect-currentlevel") & " "
 
-        If Page.EditLevel = "" AndAlso Page.MoveLevel = "" Then CurrentLevel.Text &= "no protection"
+        If Page.EditLevel = "" AndAlso Page.MoveLevel = "" Then CurrentLevel.Text &= Msg("protect-noprotection")
         If Page.EditLevel <> "" Then CurrentLevel.Text &= "edit:" & Page.EditLevel & " "
         If Page.MoveLevel <> "" Then CurrentLevel.Text &= "move:" & Page.MoveLevel
     End Sub

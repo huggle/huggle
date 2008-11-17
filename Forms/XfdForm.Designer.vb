@@ -25,11 +25,11 @@ Partial Class XfdForm
         Me.Cancel = New System.Windows.Forms.Button
         Me.OK = New System.Windows.Forms.Button
         Me.Reason = New System.Windows.Forms.TextBox
-        Me.Label1 = New System.Windows.Forms.Label
+        Me.ReasonLabel = New System.Windows.Forms.Label
         Me.Notify = New System.Windows.Forms.CheckBox
         Me.Category = New System.Windows.Forms.ComboBox
         Me.CategoryLabel = New System.Windows.Forms.Label
-        Me.Label2 = New System.Windows.Forms.Label
+        Me.NominationTypeLabel = New System.Windows.Forms.Label
         Me.NominationType = New System.Windows.Forms.Label
         Me.SuspendLayout()
         '
@@ -66,14 +66,14 @@ Partial Class XfdForm
         Me.Reason.Size = New System.Drawing.Size(386, 80)
         Me.Reason.TabIndex = 3
         '
-        'Label1
+        'ReasonLabel
         '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(9, 28)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(47, 13)
-        Me.Label1.TabIndex = 2
-        Me.Label1.Text = "Reason:"
+        Me.ReasonLabel.AutoSize = True
+        Me.ReasonLabel.Location = New System.Drawing.Point(9, 28)
+        Me.ReasonLabel.Name = "ReasonLabel"
+        Me.ReasonLabel.Size = New System.Drawing.Size(47, 13)
+        Me.ReasonLabel.TabIndex = 2
+        Me.ReasonLabel.Text = "Reason:"
         '
         'Notify
         '
@@ -110,14 +110,14 @@ Partial Class XfdForm
         Me.CategoryLabel.TabIndex = 5
         Me.CategoryLabel.Text = "Category:"
         '
-        'Label2
+        'NominationTypeLabel
         '
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(9, 9)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(86, 13)
-        Me.Label2.TabIndex = 0
-        Me.Label2.Text = "Nomination type:"
+        Me.NominationTypeLabel.AutoSize = True
+        Me.NominationTypeLabel.Location = New System.Drawing.Point(9, 9)
+        Me.NominationTypeLabel.Name = "NominationTypeLabel"
+        Me.NominationTypeLabel.Size = New System.Drawing.Size(86, 13)
+        Me.NominationTypeLabel.TabIndex = 0
+        Me.NominationTypeLabel.Text = "Nomination type:"
         '
         'NominationType
         '
@@ -134,11 +134,11 @@ Partial Class XfdForm
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(410, 193)
         Me.Controls.Add(Me.NominationType)
-        Me.Controls.Add(Me.Label2)
+        Me.Controls.Add(Me.NominationTypeLabel)
         Me.Controls.Add(Me.CategoryLabel)
         Me.Controls.Add(Me.Category)
         Me.Controls.Add(Me.Notify)
-        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.ReasonLabel)
         Me.Controls.Add(Me.Reason)
         Me.Controls.Add(Me.OK)
         Me.Controls.Add(Me.Cancel)
@@ -156,10 +156,10 @@ Partial Class XfdForm
     Friend WithEvents Cancel As System.Windows.Forms.Button
     Friend WithEvents OK As System.Windows.Forms.Button
     Friend WithEvents Reason As System.Windows.Forms.TextBox
-    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents ReasonLabel As System.Windows.Forms.Label
     Friend WithEvents Notify As System.Windows.Forms.CheckBox
     Friend WithEvents Category As System.Windows.Forms.ComboBox
     Friend WithEvents CategoryLabel As System.Windows.Forms.Label
-    Friend WithEvents Label2 As System.Windows.Forms.Label
+    Friend WithEvents NominationTypeLabel As System.Windows.Forms.Label
     Friend WithEvents NominationType As System.Windows.Forms.Label
 End Class

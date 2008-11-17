@@ -24,8 +24,8 @@ Partial Class MoveForm
     Private Sub InitializeComponent()
         Me.Cancel = New System.Windows.Forms.Button
         Me.OK = New System.Windows.Forms.Button
-        Me.Label1 = New System.Windows.Forms.Label
-        Me.Label2 = New System.Windows.Forms.Label
+        Me.TargetLabel = New System.Windows.Forms.Label
+        Me.ReasonLabel = New System.Windows.Forms.Label
         Me.Target = New System.Windows.Forms.TextBox
         Me.Reason = New System.Windows.Forms.TextBox
         Me.MoveTalk = New System.Windows.Forms.CheckBox
@@ -52,23 +52,23 @@ Partial Class MoveForm
         Me.OK.Text = "OK"
         Me.OK.UseVisualStyleBackColor = True
         '
-        'Label1
+        'TargetLabel
         '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(12, 15)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(63, 13)
-        Me.Label1.TabIndex = 0
-        Me.Label1.Text = "Destination:"
+        Me.TargetLabel.AutoSize = True
+        Me.TargetLabel.Location = New System.Drawing.Point(12, 15)
+        Me.TargetLabel.Name = "TargetLabel"
+        Me.TargetLabel.Size = New System.Drawing.Size(63, 13)
+        Me.TargetLabel.TabIndex = 0
+        Me.TargetLabel.Text = "Destination:"
         '
-        'Label2
+        'ReasonLabel
         '
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(28, 41)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(47, 13)
-        Me.Label2.TabIndex = 2
-        Me.Label2.Text = "Reason:"
+        Me.ReasonLabel.AutoSize = True
+        Me.ReasonLabel.Location = New System.Drawing.Point(28, 41)
+        Me.ReasonLabel.Name = "ReasonLabel"
+        Me.ReasonLabel.Size = New System.Drawing.Size(47, 13)
+        Me.ReasonLabel.TabIndex = 2
+        Me.ReasonLabel.Text = "Reason:"
         '
         'Target
         '
@@ -95,9 +95,9 @@ Partial Class MoveForm
         Me.MoveTalk.AutoSize = True
         Me.MoveTalk.Location = New System.Drawing.Point(81, 117)
         Me.MoveTalk.Name = "MoveTalk"
-        Me.MoveTalk.Size = New System.Drawing.Size(127, 17)
+        Me.MoveTalk.Size = New System.Drawing.Size(100, 17)
         Me.MoveTalk.TabIndex = 4
-        Me.MoveTalk.Text = "Move page talk page"
+        Me.MoveTalk.Text = "Move talk page"
         Me.MoveTalk.UseVisualStyleBackColor = True
         Me.MoveTalk.Visible = False
         '
@@ -109,8 +109,8 @@ Partial Class MoveForm
         Me.Controls.Add(Me.MoveTalk)
         Me.Controls.Add(Me.Reason)
         Me.Controls.Add(Me.Target)
-        Me.Controls.Add(Me.Label2)
-        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.ReasonLabel)
+        Me.Controls.Add(Me.TargetLabel)
         Me.Controls.Add(Me.OK)
         Me.Controls.Add(Me.Cancel)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
@@ -126,8 +126,8 @@ Partial Class MoveForm
     End Sub
     Friend WithEvents Cancel As System.Windows.Forms.Button
     Friend WithEvents OK As System.Windows.Forms.Button
-    Friend WithEvents Label1 As System.Windows.Forms.Label
-    Friend WithEvents Label2 As System.Windows.Forms.Label
+    Friend WithEvents TargetLabel As System.Windows.Forms.Label
+    Friend WithEvents ReasonLabel As System.Windows.Forms.Label
     Friend WithEvents Target As System.Windows.Forms.TextBox
     Friend WithEvents Reason As System.Windows.Forms.TextBox
     Friend WithEvents MoveTalk As System.Windows.Forms.CheckBox

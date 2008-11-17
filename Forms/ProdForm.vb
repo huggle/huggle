@@ -4,7 +4,8 @@ Class ProdForm
 
     Private Sub ProdForm_Load() Handles Me.Load
         Icon = My.Resources.huggle_icon
-        Text = "Proposed deletion of " & Page.Name
+        Text = Msg("prod-title", Page.Name)
+        Localize(Me, "prod")
     End Sub
 
     Private Sub OK_Click() Handles OK.Click

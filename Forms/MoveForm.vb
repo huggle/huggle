@@ -6,7 +6,8 @@ Class MoveForm
 
     Private Sub MoveForm_Load() Handles Me.Load
         Icon = My.Resources.huggle_icon
-        Text = "Move " & Page.Name
+        Text = Msg("move-title", Page.Name)
+        Localize(Me, "move")
         Target.Text = Page.Name
         MoveTalk.Visible = Page.IsTalkPage
     End Sub

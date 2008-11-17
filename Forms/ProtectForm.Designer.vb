@@ -26,14 +26,14 @@ Partial Class ProtectForm
         Me.Cancel = New System.Windows.Forms.Button
         Me.Reason = New System.Windows.Forms.TextBox
         Me.Expiry = New System.Windows.Forms.TextBox
-        Me.Label1 = New System.Windows.Forms.Label
-        Me.Label2 = New System.Windows.Forms.Label
+        Me.ReasonLabel = New System.Windows.Forms.Label
+        Me.ExpiryLabel = New System.Windows.Forms.Label
         Me.ProtectType = New System.Windows.Forms.GroupBox
-        Me.NoProtection = New System.Windows.Forms.RadioButton
+        Me.None = New System.Windows.Forms.RadioButton
         Me.FullProtection = New System.Windows.Forms.RadioButton
         Me.MoveProtection = New System.Windows.Forms.CheckBox
         Me.SemiProtection = New System.Windows.Forms.RadioButton
-        Me.Label3 = New System.Windows.Forms.Label
+        Me.LogLabel = New System.Windows.Forms.Label
         Me.CurrentLevel = New System.Windows.Forms.Label
         Me.ProtectionLog = New Huggle.PageLog
         Me.ProtectType.SuspendLayout()
@@ -78,28 +78,28 @@ Partial Class ProtectForm
         Me.Expiry.Size = New System.Drawing.Size(332, 20)
         Me.Expiry.TabIndex = 3
         '
-        'Label1
+        'ReasonLabel
         '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(12, 12)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(47, 13)
-        Me.Label1.TabIndex = 0
-        Me.Label1.Text = "Reason:"
+        Me.ReasonLabel.AutoSize = True
+        Me.ReasonLabel.Location = New System.Drawing.Point(12, 12)
+        Me.ReasonLabel.Name = "ReasonLabel"
+        Me.ReasonLabel.Size = New System.Drawing.Size(47, 13)
+        Me.ReasonLabel.TabIndex = 0
+        Me.ReasonLabel.Text = "Reason:"
         '
-        'Label2
+        'ExpiryLabel
         '
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(21, 80)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(38, 13)
-        Me.Label2.TabIndex = 2
-        Me.Label2.Text = "Expiry:"
+        Me.ExpiryLabel.AutoSize = True
+        Me.ExpiryLabel.Location = New System.Drawing.Point(21, 80)
+        Me.ExpiryLabel.Name = "ExpiryLabel"
+        Me.ExpiryLabel.Size = New System.Drawing.Size(38, 13)
+        Me.ExpiryLabel.TabIndex = 2
+        Me.ExpiryLabel.Text = "Expiry:"
         '
         'ProtectType
         '
         Me.ProtectType.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ProtectType.Controls.Add(Me.NoProtection)
+        Me.ProtectType.Controls.Add(Me.None)
         Me.ProtectType.Controls.Add(Me.FullProtection)
         Me.ProtectType.Controls.Add(Me.MoveProtection)
         Me.ProtectType.Controls.Add(Me.SemiProtection)
@@ -110,15 +110,15 @@ Partial Class ProtectForm
         Me.ProtectType.TabStop = False
         Me.ProtectType.Text = "Protection type"
         '
-        'NoProtection
+        'None
         '
-        Me.NoProtection.AutoSize = True
-        Me.NoProtection.Location = New System.Drawing.Point(12, 19)
-        Me.NoProtection.Name = "NoProtection"
-        Me.NoProtection.Size = New System.Drawing.Size(51, 17)
-        Me.NoProtection.TabIndex = 0
-        Me.NoProtection.Text = "None"
-        Me.NoProtection.UseVisualStyleBackColor = True
+        Me.None.AutoSize = True
+        Me.None.Location = New System.Drawing.Point(12, 19)
+        Me.None.Name = "None"
+        Me.None.Size = New System.Drawing.Size(51, 17)
+        Me.None.TabIndex = 0
+        Me.None.Text = "None"
+        Me.None.UseVisualStyleBackColor = True
         '
         'FullProtection
         '
@@ -153,14 +153,14 @@ Partial Class ProtectForm
         Me.SemiProtection.Text = "Semi-protection"
         Me.SemiProtection.UseVisualStyleBackColor = True
         '
-        'Label3
+        'LogLabel
         '
-        Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(12, 118)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(75, 13)
-        Me.Label3.TabIndex = 5
-        Me.Label3.Text = "Protection log:"
+        Me.LogLabel.AutoSize = True
+        Me.LogLabel.Location = New System.Drawing.Point(12, 118)
+        Me.LogLabel.Name = "LogLabel"
+        Me.LogLabel.Size = New System.Drawing.Size(75, 13)
+        Me.LogLabel.TabIndex = 5
+        Me.LogLabel.Text = "Protection log:"
         '
         'CurrentLevel
         '
@@ -196,10 +196,10 @@ Partial Class ProtectForm
         Me.ClientSize = New System.Drawing.Size(571, 284)
         Me.Controls.Add(Me.ProtectionLog)
         Me.Controls.Add(Me.CurrentLevel)
-        Me.Controls.Add(Me.Label3)
+        Me.Controls.Add(Me.LogLabel)
         Me.Controls.Add(Me.ProtectType)
-        Me.Controls.Add(Me.Label2)
-        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.ExpiryLabel)
+        Me.Controls.Add(Me.ReasonLabel)
         Me.Controls.Add(Me.Expiry)
         Me.Controls.Add(Me.Reason)
         Me.Controls.Add(Me.Cancel)
@@ -221,14 +221,14 @@ Partial Class ProtectForm
     Friend WithEvents Cancel As System.Windows.Forms.Button
     Friend WithEvents Reason As System.Windows.Forms.TextBox
     Friend WithEvents Expiry As System.Windows.Forms.TextBox
-    Friend WithEvents Label1 As System.Windows.Forms.Label
-    Friend WithEvents Label2 As System.Windows.Forms.Label
+    Friend WithEvents ReasonLabel As System.Windows.Forms.Label
+    Friend WithEvents ExpiryLabel As System.Windows.Forms.Label
     Friend WithEvents ProtectType As System.Windows.Forms.GroupBox
     Friend WithEvents MoveProtection As System.Windows.Forms.CheckBox
     Friend WithEvents FullProtection As System.Windows.Forms.RadioButton
     Friend WithEvents SemiProtection As System.Windows.Forms.RadioButton
-    Friend WithEvents Label3 As System.Windows.Forms.Label
+    Friend WithEvents LogLabel As System.Windows.Forms.Label
     Friend WithEvents CurrentLevel As System.Windows.Forms.Label
-    Friend WithEvents NoProtection As System.Windows.Forms.RadioButton
+    Friend WithEvents None As System.Windows.Forms.RadioButton
     Friend WithEvents ProtectionLog As Huggle.PageLog
 End Class

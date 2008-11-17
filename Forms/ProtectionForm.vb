@@ -1,22 +1,15 @@
 Class ProtectionForm
 
-    Public Type As ProtectionType
-    Public ThisPage As Page
+    Public Type As ProtectionType, Page As Page
 
     Private Sub ReqProtectionForm_Load() Handles Me.Load
         Icon = My.Resources.huggle_icon
-        Text = "Request protection of " & ThisPage.Name
+        Text = Msg("protect-request-title", Page.Name)
+        Localize(Me, "protect")
+
         Reason.Text = Config.ProtectionRequestReason
         TypeSelect.SelectedIndex = 0
-
-        ProtectionLog.Columns.Add("", 300)
-        ProtectionLog.Items.Add("Retrieving protection log, please wait...")
-        CurrentLevel.Text = "Current protection level: Retrieving..."
-
-        Dim NewRequest As New ProtectionLogRequest
-        NewRequest.Target = ProtectionLog
-        NewRequest.Page = ThisPage
-        NewRequest.Start()
+        ProtectionLog.Page = Page
     End Sub
 
     Private Sub ReqProtectionForm_FormClosing() Handles Me.FormClosing
@@ -52,14 +45,12 @@ Class ProtectionForm
         OK.Enabled = (Reason.Text <> "")
     End Sub
 
-    Private Sub ProtectionLog_EnabledChanged() _
-        Handles ProtectionLog.EnabledChanged
+    Private Sub ProtectionLog_EnabledChanged() Handles ProtectionLog.EnabledChanged
+        CurrentLevel.Text = Msg("protect-currentlevel") & " "
 
-        CurrentLevel.Text = "Current protection level: "
-
-        If ThisPage.EditLevel = "" AndAlso ThisPage.MoveLevel = "" Then CurrentLevel.Text &= "no protection"
-        If ThisPage.EditLevel <> "" Then CurrentLevel.Text &= "edit:" & ThisPage.EditLevel & " "
-        If ThisPage.MoveLevel <> "" Then CurrentLevel.Text &= "move:" & ThisPage.MoveLevel
+        If Page.EditLevel = "" AndAlso Page.MoveLevel = "" Then CurrentLevel.Text &= Msg("protect-none")
+        If Page.EditLevel <> "" Then CurrentLevel.Text &= "edit:" & Page.EditLevel & " "
+        If Page.MoveLevel <> "" Then CurrentLevel.Text &= "move:" & Page.MoveLevel
     End Sub
 
 End Class

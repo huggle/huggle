@@ -28,7 +28,7 @@ Partial Class ReportForm
         Me.Message = New System.Windows.Forms.TextBox
         Me.ReasonLabel = New System.Windows.Forms.Label
         Me.Reason = New System.Windows.Forms.ComboBox
-        Me.WarnLogLabel = New System.Windows.Forms.Label
+        Me.LogLabel = New System.Windows.Forms.Label
         Me.WarnLog = New Huggle.WarnLog
         Me.SuspendLayout()
         '
@@ -91,14 +91,14 @@ Partial Class ReportForm
         Me.Reason.TabIndex = 1
         Me.Reason.TabStop = False
         '
-        'WarnLogLabel
+        'LogLabel
         '
-        Me.WarnLogLabel.AutoSize = True
-        Me.WarnLogLabel.Location = New System.Drawing.Point(9, 114)
-        Me.WarnLogLabel.Name = "WarnLogLabel"
-        Me.WarnLogLabel.Size = New System.Drawing.Size(112, 13)
-        Me.WarnLogLabel.TabIndex = 4
-        Me.WarnLogLabel.Text = "Warnings for this user:"
+        Me.LogLabel.AutoSize = True
+        Me.LogLabel.Location = New System.Drawing.Point(9, 114)
+        Me.LogLabel.Name = "LogLabel"
+        Me.LogLabel.Size = New System.Drawing.Size(112, 13)
+        Me.LogLabel.TabIndex = 4
+        Me.LogLabel.Text = "Warnings for this user:"
         '
         'WarnLog
         '
@@ -122,7 +122,7 @@ Partial Class ReportForm
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(365, 268)
         Me.Controls.Add(Me.WarnLog)
-        Me.Controls.Add(Me.WarnLogLabel)
+        Me.Controls.Add(Me.LogLabel)
         Me.Controls.Add(Me.OK)
         Me.Controls.Add(Me.Cancel)
         Me.Controls.Add(Me.Message)
@@ -146,6 +146,6 @@ Partial Class ReportForm
     Friend WithEvents Message As System.Windows.Forms.TextBox
     Friend WithEvents ReasonLabel As System.Windows.Forms.Label
     Friend WithEvents Reason As System.Windows.Forms.ComboBox
-    Friend WithEvents WarnLogLabel As System.Windows.Forms.Label
+    Friend WithEvents LogLabel As System.Windows.Forms.Label
     Friend WithEvents WarnLog As Huggle.WarnLog
 End Class

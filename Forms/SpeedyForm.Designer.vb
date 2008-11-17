@@ -25,10 +25,10 @@ Partial Class SpeedyForm
         Me.Cancel = New System.Windows.Forms.Button
         Me.OK = New System.Windows.Forms.Button
         Me.NotifyCreator = New System.Windows.Forms.CheckBox
-        Me.Label1 = New System.Windows.Forms.Label
+        Me.Reason = New System.Windows.Forms.Label
         Me.Criterion = New System.Windows.Forms.ComboBox
-        Me.ParamLabel = New System.Windows.Forms.Label
-        Me.Param = New System.Windows.Forms.TextBox
+        Me.ParametersLabel = New System.Windows.Forms.Label
+        Me.Parameters = New System.Windows.Forms.TextBox
         Me.SuspendLayout()
         '
         'Cancel
@@ -63,14 +63,14 @@ Partial Class SpeedyForm
         Me.NotifyCreator.Text = "Notify page creator"
         Me.NotifyCreator.UseVisualStyleBackColor = True
         '
-        'Label1
+        'Reason
         '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(27, 15)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(47, 13)
-        Me.Label1.TabIndex = 0
-        Me.Label1.Text = "Reason:"
+        Me.Reason.AutoSize = True
+        Me.Reason.Location = New System.Drawing.Point(27, 15)
+        Me.Reason.Name = "Reason"
+        Me.Reason.Size = New System.Drawing.Size(47, 13)
+        Me.Reason.TabIndex = 0
+        Me.Reason.Text = "Reason:"
         '
         'Criterion
         '
@@ -86,35 +86,35 @@ Partial Class SpeedyForm
         Me.Criterion.Size = New System.Drawing.Size(326, 21)
         Me.Criterion.TabIndex = 1
         '
-        'ParamLabel
+        'ParametersLabel
         '
-        Me.ParamLabel.AutoSize = True
-        Me.ParamLabel.Location = New System.Drawing.Point(11, 42)
-        Me.ParamLabel.Name = "ParamLabel"
-        Me.ParamLabel.Size = New System.Drawing.Size(63, 13)
-        Me.ParamLabel.TabIndex = 5
-        Me.ParamLabel.Text = "Parameters:"
-        Me.ParamLabel.Visible = False
+        Me.ParametersLabel.AutoSize = True
+        Me.ParametersLabel.Location = New System.Drawing.Point(11, 42)
+        Me.ParametersLabel.Name = "ParametersLabel"
+        Me.ParametersLabel.Size = New System.Drawing.Size(63, 13)
+        Me.ParametersLabel.TabIndex = 5
+        Me.ParametersLabel.Text = "Parameters:"
+        Me.ParametersLabel.Visible = False
         '
-        'Param
+        'Parameters
         '
-        Me.Param.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.Parameters.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Param.Location = New System.Drawing.Point(76, 39)
-        Me.Param.Name = "Param"
-        Me.Param.Size = New System.Drawing.Size(326, 20)
-        Me.Param.TabIndex = 6
-        Me.Param.Visible = False
+        Me.Parameters.Location = New System.Drawing.Point(76, 39)
+        Me.Parameters.Name = "Parameters"
+        Me.Parameters.Size = New System.Drawing.Size(326, 20)
+        Me.Parameters.TabIndex = 6
+        Me.Parameters.Visible = False
         '
         'SpeedyForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(414, 127)
-        Me.Controls.Add(Me.Param)
-        Me.Controls.Add(Me.ParamLabel)
+        Me.Controls.Add(Me.Parameters)
+        Me.Controls.Add(Me.ParametersLabel)
         Me.Controls.Add(Me.Criterion)
-        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.Reason)
         Me.Controls.Add(Me.NotifyCreator)
         Me.Controls.Add(Me.OK)
         Me.Controls.Add(Me.Cancel)
@@ -132,8 +132,8 @@ Partial Class SpeedyForm
     Friend WithEvents Cancel As System.Windows.Forms.Button
     Friend WithEvents OK As System.Windows.Forms.Button
     Friend WithEvents NotifyCreator As System.Windows.Forms.CheckBox
-    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents Reason As System.Windows.Forms.Label
     Friend WithEvents Criterion As System.Windows.Forms.ComboBox
-    Friend WithEvents ParamLabel As System.Windows.Forms.Label
-    Friend WithEvents Param As System.Windows.Forms.TextBox
+    Friend WithEvents ParametersLabel As System.Windows.Forms.Label
+    Friend WithEvents Parameters As System.Windows.Forms.TextBox
 End Class

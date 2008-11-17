@@ -4,7 +4,8 @@ Class SpeedyForm
 
     Private Sub SpeedyForm_Load() Handles Me.Load
         Icon = My.Resources.huggle_icon
-        Text = "Speedy tag " & Page.Name
+        Text = Msg("speedy-title", Page.Name)
+        Localize(Me, "speedy")
 
         For Each Item As SpeedyCriterion In Config.SpeedyCriteria.Values
             If Item.Code = "G8" AndAlso Page.IsTalkPage _
@@ -40,7 +41,7 @@ Class SpeedyForm
             NewSpeedyRequest.Page = Page
             NewSpeedyRequest.Criterion = Config.SpeedyCriteria(Criterion.Text.Substring(0, Criterion.Text.IndexOf(" ")))
             NewSpeedyRequest.Notify = NotifyCreator.Checked
-            NewSpeedyRequest.Parameter = Param.Text
+            NewSpeedyRequest.Parameter = Parameters.Text
             NewSpeedyRequest.Start()
         Else
             DialogResult = DialogResult.Cancel
@@ -71,17 +72,17 @@ Class SpeedyForm
 
             If Criterion.Text.Substring(0, Criterion.Text.IndexOf(" ")) = "G12" Then
                 'If g12 is selected add the param options and resize the form to allow them to be seen
-                Param.Visible = True
-                ParamLabel.Visible = True
+                Parameters.Visible = True
+                ParametersLabel.Visible = True
                 Height += 25
 
                 'Param text for g12 should be url= so set it
-                Param.Text = "url="
+                Parameters.Text = "url="
 
-            ElseIf Param.Visible Then
+            ElseIf Parameters.Visible Then
                 Height -= 25
-                Param.Visible = False
-                ParamLabel.Visible = False
+                Parameters.Visible = False
+                ParametersLabel.Visible = False
             End If
         End If
     End Sub

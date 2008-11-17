@@ -4,7 +4,8 @@ Class ReportForm
 
     Private Sub ReportForm_Load() Handles Me.Load
         Icon = My.Resources.huggle_icon
-        Text = "Report " & User.Name
+        Text = Msg("report-title", User.Name)
+        Localize(Me, "report")
 
         Message.Text = Config.VandalReportReason
         Message.Focus()

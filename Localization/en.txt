@@ -83,7 +83,7 @@ config-openinbrowser:      Open browser links in new browser window
 config-shownewedits:       Show new edits to the selected page as they are made
 config-preloads:           Enable preloading of diffs
 config-ircmode:            Use IRC feed for recent changes if possible
-config-ircport:            IRC port (6664 - 6669)
+config-ircport:            IRC port
 config-difffontsize:       Diff font size
 config-logfile:            Log file
 config-viewlocalconfig:    View local configuration folder
@@ -107,6 +107,8 @@ config-undosummary:        Summary when undoing own edits
 config-confirmmultiple:    Confirm multiple reversions of an edit by the same user
 config-confirmsame:        Confirm reversion to an edit by the user being reverted
 config-confirmselfrevert:  Confirm reversion of own edits (except undo)
+config-confirmwarned:      Confirm reversion to an edit by a warned user
+config-confirmrange:       Confirm reversion to edit by an anonymous user in the same /16 range as the user being reverted
 config-autoadvance:        After reverting, move to next edit in the queue
 config-userollback:        Use rollback if available
 config-revertsummaries:    Revert summaries available in menu
@@ -132,7 +134,6 @@ config-summaryprompt:      Enter summary
 config-defaultsprompt:     Restore defaults?
 config-logbrowsetitle:     Log file location
 config-shortcutconflict:   Shortcut '{0}' conflicts with the existing shortcut for '{1}'.
-config-addtemplate:        Add template
 </pre>
 
 === Delete form ===
@@ -220,6 +221,7 @@ list-savetitle:            Save list
 list-sourcetype:           Source type:
 list-start:                From:
 list-stop:                 Stop
+list-title:                List Builder
 </pre>
 
 === Login ===
@@ -398,6 +400,35 @@ message-summary:           Summary:
 message-autosign:          Automatically append signature
 </pre>
 
+=== Move form ===
+<pre>
+move-title:                Move {0}
+move-target:               Destination:
+move-reason:               Reason:
+move-movetalk:             Move talk page
+</pre>
+
+=== Prod form ===
+<pre>
+prod-title:                Proposed deletion of {0}
+prod-reason:               Reason:
+</pre>
+
+=== Protect form ===
+<pre>
+protect-title:             Protect {0}
+protect-request-title:     Request protection of {0}
+protect-reason:            Reason:
+protect-expiry:            Expiry:
+protect-log:               Protection log:
+protect-currentlevel:      Current protection level:
+protect-type:              Protection type:
+protect-none:              None
+protect-semiprotection:    Semi-protection
+protect-fullprotection:    Full protection
+protect-moveprotection:    Move protection
+</pre>
+
 === Queue form ===
 <pre>
 queue-title:               Queues
@@ -412,6 +443,11 @@ queue-removeafter:         Remove edits after
 queue-removeaftertime:     minutes
 queue-preload:             Enable preloading of revisions when this queue is selected
 queue-ignorepages:         Ignore edits to pages on the ignored pages list
+queue-traynotification:    Show tray notification when a revision is added to this queue
+queue-diffsgroup:          Diffs
+queue-nodiffs:             Load diffs only when the revision is viewed
+queue-preloaddiffs:        Preload diffs when queue is active
+queue-alldiffs:            Load diffs for every revision in the queue
 queue-pagefiltersgroup:    Page title filters
 queue-pageregex:           Title matches regular expression:
 queue-namespaces:          Namespaces:
@@ -434,6 +470,7 @@ queue-filterme:            My edit
 queue-examplelabel1:       Require this attribute
 queue-examplelabel2:       Exclude this attribute
 queue-examplelabel3:       Don't check this attribute
+queue-usergroup:           Show only edits from these users
 </pre>
 
 === Queue trim form ===
@@ -456,6 +493,14 @@ requests-type:             Type
 requests-query:            Query
 </pre>
 
+=== Report form ===
+<pre>
+report-title:              Report {0}
+report-reason:             Reason:
+report-message:            Message:
+report-log:                Warnings for this user:
+</pre>
+
 === Revert form ===
 <pre>
 revert-title:              Revert {0}
@@ -466,6 +511,29 @@ revert-currentonly:        Revert only the selected revision
 === Revert and warn form ===
 <pre>
 revertandwarn-title:       Revert and warn {0}
+</pre>
+
+=== Reverting ===
+<pre>
+revert-confirm-ignored:    Revert edit by whitelisted user '{0}'?
+revert-confirm-multiple:   This will revert multiple edits by '{0}'. Continue?
+revert-confirm-range:      The author of the target revision, {1}, is in the same range as the author of the current revision, {0}, and may be the same person; ensure the target revision is correct before proceeding. Continue?
+revert-confirm-same:       This will revert to another revision by the user that is being reverted, {0}. Continue?
+revert-confirm-self:       This will revert your own edit. Continue?
+revert-confirm-warned:     This will revert to a revision by {0}; this user has previously been warned. Continue?
+revert-error-first:        Edit is the first edit to the page; unable to revert.
+revert-only:               Edit is the only edit to the page.
+revert-creator:            Last edit was made by page creator, {0}.
+revert-delete-instead:     Delete page instead?
+revert-speedy-instead:     Tag for speedy deletion instead?
+</pre>
+
+=== Speedy form ===
+<pre>
+speedy-title:              Speedy tag {0}
+speedy-reason:             Reason:
+speedy-parameters:         Parameters:
+speedy-notifycreator:      Notify page creator
 </pre>
 
 === Statistics form ===
@@ -538,6 +606,15 @@ warning-warntype:          Warning type:
 warning-warnlog:           Warnings for this user:
 </pre>
 
+=== XfD form ===
+<pre>
+xfd-title:                 Nominate {0} for deletion
+xfd-category:              Category:
+xfd-nominationtype:        Nomination type:
+xfd-notify:                Notify creator
+xfd-reason:                Reason:
+</pre>
+
 === Web requests ===
 <pre>
 error-apidisabled:         The MediaWiki API is disabled
@@ -569,6 +646,7 @@ deletelog-fail:            Failed to retrieve deletion log for '{0}'
 deletelog-none:            No deletion log for '{0}'
 deletelog-progress:        Retrieving deletion log for '{0}'...
 
+diff-deleted:              This revision has been deleted.
 diff-fail:                 Failed to retrieve diff of '{0}'
 
 reqdelete-duplicate:       The page is already tagged
