@@ -356,14 +356,25 @@ Namespace Requests
             Dim Result As ApiResult, Token As String
 
             'Get edit token
-            If Section IsNot Nothing OrElse EditToken Is Nothing Then
-                Result = DoApiRequest("action=query&prop=info&intoken=edit&titles=" & UrlEncode(Page.Name))
-                If Result.Error Then Return Result
-                Token = GetParameter(Result.Text, "edittoken")
-                If Section Is Nothing Then EditToken = Token
-            Else
-                Token = EditToken
-            End If
+            Do Until EditToken IsNot Nothing
+                If Section IsNot Nothing OrElse EditToken Is Nothing Then
+                    Result = DoApiRequest("action=query&prop=info&intoken=edit&titles=" & UrlEncode(Page.Name))
+                    If Result.Error Then Return Result
+                    Token = GetParameter(Result.Text, "edittoken")
+                    If Section Is Nothing Then EditToken = Token
+                Else
+                    Token = EditToken
+                End If
+
+                If EditToken.Length < 16 Then
+                    'Logged out somehow, logging back in
+                    EditToken = Nothing
+                    LogProgress(Msg("error-loggedout"))
+
+                    If DoLogin() <> LoginResult.Success _
+                        Then Return New ApiResult(Nothing, "", Msg("error-reloginfail"))
+                End If
+            Loop
 
             'Edit page
             Dim QueryString As String = "title=" & UrlEncode(Page.Name) & "&text=" & UrlEncode(Text) _
