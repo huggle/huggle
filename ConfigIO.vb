@@ -748,7 +748,7 @@ Module ConfigIO
             Case "sort-order" : Queue.SortOrder = SetQueueSortOrder(Value)
             Case "source" : Queue.DynamicSource = Value
             Case "source-type" : Queue.DynamicSourceType = Value
-            Case "spaces" : Queue.Spaces.AddRange(SetQueueSpaces(Value))
+            Case "spaces" : Queue.Spaces = SetQueueSpaces(Value)
             Case "summary-regex" : Queue.SummaryRegex = New Regex(Value, RegexOptions.Compiled)
             Case "tray-notification" : Queue.TrayNotification = CBool(Value)
             Case "type" : Queue.Type = SetQueueType(Value)

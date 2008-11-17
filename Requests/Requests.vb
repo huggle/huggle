@@ -353,43 +353,54 @@ Namespace Requests
             Optional ByVal Watch As Boolean = False, Optional ByVal SuppressAutoSummary As Boolean = False, _
             Optional ByVal AllowCreate As Boolean = True) As ApiResult
 
-            Dim Result As ApiResult, Token As String
+            Dim Result As ApiResult, Token As String = Nothing, BadToken As Boolean
 
-            'Get edit token
-            Do Until EditToken IsNot Nothing
-                If Section IsNot Nothing OrElse EditToken Is Nothing Then
-                    Result = DoApiRequest("action=query&prop=info&intoken=edit&titles=" & UrlEncode(Page.Name))
-                    If Result.Error Then Return Result
-                    Token = GetParameter(Result.Text, "edittoken")
-                    If Section Is Nothing Then EditToken = Token
-                Else
-                    Token = EditToken
-                End If
+            Do
+                'Get edit token
+                Do
+                    If Section IsNot Nothing OrElse EditToken Is Nothing Then
+                        Result = DoApiRequest("action=query&prop=info&intoken=edit&titles=" & UrlEncode(Page.Name))
+                        If Result.Error Then Return Result
+                        Token = GetParameter(Result.Text, "edittoken")
+                        If Section Is Nothing Then EditToken = Token
+                    Else
+                        Token = EditToken
+                    End If
 
-                If EditToken.Length < 16 Then
-                    'Logged out somehow, logging back in
+                    If EditToken.Length < 16 Then
+                        'Logged out somehow, logging back in
+                        Token = Nothing
+                        EditToken = Nothing
+                        LogProgress(Msg("error-loggedout"))
+
+                        If DoLogin() <> LoginResult.Success _
+                            Then Return New ApiResult(Nothing, "", Msg("error-reloginfail"))
+                    End If
+                Loop Until Token IsNot Nothing
+
+                'Edit page
+                Dim QueryString As String = "title=" & UrlEncode(Page.Name) & "&text=" & UrlEncode(Text) _
+                    & "&summary=" & UrlEncode(Summary)
+
+                If Config.Summary IsNot Nothing AndAlso Not SuppressAutoSummary _
+                    Then QueryString &= UrlEncode(" " & Config.Summary)
+
+                QueryString &= "&token=" & UrlEncode(Token)
+
+                If Section IsNot Nothing Then QueryString &= "&section=" & UrlEncode(Section)
+                If Minor Then QueryString &= "&minor"
+                If Watch Then QueryString &= "&watch"
+
+                Result = DoApiRequest("action=edit", QueryString)
+
+                If Result.ErrorCode = "badtoken" Then
+                    BadToken = True
                     EditToken = Nothing
-                    LogProgress(Msg("error-loggedout"))
-
-                    If DoLogin() <> LoginResult.Success _
-                        Then Return New ApiResult(Nothing, "", Msg("error-reloginfail"))
+                Else
+                    BadToken = False
                 End If
-            Loop
+            Loop Until Not BadToken
 
-            'Edit page
-            Dim QueryString As String = "title=" & UrlEncode(Page.Name) & "&text=" & UrlEncode(Text) _
-                & "&summary=" & UrlEncode(Summary)
-
-            If Config.Summary IsNot Nothing AndAlso Not SuppressAutoSummary _
-                Then QueryString &= UrlEncode(" " & Config.Summary)
-
-            QueryString &= "&token=" & UrlEncode(Token)
-
-            If Section IsNot Nothing Then QueryString &= "&section=" & UrlEncode(Section)
-            If Minor Then QueryString &= "&minor"
-            If Watch Then QueryString &= "&watch"
-
-            Result = DoApiRequest("action=edit", QueryString)
             If Not Result.Error AndAlso Not Watchlist.Contains(Page.SubjectPage) Then Watchlist.Add(Page.SubjectPage)
 
             Return Result
