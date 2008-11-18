@@ -30,7 +30,7 @@ Class QueuePanel
             Dim Edit As Edit = Queue.Edits(i + Scroll)
             Dim Name As String = Edit.Page.Name, Height As Integer = 30
 
-            X = Config.QueueWidth - 20
+            X = Config.QueueWidth - 24
             Y = (i * 20) + 19
 
             'Truncate page name
@@ -41,8 +41,8 @@ Class QueuePanel
 
             If Name.Length < Edit.Page.Name.Length Then Name &= "..."
 
-            Gfx.Graphics.FillRectangle(Brushes.White, 2, Y - 1, Width - 6, 17)
-            Gfx.Graphics.DrawRectangle(Pens.DarkGray, 2, Y - 1, Width - 6, 17)
+            Gfx.Graphics.FillRectangle(Brushes.White, 2, Y - 1, Width - 4, 17)
+            Gfx.Graphics.DrawRectangle(Pens.DarkGray, 2, Y - 1, Width - 4, 17)
             Gfx.Graphics.DrawString(Name, Font, Brushes.Black, 4, Y + 1)
 
             'Draw icon

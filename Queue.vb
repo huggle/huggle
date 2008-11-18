@@ -585,7 +585,9 @@ Class Queue
     End Function
 
     Private Sub RefreshTimer_Tick() Handles RefreshTimer.Tick
-        If Type = QueueType.Dynamic AndAlso Not _NeedsReset AndAlso (_RefreshAlways OrElse CurrentQueue Is Me) Then
+        If Type = QueueType.Dynamic AndAlso Not _NeedsReset _
+            AndAlso (_RefreshAlways OrElse CurrentQueue Is Me OrElse SecondQueue Is Me) Then
+
             RefreshTimer.Stop()
 
             Select Case _SourceType

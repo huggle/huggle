@@ -1167,7 +1167,7 @@ Class Main
             End If
 
             If Page Is CurrentPage AndAlso CurrentEdit.Id IsNot Nothing Then
-                History.NewerEdit = Edit.All(CurrentEdit.Id)
+                If Edit.All.ContainsKey(CurrentEdit.Id) Then History.NewerEdit = Edit.All(CurrentEdit.Id)
                 If Edit.All.ContainsKey(CurrentEdit.Oldid) Then History.OlderEdit = Edit.All(CurrentEdit.Oldid) _
                     Else History.OlderEdit = CurrentEdit.Prev
             End If

@@ -293,8 +293,8 @@ Module Processing
 
                     If Queue Is CurrentQueue Then
                         'Keep user's viewing position when adding new items, if not looking at the top of the queue
-                        If Queue.SortOrder = QueueSortOrder.Time AndAlso MainForm.QueueScroll2.Value > 0 _
-                            Then MainForm.QueueScroll2.Value += 1
+                        If Queue.SortOrder = QueueSortOrder.Time AndAlso MainForm.QueueScroll.Value > 0 _
+                            Then MainForm.QueueScroll.Value += 1
                         Redraw = True
                     End If
                 End If
@@ -885,7 +885,7 @@ Module Processing
         Edit.DiffCacheState = Edit.CacheState.Cached
 
         If Tab.Edit IsNot Nothing AndAlso (Tab.Edit Is Edit OrElse (Tab.Edit.Next Is Edit AndAlso HidingEdit)) _
-            Then DisplayEdit(Edit, False, Tab, Not Edit.User.IsMe)
+            Then DisplayEdit(Edit, False, Tab, (Edit.User IsNot Nothing AndAlso Not Edit.User.IsMe))
     End Sub
 
     'Converts an HTML diff into a string containing LF-separated list of changes on 'new' side of diff
