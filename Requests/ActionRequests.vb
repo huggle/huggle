@@ -349,7 +349,6 @@ Namespace Requests
         'Download latest version of the application
 
         Public Filename As String, ProgressBar As ProgressBar
-
         Private Progress, Total As Integer
 
         Protected Overrides Sub Process()

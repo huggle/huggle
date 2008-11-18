@@ -38,7 +38,7 @@ Partial Class UpdateForm
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Message.Location = New System.Drawing.Point(54, 9)
         Me.Message.Name = "Message"
-        Me.Message.Size = New System.Drawing.Size(411, 43)
+        Me.Message.Size = New System.Drawing.Size(448, 43)
         Me.Message.TabIndex = 0
         Me.Message.Text = "This version of Huggle is out of date." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Updating to the latest version, 0.0.0, is" & _
             " recommended, and may be required in future." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Download and run the latest versio" & _
@@ -47,7 +47,7 @@ Partial Class UpdateForm
         'Cancel
         '
         Me.Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Cancel.Location = New System.Drawing.Point(390, 55)
+        Me.Cancel.Location = New System.Drawing.Point(427, 55)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
         Me.Cancel.TabIndex = 4
@@ -57,7 +57,7 @@ Partial Class UpdateForm
         'Download
         '
         Me.Download.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Download.Location = New System.Drawing.Point(309, 55)
+        Me.Download.Location = New System.Drawing.Point(346, 55)
         Me.Download.Name = "Download"
         Me.Download.Size = New System.Drawing.Size(75, 23)
         Me.Download.TabIndex = 3
@@ -67,10 +67,9 @@ Partial Class UpdateForm
         'Status
         '
         Me.Status.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.Status.AutoSize = True
         Me.Status.Location = New System.Drawing.Point(12, 60)
         Me.Status.Name = "Status"
-        Me.Status.Size = New System.Drawing.Size(10, 13)
+        Me.Status.Size = New System.Drawing.Size(328, 30)
         Me.Status.TabIndex = 1
         Me.Status.Text = " "
         '
@@ -88,7 +87,8 @@ Partial Class UpdateForm
         '
         'Progress
         '
-        Me.Progress.Location = New System.Drawing.Point(176, 58)
+        Me.Progress.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Progress.Location = New System.Drawing.Point(213, 58)
         Me.Progress.Name = "Progress"
         Me.Progress.Size = New System.Drawing.Size(127, 18)
         Me.Progress.TabIndex = 2
@@ -98,7 +98,7 @@ Partial Class UpdateForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(477, 90)
+        Me.ClientSize = New System.Drawing.Size(514, 90)
         Me.Controls.Add(Me.Progress)
         Me.Controls.Add(Me.PictureBox1)
         Me.Controls.Add(Me.Status)

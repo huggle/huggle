@@ -174,6 +174,8 @@ Class QueueForm
             Case Else : DynamicSourceLabel.Text = "Page:"
         End Select
 
+        DynamicSource.Enabled = (DynamicSourceType.Text <> "Watchlist")
+
         RefreshInterface()
         DynamicSource.Focus()
         DynamicSource.SelectAll()

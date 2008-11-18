@@ -887,7 +887,7 @@ Namespace Requests
                     Then Config.WhitelistTimestamps(Name) = Date.UtcNow.ToString _
                     Else Config.WhitelistTimestamps.Add(Name, Date.UtcNow.ToString)
 
-                Whitelist.AddRange(Split(GetTextFromRev(Result.Text), LF))
+                Whitelist.AddRange(Split(GetTextFromRev(Page), LF))
             Next Page
 
             Complete()

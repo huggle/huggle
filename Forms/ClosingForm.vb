@@ -34,11 +34,14 @@ Class ClosingForm
             End Try
         End If
 
-        If Config.WhitelistLocation IsNot Nothing AndAlso Config.UpdateWhitelist AndAlso (WhitelistAutoChanges.Count > 0 _
-            OrElse (Config.UpdateWhitelistManual AndAlso WhitelistManualChanges.Count > 0)) Then
-            UpdateWhitelist()
-        ElseIf Config.ConfigChanged AndAlso Config.SaveConfig Then
+        If Config.ConfigChanged AndAlso Config.SaveConfig Then
             UpdateUserConfig()
+
+        ElseIf Config.WhitelistLocation IsNot Nothing AndAlso Config.UpdateWhitelist AndAlso _
+            (WhitelistAutoChanges.Count > 0 OrElse (Config.UpdateWhitelistManual AndAlso _
+            WhitelistManualChanges.Count > 0)) Then
+
+            UpdateWhitelist()
         Else
             End
         End If
@@ -53,11 +56,7 @@ Class ClosingForm
     End Sub
 
     Public Sub WhitelistDone(Optional ByVal Result As RequestResult = Nothing)
-        If Config.ConfigChanged AndAlso Config.SaveConfig Then
-            UpdateUserConfig()
-        Else
-            End
-        End If
+        End
     End Sub
 
     Private Sub UpdateUserConfig()
@@ -69,7 +68,14 @@ Class ClosingForm
     End Sub
 
     Public Sub UpdateUserConfigDone(ByVal Result As RequestResult)
-        End
+        If Config.WhitelistLocation IsNot Nothing AndAlso Config.UpdateWhitelist AndAlso _
+            (WhitelistAutoChanges.Count > 0 OrElse (Config.UpdateWhitelistManual AndAlso _
+            WhitelistManualChanges.Count > 0)) Then
+
+            UpdateWhitelist()
+        Else
+            End
+        End If
     End Sub
 
 End Class

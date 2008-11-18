@@ -3,7 +3,7 @@ Imports System.Diagnostics
 Class UpdateForm
 
     Private FileName As String = "huggle " & VersionString(Config.LatestVersion) & ".exe"
-    Private Request As UpdateRequest
+    Private Request As UpdateRequest, _Result As RequestResult
 
     Private Sub VersionForm_Load() Handles Me.Load
         Icon = My.Resources.huggle_icon
@@ -40,14 +40,19 @@ Class UpdateForm
 
     Private Sub UpdateDone(ByVal Result As RequestResult)
         If Result.Error Then
-            Progress.Value = 0
-            Progress.Visible = False
-            Download.Enabled = True
-            Status.Text = Result.ErrorMessage
+            _Result = Result
+            Invoke(New Action(AddressOf UpdateResult))
         Else
             Process.Start(FileName)
             End
         End If
+    End Sub
+
+    Private Sub UpdateResult()
+        Progress.Value = 0
+        Progress.Visible = False
+        Download.Enabled = True
+        Status.Text = _Result.ErrorMessage
     End Sub
 
 End Class
