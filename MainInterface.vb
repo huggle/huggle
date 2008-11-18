@@ -6,11 +6,11 @@ Partial Class Main
         SetShortcutDisplayText()
         SetTooltipText()
         SetMenuText()
-        SetQueueSelector()
+        SetQueueSelectors()
 
         CurrentTab.ShowNewEdits = Config.ShowNewEdits
         TrayIcon.Visible = Config.TrayIcon
-        QueueContainer.Width = Config.QueueWidth + QueueScroll.Width
+        QueueContainer.Width = Config.QueueWidth + QueueScroll2.Width
 
         RevisionSight.Visible = Config.Sight AndAlso Config.Rights.Contains("review")
         SightAndNext.Visible = Config.Sight AndAlso Config.Rights.Contains("review")
@@ -120,6 +120,9 @@ Partial Class Main
             AddHandler NewItem.Click, AddressOf Speedy_Click
             TagDeleteMenu.Items.Add(NewItem)
         Next Item
+
+        SystemShowTwoQueues.Checked = Config.ShowTwoQueues
+        QueueContainer.Panel2Collapsed = (Not Config.ShowTwoQueues)
 
         RefreshInterface()
     End Sub
@@ -283,7 +286,7 @@ Partial Class Main
                 End If
             Next Item
 
-            DrawQueue()
+            DrawQueues()
             DrawHistory()
             DrawContribs()
             UpdateWatchButton()
@@ -558,15 +561,22 @@ Partial Class Main
             Then Item.ToolTipText &= " [" & ShortcutKeys(Key).ToString & "]"
     End Sub
 
-    Public Sub SetQueueSelector()
+    Public Sub SetQueueSelectors()
         QueueSelector.Items.Clear()
+        QueueSelector2.Items.Clear()
 
         For Each Item As String In QueueNames(Config.Project)
             QueueSelector.Items.Add(Item)
+            QueueSelector2.Items.Add(Item)
         Next Item
 
         QueueSelector.Items.Add(Msg("main-addqueue"))
-        If CurrentQueue IsNot Nothing Then QueueSelector.SelectedItem = CurrentQueue.Name
+        QueueSelector2.Items.Add(Msg("main-addqueue"))
+
+        If CurrentQueue IsNot Nothing Then QueueSelector.SelectedItem = CurrentQueue.Name _
+            Else QueueSelector.SelectedIndex = 0
+        If SecondQueue IsNot Nothing Then QueueSelector2.SelectedItem = SecondQueue.Name _
+            Else QueueSelector2.SelectedIndex = 0
     End Sub
 
     Private Sub KeyDelayTimer_Tick() Handles KeyDelayTimer.Tick

@@ -10,7 +10,7 @@ Class QueuePanel
         CanRender = False
     End Sub
 
-    Public Sub Draw(ByVal Queue As Queue)
+    Public Sub Draw(ByVal Queue As Queue, ByRef Scroll As Integer)
         If Gfx Is Nothing Then Gfx = BufferedGraphicsManager.Current.Allocate(CreateGraphics, _
             New Rectangle(0, 0, Config.QueueWidth, MainForm.Height))
 
@@ -22,12 +22,12 @@ Class QueuePanel
             Else Count.Text = Msg("main-queue-count", CStr(Queue.Edits.Count))
 
         For i As Integer = 0 To Length
-            If MainForm.QueueScroll.Value + i > Queue.Edits.Count - 1 Then
-                MainForm.QueueScroll.Value -= 1
+            If Scroll + i > Queue.Edits.Count - 1 Then
+                Scroll -= 1
                 Exit For
             End If
 
-            Dim Edit As Edit = Queue.Edits(i + MainForm.QueueScroll.Value)
+            Dim Edit As Edit = Queue.Edits(i + Scroll)
             Dim Name As String = Edit.Page.Name, Height As Integer = 30
 
             X = Config.QueueWidth - 20

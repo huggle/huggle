@@ -211,7 +211,8 @@ Module ConfigIO
             Case "cfd" : Config.CfdLocation = Value
             Case "config-summary" : Config.ConfigSummary = Value
             Case "count-batch-size" : Config.CountBatchSize = CInt(Value)
-
+            Case "default-queue" : Config.DefaultQueue = Value
+            Case "default-queue-2" : Config.DefaultQueue2 = Value
             Case "delete" : Config.Delete = CBool(Value)
             Case "email" : Config.Email = CBool(Value)
             Case "email-subject" : Config.EmailSubject = Value
@@ -309,6 +310,7 @@ Module ConfigIO
             Case "revert-summaries" : Config.RevertSummaries = GetList(Value)
             Case "shortcuts" : SetShortcuts(Value)
             Case "show-new-messages" : Config.ShowNewMessages = CBool(Value)
+            Case "show-two-queues" : Config.ShowTwoQueues = CBool(Value)
             Case "username" : Config.Username = Value
             Case "whitelist-timestamps" : Config.WhitelistTimestamps = GetDictionary(Value)
             Case "window-height" : Config.WindowSize.Height = CInt(Value)
@@ -501,6 +503,7 @@ Module ConfigIO
         If Not String.IsNullOrEmpty(Config.ProxyUsername) Then Items.Add("proxy-username:" & Config.ProxyUsername)
 
         Items.Add("queue-right-align:" & CStr(Config.RightAlignQueue).ToLower)
+        Items.Add("show-two-queues:" & CStr(Config.ShowTwoQueues).ToLower)
         Items.Add("show-new-messages" & CStr(Config.ShowNewMessages).ToLower)
         If Config.RememberMe Then Items.Add("username:" & Config.Username)
         Items.Add("whitelist-timestamps:")
@@ -646,7 +649,6 @@ Module ConfigIO
         End If
 
         If Queue.All.Count = 0 Then SetDefaultQueues()
-        If Queue.All.ContainsKey("Filtered edits") Then Queue.Default = Queue.All("Filtered edits")
     End Sub
 
     Public Sub SaveQueues()

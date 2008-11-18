@@ -287,6 +287,7 @@ main-system-requests:      Requests...
 main-system-statistics:    Statistics...
 main-system-showlog:       Show log
 main-system-showqueue:     Show queue
+main-system-showtwoqueues: Show two queues
 main-system-options:       Options...
 main-system-logout:        Log out
 main-system-exit:          Exit
@@ -620,8 +621,10 @@ xfd-reason:                Reason:
 error-apidisabled:         The MediaWiki API is disabled
 error-exception:           Error retrieving '{0}'
 error-fail:                Failed to retrieve '{0}'
+error-loggedout:           Account has been logged out, logging back in...
 error-noresponse:          No response
 error-pagemissing:         The page does not exist
+error-reloginfail:         Failed to log back in, try restarting Huggle
 error-timeout:             Request timed out
 error-unknown:             Unknown error
 
@@ -693,6 +696,8 @@ protectlog-progress:       Retrieving protection log for '{0}'...
 purge-done:                Purged '{0}'
 purge-fail:                Failed to purge '{0}'
 purge-progress:            Purging '{0}'
+
+queue-refresh-fail:        Error refreshing queue '{0}'
 
 report-duplicate:          The user has already been reported
 report-fail:               Did not report '{0}'

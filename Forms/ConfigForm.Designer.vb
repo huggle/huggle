@@ -134,6 +134,7 @@ Partial Class ConfigForm
         Me.PromptForBlock = New System.Windows.Forms.CheckBox
         Me.UseAdminFunctions = New System.Windows.Forms.CheckBox
         Me.ViewLocalConfig = New System.Windows.Forms.LinkLabel
+        Me.ShowTwoQueues = New System.Windows.Forms.CheckBox
         Me.Tabs.SuspendLayout()
         Me.GeneralTab.SuspendLayout()
         CType(Me.DiffFontSize, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -392,6 +393,7 @@ Partial Class ConfigForm
         'InterfaceTab
         '
         Me.InterfaceTab.Controls.Add(Me.RightAlignQueue)
+        Me.InterfaceTab.Controls.Add(Me.ShowTwoQueues)
         Me.InterfaceTab.Controls.Add(Me.ShowQueue)
         Me.InterfaceTab.Controls.Add(Me.ShowLog)
         Me.InterfaceTab.Controls.Add(Me.ShowNewMessages)
@@ -408,7 +410,7 @@ Partial Class ConfigForm
         'RightAlignQueue
         '
         Me.RightAlignQueue.AutoSize = True
-        Me.RightAlignQueue.Location = New System.Drawing.Point(9, 84)
+        Me.RightAlignQueue.Location = New System.Drawing.Point(9, 107)
         Me.RightAlignQueue.Name = "RightAlignQueue"
         Me.RightAlignQueue.Size = New System.Drawing.Size(211, 17)
         Me.RightAlignQueue.TabIndex = 3
@@ -438,7 +440,7 @@ Partial Class ConfigForm
         'ShowNewMessages
         '
         Me.ShowNewMessages.AutoSize = True
-        Me.ShowNewMessages.Location = New System.Drawing.Point(9, 130)
+        Me.ShowNewMessages.Location = New System.Drawing.Point(9, 153)
         Me.ShowNewMessages.Name = "ShowNewMessages"
         Me.ShowNewMessages.Size = New System.Drawing.Size(144, 17)
         Me.ShowNewMessages.TabIndex = 5
@@ -448,7 +450,7 @@ Partial Class ConfigForm
         'ShowToolTips
         '
         Me.ShowToolTips.AutoSize = True
-        Me.ShowToolTips.Location = New System.Drawing.Point(9, 107)
+        Me.ShowToolTips.Location = New System.Drawing.Point(9, 130)
         Me.ShowToolTips.Name = "ShowToolTips"
         Me.ShowToolTips.Size = New System.Drawing.Size(138, 17)
         Me.ShowToolTips.TabIndex = 4
@@ -1323,6 +1325,16 @@ Partial Class ConfigForm
         Me.ViewLocalConfig.TabStop = True
         Me.ViewLocalConfig.Text = "View local configuration folder"
         '
+        'ShowTwoQueues
+        '
+        Me.ShowTwoQueues.AutoSize = True
+        Me.ShowTwoQueues.Location = New System.Drawing.Point(9, 84)
+        Me.ShowTwoQueues.Name = "ShowTwoQueues"
+        Me.ShowTwoQueues.Size = New System.Drawing.Size(111, 17)
+        Me.ShowTwoQueues.TabIndex = 2
+        Me.ShowTwoQueues.Text = "Show two queues"
+        Me.ShowTwoQueues.UseVisualStyleBackColor = True
+        '
         'ConfigForm
         '
         Me.AcceptButton = Me.OK
@@ -1479,4 +1491,5 @@ Partial Class ConfigForm
     Friend WithEvents Label14 As System.Windows.Forms.Label
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents Label2 As System.Windows.Forms.Label
+    Friend WithEvents ShowTwoQueues As System.Windows.Forms.CheckBox
 End Class

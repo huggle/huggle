@@ -90,6 +90,11 @@ Namespace Requests
 
             Config.IrcMode = Not String.IsNullOrEmpty(Config.IrcChannel)
 
+            If Config.DefaultQueue IsNot Nothing AndAlso Queue.All.ContainsKey(Config.DefaultQueue) _
+                Then Queue.Default = Queue.All(Config.DefaultQueue)
+            If Config.DefaultQueue2 IsNot Nothing AndAlso Queue.All.ContainsKey(Config.DefaultQueue2) _
+                Then Queue.SecondDefault = Queue.All(Config.DefaultQueue2)
+
             'Set user config
             If UserConfigFile IsNot Nothing Then
                 For Each Item As KeyValuePair(Of String, String) In ProcessConfigFile(UserConfigFile)

@@ -7,7 +7,7 @@ Class Queue
     'Represents a queue of revisions
 
     Public Shared All As New Dictionary(Of String, Queue)
-    Public Shared [Default] As Queue
+    Public Shared [Default], SecondDefault As Queue
 
     Private Items As SortedList(Of Edit)
     Private WithEvents RefreshTimer As New Timer
@@ -606,7 +606,7 @@ Class Queue
             End Select
 
             _Refreshing = True
-            MainForm.DrawQueue()
+            MainForm.DrawQueues()
         End If
     End Sub
 
@@ -648,7 +648,7 @@ Class Queue
 
         _Refreshing = False
         RefreshTimer.Start()
-        MainForm.DrawQueue()
+        MainForm.DrawQueues()
     End Sub
 
 End Class

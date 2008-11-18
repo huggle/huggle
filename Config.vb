@@ -86,6 +86,8 @@ Class Configuration
     Public ConfirmWarned As Boolean = True
     Public CountBatchSize As Integer = 20
     Public CustomRevertSummaries As New List(Of String)
+    Public DefaultQueue As String
+    Public DefaultQueue2 As String
     Public DefaultSummary As String = ""
     Public Delete As Boolean
     Public DiffFontSize As String = "8"
@@ -168,6 +170,7 @@ Class Configuration
     Public ShowNewMessages As Boolean = True
     Public ShowQueue As Boolean = True
     Public ShowToolTips As Boolean = True
+    Public ShowTwoQueues As Boolean
     Public Sight As Boolean
     Public SingleRevertSummary As String
     Public SockReports As Boolean

@@ -52,7 +52,7 @@ Class QueueForm
             QueueNames(Config.Project).Add(Item)
         Next Item
 
-        MainForm.SetQueueSelector()
+        MainForm.SetQueueSelectors()
     End Sub
 
     Private Sub QueueForm_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles MyBase.KeyDown
@@ -122,7 +122,7 @@ Class QueueForm
                 NewQueue.Pages.AddRange(CurrentQueue.Pages)
                 QueueList.Items.Add(NewName)
                 QueueList.SelectedItem = NewName
-                MainForm.SetQueueSelector()
+                MainForm.SetQueueSelectors()
             End If
         End If
     End Sub
@@ -138,7 +138,7 @@ Class QueueForm
 
             QueueList.Items.RemoveAt(Index)
             QueueList.SelectedIndex = QueueList.Items.Count - 1
-            MainForm.SetQueueSelector()
+            MainForm.SetQueueSelectors()
         End If
     End Sub
 

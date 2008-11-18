@@ -25,7 +25,9 @@ Class Main
 
         InitialTab.Parent = Tabs.TabPages(0)
         CurrentTab = InitialTab
+
         CurrentQueue = Queue.Default
+        SecondQueue = Queue.SecondDefault
 
         Location = New Point(Math.Max(32, Config.WindowPosition.X), Math.Max(32, Config.WindowPosition.Y))
         Size = New Size(Math.Max(Config.WindowSize.Width, MinimumSize.Width), _
@@ -93,8 +95,8 @@ Class Main
         If CurrentEdit.User.FirstEdit Is Nothing Then ContribsB.Enabled = True
     End Sub
 
-    Sub DrawQueue()
-        If CurrentQueue IsNot Nothing AndAlso CurrentQueue.Edits IsNot Nothing Then
+    Sub DrawQueues()
+        If CurrentQueue IsNot Nothing AndAlso CurrentQueue.Edits IsNot Nothing AndAlso QueueContainer.Visible Then
             Dim QueueHeight As Integer = (QueueArea.Height \ 20) - 2
 
             If QueueHeight < CurrentQueue.Edits.Count Then
@@ -107,7 +109,25 @@ Class Main
                 QueueScroll.Value = 0
             End If
 
-            QueueArea.Draw(CurrentQueue)
+            QueueArea.Draw(CurrentQueue, QueueScroll.Value)
+        End If
+
+        If SecondQueue IsNot Nothing AndAlso SecondQueue.Edits IsNot Nothing AndAlso QueueContainer.Visible _
+            AndAlso Config.ShowTwoQueues Then
+
+            Dim QueueHeight As Integer = (QueueArea2.Height \ 20) - 2
+
+            If QueueHeight < SecondQueue.Edits.Count Then
+                QueueScroll2.Enabled = True
+                QueueScroll2.Maximum = SecondQueue.Edits.Count - 2
+                QueueScroll2.SmallChange = 1
+                QueueScroll2.LargeChange = Math.Max(1, QueueHeight)
+            Else
+                QueueScroll2.Enabled = False
+                QueueScroll2.Value = 0
+            End If
+
+            QueueArea2.Draw(SecondQueue, QueueScroll2.Value)
         End If
     End Sub
 
@@ -907,7 +927,7 @@ Class Main
 
     Private Sub QueueClear_Click() Handles QueueClear.Click
         CurrentQueue.Reset()
-        DrawQueue()
+        DrawQueues()
         RefreshInterface()
     End Sub
 
@@ -916,7 +936,7 @@ Class Main
             Item.Reset()
         Next Item
 
-        DrawQueue()
+        DrawQueues()
         RefreshInterface()
     End Sub
 
@@ -1053,7 +1073,18 @@ Class Main
 
             If Index > -1 AndAlso Index < CurrentQueue.Edits.Count Then
                 DisplayEdit(CurrentQueue.Edits(Index))
-                DrawQueue()
+                DrawQueues()
+            End If
+        End If
+    End Sub
+
+    Private Sub QueueArea2_MouseDown(ByVal s As Object, ByVal e As MouseEventArgs) Handles QueueArea2.MouseDown
+        If SecondQueue IsNot Nothing Then
+            Dim Index As Integer = CInt((e.Y - 26) / 20) + QueueScroll2.Value
+
+            If Index > -1 AndAlso Index < SecondQueue.Edits.Count Then
+                DisplayEdit(SecondQueue.Edits(Index))
+                DrawQueues()
             End If
         End If
     End Sub
@@ -1292,7 +1323,7 @@ Class Main
             Item.Reset()
         Next Item
 
-        DrawQueue()
+        DrawQueues()
         NextDiffB.Enabled = False
         Log("Reconnecting to IRC recent changes feed")
         Irc.Reconnect()
@@ -1427,13 +1458,27 @@ Class Main
             NewQueueForm.ShowDialog()
         ElseIf Queue.All.ContainsKey(QueueSelector.SelectedItem.ToString) Then
             CurrentQueue = Queue.All(QueueSelector.SelectedItem.ToString)
-            If CurrentQueue.Type = QueueType.Dynamic AndAlso Not CurrentQueue.RefreshAlways _
-                Then CurrentQueue.ForceUpdate()
+            If CurrentQueue.Type = QueueType.Dynamic AndAlso Not CurrentQueue.RefreshAlways Then CurrentQueue.ForceUpdate()
         Else
             CurrentQueue = Nothing
         End If
 
-        DrawQueue()
+        DrawQueues()
+        RefreshInterface()
+    End Sub
+
+    Private Sub QueueSelector2_SelectedIndexChanged() Handles QueueSelector2.SelectedIndexChanged
+        If QueueSelector2.SelectedItem.ToString = Msg("main-addqueue") Then
+            Dim NewQueueForm As New QueueForm
+            NewQueueForm.ShowDialog()
+        ElseIf Queue.All.ContainsKey(QueueSelector2.SelectedItem.ToString) Then
+            SecondQueue = Queue.All(QueueSelector2.SelectedItem.ToString)
+            If SecondQueue.Type = QueueType.Dynamic AndAlso Not SecondQueue.RefreshAlways Then SecondQueue.ForceUpdate()
+        Else
+            SecondQueue = Nothing
+        End If
+
+        DrawQueues()
         RefreshInterface()
     End Sub
 
@@ -1448,8 +1493,8 @@ Class Main
         NewRevertAndWarnForm.ShowDialog()
     End Sub
 
-    Private Sub QueueScroll_Scroll() Handles QueueScroll.Scroll
-        DrawQueue()
+    Private Sub QueueScroll_Scroll() Handles QueueScroll.Scroll, QueueScroll2.Scroll
+        DrawQueues()
     End Sub
 
     Private Sub PagePurge_Click() Handles PagePurge.Click
@@ -1590,7 +1635,12 @@ Class Main
     End Sub
 
     Private Sub QueueArea_Paint() Handles QueueArea.Paint
-        DrawQueue()
+        DrawQueues()
+    End Sub
+
+    Private Sub SystemShowTwoQueues_Click() Handles SystemShowTwoQueues.Click
+        Config.ShowTwoQueues = SystemShowTwoQueues.Checked
+        QueueContainer.Panel2Collapsed = (Not Config.ShowTwoQueues)
     End Sub
 
 End Class

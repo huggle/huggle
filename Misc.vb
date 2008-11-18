@@ -27,6 +27,7 @@ Module Misc
     Public PendingRequests As New List(Of Request)
     Public PendingWarnings As New List(Of Edit)
     Public QueueNames As New Dictionary(Of String, List(Of String))
+    Public SecondQueue As Queue
     Public StartTime As Date
     Public SyncContext As Threading.SynchronizationContext
     Public Undo As New List(Of Command)

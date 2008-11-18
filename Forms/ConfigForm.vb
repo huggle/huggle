@@ -30,6 +30,7 @@ Class ConfigForm
         TrayIcon.Checked = Config.TrayIcon
         ShowQueue.Checked = Config.ShowQueue
         RightAlignQueue.Checked = Config.RightAlignQueue
+        ShowTwoQueues.Checked = Config.ShowTwoQueues
         ShowLog.Checked = Config.ShowLog
         ShowToolTips.Checked = Config.ShowToolTips
         OpenInBrowser.Checked = Config.OpenInBrowser
@@ -137,6 +138,7 @@ Class ConfigForm
             Config.TrayIcon = TrayIcon.Checked
             Config.ShowQueue = ShowQueue.Checked
             Config.RightAlignQueue = RightAlignQueue.Checked
+            Config.ShowTwoQueues = ShowTwoQueues.Checked
             Config.ShowLog = ShowLog.Checked
             Config.ShowToolTips = ShowToolTips.Checked
             Config.OpenInBrowser = OpenInBrowser.Checked

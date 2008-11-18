@@ -293,8 +293,8 @@ Module Processing
 
                     If Queue Is CurrentQueue Then
                         'Keep user's viewing position when adding new items, if not looking at the top of the queue
-                        If Queue.SortOrder = QueueSortOrder.Time AndAlso MainForm.QueueScroll.Value > 0 _
-                            Then MainForm.QueueScroll.Value += 1
+                        If Queue.SortOrder = QueueSortOrder.Time AndAlso MainForm.QueueScroll2.Value > 0 _
+                            Then MainForm.QueueScroll2.Value += 1
                         Redraw = True
                     End If
                 End If
@@ -457,7 +457,7 @@ Module Processing
                 MainForm.DrawContribs()
             End If
 
-            If Config.ShowQueue AndAlso Redraw Then MainForm.DrawQueue()
+            If Config.ShowQueue AndAlso Redraw Then MainForm.DrawQueues()
 
             For Each Item As TabPage In MainForm.Tabs.TabPages
                 Dim ThisTab As BrowserTab = CType(Item.Controls(0), BrowserTab)
@@ -1293,7 +1293,7 @@ Module Processing
         ElseIf Edit IsNot Nothing AndAlso Edit.Page IsNot Nothing Then
             If CurrentQueue IsNot Nothing AndAlso CurrentQueue.Edits.Contains(Edit) Then
                 CurrentQueue.RemoveViewedEdit(Edit)
-                MainForm.DrawQueue()
+                MainForm.DrawQueues()
             End If
 
             Dim NewHistoryRequest As New HistoryRequest

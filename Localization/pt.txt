@@ -82,7 +82,7 @@ config-openinbrowser:      Abrir hiperligações numa nova janela do navegador ext
 config-shownewedits:       Mostrar novas edições na página automaticamente caso elas ocorram
 config-preloads:           Ativar pré-carregamento de diffs
 config-ircmode:            Usar se possível o feed IRC para as mudanças recentes
-config-ircport:            Porta do IRC (6664 - 6669)
+config-ircport:            Porta do IRC
 config-difffontsize:       Tamanho da fonte na janela de diffs
 config-logfile:            Ficheiro de relatórios
 config-viewlocalconfig:    Ver pasta de configuração local
@@ -92,6 +92,7 @@ config-showlog:            Mostrar relatório
 config-showqueue:          Mostrar fila de edições a rever
 config-rightalignqueue:    Mostrar fila de edições a rever no lado direito
 config-showtooltips:       Mostrar tooltips nos menus
+config-shownewmessages:    Mostrar barra de novas mensagens
 config-shortcutlist:       Teclas de atalho
 config-shortcutaction:     Ação
 config-shortcut:           Atalho
@@ -105,6 +106,8 @@ config-undosummary:        Sumário para edições minhas canceladas
 config-confirmmultiple:    Pedir confirmação ao reverter várias edições do mesmo usuário
 config-confirmsame:        Pedir confirmação ao reverter para uma edição do mesmo usuário
 config-confirmselfrevert:  Pedir confirmação ao reverter edições minhas (excluindo desfazer)
+config-confirmwarned:      Pedir confirmação ao reverter para uma edição de um usuário com avisos
+config-confirmrange:       Pedir confirmação ao reverter uma edição de um IP para outra de um IP da mesma gama /16
 config-autoadvance:        Após reverter, mostrar automaticamente a próxima edição a rever
 config-userollback:        Usar rollback caso esteja disponível
 config-revertsummaries:    Sumários de edição disponíveis no menu
@@ -130,7 +133,6 @@ config-summaryprompt:      Introduza o sumário
 config-defaultsprompt:     Restaurar padrão?
 config-logbrowsetitle:     Localização do ficheiro de relatórios
 config-shortcutconflict:   O atalho '{0}' é igual ao atalho de '{1}'.
-config-addtemplate:        Adicionar predefinição
 </pre>
 
 === Delete form ===
@@ -218,6 +220,7 @@ list-savetitle:            Gravar lista
 list-sourcetype:           Tipo de fonte:
 list-start:                De:
 list-stop:                 Parar
+list-title:                Construtor de listas
 </pre>
 
 === Login ===
@@ -271,6 +274,7 @@ main-page:                 Página
 main-user:                 Usuário
 main-contribs:             Contribs
 main-history:              História
+main-new-messages:         Tem novas mensagens; selecione Sistema ->Mostrar novas mensagens ou pressione a tecla M para as ver
 main-system:               Sistema
 main-system-messages:      Mostrar novas mensagens
 main-system-reconnectirc:  Tornar a ligar ao feed de IRC
@@ -295,10 +299,16 @@ main-queue-options:        Gerir listas...
 main-goto:                 Ir para
 main-goto-mytalk:          Minha página de discussão
 main-goto-mycontribs:      Minhas edições
+main-revision:             Revisão
+main-revision-view:        Ver
+main-revision-revert:      Reverter
+main-revision-previous:    Anterior
+main-revision-next:        Seguinte
+main-revision-latest:      Última
+main-revision-sight:       Patrulhar
 main-page-switchtotalk:    Mudar para a página de discussão
 main-page-switchtosubject: Mudar para a página principal
 main-page-switchtoarticle: Mudar para a página do artigo
-main-page-view:            Ver esta edição
 main-page-viewlatest:      Ver a última edição
 main-page-history:         Carregar história
 main-page-historypage:     Mostrar página da história
@@ -387,6 +397,35 @@ message-summary:           Sumário:
 message-autosign:          Adicionar automaticamente a assinatura
 </pre>
 
+=== Move form ===
+<pre>
+move-title:                Mover {0}
+move-target:               Destino:
+move-reason:               Razão:
+move-movetalk:             Mover página de discussão
+</pre>
+
+=== Prod form ===
+<pre>
+prod-title:                Proposta para eliminar {0}
+prod-reason:               Razão:
+</pre>
+
+=== Protect form ===
+<pre>
+protect-title:             Proteger {0}
+protect-request-title:     Pedir proteção de {0}
+protect-reason:            Razão:
+protect-expiry:            Expiração:
+protect-log:               Registo de proteção:
+protect-currentlevel:      Nível de proteção atual:
+protect-type:              Tipo de proteção:
+protect-none:              Nenhuma
+protect-semiprotection:    Semiproteção
+protect-fullprotection:    Proteção total
+protect-moveprotection:    Proteção de movimentos
+</pre>
+
 === Queue form ===
 <pre>
 queue-title:               Fila de edições a rever
@@ -401,6 +440,11 @@ queue-removeafter:         Remover edições após
 queue-removeaftertime:     minutos
 queue-preload:             Ativar pré-carregamento de edições quando esta fila de edições for selecionada
 queue-ignorepages:         Ignorar edições de páginas na lista de páginas ignoradas
+queue-traynotification:    Mostrar notificação na barra de tarefas quando for adicionada uma nova edição a esta fila
+queue-diffsgroup:          Difs
+queue-nodiffs:             Carregar difs apenas quando estiver a ver a edição
+queue-preloaddiffs:        Carregar previamente os difs quando a fila estiver ativa
+queue-alldiffs:            Carregar difs de todas as edições na fila
 queue-pagefiltersgroup:    Filtros de títulos de páginas
 queue-pageregex:           Título corresponde à expressão regular:
 queue-namespaces:          Domínios:
@@ -423,6 +467,7 @@ queue-filterme:            Minhas edições
 queue-examplelabel1:       Requerer este atributo
 queue-examplelabel2:       Excluir este atributo
 queue-examplelabel3:       Não verificar este atributo
+queue-usergroup:           Mostrar apenas edições destes usuários
 </pre>
 
 === Queue trim form ===
@@ -445,6 +490,14 @@ requests-type:             Tipo
 requests-query:            Pedido
 </pre>
 
+=== Report form ===
+<pre>
+report-title:              Reportar {0}
+report-reason:             Razão:
+report-message:            Mensagem:
+report-log:                Avisos para este usuário:
+</pre>
+
 === Revert form ===
 <pre>
 revert-title:              Reverter {0}
@@ -455,6 +508,29 @@ revert-currentonly:        Reverter apenas a edição selecionada
 === Revert and warn form ===
 <pre>
 revertandwarn-title:       Reverter e avisar {0}
+</pre>
+
+=== Reverting ===
+<pre>
+revert-confirm-ignored:    Reverter edição do usuário '{0}' da lista branca?
+revert-confirm-multiple:   Vai reverter várias edições do usuário '{0}'. Continuar?
+revert-confirm-range:      O autor da edição para qual vai reverter, {1}, provavelmente é o mesmo autor da edição atual, {0}, por ser um IP da mesma gama; certifique-se se quer mesmo reverter para esta edição. Continuar?
+revert-confirm-same:       Vai reverter para uma edição anterior do mesmo usuário, {0}. Continuar?
+revert-confirm-self:       Vai reverter uma edição sua. Continuar?
+revert-confirm-warned:     Vai reverter para uma edição de {0}; este usuário já foi avisado. Continuar?
+revert-error-first:        Só existe uma edição nesta página por isso não é possível reverter.
+revert-only:               Edit is the only edit to the page.
+revert-creator:            A última edição foi feita pelo criador da página, {0}.
+revert-delete-instead:     Não será melhor eliminar a página?
+revert-speedy-instead:     Não será melhor marcar para eliminação rápida?
+</pre>
+
+=== Speedy form ===
+<pre>
+speedy-title:              Marcar {0} para eliminação rápida
+speedy-reason:             Razão:
+speedy-parameters:         Parâmetros:
+speedy-notifycreator:      Notificar o criador da página
 </pre>
 
 === Statistics form ===
@@ -527,13 +603,24 @@ warning-warntype:          Tipo de aviso:
 warning-warnlog:           Avisos a este usuário:
 </pre>
 
+=== XfD form ===
+<pre>
+xfd-title:                 Nomear {0} para eliminação
+xfd-category:              Categoria:
+xfd-nominationtype:        Tipo de nomeação:
+xfd-notify:                Notificar o criador da página
+xfd-reason:                Razão:
+</pre>
+
 === Web requests ===
 <pre>
 error-apidisabled:         O MediaWiki API está desativado
 error-exception:           Erro ao receber '{0}'
 error-fail:                Não foi possível receber '{0}'
+error-loggedout:           Saiu da sua conta de usuário, a entrar na conta...
 error-noresponse:          Sem resposta
 error-pagemissing:         A página não existe
+error-reloginfail:         Não foi possível entrar de novo na conta, tente reiniciar o Huggle
 error-timeout:             Foi excedido o tempo de resposta do servidor.
 error-unknown:             Erro desconhecido
 
@@ -557,6 +644,7 @@ delete-progress:           A eliminar '{0}'...
 deletelog-fail:            Não foi possível receber o relatório de eliminação para '{0}'
 deletelog-none:            Não existem entradas no relatório de eliminações para '{0}'
 deletelog-progress:        A receber o relatório de eliminações para '{0}'...
+diff-deleted:              Esta edição foi eliminada.
 
 diff-fail:                 Não foi possível receber o dif de '{0}'
 
@@ -623,6 +711,7 @@ reqprotection-fail:        Não foi possível pedir a proteção de '{0}'
 reqprotection-progress:    A fazer o pedido de proteção de '{0}'...
 
 revert-cannotundo:         Não foi possível desfazer as edições devido a conflitos de edições intermédias
+revert-conflict:           A página foi editada pelo usuário da lista branca '{0}'
 revert-fail:               Não foi possível reverter '{0}'
 revert-nochange:           O conteúdo da edição para a qual quer reverter é idêntico à última edição
 revert-nootheruser:        A página só foi editada por um usuário
@@ -632,6 +721,10 @@ tag-alreadytagged:         A página já está marcada
 tag-deleted:               A página foi eliminada
 tag-fail:                  Não foi possível marcar '{0}'
 tag-progress:              A marcar '{0}'...
+
+sight-done:                Marcar edição {0} de '{1}' como patrulhada
+sight-fail:                Não foi possível marcar como patrulhada a edição {0} de '{1}'
+sight-progress:            A marcar a edição {0} de '{1}' como patrulhada
 
 speedy-fail:               Não foi possível marcar '{0}' para eliminação rápida
 speedy-progress:           A marcar '{0}' para eliminação rápida...
