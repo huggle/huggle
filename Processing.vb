@@ -573,7 +573,7 @@ Module Processing
         'If reverting page creator, offer to tag for speedy deletion
         If Edit.Page.FirstEdit IsNot Nothing AndAlso Config.Speedy AndAlso Edit.User Is Edit.Page.FirstEdit.User Then
 
-            Dim Prompt As String = Msg("revert-creator", Edit.User.Name)
+            Dim Prompt As String = Msg("revert-creator", Edit.User.Name) & " "
             If Config.Rights.Contains("delete") _
                 Then Prompt &= Msg("revert-delete-instead") Else Prompt &= Msg("revert-speedy-instead")
 

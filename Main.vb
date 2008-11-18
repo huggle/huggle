@@ -137,8 +137,8 @@ Class Main
         ContribsStrip.Left = MainStrip.Right
         HistoryStrip.Width = Width - MainStrip.Right - 3
         ContribsStrip.Width = Width - MainStrip.Right - 3
-        History.Width = Width - MainStrip.Right - 320
-        Contribs.Width = Width - MainStrip.Right - 320
+        History.Width = Width - MainStrip.Right - 330
+        Contribs.Width = Width - MainStrip.Right - 330
 
         If Visible Then
             DrawHistory()

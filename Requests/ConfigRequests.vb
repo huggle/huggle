@@ -31,8 +31,6 @@ Namespace Requests
             If Not Config.Projects.ContainsKey("localhost") Then Config.Projects.Add("localhost", "http://localhost/")
 #End If
 
-            Config.LatestVersion = New Version(0, 8, 4)
-
             Complete()
         End Sub
 
