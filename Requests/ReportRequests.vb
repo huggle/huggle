@@ -125,7 +125,7 @@ Namespace Requests
 
                     If Result.Error _
                         Then Fail(Msg("report-fail", User.Name), Result.ErrorMessage) _
-                        Else Fail(Msg("report-fail", User.Name), Msg("report-alreadyreported"))
+                        Else Fail(Msg("report-fail", User.Name), Msg("warn-alreadyreported"))
 
                     Exit Sub
                 End If
@@ -160,10 +160,10 @@ Namespace Requests
                                 If Result.Error Then Fail(Msg("report-fail", User.Name), Result.ErrorMessage) _
                                     Else Complete()
                             Else
-                                Fail(Msg("report-fail", User.Name), Msg("report-alreadyreported"))
+                                Fail(Msg("report-fail", User.Name), Msg("warn-alreadyreported"))
                             End If
                         Else
-                            Fail(Msg("report-fail", User.Name), Msg("report-alreadyreported"))
+                            Fail(Msg("report-fail", User.Name), Msg("warn-alreadyreported"))
                         End If
 
                         Exit Sub
@@ -176,7 +176,7 @@ Namespace Requests
                         OrElse Text.ToLower.Contains("|1=" & User.Name.ToLower) Then
 
                         If User.Level < UserLevel.ReportedAIV Then User.Level = UserLevel.ReportedAIV
-                        Fail(Msg("report-fail", User.Name), Msg("report-alreadyreported"))
+                        Fail(Msg("report-fail", User.Name), Msg("warn-alreadyreported"))
                         Exit Sub
                     End If
             End Select
@@ -326,7 +326,7 @@ Namespace Requests
 
                     If Result.Error _
                         Then Fail(Msg("report-fail", User.Name), Result.ErrorMessage) _
-                        Else Fail(Msg("report-fail", User.Name), Msg("report-alreadyreported"))
+                        Else Fail(Msg("report-fail", User.Name), Msg("warn-alreadyreported"))
 
                     Exit Sub
                 End If
@@ -346,7 +346,7 @@ Namespace Requests
                 OrElse Text.Contains("{{userlinks|1=" & User.Name & "}}") Then
 
                 If User.Level < UserLevel.ReportedUAA Then User.Level = UserLevel.ReportedUAA
-                Fail(Msg("report-fail", User.Name), Msg("report-alreadyreported"))
+                Fail(Msg("report-fail", User.Name), Msg("warn-alreadyreported"))
                 Exit Sub
             End If
 

@@ -32,6 +32,8 @@ Partial Class ListActionsForm
         Me.NamespacesLabel = New System.Windows.Forms.Label
         Me.Namespaces = New System.Windows.Forms.CheckedListBox
         Me.PageRegexLabel = New System.Windows.Forms.Label
+        Me.CheckAll = New System.Windows.Forms.Button
+        Me.Apply = New System.Windows.Forms.Button
         Me.NamespaceTransformGroup.SuspendLayout()
         Me.PageFiltersGroup.SuspendLayout()
         Me.SuspendLayout()
@@ -113,6 +115,7 @@ Partial Class ListActionsForm
         Me.TitleRegex.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TitleRegex.Location = New System.Drawing.Point(173, 19)
+        Me.TitleRegex.Multiline = False
         Me.TitleRegex.Name = "TitleRegex"
         Me.TitleRegex.Size = New System.Drawing.Size(204, 36)
         Me.TitleRegex.TabIndex = 1
@@ -148,11 +151,32 @@ Partial Class ListActionsForm
         Me.PageRegexLabel.TabIndex = 0
         Me.PageRegexLabel.Text = "Title matches regular expression:"
         '
+        'CheckAll
+        '
+        Me.CheckAll.Location = New System.Drawing.Point(12, 265)
+        Me.CheckAll.Name = "CheckAll"
+        Me.CheckAll.Size = New System.Drawing.Size(93, 23)
+        Me.CheckAll.TabIndex = 3
+        Me.CheckAll.Text = "Check/clear all"
+        Me.CheckAll.UseVisualStyleBackColor = True
+        '
+        'Apply
+        '
+        Me.Apply.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Apply.Location = New System.Drawing.Point(236, 265)
+        Me.Apply.Name = "Apply"
+        Me.Apply.Size = New System.Drawing.Size(75, 23)
+        Me.Apply.TabIndex = 4
+        Me.Apply.Text = "Apply"
+        Me.Apply.UseVisualStyleBackColor = True
+        '
         'ListActionsForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(404, 300)
+        Me.Controls.Add(Me.Apply)
+        Me.Controls.Add(Me.CheckAll)
         Me.Controls.Add(Me.PageFiltersGroup)
         Me.Controls.Add(Me.NamespaceTransformGroup)
         Me.Controls.Add(Me.OK)
@@ -179,4 +203,6 @@ Partial Class ListActionsForm
     Friend WithEvents Namespaces As System.Windows.Forms.CheckedListBox
     Friend WithEvents PageRegexLabel As System.Windows.Forms.Label
     Friend WithEvents TitleRegex As Huggle.RegexBox
+    Friend WithEvents CheckAll As System.Windows.Forms.Button
+    Friend WithEvents Apply As System.Windows.Forms.Button
 End Class

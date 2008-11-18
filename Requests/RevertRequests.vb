@@ -153,8 +153,8 @@ Namespace Requests
             If Config.Summary IsNot Nothing Then Summary &= " " & Config.Summary
 
             Dim QueryString As String = "title=" & UrlEncode(Edit.Page.Name) & _
-                 "&user=" & UrlEncode(Edit.User.Name) & "&token=" & UrlEncode(Edit.RollbackToken) & _
-                 "&summary=" & UrlEncode(Summary)
+                "&user=" & UrlEncode(Edit.User.Name) & "&token=" & UrlEncode(Edit.RollbackToken) & _
+                "&summary=" & UrlEncode(Summary)
 
             Dim Result As ApiResult = DoApiRequest("action=rollback", QueryString)
 

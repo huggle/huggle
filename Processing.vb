@@ -1016,9 +1016,6 @@ Module Processing
 
             NextByUser = Edit
             ProcessEdit(Edit)
-
-            If Edit Is Edit.Page.LastEdit AndAlso Not (Edit.DiffCacheState = Huggle.Edit.CacheState.Viewed) _
-                AndAlso User.Level >= UserLevel.Warning Then ProcessNewEdit(Edit)
         Next i
 
         If Result.Contains("<usercontribs ucstart=""") Then

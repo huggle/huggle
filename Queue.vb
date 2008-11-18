@@ -602,7 +602,7 @@ Class Queue
                 Case "Templates on page" : GetList(New TemplatesRequest(_Source))
                 Case "Transclusions" : GetList(New TransclusionsRequest(_Source))
                 Case "User contributions" : GetList(New ContribsListRequest(_Source))
-                Case "Watchlist" : GotList(PageNames(Watchlist))
+                Case "Watchlist" : GotList(Nothing, PageNames(Watchlist))
             End Select
 
             _Refreshing = True
@@ -617,13 +617,19 @@ Class Queue
         Request.Start(AddressOf GotList)
     End Sub
 
-    Private Sub GotList(ByVal Result As List(Of String))
-        If Result IsNot Nothing Then
+    Private Sub GotList(ByVal Result As RequestResult, ByVal ListItems As List(Of String))
+
+        If Result IsNot Nothing AndAlso Result.Error Then
+            Log(Msg("queue-refresh-fail", Name) & ": " & Result.ErrorMessage)
+            Exit Sub
+        End If
+
+        If ListItems IsNot Nothing Then
             If _Pages Is Nothing Then _Pages = New List(Of String)
             _Pages.Clear()
             Items.Clear()
 
-            For Each Item As String In Result
+            For Each Item As String In ListItems
                 If _RefreshReAdd OrElse Not _RemovedPages.Contains(Item) Then _Pages.Add(Item)
 
                 Dim Page As Page = GetPage(Item)

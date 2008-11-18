@@ -12,7 +12,7 @@ Namespace Requests
         Protected Shadows _Done As ListRequestCallback
         Protected Progress As ListProgressCallback, Items As New List(Of String)
 
-        Public Delegate Sub ListRequestCallback(ByVal Result As List(Of String))
+        Public Delegate Sub ListRequestCallback(ByVal Result As RequestResult, ByVal Items As List(Of String))
         Public Delegate Sub ListProgressCallback(ByVal State As String, ByVal PartialResult As List(Of String))
 
         Public Limit As Integer = ApiLimit(), From As String = "", List As List(Of String), TitleRegex As Regex
@@ -30,18 +30,20 @@ Namespace Requests
             _Done = Done
             If _Progress IsNot Nothing Then Progress = _Progress
 
-            Dim RequestThread As New Thread(AddressOf Process)
+            Dim RequestThread As New Thread(AddressOf ProcessThread)
             RequestThread.IsBackground = True
             RequestThread.Start()
         End Sub
 
         Protected Overrides Sub Process()
-            Dim ContinueFrom As String = Nothing, Remaining As Integer = Limit
+            Dim ContinueName As String = Nothing, ContinueFrom As String = Nothing, Remaining As Integer = Limit
 
             Do
-                Dim QueryString As String = "action=query&list=" & TypeName & "&" & TypePrefix & _
-                    "limit=" & Math.Min(Remaining, ApiLimit()) & "&" & QueryParams
-                If ContinueFrom IsNot Nothing Then QueryString &= "&" & TypePrefix & "continue=" & ContinueFrom
+                Dim QueryString As String = "action=query"
+                If Not String.IsNullOrEmpty(TypeName) Then QueryString &= "&list=" & TypeName
+                QueryString &= "&" & TypePrefix & "limit=" & ApiLimit() & "&" & QueryParams
+
+                If ContinueFrom IsNot Nothing Then QueryString &= "&" & ContinueName & "=" & ContinueFrom
 
                 Dim Result As ApiResult = DoApiRequest(QueryString)
 
@@ -54,11 +56,21 @@ Namespace Requests
                     Exit Sub
                 End If
 
-                If Result.Text.Contains("<query-continue>") _
-                    Then ContinueFrom = GetParameter(Result.Text, TypePrefix & "continue") _
-                    Else ContinueFrom = Nothing
+                If Result.Text.Contains("<query-continue>") Then
+                    Dim ContinuePart As String = FindString(Result.Text, "<query-continue>", "</query-continue>")
+                    ContinueName = FindString(ContinuePart, " ", "=")
+                    ContinueFrom = FindString(ContinuePart, """", """")
+                Else
+                    ContinueName = Nothing
+                    ContinueFrom = Nothing
+                End If
 
-                Dim ResultItems As String = FindString(Result.Text, "<" & TypeName & ">", "</" & TypeName & ">")
+                Dim ResultItems As String
+
+                If Not String.IsNullOrEmpty(TypeName) _
+                    Then ResultItems = FindString(Result.Text, "<" & TypeName & ">", "</" & TypeName & ">") _
+                    Else ResultItems = FindString(Result.Text, "<query>", "</query>")
+
                 Dim ItemsAdded As Boolean = False
 
                 For Each Item As String In ResultItems.Split("<"c)
@@ -77,26 +89,22 @@ Namespace Requests
             Loop Until ContinueFrom Is Nothing
 
             Complete(, String.Join(CRLF, Items.ToArray))
-            Callback(AddressOf RequestDone)
         End Sub
 
         Protected Overridable Function MatchesFilter(ByVal Title As String) As Boolean
+            If GetPage(Title) Is Nothing Then Return False
             If Title < From Then Return False
             If Spaces.Count > 0 AndAlso Not Spaces.Contains(GetPage(Title).Space) Then Return False
             If TitleRegex IsNot Nothing AndAlso Not TitleRegex.IsMatch(Title) Then Return False
             Return True
         End Function
 
-        Private Sub RequestDone()
-            If _Done IsNot Nothing Then _Done(Items)
+        Protected Overrides Sub Done()
+            If _Done IsNot Nothing Then _Done(_Result, Items)
         End Sub
 
         Private Sub Progressed(ByVal ListObject As Object)
-            If Progress IsNot Nothing Then Progress("Running query...", CType(ListObject, List(Of String)))
-        End Sub
-
-        Private Sub Failed()
-            If _Done IsNot Nothing Then _Done(Nothing)
+            If Progress IsNot Nothing Then Progress(Msg("list-query-progress"), CType(ListObject, List(Of String)))
         End Sub
 
     End Class
@@ -176,7 +184,7 @@ Namespace Requests
         'Get links on a page
 
         Sub New(ByVal Page As String)
-            MyBase.New("links", "pl", "prop=links&titles=" & UrlEncode(Page))
+            MyBase.New("", "pl", "prop=links&titles=" & UrlEncode(Page))
         End Sub
 
     End Class
@@ -186,7 +194,7 @@ Namespace Requests
         'Get images on a page
 
         Sub New(ByVal Page As String)
-            MyBase.New("images", "im", "prop=images&titles=" & UrlEncode(Page))
+            MyBase.New("", "im", "prop=images&titles=" & UrlEncode(Page))
         End Sub
 
     End Class
@@ -196,7 +204,7 @@ Namespace Requests
         'Get templates on a page
 
         Sub New(ByVal Page As String)
-            MyBase.New("templates", "tl", "prop=templates&titles=" & UrlEncode(Page))
+            MyBase.New("", "tl", "prop=templates&titles=" & UrlEncode(Page))
         End Sub
 
     End Class
@@ -219,6 +227,7 @@ Namespace Requests
         Private Category As String, CategoriesDone As New List(Of String), CategoriesRemaining As New List(Of String)
         Private Shadows _Done As ListRequestCallback, Progress As ListProgressCallback
         Public Shadows From As String = "", Queue As Queue, Spaces As List(Of Space)
+        Public Interrupted As Boolean
 
         Public Sub New(ByVal _Category As String)
             MyBase.New("categorymembers", "cm", "cmprop=title&cmtitle=" & UrlEncode("Category:" & _Category))
@@ -244,7 +253,7 @@ Namespace Requests
             MyBase.Start(AddressOf CategoryDone)
         End Sub
 
-        Private Sub CategoryDone(ByVal Items As List(Of String))
+        Private Sub CategoryDone(ByVal Result As RequestResult, ByVal Items As List(Of String))
             If Items Is Nothing Then
                 AllDone()
             Else
@@ -266,6 +275,7 @@ Namespace Requests
                 If CategoriesRemaining.Count = 0 Then
                     AllDone()
                 Else
+                    If Interrupted Then Exit Sub
                     If Progress IsNot Nothing Then Progress("Getting " & CategoriesRemaining(0) & "...", AllItems)
                     MyBase.QueryParams = "cmprop=title&cmtitle=" & UrlEncode(CategoriesRemaining(0))
                     CategoriesDone.Add(CategoriesRemaining(0))
@@ -283,7 +293,7 @@ Namespace Requests
         End Function
 
         Private Sub AllDone()
-            _Done(AllItems)
+            _Done(Nothing, AllItems)
         End Sub
 
     End Class

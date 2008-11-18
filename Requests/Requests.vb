@@ -140,7 +140,7 @@ Namespace Requests
         End Sub
 
         'Helper function for above
-        Private Sub ProcessThread()
+        Protected Sub ProcessThread()
             Process()
             Callback(AddressOf ThreadDone)
         End Sub
@@ -306,9 +306,6 @@ Namespace Requests
                 Catch ex As WebException
                     If ex.Status = WebExceptionStatus.Timeout _
                         Then Return New ApiResult(Nothing, "error-timeout", Msg("error-timeout"))
-
-                    If Retries > 0 Then Log(Msg("error-exception", Truncate(Query, 50)) & ": " & _
-                        ex.Message & " " & Msg("retrying"))
                 End Try
             Loop Until Result <> "" OrElse Retries = 0
 

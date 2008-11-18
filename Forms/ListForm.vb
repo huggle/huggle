@@ -79,6 +79,8 @@ Class ListForm
     Private Sub Cancel_Click() Handles Cancel.Click
         Throbber.Stop()
         CurrentRequest.Cancel()
+        If TypeOf CurrentRequest Is RecursiveCategoryRequest _
+            Then CType(CurrentRequest, RecursiveCategoryRequest).Interrupted = True
         Cancel.Text = Msg("cancel")
         Progress.Text = Msg("list-query-cancelled")
         RefreshInterface()
@@ -271,12 +273,12 @@ Class ListForm
     Private Sub CombineItems(ByVal Items As List(Of String))
         ListPages.BeginUpdate()
 
-        For Each Item As String In Items
-            If Not CurrentList.Contains(Item) Then
-                CurrentList.Add(Item)
-                ListPages.Items.Add(Item)
+        For i As Integer = 0 To Items.Count - 1
+            If Not CurrentList.Contains(Items(i)) Then
+                CurrentList.Add(Items(i))
+                ListPages.Items.Add(Items(i))
             End If
-        Next Item
+        Next i
 
         ListPages.EndUpdate()
     End Sub
@@ -329,31 +331,31 @@ Class ListForm
         Cancel.Focus()
     End Sub
 
-    Private Sub GotList(ByVal Titles As List(Of String))
-        If Titles Is Nothing Then
-            Progress.Text = Msg("list-query-fail")
-            Exit Sub
-        End If
+    Private Sub GotList(ByVal Result As RequestResult, ByVal Titles As List(Of String))
 
-        Dim ValidItems As New List(Of String)
-
-        For Each Title As String In Titles
-            Title = Page.SanitizeTitle(Title)
-            If Title IsNot Nothing Then ValidItems.Add(Title)
-        Next Title
-
-        If ValidItems.Count = 0 Then
-            Progress.Text = Msg("list-query-noresults")
+        If Result IsNot Nothing AndAlso Result.Error Then
+            Progress.Text = Msg("list-query-fail") & ": " & Result.ErrorMessage
         Else
-            Progress.Text = Msg("list-query-results", CStr(ValidItems.Count))
+            Dim ValidItems As New List(Of String)
 
-            Select Case Mode
-                Case "combine" : CombineItems(ValidItems)
-                Case "intersect" : IntersectItems(ValidItems)
-                Case "exclude" : ExcludeItems(ValidItems)
-            End Select
+            For Each Title As String In Titles
+                Title = Page.SanitizeTitle(Title)
+                If Title IsNot Nothing Then ValidItems.Add(Title)
+            Next Title
 
-            CurrentQueue.NeedsReset = False
+            If ValidItems.Count = 0 Then
+                Progress.Text = Msg("list-query-noresults")
+            Else
+                Progress.Text = Msg("list-query-results", CStr(ValidItems.Count))
+
+                Select Case Mode
+                    Case "combine" : CombineItems(ValidItems)
+                    Case "intersect" : IntersectItems(ValidItems)
+                    Case "exclude" : ExcludeItems(ValidItems)
+                End Select
+
+                CurrentQueue.NeedsReset = False
+            End If
         End If
 
         Throbber.Stop()
@@ -472,13 +474,13 @@ Class ListForm
         Select Case SourceType.Text
             'This is a list of the sources that can be used when creating a list in the list builder
             'Also shown is the method of retreiving the list
-            Case "Manually add pages" : GotList(New List(Of String)(Source.Text.Split("|"c)))
+            Case "Manually add pages" : GotList(Nothing, New List(Of String)(Source.Text.Split("|"c)))
             Case "Backlinks" : GetList(New BacklinksRequest(Source.Text))
             Case "Category" : GetList(New CategoryRequest(Source.Text.Replace("Category:", "")))
             Case "Category (recursive)" : GetList(New RecursiveCategoryRequest(Source.Text.Replace("Category:", "")))
-            Case "Existing queue" : GotList(Queue.All(ListSelector.Text).Pages)
+            Case "Existing queue" : GotList(Nothing, Queue.All(ListSelector.Text).Pages)
             Case "External link uses" : GetList(New ExternalLinkUsageRequest(Source.Text.Replace("http://", "")))
-            Case "File" : GotList(GetFile(Source.Text))
+            Case "File" : GotList(Nothing, GetFile(Source.Text))
             Case "Image uses" : GetList(New ImageUsageRequest(Source.Text.Replace("Image:", "")))
             Case "Images on page" : GetList(New ImagesRequest(Source.Text))
             Case "Links on page" : GetList(New LinksRequest(Source.Text))
@@ -486,7 +488,7 @@ Class ListForm
             Case "Templates on page" : GetList(New TemplatesRequest(Source.Text))
             Case "Transclusions" : GetList(New TransclusionsRequest(Source.Text))
             Case "User contributions" : GetList(New ContribsListRequest(Source.Text))
-            Case "Watchlist" : GotList(PageNames(Watchlist))
+            Case "Watchlist" : GotList(Nothing, PageNames(Watchlist))
         End Select
     End Sub
 
