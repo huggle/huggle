@@ -8,5 +8,5 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyCopyright("")> 
 <Assembly: AssemblyTrademark("")> 
 <Assembly: ComVisible(False)> 
-<Assembly: AssemblyVersion("0.8.3")> 
-<Assembly: AssemblyFileVersion("0.8.3")> 
+<Assembly: AssemblyVersion("0.8.4")> 
+<Assembly: AssemblyFileVersion("0.8.4")> 
