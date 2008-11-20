@@ -41,7 +41,17 @@ Class QueuePanel
 
             If Name.Length < Edit.Page.Name.Length Then Name &= "..."
 
-            Gfx.Graphics.FillRectangle(Brushes.White, 2, Y - 1, Width - 4, 17)
+            Dim SpaceBrush As Brush
+
+            Select Case Edit.Page.Space
+                Case Space.Article : SpaceBrush = Brushes.White
+                Case Space.Talk : SpaceBrush = Brushes.PaleGreen
+                Case Space.User, Space.UserTalk : SpaceBrush = Brushes.LightSteelBlue
+                Case Space.Project, Space.ProjectTalk : SpaceBrush = Brushes.Thistle
+                Case Else : SpaceBrush = Brushes.NavajoWhite
+            End Select
+
+            Gfx.Graphics.FillRectangle(SpaceBrush, 2, Y - 1, Width - 4, 17)
             Gfx.Graphics.DrawRectangle(Pens.DarkGray, 2, Y - 1, Width - 4, 17)
             Gfx.Graphics.DrawString(Name, Font, Brushes.Black, 4, Y + 1)
 

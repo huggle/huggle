@@ -45,6 +45,14 @@ Class Space
         _All.Add(Me)
     End Sub
 
+    Public Shared Operator =(ByVal a As Space, ByVal b As Space) As Boolean
+        Return (a Is b)
+    End Operator
+
+    Public Shared Operator <>(ByVal a As Space, ByVal b As Space) As Boolean
+        Return (a IsNot b)
+    End Operator
+
     Public ReadOnly Property IsSubjectSpace() As Boolean
         Get
             Return (Number Mod 2 = 0)
