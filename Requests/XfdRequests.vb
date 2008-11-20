@@ -77,8 +77,7 @@ Namespace Requests
             End If
         End Sub
 
-        Protected Function TagPage(ByVal Tag As String, ByVal Avoid As String, ByVal Redirect As Boolean) _
-            As RequestResult
+        Protected Function TagPage(ByVal Tag As String, ByVal Avoid As String, ByVal Redirect As Boolean) As RequestResult
 
             LogProgress(Msg("reqdelete-tagprogress", Page.Name))
 
@@ -102,7 +101,7 @@ Namespace Requests
 
             Text = Tag & LF & Text
 
-            Result = PostEdit(Page, Text, Config.XfdSummary, _
+            Result = PostEdit(Page, Text, Config.XfdSummary.Replace("$1", LogPath), _
                 Minor:=Config.Minor("deletetag"), Watch:=Config.Watch("deletetag"))
 
             Return New RequestResult(Result.Text, Result.ErrorMessage)
@@ -127,12 +126,10 @@ Namespace Requests
 
             Dim Result As ApiResult = GetText(GetPage(LogPath), Section:=Section)
 
-            If Result.Error Then
-                Return New RequestResult(, Result.ErrorMessage)
-                Exit Function
-            End If
+            If Result.Error Then Return New RequestResult(, Result.ErrorMessage)
 
             Dim Text As String = GetTextFromRev(Result.Text)
+            If Text Is Nothing Then Text = ""
 
             Text = Callback(Text)
 
@@ -251,7 +248,7 @@ Namespace Requests
             LogPath = Config.MfdLocation & "#" & Page.Name
 
             'Get title of discussion subpage
-            Dim Result As RequestResult = GetSubpageName(Page.Name, Config.AfdLocation)
+            Dim Result As RequestResult = GetSubpageName(Page.Name, Config.MfdLocation)
 
             If Result.Error Then
                 Fail(Msg("reqdelete-tagfail", Page.Name), Result.ErrorMessage)

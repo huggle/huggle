@@ -184,6 +184,8 @@ Class Page
 
     Public Shared Function SanitizeTitle(ByVal Name As String) As String
         'Remove illegal characters
+        If Name.Contains("#") Then Name = Name.Substring(0, Name.IndexOf("#"))
+
         Name = Name.Replace("[", "").Replace("]", "").Replace("{", "").Replace("}", "").Replace("|", "") _
             .Replace("<", "").Replace(">", "").Replace("#", "").Replace(Tab, "").Replace(LF, "") _
             .Replace("_", " ").Trim(" "c)
@@ -192,7 +194,6 @@ Class Page
             Name = Name.Substring(1)
         End While
 
-        If Name.Contains("#") Then Name = Name.Substring(0, Name.IndexOf("#"))
         If Name Is Nothing OrElse Name.Length = 0 Then Return Nothing
 
         'Capitalize

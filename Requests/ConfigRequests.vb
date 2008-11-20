@@ -88,8 +88,6 @@ Namespace Requests
             Config.TRR = Not String.IsNullOrEmpty(Config.TRRLocation)
             Config.SockReports = Not String.IsNullOrEmpty(Config.SockReportLocation)
 
-            Config.IrcMode = Not String.IsNullOrEmpty(Config.IrcChannel)
-
             If Config.DefaultQueue IsNot Nothing AndAlso Queue.All.ContainsKey(Config.DefaultQueue) _
                 Then Queue.Default = Queue.All(Config.DefaultQueue)
             If Config.DefaultQueue2 IsNot Nothing AndAlso Queue.All.ContainsKey(Config.DefaultQueue2) _
@@ -109,6 +107,7 @@ Namespace Requests
             End If
 
             If Config.TemplateMessages.Count = 0 Then Config.TemplateMessages = Config.TemplateMessagesGlobal
+            If String.IsNullOrEmpty(Config.IrcChannel) Then Config.UseIrc = False
 
             If Config.WarnSummary2 Is Nothing Then Config.WarnSummary2 = Config.WarnSummary
             If Config.WarnSummary3 Is Nothing Then Config.WarnSummary3 = Config.WarnSummary
