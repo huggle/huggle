@@ -144,6 +144,7 @@ Module ConfigIO
             Case "block-summary" : Config.BlockSummary = "Notification: Blocked"
             Case "confirm-ignored" : Config.ConfirmIgnored = CBool(Value)
             Case "confirm-multiple" : Config.ConfirmMultiple = CBool(Value)
+            Case "confirm-page" : Config.ConfirmPage = CBool(Value)
             Case "confirm-range" : Config.ConfirmRange = CBool(Value)
             Case "confirm-same" : Config.ConfirmSame = CBool(Value)
             Case "confirm-self-revert" : Config.ConfirmSelfRevert = CBool(Value)

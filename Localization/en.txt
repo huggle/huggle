@@ -109,6 +109,7 @@ config-confirmsame:        Confirm reversion to an edit by the user being revert
 config-confirmselfrevert:  Confirm reversion of own edits (except undo)
 config-confirmwarned:      Confirm reversion to an edit by a warned user
 config-confirmrange:       Confirm reversion to edit by an anonymous user in the same /16 range as the user being reverted
+config-confirmpage:        Confirm reversion of ignored pages
 config-autoadvance:        After reverting, move to next edit in the queue
 config-userollback:        Use rollback if available
 config-revertsummaries:    Revert summaries available in menu
@@ -518,6 +519,7 @@ revertandwarn-title:       Revert and warn {0}
 <pre>
 revert-confirm-ignored:    Revert edit by whitelisted user '{0}'?
 revert-confirm-multiple:   This will revert multiple edits by '{0}'. Continue?
+revert-confirm-page:       Revert edit to ignored page '{0}'?
 revert-confirm-range:      The author of the target revision, {1}, is in the same range as the author of the current revision, {0}, and may be the same person; ensure the target revision is correct before proceeding. Continue?
 revert-confirm-same:       This will revert to another revision by the user that is being reverted, {0}. Continue?
 revert-confirm-self:       This will revert your own edit. Continue?

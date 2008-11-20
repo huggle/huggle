@@ -589,17 +589,22 @@ Module Processing
         End If
 
         'Confirm revert to revision by a warned user
-        If Not Undoing AndAlso Edit.Prev IsNot Nothing AndAlso Edit.Prev.User IsNot Nothing _
+        If Config.ConfirmWarned AndAlso Not Undoing AndAlso Edit.Prev IsNot Nothing AndAlso Edit.Prev.User IsNot Nothing _
             AndAlso Edit.Prev.User IsNot Edit.User AndAlso Edit.Prev.User.Level >= UserLevel.Warn1 AndAlso _
             MessageBox.Show(Msg("revert-confirm-warned", Edit.User.Name), "Huggle", MessageBoxButtons.YesNo, _
             MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = DialogResult.No Then Return False
 
         'Confirm revert to revision by anonymous user in same /16 block as user being reverted
-        If Not Undoing AndAlso Edit.Prev IsNot Nothing AndAlso Edit.Prev.User IsNot Nothing AndAlso _
-            Edit.Prev.User.Anonymous AndAlso Edit.User.Anonymous AndAlso Edit.Prev.User IsNot Edit.User AndAlso _
+        If Config.ConfirmRange AndAlso Not Undoing AndAlso Edit.Prev IsNot Nothing AndAlso Edit.Prev.User IsNot Nothing _
+            AndAlso Edit.Prev.User.Anonymous AndAlso Edit.User.Anonymous AndAlso Edit.Prev.User IsNot Edit.User AndAlso _
             Edit.Prev.User.Range = Edit.User.Range AndAlso MessageBox.Show(Msg("revert-confirm-range", _
             Edit.User.Name, Edit.Prev.User.Name), "Huggle", MessageBoxButtons.YesNo, MessageBoxIcon.Question, _
             MessageBoxDefaultButton.Button2) = DialogResult.No Then Return False
+
+        'Confirm revert of ignored page
+        If Config.ConfirmPage AndAlso Not Undoing AndAlso Config.IgnoredPages.Contains(Edit.Page.Name) AndAlso _
+            MessageBox.Show(Msg("revert-confirm-page", Edit.Page.Name), "Huggle", MessageBoxButtons.YesNo, _
+            MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = DialogResult.No Then Return False
 
         If Not Edit.User.Ignored AndAlso Not Edit.User.IsMe AndAlso Not Edit.User.RecentContribsRetrieved Then
             Edit.User.RecentContribsRetrieved = True

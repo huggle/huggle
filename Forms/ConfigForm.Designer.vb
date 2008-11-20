@@ -46,6 +46,7 @@ Partial Class ConfigForm
         Me.AutoWhitelist = New System.Windows.Forms.CheckBox
         Me.InterfaceTab = New System.Windows.Forms.TabPage
         Me.RightAlignQueue = New System.Windows.Forms.CheckBox
+        Me.ShowTwoQueues = New System.Windows.Forms.CheckBox
         Me.ShowQueue = New System.Windows.Forms.CheckBox
         Me.ShowLog = New System.Windows.Forms.CheckBox
         Me.ShowNewMessages = New System.Windows.Forms.CheckBox
@@ -134,7 +135,7 @@ Partial Class ConfigForm
         Me.PromptForBlock = New System.Windows.Forms.CheckBox
         Me.UseAdminFunctions = New System.Windows.Forms.CheckBox
         Me.ViewLocalConfig = New System.Windows.Forms.LinkLabel
-        Me.ShowTwoQueues = New System.Windows.Forms.CheckBox
+        Me.ConfirmPage = New System.Windows.Forms.CheckBox
         Me.Tabs.SuspendLayout()
         Me.GeneralTab.SuspendLayout()
         CType(Me.DiffFontSize, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -154,7 +155,7 @@ Partial Class ConfigForm
         'Cancel
         '
         Me.Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Cancel.Location = New System.Drawing.Point(446, 355)
+        Me.Cancel.Location = New System.Drawing.Point(446, 375)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
         Me.Cancel.TabIndex = 3
@@ -164,7 +165,7 @@ Partial Class ConfigForm
         'OK
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.OK.Location = New System.Drawing.Point(365, 355)
+        Me.OK.Location = New System.Drawing.Point(365, 375)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
         Me.OK.TabIndex = 2
@@ -189,7 +190,7 @@ Partial Class ConfigForm
         Me.Tabs.Location = New System.Drawing.Point(6, 10)
         Me.Tabs.Name = "Tabs"
         Me.Tabs.SelectedIndex = 0
-        Me.Tabs.Size = New System.Drawing.Size(519, 339)
+        Me.Tabs.Size = New System.Drawing.Size(519, 359)
         Me.Tabs.TabIndex = 0
         '
         'GeneralTab
@@ -215,7 +216,7 @@ Partial Class ConfigForm
         Me.GeneralTab.Location = New System.Drawing.Point(4, 23)
         Me.GeneralTab.Name = "GeneralTab"
         Me.GeneralTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.GeneralTab.Size = New System.Drawing.Size(511, 312)
+        Me.GeneralTab.Size = New System.Drawing.Size(511, 332)
         Me.GeneralTab.TabIndex = 0
         Me.GeneralTab.Text = "General"
         Me.GeneralTab.UseVisualStyleBackColor = True
@@ -402,7 +403,7 @@ Partial Class ConfigForm
         Me.InterfaceTab.Location = New System.Drawing.Point(4, 23)
         Me.InterfaceTab.Name = "InterfaceTab"
         Me.InterfaceTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.InterfaceTab.Size = New System.Drawing.Size(511, 312)
+        Me.InterfaceTab.Size = New System.Drawing.Size(511, 332)
         Me.InterfaceTab.TabIndex = 9
         Me.InterfaceTab.Text = "Interface"
         Me.InterfaceTab.UseVisualStyleBackColor = True
@@ -416,6 +417,16 @@ Partial Class ConfigForm
         Me.RightAlignQueue.TabIndex = 3
         Me.RightAlignQueue.Text = "Show queue on the right of the window"
         Me.RightAlignQueue.UseVisualStyleBackColor = True
+        '
+        'ShowTwoQueues
+        '
+        Me.ShowTwoQueues.AutoSize = True
+        Me.ShowTwoQueues.Location = New System.Drawing.Point(9, 84)
+        Me.ShowTwoQueues.Name = "ShowTwoQueues"
+        Me.ShowTwoQueues.Size = New System.Drawing.Size(111, 17)
+        Me.ShowTwoQueues.TabIndex = 2
+        Me.ShowTwoQueues.Text = "Show two queues"
+        Me.ShowTwoQueues.UseVisualStyleBackColor = True
         '
         'ShowQueue
         '
@@ -478,7 +489,7 @@ Partial Class ConfigForm
         Me.KeyboardTab.Location = New System.Drawing.Point(4, 23)
         Me.KeyboardTab.Name = "KeyboardTab"
         Me.KeyboardTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.KeyboardTab.Size = New System.Drawing.Size(511, 312)
+        Me.KeyboardTab.Size = New System.Drawing.Size(511, 332)
         Me.KeyboardTab.TabIndex = 7
         Me.KeyboardTab.Text = "Keyboard"
         Me.KeyboardTab.UseVisualStyleBackColor = True
@@ -486,7 +497,7 @@ Partial Class ConfigForm
         'Defaults
         '
         Me.Defaults.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Defaults.Location = New System.Drawing.Point(430, 253)
+        Me.Defaults.Location = New System.Drawing.Point(430, 273)
         Me.Defaults.Name = "Defaults"
         Me.Defaults.Size = New System.Drawing.Size(75, 23)
         Me.Defaults.TabIndex = 5
@@ -496,7 +507,7 @@ Partial Class ConfigForm
         'NoShortcut
         '
         Me.NoShortcut.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.NoShortcut.Location = New System.Drawing.Point(368, 253)
+        Me.NoShortcut.Location = New System.Drawing.Point(368, 273)
         Me.NoShortcut.Name = "NoShortcut"
         Me.NoShortcut.Size = New System.Drawing.Size(56, 23)
         Me.NoShortcut.TabIndex = 4
@@ -508,7 +519,8 @@ Partial Class ConfigForm
         '
         Me.ChangeShortcut.AcceptsReturn = True
         Me.ChangeShortcut.AcceptsTab = True
-        Me.ChangeShortcut.Location = New System.Drawing.Point(286, 255)
+        Me.ChangeShortcut.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ChangeShortcut.Location = New System.Drawing.Point(286, 275)
         Me.ChangeShortcut.Multiline = True
         Me.ChangeShortcut.Name = "ChangeShortcut"
         Me.ChangeShortcut.Size = New System.Drawing.Size(76, 20)
@@ -520,7 +532,7 @@ Partial Class ConfigForm
         '
         Me.ChangeShortcutLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.ChangeShortcutLabel.AutoSize = True
-        Me.ChangeShortcutLabel.Location = New System.Drawing.Point(3, 258)
+        Me.ChangeShortcutLabel.Location = New System.Drawing.Point(3, 278)
         Me.ChangeShortcutLabel.Name = "ChangeShortcutLabel"
         Me.ChangeShortcutLabel.Size = New System.Drawing.Size(106, 13)
         Me.ChangeShortcutLabel.TabIndex = 2
@@ -549,7 +561,7 @@ Partial Class ConfigForm
         Me.ShortcutList.Location = New System.Drawing.Point(6, 31)
         Me.ShortcutList.MultiSelect = False
         Me.ShortcutList.Name = "ShortcutList"
-        Me.ShortcutList.Size = New System.Drawing.Size(499, 210)
+        Me.ShortcutList.Size = New System.Drawing.Size(499, 230)
         Me.ShortcutList.TabIndex = 1
         Me.ShortcutList.UseCompatibleStateImageBehavior = False
         Me.ShortcutList.View = System.Windows.Forms.View.Details
@@ -577,7 +589,7 @@ Partial Class ConfigForm
         Me.EditingTab.Location = New System.Drawing.Point(4, 23)
         Me.EditingTab.Name = "EditingTab"
         Me.EditingTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.EditingTab.Size = New System.Drawing.Size(511, 312)
+        Me.EditingTab.Size = New System.Drawing.Size(511, 332)
         Me.EditingTab.TabIndex = 2
         Me.EditingTab.Text = "Editing"
         Me.EditingTab.UseVisualStyleBackColor = True
@@ -650,6 +662,7 @@ Partial Class ConfigForm
         '
         'RevertTab
         '
+        Me.RevertTab.Controls.Add(Me.ConfirmPage)
         Me.RevertTab.Controls.Add(Me.ConfirmWarned)
         Me.RevertTab.Controls.Add(Me.ClearSummaries)
         Me.RevertTab.Controls.Add(Me.ClearSummariesLabel)
@@ -666,7 +679,7 @@ Partial Class ConfigForm
         Me.RevertTab.Location = New System.Drawing.Point(4, 23)
         Me.RevertTab.Name = "RevertTab"
         Me.RevertTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.RevertTab.Size = New System.Drawing.Size(511, 312)
+        Me.RevertTab.Size = New System.Drawing.Size(511, 332)
         Me.RevertTab.TabIndex = 5
         Me.RevertTab.Text = "Reverting"
         Me.RevertTab.UseVisualStyleBackColor = True
@@ -685,7 +698,7 @@ Partial Class ConfigForm
         '
         Me.ClearSummaries.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.ClearSummaries.Enabled = False
-        Me.ClearSummaries.Location = New System.Drawing.Point(430, 278)
+        Me.ClearSummaries.Location = New System.Drawing.Point(430, 296)
         Me.ClearSummaries.Name = "ClearSummaries"
         Me.ClearSummaries.Size = New System.Drawing.Size(75, 23)
         Me.ClearSummaries.TabIndex = 12
@@ -695,7 +708,7 @@ Partial Class ConfigForm
         'ClearSummariesLabel
         '
         Me.ClearSummariesLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.ClearSummariesLabel.Location = New System.Drawing.Point(6, 283)
+        Me.ClearSummariesLabel.Location = New System.Drawing.Point(6, 301)
         Me.ClearSummariesLabel.Name = "ClearSummariesLabel"
         Me.ClearSummariesLabel.Size = New System.Drawing.Size(424, 29)
         Me.ClearSummariesLabel.TabIndex = 11
@@ -714,7 +727,7 @@ Partial Class ConfigForm
         'AddSummary
         '
         Me.AddSummary.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.AddSummary.Location = New System.Drawing.Point(6, 251)
+        Me.AddSummary.Location = New System.Drawing.Point(6, 269)
         Me.AddSummary.Name = "AddSummary"
         Me.AddSummary.Size = New System.Drawing.Size(70, 23)
         Me.AddSummary.TabIndex = 9
@@ -725,7 +738,7 @@ Partial Class ConfigForm
         '
         Me.RemoveSummary.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.RemoveSummary.Enabled = False
-        Me.RemoveSummary.Location = New System.Drawing.Point(82, 251)
+        Me.RemoveSummary.Location = New System.Drawing.Point(82, 269)
         Me.RemoveSummary.Name = "RemoveSummary"
         Me.RemoveSummary.Size = New System.Drawing.Size(70, 23)
         Me.RemoveSummary.TabIndex = 10
@@ -735,7 +748,7 @@ Partial Class ConfigForm
         'RevertSummariesLabel
         '
         Me.RevertSummariesLabel.AutoSize = True
-        Me.RevertSummariesLabel.Location = New System.Drawing.Point(3, 173)
+        Me.RevertSummariesLabel.Location = New System.Drawing.Point(6, 206)
         Me.RevertSummariesLabel.Name = "RevertSummariesLabel"
         Me.RevertSummariesLabel.Size = New System.Drawing.Size(195, 13)
         Me.RevertSummariesLabel.TabIndex = 7
@@ -747,16 +760,15 @@ Partial Class ConfigForm
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.RevertSummaries.FormattingEnabled = True
-        Me.RevertSummaries.IntegralHeight = False
-        Me.RevertSummaries.Location = New System.Drawing.Point(6, 189)
+        Me.RevertSummaries.Location = New System.Drawing.Point(6, 222)
         Me.RevertSummaries.Name = "RevertSummaries"
-        Me.RevertSummaries.Size = New System.Drawing.Size(393, 56)
+        Me.RevertSummaries.Size = New System.Drawing.Size(393, 43)
         Me.RevertSummaries.TabIndex = 8
         '
         'UseRollback
         '
         Me.UseRollback.AutoSize = True
-        Me.UseRollback.Location = New System.Drawing.Point(9, 153)
+        Me.UseRollback.Location = New System.Drawing.Point(9, 178)
         Me.UseRollback.Name = "UseRollback"
         Me.UseRollback.Size = New System.Drawing.Size(138, 17)
         Me.UseRollback.TabIndex = 6
@@ -766,7 +778,7 @@ Partial Class ConfigForm
         'AutoAdvance
         '
         Me.AutoAdvance.AutoSize = True
-        Me.AutoAdvance.Location = New System.Drawing.Point(9, 130)
+        Me.AutoAdvance.Location = New System.Drawing.Point(9, 155)
         Me.AutoAdvance.Name = "AutoAdvance"
         Me.AutoAdvance.Size = New System.Drawing.Size(259, 17)
         Me.AutoAdvance.TabIndex = 5
@@ -813,7 +825,7 @@ Partial Class ConfigForm
         Me.ReportingTab.Location = New System.Drawing.Point(4, 23)
         Me.ReportingTab.Name = "ReportingTab"
         Me.ReportingTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.ReportingTab.Size = New System.Drawing.Size(511, 312)
+        Me.ReportingTab.Size = New System.Drawing.Size(511, 332)
         Me.ReportingTab.TabIndex = 3
         Me.ReportingTab.Text = "Reporting"
         Me.ReportingTab.UseVisualStyleBackColor = True
@@ -1222,7 +1234,7 @@ Partial Class ConfigForm
         Me.AdminTab.Controls.Add(Me.UseAdminFunctions)
         Me.AdminTab.Location = New System.Drawing.Point(4, 23)
         Me.AdminTab.Name = "AdminTab"
-        Me.AdminTab.Size = New System.Drawing.Size(511, 312)
+        Me.AdminTab.Size = New System.Drawing.Size(511, 332)
         Me.AdminTab.TabIndex = 1
         Me.AdminTab.Text = "Admin"
         Me.AdminTab.UseVisualStyleBackColor = True
@@ -1318,29 +1330,29 @@ Partial Class ConfigForm
         '
         Me.ViewLocalConfig.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.ViewLocalConfig.AutoSize = True
-        Me.ViewLocalConfig.Location = New System.Drawing.Point(7, 360)
+        Me.ViewLocalConfig.Location = New System.Drawing.Point(7, 380)
         Me.ViewLocalConfig.Name = "ViewLocalConfig"
         Me.ViewLocalConfig.Size = New System.Drawing.Size(148, 13)
         Me.ViewLocalConfig.TabIndex = 1
         Me.ViewLocalConfig.TabStop = True
         Me.ViewLocalConfig.Text = "View local configuration folder"
         '
-        'ShowTwoQueues
+        'ConfirmPage
         '
-        Me.ShowTwoQueues.AutoSize = True
-        Me.ShowTwoQueues.Location = New System.Drawing.Point(9, 84)
-        Me.ShowTwoQueues.Name = "ShowTwoQueues"
-        Me.ShowTwoQueues.Size = New System.Drawing.Size(111, 17)
-        Me.ShowTwoQueues.TabIndex = 2
-        Me.ShowTwoQueues.Text = "Show two queues"
-        Me.ShowTwoQueues.UseVisualStyleBackColor = True
+        Me.ConfirmPage.AutoSize = True
+        Me.ConfirmPage.Location = New System.Drawing.Point(9, 132)
+        Me.ConfirmPage.Name = "ConfirmPage"
+        Me.ConfirmPage.Size = New System.Drawing.Size(189, 17)
+        Me.ConfirmPage.TabIndex = 3
+        Me.ConfirmPage.Text = "Confirm reversion of ignored pages"
+        Me.ConfirmPage.UseVisualStyleBackColor = True
         '
         'ConfigForm
         '
         Me.AcceptButton = Me.OK
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(531, 388)
+        Me.ClientSize = New System.Drawing.Size(531, 408)
         Me.Controls.Add(Me.ViewLocalConfig)
         Me.Controls.Add(Me.Tabs)
         Me.Controls.Add(Me.OK)
@@ -1492,4 +1504,5 @@ Partial Class ConfigForm
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents ShowTwoQueues As System.Windows.Forms.CheckBox
+    Friend WithEvents ConfirmPage As System.Windows.Forms.CheckBox
 End Class

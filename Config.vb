@@ -80,6 +80,7 @@ Class Configuration
     Public ConfigSummary As String
     Public ConfirmIgnored As Boolean = True
     Public ConfirmMultiple As Boolean
+    Public ConfirmPage As Boolean = True
     Public ConfirmRange As Boolean = True
     Public ConfirmSame As Boolean = True
     Public ConfirmSelfRevert As Boolean = True

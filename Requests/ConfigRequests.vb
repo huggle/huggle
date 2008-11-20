@@ -211,6 +211,7 @@ Namespace Requests
             Items.Add("auto-whitelist:" & CStr(Config.AutoWhitelist).ToLower)
             Items.Add("confirm-multiple:" & CStr(Config.ConfirmMultiple).ToLower)
             Items.Add("confirm-range:" & CStr(Config.ConfirmRange).ToLower)
+            Items.Add("confirm-page:" & CStr(Config.ConfirmPage).ToLower)
             Items.Add("confirm-same:" & CStr(Config.ConfirmSame).ToLower)
             Items.Add("confirm-self-revert:" & CStr(Config.ConfirmSelfRevert).ToLower)
             Items.Add("confirm-warned:" & CStr(Config.ConfirmWarned).ToLower)
