@@ -54,6 +54,7 @@ Class Queue
     Public Sub New(ByVal Name As String)
         _Name = Name
         _Diffs = DiffMode.None
+        _IgnorePages = True
         _RemoveViewed = True
         _Spaces.AddRange(Space.All)
         _Type = QueueType.Live
