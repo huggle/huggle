@@ -488,7 +488,7 @@ Class Main
     End Sub
 
     Private Sub ContribsScroll_MouseUp(ByVal Sender As Object, ByVal e As MouseEventArgs) _
-        Handles ContribsScrollLB.MouseDown, ContribsScrollRB.MouseDown
+        Handles ContribsScrollLB.MouseUp, ContribsScrollRB.MouseUp
 
         If Sender Is ContribsScrollLB Then ContribsLeft() Else ContribsRight()
         ScrollTimer.Stop()

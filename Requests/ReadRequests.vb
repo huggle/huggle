@@ -281,7 +281,7 @@ Namespace Requests
             If DisplayWhenDone AndAlso User.LastEdit IsNot Nothing Then
                 DisplayEdit(User.LastEdit)
 
-                If User.LastEdit.Page.LastEdit Is Nothing Then
+                If User.LastEdit.Page IsNot Nothing AndAlso User.LastEdit.Page.LastEdit Is Nothing Then
                     Dim NewHistoryRequest As New HistoryRequest
                     NewHistoryRequest.Page = User.LastEdit.Page
                     NewHistoryRequest.Start()

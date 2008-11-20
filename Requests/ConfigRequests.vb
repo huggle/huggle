@@ -48,8 +48,8 @@ Namespace Requests
                 UrlEncode(Page.SanitizeTitle(Config.UserConfigLocation)) & "|" & _
                 UrlEncode(Page.SanitizeTitle(Config.ProjectConfigLocation)))
 
-            If Result.Error Then
-                Fail(Msg("loadconfig-fail"), Result.ErrorMessage)
+            If Result.Error OrElse Config.ProjectConfigLocation Is Nothing Then
+                Fail(Msg("login-error-config"), Result.ErrorMessage)
                 Exit Sub
             End If
 

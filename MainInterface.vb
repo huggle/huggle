@@ -130,6 +130,7 @@ Partial Class Main
     Public Sub RefreshInterface()
         If Me Is Nothing OrElse Not Visible Then Exit Sub
 
+        MenuRevision.Enabled = (CurrentEdit IsNot Nothing)
         MenuPage.Enabled = (CurrentPage IsNot Nothing)
         MenuUser.Enabled = (CurrentUser IsNot Nothing)
 

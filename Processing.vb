@@ -1402,6 +1402,8 @@ Module Processing
     Function IsTagFromSummary(ByVal Edit As Edit) As Boolean
         'Try to interpret as many styles of summary as possible without too many mistakes
         If String.IsNullOrEmpty(Edit.Summary) Then Return False
+        If Edit.WarningLevel >= UserLevel.Notification Then Return False
+
         Dim Summary As String = TrimSummary(Edit.Summary.ToLower)
 
         For Each Item As String In Split(My.Resources.TagSummaries, CRLF)
@@ -1419,8 +1421,9 @@ Module Processing
         Dim Summary As String = TrimSummary(Edit.Summary.ToLower)
 
         For Each Item As KeyValuePair(Of Regex, UserLevel) In Config.UserTalkSummaries
-            If Item.Key.IsMatch(Summary) AndAlso (Item.Value <> UserLevel.Blocked OrElse Edit.User.Ignored) _
-                Then Return Item.Value
+            If Item.Key.IsMatch(Summary) AndAlso (Item.Value <> UserLevel.Blocked OrElse Edit.User.Ignored) Then
+                Return Item.Value
+            End If
         Next Item
 
         Return UserLevel.None

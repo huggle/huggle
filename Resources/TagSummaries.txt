@@ -13,3 +13,10 @@ adding \{\{.+\}\} to article
 ^afd$
 [\{:]afd
 afd[ \}]
+^orfud$
+^non-free reduce$
+orphaned fair use image tagging
+tagging orphaned page for deletion
+image has no (rationale|valid rationale|source|license|source or license)
+marking newly uploaded untagged file
+^tag$
