@@ -16,7 +16,7 @@ Partial Class Main
         SightAndNext.Visible = Config.Sight AndAlso Config.Rights.Contains("review")
 
         PageDelete.Visible = (Config.UseAdminFunctions AndAlso Config.Rights.Contains("delete") AndAlso Config.Delete)
-        PageDeleteB.Visible = PageDelete.Visible
+        PageDeleteB.Visible = (Config.UseAdminFunctions AndAlso Config.Rights.Contains("delete") AndAlso Config.Delete)
         PageMove.Visible = (Config.Rights.Contains("move"))
         PagePatrol.Visible = Config.Patrol AndAlso Config.Rights.Contains("patrol")
         PageProtect.Visible = (Config.UseAdminFunctions AndAlso Config.Rights.Contains("protect") AndAlso Config.Protect)
@@ -28,7 +28,7 @@ Partial Class Main
         PageXfd.Visible = Config.Xfd
 
         UserBlock.Visible = (Config.UseAdminFunctions AndAlso Config.Rights.Contains("block") AndAlso Config.Block)
-        UserBlockB.Visible = UserBlock.Visible
+        UserBlockB.Visible = (Config.UseAdminFunctions AndAlso Config.Rights.Contains("block") AndAlso Config.Block)
         UserEmail.Visible = Config.Email
         UserMessageWelcome.Visible = (Config.Welcome IsNot Nothing)
         UserReport.Visible = Config.AIV OrElse Config.UAA OrElse Config.TRR OrElse Config.SockReports
