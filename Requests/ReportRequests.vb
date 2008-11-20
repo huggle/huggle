@@ -339,11 +339,11 @@ Namespace Requests
                 Exit Sub
             End If
 
-            Text = GetTextFromRev(Result.Text).ToLower.Replace("_", " ")
+            Text = GetTextFromRev(Result.Text)
 
             'Check for existing report
-            If Text.Contains("{{userlinks|" & User.Name & "}}") _
-                OrElse Text.Contains("{{userlinks|1=" & User.Name & "}}") Then
+            If Text.ToLower.Replace("_", " ").Contains("{{userlinks|" & User.Name & "}}") _
+                OrElse Text.ToLower.Replace("_", " ").Contains("{{userlinks|1=" & User.Name & "}}") Then
 
                 If User.Level < UserLevel.ReportedUAA Then User.Level = UserLevel.ReportedUAA
                 Fail(Msg("report-fail", User.Name), Msg("warn-alreadyreported"))
