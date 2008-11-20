@@ -551,29 +551,6 @@ Namespace My.Resources
             End Get
         End Property
         
-        '''<summary>
-        '''  Looks up a localized string similar to ^prod$
-        ''' prod 
-        '''[\{:]prod
-        '''prod[\}\-:2]
-        '''(nominated|prodding|proposed) for deletion
-        '''proposed deletion
-        '''^db$
-        '''db-
-        ''' db tag$
-        '''(marked for|tagged for|requesting) speedy deletion
-        '''speedy deletion request
-        '''adding \{\{.+\}\} to article
-        '''^afd$
-        '''[\{:]afd
-        '''afd[ \}].
-        '''</summary>
-        Friend ReadOnly Property TagSummaries() As String
-            Get
-                Return ResourceManager.GetString("TagSummaries", resourceCulture)
-            End Get
-        End Property
-        
         Friend ReadOnly Property tri_no() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("tri_no", resourceCulture)
@@ -673,21 +650,15 @@ Namespace My.Resources
         '''b	(you have|your ip address has) been (temporarily )?blocked
         '''b	block notice
         '''b	\+block
-        '''b	\+?(anon|indef|vandal)block(ed)?
+        '''b	\+?(anon|indef|vandal|username) ?block(ed)?
         '''b	temporary block
         '''b	due to recent vandalism from this account, it has been blocked
         '''
-        '''n	informing of speedy delete nomination
         '''n	orphaned fair use image tagging
-        '''n	warning: image missing fair use rationale
-        '''
-        '''w1	^warning .+ #1$
-        '''w2	^warning .+ #2$
-        '''w3	^warning .+ #3$
-        '''w4	^warning .+ #4$
-        '''
-        '''w1	1(-n)?(\}\}|\|)
-        '''w2	2 [rest of string was truncated]&quot;;.
+        '''n	warning: image missing (fair use rationale|source information)
+        '''n	(may|is going to) be deleted
+        '''n	(cat|prod|proposed|speedy) (delete|deletion)? ?(nomination|notice|of|warning)
+        '''n	se [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property WarningSummaries() As String
             Get

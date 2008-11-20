@@ -1406,7 +1406,7 @@ Module Processing
 
         Dim Summary As String = TrimSummary(Edit.Summary.ToLower)
 
-        For Each Item As String In Split(My.Resources.TagSummaries, CRLF)
+        For Each Item As String In Config.TagSummaries
             If Regex.IsMatch(Summary, Item) Then Return True
         Next Item
 
