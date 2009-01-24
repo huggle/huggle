@@ -14,6 +14,7 @@ Class DeleteForm
                 If Item.Code = "G8" AndAlso Page.IsTalkPage _
                     OrElse (Item.Code <> "G8" AndAlso Item.Code.StartsWith("G")) _
                     OrElse (Item.Code.StartsWith("A") AndAlso Page.Space.Name = "") _
+                    OrElse (Item.Code.StartsWith("R") AndAlso Page.Space.Name = "") _
                     OrElse (Item.Code.StartsWith("C") AndAlso Page.Space.Name = "Category") _
                     OrElse (Item.Code.StartsWith("I") AndAlso Page.Space.Name = "Image") _
                     OrElse (Item.Code.StartsWith("P") AndAlso Page.Space.Name = "Portal") _

@@ -36,7 +36,7 @@ Partial Class DeleteForm
         'Cancel
         '
         Me.Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Cancel.Location = New System.Drawing.Point(407, 215)
+        Me.Cancel.Location = New System.Drawing.Point(399, 211)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
         Me.Cancel.TabIndex = 8
@@ -46,7 +46,7 @@ Partial Class DeleteForm
         'OK
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.OK.Location = New System.Drawing.Point(326, 215)
+        Me.OK.Location = New System.Drawing.Point(318, 211)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
         Me.OK.TabIndex = 7
@@ -70,7 +70,7 @@ Partial Class DeleteForm
         Me.Reason.Location = New System.Drawing.Point(65, 12)
         Me.Reason.MaxDropDownItems = 20
         Me.Reason.Name = "Reason"
-        Me.Reason.Size = New System.Drawing.Size(417, 21)
+        Me.Reason.Size = New System.Drawing.Size(409, 21)
         Me.Reason.TabIndex = 1
         '
         'DeletionLogLabel
@@ -94,7 +94,7 @@ Partial Class DeleteForm
         Me.DeletionLog.Mode = Huggle.PageLog.ViewMode.Delete
         Me.DeletionLog.Name = "DeletionLog"
         Me.DeletionLog.Page = Nothing
-        Me.DeletionLog.Size = New System.Drawing.Size(467, 110)
+        Me.DeletionLog.Size = New System.Drawing.Size(459, 106)
         Me.DeletionLog.TabIndex = 6
         Me.DeletionLog.UseCompatibleStateImageBehavior = False
         Me.DeletionLog.View = System.Windows.Forms.View.Details
@@ -131,7 +131,7 @@ Partial Class DeleteForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(494, 250)
+        Me.ClientSize = New System.Drawing.Size(486, 246)
         Me.Controls.Add(Me.Notify)
         Me.Controls.Add(Me.Progress)
         Me.Controls.Add(Me.Throbber)
