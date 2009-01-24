@@ -84,7 +84,6 @@ Partial Class LoginForm
         Me.ProxyGroup.Controls.Add(Me.ProxyDomain)
         Me.ProxyGroup.Controls.Add(Me.ProxyDomainLabel)
         Me.ProxyGroup.Controls.Add(Me.ProxyPasswordLabel)
-        Me.ProxyGroup.Controls.Add(Me.Status)
         Me.ProxyGroup.Controls.Add(Me.ProxyUsernameLabel)
         Me.ProxyGroup.Controls.Add(Me.ProxyPassword)
         Me.ProxyGroup.Controls.Add(Me.ProxyUsername)
@@ -280,7 +279,7 @@ Partial Class LoginForm
         '
         Me.Status.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Status.Location = New System.Drawing.Point(0, 27)
+        Me.Status.Location = New System.Drawing.Point(12, 222)
         Me.Status.Name = "Status"
         Me.Status.Size = New System.Drawing.Size(292, 28)
         Me.Status.TabIndex = 13
@@ -377,6 +376,7 @@ Partial Class LoginForm
         Me.Controls.Add(Me.Language)
         Me.Controls.Add(Me.LanguageLabel)
         Me.Controls.Add(Me.Logo)
+        Me.Controls.Add(Me.Status)
         Me.Controls.Add(Me.Progress)
         Me.Controls.Add(Me.Cancel)
         Me.Controls.Add(Me.OK)
