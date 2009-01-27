@@ -102,6 +102,7 @@ Class Main
             If QueueHeight < CurrentQueue.Edits.Count Then
                 QueueScroll.Enabled = True
                 QueueScroll.Maximum = CurrentQueue.Edits.Count - 2
+                QueueScroll.Minimum = 0
                 QueueScroll.SmallChange = 1
                 QueueScroll.LargeChange = Math.Max(1, QueueHeight)
             Else
@@ -120,6 +121,7 @@ Class Main
             If QueueHeight < SecondQueue.Edits.Count Then
                 QueueScroll2.Enabled = True
                 QueueScroll2.Maximum = SecondQueue.Edits.Count - 2
+                QueueScroll2.Minimum = 0
                 QueueScroll2.SmallChange = 1
                 QueueScroll2.LargeChange = Math.Max(1, QueueHeight)
             Else
