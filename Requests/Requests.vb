@@ -189,7 +189,7 @@ Namespace Requests
 
         'Make a Web request, setting appropriate headers
         Protected Function DoWebRequest(ByVal Url As String, Optional ByVal PostString As String = Nothing) As String
-
+            ServicePointManager.Expect100Continue = False
             Dim Request As HttpWebRequest = CType(HttpWebRequest.Create(Url), HttpWebRequest)
 
             If Not Mono() Then SetAcceptCompression(Request)
