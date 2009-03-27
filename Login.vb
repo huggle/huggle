@@ -66,7 +66,15 @@ Namespace Requests
                 Dim LoginResult As LoginResult = DoLogin()
 
                 Select Case LoginResult
-                    'Outcomes for what posibly could go wrong when logging in using the loclaisation code e.g. login-error-invalid
+                    'Cases for various login problems
+                    '---------------------------------
+                    'in order, the cases are:
+                    '* captcha needed
+                    '* unknown error
+                    '* invalid username
+                    '* no such user
+                    '* wrong password
+                    '----------------------------------
                     Case LoginResult.CaptchaNeeded : Callback(AddressOf CaptchaNeeded)
 
                     Case LoginResult.Failed : Abort(Msg("login-error-unknown"))
@@ -112,7 +120,7 @@ Namespace Requests
                 Exit Sub
             End If
 
-            'If the global config is set to not enabled for all the show relevant error
+            'If the global config is set to "not enabled for all" then show relevant error
             If Not Config.EnabledForAll Then
                 Abort(Msg("login-error-alldisabled"))
                 Exit Sub
@@ -144,7 +152,7 @@ Namespace Requests
                 Exit Sub
             End If
 
-            'If the project config is set to not enabeled then show relevant error
+            'If the project config is set to not enabled then show relevant error
             If Not Config.EnabledForAll Then
                 Abort(Msg("login-error-projdisabled"))
                 Exit Sub
@@ -162,10 +170,13 @@ Namespace Requests
             'Connect to IRC, if required (on separate thread)
             If Config.UseIrc Then IrcConnect()
 
-            'Check user list. If approval required, deny access to users not on the list, otherwise add them
+            'userlist checks
+            '-------------------------------------------
+            'Check user list. If approval required, deny access to users not on the list, *otherwise*, add them
             If Config.UserListLocation IsNot Nothing AndAlso (Config.Approval OrElse Not Config.UsernameListed) Then
                 UpdateStatus(Msg("login-progress-userlist"))
 
+                'get userlist
                 Dim UserlistResult As ApiResult = GetText(Config.UserListLocation)
 
                 If UserlistResult.Error Then
@@ -173,14 +184,22 @@ Namespace Requests
                     Exit Sub
                 End If
 
+                'if user is not on the list...
                 If Not UserlistResult.Text.Contains _
                     ("[[Special:Contributions/" & Config.Username & "|" & Config.Username & "]]") Then
-
+                    'abort them if config setting "approval" is set to true
                     If Config.Approval Then
                         Abort(Msg("login-error-approval"))
                         Exit Sub
                     End If
-
+                    'else, add them
+                    '
+                    ' ---------------------
+                    ' See [issue 149] -
+                    ' this code may have a bug
+                    ' concerning HTML entities
+                    ' in the username
+                    ' ---------------------
                     Dim Matches As MatchCollection = _
                         New Regex("\* \[\[Special:Contributions/([^\|]+)\|[^\|]+\]\]").Matches(UserlistResult.Text)
                     Dim ListedUsers As New List(Of String)
@@ -216,7 +235,7 @@ Namespace Requests
 
                 Dim WhitelistResult As RequestResult = (New WhitelistRequest).Invoke
 
-                'If something errored with the getting of the whitelist say so
+                'If something went wrong with the getting of the whitelist say so
                 If WhitelistResult.Error Then
                     Abort(Msg("login-error-whitelist"), WhitelistResult.ErrorMessage)
                     Exit Sub

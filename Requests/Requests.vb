@@ -304,8 +304,11 @@ Namespace Requests
                     Result = DoWebRequest(ProjectUrl & Config.WikiPath & "api.php?format=xml&" & QueryString, PostString)
 
                 Catch ex As WebException
-                    If ex.Status = WebExceptionStatus.Timeout _
-                        Then Return New ApiResult(Nothing, "error-timeout", Msg("error-timeout"))
+                    If ex.Status = WebExceptionStatus.Timeout Then
+                        Return New ApiResult(Nothing, "error-timeout", Msg("error-timeout"))
+                    Else
+                        Return New ApiResult(Nothing, "error-webunknown", Msg("error-webunknown"))
+                    End If
                 End Try
             Loop Until Result <> "" OrElse Retries = 0
 
