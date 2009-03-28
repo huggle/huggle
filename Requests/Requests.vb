@@ -307,7 +307,7 @@ Namespace Requests
                     If ex.Status = WebExceptionStatus.Timeout Then
                         Return New ApiResult(Nothing, "error-timeout", Msg("error-timeout"))
                     Else
-                        Return New ApiResult(Nothing, "error-webunknown", Msg("error-webunknown"))
+                        Return New ApiResult(Nothing, "error-unknown", Msg("error-unknown"))
                     End If
                 End Try
             Loop Until Result <> "" OrElse Retries = 0
