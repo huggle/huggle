@@ -320,19 +320,25 @@ Namespace Requests
 
         Protected Overrides Sub Done()
             If MainForm.Visible AndAlso Tab.LastBrowserRequest Is Me Then
-                Dim PageName As String = ParseUrl(Url)("title")
-                MainForm.PageB.Text = PageName
-                '--------------------------------------------------------
-                ' extra checks since NullReferenceExceptions are happening
-                ' here en masse. It's ugly, but should prevent some problems.
-                If _Result.Text Is Nothing Then Fail()
-                Dim Page As Huggle.Page = GetPage(PageName)
-                If Page Is Nothing Then Fail()
-                '---------------------------------------------------------
-                If Not NoFormatting Then _Result.Text = FormatPageHtml(Page, _Result.Text)
-                Tab.Browser.DocumentText = _Result.Text
-                Tab.CurrentUrl = Url
-                If HistoryItem IsNot Nothing Then HistoryItem.Text = _Result.Text
+                ' catch NullReferenceException, JUST in case
+                Try
+                    Dim PageName As String = ParseUrl(Url)("title")
+                    MainForm.PageB.Text = PageName
+                    '--------------------------------------------------------
+                    ' extra checks since NullReferenceExceptions are happening
+                    ' here en masse. It's ugly, but should prevent some problems.
+                    If _Result.Text Is Nothing Then Fail()
+                    Dim Page As Huggle.Page = GetPage(PageName)
+                    If Page Is Nothing Then Fail()
+                    '---------------------------------------------------------
+                    If Not NoFormatting Then _Result.Text = FormatPageHtml(Page, _Result.Text)
+                    Tab.Browser.DocumentText = _Result.Text
+                    Tab.CurrentUrl = Url
+                    If HistoryItem IsNot Nothing Then HistoryItem.Text = _Result.Text
+                Catch ex As NullReferenceException
+                    Fail(ex.message)
+                    Exit Sub
+                End Try
             End If
         End Sub
 
