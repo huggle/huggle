@@ -61,11 +61,11 @@ Namespace Requests
                 Config.Minor.Add(Item, False)
             Next Item
 
-            Dim ProjectConfigFile As String = HtmlDecode(FindString(FindString(Result.Text, "<page", _
-                "ns=""" & GetPage(Config.ProjectConfigLocation).Space.Number & """", "</page>"), "<rev>", "</rev>"))
+            Dim ProjectConfigFile As String = HtmlDecode(FindString(FindString(FindString(Result.Text, "<page", _
+                "ns=""" & GetPage(Config.ProjectConfigLocation).Space.Number & """", "</page>"), "<rev "), ">", "</rev>"))
 
-            Dim UserConfigFile As String = HtmlDecode(FindString(FindString(Result.Text, "<page", _
-                "ns=""" & GetPage(Config.UserConfigLocation).Space.Number & """", "</page>"), "<rev>", "</rev>"))
+            Dim UserConfigFile As String = HtmlDecode(FindString(FindString(FindString(Result.Text, "<page", _
+                "ns=""" & GetPage(Config.UserConfigLocation).Space.Number & """", "</page>"), "<rev "), ">", "</rev>"))
 
             'Set project config
             If ProjectConfigFile Is Nothing Then
