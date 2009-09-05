@@ -61,13 +61,13 @@ Namespace Requests
             Dim PostString As String = "user=" & UrlEncode(User.Name) & _
                 "&reason=" & UrlEncode(Summary) & "&expiry=" & UrlEncode(Expiry) & "&token=" & UrlEncode(Token)
 
-            If BlockCreation Then PostString &= "&nocreate"
-            If BlockEmail Then PostString &= "&noemail"
-            If Autoblock Then PostString &= "&autoblock"
-            If AnonOnly Then PostString &= "&anononly"
+            If BlockCreation Then PostString &= "&nocreate=1"
+            If BlockEmail Then PostString &= "&noemail=1"
+            If Autoblock Then PostString &= "&autoblock=1"
+            If AnonOnly Then PostString &= "&anononly=1"
 
             'API defaults to NOT allowing user to edit talk page, even though this is usually not what is wanted
-            If Not BlockTalkEdit Then PostString &= "&allowusertalk"
+            If Not BlockTalkEdit Then PostString &= "&allowusertalk=1"
 
             Result = DoApiRequest("action=block", PostString)
 
@@ -118,7 +118,7 @@ Namespace Requests
             Dim PostString As String = "title=" & UrlEncode(Page.Name) & _
                 "&reason=" & UrlEncode(Summary) & "&token=" & UrlEncode(Token)
 
-            If Config.WatchDelete Then PostString &= "&watch"
+            If Config.WatchDelete Then PostString &= "&watch=1"
 
             Result = DoApiRequest("action=delete", PostString)
 
@@ -171,7 +171,7 @@ Namespace Requests
             Dim PostString As String = "target=" & UrlEncode(User.Name) & _
                 "&subject=" & UrlEncode(Subject) & "&text=" & Message & "&token=" & UrlEncode(Token)
 
-            If CcMe Then PostString &= "&ccme"
+            If CcMe Then PostString &= "&ccme=1"
 
             Result = DoApiRequest("action=emailuser", PostString)
 
@@ -205,7 +205,7 @@ Namespace Requests
             Dim PostString As String = "from=" & UrlEncode(Page.Name) & "&to=" & UrlEncode(Target) & _
                 "&reason=" & UrlEncode(Summary) & "&token=" & UrlEncode(Token)
 
-            If MoveTalk Then PostString &= "&movetalk"
+            If MoveTalk Then PostString &= "&movetalk=1"
 
             Result = DoApiRequest("action=move", PostString)
 
@@ -308,7 +308,7 @@ Namespace Requests
                 "&reason=" & UrlEncode(Summary) & "protections=edit:" & EditLevel & "|move:" & MoveLevel & _
                 "expiry=" & Expiry & "&token=" & UrlEncode(Token)
 
-            If Cascade Then PostString &= "&cascade"
+            If Cascade Then PostString &= "&cascade=1"
 
             Result = DoApiRequest("action=protect", PostString)
 
