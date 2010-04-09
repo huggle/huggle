@@ -159,6 +159,8 @@ Namespace Requests
             Dim Result As String = DoWebRequest(SitePath() & "index.php?" & QueryString)
 
             'If Result.Error Then Fail(Msg("revert-fail", Edit.Page.Name), Result.ErrorMessage) Else Complete()
+
+            Complete()
         End Sub
 
         Protected Overrides Sub Done()
