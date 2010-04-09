@@ -3,7 +3,6 @@ Imports System.Net
 Imports System.Text.RegularExpressions
 Imports System.Web.HttpUtility
 
-<DebuggerStepThrough()> _
 Module Misc
 
     'Globals
@@ -375,7 +374,7 @@ Module Misc
     Function IsWikiPage(ByVal Text As String) As Boolean
         'Unfortunately there is no one element common to all skins
         If Text Is Nothing Then Return False
-        Return Regex.Match(Text, "<div id=['""](mw[-_])?content['""]>").Success
+        Return Regex.Match(Text, "<div id=['""](mw[-_])?content['""] *>").Success
     End Function
 
     Function LocalConfigPath() As String
