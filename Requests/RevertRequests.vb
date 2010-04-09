@@ -152,13 +152,13 @@ Namespace Requests
             If Summary Is Nothing Then Summary = Config.RollbackSummary
             If Config.Summary IsNot Nothing Then Summary &= " " & Config.Summary
 
-            Dim QueryString As String = "title=" & UrlEncode(Edit.Page.Name) & _
-                "&user=" & UrlEncode(Edit.User.Name) & "&token=" & UrlEncode(Edit.RollbackToken) & _
+            Dim QueryString As String = "action=rollback&title=" & UrlEncode(Edit.Page.Name) & _
+                "&from=" & UrlEncode(Edit.User.Name) & "&token=" & UrlEncode(Edit.RollbackToken) & _
                 "&summary=" & UrlEncode(Summary)
 
-            Dim Result As ApiResult = DoApiRequest("action=rollback", QueryString)
+            Dim Result As String = DoWebRequest(SitePath() & "index.php?" & QueryString)
 
-            If Result.Error Then Fail(Msg("revert-fail", Edit.Page.Name), Result.ErrorMessage) Else Complete()
+            'If Result.Error Then Fail(Msg("revert-fail", Edit.Page.Name), Result.ErrorMessage) Else Complete()
         End Sub
 
         Protected Overrides Sub Done()
