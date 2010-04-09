@@ -205,7 +205,8 @@ Namespace Requests
 
                     If Config.ReportLinkDiffs Then Report &= LinkDiffs()
 
-                    Report &= CRLF & "* Usuario que reporta: ~~~~" & CRLF & "* Acción administrativa:" & CRLF
+                    Report &= CRLF & "* Usuario que reporta: ~~~~" & CRLF & _
+                        "* Acción administrativa: (A rellenar por un bibliotecario)" & CRLF
 
                 Case "de.wikipedia"
                     Report = CRLF & CRLF & "== [[" & User.Userpage.Name & "]] ==" & CRLF
