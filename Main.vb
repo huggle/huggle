@@ -1405,9 +1405,9 @@ Class Main
             If Status.Items(i).ForeColor = Color.Red AndAlso TypeOf Status.Items(i).Tag Is Request Then
                 CType(Status.Items(i).Tag, Request).Cancel()
                 CancelledRequests += 1
-            Else
-                i += 1
             End If
+
+            i += 1
         End While
 
         If CancelledRequests = 1 Then Log("Cancelled 1 request") _
