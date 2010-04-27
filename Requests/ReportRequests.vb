@@ -320,8 +320,8 @@ Namespace Requests
 
                 Text = GetTextFromRev(Result.Text).ToLower.Replace("_", " ")
 
-                If Text.Contains("{{userlinks|" & User.Name.ToLower & "}}") _
-                    OrElse Text.Contains("{{userlinks|1=" & User.Name.ToLower & "}}") Then
+                If Text.Contains("{{user-uaa|" & User.Name.ToLower & "}}") _
+                    OrElse Text.Contains("{{user-uaa|1=" & User.Name.ToLower & "}}") Then
 
                     If User.Level < UserLevel.ReportedUAA Then User.Level = UserLevel.ReportedUAA
 
@@ -343,8 +343,8 @@ Namespace Requests
             Text = GetTextFromRev(Result.Text)
 
             'Check for existing report
-            If Text.ToLower.Replace("_", " ").Contains("{{userlinks|" & User.Name & "}}") _
-                OrElse Text.ToLower.Replace("_", " ").Contains("{{userlinks|1=" & User.Name & "}}") Then
+            If Text.ToLower.Replace("_", " ").Contains("{{user-uaa|" & User.Name & "}}") _
+                OrElse Text.ToLower.Replace("_", " ").Contains("{{user-uaa|1=" & User.Name & "}}") Then
 
                 If User.Level < UserLevel.ReportedUAA Then User.Level = UserLevel.ReportedUAA
                 Fail(Msg("report-fail", User.Name), Msg("warn-alreadyreported"))
@@ -352,7 +352,7 @@ Namespace Requests
             End If
 
             'Report user
-            Text &= LF & "* {{userlinks|"
+            Text &= LF & "* {{user-uaa|"
             If User.Name.Contains("=") Then Text &= "1="
             Text &= User.Name & "}} – " & Reason & " – ~~~~"
 
