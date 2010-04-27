@@ -232,8 +232,9 @@ Namespace Requests
                     FullTotal += BlockSize
                     _Result = New RequestResult(Result.Text)
                     LogProgress(Msg("history-progress", Page.Name, CStr(FullTotal)))
-                    Callback(AddressOf ProcessHistoryPart)
                 End If
+
+                Callback(AddressOf ProcessHistoryPart)
 
                 Offset = GetParameter(Result.Text, "rvstartid")
             Loop Until Not Full OrElse FullTotal >= FullLimit OrElse Offset Is Nothing

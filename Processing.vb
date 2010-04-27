@@ -925,8 +925,9 @@ Module Processing
     End Function
 
     Sub ProcessHistory(ByVal Result As String, ByVal Page As Page)
+        If Result Is Nothing Then Return
 
-        Dim History As MatchCollection = New Regex("<rev revid=""([^""]+)"" user=""([^""]+)"" (anon="""" )" & _
+        Dim History As MatchCollection = New Regex("<rev revid=""([^""]+)"" parentid=""([^""]+)"" user=""([^""]+)"" (anon="""" )" & _
             "?timestamp=""([^""]+)""( comment=""([^""]+)"")?(>([^<]*)</)?", RegexOptions.Compiled).Matches(Result)
 
         If History.Count = 0 Then
@@ -946,11 +947,11 @@ Module Processing
             If Edit.Oldid Is Nothing Then Edit.Oldid = "prev"
             Edit.Page = Page
 
-            If History(i).Groups(8).Value <> "" Then Edit.Text = HtmlDecode(History(i).Groups(8).Value)
+            If History(i).Groups(8).Value <> "" Then Edit.Text = HtmlDecode(History(i).Groups(9).Value)
 
-            Edit.User = GetUser(HtmlDecode(History(i).Groups(2).Value))
-            If Edit.Summary Is Nothing Then Edit.Summary = HtmlDecode(History(i).Groups(6).Value)
-            If Edit.Time = Date.MinValue Then Edit.Time = CDate(History(i).Groups(4).Value)
+            Edit.User = GetUser(HtmlDecode(History(i).Groups(3).Value))
+            If Edit.Summary Is Nothing Then Edit.Summary = HtmlDecode(History(i).Groups(7).Value)
+            If Edit.Time = Date.MinValue Then Edit.Time = CDate(History(i).Groups(5).Value)
 
             If Page.LastEdit Is Nothing Then
                 Page.LastEdit = Edit
