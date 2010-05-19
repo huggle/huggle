@@ -854,7 +854,14 @@ Module Processing
                         Summary = Summary.Substring(0, Summary.IndexOf("<div id=""mw-diff-ntitle3"">"))
 
                     If Summary.Contains("<span class=""comment"">") Then
-                        Summary = FindString(Summary, "<span class=""comment"">", "</span></div>")
+                        If Summary.Contains("</span></div>") Then 'without revision deletion links
+                            Summary = FindString(Summary, "<span class=""comment"">", "</span></div>")
+                        ElseIf Summary.Contains("</span>&nbsp;") Then 'with revision deletion links
+                            Summary = FindString(Summary, "<span class=""comment"">", "</span>&nbsp;")
+                        Else
+                            Summary = ""
+                        End If
+
                         Summary = HtmlToWikiText(Summary)
                         Edit.Prev.Summary = Summary
                     Else
