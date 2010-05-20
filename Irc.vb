@@ -111,25 +111,32 @@ Module Irc
                 While Not Reader.EndOfStream
                     Message = Reader.ReadLine
 
+
                     If Message.StartsWith("ERROR ") Then
+                        'If returns an error then...
                         IrcLog(Msg("irc-disconnected"))
                         Reconnecting = True
 
+
                     ElseIf Message.StartsWith(":" & Config.IrcServer & " 001") AndAlso Not Connected Then
+                        ' 001 :Welcome to the Internet Relay Network
                         Connected = True
                         Connecting = False
                         IrcLog(Msg("irc-connected"))
 
                     ElseIf Message.StartsWith(":" & Config.IrcServer & " 403") Then
+                        ' 403 channel :No such channel
                         IrcLog(Msg("irc-nochannel", Config.IrcChannel))
                         Config.IrcMode = False
                         Disconnecting = True
 
                     ElseIf Message.StartsWith("PING ") Then
+                        'If its a ping request then pong it back
                         Writer.WriteLine("PONG " & Message.Substring(5))
                         Writer.Flush()
 
                     ElseIf EditMatch.IsMatch(Message) Then
+                        'If the line hits the edit regex then...
                         Dim NewEdit As New Edit
                         Dim Match As Match = EditMatch.Match(Message)
 
@@ -144,6 +151,7 @@ Module Irc
                         Callback(AddressOf ProcessIrcEdit, CObj(NewEdit))
 
                     ElseIf NewPageMatch.Match(Message).Success Then
+                        'If the line hits the new page regex then...
                         Dim NewEdit As New Edit
                         Dim Match As Match = NewPageMatch.Match(Message)
 
@@ -159,10 +167,11 @@ Module Irc
 
                         Callback(AddressOf ProcessIrcEdit, CObj(NewEdit))
 
-                    ElseIf NewUserMatch.IsMatch(Message) Then
+                        'ElseIf NewUserMatch.IsMatch(Message) Then
                         'Dim Match As Match = NewUserMatch.Match(Message)
 
                     ElseIf DeleteMatch.IsMatch(Message) Then
+                        'If the line hits the delete regex then...
                         Dim NewDelete As New Delete
                         Dim Match As Match = DeleteMatch.Match(Message)
 
@@ -175,6 +184,7 @@ Module Irc
                         Callback(AddressOf ProcessDelete, CObj(NewDelete))
 
                     ElseIf BlockMatch.IsMatch(Message) Then
+                        'If the line hits the block regex then...
                         Dim NewBlock As New Block
                         Dim Match As Match = BlockMatch.Match(Message)
 
@@ -189,6 +199,7 @@ Module Irc
                         Callback(AddressOf ProcessBlock, CObj(NewBlock))
 
                     ElseIf ReblockMatch.IsMatch(Message) Then
+                        'If the line hits the reblock regex then...
                         Dim NewBlock As New Block
                         Dim Match As Match = BlockMatch.Match(Message)
 
@@ -203,6 +214,7 @@ Module Irc
                         Callback(AddressOf ProcessBlock, CObj(NewBlock))
 
                     ElseIf MoveMatch.IsMatch(Message) Then
+                        'If the line hits the move regex then...
                         Dim NewPageMove As New PageMove
                         Dim Match As Match = MoveMatch.Match(Message)
 
@@ -215,6 +227,7 @@ Module Irc
                         Callback(AddressOf ProcessPageMove, CObj(NewPageMove))
 
                     ElseIf RestoreMatch.IsMatch(Message) Then
+                        'If the line hits the restore regex then...
                         Dim NewRestore As New Delete
                         Dim Match As Match = NewPageMatch.Match(Message)
 
@@ -227,6 +240,7 @@ Module Irc
                         Callback(AddressOf ProcessRestore, CObj(NewRestore))
 
                     ElseIf UnblockMatch.IsMatch(Message) Then
+                        'If the line hits the unblock regex then...
                         Dim NewUnblock As New Block
                         Dim Match As Match = UnblockMatch.Match(Message)
 
@@ -241,6 +255,7 @@ Module Irc
                         Callback(AddressOf ProcessBlock, CObj(NewUnblock))
 
                     ElseIf UploadMatch.IsMatch(Message) Then
+                        'If the line hits the unblock regex then...
                         Dim NewUpload As New Upload
                         Dim Match As Match = UploadMatch.Match(Message)
 
@@ -252,6 +267,7 @@ Module Irc
                         Callback(AddressOf ProcessUpload, CObj(NewUpload))
 
                     ElseIf ProtectMatch.IsMatch(Message) Then
+                        'If the line hits the protect regex then...
                         Dim NewProtection As New Protection
                         Dim Match As Match = ProtectMatch.Match(Message)
 
@@ -268,6 +284,7 @@ Module Irc
                         Callback(AddressOf ProcessProtection, CObj(NewProtection))
 
                     ElseIf ModifyMatch.IsMatch(Message) Then
+                        'If the line hits the protection modify regex then...
                         Dim NewProtection As New Protection
                         Dim Match As Match = ModifyMatch.Match(Message)
 
@@ -285,6 +302,7 @@ Module Irc
                         Callback(AddressOf ProcessProtection, CObj(NewProtection))
 
                     ElseIf UnprotectMatch.IsMatch(Message) Then
+                        'If the line hits the unprotect regex then...
                         Dim NewProtection As New Protection
                         Dim Match As Match = ProtectMatch.Match(Message)
 
@@ -295,6 +313,7 @@ Module Irc
                         Callback(AddressOf ProcessProtection, CObj(NewProtection))
 
                     ElseIf OverwriteMatch.IsMatch(Message) Then
+                        'If the line hits the new upload regex then...
                         Dim NewUpload As New Upload
                         Dim Match As Match = OverwriteMatch.Match(Message)
 
@@ -305,18 +324,19 @@ Module Irc
 
                         Callback(AddressOf ProcessUpload, CObj(NewUpload))
 
-                    ElseIf CreateUserMatch.IsMatch(Message) Then
+                        'ElseIf CreateUserMatch.IsMatch(Message) Then
                         'Dim Match As Match = CreateUserMatch.Match(Message)
 
-                    ElseIf RenameUserMatch.IsMatch(Message) Then
+                        ' ElseIf RenameUserMatch.IsMatch(Message) Then
                         'Dim Match As Match = RenameUserMatch.Match(Message)
 
-                    ElseIf UserRightsMatch.IsMatch(Message) Then
+                        'ElseIf UserRightsMatch.IsMatch(Message) Then
                         'Dim Match As Match = UserRightsMatch.Match(Message)
 
                     End If
 
                     If Disconnecting Then
+                        'To disconnect
                         Disconnecting = False
                         Reader.Close()
                         Writer.Close()
@@ -325,6 +345,7 @@ Module Irc
                         Exit Sub
 
                     ElseIf Reconnecting Then
+                        'To reconnect
                         Reconnecting = False
                         Reader.Close()
                         Writer.Close()
