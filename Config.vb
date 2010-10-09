@@ -109,6 +109,7 @@ Class Configuration
     Public IrcMode As Boolean
     Public IrcPort As Integer = 6667
     Public IrcServer As String
+    Public IrcServerName As String
     Public IrcUsername As String
     Public LocalizatonPath As String = "Huggle/Localization/"
     Public LogFile As String

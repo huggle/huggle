@@ -87,6 +87,7 @@ Module Irc
 
     Private Sub IrcProcess()
         If Config.IrcServer Is Nothing Then Exit Sub
+        If Config.IrcServerName Is Nothing Then Exit Sub
 
         Connecting = True
         Log(Msg("irc-connecting"))
@@ -118,14 +119,14 @@ Module Irc
                         Reconnecting = True
 
 
-                    ElseIf Message.StartsWith(":" & Config.IrcServer & " 001") AndAlso Not Connected Then
-                        ' 001 :Welcome to the Internet Relay Network
+                    ElseIf Message.StartsWith(":" & Config.IrcServerName & " 001") AndAlso Not Connected Then
+                        ' :irc.pmtpa.wikimedia.org 001 Sidonuke :Welcome to the Wikimedia Internet Relay Chat Network Sidonuke
                         Connected = True
                         Connecting = False
                         IrcLog(Msg("irc-connected"))
 
-                    ElseIf Message.StartsWith(":" & Config.IrcServer & " 403") Then
-                        ' 403 channel :No such channel
+                    ElseIf Message.StartsWith(Config.IrcServerName & " :No such channel") Then
+                        ' irc.pmtpa.wikimedia.org :No such channel
                         IrcLog(Msg("irc-nochannel", Config.IrcChannel))
                         Config.IrcMode = False
                         Disconnecting = True

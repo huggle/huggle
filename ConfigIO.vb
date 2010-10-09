@@ -117,6 +117,7 @@ Module ConfigIO
             Case "documentation" : Config.DocsLocation = Value
             Case "feedback" : Config.FeedbackLocation = Value
             Case "irc-server" : Config.IrcServer = Value
+            Case "irc-server-name" : Config.IrcServerName = Value
             Case "min-version" : Config.MinVersion = ParseVersion(Value)
             Case "projects" : Config.Projects = GetDictionary(Value)
             Case "sensitive-addresses" : Config.SensitiveAddresses = GetDictionary(Value)
