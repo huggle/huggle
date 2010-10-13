@@ -18,70 +18,70 @@ Module Irc
         IrcThread.Start()
     End Sub
 
-    Dim EditMatch As New Regex(":rc!~rc@[^ ]* PRIVMSG #[^:]*:14\[\[07([^]*)14\]\]4 (M?)(B?)10 02.*di" & _
+    Dim EditMatch As New Regex(":rc-pmtpa!~rc-pmtpa@[^ ]* PRIVMSG #[^:]*:14\[\[07([^]*)14\]\]4 (M?)(B?)10 02.*di" & _
         "ff=([^&]*)&oldid=([^]*) 5\* 03([^]*) 5\* \(?([^]*)?\) 10([^]*)?", RegexOptions.Compiled)
 
-    Dim NewPageMatch As New Regex(":rc!~rc@[^ ]* PRIVMSG #[^:]*:14\[\[07([^]*)14\]\]4 N(M?)(B?)" & _
+    Dim NewPageMatch As New Regex("rc-pmtpa!~rc-pmtpa@[^ ]* PRIVMSG #[^:]*:14\[\[07([^]*)14\]\]4 N(M?)(B?)" & _
         "10 02[^ ]* 5\* 03([^]*) 5\* \(([^\)]*)\) 10([^]*)", RegexOptions.Compiled)
 
-    Dim BlockMatch As New Regex(":rc!~rc@[^ ]* PRIVMSG #[^:]*:14\[\[07Special:Log/block14\]\]4 block" & _
+    Dim BlockMatch As New Regex("rc-pmtpa!~rc-pmtpa@[^ ]* PRIVMSG #[^:]*:14\[\[07Special:Log/block14\]\]4 block" & _
         "10 02 5\* 03([^]*) 5\*  10blocked User:([^]*?) \(([^\)]*)\) with an expiry time of ([^:]*?): " & _
         "([^]*?)", RegexOptions.Compiled)
 
-    Dim ReblockMatch As New Regex(":rc!~rc@[^ ]* PRIVMSG #[^:]*:14\[\[07Special:Log/block14\]\]4 reblock" & _
+    Dim ReblockMatch As New Regex("rc-pmtpa!~rc-pmtpa@[^ ]* PRIVMSG #[^:]*:14\[\[07Special:Log/block14\]\]4 reblock" & _
         "10 02 5\* 03([^]*) 5\*  10changed block settings for \[\[02User:([^]*?)10\]\] " & _
         "with an expiry time of ([^:]*?) \(([^\)]*)\): ([^]*?)", RegexOptions.Compiled)
 
-    Dim UnblockMatch As New Regex(":rc!~rc@[^ ]* PRIVMSG #[^:]*:14\[\[07Special:Log/block14\]\]4 unblock" & _
+    Dim UnblockMatch As New Regex("rc-pmtpa!~rc-pmtpa@[^ ]* PRIVMSG #[^:]*:14\[\[07Special:Log/block14\]\]4 unblock" & _
         "10 02 5\* 03([^]*) 5\*  10unblocked ""User:([^]*?)""(?:: ([^]*))??", _
         RegexOptions.Compiled)
 
-    Dim DeleteMatch As New Regex(":rc!~rc@[^ ]* PRIVMSG #[^:]*:14\[\[07Special:Log/delete14\]\]4 delete" & _
+    Dim DeleteMatch As New Regex("rc-pmtpa!~rc-pmtpa@[^ ]* PRIVMSG #[^:]*:14\[\[07Special:Log/delete14\]\]4 delete" & _
         "10 02 5\* 03([^]*) 5\*  10deleted ""\[\[02([^]*)10\]\]""(?:: ([^]*))?", _
         RegexOptions.Compiled)
 
-    Dim RestoreMatch As New Regex(":rc!~rc@[^ ]* PRIVMSG #[^:]*:14\[\[07Special:Log/delete" & _
+    Dim RestoreMatch As New Regex("rc-pmtpa!~rc-pmtpa@[^ ]* PRIVMSG #[^:]*:14\[\[07Special:Log/delete" & _
         "14\]\]4 restore10 02 5\* 03([^]*) 5\*  10restored ""\[\[02([^]*)10\]\]""" & _
         ": ([^]*)?", RegexOptions.Compiled)
 
-    Dim MoveMatch As New Regex(":rc!~rc@[^ ]* PRIVMSG #[^:]*:14\[\[07Special:Log/move" & _
+    Dim MoveMatch As New Regex("rc-pmtpa!~rc-pmtpa@[^ ]* PRIVMSG #[^:]*:14\[\[07Special:Log/move" & _
         "14\]\]4 move(?:_redir)?10 02 5\* 03([^]*?) 5\*  10moved \[\[02([^]*?)10\]\] to " & _
         "\[\[([^\]]*)\]\](?: over redirect)?(: ([^]*))?", RegexOptions.Compiled)
 
-    Dim NewUserMatch As New Regex(":rc!~rc@[^ ]* PRIVMSG #[^:]*:14\[\[07Special:Log/newusers" & _
+    Dim NewUserMatch As New Regex("rc-pmtpa!~rc-pmtpa@[^ ]* PRIVMSG #[^:]*:14\[\[07Special:Log/newusers" & _
         "14\]\]4 create10 02 5\* 03([^]*?) 5\*  10New user account", RegexOptions.Compiled)
 
-    Dim CreateUserMatch As New Regex(":rc!~rc@[^ ]* PRIVMSG #[^:]*:14\[\[07Special:Log/newusers" & _
+    Dim CreateUserMatch As New Regex("rc-pmtpa!~rc-pmtpa@[^ ]* PRIVMSG #[^:]*:14\[\[07Special:Log/newusers" & _
         "14\]\]4 create210 02 5\* 03([^]*?) 5\*  10created new account User:([^]*)", _
         RegexOptions.Compiled)
 
-    Dim UploadMatch As New Regex(":rc!~rc@[^ ]* PRIVMSG #[^:]*:14\[\[07Special:Log/upload" & _
+    Dim UploadMatch As New Regex("rc-pmtpa!~rc-pmtpa@[^ ]* PRIVMSG #[^:]*:14\[\[07Special:Log/upload" & _
        "14\]\]4 upload10 02 5\* 03([^]*) 5\*  10uploaded ""\[\[02([^]*?)10\]\]""" & _
        "(: ([^]*))??", RegexOptions.Compiled)
 
-    Dim OverwriteMatch As New Regex(":rc!~rc@[^ ]* PRIVMSG #[^:]*:14\[\[07Special:Log/upload" & _
+    Dim OverwriteMatch As New Regex("rc-pmtpa!~rc-pmtpa@[^ ]* PRIVMSG #[^:]*:14\[\[07Special:Log/upload" & _
         "14\]\]4 overwrite10 02 5\* 03([^]*) 5\*  10uploaded a new version of """ & _
         "\[\[02([^]*)10\]\]""(?:: )?([^]*)?", RegexOptions.Compiled)
 
-    Dim ProtectMatch As New Regex(":rc!~rc@[^ ]* PRIVMSG #[^:]*:14\[\[07Special:Log/protect14\]\]4 " & _
+    Dim ProtectMatch As New Regex("rc-pmtpa!~rc-pmtpa@[^ ]* PRIVMSG #[^:]*:14\[\[07Special:Log/protect14\]\]4 " & _
         "protect10 02 5\* 03([^]*) 5\*  10protected ([^\[]*)(?:\[edit=([a-z]*)\] \(([^\)]*\)" & _
         "?)\))?(?:\[move=([a-z]*)\] \(([^\)]*\)?)\))?(?:\[create=([a-z]*)\]  \(([^\)]*\)?)\))?(?:: ([^^C]*))??", _
         RegexOptions.Compiled)
 
-    Dim ModifyMatch As New Regex(":rc!~rc@[^ ]* PRIVMSG #[^:]*:14\[\[07Special:Log/protect14\]\]4 " & _
+    Dim ModifyMatch As New Regex("rc-pmtpa!~rc-pmtpa@[^ ]* PRIVMSG #[^:]*:14\[\[07Special:Log/protect14\]\]4 " & _
         "modify10 02 5\* 03([^]*) 5\*  10changed protection level for ""\[\[02([^]*)10\]\]""(?: " & _
         "\[edit=([a-z]*)\] \(([^\)]*\)?)\))?(?: \[move=([a-z]*)\] \(([^\)]*\)?)\))?(?: \[create=([a-z]*)\]  " & _
         "\(([^\)]*\)?)\))?(?:: ([^^C]*))??", RegexOptions.Compiled)
 
-    Dim UnprotectMatch As New Regex(":rc!~rc@[^ ]* PRIVMSG #[^:]*:14\[\[07Special:Log/protect" & _
+    Dim UnprotectMatch As New Regex("rc-pmtpa!~rc-pmtpa@[^ ]* PRIVMSG #[^:]*:14\[\[07Special:Log/protect" & _
         "14\]\]4 unprotect10 02 5\* 03([^]*) 5\*  10unprotected ([^]*): ([^]*)?", _
         RegexOptions.Compiled)
 
-    Dim RenameUserMatch As New Regex(":rc!~rc@[^ ]* PRIVMSG #[^:]*:14\[\[07Special:Log/renameuser" & _
+    Dim RenameUserMatch As New Regex("rc-pmtpa!~rc-pmtpa@[^ ]* PRIVMSG #[^:]*:14\[\[07Special:Log/renameuser" & _
         "14\]\]4 renameuser10 02 5\* 03([^]*) 5\*  10renamed ([^ ]*) to ""([^""]*)"": " & _
         "(?:[^\.]*)\. Reason: ([^]*)", RegexOptions.Compiled)
 
-    Dim UserRightsMatch As New Regex(":rc!~rc@[^ ]* PRIVMSG #[^:]*:14\[\[07Special:Log/rights14\]\]4 rights" & _
+    Dim UserRightsMatch As New Regex("rc-pmtpa!~rc-pmtpa@[^ ]* PRIVMSG #[^:]*:14\[\[07Special:Log/rights14\]\]4 rights" & _
         "10 02 5\* 03([^]*) 5\*  10changed rights for User:(.*) from ([^:]*) to ([^:.]*): " & _
         "([^]*)", RegexOptions.Compiled)
 
