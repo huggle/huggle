@@ -305,8 +305,8 @@ Namespace Requests
 
             'Protect the page
             Dim PostString As String = "title=" & UrlEncode(Page.Name) & _
-                "&reason=" & UrlEncode(Summary) & "protections=edit:" & EditLevel & "|move:" & MoveLevel & _
-                "expiry=" & Expiry & "&token=" & UrlEncode(Token)
+                "&reason=" & UrlEncode(Summary) & "&protections=edit=" & EditLevel & "|move=" & MoveLevel & _
+                "&expiry=" & Expiry & "&token=" & UrlEncode(Token)
 
             If Cascade Then PostString &= "&cascade=1"
 
