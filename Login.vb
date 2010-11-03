@@ -112,6 +112,9 @@ Namespace Requests
             'Get global configuration
             UpdateStatus(Msg("login-progress-global"))
 
+            Abort("Huggle is disabled at this time")
+            Exit Sub
+
             Dim GlobalConfigResult As RequestResult = (New GlobalConfigRequest).Invoke
 
             'If the global config has an error then show relevant error
