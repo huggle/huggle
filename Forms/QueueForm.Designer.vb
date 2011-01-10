@@ -22,103 +22,103 @@ Partial Class QueueForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container
-        Me.QueueList = New System.Windows.Forms.ListBox
-        Me.QueuesLabel = New System.Windows.Forms.Label
-        Me.Add = New System.Windows.Forms.Button
-        Me.Delete = New System.Windows.Forms.Button
-        Me.Rename = New System.Windows.Forms.Button
-        Me.Copy = New System.Windows.Forms.Button
+        Me.components = New System.ComponentModel.Container()
+        Me.QueueList = New System.Windows.Forms.ListBox()
+        Me.QueuesLabel = New System.Windows.Forms.Label()
+        Me.Add = New System.Windows.Forms.Button()
+        Me.Delete = New System.Windows.Forms.Button()
+        Me.Rename = New System.Windows.Forms.Button()
+        Me.Copy = New System.Windows.Forms.Button()
         Me.Tip = New System.Windows.Forms.ToolTip(Me.components)
-        Me.QueuesEmpty = New System.Windows.Forms.Label
-        Me.TypeGroup = New System.Windows.Forms.GroupBox
-        Me.DynamicList = New System.Windows.Forms.RadioButton
-        Me.Live = New System.Windows.Forms.RadioButton
-        Me.LiveList = New System.Windows.Forms.RadioButton
-        Me.FixedList = New System.Windows.Forms.RadioButton
-        Me.Tabs = New System.Windows.Forms.TabControl
-        Me.PagesTab = New System.Windows.Forms.TabPage
-        Me.ListBuilder = New System.Windows.Forms.Button
-        Me.ListSelector = New System.Windows.Forms.ComboBox
-        Me.ListSelectorLabel = New System.Windows.Forms.Label
-        Me.QueuePages = New System.Windows.Forms.ListBox
-        Me.DynamicListTab = New System.Windows.Forms.TabPage
-        Me.DynamicSource = New System.Windows.Forms.TextBox
-        Me.DynamicSourceType = New System.Windows.Forms.ComboBox
-        Me.RefreshInterval = New System.Windows.Forms.NumericUpDown
-        Me.Label4 = New System.Windows.Forms.Label
-        Me.Label3 = New System.Windows.Forms.Label
-        Me.RefreshAlways = New System.Windows.Forms.CheckBox
-        Me.RefreshReAdd = New System.Windows.Forms.CheckBox
-        Me.DynamicSourceLabel = New System.Windows.Forms.Label
-        Me.DynamicSourceTypeLabel = New System.Windows.Forms.Label
-        Me.OptionsTab = New System.Windows.Forms.TabPage
-        Me.PreloadGroup = New System.Windows.Forms.GroupBox
-        Me.AllDiffs = New System.Windows.Forms.RadioButton
-        Me.PreloadDiffs = New System.Windows.Forms.RadioButton
-        Me.NoDiffs = New System.Windows.Forms.RadioButton
-        Me.TrayNotification = New System.Windows.Forms.CheckBox
-        Me.IgnorePages = New System.Windows.Forms.CheckBox
-        Me.RemoveAfter = New System.Windows.Forms.CheckBox
-        Me.RemoveAfterTime = New System.Windows.Forms.NumericUpDown
-        Me.RemoveAfterTimeLabel = New System.Windows.Forms.Label
-        Me.RemoveViewed = New System.Windows.Forms.CheckBox
-        Me.RemoveOld = New System.Windows.Forms.CheckBox
-        Me.SortOrderLabel = New System.Windows.Forms.Label
-        Me.SortOrder = New System.Windows.Forms.ComboBox
-        Me.TitleFiltersTab = New System.Windows.Forms.TabPage
-        Me.Apply = New System.Windows.Forms.Button
-        Me.ApplyFiltersLabel = New System.Windows.Forms.Label
-        Me.PageFiltersGroup = New System.Windows.Forms.GroupBox
-        Me.CheckAllSpaces = New System.Windows.Forms.Button
-        Me.PageRegex = New Huggle.RegexBox
-        Me.NamespacesLabel = New System.Windows.Forms.Label
-        Me.Namespaces = New System.Windows.Forms.CheckedListBox
-        Me.PageRegexLabel = New System.Windows.Forms.Label
-        Me.EditFiltersTab = New System.Windows.Forms.TabPage
-        Me.ExampleLabel3 = New System.Windows.Forms.Label
-        Me.ExampleLabel2 = New System.Windows.Forms.Label
-        Me.ExampleLabel1 = New System.Windows.Forms.Label
-        Me.EditFiltersGroup = New System.Windows.Forms.GroupBox
-        Me.FilterBot = New Huggle.TriState
-        Me.SummaryRegex = New Huggle.RegexBox
-        Me.UserRegex = New Huggle.RegexBox
-        Me.FilterAssisted = New Huggle.TriState
-        Me.FilterHuggle = New Huggle.TriState
-        Me.FilterMe = New Huggle.TriState
-        Me.FilterTags = New Huggle.TriState
-        Me.FilterWarnings = New Huggle.TriState
-        Me.FilterNotifications = New Huggle.TriState
-        Me.FilterReverts = New Huggle.TriState
-        Me.FilterOwnUserspace = New Huggle.TriState
-        Me.FilterIgnored = New Huggle.TriState
-        Me.FilterAnonymous = New Huggle.TriState
-        Me.FilterNewPage = New Huggle.TriState
-        Me.SummaryRegexLabel = New System.Windows.Forms.Label
-        Me.UserRegexLabel = New System.Windows.Forms.Label
-        Me.Example2 = New Huggle.TriState
-        Me.Example1 = New Huggle.TriState
-        Me.Example3 = New Huggle.TriState
-        Me.UsersTab = New System.Windows.Forms.TabPage
-        Me.UserGroup = New System.Windows.Forms.GroupBox
-        Me.UserCount = New System.Windows.Forms.Label
-        Me.UserBrowse = New System.Windows.Forms.Button
-        Me.UserSource = New System.Windows.Forms.TextBox
-        Me.UserSourceLabel = New System.Windows.Forms.Label
-        Me.UserSourceTypeLabel = New System.Windows.Forms.Label
-        Me.ClearUsers = New System.Windows.Forms.Button
-        Me.RemoveUser = New System.Windows.Forms.Button
-        Me.UserSourceType = New System.Windows.Forms.ComboBox
-        Me.AddUser = New System.Windows.Forms.Button
-        Me.Users = New System.Windows.Forms.ListBox
-        Me.RevisionTab = New System.Windows.Forms.TabPage
-        Me.RevisionGroup = New System.Windows.Forms.GroupBox
-        Me.RevisionTabNote = New System.Windows.Forms.Label
-        Me.RevisionRegexLabel = New System.Windows.Forms.Label
-        Me.RevisionRegex = New Huggle.RegexBox
-        Me.OK = New System.Windows.Forms.Button
-        Me.MoveUp = New System.Windows.Forms.Button
-        Me.MoveDown = New System.Windows.Forms.Button
+        Me.QueuesEmpty = New System.Windows.Forms.Label()
+        Me.TypeGroup = New System.Windows.Forms.GroupBox()
+        Me.DynamicList = New System.Windows.Forms.RadioButton()
+        Me.Live = New System.Windows.Forms.RadioButton()
+        Me.LiveList = New System.Windows.Forms.RadioButton()
+        Me.FixedList = New System.Windows.Forms.RadioButton()
+        Me.Tabs = New System.Windows.Forms.TabControl()
+        Me.PagesTab = New System.Windows.Forms.TabPage()
+        Me.ListBuilder = New System.Windows.Forms.Button()
+        Me.ListSelector = New System.Windows.Forms.ComboBox()
+        Me.ListSelectorLabel = New System.Windows.Forms.Label()
+        Me.QueuePages = New System.Windows.Forms.ListBox()
+        Me.DynamicListTab = New System.Windows.Forms.TabPage()
+        Me.DynamicSource = New System.Windows.Forms.TextBox()
+        Me.DynamicSourceType = New System.Windows.Forms.ComboBox()
+        Me.RefreshInterval = New System.Windows.Forms.NumericUpDown()
+        Me.DynamicSecondsLabel = New System.Windows.Forms.Label()
+        Me.DynamicRefreshLabel = New System.Windows.Forms.Label()
+        Me.RefreshAlways = New System.Windows.Forms.CheckBox()
+        Me.RefreshReAdd = New System.Windows.Forms.CheckBox()
+        Me.DynamicSourceLabel = New System.Windows.Forms.Label()
+        Me.DynamicSourceTypeLabel = New System.Windows.Forms.Label()
+        Me.OptionsTab = New System.Windows.Forms.TabPage()
+        Me.PreloadGroup = New System.Windows.Forms.GroupBox()
+        Me.AllDiffs = New System.Windows.Forms.RadioButton()
+        Me.PreloadDiffs = New System.Windows.Forms.RadioButton()
+        Me.NoDiffs = New System.Windows.Forms.RadioButton()
+        Me.TrayNotification = New System.Windows.Forms.CheckBox()
+        Me.IgnorePages = New System.Windows.Forms.CheckBox()
+        Me.RemoveAfter = New System.Windows.Forms.CheckBox()
+        Me.RemoveAfterTime = New System.Windows.Forms.NumericUpDown()
+        Me.RemoveAfterTimeLabel = New System.Windows.Forms.Label()
+        Me.RemoveViewed = New System.Windows.Forms.CheckBox()
+        Me.RemoveOld = New System.Windows.Forms.CheckBox()
+        Me.SortOrderLabel = New System.Windows.Forms.Label()
+        Me.SortOrder = New System.Windows.Forms.ComboBox()
+        Me.TitleFiltersTab = New System.Windows.Forms.TabPage()
+        Me.Apply = New System.Windows.Forms.Button()
+        Me.ApplyFiltersLabel = New System.Windows.Forms.Label()
+        Me.PageFiltersGroup = New System.Windows.Forms.GroupBox()
+        Me.CheckAllSpaces = New System.Windows.Forms.Button()
+        Me.PageRegex = New Huggle.RegexBox()
+        Me.NamespacesLabel = New System.Windows.Forms.Label()
+        Me.Namespaces = New System.Windows.Forms.CheckedListBox()
+        Me.PageRegexLabel = New System.Windows.Forms.Label()
+        Me.EditFiltersTab = New System.Windows.Forms.TabPage()
+        Me.ExampleLabel3 = New System.Windows.Forms.Label()
+        Me.ExampleLabel2 = New System.Windows.Forms.Label()
+        Me.ExampleLabel1 = New System.Windows.Forms.Label()
+        Me.EditFiltersGroup = New System.Windows.Forms.GroupBox()
+        Me.FilterBot = New Huggle.TriState()
+        Me.SummaryRegex = New Huggle.RegexBox()
+        Me.UserRegex = New Huggle.RegexBox()
+        Me.FilterAssisted = New Huggle.TriState()
+        Me.FilterHuggle = New Huggle.TriState()
+        Me.FilterMe = New Huggle.TriState()
+        Me.FilterTags = New Huggle.TriState()
+        Me.FilterWarnings = New Huggle.TriState()
+        Me.FilterNotifications = New Huggle.TriState()
+        Me.FilterReverts = New Huggle.TriState()
+        Me.FilterOwnUserspace = New Huggle.TriState()
+        Me.FilterIgnored = New Huggle.TriState()
+        Me.FilterAnonymous = New Huggle.TriState()
+        Me.FilterNewPage = New Huggle.TriState()
+        Me.SummaryRegexLabel = New System.Windows.Forms.Label()
+        Me.UserRegexLabel = New System.Windows.Forms.Label()
+        Me.Example2 = New Huggle.TriState()
+        Me.Example1 = New Huggle.TriState()
+        Me.Example3 = New Huggle.TriState()
+        Me.UsersTab = New System.Windows.Forms.TabPage()
+        Me.UserGroup = New System.Windows.Forms.GroupBox()
+        Me.UserCount = New System.Windows.Forms.Label()
+        Me.UserBrowse = New System.Windows.Forms.Button()
+        Me.UserSource = New System.Windows.Forms.TextBox()
+        Me.UserSourceLabel = New System.Windows.Forms.Label()
+        Me.UserSourceTypeLabel = New System.Windows.Forms.Label()
+        Me.ClearUsers = New System.Windows.Forms.Button()
+        Me.RemoveUser = New System.Windows.Forms.Button()
+        Me.UserSourceType = New System.Windows.Forms.ComboBox()
+        Me.AddUser = New System.Windows.Forms.Button()
+        Me.Users = New System.Windows.Forms.ListBox()
+        Me.RevisionTab = New System.Windows.Forms.TabPage()
+        Me.RevisionGroup = New System.Windows.Forms.GroupBox()
+        Me.RevisionTabNote = New System.Windows.Forms.Label()
+        Me.RevisionRegexLabel = New System.Windows.Forms.Label()
+        Me.RevisionRegex = New Huggle.RegexBox()
+        Me.OK = New System.Windows.Forms.Button()
+        Me.MoveUp = New System.Windows.Forms.Button()
+        Me.MoveDown = New System.Windows.Forms.Button()
         Me.TypeGroup.SuspendLayout()
         Me.Tabs.SuspendLayout()
         Me.PagesTab.SuspendLayout()
@@ -355,8 +355,8 @@ Partial Class QueueForm
         Me.DynamicListTab.Controls.Add(Me.DynamicSource)
         Me.DynamicListTab.Controls.Add(Me.DynamicSourceType)
         Me.DynamicListTab.Controls.Add(Me.RefreshInterval)
-        Me.DynamicListTab.Controls.Add(Me.Label4)
-        Me.DynamicListTab.Controls.Add(Me.Label3)
+        Me.DynamicListTab.Controls.Add(Me.DynamicSecondsLabel)
+        Me.DynamicListTab.Controls.Add(Me.DynamicRefreshLabel)
         Me.DynamicListTab.Controls.Add(Me.RefreshAlways)
         Me.DynamicListTab.Controls.Add(Me.RefreshReAdd)
         Me.DynamicListTab.Controls.Add(Me.DynamicSourceLabel)
@@ -395,23 +395,23 @@ Partial Class QueueForm
         Me.RefreshInterval.TabIndex = 5
         Me.RefreshInterval.Value = New Decimal(New Integer() {30, 0, 0, 0})
         '
-        'Label4
+        'DynamicSecondsLabel
         '
-        Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(168, 79)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(47, 13)
-        Me.Label4.TabIndex = 6
-        Me.Label4.Text = "seconds"
+        Me.DynamicSecondsLabel.AutoSize = True
+        Me.DynamicSecondsLabel.Location = New System.Drawing.Point(168, 79)
+        Me.DynamicSecondsLabel.Name = "DynamicSecondsLabel"
+        Me.DynamicSecondsLabel.Size = New System.Drawing.Size(47, 13)
+        Me.DynamicSecondsLabel.TabIndex = 6
+        Me.DynamicSecondsLabel.Text = "seconds"
         '
-        'Label3
+        'DynamicRefreshLabel
         '
-        Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(15, 79)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(88, 13)
-        Me.Label3.TabIndex = 4
-        Me.Label3.Text = "Refresh list every"
+        Me.DynamicRefreshLabel.AutoSize = True
+        Me.DynamicRefreshLabel.Location = New System.Drawing.Point(15, 79)
+        Me.DynamicRefreshLabel.Name = "DynamicRefreshLabel"
+        Me.DynamicRefreshLabel.Size = New System.Drawing.Size(88, 13)
+        Me.DynamicRefreshLabel.TabIndex = 4
+        Me.DynamicRefreshLabel.Text = "Refresh list every"
         '
         'RefreshAlways
         '
@@ -1314,13 +1314,13 @@ Partial Class QueueForm
     Friend WithEvents MoveDown As System.Windows.Forms.Button
     Friend WithEvents DynamicListTab As System.Windows.Forms.TabPage
     Friend WithEvents RefreshInterval As System.Windows.Forms.NumericUpDown
-    Friend WithEvents Label3 As System.Windows.Forms.Label
+    Friend WithEvents DynamicRefreshLabel As System.Windows.Forms.Label
     Friend WithEvents RefreshReAdd As System.Windows.Forms.CheckBox
     Friend WithEvents DynamicSourceLabel As System.Windows.Forms.Label
     Friend WithEvents DynamicSourceTypeLabel As System.Windows.Forms.Label
     Friend WithEvents DynamicSource As System.Windows.Forms.TextBox
     Friend WithEvents DynamicSourceType As System.Windows.Forms.ComboBox
-    Friend WithEvents Label4 As System.Windows.Forms.Label
+    Friend WithEvents DynamicSecondsLabel As System.Windows.Forms.Label
     Friend WithEvents RefreshAlways As System.Windows.Forms.CheckBox
     Friend WithEvents DynamicList As System.Windows.Forms.RadioButton
     Friend WithEvents CheckAllSpaces As System.Windows.Forms.Button

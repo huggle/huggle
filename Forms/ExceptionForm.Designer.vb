@@ -22,22 +22,22 @@ Partial Class ExceptionForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.Label1 = New System.Windows.Forms.Label()
+        Me.ErrorLabel = New System.Windows.Forms.Label()
         Me.Details = New System.Windows.Forms.TextBox()
         Me.ExitButton = New System.Windows.Forms.Button()
         Me.ContinueButton = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
-        'Label1
+        'ErrorLabel
         '
-        Me.Label1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.ErrorLabel.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label1.Location = New System.Drawing.Point(12, 9)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(470, 32)
-        Me.Label1.TabIndex = 0
-        Me.Label1.Text = "Huggle 2 has encountered an error, and may need to close." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "If reporting this erro" & _
-            "r, please include the following information:"
+        Me.ErrorLabel.Location = New System.Drawing.Point(12, 9)
+        Me.ErrorLabel.Name = "ErrorLabel"
+        Me.ErrorLabel.Size = New System.Drawing.Size(470, 32)
+        Me.ErrorLabel.TabIndex = 0
+        Me.ErrorLabel.Text = "Huggle has encountered an error, and may need to close." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "If reporting this error," & _
+            " please include the following information:"
         '
         'Details
         '
@@ -81,7 +81,7 @@ Partial Class ExceptionForm
         Me.Controls.Add(Me.ContinueButton)
         Me.Controls.Add(Me.ExitButton)
         Me.Controls.Add(Me.Details)
-        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.ErrorLabel)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
         Me.MinimizeBox = False
@@ -91,7 +91,7 @@ Partial Class ExceptionForm
         Me.PerformLayout()
 
     End Sub
-    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents ErrorLabel As System.Windows.Forms.Label
     Friend WithEvents Details As System.Windows.Forms.TextBox
     Friend WithEvents ExitButton As System.Windows.Forms.Button
     Friend WithEvents ContinueButton As System.Windows.Forms.Button

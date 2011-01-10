@@ -22,53 +22,53 @@ Partial Class EditForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container
-        Me.Summary = New System.Windows.Forms.TextBox
-        Me.SummaryLabel = New System.Windows.Forms.Label
-        Me.Minor = New System.Windows.Forms.CheckBox
-        Me.Watch = New System.Windows.Forms.CheckBox
-        Me.Save = New System.Windows.Forms.Button
-        Me.Cancel = New System.Windows.Forms.Button
-        Me.Tabs = New System.Windows.Forms.TabControl
-        Me.EditTab = New System.Windows.Forms.TabPage
-        Me.FindGroup = New System.Windows.Forms.GroupBox
-        Me.ReplaceAll = New System.Windows.Forms.Button
-        Me.ReplaceLabel = New System.Windows.Forms.Label
-        Me.Replace = New System.Windows.Forms.TextBox
-        Me.FindInfo = New System.Windows.Forms.Label
-        Me.MatchCase = New System.Windows.Forms.CheckBox
-        Me.FindPrevious = New System.Windows.Forms.Button
-        Me.FindNext = New System.Windows.Forms.Button
-        Me.Find = New System.Windows.Forms.TextBox
-        Me.FindLabel = New System.Windows.Forms.Label
-        Me.WaitMessage = New System.Windows.Forms.Label
-        Me.PageText = New Huggle.WikiTextBox
+        Me.components = New System.ComponentModel.Container()
+        Me.Summary = New System.Windows.Forms.TextBox()
+        Me.SummaryLabel = New System.Windows.Forms.Label()
+        Me.Minor = New System.Windows.Forms.CheckBox()
+        Me.Watch = New System.Windows.Forms.CheckBox()
+        Me.Save = New System.Windows.Forms.Button()
+        Me.Cancel = New System.Windows.Forms.Button()
+        Me.Tabs = New System.Windows.Forms.TabControl()
+        Me.EditTab = New System.Windows.Forms.TabPage()
+        Me.FindGroup = New System.Windows.Forms.GroupBox()
+        Me.ReplaceAll = New System.Windows.Forms.Button()
+        Me.ReplaceLabel = New System.Windows.Forms.Label()
+        Me.Replace = New System.Windows.Forms.TextBox()
+        Me.FindInfo = New System.Windows.Forms.Label()
+        Me.MatchCase = New System.Windows.Forms.CheckBox()
+        Me.FindPrevious = New System.Windows.Forms.Button()
+        Me.FindNext = New System.Windows.Forms.Button()
+        Me.Find = New System.Windows.Forms.TextBox()
+        Me.FindLabel = New System.Windows.Forms.Label()
+        Me.WaitMessage = New System.Windows.Forms.Label()
+        Me.PageText = New Huggle.WikiTextBox()
         Me.EditStrip = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.EditUndo = New System.Windows.Forms.ToolStripMenuItem
-        Me.EditRedo = New System.Windows.Forms.ToolStripMenuItem
-        Me.Separator1 = New System.Windows.Forms.ToolStripSeparator
-        Me.EditCut = New System.Windows.Forms.ToolStripMenuItem
-        Me.EditCopy = New System.Windows.Forms.ToolStripMenuItem
-        Me.EditPaste = New System.Windows.Forms.ToolStripMenuItem
-        Me.EditDelete = New System.Windows.Forms.ToolStripMenuItem
-        Me.Separator3 = New System.Windows.Forms.ToolStripSeparator
-        Me.EditSelectAll = New System.Windows.Forms.ToolStripMenuItem
-        Me.Separator4 = New System.Windows.Forms.ToolStripSeparator
-        Me.EditFind = New System.Windows.Forms.ToolStripMenuItem
-        Me.EditMenu = New System.Windows.Forms.ToolStripMenuItem
-        Me.PreviewTab = New System.Windows.Forms.TabPage
-        Me.Preview = New Huggle.WebBrowser
-        Me.ChangesTab = New System.Windows.Forms.TabPage
-        Me.Diff = New Huggle.WebBrowser
+        Me.EditUndo = New System.Windows.Forms.ToolStripMenuItem()
+        Me.EditRedo = New System.Windows.Forms.ToolStripMenuItem()
+        Me.EditSeparator1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.EditCut = New System.Windows.Forms.ToolStripMenuItem()
+        Me.EditCopy = New System.Windows.Forms.ToolStripMenuItem()
+        Me.EditPaste = New System.Windows.Forms.ToolStripMenuItem()
+        Me.EditDelete = New System.Windows.Forms.ToolStripMenuItem()
+        Me.EditSeparator2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.EditSelectAll = New System.Windows.Forms.ToolStripMenuItem()
+        Me.EditSeparator3 = New System.Windows.Forms.ToolStripSeparator()
+        Me.EditFind = New System.Windows.Forms.ToolStripMenuItem()
+        Me.EditMenu = New System.Windows.Forms.ToolStripMenuItem()
+        Me.PreviewTab = New System.Windows.Forms.TabPage()
+        Me.Preview = New Huggle.WebBrowser()
+        Me.ChangesTab = New System.Windows.Forms.TabPage()
+        Me.Diff = New Huggle.WebBrowser()
         Me.KeystrokeTimer = New System.Windows.Forms.Timer(Me.components)
-        Me.MenuBar = New System.Windows.Forms.MenuStrip
-        Me.PageMenu = New System.Windows.Forms.ToolStripMenuItem
-        Me.PageSaveToFile = New System.Windows.Forms.ToolStripMenuItem
-        Me.Separator2 = New System.Windows.Forms.ToolStripSeparator
-        Me.PageSave = New System.Windows.Forms.ToolStripMenuItem
-        Me.PageCancel = New System.Windows.Forms.ToolStripMenuItem
-        Me.ViewMenu = New System.Windows.Forms.ToolStripMenuItem
-        Me.ViewSyntax = New System.Windows.Forms.ToolStripMenuItem
+        Me.MenuBar = New System.Windows.Forms.MenuStrip()
+        Me.PageMenu = New System.Windows.Forms.ToolStripMenuItem()
+        Me.PageSaveToFile = New System.Windows.Forms.ToolStripMenuItem()
+        Me.PageSeparator1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.PageSave = New System.Windows.Forms.ToolStripMenuItem()
+        Me.PageCancel = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ViewMenu = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ViewSyntax = New System.Windows.Forms.ToolStripMenuItem()
         Me.Tabs.SuspendLayout()
         Me.EditTab.SuspendLayout()
         Me.FindGroup.SuspendLayout()
@@ -308,49 +308,48 @@ Partial Class EditForm
         '
         'EditStrip
         '
-        Me.EditStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EditUndo, Me.EditRedo, Me.Separator1, Me.EditCut, Me.EditCopy, Me.EditPaste, Me.EditDelete, Me.Separator3, Me.EditSelectAll, Me.Separator4, Me.EditFind})
+        Me.EditStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EditUndo, Me.EditRedo, Me.EditSeparator1, Me.EditCut, Me.EditCopy, Me.EditPaste, Me.EditDelete, Me.EditSeparator2, Me.EditSelectAll, Me.EditSeparator3, Me.EditFind})
         Me.EditStrip.Name = "ContextMenu"
-        Me.EditStrip.OwnerItem = Me.EditMenu
-        Me.EditStrip.Size = New System.Drawing.Size(118, 198)
+        Me.EditStrip.Size = New System.Drawing.Size(123, 198)
         '
         'EditUndo
         '
         Me.EditUndo.Enabled = False
         Me.EditUndo.Name = "EditUndo"
-        Me.EditUndo.Size = New System.Drawing.Size(117, 22)
+        Me.EditUndo.Size = New System.Drawing.Size(122, 22)
         Me.EditUndo.Text = "Undo"
         '
         'EditRedo
         '
         Me.EditRedo.Enabled = False
         Me.EditRedo.Name = "EditRedo"
-        Me.EditRedo.Size = New System.Drawing.Size(117, 22)
+        Me.EditRedo.Size = New System.Drawing.Size(122, 22)
         Me.EditRedo.Text = "Redo"
         '
-        'Separator1
+        'EditSeparator1
         '
-        Me.Separator1.Name = "Separator1"
-        Me.Separator1.Size = New System.Drawing.Size(114, 6)
+        Me.EditSeparator1.Name = "EditSeparator1"
+        Me.EditSeparator1.Size = New System.Drawing.Size(119, 6)
         '
         'EditCut
         '
         Me.EditCut.Enabled = False
         Me.EditCut.Name = "EditCut"
-        Me.EditCut.Size = New System.Drawing.Size(117, 22)
+        Me.EditCut.Size = New System.Drawing.Size(122, 22)
         Me.EditCut.Text = "Cut"
         '
         'EditCopy
         '
         Me.EditCopy.Enabled = False
         Me.EditCopy.Name = "EditCopy"
-        Me.EditCopy.Size = New System.Drawing.Size(117, 22)
+        Me.EditCopy.Size = New System.Drawing.Size(122, 22)
         Me.EditCopy.Text = "Copy"
         '
         'EditPaste
         '
         Me.EditPaste.Enabled = False
         Me.EditPaste.Name = "EditPaste"
-        Me.EditPaste.Size = New System.Drawing.Size(117, 22)
+        Me.EditPaste.Size = New System.Drawing.Size(122, 22)
         Me.EditPaste.Text = "Paste"
         '
         'EditDelete
@@ -358,36 +357,36 @@ Partial Class EditForm
         Me.EditDelete.Enabled = False
         Me.EditDelete.Name = "EditDelete"
         Me.EditDelete.ShortcutKeyDisplayString = ""
-        Me.EditDelete.Size = New System.Drawing.Size(117, 22)
+        Me.EditDelete.Size = New System.Drawing.Size(122, 22)
         Me.EditDelete.Text = "Delete"
         '
-        'Separator3
+        'EditSeparator2
         '
-        Me.Separator3.Name = "Separator3"
-        Me.Separator3.Size = New System.Drawing.Size(114, 6)
+        Me.EditSeparator2.Name = "EditSeparator2"
+        Me.EditSeparator2.Size = New System.Drawing.Size(119, 6)
         '
         'EditSelectAll
         '
         Me.EditSelectAll.Name = "EditSelectAll"
-        Me.EditSelectAll.Size = New System.Drawing.Size(117, 22)
+        Me.EditSelectAll.Size = New System.Drawing.Size(122, 22)
         Me.EditSelectAll.Text = "Select All"
         '
-        'Separator4
+        'EditSeparator3
         '
-        Me.Separator4.Name = "Separator4"
-        Me.Separator4.Size = New System.Drawing.Size(114, 6)
+        Me.EditSeparator3.Name = "EditSeparator3"
+        Me.EditSeparator3.Size = New System.Drawing.Size(119, 6)
         '
         'EditFind
         '
         Me.EditFind.Name = "EditFind"
-        Me.EditFind.Size = New System.Drawing.Size(117, 22)
+        Me.EditFind.Size = New System.Drawing.Size(122, 22)
         Me.EditFind.Text = "Find"
         '
         'EditMenu
         '
         Me.EditMenu.DropDown = Me.EditStrip
         Me.EditMenu.Name = "EditMenu"
-        Me.EditMenu.Size = New System.Drawing.Size(37, 20)
+        Me.EditMenu.Size = New System.Drawing.Size(39, 20)
         Me.EditMenu.Text = "Edit"
         '
         'PreviewTab
@@ -454,40 +453,40 @@ Partial Class EditForm
         '
         'PageMenu
         '
-        Me.PageMenu.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PageSaveToFile, Me.Separator2, Me.PageSave, Me.PageCancel})
+        Me.PageMenu.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PageSaveToFile, Me.PageSeparator1, Me.PageSave, Me.PageCancel})
         Me.PageMenu.Name = "PageMenu"
-        Me.PageMenu.Size = New System.Drawing.Size(43, 20)
+        Me.PageMenu.Size = New System.Drawing.Size(45, 20)
         Me.PageMenu.Text = "Page"
         '
         'PageSaveToFile
         '
         Me.PageSaveToFile.Name = "PageSaveToFile"
-        Me.PageSaveToFile.Size = New System.Drawing.Size(140, 22)
+        Me.PageSaveToFile.Size = New System.Drawing.Size(152, 22)
         Me.PageSaveToFile.Text = "Save to file..."
         '
-        'Separator2
+        'PageSeparator1
         '
-        Me.Separator2.Name = "Separator2"
-        Me.Separator2.Size = New System.Drawing.Size(137, 6)
+        Me.PageSeparator1.Name = "PageSeparator1"
+        Me.PageSeparator1.Size = New System.Drawing.Size(149, 6)
         '
         'PageSave
         '
         Me.PageSave.Name = "PageSave"
-        Me.PageSave.Size = New System.Drawing.Size(140, 22)
+        Me.PageSave.Size = New System.Drawing.Size(152, 22)
         Me.PageSave.Text = "Save"
         '
         'PageCancel
         '
         Me.PageCancel.Name = "PageCancel"
         Me.PageCancel.ShortcutKeyDisplayString = ""
-        Me.PageCancel.Size = New System.Drawing.Size(140, 22)
+        Me.PageCancel.Size = New System.Drawing.Size(152, 22)
         Me.PageCancel.Text = "Cancel"
         '
         'ViewMenu
         '
         Me.ViewMenu.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ViewSyntax})
         Me.ViewMenu.Name = "ViewMenu"
-        Me.ViewMenu.Size = New System.Drawing.Size(41, 20)
+        Me.ViewMenu.Size = New System.Drawing.Size(44, 20)
         Me.ViewMenu.Text = "View"
         '
         'ViewSyntax
@@ -496,7 +495,7 @@ Partial Class EditForm
         Me.ViewSyntax.CheckOnClick = True
         Me.ViewSyntax.CheckState = System.Windows.Forms.CheckState.Checked
         Me.ViewSyntax.Name = "ViewSyntax"
-        Me.ViewSyntax.Size = New System.Drawing.Size(148, 22)
+        Me.ViewSyntax.Size = New System.Drawing.Size(155, 22)
         Me.ViewSyntax.Text = "Syntax coloring"
         '
         'EditForm
@@ -548,7 +547,7 @@ Partial Class EditForm
     Friend WithEvents PageMenu As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents PageSaveToFile As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents PageSave As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents Separator2 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents PageSeparator1 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents PageCancel As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ViewMenu As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ViewSyntax As System.Windows.Forms.ToolStripMenuItem
@@ -558,12 +557,12 @@ Partial Class EditForm
     Friend WithEvents EditCopy As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents EditUndo As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents EditRedo As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents Separator1 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents Separator3 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents EditSeparator1 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents EditSeparator2 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents EditCut As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents EditSelectAll As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents EditMenu As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents Separator4 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents EditSeparator3 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents EditFind As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents FindGroup As System.Windows.Forms.GroupBox
     Friend WithEvents ReplaceAll As System.Windows.Forms.Button

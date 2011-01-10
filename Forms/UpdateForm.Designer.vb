@@ -22,13 +22,13 @@ Partial Class UpdateForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.Message = New System.Windows.Forms.Label
-        Me.Cancel = New System.Windows.Forms.Button
-        Me.Download = New System.Windows.Forms.Button
-        Me.Status = New System.Windows.Forms.Label
-        Me.PictureBox1 = New System.Windows.Forms.PictureBox
-        Me.Progress = New System.Windows.Forms.ProgressBar
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Message = New System.Windows.Forms.Label()
+        Me.Cancel = New System.Windows.Forms.Button()
+        Me.Download = New System.Windows.Forms.Button()
+        Me.Status = New System.Windows.Forms.Label()
+        Me.Logo = New System.Windows.Forms.PictureBox()
+        Me.Progress = New System.Windows.Forms.ProgressBar()
+        CType(Me.Logo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Message
@@ -73,17 +73,17 @@ Partial Class UpdateForm
         Me.Status.TabIndex = 1
         Me.Status.Text = " "
         '
-        'PictureBox1
+        'Logo
         '
-        Me.PictureBox1.ErrorImage = Nothing
-        Me.PictureBox1.Image = Global.Huggle.My.Resources.Resources.user_template
-        Me.PictureBox1.InitialImage = Nothing
-        Me.PictureBox1.Location = New System.Drawing.Point(12, 11)
-        Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(36, 36)
-        Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
-        Me.PictureBox1.TabIndex = 4
-        Me.PictureBox1.TabStop = False
+        Me.Logo.ErrorImage = Nothing
+        Me.Logo.Image = Global.Huggle.My.Resources.Resources.user_template
+        Me.Logo.InitialImage = Nothing
+        Me.Logo.Location = New System.Drawing.Point(12, 11)
+        Me.Logo.Name = "Logo"
+        Me.Logo.Size = New System.Drawing.Size(36, 36)
+        Me.Logo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+        Me.Logo.TabIndex = 4
+        Me.Logo.TabStop = False
         '
         'Progress
         '
@@ -100,7 +100,7 @@ Partial Class UpdateForm
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(514, 90)
         Me.Controls.Add(Me.Progress)
-        Me.Controls.Add(Me.PictureBox1)
+        Me.Controls.Add(Me.Logo)
         Me.Controls.Add(Me.Status)
         Me.Controls.Add(Me.Download)
         Me.Controls.Add(Me.Cancel)
@@ -113,7 +113,7 @@ Partial Class UpdateForm
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "New version available"
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Logo, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -122,6 +122,6 @@ Partial Class UpdateForm
     Friend WithEvents Cancel As System.Windows.Forms.Button
     Friend WithEvents Download As System.Windows.Forms.Button
     Friend WithEvents Status As System.Windows.Forms.Label
-    Friend WithEvents PictureBox1 As System.Windows.Forms.PictureBox
+    Friend WithEvents Logo As System.Windows.Forms.PictureBox
     Friend WithEvents Progress As System.Windows.Forms.ProgressBar
 End Class
