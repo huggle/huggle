@@ -10,7 +10,7 @@
     <MyType>WindowsForms</MyType>
     <ApplicationIcon>Resources\huggle.ico</ApplicationIcon>
     <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
-    <AssemblyName>huggle2</AssemblyName>
+    <AssemblyName>huggle</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
