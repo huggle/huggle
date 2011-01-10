@@ -228,5 +228,4 @@ Class LoginForm
         Status.Text = CStr(MessageObject)
         If Progress.Value <= Progress.Maximum - 1 Then Progress.Value += 1
     End Sub
-
 End Class
