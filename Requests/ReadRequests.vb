@@ -28,37 +28,41 @@ Namespace Requests
         Public User As User
 
         Protected Overrides Sub Process()
-            Dim Result As ApiResult = DoApiRequest("action=query&list=logevents&letype=block&lelimit=50&letitle=" & _
-                UrlEncode(User.Userpage.Name))
+            Try
+                Dim Result As ApiResult = DoApiRequest("action=query&list=logevents&letype=block&lelimit=50&letitle=" & _
+                    UrlEncode(User.Userpage.Name))
 
-            If Result.Error Then
-                Fail(Msg("blocklog-fail", User.Name), Result.ErrorMessage)
-                Exit Sub
-            End If
+                If Result.Error Then
+                    Fail(Msg("blocklog-fail", User.Name), Result.ErrorMessage)
+                    Exit Sub
+                End If
 
-            If User.Blocks IsNot Nothing Then User.Blocks.Clear()
+                If User.Blocks IsNot Nothing Then User.Blocks.Clear()
 
-            Dim LogText As String = FindString(Result.Text, "<logevents>", "</logevents>")
+                Dim LogText As String = FindString(Result.Text, "<logevents>", "</logevents>")
 
-            If LogText IsNot Nothing Then
-                If User.Blocks Is Nothing Then User.Blocks = New List(Of Block)
+                If LogText IsNot Nothing Then
+                    If User.Blocks Is Nothing Then User.Blocks = New List(Of Block)
 
-                For Each Item As String In Split(LogText, "<item ")
-                    Dim NewBlock As New Block
+                    For Each Item As String In Split(LogText, "<item ")
+                        Dim NewBlock As New Block
 
-                    NewBlock.User = User
-                    NewBlock.Time = CDate(GetParameter(Item, "timestamp"))
-                    NewBlock.Action = GetParameter(Item, "action")
-                    NewBlock.Duration = GetParameter(Item, "duration")
-                    NewBlock.Options = GetParameter(Item, "flags")
-                    NewBlock.Admin = GetUser(GetParameter(Item, "user"))
-                    NewBlock.Comment = GetParameter(Item, "comment")
+                        NewBlock.User = User
+                        NewBlock.Time = CDate(GetParameter(Item, "timestamp"))
+                        NewBlock.Action = GetParameter(Item, "action")
+                        NewBlock.Duration = GetParameter(Item, "duration")
+                        NewBlock.Options = GetParameter(Item, "flags")
+                        NewBlock.Admin = GetUser(GetParameter(Item, "user"))
+                        NewBlock.Comment = GetParameter(Item, "comment")
 
-                    User.Blocks.Add(NewBlock)
-                Next Item
-            End If
+                        User.Blocks.Add(NewBlock)
+                    Next Item
+                End If
 
-            Complete()
+                Complete()
+            Catch except As Exception
+                Debug.WriteLine("BlockLog")
+            End Try
         End Sub
 
     End Class
@@ -81,28 +85,37 @@ Namespace Requests
         End Property
 
         Protected Overrides Sub Process()
-            _RequestCount += 1
+                _RequestCount += 1
 
-            If _RequestCount >= MaxSimultaneousRequests Then
-                Done()
-                Exit Sub
-            End If
+                If _RequestCount >= MaxSimultaneousRequests Then
+                    Done()
+                    Exit Sub
+                End If
 
-            If Tab Is Nothing Then Tab = CurrentTab
-            Edit.DiffCacheState = Edit.CacheState.Caching
+                If Tab Is Nothing Then Tab = CurrentTab
+                Edit.DiffCacheState = Edit.CacheState.Caching
 
-            Dim Oldid As String = If(Edit.Oldid = "-1", "prev", Edit.Oldid)
+                Dim Oldid As String = If(Edit.Oldid = "-1", "prev", Edit.Oldid)
 
-            'Using &action=render here would make things far simpler; unfortunately, that was broken for
-            'image diff pages in 2007 and it would appear that nobody cares.
+                'Using &action=render here would make things far simpler; unfortunately, that was broken for
+                'image diff pages in 2007 and it would appear that nobody cares.
 
-            Dim QueryString As String = SitePath() & "index.php?title=" & UrlEncode(Edit.Page.Name) _
-                    & "&diff=" & Edit.Id & "&oldid=" & Oldid & "&uselang=en"
+                Dim QueryString As String = SitePath() & "index.php?title=" & UrlEncode(Edit.Page.Name) _
+                        & "&diff=" & Edit.Id & "&oldid=" & Oldid & "&uselang=en"
 
-            If Not Config.QuickSight OrElse Edit.Sighted Then Result &= "diffonly=1"
+                If Not Config.QuickSight OrElse Edit.Sighted Then Result &= "diffonly=1"
 
-            Try
-                Result = DoUrlRequest(QueryString)
+                Try
+                    Result = DoUrlRequest(QueryString)
+
+
+                Dim Api2 As String
+
+                If (Config.RightPending = True And Config.UsePending = True) Then
+                    QueryString = "api.php?action=query&prop=info|flagged&titles=" & UrlEncode(Edit.Page.Name)
+                    Api2 = DoUrlRequest(QueryString)
+                End If
+
             Catch ex As WebException
                 Fail(Msg("diff-fail", Edit.Page.Name), ex.Message)
                 Exit Sub
@@ -155,7 +168,6 @@ Namespace Requests
                 End If
 
                 Complete()
-
             ElseIf Result.Contains("<div class=""firstrevisionheader""") Then
                 'This is the first revision to the page... so no diff
                 Callback(AddressOf ReachedEnd)
@@ -208,38 +220,38 @@ Namespace Requests
         Private FullTotal As Integer, FullLimit As Integer = 5000
 
         Protected Overrides Sub Process()
-            Dim Result As ApiResult, Offset As String = Page.HistoryOffset
+                Dim Result As ApiResult, Offset As String = Page.HistoryOffset, BREAK As Integer = 0
 
-            If Full Then LogProgress(Msg("history-progress", Page.Name, CStr(FullTotal)))
+                If Full Then LogProgress(Msg("history-progress", Page.Name, CStr(FullTotal)))
 
-            Do
-                If GetContent Then BlockSize = Math.Min(ApiLimit() \ 10, BlockSize)
+                Do
+                    If GetContent Then BlockSize = Math.Min(ApiLimit() \ 10, BlockSize)
 
-                Dim QueryString As String = "action=query&prop=revisions&titles=" & UrlEncode(Page.Name) & _
-                    "&rvlimit=" & CStr(BlockSize) & "&rvprop=ids|timestamp|user|comment"
+                    Dim QueryString As String = "action=query&prop=revisions&titles=" & UrlEncode(Page.Name) & _
+                        "&rvlimit=" & CStr(BlockSize) & "&rvprop=ids|timestamp|user|comment"
 
-                If GetContent Then QueryString &= "|content"
-                If Offset IsNot Nothing Then QueryString &= "&rvstartid=" & Offset
+                    If GetContent Then QueryString &= "|content"
+                    If Offset IsNot Nothing Then QueryString &= "&rvstartid=" & Offset
 
-                Result = DoApiRequest(QueryString)
+                    Result = DoApiRequest(QueryString)
 
-                If Result.Error Then
-                    Fail(Msg("history-fail", Page.Name), Result.ErrorMessage)
-                    Exit Sub
-                End If
+                    If Result.Error Then
+                        Fail(Msg("history-fail", Page.Name), Result.ErrorMessage)
+                        Exit Sub
+                    End If
 
-                If Full Then
-                    FullTotal += BlockSize
-                    _Result = New RequestResult(Result.Text)
-                    LogProgress(Msg("history-progress", Page.Name, CStr(FullTotal)))
-                End If
+                    If Full Then
+                        FullTotal += BlockSize
+                        _Result = New RequestResult(Result.Text)
+                        LogProgress(Msg("history-progress", Page.Name, CStr(FullTotal)))
+                    End If
+                    BREAK = BREAK + 1
+                    Callback(AddressOf ProcessHistoryPart)
+                    Offset = GetParameter(Result.Text, "rvstartid")
+                Loop Until (Not Full OrElse FullTotal >= FullLimit OrElse Offset Is Nothing) And BREAK < Misc.GlExcess
+                If BREAK >= Misc.GlExcess Then Log("Debug interrupted HistoryRequest.Process")
 
-                Callback(AddressOf ProcessHistoryPart)
-
-                Offset = GetParameter(Result.Text, "rvstartid")
-            Loop Until Not Full OrElse FullTotal >= FullLimit OrElse Offset Is Nothing
-
-            Complete(, Result.Text)
+                Complete(, Result.Text)
         End Sub
 
         Private Sub ProcessHistoryPart()
@@ -262,18 +274,18 @@ Namespace Requests
         Public BlockSize As Integer = Config.ContribsBlockSize
 
         Protected Overrides Sub Process()
-            Result = DoApiRequest("action=query&list=usercontribs&ucuser=" & _
-                UrlEncode(User.Name) & "&uclimit=" & CStr(BlockSize) & "&ucstart=" & User.ContribsOffset)
+                Result = DoApiRequest("action=query&list=usercontribs&ucuser=" & _
+                    UrlEncode(User.Name) & "&uclimit=" & CStr(BlockSize) & "&ucstart=" & User.ContribsOffset)
 
-            If Result.Error Then
-                Fail("Failed to retrieve user contributions", Result.ErrorMessage)
-            ElseIf Result.Text.Contains("<usercontribs />") Then
-                Callback(AddressOf NoContribs)
-            ElseIf Result.Text.Contains("<usercontribs") Then
-                Complete()
-            Else
-                Fail("Failed to retrieve user contributions", Result.ErrorMessage)
-            End If
+                If Result.Error Then
+                    Fail("Failed to retrieve user contributions", Result.ErrorMessage)
+                ElseIf Result.Text.Contains("<usercontribs />") Then
+                    Callback(AddressOf NoContribs)
+                ElseIf Result.Text.Contains("<usercontribs") Then
+                    Complete()
+                Else
+                    Fail("Failed to retrieve user contributions", Result.ErrorMessage)
+                End If
         End Sub
 
         Protected Overrides Sub Done()
@@ -305,16 +317,16 @@ Namespace Requests
         Public Url As String, Tab As BrowserTab, HistoryItem As HistoryItem, NoFormatting As Boolean
 
         Protected Overrides Sub Process()
-            If Tab Is Nothing Then Tab = CurrentTab
-            Tab.LastBrowserRequest = Me
-            Dim Result As String
+                If Tab Is Nothing Then Tab = CurrentTab
+                Tab.LastBrowserRequest = Me
+                Dim Result As String
 
-            Try
-                Result = DoUrlRequest(Url)
-            Catch ex As WebException
-                Fail(ex.Message)
-                Exit Sub
-            End Try
+                Try
+                    Result = DoUrlRequest(Url)
+                Catch ex As WebException
+                    Fail(ex.Message)
+                    Exit Sub
+                End Try
 
             If Result Is Nothing Then Fail() Else Complete(, Result)
         End Sub
@@ -332,6 +344,7 @@ Namespace Requests
                     Dim Page As Huggle.Page = GetPage(PageName)
                     If Page Is Nothing Then Fail()
                     '---------------------------------------------------------
+                    Debug.WriteLine("__")
                     If Not NoFormatting Then _Result.Text = FormatPageHtml(Page, _Result.Text)
                     Tab.Browser.DocumentText = _Result.Text
                     Tab.CurrentUrl = Url
@@ -431,6 +444,26 @@ Namespace Requests
             Complete(, Text)
         End Sub
 
+    End Class
+
+    Class PageRevRequest : Inherits Request
+
+        Public OldPage As Page
+        Public Rev As String
+        Protected Overrides Sub Process()
+            If Rev Is Nothing Then
+                Fail(, "No revision id")
+            Else
+                Dim result As ApiResult = GetText(OldPage, Rev)
+                If result.Error Then
+                    Fail(, result.ErrorMessage)
+                    Exit Sub
+                End If
+
+                OldPage.Text = GetTextFromRev(result.Text)
+                Complete(, OldPage.Text)
+            End If
+        End Sub
     End Class
 
     Class PageTextRequest : Inherits Request
@@ -541,29 +574,31 @@ Namespace Requests
 
                     Dim Comment As String = GetParameter(Item, "comment")
                     Dim Param As String = FindString(Item, "<param>", "</param>")
+                    Try
+                        If Param Is Nothing Then
+                            'Old format
+                            NewProtection.EditLevel = FindString(Comment, "[edit=", ":")
+                            NewProtection.MoveLevel = FindString(Comment, "move=", "]")
+                            NewProtection.EditExpiry = CDate(FindString(Comment, "(expires ", " (UTC))"))
+                            NewProtection.MoveExpiry = NewProtection.EditExpiry
+                            NewProtection.Cascading = (Comment.Contains("[cascading]"))
 
-                    If Param Is Nothing Then
-                        'Old format
-                        NewProtection.EditLevel = FindString(Comment, "[edit=", ":")
-                        NewProtection.MoveLevel = FindString(Comment, "move=", "]")
-                        NewProtection.EditExpiry = CDate(FindString(Comment, "(expires ", " (UTC))"))
-                        NewProtection.MoveExpiry = NewProtection.EditExpiry
-                        NewProtection.Cascading = (Comment.Contains("[cascading]"))
+                            If Comment.Contains(" [edit=") Then Comment = Comment.Substring(0, Comment.IndexOf(" [edit="))
+                            If Comment.Contains(" [move=") Then Comment = Comment.Substring(0, Comment.IndexOf(" [move="))
 
-                        If Comment.Contains(" [edit=") Then Comment = Comment.Substring(0, Comment.IndexOf(" [edit="))
-                        If Comment.Contains(" [move=") Then Comment = Comment.Substring(0, Comment.IndexOf(" [move="))
+                        Else
+                            'New format
+                            NewProtection.EditLevel = FindString(Param, "[edit=", "]")
+                            NewProtection.MoveLevel = FindString(Param, "[move=", "]")
+                            'NewProtection.EditExpiry = CDate(FindString(FindString(Param, "[edit=", "["), "(expires ", " (UTC))"))
+                            NewProtection.MoveExpiry = CDate(FindString(FindString(Param, "[move="), "(expires ", " (UTC))"))
+                            NewProtection.Cascading = (Param.Contains("[cascading]"))
+                        End If
 
-                    Else
-                        'New format
-                        NewProtection.EditLevel = FindString(Param, "[edit=", "]")
-                        NewProtection.MoveLevel = FindString(Param, "[move=", "]")
-                        NewProtection.EditExpiry = CDate(FindString(FindString(Param, "[edit=", "["), "(expires ", " (UTC))"))
-                        NewProtection.MoveExpiry = CDate(FindString(FindString(Param, "[move="), "(expires ", " (UTC))"))
-                        NewProtection.Cascading = (Param.Contains("[cascading]"))
-                    End If
-
-                    NewProtection.Summary = Comment
-
+                        NewProtection.Summary = Comment
+                    Catch ex As Exception
+                        Debug.WriteLine("Error at Request.Process")
+                    End Try
                     Page.Protections.Add(NewProtection)
                 Next Item
             End If
@@ -660,15 +695,19 @@ Namespace Requests
         End Class
 
         Protected Overrides Sub Process()
+            Dim Break As Integer = 0
             Dim QueryString As String = "action=query&prop=revisions&rvprop=ids|content&revids="
 
             Dim ThisEdit As Edit = User.LastEdit, i As Integer = ApiLimit() \ 10
 
-            While ThisEdit IsNot NullEdit AndAlso ThisEdit IsNot Nothing AndAlso i > 0
+            While ThisEdit IsNot NullEdit AndAlso ThisEdit IsNot Nothing AndAlso i > 0 And Break < Misc.GlExcess
+                Break = Break + 1
                 QueryString &= ThisEdit.Id & "|"
                 ThisEdit = ThisEdit.PrevByUser
                 i -= 1
             End While
+
+            Break = 0
 
             QueryString = QueryString.Trim("|"c)
 
@@ -720,7 +759,8 @@ Namespace Requests
                         ThisEdit = Edit.All(RevertIds(0)).Page.LastEdit
                         Dim TextToFind As String = Edit.All(RevertIds(0)).Text
 
-                        While ThisEdit IsNot NullEdit AndAlso ThisEdit IsNot Nothing
+                        While ThisEdit IsNot NullEdit AndAlso ThisEdit IsNot Nothing And Break < Misc.GlExcess
+                            Break = Break + 1
                             If Not RevertIds.Contains(ThisEdit.Id) AndAlso ThisEdit.Text = TextToFind _
                                 AndAlso ThisEdit.Time < Edit.All(RevertIds(0)).Time Then
 
@@ -732,6 +772,7 @@ Namespace Requests
 
                             ThisEdit = ThisEdit.Prev
                         End While
+                        If Break >= Misc.GlExcess Then Log("Debug interrupted ThreeRevertRuleCheck.Process()")
 
                         SetResult()
                         Complete()

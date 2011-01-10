@@ -24,7 +24,11 @@ Module Processing
         If (Config.PageReplacedPattern IsNot Nothing AndAlso Config.PageReplacedPattern.IsMatch(Edit.Summary)) _
             OrElse (Edit.Size >= 0 AndAlso Edit.Size <= 200 AndAlso Edit.Change <= -200) _
             Then Edit.Type = EditType.ReplacedWith
-
+        'Enable
+        If MainForm IsNot Nothing Then
+            MainForm.BrowserOpen.Enabled = True
+            MainForm.BrowserOpenB.Enabled = True
+        End If
         'Assisted summaries
         If Config.Summary IsNot Nothing AndAlso Edit.Summary.EndsWith(Config.Summary) Then Edit.Assisted = True
 
@@ -255,7 +259,9 @@ Module Processing
             If Edit.Prev.Size >= 0 AndAlso Edit.Change <> 0 Then Edit.Size = Edit.Prev.Size + Edit.Change
             If Edit.Change <> 0 AndAlso Edit.Size >= 0 Then Edit.Prev.Size = Edit.Size - Edit.Change
         End If
-
+        If Edit.User Is Nothing Then
+            Edit.User = Edit.Page.LastEdit.User
+        End If
         If Edit.User.LastEdit IsNot Nothing Then
             Edit.PrevByUser = Edit.User.LastEdit
             Edit.PrevByUser.NextByUser = Edit
@@ -303,7 +309,7 @@ Module Processing
 
         'Issue warnings
         Dim i As Integer = 0
-
+        Dim Break As Integer = 0
         While i < PendingWarnings.Count
             If PendingWarnings(i).Page Is Edit.Page Then
                 If Edit.User.IsMe Then
@@ -336,13 +342,13 @@ Module Processing
                 Exit For
             End If
         Next Item
-
         'Remove in-progress log entries
         Dim j As Integer = 0
-
-        While j < MainForm.Status.Items.Count
+        Break = 0
+        While j < MainForm.Status.Items.Count And Break < Misc.GlExcess
             If TypeOf MainForm.Status.Items(j).Tag Is Page AndAlso CType(MainForm.Status.Items(j).Tag, Page) _
                 Is Edit.Page Then MainForm.Status.Items.RemoveAt(j) Else j += 1
+            Break = Break + 1
         End While
 
         If Edit.User.IsMe Then
@@ -785,7 +791,7 @@ Module Processing
     End Sub
 
     Sub ProcessDiff(ByVal Edit As Edit, ByVal DiffText As String, ByVal Tab As BrowserTab)
-
+        Debug.WriteLine("Diff")
         If Not Edit.Multiple Then
             If DiffText.Contains("<span class=""mw-rollback-link"">") Then
                 Dim Rollbacktoken As String = DiffText.Substring(DiffText.IndexOf("<span class=""mw-rollback-link"">"))
@@ -903,11 +909,12 @@ Module Processing
     'Converts an HTML diff into a string containing LF-separated list of changes on 'new' side of diff
     Function GetChangesFromDiff(ByVal Text As String) As String
         Dim Changes As String = "", Pos As Integer = 0, TextPart As String
-
+        Dim Current As Integer = 0
         Pos = Text.IndexOf("<td class=""diff-addedline"">")
 
-        While Pos > -1
+        While Pos > -1 And Current < Misc.GlExcess
             TextPart = Text.Substring(Pos)
+            Current = Current + 1
             Dim Line As String = FindString(TextPart, "<td class=""diff-addedline"">", "</td>")
 
             If Line.Contains("<span class=""diffchange") Then
@@ -943,34 +950,35 @@ Module Processing
         End If
 
         Dim NextEdit As Edit = Nothing
+        If (History.Count - 1) > 0 Then
+            For i As Integer = 0 To History.Count - 1
+                Dim Edit As Edit
+                Dim Diff As String = History(i).Groups(1).Value
 
-        For i As Integer = 0 To History.Count - 1
-            Dim Edit As Edit
-            Dim Diff As String = History(i).Groups(1).Value
+                If Edit.All.ContainsKey(Diff) Then Edit = Edit.All(Diff) Else Edit = New Edit
 
-            If Edit.All.ContainsKey(Diff) Then Edit = Edit.All(Diff) Else Edit = New Edit
+                Edit.Id = Diff
+                If Edit.Oldid Is Nothing Then Edit.Oldid = "prev"
+                Edit.Page = Page
 
-            Edit.Id = Diff
-            If Edit.Oldid Is Nothing Then Edit.Oldid = "prev"
-            Edit.Page = Page
+                If History(i).Groups(8).Value <> "" Then Edit.Text = HtmlDecode(History(i).Groups(9).Value)
 
-            If History(i).Groups(8).Value <> "" Then Edit.Text = HtmlDecode(History(i).Groups(9).Value)
+                Edit.User = GetUser(HtmlDecode(History(i).Groups(3).Value))
+                If Edit.Summary Is Nothing Then Edit.Summary = HtmlDecode(History(i).Groups(7).Value)
+                If Edit.Time = Date.MinValue Then Edit.Time = CDate(History(i).Groups(5).Value)
 
-            Edit.User = GetUser(HtmlDecode(History(i).Groups(3).Value))
-            If Edit.Summary Is Nothing Then Edit.Summary = HtmlDecode(History(i).Groups(7).Value)
-            If Edit.Time = Date.MinValue Then Edit.Time = CDate(History(i).Groups(5).Value)
+                If Page.LastEdit Is Nothing Then
+                    Page.LastEdit = Edit
+                ElseIf NextEdit IsNot Nothing Then
+                    Edit.Next = NextEdit
+                    Edit.Next.Oldid = Edit.Id
+                    NextEdit.Prev = Edit
+                End If
 
-            If Page.LastEdit Is Nothing Then
-                Page.LastEdit = Edit
-            ElseIf NextEdit IsNot Nothing Then
-                Edit.Next = NextEdit
-                Edit.Next.Oldid = Edit.Id
-                NextEdit.Prev = Edit
-            End If
-
-            NextEdit = Edit
-            ProcessEdit(Edit)
-        Next i
+                NextEdit = Edit
+                ProcessEdit(Edit)
+            Next i
+        End If
 
         If Result.Contains("<revisions rvstartid=""") Then
             Page.HistoryOffset = NextEdit.Id
@@ -1001,35 +1009,38 @@ Module Processing
         End If
 
         Dim NextByUser As Edit = Nothing
+        If (Contribs.Count - 1) > 0 Then
+            For i As Integer = 0 To Contribs.Count - 1
+                Dim Edit As Edit
+                Dim Diff As String = GetParameter(Contribs(i), "revid")
 
-        For i As Integer = 0 To Contribs.Count - 1
-            Dim Edit As Edit
-            Dim Diff As String = GetParameter(Contribs(i), "revid")
+                If Edit.All.ContainsKey(Diff) Then Edit = Edit.All(Diff) Else Edit = New Edit
 
-            If Edit.All.ContainsKey(Diff) Then Edit = Edit.All(Diff) Else Edit = New Edit
+                Edit.Id = Diff
+                If Edit.Oldid Is Nothing Then Edit.Oldid = "prev"
+                Edit.User = User
 
-            Edit.Id = Diff
-            If Edit.Oldid Is Nothing Then Edit.Oldid = "prev"
-            Edit.User = User
+                Edit.Page = GetPage(GetParameter(Contribs(i), "title"))
 
-            Edit.Page = GetPage(GetParameter(Contribs(i), "title"))
+                If Edit.Page.LastEdit Is Nothing AndAlso GetParameter(Contribs(i), "top") IsNot Nothing _
+                    Then Edit.Page.LastEdit = Edit
 
-            If Edit.Page.LastEdit Is Nothing AndAlso GetParameter(Contribs(i), "top") IsNot Nothing _
-                Then Edit.Page.LastEdit = Edit
+                If Edit.Summary Is Nothing Then Edit.Summary = GetParameter(Contribs(i), "comment")
+                If Edit.Time = Date.MinValue Then Edit.Time = CDate(GetParameter(Contribs(i), "timestamp"))
 
-            If Edit.Summary Is Nothing Then Edit.Summary = GetParameter(Contribs(i), "comment")
-            If Edit.Time = Date.MinValue Then Edit.Time = CDate(GetParameter(Contribs(i), "timestamp"))
+                If User.LastEdit Is Nothing Then
+                    User.LastEdit = Edit
+                ElseIf NextByUser IsNot Nothing Then
+                    Edit.NextByUser = NextByUser
+                    NextByUser.PrevByUser = Edit
+                End If
 
-            If User.LastEdit Is Nothing Then
-                User.LastEdit = Edit
-            ElseIf NextByUser IsNot Nothing Then
-                Edit.NextByUser = NextByUser
-                NextByUser.PrevByUser = Edit
-            End If
-
-            NextByUser = Edit
-            ProcessEdit(Edit)
-        Next i
+                NextByUser = Edit
+                ProcessEdit(Edit)
+            Next i
+        Else
+            Exit Sub
+        End If
 
         If Result.Contains("<usercontribs ucstart=""") Then
             User.ContribsOffset = GetParameter(Result, "ucstart")
@@ -1079,15 +1090,15 @@ Module Processing
         End If
 
         If CurrentQueue IsNot Nothing Then
-            For i As Integer = 0 To Math.Min(CurrentQueue.Edits.Count - 1, Config.Preloads - 1)
-                If CurrentQueue.Edits(i).DiffCacheState = Edit.CacheState.Uncached Then
-                    CurrentQueue.Edits(i).DiffCacheState = Edit.CacheState.Caching
+                For i As Integer = 0 To Math.Min(CurrentQueue.Edits.Count - 1, Config.Preloads - 1)
+                    If CurrentQueue.Edits(i).DiffCacheState = Edit.CacheState.Uncached Then
+                        CurrentQueue.Edits(i).DiffCacheState = Edit.CacheState.Caching
 
-                    Dim NewRequest As New DiffRequest
-                    NewRequest.Edit = CurrentQueue.Edits(i)
-                    NewRequest.Start()
-                End If
-            Next i
+                        Dim NewRequest As New DiffRequest
+                        NewRequest.Edit = CurrentQueue.Edits(i)
+                        NewRequest.Start()
+                    End If
+                Next i
         End If
 
         MainForm.RefreshInterface()
@@ -1208,111 +1219,116 @@ Module Processing
 
     Sub DisplayEdit(ByVal Edit As Edit, Optional ByVal InBrowsingHistory As Boolean = False, _
         Optional ByVal Tab As BrowserTab = Nothing, Optional ByVal ChangeCurrentEdit As Boolean = True)
+        Try
+            If Tab Is Nothing Then Tab = CurrentTab
 
-        If Tab Is Nothing Then Tab = CurrentTab
+            If Edit IsNot Nothing AndAlso Edit.Page IsNot Nothing Then
 
-        If Edit IsNot Nothing AndAlso Edit.Page IsNot Nothing Then
+                'Add edit to browsing history
+                If Not InBrowsingHistory AndAlso (Tab.History.Count = 0 OrElse (Not Tab.History(0).Edit Is Edit)) _
+                    Then Tab.AddHistoryItem(New HistoryItem(Edit))
 
-            'Add edit to browsing history
-            If Not InBrowsingHistory AndAlso (Tab.History.Count = 0 OrElse (Not Tab.History(0).Edit Is Edit)) _
-                Then Tab.AddHistoryItem(New HistoryItem(Edit))
-
-            'Remove edit from queues
-            For Each Item As Queue In Queue.All.Values
-                Item.RemoveViewedEdit(Edit)
-            Next Item
-
-            If Tab Is CurrentTab AndAlso ChangeCurrentEdit Then
-                Tab.Edit = Edit
-                MainForm.SetCurrentPage(Edit.Page, False)
-                MainForm.SetCurrentUser(Edit.User, False)
-            End If
-
-            If Edit.Deleted Then
-                Tab.Browser.DocumentText = "<div style=""font-family: Arial"">" & Msg("diff-deleted") & "</div>"
-                Edit.DiffCacheState = Edit.CacheState.Viewed
-
-            ElseIf Edit.Prev Is NullEdit Then
-                'For the first revision to the page, show the revision
-                Dim NewRequest As New BrowserRequest
-                NewRequest.Tab = CurrentTab
-                NewRequest.Url = SitePath() & "index.php?title=" & UrlEncode(Edit.Page.Name) & "&oldid=" & Edit.Id
-                NewRequest.Start()
-
-            Else
-                If Edit.DiffCacheState = Edit.CacheState.Cached OrElse Edit.DiffCacheState = Edit.CacheState.Viewed Then
-
-                    If Edit.Diff IsNot Nothing Then
-                        Dim DocumentText, DiffText As String
-
-                        DiffText = Edit.Diff
-
-                        'Notify user of new messages
-                        If Config.ShowNewMessages AndAlso MainForm.SystemMessages.Enabled _
-                            AndAlso (Edit.Page IsNot User.Me.TalkPage) Then _
-                            DiffText = "<div class=""usermessage"">" & Msg("main-new-messages") & "</div>" & DiffText
-
-                        'Replace relative URLs with absolute ones
-                        DiffText = DiffText.Replace("href=""/wiki/", "href=""" & Config.Projects(Config.Project) & "wiki/")
-                        DiffText = DiffText.Replace("href='/wiki/", "href='" & Config.Projects(Config.Project) & "wiki/")
-                        DiffText = DiffText.Replace("href=""/w/", "href=""" & Config.Projects(Config.Project) & "w/")
-                        DiffText = DiffText.Replace("href='/w/", "href='" & Config.Projects(Config.Project) & "w/")
-
-                        DocumentText = MakeHtmlWikiPage(Edit.Page.Name, DiffText)
-
-                        Tab.CurrentUrl = SitePath() & "index.php?title=" & UrlEncode(Edit.Page.Name) & _
-                            "&diff=" & Edit.Id & "&oldid=" & Edit.Oldid
-
-                        Try
-                            Tab.Browser.DocumentText = DocumentText
-
-                        Catch ex As System.Runtime.InteropServices.COMException
-                            'If an attempt is made to set the DocumentText property while it is 
-                            'still being  set from a previous call, it seems to throw a COMException
-                            'just swallow it for now
-                        End Try
-                    End If
-
+                'Remove edit from queues
+                For Each Item As Queue In Queue.All.Values
+                    Item.RemoveViewedEdit(Edit)
+                Next Item
+                If Tab Is CurrentTab AndAlso ChangeCurrentEdit Then
+                    Tab.Edit = Edit
+                    MainForm.SetCurrentPage(Edit.Page, False)
+                    MainForm.SetCurrentUser(Edit.User, False)
+                End If
+                If Edit.Deleted Then
+                    Tab.Browser.DocumentText = "<div style=""font-family: Arial"">" & Msg("diff-deleted") & "</div>"
                     Edit.DiffCacheState = Edit.CacheState.Viewed
 
-                    MainForm.PageB.ForeColor = Color.Black
-                    MainForm.RevertTimer.Stop()
-                    MainForm.Reverting = False
-                    HidingEdit = False
+                ElseIf Edit.Prev Is NullEdit Then
+                    'For the first revision to the page, show the revision
+                    Dim NewRequest As New BrowserRequest
+                    NewRequest.Tab = CurrentTab
+                    NewRequest.Url = SitePath() & "index.php?title=" & UrlEncode(Edit.Page.Name) & "&oldid=" & Edit.Id
+                    NewRequest.Start()
+                Else
+                    If Edit.DiffCacheState = Edit.CacheState.Cached OrElse Edit.DiffCacheState = Edit.CacheState.Viewed Then
 
-                ElseIf Edit.DiffCacheState = Edit.CacheState.Uncached Then
-                    If Tab Is CurrentTab Then
-                        For Each Item As ToolStripItem In New ToolStripItem() _
-                            {MainForm.RevertWarnB, MainForm.RevertB, MainForm.WarnB, _
-                            MainForm.UserReportB, MainForm.PageDeleteB, MainForm.PageTagB, MainForm.ContribsPrevB, _
-                            MainForm.ContribsNextB, MainForm.ContribsLastB, MainForm.HistoryPrevB, MainForm.HistoryNextB, _
-                            MainForm.HistoryLastB, MainForm.HistoryDiffToCurB, MainForm.PageWatchB}
+                        If Edit.Diff IsNot Nothing Then
+                            Dim DocumentText, DiffText As String
 
-                            Item.Enabled = False
-                        Next Item
+                            DiffText = Edit.Diff
+                            'Notify user of new messages
+                            If Config.ShowNewMessages AndAlso MainForm.SystemMessages.Enabled _
+                                AndAlso (Edit.Page IsNot User.Me.TalkPage) Then _
+                                DiffText = "<div class=""usermessage"">" & Msg("main-new-messages") & "</div>" & DiffText
+
+                            'Replace relative URLs with absolute ones
+                            DiffText = DiffText.Replace("href=""/wiki/", "href=""" & Config.Projects(Config.Project) & "wiki/")
+                            DiffText = DiffText.Replace("href='/wiki/", "href='" & Config.Projects(Config.Project) & "wiki/")
+                            DiffText = DiffText.Replace("href=""/w/", "href=""" & Config.Projects(Config.Project) & "w/")
+                            DiffText = DiffText.Replace("href='/w/", "href='" & Config.Projects(Config.Project) & "w/")
+
+                            DocumentText = MakeHtmlWikiPage(Edit.Page.Name, DiffText)
+
+                            Tab.CurrentUrl = SitePath() & "index.php?title=" & UrlEncode(Edit.Page.Name) & _
+                                "&diff=" & Edit.Id & "&oldid=" & Edit.Oldid
+
+                            Try
+                                Tab.Browser.DocumentText = DocumentText
+
+                            Catch ex As System.Runtime.InteropServices.COMException
+                                Debug.WriteLine("serv")
+                                'If an attempt is made to set the DocumentText property while it is 
+                                'still being  set from a previous call, it seems to throw a COMException
+                                'just swallow it for now
+                            End Try
+                        End If
+                        Edit.DiffCacheState = Edit.CacheState.Viewed
+
+                        MainForm.PageB.ForeColor = Color.Black
+                        MainForm.RevertTimer.Stop()
+                        MainForm.Reverting = False
+                        HidingEdit = False
+
+                    ElseIf Edit.DiffCacheState = Edit.CacheState.Uncached Then
+                        If Tab Is CurrentTab Then
+                            For Each Item As ToolStripItem In New ToolStripItem() _
+                                {MainForm.RevertWarnB, MainForm.RevertB, MainForm.WarnB, _
+                                MainForm.UserReportB, MainForm.PageDeleteB, MainForm.PageTagB, MainForm.ContribsPrevB, _
+                                MainForm.ContribsNextB, MainForm.ContribsLastB, MainForm.HistoryPrevB, MainForm.HistoryNextB, _
+                                MainForm.HistoryLastB, MainForm.HistoryDiffToCurB, MainForm.PageWatchB}
+
+                                Item.Enabled = False
+                            Next Item
+                        End If
+                        If Not ChangeCurrentEdit Then HidingEdit = True
+                        Edit.DiffCacheState = Edit.CacheState.Caching
+                        LatestDiffRequest = New DiffRequest
+                        LatestDiffRequest.Edit = Edit
+                        LatestDiffRequest.Tab = Tab
+                        LatestDiffRequest.Start()
                     End If
-
-                    If Not ChangeCurrentEdit Then HidingEdit = True
-                    Edit.DiffCacheState = Edit.CacheState.Caching
-                    LatestDiffRequest = New DiffRequest
-                    LatestDiffRequest.Edit = Edit
-                    LatestDiffRequest.Tab = Tab
-                    LatestDiffRequest.Start()
                 End If
+                MainForm.RevisionDecline.Enabled = False
+                MainForm.RevisionAcceptpend.Enabled = False
+
+                MainForm.RefreshInterface()
+                If Config.RightPending = True And Edit.Page.Pending = True Then
+                    MainForm.RevisionDecline.Enabled = True
+                    MainForm.RevisionAcceptpend.Enabled = True
+                End If
+
+            ElseIf Edit IsNot Nothing AndAlso Edit.Page IsNot Nothing Then
+                If CurrentQueue IsNot Nothing AndAlso CurrentQueue.Edits.Contains(Edit) Then
+                    CurrentQueue.RemoveViewedEdit(Edit)
+                    MainForm.DrawQueues()
+                End If
+
+                Dim NewHistoryRequest As New HistoryRequest
+                NewHistoryRequest.Page = Edit.Page
+                NewHistoryRequest.Start(AddressOf GotPageContent)
             End If
-
-            MainForm.RefreshInterface()
-
-        ElseIf Edit IsNot Nothing AndAlso Edit.Page IsNot Nothing Then
-            If CurrentQueue IsNot Nothing AndAlso CurrentQueue.Edits.Contains(Edit) Then
-                CurrentQueue.RemoveViewedEdit(Edit)
-                MainForm.DrawQueues()
-            End If
-
-            Dim NewHistoryRequest As New HistoryRequest
-            NewHistoryRequest.Page = Edit.Page
-            NewHistoryRequest.Start(AddressOf GotPageContent)
-        End If
+        Catch ex As Exception
+            ExceptionForm.Show()
+            ExceptionForm.Exception = ex
+        End Try
     End Sub
 
     Sub GotPageContent(ByVal Result As RequestResult)
@@ -1355,17 +1371,19 @@ Module Processing
     End Sub
 
     Sub ShowNextEdit()
+        'Try
         If CurrentQueue.Edits.Count > 0 Then DisplayEdit(CurrentQueue.Edits(0), , CurrentTab)
+
+        'End Try
     End Sub
 
     Sub DisplayHistoryItem(ByVal Index As Integer)
         If CurrentEdit IsNot Nothing AndAlso CurrentEdit.Page IsNot Nothing Then
             Dim ThisEdit As Edit = CurrentEdit.Page.LastEdit
-
-            For i As Integer = 0 To Index - 1
-                If ThisEdit Is Nothing OrElse ThisEdit.Prev Is Nothing OrElse ThisEdit.Prev Is NullEdit Then Exit Sub
-                ThisEdit = ThisEdit.Prev
-            Next i
+                For i As Integer = 0 To Index - 1
+                    If ThisEdit Is Nothing OrElse ThisEdit.Prev Is Nothing OrElse ThisEdit.Prev Is NullEdit Then Exit Sub
+                    ThisEdit = ThisEdit.Prev
+                Next i
 
             DisplayEdit(ThisEdit)
         End If

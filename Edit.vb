@@ -20,7 +20,7 @@ Class Edit
     Public Deleted As Boolean
     Public Diff As String
     Public DiffCacheState As CacheState
-    Public Id As String
+    Public Id As String 'rev
     Public LevelToWarn As UserLevel
     Public Multiple As Boolean
     Public NewPage As Boolean

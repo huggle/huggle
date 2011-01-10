@@ -91,6 +91,7 @@ Namespace Requests
 
     End Class
 
+
     Class SpeedyRequest : Inherits Request
 
         'Tag a page for speedy deletion

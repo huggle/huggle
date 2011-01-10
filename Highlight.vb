@@ -36,11 +36,13 @@ Module Highlight
     End Function
 
     Public Function RtfEscape(ByVal Text As String) As String
+        Dim Break As Integer = 0
         Text = Text.Replace("\", "\\").Replace("{", "\{").Replace("}", "\}").Replace(LF, "\par ")
 
         Dim j As Integer = 0
 
-        While j < Text.Length
+        While j < Text.Length And Break < Misc.GlExcess
+            Break = Break + 1
             Dim a As Integer = Convert.ToInt32(Text(j))
 
             If a > 127 Then
@@ -95,6 +97,7 @@ Module Highlight
             _Done = Done
             _Text = Text
 
+            Debug.WriteLine("thread start")
             Thread = New Thread(AddressOf HighlightThread)
             Thread.IsBackground = True
             Thread.Start()
@@ -105,411 +108,466 @@ Module Highlight
         End Sub
 
         Private Sub HighlightThread()
+            Dim Break As Integer = 0
 
             Dim Comment As New List(Of String), Nowiki As New List(Of String)
             Dim Templates As New List(Of TemplateData)
             Dim Open, Close As Integer
             Dim Source As New StringBuilder(_Text, _Text.Length * 3)
+            Try
+                Source.Replace("\", "\\").Replace("{", "\{").Replace("}", "\}")
 
-            Source.Replace("\", "\\").Replace("{", "\{").Replace("}", "\}")
+                For Each Item As String In Directives
+                    Source = Source.Replace(Item, "{\cf3 " & Item & "}")
+                Next Item
 
-            For Each Item As String In Directives
-                Source = Source.Replace(Item, "{\cf3 " & Item & "}")
-            Next Item
+                While True And Break < Misc.GlExcess
+                    Dim Str As String = Source.ToString
+                    Break = Break + 1
+                    Open = Str.IndexOf("<!--", Close)
+                    If Open = -1 Then Exit While
+                    Close = Str.IndexOf("-->", Open)
+                    If Close = -1 Then Exit While
 
-            While True
-                Dim Str As String = Source.ToString
-                Open = Str.IndexOf("<!--", Close)
-                If Open = -1 Then Exit While
-                Close = Str.IndexOf("-->", Open)
-                If Close = -1 Then Exit While
+                    Comment.Add("{\cf1 " & Str.Substring(Open, Close - Open + 3) & "}")
 
-                Comment.Add("{\cf1 " & Str.Substring(Open, Close - Open + 3) & "}")
-
-                Source.Remove(Open, Close - Open + 3)
-                Source.Insert(Open, Convert.ToChar(0))
-                Close = Open + 1
-            End While
-
-            Close = 0
-
-            While True
-                Dim Str As String = Source.ToString
-                Open = Str.IndexOf("<nowiki>", Close)
-                If Open = -1 Then Exit While
-                Close = Str.IndexOf("</nowiki>", Open)
-                If Close = -1 Then Exit While
-
-                Nowiki.Add("{\cf0 " & Str.Substring(Open + 8, Close - Open - 8) & "}")
-
-                Source.Remove(Open + 8, Close - Open - 8)
-                Source.Insert(Open + 8, Convert.ToChar(1))
-                Close = Open + 1
-            End While
-
-            Source.Replace("~~~~", "{\cf3\b ~~~~}")
-            Close = 0
-
-            While True
-                Dim Str As String = Source.ToString
-                Open = Str.IndexOf("__", Close)
-                If Open = -1 Then Exit While
-                Close = Str.IndexOf("__", Open + 1)
-                If Close = -1 Then Exit While
-
-                Close += 10
-                Source.Insert(Open, "{\cf3\b ")
-                Source.Insert(Close, "}")
-            End While
-
-            Close = 0
-
-            While True
-                Dim Str As String = Source.ToString
-                Open = Str.IndexOf("<u>", Close)
-                If Open = -1 Then Exit While
-                Close = Str.IndexOf("</u>", Open)
-                If Close = -1 Then Exit While
-
-                Close += 5
-                Source.Insert(Open + 3, "{\ul ")
-                Source.Insert(Close, "}")
-            End While
-
-            Close = 0
-
-            While True
-                Dim Str As String = Source.ToString
-                Open = Str.IndexOf("<ref", Close)
-                If Open = -1 Then Exit While
-
-                Dim Close1 As Integer = Str.IndexOf("</ref>", Open), _
-                    Close2 As Integer = Str.IndexOf("/>", Open), _
-                    Close3 As Integer = Str.IndexOf(">", Open)
-
-                If Close2 > -1 AndAlso Close2 = Close3 - 1 Then
-                    Close = Close3 + 1
-                ElseIf Close1 > -1 Then
-                    Close = Close1 + 6
-                Else
-                    Exit While
-                End If
-
-                Close += 13
-                Source.Insert(Open, "{\highlight8 ")
-                Source.Insert(Close, "}")
-            End While
-
-            Close = 0
-
-            While True
-                Dim Str As String = Source.ToString
-                Open = Str.IndexOf("[[", Close)
-                If Open = -1 Then Exit While
-                Close = Str.IndexOf("]]", Open)
-                If Close = -1 Then Exit While
-
-                Dim Position As Integer = Open + 1, Level As Integer = 1
-
-                While Level > 0
-                    Dim NextOpen As Integer = Str.IndexOf("[[", Position)
-                    Dim NextClose As Integer = Str.IndexOf("]]", Position)
-
-                    If NextOpen > -1 AndAlso NextOpen < NextClose Then
-                        Level += 1
-                        Position = NextOpen + 1
-                    Else
-                        Level -= 1
-                        Position = NextClose + 1
-                    End If
+                    Source.Remove(Open, Close - Open + 3)
+                    Source.Insert(Open, Convert.ToChar(0))
+                    Close = Open + 1
                 End While
 
-                If Position = 0 Then Exit While
-                Close = Position - 1
+                If Break >= Misc.GlExcess - 1 Then Log("Debug interrupted at Higlight.HighlightThread()")
 
-                Dim LinkText As String = Str.Substring(Open + 2, Close - Open - 2)
+                Close = 0
+                'reset
+                Break = 0
 
-                Source.Remove(Open, Close - Open + 2)
+                While True And Break < Misc.GlExcess
+                    Dim Str As String = Source.ToString
+                    Break = Break + 1
+                    Open = Str.IndexOf("<nowiki>", Close)
+                    If Open = -1 Then Exit While
+                    Close = Str.IndexOf("</nowiki>", Open)
+                    If Close = -1 Then Exit While
 
-                If LinkText.StartsWith("Image:") Then
-                    Dim Index As Integer = LinkText.IndexOf("|")
+                    Nowiki.Add("{\cf0 " & Str.Substring(Open + 8, Close - Open - 8) & "}")
 
-                    If Index > -1 Then
-                        LinkText = "{\cf2 " & LinkText.Substring(0, Index) & "}{\b |}" & LinkText.Substring(Index + 1)
-                    Else
-                        LinkText = "{\cf2 " & LinkText & "}"
-                    End If
-
-                    Source.Insert(Open, "{\cf0\highlight9 [[" & LinkText & "]]}")
-                    Close = Open + 20
-                Else
-                    Dim Index1 As Integer = LinkText.IndexOf("|")
-                    Dim Index2 As Integer = LinkText.IndexOf("\{\{")
-
-                    Dim Index As Integer = -1
-
-                    If Index1 > -1 Then Index = Index1
-                    If Index2 > -1 AndAlso Index2 < Index1 Then Index = Index2
-
-                    If Index > -1 Then
-                        LinkText = "{\cf2 " & LinkText.Substring(0, Index) & "}" & LinkText.Substring(Index)
-                    Else
-                        LinkText = "{\cf2 " & LinkText & "}"
-                    End If
-
-                    Source.Insert(Open, "{\cf0 [[}" & LinkText & "{\cf0 ]]}")
-                    Close = Open + 7
-                End If
-            End While
-
-            Close = 0
-
-            While True
-                Dim Str As String = Source.ToString
-                Open = Str.IndexOf("http://", Close)
-                If Open = -1 Then Exit While
-
-                Close = Source.Length + 1
-
-                Dim Close1 As Integer = Str.IndexOf(" ", Open)
-                Dim Close2 As Integer = Str.IndexOf("|", Open)
-                Dim Close3 As Integer = Str.IndexOf("}", Open)
-                Dim Close4 As Integer = Str.IndexOf(LF, Open)
-
-                If Close1 > -1 Then Close = Close1
-                If Close2 > -1 AndAlso Close2 < Close Then Close = Close2
-                If Close3 > -1 AndAlso Close3 < Close Then Close = Close3 - 1
-                If Close4 > -1 AndAlso Close4 < Close Then Close = Close4
-
-                If Close = Source.Length + 1 OrElse Close = -1 Then Exit While
-
-                Dim Index As Integer = Str.Substring(Open, Close - Open).IndexOf(" ")
-                Close += 6
-
-                Source.Insert(Open, "{\cf4 ")
-                If Index > -1 Then Source.Insert(Open + Index + 6, "}") Else Source.Insert(Close, "}")
-            End While
-
-            Close = 0
-
-            While True
-                Dim Str As String = Source.ToString
-                Open = Str.IndexOf("'''''", Close)
-                If Open = -1 Then Exit While
-
-                Dim Close1 As Integer = Str.IndexOf(LF, Open + 2)
-                Dim Close2 As Integer = Str.IndexOf("'''''", Open + 2) + 5
-                Close = -1
-                If Close1 > -1 Then Close = Close1
-                If Close2 > -1 AndAlso (Close1 = -1 OrElse Close2 < Close1) Then Close = Close2
-                If Close = -1 Then Exit While
-
-                Close += 6
-                Source.Insert(Open, "{\b\i ")
-                Source.Insert(Close, "}")
-            End While
-
-            Close = 0
-
-            While True
-                Dim Str As String = Source.ToString
-                Open = Str.IndexOf("'''", Close)
-                If Open = -1 Then Exit While
-
-                If Open < Source.Length - 3 AndAlso Source(Open + 3) = "'" Then
-                    Close = Open + 3
-                    Continue While
-                End If
-
-                Dim Close1 As Integer = Str.IndexOf(LF, Open + 3)
-                Dim Close2 As Integer = Str.IndexOf("'''", Open + 3) + 3
-                Close = -1
-                If Close1 > -1 Then Close = Close1
-                If Close2 > -1 AndAlso (Close1 = -1 OrElse Close2 < Close1) Then Close = Close2
-                If Close = -1 Then Exit While
-
-                Close += 4
-                Source.Insert(Open, "{\b ")
-                Source.Insert(Close, "}")
-            End While
-
-            Close = 0
-
-            While True
-                Dim Str As String = Source.ToString
-                Open = Str.IndexOf("''", Close)
-                If Open = -1 Then Exit While
-
-                If Open < Source.Length - 2 AndAlso Source(Open + 2) = "'" Then
-                    Close = Open + 2
-                    Continue While
-                End If
-
-                Dim Close1 As Integer = Str.IndexOf(LF, Open + 2)
-                Dim Close2 As Integer = Str.IndexOf("''", Open + 2) + 2
-                Close = -1
-                If Close1 > -1 Then Close = Close1
-                If Close2 > -1 AndAlso (Close1 = -1 OrElse Close2 < Close1) Then Close = Close2
-                If Close = -1 Then Exit While
-
-                Close += 4
-                Source.Insert(Open, "{\i ")
-                Source.Insert(Close, "}")
-            End While
-
-            Close = 0
-
-            While True
-                Dim Str As String = Source.ToString
-                Open = Str.IndexOf("\{\{\{", Close)
-                If Open = -1 Then Exit While
-                Close = Str.IndexOf("\}\}\}", Open)
-                If Close = -1 Then Exit While
-
-                If Str.Substring(Open + 6, 2) = "\{" Then Continue While
-
-                Dim ParameterText As String = Str.Substring(Open + 6, Close - Open - 6)
-                Dim Index As Integer = ParameterText.IndexOf("|")
-
-                If Index > -1 Then ParameterText = ParameterText.Substring(0, Index) & "}{\b |}{" _
-                    & ParameterText.Substring(Index + 1)
-                ParameterText = "{\b0\cf0\highlight10 \{\{\{{\cf11\b " & ParameterText & "}\}\}\}}"
-
-                Source.Remove(Open, Close - Open + 6)
-                Source.Insert(Open, ParameterText)
-                Close += 32
-            End While
-
-            Close = 0
-
-            While True
-                Dim Str As String = Source.ToString
-                Open = Str.IndexOf("<", Close)
-                If Open = -1 Then Exit While
-                Close = Str.IndexOf(">", Open)
-                If Close = -1 Then Exit While
-
-                Dim HtmlText As String = Str.Substring(Open + 1, Close - Open - 1)
-                Dim Index As Integer = HtmlText.IndexOf(" ")
-
-                If Index > -1 Then HtmlText = HtmlText.Insert(Index, "}") Else HtmlText &= "}"
-
-                HtmlText = "{\cf0\b0 <{\cf6\b " & HtmlText & ">}"
-
-                Source.Remove(Open, Close - Open + 1)
-                Source.Insert(Open, HtmlText)
-                Close += 20
-            End While
-
-            Close = 0
-
-            While True
-                Dim Str As String = Source.ToString
-                If Str.StartsWith("==") Then Open = 0 Else Open = Str.IndexOf(LF & "==", Close)
-                If Open = -1 Then Exit While
-                Close = Str.IndexOf("==", Open + 4)
-                If Close = -1 Then Exit While
-
-                Source.Insert(Open, "{\b ")
-                Source.Insert(Close + 6, "}")
-                Close += 7
-            End While
-
-            Close = 0
-
-            While True
-                Dim Str As String = Source.ToString
-                Open = Str.IndexOf("\{\{", Close)
-                If Open = -1 OrElse Open > Str.Length - 8 Then Exit While
-                Close = Open + 4
-                If Str.Substring(Open + 4, 2) = "\{" AndAlso Str.Substring(Open + 6, 2) <> "\{" Then Continue While
-
-                Dim Level As Integer = 1
-
-                While Level > 0
-                    Dim NextOpen, NextClose As Integer
-                    Dim ThisClose As Integer = Close
-
-                    Do
-                        NextOpen = Str.IndexOf("\{\{", ThisClose)
-                        If NextOpen = -1 OrElse NextOpen > Str.Length - 8 Then Exit Do
-                        If Not (Str.Substring(NextOpen + 4, 2) = "\{" AndAlso Str.Substring(NextOpen + 6, 2) <> "\{") _
-                            Then Exit Do
-                        ThisClose = NextOpen + 6
-                    Loop
-
-                    Do
-                        NextClose = Str.IndexOf("\}\}", Close)
-                        If NextClose = -1 OrElse NextClose > Str.Length - 8 Then Exit Do
-                        If Not (Str.Substring(NextClose + 4, 2) = "\}" AndAlso Str.Substring(NextClose + 6, 2) <> "\}") _
-                            Then Exit Do
-                        Close = NextClose + 6
-                    Loop
-
-                    If NextOpen > -1 AndAlso NextOpen < NextClose Then
-                        Level += 1
-                        Close = NextOpen + 4
-                    Else
-                        Level -= 1
-                        Close = NextClose + 4
-                    End If
+                    Source.Remove(Open + 8, Close - Open - 8)
+                    Source.Insert(Open + 8, Convert.ToChar(1))
+                    Close = Open + 1
                 End While
 
-                Close -= 4
-                If Close = -1 Then Exit While
+                Source.Replace("~~~~", "{\cf3\b ~~~~}")
+                Close = 0
+                Break = 0
 
-                Dim TemplateText As String = Str.Substring(Open, Close - Open + 4)
-                Dim TemplateItem As New TemplateData(TemplateText)
-                Templates.Add(TemplateItem)
-                ParseTemplate(TemplateItem)
+                While True And Break < Misc.GlExcess
+                    Dim Str As String = Source.ToString
+                    Open = Str.IndexOf("__", Close)
+                    Break = Break + 1
+                    If Open = -1 Then Exit While
+                    Close = Str.IndexOf("__", Open + 1)
+                    If Close = -1 Then Exit While
 
-                Source.Remove(Open, Close - Open + 4)
-                Source.Insert(Open, Convert.ToChar(14))
-                Close = Open + 1
-            End While
+                    Close += 10
+                    Source.Insert(Open, "{\cf3\b ")
+                    Source.Insert(Close, "}")
+                End While
 
-            For Each Item As TemplateData In Templates
-                UnpackTemplates(Item)
-                Dim Index As Integer = Source.ToString.IndexOf(Convert.ToChar(14))
+                Close = 0
+                If Break >= Misc.GlExcess Then Log("Debug interrupted at Higlight.HighlightThread()")
+                Close = 0
+                Break = 0
 
-                If Index > -1 Then
-                    Source.Remove(Index, 1)
-                    Source.Insert(Index, Item.Text)
-                End If
-            Next Item
+                While True And Break < Misc.GlExcess
+                    Dim Str As String = Source.ToString
+                    Break = Break + 1
+                    Open = Str.IndexOf("<u>", Close)
+                    If Open = -1 Then Exit While
+                    Close = Str.IndexOf("</u>", Open)
+                    If Close = -1 Then Exit While
 
-            Dim Lists() As List(Of String) = {Nowiki, Comment}
+                    Close += 5
+                    Source.Insert(Open + 3, "{\ul ")
+                    Source.Insert(Close, "}")
+                End While
 
-            For i As Integer = 0 To Lists.Length - 1
-                For Each Item As String In Lists(i)
-                    Dim Index As Integer = Source.ToString.IndexOf(Convert.ToChar(1 - i))
+                Break = 0
+                Close = 0
+
+                While True And Break < Misc.GlExcess
+                    Dim Str As String = Source.ToString
+                    Break = Break + 1
+                    Open = Str.IndexOf("<ref", Close)
+                    If Open = -1 Then Exit While
+
+                    Dim Close1 As Integer = Str.IndexOf("</ref>", Open), _
+                        Close2 As Integer = Str.IndexOf("/>", Open), _
+                        Close3 As Integer = Str.IndexOf(">", Open)
+
+                    If Close2 > -1 AndAlso Close2 = Close3 - 1 Then
+                        Close = Close3 + 1
+                    ElseIf Close1 > -1 Then
+                        Close = Close1 + 6
+                    Else
+                        Exit While
+                    End If
+
+                    Close += 13
+                    Source.Insert(Open, "{\highlight8 ")
+                    Source.Insert(Close, "}")
+                End While
+
+                If Break >= Misc.GlExcess Then Log("Debug interrupted at Higlight.HighlightThread()")
+
+                Break = 0
+                Close = 0
+
+                While True And Break < Misc.GlExcess
+                    Dim Str As String = Source.ToString
+                    Break = Break + 1
+                    Open = Str.IndexOf("[[", Close)
+                    If Open = -1 Then Exit While
+                    Close = Str.IndexOf("]]", Open)
+                    If Close = -1 Then Exit While
+
+                    Dim Position As Integer = Open + 1, Level As Integer = 1
+
+                    While Level > 0 And Break < Misc.GlExcess
+                        Dim NextOpen As Integer = Str.IndexOf("[[", Position)
+                        Break = Break + 1
+                        Dim NextClose As Integer = Str.IndexOf("]]", Position)
+
+                        If NextOpen > -1 AndAlso NextOpen < NextClose Then
+                            Level += 1
+                            Position = NextOpen + 1
+                        Else
+                            Level -= 1
+                            Position = NextClose + 1
+                        End If
+                    End While
+                    If Position = 0 Then Exit While
+                    Close = Position - 1
+
+                    Dim LinkText As String = Str.Substring(Open + 2, Close - Open - 2)
+
+                    Source.Remove(Open, Close - Open + 2)
+
+                    If LinkText.StartsWith("Image:") Then
+                        Dim Index As Integer = LinkText.IndexOf("|")
+
+                        If Index > -1 Then
+                            LinkText = "{\cf2 " & LinkText.Substring(0, Index) & "}{\b |}" & LinkText.Substring(Index + 1)
+                        Else
+                            LinkText = "{\cf2 " & LinkText & "}"
+                        End If
+
+                        Source.Insert(Open, "{\cf0\highlight9 [[" & LinkText & "]]}")
+                        Close = Open + 20
+                    Else
+                        Dim Index1 As Integer = LinkText.IndexOf("|")
+                        Dim Index2 As Integer = LinkText.IndexOf("\{\{")
+
+                        Dim Index As Integer = -1
+
+                        If Index1 > -1 Then Index = Index1
+                        If Index2 > -1 AndAlso Index2 < Index1 Then Index = Index2
+
+                        If Index > -1 Then
+                            LinkText = "{\cf2 " & LinkText.Substring(0, Index) & "}" & LinkText.Substring(Index)
+                        Else
+                            LinkText = "{\cf2 " & LinkText & "}"
+                        End If
+
+                        Source.Insert(Open, "{\cf0 [[}" & LinkText & "{\cf0 ]]}")
+                        Close = Open + 7
+                    End If
+                End While
+                If Break >= Misc.GlExcess Then Log("Debug interrupted at Higlight.HighlightThread()")
+                Break = 0
+                Close = 0
+
+                While True And Break < Misc.GlExcess
+                    Dim Str As String = Source.ToString
+                    Break = Break + 1
+                    Open = Str.IndexOf("http://", Close)
+                    If Open = -1 Then Exit While
+
+                    Close = Source.Length + 1
+
+                    Dim Close1 As Integer = Str.IndexOf(" ", Open)
+                    Dim Close2 As Integer = Str.IndexOf("|", Open)
+                    Dim Close3 As Integer = Str.IndexOf("}", Open)
+                    Dim Close4 As Integer = Str.IndexOf(LF, Open)
+
+                    If Close1 > -1 Then Close = Close1
+                    If Close2 > -1 AndAlso Close2 < Close Then Close = Close2
+                    If Close3 > -1 AndAlso Close3 < Close Then Close = Close3 - 1
+                    If Close4 > -1 AndAlso Close4 < Close Then Close = Close4
+
+                    If Close = Source.Length + 1 OrElse Close = -1 Then Exit While
+
+                    Dim Index As Integer = Str.Substring(Open, Close - Open).IndexOf(" ")
+                    Close += 6
+
+                    Source.Insert(Open, "{\cf4 ")
+                    If Index > -1 Then Source.Insert(Open + Index + 6, "}") Else Source.Insert(Close, "}")
+                End While
+
+                Break = 0
+                Close = 0
+
+                While True And Break < Misc.GlExcess
+                    Dim Str As String = Source.ToString
+                    Break = Break + 1
+                    Open = Str.IndexOf("'''''", Close)
+                    If Open = -1 Then Exit While
+
+                    Dim Close1 As Integer = Str.IndexOf(LF, Open + 2)
+                    Dim Close2 As Integer = Str.IndexOf("'''''", Open + 2) + 5
+                    Close = -1
+                    If Close1 > -1 Then Close = Close1
+                    If Close2 > -1 AndAlso (Close1 = -1 OrElse Close2 < Close1) Then Close = Close2
+                    If Close = -1 Then Exit While
+
+                    Close += 6
+                    Source.Insert(Open, "{\b\i ")
+                    Source.Insert(Close, "}")
+                End While
+
+                Close = 0
+                If Break >= Misc.GlExcess Then Log("Debug interrupted at Higlight.HighlightThread()")
+                'reset counter
+                Break = 0
+
+                While True And Break < Misc.GlExcess
+                    Dim Str As String = Source.ToString
+                    Break = Break + 1
+                    Open = Str.IndexOf("'''", Close)
+                    If Open = -1 Then Exit While
+
+                    If Open < Source.Length - 3 AndAlso Source(Open + 3) = "'" Then
+                        Close = Open + 3
+                        Continue While
+                    End If
+
+                    Dim Close1 As Integer = Str.IndexOf(LF, Open + 3)
+                    Dim Close2 As Integer = Str.IndexOf("'''", Open + 3) + 3
+                    Close = -1
+                    If Close1 > -1 Then Close = Close1
+                    If Close2 > -1 AndAlso (Close1 = -1 OrElse Close2 < Close1) Then Close = Close2
+                    If Close = -1 Then Exit While
+
+                    Close += 4
+                    Source.Insert(Open, "{\b ")
+                    Source.Insert(Close, "}")
+                End While
+
+                If Break >= Misc.GlExcess Then Log("Debug interrupted at Higlight.HighlightThread()")
+
+
+                Break = 0
+
+                Close = 0
+
+                While True And Break < Misc.GlExcess
+                    Dim Str As String = Source.ToString
+                    Break = Break + 1
+                    Open = Str.IndexOf("''", Close)
+                    If Open = -1 Then Exit While
+
+                    If Open < Source.Length - 2 AndAlso Source(Open + 2) = "'" Then
+                        Close = Open + 2
+                        Continue While
+                    End If
+
+                    Dim Close1 As Integer = Str.IndexOf(LF, Open + 2)
+                    Dim Close2 As Integer = Str.IndexOf("''", Open + 2) + 2
+                    Close = -1
+                    If Close1 > -1 Then Close = Close1
+                    If Close2 > -1 AndAlso (Close1 = -1 OrElse Close2 < Close1) Then Close = Close2
+                    If Close = -1 Then Exit While
+
+                    Close += 4
+                    Source.Insert(Open, "{\i ")
+                    Source.Insert(Close, "}")
+                End While
+
+                If Break >= Misc.GlExcess Then Log("Debug interrupted at Higlight.HighlightThread()")
+
+                Break = 0
+
+                Close = 0
+
+                While True And Break < Misc.GlExcess
+                    Dim Str As String = Source.ToString
+                    Break = Break + 1
+                    Open = Str.IndexOf("\{\{\{", Close)
+                    If Open = -1 Then Exit While
+                    Close = Str.IndexOf("\}\}\}", Open)
+                    If Close = -1 Then Exit While
+
+                    If Str.Substring(Open + 6, 2) = "\{" Then Continue While
+
+                    Dim ParameterText As String = Str.Substring(Open + 6, Close - Open - 6)
+                    Dim Index As Integer = ParameterText.IndexOf("|")
+
+                    If Index > -1 Then ParameterText = ParameterText.Substring(0, Index) & "}{\b |}{" _
+                        & ParameterText.Substring(Index + 1)
+                    ParameterText = "{\b0\cf0\highlight10 \{\{\{{\cf11\b " & ParameterText & "}\}\}\}}"
+
+                    Source.Remove(Open, Close - Open + 6)
+                    Source.Insert(Open, ParameterText)
+                    Close += 32
+                End While
+
+                Close = 0
+                If Break >= Misc.GlExcess Then Log("Debug interrupted at Higlight.HighlightThread()")
+                Close = 0
+                Break = 0
+
+                While True And Break < Misc.GlExcess
+                    Dim Str As String = Source.ToString
+                    Break = Break + 1
+                    Open = Str.IndexOf("<", Close)
+                    If Open = -1 Then Exit While
+                    Close = Str.IndexOf(">", Open)
+                    If Close = -1 Then Exit While
+
+                    Dim HtmlText As String = Str.Substring(Open + 1, Close - Open - 1)
+                    Dim Index As Integer = HtmlText.IndexOf(" ")
+
+                    If Index > -1 Then HtmlText = HtmlText.Insert(Index, "}") Else HtmlText &= "}"
+
+                    HtmlText = "{\cf0\b0 <{\cf6\b " & HtmlText & ">}"
+
+                    Source.Remove(Open, Close - Open + 1)
+                    Source.Insert(Open, HtmlText)
+                    Close += 20
+                End While
+
+                If Break >= Misc.GlExcess Then Log("Debug interrupted at Higlight.HighlightThread()")
+                Break = 0
+                Close = 0
+
+                While True
+                    Dim Str As String = Source.ToString
+                    Break = Break + 1
+                    If Str.StartsWith("==") Then Open = 0 Else Open = Str.IndexOf(LF & "==", Close)
+                    If Open = -1 Then Exit While
+                    Close = Str.IndexOf("==", Open + 4)
+                    If Close = -1 Then Exit While
+
+                    Source.Insert(Open, "{\b ")
+                    Source.Insert(Close + 6, "}")
+                    Close += 7
+                End While
+
+                Break = 0
+                Close = 0
+
+                While True
+                    Dim Str As String = Source.ToString
+                    Break = Break + 1
+                    Open = Str.IndexOf("\{\{", Close)
+                    If Open = -1 OrElse Open > Str.Length - 8 Then Exit While
+                    Close = Open + 4
+                    If Str.Substring(Open + 4, 2) = "\{" AndAlso Str.Substring(Open + 6, 2) <> "\{" Then Continue While
+
+                    Dim Level As Integer = 1
+
+                    While Level > 0 And Break < Misc.GlExcess
+                        Dim NextOpen, NextClose As Integer
+                        Dim ThisClose As Integer = Close
+                        Break = Break + 1
+
+                        Do
+                            NextOpen = Str.IndexOf("\{\{", ThisClose)
+                            If NextOpen = -1 OrElse NextOpen > Str.Length - 8 Then Exit Do
+                            If Not (Str.Substring(NextOpen + 4, 2) = "\{" AndAlso Str.Substring(NextOpen + 6, 2) <> "\{") _
+                                Then Exit Do
+                            ThisClose = NextOpen + 6
+                        Loop Until Break < Misc.GlExcess
+
+                        Do
+                            NextClose = Str.IndexOf("\}\}", Close)
+                            If NextClose = -1 OrElse NextClose > Str.Length - 8 Then Exit Do
+                            If Not (Str.Substring(NextClose + 4, 2) = "\}" AndAlso Str.Substring(NextClose + 6, 2) <> "\}") _
+                                Then Exit Do
+                            Close = NextClose + 6
+                        Loop
+
+                        If NextOpen > -1 AndAlso NextOpen < NextClose Then
+                            Level += 1
+                            Close = NextOpen + 4
+                        Else
+                            Level -= 1
+                            Close = NextClose + 4
+                        End If
+                    End While
+
+                    Close -= 4
+                    If Close = -1 Then Exit While
+
+                    Dim TemplateText As String = Str.Substring(Open, Close - Open + 4)
+                    Dim TemplateItem As New TemplateData(TemplateText)
+                    Templates.Add(TemplateItem)
+                    ParseTemplate(TemplateItem)
+
+                    Source.Remove(Open, Close - Open + 4)
+                    Source.Insert(Open, Convert.ToChar(14))
+                    Close = Open + 1
+                End While
+                If Break >= Misc.GlExcess Then Log("Debug interrupted at Higlight.HighlightThread()")
+
+                For Each Item As TemplateData In Templates
+                    UnpackTemplates(Item)
+                    Dim Index As Integer = Source.ToString.IndexOf(Convert.ToChar(14))
 
                     If Index > -1 Then
                         Source.Remove(Index, 1)
-                        Source.Insert(Index, Item)
+                        Source.Insert(Index, Item.Text)
                     End If
                 Next Item
-            Next i
 
-            Source.Replace(LF, "\par ")
+                Dim Lists() As List(Of String) = {Nowiki, Comment}
 
-            Dim j As Integer = 0
+                If (Lists.Length - 1) > 0 Then
+                    For i As Integer = 0 To Lists.Length - 1
+                        For Each Item As String In Lists(i)
+                            Dim Index As Integer = Source.ToString.IndexOf(Convert.ToChar(1 - i))
 
-            While j < Source.Length
-                Dim a As Integer = Convert.ToInt32(Source(j))
-
-                If a > 127 Then
-                    Source.Remove(j, 1)
-                    Source.Insert(j, "\u" & CStr(a).PadLeft(5, "0"c) & "?")
+                            If Index > -1 Then
+                                Source.Remove(Index, 1)
+                                Source.Insert(Index, Item)
+                            End If
+                        Next Item
+                    Next i
                 End If
 
-                j += 1
-            End While
+                Source.Replace(LF, "\par ")
 
+                Dim j As Integer = 0
+
+                While j < Source.Length
+                    Dim a As Integer = Convert.ToInt32(Source(j))
+
+                    If a > 127 Then
+                        Source.Remove(j, 1)
+                        Source.Insert(j, "\u" & CStr(a).PadLeft(5, "0"c) & "?")
+                    End If
+
+                    j += 1
+                End While
+
+            Catch ex As Exception
+                ExceptionForm.Show()
+            End Try
             Source.Insert(0, RtfHeader)
             Source.Append(RtfFooter)
 
             SyncContext.Post(AddressOf HighlightDone, CObj(Source.ToString))
+
         End Sub
 
         Private Sub HighlightDone(ByVal SourceObject As Object)
@@ -517,10 +575,13 @@ Module Highlight
         End Sub
 
         Private Sub ParseTemplate(ByVal Data As TemplateData)
+            Debug.WriteLine("parse")
+            Dim Break As Integer = 0
             Dim Open, Close As Integer
             Close = 4
 
-            While True
+            While True And Break < Misc.GlExcess
+                Break = Break + 1
                 Open = Data.Text.IndexOf("\{\{", Close)
                 If Open = -1 OrElse Open > Data.Text.Length - 8 Then Exit While
                 Close = Open + 4

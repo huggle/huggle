@@ -13,8 +13,11 @@ Module Irc
         Config.IrcMode = True
         IrcTimer = New Timer(AddressOf IrcTimer_Tick, Nothing, Config.IrcConnectionTimeout, Timeout.Infinite)
 
+        Reconnecting = False
+        Disconnecting = False
         IrcThread = New Thread(AddressOf IrcProcess)
         IrcThread.IsBackground = True
+        IrcThread.Name = "irc"
         IrcThread.Start()
     End Sub
 
@@ -148,213 +151,220 @@ Module Irc
                         NewEdit.Oldid = Match.Groups(5).Value
                         NewEdit.Change = CInt(Match.Groups(7).Value)
                         NewEdit.Summary = Match.Groups(8).Value
-
+                        If Config.SlowIRC = True Then
+                            Thread.Sleep(100)
+                        End If
                         Callback(AddressOf ProcessIrcEdit, CObj(NewEdit))
 
-                    ElseIf NewPageMatch.Match(Message).Success Then
-                        'If the line hits the new page regex then...
-                        Dim NewEdit As New Edit
-                        Dim Match As Match = NewPageMatch.Match(Message)
+                        ElseIf NewPageMatch.Match(Message).Success Then
+                            'If the line hits the new page regex then...
+                            Dim NewEdit As New Edit
+                            Dim Match As Match = NewPageMatch.Match(Message)
 
-                        NewEdit.Page = GetPage(Match.Groups(1).Value)
-                        NewEdit.User = GetUser(Match.Groups(4).Value)
-                        NewEdit.Bot = Not String.IsNullOrEmpty(Match.Groups(3).Value)
-                        NewEdit.Id = "cur"
-                        NewEdit.Oldid = "-1"
-                        NewEdit.Change = CInt(Match.Groups(5).Value)
-                        NewEdit.Summary = Match.Groups(6).Value
-                        NewEdit.Prev = NullEdit
-                        NewEdit.NewPage = True
+                            NewEdit.Page = GetPage(Match.Groups(1).Value)
+                            NewEdit.User = GetUser(Match.Groups(4).Value)
+                            NewEdit.Bot = Not String.IsNullOrEmpty(Match.Groups(3).Value)
+                            NewEdit.Id = "cur"
+                            NewEdit.Oldid = "-1"
+                            NewEdit.Change = CInt(Match.Groups(5).Value)
+                            NewEdit.Summary = Match.Groups(6).Value
+                            NewEdit.Prev = NullEdit
+                            NewEdit.NewPage = True
 
-                        Callback(AddressOf ProcessIrcEdit, CObj(NewEdit))
+                            Callback(AddressOf ProcessIrcEdit, CObj(NewEdit))
 
-                        'ElseIf NewUserMatch.IsMatch(Message) Then
-                        'Dim Match As Match = NewUserMatch.Match(Message)
+                            'ElseIf NewUserMatch.IsMatch(Message) Then
+                            'Dim Match As Match = NewUserMatch.Match(Message)
 
-                    ElseIf DeleteMatch.IsMatch(Message) Then
-                        'If the line hits the delete regex then...
-                        Dim NewDelete As New Delete
-                        Dim Match As Match = DeleteMatch.Match(Message)
+                        ElseIf DeleteMatch.IsMatch(Message) Then
+                            'If the line hits the delete regex then...
+                            Dim NewDelete As New Delete
+                            Dim Match As Match = DeleteMatch.Match(Message)
 
-                        NewDelete.Time = Date.UtcNow
-                        NewDelete.Admin = GetUser(Match.Groups(1).Value)
-                        NewDelete.Page = GetPage(Match.Groups(2).Value)
-                        NewDelete.Action = "delete"
-                        NewDelete.Comment = Match.Groups(3).Value
+                            NewDelete.Time = Date.UtcNow
+                            NewDelete.Admin = GetUser(Match.Groups(1).Value)
+                            NewDelete.Page = GetPage(Match.Groups(2).Value)
+                            NewDelete.Action = "delete"
+                            NewDelete.Comment = Match.Groups(3).Value
 
-                        Callback(AddressOf ProcessDelete, CObj(NewDelete))
+                            Callback(AddressOf ProcessDelete, CObj(NewDelete))
 
-                    ElseIf BlockMatch.IsMatch(Message) Then
-                        'If the line hits the block regex then...
-                        Dim NewBlock As New Block
-                        Dim Match As Match = BlockMatch.Match(Message)
+                        ElseIf BlockMatch.IsMatch(Message) Then
+                            'If the line hits the block regex then...
+                            Dim NewBlock As New Block
+                            Dim Match As Match = BlockMatch.Match(Message)
 
-                        NewBlock.Time = Date.UtcNow
-                        NewBlock.Admin = GetUser(Match.Groups(1).Value)
-                        NewBlock.User = GetUser(Match.Groups(2).Value)
-                        NewBlock.Options = Match.Groups(3).Value
-                        NewBlock.Duration = Match.Groups(4).Value
-                        NewBlock.Action = "block"
-                        NewBlock.Comment = Match.Groups(5).Value
+                            NewBlock.Time = Date.UtcNow
+                            NewBlock.Admin = GetUser(Match.Groups(1).Value)
+                            NewBlock.User = GetUser(Match.Groups(2).Value)
+                            NewBlock.Options = Match.Groups(3).Value
+                            NewBlock.Duration = Match.Groups(4).Value
+                            NewBlock.Action = "block"
+                            NewBlock.Comment = Match.Groups(5).Value
 
-                        Callback(AddressOf ProcessBlock, CObj(NewBlock))
+                            Callback(AddressOf ProcessBlock, CObj(NewBlock))
 
-                    ElseIf ReblockMatch.IsMatch(Message) Then
-                        'If the line hits the reblock regex then...
-                        Dim NewBlock As New Block
-                        Dim Match As Match = BlockMatch.Match(Message)
+                        ElseIf ReblockMatch.IsMatch(Message) Then
+                            'If the line hits the reblock regex then...
+                            Dim NewBlock As New Block
+                            Dim Match As Match = BlockMatch.Match(Message)
 
-                        NewBlock.Time = Date.UtcNow
-                        NewBlock.Admin = GetUser(Match.Groups(1).Value)
-                        NewBlock.User = GetUser(Match.Groups(2).Value)
-                        NewBlock.Options = Match.Groups(4).Value
-                        NewBlock.Duration = Match.Groups(3).Value
-                        NewBlock.Action = "reblock"
-                        NewBlock.Comment = Match.Groups(5).Value
+                            NewBlock.Time = Date.UtcNow
+                            NewBlock.Admin = GetUser(Match.Groups(1).Value)
+                            NewBlock.User = GetUser(Match.Groups(2).Value)
+                            NewBlock.Options = Match.Groups(4).Value
+                            NewBlock.Duration = Match.Groups(3).Value
+                            NewBlock.Action = "reblock"
+                            NewBlock.Comment = Match.Groups(5).Value
 
-                        Callback(AddressOf ProcessBlock, CObj(NewBlock))
+                            Callback(AddressOf ProcessBlock, CObj(NewBlock))
 
-                    ElseIf MoveMatch.IsMatch(Message) Then
-                        'If the line hits the move regex then...
-                        Dim NewPageMove As New PageMove
-                        Dim Match As Match = MoveMatch.Match(Message)
+                        ElseIf MoveMatch.IsMatch(Message) Then
+                            'If the line hits the move regex then...
+                            Dim NewPageMove As New PageMove
+                            Dim Match As Match = MoveMatch.Match(Message)
 
-                        NewPageMove.Time = Date.UtcNow
-                        NewPageMove.User = GetUser(Match.Groups(1).Value)
-                        NewPageMove.Source = Match.Groups(2).Value
-                        NewPageMove.Destination = Match.Groups(3).Value
-                        NewPageMove.Summary = Match.Groups(5).Value
+                            NewPageMove.Time = Date.UtcNow
+                            NewPageMove.User = GetUser(Match.Groups(1).Value)
+                            NewPageMove.Source = Match.Groups(2).Value
+                            NewPageMove.Destination = Match.Groups(3).Value
+                            NewPageMove.Summary = Match.Groups(5).Value
 
-                        Callback(AddressOf ProcessPageMove, CObj(NewPageMove))
+                            Callback(AddressOf ProcessPageMove, CObj(NewPageMove))
 
-                    ElseIf RestoreMatch.IsMatch(Message) Then
-                        'If the line hits the restore regex then...
-                        Dim NewRestore As New Delete
-                        Dim Match As Match = NewPageMatch.Match(Message)
+                        ElseIf RestoreMatch.IsMatch(Message) Then
+                            'If the line hits the restore regex then...
+                            Dim NewRestore As New Delete
+                            Dim Match As Match = NewPageMatch.Match(Message)
 
-                        NewRestore.Time = Date.UtcNow
-                        NewRestore.Admin = GetUser(Match.Groups(1).Value)
-                        NewRestore.Page = GetPage(Match.Groups(2).Value)
-                        NewRestore.Action = "restore"
-                        NewRestore.Comment = Match.Groups(3).Value
+                            NewRestore.Time = Date.UtcNow
+                            NewRestore.Admin = GetUser(Match.Groups(1).Value)
+                            NewRestore.Page = GetPage(Match.Groups(2).Value)
+                            NewRestore.Action = "restore"
+                            NewRestore.Comment = Match.Groups(3).Value
 
-                        Callback(AddressOf ProcessRestore, CObj(NewRestore))
+                            Callback(AddressOf ProcessRestore, CObj(NewRestore))
 
-                    ElseIf UnblockMatch.IsMatch(Message) Then
-                        'If the line hits the unblock regex then...
-                        Dim NewUnblock As New Block
-                        Dim Match As Match = UnblockMatch.Match(Message)
+                        ElseIf UnblockMatch.IsMatch(Message) Then
+                            'If the line hits the unblock regex then...
+                            Dim NewUnblock As New Block
+                            Dim Match As Match = UnblockMatch.Match(Message)
 
-                        NewUnblock.Time = Date.UtcNow
-                        NewUnblock.Admin = GetUser(Match.Groups(1).Value)
-                        NewUnblock.User = GetUser(Match.Groups(2).Value)
-                        NewUnblock.Options = Match.Groups(3).Value
-                        NewUnblock.Duration = Match.Groups(4).Value
-                        NewUnblock.Action = "unblock"
-                        NewUnblock.Comment = Match.Groups(5).Value
+                            NewUnblock.Time = Date.UtcNow
+                            NewUnblock.Admin = GetUser(Match.Groups(1).Value)
+                            NewUnblock.User = GetUser(Match.Groups(2).Value)
+                            NewUnblock.Options = Match.Groups(3).Value
+                            NewUnblock.Duration = Match.Groups(4).Value
+                            NewUnblock.Action = "unblock"
+                            NewUnblock.Comment = Match.Groups(5).Value
 
-                        Callback(AddressOf ProcessBlock, CObj(NewUnblock))
+                            Callback(AddressOf ProcessBlock, CObj(NewUnblock))
 
-                    ElseIf UploadMatch.IsMatch(Message) Then
-                        'If the line hits the unblock regex then...
-                        Dim NewUpload As New Upload
-                        Dim Match As Match = UploadMatch.Match(Message)
+                        ElseIf UploadMatch.IsMatch(Message) Then
+                            'If the line hits the unblock regex then...
+                            Dim NewUpload As New Upload
+                            Dim Match As Match = UploadMatch.Match(Message)
 
-                        NewUpload.Time = Date.UtcNow
-                        NewUpload.User = GetUser(Match.Groups(1).Value)
-                        NewUpload.File = GetPage(Match.Groups(2).Value)
-                        NewUpload.Summary = Match.Groups(3).Value
+                            NewUpload.Time = Date.UtcNow
+                            NewUpload.User = GetUser(Match.Groups(1).Value)
+                            NewUpload.File = GetPage(Match.Groups(2).Value)
+                            NewUpload.Summary = Match.Groups(3).Value
 
-                        Callback(AddressOf ProcessUpload, CObj(NewUpload))
+                            Callback(AddressOf ProcessUpload, CObj(NewUpload))
 
-                    ElseIf ProtectMatch.IsMatch(Message) Then
-                        'If the line hits the protect regex then...
-                        Dim NewProtection As New Protection
-                        Dim Match As Match = ProtectMatch.Match(Message)
+                        ElseIf ProtectMatch.IsMatch(Message) Then
+                            'If the line hits the protect regex then...
+                            Dim NewProtection As New Protection
+                            Dim Match As Match = ProtectMatch.Match(Message)
 
-                        NewProtection.Admin = GetUser(Match.Groups(1).Value)
-                        NewProtection.Page = GetPage(Match.Groups(2).Value)
-                        NewProtection.EditLevel = Match.Groups(3).Value
-                        NewProtection.EditExpiry = ProcessExpiry(Match.Groups(4).Value)
-                        NewProtection.MoveLevel = Match.Groups(5).Value
-                        NewProtection.MoveExpiry = ProcessExpiry(Match.Groups(6).Value)
-                        NewProtection.CreateLevel = Match.Groups(7).Value
-                        NewProtection.CreateExpiry = ProcessExpiry(Match.Groups(8).Value)
-                        NewProtection.Summary = Match.Groups(9).Value
+                            NewProtection.Admin = GetUser(Match.Groups(1).Value)
+                            NewProtection.Page = GetPage(Match.Groups(2).Value)
+                            NewProtection.EditLevel = Match.Groups(3).Value
+                            NewProtection.EditExpiry = ProcessExpiry(Match.Groups(4).Value)
+                            NewProtection.MoveLevel = Match.Groups(5).Value
+                            NewProtection.MoveExpiry = ProcessExpiry(Match.Groups(6).Value)
+                            NewProtection.CreateLevel = Match.Groups(7).Value
+                            NewProtection.CreateExpiry = ProcessExpiry(Match.Groups(8).Value)
+                            NewProtection.Summary = Match.Groups(9).Value
 
-                        Callback(AddressOf ProcessProtection, CObj(NewProtection))
+                            Callback(AddressOf ProcessProtection, CObj(NewProtection))
 
-                    ElseIf ModifyMatch.IsMatch(Message) Then
-                        'If the line hits the protection modify regex then...
-                        Dim NewProtection As New Protection
-                        Dim Match As Match = ModifyMatch.Match(Message)
+                        ElseIf ModifyMatch.IsMatch(Message) Then
+                            'If the line hits the protection modify regex then...
+                            Dim NewProtection As New Protection
+                            Dim Match As Match = ModifyMatch.Match(Message)
 
-                        NewProtection.Admin = GetUser(Match.Groups(1).Value)
-                        NewProtection.Page = GetPage(Match.Groups(2).Value)
-                        NewProtection.EditLevel = Match.Groups(3).Value
-                        NewProtection.EditExpiry = ProcessExpiry(Match.Groups(4).Value)
-                        NewProtection.MoveLevel = Match.Groups(5).Value
-                        NewProtection.MoveExpiry = ProcessExpiry(Match.Groups(6).Value)
-                        NewProtection.CreateLevel = Match.Groups(7).Value
-                        NewProtection.CreateExpiry = ProcessExpiry(Match.Groups(8).Value)
-                        NewProtection.Summary = Match.Groups(9).Value
+                            NewProtection.Admin = GetUser(Match.Groups(1).Value)
+                            NewProtection.Page = GetPage(Match.Groups(2).Value)
+                            NewProtection.EditLevel = Match.Groups(3).Value
+                            NewProtection.EditExpiry = ProcessExpiry(Match.Groups(4).Value)
+                            NewProtection.MoveLevel = Match.Groups(5).Value
+                            NewProtection.MoveExpiry = ProcessExpiry(Match.Groups(6).Value)
+                            NewProtection.CreateLevel = Match.Groups(7).Value
+                            NewProtection.CreateExpiry = ProcessExpiry(Match.Groups(8).Value)
+                            NewProtection.Summary = Match.Groups(9).Value
 
 
-                        Callback(AddressOf ProcessProtection, CObj(NewProtection))
+                            Callback(AddressOf ProcessProtection, CObj(NewProtection))
 
-                    ElseIf UnprotectMatch.IsMatch(Message) Then
-                        'If the line hits the unprotect regex then...
-                        Dim NewProtection As New Protection
-                        Dim Match As Match = ProtectMatch.Match(Message)
+                        ElseIf UnprotectMatch.IsMatch(Message) Then
+                            'If the line hits the unprotect regex then...
+                            Dim NewProtection As New Protection
+                            Dim Match As Match = ProtectMatch.Match(Message)
 
-                        NewProtection.Admin = GetUser(Match.Groups(1).Value)
-                        NewProtection.Page = GetPage(Match.Groups(2).Value)
-                        NewProtection.Summary = Match.Groups(3).Value
+                            NewProtection.Admin = GetUser(Match.Groups(1).Value)
+                            NewProtection.Page = GetPage(Match.Groups(2).Value)
+                            NewProtection.Summary = Match.Groups(3).Value
 
-                        Callback(AddressOf ProcessProtection, CObj(NewProtection))
+                            Callback(AddressOf ProcessProtection, CObj(NewProtection))
 
-                    ElseIf OverwriteMatch.IsMatch(Message) Then
-                        'If the line hits the new upload regex then...
-                        Dim NewUpload As New Upload
-                        Dim Match As Match = OverwriteMatch.Match(Message)
+                        ElseIf OverwriteMatch.IsMatch(Message) Then
+                            'If the line hits the new upload regex then...
+                            Dim NewUpload As New Upload
+                            Dim Match As Match = OverwriteMatch.Match(Message)
 
-                        NewUpload.Time = Date.UtcNow
-                        NewUpload.User = GetUser(Match.Groups(1).Value)
-                        NewUpload.File = GetPage(Match.Groups(2).Value)
-                        NewUpload.Summary = Match.Groups(3).Value
+                            NewUpload.Time = Date.UtcNow
+                            NewUpload.User = GetUser(Match.Groups(1).Value)
+                            NewUpload.File = GetPage(Match.Groups(2).Value)
+                            NewUpload.Summary = Match.Groups(3).Value
 
-                        Callback(AddressOf ProcessUpload, CObj(NewUpload))
+                            Callback(AddressOf ProcessUpload, CObj(NewUpload))
 
-                        'ElseIf CreateUserMatch.IsMatch(Message) Then
-                        'Dim Match As Match = CreateUserMatch.Match(Message)
+                            'ElseIf CreateUserMatch.IsMatch(Message) Then
+                            'Dim Match As Match = CreateUserMatch.Match(Message)
 
-                        ' ElseIf RenameUserMatch.IsMatch(Message) Then
-                        'Dim Match As Match = RenameUserMatch.Match(Message)
+                            ' ElseIf RenameUserMatch.IsMatch(Message) Then
+                            'Dim Match As Match = RenameUserMatch.Match(Message)
 
-                        'ElseIf UserRightsMatch.IsMatch(Message) Then
-                        'Dim Match As Match = UserRightsMatch.Match(Message)
+                            'ElseIf UserRightsMatch.IsMatch(Message) Then
+                            'Dim Match As Match = UserRightsMatch.Match(Message)
 
-                    End If
+                        End If
 
-                    If Disconnecting Then
+                        If Disconnecting Then
                         'To disconnect
-                        Disconnecting = False
-                        Reader.Close()
-                        Writer.Close()
-                        Stream.Close()
-                        Connected = False
-                        Exit Sub
-
-                    ElseIf Reconnecting Then
-                        'To reconnect
+                        Connecting = False
                         Reconnecting = False
-                        Reader.Close()
-                        Writer.Close()
-                        Stream.Close()
-                        Connected = False
-                        Callback(AddressOf IrcConnect)
-                        Exit Sub
-                    End If
+                        Disconnecting = False
+                        Reconnecting = False
+                            Reader.Close()
+                            Writer.Close()
+                            Stream.Close()
+                            Connected = False
+                            Exit Sub
+
+                        ElseIf Reconnecting Then
+                            'To reconnect
+                        Reconnecting = False
+                        Disconnecting = False
+                            Reader.Close()
+                            Writer.Close()
+                            Stream.Close()
+                            Connected = False
+                            Callback(AddressOf IrcConnect)
+                            Exit Sub
+                        End If
+                        Thread.Sleep(50)
                 End While
 
                 Thread.Sleep(50)
@@ -365,6 +375,10 @@ Module Irc
             IrcLog(Msg("irc-error"))
             Connecting = False
             Config.IrcMode = False
+
+        Catch ex As System.Runtime.InteropServices.COMException
+            Log("error in parsing data")
+            'Exit Sub
 
         Catch ex As IOException
             'Feed was disconnected; retry
@@ -413,7 +427,11 @@ Module Irc
     End Sub
 
     Public Sub Reconnect()
-        If Connecting OrElse Connected Then Reconnecting = True Else IrcConnect()
+        If Connecting OrElse Connected Then
+            Reconnecting = True
+        Else
+            IrcConnect()
+        End If
     End Sub
 
 End Module

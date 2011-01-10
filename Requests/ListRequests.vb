@@ -32,61 +32,63 @@ Namespace Requests
 
             Dim RequestThread As New Thread(AddressOf ProcessThread)
             RequestThread.IsBackground = True
+            RequestThread.Name = "Rqst"
             RequestThread.Start()
         End Sub
 
         Protected Overrides Sub Process()
-            Dim ContinueName As String = Nothing, ContinueFrom As String = Nothing, Remaining As Integer = Limit
+                Dim ContinueName As String = Nothing, ContinueFrom As String = Nothing, Remaining As Integer = Limit, Break As Integer = 0
 
-            Do
-                Dim QueryString As String = "action=query"
-                If Not String.IsNullOrEmpty(TypeName) Then QueryString &= "&list=" & TypeName
-                QueryString &= "&" & TypePrefix & "limit=" & ApiLimit() & "&" & QueryParams
+                Do
+                    Dim QueryString As String = "action=query"
+                    If Not String.IsNullOrEmpty(TypeName) Then QueryString &= "&list=" & TypeName
+                    QueryString &= "&" & TypePrefix & "limit=" & ApiLimit() & "&" & QueryParams
 
-                If ContinueFrom IsNot Nothing Then QueryString &= "&" & ContinueName & "=" & ContinueFrom
+                    If ContinueFrom IsNot Nothing Then QueryString &= "&" & ContinueName & "=" & ContinueFrom
 
-                Dim Result As ApiResult = DoApiRequest(QueryString)
+                    Dim Result As ApiResult = DoApiRequest(QueryString)
 
-                If Result.Error Then
-                    Fail(Result.ErrorMessage)
-                    Exit Sub
+                    If Result.Error Then
+                        Fail(Result.ErrorMessage)
+                        Exit Sub
 
-                ElseIf Result.Text.Contains("<" & TypeName & " />") Then
-                    Complete(, String.Join(CRLF, Items.ToArray))
-                    Exit Sub
-                End If
-
-                If Result.Text.Contains("<query-continue>") Then
-                    Dim ContinuePart As String = FindString(Result.Text, "<query-continue>", "</query-continue>")
-                    ContinueName = FindString(ContinuePart, " ", "=")
-                    ContinueFrom = FindString(ContinuePart, """", """")
-                Else
-                    ContinueName = Nothing
-                    ContinueFrom = Nothing
-                End If
-
-                Dim ResultItems As String
-
-                If Not String.IsNullOrEmpty(TypeName) _
-                    Then ResultItems = FindString(Result.Text, "<" & TypeName & ">", "</" & TypeName & ">") _
-                    Else ResultItems = FindString(Result.Text, "<query>", "</query>")
-
-                Dim ItemsAdded As Boolean = False
-
-                For Each Item As String In ResultItems.Split("<"c)
-                    Item = GetParameter(Item, "title")
-
-                    If Item IsNot Nothing AndAlso Not Items.Contains(Item) AndAlso MyClass.MatchesFilter(Item) Then
-                        Items.Add(Item)
-                        Remaining -= 1
-                        If Remaining <= 0 Then Exit Do
-                        ItemsAdded = True
+                    ElseIf Result.Text.Contains("<" & TypeName & " />") Then
+                        Complete(, String.Join(CRLF, Items.ToArray))
+                        Exit Sub
                     End If
-                Next Item
 
-                If ContinueFrom IsNot Nothing AndAlso ItemsAdded Then Callback(AddressOf Progressed, CObj(Items))
+                    If Result.Text.Contains("<query-continue>") Then
+                        Dim ContinuePart As String = FindString(Result.Text, "<query-continue>", "</query-continue>")
+                        ContinueName = FindString(ContinuePart, " ", "=")
+                        ContinueFrom = FindString(ContinuePart, """", """")
+                    Else
+                        ContinueName = Nothing
+                        ContinueFrom = Nothing
+                    End If
 
-            Loop Until ContinueFrom Is Nothing
+                    Dim ResultItems As String
+
+                    If Not String.IsNullOrEmpty(TypeName) _
+                        Then ResultItems = FindString(Result.Text, "<" & TypeName & ">", "</" & TypeName & ">") _
+                        Else ResultItems = FindString(Result.Text, "<query>", "</query>")
+
+                    Dim ItemsAdded As Boolean = False
+
+                    For Each Item As String In ResultItems.Split("<"c)
+                        Item = GetParameter(Item, "title")
+
+                        If Item IsNot Nothing AndAlso Not Items.Contains(Item) AndAlso MyClass.MatchesFilter(Item) Then
+                            Items.Add(Item)
+                            Remaining -= 1
+                            If Remaining <= 0 Then Exit Do
+                            ItemsAdded = True
+                        End If
+                    Next Item
+                    Break = Break + 1
+                    If ContinueFrom IsNot Nothing AndAlso ItemsAdded Then Callback(AddressOf Progressed, CObj(Items))
+
+                Loop Until ContinueFrom Is Nothing And Break < Misc.GlExcess
+                If Break >= Misc.GlExcess Then Log("Debug interrupted ListRequest.Process")
 
             Complete(, String.Join(CRLF, Items.ToArray))
         End Sub

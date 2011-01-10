@@ -143,6 +143,10 @@ Namespace Requests
                     Exit Sub
                 End If
 
+                If Config.UsePending = True And False Then
+                    Config.RightPending = Config.Rights.Contains("review")
+                End If
+
                 If Config.RequireRollback AndAlso Not Config.Rights.Contains("rollback") Then
                     Fail(Msg("login-error-rollback"))
                     Exit Sub
@@ -243,10 +247,12 @@ Namespace Requests
 
             If Config.CustomRevertSummaries.Count > 0 Then Items.Add("revert-summaries:" & LF & "    " & _
                 String.Join("," & LF & "    ", Config.CustomRevertSummaries.ToArray))
+            Items.Add("customtsumm:" & CStr(Config.UseCSummaries).ToLower)
             Items.Add("rollback:" & CStr(Config.UseRollback).ToLower)
             Items.Add("show-log:" & CStr(Config.ShowLog).ToLower)
             Items.Add("show-new-edits:" & CStr(Config.ShowNewEdits).ToLower)
             Items.Add("show-queue:" & CStr(Config.ShowQueue).ToLower)
+            Items.Add("template-summ:" & LF & "    " & String.Join("," & LF & "  ", Config.TemplateSummary.ToArray))
             Items.Add("show-tool-tips:" & CStr(Config.ShowToolTips).ToLower)
 
             Dim Templates As New List(Of String)

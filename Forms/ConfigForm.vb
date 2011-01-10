@@ -16,12 +16,14 @@ Class ConfigForm
         Templates.Columns(0).Text = Msg("config-templatetext")
         Templates.Columns(1).Text = Msg("config-template")
         ViewLocalConfig.Text = Msg("config-viewlocalconfig")
+        UseCustom.Text = Msg("config-summ")
         OK.Text = Msg("ok")
         Cancel.Text = Msg("cancel")
         AddSummary.Text = Msg("add")
         RemoveSummary.Text = Msg("remove")
         AddTemplate.Text = Msg("add")
         RemoveTemplate.Text = Msg("remove")
+        btImport.Text = Msg("import")
 
         'Set to current config values
         RememberMe.Checked = Config.RememberMe
@@ -104,6 +106,7 @@ Class ConfigForm
         ColorParamName.BackColor = Highlight.ParamNameC
         ColorReference.BackColor = Highlight.ReferenceHC
         ColorTemplate.BackColor = Highlight.TemplateC
+        UseCustom.Checked = Config.UseCSummaries
 
         InitialiseShortcutList()
 
@@ -145,6 +148,7 @@ Class ConfigForm
             Config.OpenInBrowser = OpenInBrowser.Checked
             Config.ShowNewEdits = ShowNewEdits.Checked
             Config.ShowNewMessages = ShowNewMessages.Checked
+            Config.UseCSummaries = UseCustom.Checked
             If Preloads.Checked Then Config.Preloads = CInt(PreloadCount.Value) Else Config.Preloads = 0
             Config.IrcMode = IrcMode.Checked
             Config.IrcPort = CInt(IrcPort.Text)
@@ -388,4 +392,10 @@ Class ConfigForm
         Process.Start("""" & LocalConfigPath() & """")
     End Sub
 
+    Private Sub btImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btImport.Click
+        Config.TemplateSummary.Clear()
+        For Each data As String In Config.GlobalSumm
+            Config.TemplateSummary.Add(data)
+        Next data
+    End Sub
 End Class

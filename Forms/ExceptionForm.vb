@@ -4,7 +4,7 @@
 
     Private Sub ExceptionForm_Load() Handles Me.Load
         Icon = My.Resources.huggle_icon
-        Text = Msg("error")
+        Text = "Bug report"
         ContinueButton.Text = Msg("continue")
         ExitButton.Text = Msg("exit")
 
@@ -22,4 +22,7 @@
         Close()
     End Sub
 
+    Private Sub ExceptionForm_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
+    End Sub
 End Class

@@ -242,6 +242,7 @@ Namespace Requests
                 End If
 
                 WhitelistLoaded = True
+
             End If
 
             'In case user is not already on the whitelist (usually will be)

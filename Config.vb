@@ -9,7 +9,7 @@ Class Configuration
     'Constants
 
     Public ReadOnly ContribsBlockSize As Integer = 100
-    Public ReadOnly HistoryBlockSize As Integer = 100
+    Public ReadOnly HistoryBlockSize As Integer = 200
     Public ReadOnly HistoryScrollSpeed As Integer = 40
     Public ReadOnly FullHistoryBlockSize As Integer = 500
     Public ReadOnly IrcConnectionTimeout As Integer = 60000
@@ -41,15 +41,15 @@ Class Configuration
 
     'Values stored in local config file
 
-    Public Language As String
-    Public ProxyUsername As String
-    Public ProxyUserDomain As String
-    Public ProxyServer As String
-    Public ProxyPort As String
-    Public ProxyEnabled As Boolean
+    Public Language As String = ""
+    Public ProxyUsername As String = ""
+    Public ProxyUserDomain As String = ""
+    Public ProxyServer As String = ""
+    Public ProxyPort As String = ""
+    Public ProxyEnabled As Boolean = False
     Public RememberMe As Boolean = True
-    Public RememberPassword As Boolean
-    Public Username As String
+    Public RememberPassword As Boolean = False
+    Public Username As String = ""
     Public WindowMaximize As Boolean = True
     Public WindowPosition As New Point
     Public WindowSize As New Size
@@ -67,7 +67,7 @@ Class Configuration
     Public AutoReport As Boolean = True
     Public AutoWarn As Boolean = True
     Public AutoWhitelist As Boolean = True
-    Public Block As Boolean
+    Public Block As Boolean = False
     Public BlockExpiryOptions As New List(Of String)
     Public BlockMessage As String
     Public BlockMessageDefault As Boolean = True
@@ -79,9 +79,10 @@ Class Configuration
     Public CfdLocation As String
     Public ConfigSummary As String
     Public ConfirmIgnored As Boolean = True
-    Public ConfirmMultiple As Boolean
+    Public ConfirmMultiple As Boolean = False
     Public ConfirmPage As Boolean = True
     Public ConfirmRange As Boolean = True
+    Public SlowIrc As Boolean = True
     Public ConfirmSame As Boolean = True
     Public ConfirmSelfRevert As Boolean = True
     Public ConfirmWarned As Boolean = True
@@ -93,7 +94,7 @@ Class Configuration
     Public Delete As Boolean
     Public DiffFontSize As String = "8"
     Public DocsLocation As String = "http://en.wikipedia.org/wiki/Wikipedia:Huggle"
-    Public DownloadLocation As String = "http://huggle.googlecode.com/files/huggle $1.exe"
+    Public DownloadLocation As String = ""
     Public Email As Boolean
     Public EmailSubject As String
     Public Enabled As Boolean
@@ -130,20 +131,20 @@ Class Configuration
     Public Preloads As Integer = 2
     Public Prod As Boolean
     Public ProdMessage As String
-    Public ProdMessageSummary As String
-    Public ProdMessageTitle As String
-    Public ProdSummary As String
-    Public Project As String
+    Public ProdMessageSummary As String = ""
+    Public ProdMessageTitle As String = ""
+    Public ProdSummary As String = ""
+    Public Project As String = ""
     Public Projects As New Dictionary(Of String, String)
     Public ProjectConfigLocation As String
     Public PromptForBlock As Boolean = True
-    Public PromptForReport As Boolean
-    Public Protect As Boolean
-    Public ProtectionReason As String
-    Public ProtectionRequests As Boolean
-    Public ProtectionRequestPage As String
-    Public ProtectionRequestReason As String
-    Public ProtectionRequestSummary As String
+    Public PromptForReport As Boolean = False
+    Public Protect As Boolean = False
+    Public ProtectionReason As String = ""
+    Public ProtectionRequests As Boolean = False
+    Public ProtectionRequestPage As String = ""
+    Public ProtectionRequestReason As String = ""
+    Public ProtectionRequestSummary As String = ""
     Public ProtectionTime As String = "indefinite"
     Public QueueBuilderLimit As Integer = 10
     Public QuickSight As Boolean
@@ -155,6 +156,7 @@ Class Configuration
     Public RequireAutoconfirmed As Boolean
     Public RequireConfig As Boolean
     Public RequireEdits As Integer
+    Public RequireRev As Boolean = False
     Public RequireRollback As Boolean
     Public RequireTime As Integer
     Public RevertPatterns As New List(Of Regex)
@@ -164,6 +166,7 @@ Class Configuration
     Public RightAlignQueue As Boolean
     Public Rights As New List(Of String)
     Public RollbackSummary As String
+    Public RightPending As Boolean
     Public SaveConfig As Boolean = True
     Public SensitiveAddresses As New Dictionary(Of String, String)
     Public SharedIPTemplates As New List(Of String)
@@ -177,67 +180,75 @@ Class Configuration
     Public SingleRevertSummary As String
     Public SockReports As Boolean
     Public SockReportLocation As String
-    Public Speedy As Boolean
+    Public Speedy As Boolean = False
     Public SpeedyCriteria As New Dictionary(Of String, SpeedyCriterion)
-    Public SpeedyDeleteSummary As String
-    Public SpeedyMessageSummary As String
-    Public SpeedyMessageTitle As String
-    Public SpeedySummary As String
-    Public StartupPage As String
-    Public Summary As String
+    Public SpeedyDeleteSummary As String = ""
+    Public SpeedyMessageSummary As String = ""
+    Public SpeedyMessageTitle As String = ""
+    Public SpeedySummary As String = ""
+    Public StartupPage As String = "WP:HG2"
+    Public Summary As String = ""
     Public Tags As New List(Of String)
     Public TagSummaries As New List(Of String)
     Public TemplateMessageSummary As String
     Public TemplateMessages As New List(Of String)
     Public TemplateMessagesGlobal As New List(Of String)
-    Public TfdLocation As String
+    Public TemplateSummary As New List(Of String)
+    Public GlobalSumm As New List(Of String)
+    Public TfdLocation As String = ""
     Public TranslateLocation As String = "http://meta.wikimedia.org/wiki/Huggle/Localization"
-    Public TrayIcon As Boolean
-    Public TRR As Boolean
-    Public TRRLocation As String
-    Public UAA As Boolean
-    Public UAALocation As String
-    Public UAABotLocation As String
+    Public TrayIcon As Boolean = True
+    Public TRR As Boolean = False
+    Public TRRLocation As String = ""
+    Public UAA As Boolean = False
+    Public UAALocation As String = ""
+
+    Public UAABotLocation As String = ""
     Public UndoSummary As String
-    Public UpdateWhitelist As Boolean
-    Public UpdateWhitelistManual As Boolean
+    Public UpdateWhitelist As Boolean = False
+    Public UpdateWhitelistManual As Boolean = False
     Public UseAdminFunctions As Boolean = True
-    Public UserAgent As String = "Huggle/" & Version.Major.ToString & "." & Version.Minor.ToString & "." & _
+    Public UserAgent As String = "Huggle2/" & Version.Major.ToString & "." & Version.Minor.ToString & "." & _
         Version.Build.ToString & " http://en.wikipedia.org/wiki/Wikipedia:Huggle"
     Public UserConfigLocation As String = "Special:Mypage/huggle.css"
     Public UserListLocation As String
-    Public UserListUpdateSummary As String
-    Public UsernameListed As Boolean
+    Public UserListUpdateSummary As String = ""
+    Public UsernameListed As Boolean = False
     Public UseIrc As Boolean = True
     Public UseRollback As Boolean = True
+    Public Agf As New List(Of String)
+    Public UsePending As Boolean = False
     Public UserTalkSummaries As New Dictionary(Of Regex, UserLevel)
-    Public VandalReportReason As String
+    Public VandalReportReason As String = ""
+    Public UseCSummaries As Boolean = False
     Public WarningAge As Integer = 36
-    Public WarningImLevel As Boolean
-    Public WarningMode As String
+    Public WarningImLevel As Boolean = False
+    Public WarningMode As String = ""
     Public WarningTypes As New Dictionary(Of String, String)
     Public Watch As New Dictionary(Of String, Boolean)
     Public WhitelistEditCount As Integer = 500
-    Public WhitelistLocation As String
-    Public WhitelistSplit As Boolean
+    Public WhitelistLocation As String = ""
+    Public WhitelistSplit As Boolean = False
     Public WhitelistTimestamps As New Dictionary(Of String, String)
-    Public WhitelistUpdateSummary As String
-    Public Xfd As Boolean
-    Public XfdDiscussionSummary As String
-    Public XfdLogSummary As String
-    Public XfdMessage As String
-    Public XfdMessageSummary As String
-    Public XfdMessageTitle As String
-    Public XfdSummary As String
+    Public WhitelistUpdateSummary As String = ""
+    Public Xfd As Boolean = False
+    Public XfdDiscussionSummary As String = ""
+    Public XfdLogSummary As String = ""
+    Public XfdMessage As String = ""
+    Public XfdMessageSummary As String = ""
+    Public XfdMessageTitle As String = ""
+    Public XfdSummary As String = ""
+    Public RevisionAccess As Boolean = False
+    Public RevisionR As Boolean = False
 
-    Public WarnSummary As String
-    Public WarnSummary2 As String
-    Public WarnSummary3 As String
-    Public WarnSummary4 As String
+    Public WarnSummary As String = ""
+    Public WarnSummary2 As String = ""
+    Public WarnSummary3 As String = ""
+    Public WarnSummary4 As String = ""
 
-    Public WatchDelete As Boolean
-    Public Welcome As String
+    Public WatchDelete As Boolean = False
+    Public Welcome As String = ""
     Public WelcomeAnon As String
-    Public WelcomeSummary As String
+    Public WelcomeSummary As String = ""
 
 End Class

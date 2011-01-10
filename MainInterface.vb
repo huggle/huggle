@@ -134,6 +134,7 @@ Partial Class Main
         MenuPage.Enabled = (CurrentPage IsNot Nothing)
         MenuUser.Enabled = (CurrentUser IsNot Nothing)
 
+
         'Set queue alignment
         If Config.ShowQueue Then
             Tabs.Width = Tabs.Parent.Width - QueueContainer.Width
@@ -151,7 +152,6 @@ Partial Class Main
             Tabs.Width = Tabs.Parent.Width
             QueueContainer.Visible = False
         End If
-
         If Config.ShowLog Then LayoutPanel.RowStyles(2).Height = 88 Else LayoutPanel.RowStyles(2).Height = 0
 
         NextDiffB.Enabled = (CurrentQueue.Edits.Count > 0)
@@ -401,7 +401,7 @@ Partial Class Main
                 If UserMessageB.Enabled Then UserMessage_Click()
 
             Case Is = ShortcutKeys("Open page in external browser")
-                BrowserOpen_Click()
+                If MainForm.BrowserOpen.Enabled = True Then BrowserOpen_Click()
 
             Case Is = ShortcutKeys("Mark page as patrolled")
                 If PagePatrol.Enabled AndAlso Config.Patrol Then PageMarkPatrolled_Click()

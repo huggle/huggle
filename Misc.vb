@@ -35,6 +35,7 @@ Module Misc
     Public WhitelistAutoChanges As New List(Of String)
     Public WhitelistLoaded As Boolean
     Public WhitelistManualChanges As New List(Of String)
+    Public GlExcess As Integer = 20000
 
     Public Delegate Sub Action()
     Public Delegate Sub CallbackDelegate(ByVal Success As Boolean)
@@ -97,6 +98,7 @@ Module Misc
         Edit
         Ignore
         Unignore
+        Accept
     End Enum
 
     Class Delete
@@ -154,6 +156,7 @@ Module Misc
         Public MoveExpiry As Date
         Public CreateExpiry As Date
         Public Summary As String
+        Public Pending As Boolean
     End Class
 
     Public Enum ProtectionType As Integer
@@ -270,10 +273,14 @@ Module Misc
     End Function
 
     Function FindString(ByVal Source As String, ByVal [From] As String, ByVal [To] As String) As String
-        If Not Source.Contains([From]) Then Return Nothing
-        Source = Source.Substring(Source.IndexOf([From]) + [From].Length)
-        If Not Source.Contains([To]) Then Return Nothing
-        Return Source.Substring(0, Source.IndexOf([To]))
+        If [From] IsNot Nothing And Source IsNot Nothing Then
+            If Not Source.Contains([From]) Then Return Nothing
+            Source = Source.Substring(Source.IndexOf([From]) + [From].Length)
+            If Not Source.Contains([To]) Then Return Nothing
+            Return Source.Substring(0, Source.IndexOf([To]))
+        Else
+            Return ""
+        End If
     End Function
 
     Function FindString(ByVal Source As String, ByVal From1 As String, ByVal From2 As String, _
@@ -301,43 +308,23 @@ Module Misc
     End Function
 
     Function GetMonthName(ByVal Number As Integer) As String
-        'Yes, I know about MonthName(). But I have to localize.
 
-        Select Case Config.Project
-            Case "es.wikipedia"
-                Select Case Number
-                    Case 1 : Return "enero"
-                    Case 2 : Return "febrero"
-                    Case 3 : Return "marzo"
-                    Case 4 : Return "abril"
-                    Case 5 : Return "mayo"
-                    Case 6 : Return "junio"
-                    Case 7 : Return "julio"
-                    Case 8 : Return "agosto"
-                    Case 9 : Return "septiembre"
-                    Case 10 : Return "octubre"
-                    Case 11 : Return "noviembre"
-                    Case 12 : Return "diciembre"
-                    Case Else : Return ""
-                End Select
-
-            Case Else
-                Select Case Number
-                    Case 1 : Return "January"
-                    Case 2 : Return "February"
-                    Case 3 : Return "March"
-                    Case 4 : Return "April"
-                    Case 5 : Return "May"
-                    Case 6 : Return "June"
-                    Case 7 : Return "July"
-                    Case 8 : Return "August"
-                    Case 9 : Return "September"
-                    Case 10 : Return "October"
-                    Case 11 : Return "November"
-                    Case 12 : Return "December"
-                    Case Else : Return ""
-                End Select
+        Select Case Number
+            Case 1 : Return "January"
+            Case 2 : Return "February"
+            Case 3 : Return "March"
+            Case 4 : Return "April"
+            Case 5 : Return "May"
+            Case 6 : Return "June"
+            Case 7 : Return "July"
+            Case 8 : Return "August"
+            Case 9 : Return "September"
+            Case 10 : Return "October"
+            Case 11 : Return "November"
+            Case 12 : Return "December"
+            Case Else : Return ""
         End Select
+
     End Function
 
     Function GetPage(ByVal Name As String) As Page
@@ -353,7 +340,9 @@ Module Misc
 
         If Text.StartsWith("(") AndAlso Text.EndsWith(")") Then Text = Text.Substring(1, Text.Length - 2)
 
-        While Text.Contains("<a href=") AndAlso Text.Contains("</a>")
+        Dim Break As Integer = 0
+
+        While Text.Contains("<a href=") AndAlso Text.Contains("</a>") And Break < Misc.GlExcess
             Dim LinkTarget As String = HtmlDecode(FindString(Text, "<a href=", "title=""", """"))
             Dim LinkText As String = HtmlDecode(FindString(Text, "<a href=", ">", "</a>"))
 
@@ -364,6 +353,7 @@ Module Misc
                 Text = Text.Substring(0, Text.IndexOf("<a href=")) & "[[" & LinkTarget & "|" & LinkText & "]]" & _
                     FindString(Text, "</a>")
             End If
+            Break = Break + 1
         End While
 
         Text = StripHTML(Text)
@@ -400,7 +390,9 @@ Module Misc
     End Sub
 
     Sub Log(ByVal Message As String, Optional ByVal Tag As Object = Nothing)
+
         Callback(AddressOf LogCallback, New LogArgs With {.Message = Message, .Tag = Tag})
+        'TO-DO huggle log
     End Sub
 
     Sub LogCallback(ByVal ArgsObject As Object)
@@ -468,6 +460,7 @@ Module Misc
         Try
             Process.Start(Url)
         Catch
+            Debug.WriteLine("OpenURL")
         End Try
     End Sub
 
@@ -563,7 +556,8 @@ Module Misc
     Function TrimSummary(ByVal Summary As String) As String
         Summary = Summary.Replace(" (page does not exist)", "")
 
-        While Summary.IndexOf("[[") > -1 AndAlso Summary.IndexOf("[[") < Summary.IndexOf("]]")
+        Dim Break As Integer = 0
+        While Summary.IndexOf("[[") > -1 AndAlso Summary.IndexOf("[[") < Summary.IndexOf("]]") And Break < Misc.GlExcess
             Dim Title As String = Summary.Substring(Summary.IndexOf("[[") + 2)
 
             If Title.Contains("|") AndAlso (Not Title.Contains("]]") _
@@ -573,6 +567,7 @@ Module Misc
             If Title.Contains("]]") Then Title = Title.Substring(0, Title.IndexOf("]]"))
 
             Summary = Summary.Substring(0, Summary.IndexOf("[[")) & Title & Summary.Substring(Summary.IndexOf("]]") + 2)
+            Break = Break + 1
         End While
 
         Return Summary

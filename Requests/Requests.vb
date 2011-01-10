@@ -136,6 +136,7 @@ Namespace Requests
             _Done = Done
             Dim RequestThread As New Thread(AddressOf ProcessThread)
             RequestThread.IsBackground = True
+            RequestThread.Name = "Process"
             RequestThread.Start()
         End Sub
 
@@ -189,33 +190,38 @@ Namespace Requests
 
         'Make a Web request, setting appropriate headers
         Protected Function DoWebRequest(ByVal Url As String, Optional ByVal PostString As String = Nothing) As String
-            ServicePointManager.Expect100Continue = False
-            Dim Request As HttpWebRequest = CType(HttpWebRequest.Create(Url), HttpWebRequest)
+            Try
+                ServicePointManager.Expect100Continue = False
+                Dim Request As HttpWebRequest = CType(HttpWebRequest.Create(Url), HttpWebRequest)
 
-            If Not Mono() Then SetAcceptCompression(Request)
-            Request.CookieContainer = _Cookies
-            Request.Proxy = Proxy
-            Request.ReadWriteTimeout = Config.RequestTimeout
-            Request.Timeout = Config.RequestTimeout
-            Request.UserAgent = Config.UserAgent
+                If Not Mono() Then SetAcceptCompression(Request)
+                Request.CookieContainer = _Cookies
+                Request.Proxy = Proxy
+                Request.ReadWriteTimeout = Config.RequestTimeout
+                Request.Timeout = Config.RequestTimeout
+                Request.UserAgent = Config.UserAgent
 
-            If PostString IsNot Nothing Then
-                Dim PostData As Byte() = UTF8.GetBytes(PostString)
+                If PostString IsNot Nothing Then
+                    Dim PostData As Byte() = UTF8.GetBytes(PostString)
 
-                Request.ContentLength = PostData.Length
-                Request.ContentType = "application/x-www-form-urlencoded"
-                Request.Method = "POST"
+                    Request.ContentLength = PostData.Length
+                    Request.ContentType = "application/x-www-form-urlencoded"
+                    Request.Method = "POST"
 
-                Dim RequestStream As Stream = Request.GetRequestStream
-                RequestStream.Write(PostData, 0, PostData.Length)
-                RequestStream.Close()
-            End If
+                    Dim RequestStream As Stream = Request.GetRequestStream
+                    RequestStream.Write(PostData, 0, PostData.Length)
+                    RequestStream.Close()
+                End If
 
-            Dim ResponseStream As New StreamReader(Request.GetResponse.GetResponseStream, UTF8)
-            Dim Result As String = ResponseStream.ReadToEnd
-            ResponseStream.Close()
+                Dim ResponseStream As New StreamReader(Request.GetResponse.GetResponseStream, UTF8)
+                Dim Result As String = ResponseStream.ReadToEnd
+                ResponseStream.Close()
 
-            Return Result
+                Return Result
+            Catch e As Exception
+                Debug.WriteLine("")
+                Return Nothing
+            End Try
         End Function
 
         'Isolate from above; not implemented in Mono
@@ -266,7 +272,10 @@ Namespace Requests
 
             Dim Retries As Integer = Config.RequestAttempts, Result As String = Nothing
 
+            Dim Break As Integer = 0
+
             Do
+                Break = Break + 1
                 If Retries < Config.RequestAttempts Then Thread.Sleep(Config.RequestRetryInterval)
                 Retries -= 1
 
@@ -281,8 +290,7 @@ Namespace Requests
                 End Try
 
                 If State = States.Cancelled Then Thread.CurrentThread.Abort()
-
-            Loop Until Retries = 0 OrElse Result IsNot Nothing
+            Loop Until (Retries = 0 OrElse Result IsNot Nothing) And Break < Misc.GlExcess
 
             If Retries = 0 Then Return Nothing Else Return Result
         End Function
@@ -291,6 +299,7 @@ Namespace Requests
         Protected Function DoApiRequest(ByVal QueryString As String, _
             Optional ByVal PostString As String = Nothing, Optional ByVal Project As String = Nothing) As ApiResult
 
+            Dim Break As Integer = 0
             Dim ProjectUrl As String
             If Project Is Nothing Then Project = Config.Project
             If Config.Projects.ContainsKey(Project) Then ProjectUrl = Config.Projects(Project) _
@@ -302,6 +311,7 @@ Namespace Requests
             Dim Retries As Integer = Config.RequestAttempts, Result As String = ""
 
             Do
+                Break = Break + 1
                 If Retries < Config.RequestAttempts Then Thread.Sleep(Config.RequestRetryInterval)
                 Retries -= 1
 
@@ -315,7 +325,7 @@ Namespace Requests
                         Return New ApiResult(Nothing, "error-unknown", Msg("error-unknown"))
                     End If
                 End Try
-            Loop Until Result <> "" OrElse Retries = 0
+            Loop Until (Result <> "" OrElse Retries = 0) And Break < Misc.GlExcess
 
             If Result.StartsWith("MediaWiki API is not enabled for this site") _
                 Then Return New ApiResult(Nothing, "error-apidisabled", Msg("error-apidisabled"))
@@ -357,12 +367,15 @@ Namespace Requests
             Optional ByVal Section As String = Nothing, Optional ByVal Minor As Boolean = False, _
             Optional ByVal Watch As Boolean = False, Optional ByVal SuppressAutoSummary As Boolean = False, _
             Optional ByVal AllowCreate As Boolean = True) As ApiResult
+            Dim BreakA As Integer = 0, BreakB As Integer = 0
 
             Dim Result As ApiResult, Token As String = Nothing, BadToken As Boolean
 
             Do
+                BreakB = BreakB + 1
                 'Get edit token
                 Do
+                    BreakA = BreakA + 1
                     If Section IsNot Nothing OrElse EditToken Is Nothing Then
                         Result = DoApiRequest("action=query&prop=info&intoken=edit&titles=" & UrlEncode(Page.Name))
                         If Result.Error Then Return Result
@@ -381,7 +394,7 @@ Namespace Requests
                         If DoLogin() <> LoginResult.Success _
                             Then Return New ApiResult(Nothing, "", Msg("error-reloginfail"))
                     End If
-                Loop Until Token IsNot Nothing
+                Loop Until Token IsNot Nothing And BreakA < Misc.GlExcess
 
                 'Edit page
                 Dim QueryString As String = "title=" & UrlEncode(Page.Name) & "&text=" & UrlEncode(Text) _
@@ -404,7 +417,7 @@ Namespace Requests
                 Else
                     BadToken = False
                 End If
-            Loop Until Not BadToken
+            Loop Until Not BadToken And BreakB < Misc.GlExcess
 
             If Not Result.Error AndAlso Not Watchlist.Contains(Page.SubjectPage) Then Watchlist.Add(Page.SubjectPage)
 

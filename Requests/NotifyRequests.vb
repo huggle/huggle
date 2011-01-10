@@ -12,34 +12,34 @@ Namespace Requests
         Public AutoSign, SuppressAutoSummary As Boolean
 
         Protected Overrides Sub Process()
-            LogProgress(Msg("usermessage-progress", User.Name))
+                LogProgress(Msg("usermessage-progress", User.Name))
 
-            Dim Result As ApiResult = GetText(User.TalkPage)
+                Dim Result As ApiResult = GetText(User.TalkPage)
 
-            If Result.Error Then
-                Fail(Msg("usermessage-fail", User.Name), Result.ErrorMessage)
-                Exit Sub
-            End If
+                If Result.Error Then
+                    Fail(Msg("usermessage-fail", User.Name), Result.ErrorMessage)
+                    Exit Sub
+                End If
 
-            Dim Text As String = GetTextFromRev(Result.Text)
-            If Text Is Nothing Then Text = ""
+                Dim Text As String = GetTextFromRev(Result.Text)
+                If Text Is Nothing Then Text = ""
 
-            If AvoidText IsNot Nothing AndAlso Text.ToLower.Contains(AvoidText.ToLower) Then
-                Fail(Msg("usermessage-fail", User.Name), Msg("usermessage-duplicate"))
-                Exit Sub
-            End If
+                If AvoidText IsNot Nothing AndAlso Text.ToLower.Contains(AvoidText.ToLower) Then
+                    Fail(Msg("usermessage-fail", User.Name), Msg("usermessage-duplicate"))
+                    Exit Sub
+                End If
 
-            Text &= LF & LF
-            If Title <> "" Then Text &= "== " & Title & " ==" & LF & LF
-            Text &= Message
-            If AutoSign Then Text &= " ~~~~"
+                Text &= LF & LF
+                If Title <> "" Then Text &= "== " & Title & " ==" & LF & LF
+                Text &= Message
+                If AutoSign Then Text &= " ~~~~"
 
-            Result = PostEdit(User.TalkPage, Text, Summary, Minor:=Minor, Watch:=Watch, _
-                SuppressAutoSummary:=SuppressAutoSummary)
+                Result = PostEdit(User.TalkPage, Text, Summary, Minor:=Minor, Watch:=Watch, _
+                    SuppressAutoSummary:=SuppressAutoSummary)
 
-            If Result.Error Then Fail(Msg("usermessage-fail", User.Name)) Else Complete()
+                If Result.Error Then Fail(Msg("usermessage-fail", User.Name)) Else Complete()
 
-            If State = States.Cancelled Then UndoEdit(User.TalkPage)
+                If State = States.Cancelled Then UndoEdit(User.TalkPage)
         End Sub
 
     End Class

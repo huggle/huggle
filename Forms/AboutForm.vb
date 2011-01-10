@@ -30,4 +30,19 @@ Class AboutForm
         Close()
     End Sub
 
+    Private Sub Contributor1_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles Contributor1.LinkClicked
+
+    End Sub
+
+    Private Sub Contributor6_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles Contributor6.LinkClicked
+
+    End Sub
+
+    Private Sub Contributor8_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Contributor8.Click
+        OpenUrlInBrowser(CStr("http://en.wikipedia.org/w/index.php?title=User:Petrb"))
+    End Sub
+
+    Private Sub AboutForm_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
+    End Sub
 End Class

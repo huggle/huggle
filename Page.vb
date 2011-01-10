@@ -9,19 +9,20 @@ Class Page
 
     Private Shared All As New Dictionary(Of String, Page)
 
-    Public FirstEdit As Edit
-    Public LastEdit As Edit
+    Public FirstEdit As Edit 'First edit
+    Public LastEdit As Edit 'Current edit
     Public Level As PageLevel
     Public Deletes As List(Of Delete)
     Public DeletesCurrent As Boolean
     Public Protections As List(Of Protection)
     Public ProtectionsCurrent As Boolean
     Public HistoryOffset As String
-    Public Patrolled As Boolean
+    Public Patrolled As Boolean = False
     Public Rcid As String
     Public SpeedyCriterion As SpeedyCriterion
     Public Text As String
     Public EditLevel As String
+    Public Pending As Boolean = False
     Public MoveLevel As String
 
     Private Sub New(ByVal Name As String)
@@ -46,13 +47,16 @@ Class Page
 
     Public ReadOnly Property Edits() As List(Of Edit)
         Get
+            Dim Break As Integer = 0
             Dim PageEdits As New List(Of Edit)
             Dim Edit As Edit = LastEdit
 
-            While Edit IsNot Nothing AndAlso Edit IsNot NullEdit
+            While Edit IsNot Nothing AndAlso Edit IsNot NullEdit And Break < Misc.GlExcess
+                Break = Break + 1
                 PageEdits.Add(Edit)
                 Edit = Edit.Prev
             End While
+            If Break >= Misc.GlExcess Then Log("Debug interrupted Edits")
 
             Return PageEdits
         End Get

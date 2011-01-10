@@ -7,7 +7,9 @@ Class Main
 
     Public Reverting, DisplayingEdit As Boolean
     Private LoggingOut As Boolean
-
+    Public DisableControl As Boolean = True
+    Public ControlLock As Integer = 5
+    Public WatchP As Thread
     'Timer is enabled when a key is pressed and prevents both MainForm.Main.KeyDown and
     'BrowserTab.Browser.PreviewKeyDown being raised at the same time, which sometimes happens depending on 
     'what is currently focused in the browser and what was last focused outside it
@@ -18,7 +20,6 @@ Class Main
         TrayIcon.Icon = My.Resources.huggle_icon
         KeyDelayTimer.Interval = 10
         ScrollTimer.Interval = 1000 \ Config.HistoryScrollSpeed
-
         'Temporary bugfix
         If Config.RollbackSummary IsNot Nothing Then _
             Config.RollbackSummary = Config.RollbackSummary.Replace("$1", "$3").Replace("$2", "$1").Replace("$3", "$2")
@@ -42,10 +43,16 @@ Class Main
             Log(Item)
         Next Item
 
+        RevertB.DropDownItems.Add(Msg("agf"))
+        WatchP = New Thread(AddressOf Control)
+        WatchP.Priority = Threading.ThreadPriority.Highest
+        DisableControl = False
+        WatchP.Start()
         Configure()
     End Sub
 
     Sub DrawHistory()
+        Dim Break As Integer = 0
         If CurrentPage Is Nothing Then Exit Sub
 
         History.Page = CurrentPage
@@ -56,7 +63,7 @@ Class Main
         Dim X As Integer = History.Width - 18 + (History.Offset * 17)
         Dim EnableScroll As Boolean
 
-        While Edit IsNot Nothing AndAlso Edit IsNot NullEdit
+        While Edit IsNot Nothing AndAlso Edit IsNot NullEdit And Break < Misc.GlExcess
             If X < 0 Then
                 EnableScroll = True
                 Exit While
@@ -64,13 +71,17 @@ Class Main
 
             X -= 17
             Edit = Edit.Prev
+            Break = Break + 1
         End While
+
+        If Break >= Misc.GlExcess Then Log("Debug DrawHistory()")
 
         HistoryScrollLB.Enabled = EnableScroll
         If CurrentPage.FirstEdit Is Nothing Then HistoryB.Enabled = True
     End Sub
 
     Sub DrawContribs()
+        Dim Break As Integer = 0
         If CurrentUser Is Nothing Then Exit Sub
 
         Contribs.User = CurrentUser
@@ -81,7 +92,8 @@ Class Main
         Dim X As Integer = Contribs.Width - 18 + (Contribs.Offset * 17)
         Dim EnableScroll As Boolean
 
-        While Edit IsNot Nothing AndAlso Edit IsNot NullEdit
+        While Edit IsNot Nothing AndAlso Edit IsNot NullEdit And Break < Misc.GlExcess
+            Break = Break + 1
             If X < 0 Then
                 EnableScroll = True
                 Exit While
@@ -90,6 +102,7 @@ Class Main
             X -= 17
             Edit = Edit.PrevByUser
         End While
+        If Break >= Misc.GlExcess Then Log("Debug stop Main.DrawContribs()")
 
         ContribsScrollLB.Enabled = EnableScroll
         If CurrentEdit.User.FirstEdit Is Nothing Then ContribsB.Enabled = True
@@ -133,6 +146,10 @@ Class Main
         End If
     End Sub
 
+    Private Sub Main_GiveFeedback(ByVal sender As Object, ByVal e As System.Windows.Forms.GiveFeedbackEventArgs) Handles Me.GiveFeedback
+
+    End Sub
+
     Private Sub Main_ResizeShown() Handles Me.Resize, Me.Shown
         Status.Columns(1).Width = Width - 30
         HistoryStrip.Left = MainStrip.Right
@@ -152,6 +169,7 @@ Class Main
         If Config.StartupPage IsNot Nothing Then
             Dim NewRequest As New BrowserRequest
             NewRequest.NoFormatting = True
+            '
             NewRequest.Url = SitePath() & "index.php?title=" & UrlEncode(Config.StartupPage) & "&action=render"
             NewRequest.Start()
         End If
@@ -636,32 +654,109 @@ Class Main
     Public Sub RevertAndWarn(Optional ByVal WarnType As String = "warning", _
         Optional ByVal Level As UserLevel = UserLevel.None, Optional ByVal Summary As String = Nothing, _
         Optional ByVal CurrentOnly As Boolean = False)
-
-        If CurrentEdit IsNot Nothing AndAlso CurrentEdit.Prev IsNot Nothing Then
-
-            'Get confirmation if needed
-            If Config.ConfirmMultiple AndAlso CurrentEdit.User IsNot Nothing _
-                AndAlso CurrentEdit.User Is CurrentEdit.Prev.User _
-                AndAlso MessageBox.Show("This will revert multiple edits by '" & CurrentEdit.User.Name & "'. Continue?", _
-                "Huggle", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.No Then Exit Sub
-
-            If DoRevert(CurrentEdit, Summary, CurrentOnly:=CurrentOnly) Then
-                'Be sure not to warn twice for the same edit
-                Dim i As Integer = 0
-
-                While i < PendingWarnings.Count - 1
-                    If PendingWarnings(i).Page Is CurrentEdit.Page Then PendingWarnings.RemoveAt(i) Else i += 1
-                End While
-
-                If Level <> UserLevel.None Then CurrentEdit.LevelToWarn = Level
-                CurrentEdit.TypeToWarn = WarnType
-
-                PendingWarnings.Add(CurrentEdit)
-
-                'If AutoAdvance is turned on in the config then Show the next edit
-                If Config.AutoAdvance Then ShowNextEdit()
+        Try
+            Dim summ2 As String = "_"
+            If Summary IsNot Nothing Then
+                Select Case Summary
+                    Case "delete"
+                        If Config.TemplateSummary(0) Is Nothing Then
+                            summ2 = "reverted edits by " & CurrentEdit.User.Name & ": removal of content with no explanation"
+                        Else
+                            summ2 = Config.TemplateSummary(0).Replace("$1", CurrentEdit.User.Name)
+                        End If
+                    Case "bio"
+                        If Config.TemplateSummary(1) Is Nothing Then
+                            summ2 = "reverted edits by " & CurrentEdit.User.Name & ""
+                        Else
+                            summ2 = Config.TemplateSummary(1).Replace("$1", CurrentEdit.User.Name)
+                        End If
+                    Case "unsor"
+                        If Config.TemplateSummary(2) Is Nothing Then
+                            summ2 = "reverted: [[WP:References|unsourced]] content"
+                        Else
+                            summ2 = Config.TemplateSummary(2).Replace("$1", CurrentEdit.User.Name)
+                        End If
+                    Case "spam"
+                        If Config.TemplateSummary(6) Is Nothing Then
+                            summ2 = "reverted edits by " & CurrentEdit.User.Name & ": Spam"
+                        Else
+                            summ2 = Config.TemplateSummary(6).Replace("$1", CurrentEdit.User.Name)
+                        End If
+                    Case "attack"
+                        If Config.TemplateSummary(9) Is Nothing Then
+                            summ2 = "reverted as attack on user"
+                        Else
+                            summ2 = Config.TemplateSummary(9).Replace("$1", CurrentEdit.User.Name)
+                        End If
+                    Case "blank"
+                        If Config.TemplateSummary(4) Is Nothing Then
+                            summ2 = "reverted edits by " & CurrentEdit.User.Name & ": unexplained blanking of the page"
+                        Else
+                            summ2 = Config.TemplateSummary(4).Replace("$1", CurrentEdit.User.Name)
+                        End If
+                    Case "warning"
+                        If Config.TemplateSummary(5) Is Nothing Then
+                            summ2 = "reverted edits by " & CurrentEdit.User.Name & ", identified as unconstructive"
+                        Else
+                            summ2 = Config.TemplateSummary(5).Replace("$1", CurrentEdit.User.Name)
+                        End If
+                    Case "test"
+                        If Config.TemplateSummary(7) Is Nothing Then
+                            summ2 = "[[WP:Sandbox|test edits]] or unconstructive modifications"
+                        Else
+                            summ2 = Config.TemplateSummary(7).Replace("$1", CurrentEdit.User.Name)
+                        End If
+                    Case "npov"
+                        If Config.TemplateSummary(8) Is Nothing Then
+                            summ2 = "reverted edits by " & CurrentEdit.User.Name & ": not adhering to neutral point of view"
+                        Else
+                            summ2 = Config.TemplateSummary(8).Replace("$1", CurrentEdit.User.Name)
+                        End If
+                    Case "speedy"
+                        If Config.TemplateSummary(10) Is Nothing Then
+                            summ2 = "reverted edits by " & CurrentEdit.User.Name & ""
+                        Else
+                            summ2 = Config.TemplateSummary(10).Replace("$1", CurrentEdit.User.Name)
+                        End If
+                    Case "afd"
+                        If Config.TemplateSummary(11) Is Nothing Then
+                            summ2 = "reverted edits by " & CurrentEdit.User.Name & ""
+                        Else
+                            summ2 = Config.TemplateSummary(11).Replace("$1", CurrentEdit.User.Name)
+                        End If
+                    Case "error"
+                        If Config.TemplateSummary(12) Is Nothing Then
+                            summ2 = "reverted edits by " & CurrentEdit.User.Name & ""
+                        Else
+                            summ2 = Config.TemplateSummary(12).Replace("$1", CurrentEdit.User.Name)
+                        End If
+                End Select
+                If summ2 IsNot "_" Then Summary = summ2
             End If
-        End If
+            If CurrentEdit IsNot Nothing AndAlso CurrentEdit.Prev IsNot Nothing Then
+
+                'Get confirmation if needed
+                If Config.ConfirmMultiple AndAlso CurrentEdit.User IsNot Nothing _
+                    AndAlso CurrentEdit.User Is CurrentEdit.Prev.User _
+                    AndAlso MessageBox.Show("This will revert multiple edits by '" & CurrentEdit.User.Name & "'. Continue?", _
+                    "Huggle", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.No Then Exit Sub
+                If DoRevert(CurrentEdit, Summary, CurrentOnly:=CurrentOnly) Then
+                    'Be sure not to warn twice for the same edit
+                    Dim i As Integer = 0
+                    While i < PendingWarnings.Count - 1
+                        If PendingWarnings(i).Page Is CurrentEdit.Page Then PendingWarnings.RemoveAt(i) Else i += 1
+                    End While
+
+                    If Level <> UserLevel.None Then CurrentEdit.LevelToWarn = Level
+                    CurrentEdit.TypeToWarn = WarnType
+                    PendingWarnings.Add(CurrentEdit)
+
+                    'If AutoAdvance is turned on in the config then Show the next edit
+                    If Config.AutoAdvance Then ShowNextEdit()
+                End If
+            End If
+        Catch ex As Exception
+        End Try
     End Sub
 
     Private Sub EditPage_Click() Handles PageEdit.Click, PageEditB.Click
@@ -754,11 +849,13 @@ Class Main
     End Sub
 
     Sub Delog(ByVal Request As Request)
+        Dim Break As Integer = 0
         Dim i As Integer = 0
 
         Status.BeginUpdate()
 
-        While i < Status.Items.Count
+        While i < Status.Items.Count And Break < Misc.GlExcess
+            Break = Break + 1
             If Status.Items(i).ForeColor = Color.Red AndAlso Status.Items(i).Tag Is Request _
                 Then Status.Items.RemoveAt(i) Else i += 1
         End While
@@ -991,6 +1088,7 @@ Class Main
     End Sub
 
     Private Sub Tabs_DrawItem(ByVal s As Object, ByVal e As DrawItemEventArgs) Handles Tabs.DrawItem
+        Dim Break As Integer = 0
         If e.Bounds.Width > 100 Then
             If CBool(e.State And DrawItemState.Selected) _
                 Then e.Graphics.FillRectangle(New Pen(Color.FromKnownColor(KnownColor.ControlLightLight), 1).Brush, _
@@ -1036,6 +1134,8 @@ Class Main
 
         If CurrentTab IsNot Nothing AndAlso CurrentTab.CurrentUrl IsNot Nothing _
             Then OpenUrlInBrowser(CurrentTab.CurrentUrl)
+        BrowserOpen.Enabled = False
+        BrowserOpenB.Enabled = False
     End Sub
 
     Private Sub SystemReloadConfig_Click()
@@ -1063,10 +1163,28 @@ Class Main
                 If Item.Type = EditType.Revert Then Reverts += 1
             End If
         Next Item
-
-        If Edits > 0 AndAlso (Date.UtcNow - FirstTime).TotalMinutes > 0 _
-            Then MenuStats.Text = Msg("main-stats", CStr(CInt(Edits / (Date.UtcNow - FirstTime).TotalMinutes)), _
+        Dim RevC As Integer
+        If Edits > 0 AndAlso (Date.UtcNow - FirstTime).TotalMinutes > 0 Then
+            RevC = CInt(Reverts / (Date.UtcNow - FirstTime).TotalMinutes)
+            MenuStats.Text = Msg("main-stats", CStr(CInt(Edits / (Date.UtcNow - FirstTime).TotalMinutes)), _
             CStr(CInt(Reverts / (Date.UtcNow - FirstTime).TotalMinutes)))
+            If RevC > 5 Then MenuStats.ForeColor = Color.Black
+            If RevC > 10 Then
+                MenuStats.ForeColor = Color.Red
+            End If
+
+            If RevC < 5 Then MenuStats.ForeColor = Color.Green
+            If CInt(Edits / (Date.UtcNow - FirstTime).TotalMinutes) < 100 Then
+                If Config.SlowIrc = True Then
+                    Config.SlowIrc = False
+                End If
+            Else
+                If Config.SlowIrc = False Then
+                    Config.SlowIrc = True
+                End If
+            End If
+        End If
+        ControlLock = 10
     End Sub
 
     Private Sub QueueArea_MouseDown(ByVal s As Object, ByVal e As MouseEventArgs) Handles QueueArea.MouseDown
@@ -1149,6 +1267,7 @@ Class Main
     End Sub
 
     Public Sub SetCurrentPage(ByVal Page As Page, Optional ByVal DisplayLast As Boolean = False)
+        Debug.WriteLine("S1")
         If Page IsNot Nothing AndAlso MainForm IsNot Nothing AndAlso MainForm.Visible Then
             If DisplayLast AndAlso Page IsNot CurrentPage Then
                 If Page.LastEdit Is Nothing Then
@@ -1173,7 +1292,7 @@ Class Main
                 If Edit.All.ContainsKey(CurrentEdit.Oldid) Then History.OlderEdit = Edit.All(CurrentEdit.Oldid) _
                     Else History.OlderEdit = CurrentEdit.Prev
             End If
-
+            Debug.WriteLine("S3")
             DisplayingEdit = True
             If Page IsNot CurrentPage Then History.Offset = 0
             If Not PageB.Items.Contains(Page.Name) Then PageB.Items.Add(Page.Name)
@@ -1182,6 +1301,7 @@ Class Main
             DisplayingEdit = False
             DrawHistory()
         End If
+        Debug.WriteLine("S4")
     End Sub
 
     Private Sub PageB_ForeColorChanged() Handles PageB.ForeColorChanged
@@ -1290,7 +1410,9 @@ Class Main
     Private Sub RevertItem_Click(ByVal Sender As Object, ByVal e As EventArgs)
         If CurrentEdit IsNot Nothing Then
             Dim MenuItem As ToolStripItem = CType(Sender, ToolStripItem)
+            'Debug.WriteLine(CStr(MenuItem.Tag))
             DoRevert(CurrentEdit, CStr(MenuItem.Tag))
+
         End If
     End Sub
 
@@ -1612,7 +1734,7 @@ Class Main
     End Sub
 
     Private Sub RevertWarnItem_Click(ByVal Sender As Object, ByVal e As EventArgs)
-        RevertAndWarn(CType(Sender, ToolStripMenuItem).Tag.ToString)
+        RevertAndWarn(CType(Sender, ToolStripMenuItem).Tag.ToString, , CType(Sender, ToolStripMenuItem).Tag.ToString)
     End Sub
 
     Private Sub RevisionSight_Click() Handles RevisionSight.Click
@@ -1645,4 +1767,74 @@ Class Main
         QueueContainer.Panel2Collapsed = (Not Config.ShowTwoQueues)
     End Sub
 
+    Private Sub RestoreThisVersionOfPageToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PageRestore.Click
+        If CurrentPage IsNot Nothing And History.OlderEdit IsNot Nothing Then
+            Dim Summ As String
+            Dim PData As New PageRevRequest
+            Dim PRes As New RequestResult
+            Summ = "Restoring revision"
+            Log(Summ)
+            'Grab data
+            PData.Rev = History.NewerEdit.Id
+            If PData.Rev Is Nothing Then
+                Log("Error while restoring the article")
+                Exit Sub
+            End If
+            PData.OldPage = History.NewerEdit.Page
+            PData.Start(AddressOf GetData)
+
+        End If
+    End Sub
+
+    Sub Control()
+        While (DisableControl <> True)
+            Thread.Sleep(500)
+            Debug.Write("0")
+            If ControlLock < 1 Then
+                Debug.WriteLine("error")
+                CurrentTab.Browser.Cancel()
+                CurrentTab.Browser.Update()
+            End If
+            ControlLock = ControlLock - 1
+        End While
+    End Sub
+
+    Public Sub GetData(ByVal NewResult As RequestResult)
+        Dim EditReq As New EditRequest
+        If NewResult.Error = True Then
+            Log("Error occured")
+        Else
+            EditReq.Page = CurrentPage
+            EditReq.Summary = "Restored previous revision " & History.NewerEdit.Id
+            EditReq.Text = NewResult.Text
+            EditReq.Start()
+        End If
+    End Sub
+
+    Private Sub RevisionAcceptpend_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RevisionAcceptpend.Click
+        'If Config.RevisionAccess = True Then
+        'Log("Accepting revision ")
+        'If CurrentPage.Pending = True Then
+
+        'End If
+
+        'End If
+    End Sub
+
+    Private Sub RevisionDecline_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RevisionDecline.Click
+        If Config.RevisionAccess = True Then
+        Else
+            Exit Sub
+        End If
+    End Sub
+
+    Private Sub RevisionFaith_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RevisionFaith.Click
+        Dim summ As New InputBox
+        summ.Text = "Enter reason"
+        summ.Message.Text = "Reason for reverting this edit: (only current edit will be reverted)"
+        summ.ShowDialog()
+        If summ.DialogResult = Windows.Forms.DialogResult.OK Then
+            DoRevert(CurrentEdit, Config.Agf(0) & " " & summ.Value.Text, , , CurrentOnly:=True)
+        End If
+    End Sub
 End Class

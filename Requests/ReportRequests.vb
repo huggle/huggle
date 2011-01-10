@@ -72,6 +72,7 @@ Namespace Requests
             'to ensure that any other edits from the user are checked
 
             Dim GotContribs As Boolean
+            Dim Break As Integer = 0
 
             If User.FirstEdit IsNot Nothing Then
                 GotContribs = True
@@ -79,7 +80,8 @@ Namespace Requests
             ElseIf User.LastEdit IsNot Nothing Then
                 Dim Contrib As Edit = User.LastEdit, i As Integer = 0
 
-                While Contrib.PrevByUser IsNot Nothing AndAlso Contrib.PrevByUser IsNot NullEdit
+                While Break < Misc.GlExcess And Contrib.PrevByUser IsNot Nothing AndAlso Contrib.PrevByUser IsNot NullEdit
+                    Break = Break + 1
                     If Contrib.Time.AddHours(Config.WarningAge) < Date.UtcNow Then
                         GotContribs = True
                         Exit While
@@ -271,9 +273,9 @@ Namespace Requests
         Private Function LinkDiffs() As String
 
             Dim RevertedEdits As New List(Of Edit), Edit As Edit = User.LastEdit
-
-            While Edit IsNot Nothing AndAlso Edit IsNot NullEdit AndAlso Edit.Time.AddHours(3) > Date.UtcNow
-
+            Dim Break As Integer = 0
+            While Edit IsNot Nothing AndAlso Edit IsNot NullEdit AndAlso Edit.Time.AddHours(3) > Date.UtcNow And Break < Misc.GlExcess
+                Break = Break + 1
                 If Edit.Next IsNot Nothing AndAlso Edit.Next.Type = EditType.Revert Then RevertedEdits.Add(Edit)
                 Edit = Edit.PrevByUser
             End While
@@ -310,58 +312,58 @@ Namespace Requests
         Public User As User, Reason As String
 
         Protected Overrides Sub Process()
-            LogProgress(Msg("report-progress", User.Name))
+                LogProgress(Msg("report-progress", User.Name))
 
             Dim Result As ApiResult, Text As String
 
-            'Check bot report subpage for report of user
-            If Config.UAABotLocation IsNot Nothing Then
-                Result = GetText(Config.UAABotLocation)
+                'Check bot report subpage for report of user
+                If Config.UAABotLocation IsNot Nothing Then
+                    Result = GetText(Config.UAABotLocation)
 
-                Text = GetTextFromRev(Result.Text).ToLower.Replace("_", " ")
+                    Text = GetTextFromRev(Result.Text).ToLower.Replace("_", " ")
 
-                If Text.Contains("{{user-uaa|" & User.Name.ToLower & "}}") _
-                    OrElse Text.Contains("{{user-uaa|1=" & User.Name.ToLower & "}}") Then
+                    If Text.Contains("{{user-uaa|" & User.Name.ToLower & "}}") _
+                        OrElse Text.Contains("{{user-uaa|1=" & User.Name.ToLower & "}}") Then
 
-                    If User.Level < UserLevel.ReportedUAA Then User.Level = UserLevel.ReportedUAA
+                        If User.Level < UserLevel.ReportedUAA Then User.Level = UserLevel.ReportedUAA
 
-                    If Result.Error _
-                        Then Fail(Msg("report-fail", User.Name), Result.ErrorMessage) _
-                        Else Fail(Msg("report-fail", User.Name), Msg("warn-alreadyreported"))
+                        If Result.Error _
+                            Then Fail(Msg("report-fail", User.Name), Result.ErrorMessage) _
+                            Else Fail(Msg("report-fail", User.Name), Msg("warn-alreadyreported"))
 
+                        Exit Sub
+                    End If
+                End If
+
+                Result = GetText(Config.UAALocation)
+
+                If Result.Error Then
+                    Fail(Msg("report-fail", User.Name), Result.ErrorMessage)
                     Exit Sub
                 End If
-            End If
 
-            Result = GetText(Config.UAALocation)
+                Text = GetTextFromRev(Result.Text)
 
-            If Result.Error Then
-                Fail(Msg("report-fail", User.Name), Result.ErrorMessage)
-                Exit Sub
-            End If
+                'Check for existing report
+                If Text.ToLower.Replace("_", " ").Contains("{{user-uaa|" & User.Name & "}}") _
+                    OrElse Text.ToLower.Replace("_", " ").Contains("{{user-uaa|1=" & User.Name & "}}") Then
 
-            Text = GetTextFromRev(Result.Text)
+                    If User.Level < UserLevel.ReportedUAA Then User.Level = UserLevel.ReportedUAA
+                    Fail(Msg("report-fail", User.Name), Msg("warn-alreadyreported"))
+                    Exit Sub
+                End If
 
-            'Check for existing report
-            If Text.ToLower.Replace("_", " ").Contains("{{user-uaa|" & User.Name & "}}") _
-                OrElse Text.ToLower.Replace("_", " ").Contains("{{user-uaa|1=" & User.Name & "}}") Then
+                'Report user
+                Text &= LF & "* {{user-uaa|"
+                If User.Name.Contains("=") Then Text &= "1="
+                Text &= User.Name & "}} – " & Reason & " – ~~~~"
 
-                If User.Level < UserLevel.ReportedUAA Then User.Level = UserLevel.ReportedUAA
-                Fail(Msg("report-fail", User.Name), Msg("warn-alreadyreported"))
-                Exit Sub
-            End If
+                Result = PostEdit(Config.UAALocation, Text, Config.ReportSummary.Replace("$1", User.Name), _
+                    Minor:=Config.Minor("report"), Watch:=Config.Watch("report"))
 
-            'Report user
-            Text &= LF & "* {{user-uaa|"
-            If User.Name.Contains("=") Then Text &= "1="
-            Text &= User.Name & "}} – " & Reason & " – ~~~~"
+                If Result.Error Then Fail(Msg("report-fail", User.Name), Result.ErrorMessage) Else Complete()
 
-            Result = PostEdit(Config.UAALocation, Text, Config.ReportSummary.Replace("$1", User.Name), _
-                Minor:=Config.Minor("report"), Watch:=Config.Watch("report"))
-
-            If Result.Error Then Fail(Msg("report-fail", User.Name), Result.ErrorMessage) Else Complete()
-
-            If State = States.Cancelled Then UndoEdit(Config.UAALocation)
+                If State = States.Cancelled Then UndoEdit(Config.UAALocation)
         End Sub
 
     End Class
@@ -373,73 +375,73 @@ Namespace Requests
         Public User As User, Accounts As List(Of String), Details As String
 
         Protected Overrides Sub Process()
-            LogProgress(Msg("report-progress", User.Name))
+                LogProgress(Msg("report-progress", User.Name))
 
-            Dim Result As ApiResult = DoApiRequest("action=query&prop=info&titles=" & _
-                Config.SockReportLocation & "/" & UrlEncode(User.Name))
+                Dim Result As ApiResult = DoApiRequest("action=query&prop=info&titles=" & _
+                    Config.SockReportLocation & "/" & UrlEncode(User.Name))
 
-            If Result.Error Then
-                Fail(Msg("report-fail", User.Name), Result.ErrorMessage)
-                Exit Sub
-            End If
+                If Result.Error Then
+                    Fail(Msg("report-fail", User.Name), Result.ErrorMessage)
+                    Exit Sub
+                End If
 
-            'If Not Result.Text.Contains("missing=""""") Then
-            '    Fail(Msg("report-fail", User.Name), "report for user already exists")
-            '    Exit Sub
-            'End If
+                'If Not Result.Text.Contains("missing=""""") Then
+                '    Fail(Msg("report-fail", User.Name), "report for user already exists")
+                '    Exit Sub
+                'End If
 
-            Dim Report As String = ""
+                Dim Report As String = ""
 
-            Report &= "===[[User:" & User.Name & "]]===" & LF & LF
-            Report &= "{{socklinks|1=" & User.Name & "}}" & LF & LF
-            Report &= ";Known or suspected alternate accounts" & LF
+                Report &= "===[[User:" & User.Name & "]]===" & LF & LF
+                Report &= "{{socklinks|1=" & User.Name & "}}" & LF & LF
+                Report &= ";Known or suspected alternate accounts" & LF
 
-            For Each Account As String In Accounts
-                Report &= "* {{socklinks|1=" & Account & "}}" & LF
-            Next Account
+                For Each Account As String In Accounts
+                    Report &= "* {{socklinks|1=" & Account & "}}" & LF
+                Next Account
 
-            Report &= LF
-            Report &= ";Reported by" & LF
-            Report &= "* ~~~~" & LF & LF
-            Report &= ";Details of abuse" & LF
-            Report &= Details & LF & LF
-            Report &= ";Comments" & LF
-            Report &= LF
-            Report &= ";Conclusions" & LF
-            Report &= LF
-            Report &= "----" & LF
+                Report &= LF
+                Report &= ";Reported by" & LF
+                Report &= "* ~~~~" & LF & LF
+                Report &= ";Details of abuse" & LF
+                Report &= Details & LF & LF
+                Report &= ";Comments" & LF
+                Report &= LF
+                Report &= ";Conclusions" & LF
+                Report &= LF
+                Report &= "----" & LF
 
-            Result = PostEdit(Config.SockReportLocation & "/" & User.Name, Report, _
-                Config.ReportSummary.Replace("$1", User.Name), Minor:=Config.Minor("report"), Watch:=Config.Watch("report"))
+                Result = PostEdit(Config.SockReportLocation & "/" & User.Name, Report, _
+                    Config.ReportSummary.Replace("$1", User.Name), Minor:=Config.Minor("report"), Watch:=Config.Watch("report"))
 
-            If Result.Error Then
-                Fail(Msg("report-fail", User.Name), Result.ErrorMessage)
-                Exit Sub
-            End If
+                If Result.Error Then
+                    Fail(Msg("report-fail", User.Name), Result.ErrorMessage)
+                    Exit Sub
+                End If
 
-            Result = GetText(Config.SockReportLocation, Section:="3")
+                Result = GetText(Config.SockReportLocation, Section:="3")
 
-            If Result.Error Then
-                Fail(Msg("report-fail", User.Name), Result.ErrorMessage)
-                Exit Sub
-            End If
+                If Result.Error Then
+                    Fail(Msg("report-fail", User.Name), Result.ErrorMessage)
+                    Exit Sub
+                End If
 
-            Dim Text As String = GetTextFromRev(Result.Text)
+                Dim Text As String = GetTextFromRev(Result.Text)
 
-            If Text.Contains(LF & "{{") _
-                Then Text = Text.Substring(0, Text.IndexOf(LF & "{{")) & LF & "{{" & Config.SockReportLocation & "/" & _
-                User.Name & "}}" & Text.Substring(Text.IndexOf(LF & "{{")) _
-                Else Text &= "{{" & Config.SockReportLocation & "/" & User.Name & "}}"
+                If Text.Contains(LF & "{{") _
+                    Then Text = Text.Substring(0, Text.IndexOf(LF & "{{")) & LF & "{{" & Config.SockReportLocation & "/" & _
+                    User.Name & "}}" & Text.Substring(Text.IndexOf(LF & "{{")) _
+                    Else Text &= "{{" & Config.SockReportLocation & "/" & User.Name & "}}"
 
-            Result = PostEdit(Config.SockReportLocation, Text, Config.ReportSummary.Replace("$1", User.Name), _
-                Section:="3", Minor:=Config.Minor("report"), Watch:=Config.Watch("report"))
+                Result = PostEdit(Config.SockReportLocation, Text, Config.ReportSummary.Replace("$1", User.Name), _
+                    Section:="3", Minor:=Config.Minor("report"), Watch:=Config.Watch("report"))
 
-            If Result.Error Then
-                Fail(Msg("report-fail", User.Name), Result.ErrorMessage)
-                Exit Sub
-            End If
+                If Result.Error Then
+                    Fail(Msg("report-fail", User.Name), Result.ErrorMessage)
+                    Exit Sub
+                End If
 
-            Complete()
+                Complete()
         End Sub
 
     End Class

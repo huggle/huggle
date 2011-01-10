@@ -500,9 +500,11 @@ Class Queue
     Public Sub RemoveOldEdits(ByVal Time As Integer)
         'Remove old edits and edits to the same page
         If _RemoveOld OrElse Time > 0 Then
+            Dim Break As Integer = 0
             Dim i As Integer = 0
 
-            While i < Edits.Count
+            While i < Edits.Count And Break < Misc.GlExcess
+                Break = Break + 1
                 If (_RemoveOld AndAlso Edits(i) IsNot Edits(i).Page.LastEdit) _
                     OrElse (_RemoveAfter > 0 AndAlso Edits(i).Time.AddMinutes(Time) < Date.UtcNow) Then
 
@@ -511,6 +513,7 @@ Class Queue
                     i += 1
                 End If
             End While
+
         End If
     End Sub
 
@@ -530,6 +533,7 @@ Class Queue
     End Sub
 
     Public Sub RemoveViewedEdit(ByVal Edit As Edit)
+        Debug.WriteLine("0")
         'Remove an edit that has been viewed, possibly on another queue
         If _RemoveViewed AndAlso Items IsNot Nothing Then Items.Remove(Edit)
         If _Type = QueueType.Dynamic AndAlso Not _RefreshReAdd Then _RemovedPages.Add(Edit.Page.Name)

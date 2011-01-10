@@ -22,13 +22,13 @@ Partial Class MoveForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.Cancel = New System.Windows.Forms.Button
-        Me.OK = New System.Windows.Forms.Button
-        Me.TargetLabel = New System.Windows.Forms.Label
-        Me.ReasonLabel = New System.Windows.Forms.Label
-        Me.Target = New System.Windows.Forms.TextBox
-        Me.Reason = New System.Windows.Forms.TextBox
-        Me.MoveTalk = New System.Windows.Forms.CheckBox
+        Me.Cancel = New System.Windows.Forms.Button()
+        Me.OK = New System.Windows.Forms.Button()
+        Me.TargetLabel = New System.Windows.Forms.Label()
+        Me.ReasonLabel = New System.Windows.Forms.Label()
+        Me.Target = New System.Windows.Forms.TextBox()
+        Me.Reason = New System.Windows.Forms.TextBox()
+        Me.MoveTalk = New System.Windows.Forms.CheckBox()
         Me.SuspendLayout()
         '
         'Cancel

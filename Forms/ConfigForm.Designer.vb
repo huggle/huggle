@@ -22,120 +22,125 @@ Partial Class ConfigForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.Cancel = New System.Windows.Forms.Button
-        Me.OK = New System.Windows.Forms.Button
-        Me.Tabs = New System.Windows.Forms.TabControl
-        Me.GeneralTab = New System.Windows.Forms.TabPage
-        Me.RememberPassword = New System.Windows.Forms.CheckBox
-        Me.RememberMe = New System.Windows.Forms.CheckBox
-        Me.DiffFontSize = New System.Windows.Forms.NumericUpDown
-        Me.PreloadCount = New System.Windows.Forms.NumericUpDown
-        Me.IrcMode = New System.Windows.Forms.CheckBox
-        Me.LogFileBrowse = New System.Windows.Forms.Button
-        Me.LogFile = New System.Windows.Forms.TextBox
-        Me.LogFileLabel = New System.Windows.Forms.Label
-        Me.OpenInBrowser = New System.Windows.Forms.CheckBox
-        Me.Label2 = New System.Windows.Forms.Label
-        Me.Label1 = New System.Windows.Forms.Label
-        Me.Label14 = New System.Windows.Forms.Label
-        Me.DiffFontSizeLabel = New System.Windows.Forms.Label
-        Me.ShowNewEdits = New System.Windows.Forms.CheckBox
-        Me.Preloads = New System.Windows.Forms.CheckBox
-        Me.IrcPortLabel = New System.Windows.Forms.Label
-        Me.IrcPort = New System.Windows.Forms.TextBox
-        Me.AutoWhitelist = New System.Windows.Forms.CheckBox
-        Me.InterfaceTab = New System.Windows.Forms.TabPage
-        Me.RightAlignQueue = New System.Windows.Forms.CheckBox
-        Me.ShowTwoQueues = New System.Windows.Forms.CheckBox
-        Me.ShowQueue = New System.Windows.Forms.CheckBox
-        Me.ShowLog = New System.Windows.Forms.CheckBox
-        Me.ShowNewMessages = New System.Windows.Forms.CheckBox
-        Me.ShowToolTips = New System.Windows.Forms.CheckBox
-        Me.TrayIcon = New System.Windows.Forms.CheckBox
-        Me.KeyboardTab = New System.Windows.Forms.TabPage
-        Me.Defaults = New System.Windows.Forms.Button
-        Me.NoShortcut = New System.Windows.Forms.Button
-        Me.ChangeShortcut = New System.Windows.Forms.TextBox
-        Me.ChangeShortcutLabel = New System.Windows.Forms.Label
-        Me.ShortcutListLabel = New System.Windows.Forms.Label
-        Me.ShortcutList = New System.Windows.Forms.ListView
-        Me.ActionColumn = New System.Windows.Forms.ColumnHeader
-        Me.ShortcutColumn = New System.Windows.Forms.ColumnHeader
-        Me.EditingTab = New System.Windows.Forms.TabPage
-        Me.UndoSummary = New System.Windows.Forms.TextBox
-        Me.UndoSummaryLabel = New System.Windows.Forms.Label
-        Me.DefaultSummary = New System.Windows.Forms.TextBox
-        Me.DefaultSummaryLabel = New System.Windows.Forms.Label
-        Me.WatchlistLabel = New System.Windows.Forms.Label
-        Me.MinorLabel = New System.Windows.Forms.Label
-        Me.Watchlist = New System.Windows.Forms.CheckedListBox
-        Me.Minor = New System.Windows.Forms.CheckedListBox
-        Me.RevertTab = New System.Windows.Forms.TabPage
-        Me.ConfirmWarned = New System.Windows.Forms.CheckBox
-        Me.ClearSummaries = New System.Windows.Forms.Button
-        Me.ClearSummariesLabel = New System.Windows.Forms.Label
-        Me.ConfirmSelfRevert = New System.Windows.Forms.CheckBox
-        Me.AddSummary = New System.Windows.Forms.Button
-        Me.RemoveSummary = New System.Windows.Forms.Button
-        Me.RevertSummariesLabel = New System.Windows.Forms.Label
-        Me.RevertSummaries = New System.Windows.Forms.ListBox
-        Me.UseRollback = New System.Windows.Forms.CheckBox
-        Me.AutoAdvance = New System.Windows.Forms.CheckBox
-        Me.ConfirmSame = New System.Windows.Forms.CheckBox
-        Me.ConfirmMultiple = New System.Windows.Forms.CheckBox
-        Me.ConfirmRange = New System.Windows.Forms.CheckBox
-        Me.ReportingTab = New System.Windows.Forms.TabPage
-        Me.ExtendReports = New System.Windows.Forms.CheckBox
-        Me.ReportLinkExamples = New System.Windows.Forms.CheckBox
-        Me.AutoReportGroup = New System.Windows.Forms.GroupBox
-        Me.ReportAuto = New System.Windows.Forms.RadioButton
-        Me.AutoReportLabel = New System.Windows.Forms.Label
-        Me.ReportNone = New System.Windows.Forms.RadioButton
-        Me.ReportPrompt = New System.Windows.Forms.RadioButton
-        Me.TemplatesTab = New System.Windows.Forms.TabPage
-        Me.AddTemplate = New System.Windows.Forms.Button
-        Me.RemoveTemplate = New System.Windows.Forms.Button
-        Me.TemplatesLabel = New System.Windows.Forms.Label
-        Me.Templates = New System.Windows.Forms.ListView
-        Me.DisplayColumn = New System.Windows.Forms.ColumnHeader
-        Me.TemplateColumn = New System.Windows.Forms.ColumnHeader
-        Me.EditorTab = New System.Windows.Forms.TabPage
-        Me.HighlightGroup = New System.Windows.Forms.GroupBox
-        Me.Label26 = New System.Windows.Forms.Label
-        Me.ColorParamCall = New System.Windows.Forms.Button
-        Me.Label25 = New System.Windows.Forms.Label
-        Me.ColorHtmlTag = New System.Windows.Forms.Button
-        Me.Label24 = New System.Windows.Forms.Label
-        Me.ColorTemplate = New System.Windows.Forms.Button
-        Me.Label30 = New System.Windows.Forms.Label
-        Me.Label23 = New System.Windows.Forms.Label
-        Me.ColorParamName = New System.Windows.Forms.Button
-        Me.ColorExternalLink = New System.Windows.Forms.Button
-        Me.Label29 = New System.Windows.Forms.Label
-        Me.Label22 = New System.Windows.Forms.Label
-        Me.ColorParam = New System.Windows.Forms.Button
-        Me.ColorMagicWord = New System.Windows.Forms.Button
-        Me.Label28 = New System.Windows.Forms.Label
-        Me.Label21 = New System.Windows.Forms.Label
-        Me.ColorImage = New System.Windows.Forms.Button
-        Me.ColorLink = New System.Windows.Forms.Button
-        Me.Label27 = New System.Windows.Forms.Label
-        Me.ColorReference = New System.Windows.Forms.Button
-        Me.Label20 = New System.Windows.Forms.Label
-        Me.ColorComment = New System.Windows.Forms.Button
-        Me.AdminTab = New System.Windows.Forms.TabPage
-        Me.WatchDelete = New System.Windows.Forms.CheckBox
-        Me.BlockTime = New System.Windows.Forms.TextBox
-        Me.BlockTimeRegLabel = New System.Windows.Forms.Label
-        Me.BlockTimeAnonLabel = New System.Windows.Forms.Label
-        Me.BlockTimeLabel = New System.Windows.Forms.Label
-        Me.BlockTimeAnon = New System.Windows.Forms.TextBox
-        Me.BlockReasonLabel = New System.Windows.Forms.Label
-        Me.BlockReason = New System.Windows.Forms.TextBox
-        Me.PromptForBlock = New System.Windows.Forms.CheckBox
-        Me.UseAdminFunctions = New System.Windows.Forms.CheckBox
-        Me.ViewLocalConfig = New System.Windows.Forms.LinkLabel
-        Me.ConfirmPage = New System.Windows.Forms.CheckBox
+        Me.Cancel = New System.Windows.Forms.Button()
+        Me.OK = New System.Windows.Forms.Button()
+        Me.Tabs = New System.Windows.Forms.TabControl()
+        Me.GeneralTab = New System.Windows.Forms.TabPage()
+        Me.RememberPassword = New System.Windows.Forms.CheckBox()
+        Me.RememberMe = New System.Windows.Forms.CheckBox()
+        Me.DiffFontSize = New System.Windows.Forms.NumericUpDown()
+        Me.PreloadCount = New System.Windows.Forms.NumericUpDown()
+        Me.IrcMode = New System.Windows.Forms.CheckBox()
+        Me.LogFileBrowse = New System.Windows.Forms.Button()
+        Me.LogFile = New System.Windows.Forms.TextBox()
+        Me.LogFileLabel = New System.Windows.Forms.Label()
+        Me.OpenInBrowser = New System.Windows.Forms.CheckBox()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.Label14 = New System.Windows.Forms.Label()
+        Me.DiffFontSizeLabel = New System.Windows.Forms.Label()
+        Me.ShowNewEdits = New System.Windows.Forms.CheckBox()
+        Me.Preloads = New System.Windows.Forms.CheckBox()
+        Me.IrcPortLabel = New System.Windows.Forms.Label()
+        Me.IrcPort = New System.Windows.Forms.TextBox()
+        Me.AutoWhitelist = New System.Windows.Forms.CheckBox()
+        Me.InterfaceTab = New System.Windows.Forms.TabPage()
+        Me.RightAlignQueue = New System.Windows.Forms.CheckBox()
+        Me.ShowTwoQueues = New System.Windows.Forms.CheckBox()
+        Me.ShowQueue = New System.Windows.Forms.CheckBox()
+        Me.ShowLog = New System.Windows.Forms.CheckBox()
+        Me.ShowNewMessages = New System.Windows.Forms.CheckBox()
+        Me.ShowToolTips = New System.Windows.Forms.CheckBox()
+        Me.TrayIcon = New System.Windows.Forms.CheckBox()
+        Me.KeyboardTab = New System.Windows.Forms.TabPage()
+        Me.Defaults = New System.Windows.Forms.Button()
+        Me.NoShortcut = New System.Windows.Forms.Button()
+        Me.ChangeShortcut = New System.Windows.Forms.TextBox()
+        Me.ChangeShortcutLabel = New System.Windows.Forms.Label()
+        Me.ShortcutListLabel = New System.Windows.Forms.Label()
+        Me.ShortcutList = New System.Windows.Forms.ListView()
+        Me.ActionColumn = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.ShortcutColumn = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.EditingTab = New System.Windows.Forms.TabPage()
+        Me.UndoSummary = New System.Windows.Forms.TextBox()
+        Me.UndoSummaryLabel = New System.Windows.Forms.Label()
+        Me.DefaultSummary = New System.Windows.Forms.TextBox()
+        Me.DefaultSummaryLabel = New System.Windows.Forms.Label()
+        Me.WatchlistLabel = New System.Windows.Forms.Label()
+        Me.MinorLabel = New System.Windows.Forms.Label()
+        Me.Watchlist = New System.Windows.Forms.CheckedListBox()
+        Me.Minor = New System.Windows.Forms.CheckedListBox()
+        Me.RevertTab = New System.Windows.Forms.TabPage()
+        Me.ConfirmPage = New System.Windows.Forms.CheckBox()
+        Me.ConfirmWarned = New System.Windows.Forms.CheckBox()
+        Me.ClearSummaries = New System.Windows.Forms.Button()
+        Me.ClearSummariesLabel = New System.Windows.Forms.Label()
+        Me.ConfirmSelfRevert = New System.Windows.Forms.CheckBox()
+        Me.AddSummary = New System.Windows.Forms.Button()
+        Me.RemoveSummary = New System.Windows.Forms.Button()
+        Me.RevertSummariesLabel = New System.Windows.Forms.Label()
+        Me.RevertSummaries = New System.Windows.Forms.ListBox()
+        Me.UseRollback = New System.Windows.Forms.CheckBox()
+        Me.AutoAdvance = New System.Windows.Forms.CheckBox()
+        Me.ConfirmSame = New System.Windows.Forms.CheckBox()
+        Me.ConfirmMultiple = New System.Windows.Forms.CheckBox()
+        Me.ConfirmRange = New System.Windows.Forms.CheckBox()
+        Me.ReportingTab = New System.Windows.Forms.TabPage()
+        Me.ExtendReports = New System.Windows.Forms.CheckBox()
+        Me.ReportLinkExamples = New System.Windows.Forms.CheckBox()
+        Me.AutoReportGroup = New System.Windows.Forms.GroupBox()
+        Me.ReportAuto = New System.Windows.Forms.RadioButton()
+        Me.AutoReportLabel = New System.Windows.Forms.Label()
+        Me.ReportNone = New System.Windows.Forms.RadioButton()
+        Me.ReportPrompt = New System.Windows.Forms.RadioButton()
+        Me.TemplatesTab = New System.Windows.Forms.TabPage()
+        Me.btImport = New System.Windows.Forms.Button()
+        Me.UseCustom = New System.Windows.Forms.CheckBox()
+        Me.AddTemplate = New System.Windows.Forms.Button()
+        Me.RemoveTemplate = New System.Windows.Forms.Button()
+        Me.TemplatesLabel = New System.Windows.Forms.Label()
+        Me.Templates = New System.Windows.Forms.ListView()
+        Me.DisplayColumn = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.TemplateColumn = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.EditorTab = New System.Windows.Forms.TabPage()
+        Me.HighlightGroup = New System.Windows.Forms.GroupBox()
+        Me.Label26 = New System.Windows.Forms.Label()
+        Me.ColorParamCall = New System.Windows.Forms.Button()
+        Me.Label25 = New System.Windows.Forms.Label()
+        Me.ColorHtmlTag = New System.Windows.Forms.Button()
+        Me.Label24 = New System.Windows.Forms.Label()
+        Me.ColorTemplate = New System.Windows.Forms.Button()
+        Me.Label30 = New System.Windows.Forms.Label()
+        Me.Label23 = New System.Windows.Forms.Label()
+        Me.ColorParamName = New System.Windows.Forms.Button()
+        Me.ColorExternalLink = New System.Windows.Forms.Button()
+        Me.Label29 = New System.Windows.Forms.Label()
+        Me.Label22 = New System.Windows.Forms.Label()
+        Me.ColorParam = New System.Windows.Forms.Button()
+        Me.ColorMagicWord = New System.Windows.Forms.Button()
+        Me.Label28 = New System.Windows.Forms.Label()
+        Me.Label21 = New System.Windows.Forms.Label()
+        Me.ColorImage = New System.Windows.Forms.Button()
+        Me.ColorLink = New System.Windows.Forms.Button()
+        Me.Label27 = New System.Windows.Forms.Label()
+        Me.ColorReference = New System.Windows.Forms.Button()
+        Me.Label20 = New System.Windows.Forms.Label()
+        Me.ColorComment = New System.Windows.Forms.Button()
+        Me.AdminTab = New System.Windows.Forms.TabPage()
+        Me.WatchDelete = New System.Windows.Forms.CheckBox()
+        Me.BlockTime = New System.Windows.Forms.TextBox()
+        Me.BlockTimeRegLabel = New System.Windows.Forms.Label()
+        Me.BlockTimeAnonLabel = New System.Windows.Forms.Label()
+        Me.BlockTimeLabel = New System.Windows.Forms.Label()
+        Me.BlockTimeAnon = New System.Windows.Forms.TextBox()
+        Me.BlockReasonLabel = New System.Windows.Forms.Label()
+        Me.BlockReason = New System.Windows.Forms.TextBox()
+        Me.PromptForBlock = New System.Windows.Forms.CheckBox()
+        Me.UseAdminFunctions = New System.Windows.Forms.CheckBox()
+        Me.ViewLocalConfig = New System.Windows.Forms.LinkLabel()
+        Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
+        Me.BackgroundWorker2 = New System.ComponentModel.BackgroundWorker()
+        Me.BackgroundWorker3 = New System.ComponentModel.BackgroundWorker()
         Me.Tabs.SuspendLayout()
         Me.GeneralTab.SuspendLayout()
         CType(Me.DiffFontSize, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -684,6 +689,16 @@ Partial Class ConfigForm
         Me.RevertTab.Text = "Reverting"
         Me.RevertTab.UseVisualStyleBackColor = True
         '
+        'ConfirmPage
+        '
+        Me.ConfirmPage.AutoSize = True
+        Me.ConfirmPage.Location = New System.Drawing.Point(9, 132)
+        Me.ConfirmPage.Name = "ConfirmPage"
+        Me.ConfirmPage.Size = New System.Drawing.Size(189, 17)
+        Me.ConfirmPage.TabIndex = 3
+        Me.ConfirmPage.Text = "Confirm reversion of ignored pages"
+        Me.ConfirmPage.UseVisualStyleBackColor = True
+        '
         'ConfirmWarned
         '
         Me.ConfirmWarned.AutoSize = True
@@ -909,6 +924,8 @@ Partial Class ConfigForm
         '
         'TemplatesTab
         '
+        Me.TemplatesTab.Controls.Add(Me.btImport)
+        Me.TemplatesTab.Controls.Add(Me.UseCustom)
         Me.TemplatesTab.Controls.Add(Me.AddTemplate)
         Me.TemplatesTab.Controls.Add(Me.RemoveTemplate)
         Me.TemplatesTab.Controls.Add(Me.TemplatesLabel)
@@ -916,10 +933,28 @@ Partial Class ConfigForm
         Me.TemplatesTab.Location = New System.Drawing.Point(4, 23)
         Me.TemplatesTab.Name = "TemplatesTab"
         Me.TemplatesTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.TemplatesTab.Size = New System.Drawing.Size(511, 312)
+        Me.TemplatesTab.Size = New System.Drawing.Size(511, 332)
         Me.TemplatesTab.TabIndex = 6
         Me.TemplatesTab.Text = "Templates"
         Me.TemplatesTab.UseVisualStyleBackColor = True
+        '
+        'btImport
+        '
+        Me.btImport.Location = New System.Drawing.Point(6, 299)
+        Me.btImport.Name = "btImport"
+        Me.btImport.Size = New System.Drawing.Size(146, 22)
+        Me.btImport.TabIndex = 5
+        Me.btImport.Text = "Get from global"
+        Me.btImport.UseVisualStyleBackColor = True
+        '
+        'UseCustom
+        '
+        Me.UseCustom.AutoSize = True
+        Me.UseCustom.Location = New System.Drawing.Point(11, 279)
+        Me.UseCustom.Name = "UseCustom"
+        Me.UseCustom.Size = New System.Drawing.Size(15, 14)
+        Me.UseCustom.TabIndex = 4
+        Me.UseCustom.UseVisualStyleBackColor = True
         '
         'AddTemplate
         '
@@ -983,7 +1018,7 @@ Partial Class ConfigForm
         Me.EditorTab.Location = New System.Drawing.Point(4, 23)
         Me.EditorTab.Name = "EditorTab"
         Me.EditorTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.EditorTab.Size = New System.Drawing.Size(511, 312)
+        Me.EditorTab.Size = New System.Drawing.Size(511, 332)
         Me.EditorTab.TabIndex = 8
         Me.EditorTab.Text = "Editor"
         Me.EditorTab.UseVisualStyleBackColor = True
@@ -1337,16 +1372,6 @@ Partial Class ConfigForm
         Me.ViewLocalConfig.TabStop = True
         Me.ViewLocalConfig.Text = "View local configuration folder"
         '
-        'ConfirmPage
-        '
-        Me.ConfirmPage.AutoSize = True
-        Me.ConfirmPage.Location = New System.Drawing.Point(9, 132)
-        Me.ConfirmPage.Name = "ConfirmPage"
-        Me.ConfirmPage.Size = New System.Drawing.Size(189, 17)
-        Me.ConfirmPage.TabIndex = 3
-        Me.ConfirmPage.Text = "Confirm reversion of ignored pages"
-        Me.ConfirmPage.UseVisualStyleBackColor = True
-        '
         'ConfigForm
         '
         Me.AcceptButton = Me.OK
@@ -1505,4 +1530,9 @@ Partial Class ConfigForm
     Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents ShowTwoQueues As System.Windows.Forms.CheckBox
     Friend WithEvents ConfirmPage As System.Windows.Forms.CheckBox
+    Friend WithEvents UseCustom As System.Windows.Forms.CheckBox
+    Friend WithEvents BackgroundWorker1 As System.ComponentModel.BackgroundWorker
+    Friend WithEvents BackgroundWorker2 As System.ComponentModel.BackgroundWorker
+    Friend WithEvents BackgroundWorker3 As System.ComponentModel.BackgroundWorker
+    Friend WithEvents btImport As System.Windows.Forms.Button
 End Class
