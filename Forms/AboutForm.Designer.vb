@@ -35,6 +35,7 @@ Partial Class AboutForm
         Me.Contributor6 = New System.Windows.Forms.LinkLabel
         Me.Logo = New System.Windows.Forms.PictureBox
         Me.Contributors = New System.Windows.Forms.TableLayoutPanel
+        Me.Contributor8 = New System.Windows.Forms.LinkLabel
         CType(Me.Logo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Contributors.SuspendLayout()
         Me.SuspendLayout()
@@ -42,7 +43,7 @@ Partial Class AboutForm
         'OK
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.OK.Location = New System.Drawing.Point(213, 264)
+        Me.OK.Location = New System.Drawing.Point(213, 278)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
         Me.OK.TabIndex = 4
@@ -51,11 +52,11 @@ Partial Class AboutForm
         '
         'Disclaimer
         '
-        Me.Disclaimer.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.Disclaimer.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Disclaimer.LinkArea = New System.Windows.Forms.LinkArea(142, 22)
         Me.Disclaimer.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline
-        Me.Disclaimer.Location = New System.Drawing.Point(12, 172)
+        Me.Disclaimer.Location = New System.Drawing.Point(12, 179)
         Me.Disclaimer.Name = "Disclaimer"
         Me.Disclaimer.Size = New System.Drawing.Size(276, 51)
         Me.Disclaimer.TabIndex = 2
@@ -68,14 +69,13 @@ Partial Class AboutForm
         '
         'Icons
         '
-        Me.Icons.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.Icons.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Icons.LinkArea = New System.Windows.Forms.LinkArea(84, 11)
         Me.Icons.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline
-        Me.Icons.Location = New System.Drawing.Point(12, 225)
+        Me.Icons.Location = New System.Drawing.Point(12, 233)
         Me.Icons.Name = "Icons"
-        Me.Icons.Size = New System.Drawing.Size(276, 36)
+        Me.Icons.Size = New System.Drawing.Size(276, 42)
         Me.Icons.TabIndex = 3
         Me.Icons.TabStop = True
         Me.Icons.Text = "Contains images available under the terms of the GNU Lesser General Public Licens" & _
@@ -109,7 +109,7 @@ Partial Class AboutForm
         '
         Me.Contributor7.AutoSize = True
         Me.Contributor7.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline
-        Me.Contributor7.Location = New System.Drawing.Point(98, 43)
+        Me.Contributor7.Location = New System.Drawing.Point(98, 63)
         Me.Contributor7.Margin = New System.Windows.Forms.Padding(3)
         Me.Contributor7.Name = "Contributor7"
         Me.Contributor7.Size = New System.Drawing.Size(52, 13)
@@ -174,7 +174,7 @@ Partial Class AboutForm
         '
         Me.Contributor6.AutoSize = True
         Me.Contributor6.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline
-        Me.Contributor6.Location = New System.Drawing.Point(98, 23)
+        Me.Contributor6.Location = New System.Drawing.Point(98, 43)
         Me.Contributor6.Margin = New System.Windows.Forms.Padding(3)
         Me.Contributor6.Name = "Contributor6"
         Me.Contributor6.Size = New System.Drawing.Size(38, 13)
@@ -208,8 +208,9 @@ Partial Class AboutForm
         Me.Contributors.Controls.Add(Me.Contributor3, 0, 2)
         Me.Contributors.Controls.Add(Me.Contributor4, 0, 3)
         Me.Contributors.Controls.Add(Me.Contributor5, 1, 0)
-        Me.Contributors.Controls.Add(Me.Contributor7, 1, 2)
-        Me.Contributors.Controls.Add(Me.Contributor6, 1, 1)
+        Me.Contributors.Controls.Add(Me.Contributor8, 1, 1)
+        Me.Contributors.Controls.Add(Me.Contributor7, 1, 3)
+        Me.Contributors.Controls.Add(Me.Contributor6, 1, 2)
         Me.Contributors.Location = New System.Drawing.Point(98, 87)
         Me.Contributors.Name = "Contributors"
         Me.Contributors.RowCount = 4
@@ -220,11 +221,24 @@ Partial Class AboutForm
         Me.Contributors.Size = New System.Drawing.Size(190, 80)
         Me.Contributors.TabIndex = 1
         '
+        'Contributor8
+        '
+        Me.Contributor8.AutoSize = True
+        Me.Contributor8.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline
+        Me.Contributor8.Location = New System.Drawing.Point(98, 23)
+        Me.Contributor8.Margin = New System.Windows.Forms.Padding(3)
+        Me.Contributor8.Name = "Contributor8"
+        Me.Contributor8.Size = New System.Drawing.Size(32, 13)
+        Me.Contributor8.TabIndex = 16
+        Me.Contributor8.TabStop = True
+        Me.Contributor8.Tag = "http://en.wikipedia.org/wiki/User:Petrb"
+        Me.Contributor8.Text = "Petrb"
+        '
         'AboutForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(300, 299)
+        Me.ClientSize = New System.Drawing.Size(300, 313)
         Me.Controls.Add(Me.Contributors)
         Me.Controls.Add(Me.Logo)
         Me.Controls.Add(Me.ContributorsLabel)
@@ -259,4 +273,5 @@ Partial Class AboutForm
     Friend WithEvents Contributor2 As System.Windows.Forms.LinkLabel
     Friend WithEvents Logo As System.Windows.Forms.PictureBox
     Friend WithEvents Contributors As System.Windows.Forms.TableLayoutPanel
+    Friend WithEvents Contributor8 As System.Windows.Forms.LinkLabel
 End Class
