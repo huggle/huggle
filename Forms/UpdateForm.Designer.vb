@@ -88,7 +88,7 @@ Partial Class UpdateForm
         'Progress
         '
         Me.Progress.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Progress.Location = New System.Drawing.Point(213, 58)
+        Me.Progress.Location = New System.Drawing.Point(213, 57)
         Me.Progress.Name = "Progress"
         Me.Progress.Size = New System.Drawing.Size(127, 18)
         Me.Progress.TabIndex = 2

@@ -29,8 +29,13 @@ Class UpdateForm
 
     Private Sub Update_Click() Handles Download.Click
         Download.Enabled = False
-        OpenUrlInBrowser(CStr(Config.DownloadLocation))
-        Close()
+        Progress.Visible = True
+        Status.Text = Msg("update-progress")
+
+        Request = New UpdateRequest
+        Request.Filename = FileName
+        Request.ProgressBar = Progress
+        Request.Start(AddressOf UpdateDone)
     End Sub
 
     Private Sub UpdateDone(ByVal Result As RequestResult)
