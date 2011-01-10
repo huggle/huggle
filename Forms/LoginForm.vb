@@ -161,8 +161,6 @@ Class LoginForm
 
     Private Sub ShowProxySettings_Click() Handles ShowProxySettings.Click
         Height += 160
-
-
         ProxyGroup.Visible = True
         HideProxySettings.Visible = True
         ShowProxySettings.Visible = False
@@ -231,19 +229,4 @@ Class LoginForm
         If Progress.Value <= Progress.Maximum - 1 Then Progress.Value += 1
     End Sub
 
-    Private Sub ProxyPort_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ProxyPort.TextChanged
-
-    End Sub
-
-    Private Sub Translate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Translate.Click
-
-    End Sub
-
-    Private Sub LoginForm_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-
-    End Sub
-
-    Private Sub ShowProxySettings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowProxySettings.Click
-
-    End Sub
 End Class
