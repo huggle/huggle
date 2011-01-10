@@ -186,7 +186,7 @@ Class Configuration
     Public SpeedyMessageSummary As String = ""
     Public SpeedyMessageTitle As String = ""
     Public SpeedySummary As String = ""
-    Public StartupPage As String = "WP:HG2"
+    Public StartupPage As String = "WP:HG"
     Public Summary As String = ""
     Public Tags As New List(Of String)
     Public TagSummaries As New List(Of String)
