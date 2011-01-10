@@ -6,7 +6,7 @@ Class WebBrowser
     Inherits System.Windows.Forms.WebBrowser
 
     Private Shared TempFiles As New Dictionary(Of String, String)
-    Private Shared MD5 As System.Security.Cryptography.MD5 = MD5.Create
+    Private Shared MD5 As System.Security.Cryptography.MD5 = Security.Cryptography.MD5.Create
 
     Public Overloads Property DocumentText() As String
         Get
@@ -32,6 +32,10 @@ Class WebBrowser
         Navigate("file:///" & TempFiles(Hash))
     End Sub
 
+    Public Sub Cancel()
+        Me.Stop()
+    End Sub
+
     Public Shared Sub ClearTempFiles()
         For Each Item As String In TempFiles.Values
             If File.Exists(Item) Then File.Delete(Item)
@@ -39,5 +43,4 @@ Class WebBrowser
                 Then File.Delete(Path.GetFileNameWithoutExtension(Item))
         Next Item
     End Sub
-
 End Class
