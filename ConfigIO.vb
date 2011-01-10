@@ -184,7 +184,7 @@ Module ConfigIO
                 Case "vandal-report-reason" : Config.VandalReportReason = Value
                 Case "template-summ"
                     If Config.UseCSummaries = True Then
-                        Config.TemplateSummary = GetList(Value)
+                        Config.TemplateSummary = GetDictionary(Value)
                     End If
                 Case "pending-changes-supported" : Config.UsePending = CBool(Value)
                 Case "watch" : SetWatch(Value)
@@ -254,9 +254,7 @@ Module ConfigIO
                 Case "require-autconfirmed" : Config.RequireAutoconfirmed = CBool(Value)
                 Case "require-config" : Config.RequireConfig = CBool(Value)
                 Case "require-edits" : Config.RequireEdits = CInt(Value)
-                Case "template-summ"
-                    Config.TemplateSummary = GetList(Value)
-                    Config.GlobalSumm = GetList(Value)
+                Case "template-summ" : Config.TemplateSummary = GetDictionary(Value)
                 Case "agf" : Config.Agf.Add(Value)
                 Case "require-rollback" : Config.RequireRollback = CBool(Value)
                 Case "require-time" : Config.RequireTime = CInt(Value)

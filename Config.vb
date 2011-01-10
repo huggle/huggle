@@ -193,8 +193,8 @@ Class Configuration
     Public TemplateMessageSummary As String
     Public TemplateMessages As New List(Of String)
     Public TemplateMessagesGlobal As New List(Of String)
-    Public TemplateSummary As New List(Of String)
-    Public GlobalSumm As New List(Of String)
+    Public TemplateSummary As New Dictionary(Of String, String)
+    Public GlobalSumm As New Dictionary(Of String, String)
     Public TfdLocation As String = ""
     Public TranslateLocation As String = "http://meta.wikimedia.org/wiki/Huggle/Localization"
     Public TrayIcon As Boolean = True

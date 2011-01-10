@@ -657,81 +657,8 @@ Class Main
         Try
             Dim summ2 As String = "_"
             If Summary IsNot Nothing Then
-                Select Case Summary
-                    Case "delete"
-                        If Config.TemplateSummary(0) Is Nothing Then
-                            summ2 = "reverted edits by " & CurrentEdit.User.Name & ": removal of content with no explanation"
-                        Else
-                            summ2 = Config.TemplateSummary(0).Replace("$1", CurrentEdit.User.Name)
-                        End If
-                    Case "bio"
-                        If Config.TemplateSummary(1) Is Nothing Then
-                            summ2 = "reverted edits by " & CurrentEdit.User.Name & ""
-                        Else
-                            summ2 = Config.TemplateSummary(1).Replace("$1", CurrentEdit.User.Name)
-                        End If
-                    Case "unsor"
-                        If Config.TemplateSummary(2) Is Nothing Then
-                            summ2 = "reverted: [[WP:References|unsourced]] content"
-                        Else
-                            summ2 = Config.TemplateSummary(2).Replace("$1", CurrentEdit.User.Name)
-                        End If
-                    Case "spam"
-                        If Config.TemplateSummary(6) Is Nothing Then
-                            summ2 = "reverted edits by " & CurrentEdit.User.Name & ": Spam"
-                        Else
-                            summ2 = Config.TemplateSummary(6).Replace("$1", CurrentEdit.User.Name)
-                        End If
-                    Case "attack"
-                        If Config.TemplateSummary(9) Is Nothing Then
-                            summ2 = "reverted as attack on user"
-                        Else
-                            summ2 = Config.TemplateSummary(9).Replace("$1", CurrentEdit.User.Name)
-                        End If
-                    Case "blank"
-                        If Config.TemplateSummary(4) Is Nothing Then
-                            summ2 = "reverted edits by " & CurrentEdit.User.Name & ": unexplained blanking of the page"
-                        Else
-                            summ2 = Config.TemplateSummary(4).Replace("$1", CurrentEdit.User.Name)
-                        End If
-                    Case "warning"
-                        If Config.TemplateSummary(5) Is Nothing Then
-                            summ2 = "reverted edits by " & CurrentEdit.User.Name & ", identified as unconstructive"
-                        Else
-                            summ2 = Config.TemplateSummary(5).Replace("$1", CurrentEdit.User.Name)
-                        End If
-                    Case "test"
-                        If Config.TemplateSummary(7) Is Nothing Then
-                            summ2 = "[[WP:Sandbox|test edits]] or unconstructive modifications"
-                        Else
-                            summ2 = Config.TemplateSummary(7).Replace("$1", CurrentEdit.User.Name)
-                        End If
-                    Case "npov"
-                        If Config.TemplateSummary(8) Is Nothing Then
-                            summ2 = "reverted edits by " & CurrentEdit.User.Name & ": not adhering to neutral point of view"
-                        Else
-                            summ2 = Config.TemplateSummary(8).Replace("$1", CurrentEdit.User.Name)
-                        End If
-                    Case "speedy"
-                        If Config.TemplateSummary(10) Is Nothing Then
-                            summ2 = "reverted edits by " & CurrentEdit.User.Name & ""
-                        Else
-                            summ2 = Config.TemplateSummary(10).Replace("$1", CurrentEdit.User.Name)
-                        End If
-                    Case "afd"
-                        If Config.TemplateSummary(11) Is Nothing Then
-                            summ2 = "reverted edits by " & CurrentEdit.User.Name & ""
-                        Else
-                            summ2 = Config.TemplateSummary(11).Replace("$1", CurrentEdit.User.Name)
-                        End If
-                    Case "error"
-                        If Config.TemplateSummary(12) Is Nothing Then
-                            summ2 = "reverted edits by " & CurrentEdit.User.Name & ""
-                        Else
-                            summ2 = Config.TemplateSummary(12).Replace("$1", CurrentEdit.User.Name)
-                        End If
-                End Select
-                If summ2 IsNot "_" Then Summary = summ2
+                summ2 = Config.TemplateSummary(Summary).Replace("$1", CurrentEdit.User.Name)
+                If summ2 <> "_" Then Summary = summ2
             End If
             If CurrentEdit IsNot Nothing AndAlso CurrentEdit.Prev IsNot Nothing Then
 
