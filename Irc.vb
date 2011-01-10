@@ -95,8 +95,8 @@ Module Irc
         Connecting = True
         Log(Msg("irc-connecting"))
 
-        'Username in RC feed IRC channels is "h_" followed by random 6-digit number
-        Config.IrcUsername = "h_" & New Random(Date.UtcNow.Millisecond).NextDouble.ToString.Substring(2, 6)
+        'Username in RC feed IRC channels is "h1_" followed by random 6-digit number
+        Config.IrcUsername = "h1_" & New Random(Date.UtcNow.Millisecond).NextDouble.ToString.Substring(2, 6)
 
         Try
 
@@ -123,38 +123,41 @@ Module Irc
 
 
                     ElseIf Message.StartsWith(":" & Config.IrcServerName & " 001") AndAlso Not Connected Then
-                        ' :irc.pmtpa.wikimedia.org 001 Sidonuke :Welcome to the Wikimedia Internet Relay Chat Network Sidonuke
+                        ':irc.pmtpa.wikimedia.org 001 Sidonuke :Welcome to the Wikimedia Internet Relay Chat Network Sidonuke
                         Connected = True
                         Connecting = False
                         IrcLog(Msg("irc-connected"))
 
+                        'Elseif starts with "irc.pmtpa.wikimedia.org :No such channel"
                     ElseIf Message.StartsWith(Config.IrcServerName & " :No such channel") Then
-                        ' irc.pmtpa.wikimedia.org :No such channel
+                        'Log what has happened and disconnect from irc
                         IrcLog(Msg("irc-nochannel", Config.IrcChannel))
                         Config.IrcMode = False
                         Disconnecting = True
 
-                    ElseIf Message.StartsWith("PING ") Then
-                        'If its a ping request then pong it back
-                        Writer.WriteLine("PONG " & Message.Substring(5))
-                        Writer.Flush()
+                        'Elseif starts with a PING
+                        ElseIf Message.StartsWith("PING ") Then
+                            'Then send a PONG
+                            Writer.WriteLine("PONG " & Message.Substring(5))
+                            'And flush the writer
+                            Writer.Flush()
 
-                    ElseIf EditMatch.IsMatch(Message) Then
-                        'If the line hits the edit regex then...
-                        Dim NewEdit As New Edit
-                        Dim Match As Match = EditMatch.Match(Message)
+                        ElseIf EditMatch.IsMatch(Message) Then
+                            'If the line hits the edit regex then...
+                            Dim NewEdit As New Edit
+                            Dim Match As Match = EditMatch.Match(Message)
 
-                        NewEdit.Page = GetPage(Match.Groups(1).Value)
-                        NewEdit.User = GetUser(Match.Groups(6).Value)
-                        NewEdit.Bot = Not String.IsNullOrEmpty(Match.Groups(3).Value)
-                        NewEdit.Id = Match.Groups(4).Value
-                        NewEdit.Oldid = Match.Groups(5).Value
-                        NewEdit.Change = CInt(Match.Groups(7).Value)
-                        NewEdit.Summary = Match.Groups(8).Value
-                        If Config.SlowIRC = True Then
-                            Thread.Sleep(100)
-                        End If
-                        Callback(AddressOf ProcessIrcEdit, CObj(NewEdit))
+                            NewEdit.Page = GetPage(Match.Groups(1).Value)
+                            NewEdit.User = GetUser(Match.Groups(6).Value)
+                            NewEdit.Bot = Not String.IsNullOrEmpty(Match.Groups(3).Value)
+                            NewEdit.Id = Match.Groups(4).Value
+                            NewEdit.Oldid = Match.Groups(5).Value
+                            NewEdit.Change = CInt(Match.Groups(7).Value)
+                            NewEdit.Summary = Match.Groups(8).Value
+                            If Config.SlowIrc = True Then
+                                Thread.Sleep(100)
+                            End If
+                            Callback(AddressOf ProcessIrcEdit, CObj(NewEdit))
 
                         ElseIf NewPageMatch.Match(Message).Success Then
                             'If the line hits the new page regex then...
@@ -342,11 +345,11 @@ Module Irc
                         End If
 
                         If Disconnecting Then
-                        'To disconnect
-                        Connecting = False
-                        Reconnecting = False
-                        Disconnecting = False
-                        Reconnecting = False
+                            'To disconnect
+                            Connecting = False
+                            Reconnecting = False
+                            Disconnecting = False
+                            Reconnecting = False
                             Reader.Close()
                             Writer.Close()
                             Stream.Close()
@@ -355,8 +358,8 @@ Module Irc
 
                         ElseIf Reconnecting Then
                             'To reconnect
-                        Reconnecting = False
-                        Disconnecting = False
+                            Reconnecting = False
+                            Disconnecting = False
                             Reader.Close()
                             Writer.Close()
                             Stream.Close()
