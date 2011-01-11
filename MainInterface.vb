@@ -238,8 +238,8 @@ Partial Class Main
             SystemShowQueue.Checked = Config.ShowQueue
             SystemShowLog.Checked = Config.ShowLog
             UndoB.Enabled = (Undo.Count > 0)
-            UserBlock.Enabled = (Not CurrentUser.Ignored)
-            UserBlockB.Enabled = (Not CurrentUser.Ignored)
+            'UserBlock.Enabled = (Not CurrentUser.Ignored)
+            'UserBlockB.Enabled = (Not CurrentUser.Ignored)
             UserContribs.Enabled = ContribsB.Enabled
             UserEmail.Enabled = (Not CurrentUser.Anonymous)
             UserIgnore.Enabled = True
@@ -348,7 +348,7 @@ Partial Class Main
                 If UserReportB.Enabled AndAlso UserReportB.Visible Then UserReportVandalism_Click()
 
             Case Is = ShortcutKeys("Block user")
-                If UserBlockB.Enabled AndAlso UserBlockB.Visible Then UserBlockB_Click()
+                If UserBlockB.Enabled AndAlso UserBlockB.Visible Then UserBlock_Click()
 
             Case Is = ShortcutKeys("Latest contribution")
                 If ContribsLastB.Enabled Then ContribsLast_Click()

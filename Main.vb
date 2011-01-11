@@ -10,6 +10,7 @@ Class Main
     Public DisableControl As Boolean = True
     Public ControlLock As Integer = 5
     Public WatchP As Thread
+    Public HistorySelectionStart As Integer
     'Timer is enabled when a key is pressed and prevents both MainForm.Main.KeyDown and
     'BrowserTab.Browser.PreviewKeyDown being raised at the same time, which sometimes happens depending on 
     'what is currently focused in the browser and what was last focused outside it
@@ -145,10 +146,6 @@ Class Main
 
             QueueArea2.Draw(SecondQueue, QueueScroll2.Value)
         End If
-    End Sub
-
-    Private Sub Main_GiveFeedback(ByVal sender As Object, ByVal e As System.Windows.Forms.GiveFeedbackEventArgs) Handles Me.GiveFeedback
-
     End Sub
 
     Private Sub Main_ResizeShown() Handles Me.Resize, Me.Shown
@@ -323,8 +320,6 @@ Class Main
         If CurrentPage IsNot Nothing AndAlso CurrentPage.FirstEdit IsNot Nothing _
         Then DisplayEdit(CurrentPage.FirstEdit)
     End Sub
-
-    Public HistorySelectionStart As Integer
 
     Private Sub History_MouseDown(ByVal s As Object, ByVal e As MouseEventArgs) Handles History.MouseDown
         If CurrentEdit IsNot Nothing Then
@@ -1596,6 +1591,7 @@ Class Main
         Watchlist.Clear()
         Whitelist.Clear()
         Request.ClearCookies()
+        CleanSettings()
 
         Dim NewLoginForm As New LoginForm
         NewLoginForm.Show()

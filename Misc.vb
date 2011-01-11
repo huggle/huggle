@@ -119,6 +119,32 @@ Module Misc
         Public NoAutoSummary As Boolean
     End Class
 
+    Sub CleanSettings()
+        'Clean
+        Config.RevertSummary = ""
+        Config.RequireRollback = False
+        Config.RevertSummaries.Clear()
+        Config.RequireTime = 0
+        Config.RequireRev = False
+        Config.RevisionR = False
+        Config.BlockMessage = ""
+        Config.RevisionAccess = False
+        Config.RightAlignQueue = False
+        Config.ShowNewEdits = False
+        Config.ShowNewMessages = False
+        Config.ShowQueue = False
+        Config.ShowToolTips = False
+        Config.ShowTwoQueues = False
+        Config.Sight = False
+        Config.SingleRevertSummary = ""
+        Config.SlowIrc = False
+        Config.SockReportLocation = ""
+        Config.SockReports = False
+        Config.RightPending = False
+        Config.RequireConfig = False
+        Config.UseAdminFunctions = False
+    End Sub
+
     Class HistoryItem
 
         Public Edit As Edit
