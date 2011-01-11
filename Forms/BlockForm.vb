@@ -59,6 +59,10 @@ Class BlockForm
     End Sub
 
     Private Sub BlockForm_FormClosing() Handles Me.FormClosing
+        If MainForm IsNot Nothing Then
+            MainForm.UserBlockB.Enabled = True
+            MainForm.UserBlock.Enabled = True
+        End If
         If DialogResult <> DialogResult.OK Then DialogResult = DialogResult.Cancel
     End Sub
 

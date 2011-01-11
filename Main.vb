@@ -47,6 +47,7 @@ Class Main
         WatchP = New Thread(AddressOf Control)
         WatchP.Priority = Threading.ThreadPriority.Highest
         DisableControl = False
+        UserBlockB.Enabled = True
         WatchP.Start()
         Configure()
     End Sub
@@ -1641,10 +1642,6 @@ Class Main
         NewForm.Show()
     End Sub
 
-    Private Sub UserBlockB_Click() Handles UserBlockB.Click
-        If CurrentUser IsNot Nothing Then BlockUser(CurrentUser)
-    End Sub
-
     Public Sub StartRevert()
         RevertB.Enabled = False
         RevertWarnB.Enabled = False
@@ -1770,7 +1767,7 @@ Class Main
         End If
     End Sub
 
-    Private Sub UserBlock_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UserBlock.Click, UserBlockB.Click
+    Private Sub UserBlock_Click() Handles UserBlock.Click, UserBlockB.Click
         Dim Form As New BlockForm()
         Form.User = CurrentUser
         Form.Show()
