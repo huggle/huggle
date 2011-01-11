@@ -62,13 +62,13 @@ Namespace Requests
             Dim PostString As String = "user=" & UrlEncode(User.Name) & _
                 "&reason=" & UrlEncode(Summary) & "&expiry=" & UrlEncode(Expiry) & "&token=" & UrlEncode(Token)
 
-            If BlockCreation Then PostString &= "&nocreate=1"
-            If BlockEmail Then PostString &= "&noemail=1"
-            If Autoblock Then PostString &= "&autoblock=1"
-            If AnonOnly Then PostString &= "&anononly=1"
+            If BlockCreation Then PostString &= "&nocreate"
+            If BlockEmail Then PostString &= "&noemail"
+            If Autoblock Then PostString &= "&autoblock"
+            If AnonOnly Then PostString &= "&anononly"
 
             'API defaults to NOT allowing user to edit talk page, even though this is usually not what is wanted
-            If BlockTalkEdit = False Then PostString &= "&allowusertalk=1"
+            If BlockTalkEdit = False Then PostString &= "&allowusertalk"
 
             Result = DoApiRequest("action=block", PostString)
 

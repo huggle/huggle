@@ -1769,4 +1769,22 @@ Class Main
             DoRevert(CurrentEdit, Config.Agf(0) & " " & summ.Value.Text, , , CurrentOnly:=True)
         End If
     End Sub
+
+    Private Sub UserBlock_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UserBlock.Click, UserBlockB.Click
+        Dim Form As New BlockForm()
+        Form.User = CurrentUser
+        Form.Show()
+    End Sub
+
+    Private Sub QueueArea_Paint(ByVal sender As System.Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles QueueArea.Paint
+
+    End Sub
+
+    Private Sub HistoryContribs_MouseLeave(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles History.MouseLeave, Contribs.MouseLeave
+
+    End Sub
+
+    Private Sub Status_ItemActivate(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Status.ItemActivate
+
+    End Sub
 End Class
