@@ -11,7 +11,8 @@ Namespace Requests
 
         'Block a user
         Public User As User, Summary, Expiry, NotifyTemplate As String
-        Public AnonOnly, Autoblock, BlockEmail, BlockCreation, BlockTalkEdit, Notify As Boolean
+        Public AnonOnly, Autoblock, BlockEmail, BlockCreation, Notify As Boolean
+        Public BlockTalkEdit As Boolean = False
 
         Protected Overrides Sub Process()
             LogProgress(Msg("block-progress", User.Name))
@@ -67,7 +68,7 @@ Namespace Requests
             If AnonOnly Then PostString &= "&anononly=1"
 
             'API defaults to NOT allowing user to edit talk page, even though this is usually not what is wanted
-            If Not BlockTalkEdit Then PostString &= "&allowusertalk=1"
+            If BlockTalkEdit = False Then PostString &= "&allowusertalk=1"
 
             Result = DoApiRequest("action=block", PostString)
 
