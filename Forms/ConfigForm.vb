@@ -394,8 +394,8 @@ Class ConfigForm
 
     Private Sub btImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btImport.Click
         Config.TemplateSummary.Clear()
-        For Each data As String In Config.GlobalSumm
-            Config.TemplateSummary.Add(data)
-        Next data
+        'For Each data As String In Config.GlobalSumm
+        'Config.TemplateSummary.Add(data)
+        'Next data
     End Sub
 End Class
