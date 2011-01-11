@@ -37,8 +37,10 @@ Class LoginForm
         ProxyAddress.Text = Config.ProxyServer
         ProxyDomain.Text = Config.ProxyUserDomain
         ProxyUsername.Text = Config.ProxyUsername
+        'Get the current version number for use
         Text = "Huggle " & VersionString(Config.Version)
 
+        'If the config is set to remember the user then get the user and password from the config
         If Config.RememberMe Then Username.Text = Config.Username
         If Config.RememberPassword Then Password.Text = Config.Password
 
@@ -54,8 +56,10 @@ Class LoginForm
     End Sub
 
     Private Sub OK_Click() Handles OK.Click
+        'We are now logging in
         LoggingIn = True
 
+        'Update the config with details entered
         Config.ProxyEnabled = Proxy.Checked
         Config.ProxyPort = ProxyPort.Text
         Config.ProxyServer = ProxyAddress.Text.Replace("http://", "")
@@ -94,8 +98,10 @@ Class LoginForm
     End Sub
 
     Private Sub HideProxySettings_Click() Handles HideProxySettings.Click
+        'Resize the form
         Height -= 160
 
+        'Hide the proxy section and swap the buttons
         ProxyGroup.Visible = False
         HideProxySettings.Visible = False
         ShowProxySettings.Visible = True
@@ -127,27 +133,34 @@ Class LoginForm
 
     Private Sub Username_TextChanged() Handles Username.TextChanged
         Config.Username = User.SanitizeName(Username.Text)
+        'Check if the users can login
         Canlogin()
     End Sub
 
     Private Sub Password_TextChanged() Handles Password.TextChanged
+        'Check if the users can login
         Canlogin()
     End Sub
 
     Private Sub Proxy_TextChanged() Handles Proxy.TextChanged
+        'Check if the users can login
         Canlogin()
     End Sub
 
     Private Sub ProxyPort_TextChanged() Handles ProxyPort.TextChanged
+        'Check if the users can login
         Canlogin()
     End Sub
     Private Sub ProxyDomain_TextChanged() Handles ProxyDomain.TextChanged
+        'Check if the users can login
         Canlogin()
     End Sub
     Private Sub ProxyUsername_TextChanged() Handles ProxyUsername.TextChanged
+        'Check if the users can login
         Canlogin()
     End Sub
     Private Sub ProxyPassword_TextChanged() Handles ProxyPassword.TextChanged
+        'Check if the users can login
         Canlogin()
     End Sub
 
@@ -160,7 +173,9 @@ Class LoginForm
     End Sub
 
     Private Sub ShowProxySettings_Click() Handles ShowProxySettings.Click
+        'Resize the form
         Height += 160
+        'Show the proxy section and swap the buttons
         ProxyGroup.Visible = True
         HideProxySettings.Visible = True
         ShowProxySettings.Visible = False
@@ -168,6 +183,7 @@ Class LoginForm
     End Sub
 
     Private Sub Project_SelectedIndexChanged() Handles Project.SelectedIndexChanged
+        'Update the project in the config
         Config.Project = Project.Text
     End Sub
 
@@ -177,7 +193,8 @@ Class LoginForm
         Next Item
     End Sub
 
-    Private Sub Translate_Click() Handles Translate.Click
+    Private Sub Translate_Click() Handles Translate.Click#
+        'Load the translate page in a web browser
         OpenUrlInBrowser(Config.TranslateLocation)
     End Sub
 
@@ -221,6 +238,7 @@ Class LoginForm
         MainForm = New Main
         MainForm.Show()
         MainForm.Initialize()
+        'Hide the login form
         Hide()
     End Sub
 
