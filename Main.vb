@@ -657,31 +657,36 @@ Class Main
         Try
             Dim summ2 As String = "_"
             If Summary IsNot Nothing Then
-                summ2 = Config.TemplateSummary(Summary).Replace("$1", CurrentEdit.User.Name)
+                If Config.TemplateSummary.ContainsKey(Summary) Then
+                    summ2 = Config.TemplateSummary(Summary).Replace("$1", CurrentEdit.User.Name)
+                Else
+                    summ2 = Config.DefaultSummary
+                End If
+
                 If summ2 <> "_" Then Summary = summ2
             End If
-            If CurrentEdit IsNot Nothing AndAlso CurrentEdit.Prev IsNot Nothing Then
+                If CurrentEdit IsNot Nothing AndAlso CurrentEdit.Prev IsNot Nothing Then
 
-                'Get confirmation if needed
-                If Config.ConfirmMultiple AndAlso CurrentEdit.User IsNot Nothing _
-                    AndAlso CurrentEdit.User Is CurrentEdit.Prev.User _
-                    AndAlso MessageBox.Show("This will revert multiple edits by '" & CurrentEdit.User.Name & "'. Continue?", _
-                    "Huggle", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.No Then Exit Sub
-                If DoRevert(CurrentEdit, Summary, CurrentOnly:=CurrentOnly) Then
-                    'Be sure not to warn twice for the same edit
-                    Dim i As Integer = 0
-                    While i < PendingWarnings.Count - 1
-                        If PendingWarnings(i).Page Is CurrentEdit.Page Then PendingWarnings.RemoveAt(i) Else i += 1
-                    End While
+                    'Get confirmation if needed
+                    If Config.ConfirmMultiple AndAlso CurrentEdit.User IsNot Nothing _
+                        AndAlso CurrentEdit.User Is CurrentEdit.Prev.User _
+                        AndAlso MessageBox.Show("This will revert multiple edits by '" & CurrentEdit.User.Name & "'. Continue?", _
+                        "Huggle", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.No Then Exit Sub
+                    If DoRevert(CurrentEdit, Summary, CurrentOnly:=CurrentOnly) Then
+                        'Be sure not to warn twice for the same edit
+                        Dim i As Integer = 0
+                        While i < PendingWarnings.Count - 1
+                            If PendingWarnings(i).Page Is CurrentEdit.Page Then PendingWarnings.RemoveAt(i) Else i += 1
+                        End While
 
-                    If Level <> UserLevel.None Then CurrentEdit.LevelToWarn = Level
-                    CurrentEdit.TypeToWarn = WarnType
-                    PendingWarnings.Add(CurrentEdit)
+                        If Level <> UserLevel.None Then CurrentEdit.LevelToWarn = Level
+                        CurrentEdit.TypeToWarn = WarnType
+                        PendingWarnings.Add(CurrentEdit)
 
-                    'If AutoAdvance is turned on in the config then Show the next edit
-                    If Config.AutoAdvance Then ShowNextEdit()
+                        'If AutoAdvance is turned on in the config then Show the next edit
+                        If Config.AutoAdvance Then ShowNextEdit()
+                    End If
                 End If
-            End If
         Catch ex As Exception
         End Try
     End Sub

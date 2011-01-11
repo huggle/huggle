@@ -57,6 +57,7 @@ Class ConfigForm
         ConfirmPage.Checked = Config.ConfirmPage
         AutoAdvance.Checked = Config.AutoAdvance
         UseRollback.Checked = Config.UseRollback
+        btImport.Enabled = False
 
         For Each Item As KeyValuePair(Of String, Boolean) In Config.Minor
             Minor.Items.Add(Msg("edittype-" & Item.Key), Item.Value)
