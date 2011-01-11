@@ -252,7 +252,7 @@ Namespace Requests
             Items.Add("show-log:" & CStr(Config.ShowLog).ToLower)
             Items.Add("show-new-edits:" & CStr(Config.ShowNewEdits).ToLower)
             Items.Add("show-queue:" & CStr(Config.ShowQueue).ToLower)
-            Items.Add("template-summ:" & LF & "    " & String.Join("," & LF & "  ", Config.TemplateSummary.ToArray))
+            'Items.Add("template-summ:" & LF & "    " & String.Join("," & LF & "  ", Config.TemplateSummary.ToArray))
             Items.Add("show-tool-tips:" & CStr(Config.ShowToolTips).ToLower)
 
             Dim Templates As New List(Of String)
