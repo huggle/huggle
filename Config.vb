@@ -94,26 +94,26 @@ Class Configuration
     Public Delete As Boolean
     Public DiffFontSize As String = "8"
     Public DocsLocation As String = "http://en.wikipedia.org/wiki/Wikipedia:Huggle"
-    Public DownloadLocation As String = ""
+    Public DownloadLocation As String = "http://huggle.googlecode.com/files/huggle $1.exe"
     Public Email As Boolean
     Public EmailSubject As String
     Public Enabled As Boolean
-    Public EnabledForAll As Boolean
-    Public ExtendReports As Boolean
-    Public FeedbackLocation As String
+    Public EnabledForAll As Boolean = False
+    Public ExtendReports As Boolean = False
+    Public FeedbackLocation As String = ""
     Public GoToPages As New List(Of String)
     Public IconsLocation As String = "http://en.wikipedia.org/wiki/Wikipedia:Huggle/Icons"
-    Public IfdLocation As String
+    Public IfdLocation As String = ""
     Public IgnoredPages As New List(Of String)
-    Public Initialised As Boolean
-    Public IrcChannel As String
+    Public Initialised As Boolean = False
+    Public IrcChannel As String = ""
     Public IrcMode As Boolean
     Public IrcPort As Integer = 6667
-    Public IrcServer As String
-    Public IrcServerName As String
-    Public IrcUsername As String
+    Public IrcServer As String = ""
+    Public IrcServerName As String = ""
+    Public IrcUsername As String = ""
     Public LocalizatonPath As String = "Huggle/Localization/"
-    Public LogFile As String
+    Public LogFile As String = ""
     Public MaxReportLinks As Integer = 6
     Public MfdLocation As String
     Public Minor As New Dictionary(Of String, Boolean)
@@ -126,10 +126,10 @@ Class Configuration
     Public PageCreatedPattern As Regex
     Public PageRedirectedPattern As Regex
     Public PageReplacedPattern As Regex
-    Public Patrol As Boolean
-    Public PatrolSpeedy As Boolean
+    Public Patrol As Boolean = False
+    Public PatrolSpeedy As Boolean = False
     Public Preloads As Integer = 2
-    Public Prod As Boolean
+    Public Prod As Boolean = False
     Public ProdMessage As String
     Public ProdMessageSummary As String = ""
     Public ProdMessageTitle As String = ""
@@ -151,22 +151,22 @@ Class Configuration
     Public RcBlockSize As Integer = 100
     Public ReportExtendSummary As String
     Public ReportLinkDiffs As Boolean = True
-    Public ReportSummary As String
-    Public RequireAdmin As Boolean
-    Public RequireAutoconfirmed As Boolean
+    Public ReportSummary As String = ""
+    Public RequireAdmin As Boolean = False
+    Public RequireAutoconfirmed As Boolean = False
     Public RequireConfig As Boolean
-    Public RequireEdits As Integer
+    Public RequireEdits As Integer = 0
     Public RequireRev As Boolean = False
-    Public RequireRollback As Boolean
+    Public RequireRollback As Boolean = False
     Public RequireTime As Integer
     Public RevertPatterns As New List(Of Regex)
-    Public RevertSummary As String
+    Public RevertSummary As String = ""
     Public RevertSummaries As New List(Of String)
-    Public RfdLocation As String
-    Public RightAlignQueue As Boolean
+    Public RfdLocation As String = ""
+    Public RightAlignQueue As Boolean = False
     Public Rights As New List(Of String)
-    Public RollbackSummary As String
-    Public RightPending As Boolean
+    Public RollbackSummary As String = ""
+    Public RightPending As Boolean = False
     Public SaveConfig As Boolean = True
     Public SensitiveAddresses As New Dictionary(Of String, String)
     Public SharedIPTemplates As New List(Of String)
@@ -175,8 +175,8 @@ Class Configuration
     Public ShowNewMessages As Boolean = True
     Public ShowQueue As Boolean = True
     Public ShowToolTips As Boolean = True
-    Public ShowTwoQueues As Boolean
-    Public Sight As Boolean
+    Public ShowTwoQueues As Boolean = False
+    Public Sight As Boolean = False
     Public SingleRevertSummary As String
     Public SockReports As Boolean
     Public SockReportLocation As String
@@ -186,7 +186,7 @@ Class Configuration
     Public SpeedyMessageSummary As String = ""
     Public SpeedyMessageTitle As String = ""
     Public SpeedySummary As String = ""
-    Public StartupPage As String = "WP:HG"
+    Public StartupPage As String = "WP:Hg"
     Public Summary As String = ""
     Public Tags As New List(Of String)
     Public TagSummaries As New List(Of String)
@@ -202,7 +202,6 @@ Class Configuration
     Public TRRLocation As String = ""
     Public UAA As Boolean = False
     Public UAALocation As String = ""
-
     Public UAABotLocation As String = ""
     Public UndoSummary As String
     Public UpdateWhitelist As Boolean = False

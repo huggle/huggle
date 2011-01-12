@@ -1222,6 +1222,8 @@ Module Processing
         Try
             If Tab Is Nothing Then Tab = CurrentTab
 
+            MainForm.BrowserOpen.Enabled = True
+
             If Edit IsNot Nothing AndAlso Edit.Page IsNot Nothing Then
 
                 'Add edit to browsing history
@@ -1274,7 +1276,6 @@ Module Processing
                                 Tab.Browser.DocumentText = DocumentText
 
                             Catch ex As System.Runtime.InteropServices.COMException
-                                Debug.WriteLine("serv")
                                 'If an attempt is made to set the DocumentText property while it is 
                                 'still being  set from a previous call, it seems to throw a COMException
                                 'just swallow it for now

@@ -65,7 +65,7 @@ Namespace Requests
             If BlockCreation Then PostString &= "&nocreate=true"
             If BlockEmail Then PostString &= "&noemail=true"
             If Autoblock Then PostString &= "&autoblock=true"
-            If AnonOnly Then PostString &= "&anononly"
+            If AnonOnly Then PostString &= "&anononly=true"
 
             'API defaults to NOT allowing user to edit talk page, even though this is usually not what is wanted
             If BlockTalkEdit = False Then PostString &= "&allowusertalk=true"
