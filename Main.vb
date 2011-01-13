@@ -7,6 +7,7 @@ Class Main
 
     Public Reverting, DisplayingEdit As Boolean
     Private LoggingOut As Boolean
+    Public Shortcuts As Boolean = False
     Public DisableControl As Boolean = True
     Public ControlLock As Integer = 5
     Public WatchP As Thread
@@ -19,7 +20,7 @@ Class Main
     Public Sub Initialize()
         Icon = My.Resources.huggle_icon
         TrayIcon.Icon = My.Resources.huggle_icon
-        KeyDelayTimer.Interval = 10
+        KeyDelayTimer.Interval = 100
         ScrollTimer.Interval = 1000 \ Config.HistoryScrollSpeed
         'Temporary bugfix
         If Config.RollbackSummary IsNot Nothing Then _
@@ -1112,6 +1113,7 @@ Class Main
                 End If
             End If
         End If
+        Shortcuts = False
         ControlLock = 10
     End Sub
 
@@ -1714,11 +1716,10 @@ Class Main
     Sub Control()
         While (DisableControl <> True)
             Thread.Sleep(500)
-            Debug.Write("0")
             If ControlLock < 1 Then
+                ControlLock = 1
                 Debug.WriteLine("error")
                 CurrentTab.Browser.Cancel()
-                CurrentTab.Browser.Update()
             End If
             ControlLock = ControlLock - 1
         End While

@@ -121,6 +121,7 @@ Module Misc
 
     Sub CleanSettings()
         'Clean
+
         Config.RevertSummary = ""
         Config.RequireRollback = False
         Config.RevertSummaries.Clear()

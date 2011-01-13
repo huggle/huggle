@@ -29,7 +29,7 @@ Class Configuration
 
     'Values only used at runtime
 
-    Public ConfigChanged As Boolean
+    Public ConfigChanged As Boolean = False
     Public ConfigVersion As New Version(0, 0, 0)
     Public DefaultLanguage As String = "en"
     Public Languages As New List(Of String)
@@ -56,14 +56,14 @@ Class Configuration
 
     'Values changeable through global / project / user config pages
 
-    Public AfdLocation As String
-    Public AIV As Boolean
-    Public AIVBotLocation As String
-    Public AIVLocation As String
+    Public AfdLocation As String = ""
+    Public AIV As Boolean = False
+    Public AIVBotLocation As String = ""
+    Public AIVLocation As String = ""
     Public AivSingleNote As String
-    Public Approval As Boolean
+    Public Approval As Boolean = False
     Public AssistedSummaries As New List(Of String)
-    Public AutoAdvance As Boolean
+    Public AutoAdvance As Boolean = False
     Public AutoReport As Boolean = True
     Public AutoWarn As Boolean = True
     Public AutoWhitelist As Boolean = True
@@ -88,10 +88,10 @@ Class Configuration
     Public ConfirmWarned As Boolean = True
     Public CountBatchSize As Integer = 20
     Public CustomRevertSummaries As New List(Of String)
-    Public DefaultQueue As String
+    Public DefaultQueue As String = ""
     Public DefaultQueue2 As String
     Public DefaultSummary As String = ""
-    Public Delete As Boolean
+    Public Delete As Boolean = False
     Public DiffFontSize As String = "8"
     Public DocsLocation As String = "http://en.wikipedia.org/wiki/Wikipedia:Huggle"
     Public DownloadLocation As String = "http://huggle.googlecode.com/files/huggle $1.exe"
@@ -107,7 +107,7 @@ Class Configuration
     Public IgnoredPages As New List(Of String)
     Public Initialised As Boolean = False
     Public IrcChannel As String = ""
-    Public IrcMode As Boolean
+    Public IrcMode As Boolean = False
     Public IrcPort As Integer = 6667
     Public IrcServer As String = ""
     Public IrcServerName As String = ""
@@ -115,11 +115,11 @@ Class Configuration
     Public LocalizatonPath As String = "Huggle/Localization/"
     Public LogFile As String = ""
     Public MaxReportLinks As Integer = 6
-    Public MfdLocation As String
+    Public MfdLocation As String = ""
     Public Minor As New Dictionary(Of String, Boolean)
     Public MinVersion As Version
     Public MinWarningWait As Integer = 10
-    Public MonthHeadings As Boolean
+    Public MonthHeadings As Boolean = False
     Public MultipleRevertSummaryParts As List(Of String)
     Public OpenInBrowser As Boolean
     Public PageBlankedPattern As Regex
@@ -186,7 +186,7 @@ Class Configuration
     Public SpeedyMessageSummary As String = ""
     Public SpeedyMessageTitle As String = ""
     Public SpeedySummary As String = ""
-    Public StartupPage As String = "WP:Hg"
+    Public StartupPage As String = "Project:HG"
     Public Summary As String = ""
     Public Tags As New List(Of String)
     Public TagSummaries As New List(Of String)
