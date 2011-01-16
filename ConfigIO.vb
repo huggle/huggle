@@ -194,6 +194,9 @@ Module ConfigIO
                 Case "warn-summary-2" : Config.WarnSummary2 = Value
                 Case "warn-summary-3" : Config.WarnSummary3 = Value
                 Case "warn-summary-4" : Config.WarnSummary4 = Value
+                Case "welcome-user" : Config.WelcomeEnabled = True
+                Case "welcomes-user" : Config.WelcomeUse = CBool(Value)
+                Case "welcome-messages" : Config.WelcomesList = GetDictionary(Value)
 
                 Case Else
                     If Config.WarningTypes.ContainsKey(Regex.Match(Name, "(.*)(1|2|3|4|4im)").Groups(1).Value) _

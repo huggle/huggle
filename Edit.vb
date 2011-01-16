@@ -13,20 +13,20 @@ Class Edit
         Size = -1
     End Sub
 
-    Public Assisted As Boolean
-    Public Bot As Boolean
-    Public Change As Integer
-    Public ChangedContent As String
-    Public Deleted As Boolean
-    Public Diff As String
+    Public Assisted As Boolean = False
+    Public Bot As Boolean = False
+    Public Change As Integer = 0
+    Public ChangedContent As String = ""
+    Public Deleted As Boolean = False
+    Public Diff As String = ""
     Public DiffCacheState As CacheState
     Public Id As String 'rev
     Public LevelToWarn As UserLevel
-    Public Multiple As Boolean
-    Public NewPage As Boolean
+    Public Multiple As Boolean = False
+    Public NewPage As Boolean = False
     Public [Next] As Edit
     Public NextByUser As Edit
-    Public Oldid As String
+    Public Oldid As String = ""
     Public Page As Page
     Public Prev As Edit
     Public PrevByUser As Edit

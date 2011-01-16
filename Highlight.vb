@@ -336,7 +336,7 @@ Module Highlight
                 End While
 
                 Close = 0
-                If Break >= Misc.GlExcess Then Log("Debug interrupted at Higlight.HighlightThread()")
+                If Break >= Misc.GlExcess Then Log("Debug interrupted at HiglightThread")
                 'reset counter
                 Break = 0
 
@@ -363,7 +363,7 @@ Module Highlight
                     Source.Insert(Close, "}")
                 End While
 
-                If Break >= Misc.GlExcess Then Log("Debug interrupted at Higlight.HighlightThread()")
+                If Break >= Misc.GlExcess Then Log("Debug interrupted at HiglightThread")
 
 
                 Break = 0

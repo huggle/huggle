@@ -35,7 +35,7 @@ Module Misc
     Public WhitelistAutoChanges As New List(Of String)
     Public WhitelistLoaded As Boolean
     Public WhitelistManualChanges As New List(Of String)
-    Public GlExcess As Integer = 20000
+    Public GlExcess As Integer = 2000
 
     Public Delegate Sub Action()
     Public Delegate Sub CallbackDelegate(ByVal Success As Boolean)
@@ -44,6 +44,7 @@ Module Misc
     Public ReadOnly LF As Char = Convert.ToChar(10)
     Public ReadOnly CR As Char = Convert.ToChar(13)
     Public ReadOnly CRLF As String = Convert.ToChar(13) & Convert.ToChar(10)
+    Public monthname As String() = {"", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"}
 
     Public Property CurrentEdit() As Edit
         Get
@@ -144,6 +145,7 @@ Module Misc
         Config.RightPending = False
         Config.RequireConfig = False
         Config.UseAdminFunctions = False
+        Config.UsePending = False
     End Sub
 
     Class HistoryItem
@@ -336,21 +338,7 @@ Module Misc
 
     Function GetMonthName(ByVal Number As Integer) As String
 
-        Select Case Number
-            Case 1 : Return "January"
-            Case 2 : Return "February"
-            Case 3 : Return "March"
-            Case 4 : Return "April"
-            Case 5 : Return "May"
-            Case 6 : Return "June"
-            Case 7 : Return "July"
-            Case 8 : Return "August"
-            Case 9 : Return "September"
-            Case 10 : Return "October"
-            Case 11 : Return "November"
-            Case 12 : Return "December"
-            Case Else : Return ""
-        End Select
+        Return Misc.MonthName(Number)
 
     End Function
 

@@ -45,7 +45,7 @@ Class Main
             Log(Item)
         Next Item
 
-        RevertB.DropDownItems.Add(Msg("agf"))
+
         WatchP = New Thread(AddressOf Control)
         WatchP.Priority = Threading.ThreadPriority.Highest
         DisableControl = False
@@ -81,6 +81,21 @@ Class Main
 
         HistoryScrollLB.Enabled = EnableScroll
         If CurrentPage.FirstEdit Is Nothing Then HistoryB.Enabled = True
+    End Sub
+
+    Sub WelcomeItem_Click(ByVal sender As Object, ByVal e As System.EventArgs)
+        Dim ThisI As ToolStripItem = CType(sender, ToolStripItem)
+        If Config.WelcomesList.ContainsKey(ThisI.Text) And CurrentUser IsNot Nothing Then
+            Dim NewRequest As New UserMessageRequest
+            NewRequest.User = CurrentUser
+            NewRequest.AutoSign = False
+            NewRequest.Message = Config.WelcomesList.Item(ThisI.Text)
+            NewRequest.Summary = Config.WelcomeSummary
+            NewRequest.Minor = Config.Minor("note")
+            NewRequest.Watch = Config.Watch("note")
+            NewRequest.AvoidText = "<!-- Template:Welcome"
+            NewRequest.Start()
+        End If
     End Sub
 
     Sub DrawContribs()

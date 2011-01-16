@@ -199,6 +199,8 @@ Class Configuration
     Public TranslateLocation As String = "http://meta.wikimedia.org/wiki/Huggle/Localization"
     Public TrayIcon As Boolean = True
     Public TRR As Boolean = False
+    Public WelcomesList As New Dictionary(Of String, String)
+    Public WelcomeEnabled As Boolean = False
     Public TRRLocation As String = ""
     Public UAA As Boolean = False
     Public UAALocation As String = ""
@@ -237,9 +239,12 @@ Class Configuration
     Public XfdMessageSummary As String = ""
     Public XfdMessageTitle As String = ""
     Public XfdSummary As String = ""
+    Public WriteUser As Boolean = False
     Public RevisionAccess As Boolean = False
     Public RevisionR As Boolean = False
 
+    Public WelcomeUse As Boolean = False
+    Public WelcomeString As New Dictionary(Of String, String)
     Public WarnSummary As String = ""
     Public WarnSummary2 As String = ""
     Public WarnSummary3 As String = ""

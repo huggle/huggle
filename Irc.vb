@@ -17,7 +17,6 @@ Module Irc
         Disconnecting = False
         IrcThread = New Thread(AddressOf IrcProcess)
         IrcThread.IsBackground = True
-        'Name it as irc
         IrcThread.Name = "irc"
         IrcThread.Start()
     End Sub

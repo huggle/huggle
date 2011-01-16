@@ -31,6 +31,7 @@ Partial Class Main
         UserBlockB.Visible = (Config.UseAdminFunctions AndAlso Config.Rights.Contains("block") AndAlso Config.Block)
         UserEmail.Visible = Config.Email
         UserMessageWelcome.Visible = (Config.Welcome IsNot Nothing)
+
         UserReport.Visible = Config.AIV OrElse Config.UAA OrElse Config.TRR OrElse Config.SockReports
         UserReportB.Visible = Config.AIV OrElse Config.UAA OrElse Config.TRR OrElse Config.SockReports
 
@@ -96,6 +97,16 @@ Partial Class Main
                 TemplateMenu.Items.Insert(2, NewItem)
             End If
         Next Item
+
+        If Config.WelcomeUse = True Then
+            For Each x As KeyValuePair(Of String, String) In Config.WelcomesList
+                Dim NewX As New ToolStripMenuItem
+                NewX.Text = x.Key
+                NewX.Tag = x.Key
+                AddHandler NewX.Click, AddressOf WelcomeItem_Click
+                TemplateMenu.Items.Insert(2, NewX)
+            Next
+        End If
 
         'Add pages to 'go to' menu
         GoSeparator.Visible = (Config.GoToPages.Count > 0)
@@ -319,6 +330,7 @@ Partial Class Main
         If UserB.Focused OrElse PageB.Focused OrElse e.Modifiers = Keys.Alt OrElse KeyDelayTimer.Enabled Then Exit Sub
 
         KeyDelayTimer.Start()
+        KeyDelayTimer.Enabled = True
 
         Dim Shortcut As New Shortcut(e.KeyCode, e.Control, e.Alt, e.Shift)
 
