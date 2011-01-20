@@ -22,18 +22,18 @@ Partial Class StatsForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container
-        Me.OK = New System.Windows.Forms.Button
-        Me.ActionsLabel = New System.Windows.Forms.Label
+        Me.components = New System.ComponentModel.Container()
+        Me.OK = New System.Windows.Forms.Button()
+        Me.ActionsLabel = New System.Windows.Forms.Label()
         Me.StatsTimer = New System.Windows.Forms.Timer(Me.components)
-        Me.Actions = New Huggle.ListView2
-        Me.Session = New System.Windows.Forms.Label
+        Me.Session = New System.Windows.Forms.Label()
+        Me.Actions = New Huggle.ListView2()
         Me.SuspendLayout()
         '
         'OK
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.OK.Location = New System.Drawing.Point(537, 213)
+        Me.OK.Location = New System.Drawing.Point(516, 250)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
         Me.OK.TabIndex = 3
@@ -54,6 +54,16 @@ Partial Class StatsForm
         Me.StatsTimer.Enabled = True
         Me.StatsTimer.Interval = 500
         '
+        'Session
+        '
+        Me.Session.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.Session.AutoSize = True
+        Me.Session.Location = New System.Drawing.Point(12, 255)
+        Me.Session.Name = "Session"
+        Me.Session.Size = New System.Drawing.Size(69, 13)
+        Me.Session.TabIndex = 2
+        Me.Session.Text = "Session time:"
+        '
         'Actions
         '
         Me.Actions.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
@@ -65,25 +75,16 @@ Partial Class StatsForm
         Me.Actions.Location = New System.Drawing.Point(12, 25)
         Me.Actions.MultiSelect = False
         Me.Actions.Name = "Actions"
-        Me.Actions.Size = New System.Drawing.Size(600, 182)
+        Me.Actions.Size = New System.Drawing.Size(579, 219)
         Me.Actions.TabIndex = 1
         Me.Actions.UseCompatibleStateImageBehavior = False
         Me.Actions.View = System.Windows.Forms.View.Details
-        '
-        'Session
-        '
-        Me.Session.AutoSize = True
-        Me.Session.Location = New System.Drawing.Point(12, 218)
-        Me.Session.Name = "Session"
-        Me.Session.Size = New System.Drawing.Size(69, 13)
-        Me.Session.TabIndex = 2
-        Me.Session.Text = "Session time:"
         '
         'StatsForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(624, 248)
+        Me.ClientSize = New System.Drawing.Size(603, 285)
         Me.Controls.Add(Me.Session)
         Me.Controls.Add(Me.Actions)
         Me.Controls.Add(Me.ActionsLabel)
