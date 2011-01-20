@@ -102,6 +102,7 @@ Partial Class ConfigForm
         Me.Templates = New System.Windows.Forms.ListView()
         Me.DisplayColumn = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.TemplateColumn = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.Col3 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.EditorTab = New System.Windows.Forms.TabPage()
         Me.HighlightGroup = New System.Windows.Forms.GroupBox()
         Me.EditorParameterCallLabel = New System.Windows.Forms.Label()
@@ -991,7 +992,7 @@ Partial Class ConfigForm
         Me.Templates.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Templates.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.DisplayColumn, Me.TemplateColumn})
+        Me.Templates.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.DisplayColumn, Me.TemplateColumn, Me.Col3})
         Me.Templates.FullRowSelect = True
         Me.Templates.GridLines = True
         Me.Templates.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
@@ -1005,12 +1006,17 @@ Partial Class ConfigForm
         'DisplayColumn
         '
         Me.DisplayColumn.Text = "Display text"
-        Me.DisplayColumn.Width = 250
+        Me.DisplayColumn.Width = 280
         '
         'TemplateColumn
         '
         Me.TemplateColumn.Text = "Template"
-        Me.TemplateColumn.Width = 207
+        Me.TemplateColumn.Width = 322
+        '
+        'Col3
+        '
+        Me.Col3.Text = "Summary for revert"
+        Me.Col3.Width = 270
         '
         'EditorTab
         '
@@ -1535,4 +1541,5 @@ Partial Class ConfigForm
     Friend WithEvents BackgroundWorker2 As System.ComponentModel.BackgroundWorker
     Friend WithEvents BackgroundWorker3 As System.ComponentModel.BackgroundWorker
     Friend WithEvents btImport As System.Windows.Forms.Button
+    Friend WithEvents Col3 As System.Windows.Forms.ColumnHeader
 End Class

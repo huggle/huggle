@@ -1734,7 +1734,7 @@ Class Main
             If ControlLock < 1 Then
                 ControlLock = 1
                 Debug.WriteLine("error")
-                CurrentTab.Browser.Cancel()
+                'CurrentTab.Browser.Cancel()
             End If
             ControlLock = ControlLock - 1
         End While

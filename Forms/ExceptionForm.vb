@@ -7,8 +7,9 @@
         Text = "Bug report"
         ContinueButton.Text = Msg("continue")
         ExitButton.Text = Msg("exit")
-
-        Details.Text = Exception.GetType.Name & ": " & Exception.Message & CRLF & Exception.StackTrace
+        If Exception IsNot Nothing Then
+            Details.Text = Exception.GetType.Name & ": " & Exception.Message & CRLF & Exception.StackTrace
+        End If
         ContinueButton.Focus()
     End Sub
 

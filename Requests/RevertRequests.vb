@@ -156,7 +156,7 @@ Namespace Requests
         Protected Overrides Sub Process()
             LogProgress(Msg("revert-progress", Edit.Page.Name))
 
-            If Summary Is Nothing Then Summary = Config.RollbackSummary
+            If Summary Is Nothing Or Summary = "" Then Summary = Config.RollbackSummary
             If Config.Summary IsNot Nothing Then Summary &= " " & Config.Summary
 
             Dim QueryString As String = "action=rollback&title=" & UrlEncode(Edit.Page.Name) & _

@@ -22,26 +22,26 @@ Partial Class RequestsForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container()
-        Me.CancelledLabel = New System.Windows.Forms.Label()
-        Me.CancelledColour = New System.Windows.Forms.Label()
-        Me.FailedLabel = New System.Windows.Forms.Label()
-        Me.FailedColour = New System.Windows.Forms.Label()
-        Me.InProgressLabel = New System.Windows.Forms.Label()
-        Me.InProgressColour = New System.Windows.Forms.Label()
-        Me.CompletedLabel = New System.Windows.Forms.Label()
-        Me.CompletedColour = New System.Windows.Forms.Label()
-        Me.CancelAll = New System.Windows.Forms.Button()
-        Me.OK = New System.Windows.Forms.Button()
-        Me.Clear = New System.Windows.Forms.Button()
+        Me.components = New System.ComponentModel.Container
+        Me.CancelledLabel = New System.Windows.Forms.Label
+        Me.Label2 = New System.Windows.Forms.Label
+        Me.FailedLabel = New System.Windows.Forms.Label
+        Me.Label4 = New System.Windows.Forms.Label
+        Me.InProgressLabel = New System.Windows.Forms.Label
+        Me.Label6 = New System.Windows.Forms.Label
+        Me.CompletedLabel = New System.Windows.Forms.Label
+        Me.Label8 = New System.Windows.Forms.Label
+        Me.CancelAll = New System.Windows.Forms.Button
+        Me.OK = New System.Windows.Forms.Button
+        Me.Clear = New System.Windows.Forms.Button
         Me.ListMenu = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.CopyListItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.CancelItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.List = New Huggle.ListView2()
-        Me.DateColumn = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.TypeColumn = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.ActionColumn = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.QueryColumn = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.CopyListItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.CancelItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.List = New Huggle.ListView2
+        Me.DateColumn = New System.Windows.Forms.ColumnHeader
+        Me.TypeColumn = New System.Windows.Forms.ColumnHeader
+        Me.ActionColumn = New System.Windows.Forms.ColumnHeader
+        Me.QueryColumn = New System.Windows.Forms.ColumnHeader
         Me.ListMenu.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -55,16 +55,16 @@ Partial Class RequestsForm
         Me.CancelledLabel.TabIndex = 2
         Me.CancelledLabel.Text = "Cancelled"
         '
-        'CancelledColour
+        'Label2
         '
-        Me.CancelledColour.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.CancelledColour.BackColor = System.Drawing.Color.DarkGray
-        Me.CancelledColour.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.CancelledColour.Location = New System.Drawing.Point(12, 340)
-        Me.CancelledColour.Name = "CancelledColour"
-        Me.CancelledColour.Size = New System.Drawing.Size(14, 14)
-        Me.CancelledColour.TabIndex = 1
-        Me.CancelledColour.Text = "   "
+        Me.Label2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.Label2.BackColor = System.Drawing.Color.DarkGray
+        Me.Label2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.Label2.Location = New System.Drawing.Point(12, 340)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(14, 14)
+        Me.Label2.TabIndex = 1
+        Me.Label2.Text = "   "
         '
         'FailedLabel
         '
@@ -76,16 +76,16 @@ Partial Class RequestsForm
         Me.FailedLabel.TabIndex = 4
         Me.FailedLabel.Text = "Failed"
         '
-        'FailedColour
+        'Label4
         '
-        Me.FailedColour.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.FailedColour.BackColor = System.Drawing.Color.LightCoral
-        Me.FailedColour.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.FailedColour.Location = New System.Drawing.Point(108, 340)
-        Me.FailedColour.Name = "FailedColour"
-        Me.FailedColour.Size = New System.Drawing.Size(14, 14)
-        Me.FailedColour.TabIndex = 3
-        Me.FailedColour.Text = "   "
+        Me.Label4.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.Label4.BackColor = System.Drawing.Color.LightCoral
+        Me.Label4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.Label4.Location = New System.Drawing.Point(108, 340)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(14, 14)
+        Me.Label4.TabIndex = 3
+        Me.Label4.Text = "   "
         '
         'InProgressLabel
         '
@@ -97,16 +97,16 @@ Partial Class RequestsForm
         Me.InProgressLabel.TabIndex = 6
         Me.InProgressLabel.Text = "In progress"
         '
-        'InProgressColour
+        'Label6
         '
-        Me.InProgressColour.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.InProgressColour.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.InProgressColour.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.InProgressColour.Location = New System.Drawing.Point(184, 340)
-        Me.InProgressColour.Name = "InProgressColour"
-        Me.InProgressColour.Size = New System.Drawing.Size(14, 14)
-        Me.InProgressColour.TabIndex = 5
-        Me.InProgressColour.Text = "   "
+        Me.Label6.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.Label6.BackColor = System.Drawing.Color.LightSteelBlue
+        Me.Label6.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.Label6.Location = New System.Drawing.Point(184, 340)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(14, 14)
+        Me.Label6.TabIndex = 5
+        Me.Label6.Text = "   "
         '
         'CompletedLabel
         '
@@ -118,16 +118,16 @@ Partial Class RequestsForm
         Me.CompletedLabel.TabIndex = 8
         Me.CompletedLabel.Text = "Completed"
         '
-        'CompletedColour
+        'Label8
         '
-        Me.CompletedColour.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.CompletedColour.BackColor = System.Drawing.Color.White
-        Me.CompletedColour.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.CompletedColour.Location = New System.Drawing.Point(281, 340)
-        Me.CompletedColour.Name = "CompletedColour"
-        Me.CompletedColour.Size = New System.Drawing.Size(14, 14)
-        Me.CompletedColour.TabIndex = 7
-        Me.CompletedColour.Text = "   "
+        Me.Label8.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.Label8.BackColor = System.Drawing.Color.White
+        Me.Label8.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.Label8.Location = New System.Drawing.Point(281, 340)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(14, 14)
+        Me.Label8.TabIndex = 7
+        Me.Label8.Text = "   "
         '
         'CancelAll
         '
@@ -224,17 +224,17 @@ Partial Class RequestsForm
         Me.Controls.Add(Me.OK)
         Me.Controls.Add(Me.Clear)
         Me.Controls.Add(Me.CancelAll)
-        Me.Controls.Add(Me.CompletedColour)
+        Me.Controls.Add(Me.Label8)
         Me.Controls.Add(Me.CompletedLabel)
-        Me.Controls.Add(Me.InProgressColour)
+        Me.Controls.Add(Me.Label6)
         Me.Controls.Add(Me.InProgressLabel)
-        Me.Controls.Add(Me.FailedColour)
+        Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.FailedLabel)
-        Me.Controls.Add(Me.CancelledColour)
+        Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.CancelledLabel)
         Me.Controls.Add(Me.List)
         Me.KeyPreview = True
-        Me.MinimumSize = New System.Drawing.Size(623, 38)
+        Me.MinimumSize = New System.Drawing.Size(623, 34)
         Me.Name = "RequestsForm"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Requests"
@@ -249,13 +249,13 @@ Partial Class RequestsForm
     Friend WithEvents ActionColumn As System.Windows.Forms.ColumnHeader
     Friend WithEvents QueryColumn As System.Windows.Forms.ColumnHeader
     Friend WithEvents CancelledLabel As System.Windows.Forms.Label
-    Friend WithEvents CancelledColour As System.Windows.Forms.Label
+    Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents FailedLabel As System.Windows.Forms.Label
-    Friend WithEvents FailedColour As System.Windows.Forms.Label
+    Friend WithEvents Label4 As System.Windows.Forms.Label
     Friend WithEvents InProgressLabel As System.Windows.Forms.Label
-    Friend WithEvents InProgressColour As System.Windows.Forms.Label
+    Friend WithEvents Label6 As System.Windows.Forms.Label
     Friend WithEvents CompletedLabel As System.Windows.Forms.Label
-    Friend WithEvents CompletedColour As System.Windows.Forms.Label
+    Friend WithEvents Label8 As System.Windows.Forms.Label
     Friend WithEvents CancelAll As System.Windows.Forms.Button
     Friend WithEvents OK As System.Windows.Forms.Button
     Friend WithEvents Clear As System.Windows.Forms.Button

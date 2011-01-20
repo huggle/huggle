@@ -385,14 +385,16 @@ Namespace Requests
                         Token = EditToken
                     End If
 
-                    If EditToken.Length < 16 Then
-                        'Logged out somehow, logging back in
-                        Token = Nothing
-                        EditToken = Nothing
-                        LogProgress(Msg("error-loggedout"))
+                    If EditToken IsNot Nothing Then
+                        If EditToken.Length < 16 Then
+                            'Logged out somehow, logging back in
+                            Token = Nothing
+                            EditToken = Nothing
+                            LogProgress(Msg("error-loggedout"))
 
-                        If DoLogin() <> LoginResult.Success _
-                            Then Return New ApiResult(Nothing, "", Msg("error-reloginfail"))
+                            If DoLogin() <> LoginResult.Success _
+                                Then Return New ApiResult(Nothing, "", Msg("error-reloginfail"))
+                        End If
                     End If
                 Loop Until Token IsNot Nothing And BreakA < Misc.GlExcess
 

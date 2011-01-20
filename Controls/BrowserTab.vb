@@ -66,7 +66,7 @@ Class BrowserTab
         BackMenu.Items.Clear()
         ForwardMenu.Items.Clear()
 
-        For i As Integer = HistoryIndex + 1 To Math.Min(History.Count - 1, HistoryIndex + 11)
+        For i As Integer = HistoryIndex + 1 To Math.Min(History.Count - 1, HistoryIndex + 11) Step +1
             BackMenu.Items.Add(GetMenuItem(History(i)))
         Next i
 

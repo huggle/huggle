@@ -191,7 +191,8 @@ Namespace Requests
                 Fail(Msg("reqprotection-fail", Page.Name), Msg("reqprotection-badformat"))
                 Exit Sub
             End If
-
+            'temp
+            
             If Result.Text.Contains("|" & Page.Name & "}}") Then
                 Fail(Msg("reqprotection-fail", Page.Name), Msg("reqprotection-alreadyrequested"))
                 Exit Sub

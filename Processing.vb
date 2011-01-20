@@ -10,6 +10,7 @@ Module Processing
         & "tamp=""([^""]*)""( comment=""([^""]*)"")? />", RegexOptions.Compiled)
 
     Sub ProcessEdit(ByVal Edit As Edit)
+        On Error Resume Next
         If Edit Is Nothing Then Exit Sub
 
         If Edit.Time = Date.MinValue Then Edit.Time = Date.SpecifyKind(Date.UtcNow, DateTimeKind.Utc)
@@ -30,7 +31,7 @@ Module Processing
             MainForm.BrowserOpenB.Enabled = True
         End If
         'Assisted summaries
-        If Config.Summary IsNot Nothing AndAlso Edit.Summary.EndsWith(Config.Summary) Then Edit.Assisted = True
+        If Config.Summary <> "" AndAlso Edit.Summary.EndsWith(Config.Summary) Then Edit.Assisted = True
 
         For Each Item As String In Config.AssistedSummaries
             If Edit.Summary.Contains(Item) Then
