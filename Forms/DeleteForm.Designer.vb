@@ -22,16 +22,15 @@ Partial Class DeleteForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.Cancel = New System.Windows.Forms.Button()
-        Me.OK = New System.Windows.Forms.Button()
-        Me.ReasonLabel = New System.Windows.Forms.Label()
-        Me.Reason = New System.Windows.Forms.ComboBox()
-        Me.DeletionLogLabel = New System.Windows.Forms.Label()
-        Me.DeletionLog = New Huggle.PageLog()
-        Me.Throbber = New Huggle.Throbber()
-        Me.Progress = New System.Windows.Forms.Label()
-        Me.Notify = New System.Windows.Forms.CheckBox()
-        Me.CheckTalk = New System.Windows.Forms.CheckBox()
+        Me.Cancel = New System.Windows.Forms.Button
+        Me.OK = New System.Windows.Forms.Button
+        Me.ReasonLabel = New System.Windows.Forms.Label
+        Me.Reason = New System.Windows.Forms.ComboBox
+        Me.DeletionLogLabel = New System.Windows.Forms.Label
+        Me.DeletionLog = New Huggle.PageLog
+        Me.Throbber = New Huggle.Throbber
+        Me.Progress = New System.Windows.Forms.Label
+        Me.Notify = New System.Windows.Forms.CheckBox
         Me.SuspendLayout()
         '
         'Cancel
@@ -128,21 +127,11 @@ Partial Class DeleteForm
         Me.Notify.Text = "Notify creator"
         Me.Notify.UseVisualStyleBackColor = True
         '
-        'CheckTalk
-        '
-        Me.CheckTalk.AutoSize = True
-        Me.CheckTalk.Location = New System.Drawing.Point(190, 59)
-        Me.CheckTalk.Name = "CheckTalk"
-        Me.CheckTalk.Size = New System.Drawing.Size(15, 14)
-        Me.CheckTalk.TabIndex = 9
-        Me.CheckTalk.UseVisualStyleBackColor = True
-        '
         'DeleteForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(486, 246)
-        Me.Controls.Add(Me.CheckTalk)
         Me.Controls.Add(Me.Notify)
         Me.Controls.Add(Me.Progress)
         Me.Controls.Add(Me.Throbber)
@@ -172,5 +161,4 @@ Partial Class DeleteForm
     Friend WithEvents Throbber As Huggle.Throbber
     Friend WithEvents Progress As System.Windows.Forms.Label
     Friend WithEvents Notify As System.Windows.Forms.CheckBox
-    Friend WithEvents CheckTalk As System.Windows.Forms.CheckBox
 End Class

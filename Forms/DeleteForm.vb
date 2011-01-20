@@ -103,10 +103,6 @@ Class DeleteForm
 
         NewDeleteRequest.Start()
 
-        Dim TalkPage As Huggle.Page
-        TalkPage = Page
-        Dim TalkPageDeleteRe As New DeleteLogRequest
-
         Close()
     End Sub
 

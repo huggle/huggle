@@ -22,10 +22,10 @@ Partial Class ExceptionForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.Label1 = New System.Windows.Forms.Label()
-        Me.Details = New System.Windows.Forms.TextBox()
-        Me.ExitButton = New System.Windows.Forms.Button()
-        Me.ContinueButton = New System.Windows.Forms.Button()
+        Me.Label1 = New System.Windows.Forms.Label
+        Me.Details = New System.Windows.Forms.TextBox
+        Me.ExitButton = New System.Windows.Forms.Button
+        Me.ContinueButton = New System.Windows.Forms.Button
         Me.SuspendLayout()
         '
         'Label1
@@ -36,15 +36,14 @@ Partial Class ExceptionForm
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(470, 32)
         Me.Label1.TabIndex = 0
-        Me.Label1.Text = "Huggle 2 has encountered an error, and may need to close." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "If reporting this erro" & _
-            "r, please include the following information:"
+        Me.Label1.Text = "Huggle has encountered an error, and may need to close." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "If reporting this error," & _
+            " please include the following information:"
         '
         'Details
         '
         Me.Details.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Details.BackColor = System.Drawing.SystemColors.ControlLightLight
         Me.Details.Location = New System.Drawing.Point(12, 44)
         Me.Details.Multiline = True
         Me.Details.Name = "Details"
@@ -87,6 +86,7 @@ Partial Class ExceptionForm
         Me.MinimizeBox = False
         Me.Name = "ExceptionForm"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
+        Me.Text = "Error"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

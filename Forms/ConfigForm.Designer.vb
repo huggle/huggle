@@ -22,126 +22,120 @@ Partial Class ConfigForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.Cancel = New System.Windows.Forms.Button()
-        Me.OK = New System.Windows.Forms.Button()
-        Me.Tabs = New System.Windows.Forms.TabControl()
-        Me.GeneralTab = New System.Windows.Forms.TabPage()
-        Me.RememberPassword = New System.Windows.Forms.CheckBox()
-        Me.RememberMe = New System.Windows.Forms.CheckBox()
-        Me.DiffFontSize = New System.Windows.Forms.NumericUpDown()
-        Me.PreloadCount = New System.Windows.Forms.NumericUpDown()
-        Me.IrcMode = New System.Windows.Forms.CheckBox()
-        Me.LogFileBrowse = New System.Windows.Forms.Button()
-        Me.LogFile = New System.Windows.Forms.TextBox()
-        Me.LogFileLabel = New System.Windows.Forms.Label()
-        Me.OpenInBrowser = New System.Windows.Forms.CheckBox()
-        Me.PreloadLabel = New System.Windows.Forms.Label()
-        Me.PortLabel = New System.Windows.Forms.Label()
-        Me.FontsizeLabel = New System.Windows.Forms.Label()
-        Me.DiffFontSizeLabel = New System.Windows.Forms.Label()
-        Me.ShowNewEdits = New System.Windows.Forms.CheckBox()
-        Me.Preloads = New System.Windows.Forms.CheckBox()
-        Me.IrcPortLabel = New System.Windows.Forms.Label()
-        Me.IrcPort = New System.Windows.Forms.TextBox()
-        Me.AutoWhitelist = New System.Windows.Forms.CheckBox()
-        Me.InterfaceTab = New System.Windows.Forms.TabPage()
-        Me.RightAlignQueue = New System.Windows.Forms.CheckBox()
-        Me.ShowTwoQueues = New System.Windows.Forms.CheckBox()
-        Me.ShowQueue = New System.Windows.Forms.CheckBox()
-        Me.ShowLog = New System.Windows.Forms.CheckBox()
-        Me.ShowNewMessages = New System.Windows.Forms.CheckBox()
-        Me.ShowToolTips = New System.Windows.Forms.CheckBox()
-        Me.TrayIcon = New System.Windows.Forms.CheckBox()
-        Me.KeyboardTab = New System.Windows.Forms.TabPage()
-        Me.Defaults = New System.Windows.Forms.Button()
-        Me.NoShortcut = New System.Windows.Forms.Button()
-        Me.ChangeShortcut = New System.Windows.Forms.TextBox()
-        Me.ChangeShortcutLabel = New System.Windows.Forms.Label()
-        Me.ShortcutListLabel = New System.Windows.Forms.Label()
-        Me.ShortcutList = New System.Windows.Forms.ListView()
-        Me.ActionColumn = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.ShortcutColumn = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.EditingTab = New System.Windows.Forms.TabPage()
-        Me.UndoSummary = New System.Windows.Forms.TextBox()
-        Me.UndoSummaryLabel = New System.Windows.Forms.Label()
-        Me.DefaultSummary = New System.Windows.Forms.TextBox()
-        Me.DefaultSummaryLabel = New System.Windows.Forms.Label()
-        Me.WatchlistLabel = New System.Windows.Forms.Label()
-        Me.MinorLabel = New System.Windows.Forms.Label()
-        Me.Watchlist = New System.Windows.Forms.CheckedListBox()
-        Me.Minor = New System.Windows.Forms.CheckedListBox()
-        Me.RevertTab = New System.Windows.Forms.TabPage()
-        Me.ConfirmPage = New System.Windows.Forms.CheckBox()
-        Me.ConfirmWarned = New System.Windows.Forms.CheckBox()
-        Me.ClearSummaries = New System.Windows.Forms.Button()
-        Me.ClearSummariesLabel = New System.Windows.Forms.Label()
-        Me.ConfirmSelfRevert = New System.Windows.Forms.CheckBox()
-        Me.AddSummary = New System.Windows.Forms.Button()
-        Me.RemoveSummary = New System.Windows.Forms.Button()
-        Me.RevertSummariesLabel = New System.Windows.Forms.Label()
-        Me.RevertSummaries = New System.Windows.Forms.ListBox()
-        Me.UseRollback = New System.Windows.Forms.CheckBox()
-        Me.AutoAdvance = New System.Windows.Forms.CheckBox()
-        Me.ConfirmSame = New System.Windows.Forms.CheckBox()
-        Me.ConfirmMultiple = New System.Windows.Forms.CheckBox()
-        Me.ConfirmRange = New System.Windows.Forms.CheckBox()
-        Me.ReportingTab = New System.Windows.Forms.TabPage()
-        Me.ExtendReports = New System.Windows.Forms.CheckBox()
-        Me.ReportLinkExamples = New System.Windows.Forms.CheckBox()
-        Me.AutoReportGroup = New System.Windows.Forms.GroupBox()
-        Me.ReportAuto = New System.Windows.Forms.RadioButton()
-        Me.AutoReportLabel = New System.Windows.Forms.Label()
-        Me.ReportNone = New System.Windows.Forms.RadioButton()
-        Me.ReportPrompt = New System.Windows.Forms.RadioButton()
-        Me.TemplatesTab = New System.Windows.Forms.TabPage()
-        Me.btImport = New System.Windows.Forms.Button()
-        Me.UseCustom = New System.Windows.Forms.CheckBox()
-        Me.AddTemplate = New System.Windows.Forms.Button()
-        Me.RemoveTemplate = New System.Windows.Forms.Button()
-        Me.TemplatesLabel = New System.Windows.Forms.Label()
-        Me.Templates = New System.Windows.Forms.ListView()
-        Me.DisplayColumn = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.TemplateColumn = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.Col3 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.EditorTab = New System.Windows.Forms.TabPage()
-        Me.HighlightGroup = New System.Windows.Forms.GroupBox()
-        Me.EditorParameterCallLabel = New System.Windows.Forms.Label()
-        Me.ColorParamCall = New System.Windows.Forms.Button()
-        Me.EditorHtmlLabel = New System.Windows.Forms.Label()
-        Me.ColorHtmlTag = New System.Windows.Forms.Button()
-        Me.EditorTemplateLabel = New System.Windows.Forms.Label()
-        Me.ColorTemplate = New System.Windows.Forms.Button()
-        Me.EditorParameterNameLabel = New System.Windows.Forms.Label()
-        Me.EditorExternalLabel = New System.Windows.Forms.Label()
-        Me.ColorParamName = New System.Windows.Forms.Button()
-        Me.ColorExternalLink = New System.Windows.Forms.Button()
-        Me.EditorTemplateParameterLabel = New System.Windows.Forms.Label()
-        Me.EditorMagicWordLabel = New System.Windows.Forms.Label()
-        Me.ColorParam = New System.Windows.Forms.Button()
-        Me.ColorMagicWord = New System.Windows.Forms.Button()
-        Me.EditorImageLabel = New System.Windows.Forms.Label()
-        Me.EditorLinkLabel = New System.Windows.Forms.Label()
-        Me.ColorImage = New System.Windows.Forms.Button()
-        Me.ColorLink = New System.Windows.Forms.Button()
-        Me.EditorReferenceLabel = New System.Windows.Forms.Label()
-        Me.ColorReference = New System.Windows.Forms.Button()
-        Me.EditorCommentLabel = New System.Windows.Forms.Label()
-        Me.ColorComment = New System.Windows.Forms.Button()
-        Me.AdminTab = New System.Windows.Forms.TabPage()
-        Me.WatchDelete = New System.Windows.Forms.CheckBox()
-        Me.BlockTime = New System.Windows.Forms.TextBox()
-        Me.BlockTimeRegLabel = New System.Windows.Forms.Label()
-        Me.BlockTimeAnonLabel = New System.Windows.Forms.Label()
-        Me.BlockTimeLabel = New System.Windows.Forms.Label()
-        Me.BlockTimeAnon = New System.Windows.Forms.TextBox()
-        Me.BlockReasonLabel = New System.Windows.Forms.Label()
-        Me.BlockReason = New System.Windows.Forms.TextBox()
-        Me.PromptForBlock = New System.Windows.Forms.CheckBox()
-        Me.UseAdminFunctions = New System.Windows.Forms.CheckBox()
-        Me.ViewLocalConfig = New System.Windows.Forms.LinkLabel()
-        Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
-        Me.BackgroundWorker2 = New System.ComponentModel.BackgroundWorker()
-        Me.BackgroundWorker3 = New System.ComponentModel.BackgroundWorker()
+        Me.Cancel = New System.Windows.Forms.Button
+        Me.OK = New System.Windows.Forms.Button
+        Me.Tabs = New System.Windows.Forms.TabControl
+        Me.GeneralTab = New System.Windows.Forms.TabPage
+        Me.RememberPassword = New System.Windows.Forms.CheckBox
+        Me.RememberMe = New System.Windows.Forms.CheckBox
+        Me.DiffFontSize = New System.Windows.Forms.NumericUpDown
+        Me.PreloadCount = New System.Windows.Forms.NumericUpDown
+        Me.IrcMode = New System.Windows.Forms.CheckBox
+        Me.LogFileBrowse = New System.Windows.Forms.Button
+        Me.LogFile = New System.Windows.Forms.TextBox
+        Me.LogFileLabel = New System.Windows.Forms.Label
+        Me.OpenInBrowser = New System.Windows.Forms.CheckBox
+        Me.Label2 = New System.Windows.Forms.Label
+        Me.Label1 = New System.Windows.Forms.Label
+        Me.Label14 = New System.Windows.Forms.Label
+        Me.DiffFontSizeLabel = New System.Windows.Forms.Label
+        Me.ShowNewEdits = New System.Windows.Forms.CheckBox
+        Me.Preloads = New System.Windows.Forms.CheckBox
+        Me.IrcPortLabel = New System.Windows.Forms.Label
+        Me.IrcPort = New System.Windows.Forms.TextBox
+        Me.AutoWhitelist = New System.Windows.Forms.CheckBox
+        Me.InterfaceTab = New System.Windows.Forms.TabPage
+        Me.RightAlignQueue = New System.Windows.Forms.CheckBox
+        Me.ShowTwoQueues = New System.Windows.Forms.CheckBox
+        Me.ShowQueue = New System.Windows.Forms.CheckBox
+        Me.ShowLog = New System.Windows.Forms.CheckBox
+        Me.ShowNewMessages = New System.Windows.Forms.CheckBox
+        Me.ShowToolTips = New System.Windows.Forms.CheckBox
+        Me.TrayIcon = New System.Windows.Forms.CheckBox
+        Me.KeyboardTab = New System.Windows.Forms.TabPage
+        Me.Defaults = New System.Windows.Forms.Button
+        Me.NoShortcut = New System.Windows.Forms.Button
+        Me.ChangeShortcut = New System.Windows.Forms.TextBox
+        Me.ChangeShortcutLabel = New System.Windows.Forms.Label
+        Me.ShortcutListLabel = New System.Windows.Forms.Label
+        Me.ShortcutList = New System.Windows.Forms.ListView
+        Me.ActionColumn = New System.Windows.Forms.ColumnHeader
+        Me.ShortcutColumn = New System.Windows.Forms.ColumnHeader
+        Me.EditingTab = New System.Windows.Forms.TabPage
+        Me.UndoSummary = New System.Windows.Forms.TextBox
+        Me.UndoSummaryLabel = New System.Windows.Forms.Label
+        Me.DefaultSummary = New System.Windows.Forms.TextBox
+        Me.DefaultSummaryLabel = New System.Windows.Forms.Label
+        Me.WatchlistLabel = New System.Windows.Forms.Label
+        Me.MinorLabel = New System.Windows.Forms.Label
+        Me.Watchlist = New System.Windows.Forms.CheckedListBox
+        Me.Minor = New System.Windows.Forms.CheckedListBox
+        Me.RevertTab = New System.Windows.Forms.TabPage
+        Me.ConfirmWarned = New System.Windows.Forms.CheckBox
+        Me.ClearSummaries = New System.Windows.Forms.Button
+        Me.ClearSummariesLabel = New System.Windows.Forms.Label
+        Me.ConfirmSelfRevert = New System.Windows.Forms.CheckBox
+        Me.AddSummary = New System.Windows.Forms.Button
+        Me.RemoveSummary = New System.Windows.Forms.Button
+        Me.RevertSummariesLabel = New System.Windows.Forms.Label
+        Me.RevertSummaries = New System.Windows.Forms.ListBox
+        Me.UseRollback = New System.Windows.Forms.CheckBox
+        Me.AutoAdvance = New System.Windows.Forms.CheckBox
+        Me.ConfirmSame = New System.Windows.Forms.CheckBox
+        Me.ConfirmMultiple = New System.Windows.Forms.CheckBox
+        Me.ConfirmRange = New System.Windows.Forms.CheckBox
+        Me.ReportingTab = New System.Windows.Forms.TabPage
+        Me.ExtendReports = New System.Windows.Forms.CheckBox
+        Me.ReportLinkExamples = New System.Windows.Forms.CheckBox
+        Me.AutoReportGroup = New System.Windows.Forms.GroupBox
+        Me.ReportAuto = New System.Windows.Forms.RadioButton
+        Me.AutoReportLabel = New System.Windows.Forms.Label
+        Me.ReportNone = New System.Windows.Forms.RadioButton
+        Me.ReportPrompt = New System.Windows.Forms.RadioButton
+        Me.TemplatesTab = New System.Windows.Forms.TabPage
+        Me.AddTemplate = New System.Windows.Forms.Button
+        Me.RemoveTemplate = New System.Windows.Forms.Button
+        Me.TemplatesLabel = New System.Windows.Forms.Label
+        Me.Templates = New System.Windows.Forms.ListView
+        Me.DisplayColumn = New System.Windows.Forms.ColumnHeader
+        Me.TemplateColumn = New System.Windows.Forms.ColumnHeader
+        Me.EditorTab = New System.Windows.Forms.TabPage
+        Me.HighlightGroup = New System.Windows.Forms.GroupBox
+        Me.Label26 = New System.Windows.Forms.Label
+        Me.ColorParamCall = New System.Windows.Forms.Button
+        Me.Label25 = New System.Windows.Forms.Label
+        Me.ColorHtmlTag = New System.Windows.Forms.Button
+        Me.Label24 = New System.Windows.Forms.Label
+        Me.ColorTemplate = New System.Windows.Forms.Button
+        Me.Label30 = New System.Windows.Forms.Label
+        Me.Label23 = New System.Windows.Forms.Label
+        Me.ColorParamName = New System.Windows.Forms.Button
+        Me.ColorExternalLink = New System.Windows.Forms.Button
+        Me.Label29 = New System.Windows.Forms.Label
+        Me.Label22 = New System.Windows.Forms.Label
+        Me.ColorParam = New System.Windows.Forms.Button
+        Me.ColorMagicWord = New System.Windows.Forms.Button
+        Me.Label28 = New System.Windows.Forms.Label
+        Me.Label21 = New System.Windows.Forms.Label
+        Me.ColorImage = New System.Windows.Forms.Button
+        Me.ColorLink = New System.Windows.Forms.Button
+        Me.Label27 = New System.Windows.Forms.Label
+        Me.ColorReference = New System.Windows.Forms.Button
+        Me.Label20 = New System.Windows.Forms.Label
+        Me.ColorComment = New System.Windows.Forms.Button
+        Me.AdminTab = New System.Windows.Forms.TabPage
+        Me.WatchDelete = New System.Windows.Forms.CheckBox
+        Me.BlockTime = New System.Windows.Forms.TextBox
+        Me.BlockTimeRegLabel = New System.Windows.Forms.Label
+        Me.BlockTimeAnonLabel = New System.Windows.Forms.Label
+        Me.BlockTimeLabel = New System.Windows.Forms.Label
+        Me.BlockTimeAnon = New System.Windows.Forms.TextBox
+        Me.BlockReasonLabel = New System.Windows.Forms.Label
+        Me.BlockReason = New System.Windows.Forms.TextBox
+        Me.PromptForBlock = New System.Windows.Forms.CheckBox
+        Me.UseAdminFunctions = New System.Windows.Forms.CheckBox
+        Me.ViewLocalConfig = New System.Windows.Forms.LinkLabel
+        Me.ConfirmPage = New System.Windows.Forms.CheckBox
         Me.Tabs.SuspendLayout()
         Me.GeneralTab.SuspendLayout()
         CType(Me.DiffFontSize, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -210,9 +204,9 @@ Partial Class ConfigForm
         Me.GeneralTab.Controls.Add(Me.LogFile)
         Me.GeneralTab.Controls.Add(Me.LogFileLabel)
         Me.GeneralTab.Controls.Add(Me.OpenInBrowser)
-        Me.GeneralTab.Controls.Add(Me.PreloadLabel)
-        Me.GeneralTab.Controls.Add(Me.PortLabel)
-        Me.GeneralTab.Controls.Add(Me.FontsizeLabel)
+        Me.GeneralTab.Controls.Add(Me.Label2)
+        Me.GeneralTab.Controls.Add(Me.Label1)
+        Me.GeneralTab.Controls.Add(Me.Label14)
         Me.GeneralTab.Controls.Add(Me.DiffFontSizeLabel)
         Me.GeneralTab.Controls.Add(Me.ShowNewEdits)
         Me.GeneralTab.Controls.Add(Me.Preloads)
@@ -315,32 +309,32 @@ Partial Class ConfigForm
         Me.OpenInBrowser.Text = "Open browser links in new browser window"
         Me.OpenInBrowser.UseVisualStyleBackColor = True
         '
-        'PreloadLabel
+        'Label2
         '
-        Me.PreloadLabel.AutoSize = True
-        Me.PreloadLabel.Location = New System.Drawing.Point(246, 130)
-        Me.PreloadLabel.Name = "PreloadLabel"
-        Me.PreloadLabel.Size = New System.Drawing.Size(34, 13)
-        Me.PreloadLabel.TabIndex = 7
-        Me.PreloadLabel.Text = "(1 - 5)"
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(246, 130)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(34, 13)
+        Me.Label2.TabIndex = 7
+        Me.Label2.Text = "(1 - 5)"
         '
-        'PortLabel
+        'Label1
         '
-        Me.PortLabel.AutoSize = True
-        Me.PortLabel.Location = New System.Drawing.Point(167, 185)
-        Me.PortLabel.Name = "PortLabel"
-        Me.PortLabel.Size = New System.Drawing.Size(70, 13)
-        Me.PortLabel.TabIndex = 11
-        Me.PortLabel.Text = "(6664 - 6669)"
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(167, 185)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(70, 13)
+        Me.Label1.TabIndex = 11
+        Me.Label1.Text = "(6664 - 6669)"
         '
-        'FontsizeLabel
+        'Label14
         '
-        Me.FontsizeLabel.AutoSize = True
-        Me.FontsizeLabel.Location = New System.Drawing.Point(167, 219)
-        Me.FontsizeLabel.Name = "FontsizeLabel"
-        Me.FontsizeLabel.Size = New System.Drawing.Size(16, 13)
-        Me.FontsizeLabel.TabIndex = 14
-        Me.FontsizeLabel.Text = "pt"
+        Me.Label14.AutoSize = True
+        Me.Label14.Location = New System.Drawing.Point(167, 219)
+        Me.Label14.Name = "Label14"
+        Me.Label14.Size = New System.Drawing.Size(16, 13)
+        Me.Label14.TabIndex = 14
+        Me.Label14.Text = "pt"
         '
         'DiffFontSizeLabel
         '
@@ -690,16 +684,6 @@ Partial Class ConfigForm
         Me.RevertTab.Text = "Reverting"
         Me.RevertTab.UseVisualStyleBackColor = True
         '
-        'ConfirmPage
-        '
-        Me.ConfirmPage.AutoSize = True
-        Me.ConfirmPage.Location = New System.Drawing.Point(9, 132)
-        Me.ConfirmPage.Name = "ConfirmPage"
-        Me.ConfirmPage.Size = New System.Drawing.Size(189, 17)
-        Me.ConfirmPage.TabIndex = 3
-        Me.ConfirmPage.Text = "Confirm reversion of ignored pages"
-        Me.ConfirmPage.UseVisualStyleBackColor = True
-        '
         'ConfirmWarned
         '
         Me.ConfirmWarned.AutoSize = True
@@ -925,8 +909,6 @@ Partial Class ConfigForm
         '
         'TemplatesTab
         '
-        Me.TemplatesTab.Controls.Add(Me.btImport)
-        Me.TemplatesTab.Controls.Add(Me.UseCustom)
         Me.TemplatesTab.Controls.Add(Me.AddTemplate)
         Me.TemplatesTab.Controls.Add(Me.RemoveTemplate)
         Me.TemplatesTab.Controls.Add(Me.TemplatesLabel)
@@ -934,28 +916,10 @@ Partial Class ConfigForm
         Me.TemplatesTab.Location = New System.Drawing.Point(4, 23)
         Me.TemplatesTab.Name = "TemplatesTab"
         Me.TemplatesTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.TemplatesTab.Size = New System.Drawing.Size(511, 332)
+        Me.TemplatesTab.Size = New System.Drawing.Size(511, 312)
         Me.TemplatesTab.TabIndex = 6
         Me.TemplatesTab.Text = "Templates"
         Me.TemplatesTab.UseVisualStyleBackColor = True
-        '
-        'btImport
-        '
-        Me.btImport.Location = New System.Drawing.Point(6, 299)
-        Me.btImport.Name = "btImport"
-        Me.btImport.Size = New System.Drawing.Size(146, 22)
-        Me.btImport.TabIndex = 5
-        Me.btImport.Text = "Get from global"
-        Me.btImport.UseVisualStyleBackColor = True
-        '
-        'UseCustom
-        '
-        Me.UseCustom.AutoSize = True
-        Me.UseCustom.Location = New System.Drawing.Point(11, 279)
-        Me.UseCustom.Name = "UseCustom"
-        Me.UseCustom.Size = New System.Drawing.Size(15, 14)
-        Me.UseCustom.TabIndex = 4
-        Me.UseCustom.UseVisualStyleBackColor = True
         '
         'AddTemplate
         '
@@ -992,7 +956,7 @@ Partial Class ConfigForm
         Me.Templates.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Templates.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.DisplayColumn, Me.TemplateColumn, Me.Col3})
+        Me.Templates.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.DisplayColumn, Me.TemplateColumn})
         Me.Templates.FullRowSelect = True
         Me.Templates.GridLines = True
         Me.Templates.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
@@ -1006,17 +970,12 @@ Partial Class ConfigForm
         'DisplayColumn
         '
         Me.DisplayColumn.Text = "Display text"
-        Me.DisplayColumn.Width = 280
+        Me.DisplayColumn.Width = 250
         '
         'TemplateColumn
         '
         Me.TemplateColumn.Text = "Template"
-        Me.TemplateColumn.Width = 322
-        '
-        'Col3
-        '
-        Me.Col3.Text = "Summary for revert"
-        Me.Col3.Width = 270
+        Me.TemplateColumn.Width = 207
         '
         'EditorTab
         '
@@ -1024,7 +983,7 @@ Partial Class ConfigForm
         Me.EditorTab.Location = New System.Drawing.Point(4, 23)
         Me.EditorTab.Name = "EditorTab"
         Me.EditorTab.Padding = New System.Windows.Forms.Padding(3)
-        Me.EditorTab.Size = New System.Drawing.Size(511, 332)
+        Me.EditorTab.Size = New System.Drawing.Size(511, 312)
         Me.EditorTab.TabIndex = 8
         Me.EditorTab.Text = "Editor"
         Me.EditorTab.UseVisualStyleBackColor = True
@@ -1034,27 +993,27 @@ Partial Class ConfigForm
         Me.HighlightGroup.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.HighlightGroup.Controls.Add(Me.EditorParameterCallLabel)
+        Me.HighlightGroup.Controls.Add(Me.Label26)
         Me.HighlightGroup.Controls.Add(Me.ColorParamCall)
-        Me.HighlightGroup.Controls.Add(Me.EditorHtmlLabel)
+        Me.HighlightGroup.Controls.Add(Me.Label25)
         Me.HighlightGroup.Controls.Add(Me.ColorHtmlTag)
-        Me.HighlightGroup.Controls.Add(Me.EditorTemplateLabel)
+        Me.HighlightGroup.Controls.Add(Me.Label24)
         Me.HighlightGroup.Controls.Add(Me.ColorTemplate)
-        Me.HighlightGroup.Controls.Add(Me.EditorParameterNameLabel)
-        Me.HighlightGroup.Controls.Add(Me.EditorExternalLabel)
+        Me.HighlightGroup.Controls.Add(Me.Label30)
+        Me.HighlightGroup.Controls.Add(Me.Label23)
         Me.HighlightGroup.Controls.Add(Me.ColorParamName)
         Me.HighlightGroup.Controls.Add(Me.ColorExternalLink)
-        Me.HighlightGroup.Controls.Add(Me.EditorTemplateParameterLabel)
-        Me.HighlightGroup.Controls.Add(Me.EditorMagicWordLabel)
+        Me.HighlightGroup.Controls.Add(Me.Label29)
+        Me.HighlightGroup.Controls.Add(Me.Label22)
         Me.HighlightGroup.Controls.Add(Me.ColorParam)
         Me.HighlightGroup.Controls.Add(Me.ColorMagicWord)
-        Me.HighlightGroup.Controls.Add(Me.EditorImageLabel)
-        Me.HighlightGroup.Controls.Add(Me.EditorLinkLabel)
+        Me.HighlightGroup.Controls.Add(Me.Label28)
+        Me.HighlightGroup.Controls.Add(Me.Label21)
         Me.HighlightGroup.Controls.Add(Me.ColorImage)
         Me.HighlightGroup.Controls.Add(Me.ColorLink)
-        Me.HighlightGroup.Controls.Add(Me.EditorReferenceLabel)
+        Me.HighlightGroup.Controls.Add(Me.Label27)
         Me.HighlightGroup.Controls.Add(Me.ColorReference)
-        Me.HighlightGroup.Controls.Add(Me.EditorCommentLabel)
+        Me.HighlightGroup.Controls.Add(Me.Label20)
         Me.HighlightGroup.Controls.Add(Me.ColorComment)
         Me.HighlightGroup.Location = New System.Drawing.Point(6, 6)
         Me.HighlightGroup.Name = "HighlightGroup"
@@ -1063,14 +1022,14 @@ Partial Class ConfigForm
         Me.HighlightGroup.TabStop = False
         Me.HighlightGroup.Text = "Syntax highlight colors"
         '
-        'EditorParameterCallLabel
+        'Label26
         '
-        Me.EditorParameterCallLabel.AutoSize = True
-        Me.EditorParameterCallLabel.Location = New System.Drawing.Point(202, 32)
-        Me.EditorParameterCallLabel.Name = "EditorParameterCallLabel"
-        Me.EditorParameterCallLabel.Size = New System.Drawing.Size(74, 13)
-        Me.EditorParameterCallLabel.TabIndex = 12
-        Me.EditorParameterCallLabel.Text = "Parameter call"
+        Me.Label26.AutoSize = True
+        Me.Label26.Location = New System.Drawing.Point(202, 32)
+        Me.Label26.Name = "Label26"
+        Me.Label26.Size = New System.Drawing.Size(74, 13)
+        Me.Label26.TabIndex = 12
+        Me.Label26.Text = "Parameter call"
         '
         'ColorParamCall
         '
@@ -1081,14 +1040,14 @@ Partial Class ConfigForm
         Me.ColorParamCall.TabIndex = 13
         Me.ColorParamCall.UseVisualStyleBackColor = False
         '
-        'EditorHtmlLabel
+        'Label25
         '
-        Me.EditorHtmlLabel.AutoSize = True
-        Me.EditorHtmlLabel.Location = New System.Drawing.Point(18, 177)
-        Me.EditorHtmlLabel.Name = "EditorHtmlLabel"
-        Me.EditorHtmlLabel.Size = New System.Drawing.Size(55, 13)
-        Me.EditorHtmlLabel.TabIndex = 10
-        Me.EditorHtmlLabel.Text = "HTML tag"
+        Me.Label25.AutoSize = True
+        Me.Label25.Location = New System.Drawing.Point(18, 177)
+        Me.Label25.Name = "Label25"
+        Me.Label25.Size = New System.Drawing.Size(55, 13)
+        Me.Label25.TabIndex = 10
+        Me.Label25.Text = "HTML tag"
         '
         'ColorHtmlTag
         '
@@ -1099,14 +1058,14 @@ Partial Class ConfigForm
         Me.ColorHtmlTag.TabIndex = 11
         Me.ColorHtmlTag.UseVisualStyleBackColor = False
         '
-        'EditorTemplateLabel
+        'Label24
         '
-        Me.EditorTemplateLabel.AutoSize = True
-        Me.EditorTemplateLabel.Location = New System.Drawing.Point(18, 148)
-        Me.EditorTemplateLabel.Name = "EditorTemplateLabel"
-        Me.EditorTemplateLabel.Size = New System.Drawing.Size(51, 13)
-        Me.EditorTemplateLabel.TabIndex = 8
-        Me.EditorTemplateLabel.Text = "Template"
+        Me.Label24.AutoSize = True
+        Me.Label24.Location = New System.Drawing.Point(18, 148)
+        Me.Label24.Name = "Label24"
+        Me.Label24.Size = New System.Drawing.Size(51, 13)
+        Me.Label24.TabIndex = 8
+        Me.Label24.Text = "Template"
         '
         'ColorTemplate
         '
@@ -1117,23 +1076,23 @@ Partial Class ConfigForm
         Me.ColorTemplate.TabIndex = 9
         Me.ColorTemplate.UseVisualStyleBackColor = False
         '
-        'EditorParameterNameLabel
+        'Label30
         '
-        Me.EditorParameterNameLabel.AutoSize = True
-        Me.EditorParameterNameLabel.Location = New System.Drawing.Point(202, 61)
-        Me.EditorParameterNameLabel.Name = "EditorParameterNameLabel"
-        Me.EditorParameterNameLabel.Size = New System.Drawing.Size(84, 13)
-        Me.EditorParameterNameLabel.TabIndex = 14
-        Me.EditorParameterNameLabel.Text = "Parameter name"
+        Me.Label30.AutoSize = True
+        Me.Label30.Location = New System.Drawing.Point(202, 61)
+        Me.Label30.Name = "Label30"
+        Me.Label30.Size = New System.Drawing.Size(84, 13)
+        Me.Label30.TabIndex = 14
+        Me.Label30.Text = "Parameter name"
         '
-        'EditorExternalLabel
+        'Label23
         '
-        Me.EditorExternalLabel.AutoSize = True
-        Me.EditorExternalLabel.Location = New System.Drawing.Point(18, 119)
-        Me.EditorExternalLabel.Name = "EditorExternalLabel"
-        Me.EditorExternalLabel.Size = New System.Drawing.Size(64, 13)
-        Me.EditorExternalLabel.TabIndex = 6
-        Me.EditorExternalLabel.Text = "External link"
+        Me.Label23.AutoSize = True
+        Me.Label23.Location = New System.Drawing.Point(18, 119)
+        Me.Label23.Name = "Label23"
+        Me.Label23.Size = New System.Drawing.Size(64, 13)
+        Me.Label23.TabIndex = 6
+        Me.Label23.Text = "External link"
         '
         'ColorParamName
         '
@@ -1153,23 +1112,23 @@ Partial Class ConfigForm
         Me.ColorExternalLink.TabIndex = 7
         Me.ColorExternalLink.UseVisualStyleBackColor = False
         '
-        'EditorTemplateParameterLabel
+        'Label29
         '
-        Me.EditorTemplateParameterLabel.AutoSize = True
-        Me.EditorTemplateParameterLabel.Location = New System.Drawing.Point(202, 148)
-        Me.EditorTemplateParameterLabel.Name = "EditorTemplateParameterLabel"
-        Me.EditorTemplateParameterLabel.Size = New System.Drawing.Size(101, 13)
-        Me.EditorTemplateParameterLabel.TabIndex = 20
-        Me.EditorTemplateParameterLabel.Text = "Template parameter"
+        Me.Label29.AutoSize = True
+        Me.Label29.Location = New System.Drawing.Point(202, 148)
+        Me.Label29.Name = "Label29"
+        Me.Label29.Size = New System.Drawing.Size(101, 13)
+        Me.Label29.TabIndex = 20
+        Me.Label29.Text = "Template parameter"
         '
-        'EditorMagicWordLabel
+        'Label22
         '
-        Me.EditorMagicWordLabel.AutoSize = True
-        Me.EditorMagicWordLabel.Location = New System.Drawing.Point(18, 90)
-        Me.EditorMagicWordLabel.Name = "EditorMagicWordLabel"
-        Me.EditorMagicWordLabel.Size = New System.Drawing.Size(62, 13)
-        Me.EditorMagicWordLabel.TabIndex = 4
-        Me.EditorMagicWordLabel.Text = "Magic word"
+        Me.Label22.AutoSize = True
+        Me.Label22.Location = New System.Drawing.Point(18, 90)
+        Me.Label22.Name = "Label22"
+        Me.Label22.Size = New System.Drawing.Size(62, 13)
+        Me.Label22.TabIndex = 4
+        Me.Label22.Text = "Magic word"
         '
         'ColorParam
         '
@@ -1189,23 +1148,23 @@ Partial Class ConfigForm
         Me.ColorMagicWord.TabIndex = 5
         Me.ColorMagicWord.UseVisualStyleBackColor = False
         '
-        'EditorImageLabel
+        'Label28
         '
-        Me.EditorImageLabel.AutoSize = True
-        Me.EditorImageLabel.Location = New System.Drawing.Point(202, 119)
-        Me.EditorImageLabel.Name = "EditorImageLabel"
-        Me.EditorImageLabel.Size = New System.Drawing.Size(36, 13)
-        Me.EditorImageLabel.TabIndex = 18
-        Me.EditorImageLabel.Text = "Image"
+        Me.Label28.AutoSize = True
+        Me.Label28.Location = New System.Drawing.Point(202, 119)
+        Me.Label28.Name = "Label28"
+        Me.Label28.Size = New System.Drawing.Size(36, 13)
+        Me.Label28.TabIndex = 18
+        Me.Label28.Text = "Image"
         '
-        'EditorLinkLabel
+        'Label21
         '
-        Me.EditorLinkLabel.AutoSize = True
-        Me.EditorLinkLabel.Location = New System.Drawing.Point(18, 61)
-        Me.EditorLinkLabel.Name = "EditorLinkLabel"
-        Me.EditorLinkLabel.Size = New System.Drawing.Size(27, 13)
-        Me.EditorLinkLabel.TabIndex = 2
-        Me.EditorLinkLabel.Text = "Link"
+        Me.Label21.AutoSize = True
+        Me.Label21.Location = New System.Drawing.Point(18, 61)
+        Me.Label21.Name = "Label21"
+        Me.Label21.Size = New System.Drawing.Size(27, 13)
+        Me.Label21.TabIndex = 2
+        Me.Label21.Text = "Link"
         '
         'ColorImage
         '
@@ -1225,14 +1184,14 @@ Partial Class ConfigForm
         Me.ColorLink.TabIndex = 3
         Me.ColorLink.UseVisualStyleBackColor = False
         '
-        'EditorReferenceLabel
+        'Label27
         '
-        Me.EditorReferenceLabel.AutoSize = True
-        Me.EditorReferenceLabel.Location = New System.Drawing.Point(202, 90)
-        Me.EditorReferenceLabel.Name = "EditorReferenceLabel"
-        Me.EditorReferenceLabel.Size = New System.Drawing.Size(57, 13)
-        Me.EditorReferenceLabel.TabIndex = 16
-        Me.EditorReferenceLabel.Text = "Reference"
+        Me.Label27.AutoSize = True
+        Me.Label27.Location = New System.Drawing.Point(202, 90)
+        Me.Label27.Name = "Label27"
+        Me.Label27.Size = New System.Drawing.Size(57, 13)
+        Me.Label27.TabIndex = 16
+        Me.Label27.Text = "Reference"
         '
         'ColorReference
         '
@@ -1243,14 +1202,14 @@ Partial Class ConfigForm
         Me.ColorReference.TabIndex = 17
         Me.ColorReference.UseVisualStyleBackColor = False
         '
-        'EditorCommentLabel
+        'Label20
         '
-        Me.EditorCommentLabel.AutoSize = True
-        Me.EditorCommentLabel.Location = New System.Drawing.Point(18, 32)
-        Me.EditorCommentLabel.Name = "EditorCommentLabel"
-        Me.EditorCommentLabel.Size = New System.Drawing.Size(51, 13)
-        Me.EditorCommentLabel.TabIndex = 0
-        Me.EditorCommentLabel.Text = "Comment"
+        Me.Label20.AutoSize = True
+        Me.Label20.Location = New System.Drawing.Point(18, 32)
+        Me.Label20.Name = "Label20"
+        Me.Label20.Size = New System.Drawing.Size(51, 13)
+        Me.Label20.TabIndex = 0
+        Me.Label20.Text = "Comment"
         '
         'ColorComment
         '
@@ -1378,6 +1337,16 @@ Partial Class ConfigForm
         Me.ViewLocalConfig.TabStop = True
         Me.ViewLocalConfig.Text = "View local configuration folder"
         '
+        'ConfirmPage
+        '
+        Me.ConfirmPage.AutoSize = True
+        Me.ConfirmPage.Location = New System.Drawing.Point(9, 132)
+        Me.ConfirmPage.Name = "ConfirmPage"
+        Me.ConfirmPage.Size = New System.Drawing.Size(189, 17)
+        Me.ConfirmPage.TabIndex = 3
+        Me.ConfirmPage.Text = "Confirm reversion of ignored pages"
+        Me.ConfirmPage.UseVisualStyleBackColor = True
+        '
         'ConfigForm
         '
         Me.AcceptButton = Me.OK
@@ -1494,26 +1463,26 @@ Partial Class ConfigForm
     Friend WithEvents EditorTab As System.Windows.Forms.TabPage
     Friend WithEvents HighlightGroup As System.Windows.Forms.GroupBox
     Friend WithEvents ColorComment As System.Windows.Forms.Button
-    Friend WithEvents EditorCommentLabel As System.Windows.Forms.Label
-    Friend WithEvents EditorParameterCallLabel As System.Windows.Forms.Label
+    Friend WithEvents Label20 As System.Windows.Forms.Label
+    Friend WithEvents Label26 As System.Windows.Forms.Label
     Friend WithEvents ColorParamCall As System.Windows.Forms.Button
-    Friend WithEvents EditorHtmlLabel As System.Windows.Forms.Label
+    Friend WithEvents Label25 As System.Windows.Forms.Label
     Friend WithEvents ColorHtmlTag As System.Windows.Forms.Button
-    Friend WithEvents EditorTemplateLabel As System.Windows.Forms.Label
+    Friend WithEvents Label24 As System.Windows.Forms.Label
     Friend WithEvents ColorTemplate As System.Windows.Forms.Button
-    Friend WithEvents EditorExternalLabel As System.Windows.Forms.Label
+    Friend WithEvents Label23 As System.Windows.Forms.Label
     Friend WithEvents ColorExternalLink As System.Windows.Forms.Button
-    Friend WithEvents EditorMagicWordLabel As System.Windows.Forms.Label
+    Friend WithEvents Label22 As System.Windows.Forms.Label
     Friend WithEvents ColorMagicWord As System.Windows.Forms.Button
-    Friend WithEvents EditorLinkLabel As System.Windows.Forms.Label
+    Friend WithEvents Label21 As System.Windows.Forms.Label
     Friend WithEvents ColorLink As System.Windows.Forms.Button
-    Friend WithEvents EditorParameterNameLabel As System.Windows.Forms.Label
+    Friend WithEvents Label30 As System.Windows.Forms.Label
     Friend WithEvents ColorParamName As System.Windows.Forms.Button
-    Friend WithEvents EditorTemplateParameterLabel As System.Windows.Forms.Label
+    Friend WithEvents Label29 As System.Windows.Forms.Label
     Friend WithEvents ColorParam As System.Windows.Forms.Button
-    Friend WithEvents EditorImageLabel As System.Windows.Forms.Label
+    Friend WithEvents Label28 As System.Windows.Forms.Label
     Friend WithEvents ColorImage As System.Windows.Forms.Button
-    Friend WithEvents EditorReferenceLabel As System.Windows.Forms.Label
+    Friend WithEvents Label27 As System.Windows.Forms.Label
     Friend WithEvents ColorReference As System.Windows.Forms.Button
     Friend WithEvents IrcMode As System.Windows.Forms.CheckBox
     Friend WithEvents InterfaceTab As System.Windows.Forms.TabPage
@@ -1531,15 +1500,9 @@ Partial Class ConfigForm
     Friend WithEvents ConfirmWarned As System.Windows.Forms.CheckBox
     Friend WithEvents WatchDelete As System.Windows.Forms.CheckBox
     Friend WithEvents ShowNewMessages As System.Windows.Forms.CheckBox
-    Friend WithEvents FontsizeLabel As System.Windows.Forms.Label
-    Friend WithEvents PortLabel As System.Windows.Forms.Label
-    Friend WithEvents PreloadLabel As System.Windows.Forms.Label
+    Friend WithEvents Label14 As System.Windows.Forms.Label
+    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents ShowTwoQueues As System.Windows.Forms.CheckBox
     Friend WithEvents ConfirmPage As System.Windows.Forms.CheckBox
-    Friend WithEvents UseCustom As System.Windows.Forms.CheckBox
-    Friend WithEvents BackgroundWorker1 As System.ComponentModel.BackgroundWorker
-    Friend WithEvents BackgroundWorker2 As System.ComponentModel.BackgroundWorker
-    Friend WithEvents BackgroundWorker3 As System.ComponentModel.BackgroundWorker
-    Friend WithEvents btImport As System.Windows.Forms.Button
-    Friend WithEvents Col3 As System.Windows.Forms.ColumnHeader
 End Class

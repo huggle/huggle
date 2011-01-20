@@ -5,7 +5,7 @@ Class AboutForm
         Text = "Huggle " & VersionString(Config.Version)
         Localize(Me, "about")
 
-        For Each Item As LinkLabel In OldContributors.Controls
+        For Each Item As LinkLabel In Contributors.Controls
             AddHandler CType(Item, LinkLabel).LinkClicked, AddressOf ContributorLinkClicked
         Next Item
     End Sub
@@ -28,10 +28,6 @@ Class AboutForm
 
     Private Sub OK_Click() Handles OK.Click
         Close()
-    End Sub
-
-    Private Sub Contributor8_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        OpenUrlInBrowser(CStr("http://en.wikipedia.org/w/index.php?title=User:Petrb"))
     End Sub
 
 End Class
