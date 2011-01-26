@@ -183,6 +183,7 @@ Class Configuration
     Public Speedy As Boolean = False
     Public SpeedyCriteria As New Dictionary(Of String, SpeedyCriterion)
     Public SpeedyDeleteSummary As String = ""
+    Public AssociatedDeletion As String = "G8 - nonexistent dependency"
     Public SpeedyMessageSummary As String = ""
     Public SpeedyMessageTitle As String = ""
     Public SpeedySummary As String = ""

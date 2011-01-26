@@ -22,10 +22,10 @@ Partial Class ProdForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.Cancel = New System.Windows.Forms.Button
-        Me.OK = New System.Windows.Forms.Button
-        Me.Label1 = New System.Windows.Forms.Label
-        Me.Reason = New System.Windows.Forms.TextBox
+        Me.Cancel = New System.Windows.Forms.Button()
+        Me.OK = New System.Windows.Forms.Button()
+        Me.ReasonLabel = New System.Windows.Forms.Label()
+        Me.Reason = New System.Windows.Forms.TextBox()
         Me.SuspendLayout()
         '
         'Cancel
@@ -49,14 +49,14 @@ Partial Class ProdForm
         Me.OK.Text = "OK"
         Me.OK.UseVisualStyleBackColor = True
         '
-        'Label1
+        'ReasonLabel
         '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(12, 15)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(47, 13)
-        Me.Label1.TabIndex = 0
-        Me.Label1.Text = "Reason:"
+        Me.ReasonLabel.AutoSize = True
+        Me.ReasonLabel.Location = New System.Drawing.Point(12, 15)
+        Me.ReasonLabel.Name = "ReasonLabel"
+        Me.ReasonLabel.Size = New System.Drawing.Size(47, 13)
+        Me.ReasonLabel.TabIndex = 0
+        Me.ReasonLabel.Text = "Reason:"
         '
         'Reason
         '
@@ -75,7 +75,7 @@ Partial Class ProdForm
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(403, 126)
         Me.Controls.Add(Me.Reason)
-        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.ReasonLabel)
         Me.Controls.Add(Me.OK)
         Me.Controls.Add(Me.Cancel)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
@@ -91,6 +91,6 @@ Partial Class ProdForm
     End Sub
     Friend WithEvents Cancel As System.Windows.Forms.Button
     Friend WithEvents OK As System.Windows.Forms.Button
-    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents ReasonLabel As System.Windows.Forms.Label
     Friend WithEvents Reason As System.Windows.Forms.TextBox
 End Class

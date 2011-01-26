@@ -1,3 +1,6 @@
+'This is part of huggle project
+'Licensed under GPL license
+
 Imports System.Web.HttpUtility
 
 Class DeleteForm
@@ -8,7 +11,7 @@ Class DeleteForm
         Icon = My.Resources.huggle_icon
         Text = Msg("delete-title", Page.Name)
         Localize(Me, "delete")
-
+        RemTalk.Text = Msg("delete-rem-talk")
         If Config.Speedy Then
             For Each Item As SpeedyCriterion In Config.SpeedyCriteria.Values
                 If Item.Code = "G8" AndAlso Page.IsTalkPage _
@@ -102,6 +105,15 @@ Class DeleteForm
         End If
 
         NewDeleteRequest.Start()
+
+        'Delete talk
+        Dim TalkPageDeleteRe As New DeleteRequest
+        If RemTalk.Checked = True And Page.IsTalkPage = False And Page.TalkPage.Exists Then
+
+            TalkPageDeleteRe.Page = Page.TalkPage
+            NewDeleteRequest.Summary = Config.AssociatedDeletion
+            TalkPageDeleteRe.Start()
+        End If
 
         Close()
     End Sub

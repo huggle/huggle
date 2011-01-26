@@ -672,7 +672,11 @@ Class Main
                 If Config.TemplateSummary.ContainsKey(Summary) Then
                     summ2 = Config.TemplateSummary(Summary).Replace("$1", CurrentEdit.User.Name)
                 Else
-                    summ2 = Config.DefaultSummary
+                    If Config.WarningTypes.ContainsKey(Summary) Then
+                        summ2 = Config.RevertSummary
+                    Else
+                        summ2 = Summary
+                    End If
                 End If
 
                 If summ2 <> "_" Then Summary = summ2

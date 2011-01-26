@@ -298,6 +298,8 @@ Module ConfigIO
                 Case "xfd-message-summary" : Config.XfdMessageSummary = Value
                 Case "xfd-message-title" : Config.XfdMessageTitle = Value
                 Case "xfd-summary" : Config.XfdSummary = Value
+                Case "moths"
+                Case "talk-associated-summary" : Config.AssociatedDeletion = Value
             End Select
         Catch ex As Exception
         End Try
