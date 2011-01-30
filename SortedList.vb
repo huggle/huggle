@@ -24,10 +24,11 @@
 
             'Binary insertion sort
             Dim a As Integer = 0, b As Integer = Items.Count, n As Integer
-
-            While a <> b
+            Dim Curr As Integer = 0
+            While a <> b And Curr < Misc.GlExcess
                 n = CInt(Math.Ceiling((b + a) \ 2))
                 If Comparer.Compare(Item, Items(n)) > 0 Then a = n + 1 Else b = n
+                Curr = Curr + 1
             End While
 
             Items.Insert(a, Item)

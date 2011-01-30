@@ -354,7 +354,6 @@ Namespace Requests
         Protected Overrides Sub Process()
             'Download into memory and then write to file
             Try
-'                Dim Break As Integer = 0
                 Dim Request As HttpWebRequest = CType(WebRequest.Create(Config.DownloadLocation.Replace("$1", _
                     VersionString(Config.LatestVersion))), HttpWebRequest)
                 Request.Proxy = Proxy
@@ -370,13 +369,10 @@ Namespace Requests
 
                 Do
                     S = ResponseStream.Read(Buffer, 0, Buffer.Length)
-'                    Break = Break + 1
                     MemoryStream.Write(Buffer, 0, S)
                     Progress += S
                     ControlInvoke(ProgressBar, AddressOf UpdateProgress)
-                Loop While S > 0 ' And Break < Misc.GlExcess
-                If Break >= Misc.GlExcess Then Log("Debug interrupted UpdateRequest.Process()")
-
+                Loop While S > 0
                 File.WriteAllBytes(Filename, MemoryStream.ToArray)
 
             Catch ex As Exception
