@@ -1,3 +1,8 @@
+'This is a source code or part of Huggle project
+'Misc.vb
+'This file contains code of many parts of the app
+'last modified by Petrb
+
 Imports System.IO
 Imports System.Net
 Imports System.Text.RegularExpressions
@@ -35,7 +40,7 @@ Module Misc
     Public WhitelistAutoChanges As New List(Of String)
     Public WhitelistLoaded As Boolean
     Public WhitelistManualChanges As New List(Of String)
-    Public GlExcess As Integer = 2000
+    Public GlExcess As Integer = 20000
 
     Public Delegate Sub Action()
     Public Delegate Sub CallbackDelegate(ByVal Success As Boolean)
@@ -44,9 +49,10 @@ Module Misc
     Public ReadOnly LF As Char = Convert.ToChar(10)
     Public ReadOnly CR As Char = Convert.ToChar(13)
     Public ReadOnly CRLF As String = Convert.ToChar(13) & Convert.ToChar(10)
-    Public monthname As String() = {"", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"}
+    Public monthname As String() = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"}
 
     Public Property CurrentEdit() As Edit
+        'pointer to current
         Get
             If CurrentTab Is Nothing Then CurrentTab = CType(MainForm.Tabs.TabPages(0).Controls(0), BrowserTab)
             Return CurrentTab.Edit
@@ -58,12 +64,14 @@ Module Misc
     End Property
 
     Public ReadOnly Property CurrentUser() As User
+        'Pointer to current user object
         Get
             If CurrentEdit Is Nothing Then Return Nothing Else Return CurrentEdit.User
         End Get
     End Property
 
     Public ReadOnly Property CurrentPage() As Page
+        'Pointer current page
         Get
             If CurrentEdit Is Nothing Then Return Nothing Else Return CurrentEdit.Page
         End Get
@@ -85,6 +93,7 @@ Module Misc
     End Class
 
     Class Command
+        'commentme
         Public Description As String
         Public Type As CommandType
         Public Edit As Edit
@@ -93,6 +102,7 @@ Module Misc
     End Class
 
     Public Enum CommandType As Integer
+        'Type of command
         Revert
         Report
         Warning
@@ -103,6 +113,7 @@ Module Misc
     End Enum
 
     Class Delete
+        'Delete
         Public Time As Date
         Public Page As Page
         Public Action As String
@@ -173,6 +184,7 @@ Module Misc
     End Class
 
     Class Protection
+        'Informations about page protection
         Public Time As Date
         Public Admin As User
         Public Action As String
@@ -189,12 +201,14 @@ Module Misc
     End Class
 
     Public Enum ProtectionType As Integer
+        'Types
         Semi
         Full
         Move
     End Enum
 
     Class SpeedyCriterion
+        'Info for speedy del data
         Public Code As String
         Public DisplayCode As String
         Public Description As String
@@ -212,6 +226,7 @@ Module Misc
     End Class
 
     Class Warning
+        'Defines warning type
         Public Level As UserLevel
         Public Time As Date
         Public Type As String
@@ -219,10 +234,12 @@ Module Misc
     End Class
 
     Function ApiLimit() As Integer
+        'Defines limits for api wikimedia blocks user who excess it
         If Config.Rights.Contains("apihighlimits") Then Return 5000 Else Return 500
     End Function
 
     Function ArrayContains(Of T)(ByVal Array As T(), ByVal Value As T) As Boolean
+        'contain
         For Each Item As T In Array
             If Item.Equals(Value) Then Return True
         Next Item
@@ -288,6 +305,7 @@ Module Misc
     End Function
 
     Function GetParameter(ByVal Source As String, ByVal Parameter As String) As String
+        'Return a parameter from source
         If Source Is Nothing Then Return Nothing
         If Not Source.Contains(Parameter & "=""") Then Return Nothing
         Source = Source.Substring(Source.IndexOf(Parameter & "=""") + (Parameter & "=""").Length)
@@ -297,6 +315,7 @@ Module Misc
     End Function
 
     Function FindString(ByVal Source As String, ByVal [From] As String) As String
+        'comment needed
         If Not Source.Contains([From]) Then Return Nothing
         Return Source.Substring(Source.IndexOf([From]) + [From].Length)
     End Function
@@ -337,16 +356,23 @@ Module Misc
     End Function
 
     Function GetMonthName(ByVal Number As Integer) As String
+        'return a localized name of month
+        If Number <= 12 And Number > 0 Then
+            Return Misc.monthname(Number - 1)
+        Else
+            Return ""
+        End If
 
-        Return Misc.MonthName(Number)
 
     End Function
 
     Function GetPage(ByVal Name As String) As Page
+        'Get pointer to page
         Return Page.GetPage(Name)
     End Function
 
     Function GetUser(ByVal Name As String) As User
+        'Get user object data
         Return User.GetUser(Name)
     End Function
 
@@ -383,6 +409,7 @@ Module Misc
     End Function
 
     Function LocalConfigPath() As String
+        'Get path to local drive config
         Return MakePath(Application.StartupPath, "Config")
     End Function
 
@@ -411,16 +438,19 @@ Module Misc
     End Sub
 
     Sub LogCallback(ByVal ArgsObject As Object)
+        'Add log
         Dim Args As LogArgs = CType(ArgsObject, LogArgs)
         If MainForm Is Nothing Then LogBuffer.Add(Args.Message) Else MainForm.Log(Args.Message, Args.Tag)
     End Sub
 
     Structure LogArgs
+        '
         Public Message As String
         Public Tag As Object
     End Structure
 
     Function MakeHtmlWikiPage(ByVal Page As String, ByVal Text As String) As String
+        'Convert to html
         Return My.Resources.WikiPageHtml.Replace("$PATH", Config.Projects(Config.Project)).Replace("$PAGE", Page) _
             .Replace("$USER", Config.Username).Replace("$FONTSIZE", CStr(CInt((CInt(Config.DiffFontSize) * 1.2)))) & _
             "<body>" & Text & "</body></html>"

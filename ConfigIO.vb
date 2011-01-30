@@ -1,4 +1,9 @@
-﻿Imports System.IO
+﻿'This is a source code or part of Huggle project
+'configIO.vb
+'This file contains code for edit actions
+'last modified by Petrb
+
+Imports System.IO
 Imports System.Text.RegularExpressions
 
 Module ConfigIO
@@ -13,7 +18,7 @@ Module ConfigIO
         Dim Result As New Dictionary(Of String, String)
 
         Dim i As Integer, Indent As Integer
-
+        'remove problemous stuff from config
         While i < Items.Count
             If i > 0 AndAlso Items(i).StartsWith(" ") AndAlso Items(i).Replace(" ", "") <> "" Then
                 If Indent = 0 Then
@@ -38,7 +43,7 @@ Module ConfigIO
                 i += 1
             End If
         End While
-
+        'parse it
         For Each Item As String In Items
             Dim Name As String = Item.Split(":"c)(0)
             Dim Value As String = Item.Substring(Item.IndexOf(":"c) + 1)
@@ -52,14 +57,23 @@ Module ConfigIO
     'Converts a comma-separated list to a list
     Function GetList(ByVal Value As String) As List(Of String)
         Dim List As New List(Of String)
-
         For Each Item As String In Value.Replace(Convert.ToChar(2), "").Replace("\,", Convert.ToChar(1)).Split(","c)
             Item = Item.Trim(" "c, Tab, CR, LF).Replace(Convert.ToChar(1), ",")
             If Not List.Contains(Item) AndAlso Item.Length > 0 Then List.Add(Item)
         Next Item
-
         Return List
     End Function
+
+    'Get months
+    Sub GetMonths(ByVal Value As String)
+        Dim Curr As Integer = 0
+        For Each Item As String In Value.Replace(Convert.ToChar(2), "").Replace("\,", Convert.ToChar(1)).Split(","c)
+            Item = Item.Trim(" "c, Tab, CR, LF).Replace(Convert.ToChar(1), ",")
+            Misc.monthname(Curr) = Item.Split(";"c)(1).Replace(Convert.ToChar(2), ";")
+            Curr = Curr + 1
+            If Curr > 12 Then Exit For
+        Next Item
+    End Sub
 
     'Converts a comma-separated list of semicolon-separated pairs to a dictionary
     Function GetDictionary(ByVal Text As String) As Dictionary(Of String, String)
@@ -298,7 +312,9 @@ Module ConfigIO
                 Case "xfd-message-summary" : Config.XfdMessageSummary = Value
                 Case "xfd-message-title" : Config.XfdMessageTitle = Value
                 Case "xfd-summary" : Config.XfdSummary = Value
-                Case "moths"
+                Case "months" : GetMonths(Value)
+
+
                 Case "talk-associated-summary" : Config.AssociatedDeletion = Value
             End Select
         Catch ex As Exception
