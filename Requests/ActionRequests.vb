@@ -1,3 +1,8 @@
+'This is a source code or part of Huggle project
+'Requests - ActionRequests.vb
+'This file contains code for request actions
+'last modified by Petrb
+
 Imports System.IO
 Imports System.Net
 Imports System.Text.Encoding
@@ -354,6 +359,7 @@ Namespace Requests
         Protected Overrides Sub Process()
             'Download into memory and then write to file
             Try
+                Dim Break As Integer = 0
                 Dim Request As HttpWebRequest = CType(WebRequest.Create(Config.DownloadLocation.Replace("$1", _
                     VersionString(Config.LatestVersion))), HttpWebRequest)
                 Request.Proxy = Proxy
@@ -373,6 +379,9 @@ Namespace Requests
                     Progress += S
                     ControlInvoke(ProgressBar, AddressOf UpdateProgress)
                 Loop While S > 0
+                ' And Break < Misc.GlExcess
+                If Break >= Misc.GlExcess Then Log("Debug interrupted UpdateRequest.Process()")
+
                 File.WriteAllBytes(Filename, MemoryStream.ToArray)
 
             Catch ex As Exception

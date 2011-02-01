@@ -1,3 +1,7 @@
+'This is a source code or part of Huggle project
+'NotifyRequests.vb
+'This file contains code for edit actions
+'last modified by Petrb
 Imports System.Threading
 Imports System.Web.HttpUtility
 

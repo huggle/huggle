@@ -1,3 +1,8 @@
+'This is a source code or part of Huggle project
+'revertrequests.vb
+'This file contains code for edit actions
+'last modified by Petrb
+
 Imports System.Net
 Imports System.Text.Encoding
 Imports System.Threading

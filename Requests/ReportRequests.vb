@@ -1,4 +1,9 @@
-﻿Imports System.Threading
+﻿'This is a source code or part of Huggle project
+'Reportrequests.vb
+'This file contains code for edit actions
+'last modified by Petrb
+
+Imports System.Threading
 Imports System.Web.HttpUtility
 
 Namespace Requests

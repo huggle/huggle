@@ -1,3 +1,8 @@
+'This is a source code or part of Huggle project
+'Requests.vb
+'This file contains code for edit actions
+'last modified by Petrb
+
 Imports System.IO
 Imports System.Net
 Imports System.Text.Encoding
