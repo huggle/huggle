@@ -1,4 +1,9 @@
-﻿NotInheritable Class Stats
+﻿'This is a source code or part of Huggle project
+'Stats.vb
+'This file contains code for stats actions
+'last modified by Petrb
+
+NotInheritable Class Stats
 
     'Static class keeping track of various statistics
 

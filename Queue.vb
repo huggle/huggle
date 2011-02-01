@@ -1,4 +1,9 @@
-﻿Imports System.IO
+﻿'This is a source code or part of Huggle project
+'Queue.vb
+'This file contains code for 
+'last modified by Petrb
+
+Imports System.IO
 Imports System.Text.RegularExpressions
 
 <DebuggerDisplay("{Name}")> _

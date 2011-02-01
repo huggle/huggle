@@ -1,3 +1,8 @@
+'This is a source code or part of Huggle project
+'irc.vb
+'This file contains code of irc sub system
+'last modified by Petrb
+
 Imports System.IO
 Imports System.Net.Sockets
 Imports System.Text.RegularExpressions

@@ -1,4 +1,9 @@
-﻿Class SortedList(Of T)
+﻿'This is a source code or part of Huggle project
+'sortedlist.vb
+'This file contains code for lists
+'last modified by Petrb
+
+Class SortedList(Of T)
 
     Implements IEnumerable(Of T)
 

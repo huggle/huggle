@@ -1,3 +1,8 @@
+'This is a source code or part of Huggle project
+'Highlight.vb
+'This file contains code for edit form
+'last modified by Petrb
+
 Imports System.Threading
 Imports System.Text
 

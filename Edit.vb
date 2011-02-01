@@ -1,4 +1,9 @@
-﻿<DebuggerDisplay("{Id}")> _
+﻿'This is a source code or part of Huggle project
+'Edit.vb
+'This file contains code for edit actions
+'last modified by Petrb
+
+<DebuggerDisplay("{Id}")> _
 Class Edit
 
     'Represents a page revision

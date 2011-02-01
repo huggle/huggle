@@ -336,7 +336,7 @@ Partial Class Main
 
         Select Case Shortcut
             Case Is = ShortcutKeys("About")
-                AboutForm.ShowDialog()
+                'AboutForm.ShowDialog()
 
             Case Is = ShortcutKeys("Cancel")
                 If CancelB.Enabled Then CancelB_Click()

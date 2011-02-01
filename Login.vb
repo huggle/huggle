@@ -1,3 +1,8 @@
+'This is a source code or part of Huggle project
+'Login.vb
+'This file contains code of login form
+'last modified by Petrb
+
 Imports System.Net
 Imports System.Text.RegularExpressions
 Imports System.Threading

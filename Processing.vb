@@ -1,4 +1,9 @@
-﻿Imports System.Text.RegularExpressions
+﻿'This is a source code or part of Huggle project
+'Processing.vb
+'This file contains code for edit actions
+'last modified by Petrb
+
+Imports System.Text.RegularExpressions
 Imports System.Web.HttpUtility
 
 Module Processing

@@ -1,4 +1,9 @@
-﻿<DebuggerDisplay("{Name}")> <DebuggerStepThrough()> _
+﻿'This is a source code or part of Huggle project
+'Space.vb
+'This file contains code for edit actions
+'last modified by Petrb
+
+<DebuggerDisplay("{Name}")> <DebuggerStepThrough()> _
 Class Space
 
     'Represents a MediaWiki namespace

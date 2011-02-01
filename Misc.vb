@@ -134,6 +134,7 @@ Module Misc
     Sub CleanSettings()
         'Clean
 
+        Misc.monthname = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"}
         Config.RevertSummary = ""
         Config.RequireRollback = False
         Config.RevertSummaries.Clear()
@@ -157,6 +158,7 @@ Module Misc
         Config.RequireConfig = False
         Config.UseAdminFunctions = False
         Config.UsePending = False
+
     End Sub
 
     Class HistoryItem
@@ -502,6 +504,7 @@ Module Misc
     End Function
 
     Sub OpenUrlInBrowser(ByVal Url As String)
+        'Open
         Try
             Process.Start(Url)
         Catch

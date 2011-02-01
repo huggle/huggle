@@ -1,4 +1,9 @@
-﻿<DebuggerDisplay("{Name}")> <DebuggerStepThrough()> _
+﻿'This is a source code or part of Huggle project
+'page.vb
+'This file contains code of page class
+'last modified by Petrb
+
+<DebuggerDisplay("{Name}")> <DebuggerStepThrough()> _
 Class Page
 
     'Represents a MediaWiki page
