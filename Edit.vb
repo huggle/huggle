@@ -3,6 +3,17 @@
 'This file contains code for edit actions
 'last modified by Petrb
 
+'Copyright (C) 2011 Huggle team
+
+'This program is free software: you can redistribute it and/or modify
+'it under the terms of the GNU General Public License as published by
+'the Free Software Foundation, either version 3 of the License, or
+'(at your option) any later version.
+
+'This program is distributed in the hope that it will be useful,
+'but WITHOUT ANY WARRANTY; without even the implied warranty of
+'MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+'GNU General Public License for more details.
 <DebuggerDisplay("{Id}")> _
 Class Edit
 
@@ -35,17 +46,17 @@ Class Edit
     Public Page As Page
     Public Prev As Edit
     Public PrevByUser As Edit
-    Public Processed As Boolean
-    Public Rcid As String
-    Public RollbackToken As String
-    Public SightPostData As String
-    Public Sighted As Boolean
-    Public Size As Integer
-    Public Summary As String
-    Public Text As String
+    Public Processed As Boolean = False
+    Public Rcid As String = ""
+    Public RollbackToken As String = ""
+    Public SightPostData As String = ""
+    Public Sighted As Boolean = False
+    Public Size As Integer = 0
+    Public Summary As String = ""
+    Public Text As String = ""
     Public Time As Date
     Public Type As EditType
-    Public TypeToWarn As String
+    Public TypeToWarn As String = ""
     Public User As User
     Public WarningLevel As UserLevel
 

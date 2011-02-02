@@ -1,3 +1,21 @@
+'This is a source code or part of Huggle project
+'Shortcuts.vb
+'This file contains code for shortcuts for mainform
+'last modified by Petrb
+
+'Copyright (C) 2011 Huggle team
+
+'This program is free software: you can redistribute it and/or modify
+'it under the terms of the GNU General Public License as published by
+'the Free Software Foundation, either version 3 of the License, or
+'(at your option) any later version.
+
+'This program is distributed in the hope that it will be useful,
+'but WITHOUT ANY WARRANTY; without even the implied warranty of
+'MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+'GNU General Public License for more details.
+
+
 Module Shortcuts
 
     Public ShortcutKeys As New Dictionary(Of String, Shortcut)
@@ -67,7 +85,6 @@ Module Shortcuts
     Public Sub InitialiseShortcuts()
         ShortcutKeys.Clear()
 
-        ShortcutKeys("About") = New Shortcut(Keys.None)
         ShortcutKeys("Block user") = New Shortcut(Keys.B, True)
         ShortcutKeys("Browse back") = New Shortcut(Keys.OemOpenBrackets)
         ShortcutKeys("Browse forward") = New Shortcut(Keys.OemCloseBrackets)
