@@ -43,27 +43,27 @@ Class Queue
     Private _FilterWarnings As QueueFilter = QueueFilter.None
 
     Private _Diffs As DiffMode
-    Private _Limit As Integer
-    Private _SourceType As String
-    Private _Source As String
-    Private _IgnorePages As Boolean
-    Private _ListName As String
-    Private _Name As String
-    Private _NeedsReset As Boolean
+    Private _Limit As Integer = 0
+    Private _SourceType As String = ""
+    Private _Source As String = ""
+    Private _IgnorePages As Boolean = False
+    Private _ListName As String = ""
+    Private _Name As String = ""
+    Private _NeedsReset As Boolean = False
     Private _PageRegex As Regex
     Private _Pages As List(Of String)
-    Private _Refreshing As Boolean
-    Private _RefreshAlways As Boolean
-    Private _RefreshReAdd As Boolean
+    Private _Refreshing As Boolean = False
+    Private _RefreshAlways As Boolean = False
+    Private _RefreshReAdd As Boolean = False
     Private _RemovedPages As List(Of String)
-    Private _RemoveOld As Boolean
-    Private _RemoveAfter As Integer
-    Private _RemoveViewed As Boolean
+    Private _RemoveOld As Boolean = False
+    Private _RemoveAfter As Integer = 0
+    Private _RemoveViewed As Boolean = False
     Private _RevisionRegex As Regex
     Private _SortOrder As QueueSortOrder
     Private _Spaces As New List(Of Space)
     Private _SummaryRegex As Regex
-    Private _TrayNotification As Boolean
+    Private _TrayNotification As Boolean = False
     Private _Type As QueueType
     Private _UserRegex As Regex
     Private _Users As New List(Of String)

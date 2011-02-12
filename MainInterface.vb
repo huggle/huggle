@@ -189,11 +189,16 @@ Partial Class Main
                 Case Else : PageXfd.Enabled = (Config.MfdLocation IsNot Nothing)
             End Select
 
-            If CurrentQueue.Type = QueueType.FixedList _
-                Then QueueClear.Text = Msg("main-queue-reset") Else QueueClear.Text = Msg("main-queue-clear")
-
+            If CurrentQueue IsNot Nothing Then
+                If CurrentQueue.Type = QueueType.FixedList _
+                    Then QueueClear.Text = Msg("main-queue-reset") Else QueueClear.Text = Msg("main-queue-clear")
+            End If
             'For some reason in MediaWiki 'change protection level' and 'edit protected pages' are the same thing
-            Dim Editable As Boolean = (CurrentPage.EditLevel <> "sysop" OrElse Config.Rights.Contains("protect"))
+            Dim Editable As Boolean = False
+
+            If CurrentPage IsNot Nothing Then
+                Editable = (CurrentPage.EditLevel <> "sysop" OrElse Config.Rights.Contains("protect"))
+            End If
 
             BrowserBack.Enabled = (CurrentTab.HistoryIndex < CurrentTab.History.Count - 1)
             BrowserBackB.Enabled = (CurrentTab.HistoryIndex < CurrentTab.History.Count - 1)
@@ -327,166 +332,166 @@ Partial Class Main
     End Sub
 
     Public Sub Main_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles Me.KeyDown
-        If UserB.Focused OrElse PageB.Focused OrElse e.Modifiers = Keys.Alt OrElse KeyDelayTimer.Enabled Then Exit Sub
+        Try
+            If UserB.Focused OrElse PageB.Focused OrElse e.Modifiers = Keys.Alt OrElse KeyDelayTimer.Enabled Then Exit Sub
 
-        KeyDelayTimer.Start()
-        KeyDelayTimer.Enabled = True
+            KeyDelayTimer.Start()
+            KeyDelayTimer.Enabled = True
 
-        Dim Shortcut As New Shortcut(e.KeyCode, e.Control, e.Alt, e.Shift)
+            Dim Shortcut As New Shortcut(e.KeyCode, e.Control, e.Alt, e.Shift)
 
-        Select Case Shortcut
-            Case Is = ShortcutKeys("About")
-                'AboutForm.ShowDialog()
+            Select Case Shortcut
+                Case Is = ShortcutKeys("Cancel")
+                    If CancelB.Enabled Then CancelB_Click()
 
-            Case Is = ShortcutKeys("Cancel")
-                If CancelB.Enabled Then CancelB_Click()
+                Case Is = ShortcutKeys("Help")
+                    HelpDocs_Click()
 
-            Case Is = ShortcutKeys("Help")
-                HelpDocs_Click()
+                Case Is = ShortcutKeys("User information")
+                    UserInfo_Click()
 
-            Case Is = ShortcutKeys("User information")
-                UserInfo_Click()
+                Case Is = ShortcutKeys("Clear queue")
+                    If QueueClear.Enabled Then QueueClear_Click()
 
-            Case Is = ShortcutKeys("Clear queue")
-                If QueueClear.Enabled Then QueueClear_Click()
+                Case Is = ShortcutKeys("Show next diff")
+                    If NextDiffB.Enabled Then DiffNextB_Click()
 
-            Case Is = ShortcutKeys("Show next diff")
-                If NextDiffB.Enabled Then DiffNextB_Click()
+                Case Is = ShortcutKeys("View user talk page")
+                    If UserTalkB.Enabled Then UserTalk_Click()
 
-            Case Is = ShortcutKeys("View user talk page")
-                If UserTalkB.Enabled Then UserTalk_Click()
+                Case Is = ShortcutKeys("Report user")
+                    If UserReportB.Enabled AndAlso UserReportB.Visible Then UserReportVandalism_Click()
 
-            Case Is = ShortcutKeys("Report user")
-                If UserReportB.Enabled AndAlso UserReportB.Visible Then UserReportVandalism_Click()
+                Case Is = ShortcutKeys("Block user")
+                    If UserBlockB.Enabled AndAlso UserBlockB.Visible Then UserBlock_Click()
 
-            Case Is = ShortcutKeys("Block user")
-                If UserBlockB.Enabled AndAlso UserBlockB.Visible Then UserBlock_Click()
+                Case Is = ShortcutKeys("Latest contribution")
+                    If ContribsLastB.Enabled Then ContribsLast_Click()
 
-            Case Is = ShortcutKeys("Latest contribution")
-                If ContribsLastB.Enabled Then ContribsLast_Click()
+                Case Is = ShortcutKeys("Current revision")
+                    If HistoryLastB.Enabled Then HistoryLast_Click()
 
-            Case Is = ShortcutKeys("Current revision")
-                If HistoryLastB.Enabled Then HistoryLast_Click()
+                Case Is = ShortcutKeys("Delete page")
+                    If PageDeleteB.Enabled AndAlso PageDeleteB.Visible Then PageDelete_Click()
 
-            Case Is = ShortcutKeys("Delete page")
-                If PageDeleteB.Enabled AndAlso PageDeleteB.Visible Then PageDelete_Click()
+                Case Is = ShortcutKeys("Diff to current revision")
+                    If HistoryDiffToCurB.Enabled Then HistoryDiffToCur_Click()
 
-            Case Is = ShortcutKeys("Diff to current revision")
-                If HistoryDiffToCurB.Enabled Then HistoryDiffToCur_Click()
+                Case Is = ShortcutKeys("Edit page")
+                    If PageEditB.Enabled Then EditPage_Click()
 
-            Case Is = ShortcutKeys("Edit page")
-                If PageEditB.Enabled Then EditPage_Click()
+                Case Is = ShortcutKeys("Tag page")
+                    If PageTagB.Enabled Then TagPage_Click()
 
-            Case Is = ShortcutKeys("Tag page")
-                If PageTagB.Enabled Then TagPage_Click()
+                Case Is = ShortcutKeys("Retrieve recent page history")
+                    If HistoryB.Enabled Then ViewHistory_Click()
 
-            Case Is = ShortcutKeys("Retrieve recent page history")
-                If HistoryB.Enabled Then ViewHistory_Click()
+                Case Is = ShortcutKeys("Retrieve full page history")
+                    If CurrentPage IsNot Nothing Then
+                        Dim NewRequest As New HistoryRequest
+                        NewRequest.Page = CurrentPage
+                        NewRequest.BlockSize = Config.FullHistoryBlockSize
+                        NewRequest.Full = True
+                        NewRequest.Start()
+                    End If
 
-            Case Is = ShortcutKeys("Retrieve full page history")
-                If CurrentPage IsNot Nothing Then
-                    Dim NewRequest As New HistoryRequest
-                    NewRequest.Page = CurrentPage
-                    NewRequest.BlockSize = Config.FullHistoryBlockSize
-                    NewRequest.Full = True
-                    NewRequest.Start()
-                End If
+                Case Is = ShortcutKeys("Ignore user")
+                    If UserIgnoreB.Enabled AndAlso CurrentEdit IsNot Nothing AndAlso CurrentEdit.User IsNot Nothing _
+                        AndAlso Not CurrentEdit.User.Ignored Then UserIgnore_Click()
 
-            Case Is = ShortcutKeys("Ignore user")
-                If UserIgnoreB.Enabled AndAlso CurrentEdit IsNot Nothing AndAlso CurrentEdit.User IsNot Nothing _
-                    AndAlso Not CurrentEdit.User.Ignored Then UserIgnore_Click()
+                Case Is = ShortcutKeys("Unignore user")
+                    If UserIgnoreB.Enabled AndAlso CurrentEdit IsNot Nothing AndAlso CurrentEdit.User IsNot Nothing _
+                        AndAlso Not CurrentEdit.User.Ignored Then UserIgnore_Click()
 
-            Case Is = ShortcutKeys("Unignore user")
-                If UserIgnoreB.Enabled AndAlso CurrentEdit IsNot Nothing AndAlso CurrentEdit.User IsNot Nothing _
-                    AndAlso Not CurrentEdit.User.Ignored Then UserIgnore_Click()
+                Case Is = ShortcutKeys("Toggle 'show new edits'")
+                    ShowNewEdits_Click()
 
-            Case Is = ShortcutKeys("Toggle 'show new edits'")
-                ShowNewEdits_Click()
+                Case Is = ShortcutKeys("Watch page")
+                    If PageWatchB.Enabled Then WatchPage_Click()
 
-            Case Is = ShortcutKeys("Watch page")
-                If PageWatchB.Enabled Then WatchPage_Click()
+                Case Is = ShortcutKeys("Show new messages")
+                    If SystemMessages.Enabled Then SystemShowNewMessages_Click()
 
-            Case Is = ShortcutKeys("Show new messages")
-                If SystemMessages.Enabled Then SystemShowNewMessages_Click()
+                Case Is = ShortcutKeys("Message user")
+                    If UserMessageB.Enabled Then UserMessage_Click()
 
-            Case Is = ShortcutKeys("Message user")
-                If UserMessageB.Enabled Then UserMessage_Click()
+                Case Is = ShortcutKeys("Open page in external browser")
+                    If MainForm.BrowserOpen.Enabled = True Then BrowserOpen_Click()
 
-            Case Is = ShortcutKeys("Open page in external browser")
-                If MainForm.BrowserOpen.Enabled = True Then BrowserOpen_Click()
+                Case Is = ShortcutKeys("Mark page as patrolled")
+                    If PagePatrol.Enabled AndAlso Config.Patrol Then PageMarkPatrolled_Click()
 
-            Case Is = ShortcutKeys("Mark page as patrolled")
-                If PagePatrol.Enabled AndAlso Config.Patrol Then PageMarkPatrolled_Click()
+                Case Is = ShortcutKeys("Proposed deletion")
+                    If PageTagProd.Enabled AndAlso Config.Prod Then PageTagProd_Click()
 
-            Case Is = ShortcutKeys("Proposed deletion")
-                If PageTagProd.Enabled AndAlso Config.Prod Then PageTagProd_Click()
+                Case Is = ShortcutKeys("Revert and warn")
+                    If RevertWarnB.Enabled Then RevertWarnB_ButtonClick()
 
-            Case Is = ShortcutKeys("Revert and warn")
-                If RevertWarnB.Enabled Then RevertWarnB_ButtonClick()
+                Case Is = ShortcutKeys("Revert")
+                    If RevertB.Enabled Then Revert_Click()
 
-            Case Is = ShortcutKeys("Revert")
-                If RevertB.Enabled Then Revert_Click()
+                Case Is = ShortcutKeys("Nominate for deletion")
+                    If PageXfd.Enabled Then PageNominate_Click()
 
-            Case Is = ShortcutKeys("Nominate for deletion")
-                If PageXfd.Enabled Then PageNominate_Click()
+                Case Is = ShortcutKeys("Request deletion")
+                    If PageTagDeleteB.Enabled Then PageTagDeleteB.ShowDropDown()
 
-            Case Is = ShortcutKeys("Request deletion")
-                If PageTagDeleteB.Enabled Then PageTagDeleteB.ShowDropDown()
+                Case Is = ShortcutKeys("Post template message")
+                    If TemplateB.Enabled Then TemplateB.ShowDropDown()
 
-            Case Is = ShortcutKeys("Post template message")
-                If TemplateB.Enabled Then TemplateB.ShowDropDown()
+                Case Is = ShortcutKeys("Retrieve user contributions")
+                    If ContribsB.Enabled Then UserContribs_Click()
 
-            Case Is = ShortcutKeys("Retrieve user contributions")
-                If ContribsB.Enabled Then UserContribs_Click()
+                Case Is = ShortcutKeys("View current revision")
+                    If PageViewLatest.Enabled Then PageViewLatest_Click()
 
-            Case Is = ShortcutKeys("View current revision")
-                If PageViewLatest.Enabled Then PageViewLatest_Click()
+                Case Is = ShortcutKeys("View this revision")
+                    If PageViewB.Enabled Then PageView_Click()
 
-            Case Is = ShortcutKeys("View this revision")
-                If PageViewB.Enabled Then PageView_Click()
+                Case Is = ShortcutKeys("Warn")
+                    If WarnB.Enabled Then Warn_Click()
 
-            Case Is = ShortcutKeys("Warn")
-                If WarnB.Enabled Then Warn_Click()
+                Case Is = ShortcutKeys("Next contribution")
+                    If ContribsNextB.Enabled Then ContribsNext_Click()
 
-            Case Is = ShortcutKeys("Next contribution")
-                If ContribsNextB.Enabled Then ContribsNext_Click()
+                Case Is = ShortcutKeys("Next revision")
+                    If HistoryNextB.Enabled Then HistoryNext_Click()
 
-            Case Is = ShortcutKeys("Next revision")
-                If HistoryNextB.Enabled Then HistoryNext_Click()
+                Case Is = ShortcutKeys("Revert with custom summary")
+                    If RevertB.Enabled Then DiffRevertSummary_Click()
 
-            Case Is = ShortcutKeys("Revert with custom summary")
-                If RevertB.Enabled Then DiffRevertSummary_Click()
+                Case Is = ShortcutKeys("Previous contribution")
+                    If ContribsPrevB.Enabled Then ContribsPrev_Click()
 
-            Case Is = ShortcutKeys("Previous contribution")
-                If ContribsPrevB.Enabled Then ContribsPrev_Click()
+                Case Is = ShortcutKeys("Previous revision")
+                    If HistoryPrevB.Enabled Then HistoryPrev_Click()
 
-            Case Is = ShortcutKeys("Previous revision")
-                If HistoryPrevB.Enabled Then HistoryPrev_Click()
+                Case Is = ShortcutKeys("Browse back")
+                    If BrowserBackB.Enabled Then GoBack_Click()
 
-            Case Is = ShortcutKeys("Browse back")
-                If BrowserBackB.Enabled Then GoBack_Click()
+                Case Is = ShortcutKeys("Browse forward")
+                    If BrowserForwardB.Enabled Then GoForward_Click()
 
-            Case Is = ShortcutKeys("Browse forward")
-                If BrowserForwardB.Enabled Then GoForward_Click()
+                Case Is = ShortcutKeys("New tab")
+                    NewTab_Click()
 
-            Case Is = ShortcutKeys("New tab")
-                NewTab_Click()
+                Case Is = ShortcutKeys("Close tab")
+                    If Tabs.TabPages.Count > 1 Then CloseTab_Click()
 
-            Case Is = ShortcutKeys("Close tab")
-                If Tabs.TabPages.Count > 1 Then CloseTab_Click()
+                Case Is = ShortcutKeys("Next tab")
+                    Tabs.SelectedIndex = (Tabs.SelectedIndex + 1) Mod Tabs.TabCount
 
-            Case Is = ShortcutKeys("Next tab")
-                Tabs.SelectedIndex = (Tabs.SelectedIndex + 1) Mod Tabs.TabCount
+                Case Is = ShortcutKeys("Previous tab")
+                    Tabs.SelectedIndex = (Tabs.SelectedIndex - 1) Mod Tabs.TabCount
 
-            Case Is = ShortcutKeys("Previous tab")
-                Tabs.SelectedIndex = (Tabs.SelectedIndex - 1) Mod Tabs.TabCount
+                Case Is = ShortcutKeys("Request protection")
+                    If PageReqProtection.Enabled Then PageRequestProtection_Click()
+            End Select
 
-            Case Is = ShortcutKeys("Request protection")
-                If PageReqProtection.Enabled Then PageRequestProtection_Click()
-        End Select
-
-        e.Handled = True
-        e.SuppressKeyPress = True
+            e.Handled = True
+            e.SuppressKeyPress = True
+        Catch ex As Exception
+        End Try
     End Sub
 
     Private Sub SetShortcutDisplayText()

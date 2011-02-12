@@ -1,4 +1,6 @@
-﻿Class ContribsStrip
+﻿
+
+Class ContribsStrip
 
     Inherits ToolStripItem
 

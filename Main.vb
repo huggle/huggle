@@ -1,3 +1,19 @@
+'This is a source code or part of Huggle project
+'revertrequests.vb
+'This file contains code for
+'last modified by Petrb
+
+'Copyright (C) 2011 Huggle team
+
+'This program is free software: you can redistribute it and/or modify
+'it under the terms of the GNU General Public License as published by
+'the Free Software Foundation, either version 3 of the License, or
+'(at your option) any later version.
+
+'This program is distributed in the hope that it will be useful,
+'but WITHOUT ANY WARRANTY; without even the implied warranty of
+'MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+'GNU General Public License for more details.
 
 Imports System.IO
 Imports System.Text
@@ -56,6 +72,7 @@ Class Main
     End Sub
 
     Sub DrawHistory()
+
         Dim Break As Integer = 0
         If CurrentPage Is Nothing Then Exit Sub
 
@@ -128,39 +145,50 @@ Class Main
     End Sub
 
     Sub DrawQueues()
+        Dim Large As Integer = 0
         If CurrentQueue IsNot Nothing AndAlso CurrentQueue.Edits IsNot Nothing AndAlso QueueContainer.Visible Then
-            Dim QueueHeight As Integer = (QueueArea.Height \ 20) - 2
-
-            If QueueHeight < CurrentQueue.Edits.Count Then
-                QueueScroll.Enabled = True
-                QueueScroll.Maximum = CurrentQueue.Edits.Count - 2
-                QueueScroll.Minimum = 0
-                QueueScroll.SmallChange = 1
-                QueueScroll.LargeChange = Math.Max(1, QueueHeight)
+            Dim QueueHeight As Double = (QueueArea.Height \ 20) - 2
+            Large = Math.Max(1, Convert.ToInt32(QueueHeight))
+            If QueueHeight > 0 Then
+                If CInt(QueueHeight) < CurrentQueue.Edits.Count Then
+                    QueueScroll.Enabled = True
+                    If (CurrentQueue.Edits.Count - 2) >= 1 Then
+                        QueueScroll.Maximum = CurrentQueue.Edits.Count - 2
+                    End If
+                    QueueScroll.Minimum = 0
+                    QueueScroll.SmallChange = 1
+                    If QueueScroll.Value > QueueScroll.Maximum Then
+                        QueueScroll.Value = 1
+                    End If
+                End If
+                QueueScroll.LargeChange = Large
             Else
                 QueueScroll.Enabled = False
-                QueueScroll.Value = 0
+                QueueScroll.Value = 1
             End If
-
             QueueArea.Draw(CurrentQueue, QueueScroll.Value)
         End If
-
         If SecondQueue IsNot Nothing AndAlso SecondQueue.Edits IsNot Nothing AndAlso QueueContainer.Visible _
             AndAlso Config.ShowTwoQueues Then
-
-            Dim QueueHeight As Integer = (QueueArea2.Height \ 20) - 2
-
-            If QueueHeight < SecondQueue.Edits.Count Then
-                QueueScroll2.Enabled = True
-                QueueScroll2.Maximum = SecondQueue.Edits.Count - 2
-                QueueScroll2.Minimum = 0
-                QueueScroll2.SmallChange = 1
-                QueueScroll2.LargeChange = Math.Max(1, QueueHeight)
-            Else
-                QueueScroll2.Enabled = False
-                QueueScroll2.Value = 0
+            Dim QueueHeight As Double = (QueueArea2.Height \ 20) - 2
+            Large = Math.Max(1, Convert.ToInt32(QueueHeight))
+            If QueueHeight > 0 Then
+                If CInt(QueueHeight) < SecondQueue.Edits.Count Then
+                    QueueScroll2.Enabled = True
+                    If (SecondQueue.Edits.Count - 2) >= 1 Then
+                        QueueScroll2.Maximum = SecondQueue.Edits.Count - 2
+                    End If
+                    QueueScroll2.Minimum = 0
+                    If QueueScroll2.Value > QueueScroll2.Maximum Then
+                        QueueScroll2.Value = QueueScroll2.Minimum
+                    End If
+                    QueueScroll2.SmallChange = 1
+                    QueueScroll2.LargeChange = Math.Max(1, Convert.ToInt32(QueueHeight))
+                Else
+                    QueueScroll2.Enabled = False
+                    QueueScroll2.Value = 1
+                End If
             End If
-
             QueueArea2.Draw(SecondQueue, QueueScroll2.Value)
         End If
     End Sub
@@ -211,6 +239,9 @@ Class Main
     End Sub
 
     Public Sub IgnoreUser(ByVal User As User)
+        If User Is Nothing Then
+            Exit Sub
+        End If
         'Sets the username to be ignored
         User.Ignored = True
         If Not WhitelistManualChanges.Contains(User.Name) Then WhitelistManualChanges.Add(User.Name)
@@ -238,6 +269,9 @@ Class Main
     End Sub
 
     Public Sub UnignoreUser(ByVal User As User)
+        If User Is Nothing Then
+            Exit Sub
+        End If
         User.Ignored = False
         If WhitelistManualChanges.Contains(User.Name) Then WhitelistManualChanges.Remove(User.Name)
         If WhitelistAutoChanges.Contains(User.Name) Then WhitelistAutoChanges.Remove(User.Name)
@@ -851,6 +885,7 @@ Class Main
     End Sub
 
     Sub BlockUser(ByVal ThisUser As User)
+        On Error Resume Next
         Dim NewBlockForm As New BlockForm
 
         NewBlockForm.User = ThisUser

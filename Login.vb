@@ -148,7 +148,9 @@ Namespace Requests
             If State = States.Cancelled Then Thread.CurrentThread.Abort()
 
             'Notify user of new version
-            If Config.LatestVersion > Config.Version Then
+            Dim Current As Version = Config.Version
+
+            If Config.LatestVersion > Current And Config.Beta = False Then
                 Dim UpdateForm As New UpdateForm
 
                 'If the current version is smaller than the min version abort with error

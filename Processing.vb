@@ -266,6 +266,7 @@ Module Processing
     End Sub
 
     Sub ProcessNewEdit(ByVal Edit As Edit)
+        On Error Resume Next
         If Edit.User Is Nothing OrElse Edit.Page Is Nothing OrElse MainForm Is Nothing Then Exit Sub
 
         Dim Redraw As Boolean
@@ -318,7 +319,7 @@ Module Processing
 
                     If Queue Is CurrentQueue Then
                         'Keep user's viewing position when adding new items, if not looking at the top of the queue
-                        If Queue.SortOrder = QueueSortOrder.Time AndAlso MainForm.QueueScroll.Value > 0 _
+                        If Queue.SortOrder = QueueSortOrder.Time And (MainForm.QueueScroll.Value) < MainForm.QueueScroll.Maximum And MainForm.QueueScroll.Value > 1 _
                             Then MainForm.QueueScroll.Value += 1
                         Redraw = True
                     End If
@@ -521,6 +522,7 @@ Module Processing
     End Sub
 
     Sub UserDeleteRequest(ByVal Page As Page)
+        If Page Is Nothing Then Exit Sub
         If Config.Rights.Contains("delete") Then
             Dim NewDeleteForm As New DeleteForm
             NewDeleteForm.Page = Page
@@ -538,7 +540,6 @@ Module Processing
     Function DoRevert(ByVal Edit As Edit, Optional ByVal Summary As String = Nothing, _
         Optional ByVal Rollback As Boolean = True, Optional ByVal Undoing As Boolean = False, _
         Optional ByVal CurrentOnly As Boolean = False) As Boolean
-
         If Edit Is Nothing OrElse Edit.Page Is Nothing OrElse Edit.User Is Nothing Then Return False
 
         Dim LastEditor As User
@@ -958,6 +959,7 @@ Module Processing
     End Function
 
     Sub ProcessHistory(ByVal Result As String, ByVal Page As Page)
+        On Error Resume Next
         If Result Is Nothing Then Return
 
         Dim History As MatchCollection = New Regex("<rev revid=""([^""]+)"" parentid=""([^""]+)"" user=""([^""]+)"" (anon="""" )" & _
@@ -969,35 +971,33 @@ Module Processing
         End If
 
         Dim NextEdit As Edit = Nothing
-        If (History.Count - 1) > 0 Then
-            For i As Integer = 0 To History.Count - 1
-                Dim Edit As Edit
-                Dim Diff As String = History(i).Groups(1).Value
+        For i As Integer = 0 To History.Count - 1
+            Dim Edit As Edit
+            Dim Diff As String = History(i).Groups(1).Value
 
-                If Edit.All.ContainsKey(Diff) Then Edit = Edit.All(Diff) Else Edit = New Edit
+            If Edit.All.ContainsKey(Diff) Then Edit = Edit.All(Diff) Else Edit = New Edit
 
-                Edit.Id = Diff
-                If Edit.Oldid Is Nothing Then Edit.Oldid = "prev"
-                Edit.Page = Page
+            Edit.Id = Diff
+            If Edit.Oldid Is Nothing Then Edit.Oldid = "prev"
+            Edit.Page = Page
 
-                If History(i).Groups(8).Value <> "" Then Edit.Text = HtmlDecode(History(i).Groups(9).Value)
+            If History(i).Groups(8).Value <> "" Then Edit.Text = HtmlDecode(History(i).Groups(9).Value)
 
-                Edit.User = GetUser(HtmlDecode(History(i).Groups(3).Value))
-                If Edit.Summary Is Nothing Then Edit.Summary = HtmlDecode(History(i).Groups(7).Value)
-                If Edit.Time = Date.MinValue Then Edit.Time = CDate(History(i).Groups(5).Value)
+            Edit.User = GetUser(HtmlDecode(History(i).Groups(3).Value))
+            If Edit.Summary Is Nothing Then Edit.Summary = HtmlDecode(History(i).Groups(7).Value)
+            If Edit.Time = Date.MinValue Then Edit.Time = CDate(History(i).Groups(5).Value)
 
-                If Page.LastEdit Is Nothing Then
-                    Page.LastEdit = Edit
-                ElseIf NextEdit IsNot Nothing Then
-                    Edit.Next = NextEdit
-                    Edit.Next.Oldid = Edit.Id
-                    NextEdit.Prev = Edit
-                End If
+            If Page.LastEdit Is Nothing Then
+                Page.LastEdit = Edit
+            ElseIf NextEdit IsNot Nothing Then
+                Edit.Next = NextEdit
+                Edit.Next.Oldid = Edit.Id
+                NextEdit.Prev = Edit
+            End If
 
-                NextEdit = Edit
-                ProcessEdit(Edit)
-            Next i
-        End If
+            NextEdit = Edit
+            ProcessEdit(Edit)
+        Next i
 
         If Result.Contains("<revisions rvstartid=""") Then
             Page.HistoryOffset = NextEdit.Id
@@ -1017,7 +1017,7 @@ Module Processing
          RegexOptions.Compiled)
 
     Sub ProcessContribs(ByVal Result As String, ByVal User As User)
-
+        On Error Resume Next
         Dim Contribs As New List(Of String)(Split(Result, "<item "))
 
         Contribs.RemoveAt(0)
