@@ -1,3 +1,19 @@
+'This is a source code or part of Huggle project
+'EditRequests.vb
+'This file contains code for edit actions
+'last modified by Petrb
+
+'Copyright (C) 2011 Huggle team
+
+'This program is free software: you can redistribute it and/or modify
+'it under the terms of the GNU General Public License as published by
+'the Free Software Foundation, either version 3 of the License, or
+'(at your option) any later version.
+
+'This program is distributed in the hope that it will be useful,
+'but WITHOUT ANY WARRANTY; without even the implied warranty of
+'MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+'GNU General Public License for more details.
 Imports System.Text.RegularExpressions
 Imports System.Threading
 Imports System.Web.HttpUtility
@@ -32,7 +48,7 @@ Namespace Requests
         Public Page As Page, NotifyRequest As UserMessageRequest
         Public Tag, Summary, AvoidText As String
         Public Minor As Boolean = Config.Minor("tag"), Watch As Boolean = Config.Watch("tag")
-        Public ReplacePage, Patrol, InsertAtEnd As Boolean
+        Public ReplacePage As Boolean, Patrol As Boolean = False, InsertAtEnd As Boolean = False
 
         Protected Overrides Sub Process()
             LogProgress(Msg("tag-progress", Page.Name))
@@ -96,7 +112,7 @@ Namespace Requests
 
         'Tag a page for speedy deletion
 
-        Public Page As Page, Criterion As SpeedyCriterion, Parameter As String, AutoNotify, Notify As Boolean
+        Public Page As Page, Criterion As SpeedyCriterion, Parameter As String, AutoNotify As Boolean = False, Notify As Boolean = False
 
         Protected Overrides Sub Process()
             LogProgress(Msg("speedy-progress", Page.Name))

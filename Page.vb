@@ -21,9 +21,9 @@ Class Page
 
     'Represents a MediaWiki page
 
-    Private _Name As String = ""
+    Private _Name As String
     Private _Space As Space
-    Private _Exists As Boolean = False
+    Private _Exists As Boolean
 
     Private Shared All As New Dictionary(Of String, Page)
 
@@ -31,11 +31,11 @@ Class Page
     Public LastEdit As Edit 'Current edit
     Public Level As PageLevel
     Public Deletes As List(Of Delete)
-    Public DeletesCurrent As Boolean = False
+    Public DeletesCurrent As Boolean
     Public Protections As List(Of Protection)
-    Public ProtectionsCurrent As Boolean = False
+    Public ProtectionsCurrent As Boolean
     Public HistoryOffset As String
-    Public Patrolled As Boolean = False
+    Public Patrolled As Boolean
     Public Rcid As String
     Public SpeedyCriterion As SpeedyCriterion
     Public Text As String

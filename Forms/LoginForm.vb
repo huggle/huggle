@@ -1,3 +1,19 @@
+'This is a source code or part of Huggle project
+'revertrequests.vb
+'This file contains code for login form
+'last modified by Petrb
+
+'Copyright (C) 2011 Huggle team
+
+'This program is free software: you can redistribute it and/or modify
+'it under the terms of the GNU General Public License as published by
+'the Free Software Foundation, either version 3 of the License, or
+'(at your option) any later version.
+
+'This program is distributed in the hope that it will be useful,
+'but WITHOUT ANY WARRANTY; without even the implied warranty of
+'MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+'GNU General Public License for more details.
 Imports System.Net
 Imports System.Threading
 
@@ -38,6 +54,9 @@ Class LoginForm
         ProxyDomain.Text = Config.ProxyUserDomain
         ProxyUsername.Text = Config.ProxyUsername
         Text = "Huggle " & VersionString(Config.Version)
+        If Config.Beta = True Then
+            Me.Text = Me.Text & " release candidate beta"
+        End If
 
         If Config.RememberMe Then Username.Text = Config.Username
         If Config.RememberPassword Then Password.Text = Config.Password

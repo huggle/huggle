@@ -87,7 +87,7 @@ Partial Class AboutForm
         '
         'NewContributorsLabel
         '
-        Me.NewContributorsLabel.Location = New System.Drawing.Point(3, 101)
+        Me.NewContributorsLabel.Location = New System.Drawing.Point(3, 104)
         Me.NewContributorsLabel.Name = "NewContributorsLabel"
         Me.NewContributorsLabel.Size = New System.Drawing.Size(64, 13)
         Me.NewContributorsLabel.TabIndex = 0
@@ -223,7 +223,7 @@ Partial Class AboutForm
         'OldContributorsLabel
         '
         Me.OldContributorsLabel.AutoSize = True
-        Me.OldContributorsLabel.Location = New System.Drawing.Point(3, 135)
+        Me.OldContributorsLabel.Location = New System.Drawing.Point(3, 138)
         Me.OldContributorsLabel.Name = "OldContributorsLabel"
         Me.OldContributorsLabel.Size = New System.Drawing.Size(102, 13)
         Me.OldContributorsLabel.TabIndex = 18
