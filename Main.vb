@@ -842,7 +842,6 @@ Class Main
             If Status.Items(i).ForeColor = Color.Red AndAlso Status.Items(i).Tag Is Request _
                 Then Status.Items.RemoveAt(i) Else i += 1
         End While
-
         Status.EndUpdate()
         UpdateCancelButton()
     End Sub
@@ -875,7 +874,6 @@ Class Main
 
     Private Sub GoForward_Click() _
         Handles BrowserForward.Click, BrowserForwardB.ButtonClick
-
         CurrentTab.HistoryForward()
     End Sub
 
@@ -886,10 +884,14 @@ Class Main
 
     Sub BlockUser(ByVal ThisUser As User)
         On Error Resume Next
-        Dim NewBlockForm As New BlockForm
+        If ThisUser IsNot Nothing Then
+            Dim NewBlockForm As New BlockForm
 
-        NewBlockForm.User = ThisUser
-        NewBlockForm.Show()
+            NewBlockForm.User = ThisUser
+            NewBlockForm.Show()
+        Else
+            Debug.Write("No user")
+        End If
     End Sub
 
     Sub ReportUser(ByVal User As User, Optional ByVal Edit As Edit = Nothing)
