@@ -328,6 +328,7 @@ main-page-patrol:          Mark patrolled
 main-page-move:            Move...
 main-page-protect:         Protect...
 main-page-delete:          Delete...
+main-page-restore:         Restore this revision of article
 main-user-info:            Show user info
 main-user-ignore:          Ignore
 main-user-unignore:        Unignore
@@ -429,6 +430,7 @@ protect-none:              None
 protect-semiprotection:    Semi-protection
 protect-fullprotection:    Full protection
 protect-moveprotection:    Move protection
+protect-noprotect:          No protection
 </pre>
 
 === Queue form ===
@@ -646,6 +648,7 @@ blocknotify-progress:      Notifying '{0}' of block...
 delete-done:               Deleted '{0}'
 delete-fail:               Did not delete '{0}'
 delete-progress:           Deleting '{0}'...
+delete-rem-talk:		Delete associated talk page
 
 deletelog-fail:            Failed to retrieve deletion log for '{0}'
 deletelog-none:            No deletion log for '{0}'

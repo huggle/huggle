@@ -30,30 +30,30 @@ Class Edit
     End Sub
 
     Public Assisted As Boolean = False
-    Public Bot As Boolean = False
+    Public Bot As Boolean
     Public Change As Integer = 0
-    Public ChangedContent As String = ""
-    Public Deleted As Boolean = False
-    Public Diff As String = ""
+    Public ChangedContent As String
+    Public Deleted As Boolean
+    Public Diff As String
     Public DiffCacheState As CacheState
     Public Id As String 'rev
     Public LevelToWarn As UserLevel
-    Public Multiple As Boolean = False
-    Public NewPage As Boolean = False
+    Public Multiple As Boolean
+    Public NewPage As Boolean
     Public [Next] As Edit
     Public NextByUser As Edit
     Public Oldid As String = ""
     Public Page As Page
     Public Prev As Edit
     Public PrevByUser As Edit
-    Public Processed As Boolean = False
-    Public Rcid As String = ""
-    Public RollbackToken As String = ""
-    Public SightPostData As String = ""
+    Public Processed As Boolean
+    Public Rcid As String
+    Public RollbackToken As String
+    Public SightPostData As String
     Public Sighted As Boolean = False
     Public Size As Integer = 0
-    Public Summary As String = ""
-    Public Text As String = ""
+    Public Summary As String
+    Public Text As String
     Public Time As Date
     Public Type As EditType
     Public TypeToWarn As String = ""
