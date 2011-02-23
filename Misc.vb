@@ -421,7 +421,7 @@ Module Misc
     Function IsWikiPage(ByVal Text As String) As Boolean
         'Unfortunately there is no one element common to all skins
         If Text Is Nothing Then Return False
-        Return Regex.Match(Text, "<body class=.mediawiki").Success
+        Return Regex.Match(Text, "<body class=.mediawiki").Success Or Regex.Match(Text, "<div id=['""](mw[-_])?content['""] *>").Success
     End Function
 
     Function LocalConfigPath() As String

@@ -56,7 +56,7 @@ Class Edit
     Public Text As String
     Public Time As Date
     Public Type As EditType
-    Public TypeToWarn As String = ""
+    Public TypeToWarn As String
     Public User As User
     Public WarningLevel As UserLevel
 
