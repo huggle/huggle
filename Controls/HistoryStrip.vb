@@ -1,5 +1,5 @@
 ﻿'This is a source code or part of Huggle project
-'revertrequests.vb
+'Historystrip.vb
 'This file contains code for
 'last modified by Petrb
 

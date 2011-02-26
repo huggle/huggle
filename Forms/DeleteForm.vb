@@ -125,7 +125,7 @@ Class DeleteForm
         If RemTalk.Checked = True And Page.IsTalkPage = False And Page.TalkPage.Exists Then
 
             TalkPageDeleteRe.Page = Page.TalkPage
-            NewDeleteRequest.Summary = Config.AssociatedDeletion
+            TalkPageDeleteRe.Summary = Config.AssociatedDeletion
             TalkPageDeleteRe.Start()
         End If
 
