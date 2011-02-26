@@ -150,7 +150,7 @@ Namespace Requests
             'Notify user of new version
             Dim Current As Version = Config.Version
 
-            If Config.LatestVersion > Current And Config.Beta = False Then
+            If (Config.LatestVersion > Current) Or (Config.Beta And Current = Config.LatestVersion) Then
                 Dim UpdateForm As New UpdateForm
 
                 'If the current version is smaller than the min version abort with error

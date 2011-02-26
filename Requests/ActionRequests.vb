@@ -135,7 +135,7 @@ Namespace Requests
             Dim PostString As String = "title=" & UrlEncode(Page.Name) & _
                 "&reason=" & UrlEncode(Summary) & "&token=" & UrlEncode(Token)
 
-            If Config.WatchDelete Then PostString &= "&watch=1"
+            ' Config.WatchDelete Then PostString &= "&watch=1"
 
             Result = DoApiRequest("action=delete", PostString)
 

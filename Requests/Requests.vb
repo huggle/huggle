@@ -272,7 +272,10 @@ Namespace Requests
 
             Result = DoUrlRequest(SitePath() & "index.php?title=Special:UserLogin&action=submitlogin", PostString)
 
-            If Result Is Nothing OrElse Not IsWikiPage(Result) Then Return LoginResult.Failed
+            If Result Is Nothing OrElse Not IsWikiPage(Result) Then
+                Return LoginResult.Failed
+            End If
+
 
             If Result.Contains("<span id=""mw-noname"">") Then Return LoginResult.InvalidUsername
             If Result.Contains("<span id=""mw-nosuchuser"">") Then Return LoginResult.NoUser

@@ -773,6 +773,7 @@ Module Processing
     End Sub
 
     Sub ProcessPageMove(ByVal PageMoveObject As Object)
+        On Error Resume Next
         Dim PageMove As PageMove = CType(PageMoveObject, PageMove)
 
         GetPage(PageMove.Source).MovedTo(PageMove.Destination)
@@ -789,6 +790,7 @@ Module Processing
     End Sub
 
     Sub ProcessProtection(ByVal ProtectionObject As Object)
+        On Error Resume Next
         Dim Protection As Protection = CType(ProtectionObject, Protection)
 
         If Protection IsNot Nothing AndAlso Protection.Page IsNot Nothing Then
@@ -1085,6 +1087,7 @@ Module Processing
     End Sub
 
     Sub ProcessRc(ByVal Result As String)
+        On Error Resume Next
         Result = FindString(Result, "<recentchanges>", "</recentchanges>")
 
         If Result IsNot Nothing Then
@@ -1109,15 +1112,15 @@ Module Processing
         End If
 
         If CurrentQueue IsNot Nothing Then
-                For i As Integer = 0 To Math.Min(CurrentQueue.Edits.Count - 1, Config.Preloads - 1)
-                    If CurrentQueue.Edits(i).DiffCacheState = Edit.CacheState.Uncached Then
-                        CurrentQueue.Edits(i).DiffCacheState = Edit.CacheState.Caching
+            For i As Integer = 0 To Math.Min(CurrentQueue.Edits.Count - 1, Config.Preloads - 1)
+                If CurrentQueue.Edits(i).DiffCacheState = Edit.CacheState.Uncached Then
+                    CurrentQueue.Edits(i).DiffCacheState = Edit.CacheState.Caching
 
-                        Dim NewRequest As New DiffRequest
-                        NewRequest.Edit = CurrentQueue.Edits(i)
-                        NewRequest.Start()
-                    End If
-                Next i
+                    Dim NewRequest As New DiffRequest
+                    NewRequest.Edit = CurrentQueue.Edits(i)
+                    NewRequest.Start()
+                End If
+            Next i
         End If
 
         MainForm.RefreshInterface()

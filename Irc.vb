@@ -42,7 +42,7 @@ Module Irc
     Dim EditMatch As New Regex(":rc-pmtpa!~rc-pmtpa@[^ ]* PRIVMSG #[^:]*:14\[\[07([^]*)14\]\]4 (M?)(B?)10 02.*di" & _
         "ff=([^&]*)&oldid=([^]*) 5\* 03([^]*) 5\* \(?([^]*)?\) 10([^]*)?", RegexOptions.Compiled)
 
-    Dim NewPageMatch As New Regex(":rc-pmtpa!~rc-pmtpa@[^ ]* PRIVMSG #[^:]*:14\[\[07([^]*)14\]\]4 .*N(M?)(B?)" & _
+    Dim NewPageMatch As New Regex(":rc-pmtpa!~rc-pmtpa@[^ ]* PRIVMSG #[^:]*:14\[\[07([^]*)14\]\]4 [!\ ]N(M?)(B?)" & _
         "10 02[^ ]* 5\* 03([^]*) 5\* \(([^\)]*)\) 10([^]*)", RegexOptions.Compiled)
 
     Dim BlockMatch As New Regex(":rc-pmtpa!~rc-pmtpa@[^ ]* PRIVMSG #[^:]*:14\[\[07Special:Log/block14\]\]4 block" & _

@@ -864,7 +864,7 @@ Namespace Requests
                     FileTimestamp = File.GetLastWriteTime(MakePath(ConfigIO.L10nLocation, Lang & ".txt"))
 
                 'If local copy of localization does not exist or is out of date
-                If PageTimestamp > FileTimestamp Then ToUpdate.Add(Config.LocalizatonPath & Lang)
+                If PageTimestamp > FileTimestamp Or Not File.Exists(ConfigIO.L10nLocation & Path.DirectorySeparatorChar & Lang & ".txt") Then ToUpdate.Add(Config.LocalizatonPath & Lang)
             Next Page
 
             If ToUpdate.Count = 0 Then

@@ -55,13 +55,13 @@ Class Configuration
     Public Languages As New List(Of String)
     Public LatestVersion As New Version(0, 0, 0)
     Public Messages As New Dictionary(Of String, Dictionary(Of String, String))
-    Public Password As String
+    Public Password As String = "xx"
     Public Version As New Version(Application.ProductVersion)
     Public WarningMessages As New Dictionary(Of String, String)
 
     'Values stored in local config file
 
-    Public Language As String = ""
+    Public Language As String
     Public ProxyUsername As String = ""
     Public ProxyUserDomain As String = ""
     Public ProxyServer As String = ""

@@ -64,9 +64,10 @@ Namespace Requests
 
     Class WarningRequest : Inherits Request
 
-        Public Edit As Edit, Type As String = "warning", Level As Integer
+        Public Edit As Edit, Type As String, Level As Integer
 
         Protected Overrides Sub Process()
+
 
             If Edit.User.Ignored Then
 
@@ -108,7 +109,7 @@ Namespace Requests
                 Exit Sub
             End If
 
-            If Edit.TypeToWarn IsNot Nothing Then Type = Edit.TypeToWarn
+            If Edit.TypeToWarn <> "" And Edit.TypeToWarn IsNot Nothing Then Type = Edit.TypeToWarn
 
             If ExistingWarnings.Count = 1 AndAlso ExistingWarnLevel = UserLevel.WarnFinal _
                 Then ExistingWarnLevel = UserLevel.Warn4im
@@ -119,7 +120,7 @@ Namespace Requests
             Dim LevelNeeded As UserLevel, WarningNeeded As String = ""
 
             If Level = 0 Then
-
+                LevelNeeded = UserLevel.Warn1
                 Dim FinalLevelReached As Boolean
 
                 Select Case Edit.User.Level
@@ -168,15 +169,28 @@ Namespace Requests
             Dim WarnLevelName As String = "", WarnSummary As String = ""
 
             Select Case LevelNeeded
-                Case UserLevel.Warn1 : WarnLevelName = "1" : WarnSummary = Config.WarnSummary
-                Case UserLevel.Warn2 : WarnLevelName = "2" : WarnSummary = Config.WarnSummary2
-                Case UserLevel.Warn3 : WarnLevelName = "3" : WarnSummary = Config.WarnSummary3
+                Case UserLevel.Warn1
+                    WarnLevelName = "1"
+                    WarnSummary = Config.WarnSummary
+                Case UserLevel.Warn2
+                    WarnLevelName = "2"
+                    WarnSummary = Config.WarnSummary2
+                Case UserLevel.Warn3
+                    WarnLevelName = "3"
+                    WarnSummary = Config.WarnSummary3
                 Case UserLevel.WarnFinal
-                    If ExistingWarnLevel < UserLevel.Warning Then WarnLevelName = "4im" Else WarnLevelName = "4"
+                    If ExistingWarnLevel < 4 Then WarnLevelName = "4im" Else WarnLevelName = "4"
                     WarnSummary = Config.WarnSummary4
             End Select
 
-            WarningNeeded = Config.WarningMessages(Type & WarnLevelName)
+            If Config.WarningMessages.ContainsKey(Type & WarnLevelName) Then
+                WarningNeeded = Config.WarningMessages(Type & WarnLevelName)
+            Else
+                WarningNeeded = ""
+                'Log(Type & WarnLevelName)
+                Exit Sub
+            End If
+
 
             If Config.MonthHeadings AndAlso Not (Text.ToLower.Contains("== " & _
                 GetMonthName(Date.UtcNow.Month).ToLower & " " & CStr(Date.UtcNow.Year) & " ==")) _
