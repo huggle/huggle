@@ -33,7 +33,7 @@ Class LoginForm
 
         'Unlist the languages config and add the languages that have translations to the list for login
         For Each Item As String In Config.Languages
-            If Config.Messages.ContainsKey(Item) AndAlso Config.Messages(Item).ContainsKey("name") _
+            If Config.Messages(Item).ContainsKey("name") _
                 Then Language.Items.Add(Config.Messages(Item)("name"))
         Next Item
 

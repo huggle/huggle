@@ -142,6 +142,7 @@ Partial Class ConfigForm
         Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
         Me.BackgroundWorker2 = New System.ComponentModel.BackgroundWorker()
         Me.BackgroundWorker3 = New System.ComponentModel.BackgroundWorker()
+        Me.History = New System.Windows.Forms.CheckBox()
         Me.Tabs.SuspendLayout()
         Me.GeneralTab.SuspendLayout()
         CType(Me.DiffFontSize, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -201,6 +202,7 @@ Partial Class ConfigForm
         '
         'GeneralTab
         '
+        Me.GeneralTab.Controls.Add(Me.History)
         Me.GeneralTab.Controls.Add(Me.RememberPassword)
         Me.GeneralTab.Controls.Add(Me.RememberMe)
         Me.GeneralTab.Controls.Add(Me.DiffFontSize)
@@ -249,7 +251,7 @@ Partial Class ConfigForm
         '
         'DiffFontSize
         '
-        Me.DiffFontSize.Location = New System.Drawing.Point(115, 217)
+        Me.DiffFontSize.Location = New System.Drawing.Point(115, 257)
         Me.DiffFontSize.Maximum = New Decimal(New Integer() {99, 0, 0, 0})
         Me.DiffFontSize.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.DiffFontSize.Name = "DiffFontSize"
@@ -280,7 +282,7 @@ Partial Class ConfigForm
         'LogFileBrowse
         '
         Me.LogFileBrowse.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.LogFileBrowse.Location = New System.Drawing.Point(421, 252)
+        Me.LogFileBrowse.Location = New System.Drawing.Point(421, 292)
         Me.LogFileBrowse.Name = "LogFileBrowse"
         Me.LogFileBrowse.Size = New System.Drawing.Size(75, 23)
         Me.LogFileBrowse.TabIndex = 17
@@ -291,14 +293,14 @@ Partial Class ConfigForm
         '
         Me.LogFile.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.LogFile.Location = New System.Drawing.Point(115, 254)
+        Me.LogFile.Location = New System.Drawing.Point(115, 294)
         Me.LogFile.Name = "LogFile"
         Me.LogFile.Size = New System.Drawing.Size(300, 20)
         Me.LogFile.TabIndex = 16
         '
         'LogFileLabel
         '
-        Me.LogFileLabel.Location = New System.Drawing.Point(0, 257)
+        Me.LogFileLabel.Location = New System.Drawing.Point(0, 297)
         Me.LogFileLabel.Name = "LogFileLabel"
         Me.LogFileLabel.Size = New System.Drawing.Size(115, 18)
         Me.LogFileLabel.TabIndex = 15
@@ -327,7 +329,7 @@ Partial Class ConfigForm
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(167, 185)
+        Me.Label1.Location = New System.Drawing.Point(167, 225)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(70, 13)
         Me.Label1.TabIndex = 11
@@ -336,7 +338,7 @@ Partial Class ConfigForm
         'Label14
         '
         Me.Label14.AutoSize = True
-        Me.Label14.Location = New System.Drawing.Point(167, 219)
+        Me.Label14.Location = New System.Drawing.Point(167, 259)
         Me.Label14.Name = "Label14"
         Me.Label14.Size = New System.Drawing.Size(16, 13)
         Me.Label14.TabIndex = 14
@@ -344,7 +346,7 @@ Partial Class ConfigForm
         '
         'DiffFontSizeLabel
         '
-        Me.DiffFontSizeLabel.Location = New System.Drawing.Point(0, 219)
+        Me.DiffFontSizeLabel.Location = New System.Drawing.Point(0, 259)
         Me.DiffFontSizeLabel.Name = "DiffFontSizeLabel"
         Me.DiffFontSizeLabel.Size = New System.Drawing.Size(115, 18)
         Me.DiffFontSizeLabel.TabIndex = 12
@@ -373,7 +375,7 @@ Partial Class ConfigForm
         '
         'IrcPortLabel
         '
-        Me.IrcPortLabel.Location = New System.Drawing.Point(0, 185)
+        Me.IrcPortLabel.Location = New System.Drawing.Point(0, 225)
         Me.IrcPortLabel.Name = "IrcPortLabel"
         Me.IrcPortLabel.Size = New System.Drawing.Size(115, 17)
         Me.IrcPortLabel.TabIndex = 9
@@ -382,7 +384,7 @@ Partial Class ConfigForm
         '
         'IrcPort
         '
-        Me.IrcPort.Location = New System.Drawing.Point(115, 182)
+        Me.IrcPort.Location = New System.Drawing.Point(115, 222)
         Me.IrcPort.Name = "IrcPort"
         Me.IrcPort.Size = New System.Drawing.Size(50, 20)
         Me.IrcPort.TabIndex = 10
@@ -1289,6 +1291,7 @@ Partial Class ConfigForm
         Me.WatchDelete.TabIndex = 9
         Me.WatchDelete.Text = "Add deleted pages to watchlist"
         Me.WatchDelete.UseVisualStyleBackColor = True
+        Me.WatchDelete.Visible = False
         '
         'BlockTime
         '
@@ -1377,6 +1380,16 @@ Partial Class ConfigForm
         Me.ViewLocalConfig.TabIndex = 1
         Me.ViewLocalConfig.TabStop = True
         Me.ViewLocalConfig.Text = "View local configuration folder"
+        '
+        'History
+        '
+        Me.History.AutoSize = True
+        Me.History.Location = New System.Drawing.Point(9, 176)
+        Me.History.Name = "History"
+        Me.History.Size = New System.Drawing.Size(91, 17)
+        Me.History.TabIndex = 18
+        Me.History.Text = "Download diff"
+        Me.History.UseVisualStyleBackColor = True
         '
         'ConfigForm
         '
@@ -1542,4 +1555,5 @@ Partial Class ConfigForm
     Friend WithEvents BackgroundWorker3 As System.ComponentModel.BackgroundWorker
     Friend WithEvents btImport As System.Windows.Forms.Button
     Friend WithEvents Col3 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents History As System.Windows.Forms.CheckBox
 End Class

@@ -25,6 +25,7 @@ Class ProtectForm
         Reason.Text = Config.ProtectionReason
         Expiry.Text = Config.ProtectionTime
         ProtectionLog.Page = Page
+        ProtectionLog_EnabledChanged()
     End Sub
 
     Private Sub ProtectForm_KeyDown(ByVal s As Object, ByVal e As KeyEventArgs) Handles MyBase.KeyDown
@@ -54,10 +55,10 @@ Class ProtectForm
         OK.Enabled = (Reason.Text <> "")
     End Sub
 
-    Private Sub ProtectionLog_EnabledChanged() Handles ProtectionLog.EnabledChanged
+    Public Sub ProtectionLog_EnabledChanged() Handles ProtectionLog.EnabledChanged
         CurrentLevel.Text = Msg("protect-currentlevel") & " "
 
-        If Page.EditLevel = "" AndAlso Page.MoveLevel = "" Then CurrentLevel.Text &= Msg("protect-noprotection")
+        If (Page.EditLevel Is Nothing Or Page.EditLevel = "") AndAlso (Page.MoveLevel = "" Or Page.MoveLevel Is Nothing) Then CurrentLevel.Text &= Msg("protect-noprotection")
         If Page.EditLevel <> "" Then CurrentLevel.Text &= "edit:" & Page.EditLevel & " "
         If Page.MoveLevel <> "" Then CurrentLevel.Text &= "move:" & Page.MoveLevel
     End Sub

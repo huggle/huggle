@@ -1710,11 +1710,14 @@ Class Main
     End Sub
 
     Private Sub WarnItem_Click(ByVal Sender As Object, ByVal e As EventArgs)
-        Dim NewRequest As New WarningRequest
-        NewRequest.Level = 0
-        NewRequest.Edit = CurrentEdit
-        NewRequest.Type = CType(Sender, ToolStripMenuItem).Tag.ToString
-        NewRequest.Start()
+        Dim i As Integer = 0
+        Dim Message As New WarningRequest
+        If CurrentEdit IsNot Nothing Then
+            Message.Type = CType(Sender, ToolStripMenuItem).Tag.ToString
+            Message.Level = 0
+            Message.Edit = CurrentEdit
+            Message.Start()
+        End If
     End Sub
 
     Private Sub RevertWarnItem_Click(ByVal Sender As Object, ByVal e As EventArgs)

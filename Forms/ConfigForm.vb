@@ -32,6 +32,7 @@ Class ConfigForm
         Templates.Columns(0).Text = Msg("config-templatetext")
         Templates.Columns(1).Text = Msg("config-template")
         ViewLocalConfig.Text = Msg("config-viewlocalconfig")
+        History.Text = Msg("config-history")
         UseCustom.Text = Msg("config-summ")
         OK.Text = Msg("ok")
         Cancel.Text = Msg("cancel")
