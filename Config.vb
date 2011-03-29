@@ -41,7 +41,7 @@ Class Configuration
     Public ReadOnly ShortWikiPath As String = "wiki/"
     Public ReadOnly GlobalConfigLocation As String = "Huggle/Config"
     Public ReadOnly WikiPath As String = "w/"
-    Public Beta As Boolean = False
+    Public Beta As Boolean = True
 
     Public ReadOnly EditTypes As String() = _
         {"blocknote", "deletenote", "deletetag", "deletereq", "manual", "message", "note", "prodtag", _
@@ -258,6 +258,7 @@ Class Configuration
     Public XfdLogSummary As String = ""
     Public XfdMessage As String = ""
     Public XfdMessageSummary As String = ""
+    Public TemplatePs As Boolean = False
     Public XfdMessageTitle As String = ""
     Public XfdSummary As String = ""
     Public WriteUser As Boolean = False

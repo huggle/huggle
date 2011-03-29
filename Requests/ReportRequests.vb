@@ -373,17 +373,21 @@ Namespace Requests
                     Exit Sub
                 End If
 
-                'Report user
+            'Report user
+            If Config.TemplatePs = True Then
+                Text &= LF & "* {{subst:user-uaa|"
+            Else
                 Text &= LF & "* {{user-uaa|"
-                If User.Name.Contains("=") Then Text &= "1="
-                Text &= User.Name & "}} – " & Reason & " – ~~~~"
+            End If
+            If User.Name.Contains("=") Then Text &= "1="
+            Text &= User.Name & "}} – " & Reason & " – ~~~~"
 
-                Result = PostEdit(Config.UAALocation, Text, Config.ReportSummary.Replace("$1", User.Name), _
-                    Minor:=Config.Minor("report"), Watch:=Config.Watch("report"))
+            Result = PostEdit(Config.UAALocation, Text, Config.ReportSummary.Replace("$1", User.Name), _
+                Minor:=Config.Minor("report"), Watch:=Config.Watch("report"))
 
-                If Result.Error Then Fail(Msg("report-fail", User.Name), Result.ErrorMessage) Else Complete()
+            If Result.Error Then Fail(Msg("report-fail", User.Name), Result.ErrorMessage) Else Complete()
 
-                If State = States.Cancelled Then UndoEdit(Config.UAALocation)
+            If State = States.Cancelled Then UndoEdit(Config.UAALocation)
         End Sub
 
     End Class

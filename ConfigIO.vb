@@ -303,6 +303,7 @@ Module ConfigIO
                 Case "startup-message-location" : Config.StartupPage = Value
                 Case "summary" : Config.Summary = Value
                 Case "tag-summaries" : Config.TagSummaries = GetList(Value)
+                Case "expand-report" : Config.TemplatePs = CBool(Value)
                 Case "template-message-summary" : Config.TemplateMessageSummary = Value
                 Case "templates" : Config.TemplateMessagesGlobal = GetList(Value)
                 Case "tfd" : Config.TfdLocation = Value
@@ -571,6 +572,13 @@ Module ConfigIO
             Items.Add("window-maximize:" & CStr(MainForm.WindowState = FormWindowState.Maximized).ToLower)
             Items.Add("window-top:" & CStr(MainForm.Top))
             Items.Add("window-width:" & CStr(MainForm.Width))
+        End If
+
+        Items.Add("template-summ:")
+        If Config.UseCSummaries Then
+            For Each i As KeyValuePair(Of String, String) In Config.TemplateSummary
+                Items.Add("    " & i.Key & ";" & i.Value)
+            Next i
         End If
 
         Items.Add("shortcuts:")

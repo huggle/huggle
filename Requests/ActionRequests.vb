@@ -188,7 +188,7 @@ Namespace Requests
             Dim PostString As String = "target=" & UrlEncode(User.Name) & _
                 "&subject=" & UrlEncode(Subject) & "&text=" & Message & "&token=" & UrlEncode(Token)
 
-            If CcMe Then PostString &= "&ccme=1"
+            If CcMe Then PostString &= "&ccme=true"
 
             Result = DoApiRequest("action=emailuser", PostString)
 
@@ -222,7 +222,7 @@ Namespace Requests
             Dim PostString As String = "from=" & UrlEncode(Page.Name) & "&to=" & UrlEncode(Target) & _
                 "&reason=" & UrlEncode(Summary) & "&token=" & UrlEncode(Token)
 
-            If MoveTalk Then PostString &= "&movetalk=1"
+            If MoveTalk Then PostString &= "&movetalk=true"
 
             Result = DoApiRequest("action=move", PostString)
 
@@ -324,7 +324,7 @@ Namespace Requests
                 "&reason=" & UrlEncode(Summary) & "&protections=edit=" & EditLevel & "|move=" & MoveLevel & _
                 "&expiry=" & Expiry & "&token=" & UrlEncode(Token)
 
-            If Cascade Then PostString &= "&cascade=1"
+            If Cascade Then PostString &= "&cascade=true"
 
             Result = DoApiRequest("action=protect", PostString)
 

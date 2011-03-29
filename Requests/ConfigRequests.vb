@@ -66,6 +66,7 @@ Namespace Requests
 
             If Result.Error OrElse Config.ProjectConfigLocation Is Nothing Then
                 Fail(Msg("login-error-config"), Result.ErrorMessage)
+                MessageBox.Show(Result.ErrorMessage, "login")
                 Exit Sub
             End If
 

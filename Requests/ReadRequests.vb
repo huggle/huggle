@@ -122,7 +122,7 @@ Namespace Requests
                 Dim QueryString As String = SitePath() & "index.php?title=" & UrlEncode(Edit.Page.Name) _
                         & "&diff=" & Edit.Id & "&oldid=" & Oldid & "&uselang=en"
 
-                If Not Config.QuickSight OrElse Edit.Sighted Then Result &= "diffonly=1"
+            If Not Config.QuickSight OrElse Edit.Sighted Then Result &= "diffonly=true"
 
                 Try
                     Result = DoUrlRequest(QueryString)
@@ -854,17 +854,21 @@ Namespace Requests
 
             For Each Page As String In Split(Result.Text, "<page ")
                 Dim Lang As String = GetParameter(Page, "title")
-                If Lang Is Nothing Then Continue For
-                Lang = Lang.Substring(Lang.LastIndexOf("/") + 1)
+                If Lang Is Nothing Then
 
-                Dim PageTimestamp As Date = CDate(GetParameter(Page, "touched"))
-                Dim FileTimestamp As Date = Date.MinValue
+                Else
 
-                If File.Exists(ConfigIO.L10nLocation & Path.DirectorySeparatorChar & Lang & ".txt") Then _
-                    FileTimestamp = File.GetLastWriteTime(MakePath(ConfigIO.L10nLocation, Lang & ".txt"))
+                    Lang = Lang.Substring(Lang.LastIndexOf("/") + 1)
 
-                'If local copy of localization does not exist or is out of date
-                If PageTimestamp > FileTimestamp Or Not File.Exists(ConfigIO.L10nLocation & Path.DirectorySeparatorChar & Lang & ".txt") Then ToUpdate.Add(Config.LocalizatonPath & Lang)
+                    Dim PageTimestamp As Date = CDate(GetParameter(Page, "touched"))
+                    Dim FileTimestamp As Date = Date.MinValue
+
+                    If File.Exists(ConfigIO.L10nLocation & Path.DirectorySeparatorChar & Lang & ".txt") Then _
+                        FileTimestamp = File.GetLastWriteTime(MakePath(ConfigIO.L10nLocation, Lang & ".txt"))
+
+                    'If local copy of localization does not exist or is out of date
+                    If PageTimestamp > FileTimestamp Or Not File.Exists(ConfigIO.L10nLocation & Path.DirectorySeparatorChar & Lang & ".txt") Then ToUpdate.Add(Config.LocalizatonPath & Lang)
+                End If
             Next Page
 
             If ToUpdate.Count = 0 Then
@@ -883,7 +887,11 @@ Namespace Requests
             'Store messages locally
             For Each Page As String In Split(Result.Text, "<page ")
                 Dim Language As String = GetParameter(Page, "title")
-                If Language Is Nothing Then Continue For
+                If Language Is Nothing Then
+                    Log("Error loading language")
+                    Continue For
+                End If
+
                 Language = Language.Substring(Language.LastIndexOf("/") + 1)
 
                 Dim Text As String = GetTextFromRev(Page).Replace(LF, CRLF)
