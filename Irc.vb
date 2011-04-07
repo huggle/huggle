@@ -42,7 +42,7 @@ Module Irc
     Dim EditMatch As New Regex(":rc-pmtpa!~rc-pmtpa@[^ ]* PRIVMSG #[^:]*:14\[\[07([^]*)14\]\]4 (M?)(B?)10 02.*di" & _
         "ff=([^&]*)&oldid=([^]*) 5\* 03([^]*) 5\* \(?([^]*)?\) 10([^]*)?", RegexOptions.Compiled)
 
-    Dim NewPageMatch As New Regex(":rc-pmtpa!~rc-pmtpa@[^ ]* PRIVMSG #[^:]*:14\[\[07([^]*)14\]\]4 [!\ ]N(M?)(B?)" & _
+    Dim NewPageMatch As New Regex(":rc-pmtpa!~rc-pmtpa@[^ ]* PRIVMSG #[^:]*:14\[\[07([^]*)14\]\]4 .*N(M?)(B?)" & _
         "10 02[^ ]* 5\* 03([^]*) 5\* \(([^\)]*)\) 10([^]*)", RegexOptions.Compiled)
 
     Dim BlockMatch As New Regex(":rc-pmtpa!~rc-pmtpa@[^ ]* PRIVMSG #[^:]*:14\[\[07Special:Log/block14\]\]4 block" & _
@@ -70,7 +70,7 @@ Module Irc
         "\[\[([^\]]*)\]\](?: over redirect)?(: ([^]*))?", RegexOptions.Compiled)
 
     Dim NewUserMatch As New Regex(":rc-pmtpa!~rc-pmtpa@[^ ]* PRIVMSG #[^:]*:14\[\[07Special:Log/newusers" & _
-        "14\]\]4 create10 02 5\* 03([^]*?) 5\*  10new user account", RegexOptions.Compiled)
+        "14\]\]4 create10 02 5\* 03([^]*?) 5\*  10New user account", RegexOptions.Compiled)
 
     Dim CreateUserMatch As New Regex(":rc-pmtpa!~rc-pmtpa@[^ ]* PRIVMSG #[^:]*:14\[\[07Special:Log/newusers" & _
         "14\]\]4 create210 02 5\* 03([^]*?) 5\*  10created new account User:([^]*)", _
@@ -106,9 +106,11 @@ Module Irc
         "10 02 5\* 03([^]*) 5\*  10changed rights for User:(.*) from ([^:]*) to ([^:.]*): " & _
         "([^]*)", RegexOptions.Compiled)
 
+
     Private Sub IrcProcess()
         If Config.IrcServer Is Nothing Then Exit Sub
         If Config.IrcServerName Is Nothing Then Exit Sub
+
 
         Connecting = True
         Log(Msg("irc-connecting"))
