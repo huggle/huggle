@@ -285,7 +285,7 @@ Namespace Requests
             End If
 
             'Patrol the page
-            Result = DoApiRequest("action=patrol&rcid=" & Page.Rcid & "&token=" & UrlEncode(PatrolToken))
+            Result = DoApiRequest("action=patrol", "rcid=" & Page.Rcid & "&token=" & UrlEncode(PatrolToken))
 
             If Result.Error Then
                 Fail(Msg("patrol-fail", Page.Name), Result.ErrorMessage)
