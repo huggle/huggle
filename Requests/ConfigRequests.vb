@@ -66,7 +66,7 @@ Namespace Requests
 
             If Result.Error OrElse Config.ProjectConfigLocation Is Nothing Then
                 Fail(Msg("login-error-config"), Result.ErrorMessage)
-                MessageBox.Show(Result.ErrorMessage, "login")
+                'MessageBox.Show(Result.ErrorMessage, "login")
                 Exit Sub
             End If
 
@@ -272,12 +272,15 @@ Namespace Requests
 
             If Config.UseCSummaries = True Then
                 Items.Add("template-summ:")
-                Dim c As Integer = 0
-                While c < Config.TemplateSummary.Keys.Count
-                    c = c + 1
+                For Each ts As String In Config.TemplateSummary.Keys
 
-                End While
+
+                    Items.Add(ts & ";" & Config.TemplateSummary(ts) & ",")
+
+                Next ts
             End If
+            Items.Add("")
+
             Items.Add("show-tool-tips:" & CStr(Config.ShowToolTips).ToLower)
 
             Dim Templates As New List(Of String)

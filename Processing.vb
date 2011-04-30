@@ -485,6 +485,8 @@ Module Processing
 
             If Config.ShowQueue AndAlso Redraw Then MainForm.DrawQueues()
 
+
+
             For Each Item As TabPage In MainForm.Tabs.TabPages
                 Dim ThisTab As BrowserTab = CType(Item.Controls(0), BrowserTab)
 

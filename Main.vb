@@ -1841,4 +1841,8 @@ Class Main
     Private Sub Status_ItemActivate(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Status.ItemActivate
 
     End Sub
+
+    Private Sub Status_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Status.SelectedIndexChanged
+
+    End Sub
 End Class

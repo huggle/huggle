@@ -354,7 +354,9 @@ Module ConfigIO
             Case "log-file" : Config.LogFile = Value
             Case "password" : Config.Password = Value : Config.RememberPassword = True
             Case "project" : Config.Project = Value
-            Case "projects" : Config.Projects = GetDictionary(Value)
+            Case "projects"
+                Config.Projects = GetDictionary(Value)
+                Config.Projects.Add("test2", "http://hub.tm-irc.org/test/w/")
             Case "proxy-enabled" : Config.ProxyEnabled = CBool(Value)
             Case "proxy-port" : Config.ProxyPort = Value
             Case "proxy-server" : Config.ProxyServer = Value

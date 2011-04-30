@@ -94,7 +94,7 @@ Namespace Requests
                     '* no such user
                     '* wrong password
                     '----------------------------------
-                    Case LoginResult.CaptchaNeeded : Callback(AddressOf CaptchaNeeded)
+                    Case LoginResult.CaptchaNeeded 'Callback(AddressOf CaptchaNeeded)
 
                     Case LoginResult.Failed : Abort(Msg("login-error-unknown"))
 

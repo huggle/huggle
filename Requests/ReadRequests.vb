@@ -888,7 +888,6 @@ Namespace Requests
             For Each Page As String In Split(Result.Text, "<page ")
                 Dim Language As String = GetParameter(Page, "title")
                 If Language Is Nothing Then
-                    Log("Error loading language")
                     Continue For
                 End If
 

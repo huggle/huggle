@@ -265,9 +265,9 @@ Namespace Requests
                 Login.Token = Result.Substring(Result.IndexOf("name=""wpLoginToken"" value=""") + 27)
                 Login.Token = Login.Token.Substring(0, Login.Token.IndexOf(""""))
             End If
-
+            'MessageBox.Show(UrlEncode(Config.Password))
             Dim PostString As String = "wpName=" & UrlEncode(Config.Username) & "&wpRemember=1" & _
-                "&wpPassword=""" & UrlEncode(Config.Password) & """&wpCaptchaId=" & Login.CaptchaId & _
+                "&wpPassword=" & UrlEncode(Config.Password) & "&wpCaptchaId=" & Login.CaptchaId & _
                 "&wpCaptchaWord=" & Login.CaptchaWord & "&wpLoginToken=" & UrlEncode(Login.Token)
 
             Result = DoUrlRequest(SitePath() & "index.php?title=Special:UserLogin&action=submitlogin", PostString)
