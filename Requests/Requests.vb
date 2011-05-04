@@ -250,39 +250,30 @@ Namespace Requests
         End Sub
 
         Protected Function DoLogin() As LoginResult
-            Dim Result As String = DoUrlRequest(SitePath() & "index.php?title=Special:UserLogin")
+            Dim Result As ApiResult
+            Result = DoApiRequest("action=login", "lgname=" & UrlEncode(Config.Username), Config.Project)
 
-            If Result Is Nothing OrElse Not IsWikiPage(Result) Then Return LoginResult.Failed
+            Login.Token = Regex.Match(Result.Text, "token=""[0-9a-zA-Z]*""").Value
+            Login.Token = Login.Token.Replace("""", "")
+            Login.Token = Login.Token.Replace("token=", "")
+            'MessageBox.Show(Result.Text)
+            Dim PostString As String = "lgname=" & UrlEncode(Config.Username) & "&lgpassword=" & UrlEncode(Config.Password) & "&lgtoken=" & Login.Token
 
-            If Result.Contains("<div class='captcha'>") Then
-                Login.CaptchaId = Result.Substring(Result.IndexOf("id=""wpCaptchaId"" value=""") + 24)
-                Login.CaptchaId = Login.CaptchaId.Substring(0, Login.CaptchaId.IndexOf(""""))
+            Dim Outp As ApiResult
 
-                Return LoginResult.CaptchaNeeded
-            End If
-
-            If Result.Contains("<input type=""hidden"" name=""wpLoginToken"" ") Then
-                Login.Token = Result.Substring(Result.IndexOf("name=""wpLoginToken"" value=""") + 27)
-                Login.Token = Login.Token.Substring(0, Login.Token.IndexOf(""""))
-            End If
-            'MessageBox.Show(UrlEncode(Config.Password))
-            Dim PostString As String = "wpName=" & UrlEncode(Config.Username) & "&wpRemember=1" & _
-                "&wpPassword=" & UrlEncode(Config.Password) & "&wpCaptchaId=" & Login.CaptchaId & _
-                "&wpCaptchaWord=" & Login.CaptchaWord & "&wpLoginToken=" & UrlEncode(Login.Token)
-
-            Result = DoUrlRequest(SitePath() & "index.php?title=Special:UserLogin&action=submitlogin", PostString)
-
-            If Result Is Nothing OrElse Not IsWikiPage(Result) Then
+            Outp = DoApiRequest("action=login", PostString, Config.Project)
+            If Outp.Text Is Nothing Then
                 Return LoginResult.Failed
             End If
 
-
-            If Result.Contains("<span id=""mw-noname"">") Then Return LoginResult.InvalidUsername
-            If Result.Contains("<span id=""mw-nosuchuser"">") Then Return LoginResult.NoUser
-            If Result.Contains("<span id=""mw-wrongpasswordempty"">") Then Return LoginResult.WrongPassword
-            If Result.Contains("<span id=""mw-wrongpassword"">") Then Return LoginResult.WrongPassword
-            If Result.Contains("<div id=""userloginForm"">") Then Return LoginResult.Failed
-
+            If Outp.Text.Contains("result=""Success""") Then
+                Return LoginResult.Success
+            Else
+                If Outp.Text.Contains("result=""WrongPass""") Then
+                    Return LoginResult.WrongPassword
+                End If
+                Return LoginResult.Failed
+            End If
             Return LoginResult.Success
         End Function
 
@@ -324,45 +315,48 @@ Namespace Requests
             Dim Break As Integer = 0
             Dim ProjectUrl As String
             If Project Is Nothing Then Project = Config.Project
-            If Config.Projects.ContainsKey(Project) Then ProjectUrl = Config.Projects(Project) _
-                Else ProjectUrl = "http://meta.wikimedia.org/"
-
-            Query = QueryString
-            If PostString Is Nothing Then Mode = Modes.Get Else Mode = Modes.Post
-
-            Dim Retries As Integer = Config.RequestAttempts, Result As String = ""
-
-            Do
-                Break = Break + 1
-                If Retries < Config.RequestAttempts Then Thread.Sleep(Config.RequestRetryInterval)
-                Retries -= 1
-
-                Try
-                    Result = DoWebRequest(ProjectUrl & Config.WikiPath & "api.php?format=xml&" & QueryString, PostString)
-
-                Catch ex As WebException
-                    If ex.Status = WebExceptionStatus.Timeout Then
-                        Return New ApiResult(Nothing, "error-timeout", Msg("error-timeout"))
-                    Else
-                        Return New ApiResult(Nothing, "error-unknown", Msg("error-unknown"))
-                    End If
-                End Try
-            Loop Until (Result <> "" OrElse Retries = 0) And Break < Misc.GlExcess
-
-            If Result.StartsWith("MediaWiki API is not enabled for this site") _
-                Then Return New ApiResult(Nothing, "error-apidisabled", Msg("error-apidisabled"))
-
-            If Result = "" Then Return New ApiResult(Nothing, "null", Msg("error-noresponse"))
-
-            If FindString(Result, "<error ") IsNot Nothing Then
-                Return New ApiResult(Result, HtmlDecode(FindString(Result, "<error ", "code=""", """")), _
-                    HtmlDecode(FindString(Result, "<error ", "info=""", """")))
-            ElseIf FindString(Result, "<warnings>", "</warnings>") IsNot Nothing Then
-                Return New ApiResult(Result, "warning", _
-                    HtmlDecode(StripHTML(FindString(Result, "<warnings>", "</warnings>"))))
+            If Config.Projects.ContainsKey(Project) Then
+                ProjectUrl = Config.Projects(Project)
             Else
-                Return New ApiResult(Result, Nothing, Nothing)
-            End If
+                ProjectUrl = "http://meta.wikimedia.org/"
+                End If
+
+                Query = QueryString
+                If PostString Is Nothing Then Mode = Modes.Get Else Mode = Modes.Post
+
+                Dim Retries As Integer = Config.RequestAttempts, Result As String = ""
+
+                Do
+                    Break = Break + 1
+                    If Retries < Config.RequestAttempts Then Thread.Sleep(Config.RequestRetryInterval)
+                    Retries -= 1
+
+                    Try
+                        Result = DoWebRequest(ProjectUrl & Config.WikiPath & "api.php?format=xml&" & QueryString, PostString)
+
+                    Catch ex As WebException
+                        If ex.Status = WebExceptionStatus.Timeout Then
+                            Return New ApiResult(Nothing, "error-timeout", Msg("error-timeout"))
+                        Else
+                            Return New ApiResult(Nothing, "error-unknown", Msg("error-unknown"))
+                        End If
+                    End Try
+                Loop Until (Result <> "" OrElse Retries = 0) And Break < Misc.GlExcess
+
+                If Result.StartsWith("MediaWiki API is not enabled for this site") _
+                    Then Return New ApiResult(Nothing, "error-apidisabled", Msg("error-apidisabled"))
+
+                If Result = "" Then Return New ApiResult(Nothing, "null", Msg("error-noresponse"))
+
+                If FindString(Result, "<error ") IsNot Nothing Then
+                    Return New ApiResult(Result, HtmlDecode(FindString(Result, "<error ", "code=""", """")), _
+                        HtmlDecode(FindString(Result, "<error ", "info=""", """")))
+                ElseIf FindString(Result, "<warnings>", "</warnings>") IsNot Nothing Then
+                    Return New ApiResult(Result, "warning", _
+                        HtmlDecode(StripHTML(FindString(Result, "<warnings>", "</warnings>"))))
+                Else
+                    Return New ApiResult(Result, Nothing, Nothing)
+                End If
         End Function
 
         'Get the text of a page
