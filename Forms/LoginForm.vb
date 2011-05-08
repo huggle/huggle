@@ -44,6 +44,8 @@ Class LoginForm
             Project.Items.Add(Item)
         Next Item
 
+        ' Project.Items.Add("test2")
+
         If Config.Project IsNot Nothing Then Project.SelectedItem = Config.Project
         If Project.SelectedIndex = -1 Then Project.SelectedIndex = 0
 

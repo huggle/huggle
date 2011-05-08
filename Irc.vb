@@ -70,7 +70,7 @@ Module Irc
         "\[\[([^\]]*)\]\](?: over redirect)?(: ([^]*))?", RegexOptions.Compiled)
 
     Dim NewUserMatch As New Regex(":rc-pmtpa!~rc-pmtpa@[^ ]* PRIVMSG #[^:]*:14\[\[07Special:Log/newusers" & _
-        "14\]\]4 create10 02 5\* 03([^]*?) 5\*  10New user account", RegexOptions.Compiled)
+        "14\]\]4 create10 02 5\* 03([^]*?) 5\*  10[Nn]ew user account", RegexOptions.Compiled)
 
     Dim CreateUserMatch As New Regex(":rc-pmtpa!~rc-pmtpa@[^ ]* PRIVMSG #[^:]*:14\[\[07Special:Log/newusers" & _
         "14\]\]4 create210 02 5\* 03([^]*?) 5\*  10created new account User:([^]*)", _

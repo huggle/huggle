@@ -185,7 +185,7 @@ Namespace Requests
                 Abort(Msg("login-error-disabled"))
                 Exit Sub
             End If
-
+            'System.IO.File.WriteAllText("debug_", Result)
             If State = States.Cancelled Then Thread.CurrentThread.Abort()
 
             'Connect to IRC, if required (on separate thread)

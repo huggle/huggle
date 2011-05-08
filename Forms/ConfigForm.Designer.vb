@@ -26,6 +26,7 @@ Partial Class ConfigForm
         Me.OK = New System.Windows.Forms.Button()
         Me.Tabs = New System.Windows.Forms.TabControl()
         Me.GeneralTab = New System.Windows.Forms.TabPage()
+        Me.History = New System.Windows.Forms.CheckBox()
         Me.RememberPassword = New System.Windows.Forms.CheckBox()
         Me.RememberMe = New System.Windows.Forms.CheckBox()
         Me.DiffFontSize = New System.Windows.Forms.NumericUpDown()
@@ -142,7 +143,6 @@ Partial Class ConfigForm
         Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
         Me.BackgroundWorker2 = New System.ComponentModel.BackgroundWorker()
         Me.BackgroundWorker3 = New System.ComponentModel.BackgroundWorker()
-        Me.History = New System.Windows.Forms.CheckBox()
         Me.Tabs.SuspendLayout()
         Me.GeneralTab.SuspendLayout()
         CType(Me.DiffFontSize, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -228,6 +228,16 @@ Partial Class ConfigForm
         Me.GeneralTab.TabIndex = 0
         Me.GeneralTab.Text = "General"
         Me.GeneralTab.UseVisualStyleBackColor = True
+        '
+        'History
+        '
+        Me.History.AutoSize = True
+        Me.History.Location = New System.Drawing.Point(9, 176)
+        Me.History.Name = "History"
+        Me.History.Size = New System.Drawing.Size(91, 17)
+        Me.History.TabIndex = 18
+        Me.History.Text = "Download diff"
+        Me.History.UseVisualStyleBackColor = True
         '
         'RememberPassword
         '
@@ -1380,16 +1390,6 @@ Partial Class ConfigForm
         Me.ViewLocalConfig.TabIndex = 1
         Me.ViewLocalConfig.TabStop = True
         Me.ViewLocalConfig.Text = "View local configuration folder"
-        '
-        'History
-        '
-        Me.History.AutoSize = True
-        Me.History.Location = New System.Drawing.Point(9, 176)
-        Me.History.Name = "History"
-        Me.History.Size = New System.Drawing.Size(91, 17)
-        Me.History.TabIndex = 18
-        Me.History.Text = "Download diff"
-        Me.History.UseVisualStyleBackColor = True
         '
         'ConfigForm
         '

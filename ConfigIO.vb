@@ -147,7 +147,11 @@ Module ConfigIO
             Case "irc-server" : Config.IrcServer = Value
             Case "irc-server-name" : Config.IrcServerName = Value
             Case "min-version" : Config.MinVersion = ParseVersion(Value)
-            Case "projects" : Config.Projects = GetDictionary(Value)
+            Case "projects"
+                Config.Projects = GetDictionary(Value)
+                If Config.Projects.ContainsKey("test2") = False Then
+                    Config.Projects.Add("test2", "http://hub.tm-irc.org/test/")
+                End If
             Case "sensitive-addresses" : Config.SensitiveAddresses = GetDictionary(Value)
             Case "user-agent" : Config.UserAgent = Value.Replace("$1", Config.Version.ToString)
             Case "user-config" : Config.UserConfigLocation = Value
@@ -356,7 +360,9 @@ Module ConfigIO
             Case "project" : Config.Project = Value
             Case "projects"
                 Config.Projects = GetDictionary(Value)
-                Config.Projects.Add("test2", "http://hub.tm-irc.org/test/w/")
+                If Config.Projects.ContainsKey("test2") = False And Config.Devs Then
+                    Config.Projects.Add("test2", "http://hub.tm-irc.org/test/")
+                End If
             Case "proxy-enabled" : Config.ProxyEnabled = CBool(Value)
             Case "proxy-port" : Config.ProxyPort = Value
             Case "proxy-server" : Config.ProxyServer = Value
