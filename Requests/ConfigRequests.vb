@@ -57,16 +57,16 @@ Namespace Requests
         'Read project and user configuration page, user creation date, user groups and edit count
 
         Protected Overrides Sub Process()
+            Dim Result As ApiResult
 
-            Dim Result As ApiResult = DoApiRequest("action=query&meta=userinfo&uiprop=rights|editcount" & _
+            Result = DoApiRequest("action=query&meta=userinfo&uiprop=rights|editcount" & _
                 "&list=logevents|watchlistraw&letype=newusers&letitle=" & UrlEncode(User.Me.Userpage.Name) & _
                 "&prop=revisions&rvprop=content&titles=" & _
                 UrlEncode(Page.SanitizeTitle(Config.UserConfigLocation)) & "|" & _
-                UrlEncode(Page.SanitizeTitle(Config.ProjectConfigLocation)))
+                UrlEncode(Page.SanitizeTitle(Config.ProjectConfigLocation)), Config.Project)
 
             If Result.Error OrElse Config.ProjectConfigLocation Is Nothing Then
                 Fail(Msg("login-error-config"), Result.ErrorMessage)
-                'MessageBox.Show(Result.ErrorMessage, "login")
                 Exit Sub
             End If
 
@@ -135,7 +135,8 @@ Namespace Requests
             If Userinfo IsNot Nothing AndAlso Userinfo.Contains("<rights>") Then
                 If Userinfo.Contains("anon=""""") Then
                     'If we get here, somehow the user is not logged in
-                    Fail(Msg("login-error-rights"), Msg("login-error-unknown"))
+                    'Fail(Msg("login-error-rights"), Msg("login-error-unknown"))
+                    Fail("Error when loggin in", "")
                     Exit Sub
                 End If
 
