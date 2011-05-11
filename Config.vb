@@ -99,7 +99,7 @@ Class Configuration
     Public BlockTime As String = "indefinite"
     Public BlockTimeAnon As String = "24 hours"
     Public CfdLocation As String
-    Public ConfigSummary As String
+    Public ConfigSummary As String = ""
     Public ConfirmIgnored As Boolean = True
     Public ConfirmMultiple As Boolean = False
     Public ConfirmPage As Boolean = True
@@ -118,7 +118,7 @@ Class Configuration
     Public DocsLocation As String = "http://en.wikipedia.org/wiki/Wikipedia:Huggle"
     Public DownloadLocation As String = "http://huggle.googlecode.com/files/huggle $1.exe"
     Public Email As Boolean
-    Public EmailSubject As String
+    Public EmailSubject As String = ""
     Public Enabled As Boolean
     Public EnabledForAll As Boolean = False
     Public ExtendReports As Boolean = False

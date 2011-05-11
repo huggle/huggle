@@ -172,6 +172,13 @@ Module Misc
         Config.RequireConfig = False
         Config.UseAdminFunctions = False
         Config.UsePending = False
+        Config.Project = ""
+        Config.AutoAdvance = False
+        Config.AfdLocation = ""
+        Config.UAA = False
+        Config.AutoWhitelist = False
+        Config.ConfirmRange = False
+        Config.IrcMode = False
 
     End Sub
 
@@ -378,7 +385,6 @@ Module Misc
         Else
             Return ""
         End If
-
 
     End Function
 

@@ -74,7 +74,7 @@ Class Page
                 PageEdits.Add(Edit)
                 Edit = Edit.Prev
             End While
-            If Break >= Misc.GlExcess Then Log("Debug interrupted Edits")
+            If Break >= Misc.GlExcess Then Log("Debug interrupted Page.Edits")
 
             Return PageEdits
         End Get
