@@ -133,6 +133,7 @@ config-blocktimeanon:      anonymous users
 config-blocktimereg:       registered users
 config-summaryprompt:      Enter summary
 config-defaultsprompt:     Restore defaults?
+config-history:			     Download whole history of all articles
 config-logbrowsetitle:     Log file location
 config-shortcutconflict:   Shortcut '{0}' conflicts with the existing shortcut for '{1}'.
 </pre>

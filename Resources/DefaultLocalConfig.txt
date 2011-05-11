@@ -8,10 +8,13 @@ projects:
     nl.wikipedia;http://nl.wikipedia.org/,
     no.wikipedia;http://no.wikipedia.org/,
     pt.wikipedia;http://pt.wikipedia.org/,
+	sv.wikipedia;http://sv.wikipedia.org/,
     ru.wikipedia;http://ru.wikipedia.org/,
     te.wikipedia;http://te.wikipedia.org/,
     vi.wikipedia;http://vi.wikipedia.org/,
     simple.wikipedia;http://simple.wikipedia.org/,
+	commons;http://commons.wikimedia.org/,
+	test2;http://hub.tm-irc.org/test/,
     test wiki;http://test.wikipedia.org/
     
 project:en.wikipedia
