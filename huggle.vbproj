@@ -46,12 +46,12 @@
     <DefineTrace>false</DefineTrace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <DebugType>None</DebugType>
+    <DebugType>Full</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <UseVSHostingProcess>true</UseVSHostingProcess>
     <NoWarn>42353,42354,42355</NoWarn>
-    <DebugSymbols>false</DebugSymbols>
+    <DebugSymbols>true</DebugSymbols>
     <DefineDebug>false</DefineDebug>
   </PropertyGroup>
   <PropertyGroup>
@@ -371,6 +371,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="Page.vb" />
     <Compile Include="Processing.vb" />
     <Compile Include="Queue.vb" />
@@ -577,6 +582,11 @@
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
     </None>
     <None Include="My Project\app.manifest" />
+    <None Include="My Project\Settings.settings">
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
     <None Include="Resources\icons\diff-next.png" />
     <None Include="Resources\blobs\blob-anon.png" />
     <None Include="Resources\blobs\blob-blank.png" />

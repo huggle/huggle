@@ -373,14 +373,15 @@ Namespace Requests
             Text = GetTextFromRev(Result.Text)
 
             'Check for existing report
-            If Text.ToLower.Replace("_", " ").Contains("{{user-uaa|" & User.Name & "}}") _
-                OrElse Text.ToLower.Replace("_", " ").Contains("{{user-uaa|1=" & User.Name & "}}") Then
+            If Text IsNot Nothing Then
+                If Text.ToLower.Replace("_", " ").Contains("{{user-uaa|" & User.Name & "}}") _
+                    OrElse Text.ToLower.Replace("_", " ").Contains("{{user-uaa|1=" & User.Name & "}}") Then
 
-                If User.Level < UserLevel.ReportedUAA Then User.Level = UserLevel.ReportedUAA
-                Fail(Msg("report-fail", User.Name), Msg("warn-alreadyreported"))
-                Exit Sub
+                    If User.Level < UserLevel.ReportedUAA Then User.Level = UserLevel.ReportedUAA
+                    Fail(Msg("report-fail", User.Name), Msg("warn-alreadyreported"))
+                    Exit Sub
+                End If
             End If
-
             'Report user
             If Config.TemplatePs = True Then
                 Text &= LF & "* {{subst:user-uaa|"

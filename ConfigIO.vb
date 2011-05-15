@@ -380,7 +380,6 @@ Module ConfigIO
             Case "window-maximize" : Config.WindowMaximize = CBool(Value)
             Case "window-top" : Config.WindowPosition.Y = CInt(Value)
             Case "window-width" : Config.WindowSize.Width = CInt(Value)
-
             Case Else : If Name.StartsWith("queues-") Then QueueNames.Add(Name.Substring(7), GetList(Value))
         End Select
     End Sub
