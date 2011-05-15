@@ -884,7 +884,7 @@ Class Main
 
     Sub BlockUser(ByVal ThisUser As User)
         On Error Resume Next
-        If ThisUser IsNot Nothing Then
+        If ThisUser IsNot Nothing and ThisUser.Name isnot nothing Then
             Dim NewBlockForm As New BlockForm
 
             NewBlockForm.User = ThisUser
@@ -1825,9 +1825,7 @@ Class Main
     End Sub
 
     Private Sub UserBlock_Click() Handles UserBlock.Click, UserBlockB.Click
-        Dim Form As New BlockForm()
-        Form.User = CurrentUser
-        Form.Show()
+        BlockUser(CurrentUser)
     End Sub
 
     Private Sub QueueArea_Paint(ByVal sender As System.Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles QueueArea.Paint

@@ -341,7 +341,7 @@ Namespace Requests
                             Return New ApiResult(Nothing, "error-unknown", Msg("error-unknown"))
                         End If
                     End Try
-                Loop Until (Result <> "" OrElse Retries = 0) And Break < Misc.GlExcess
+            Loop Until (Result <> "" OrElse Retries = 0) Or Break < Misc.GlExcess
 
                 If Result.StartsWith("MediaWiki API is not enabled for this site") _
                     Then Return New ApiResult(Nothing, "error-apidisabled", Msg("error-apidisabled"))

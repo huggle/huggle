@@ -181,6 +181,7 @@ Module Misc
         Config.AutoAdvance = False
         Config.AfdLocation = ""
         Config.UAA = False
+        Config.UAALocation = ""
         Config.AutoWhitelist = False
         Config.ConfirmRange = False
         Config.IrcMode = False

@@ -28,240 +28,241 @@ Module Processing
         & "tamp=""([^""]*)""( comment=""([^""]*)"")? />", RegexOptions.Compiled)
 
     Sub ProcessEdit(ByVal Edit As Edit)
-            If Edit Is Nothing Then Exit Sub
+        If Edit Is Nothing Then
+            ErrorLog("ProcessEdit")
+            Exit Sub
+        End If
 
-            If Edit.Time = Date.MinValue Then Edit.Time = Date.SpecifyKind(Date.UtcNow, DateTimeKind.Utc)
-            If Edit.Oldid Is Nothing Then Edit.Oldid = "prev"
-            If Edit.Bot Then Edit.User.Bot = True
+        If Edit.Time = Date.MinValue Then Edit.Time = Date.SpecifyKind(Date.UtcNow, DateTimeKind.Utc)
+        If Edit.Oldid Is Nothing Then Edit.Oldid = "prev"
+        If Edit.Bot Then Edit.User.Bot = True
 
-            'Auto summaries
+        'Auto summaries
         If (Config.PageBlankedPattern IsNot Nothing AndAlso Config.PageBlankedPattern.IsMatch(Edit.Summary)) _
                 OrElse Edit.Size = 0 Then Edit.Type = EditType.Blanked
-            If Config.PageRedirectedPattern IsNot Nothing AndAlso Config.PageRedirectedPattern.IsMatch(Edit.Summary) _
-                Then Edit.Type = EditType.Redirect
-            If (Config.PageReplacedPattern IsNot Nothing AndAlso Config.PageReplacedPattern.IsMatch(Edit.Summary)) _
-                OrElse (Edit.Size >= 0 AndAlso Edit.Size <= 200 AndAlso Edit.Change <= -200) _
-                Then Edit.Type = EditType.ReplacedWith
-            'Enable
-            If MainForm IsNot Nothing Then
-                MainForm.BrowserOpen.Enabled = True
-                MainForm.BrowserOpenB.Enabled = True
+        If Config.PageRedirectedPattern IsNot Nothing AndAlso Config.PageRedirectedPattern.IsMatch(Edit.Summary) _
+            Then Edit.Type = EditType.Redirect
+        If (Config.PageReplacedPattern IsNot Nothing AndAlso Config.PageReplacedPattern.IsMatch(Edit.Summary)) _
+            OrElse (Edit.Size >= 0 AndAlso Edit.Size <= 200 AndAlso Edit.Change <= -200) _
+            Then Edit.Type = EditType.ReplacedWith
+        'Enable
+        If MainForm IsNot Nothing Then
+            MainForm.BrowserOpen.Enabled = True
+            MainForm.BrowserOpenB.Enabled = True
+        End If
+        'Assisted summaries
+        If Config.Summary <> "" AndAlso Edit.Summary.EndsWith(Config.Summary) Then Edit.Assisted = True
+
+        For Each Item As String In Config.AssistedSummaries
+            If Edit.Summary.Contains(Item) Then
+                Edit.Assisted = True
+                Exit For
             End If
-            'Assisted summaries
-            If Config.Summary <> "" AndAlso Edit.Summary.EndsWith(Config.Summary) Then Edit.Assisted = True
+        Next Item
 
-            For Each Item As String In Config.AssistedSummaries
-                If Edit.Summary.Contains(Item) Then
-                    Edit.Assisted = True
-                    Exit For
-                End If
-            Next Item
+        If Edit.User IsNot Nothing AndAlso Edit.Page IsNot Nothing Then
+            If Edit.NewPage Then
+                Edit.Page.FirstEdit = Edit
+                Edit.Prev = NullEdit
+            End If
 
-            If Edit.User IsNot Nothing AndAlso Edit.Page IsNot Nothing Then
-                If Edit.NewPage Then
-                    Edit.Page.FirstEdit = Edit
-                    Edit.Prev = NullEdit
-                End If
+            'Reverts
+            If Edit.User.Level < UserLevel.Warning Then
+                For Each Item As Regex In Config.RevertPatterns
+                    If Item.IsMatch(TrimSummary(Edit.Summary)) Then
+                        Edit.Type = EditType.Revert
 
-                'Reverts
-                If Edit.User.Level < UserLevel.Warning Then
-                    For Each Item As Regex In Config.RevertPatterns
-                        If Item.IsMatch(TrimSummary(Edit.Summary)) Then
-                            Edit.Type = EditType.Revert
+                        If Edit.Page.Level = PageLevel.None Then Edit.Page.Level = PageLevel.Watch
 
-                            If Edit.Page.Level = PageLevel.None Then Edit.Page.Level = PageLevel.Watch
+                        If Edit.Prev IsNot Nothing AndAlso Edit.Prev.User IsNot Nothing _
+                            AndAlso Edit.Prev.User IsNot Edit.User AndAlso Edit.Prev.User.Level = UserLevel.None _
+                            Then Edit.Prev.User.Level = UserLevel.Reverted
+                        Exit For
+                    End If
+                Next Item
+            End If
 
-                            If Edit.Prev IsNot Nothing AndAlso Edit.Prev.User IsNot Nothing _
-                                AndAlso Edit.Prev.User IsNot Edit.User AndAlso Edit.Prev.User.Level = UserLevel.None _
-                                Then Edit.Prev.User.Level = UserLevel.Reverted
+            If ( Edit.Summary = Config.UndoSummary & " " & Config.Summary ) Then Edit.Type = EditType.Revert
 
-                            Exit For
-                        End If
-                    Next Item
-                End If
+            'Reverted users
+            If (Edit.Type = EditType.Revert AndAlso Edit.Summary.ToLower.Contains("[[special:contributions/")) Then
+                Dim Username As String = Edit.Summary.Substring(Edit.Summary.ToLower.IndexOf _
+                    ("[[special:contributions/") + 24)
 
-                If Edit.Summary = Config.UndoSummary & " " & Config.Summary Then Edit.Type = EditType.Revert
+                If (Username.Contains("]]") OrElse Username.Contains("|")) Then
+                    If (Username.Contains("]]")) Then Username = Username.Substring(0, Username.IndexOf("]]"))
+                    If (Username.Contains("|")) Then Username = Username.Substring(0, Username.IndexOf("|"))
+                    Username = HtmlDecode(Username)
 
-                'Reverted users
-                If Edit.Type = EditType.Revert AndAlso Edit.Summary.ToLower.Contains("[[special:contributions/") Then
-                    Dim Username As String = Edit.Summary.Substring(Edit.Summary.ToLower.IndexOf _
-                        ("[[special:contributions/") + 24)
+                    Dim RevertedUser As User = GetUser(Username)
 
-                    If Username.Contains("]]") OrElse Username.Contains("|") Then
-                        If Username.Contains("]]") Then Username = Username.Substring(0, Username.IndexOf("]]"))
-                        If Username.Contains("|") Then Username = Username.Substring(0, Username.IndexOf("|"))
-                        Username = HtmlDecode(Username)
-
-                        Dim RevertedUser As User = GetUser(Username)
-
-                        If (RevertedUser IsNot Edit.User) AndAlso RevertedUser.Level = UserLevel.None _
-                            Then RevertedUser.Level = UserLevel.Reverted
+                    If ((RevertedUser IsNot Edit.User) AndAlso RevertedUser.Level = UserLevel.None) Then
+                        RevertedUser.Level = UserLevel.Reverted
                     End If
                 End If
+            End If
 
-                'Reverted edits
-                If Edit.Next IsNot Nothing AndAlso Edit.Next.Type = EditType.Revert _
-                    AndAlso Edit.User.Level = UserLevel.None Then Edit.User.Level = UserLevel.Reverted
+            'Reverted edits
+            If (Edit.Next IsNot Nothing AndAlso Edit.Next.Type = EditType.Revert AndAlso Edit.User.Level = UserLevel.None) Then Edit.User.Level = UserLevel.Reverted
 
-                'Warnings / block notifications
-                If Edit.Page.Space Is Space.UserTalk AndAlso Not Edit.Page.IsSubpage Then
-                    Dim SummaryLevel As UserLevel = GetUserLevelFromSummary(Edit)
+            'Warnings / block notifications
+            If Edit.Page.Space Is Space.UserTalk AndAlso Not Edit.Page.IsSubpage Then
+                Dim SummaryLevel As UserLevel = GetUserLevelFromSummary(Edit)
 
-                    If SummaryLevel >= UserLevel.Warning AndAlso Not Edit.Page.Owner.Ignored _
-                        AndAlso Edit.Time.AddHours(Config.WarningAge) > Date.UtcNow Then
+                If SummaryLevel >= UserLevel.Warning AndAlso Not Edit.Page.Owner.Ignored _
+                    AndAlso Edit.Time.AddHours(Config.WarningAge) > Date.UtcNow Then
 
-                        Edit.Type = EditType.Warning
-                        Edit.WarningLevel = SummaryLevel
-                        If Edit.User.WarnTime < Edit.Time Then Edit.User.WarnTime = Edit.Time
+                    Edit.Type = EditType.Warning
+                    Edit.WarningLevel = SummaryLevel
+                    If Edit.User.WarnTime < Edit.Time Then Edit.User.WarnTime = Edit.Time
 
-                        If Edit.Page.Owner.Level < SummaryLevel AndAlso SummaryLevel < UserLevel.Warn4im _
-                            Then Edit.Page.Owner.Level = SummaryLevel
+                    If Edit.Page.Owner.Level < SummaryLevel AndAlso SummaryLevel < UserLevel.Warn4im _
+                        Then Edit.Page.Owner.Level = SummaryLevel
 
-                    ElseIf SummaryLevel = UserLevel.Notification Then
-                        Edit.Type = EditType.Notification
+                ElseIf SummaryLevel = UserLevel.Notification Then
+                    Edit.Type = EditType.Notification
 
-                        If Edit.Page.Owner.Level < SummaryLevel AndAlso Not Edit.Page.Owner.Ignored _
-                            Then Edit.Page.Owner.Level = SummaryLevel
-                    End If
+                    If Edit.Page.Owner.Level < SummaryLevel AndAlso Not Edit.Page.Owner.Ignored _
+                        Then Edit.Page.Owner.Level = SummaryLevel
                 End If
+            End If
 
-                'AIV/UAA reports
-                If Edit.Page.Name = Config.AIVLocation OrElse Edit.Page.Name = Config.UAALocation Then
+            'AIV/UAA reports
+            If (Edit.Page.Name = Config.AIVLocation OrElse Edit.Page.Name = Config.UAALocation) Then
 
-                    If Edit.Summary.Contains("User-reported") _
-                        AndAlso Not (Edit.Summary.Contains(" rm ") OrElse Edit.Summary.Contains("remove")) Then
-                        Edit.Type = EditType.Report
+                If (Edit.Summary.Contains("User-reported") AndAlso Not (Edit.Summary.Contains(" rm ") OrElse Edit.Summary.Contains("remove"))) Then
+                    Edit.Type = EditType.Report
+
+                    If Edit.Summary.Contains("User-reported - ") _
+                        OrElse Edit.Summary.Contains("User-reported */ ") Then
+
+                        Dim Summary As String = ""
 
                         If Edit.Summary.Contains("User-reported - ") _
-                            OrElse Edit.Summary.Contains("User-reported */ ") Then
+                            Then Summary = Edit.Summary.Substring(Edit.Summary.IndexOf("User-reported - ") + 16)
+                        If Edit.Summary.Contains("User-reported */ ") _
+                            Then Summary = Edit.Summary.Substring(Edit.Summary.IndexOf("User-reported */ ") + 17)
 
-                            Dim Summary As String = ""
+                        If Summary.ToLower.StartsWith("[[special:contributions/") Then
+                            Summary = Summary.Substring(22)
+                            If Summary.Contains("|") Then Summary = Summary.Substring(0, Summary.IndexOf("|"))
+                            If Summary.Contains("]") Then Summary = Summary.Substring(0, Summary.IndexOf("]"))
+                            Summary = HtmlDecode(Summary)
 
-                            If Edit.Summary.Contains("User-reported - ") _
-                                Then Summary = Edit.Summary.Substring(Edit.Summary.IndexOf("User-reported - ") + 16)
-                            If Edit.Summary.Contains("User-reported */ ") _
-                                Then Summary = Edit.Summary.Substring(Edit.Summary.IndexOf("User-reported */ ") + 17)
+                            Dim ReportedUser As User = GetUser(Summary)
 
-                            If Summary.ToLower.StartsWith("[[special:contributions/") Then
-                                Summary = Summary.Substring(22)
-                                If Summary.Contains("|") Then Summary = Summary.Substring(0, Summary.IndexOf("|"))
-                                If Summary.Contains("]") Then Summary = Summary.Substring(0, Summary.IndexOf("]"))
-                                Summary = HtmlDecode(Summary)
+                            If Not ReportedUser.Ignored Then
+                                If Edit.Page.Name = Config.AIVLocation AndAlso ReportedUser.Level < UserLevel.ReportedAIV _
+                                    Then ReportedUser.Level = UserLevel.ReportedAIV
+                                If Edit.Page.Name = Config.UAALocation AndAlso ReportedUser.Level < UserLevel.ReportedUAA _
+                                    Then ReportedUser.Level = UserLevel.ReportedUAA
+                            End If
 
-                                Dim ReportedUser As User = GetUser(Summary)
+                        Else
+                            If Summary.EndsWith(" reported") _
+                                Then Summary = Summary.Substring(0, Summary.IndexOf(" reported"))
 
-                                If Not ReportedUser.Ignored Then
-                                    If Edit.Page.Name = Config.AIVLocation AndAlso ReportedUser.Level < UserLevel.ReportedAIV _
-                                        Then ReportedUser.Level = UserLevel.ReportedAIV
-                                    If Edit.Page.Name = Config.UAALocation AndAlso ReportedUser.Level < UserLevel.ReportedUAA _
-                                        Then ReportedUser.Level = UserLevel.ReportedUAA
-                                End If
+                            Dim ReportedUser As User = GetUser(Summary)
 
-                            Else
-                                If Summary.EndsWith(" reported") _
-                                    Then Summary = Summary.Substring(0, Summary.IndexOf(" reported"))
+                            If ReportedUser IsNot Nothing AndAlso ReportedUser.Anonymous AndAlso _
+                                ReportedUser.Level < UserLevel.ReportedUAA AndAlso Not ReportedUser.Ignored Then
 
-                                Dim ReportedUser As User = GetUser(Summary)
-
-                                If ReportedUser IsNot Nothing AndAlso ReportedUser.Anonymous AndAlso _
-                                    ReportedUser.Level < UserLevel.ReportedUAA AndAlso Not ReportedUser.Ignored Then
-
-                                    If Edit.Page.Name = Config.AIVLocation Then ReportedUser.Level = UserLevel.ReportedAIV _
-                                        Else ReportedUser.Level = UserLevel.ReportedUAA
-                                End If
+                                If Edit.Page.Name = Config.AIVLocation Then ReportedUser.Level = UserLevel.ReportedAIV _
+                                    Else ReportedUser.Level = UserLevel.ReportedUAA
                             End If
                         End If
                     End If
-
-                    If Edit.Summary.ToLower.StartsWith("reporting [[special:contributions/") _
-                        OrElse Edit.Summary.ToLower.StartsWith("extending report for ") Then
-
-                        Dim Summary As String = Edit.Summary.Substring(34)
-                        If Summary.Contains("|") Then Summary = Summary.Substring(0, Summary.IndexOf("|"))
-                        If Summary.Contains("]") Then Summary = Summary.Substring(0, Summary.IndexOf("]"))
-                        Summary = HtmlDecode(Summary)
-
-                        Dim ReportedUser As User = GetUser(Summary)
-
-                        If ReportedUser.Level < UserLevel.ReportedAIV AndAlso Not ReportedUser.Ignored Then _
-                            ReportedUser.Level = UserLevel.ReportedAIV
-
-                        Edit.Type = EditType.Report
-
-                    ElseIf Edit.Summary.ToLower.StartsWith("reporting ") AndAlso Edit.Summary.Length > 10 Then
-                        Dim ReportedUser As User = GetUser(Edit.Summary.Substring(10))
-
-                        If ReportedUser.Level < UserLevel.ReportedAIV AndAlso Not ReportedUser.Ignored Then _
-                            ReportedUser.Level = UserLevel.ReportedAIV
-
-                        Edit.Type = EditType.Report
-                    End If
-
-                    If Edit.Summary.ToLower.StartsWith("added report") _
-                        OrElse Edit.Summary.ToLower.StartsWith("reporting") Then Edit.Type = EditType.Report
                 End If
 
-                'Bot AIV reports
-                If Edit.Page.Name = Config.AIVBotLocation Then
+                If Edit.Summary.ToLower.StartsWith("reporting [[special:contributions/") _
+                    OrElse Edit.Summary.ToLower.StartsWith("extending report for ") Then
 
-                    If Edit.Summary.ToLower.StartsWith("automatically reporting") _
-                        AndAlso Edit.Summary.Contains(". (bot)") Then
+                    Dim Summary As String = Edit.Summary.Substring(34)
+                    If Summary.Contains("|") Then Summary = Summary.Substring(0, Summary.IndexOf("|"))
+                    If Summary.Contains("]") Then Summary = Summary.Substring(0, Summary.IndexOf("]"))
+                    Summary = HtmlDecode(Summary)
 
-                        'ClueBot
-                        Dim UserName As String = Edit.Summary.Substring(Edit.Summary.IndexOf("/") + 1)
-                        If UserName.Contains("/") Then UserName = UserName.Substring(UserName.IndexOf("/") + 1)
+                    Dim ReportedUser As User = GetUser(Summary)
 
-                        UserName = UserName.Substring(0, UserName.IndexOf(". (bot)")).Replace("[", "").Replace("]", "")
-                        UserName = HtmlDecode(UserName)
+                    If ReportedUser.Level < UserLevel.ReportedAIV AndAlso Not ReportedUser.Ignored Then _
+                        ReportedUser.Level = UserLevel.ReportedAIV
 
-                        Dim ReportedUser As User = GetUser(UserName)
+                    Edit.Type = EditType.Report
 
-                        If ReportedUser.Level < UserLevel.ReportedAIV AndAlso Not ReportedUser.Ignored _
-                            Then ReportedUser.Level = UserLevel.ReportedAIV
+                ElseIf Edit.Summary.ToLower.StartsWith("reporting ") AndAlso Edit.Summary.Length > 10 Then
+                    Dim ReportedUser As User = GetUser(Edit.Summary.Substring(10))
 
-                        Edit.Type = EditType.Report
+                    If ReportedUser.Level < UserLevel.ReportedAIV AndAlso Not ReportedUser.Ignored Then _
+                        ReportedUser.Level = UserLevel.ReportedAIV
 
-                    ElseIf Edit.Summary.ToLower.StartsWith("bot - reporting apparent vandalism by ") Then
-
-                        'VoaBot II
-                        Dim UserName As String = Edit.Summary.Substring(45)
-                        If UserName.Contains("|") Then UserName = UserName.Substring(UserName.IndexOf("|") + 6)
-                        If UserName.Contains("]]") Then UserName = UserName.Substring(0, UserName.IndexOf("]]"))
-
-                        Dim ReportedUser As User = GetUser(UserName)
-
-                        If ReportedUser.Level < UserLevel.ReportedAIV AndAlso Not ReportedUser.Ignored _
-                            Then ReportedUser.Level = UserLevel.ReportedAIV
-
-                        Edit.Type = EditType.Report
-                    End If
+                    Edit.Type = EditType.Report
                 End If
 
-                'Bot UAA reports
-                If Edit.Page.Name = Config.UAABotLocation Then
-                    If Edit.Summary.ToLower.StartsWith("reporting [[special:contributions/") _
-                        OrElse Edit.Summary.ToLower.StartsWith("extending report for ") Then
-
-                        Dim UserName As String = Edit.Summary.Substring(34)
-                        If UserName.Contains("|") Then UserName = UserName.Substring(0, UserName.IndexOf("|"))
-                        If UserName.Contains("]") Then UserName = UserName.Substring(0, UserName.IndexOf("]"))
-                        UserName = HtmlDecode(UserName)
-
-                        Dim ReportedUser As User = GetUser(UserName)
-
-                        If ReportedUser.Level < UserLevel.ReportedUAA AndAlso Not ReportedUser.Ignored Then _
-                            ReportedUser.Level = UserLevel.ReportedUAA
-
-                        Edit.Type = EditType.Report
-                    End If
-                End If
-
-                'Tagging
-                If IsTagFromSummary(Edit) AndAlso Edit.Type = EditType.None Then Edit.Type = EditType.Tag
+                If Edit.Summary.ToLower.StartsWith("added report") _
+                    OrElse Edit.Summary.ToLower.StartsWith("reporting") Then Edit.Type = EditType.Report
             End If
 
-            If Edit.Id IsNot Nothing AndAlso Not Edit.All.ContainsKey(Edit.Id) Then Edit.All.Add(Edit.Id, Edit)
-            Edit.Processed = True
+            'Bot AIV reports
+            If Edit.Page.Name = Config.AIVBotLocation Then
+
+                If Edit.Summary.ToLower.StartsWith("automatically reporting") _
+                    AndAlso Edit.Summary.Contains(". (bot)") Then
+
+                    'ClueBot
+                    Dim UserName As String = Edit.Summary.Substring(Edit.Summary.IndexOf("/") + 1)
+                    If UserName.Contains("/") Then UserName = UserName.Substring(UserName.IndexOf("/") + 1)
+
+                    UserName = UserName.Substring(0, UserName.IndexOf(". (bot)")).Replace("[", "").Replace("]", "")
+                    UserName = HtmlDecode(UserName)
+
+                    Dim ReportedUser As User = GetUser(UserName)
+
+                    If ReportedUser.Level < UserLevel.ReportedAIV AndAlso Not ReportedUser.Ignored _
+                        Then ReportedUser.Level = UserLevel.ReportedAIV
+
+                    Edit.Type = EditType.Report
+
+                ElseIf Edit.Summary.ToLower.StartsWith("bot - reporting apparent vandalism by ") Then
+
+                    'VoaBot II
+                    Dim UserName As String = Edit.Summary.Substring(45)
+                    If UserName.Contains("|") Then UserName = UserName.Substring(UserName.IndexOf("|") + 6)
+                    If UserName.Contains("]]") Then UserName = UserName.Substring(0, UserName.IndexOf("]]"))
+
+                    Dim ReportedUser As User = GetUser(UserName)
+
+                    If ReportedUser.Level < UserLevel.ReportedAIV AndAlso Not ReportedUser.Ignored _
+                        Then ReportedUser.Level = UserLevel.ReportedAIV
+
+                    Edit.Type = EditType.Report
+                End If
+            End If
+
+            'Bot UAA reports
+            If Edit.Page.Name = Config.UAABotLocation Then
+                If Edit.Summary.ToLower.StartsWith("reporting [[special:contributions/") _
+                    OrElse Edit.Summary.ToLower.StartsWith("extending report for ") Then
+
+                    Dim UserName As String = Edit.Summary.Substring(34)
+                    If UserName.Contains("|") Then UserName = UserName.Substring(0, UserName.IndexOf("|"))
+                    If UserName.Contains("]") Then UserName = UserName.Substring(0, UserName.IndexOf("]"))
+                    UserName = HtmlDecode(UserName)
+
+                    Dim ReportedUser As User = GetUser(UserName)
+
+                    If ReportedUser.Level < UserLevel.ReportedUAA AndAlso Not ReportedUser.Ignored Then _
+                        ReportedUser.Level = UserLevel.ReportedUAA
+
+                    Edit.Type = EditType.Report
+                End If
+            End If
+
+            'Tagging
+            If IsTagFromSummary(Edit) AndAlso Edit.Type = EditType.None Then Edit.Type = EditType.Tag
+        End If
+
+        If Edit.Id IsNot Nothing AndAlso Not Edit.All.ContainsKey(Edit.Id) Then Edit.All.Add(Edit.Id, Edit)
+        Edit.Processed = True
 
     End Sub
 
@@ -302,7 +303,7 @@ Module Processing
         Edit.User.SessionEditCount += 1
         If Edit.User.EditCount > -1 Then Edit.User.EditCount += 1
 
-        'Add edit to queues
+        'Add edit to the all lists
         For Each Queue As Queue In Queue.All.Values
             If Queue.MatchesFilter(Edit) Then
                 If Queue.RevisionRegex IsNot Nothing AndAlso Queue.DiffMode = DiffMode.All Then
@@ -318,8 +319,7 @@ Module Processing
 
                     If Queue Is CurrentQueue Then
                         'Keep user's viewing position when adding new items, if not looking at the top of the queue
-                        If Queue.SortOrder = QueueSortOrder.Time And (MainForm.QueueScroll.Value) < MainForm.QueueScroll.Maximum And MainForm.QueueScroll.Value > 1 _
-                            Then MainForm.QueueScroll.Value += 1
+                        If (Queue.SortOrder = QueueSortOrder.Time And (MainForm.QueueScroll.Value) < MainForm.QueueScroll.Maximum And MainForm.QueueScroll.Value > 1) Then MainForm.QueueScroll.Value += 1
                         Redraw = True
                     End If
                 End If
