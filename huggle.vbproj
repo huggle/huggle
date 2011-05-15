@@ -46,12 +46,12 @@
     <DefineTrace>false</DefineTrace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <DebugType>Full</DebugType>
+    <DebugType>None</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <UseVSHostingProcess>true</UseVSHostingProcess>
     <NoWarn>42353,42354,42355</NoWarn>
-    <DebugSymbols>true</DebugSymbols>
+    <DebugSymbols>false</DebugSymbols>
     <DefineDebug>false</DefineDebug>
   </PropertyGroup>
   <PropertyGroup>
