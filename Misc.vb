@@ -55,6 +55,7 @@ Module Misc
     Public WhitelistLoaded As Boolean
     Public WhitelistManualChanges As New List(Of String)
     Public GlExcess As Integer = 20000
+    Public Errors As String
 
     Public Delegate Sub Action()
     Public Delegate Sub CallbackDelegate(ByVal Success As Boolean)
@@ -83,6 +84,10 @@ Module Misc
             If CurrentEdit Is Nothing Then Return Nothing Else Return CurrentEdit.User
         End Get
     End Property
+
+    Public Sub ErrorLog(ByVal value As String)
+        Errors = Errors & " >> " & System.DateTime.Now.ToString & " " & value
+    End Sub
 
     Public ReadOnly Property CurrentPage() As Page
         'Pointer current page

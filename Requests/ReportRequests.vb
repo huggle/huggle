@@ -129,7 +129,7 @@ Namespace Requests
             Dim Result As ApiResult, Text As String
 
             'Check bot report subpage for report of user
-            If Config.Project = "en.wikipedia" AndAlso Config.AIVBotLocation IsNot Nothing Then
+            If Config.Project = "en.wikipedia" AndAlso Config.AIVBotLocation <> "" Then
                 Result = GetText(Config.AIVBotLocation)
 
                 If Result.Error Then
@@ -335,10 +335,17 @@ Namespace Requests
                 LogProgress(Msg("report-progress", User.Name))
 
             Dim Result As ApiResult, Text As String
-
+            If User Is Nothing Then
+                Log("Error: can't find user id")
+                Exit Sub
+            End If
+            If Reason Is Nothing Then
+                Reason = ""
+            End If
                 'Check bot report subpage for report of user
-                If Config.UAABotLocation IsNot Nothing Then
-                    Result = GetText(Config.UAABotLocation)
+            If Config.UAABotLocation <> "" Then
+                Result = GetText(Config.UAABotLocation)
+                If Result.Text IsNot Nothing Then
 
                     Text = GetTextFromRev(Result.Text).ToLower.Replace("_", " ")
 
@@ -354,24 +361,25 @@ Namespace Requests
                         Exit Sub
                     End If
                 End If
+            End If
 
-                Result = GetText(Config.UAALocation)
+            Result = GetText(Config.UAALocation)
 
-                If Result.Error Then
-                    Fail(Msg("report-fail", User.Name), Result.ErrorMessage)
-                    Exit Sub
-                End If
+            If Result.Error Then
+                Fail(Msg("report-fail", User.Name), Result.ErrorMessage)
+                Exit Sub
+            End If
 
-                Text = GetTextFromRev(Result.Text)
+            Text = GetTextFromRev(Result.Text)
 
-                'Check for existing report
-                If Text.ToLower.Replace("_", " ").Contains("{{user-uaa|" & User.Name & "}}") _
-                    OrElse Text.ToLower.Replace("_", " ").Contains("{{user-uaa|1=" & User.Name & "}}") Then
+            'Check for existing report
+            If Text.ToLower.Replace("_", " ").Contains("{{user-uaa|" & User.Name & "}}") _
+                OrElse Text.ToLower.Replace("_", " ").Contains("{{user-uaa|1=" & User.Name & "}}") Then
 
-                    If User.Level < UserLevel.ReportedUAA Then User.Level = UserLevel.ReportedUAA
-                    Fail(Msg("report-fail", User.Name), Msg("warn-alreadyreported"))
-                    Exit Sub
-                End If
+                If User.Level < UserLevel.ReportedUAA Then User.Level = UserLevel.ReportedUAA
+                Fail(Msg("report-fail", User.Name), Msg("warn-alreadyreported"))
+                Exit Sub
+            End If
 
             'Report user
             If Config.TemplatePs = True Then
