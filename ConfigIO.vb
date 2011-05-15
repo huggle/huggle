@@ -175,7 +175,7 @@ Module ConfigIO
                 Case "block-message-indef" : Config.BlockMessageIndef = Value
                 Case "block-prompt" : Config.PromptForBlock = CBool(Value)
                 Case "block-reason" : Config.BlockReason = Value
-                Case "block-summary" : Config.BlockSummary = "Notification: Blocked"
+                Case "block-summary" : Config.BlockSummary = Value
                 Case "confirm-ignored" : Config.ConfirmIgnored = CBool(Value)
                 Case "confirm-multiple" : Config.ConfirmMultiple = CBool(Value)
                 Case "confirm-page" : Config.ConfirmPage = CBool(Value)

@@ -412,13 +412,13 @@ Namespace Requests
                                 Then Return New ApiResult(Nothing, "", Msg("error-reloginfail"))
                         End If
                     End If
-                Loop Until Token IsNot Nothing And BreakA < Misc.GlExcess
+                Loop Until Token IsNot Nothing Or BreakA < Misc.GlExcess
 
                 'Edit page
                 Dim QueryString As String = "title=" & UrlEncode(Page.Name) & "&text=" & UrlEncode(Text) _
                     & "&summary=" & UrlEncode(Summary)
 
-                If Config.Summary IsNot Nothing AndAlso Not SuppressAutoSummary _
+                If Config.Summary <> "" AndAlso Not SuppressAutoSummary _
                     Then QueryString &= UrlEncode(" " & Config.Summary)
 
                 QueryString &= "&token=" & UrlEncode(Token)
@@ -434,8 +434,9 @@ Namespace Requests
                     EditToken = Nothing
                 Else
                     BadToken = False
+                    Return Result
                 End If
-            Loop Until Not BadToken And BreakB < Misc.GlExcess
+            Loop Until Not BadToken Or BreakB < Misc.GlExcess
 
             If Not Result.Error AndAlso Not Watchlist.Contains(Page.SubjectPage) Then Watchlist.Add(Page.SubjectPage)
 

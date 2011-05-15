@@ -227,7 +227,10 @@ Namespace Requests
             Items.Add("version:" & Config.Version.Major.ToString & "." & Config.Version.Minor.ToString & "." & _
                 Config.Version.Build.ToString)
             Items.Add("")
-
+            Items.Add("admin:" & CStr(Config.UseAdminFunctions).ToLower)
+            Items.Add(":" & CStr(Config.UseAdminFunctions).ToLower)
+            Items.Add("prod-message-summary:" & CStr(Config.ProdMessageSummary))
+            Items.Add("block-message:" & CStr(Config.BlockMessage))
             Items.Add("auto-advance:" & CStr(Config.AutoAdvance).ToLower)
             Items.Add("auto-whitelist:" & CStr(Config.AutoWhitelist).ToLower)
             Items.Add("confirm-multiple:" & CStr(Config.ConfirmMultiple).ToLower)

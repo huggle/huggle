@@ -35,7 +35,7 @@ Module Processing
             If Edit.Bot Then Edit.User.Bot = True
 
             'Auto summaries
-            If (Config.PageBlankedPattern IsNot Nothing AndAlso Config.PageBlankedPattern.IsMatch(Edit.Summary)) _
+        If (Config.PageBlankedPattern IsNot Nothing AndAlso Config.PageBlankedPattern.IsMatch(Edit.Summary)) _
                 OrElse Edit.Size = 0 Then Edit.Type = EditType.Blanked
             If Config.PageRedirectedPattern IsNot Nothing AndAlso Config.PageRedirectedPattern.IsMatch(Edit.Summary) _
                 Then Edit.Type = EditType.Redirect
