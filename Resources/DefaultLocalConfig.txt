@@ -4,6 +4,7 @@ projects:
     de.wikipedia;http://de.wikipedia.org/,
     en.wikipedia;http://en.wikipedia.org/,
     es.wikipedia;http://es.wikipedia.org/,
+	fr.wikipedia;http://fr.wikipedia.org/,
     ko.wikipedia;http://ko.wikipedia.org/,
     nl.wikipedia;http://nl.wikipedia.org/,
     no.wikipedia;http://no.wikipedia.org/,
