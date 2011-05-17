@@ -1,0 +1,44 @@
+﻿<pre>
+name:                       हिंदी
+</pre>
+
+=== General ===
+<pre>
+add:                       जोड़ें
+apply:                     लागु करें
+cancel:                    रद्द करें
+clear:                     साफ़ करें
+close:                     बंद करें
+continue:                  जारी करें
+copy:                      अनुकृति करें
+delete:                    मिटाएँ
+error:                     विकल्प
+exit:                      निकास
+minimizewindow:            मिनिमैस
+no:                        नहीं
+ok:                        ठीक है
+remove:                    निकलें
+rename:                    नाम परिवर्तन करें
+restorewindow:             नवीकरण करें
+save:                      सँजोएँ
+selectfile:                ब्राऊस ...
+yes:                       हाँ
+</pre>
+
+=== Edit types ===
+<pre>
+edittype-blocknote:        Block notifications
+edittype-deletenote:       Deletion request notifications
+edittype-deletetag:        Deletion discussion tags
+edittype-deletereq:        Other deletion discussion edits
+edittype-manual:           मैनुअल संपादन
+edittype-message:          उपयोगकर्ता सन्देश
+edittype-note:             अन्य अधिसूचना
+edittype-prodtag:          Proposed deletion tags
+edittype-protectreq:       रक्षा निवेदन
+edittype-report:           रिपोर्ट
+edittype-revert:           पलट
+edittype-speedytag:        Speedy deletion tags
+edittype-tag:              अन्य टैग
+edittype-warning:          चेतावनी
+</pre>

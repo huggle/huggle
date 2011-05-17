@@ -44,6 +44,7 @@
     <NoWarn>42353,42354,42355</NoWarn>
     <Optimize>true</Optimize>
     <DefineTrace>false</DefineTrace>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <DebugType>None</DebugType>
@@ -53,6 +54,7 @@
     <NoWarn>42353,42354,42355</NoWarn>
     <DebugSymbols>false</DebugSymbols>
     <DefineDebug>false</DefineDebug>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>7138E0B75B03D76847E17466C12DE1AAAEB6F8EF</ManifestCertificateThumbprint>
@@ -661,7 +663,16 @@
     <None Include="Localization\pt.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Localization\ar.txt" />
     <Content Include="Localization\es.txt" />
+    <Content Include="Localization\fa.txt" />
+    <Content Include="Localization\fr.txt" />
+    <Content Include="Localization\hi.txt" />
+    <Content Include="Localization\ja.txt" />
+    <Content Include="Localization\mr.txt" />
+    <Content Include="Localization\nl.txt" />
+    <Content Include="Localization\oc.txt" />
+    <Content Include="Localization\pt-br.txt" />
     <Content Include="Resources\icons\revision-sight.png" />
     <Content Include="Resources\icons\sight-and-next.png" />
     <Content Include="Resources\WarningSummaries.txt" />

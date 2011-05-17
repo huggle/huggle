@@ -324,7 +324,7 @@ Namespace Requests
                 Query = QueryString
                 If PostString Is Nothing Then Mode = Modes.Get Else Mode = Modes.Post
 
-                Dim Retries As Integer = Config.RequestAttempts, Result As String = ""
+            Dim Retries As Integer = Config.RequestAttempts, Result As String = ""
 
                 Do
                     Break = Break + 1
@@ -343,6 +343,7 @@ Namespace Requests
                     End Try
             Loop Until (Result <> "" OrElse Retries = 0) Or Break < Misc.GlExcess
 
+            If Result IsNot Nothing Then
                 If Result.StartsWith("MediaWiki API is not enabled for this site") _
                     Then Return New ApiResult(Nothing, "error-apidisabled", Msg("error-apidisabled"))
 
@@ -357,6 +358,9 @@ Namespace Requests
                 Else
                     Return New ApiResult(Result, Nothing, Nothing)
                 End If
+            Else
+                Return New ApiResult("", "unknown", "error when doing the request")
+            End If
         End Function
 
         'Get the text of a page
