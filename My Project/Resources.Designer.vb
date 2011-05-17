@@ -60,6 +60,34 @@ Namespace My.Resources
             End Set
         End Property
         
+        '''<summary>
+        '''  Looks up a localized string similar to &lt;pre&gt;
+        '''name:                    Arabic
+        '''&lt;/pre&gt;
+        '''
+        '''=== General ===
+        '''&lt;pre&gt;
+        '''add:                       أضف
+        '''apply:                     طبِّق
+        '''cancel:                    ألغِ
+        '''clear:                     امحُ
+        '''close:                     أغلق
+        '''continue:                  واصل
+        '''copy:                      انسخ
+        '''delete:                    احذف
+        '''error:                     خطأ
+        '''exit:                      خروج
+        '''minimizewindow:            تصغير
+        '''no:                        لا
+        '''ok:                        موافق
+        '''remove:    [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend ReadOnly Property ar() As String
+            Get
+                Return ResourceManager.GetString("ar", resourceCulture)
+            End Get
+        End Property
+        
         Friend ReadOnly Property blob_anon() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("blob_anon", resourceCulture)
@@ -317,13 +345,13 @@ Namespace My.Resources
         '''    de.wikipedia;http://de.wikipedia.org/,
         '''    en.wikipedia;http://en.wikipedia.org/,
         '''    es.wikipedia;http://es.wikipedia.org/,
+        '''	fr.wikipedia;http://fr.wikipedia.org/,
         '''    ko.wikipedia;http://ko.wikipedia.org/,
         '''    nl.wikipedia;http://nl.wikipedia.org/,
         '''    no.wikipedia;http://no.wikipedia.org/,
         '''    pt.wikipedia;http://pt.wikipedia.org/,
-        '''    ru.wikipedia;http://ru.wikipedia.org/,
-        '''    te.wikipedia;http://te.wikipedia.org/,
-        '''    vi.wikipedia; [rest of string was truncated]&quot;;.
+        '''	sv.wikipedia;http://sv.wikipedia.org/,
+        '''    ru.wikipedia;http:/ [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property DefaultLocalConfig() As String
             Get
@@ -379,6 +407,88 @@ Namespace My.Resources
             End Get
         End Property
         
+        '''<summary>
+        '''  Looks up a localized string similar to &lt;pre&gt;
+        '''name:                      Español
+        '''&lt;/pre&gt;
+        '''
+        '''=== General ===
+        '''&lt;pre&gt;
+        '''add:                       Añadir
+        '''apply:                     Aplicar
+        '''cancel:                    Cancelar
+        '''clear:                     Borrar
+        '''close:                     Cerrar
+        '''continue:                  Continuar
+        '''copy:                      Copiar
+        '''delete:                    Borrar
+        '''error:                     Error
+        '''exit:                      Salir
+        '''minimizewindow:            Minimizar
+        '''no:                        No
+        '''ok:          [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend ReadOnly Property es() As String
+            Get
+                Return ResourceManager.GetString("es", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to {{:Huggle/LocalizationHeader}}
+        '''
+        '''&lt;pre&gt;
+        '''name:                      Persian
+        '''&lt;/pre&gt;
+        '''
+        '''=== General ===
+        '''&lt;pre&gt;
+        '''add:                       اضافه
+        '''apply:                     اعمال کردن
+        '''cancel:                    انصراف
+        '''clear:                     پاک کردن
+        '''close:                     بستن
+        '''continue:                  ادامه
+        '''copy:                      رونوشت
+        '''delete:                    حذف
+        '''error:                     خطا
+        '''exit:                      خارج شدن
+        '''minimizewindow:            کوچک نمایی
+        '''no:            [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend ReadOnly Property fa() As String
+            Get
+                Return ResourceManager.GetString("fa", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to &lt;pre&gt;
+        '''name:                      Français
+        '''&lt;/pre&gt;
+        '''
+        '''=== General ===
+        '''&lt;pre&gt;
+        '''add:                       Ajouter
+        '''apply:                     Appliquer
+        '''cancel:                    Annuler
+        '''clear:                     Effacer
+        '''close:                     Fermer
+        '''continue:                  Continuer
+        '''copy:                      Copier
+        '''delete:                    Supprimer
+        '''error:                     Erreur
+        '''exit:                      Sortir
+        '''minimizewindow:            Réduire
+        '''no:                        Non
+        '''ok:  [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend ReadOnly Property fr() As String
+            Get
+                Return ResourceManager.GetString("fr", resourceCulture)
+            End Get
+        End Property
+        
         Friend ReadOnly Property gradient() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("gradient", resourceCulture)
@@ -421,6 +531,32 @@ Namespace My.Resources
             End Get
         End Property
         
+        '''<summary>
+        '''  Looks up a localized string similar to &lt;pre&gt;
+        '''name:                       हिंदी
+        '''&lt;/pre&gt;
+        '''
+        '''=== General ===
+        '''&lt;pre&gt;
+        '''add:                       जोड़ें
+        '''apply:                     लागु करें
+        '''cancel:                    रद्द करें
+        '''clear:                     साफ़ करें
+        '''close:                     बंद करें
+        '''continue:                  जारी करें
+        '''copy:                      अनुकृति करें
+        '''delete:                    मिटाएँ
+        '''error:                     विकल्प
+        '''exit:                      निकास
+        '''minimizewindow:            मिनिमैस
+        '''no:                        नहीं [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend ReadOnly Property hi() As String
+            Get
+                Return ResourceManager.GetString("hi", resourceCulture)
+            End Get
+        End Property
+        
         Friend ReadOnly Property history_last() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("history_last", resourceCulture)
@@ -460,6 +596,113 @@ Namespace My.Resources
             Get
                 Dim obj As Object = ResourceManager.GetObject("huggle_logo", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to &lt;pre&gt;
+        '''name:                      日本語
+        '''&lt;/pre&gt;
+        '''
+        '''=== General ===
+        '''&lt;pre&gt;
+        '''add:                       追加
+        '''apply:                     適用
+        '''cancel:                    キャンセル
+        '''clear:                     クリア
+        '''close:                     閉じる
+        '''continue:                  続ける
+        '''copy:                      コピー
+        '''delete:                    削除
+        '''error:                     エラー
+        '''exit:                      終了
+        '''minimizewindow:            最小化
+        '''no:                        いいえ
+        '''ok:                        OK
+        '''remove:                    [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend ReadOnly Property ja() As String
+            Get
+                Return ResourceManager.GetString("ja", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to &lt;pre&gt;
+        '''name:                       मराठी
+        '''&lt;/pre&gt;
+        '''
+        '''=== General ===
+        '''&lt;pre&gt;
+        '''add:                       Add
+        '''apply:                     Apply
+        '''cancel:                    Cancel
+        '''clear:                     खोडा
+        '''close:                     बंद
+        '''continue:                  Continue
+        '''copy:                      Copy
+        '''delete:                    काढून टाका
+        '''error:                     अडथळा
+        '''exit:                      बाहेर जा
+        '''minimizewindow:            Minimize
+        '''no:                        नाही
+        '''ok:                  [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend ReadOnly Property mr() As String
+            Get
+                Return ResourceManager.GetString("mr", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to &lt;pre&gt;
+        '''name:                      Nederlands (Dutch)
+        '''&lt;/pre&gt;
+        '''
+        '''=== General ===
+        '''&lt;pre&gt;
+        '''add:                       Toevoegen
+        '''apply:                     Toepassen
+        '''cancel:                    Annuleren
+        '''clear:                     Leegmaken
+        '''close:                     Sluiten
+        '''continue:                  Doorgaan
+        '''copy:                      Kopiëren
+        '''delete:                    Verwijderen
+        '''error:                     Fout
+        '''exit:                      Afsluiten
+        '''minimizewindow:            Minimaliseren
+        '''no:       [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend ReadOnly Property nl() As String
+            Get
+                Return ResourceManager.GetString("nl", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to &lt;pre&gt;
+        '''name:                      Occitan
+        '''&lt;/pre&gt;
+        '''
+        '''=== General ===
+        '''&lt;pre&gt;
+        '''add:                       Apondètz
+        '''apply:                     Aplicatz
+        '''cancel:                    Anullacion
+        '''clear:                     Desebucatz
+        '''close:                     Tampar
+        '''continue:                  Contunhatz
+        '''copy:                      Copiatz
+        '''delete:                    Suprimissètz
+        '''error:                     Error
+        '''exit:                      Sortissètz
+        '''minimizewindow:            Minimizètz
+        '''no:                  [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend ReadOnly Property oc() As String
+            Get
+                Return ResourceManager.GetString("oc", resourceCulture)
             End Get
         End Property
         

@@ -623,6 +623,15 @@ Module ConfigIO
             LoadLanguage("en", My.Resources.en)
             LoadLanguage("de", My.Resources.de)
             LoadLanguage("pt", My.Resources.pt)
+            LoadLanguage("ja", My.Resources.ja)
+            LoadLanguage("ar", My.Resources.ar)
+            LoadLanguage("es", My.Resources.es)
+            LoadLanguage("ar", My.Resources.ar)
+            LoadLanguage("fa", My.Resources.fa)
+            LoadLanguage("fr", My.Resources.fr)
+            LoadLanguage("nl", My.Resources.nl)
+            LoadLanguage("hi", My.Resources.hi)
+
 
         Else
             For Each FileName As String In Directory.GetFiles(L10nLocation)

@@ -47,12 +47,12 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <DebugType>None</DebugType>
+    <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <UseVSHostingProcess>true</UseVSHostingProcess>
     <NoWarn>42353,42354,42355</NoWarn>
-    <DebugSymbols>false</DebugSymbols>
+    <DebugSymbols>true</DebugSymbols>
     <DefineDebug>false</DefineDebug>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
@@ -660,19 +660,18 @@
     <None Include="Resources\WikiPageHtml.txt" />
     <None Include="Localization\de.txt" />
     <None Include="Localization\en.txt" />
-    <None Include="Localization\pt.txt" />
+    <EmbeddedResource Include="Localization\pt.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Localization\ar.txt" />
-    <Content Include="Localization\es.txt" />
-    <Content Include="Localization\fa.txt" />
-    <Content Include="Localization\fr.txt" />
-    <Content Include="Localization\hi.txt" />
-    <Content Include="Localization\ja.txt" />
-    <Content Include="Localization\mr.txt" />
-    <Content Include="Localization\nl.txt" />
-    <Content Include="Localization\oc.txt" />
-    <Content Include="Localization\pt-br.txt" />
+    <None Include="Localization\ar.txt" />
+    <EmbeddedResource Include="Localization\es.txt" />
+    <EmbeddedResource Include="Localization\fa.txt" />
+    <EmbeddedResource Include="Localization\fr.txt" />
+    <EmbeddedResource Include="Localization\hi.txt" />
+    <EmbeddedResource Include="Localization\ja.txt" />
+    <EmbeddedResource Include="Localization\mr.txt" />
+    <EmbeddedResource Include="Localization\nl.txt" />
+    <EmbeddedResource Include="Localization\oc.txt" />
     <Content Include="Resources\icons\revision-sight.png" />
     <Content Include="Resources\icons\sight-and-next.png" />
     <Content Include="Resources\WarningSummaries.txt" />
