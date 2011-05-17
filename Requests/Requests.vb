@@ -326,22 +326,24 @@ Namespace Requests
 
             Dim Retries As Integer = Config.RequestAttempts, Result As String = ""
 
-                Do
-                    Break = Break + 1
-                    If Retries < Config.RequestAttempts Then Thread.Sleep(Config.RequestRetryInterval)
-                    Retries -= 1
+            While (Result <> "" OrElse Retries = 0) And Break < Misc.GlExcess
 
-                    Try
-                        Result = DoWebRequest(ProjectUrl & Config.WikiPath & "api.php?format=xml&" & QueryString, PostString)
 
-                    Catch ex As WebException
-                        If ex.Status = WebExceptionStatus.Timeout Then
-                            Return New ApiResult(Nothing, "error-timeout", Msg("error-timeout"))
-                        Else
-                            Return New ApiResult(Nothing, "error-unknown", Msg("error-unknown"))
-                        End If
-                    End Try
-            Loop Until (Result <> "" OrElse Retries = 0) Or Break < Misc.GlExcess
+                Break = Break + 1
+                If Retries < Config.RequestAttempts Then Thread.Sleep(Config.RequestRetryInterval)
+                Retries -= 1
+
+                Try
+                    Result = DoWebRequest(ProjectUrl & Config.WikiPath & "api.php?format=xml&" & QueryString, PostString)
+
+                Catch ex As WebException
+                    If ex.Status = WebExceptionStatus.Timeout Then
+                        Return New ApiResult(Nothing, "error-timeout", Msg("error-timeout"))
+                    Else
+                        Return New ApiResult(Nothing, "error-unknown", Msg("error-unknown"))
+                    End If
+                End Try
+            End While
 
             If Result IsNot Nothing Then
                 If Result.StartsWith("MediaWiki API is not enabled for this site") _
@@ -391,10 +393,10 @@ Namespace Requests
 
             Dim Result As ApiResult, Token As String = Nothing, BadToken As Boolean
 
-            Do
+            While BadToken And BreakB < Misc.GlExcess
                 BreakB = BreakB + 1
                 'Get edit token
-                Do
+                While Token IsNot Nothing And BreakA < Misc.GlExcess
                     BreakA = BreakA + 1
                     If Section IsNot Nothing OrElse EditToken Is Nothing Then
                         Result = DoApiRequest("action=query&prop=info&intoken=edit&titles=" & UrlEncode(Page.Name))
@@ -416,7 +418,7 @@ Namespace Requests
                                 Then Return New ApiResult(Nothing, "", Msg("error-reloginfail"))
                         End If
                     End If
-                Loop Until Token IsNot Nothing Or BreakA < Misc.GlExcess
+                End While
 
                 'Edit page
                 Dim QueryString As String = "title=" & UrlEncode(Page.Name) & "&text=" & UrlEncode(Text) _
@@ -440,10 +442,10 @@ Namespace Requests
                     BadToken = False
                     Return Result
                 End If
-            Loop Until Not BadToken Or BreakB < Misc.GlExcess
-
-            If Not Result.Error AndAlso Not Watchlist.Contains(Page.SubjectPage) Then Watchlist.Add(Page.SubjectPage)
-
+            End While
+            If Result IsNot Nothing Then
+                If Not Result.Error AndAlso Not Watchlist.Contains(Page.SubjectPage) Then Watchlist.Add(Page.SubjectPage)
+            End If
             Return Result
         End Function
 
