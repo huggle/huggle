@@ -114,9 +114,11 @@ Class Configuration
     Public DefaultQueue2 As String
     Public DefaultSummary As String = ""
     Public Delete As Boolean = False
+    Public Platform As Long = 86
     Public DiffFontSize As String = "8"
     Public DocsLocation As String = "http://en.wikipedia.org/wiki/Wikipedia:Huggle"
     Public DownloadLocation As String = "http://huggle.googlecode.com/files/huggle $1.exe"
+    Public Downloadloc64 As String = "http://huggle.googlecode.com/files/huggle $1x64.exe"
     Public Email As Boolean
     Public EmailSubject As String = ""
     Public Enabled As Boolean

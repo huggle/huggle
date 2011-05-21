@@ -253,6 +253,9 @@ Namespace Requests
             Dim Result As ApiResult
             Result = DoApiRequest("action=login", "lgname=" & UrlEncode(Config.Username), Config.Project)
 
+            If Regex.Match(Result.Text, "token=""[0-9a-zA-Z]*""").Value Is Nothing Then
+                Return LoginResult.Failed
+            End If
             Login.Token = Regex.Match(Result.Text, "token=""[0-9a-zA-Z]*""").Value
             Login.Token = Login.Token.Replace("""", "")
             Login.Token = Login.Token.Replace("token=", "")
@@ -326,7 +329,7 @@ Namespace Requests
 
             Dim Retries As Integer = Config.RequestAttempts, Result As String = ""
 
-            While (Result <> "" OrElse Retries = 0) And Break < Misc.GlExcess
+            While (Result = "" Or Retries = 0) And Break < Misc.GlExcess
 
 
                 Break = Break + 1
@@ -391,12 +394,13 @@ Namespace Requests
             Optional ByVal AllowCreate As Boolean = True) As ApiResult
             Dim BreakA As Integer = 0, BreakB As Integer = 0
 
-            Dim Result As ApiResult, Token As String = Nothing, BadToken As Boolean
+            Dim Result As ApiResult, Token As String = Nothing, BadToken As Boolean = False
+            Result = New ApiResult(Nothing, Nothing, Nothing)
 
-            While BadToken And BreakB < Misc.GlExcess
+            While BadToken = False And BreakB < Misc.GlExcess
                 BreakB = BreakB + 1
                 'Get edit token
-                While Token IsNot Nothing And BreakA < Misc.GlExcess
+                While Token Is Nothing And BreakA < Misc.GlExcess
                     BreakA = BreakA + 1
                     If Section IsNot Nothing OrElse EditToken Is Nothing Then
                         Result = DoApiRequest("action=query&prop=info&intoken=edit&titles=" & UrlEncode(Page.Name))
