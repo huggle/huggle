@@ -264,7 +264,7 @@ Namespace Requests
             Items.Add("open-in-browser:" & CStr(Config.OpenInBrowser).ToLower)
             Items.Add("preload:" & CStr(Config.Preloads))
 
-            If Config.AutoReport Then
+            If Config.AutoReport = True Then
                 Items.Add("report:auto")
             ElseIf Not Config.PromptForReport Then
                 Items.Add("report:prompt")

@@ -719,7 +719,7 @@ Namespace Requests
 
             Dim ThisEdit As Edit = User.LastEdit, i As Integer = ApiLimit() \ 10
 
-            While ThisEdit IsNot NullEdit AndAlso ThisEdit IsNot Nothing AndAlso i > 0 And Break < Misc.GlExcess
+            While (ThisEdit IsNot NullEdit AndAlso ThisEdit IsNot Nothing AndAlso i > 0) And Break < Misc.GlExcess
                 Break = Break + 1
                 QueryString &= ThisEdit.Id & "|"
                 ThisEdit = ThisEdit.PrevByUser

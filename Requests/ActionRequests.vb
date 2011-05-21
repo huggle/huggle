@@ -373,6 +373,10 @@ Namespace Requests
                 Dim Break As Integer = 0
                 Dim Request As HttpWebRequest = CType(WebRequest.Create(Config.DownloadLocation.Replace("$1", _
                     VersionString(Config.LatestVersion))), HttpWebRequest)
+                If Config.Platform = 64 Then
+                    Request = CType(WebRequest.Create(Config.Downloadloc64.Replace("$1", _
+                    VersionString(Config.LatestVersion))), HttpWebRequest)
+                End If
                 Request.Proxy = Proxy
                 Request.UserAgent = Config.UserAgent
 
