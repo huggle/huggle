@@ -396,7 +396,7 @@ Module Misc
 
     Function GetPage(ByVal Name As String) As Page
         'Get pointer to page
-        Return Page.GetPage(Name)
+            Return Page.GetPage(Name)
     End Function
 
     Function GetUser(ByVal Name As String) As User

@@ -918,6 +918,8 @@ Namespace Requests
             'Check for subpages
             Dim PathPage As Page = GetPage(Config.WhitelistLocation)
 
+            If PathPage Is Nothing Then Exit Sub
+
             Result = DoApiRequest("action=query&prop=info&generator=allpages&gapnamespace=" & _
                 CStr(PathPage.Space.Number) & "&gapprefix=" & PathPage.BaseName)
 
