@@ -10,6 +10,8 @@ projects:
     no.wikipedia;http://no.wikipedia.org/,
     pt.wikipedia;http://pt.wikipedia.org/,
 	sv.wikipedia;http://sv.wikipedia.org/,
+	hi.wikipedia;http://hi.wikipedia.org/,
+	zh.wikipedia;http://zh.wikipedia.org/,
     ru.wikipedia;http://ru.wikipedia.org/,
     te.wikipedia;http://te.wikipedia.org/,
     vi.wikipedia;http://vi.wikipedia.org/,
