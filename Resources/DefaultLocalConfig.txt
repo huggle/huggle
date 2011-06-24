@@ -14,6 +14,7 @@ projects:
 	zh.wikipedia;http://zh.wikipedia.org/,
     ru.wikipedia;http://ru.wikipedia.org/,
     te.wikipedia;http://te.wikipedia.org/,
+	km.wikipedia;http://km.wikipedia.org/,
     vi.wikipedia;http://vi.wikipedia.org/,
     simple.wikipedia;http://simple.wikipedia.org/,
 	commons;http://commons.wikimedia.org/,

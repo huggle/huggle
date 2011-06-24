@@ -238,7 +238,7 @@ Class ListForm
         If Dialog.ShowDialog = DialogResult.OK Then
             Dim Items As New List(Of String)
 
-            For Each Item As String In Lists.Items
+            For Each Item As String In ListPages.Items
                 Items.Add("*[[" & Item & "]]")
             Next Item
 

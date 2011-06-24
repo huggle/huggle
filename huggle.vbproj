@@ -693,6 +693,7 @@
     <EmbeddedResource Include="Localization\mr.txt" />
     <EmbeddedResource Include="Localization\nl.txt" />
     <EmbeddedResource Include="Localization\oc.txt" />
+    <Content Include="Localization\ru.txt" />
     <Content Include="Resources\icons\revision-sight.png" />
     <Content Include="Resources\icons\sight-and-next.png" />
     <Content Include="Resources\WarningSummaries.txt" />
