@@ -183,8 +183,11 @@ Module Misc
         Config.UAA = False
         Config.UAALocation = ""
         Config.AutoWhitelist = False
+        Config.UserConfigLocation = ""
         Config.ConfirmRange = False
         Config.IrcMode = False
+        Config.UseIrc = False
+        Config.ExtendReports = False
 
     End Sub
 
@@ -345,6 +348,9 @@ Module Misc
 
     Function FindString(ByVal Source As String, ByVal [From] As String) As String
         'comment needed
+        If [From] Is Nothing Or Source Is Nothing Then
+            Return ""
+        End If
         If Not Source.Contains([From]) Then Return Nothing
         Return Source.Substring(Source.IndexOf([From]) + [From].Length)
     End Function
