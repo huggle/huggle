@@ -851,6 +851,7 @@ Namespace Requests
             End If
 
             Dim ToUpdate As New List(Of String)
+            Dim UpList As New List(Of String)
 
             For Each Page As String In Split(Result.Text, "<page ")
                 Dim Lang As String = GetParameter(Page, "title")
@@ -876,33 +877,38 @@ Namespace Requests
                 Exit Sub
             End If
 
-            Result = DoApiRequest("action=query&prop=revisions&rvprop=content&titles=" & _
-                String.Join("|", ToUpdate.ToArray), Project:="meta")
+            While UpList.Count > 0 And ToUpdate.Count <> 0
 
-            If Result.Error Then
-                Fail(Msg("login-error-language"), Result.ErrorMessage)
-                Exit Sub
-            End If
+                UpList.Add(ToUpdate(0))
+                ToUpdate.RemoveAt(0)
 
-            'Store messages locally
-            For Each Page As String In Split(Result.Text, "<page ")
-                Dim Language As String = GetParameter(Page, "title")
-                If Language Is Nothing Then
-                    Continue For
+                Result = DoApiRequest("action=query&prop=revisions&rvprop=content&titles=" & _
+                    String.Join("|", UpList.ToArray), Project:="meta")
+                UpList.Clear()
+                If Result.Error Then
+                    Fail(Msg("login-error-language"), Result.ErrorMessage)
+                    Exit Sub
                 End If
 
-                Language = Language.Substring(Language.LastIndexOf("/") + 1)
+                'Store messages locally
+                For Each Page As String In Split(Result.Text, "<page ")
+                    Dim Language As String = GetParameter(Page, "title")
+                    If Language Is Nothing Then
+                        Continue For
+                    End If
 
-                Dim Text As String = GetTextFromRev(Page).Replace(LF, CRLF)
+                    Language = Language.Substring(Language.LastIndexOf("/") + 1)
 
-                'Ignore incomplete localizations
-                If Text.Contains("'''INCOMPLETE'''" & CRLF) Then Continue For
+                    Dim Text As String = GetTextFromRev(Page).Replace(LF, CRLF)
 
-                If (Directory.Exists(ConfigIO.L10nLocation) _
-                    OrElse Directory.CreateDirectory(ConfigIO.L10nLocation).Exists) _
-                    Then File.WriteAllText(MakePath(ConfigIO.L10nLocation, Language & ".txt"), Text)
-            Next Page
+                    'Ignore incomplete localizations
+                    If Text.Contains("'''INCOMPLETE'''" & CRLF) Then Continue For
 
+                    If (Directory.Exists(ConfigIO.L10nLocation) _
+                        OrElse Directory.CreateDirectory(ConfigIO.L10nLocation).Exists) _
+                        Then File.WriteAllText(MakePath(ConfigIO.L10nLocation, Language & ".txt"), Text)
+                Next Page
+            End While
             If Config.Languages.Count = 0 Then Fail("No localization files found.") Else Complete()
         End Sub
 

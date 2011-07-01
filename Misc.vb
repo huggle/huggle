@@ -154,6 +154,72 @@ Module Misc
         'Clean
 
         Misc.monthname = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"}
+        Config.AutoReport = False
+        Config.AutoWhitelist = False
+        Config.Block = False
+        Config.BlockMessage = "Blocked"
+        Config.BlockMessageDefault = False
+        Config.BlockMessageIndef = "Blocked"
+        Config.BlockReason = ""
+        Config.BlockSummary = ""
+        Config.BlockTime = "1h"
+        Config.BlockTimeAnon = ""
+        Config.ConfigSummary = "Updating config."
+        Config.ConfirmIgnored = False
+        Config.ConfirmWarned = False
+        Config.RequireConfig = True
+        Config.RequireEdits = 0
+        Config.RequireRev = False
+        Config.RequireRollback = False
+        Config.RequireTime = 0
+        Config.RevertSummary = "."
+        Config.RevisionAccess = False
+        Config.RevisionR = False
+        Config.SingleRevertSummary = ""
+        Config.AIV = False
+        Config.AIVBotLocation = ""
+        Config.Approval = False
+        Config.AIVLocation = "Wikipedia:AIV"
+        Config.AivSingleNote = ""
+        Config.AutoWarn = False
+        Config.CfdLocation = "Wikipedia"
+        Config.ConfirmPage = False
+        Config.ConfirmSelfRevert = True
+        Config.ConfirmMultiple = False
+        Config.ConfirmRange = True
+        Config.ConfirmWarned = True
+        Config.CountBatchSize = 100
+        Config.DefaultSummary = ""
+        Config.Delete = False
+        Config.DocsLocation = "en:Project:Huggle"
+        Config.Email = True
+        Config.EmailSubject = "Email from huggle"
+        Config.Enabled = True
+        Config.ExtendReports = False
+        Config.FeedbackLocation = "Project:Huggle"
+        Config.IfdLocation = "Wikipedia:IFD"
+        Config.IrcChannel = ""
+        Config.IrcMode = False
+        Config.IrcServer = "irc.pmtpta.wikimedia.org"
+        Config.MfdLocation = "Wikipedia:MFD"
+        Config.MonthHeadings = True
+        Config.OpenInBrowser = True
+        Config.Patrol = True
+        Config.Preloads = 0
+        Config.PatrolSpeedy = False
+        Config.Prod = False
+        Config.ProdMessage = ""
+        Config.ProdMessageSummary = ""
+        Config.ProdMessageTitle = ""
+        Config.PromptForBlock = False
+        Config.ReportSummary = "reporting user"
+        Config.RequireAdmin = False
+        Config.RequireAutoconfirmed = False
+        Config.RollbackSummary = ""
+
+
+
+
         Config.RevertSummary = ""
         Config.RequireRollback = False
         Config.RevertSummaries.Clear()

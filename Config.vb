@@ -41,7 +41,7 @@ Class Configuration
     Public ReadOnly ShortWikiPath As String = "wiki/"
     Public ReadOnly GlobalConfigLocation As String = "Huggle/Config"
     Public ReadOnly WikiPath As String = "w/"
-    Public Beta As Boolean = True
+    Public Beta As Boolean = False
 
     Public ReadOnly EditTypes As String() = _
         {"blocknote", "deletenote", "deletetag", "deletereq", "manual", "message", "note", "prodtag", _

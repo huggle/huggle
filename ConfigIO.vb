@@ -631,6 +631,19 @@ Module ConfigIO
             LoadLanguage("fr", My.Resources.fr)
             LoadLanguage("nl", My.Resources.nl)
             LoadLanguage("hi", My.Resources.hi)
+            ' new
+            LoadLanguage("bg", My.Resources.bg)
+
+            LoadLanguage("ru", My.Resources.ru)
+            LoadLanguage("it", My.Resources.it)
+            LoadLanguage("ka", My.Resources.ka)
+            LoadLanguage("no", My.Resources.no)
+            LoadLanguage("ml", My.Resources.ml)
+            LoadLanguage("mr", My.Resources.mr)
+            LoadLanguage("kn", My.Resources.kn)
+            LoadLanguage("oc", My.Resources.oc)
+            'LoadLanguage("or", My.Resources.or)
+            LoadLanguage("zh", My.Resources.zh)
 
 
         Else
