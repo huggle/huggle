@@ -1,5 +1,4 @@
-﻿{{:Huggle/LocalizationHeader}}
-
+﻿
 <pre>
 name:                      Norsk (bokmål)
 </pre>

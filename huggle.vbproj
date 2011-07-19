@@ -702,7 +702,7 @@
     <EmbeddedResource Include="Localization\or.txt" />
     <EmbeddedResource Include="Localization\ru.txt" />
     <EmbeddedResource Include="Localization\sv.txt" />
-    <EmbeddedResource Include="Localization\zh.txt" />
+    <EmbeddedResource Include="Requests\zh.txt" />
     <Content Include="Resources\icons\revision-sight.png" />
     <Content Include="Resources\icons\sight-and-next.png" />
     <Content Include="Resources\WarningSummaries.txt" />

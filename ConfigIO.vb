@@ -643,7 +643,7 @@ Module ConfigIO
             LoadLanguage("kn", My.Resources.kn)
             LoadLanguage("oc", My.Resources.oc)
             'LoadLanguage("or", My.Resources.or)
-            LoadLanguage("zh", My.Resources.zh)
+            'LoadLanguage("zh", My.Resources.zh)
 
 
         Else

@@ -844,6 +844,9 @@ Namespace Requests
 
             Dim Result As ApiResult = DoApiRequest("action=query&prop=info&generator=allpages&gapnamespace=" & _
                 CStr(PathPage.Space.Number) & "&gapprefix=" & PathPage.BaseName, Project:="meta")
+            'this is buggy so it has been disabled for a while
+
+            Exit Sub
 
             If Result.Error Then
                 Fail(Msg("login-error-language"), Result.ErrorMessage)
@@ -877,7 +880,7 @@ Namespace Requests
                 Exit Sub
             End If
 
-            While UpList.Count > 0 And ToUpdate.Count <> 0
+            While ToUpdate.Count <> 0
 
                 UpList.Add(ToUpdate(0))
                 ToUpdate.RemoveAt(0)
