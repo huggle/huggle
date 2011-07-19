@@ -152,6 +152,7 @@ Module Misc
 
     Sub CleanSettings()
         'Clean
+        'This function only clean main variables for shutdown
 
         Misc.monthname = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"}
         Config.AutoReport = False
@@ -199,7 +200,6 @@ Module Misc
         Config.FeedbackLocation = "Project:Huggle"
         Config.IfdLocation = "Wikipedia:IFD"
         Config.IrcChannel = ""
-        Config.IrcMode = False
         Config.IrcServer = "irc.pmtpta.wikimedia.org"
         Config.MfdLocation = "Wikipedia:MFD"
         Config.MonthHeadings = True
@@ -519,7 +519,7 @@ Module Misc
             If TypeOf Item Is Label OrElse TypeOf Item Is CheckBox OrElse TypeOf Item Is RadioButton OrElse _
                 TypeOf Item Is Button OrElse TypeOf Item Is GroupBox OrElse TypeOf Item Is Huggle.TriState Then
 
-                If Config.Messages(Config.Language).ContainsKey _
+                If Config.Language IsNot Nothing And Config.Messages(Config.Language).ContainsKey _
                     (Prefix & "-" & Item.Name.Replace("Label", "").ToLower) Then
                     Item.Text = Msg(Prefix & "-" & Item.Name.Replace("Label", "").ToLower)
                 ElseIf Config.Messages(Config.Language).ContainsKey(Item.Name.ToLower) Then

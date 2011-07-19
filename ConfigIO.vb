@@ -618,39 +618,39 @@ Module ConfigIO
         Config.Messages.Clear()
         Config.Languages.Clear()
 
-        If Not Directory.Exists(L10nLocation) OrElse Directory.GetFiles(L10nLocation).Length = 0 Then
-            'On first run, use the built-in localization files to get as far as displaying the login screen
-            LoadLanguage("en", My.Resources.en)
-            LoadLanguage("de", My.Resources.de)
-            LoadLanguage("pt", My.Resources.pt)
-            LoadLanguage("ja", My.Resources.ja)
-            LoadLanguage("ar", My.Resources.ar)
-            LoadLanguage("es", My.Resources.es)
-            LoadLanguage("ar", My.Resources.ar)
-            LoadLanguage("fa", My.Resources.fa)
-            LoadLanguage("fr", My.Resources.fr)
-            LoadLanguage("nl", My.Resources.nl)
-            LoadLanguage("hi", My.Resources.hi)
-            ' new
-            LoadLanguage("bg", My.Resources.bg)
+        'If Not Directory.Exists(L10nLocation) OrElse Directory.GetFiles(L10nLocation).Length = 0 Then
+        'On first run, use the built-in localization files to get as far as displaying the login screen
+        LoadLanguage("bg", My.Resources.bg)
+        LoadLanguage("en", My.Resources.en)
+        LoadLanguage("de", My.Resources.de)
+        LoadLanguage("pt", My.Resources.pt)
+        LoadLanguage("ja", My.Resources.ja)
+        LoadLanguage("ar", My.Resources.ar)
+        LoadLanguage("es", My.Resources.es)
+        LoadLanguage("ar", My.Resources.ar)
+        LoadLanguage("fa", My.Resources.fa)
+        LoadLanguage("fr", My.Resources.fr)
+        LoadLanguage("nl", My.Resources.nl)
+        LoadLanguage("hi", My.Resources.hi)
+        ' new
 
-            LoadLanguage("ru", My.Resources.ru)
-            LoadLanguage("it", My.Resources.it)
-            LoadLanguage("ka", My.Resources.ka)
-            LoadLanguage("no", My.Resources.no)
-            LoadLanguage("ml", My.Resources.ml)
-            LoadLanguage("mr", My.Resources.mr)
-            LoadLanguage("kn", My.Resources.kn)
-            LoadLanguage("oc", My.Resources.oc)
-            'LoadLanguage("or", My.Resources.or)
-            'LoadLanguage("zh", My.Resources.zh)
+        LoadLanguage("ru", My.Resources.ru)
+        'LoadLanguage("it", My.Resources.it)
+        LoadLanguage("ka", My.Resources.ka)
+        LoadLanguage("no", My.Resources.no)
+        LoadLanguage("ml", My.Resources.ml)
+        LoadLanguage("mr", My.Resources.mr)
+        LoadLanguage("kn", My.Resources.kn)
+        LoadLanguage("oc", My.Resources.oc)
+        'LoadLanguage("or", My.Resources.or)
+        LoadLanguage("zh", My.Resources.zh)
 
 
-        Else
-            For Each FileName As String In Directory.GetFiles(L10nLocation)
-                LoadLanguage(Path.GetFileNameWithoutExtension(FileName), File.ReadAllText(FileName))
-            Next FileName
-        End If
+        ' Else
+        'For Each FileName As String In Directory.GetFiles(L10nLocation)
+        'LoadLanguage(Path.GetFileNameWithoutExtension(FileName), File.ReadAllText(FileName))
+        'Next FileName
+        'End If
 
         If Config.Language Is Nothing OrElse Not Config.Messages.ContainsKey(Config.Language) _
             Then Config.Language = Config.DefaultLanguage

@@ -770,4 +770,3 @@ warn-progress:             Warning '{0}'...
 api-help:                  No parameters in API query
 </pre>
 
-[[Category:Huggle]]
