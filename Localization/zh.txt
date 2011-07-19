@@ -1,6 +1,4 @@
-﻿{{:Huggle/LocalizationHeader}}
-
-<pre>
+﻿<pre>
 name:                      中文（简体）
 </pre>
 

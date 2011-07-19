@@ -1,9 +1,4 @@
-﻿{{:Huggle/LocalizationHeader}}
-'''INCOMPLETE'''
-
-This translation is incomplete. Remove the above line when it is complete or mostly complete.
-
-<pre>
+﻿<pre>
 name:                      ಕನ್ನಡ
 </pre>
 
