@@ -263,35 +263,42 @@ Namespace Requests
         Protected Overrides Sub Process()
             LogProgress("Updating whitelist...")
 
-            Dim Result As ApiResult = GetText(Config.WhitelistLocation)
+            Dim W_List As String
+            For Each i As String In Whitelist
+                W_List = W_List & i & "|"
+            Next i
 
-            If Result.Error Then
-                Fail(, Result.ErrorMessage)
-                Exit Sub
-            End If
+            Dim Result As String
+            Result = DoWebRequest(Config.WhitelistUrl, "action=edit&data=" & UrlEncode(W_List) & "&wp=" & Config.Project)
 
-            Dim NewWhitelist As New List(Of String)
 
-            For Each Item As String In Split(GetTextFromRev(Result.Text), LF)
-                If Item.Length > 0 AndAlso Not (Item.Contains("{") OrElse Item.Contains("<")) Then NewWhitelist.Add(Item)
-            Next Item
+            'If Result.Error Then
+            'Fail(, Result.ErrorMessage)
+            'Exit Sub
+            'End If
 
-            For Each Item As String In WhitelistAutoChanges
-                If Not NewWhitelist.Contains(Item) Then NewWhitelist.Add(Item)
-            Next Item
+            'Dim NewWhitelist As New List(Of String)
 
-            If Config.UpdateWhitelistManual Then
-                For Each Item As String In WhitelistManualChanges
-                    If Not NewWhitelist.Contains(Item) Then NewWhitelist.Add(Item)
-                Next Item
-            End If
+            'For Each Item As String In Split(GetTextFromRev(Result.Text), LF)
+            'If Item.Length > 0 AndAlso Not (Item.Contains("{") OrElse Item.Contains("<")) Then NewWhitelist.Add(Item)
+            'Next Item
 
-            NewWhitelist.Sort(AddressOf CompareUsernames)
+            'For Each Item As String In WhitelistAutoChanges
+            'If Not NewWhitelist.Contains(Item) Then NewWhitelist.Add(Item)
+            'Next Item
 
-            Dim Text As String = "{{/Header}}" & LF & "<pre>" & LF & String.Join(LF, NewWhitelist.ToArray) & LF & "</pre>"
-            Result = PostEdit(Config.WhitelistLocation, Text, Config.WhitelistUpdateSummary, Minor:=True)
+            'If Config.UpdateWhitelistManual Then
+            'For Each Item As String In WhitelistManualChanges
+            'If Not NewWhitelist.Contains(Item) Then NewWhitelist.Add(Item)
+            'Next Item
+            'End If
 
-            If Result.Error Then Fail(, Result.ErrorMessage) Else Complete()
+            'NewWhitelist.Sort(AddressOf CompareUsernames)
+
+            'Dim Text As String = "{{/Header}}" & LF & "<pre>" & LF & String.Join(LF, NewWhitelist.ToArray) & LF & "</pre>"
+            'Result = PostEdit(Config.WhitelistLocation, Text, Config.WhitelistUpdateSummary, Minor:=True)
+
+            'If Result.Error Then Fail(, Result.ErrorMessage) Else Complete()
         End Sub
 
     End Class

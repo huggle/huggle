@@ -104,6 +104,8 @@ Class Configuration
     Public ConfirmMultiple As Boolean = False
     Public ConfirmPage As Boolean = True
     Public ConfirmRange As Boolean = True
+    Public ProdLogs_Name As String = "ProdLogs"
+    Public ProdLogs As Boolean = False
     Public SlowIrc As Boolean = True
     Public ConfirmSame As Boolean = True
     Public ConfirmSelfRevert As Boolean = True
@@ -111,6 +113,7 @@ Class Configuration
     Public CountBatchSize As Integer = 20
     Public CustomRevertSummaries As New List(Of String)
     Public DefaultQueue As String = ""
+    Public WhitelistUrl As String = "http://toolserver.org/~petrb/huggle/wl.php"
     Public DefaultQueue2 As String
     Public DefaultSummary As String = ""
     Public Delete As Boolean = False
@@ -121,6 +124,7 @@ Class Configuration
     Public Downloadloc64 As String = "http://huggle.googlecode.com/files/huggle $1x64.exe"
     Public Email As Boolean
     Public EmailSubject As String = ""
+    Public TestWp As String = "http://hub.tm-irc.org/test/"
     Public Enabled As Boolean
     Public EnabledForAll As Boolean = False
     Public ExtendReports As Boolean = False

@@ -150,7 +150,7 @@ Module ConfigIO
             Case "projects"
                 Config.Projects = GetDictionary(Value)
                 If Config.Projects.ContainsKey("test2") = False Then
-                    Config.Projects.Add("test2", "http://hub.tm-irc.org/test/")
+                    Config.Projects.Add("test2", Config.TestWp)
                 End If
             Case "sensitive-addresses" : Config.SensitiveAddresses = GetDictionary(Value)
             Case "user-agent" : Config.UserAgent = Value.Replace("$1", Config.Version.ToString)
@@ -176,6 +176,7 @@ Module ConfigIO
                 Case "block-prompt" : Config.PromptForBlock = CBool(Value)
                 Case "block-reason" : Config.BlockReason = Value
                 Case "block-summary" : Config.BlockSummary = Value
+                Case "prodlogs" : Config.ProdLogs = CBool(Value)
                 Case "confirm-ignored" : Config.ConfirmIgnored = CBool(Value)
                 Case "confirm-multiple" : Config.ConfirmMultiple = CBool(Value)
                 Case "confirm-page" : Config.ConfirmPage = CBool(Value)
@@ -361,7 +362,7 @@ Module ConfigIO
             Case "projects"
                 Config.Projects = GetDictionary(Value)
                 If Config.Projects.ContainsKey("test2") = False And Config.Devs Then
-                    Config.Projects.Add("test2", "http://hub.tm-irc.org/test/")
+                    Config.Projects.Add("test2", Config.TestWp)
                 End If
             Case "proxy-enabled" : Config.ProxyEnabled = CBool(Value)
             Case "proxy-port" : Config.ProxyPort = Value
