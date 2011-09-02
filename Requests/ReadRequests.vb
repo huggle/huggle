@@ -923,11 +923,15 @@ Namespace Requests
 
         Protected Overrides Sub Process()
             Dim Result As String
+            Dim WhitelistPath As String = MakePath(WhitelistsLocation(), Config.Project & ".txt")
             Dim Question As DialogResult
-            Result = DoWebRequest(Config.WhitelistUrl, "action=read&wp=" & Config.Project)
+
+            Result = DoWebRequest(Config.WhitelistUrl, "action=read&wp=" & UrlEncode(Config.Project))
+
             If Result.Contains("<!-- failed") Or Result.Contains("<!-- list -->") = False Then
                 Question = MessageBox.Show("Failed to download the whitelist, continue?", "Whitelist error", MessageBoxButtons.YesNo, MessageBoxIcon.Warning)
                 If Question = DialogResult.Yes Then
+                    If File.Exists(WhitelistPath) Then Whitelist = New List(Of String)(File.ReadAllLines(WhitelistPath))
                     Complete()
                 Else
                     Fail("Unable to download the whitelist")
@@ -935,6 +939,7 @@ Namespace Requests
                     Complete()
                 End If
             End If
+
             Result = Result.Replace("<!-- list -->", "")
 
             'Check for subpages
@@ -966,12 +971,12 @@ Namespace Requests
 
             'If local copy of whitelist does not exist or is out of date
             'If PageTimestamp > LocalTimestamp Then NeedsUpdate = True
-            'Pages.Add(Name)
+            'Pages.Add(Config.Project)
             'Next Page
 
             'If Not NeedsUpdate Then
-            'Dim WhitelistPath As String = MakePath(WhitelistsLocation(), Config.Project & ".txt")
-            'If File.Exists(WhitelistPath) Then Whitelist = New List(Of String)(File.ReadAllLines(WhitelistPath))
+
+
             'Complete()
             'Exit Sub
             'End If

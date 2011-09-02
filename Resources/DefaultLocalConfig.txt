@@ -23,5 +23,5 @@ projects:
     
 project:en.wikipedia
 
-Whitelist:http://toolserver.org/~petrb/huggle/wl.php
+whitelist-server:http://toolserver.org/~petrb/huggle/wl.php
 TestWiki:http://hub.tm-irc.org/test
