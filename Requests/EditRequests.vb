@@ -270,7 +270,13 @@ Namespace Requests
             End If
             Whitelist_Older = Whitelist_Older.Replace("<!-- list -->", "")
 
-            'Dim Whitelist_List As Array
+            Dim Whitelist_List As New List(Of String)
+            Whitelist_List.AddRange(Split(Whitelist_Older, "|"))
+            For Each it As String In Whitelist_List
+                If Whitelist.Contains(it) = False Then
+                    Whitelist.Add(it)
+                End If
+            Next
 
             Dim W_List As String = ""
             For Each i As String In Whitelist
@@ -279,10 +285,6 @@ Namespace Requests
 
             Dim Result As String
             Result = DoWebRequest(Config.WhitelistUrl, "action=edit&wl=" & UrlEncode(W_List) & "&wp=" & UrlEncode(Config.Project))
-
-            If Result <> "Written" Then
-                MessageBox.Show(Result)
-            End If
 
             'If Result.Error Then
             'Fail(, Result.ErrorMessage)

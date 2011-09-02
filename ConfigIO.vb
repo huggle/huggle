@@ -146,6 +146,7 @@ Module ConfigIO
             Case "feedback" : Config.FeedbackLocation = Value
             Case "irc-server" : Config.IrcServer = Value
             Case "irc-server-name" : Config.IrcServerName = Value
+            Case "whitelist-server" : Config.WhitelistUrl = Value
             Case "min-version" : Config.MinVersion = ParseVersion(Value)
             Case "projects"
                 Config.Projects = GetDictionary(Value)
