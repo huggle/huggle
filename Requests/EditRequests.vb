@@ -263,14 +263,26 @@ Namespace Requests
         Protected Overrides Sub Process()
             LogProgress("Updating whitelist...")
 
-            Dim W_List As String
+            Dim Whitelist_Older As String
+            Whitelist_Older = DoWebRequest(Config.WhitelistUrl, "action=read&wp=" & UrlEncode(Config.Project))
+            If Whitelist_Older.Contains("<!-- failed") Or Whitelist_Older.Contains("<!-- list -->") = False Then
+                Exit Sub
+            End If
+            Whitelist_Older = Whitelist_Older.Replace("<!-- list -->", "")
+
+            'Dim Whitelist_List As Array
+
+            Dim W_List As String = ""
             For Each i As String In Whitelist
                 W_List = W_List & i & "|"
             Next i
 
             Dim Result As String
-            Result = DoWebRequest(Config.WhitelistUrl, "action=edit&data=" & UrlEncode(W_List) & "&wp=" & Config.Project)
+            Result = DoWebRequest(Config.WhitelistUrl, "action=edit&wl=" & UrlEncode(W_List) & "&wp=" & UrlEncode(Config.Project))
 
+            If Result <> "Written" Then
+                MessageBox.Show(Result)
+            End If
 
             'If Result.Error Then
             'Fail(, Result.ErrorMessage)

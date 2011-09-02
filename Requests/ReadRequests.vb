@@ -926,8 +926,6 @@ Namespace Requests
             Dim Question As DialogResult
             Result = DoWebRequest(Config.WhitelistUrl, "action=read&wp=" & Config.Project)
             If Result.Contains("<!-- failed") Or Result.Contains("<!-- list -->") = False Then
-                MessageBox.Show(Result)
-                End
                 Question = MessageBox.Show("Failed to download the whitelist, continue?", "Whitelist error", MessageBoxButtons.YesNo, MessageBoxIcon.Warning)
                 If Question = DialogResult.Yes Then
                     Complete()
@@ -937,7 +935,7 @@ Namespace Requests
                     Complete()
                 End If
             End If
-            'Result = Result.Replace("<!-- list -->");
+            Result = Result.Replace("<!-- list -->", "")
 
             'Check for subpages
             'Dim PathPage As Page = GetPage(Config.WhitelistLocation)
