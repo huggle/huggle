@@ -249,6 +249,7 @@ Namespace Requests
             Items.Add("diff-font-size:" & Config.DiffFontSize)
             Items.Add("extend-reports:" & CStr(Config.ExtendReports).ToLower)
             Items.Add("irc-port:" & CStr(Config.IrcPort))
+            Items.Add("prod-log:" & CStr(Config.ProdLogs))
 
             Dim MinorItems As New List(Of String)
 
@@ -266,7 +267,7 @@ Namespace Requests
 
             If Config.AutoReport = True Then
                 Items.Add("report:auto")
-            ElseIf Not Config.PromptForReport Then
+            ElseIf Config.PromptForReport Then
                 Items.Add("report:prompt")
             Else
                 Items.Add("report:none")
@@ -283,10 +284,7 @@ Namespace Requests
             If Config.UseCSummaries = True Then
                 Items.Add("template-summ:")
                 For Each ts As String In Config.TemplateSummary.Keys
-
-
                     Items.Add(ts & ";" & Config.TemplateSummary(ts) & ",")
-
                 Next ts
             End If
             Items.Add("")
