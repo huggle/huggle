@@ -1,4 +1,4 @@
-﻿'This is a source code or part of Huggle project
+ 'This is a source code or part of Huggle project
 'Edit.vb
 'This file contains code for edit actions
 'last modified by Petrb
@@ -121,7 +121,7 @@ Class Edit
 
     Public ReadOnly Property IsHuggleEdit() As Boolean
         Get
-            If Config.Summary Is Nothing Then Return False _
+            If Config.Summary = "" Then Return False _
                 Else Return (Summary.Contains(Config.Summary) AndAlso User.Ignored)
         End Get
     End Property
