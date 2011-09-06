@@ -75,6 +75,7 @@ closing-config:            Updating configuration subpage...
 
 === Configuration form ===
 <pre>
+config-import:			   Import
 config-title:              Options
 config-rememberme:         Remember my username
 config-rememberpassword:   Remember my password

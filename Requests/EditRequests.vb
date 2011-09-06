@@ -274,17 +274,15 @@ Namespace Requests
             Dim Whitelist_List As New List(Of String)
             Whitelist_List.AddRange(Split(Whitelist_Older, "|"))
 
-            For Each it As String In Whitelist_List
-                If Whitelist.Contains(it) = False Then
-                    Whitelist.Add(it)
-                End If
-            Next
+            Whitelist.Clear()
+            Whitelist.AddRange(Whitelist_List)
 
             Dim W_List As String = ""
-            
+
             For Each Item As String In WhitelistAutoChanges
                 If Not Whitelist.Contains(Item) Then Whitelist.Add(Item)
             Next Item
+
 
             If Config.UpdateWhitelistManual Then
                 For Each Item As String In WhitelistManualChanges
