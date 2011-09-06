@@ -39,6 +39,10 @@ Partial Class AboutForm
         Me.OldContributorsLabel = New System.Windows.Forms.Label()
         Me.NewContributors = New System.Windows.Forms.TableLayoutPanel()
         Me.Contributor8 = New System.Windows.Forms.LinkLabel()
+        Me.LinkLabel1 = New System.Windows.Forms.LinkLabel()
+        Me.LinkLabel2 = New System.Windows.Forms.LinkLabel()
+        Me.LinkLabel4 = New System.Windows.Forms.LinkLabel()
+        Me.LinkLabel3 = New System.Windows.Forms.LinkLabel()
         CType(Me.Logo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.OldContributors.SuspendLayout()
         Me.NewContributors.SuspendLayout()
@@ -47,7 +51,7 @@ Partial Class AboutForm
         'OK
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.OK.Location = New System.Drawing.Point(213, 315)
+        Me.OK.Location = New System.Drawing.Point(213, 422)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
         Me.OK.TabIndex = 4
@@ -60,7 +64,7 @@ Partial Class AboutForm
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Disclaimer.LinkArea = New System.Windows.Forms.LinkArea(142, 22)
         Me.Disclaimer.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline
-        Me.Disclaimer.Location = New System.Drawing.Point(12, 205)
+        Me.Disclaimer.Location = New System.Drawing.Point(12, 312)
         Me.Disclaimer.Name = "Disclaimer"
         Me.Disclaimer.Size = New System.Drawing.Size(276, 71)
         Me.Disclaimer.TabIndex = 2
@@ -75,7 +79,7 @@ Partial Class AboutForm
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Icons.LinkArea = New System.Windows.Forms.LinkArea(84, 11)
         Me.Icons.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline
-        Me.Icons.Location = New System.Drawing.Point(12, 267)
+        Me.Icons.Location = New System.Drawing.Point(12, 374)
         Me.Icons.Name = "Icons"
         Me.Icons.Size = New System.Drawing.Size(276, 45)
         Me.Icons.TabIndex = 3
@@ -91,7 +95,7 @@ Partial Class AboutForm
         Me.NewContributorsLabel.Name = "NewContributorsLabel"
         Me.NewContributorsLabel.Size = New System.Drawing.Size(64, 13)
         Me.NewContributorsLabel.TabIndex = 0
-        Me.NewContributorsLabel.Text = "Developers:"
+        Me.NewContributorsLabel.Text = "Contributors:"
         Me.NewContributorsLabel.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'Contributor1
@@ -206,12 +210,12 @@ Partial Class AboutForm
         Me.OldContributors.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
         Me.OldContributors.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
         Me.OldContributors.Controls.Add(Me.Contributor5, 1, 0)
-        Me.OldContributors.Controls.Add(Me.Contributor6, 1, 1)
         Me.OldContributors.Controls.Add(Me.Contributor7, 1, 2)
         Me.OldContributors.Controls.Add(Me.Contributor2, 0, 0)
         Me.OldContributors.Controls.Add(Me.Contributor4, 0, 2)
         Me.OldContributors.Controls.Add(Me.Contributor3, 0, 1)
-        Me.OldContributors.Location = New System.Drawing.Point(108, 135)
+        Me.OldContributors.Controls.Add(Me.Contributor6, 1, 1)
+        Me.OldContributors.Location = New System.Drawing.Point(108, 221)
         Me.OldContributors.Name = "OldContributors"
         Me.OldContributors.RowCount = 3
         Me.OldContributors.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 21.0!))
@@ -223,7 +227,7 @@ Partial Class AboutForm
         'OldContributorsLabel
         '
         Me.OldContributorsLabel.AutoSize = True
-        Me.OldContributorsLabel.Location = New System.Drawing.Point(3, 138)
+        Me.OldContributorsLabel.Location = New System.Drawing.Point(3, 224)
         Me.OldContributorsLabel.Name = "OldContributorsLabel"
         Me.OldContributorsLabel.Size = New System.Drawing.Size(102, 13)
         Me.OldContributorsLabel.TabIndex = 18
@@ -236,14 +240,19 @@ Partial Class AboutForm
         Me.NewContributors.ColumnCount = 2
         Me.NewContributors.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
         Me.NewContributors.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.NewContributors.Controls.Add(Me.LinkLabel3, 0, 2)
+        Me.NewContributors.Controls.Add(Me.LinkLabel1, 0, 1)
         Me.NewContributors.Controls.Add(Me.Contributor8, 1, 0)
         Me.NewContributors.Controls.Add(Me.Contributor1, 0, 0)
+        Me.NewContributors.Controls.Add(Me.LinkLabel2, 1, 1)
+        Me.NewContributors.Controls.Add(Me.LinkLabel4, 0, 2)
         Me.NewContributors.Location = New System.Drawing.Point(108, 101)
         Me.NewContributors.Name = "NewContributors"
-        Me.NewContributors.RowCount = 1
+        Me.NewContributors.RowCount = 3
         Me.NewContributors.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
         Me.NewContributors.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
-        Me.NewContributors.Size = New System.Drawing.Size(190, 20)
+        Me.NewContributors.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20.0!))
+        Me.NewContributors.Size = New System.Drawing.Size(190, 63)
         Me.NewContributors.TabIndex = 19
         '
         'Contributor8
@@ -259,11 +268,63 @@ Partial Class AboutForm
         Me.Contributor8.Tag = "http://en.wikipedia.org/wiki/User:Petrb"
         Me.Contributor8.Text = "Petrb"
         '
+        'LinkLabel1
+        '
+        Me.LinkLabel1.AutoSize = True
+        Me.LinkLabel1.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline
+        Me.LinkLabel1.Location = New System.Drawing.Point(3, 23)
+        Me.LinkLabel1.Margin = New System.Windows.Forms.Padding(3)
+        Me.LinkLabel1.Name = "LinkLabel1"
+        Me.LinkLabel1.Size = New System.Drawing.Size(79, 13)
+        Me.LinkLabel1.TabIndex = 19
+        Me.LinkLabel1.TabStop = True
+        Me.LinkLabel1.Tag = "http://en.wikipedia.org/wiki/User:ThehelpfulOne"
+        Me.LinkLabel1.Text = "TheHelpfulOne"
+        '
+        'LinkLabel2
+        '
+        Me.LinkLabel2.AutoSize = True
+        Me.LinkLabel2.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline
+        Me.LinkLabel2.Location = New System.Drawing.Point(98, 23)
+        Me.LinkLabel2.Margin = New System.Windows.Forms.Padding(3)
+        Me.LinkLabel2.Name = "LinkLabel2"
+        Me.LinkLabel2.Size = New System.Drawing.Size(66, 13)
+        Me.LinkLabel2.TabIndex = 20
+        Me.LinkLabel2.TabStop = True
+        Me.LinkLabel2.Tag = "http://en.wikipedia.org/wiki/User:Joe_Gazz84"
+        Me.LinkLabel2.Text = "Joe_Gazz84"
+        '
+        'LinkLabel4
+        '
+        Me.LinkLabel4.AutoSize = True
+        Me.LinkLabel4.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline
+        Me.LinkLabel4.Location = New System.Drawing.Point(3, 43)
+        Me.LinkLabel4.Margin = New System.Windows.Forms.Padding(3)
+        Me.LinkLabel4.Name = "LinkLabel4"
+        Me.LinkLabel4.Size = New System.Drawing.Size(86, 13)
+        Me.LinkLabel4.TabIndex = 24
+        Me.LinkLabel4.TabStop = True
+        Me.LinkLabel4.Tag = "http://en.wikipedia.org/wiki/User:Matthewrbowker"
+        Me.LinkLabel4.Text = "Matthewrbowker"
+        '
+        'LinkLabel3
+        '
+        Me.LinkLabel3.AutoSize = True
+        Me.LinkLabel3.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline
+        Me.LinkLabel3.Location = New System.Drawing.Point(98, 43)
+        Me.LinkLabel3.Margin = New System.Windows.Forms.Padding(3)
+        Me.LinkLabel3.Name = "LinkLabel3"
+        Me.LinkLabel3.Size = New System.Drawing.Size(37, 13)
+        Me.LinkLabel3.TabIndex = 25
+        Me.LinkLabel3.TabStop = True
+        Me.LinkLabel3.Tag = "http://en.wikipedia.org/wiki/User:Petrb"
+        Me.LinkLabel3.Text = "Logan"
+        '
         'AboutForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(300, 350)
+        Me.ClientSize = New System.Drawing.Size(300, 457)
         Me.Controls.Add(Me.NewContributors)
         Me.Controls.Add(Me.OldContributorsLabel)
         Me.Controls.Add(Me.OldContributors)
@@ -305,4 +366,8 @@ Partial Class AboutForm
     Friend WithEvents OldContributorsLabel As System.Windows.Forms.Label
     Friend WithEvents NewContributors As System.Windows.Forms.TableLayoutPanel
     Friend WithEvents Contributor8 As System.Windows.Forms.LinkLabel
+    Friend WithEvents LinkLabel2 As System.Windows.Forms.LinkLabel
+    Friend WithEvents LinkLabel1 As System.Windows.Forms.LinkLabel
+    Friend WithEvents LinkLabel3 As System.Windows.Forms.LinkLabel
+    Friend WithEvents LinkLabel4 As System.Windows.Forms.LinkLabel
 End Class

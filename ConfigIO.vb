@@ -194,7 +194,9 @@ Module ConfigIO
                 Case "patrol-speedy" : Config.PatrolSpeedy = CBool(Value)
                 Case "preload" : Config.Preloads = CInt(Value)
                 Case "prod" : Config.Prod = CBool(Value)
+                Case "prod-log" : Config.ProdLogs = CBool(Value)
                 Case "prod-message" : Config.ProdMessage = Value
+                Case "prod-page" : Config.ProdLogs_Name = Value
                 Case "prod-message-summary" : Config.ProdMessageSummary = Value
                 Case "prod-message-title" : Config.ProdMessageTitle = Value
                 Case "prod-summary" : Config.ProdSummary = Value
