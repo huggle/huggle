@@ -364,7 +364,7 @@ Module ConfigIO
             Case "project" : Config.Project = Value
             Case "projects"
                 Config.Projects = GetDictionary(Value)
-                If Config.Projects.ContainsKey("test2") = False And Config.Devs Then
+                If Config.Projects.ContainsKey("test2") = False Then
                     Config.Projects.Add("test2", Config.TestWp)
                 End If
             Case "proxy-enabled" : Config.ProxyEnabled = CBool(Value)

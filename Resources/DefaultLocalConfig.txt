@@ -16,6 +16,7 @@ projects:
     te.wikipedia;http://te.wikipedia.org/,
 	km.wikipedia;http://km.wikipedia.org/,
     vi.wikipedia;http://vi.wikipedia.org/,
+	or.wikipedia;http://or.wikipedia.org/,
     simple.wikipedia;http://simple.wikipedia.org/,
 	commons;http://commons.wikimedia.org/,
 	test2;http://hub.tm-irc.org/test/,
