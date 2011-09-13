@@ -156,6 +156,7 @@ Module ConfigIO
             Case "sensitive-addresses" : Config.SensitiveAddresses = GetDictionary(Value)
             Case "user-agent" : Config.UserAgent = Value.Replace("$1", Config.Version.ToString)
             Case "user-config" : Config.UserConfigLocation = Value
+            Case "TestWiki" : Config.TestWp = Value
             Case "version" : Config.LatestVersion = ParseVersion(Value)
         End Select
     End Sub
