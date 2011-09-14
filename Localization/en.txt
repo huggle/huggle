@@ -23,6 +23,8 @@ restorewindow:             Restore
 save:                      Save
 selectfile:                Browse...
 yes:                       Yes
+agf:                    Revert as good faith edit with custom reason
+import:                 Import from global conf
 </pre>
 
 === Edit types ===
@@ -193,7 +195,7 @@ email-send:                Send
 === IRC feed ===
 <pre>
 irc-connected:             Connected to IRC recent changes feed
-irc-connecting:            Attempting connection to IRC recent changes feed; this make take a few moments...
+irc-connecting:            Attempting connection to IRC recent changes feed; this may take a few moments...
 irc-disconnected:          Connection to IRC recent changes feed lost; reconnecting...
 irc-nochannel:             IRC channel for {0} not found; using slower API queries instead
 irc-error:                 Unable to connect to IRC recent changes feed. Using slower API queries instead
