@@ -263,6 +263,10 @@ Namespace Requests
         Protected Overrides Sub Process()
             LogProgress("Updating whitelist...")
 
+            If Config.WhitelistUsed = False Then
+                Exit Sub
+            End If
+
             Dim Whitelist_Older As String
             Whitelist_Older = DoWebRequest(Config.WhitelistUrl, "action=read&wp=" & UrlEncode(Config.Project))
             If Whitelist_Older.Contains("<!-- failed") Or Whitelist_Older.Contains("<!-- list -->") = False Then

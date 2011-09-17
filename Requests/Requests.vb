@@ -329,9 +329,7 @@ Namespace Requests
 
             Dim Retries As Integer = Config.RequestAttempts, Result As String = ""
 
-            While (Result = "" Or Retries = 0) And Break < Misc.GlExcess
-
-
+            While Retries > 0 And (Result = "" Or Result Is Nothing) And Break < Misc.GlExcess
                 Break = Break + 1
                 If Retries < Config.RequestAttempts Then Thread.Sleep(Config.RequestRetryInterval)
                 Retries -= 1

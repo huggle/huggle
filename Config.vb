@@ -75,6 +75,7 @@ Class Configuration
     Public WindowMaximize As Boolean = True
     Public WindowPosition As New Point
     Public WindowSize As New Size
+    Public WhitelistUsed As Boolean = True
 
     'Values changeable through global / project / user config pages
 

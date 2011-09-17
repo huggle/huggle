@@ -928,11 +928,37 @@ Namespace Requests
 
             Result = DoWebRequest(Config.WhitelistUrl, "action=read&wp=" & UrlEncode(Config.Project))
 
+            If Result Is Nothing Then
+                Question = MessageBox.Show("Failed to download the whitelist, continue?", "Whitelist error", MessageBoxButtons.YesNo, MessageBoxIcon.Warning)
+                If Question = DialogResult.Yes Then
+                    If File.Exists(WhitelistPath) Then
+                        Whitelist = New List(Of String)(File.ReadAllLines(WhitelistPath))
+                    Else
+                        Config.WhitelistUsed = False
+                        Exit Sub
+                    End If
+
+                    Complete()
+                    Exit Sub
+                Else
+                    Fail("Unable to download the whitelist")
+                    Exit Sub
+                    Complete()
+                End If
+            End If
+
             If Result.Contains("<!-- failed") Or Result.Contains("<!-- list -->") = False Then
                 Question = MessageBox.Show("Failed to download the whitelist, continue?", "Whitelist error", MessageBoxButtons.YesNo, MessageBoxIcon.Warning)
                 If Question = DialogResult.Yes Then
-                    If File.Exists(WhitelistPath) Then Whitelist = New List(Of String)(File.ReadAllLines(WhitelistPath))
+                    If File.Exists(WhitelistPath) Then
+                        Whitelist = New List(Of String)(File.ReadAllLines(WhitelistPath))
+                    Else
+                        Config.WhitelistUsed = False
+                        Exit Sub
+                    End If
+
                     Complete()
+                    Exit Sub
                 Else
                     Fail("Unable to download the whitelist")
                     Exit Sub
@@ -1001,6 +1027,7 @@ Namespace Requests
             'Next Page
 
             Complete()
+            Config.WhitelistUsed = True
         End Sub
 
     End Class
