@@ -1,0 +1,583 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D696F355-D00A-4BB3-B96E-7EECCDE3FC6D}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>huggle3</RootNamespace>
+    <AssemblyName>huggle3</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>huggle.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="apicalls.cs" />
+    <Compile Include="Config.cs" />
+    <Compile Include="ConfigForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConfigForm.Designer.cs">
+      <DependentUpon>ConfigForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ContribsPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ContribsPanel.Designer.cs">
+      <DependentUpon>ContribsPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\EditBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\EditBox.Designer.cs">
+      <DependentUpon>EditBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\HistoryStrip.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\HistoryStrip.Designer.cs">
+      <DependentUpon>HistoryStrip.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\PageLog.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\PageLog.Designer.cs">
+      <DependentUpon>PageLog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\QueuePanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\QueuePanel.Designer.cs">
+      <DependentUpon>QueuePanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Throbber.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Throbber.Designer.cs">
+      <DependentUpon>Throbber.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\UserLog.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\UserLog.Designer.cs">
+      <DependentUpon>UserLog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\WarnLog.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\WarnLog.Designer.cs">
+      <DependentUpon>WarnLog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\WikiTextBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\WikiTextBox.Designer.cs">
+      <DependentUpon>WikiTextBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Core.cs" />
+    <Compile Include="edit.cs" />
+    <Compile Include="Forms\AboutForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AboutForm.Designer.cs">
+      <DependentUpon>AboutForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AddTemplateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AddTemplateForm.Designer.cs">
+      <DependentUpon>AddTemplateForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\BlockForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\BlockForm.Designer.cs">
+      <DependentUpon>BlockForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DeleteForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DeleteForm.Designer.cs">
+      <DependentUpon>DeleteForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\EditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\EditForm.Designer.cs">
+      <DependentUpon>EditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ExceptionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ExceptionForm.Designer.cs">
+      <DependentUpon>ExceptionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ListForm.Designer.cs">
+      <DependentUpon>ListForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MessageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MessageForm.Designer.cs">
+      <DependentUpon>MessageForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MoveForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MoveForm.Designer.cs">
+      <DependentUpon>MoveForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ProdForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ProdForm.Designer.cs">
+      <DependentUpon>ProdForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ProgressForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ProgressForm.Designer.cs">
+      <DependentUpon>ProgressForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ProtectForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ProtectForm.Designer.cs">
+      <DependentUpon>ProtectForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ProtectionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ProtectionForm.Designer.cs">
+      <DependentUpon>ProtectionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\QueueForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\QueueForm.Designer.cs">
+      <DependentUpon>QueueForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\QueueTrimForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\QueueTrimForm.Designer.cs">
+      <DependentUpon>QueueTrimForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Report3rrForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Report3rrForm.Designer.cs">
+      <DependentUpon>Report3rrForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ReportForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ReportForm.Designer.cs">
+      <DependentUpon>ReportForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\RequestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\RequestForm.Designer.cs">
+      <DependentUpon>RequestForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\RevertAndWarnForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\RevertAndWarnForm.Designer.cs">
+      <DependentUpon>RevertAndWarnForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\RevertForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\RevertForm.Designer.cs">
+      <DependentUpon>RevertForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\SockReportForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SockReportForm.Designer.cs">
+      <DependentUpon>SockReportForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\SpeedyForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SpeedyForm.Designer.cs">
+      <DependentUpon>SpeedyForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\StatsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\StatsForm.Designer.cs">
+      <DependentUpon>StatsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\TagForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\TagForm.Designer.cs">
+      <DependentUpon>TagForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UpdateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\UpdateForm.Designer.cs">
+      <DependentUpon>UpdateForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserInfoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\UserInfoForm.Designer.cs">
+      <DependentUpon>UserInfoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\WarningForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\WarningForm.Designer.cs">
+      <DependentUpon>WarningForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="irc.cs" />
+    <Compile Include="list.cs" />
+    <Compile Include="login.cs" />
+    <Compile Include="LoginForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LoginForm.Designer.cs">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="main.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="main.Designer.cs">
+      <DependentUpon>main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="page.cs" />
+    <Compile Include="Processing.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="queue.cs" />
+    <Compile Include="Requests\request_action.cs" />
+    <Compile Include="Requests\request_api.cs" />
+    <Compile Include="Requests\request_config.cs" />
+    <Compile Include="Requests\request_core.cs" />
+    <Compile Include="Requests\request_edit.cs" />
+    <Compile Include="Requests\request_list.cs" />
+    <Compile Include="Requests\request_read.cs" />
+    <Compile Include="Requests\request_report.cs" />
+    <Compile Include="Requests\request_revert.cs" />
+    <Compile Include="Requests\request_xfd.cs" />
+    <Compile Include="space.cs" />
+    <Compile Include="stats.cs" />
+    <Compile Include="user.cs" />
+    <EmbeddedResource Include="ConfigForm.resx">
+      <DependentUpon>ConfigForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ContribsPanel.resx">
+      <DependentUpon>ContribsPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\EditBox.resx">
+      <DependentUpon>EditBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\HistoryStrip.resx">
+      <DependentUpon>HistoryStrip.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\PageLog.resx">
+      <DependentUpon>PageLog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\QueuePanel.resx">
+      <DependentUpon>QueuePanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\UserLog.resx">
+      <DependentUpon>UserLog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\WarnLog.resx">
+      <DependentUpon>WarnLog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\WikiTextBox.resx">
+      <DependentUpon>WikiTextBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AboutForm.resx">
+      <DependentUpon>AboutForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AddTemplateForm.resx">
+      <DependentUpon>AddTemplateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\BlockForm.resx">
+      <DependentUpon>BlockForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DeleteForm.resx">
+      <DependentUpon>DeleteForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\EditForm.resx">
+      <DependentUpon>EditForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ExceptionForm.resx">
+      <DependentUpon>ExceptionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ListForm.resx">
+      <DependentUpon>ListForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\MessageForm.resx">
+      <DependentUpon>MessageForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\MoveForm.resx">
+      <DependentUpon>MoveForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ProdForm.resx">
+      <DependentUpon>ProdForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ProgressForm.resx">
+      <DependentUpon>ProgressForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ProtectForm.resx">
+      <DependentUpon>ProtectForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ProtectionForm.resx">
+      <DependentUpon>ProtectionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\QueueForm.resx">
+      <DependentUpon>QueueForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Report3rrForm.resx">
+      <DependentUpon>Report3rrForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ReportForm.resx">
+      <DependentUpon>ReportForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\RequestForm.resx">
+      <DependentUpon>RequestForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\RevertForm.resx">
+      <DependentUpon>RevertForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SockReportForm.resx">
+      <DependentUpon>SockReportForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SpeedyForm.resx">
+      <DependentUpon>SpeedyForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\StatsForm.resx">
+      <DependentUpon>StatsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\TagForm.resx">
+      <DependentUpon>TagForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UpdateForm.resx">
+      <DependentUpon>UpdateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserInfoForm.resx">
+      <DependentUpon>UserInfoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\WarningForm.resx">
+      <DependentUpon>WarningForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginForm.resx">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="main.resx">
+      <DependentUpon>main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\en.txt.bmp" />
+    <EmbeddedResource Include="DefaultLocalConfig.txt" />
+    <Content Include="huggle.ico" />
+    <Content Include="Lang\ar.txt" />
+    <Content Include="Lang\bg.txt" />
+    <Content Include="Lang\de.txt" />
+    <Content Include="Lang\en.txt" />
+    <Content Include="Lang\es.txt" />
+    <Content Include="Lang\fa.txt" />
+    <Content Include="Lang\fr.txt" />
+    <Content Include="Lang\hi.txt" />
+    <Content Include="Lang\it.txt" />
+    <Content Include="Lang\ja.txt" />
+    <Content Include="Lang\ka.txt" />
+    <Content Include="Lang\kn.txt" />
+    <Content Include="Lang\ml.txt" />
+    <Content Include="Lang\mr.txt" />
+    <Content Include="Lang\nl.txt" />
+    <Content Include="Lang\no.txt" />
+    <Content Include="Lang\oc.txt" />
+    <Content Include="Lang\or.txt" />
+    <Content Include="Lang\pt-br.txt" />
+    <Content Include="Lang\pt.txt" />
+    <Content Include="Lang\ru.txt" />
+    <Content Include="Lang\sv.txt" />
+    <None Include="hugglelogo.png" />
+    <None Include="Lang\zh.txt" />
+    <Content Include="ResourcesData\blob-anon.png" />
+    <Content Include="ResourcesData\blob-blank.png" />
+    <Content Include="ResourcesData\blob-blanked.png" />
+    <Content Include="ResourcesData\blob-blocked.png" />
+    <Content Include="ResourcesData\blob-blocknote.png" />
+    <Content Include="ResourcesData\blob-bot.png" />
+    <Content Include="ResourcesData\blob-ignored.png" />
+    <Content Include="ResourcesData\blob-me.png" />
+    <Content Include="ResourcesData\blob-message.png" />
+    <Content Include="ResourcesData\blob-new.png" />
+    <Content Include="ResourcesData\blob-none.png" />
+    <Content Include="ResourcesData\blob-redirect.png" />
+    <Content Include="ResourcesData\blob-replaced.png" />
+    <Content Include="ResourcesData\blob-report.png" />
+    <Content Include="ResourcesData\blob-reported.png" />
+    <Content Include="ResourcesData\blob-revert.png" />
+    <Content Include="ResourcesData\blob-reverted.png" />
+    <Content Include="ResourcesData\blob-tag.png" />
+    <Content Include="ResourcesData\blob-warn-1.png" />
+    <Content Include="ResourcesData\blob-warn-2.png" />
+    <Content Include="ResourcesData\blob-warn-3.png" />
+    <Content Include="ResourcesData\blob-warn-4.png" />
+    <Content Include="ResourcesData\blob-warning.png" />
+    <Content Include="ResourcesData\browser-add-tab.png" />
+    <Content Include="ResourcesData\browser-next.png" />
+    <Content Include="ResourcesData\browser-open.png" />
+    <Content Include="ResourcesData\browser-prev.png" />
+    <Content Include="ResourcesData\browser-remove-tab.png" />
+    <Content Include="ResourcesData\cancel-all.png" />
+    <Content Include="ResourcesData\contribs-last.png" />
+    <Content Include="ResourcesData\contribs-next.png" />
+    <Content Include="ResourcesData\contribs-prev.png" />
+    <Content Include="ResourcesData\diff-next.png" />
+    <Content Include="ResourcesData\diff-revert-warn.png" />
+    <Content Include="ResourcesData\diff-revert.png" />
+    <Content Include="ResourcesData\gradient.png" />
+    <Content Include="ResourcesData\gray-down.png" />
+    <Content Include="ResourcesData\gray-last.png" />
+    <Content Include="ResourcesData\gray-next.png" />
+    <Content Include="ResourcesData\gray-previous.png" />
+    <Content Include="ResourcesData\gray-up.png" />
+    <Content Include="ResourcesData\history-last.png" />
+    <Content Include="ResourcesData\history-next.png" />
+    <Content Include="ResourcesData\history-previous.png" />
+    <Content Include="ResourcesData\history-to-cur.png" />
+    <Content Include="ResourcesData\huggle.ico" />
+    <Content Include="ResourcesData\huggle3.ico" />
+    <Content Include="ResourcesData\huggle3.png" />
+    <Content Include="ResourcesData\page-delete.png" />
+    <Content Include="ResourcesData\page-edit.png" />
+    <Content Include="ResourcesData\page-tag-delete.png" />
+    <Content Include="ResourcesData\page-tag.png" />
+    <Content Include="ResourcesData\page-unwatch.png" />
+    <Content Include="ResourcesData\page-view.png" />
+    <Content Include="ResourcesData\page-watch.png" />
+    <Content Include="ResourcesData\revision-sight.png" />
+    <Content Include="ResourcesData\sight-and-next.png" />
+    <Content Include="ResourcesData\tri_no.png" />
+    <Content Include="ResourcesData\tri_none.png" />
+    <Content Include="ResourcesData\tri_yes.png" />
+    <Content Include="ResourcesData\undo.png" />
+    <Content Include="ResourcesData\user-block.png" />
+    <Content Include="ResourcesData\user-info.png" />
+    <Content Include="ResourcesData\user-message.png" />
+    <Content Include="ResourcesData\user-report.png" />
+    <Content Include="ResourcesData\user-talk.png" />
+    <Content Include="ResourcesData\user-template.png" />
+    <Content Include="ResourcesData\user-unwhitelist.png" />
+    <Content Include="ResourcesData\user-warn.png" />
+    <Content Include="ResourcesData\user-whitelist.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
