@@ -239,7 +239,7 @@ namespace huggle3
             Core.History("FindString(string, string, string, string, string)");
             string temp_v = Source;
             Source = null;
-            if (tmp_v.Contains(from1) != true)
+            if (temp_v.Contains(from1) != true)
             {
                 return null;
             }
@@ -254,6 +254,21 @@ namespace huggle3
                 return temp_v.Substring(0, Source.IndexOf(To));
             }
             return Source;
+        }
+
+        public static string FindString(string Source, string from, string To)
+        {
+            Core.History("FindString(Source, string, To)");
+            if (Source.Contains(from))
+            {
+                Source = Source.Substring(Source.IndexOf(from), from.Length);
+                if (Source.Contains(To) == false)
+                {
+                    return "";
+                }
+                return Source.Substring(0, Source.IndexOf(To));
+            }
+            return "";
         }
 
         public static string FormatHTML(page Page, string Text)
