@@ -208,6 +208,7 @@ namespace huggle3
                                 break;
                             case login.LoginState.Successful:
                                 // show the form
+                                login.LoggedIn = false;
                                 Program.MainForm = new main();
                                 Program.MainForm.Show();
                                 timer.Enabled = false;

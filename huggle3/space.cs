@@ -24,26 +24,26 @@ namespace huggle3
     {
         private int number;
         private bool locked;
-        public space Article = new space(0);
+        public static space Article = new space(0);
         private bool subpages;
         private bool unmovable;
         private string name;
-        public space Talk = new space(1, "Talk", _Subp: true );
-        public space User = new space(2, "User", _Subp: true );
-        public space UserTalk = new space(3, "User talk", _Subp: true);
-        public space Project = new space(4, "Project", _Subp: true);
-        public space ProjectTalk = new space(5, "Project talk", _Subp: true);
-        public space Image = new space(6, "Image", _Subp: false);
-        public space ImageTalk = new space(7, "Image talk", _Subp: false);
-        public space MediaWiki = new space(8, "MediaWiki", _Lckd: true);
-        public space MediaWikiTalk = new space(9, "MediaWiki talk", _Subp: true);
-        public space Template = new space(10, "Template", _Subp: true);
-        public space TemplateTalk = new space(11, "Template talk", _Subp: true);
-        public space Help = new space(12, "Help", _Subp: true);
-        public space HelpTalk = new space(13, "Help talk", _Subp: true);
-        public space Category = new space(14, "Category", _Subp: true);
-        public space File = new space(16, "File", _Subp: true);
-        public space FileTalk = new space(17, "File talk", _Subp: true);
+        public static space Talk = new space(1, "Talk", _Subp: true );
+        public static space User = new space(2, "User", _Subp: true );
+        public static space UserTalk = new space(3, "User talk", _Subp: true);
+        public static space Project = new space(4, "Project", _Subp: true);
+        public static space ProjectTalk = new space(5, "Project talk", _Subp: true);
+        public static space Image = new space(6, "Image", _Subp: false);
+        public static space ImageTalk = new space(7, "Image talk", _Subp: false);
+        public static space MediaWiki = new space(8, "MediaWiki", _Lckd: true);
+        public static space MediaWikiTalk = new space(9, "MediaWiki talk", _Subp: true);
+        public static space Template = new space(10, "Template", _Subp: true);
+        public static space TemplateTalk = new space(11, "Template talk", _Subp: true);
+        public static space Help = new space(12, "Help", _Subp: true);
+        public static space HelpTalk = new space(13, "Help talk", _Subp: true);
+        public static space Category = new space(14, "Category", _Subp: true);
+        public static space File = new space(16, "File", _Subp: true);
+        public static space FileTalk = new space(17, "File talk", _Subp: true);
 
         private List<space> _All;
 
