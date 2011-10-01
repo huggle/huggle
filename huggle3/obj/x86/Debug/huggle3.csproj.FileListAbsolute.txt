@@ -43,3 +43,6 @@ C:\Users\adam\Documents\Repos\huggle3\trunk\huggle3\bin\Debug\huggle3.exe
 C:\Users\adam\Documents\Repos\huggle3\trunk\huggle3\bin\Debug\huggle3.pdb
 C:\Users\adam\Documents\Repos\huggle3\trunk\huggle3\obj\x86\Debug\huggle3.exe
 C:\Users\adam\Documents\Repos\huggle3\trunk\huggle3\obj\x86\Debug\huggle3.pdb
+C:\Users\petr\Documents\hg\branches\csharp\huggle3\bin\Debug\huggle3.exe.config
+C:\Users\petr\Documents\hg\branches\csharp\huggle3\obj\x86\Debug\huggle3.exe
+C:\Users\petr\Documents\hg\branches\csharp\huggle3\obj\x86\Debug\huggle3.pdb

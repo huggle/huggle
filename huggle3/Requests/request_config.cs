@@ -58,7 +58,7 @@ namespace huggle3.Requests
                     Config.Minor.Add(minor, false);
                 }
 
-                string projectconfig_file = System.Web.HttpUtility.HtmlDecode(Core.FindString(Core.FindString(Core.FindString(result.ResultText, "<page", "ns=\"" ));
+                //string projectconfig_file = System.Web.HttpUtility.HtmlDecode(Core.FindString(Core.FindString(Core.FindString(result.ResultText, "<page", "ns=\"" + Core.GetPage(Config.ProjectConfigLocation)._Space.Number + "\"" , "</page>"), "<rev "), ">", "</rev>"));
                 
 
             }

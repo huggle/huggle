@@ -23,7 +23,7 @@ namespace huggle3
     public class page
     {
         public string Name;
-        private space _Space = new space();
+        public space _Space = new space();
         public bool Exists;
         private Dictionary<string, page> Shared_All;
         public edit FirstEdit;  //First edit
