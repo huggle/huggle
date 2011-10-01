@@ -74,6 +74,15 @@ namespace huggle3
                     MessageBox.Show(Languages.Get("login-error1"));
                     return;
                 }
+
+                //Lock the form controls
+                this.textName.Enabled = false;
+                this.textPassword.Enabled = false;
+                this.cmProject.Enabled = false;
+                this.cmLanguage.Enabled = false;
+                this.btLogin.Enabled = false;
+                this.btExit.Enabled = false;
+
                 Config.Project = cmProject.Text;// set project
                 Config.Password = textPassword.Text; // set password
                 Config.Username = textName.Text;// set username
@@ -89,6 +98,15 @@ namespace huggle3
             catch (Exception A)
             {
                 Core.ExceptionHandler(A);
+
+                //Unlock the form controls if an error is thrown
+                //Lock the form controls
+                this.textName.Enabled = true;
+                this.textPassword.Enabled = true;
+                this.cmProject.Enabled = true;
+                this.cmLanguage.Enabled = true;
+                this.btLogin.Enabled = true;
+                this.btExit.Enabled = true;
             }
         }
 
