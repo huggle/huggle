@@ -31,6 +31,10 @@ namespace huggle3
         public bool ResultInError
         {
             get {
+                if (ErrorCode == "")
+                {
+                    return false;
+                }
                     return (!(ErrorCode == null));
                 }
         }

@@ -26,9 +26,9 @@ namespace huggle3.Requests
         {
             Core.History("Process()");
 
-            ApiResult apiResult = ApiRequest("action=query&prop=revision&rvlimit=1&rvprop=content&titles=" + Config.GlobalConfigLocation, "", "meta");
+            ApiResult apiResult = ApiRequest("action=query&prop=revisions&rvlimit=1&rvprop=content&titles=" + Config.GlobalConfigLocation, "", "meta");
 
-            if (apiResult.ResultInError)
+            if (apiResult == null || apiResult.ResultInError)
             {
                 login.phase = login.LoginState.Error;
                 Fail(Languages.Get("loadglobalconfig-fail"));

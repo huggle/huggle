@@ -213,6 +213,11 @@ namespace huggle3
                                 timer.Enabled = false;
                                 Hide();
                                 break;
+                            case login.LoginState.Error:
+                                progress("Error logging in:");
+                                login.LoggingOn = false;
+                                login.LoggedIn = false;
+                                break;
                         }
                     }
                 }

@@ -146,7 +146,7 @@ namespace huggle3
         public static string LogFile = "";
         public static int MaxReportLinks = 6;
         public static string MfdLocation = "";
-        public static Dictionary<string, bool> Minor;
+        public static Dictionary<string, bool> Minor = new Dictionary<string,bool>();
         public static Version MinVersion;
         public static int MinWarningWait = 10;
         public static bool MonthHeadings = false;

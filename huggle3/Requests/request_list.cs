@@ -43,6 +43,8 @@ namespace huggle3.Requests
 
             result = result.Replace("<!-- list -->", "");
 
+            Config.Whitelist.AddRange(result.Split('|'));
+
             login.phase = login.LoginState.Successful;
 
             Complete();
