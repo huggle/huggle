@@ -634,6 +634,57 @@ namespace huggle3
             }
             return value;
         }
+
+        public static bool SetGlobalConfigOption(string key, string value)
+        {
+            switch (key)
+            {
+                case "enable-all":
+                    Config.EnabledForAll = bool.Parse(value);
+                    break;
+                case "config":
+                    Config.ProjectConfigLocation = value;
+                    break;
+                case "documentation":
+                    Config.DocsLocation = value;
+                    break;
+                case "feedback":
+                    Config.FeedbackLocation = value;
+                    break;
+                case "irc-server":
+                    Config.IrcServer = value;
+                    break;
+                case "whitelist-server":
+                    Config.WhitelistUrl = value;
+                    break;
+                case "min-version":
+                    break;
+                case "projects":
+                    break;
+                case "sensitive-addresses":
+                    break;
+                
+                case "irc-server-name":
+                    Config.IrcServerName = value;
+                    break;
+            }
+            return true;
+        }
+
+        public static bool SetUserConfigOption(string key, string value)
+        {
+            switch (key)
+            {
+                case "customtsumm":
+                    Config.UseCSummaries = bool.Parse(value);
+                    break;
+                case "templates":
+                    Config.TemplateMessages = GET.list(value);
+                    break;
+            }
+            return true;
+        }
+
         public static bool SetLocalConfigOption(string key, string value)
         {
             switch (key)
@@ -851,6 +902,7 @@ namespace huggle3
             }
             return true;
         }
+
         public static bool LoadLocalConfig()
         {
             Core.History("LoadLocalConfig()");
@@ -888,6 +940,7 @@ namespace huggle3
             }
             return true;
         }
+
         public static bool LoadGlobalConfig()
         {
             Core.History("LoadGlobalConfig()");

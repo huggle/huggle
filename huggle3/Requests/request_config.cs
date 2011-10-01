@@ -59,7 +59,92 @@ namespace huggle3.Requests
                 }
 
                 string projectconfig_file = System.Web.HttpUtility.HtmlDecode(Core.FindString(Core.FindString(Core.FindString(result.ResultText, "<page", "ns=\"" + Core.GetPage(Config.ProjectConfigLocation)._Space.Number + "\"" , "</page>"), "<rev "), ">", "</rev>"));
-                
+                string userconfig_file = System.Web.HttpUtility.HtmlDecode( Core.FindString(Core.FindString(Core.FindString( result.ResultText, "<page", "ns=\"" + Core.GetPage(Config.UserConfigLocation)._Space.Number + "\"", "</page>"), "<rev "),">", "</rev>" ));
+
+                foreach (KeyValuePair<string, string> value in Core_IO.ProcessConfigFile(projectconfig_file))
+                {
+                    //Core_IO.SetSharedConfigKey();
+                    Core_IO.SetGlobalConfigOption(value.Key, value.Value);
+                }
+
+                Config.UAA = !string.IsNullOrEmpty(Config.UAALocation);
+                Config.TRR = !string.IsNullOrEmpty(Config.TRRLocation);
+                Config.AIV = !string.IsNullOrEmpty(Config.AIVLocation);
+
+                if (userconfig_file != null)
+                {
+                    foreach (KeyValuePair<string, string> current_item in Core_IO.ProcessConfigFile(userconfig_file))
+                    {
+                        Core_IO.SetSharedConfigKey(current_item.Key, current_item.Value);
+                        Core_IO.SetUserConfigOption(current_item.Key, current_item.Value);
+                    }
+                }
+                // if doesn't contain messages then use global
+                if (Config.TemplateMessages.Count == 0)
+                {
+                    Config.TemplateMessages = Config.TemplateMessagesGlobal;
+                }
+
+                if (string.IsNullOrEmpty(Config.IrcChannel))
+                {
+                    Config.UseIrc = false;
+                }
+
+                if (Config.WarnSummary2 == null)
+                {
+                    Config.WarnSummary2 = Config.WarnSummary;
+                }
+
+                if (Config.WarnSummary2 == null)
+                {
+                    Config.WarnSummary2 = Config.WarnSummary;
+                }
+
+                if (Config.WarnSummary4 == null)
+                {
+                    Config.WarnSummary4 = Config.WarnSummary;
+                }
+
+                string userinfo = Core.FindString(result.ResultText, "<userinfo", "</userinfo>");
+
+                if (userinfo == null)
+                {
+                    
+                    return;
+                }
+
+                if (userinfo.Contains("rights"))
+                {
+                    if (userinfo.Contains("anon=\"\""))
+                    {
+                        Fail("Error when loggin in", "Can't check the user rights");
+                        return;
+                    }
+
+                    Config.Rights = new List<string>(Core.FindString(userinfo, "<rights>", "</rights>").Replace("</r>","").Split(new string[] { "<r>" }, StringSplitOptions.RemoveEmptyEntries));
+                    if (Config.Rights.Contains("block") && Config.RequireAdmin == false)
+                    {
+                        Fail(Languages.Get("login-error-admin"));
+                        return;
+                    }
+                    if (Config.Rights.Contains("autoconfirmed") && Config.RequireAutoconfirmed == false)
+                    {
+                        Fail(Languages.Get("login-error-confirmed"));
+                        return;
+                    }
+                    if (Config.Rights.Contains("rollback") && Config.RequireRollback == false)
+                    {
+                        Fail(Languages.Get("login-error-rollback"));
+                        return;
+                    }
+                    if (Config.Rights.Contains("writeapi") == false)
+                    {
+                        Fail("error");
+                        return;
+                    }
+                }
+
+                Complete();
 
             }
             catch (Exception A)
