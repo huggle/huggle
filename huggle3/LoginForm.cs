@@ -194,6 +194,8 @@ namespace huggle3
                             case login.LoginState.LoggedIn:
                                 StatusBox.Text = Languages.Get("login-progress-global");
                                 login.phase = login.LoginState.LoadingGlobal;
+                                Requests.request_config_global global = new Requests.request_config_global();
+                                global.Start();
                                 break;
                             case login.LoginState.LoadedGlobal:
                                 StatusBox.Text = Languages.Get("login-progress-local");

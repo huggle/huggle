@@ -56,7 +56,15 @@ namespace huggle3
                     // retrieve project
                     CurrentProject = Config.Project;
                 }
-                string URL = Config.Projects[CurrentProject];
+                string URL;
+                if (CurrentProject == "meta")
+                {
+                    URL = Config.Metawiki;
+                }
+                else
+                {
+                    URL = Config.Projects[CurrentProject];
+                }
                 ApiResult return_value = new ApiResult();
 
                 string Result = "";

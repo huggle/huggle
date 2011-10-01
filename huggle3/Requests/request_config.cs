@@ -24,7 +24,24 @@ namespace huggle3.Requests
     {
         public override void Process()
         {
-            
+            Core.History("Process()");
+
+            ApiResult apiResult = ApiRequest("action=query&prop=revision&rvlimit=1&rvprop=content&titles=" + Config.GlobalConfigLocation, "", "meta");
+
+            if (apiResult.ResultInError)
+            {
+                login.phase = login.LoginState.Error;
+                Fail(Languages.Get("loadglobalconfig-fail"));
+            }
+
+            foreach (KeyValuePair<string, string> x in Core_IO.ProcessConfigFile(apiResult.ResultText))
+            {
+                Core_IO.SetGlobalConfigOption(x.Key, x.Value);
+            }
+
+            login.phase = login.LoginState.LoadedGlobal;
+
+            Complete();
         }
     }
 
@@ -35,18 +52,20 @@ namespace huggle3.Requests
             Core.History("Process()");
             try
             {
-                ApiResult result;
+                ApiResult apiResult;
 
-                result = ApiRequest("action=query&meta=userinfo&uiprop=rights|editcount&list=logevents|watchlistraw&letype=newusers&letitle=" + System.Web.HttpUtility.UrlEncode(new user("").Me.UserPage) + "prop=revisions&rvprop=content&titles=" + Config.ProjectConfigLocation + "|" + Config.UserConfigLocation, "" , Config.Project);
+                apiResult = ApiRequest("action=query&meta=userinfo&uiprop=rights|editcount&list=logevents|watchlistraw&letype=newusers&letitle=" + System.Web.HttpUtility.UrlEncode(new user("").Me.UserPage) + "prop=revisions&rvprop=content&titles=" + Config.ProjectConfigLocation + "|" + Config.UserConfigLocation, "" , Config.Project);
 
-                if (result.ResultInError)
-                { 
-                    Fail(Languages.Get("login-error-config"), result.Error_Data);
+                if (apiResult.ResultInError)
+                {
+                    login.phase = login.LoginState.Error;
+                    Fail(Languages.Get("login-error-config"), apiResult.Error_Data);
                     return;
                 }
 
                 if (Config.ProjectConfigLocation == null )
                 {
+                    login.phase = login.LoginState.Error;
                     Fail(Languages.Get("login-project-config-is-wrong"), "Invalid path");
                     return;
                 }
@@ -58,12 +77,12 @@ namespace huggle3.Requests
                     Config.Minor.Add(minor, false);
                 }
 
-                string projectconfig_file = System.Web.HttpUtility.HtmlDecode(Core.FindString(Core.FindString(Core.FindString(result.ResultText, "<page", "ns=\"" + Core.GetPage(Config.ProjectConfigLocation)._Space.Number + "\"" , "</page>"), "<rev "), ">", "</rev>"));
-                string userconfig_file = System.Web.HttpUtility.HtmlDecode( Core.FindString(Core.FindString(Core.FindString( result.ResultText, "<page", "ns=\"" + Core.GetPage(Config.UserConfigLocation)._Space.Number + "\"", "</page>"), "<rev "),">", "</rev>" ));
+                string projectconfig_file = System.Web.HttpUtility.HtmlDecode(Core.FindString(Core.FindString(Core.FindString(apiResult.ResultText, "<page", "ns=\"" + Core.GetPage(Config.ProjectConfigLocation)._Space.Number + "\"" , "</page>"), "<rev "), ">", "</rev>"));
+                string userconfig_file = System.Web.HttpUtility.HtmlDecode( Core.FindString(Core.FindString(Core.FindString( apiResult.ResultText, "<page", "ns=\"" + Core.GetPage(Config.UserConfigLocation)._Space.Number + "\"", "</page>"), "<rev "),">", "</rev>" ));
 
                 foreach (KeyValuePair<string, string> value in Core_IO.ProcessConfigFile(projectconfig_file))
                 {
-                    //Core_IO.SetSharedConfigKey();
+                    Core_IO.SetSharedConfigKey(value.Key, value.Value);
                     Core_IO.SetGlobalConfigOption(value.Key, value.Value);
                 }
 
@@ -105,11 +124,11 @@ namespace huggle3.Requests
                     Config.WarnSummary4 = Config.WarnSummary;
                 }
 
-                string userinfo = Core.FindString(result.ResultText, "<userinfo", "</userinfo>");
+                string userinfo = Core.FindString(apiResult.ResultText, "<userinfo", "</userinfo>");
 
                 if (userinfo == null)
                 {
-                    
+                    login.phase = login.LoginState.Error;
                     return;
                 }
 
@@ -117,6 +136,7 @@ namespace huggle3.Requests
                 {
                     if (userinfo.Contains("anon=\"\""))
                     {
+                        login.phase = login.LoginState.Error;
                         Fail("Error when loggin in", "Can't check the user rights");
                         return;
                     }
@@ -124,16 +144,19 @@ namespace huggle3.Requests
                     Config.Rights = new List<string>(Core.FindString(userinfo, "<rights>", "</rights>").Replace("</r>","").Split(new string[] { "<r>" }, StringSplitOptions.RemoveEmptyEntries));
                     if (Config.Rights.Contains("block") && Config.RequireAdmin == false)
                     {
+                        login.phase = login.LoginState.Error;
                         Fail(Languages.Get("login-error-admin"));
                         return;
                     }
                     if (Config.Rights.Contains("autoconfirmed") && Config.RequireAutoconfirmed == false)
                     {
+                        login.phase = login.LoginState.Error;
                         Fail(Languages.Get("login-error-confirmed"));
                         return;
                     }
                     if (Config.Rights.Contains("rollback") && Config.RequireRollback == false)
                     {
+                        login.phase = login.LoginState.Error;
                         Fail(Languages.Get("login-error-rollback"));
                         return;
                     }
@@ -143,6 +166,8 @@ namespace huggle3.Requests
                         return;
                     }
                 }
+
+                login.phase = login.LoginState.LoadedLocal;
 
                 Complete();
 

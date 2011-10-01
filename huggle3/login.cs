@@ -64,7 +64,8 @@ namespace huggle3
             LoggedIn,
             LoadedLocal,
             LoadedGlobal,
-            Successful
+            Successful,
+            Error
         }
 
         public static string Token;

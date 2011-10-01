@@ -31,7 +31,7 @@ namespace huggle3
         public bool ResultInError
         {
             get {
-                    return false;
+                    return (!(ErrorCode == null));
                 }
         }
 
@@ -39,7 +39,7 @@ namespace huggle3
         {
 
         }
-        public ApiResult(string Text, string Error, string Descr)
+        public ApiResult(string Text, string Error = null, string Descr = null)
         {
             this.ResultText = Text;
             this.Error_Data = Descr;
