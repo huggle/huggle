@@ -94,6 +94,7 @@ namespace huggle3
                 this.cmLanguage.Enabled = false;
                 this.btLogin.Enabled = false;
                 this.btExit.Enabled = false;
+                StatusBar.Value = 0;
 
                 Config.Project = cmProject.Text;// set project
                 Config.Password = textPassword.Text; // set password
@@ -198,13 +199,17 @@ namespace huggle3
                                 global.Start();
                                 break;
                             case login.LoginState.LoadedGlobal:
+                                StatusBar.Value = 40;
                                 StatusBox.Text = Languages.Get("login-progress-local");
                                 login.phase = login.LoginState.LoadingLocal;
                                 Requests.request_config_local local_cf = new Requests.request_config_local();
                                 local_cf.Start();
                                 break;
                             case login.LoginState.LoadedLocal:
+                                StatusBar.Value = 80;
                                 login.phase = login.LoginState.Whitelist;
+                                Requests.request_white_list whitelist_request = new Requests.request_white_list();
+                                whitelist_request.Start();
                                 break;
                             case login.LoginState.Successful:
                                 // show the form
@@ -215,6 +220,7 @@ namespace huggle3
                                 Hide();
                                 break;
                             case login.LoginState.Error:
+                                StatusBar.Value = 0;
                                 progress("Error logging in:");
                                 login.LoggingOn = false;
                                 login.LoggedIn = false;
