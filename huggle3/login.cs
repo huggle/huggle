@@ -37,10 +37,13 @@ namespace huggle3
                 if (result != LoginResult.Success)
                 {
                     login.Status = result;
+                    login.LoggingOn = false;
                     return;
                 }
 
+                login.phase = login.LoginState.LoggedIn;
                 login.LoggedIn = true;
+                Complete();
             }
             catch (Exception B)
             {
