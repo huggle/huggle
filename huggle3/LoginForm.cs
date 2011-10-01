@@ -214,5 +214,25 @@ namespace huggle3
             }
         }
 
+        /// <summary>
+        /// This is run whenever one of the controls is changed on the login page
+        /// This includes the two text boxes and two list boxes
+        /// This then either enables or disables the login button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void controlChanged(object sender, EventArgs e)
+        {
+            if (textName.Text.Length != 0 && textPassword.Text.Length != 0
+                && cmLanguage.Text.Length != 0 && cmProject.Text.Length != 0)
+            {
+                btLogin.Enabled = true;
+            }
+            else
+            {
+                btLogin.Enabled = false;
+            }
+        }
+
     }
 }

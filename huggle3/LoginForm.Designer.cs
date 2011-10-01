@@ -54,6 +54,7 @@
             this.textName.Name = "textName";
             this.textName.Size = new System.Drawing.Size(189, 20);
             this.textName.TabIndex = 1;
+            this.textName.TextChanged += new System.EventHandler(this.controlChanged);
             // 
             // pictureBox1
             // 
@@ -70,6 +71,7 @@
             this.textPassword.Name = "textPassword";
             this.textPassword.Size = new System.Drawing.Size(188, 20);
             this.textPassword.TabIndex = 3;
+            this.textPassword.TextChanged += new System.EventHandler(this.controlChanged);
             // 
             // lPassword
             // 
@@ -91,6 +93,7 @@
             // 
             // btLogin
             // 
+            this.btLogin.Enabled = false;
             this.btLogin.Location = new System.Drawing.Point(12, 238);
             this.btLogin.Name = "btLogin";
             this.btLogin.Size = new System.Drawing.Size(100, 25);
@@ -136,6 +139,7 @@
             this.cmLanguage.Size = new System.Drawing.Size(188, 21);
             this.cmLanguage.TabIndex = 7;
             this.cmLanguage.SelectedIndexChanged += new System.EventHandler(this.cmLanguage_SelectedIndexChanged);
+            this.cmLanguage.TextChanged += new System.EventHandler(this.controlChanged);
             // 
             // cmProject
             // 
@@ -145,6 +149,7 @@
             this.cmProject.Name = "cmProject";
             this.cmProject.Size = new System.Drawing.Size(188, 21);
             this.cmProject.TabIndex = 5;
+            this.cmProject.TextChanged += new System.EventHandler(this.controlChanged);
             // 
             // StatusBox
             // 
