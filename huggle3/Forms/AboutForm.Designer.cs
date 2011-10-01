@@ -93,6 +93,8 @@
             this.Controls.Add(this.Dev2);
             this.Controls.Add(this.Dev1);
             this.Controls.Add(this.Copyright);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "AboutForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "AboutForm";
