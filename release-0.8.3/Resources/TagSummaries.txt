@@ -1,0 +1,15 @@
+﻿^prod$
+ prod 
+[\{:]prod
+prod[\}\-:2]
+(nominated|prodding|proposed) for deletion
+proposed deletion
+^db$
+db-
+ db tag$
+(marked for|tagged for|tagging for|requesting) speedy deletion
+speedy deletion request
+adding \{\{.+\}\} to article
+^afd$
+[\{:]afd
+afd[ \}]

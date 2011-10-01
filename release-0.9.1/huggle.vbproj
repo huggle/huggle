@@ -1,0 +1,615 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <ProjectGuid>{11AD90BE-245A-475B-9768-77BADF176824}</ProjectGuid>
+    <OptionStrict>On</OptionStrict>
+    <OptionCompare>Text</OptionCompare>
+    <StartupObject>Huggle.My.MyApplication</StartupObject>
+    <RootNamespace>Huggle</RootNamespace>
+    <OutputType>WinExe</OutputType>
+    <MyType>WindowsForms</MyType>
+    <ApplicationIcon>Resources\huggle.ico</ApplicationIcon>
+    <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
+    <AssemblyName>huggle</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugType>Full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <OutputPath>bin\Debug\</OutputPath>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugType>None</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.XML" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="huggle.Requests" />
+    <Import Include="System" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Windows.Forms" />
+    <Import Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ApplicationEvents.vb" />
+    <Compile Include="Config.vb" />
+    <Compile Include="ConfigIO.vb" />
+    <Compile Include="Controls\BrowserTab.Designer.vb">
+      <DependentUpon>BrowserTab.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\BrowserTab.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ContribsStrip.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\HistoryStrip.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\ListView2.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\WikiTextBox.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\UserLog.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\PageLog.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\WarnLog.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\EditInfoPanel.Designer.vb">
+      <DependentUpon>EditInfoPanel.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\EditInfoPanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\QueuePanel.Designer.vb">
+      <DependentUpon>QueuePanel.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\QueuePanel.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Throbber.Designer.vb">
+      <DependentUpon>Throbber.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Throbber.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\TriState.Designer.vb">
+      <DependentUpon>TriState.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TriState.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Edit.vb" />
+    <Compile Include="Forms\AboutForm.Designer.vb">
+      <DependentUpon>AboutForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AboutForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AddTemplateForm.Designer.vb">
+      <DependentUpon>AddTemplateForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AddTemplateForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\BlockForm.Designer.vb">
+      <DependentUpon>BlockForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\BlockForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\CaptchaForm.Designer.vb">
+      <DependentUpon>CaptchaForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\CaptchaForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ClosingForm.Designer.vb">
+      <DependentUpon>ClosingForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ClosingForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ConfigForm.Designer.vb">
+      <DependentUpon>ConfigForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ConfigForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Report3rrForm.Designer.vb">
+      <DependentUpon>Report3rrForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Report3rrForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DeleteForm.Designer.vb">
+      <DependentUpon>DeleteForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DeleteForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\EditForm.Designer.vb">
+      <DependentUpon>EditForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\EditForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\EmailForm.designer.vb">
+      <DependentUpon>EmailForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\EmailForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ExceptionForm.Designer.vb">
+      <DependentUpon>ExceptionForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ExceptionForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\InputBox.Designer.vb">
+      <DependentUpon>InputBox.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\InputBox.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ListActionsForm.Designer.vb">
+      <DependentUpon>ListActionsForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ListActionsForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ListForm.Designer.vb">
+      <DependentUpon>ListForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ListForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\LoginForm.designer.vb">
+      <DependentUpon>LoginForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\LoginForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MessageForm.Designer.vb">
+      <DependentUpon>MessageForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MessageForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MoveForm.Designer.vb">
+      <DependentUpon>MoveForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MoveForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\IntegerTextBox.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\ProdForm.designer.vb">
+      <DependentUpon>ProdForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ProdForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ProtectForm.Designer.vb">
+      <DependentUpon>ProtectForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ProtectForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ProtectionForm.Designer.vb">
+      <DependentUpon>ProtectionForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ProtectionForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\QueueForm.Designer.vb">
+      <DependentUpon>QueueForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\QueueForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\QueueTrimForm.Designer.vb">
+      <DependentUpon>QueueTrimForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\QueueTrimForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ReportForm.Designer.vb">
+      <DependentUpon>ReportForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ReportForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\RequestsForm.Designer.vb">
+      <DependentUpon>RequestsForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\RequestsForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\RevertForm.Designer.vb">
+      <DependentUpon>RevertForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\RevertForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\RevertAndWarnForm.Designer.vb">
+      <DependentUpon>RevertAndWarnForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\RevertAndWarnForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SockReportForm.Designer.vb">
+      <DependentUpon>SockReportForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\SockReportForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SpeedyForm.Designer.vb">
+      <DependentUpon>SpeedyForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\SpeedyForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\StatsForm.Designer.vb">
+      <DependentUpon>StatsForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\StatsForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\TagForm.Designer.vb">
+      <DependentUpon>TagForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\TagForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\UserInfoForm.Designer.vb">
+      <DependentUpon>UserInfoForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UserInfoForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\UpdateForm.Designer.vb">
+      <DependentUpon>UpdateForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UpdateForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\WarningForm.Designer.vb">
+      <DependentUpon>WarningForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\WarningForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\WebBrowser.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\XfdForm.Designer.vb">
+      <DependentUpon>XfdForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\XfdForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Highlight.vb" />
+    <Compile Include="Irc.vb" />
+    <Compile Include="Login.vb" />
+    <Compile Include="Main.Designer.vb">
+      <DependentUpon>Main.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Main.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainInterface.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Misc.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Page.vb" />
+    <Compile Include="Processing.vb" />
+    <Compile Include="Queue.vb" />
+    <Compile Include="Controls\RegexBox.Designer.vb">
+      <DependentUpon>RegexBox.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\RegexBox.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Requests\ActionRequests.vb" />
+    <Compile Include="Requests\ConfigRequests.vb" />
+    <Compile Include="Requests\EditRequests.vb" />
+    <Compile Include="Requests\ListRequests.vb" />
+    <Compile Include="Requests\NotifyRequests.vb" />
+    <Compile Include="Requests\ReadRequests.vb" />
+    <Compile Include="Requests\ReportRequests.vb" />
+    <Compile Include="Requests\Requests.vb" />
+    <Compile Include="Requests\RevertRequests.vb" />
+    <Compile Include="Requests\XfdRequests.vb" />
+    <Compile Include="Shortcuts.vb" />
+    <Compile Include="SortedList.vb" />
+    <Compile Include="Space.vb" />
+    <Compile Include="Stats.vb" />
+    <Compile Include="User.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Controls\BrowserTab.resx">
+      <DependentUpon>BrowserTab.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\EditInfoPanel.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>EditInfoPanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\QueuePanel.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>QueuePanel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Throbber.resx">
+      <DependentUpon>Throbber.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\TriState.resx">
+      <DependentUpon>TriState.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AboutForm.resx">
+      <DependentUpon>AboutForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AddTemplateForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>AddTemplateForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\BlockForm.resx">
+      <DependentUpon>BlockForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\CaptchaForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CaptchaForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ClosingForm.resx">
+      <DependentUpon>ClosingForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ConfigForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ConfigForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Report3rrForm.resx">
+      <DependentUpon>Report3rrForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DeleteForm.resx">
+      <DependentUpon>DeleteForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\EditForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>EditForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\EmailForm.resx">
+      <DependentUpon>EmailForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ExceptionForm.resx">
+      <DependentUpon>ExceptionForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\InputBox.resx">
+      <DependentUpon>InputBox.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ListActionsForm.resx">
+      <DependentUpon>ListActionsForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ListForm.resx">
+      <DependentUpon>ListForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\LoginForm.resx">
+      <DependentUpon>LoginForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\MessageForm.resx">
+      <DependentUpon>MessageForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\MoveForm.resx">
+      <DependentUpon>MoveForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ProdForm.resx">
+      <DependentUpon>ProdForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ProtectForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ProtectForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ProtectionForm.resx">
+      <DependentUpon>ProtectionForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\QueueForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>QueueForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\QueueTrimForm.resx">
+      <DependentUpon>QueueTrimForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ReportForm.resx">
+      <DependentUpon>ReportForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\RequestsForm.resx">
+      <DependentUpon>RequestsForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\RevertForm.resx">
+      <DependentUpon>RevertForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\RevertAndWarnForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>RevertAndWarnForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SockReportForm.resx">
+      <DependentUpon>SockReportForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SpeedyForm.resx">
+      <DependentUpon>SpeedyForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\StatsForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>StatsForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\TagForm.resx">
+      <DependentUpon>TagForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UserInfoForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>UserInfoForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UpdateForm.resx">
+      <DependentUpon>UpdateForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\WarningForm.resx">
+      <DependentUpon>WarningForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\XfdForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>XfdForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Main.resx">
+      <DependentUpon>Main.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\RegexBox.resx">
+      <DependentUpon>RegexBox.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\app.manifest" />
+    <None Include="Resources\icons\diff-next.png" />
+    <None Include="Resources\blobs\blob-anon.png" />
+    <None Include="Resources\blobs\blob-blank.png" />
+    <None Include="Resources\blobs\blob-blanked.png" />
+    <None Include="Resources\blobs\blob-blocked.png" />
+    <None Include="Resources\blobs\blob-blocknote.png" />
+    <None Include="Resources\blobs\blob-bot.png" />
+    <None Include="Resources\blobs\blob-ignored.png" />
+    <None Include="Resources\blobs\blob-me.png" />
+    <None Include="Resources\blobs\blob-message.png" />
+    <None Include="Resources\blobs\blob-new.png" />
+    <None Include="Resources\blobs\blob-none.png" />
+    <None Include="Resources\blobs\blob-redirect.png" />
+    <None Include="Resources\blobs\blob-replaced.png" />
+    <None Include="Resources\blobs\blob-report.png" />
+    <None Include="Resources\blobs\blob-reported.png" />
+    <None Include="Resources\blobs\blob-revert.png" />
+    <None Include="Resources\blobs\blob-reverted.png" />
+    <None Include="Resources\blobs\blob-tag.png" />
+    <None Include="Resources\blobs\blob-warn-1.png" />
+    <None Include="Resources\blobs\blob-warn-2.png" />
+    <None Include="Resources\blobs\blob-warn-3.png" />
+    <None Include="Resources\blobs\blob-warn-4.png" />
+    <None Include="Resources\blobs\blob-warning.png" />
+    <None Include="Resources\DefaultLocalConfig.txt" />
+    <None Include="Resources\huggle.ico" />
+    <None Include="Resources\huggle-logo.png" />
+    <None Include="Resources\icons\browser-add-tab.png" />
+    <None Include="Resources\icons\browser-next.png" />
+    <None Include="Resources\icons\browser-open.png" />
+    <None Include="Resources\icons\browser-prev.png" />
+    <None Include="Resources\icons\browser-remove-tab.png" />
+    <None Include="Resources\icons\cancel-all.png" />
+    <None Include="Resources\icons\contribs-last.png" />
+    <None Include="Resources\icons\contribs-next.png" />
+    <None Include="Resources\icons\contribs-prev.png" />
+    <None Include="Resources\icons\diff-revert.png" />
+    <None Include="Resources\icons\gradient.png" />
+    <None Include="Resources\icons\gray-down.png" />
+    <None Include="Resources\icons\gray-last.png" />
+    <None Include="Resources\icons\gray-next.png" />
+    <None Include="Resources\icons\gray-previous.png" />
+    <None Include="Resources\icons\gray-up.png" />
+    <None Include="Resources\icons\history-last.png" />
+    <None Include="Resources\icons\history-next.png" />
+    <None Include="Resources\icons\history-previous.png" />
+    <None Include="Resources\icons\history-to-cur.png" />
+    <None Include="Resources\icons\page-delete.png" />
+    <None Include="Resources\icons\page-edit.png" />
+    <None Include="Resources\icons\page-tag.png" />
+    <None Include="Resources\icons\page-tag-delete.png" />
+    <None Include="Resources\icons\page-unwatch.png" />
+    <None Include="Resources\icons\page-view.png" />
+    <None Include="Resources\icons\page-watch.png" />
+    <None Include="Resources\icons\diff-revert-warn.png" />
+    <None Include="Resources\icons\tri_no.png" />
+    <None Include="Resources\icons\tri_none.png" />
+    <None Include="Resources\icons\tri_yes.png" />
+    <None Include="Resources\icons\undo.png" />
+    <None Include="Resources\icons\user-block.png" />
+    <None Include="Resources\icons\user-info.png" />
+    <None Include="Resources\icons\user-message.png" />
+    <None Include="Resources\icons\user-report.png" />
+    <None Include="Resources\icons\user-talk.png" />
+    <None Include="Resources\icons\user-template.png" />
+    <None Include="Resources\icons\user-unwhitelist.png" />
+    <None Include="Resources\icons\user-warn.png" />
+    <None Include="Resources\icons\user-whitelist.png" />
+    <None Include="Resources\WikiPageHtml.txt" />
+    <None Include="Localization\de.txt" />
+    <None Include="Localization\en.txt" />
+    <None Include="Localization\pt.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Localization\es.txt" />
+    <Content Include="Resources\icons\revision-sight.png" />
+    <Content Include="Resources\icons\sight-and-next.png" />
+    <Content Include="Resources\WarningSummaries.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+</Project>
