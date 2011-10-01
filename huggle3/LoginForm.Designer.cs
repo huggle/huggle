@@ -151,9 +151,9 @@
             this.StatusBox.AutoSize = true;
             this.StatusBox.Location = new System.Drawing.Point(9, 218);
             this.StatusBox.Name = "StatusBox";
-            this.StatusBox.Size = new System.Drawing.Size(35, 13);
+            this.StatusBox.Size = new System.Drawing.Size(62, 13);
             this.StatusBox.TabIndex = 9;
-            this.StatusBox.Text = "label1";
+            this.StatusBox.Text = "Status label";
             // 
             // StatusBar
             // 

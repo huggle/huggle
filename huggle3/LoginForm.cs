@@ -1,7 +1,7 @@
 ﻿//This is a source code or part of Huggle project
 //
 //This file contains code for
-//last modified by Petrb
+//last modified by Addshore
 
 //Copyright (C) 2011 Huggle team
 
@@ -55,7 +55,7 @@ namespace huggle3
                 Core.History("btLogin_Click()");
                 if (Config.Projects.ContainsKey(this.cmProject.Text) == false)
                 {
-                    // Wrong id
+                    // ID is not in list
                     MessageBox.Show("Please select a project");
                     return;
                 }
@@ -71,6 +71,13 @@ namespace huggle3
                 }
                 if (textName.Text == "")
                 {
+                    // No name has been entered
+                    MessageBox.Show(Languages.Get("login-error1"));
+                    return;
+                }
+                if (textPassword.Text == "")
+                {
+                    // No password has been entered
                     MessageBox.Show(Languages.Get("login-error1"));
                     return;
                 }
@@ -100,7 +107,6 @@ namespace huggle3
                 Core.ExceptionHandler(A);
 
                 //Unlock the form controls if an error is thrown
-                //Lock the form controls
                 this.textName.Enabled = true;
                 this.textPassword.Enabled = true;
                 this.cmProject.Enabled = true;
