@@ -48,6 +48,11 @@ namespace huggle3
             return false;
         }
 
+        /// <summary>
+        /// On 'Login' button click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btLogin_Click(object sender, EventArgs e)
         {
             try
@@ -128,7 +133,7 @@ namespace huggle3
         private void LoginForm_Load(object sender, EventArgs e)
         {
                 Core.Initialise();
-                progress("Please login");
+                progress("Please enter login details");
                 textPassword.UseSystemPasswordChar = true;
                 //Load the config
                 Core_IO.LoadLocalConfig();
@@ -146,14 +151,22 @@ namespace huggle3
                     cmLanguage.Items.Add(language);
                 }
         }
-
+        /// <summary>
+        /// On 'Exit' button click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btExit_Click(object sender, EventArgs e)
         {
             //Close the application
             Application.Exit();
         }
 
-        //If the language selection is changed then try to loadthe language and localize the form
+        /// <summary>
+        /// If the language selection is changed then try to loadthe language and localize the form
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cmLanguage_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
@@ -223,13 +236,18 @@ namespace huggle3
         /// <param name="e"></param>
         private void controlChanged(object sender, EventArgs e)
         {
+            //If each of the controls has some length
             if (textName.Text.Length != 0 && textPassword.Text.Length != 0
                 && cmLanguage.Text.Length != 0 && cmProject.Text.Length != 0)
             {
+                //Allow the user to login
+                progress("Please login");
                 btLogin.Enabled = true;
             }
             else
             {
+                //Disable the login button
+                progress("Please enter login details");
                 btLogin.Enabled = false;
             }
         }

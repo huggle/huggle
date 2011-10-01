@@ -139,7 +139,7 @@
             this.cmLanguage.Size = new System.Drawing.Size(188, 21);
             this.cmLanguage.TabIndex = 7;
             this.cmLanguage.SelectedIndexChanged += new System.EventHandler(this.cmLanguage_SelectedIndexChanged);
-            this.cmLanguage.TextChanged += new System.EventHandler(this.controlChanged);
+            this.cmLanguage.SelectedValueChanged += new System.EventHandler(this.controlChanged);
             // 
             // cmProject
             // 
@@ -149,7 +149,7 @@
             this.cmProject.Name = "cmProject";
             this.cmProject.Size = new System.Drawing.Size(188, 21);
             this.cmProject.TabIndex = 5;
-            this.cmProject.TextChanged += new System.EventHandler(this.controlChanged);
+            this.cmProject.SelectedValueChanged += new System.EventHandler(this.controlChanged);
             // 
             // StatusBox
             // 
