@@ -91,7 +91,7 @@ namespace huggle3
                 }
                 if (result.ResultText.Contains("result=\"Success\""))
                 {
-                    return LoginResult.Success;
+                        return LoginResult.Success;
                 }
                 if (result.ResultText.Contains("result=\"WrongPass\""))
                 {

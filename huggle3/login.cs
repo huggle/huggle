@@ -36,6 +36,14 @@ namespace huggle3
 
                 if (result != LoginResult.Success)
                 {
+                    switch (result)
+                    {
+                        case LoginResult.Cancelled:
+                            break;
+                        case LoginResult.WrongPassword:
+                            login.Error = Languages.Get("login-invalid");
+                            break;
+                    }
                     login.Status = result;
                     login.LoggingOn = false;
                     return;
@@ -71,6 +79,7 @@ namespace huggle3
         public static string Token;
         public static bool LoggedIn;
         public static bool LoggingOn;
+        public static string Error = "";
         public static LoginState phase;
         public static request_core.Request.LoginResult Status;
         static public int Login()

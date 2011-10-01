@@ -59,13 +59,19 @@ namespace huggle3
             webBrowser.Left = Queue.Left + 20 + Queue.Width;
             webBrowser.Height = Program.MainForm.Height - 280 - MainTool.Height - Usertool.Height;
             webBrowser.Width = this.Width - Config.QueueWidth - 60;
+            // 
             lsLog.Top = Config.QueueTop + 20 + Usertool.Height + MainTool.Height + Queue.Height;
-            lsLog.Left = Config.QueueLeft;
+            lsLog.Left = Config.QueueLeft - 10;
             lsLog.Width = Program.MainForm.Width - 40 - Config.QueueLeft;
+            lsLog.Height = Program.MainForm.Height - (webBrowser.Top + webBrowser.Height) - 80;
+            // 
             cbType1.Top = 10;
             cbType1.Width = Queue.Width;
             cbType2.Top = 80 + queuePanel1.Height;
             cbType2.Width = Queue.Width;
+            queuePanel1.Top = cbType1.Top + 40;
+            queuePanel1.Width = cbType1.Width;
+            queuePanel2.Top = cbType2.Top + 40;
             return 1;
         }
 
@@ -92,13 +98,14 @@ namespace huggle3
             Log("huggle init"); // there is supposed to be inital message concerning start up
             OpenInfo();
             Localize();
+            
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
         }
         
         private void OpenInfo()
         {
             // startup page
-            this.webBrowser.Navigate(Config.TestWp + Config.WikiPath);
+            this.webBrowser.Navigate(Config.Project + Config.ShortWikiPath + "index.php?title=" + Config.StartupPage + "&action=render");
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)

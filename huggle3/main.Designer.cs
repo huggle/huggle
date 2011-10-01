@@ -140,7 +140,6 @@
             this.documentationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.feedbackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.lsLog = new System.Windows.Forms.ListBox();
             this.webBrowser = new System.Windows.Forms.WebBrowser();
             this.LabelP = new System.Windows.Forms.Label();
             this.LUser = new System.Windows.Forms.Label();
@@ -148,11 +147,12 @@
             this.LContribs = new System.Windows.Forms.Label();
             this.CurrentUser = new System.Windows.Forms.ComboBox();
             this.pEdit = new System.Windows.Forms.Panel();
+            this.lHistory = new System.Windows.Forms.Label();
+            this.lsLog = new System.Windows.Forms.ListView();
+            this.historyStrip1 = new huggle3.Controls.HistoryStrip();
+            this.contribsPanel1 = new huggle3.Controls.ContribsPanel();
             this.queuePanel2 = new huggle3.Controls.QueuePanel();
             this.queuePanel1 = new huggle3.Controls.QueuePanel();
-            this.contribsPanel1 = new huggle3.Controls.ContribsPanel();
-            this.historyStrip1 = new huggle3.Controls.HistoryStrip();
-            this.lHistory = new System.Windows.Forms.Label();
             this.Strip.SuspendLayout();
             this.MainTool.SuspendLayout();
             this.Usertool.SuspendLayout();
@@ -1056,14 +1056,6 @@
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
-            // lsLog
-            // 
-            this.lsLog.FormattingEnabled = true;
-            this.lsLog.Location = new System.Drawing.Point(21, 413);
-            this.lsLog.Name = "lsLog";
-            this.lsLog.Size = new System.Drawing.Size(265, 108);
-            this.lsLog.TabIndex = 6;
-            // 
             // webBrowser
             // 
             this.webBrowser.Location = new System.Drawing.Point(358, 181);
@@ -1125,6 +1117,39 @@
             this.pEdit.Size = new System.Drawing.Size(469, 36);
             this.pEdit.TabIndex = 13;
             // 
+            // lHistory
+            // 
+            this.lHistory.AutoSize = true;
+            this.lHistory.Location = new System.Drawing.Point(601, 32);
+            this.lHistory.Name = "lHistory";
+            this.lHistory.Size = new System.Drawing.Size(35, 13);
+            this.lHistory.TabIndex = 16;
+            this.lHistory.Text = "label1";
+            // 
+            // lsLog
+            // 
+            this.lsLog.FullRowSelect = true;
+            this.lsLog.Location = new System.Drawing.Point(15, 444);
+            this.lsLog.Name = "lsLog";
+            this.lsLog.Size = new System.Drawing.Size(69, 48);
+            this.lsLog.TabIndex = 17;
+            this.lsLog.UseCompatibleStateImageBehavior = false;
+            this.lsLog.View = System.Windows.Forms.View.List;
+            // 
+            // historyStrip1
+            // 
+            this.historyStrip1.Location = new System.Drawing.Point(641, 28);
+            this.historyStrip1.Name = "historyStrip1";
+            this.historyStrip1.Size = new System.Drawing.Size(249, 21);
+            this.historyStrip1.TabIndex = 15;
+            // 
+            // contribsPanel1
+            // 
+            this.contribsPanel1.Location = new System.Drawing.Point(641, 56);
+            this.contribsPanel1.Name = "contribsPanel1";
+            this.contribsPanel1.Size = new System.Drawing.Size(249, 21);
+            this.contribsPanel1.TabIndex = 14;
+            // 
             // queuePanel2
             // 
             this.queuePanel2.Location = new System.Drawing.Point(9, 158);
@@ -1139,34 +1164,12 @@
             this.queuePanel1.Size = new System.Drawing.Size(226, 73);
             this.queuePanel1.TabIndex = 2;
             // 
-            // contribsPanel1
-            // 
-            this.contribsPanel1.Location = new System.Drawing.Point(641, 56);
-            this.contribsPanel1.Name = "contribsPanel1";
-            this.contribsPanel1.Size = new System.Drawing.Size(249, 21);
-            this.contribsPanel1.TabIndex = 14;
-            // 
-            // historyStrip1
-            // 
-            this.historyStrip1.Location = new System.Drawing.Point(641, 28);
-            this.historyStrip1.Name = "historyStrip1";
-            this.historyStrip1.Size = new System.Drawing.Size(249, 21);
-            this.historyStrip1.TabIndex = 15;
-            // 
-            // lHistory
-            // 
-            this.lHistory.AutoSize = true;
-            this.lHistory.Location = new System.Drawing.Point(601, 32);
-            this.lHistory.Name = "lHistory";
-            this.lHistory.Size = new System.Drawing.Size(35, 13);
-            this.lHistory.TabIndex = 16;
-            this.lHistory.Text = "label1";
-            // 
             // main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(906, 584);
+            this.Controls.Add(this.lsLog);
             this.Controls.Add(this.lHistory);
             this.Controls.Add(this.historyStrip1);
             this.Controls.Add(this.contribsPanel1);
@@ -1177,7 +1180,6 @@
             this.Controls.Add(this.LUser);
             this.Controls.Add(this.LabelP);
             this.Controls.Add(this.webBrowser);
-            this.Controls.Add(this.lsLog);
             this.Controls.Add(this.Usertool);
             this.Controls.Add(this.MainTool);
             this.Controls.Add(this.Strip);
@@ -1275,7 +1277,6 @@
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem documentationToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem feedbackToolStripMenuItem;
-        private System.Windows.Forms.ListBox lsLog;
         private System.Windows.Forms.ToolStripButton tlBrowserBButton;
         private System.Windows.Forms.ToolStripButton tlBrowserFButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
@@ -1329,5 +1330,6 @@
         private Controls.ContribsPanel contribsPanel1;
         private Controls.HistoryStrip historyStrip1;
         private System.Windows.Forms.Label lHistory;
+        private System.Windows.Forms.ListView lsLog;
     }
 }

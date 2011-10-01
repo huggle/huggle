@@ -164,7 +164,7 @@ namespace huggle3
         }
 
         /// <summary>
-        /// If the language selection is changed then try to loadthe language and localize the form
+        /// If the language selection is changed then try to load the language and localize the form
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -193,13 +193,14 @@ namespace huggle3
                         switch (login.phase)
                         { 
                             case login.LoginState.LoggedIn:
+                                StatusBar.Value = 40;
                                 StatusBox.Text = Languages.Get("login-progress-global");
                                 login.phase = login.LoginState.LoadingGlobal;
                                 Requests.request_config_global global = new Requests.request_config_global();
                                 global.Start();
                                 break;
                             case login.LoginState.LoadedGlobal:
-                                StatusBar.Value = 40;
+                                StatusBar.Value = 60;
                                 StatusBox.Text = Languages.Get("login-progress-local");
                                 login.phase = login.LoginState.LoadingLocal;
                                 Requests.request_config_local local_cf = new Requests.request_config_local();
@@ -230,16 +231,22 @@ namespace huggle3
                 }
                 else
                 {
-                    timer.Enabled = false;
+                    this.textName.Enabled = true;
+                    this.textPassword.Enabled = true;
+                    this.cmProject.Enabled = true;
+                    this.cmLanguage.Enabled = true;
+                    this.btLogin.Enabled = true;
+                    this.btExit.Enabled = true;
                     if (login.Status != request_core.Request.LoginResult.Success)
                     {
-                        this.progress("Can't login");
+                        this.progress(login.Error);
                     }
+                    timer.Enabled = false;
                 }
             }
-            catch (Exception)
-            { 
-              
+            catch (Exception A)
+            {
+                Core.ExceptionHandler(A);
             }
         }
 
