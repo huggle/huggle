@@ -200,6 +200,8 @@ namespace huggle3
                             case login.LoginState.LoadedGlobal:
                                 StatusBox.Text = Languages.Get("login-progress-local");
                                 login.phase = login.LoginState.LoadingLocal;
+                                Requests.request_config_local local_cf = new Requests.request_config_local();
+                                local_cf.Start();
                                 break;
                             case login.LoginState.LoadedLocal:
                                 login.phase = login.LoginState.Whitelist;

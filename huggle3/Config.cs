@@ -42,6 +42,7 @@ namespace huggle3
         public readonly static string GlobalConfigLocation = "Huggle/Config";
         public readonly static string WikiPath = "w/"; // short path for root of wiki
         public static string Metawiki = "http://meta.wikimedia.org/";
+        public static List<string> Whitelist = new List<string>();
         public static Dictionary<string, List<string>> AllLists = new Dictionary<string,List<string>>();
         public readonly  static bool Beta = true; // always true on testing or devel
 

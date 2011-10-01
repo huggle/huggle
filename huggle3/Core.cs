@@ -61,7 +61,7 @@ namespace huggle3
                 Core.ExceptionHandler( A );
             }
 
-            return "<invalid>";
+            return "<invalid> " + id;
         }
     }
     public static class Core
@@ -332,6 +332,7 @@ namespace huggle3
             // those values will be default in case that not present in configs
             // do not change unless you want to change default presets
             Core.History("Core.InitConfig()");
+            Config.Whitelist.Clear();
             Config.AIVLocation = "";
             Config.Approval = false;
             Config.AutoAdvance = false;

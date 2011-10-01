@@ -23,4 +23,30 @@ namespace huggle3.Requests
     class request_list : request_core.Request
     {
     }
+
+    class request_white_list : request_core.Request
+    {
+        public override void Process()
+        {
+            Core.History("request_white_list.Process()");
+            string WhitelistPath ="";
+            string result;
+
+            result = DoWebRequest(Config.WhitelistUrl, "action=read&wp=" + System.Web.HttpUtility.UrlEncode(Config.Project));
+
+            if (result == null)
+            {
+                Fail("unable to get a wl");
+                login.phase = login.LoginState.Successful;
+                return;
+            }
+
+            result = result.Replace("<!-- list -->", "");
+
+            login.phase = login.LoginState.Successful;
+
+            Complete();
+        }
+
+    }
 }
