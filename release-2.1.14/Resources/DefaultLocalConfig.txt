@@ -1,0 +1,24 @@
+projects:
+    bg.wikipedia;http://bg.wikipedia.org/,
+    ca.wikipedia;http://ca.wikipedia.org/,
+    de.wikipedia;http://de.wikipedia.org/,
+    en.wikipedia;http://en.wikipedia.org/,
+    es.wikipedia;http://es.wikipedia.org/,
+	fr.wikipedia;http://fr.wikipedia.org/,
+    ko.wikipedia;http://ko.wikipedia.org/,
+    nl.wikipedia;http://nl.wikipedia.org/,
+    no.wikipedia;http://no.wikipedia.org/,
+    pt.wikipedia;http://pt.wikipedia.org/,
+	sv.wikipedia;http://sv.wikipedia.org/,
+	hi.wikipedia;http://hi.wikipedia.org/,
+	zh.wikipedia;http://zh.wikipedia.org/,
+    ru.wikipedia;http://ru.wikipedia.org/,
+    te.wikipedia;http://te.wikipedia.org/,
+	km.wikipedia;http://km.wikipedia.org/,
+    vi.wikipedia;http://vi.wikipedia.org/,
+    simple.wikipedia;http://simple.wikipedia.org/,
+	commons;http://commons.wikimedia.org/,
+	test2;http://hub.tm-irc.org/test/,
+    test wiki;http://test.wikipedia.org/
+    
+project:en.wikipedia
