@@ -151,6 +151,8 @@ namespace huggle3
                     // Add the language to the list
                     cmLanguage.Items.Add(language);
                 }
+
+                cmLanguage.SelectedItem = "en"; // Select the default language
         }
         /// <summary>
         /// On 'Exit' button click
