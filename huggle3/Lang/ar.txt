@@ -449,8 +449,8 @@ queue-traynotification:    أظهر إعلاما في لوحة النظام عن
 queue-diffsgroup:          فرق
 queue-nodiffs:             حمل الفروق فقط عند معاينة المراجعة
 queue-preloaddiffs:        Preload diffs when queue is active
-queue-alldiffs:            Load diffs for every revision in the queue
-queue-pagefiltersgroup:    Page title filters
+queue-alldiffs:            حمل الفروق لكل مراجعة في الطابور
+queue-pagefiltersgroup:    مرشحات عنوان الصفحة
 queue-pageregex:           Title matches regular expression:
 queue-namespaces:          اسماء النطاق:
 queue-applylabel:          Click Apply to apply these filters to the existing page list.
@@ -551,7 +551,7 @@ stats-reverts:             استرجاعات
 stats-warnings:            تحذيرات
 stats-reports:             تقارير
 stats-tags:                وسوم
-stats-notifications:       Notifications
+stats-notifications:       الإخطارات
 stats-blocks:              عمليات منع
 stats-deletes:             عمليات حذف
 stats-protections:         عمليات حماية
@@ -579,9 +579,9 @@ update-notification:       This version of Huggle is out of date.
 update-required:           You must update to the latest version, {0}.
 update-optional:           Updating to the latest version, {0}, is recommended, and may be required in future.
 update-prompt:             Download and run the latest version now?
-update-download:           Update
-update-progress:           Downloading new version...
-update-error:              Failed to download new version
+update-download:           تحديث
+update-progress:           تحميل نسخة جديدة. . .
+update-error:              فشل في تحميل النسخة الجديدة
 </pre>
 
 === User info form ===
@@ -598,7 +598,7 @@ userinfo-warnlog:          تحذيرات:
 
 === Warning form ===
 <pre>
-warning-title:             Warn {0}
+warning-title:             حذّر {0}
 warning-levelgroup:        مستوى التحذير
 warning-levelauto:         تلقائي
 warning-level1:            المستوى 1
@@ -606,7 +606,7 @@ warning-level2:            المستوى 2
 warning-level3:            المستوى 3
 warning-level4:            المستوى 4 (النهائي)
 warning-warntype:          التحذير من النوع:
-warning-warnlog:           Warnings for this user:
+warning-warnlog:           تحذيرات لهذا المستخدم:
 </pre>
 
 === XfD form ===
@@ -627,7 +627,7 @@ error-loggedout:           تم الخروج من الحساب، قيد تسجي
 error-noresponse:          لا رد
 error-pagemissing:         الصفحة غير موجودة
 error-reloginfail:         تعذر تسجيل الدخول، يرجى إعادة تشغيل البرنامج
-error-timeout:             Request timed out
+error-timeout:             انتهى وقت الطلب
 error-unknown:             خطأ غير معروف
 
 retrying:                  قيد إعادة المحاولة...
@@ -679,7 +679,7 @@ move-fail:                 Did not move '{0}' to '{1}'
 move-progress:             Moving '{0}' to '{1}'...
 
 notify-fail:               Did not notify the creator of '{0}'
-notify-unknowncreator:     Cannot find page creator
+notify-unknowncreator:     لا يستطيع إيجاد منشئ الصفحة
 
 patrol-duplicate:          The page is already patrolled
 patrol-done:               Marked '{0}' as patrolled
@@ -759,9 +759,10 @@ warn-alreadyreported:      The user has already been reported
 warn-oldedit:              The user has not edited since their latest warning
 warn-recent:               The user was warned less than {0} seconds ago
 warn-fail:                 Did not warn '{0}'
-warn-progress:             Warning '{0}'...
+warn-progress:             تحذير '{0}'...
 </pre>
 
+=== API ===
 <pre>
 api-help:                  No parameters in API query
 </pre>

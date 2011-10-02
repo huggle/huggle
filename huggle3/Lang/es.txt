@@ -16,7 +16,7 @@ error:                     Error
 exit:                      Salir
 minimizewindow:            Minimizar
 no:                        No
-ok:                        OK
+ok:                        Aceptar
 remove:                    Eliminar
 rename:                    Renombrar
 restorewindow:             Restaurar
@@ -27,20 +27,20 @@ yes:                       Sí
 
 === Edit types ===
 <pre>
-edittype-blocknote:        Block notifications
-edittype-deletenote:       Deletion request notifications
-edittype-deletetag:        Deletion discussion tags
-edittype-deletereq:        Other deletion discussion edits
-edittype-manual:           Manual edits
-edittype-message:          User messages
-edittype-note:             Other notifications
-edittype-prodtag:          Proposed deletion tags
-edittype-protectreq:       Protection requests
-edittype-report:           Reports
-edittype-revert:           Reverts
-edittype-speedytag:        Speedy deletion tags
-edittype-tag:              Other tags
-edittype-warning:          Warnings
+edittype-blocknote:        Notificaciones de bloqueo
+edittype-deletenote:       Notificaciones de pedido de borrado
+edittype-deletetag:        Plantillas de consulta de borrado
+edittype-deletereq:        Otras ediciones de consulta de borrado
+edittype-manual:           Ediciones manuales
+edittype-message:          Mensajes de usuario
+edittype-note:             Otras notificaciones
+edittype-prodtag:          Plantillas de propuesta de borrado
+edittype-protectreq:       Pedidos de protección
+edittype-report:           Reportes
+edittype-revert:           Reversiones
+edittype-speedytag:        Plantillas de borrado rápido
+edittype-tag:              Otras plantillas
+edittype-warning:          Advertencias
 </pre>
 
 === About form ===
@@ -83,7 +83,7 @@ config-openinbrowser:      Abrir enlaces en una ventana nueva del navegador
 config-shownewedits:       Mostrar ediciones nuevas en la página seleccionada a medida que se van haciendo
 config-preloads:           Permitir previsualización de diffs
 config-ircmode:            Usar el IRC para acceder a los cambios recientes
-config-ircport:            Puerto de IRC (6664 - 6669)
+config-ircport:            Puerto de IRC
 config-difffontsize:       Tamaño de fuente en los diffs
 config-logfile:            Archivo de registro
 config-viewlocalconfig:    Ver la carpeta de configuración local
@@ -93,6 +93,7 @@ config-showlog:            Mostrar registro
 config-showqueue:          Mostrar revisiones anteriores
 config-rightalignqueue:    Mostrar la cola en la parte derecha de la ventana
 config-showtooltips:       Mostrar tooltips en los menús
+config-shownewmessages:    Mostrar barra de nuevos mensajes
 config-shortcutlist:       Accesos directos del teclado
 config-shortcutaction:     Acción
 config-shortcut:           Acceso directo
@@ -106,12 +107,15 @@ config-undosummary:        Resumen cuando se deshacen ediciones propias
 config-confirmmultiple:    Confirmar reversiones de las ediciones de un mismo usuario
 config-confirmsame:        Confirmar reversión a la edición del usuario al que se revierte
 config-confirmselfrevert:  Confirmar reversión de ediciones propias (excepto deshacer)
+config-confirmwarned:      Confirmar reversión a la edición de un usuario advertido
+config-confirmrange:       Confirmar reversión a la edición de un usuario anónimo en el mismo rango /16 que el usuario al que se revierte
+config-confirmpage:        Confirmar reversión de páginas ignoradas
 config-autoadvance:        Después de revertir, pasar a la siguiente edición en cola
 config-userollback:        Usar Rollback si se puede
 config-revertsummaries:    Resúmenes de reversión disponibles en menú
 config-clearsummaries:     Los resúmenes escritos manualmente son recordados entre sesiones; cliquea para quitarlos
-config-reportlinkexamples: Incluir links a los casos de vandalismo en los reportes
-config-extendreports:      Extender reportes luego de más vandalismo
+config-reportlinkexamples: Incluir links del vandalismo en los reportes
+config-extendreports:      Extender reportes en caso de vandalismo adicional
 config-autoreportgroup:    Reporte automático
 config-autoreport:         Cuando se quiere advertir a un usuario con advertencia final
 config-reportnone:         No hacer nada
@@ -131,7 +135,6 @@ config-summaryprompt:      Ingresar resumen
 config-defaultsprompt:     ¿Restaurar los predeterminados?
 config-logbrowsetitle:     Ubicación del archivo de registro
 config-shortcutconflict:   El atajo '{0}' coincide con el atajo existente para '{1}'.
-config-addtemplate:        Añadir plantilla
 </pre>
 
 === Delete form ===
@@ -188,16 +191,45 @@ email-send:                Enviar
 === IRC feed ===
 <pre>
 irc-connected:             Conectado al canal IRC de cambios recientes
+irc-connecting:            Intentando conectar al canal IRC de cambios recientes; esto puede tomar un momento...
 irc-disconnected:          Conexión al canal IRC de cambios recientes perdida; reconectando...
 irc-nochannel:             Canal IRC para {0} no encontrado; usando peticiones API más lentas en lugar de ello
 irc-error:                 No se puede conectar al canal IRC de cambios recientes. Usando peticiones API más lentas en lugar de ello
 </pre>
 
+=== List form ===
+<pre>
+list-actions:              Acciones y filtros...
+list-browsetitle:          Añadir archivo de texto a la lista
+list-combine:              Combinar
+list-copyto:               Copiar a:
+list-count:                {0} ítems
+list-deleteconfirm:        ¿Borrar la lista '{0}'?
+list-duplicatename:        Ya existe una lista con el nombre '{0}'. Elige otro nombre.
+list-intersect:            Entrecruzar
+list-limit:                Hasta:
+list-listempty:            No hay ítems en la lista\nIngresa un tipo de fuente y cliquea en "Añadir"
+list-nolists:              No hay listas definidas\nCliquea en "Añadir" para crear una
+list-query-cancelled:      Cancelado.
+list-query-fail:           Falló el pedido.
+list-query-noresults:      El pedido no obtuvo resultados.
+list-query-progress:       Haciendo pedido...
+list-query-results:        {0} resultados obtenidos.
+list-renameprompt:         Ingresa un nuevo nombre:
+list-replace:              Reemplazar
+list-savefailed:           No se pudo guardar la lista:
+list-savetitle:            Guardar lista
+list-sourcetype:           Tipo de fuente:
+list-start:                Desde:
+list-stop:                 Parar
+list-title:                Constructor de lista
+</pre>
+
 === Login ===
 <pre>
-login-language:            Lenguaje:
+login-language:            Idioma:
 login-project:             Proyecto:
-login-username:            Nombre de usuario:
+login-username:            Usuario:
 login-password:            Contraseña:
 login-proxygroup:          Configuración de proxy
 login-proxy:               Usar servidor proxy
@@ -245,6 +277,7 @@ main-page:                 Página
 main-user:                 Usuario
 main-contribs:             Contribuciones
 main-history:              Historial
+main-new-messages:         Tienes mensajes nuevos; selecciona "Sistema" -> "Mostrar nuevos mensajes" o presiona "M" para verlos.
 main-system:               Sistema
 main-system-messages:      Mostrar nuevos mensajes
 main-system-reconnectirc:  Reconectar al canal IRC
@@ -254,6 +287,7 @@ main-system-requests:      Pedidos...
 main-system-statistics:    Estadísticas...
 main-system-showlog:       Mostrar registro
 main-system-showqueue:     Mostrar cola de ediciones
+main-system-showtwoqueues: Mostrar dos colas de ediciones
 main-system-options:       Opciones...
 main-system-logout:        Cerrar sesión
 main-system-exit:          Salir
@@ -261,16 +295,24 @@ main-queue:                Cola de ediciones
 main-queue-next:           Siguiente
 main-queue-trim:           Reducir
 main-queue-clear:          Limpiar actual
+main-queue-count:          {0} ítems
+main-queue-query:          Haciendo pedido...
 main-queue-reset:          Reiniciar
 main-queue-clearall:       Limpiar todo
 main-queue-options:        Administrar colas...
 main-goto:                 Ir a
 main-goto-mytalk:          Mi página de discusión
 main-goto-mycontribs:      Mis contribuciones
+main-revision:             Edición
+main-revision-view:        Ver
+main-revision-revert:      Revertir
+main-revision-previous:    Previa
+main-revision-next:        Siguiente
+main-revision-latest:      Última
+main-revision-sight:       Marcar como revisada
 main-page-switchtotalk:    Cambiar a la página de discusión
 main-page-switchtosubject: Cambiar a la página principal
 main-page-switchtoarticle: Cambiar al artículo
-main-page-view:            Ver esta edición
 main-page-viewlatest:      Ver la última edición
 main-page-history:         Obtener historial
 main-page-historypage:     Mostrar historial
@@ -359,6 +401,35 @@ message-summary:           Resumen:
 message-autosign:          Añadir firma automáticamente
 </pre>
 
+=== Move form ===
+<pre>
+move-title:                Trasladar {0}
+move-target:               Destino:
+move-reason:               Razón:
+move-movetalk:             Trasladar página de discusión
+</pre>
+
+=== Prod form ===
+<pre>
+prod-title:                Proponer borrado de {0}
+prod-reason:               Razón:
+</pre>
+
+=== Protect form ===
+<pre>
+protect-title:             Proteger {0}
+protect-request-title:     Pedir protección de {0}
+protect-reason:            Razón:
+protect-expiry:            Caducidad:
+protect-log:               Registro de protecciones:
+protect-currentlevel:      Nivel de protección actual:
+protect-type:              Tipo de protección:
+protect-none:              Ninguna
+protect-semiprotection:    Semi-protección
+protect-fullprotection:    Protección completa
+protect-moveprotection:    Protección de traslados
+</pre>
+
 === Queue form ===
 <pre>
 queue-title:               Colas de edición
@@ -373,10 +444,15 @@ queue-removeafter:         Remover ediciones después de
 queue-removeaftertime:     minutos
 queue-preload:             Permitir precargar ediciones cuando esta cola está seleccionada
 queue-ignorepages:         Ignorar ediciones a páginas que están en la lista de páginas ignoradas
+queue-traynotification:    Mostrar notificación en la barra de tareas cuando se añada una edición a esta cola
+queue-diffsgroup:          Diffs
+queue-nodiffs:             Cargar diffs sólo cuando la revisión se está viendo
+queue-preloaddiffs:        Precargar diffs cuando la cola está activa
+queue-alldiffs:            Cargar diffs para cada una de las ediciones en la cola
 queue-pagefiltersgroup:    Filtros de títulos de páginas
 queue-pageregex:           El título coincide con la expresión regular:
 queue-namespaces:          Espacios de nombre:
-queue-applylabel:          Cliquea Aplicar para aplicar estos filtros a la lista de páginas existente.
+queue-applylabel:          Cliquea "Aplicar" para aplicar estos filtros a la lista de páginas existente.
 queue-editfiltersgroup:    Filtros de edición
 queue-userregex:           El nombre de usuario coincide con la expresión regular:
 queue-summaryregex:        El resumen coincide con la expresión regular:
@@ -395,6 +471,7 @@ queue-filterme:            Edición mía
 queue-examplelabel1:       Requerir este atributo
 queue-examplelabel2:       Excluir este atributo
 queue-examplelabel3:       No revisar este atributo
+queue-usergroup:           Mostrar sólo ediciones de estos usuarios
 </pre>
 
 === Queue trim form ===
@@ -417,6 +494,14 @@ requests-type:             Tipo
 requests-query:            Pedido
 </pre>
 
+=== Report form ===
+<pre>
+report-title:              Reportar a {0}
+report-reason:             Razón:
+report-message:            Mensaje:
+report-log:                Advertencias a este usuario:
+</pre>
+
 === Revert form ===
 <pre>
 revert-title:              Revertir {0}
@@ -427,6 +512,30 @@ revert-currentonly:        Revertir sólo la edición seleccionada
 === Revert and warn form ===
 <pre>
 revertandwarn-title:       Revertir y advertir a {0}
+</pre>
+
+=== Reverting ===
+<pre>
+revert-confirm-ignored:    ¿Revertir edición de '{0}', usuario en la lista blanca?
+revert-confirm-multiple:   Esto revertirá múltiples ediciones de '{0}'. ¿Continuar?
+revert-confirm-range:      El autor de la edición a la que quieres revertir, {1}, está en el mismo rango IP que el autor de la edición actual, {0}, y pueden ser la misma persona; asegúrate de que estés revirtiendo a la edición correcta antes de proceder. ¿Continuar?
+revert-confirm-page:       ¿Revertir edición de la página ignorada '{0}'?
+revert-confirm-same:       Esto revertirá a otra edición del mismo usuario al que estás revirtiendo, {0}. ¿Continuar?
+revert-confirm-self:       Esto revertirá tu propia edición. ¿Continuar?
+revert-confirm-warned:     Esto revertirá a una edición de {0}; este usuario ha sido advertido antes. ¿Continuar?
+revert-error-first:        Esta edición es la primera de la página; no se puede revertir.
+revert-only:               Esta edición es la única de la página.
+revert-creator:            La última edición fue hecha por el creador de la página, {0}.
+revert-delete-instead:     ¿Borrar página en vez de revertir?
+revert-speedy-instead:     ¿Marcar para borrado rápido en vez de revertir?
+</pre>
+
+=== Speedy form ===
+<pre>
+speedy-title:              Colocar plantilla de borrado rápido a {0}
+speedy-reason:             Razón:
+speedy-parameters:         Parámetros:
+speedy-notifycreator:      Notificar al creador de la página
 </pre>
 
 === Statistics form ===
@@ -499,14 +608,26 @@ warning-warntype:          Tipo de advertencia:
 warning-warnlog:           Advertencias a este usuario:
 </pre>
 
+=== XfD form ===
+<pre>
+xfd-title:                 Nominar a {0} para borrado
+xfd-category:              Categoría:
+xfd-nominationtype:        Tipo de nominación:
+xfd-notify:                Notificar al creador
+xfd-reason:                Razón:
+</pre>
+
 === Web requests ===
 <pre>
-error-unknown:             Error desconocido
+error-apidisabled:         La API de MediaWiki está desactivada
 error-exception:           Error obteniendo '{0}'
 error-fail:                No se pudo obtener '{0}'
+error-loggedout:           La cuenta se ha deslogueado, volviendo a iniciar sesión...
 error-noresponse:          Sin respuesta
 error-pagemissing:         La página no existe
-error-apidisabled:         La API de MediaWiki está desactivada
+error-reloginfail:         No se pudo iniciar una nueva sesión, prueba reiniciando Huggle
+error-timeout:             El pedido excedió el tiempo de espera
+error-unknown:             Error desconocido
 
 retrying:                  Reintentando...
 
@@ -529,6 +650,7 @@ deletelog-fail:            No se pudo obtener el registro de borrados para '{0}'
 deletelog-none:            No hay registro de borrados para '{0}'
 deletelog-progress:        Obteniendo registro de borrados para '{0}'...
 
+diff-deleted:              Esta edición ha sido borrada.
 diff-fail:                 No se pudo obtener el diff de '{0}'
 
 reqdelete-duplicate:       La página ya está marcada con una plantilla de consulta de borrado
@@ -549,6 +671,7 @@ email-fail:                No se pudo enviar e-mail a '{0}'
 email-progress:            Enviando e-mail a '{0}'...
 
 history-fail:              No se pudo obtener el historial de '{0}'
+history-progress:          Obteniendo historial de '{0}' ({1})...
 
 move-done:                 '{0}' fue trasladado a '{1}'
 move-fail:                 No se pudo trasladar '{0}' a '{1}'
@@ -575,6 +698,8 @@ purge-done:                '{0}' fue purgado
 purge-fail:                No se pudo purgar '{0}'
 purge-progress:            Purgando '{0}'
 
+queue-refresh-fail:        Error refrescando la cola '{0}'
+
 report-duplicate:          El usuario ya ha sido reportado
 report-fail:               No se pudo reportar a '{0}'
 report-progress:           Reportando a '{0}'...
@@ -593,7 +718,9 @@ reqprotection-fail:        No se pudo pedir la protección de '{0}'
 reqprotection-progress:    Pidiendo protección de '{0}'...
 
 revert-cannotundo:         No se puede deshacer debido a que hay conflicto con ediciones intermedias
+revert-conflict:           Esta página fue editada por el usuario ignorado '{0}'
 revert-fail:               No se pudo revertir '{0}'
+revert-nochange:           El contenido de la edición a la que quieres revertir es idéntico al de la edición actual
 revert-nootheruser:        La página ha sido editada por un solo usuario
 revert-progress:           Revirtiendo '{0}'...
 
@@ -601,6 +728,10 @@ tag-alreadytagged:         La página ya está marcada con una plantilla
 tag-deleted:               La página ha sido borrada
 tag-fail:                  No se pudo colocar una plantilla a '{0}'
 tag-progress:              Colocando plantilla a '{0}'...
+
+sight-done:                Marcando edición {0} de '{1}' como revisada
+sight-fail:                No se pudo marcar como revisada la edición {0} de '{1}'
+sight-progress:            Marcando edición {0} de '{1}' como revisada
 
 speedy-fail:               No se pudo marcar '{0}' para borrado rápido
 speedy-progress:           Marcando '{0}' para borrado rápido...
