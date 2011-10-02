@@ -1,5 +1,5 @@
 ﻿<pre>
-name:                      ಕನ್ನಡ
+name:                      Khmer (ភាសាខ្មែរ)
 </pre>
 
 === General ===
@@ -23,6 +23,8 @@ restorewindow:             Restore
 save:                      Save
 selectfile:                Browse...
 yes:                       Yes
+agf:                    Revert as good faith edit with custom reason
+import:                 Import from global conf
 </pre>
 
 === Edit types ===
@@ -45,7 +47,7 @@ edittype-warning:          Warnings
 
 === About form ===
 <pre>
-about-contributors:        Contributors:
+about-contributors:        Developers:
 </pre>
 
 === Block form ===
@@ -75,6 +77,7 @@ closing-config:            Updating configuration subpage...
 
 === Configuration form ===
 <pre>
+config-summ:               Custom revert summaries for templates
 config-title:              Options
 config-rememberme:         Remember my username
 config-rememberpassword:   Remember my password
@@ -132,6 +135,7 @@ config-blocktime:          Default block duration for
 config-blocktimeanon:      anonymous users
 config-blocktimereg:       registered users
 config-summaryprompt:      Enter summary
+config-history:	           Download whole history of all articles
 config-defaultsprompt:     Restore defaults?
 config-logbrowsetitle:     Log file location
 config-shortcutconflict:   Shortcut '{0}' conflicts with the existing shortcut for '{1}'.
@@ -142,6 +146,8 @@ config-shortcutconflict:   Shortcut '{0}' conflicts with the existing shortcut f
 delete-title:              Delete {0}
 delete-reason:             Reason:
 delete-deletionlog:        Deletion log:
+delete-rem-talk:           Delete associated talk
+delete-notify:             Notify creator
 </pre>
 
 === Edit form ===
@@ -254,7 +260,7 @@ login-error-approval:      Use of Huggle on this project requires approval.
 login-error-autoconfirmed: Use of Huggle on this project requires that your account is autoconfirmed.
 login-error-cancelled:     Cancelled.
 login-error-captcha:       Incorrect password or confirmation code.
-login-error-config:        Failed to load configuration pages.
+login-error-config:        Failed to load configuration pages!
 login-error-count:         Use of Huggle on this project requires at least {0} edits.
 login-error-disabled:      Huggle is not enabled for your account, check user configuration page.
 login-error-global:        Failed to load global configuration page.
@@ -304,9 +310,11 @@ main-queue-options:        Manage Queues...
 main-goto:                 Go to
 main-goto-mytalk:          My talk page
 main-goto-mycontribs:      My contributions
+main-revision-decline:     Reject revision
 main-revision:             Revision
 main-revision-view:        View
 main-revision-revert:      Revert
+main-revision-faith:       Revert AGF
 main-revision-previous:    Previous
 main-revision-next:        Next
 main-revision-latest:      Latest
@@ -328,6 +336,7 @@ main-page-patrol:          Mark patrolled
 main-page-move:            Move...
 main-page-protect:         Protect...
 main-page-delete:          Delete...
+main-page-restore:         Restore this revision of article
 main-user-info:            Show user info
 main-user-ignore:          Ignore
 main-user-unignore:        Unignore
@@ -390,6 +399,7 @@ main-tip-usermessage:      Message this user
 main-tip-userignore:       Ignore all contributions by this user
 main-tip-userreport:       Report this user
 main-tip-userblock:        Block this user
+main-revision-acceptpend:   Accept this pending revision
 </pre>
 
 === Message form ===
@@ -519,8 +529,8 @@ revertandwarn-title:       Revert and warn {0}
 <pre>
 revert-confirm-ignored:    Revert edit by whitelisted user '{0}'?
 revert-confirm-multiple:   This will revert multiple edits by '{0}'. Continue?
-revert-confirm-range:      The author of the target revision, {1}, is in the same range as the author of the current revision, {0}, and may be the same person; ensure the target revision is correct before proceeding. Continue?
 revert-confirm-page:       Revert edit to ignored page '{0}'?
+revert-confirm-range:      The author of the target revision, {1}, is in the same range as the author of the current revision, {0}, and may be the same person; ensure the target revision is correct before proceeding. Continue?
 revert-confirm-same:       This will revert to another revision by the user that is being reverted, {0}. Continue?
 revert-confirm-self:       This will revert your own edit. Continue?
 revert-confirm-warned:     This will revert to a revision by {0}; this user has previously been warned. Continue?

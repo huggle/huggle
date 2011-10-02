@@ -11,18 +11,18 @@ clear:                     खोडा
 close:                     बंद
 continue:                  Continue
 copy:                      Copy
-delete:                    काढून टाका
+delete:                    काढून टाका 
 error:                     अडथळा
 exit:                      बाहेर जा
 minimizewindow:            Minimize
-no:                        नाही
+no:                        नाही 
 ok:                        ठीक आहे.
-remove:                    काढून टाका
-rename:                    नाव बदला
+remove:                    काढून टाका 
+rename:                    नाव बदला 
 restorewindow:             Restore
-save:                      जतन करा
+save:                      जतन करा 
 selectfile:                Browse...
-yes:                       हो
+yes:                       हो 
 </pre>
 
 === Edit types ===

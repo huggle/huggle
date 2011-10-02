@@ -1,6 +1,4 @@
-﻿{{:Huggle/LocalizationHeader}}
-
-<pre>
+﻿<pre>
 name:                      Português do Brasil
 </pre>
 
@@ -132,11 +130,12 @@ config-template:           Predefinição
 config-highlightgroup:     Cores de destaque da sintaxe
 config-useadminfunctions:  Usar opções de administradores caso seja possível
 config-promptforblock:     Perguntar se quero bloquear ao avisar pela última vez um usuário
-config-blockreason:        Razão padrão do bloqueio
+config-blockreason:        Razão padrão do bloqueio 
 config-blocktime:          Duração padrão do bloqueio para
 config-blocktimeanon:      IPs
 config-blocktimereg:       usuários registrados
 config-summaryprompt:      Introduza o sumário
+config-history:            Baixar todo o histórico de todos os artigos
 config-defaultsprompt:     Restaurar padrão?
 config-logbrowsetitle:     Localização do arquivo de relatórios
 config-shortcutconflict:   O atalho '{0}' é igual ao atalho de '{1}'.
@@ -266,7 +265,7 @@ login-error-count:         Para usar o Huggle no projeto que escolheu são neces
 login-error-disabled:      O Huggle não está habilitado em sua conta de usuário. Verifique sua página de configuração pessoal.
 login-error-global:        Falha ao carregar a página de configuração global.
 login-error-invalid:       Nome de usuário inválido.
-login-error-language:      Falha ao carregar arquivos de mensagens.
+login-error-language:      Falha ao carregar arquivos de mensagens. 
 login-error-nocaptcha:     Código de confirmação Captcha errado.
 login-error-noconfig:      Este projeto não tem uma página de configuração do Huggle.
 login-error-nouser:        A conta de usuário não existe.
@@ -777,4 +776,3 @@ warn-progress:             Avisando '{0}'...
 <pre>
 api-help:                  Não existem parâmetros no API query
 </pre>
-

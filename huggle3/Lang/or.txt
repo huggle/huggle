@@ -23,13 +23,13 @@ restorewindow:             ଆଗକୁ ଫେରାଇନେବେ
 save:                      ସାଇତିବେ
 selectfile:                ଖୋଜିବେ...
 yes:                       ହଁ
-agf:                    କାରଣ ସହିତ ଭଲ ବଦଳକୁ ଫେରାଇନେବେ
-import:                 ବିଶ୍ଵସ୍ତରୀୟ କନଫେରେନ୍ସରୁ ଫେରାଇବେ
+agf:                       କାରଣ ସହିତ ଭଲ ବଦଳକୁ ଫେରାଇନେବେ
+import:                    ବିଶ୍ଵସ୍ତରୀୟ କନଫେରେନ୍ସରୁ ଫେରାଇବେ
 </pre>
 
 === Edit types ===
 <pre>
-edittype-blocknote:        Block notifications
+edittype-blocknote:        ସୂଚନାଗୁଡିକୁ ରଦ୍ଦ କରନ୍ତୁ
 edittype-deletenote:       Deletion request notifications
 edittype-deletetag:        Deletion discussion tags
 edittype-deletereq:        Other deletion discussion edits
@@ -38,8 +38,8 @@ edittype-message:          User messages
 edittype-note:             Other notifications
 edittype-prodtag:          Proposed deletion tags
 edittype-protectreq:       Protection requests
-edittype-report:           Reports
-edittype-revert:           Reverts
+edittype-report:           ରିପୋର୍ଟଗୁଡ଼ିକ
+edittype-revert:           ପଛକୁ ଫେରନ୍ତୁ
 edittype-speedytag:        Speedy deletion tags
 edittype-tag:              Other tags
 edittype-warning:          Warnings
@@ -78,29 +78,29 @@ closing-config:            Updating configuration subpage...
 === Configuration form ===
 <pre>
 config-summ:               Custom revert summaries for templates
-config-title:              Options
-config-rememberme:         Remember my username
-config-rememberpassword:   Remember my password
+config-title:              ବିକଳ୍ପମାନ
+config-rememberme:         ମୋ ବ୍ୟବହାରକାରୀ ନାମ ମନେ ରଖିବେ
+config-rememberpassword:   ମୋ ପାସୱାର୍ଡ ମନେ ରଖିବେ
 config-autowhitelist:      Automatically whitelist users
 config-openinbrowser:      Open browser links in new browser window
 config-shownewedits:       Show new edits to the selected page as they are made
 config-preloads:           Enable preloading of diffs
 config-ircmode:            Use IRC feed for recent changes if possible
-config-ircport:            IRC port
-config-difffontsize:       Diff font size
-config-logfile:            Log file
-config-viewlocalconfig:    View local configuration folder
-config-trayicon:           Show tray icon
-config-startupmessage:     Show startup message
-config-showlog:            Show log
-config-showqueue:          Show revision queue
-config-rightalignqueue:    Show queue on the right of the window
-config-showtooltips:       Show tooltips on menus
-config-shownewmessages:    Show new messages bar
-config-shortcutlist:       Keyboard shortcuts
-config-shortcutaction:     Action
-config-shortcut:           Shortcut
-config-changeshortcut:     Change shortcut for {0}
+config-ircport:            ଆଇଆରସି ପୋର୍ଟ
+config-difffontsize:       ଅଲଗା ଫଣ୍ଟ ଆକାର
+config-logfile:            ଲଗ ଫାଇଲ
+config-viewlocalconfig:    ସ୍ଥାନୀୟ ସଂରଚନା ଫୋଲ୍ଡର ଦେଖିବେ
+config-trayicon:           ଟ୍ରେ ଆଇକନ ଦେଖାଇବେ
+config-startupmessage:     ଆରମ୍ଭ ସନ୍ଦେଶ ଦେଖାଇବେ
+config-showlog:            ଲଗ ଦେଖାଇବେ
+config-showqueue:          ସଂଶୋଧନ ଧାଡ଼ି ଦେଖାଇବେ
+config-rightalignqueue:    ଉଇଣ୍ଡୋର ଡାହାଣପଟରେ ଧାଡ଼ି ଦେଖାଇବେ
+config-showtooltips:       ମେନୁରେ ଟୁଲ ଟିପ୍ସ ଦେଖାଇବେ
+config-shownewmessages:    ନୂଆ ସନ୍ଦେଶ ପଟିଟି ଦେଖାଇବେ
+config-shortcutlist:       କିବୋର୍ଡ ସର୍ଟକଟମାନ
+config-shortcutaction:     କାମ
+config-shortcut:           ସର୍ଟକଟ
+config-changeshortcut:     {0} ପାଇଁ ସର୍ଟକଟ ବଦଳାଇବେ
 config-noshortcut:         None
 config-defaults:           Defaults
 config-minor:              Mark as minor
@@ -121,76 +121,76 @@ config-reportlinkexamples: Include links to instances of vandalism in reports
 config-extendreports:      Extend reports after additional vandalism
 config-autoreportgroup:    Auto-report
 config-autoreport:         When asked to warn a user with a final warning
-config-reportnone:         Do nothing
+config-reportnone:         କିଛି କରନ୍ତୁ ନାହିଁ
 config-reportprompt:       Prompt for report
 config-reportauto:         Issue report automatically
 config-templates:          User template messages
-config-templatetext:       Display text
-config-template:           Template
+config-templatetext:       ଲେଖା ଦେଖାଇବେ
+config-template:           ଟେମ୍ପଲେଟ
 config-highlightgroup:     Syntax highlight colors
 config-useadminfunctions:  Use administrator functions if available
 config-promptforblock:     Prompt for block if asked to warn a user with a final warning
 config-blockreason:        Default block reason
 config-blocktime:          Default block duration for
 config-blocktimeanon:      anonymous users
-config-blocktimereg:       registered users
-config-summaryprompt:      Enter summary
+config-blocktimereg:       ଖାତା ଖୋଲିଥିବା ବ୍ୟବହାରକାରୀ
+config-summaryprompt:      ସାରାଂଶ ଲେଖନ୍ତୁ
 config-defaultsprompt:     Restore defaults?
-config-logbrowsetitle:     Log file location
+config-logbrowsetitle:     ଲଗ ଫାଇଲ Log file location
 config-shortcutconflict:   Shortcut '{0}' conflicts with the existing shortcut for '{1}'.
 </pre>
 
 === Delete form ===
 <pre>
-delete-title:              Delete {0}
-delete-reason:             Reason:
-delete-deletionlog:        Deletion log:
-delete-rem-talk:           Delete associated talk
-delete-notify:             Notify creator
+delete-title:              ଲିଭାଇଦେବେ {0}
+delete-reason:             କାରଣ:
+delete-deletionlog:        ଲିଭାଇବା ଲଗ:
+delete-rem-talk:           ଯୋଡିଥିବା ଆଲୋଚନା ଲିଭାଇବେ
+delete-notify:             ନିର୍ମାତାଙ୍କୁ ସୂଚନା ଦେବେ
 </pre>
 
 === Edit form ===
 <pre>
-edit-title:                Editing {0}
-edit-summary:              Summary:
-edit-minor:                Minor edit
-edit-watch:                Watch this page
-edit-page:                 Page
-edit-edit:                 Edit
-edit-view:                 View
-edit-page-savetofile:      Save to file...
-edit-page-save:            Save
-edit-page-cancel:          Cancel
-edit-edit-undo:            Undo
-edit-edit-redo:            Redo
-edit-edit-cut:             Cut
-edit-edit-copy:            Copy
-edit-edit-paste:           Paste
-edit-edit-delete:          Delete
-edit-edit-selectall:       Select All
-edit-edit-find:            Find
-edit-view-syntax:          Syntax colouring
-edit-matchcase:            Match case
-edit-find:                 Find:
-edit-replace:              Replace:
-edit-findnext:             Next
-edit-findprevious:         Previous
-edit-replaceall:           Replace all
-edit-edittab:              Edit
-edit-previewtab:           Preview
-edit-changestab:           Changes
-edit-searchnotfound:       Phrase not found
-edit-searchwrapstart:      Reached end of page, continued from top
-edit-searchwrapend:        Reached top of page, continued from end
+edit-title:                ବଦଳାନ୍ତୁ {0}
+edit-summary:              ସାରାଂଶ:
+edit-minor:                ଛୋଟ ବଦଳ
+edit-watch:                ପୃଷ୍ଠା ଉପରେ ନଜର ରଖନ୍ତୁ 
+edit-page:                 ପୃଷ୍ଠା
+edit-edit:                 ବଦଳ
+edit-view:                 ଦେଖନ୍ତୁ
+edit-page-savetofile:      ଫାଇଲକୁ... ସାଇତିବେ
+edit-page-save:            ସାଇତିବେ
+edit-page-cancel:          ବାତିଲ
+edit-edit-undo:            ପଛକୁ ଫେରନ୍ତୁ
+edit-edit-redo:            ପୁଣି ଥରେ କରନ୍ତୁ
+edit-edit-cut:             କାଟିବେ
+edit-edit-copy:            ନକଲ କରନ୍ତୁ
+edit-edit-paste:           ଜୋଡନ୍ତୁ
+edit-edit-delete:          ମିଟାନ୍ତୁ
+edit-edit-selectall:       ସବୁ ସିଲେକ୍ଟ କରନ୍ତୁ
+edit-edit-find:            ଖୋଜନ୍ତୁ
+edit-view-syntax:          ବାକ୍ୟଗୁଡିକୁ ରଙ୍ଗ କରନ୍ତୁ
+edit-matchcase:            କେସ ମିଳାନ୍ତୁ
+edit-find:                 ଖୋଜନ୍ତୁ:
+edit-replace:              ପୁଣି ଥରେ ସ୍ଥାପନ କରନ୍ତୁ:
+edit-findnext:             ଆଗାମୀ
+edit-findprevious:         ପୂର୍ବ ଅବସ୍ଥା ପାଆନ୍ତୁ
+edit-replaceall:           ପୁଣି ଥରେ ସବୁ ସ୍ଥାପନ କରନ୍ତୁ
+edit-edittab:              ବଦଳାନ୍ତୁ
+edit-previewtab:           ଦେଖଣା
+edit-changestab:           ପରିବର୍ତନ
+edit-searchnotfound:       ଖୋଜିବାରୁ କିଛି ମିଳିଲାନି
+edit-searchwrapstart:      ପୃଷ୍ଠାର ଶେଷରେ ପହଞ୍ଚିଲେ, ଆରମ୍ଭରୁ ଚାଲୁ ରଖନ୍ତୁ
+edit-searchwrapend:        ପୃଷ୍ଠାର ଆରମ୍ଭରେ ପହଞ୍ଚିଲେ, ଶେଷରୁ ଚାଲୁ ରଖନ୍ତୁ
 </pre>
 
 === E-mail form ===
 <pre>
-email-title:               E-mail {0}
-email-subject:             Subject:
-email-message:             Message:
-email-ccme:                E-mail me a copy of this message
-email-send:                Send
+email-title:               ଇ-ମେଲ {0}
+email-subject:             ବିଷୟବସ୍ତୁ:
+email-message:             ସନ୍ଦେଶ:
+email-ccme:                ଏକ ସନ୍ଦେଶର ନକଲ ମୋତେ ଇ-ମେଲ କରିବେ
+email-send:                ପଠାଇବେ
 </pre>
 
 === IRC feed ===
@@ -205,14 +205,14 @@ irc-error:                 Unable to connect to IRC recent changes feed. Using s
 === List form ===
 <pre>
 list-actions:              Actions and Filters...
-list-browsetitle:          Add text file to list
-list-combine:              Combine
+list-browsetitle:          ତାଲିକାରେ ଲେଖ ଫାଇଲ ଯୋଡ଼ିବେ
+list-combine:              ମିଳାଇବେ
 list-copyto:               Copy to:
 list-count:                {0} items
-list-deleteconfirm:        Delete list '{0}'?
+list-deleteconfirm:        ହଟାଇବା ତାଲିକା '{0}'?
 list-duplicatename:        A list with the name '{0}' already exists. Choose another name.
-list-intersect:            Intersect
-list-limit:                Up to:
+list-intersect:            ପ୍ରତିଛେଦନ
+list-limit:                ପର୍ଯ୍ୟନ୍ତ:
 list-listempty:            No items in list\nEnter a source and click "Add"
 list-nolists:              No lists defined\nClick "Add" to create one
 list-query-cancelled:      Cancelled.
@@ -220,32 +220,32 @@ list-query-fail:           Query failed.
 list-query-noresults:      Query returned no results.
 list-query-progress:       Running query...
 list-query-results:        {0} results returned.
-list-renameprompt:         Enter new name:
+list-renameprompt:         ନୂଆ ନାମ ଦେବେ:
 list-replace:              Replace
 list-savefailed:           Unable to save list:
-list-savetitle:            Save list
+list-savetitle:            ତାଲିକା ସାଇତିବେ
 list-sourcetype:           Source type:
 list-start:                From:
-list-stop:                 Stop
+list-stop:                 ବନ୍ଦ
 list-title:                List Builder
 </pre>
 
 === Login ===
 <pre>
-login-language:            Language:
-login-project:             Project:
-login-username:            Username:
-login-password:            Password:
-login-proxygroup:          Proxy settings
-login-proxy:               Use a proxy server
-login-proxyaddress:        Address:
-login-proxyport:           Port:
-login-proxydomain:         Domain:
-login-start:               Login
-login-translate:           Translate...
-login-captchatitle:        Captcha required to log in
+login-language:            ଭାଷା:
+login-project:             ପ୍ରୋଜେକ୍ଟ:
+login-username:            ବ୍ୟବହାରକାରୀଙ୍କ ନାମ:
+login-password:            ପାସୱାର୍ଡ:
+login-proxygroup:          ପ୍ରୋକ୍ସୀ ସେଟିଂସ
+login-proxy:               ପ୍ରୋକ୍ସୀ ସର୍ଭର ବ୍ୟବହାର କରିବେ
+login-proxyaddress:        ଠିକଣା:
+login-proxyport:           ପୋର୍ଟ:
+login-proxydomain:         ଡୋମେନ:
+login-start:               ଲଗଇନ
+login-translate:           ଅନୁବାଦ...
+login-captchatitle:        କାପଚା ଲଗଇନ ପାଇଁ
 
-login-progress-start:      Logging in...
+login-progress-start:      ଲଗିଂ ଇନ... 
 login-progress-language:   Updating message files...
 login-progress-global:     Checking global configuration...
 login-progress-config:     Checking configuration pages...
@@ -279,104 +279,104 @@ login-error-whitelist:     Failed to load user whitelist.
 
 === Main window ===
 <pre>
-main-page:                 Page
-main-user:                 User
-main-contribs:             Contribs
-main-history:              History
-main-new-messages:         You have new messages; select System -> Show new messages or press M to view them.
-main-system:               System
-main-system-messages:      Show new messages
-main-system-reconnectirc:  Reconnect IRC feed
-main-system-savelog:       Save log...
-main-system-lists:         List Builder...
-main-system-requests:      Requests...
-main-system-statistics:    Statistics...
-main-system-showlog:       Show log
-main-system-showqueue:     Show queue
-main-system-showtwoqueues: Show two queues
-main-system-options:       Options...
-main-system-logout:        Log out
-main-system-exit:          Exit
-main-queue:                Queue
-main-queue-next:           Next
+main-page:                 ପୃଷ୍ଠା
+main-user:                 ବ୍ୟବହାରକାରୀ
+main-contribs:             ଯୋଗଦାନ
+main-history:              ଇତିହାସ
+main-new-messages:         ଆପଣଙ୍କ ପାଇଁ ନୂଆ ସନ୍ଦେଶ; ବ୍ୟବସ୍ଥା ବାଛନ୍ତୁ -> ନୂଆ ସନ୍ଦେଶ ଦେଖାଇବେ ବା ଦେଖିବା ପାଇଁ M ଦବାନ୍ତୁ.
+main-system:               ବ୍ୟବସ୍ଥା
+main-system-messages:      ନୂଆ ସନ୍ଦେଶ ଦେଖାଇବେ
+main-system-reconnectirc:  ଆଇ ଆର ସି ଫୀଡ଼ରେ ପୁଣି ଥରେ ଯୋଡନ୍ତୁ
+main-system-savelog:       ଲଗ ସାଇତିବେ...
+main-system-lists:         ତାଲିକା ଗଠନକାରୀ...
+main-system-requests:      ଅନୁରୋଧ...
+main-system-statistics:    ସାଂଖିକ ବିବରଣୀ...
+main-system-showlog:       ଲଗ ଦେଖାଇବେ
+main-system-showqueue:     ଧାଡ଼ି ଦେଖାଇବେ
+main-system-showtwoqueues: ଦୁଇଟି ଧାଡ଼ି ଦେଖାଇବେ
+main-system-options:       ବିକଳ୍ପ...
+main-system-logout:        ଲଗ ଆଉଟ
+main-system-exit:          ବାହାରିବେ
+main-queue:                ଧାଡ଼ି
+main-queue-next:           ଆଗାମୀ
 main-queue-trim:           Trim
-main-queue-clear:          Clear current
-main-queue-count:          {0} items
-main-queue-query:          Running query...
-main-queue-reset:          Reset
-main-queue-clearall:       Clear all
-main-queue-options:        Manage Queues...
+main-queue-clear:          ବର୍ତ୍ତମାନ ସଫା କରିବେ
+main-queue-count:          {0} ଗଣନ୍ତୁ
+main-queue-query:          ପ୍ରଶ୍ନାବଳୀ ଚଲାନ୍ତୁ...
+main-queue-reset:          ପୁଣି ଥରେ ସ୍ଥାପନ କରିବେ
+main-queue-clearall:       ସବୁ ହଟାନ୍ତୁ
+main-queue-options:        ଧାଡ଼ି ସଜାନ୍ତୁ...
 main-goto:                 Go to
-main-goto-mytalk:          My talk page
-main-goto-mycontribs:      My contributions
-main-revision-decline:     Reject revision
-main-revision:             Revision
-main-revision-view:        View
-main-revision-revert:      Revert
-main-revision-faith:       Revert AGF
-main-revision-previous:    Previous
-main-revision-next:        Next
-main-revision-latest:      Latest
-main-revision-sight:       Sight
-main-page-switchtotalk:    Switch to talk page
-main-page-switchtosubject: Switch to subject page
-main-page-switchtoarticle: Switch to article
-main-page-viewlatest:      View latest revision
-main-page-history:         Retrieve history
-main-page-historypage:     Show history page
-main-page-edit:            Edit
-main-page-tag:             Tag
-main-page-reqdeletion:     Request deletion
-main-page-reqprotection:   Request protection
-main-page-watch:           Watch
-main-page-unwatch:         Unwatch
-main-page-purge:           Purge
-main-page-patrol:          Mark patrolled
-main-page-move:            Move...
-main-page-protect:         Protect...
-main-page-delete:          Delete...
-main-page-restore:         Restore this revision of article
-main-user-info:            Show user info
-main-user-ignore:          Ignore
+main-goto-mytalk:          ମୋ ଆଲୋଚନା ପୃଷ୍ଠା
+main-goto-mycontribs:      ମୋ ଅବଦାନ
+main-revision-decline:     ସଂଶୋଧନ ଅସ୍ଵୀକାର
+main-revision:             ସଂଶୋଧନ
+main-revision-view:        ଦେଖିବେ
+main-revision-revert:      ପୂର୍ବାବସ୍ଥାକୁ ଫେରିବେ
+main-revision-faith:       ଏ ଜି ଏଫ ପୂର୍ବବତ କରିବେ
+main-revision-previous:    ପୂର୍ବବସ୍ଥାକୁ ଫେରିବେ
+main-revision-next:        ପରବସ୍ଥାକୁ ଫେରିବେ
+main-revision-latest:      ନବୀନତମ
+main-revision-sight:       ଦୃଷ୍ଟି
+main-page-switchtotalk:    ଆଲୋଚନା ପୃଷ୍ଠାକୁ ଯାଆନ୍ତୁ
+main-page-switchtosubject: ବିଷୟ ପୃଷ୍ଠାକୁ ଯାଆନ୍ତୁ
+main-page-switchtoarticle: ଲେଖ ପୃଷ୍ଠାକୁ ଯାଆନ୍ତୁ
+main-page-viewlatest:      ନବୀନତମ ସଂଶୋଧନ ଦେଖିବେ
+main-page-history:         ପୁଣି ଇତିହାସ ପାଇବେ
+main-page-historypage:     ଇତିହାସ ପୃଷ୍ଠା ଦେଖିବେ
+main-page-edit:            ବଦଳାଇବେ
+main-page-tag:             ଟାଗ
+main-page-reqdeletion:     ହଟାଇବା ପାଇଁ ଅନୁରୋଧ
+main-page-reqprotection:   ସୁରକ୍ଷ୍ୟା ପାଇଁ ଅନୁରୋଧ
+main-page-watch:           ଧ୍ୟାନ ଦେବେ
+main-page-unwatch:         ଧ୍ୟାନ ହଟାଇବେ
+main-page-purge:           କେସ ଖାଲି କରିବେ
+main-page-patrol:          ପେଟ୍ରଲଡ଼ ଚିହ୍ନ ଦେବେ
+main-page-move:            ଘୁଞ୍ଚାଇବେ...
+main-page-protect:         ସୁରକ୍ଷ୍ୟା...
+main-page-delete:          ହଟାଇବେ...
+main-page-restore:         ଲେଖାର ଏହି ସଂସ୍କରଣକୁ ପୁଣି ସାଇତିବେ
+main-user-info:            ବ୍ୟବହାରକାରୀଙ୍କ ଉପରେ କିଛି ଦେଖାଇବେ
+main-user-ignore:          ଉପେକ୍ଷ୍ୟା କରିବେ
 main-user-unignore:        Unignore
 main-user-contribs:        Retrieve contributions
-main-user-talk:            View talk page
-main-user-message:         Message...
-main-user-email:           E-mail...
-main-user-warn:            Warn...
-main-user-report:          Report
-main-user-block:           Block...
-main-browser:              Browser
-main-browser-newtab:       New tab
-main-browser-closetab:     Close tab
-main-browser-closeothers:  Close other tabs
+main-user-talk:            ଆଲୋଚନା ପୃଷ୍ଠା ଦେଖିବେ
+main-user-message:         ସନ୍ଦେଶ...
+main-user-email:           ଇ-ମେଲ...
+main-user-warn:            ଚେତାବନୀ...
+main-user-report:          ରିପୋର୍ଟ
+main-user-block:           ଅବରୋଧ...
+main-browser:              ବ୍ରାଉଜର
+main-browser-newtab:       ନୂଆ ଟେବ
+main-browser-closetab:     ଟେବ ବନ୍ଦ କରିବେ
+main-browser-closeothers:  ଅଲଗା ଟେବ ବନ୍ଦ କରିବେ
 main-browser-back:         Back
 main-browser-forward:      Forward
 main-browser-open:         View this in external browser
-main-browser-newedits:     Show new edits to page
+main-browser-newedits:     ପୃଷ୍ଠାରେ ନୂଆ ବଦଳ ଦେଖାଇବେ
 main-browser-newcontribs:  Show new contributions by user
-main-help:                 Help
+main-help:                 ସାହାଯ୍ୟ
 main-help-documentation:   Documentation
 main-help-feedback:        Feedback
-main-help-about:           About Huggle...
-main-addqueue:             Add...
-main-savelogtitle:         Save log
-main-usermessageother:     Other message...
+main-help-about:           ହଗଲ ଉପରେ କିଛି...
+main-addqueue:             ଯୋଡ଼ିବେ...
+main-savelogtitle:         ଲଗ ସାଇତିବେ
+main-usermessageother:     ଅନ୍ୟ ସନ୍ଦେଶ...
 main-advanced:             Advanced...
 main-stats:                {0} edits per minute, {1} reverts per minute
 
-main-tip-revertwarn:       Revert this revision, and issue a user warning
+main-tip-revertwarn:       ଏହି ସଂସ୍କରଣକୁ ପଛକୁ କରିବେ, ଏବଂ ବ୍ୟବହାରକାରୀଙ୍କୁ ଚେତାବନୀ ଦେବେ
 main-tip-nextdiff:         Show the next revision in the queue
-main-tip-revert:           Revert this revision
-main-tip-template:         Send template message to user
-main-tip-warn:             Warn user
+main-tip-revert:           ଏହି ସଂସ୍କରଣକୁ ପଛକୁ କରିବେ
+main-tip-template:         ବ୍ୟବହାରକାରୀଙ୍କୁ ଟେମ୍ପ୍ଲେଟ ସନ୍ଦେଶ ପଠାଇବେ
+main-tip-warn:             ବ୍ୟବହାରକାରୀଙ୍କୁ ଚେତାବନୀ ଦେବେ
 main-tip-cancel:           Cancel all pending actions
 main-tip-undo:             Undo recent actions
 main-tip-browserback:      Back
 main-tip-browserforward:   Forward
 main-tip-browseropen:      View this in external browser
-main-tip-browsernewtab:    New tab
-main-tip-browserclosetab:  Close tab
+main-tip-browsernewtab:    ନୂଆ ଟେବ
+main-tip-browserclosetab:  ଟେବ ବନ୍ଦ କରିବେ
 main-tip-history:          Retrieve page history
 main-tip-historyprev:      Show previous revision to this page
 main-tip-historynext:      Show next revision to this page
@@ -386,15 +386,15 @@ main-tip-contribs:         Retrieve user contributions
 main-tip-contribsprev:     Show previous revision by this user
 main-tip-contribsnext:     Show next revision by this user
 main-tip-contribslast:     Show latest revision by this user
-main-tip-pageview:         View this revision
-main-tip-pageedit:         Edit this page
-main-tip-pagewatch:        Watch this page
-main-tip-pagetag:          Tag this page
-main-tip-pagetagdelete:    Tag this page for deletion
-main-tip-pagedelete:       Delete this page
-main-tip-userinfo:         Show user information
-main-tip-usertalk:         Show user talk page
-main-tip-usermessage:      Message this user
+main-tip-pageview:         ଏହି ସଂସ୍କରଣ ଦେଖିବେ
+main-tip-pageedit:         ଏହି ପୃଷ୍ଠାକୁ ବଦଳାଇବେ
+main-tip-pagewatch:        ଏହି ପୃଷ୍ଠାରେ ନଜର ରଖିବେ
+main-tip-pagetag:          ଏହି ପୃଷ୍ଠାକୁ ଟାଗ କରିବେ
+main-tip-pagetagdelete:    ଏହି ପୃଷ୍ଠାକୁ ହଟାଇବା ପାଇଁ ଟାଗ କରିବେ
+main-tip-pagedelete:       ଏହି ପୃଷ୍ଠାକୁ ହଟାଇବେ
+main-tip-userinfo:         ବ୍ୟବହାରକାରୀଙ୍କ ଉପରେ କିଛି.. ଦେଖାଇବେ
+main-tip-usertalk:         ବ୍ୟବହାରକାରୀଙ୍କ ଆଲୋଚନା ପୃଷ୍ଠା ଦେଖାଇବେ
+main-tip-usermessage:      ବ୍ୟବହାରକାରୀଙ୍କୁ ସନ୍ଦେଶ ପଠାଇବେ
 main-tip-userignore:       Ignore all contributions by this user
 main-tip-userreport:       Report this user
 main-tip-userblock:        Block this user
@@ -403,50 +403,50 @@ main-revision-acceptpend:   Accept this pending revision
 
 === Message form ===
 <pre>
-message-title:             Message {0}
+message-title:             ସନ୍ଦେଶ {0}
 message-help:              Specify one or both of Subject and Summary. If no summary is given, the subject will be used; if no subject is given, no header will be added.
-message-subject:           Subject:
-message-message:           Message:
-message-summary:           Summary:
-message-autosign:          Automatically append signature
+message-subject:           ବିଷୟବସ୍ତୁ:
+message-message:           ସନ୍ଦେଶ:
+message-summary:           ସାରାଂଶ:
+message-autosign:          ସ୍ଵଚାଳିତ ଭାବେ ଦସ୍ତଖତ ଯୋଡ଼ିବେ
 </pre>
 
 === Move form ===
 <pre>
-move-title:                Move {0}
-move-target:               Destination:
-move-reason:               Reason:
-move-movetalk:             Move talk page
+move-title:                ଘୁଞ୍ଚାଇବେ {0}
+move-target:               ଗନ୍ତବ୍ୟ ସ୍ଥାନ:
+move-reason:               କାରଣ:
+move-movetalk:             ଆଲୋଚନା ପୃଷ୍ଠା ଘୁଞ୍ଚାଇବେ
 </pre>
 
 === Prod form ===
 <pre>
-prod-title:                Proposed deletion of {0}
-prod-reason:               Reason:
+prod-title:                {0} ମିଟାଇବା ପାଇଁ ଅନୁରୋଧ
+prod-reason:               କାରଣ:
 </pre>
 
 === Protect form ===
 <pre>
-protect-title:             Protect {0}
-protect-request-title:     Request protection of {0}
-protect-reason:            Reason:
-protect-expiry:            Expiry:
-protect-log:               Protection log:
-protect-currentlevel:      Current protection level:
-protect-type:              Protection type:
-protect-none:              None
-protect-semiprotection:    Semi-protection
-protect-fullprotection:    Full protection
-protect-moveprotection:    Move protection
+protect-title:             ସୁରକ୍ଷ୍ୟା {0}
+protect-request-title:     ସୁରକ୍ଷ୍ୟା {0} ପାଇଁ ନିବେଦନ
+protect-reason:            କାରଣ:
+protect-expiry:            ଶେଷ:
+protect-log:               ସୁରକ୍ଷ୍ୟା ଲଗ:
+protect-currentlevel:      ବର୍ତ୍ତମାନର ସୁରକ୍ଷ୍ୟା ସ୍ତର:
+protect-type:              ସୁରକ୍ଷ୍ୟା ପ୍ରକାର:
+protect-none:              କିଛି ନାହିଁ
+protect-semiprotection:    ଅଧା ସୁରକ୍ଷ୍ୟା
+protect-fullprotection:    ପୂର୍ଣ ସୁରକ୍ଷ୍ୟା
+protect-moveprotection:    ସୁରକ୍ଷ୍ୟା ଘୁଞ୍ଚାନ୍ତୁ
 </pre>
 
 === Queue form ===
 <pre>
-queue-title:               Queues
-queue-queues:              Queues:
-queue-typegroup:           Queue type
-queue-listselector:        List:
-queue-listbuilder:         List Builder...
+queue-title:               ଧାଡ଼ି
+queue-queues:              ଧାଡ଼ି:
+queue-typegroup:           ଧାଡ଼ି ପ୍ରକାର
+queue-listselector:        ତାଲିକା:
+queue-listbuilder:         ତାଲିକା ବିଲ୍ଡର...
 queue-sortorder:           Sort order:
 queue-removeviewed:        Remove edits when viewed
 queue-removeold:           Remove old edits to the same page
@@ -466,18 +466,18 @@ queue-applylabel:          Click Apply to apply these filters to the existing pa
 queue-editfiltersgroup:    Edit filters
 queue-userregex:           Username matches regular expression:
 queue-summaryregex:        Summary matches regular expression:
-queue-filternewpage:       New page
+queue-filternewpage:       ନୂଆ ପୃଷ୍ଠା
 queue-filterownuserspace:  User's own userspace
 queue-filteranonymous:     Anonymous user
 queue-filterignored:       Ignored user
-queue-filterreverts:       Revert
+queue-filterreverts:       ପଛକୁ ଲେଉଟାଇବେ
 queue-filternotifications: Notification
-queue-filterwarnings:      Warning
+queue-filterwarnings:      ଚେତାବନୀ
 queue-filtertags:          Tag
-queue-filterbot:           Bot edit
+queue-filterbot:           ବଟ ବଦଳ
 queue-filterassisted:      Assisted edit
-queue-filterhuggle:        Huggle edit
-queue-filterme:            My edit
+queue-filterhuggle:        ହଗଲ ବଦଳ
+queue-filterme:            ମୋ ବଦଳ
 queue-examplelabel1:       Require this attribute
 queue-examplelabel2:       Exclude this attribute
 queue-examplelabel3:       Don't check this attribute
@@ -493,23 +493,23 @@ queuetrim-ageunit:         minutes
 
 === Requests form ===
 <pre>
-requests-title:            Requests
-requests-cancelall:        Cancel all
-requests-cancelled:        Cancelled
+requests-title:            ଅନୁରୋଧ
+requests-cancelall:        ସବୁ ବାତିଲ କରିବେ
+requests-cancelled:        ବାତିଲ ହୋଇଯାଇଥିବା
 requests-inprogress:       In progress
 requests-failed:           Failed
-requests-completed:        Completed
-requests-time:             Time
-requests-type:             Type
+requests-completed:        ପୁରା ହୋଇଥିବା
+requests-time:             ସମୟ
+requests-type:             ପ୍ରକାର
 requests-query:            Query
 </pre>
 
 === Report form ===
 <pre>
-report-title:              Report {0}
-report-reason:             Reason:
-report-message:            Message:
-report-log:                Warnings for this user:
+report-title:              ରିପୋର୍ଟ {0}
+report-reason:             କାରଣ:
+report-message:            ସୂଚନା:
+report-log:                ଏହି ବ୍ୟବହାରକରିଙ୍କ ପାଇଁ ଚେତାବନୀ:
 </pre>
 
 === Revert form ===
@@ -521,7 +521,7 @@ revert-currentonly:        Revert only the selected revision
 
 === Revert and warn form ===
 <pre>
-revertandwarn-title:       Revert and warn {0}
+revertandwarn-title:       ପଛକୁ ଲେଉଟାନ୍ତୁ ଏବଂ ଚେତାବନୀ ଦିଅନ୍ତୁ {0}
 </pre>
 
 === Reverting ===
@@ -543,42 +543,42 @@ revert-speedy-instead:     Tag for speedy deletion instead?
 === Speedy form ===
 <pre>
 speedy-title:              Speedy tag {0}
-speedy-reason:             Reason:
+speedy-reason:             କାରଣ:
 speedy-parameters:         Parameters:
 speedy-notifycreator:      Notify page creator
 </pre>
 
 === Statistics form ===
 <pre>
-stats-title:               Statistics
-stats-actions:             Actions this session:
-stats-session:             Session time: {0}
-stats-edits:               Edits
-stats-assisted:            Assisted edits
-stats-huggle:              Huggle edits
-stats-reverts:             Reverts
-stats-warnings:            Warnings
-stats-reports:             Reports
-stats-tags:                Tags
-stats-notifications:       Notifications
-stats-blocks:              Blocks
-stats-deletes:             Deletes
-stats-protections:         Protections
-stats-allusers:            All users
-stats-me:                  Me
-stats-ignored:             Ignored
-stats-anon:                Anonymous
-stats-bots:                Bots
-stats-other:               Other
+stats-title:               ସାଂଖିକ ବିବରଣୀ
+stats-actions:             ଏହି ଅଧିବେଶନର ଚାଲି ଚଳନ:
+stats-session:             ଅଧିବେଶନ ସମୟ: {0}
+stats-edits:               ବଦଳ
+stats-assisted:            ସହାୟତା ବଦଳ
+stats-huggle:              ହଗଲ ବଦଳ
+stats-reverts:             ପଛକୁ ଫେରିବେ
+stats-warnings:            ଚେତାବନୀ
+stats-reports:             ରିପୋର୍ଟ
+stats-tags:                ଟାଗ
+stats-notifications:       ଅଧିସୂଚନା
+stats-blocks:              ବାଧା
+stats-deletes:             ହଟାଇବେ
+stats-protections:         ସୁରକ୍ଷ୍ୟା
+stats-allusers:            ସମସ୍ତ ବ୍ୟବହାରକାରୀ
+stats-me:                  ମୁଁ
+stats-ignored:             ଉପେକ୍ଷ୍ୟା
+stats-anon:                ଅଜ୍ଞାନକୃତ
+stats-bots:                ବଟ
+stats-other:               ଅନ୍ୟ
 </pre>
 
 === Tag form ===
 <pre>
-tag-title:                 Tag {0}
-tag-tagselector:           Add tag:
-tag-tags:                  Tag(s):
-tag-summary:               Summary:
-tag-insertatend:           Insert at the end of the page
+tag-title:                 ଟାଗ {0}
+tag-tagselector:           ଟାଗ ଜୋଡନ୍ତୁ:
+tag-tags:                  ଟାଗ(ମାନ):
+tag-summary:               ସାରାଂଶ:
+tag-insertatend:           ପୃଷ୍ଠାର ଶେଷରେ ସାମିଲ କରନ୍ତୁ
 </pre>
 
 === Update form ===
@@ -607,24 +607,24 @@ userinfo-warnlog:          Warnings:
 
 === Warning form ===
 <pre>
-warning-title:             Warn {0}
-warning-levelgroup:        Warning level
-warning-levelauto:         Automatic
-warning-level1:            Level 1
-warning-level2:            Level 2
-warning-level3:            Level 3
-warning-level4:            Level 4 (final)
-warning-warntype:          Warning type:
-warning-warnlog:           Warnings for this user:
+warning-title:             ଚେତାବନୀ {0}
+warning-levelgroup:        ଚେତାବନୀ ସ୍ତର
+warning-levelauto:         ସ୍ଵଚାଳିତ
+warning-level1:            ସ୍ତର 1
+warning-level2:            ସ୍ତର 2
+warning-level3:            ସ୍ତର 3
+warning-level4:            ସ୍ତର 4 (ଅନ୍ତିମ)
+warning-warntype:          ଚେତାବନୀ ପ୍ରକାର:
+warning-warnlog:           ଏହି ବ୍ୟବହାରକାରୀଙ୍କ ପାଇଁ ଚେତାବନୀ:
 </pre>
 
 === XfD form ===
 <pre>
 xfd-title:                 Nominate {0} for deletion
-xfd-category:              Category:
+xfd-category:              ଶ୍ରେଣୀ:
 xfd-nominationtype:        Nomination type:
 xfd-notify:                Notify creator
-xfd-reason:                Reason:
+xfd-reason:                କାରଣ:
 </pre>
 
 === Web requests ===
@@ -775,4 +775,3 @@ warn-progress:             Warning '{0}'...
 <pre>
 api-help:                  No parameters in API query
 </pre>
-

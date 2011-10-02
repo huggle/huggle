@@ -56,7 +56,7 @@ block-duration:            Duur:
 block-message:             Bericht op overlegpagina:
 block-anononly:            Alleen anoniemen blokkeren
 block-creation:            Registeren blokkeren
-block-autoblock:           Automatisch blokkeren
+block-autoblock:           Automatisch blokkeren 
 block-email:               E-mail blokkeren
 block-usertalk:            Overlegpagina
 block-usercontribs:        Gebruikersbijdragen

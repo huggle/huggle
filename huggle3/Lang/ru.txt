@@ -1,6 +1,4 @@
-﻿= ru =
-
-<pre>
+﻿<pre>
 name:                      Русский
 </pre>
 
@@ -356,10 +354,10 @@ main-help-about:           О Huggle...
 main-addqueue:             Добавить...
 main-savelogtitle:         Сохранить журнал
 main-usermessageother:     Другое сообщение...
-main-advanced:             Продвинутое...
+main-advanced:             Другое...
 main-stats:                {0} правок в минуту, {1} отмен в минуту
 
-main-tip-revertwarn:       Отменить эту правку и влепить участнику предупреждение
+main-tip-revertwarn:       Отменить эту правку и вынести участнику предупреждение
 main-tip-nextdiff:         Показать следующую правку в очереди
 main-tip-revert:           Отменить эту правку
 main-tip-template:         Поставить шаблонное сообщение участнику
@@ -704,7 +702,7 @@ purge-progress:            Очищен кеш для '{0}'
 queue-refresh-fail:        Ошибка обновления очереди '{0}'
 
 report-duplicate:          Об этом участнике уже сообщили
-report-fail:               Сообщение н отправлено '{0}'
+report-fail:               Сообщение не отправлено '{0}'
 report-progress:           Отправка сообщения '{0}'...
 
 saveuserconfig-done:       Пользовательские настройки обновлены
@@ -768,4 +766,3 @@ warn-progress:             Предупреждается '{0}'...
 <pre>
 api-help:                  Нет параметров в API запросе
 </pre>
-

@@ -776,5 +776,3 @@ warn-progress:             警告'{0}'...
 <pre>
 api-help:                  API请求没有参数
 </pre>
-
-[[Category:Huggle]]
