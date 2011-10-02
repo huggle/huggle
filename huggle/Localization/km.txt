@@ -1,28 +1,30 @@
 ﻿<pre>
-name:                      Български
+name:                      Khmer (ភាសាខ្មែរ)
 </pre>
 
 === General ===
 <pre>
-add:                       Добавяне
+add:                       Add
 apply:                     Apply
-cancel:                    Отказване
-clear:                     Изчистване
-close:                     Затваряне
-continue:                  Продължаване
-copy:                      Копиране
-delete:                    Изтриване
-error:                     Грешка
-exit:                      Изход
+cancel:                    Cancel
+clear:                     Clear
+close:                     Close
+continue:                  Continue
+copy:                      Copy
+delete:                    Delete
+error:                     Error
+exit:                      Exit
 minimizewindow:            Minimize
-no:                        Не
+no:                        No
 ok:                        OK
-remove:                    Премахване
-rename:                    Преименуване
+remove:                    Remove
+rename:                    Rename
 restorewindow:             Restore
-save:                      Съхраняване
-selectfile:                Избиране...
-yes:                       Да
+save:                      Save
+selectfile:                Browse...
+yes:                       Yes
+agf:                    Revert as good faith edit with custom reason
+import:                 Import from global conf
 </pre>
 
 === Edit types ===
@@ -32,50 +34,51 @@ edittype-deletenote:       Deletion request notifications
 edittype-deletetag:        Deletion discussion tags
 edittype-deletereq:        Other deletion discussion edits
 edittype-manual:           Manual edits
-edittype-message:          Потребителски съобщения
-edittype-note:             Други известия
+edittype-message:          User messages
+edittype-note:             Other notifications
 edittype-prodtag:          Proposed deletion tags
-edittype-protectreq:       Заявки за защита
+edittype-protectreq:       Protection requests
 edittype-report:           Reports
 edittype-revert:           Reverts
-edittype-speedytag:        Отбелязване за бързо изтриване
-edittype-tag:              Други етикети
-edittype-warning:          Предупреждения
+edittype-speedytag:        Speedy deletion tags
+edittype-tag:              Other tags
+edittype-warning:          Warnings
 </pre>
 
 === About form ===
 <pre>
-about-contributors:        Contributors:
+about-contributors:        Developers:
 </pre>
 
 === Block form ===
 <pre>
 block-title:               Block {0}
-block-reason:              Причина:
-block-duration:            Срок:
+block-reason:              Reason:
+block-duration:            Duration:
 block-message:             Talk page message:
-block-anononly:            Блокиране само на анонимни потребители
-block-creation:            Забрана за създаване на потребителски сметки
+block-anononly:            Block anonymous users only
+block-creation:            Block account creation
 block-autoblock:           Enable autoblocks
-block-email:               Забрана за изпращане на е-поща
+block-email:               Block e-mail
 block-usertalk:            Talk
-block-usercontribs:        Приноси
-block-blockloglabel:       Дневник на блокирането:
-block-warnloglabel:        Предупреждения:
-block-sharedipwarning:     Забележка: {0} е отбелязан като споделен или динамичен IP адрес.
+block-usercontribs:        Contribs
+block-blockloglabel:       Block log:
+block-warnloglabel:        Warnings:
+block-sharedipwarning:     Note: {0} is tagged as a shared or dynamic IP address.
 block-sensitivewarning:    This IP address is listed as 'sensitive' for the following reason:\n\n   {0}\n\nContinue anyway?
-block-rangeblockwarning:   {0} вече е блокиран заради rangeblock на {1}.\nThis block will override the effect of the rangeblock. Continue?
+block-rangeblockwarning:   {0} is already affected by a rangeblock on {1}.\nThis block will override the effect of the rangeblock. Continue?
 </pre>
 
 === Closing form ===
 <pre>
-closing-whitelist:         Обновяване на белия списък с потребители...
-closing-config:            Обновяване на подстраницата с настройки...
+closing-whitelist:         Updating user whitelist...
+closing-config:            Updating configuration subpage...
 </pre>
 
 === Configuration form ===
 <pre>
-config-title:              Настройки
+config-summ:               Custom revert summaries for templates
+config-title:              Options
 config-rememberme:         Remember my username
 config-rememberpassword:   Remember my password
 config-autowhitelist:      Automatically whitelist users
@@ -83,7 +86,7 @@ config-openinbrowser:      Open browser links in new browser window
 config-shownewedits:       Show new edits to the selected page as they are made
 config-preloads:           Enable preloading of diffs
 config-ircmode:            Use IRC feed for recent changes if possible
-config-ircport:            IRC port (6664 - 6669)
+config-ircport:            IRC port
 config-difffontsize:       Diff font size
 config-logfile:            Log file
 config-viewlocalconfig:    View local configuration folder
@@ -132,6 +135,7 @@ config-blocktime:          Default block duration for
 config-blocktimeanon:      anonymous users
 config-blocktimereg:       registered users
 config-summaryprompt:      Enter summary
+config-history:	           Download whole history of all articles
 config-defaultsprompt:     Restore defaults?
 config-logbrowsetitle:     Log file location
 config-shortcutconflict:   Shortcut '{0}' conflicts with the existing shortcut for '{1}'.
@@ -140,22 +144,24 @@ config-shortcutconflict:   Shortcut '{0}' conflicts with the existing shortcut f
 === Delete form ===
 <pre>
 delete-title:              Delete {0}
-delete-reason:             Причина:
+delete-reason:             Reason:
 delete-deletionlog:        Deletion log:
+delete-rem-talk:           Delete associated talk
+delete-notify:             Notify creator
 </pre>
 
 === Edit form ===
 <pre>
 edit-title:                Editing {0}
-edit-summary:              Резюме:
-edit-minor:                Малка промяна
-edit-watch:                Наблюдаване на тази страница
-edit-page:                 Страница
-edit-edit:                 Редактиране
+edit-summary:              Summary:
+edit-minor:                Minor edit
+edit-watch:                Watch this page
+edit-page:                 Page
+edit-edit:                 Edit
 edit-view:                 View
 edit-page-savetofile:      Save to file...
 edit-page-save:            Save
-edit-page-cancel:          Отказване
+edit-page-cancel:          Cancel
 edit-edit-undo:            Undo
 edit-edit-redo:            Redo
 edit-edit-cut:             Cut
@@ -172,8 +178,8 @@ edit-findnext:             Next
 edit-findprevious:         Previous
 edit-replaceall:           Replace all
 edit-edittab:              Edit
-edit-previewtab:           Предварителен преглед
-edit-changestab:           Промени
+edit-previewtab:           Preview
+edit-changestab:           Changes
 edit-searchnotfound:       Phrase not found
 edit-searchwrapstart:      Reached end of page, continued from top
 edit-searchwrapend:        Reached top of page, continued from end
@@ -181,11 +187,11 @@ edit-searchwrapend:        Reached top of page, continued from end
 
 === E-mail form ===
 <pre>
-email-title:               Е-поща {0}
-email-subject:             Тема:
-email-message:             Съобщение:
-email-ccme:                Изпращане до мен на копие от това писмо
-email-send:                Изпращане
+email-title:               E-mail {0}
+email-subject:             Subject:
+email-message:             Message:
+email-ccme:                E-mail me a copy of this message
+email-send:                Send
 </pre>
 
 === IRC feed ===
@@ -194,7 +200,7 @@ irc-connected:             Connected to IRC recent changes feed
 irc-connecting:            Attempting connection to IRC recent changes feed; this may take a few moments...
 irc-disconnected:          Connection to IRC recent changes feed lost; reconnecting...
 irc-nochannel:             IRC channel for {0} not found; using slower API queries instead
-irc-error:                 Неуспешно свързване с IRC recent changes feed.  Using slower API queries instead
+irc-error:                 Unable to connect to IRC recent changes feed. Using slower API queries instead
 </pre>
 
 === List form ===
@@ -227,46 +233,46 @@ list-title:                List Builder
 
 === Login ===
 <pre>
-login-language:            Език:
-login-project:             Проект:
-login-username:            Потребителско име:
-login-password:            Парола:
-login-proxygroup:          Настройки за междинен сървър
-login-proxy:               Използване на междинен сървър
-login-proxyaddress:        Адрес:
-login-proxyport:           Порт:
-login-proxydomain:         Домейн:
-login-start:               Влизане
-login-translate:           Превеждане...
+login-language:            Language:
+login-project:             Project:
+login-username:            Username:
+login-password:            Password:
+login-proxygroup:          Proxy settings
+login-proxy:               Use a proxy server
+login-proxyaddress:        Address:
+login-proxyport:           Port:
+login-proxydomain:         Domain:
+login-start:               Login
+login-translate:           Translate...
 login-captchatitle:        Captcha required to log in
 
-login-progress-start:      Влизане...
-login-progress-language:   Опресняване на файловете със съобщения...
-login-progress-global:     Проверка на общите настройки...
-login-progress-config:     Проверка на страниците с настройки...
-login-progress-userlist:   Проверка на списъка с потребители...
-login-progress-whitelist:  Получаване на белия списък с потребители...
+login-progress-start:      Logging in...
+login-progress-language:   Updating message files...
+login-progress-global:     Checking global configuration...
+login-progress-config:     Checking configuration pages...
+login-progress-userlist:   Checking user list...
+login-progress-whitelist:  Retrieving user whitelist...
 
-login-error-admin:         За използването на Huggle в този проект са нужни администраторски привилегии на потребителската сметка.
-login-error-age:           За използването на Huggle в този проект е нужно потребителската сметка да е поне на {0} дни.
-login-error-alldisabled:   В момента Huggle е спрян във всички проекти.
-login-error-approval:      За използването на Huggle в този проект е нужно разрешение.
-login-error-autoconfirmed: За използването на Huggle в този проект е нужно потребителската сметка да е автоматично одобрена.
+login-error-admin:         Use of Huggle on this project requires an administrator account.
+login-error-age:           Use of Huggle on this project requires an account at least {0} days old.
+login-error-alldisabled:   Huggle is currently disabled on all projects.
+login-error-approval:      Use of Huggle on this project requires approval.
+login-error-autoconfirmed: Use of Huggle on this project requires that your account is autoconfirmed.
 login-error-cancelled:     Cancelled.
-login-error-captcha:       Невярна парола или код за потвърждение.
-login-error-config:        Неуспех при зареждането на страниците с настройки.
-login-error-count:         За използването на Huggle в този проект са нужни поне {0} редакции.
+login-error-captcha:       Incorrect password or confirmation code.
+login-error-config:        Failed to load configuration pages!
+login-error-count:         Use of Huggle on this project requires at least {0} edits.
 login-error-disabled:      Huggle is not enabled for your account, check user configuration page.
-login-error-global:        Неуспех при зареждането на общата страница с настройки.
-login-error-invalid:       Недействително потребителско име.
-login-error-language:      Неуспех при зареждането на файловете със съобщения.
+login-error-global:        Failed to load global configuration page.
+login-error-invalid:       Invalid username.
+login-error-language:      Failed to load message files.
 login-error-nocaptcha:     Captcha not solved.
 login-error-noconfig:      This project does not have a Huggle configuration page.
-login-error-nouser:        Потребителят не съществува.
-login-error-password:      Невярна парола.
-login-error-projdisabled:  В момента Huggle е спрян в този проект.
+login-error-nouser:        User does not exist.
+login-error-password:      Incorrect password.
+login-error-projdisabled:  Huggle is currently disabled on this project.
 login-error-rollback:      Use of Huggle on this project requires rollback.
-login-error-unknown:       Неуспех при влизане.
+login-error-unknown:       Unable to log in.
 login-error-userlist:      Failed to load user list.
 login-error-version:       Version is out of date. Update to the latest version.
 login-error-whitelist:     Failed to load user whitelist.
@@ -274,10 +280,10 @@ login-error-whitelist:     Failed to load user whitelist.
 
 === Main window ===
 <pre>
-main-page:                 Страница
-main-user:                 Потребител
-main-contribs:             Приноси
-main-history:              История
+main-page:                 Page
+main-user:                 User
+main-contribs:             Contribs
+main-history:              History
 main-new-messages:         You have new messages; select System -> Show new messages or press M to view them.
 main-system:               System
 main-system-messages:      Show new messages
@@ -304,9 +310,11 @@ main-queue-options:        Manage Queues...
 main-goto:                 Go to
 main-goto-mytalk:          My talk page
 main-goto-mycontribs:      My contributions
+main-revision-decline:     Reject revision
 main-revision:             Revision
 main-revision-view:        View
 main-revision-revert:      Revert
+main-revision-faith:       Revert AGF
 main-revision-previous:    Previous
 main-revision-next:        Next
 main-revision-latest:      Latest
@@ -328,6 +336,7 @@ main-page-patrol:          Mark patrolled
 main-page-move:            Move...
 main-page-protect:         Protect...
 main-page-delete:          Delete...
+main-page-restore:         Restore this revision of article
 main-user-info:            Show user info
 main-user-ignore:          Ignore
 main-user-unignore:        Unignore
@@ -364,9 +373,9 @@ main-tip-template:         Send template message to user
 main-tip-warn:             Warn user
 main-tip-cancel:           Cancel all pending actions
 main-tip-undo:             Undo recent actions
-main-tip-browserback:      Назад
-main-tip-browserforward:   Напред
-main-tip-browseropen:      Преглед във външен браузър
+main-tip-browserback:      Back
+main-tip-browserforward:   Forward
+main-tip-browseropen:      View this in external browser
 main-tip-browsernewtab:    New tab
 main-tip-browserclosetab:  Close tab
 main-tip-history:          Retrieve page history
@@ -386,20 +395,21 @@ main-tip-pagetagdelete:    Tag this page for deletion
 main-tip-pagedelete:       Delete this page
 main-tip-userinfo:         Show user information
 main-tip-usertalk:         Show user talk page
-main-tip-usermessage:      Съобщение до този потребител
+main-tip-usermessage:      Message this user
 main-tip-userignore:       Ignore all contributions by this user
-main-tip-userreport:       Докладване на този потребител
-main-tip-userblock:        Блокиране на този потребител
+main-tip-userreport:       Report this user
+main-tip-userblock:        Block this user
+main-revision-acceptpend:   Accept this pending revision
 </pre>
 
 === Message form ===
 <pre>
 message-title:             Message {0}
 message-help:              Specify one or both of Subject and Summary. If no summary is given, the subject will be used; if no subject is given, no header will be added.
-message-subject:           Тема:
-message-message:           Съобщение:
-message-summary:           Резюме:
-message-autosign:          Автоматично добавяне на подпис
+message-subject:           Subject:
+message-message:           Message:
+message-summary:           Summary:
+message-autosign:          Automatically append signature
 </pre>
 
 === Move form ===
@@ -442,7 +452,7 @@ queue-sortorder:           Sort order:
 queue-removeviewed:        Remove edits when viewed
 queue-removeold:           Remove old edits to the same page
 queue-removeafter:         Remove edits after
-queue-removeaftertime:     минути
+queue-removeaftertime:     minutes
 queue-preload:             Enable preloading of revisions when this queue is selected
 queue-ignorepages:         Ignore edits to pages on the ignored pages list
 queue-traynotification:    Show tray notification when a revision is added to this queue
@@ -457,7 +467,7 @@ queue-applylabel:          Click Apply to apply these filters to the existing pa
 queue-editfiltersgroup:    Edit filters
 queue-userregex:           Username matches regular expression:
 queue-summaryregex:        Summary matches regular expression:
-queue-filternewpage:       Нова страница
+queue-filternewpage:       New page
 queue-filterownuserspace:  User's own userspace
 queue-filteranonymous:     Anonymous user
 queue-filterignored:       Ignored user
@@ -512,15 +522,15 @@ revert-currentonly:        Revert only the selected revision
 
 === Revert and warn form ===
 <pre>
-revertandwarn-title:       Връщане и предупреждаване на {0}
+revertandwarn-title:       Revert and warn {0}
 </pre>
 
 === Reverting ===
 <pre>
 revert-confirm-ignored:    Revert edit by whitelisted user '{0}'?
 revert-confirm-multiple:   This will revert multiple edits by '{0}'. Continue?
-revert-confirm-range:      The author of the target revision, {1}, is in the same range as the author of the current revision, {0}, and may be the same person; ensure the target revision is correct before proceeding. Continue?
 revert-confirm-page:       Revert edit to ignored page '{0}'?
+revert-confirm-range:      The author of the target revision, {1}, is in the same range as the author of the current revision, {0}, and may be the same person; ensure the target revision is correct before proceeding. Continue?
 revert-confirm-same:       This will revert to another revision by the user that is being reverted, {0}. Continue?
 revert-confirm-self:       This will revert your own edit. Continue?
 revert-confirm-warned:     This will revert to a revision by {0}; this user has previously been warned. Continue?
@@ -541,7 +551,7 @@ speedy-notifycreator:      Notify page creator
 
 === Statistics form ===
 <pre>
-stats-title:               Статистики
+stats-title:               Statistics
 stats-actions:             Actions this session:
 stats-session:             Session time: {0}
 stats-edits:               Edits
@@ -574,12 +584,12 @@ tag-insertatend:           Insert at the end of the page
 
 === Update form ===
 <pre>
-update-title:              Има нова версия
-update-notification:       Тази версия на Huggle е остаряла.
-update-required:           Трябва да използвате последната версия, {0}.
-update-optional:           Използването на  последната версия, {0}, се препоръчва и в бъдеще може да стане задължително.
+update-title:              New version available
+update-notification:       This version of Huggle is out of date.
+update-required:           You must update to the latest version, {0}.
+update-optional:           Updating to the latest version, {0}, is recommended, and may be required in future.
 update-prompt:             Download and run the latest version now?
-update-download:           Обновяване
+update-download:           Update
 update-progress:           Downloading new version...
 update-error:              Failed to download new version
 </pre>
@@ -621,8 +631,8 @@ xfd-reason:                Reason:
 === Web requests ===
 <pre>
 error-apidisabled:         The MediaWiki API is disabled
-error-exception:           Грешка при получаването на '{0}'
-error-fail:                Неуспех при получаването на '{0}'
+error-exception:           Error retrieving '{0}'
+error-fail:                Failed to retrieve '{0}'
 error-loggedout:           Account has been logged out, logging back in...
 error-noresponse:          No response
 error-pagemissing:         The page does not exist
@@ -630,7 +640,7 @@ error-reloginfail:         Failed to log back in, try restarting Huggle
 error-timeout:             Request timed out
 error-unknown:             Unknown error
 
-retrying:                  Опитване отново...
+retrying:                  Retrying...
 
 block-done:                Blocked '{0}'
 block-fail:                Did not block '{0}'

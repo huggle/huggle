@@ -1,6 +1,5 @@
-﻿
-<pre>
-name:                      Norsk
+﻿<pre>
+name:                      Norsk (bokmål)
 </pre>
 
 === General ===
@@ -134,7 +133,6 @@ config-blocktimeanon:      anonymous users
 config-blocktimereg:       registered users
 config-summaryprompt:      Enter summary
 config-defaultsprompt:     Restore defaults?
-config-history:			     Download whole history of all articles
 config-logbrowsetitle:     Log file location
 config-shortcutconflict:   Shortcut '{0}' conflicts with the existing shortcut for '{1}'.
 </pre>
@@ -193,7 +191,7 @@ email-send:                Send
 === IRC feed ===
 <pre>
 irc-connected:             Connected to IRC recent changes feed
-irc-connecting:            Attempting connection to IRC recent changes feed; this make take a few moments...
+irc-connecting:            Attempting connection to IRC recent changes feed; this may take a few moments...
 irc-disconnected:          Connection to IRC recent changes feed lost; reconnecting...
 irc-nochannel:             IRC channel for {0} not found; using slower API queries instead
 irc-error:                 Unable to connect to IRC recent changes feed. Using slower API queries instead
@@ -330,7 +328,6 @@ main-page-patrol:          Mark patrolled
 main-page-move:            Move...
 main-page-protect:         Protect...
 main-page-delete:          Delete...
-main-page-restore:         Restore this revision of article
 main-user-info:            Show user info
 main-user-ignore:          Ignore
 main-user-unignore:        Unignore
@@ -432,7 +429,6 @@ protect-none:              None
 protect-semiprotection:    Semi-protection
 protect-fullprotection:    Full protection
 protect-moveprotection:    Move protection
-protect-noprotect:          No protection
 </pre>
 
 === Queue form ===
@@ -523,8 +519,8 @@ revertandwarn-title:       Revert and warn {0}
 <pre>
 revert-confirm-ignored:    Revert edit by whitelisted user '{0}'?
 revert-confirm-multiple:   This will revert multiple edits by '{0}'. Continue?
-revert-confirm-page:       Revert edit to ignored page '{0}'?
 revert-confirm-range:      The author of the target revision, {1}, is in the same range as the author of the current revision, {0}, and may be the same person; ensure the target revision is correct before proceeding. Continue?
+revert-confirm-page:       Revert edit to ignored page '{0}'?
 revert-confirm-same:       This will revert to another revision by the user that is being reverted, {0}. Continue?
 revert-confirm-self:       This will revert your own edit. Continue?
 revert-confirm-warned:     This will revert to a revision by {0}; this user has previously been warned. Continue?
@@ -615,11 +611,11 @@ warning-warnlog:           Warnings for this user:
 
 === XfD form ===
 <pre>
-xfd-title:                 Nominate {0} for deletion
-xfd-category:              Category:
-xfd-nominationtype:        Nomination type:
-xfd-notify:                Notify creator
-xfd-reason:                Reason:
+xfd-title:                 Nominer {0} for sletting
+xfd-category:              Kategori:
+xfd-nominationtype:        Nominasjonstype:
+xfd-notify:                Informer oppretter
+xfd-reason:                Grunn:
 </pre>
 
 === Web requests ===
@@ -650,7 +646,6 @@ blocknotify-progress:      Notifying '{0}' of block...
 delete-done:               Deleted '{0}'
 delete-fail:               Did not delete '{0}'
 delete-progress:           Deleting '{0}'...
-delete-rem-talk:		Delete associated talk page
 
 deletelog-fail:            Failed to retrieve deletion log for '{0}'
 deletelog-none:            No deletion log for '{0}'
@@ -771,4 +766,3 @@ warn-progress:             Warning '{0}'...
 <pre>
 api-help:                  Ingen parametre i API-spørringen
 </pre>
-

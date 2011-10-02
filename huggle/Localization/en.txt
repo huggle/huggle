@@ -47,7 +47,7 @@ edittype-warning:          Warnings
 
 === About form ===
 <pre>
-about-contributors:        Contributors:
+about-contributors:        Developers:
 </pre>
 
 === Block form ===
@@ -77,7 +77,7 @@ closing-config:            Updating configuration subpage...
 
 === Configuration form ===
 <pre>
-config-import:			   Import
+config-summ:               Custom revert summaries for templates
 config-title:              Options
 config-rememberme:         Remember my username
 config-rememberpassword:   Remember my password
@@ -135,8 +135,8 @@ config-blocktime:          Default block duration for
 config-blocktimeanon:      anonymous users
 config-blocktimereg:       registered users
 config-summaryprompt:      Enter summary
+config-history:	           Download whole history of all articles
 config-defaultsprompt:     Restore defaults?
-config-history:			     Download whole history of all articles
 config-logbrowsetitle:     Log file location
 config-shortcutconflict:   Shortcut '{0}' conflicts with the existing shortcut for '{1}'.
 </pre>
@@ -146,6 +146,8 @@ config-shortcutconflict:   Shortcut '{0}' conflicts with the existing shortcut f
 delete-title:              Delete {0}
 delete-reason:             Reason:
 delete-deletionlog:        Deletion log:
+delete-rem-talk:           Delete associated talk
+delete-notify:             Notify creator
 </pre>
 
 === Edit form ===
@@ -258,7 +260,7 @@ login-error-approval:      Use of Huggle on this project requires approval.
 login-error-autoconfirmed: Use of Huggle on this project requires that your account is autoconfirmed.
 login-error-cancelled:     Cancelled.
 login-error-captcha:       Incorrect password or confirmation code.
-login-error-config:        Failed to load configuration pages.
+login-error-config:        Failed to load configuration pages!
 login-error-count:         Use of Huggle on this project requires at least {0} edits.
 login-error-disabled:      Huggle is not enabled for your account, check user configuration page.
 login-error-global:        Failed to load global configuration page.
@@ -308,9 +310,11 @@ main-queue-options:        Manage Queues...
 main-goto:                 Go to
 main-goto-mytalk:          My talk page
 main-goto-mycontribs:      My contributions
+main-revision-decline:     Reject revision
 main-revision:             Revision
 main-revision-view:        View
 main-revision-revert:      Revert
+main-revision-faith:       Revert AGF
 main-revision-previous:    Previous
 main-revision-next:        Next
 main-revision-latest:      Latest
@@ -395,6 +399,7 @@ main-tip-usermessage:      Message this user
 main-tip-userignore:       Ignore all contributions by this user
 main-tip-userreport:       Report this user
 main-tip-userblock:        Block this user
+main-revision-acceptpend:   Accept this pending revision
 </pre>
 
 === Message form ===
@@ -434,7 +439,6 @@ protect-none:              None
 protect-semiprotection:    Semi-protection
 protect-fullprotection:    Full protection
 protect-moveprotection:    Move protection
-protect-noprotect:          No protection
 </pre>
 
 === Queue form ===
@@ -652,7 +656,6 @@ blocknotify-progress:      Notifying '{0}' of block...
 delete-done:               Deleted '{0}'
 delete-fail:               Did not delete '{0}'
 delete-progress:           Deleting '{0}'...
-delete-rem-talk:		Delete associated talk page
 
 deletelog-fail:            Failed to retrieve deletion log for '{0}'
 deletelog-none:            No deletion log for '{0}'

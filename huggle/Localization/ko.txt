@@ -1,46 +1,46 @@
 ﻿<pre>
-name:                      Български
+name:                    한국어
 </pre>
 
 === General ===
 <pre>
-add:                       Добавяне
+add:                       Add
 apply:                     Apply
-cancel:                    Отказване
-clear:                     Изчистване
-close:                     Затваряне
-continue:                  Продължаване
-copy:                      Копиране
-delete:                    Изтриване
-error:                     Грешка
-exit:                      Изход
-minimizewindow:            Minimize
-no:                        Не
+cancel:                    취소
+clear:                     Clear
+close:                     닫기
+continue:                  계속
+copy:                      복사
+delete:                    삭제
+error:                     오류
+exit:                      나가기
+minimizewindow:            최소화
+no:                        No
 ok:                        OK
-remove:                    Премахване
-rename:                    Преименуване
-restorewindow:             Restore
-save:                      Съхраняване
-selectfile:                Избиране...
-yes:                       Да
+remove:                    Remove
+rename:                    Rename
+restorewindow:             이전 크기로
+save:                      저장
+selectfile:                찾아보기...
+yes:                       예
 </pre>
 
 === Edit types ===
 <pre>
-edittype-blocknote:        Block notifications
-edittype-deletenote:       Deletion request notifications
+edittype-blocknote:        차단 알림
+edittype-deletenote:       삭제 요청 알림
 edittype-deletetag:        Deletion discussion tags
 edittype-deletereq:        Other deletion discussion edits
 edittype-manual:           Manual edits
-edittype-message:          Потребителски съобщения
-edittype-note:             Други известия
+edittype-message:          User messages
+edittype-note:             Other notifications
 edittype-prodtag:          Proposed deletion tags
-edittype-protectreq:       Заявки за защита
+edittype-protectreq:       보호 요청
 edittype-report:           Reports
 edittype-revert:           Reverts
-edittype-speedytag:        Отбелязване за бързо изтриване
-edittype-tag:              Други етикети
-edittype-warning:          Предупреждения
+edittype-speedytag:        Speedy deletion tags
+edittype-tag:              Other tags
+edittype-warning:          경고
 </pre>
 
 === About form ===
@@ -50,40 +50,40 @@ about-contributors:        Contributors:
 
 === Block form ===
 <pre>
-block-title:               Block {0}
-block-reason:              Причина:
-block-duration:            Срок:
-block-message:             Talk page message:
-block-anononly:            Блокиране само на анонимни потребители
-block-creation:            Забрана за създаване на потребителски сметки
-block-autoblock:           Enable autoblocks
-block-email:               Забрана за изпращане на е-поща
-block-usertalk:            Talk
-block-usercontribs:        Приноси
-block-blockloglabel:       Дневник на блокирането:
-block-warnloglabel:        Предупреждения:
-block-sharedipwarning:     Забележка: {0} е отбелязан като споделен или динамичен IP адрес.
-block-sensitivewarning:    This IP address is listed as 'sensitive' for the following reason:\n\n   {0}\n\nContinue anyway?
-block-rangeblockwarning:   {0} вече е блокиран заради rangeblock на {1}.\nThis block will override the effect of the rangeblock. Continue?
+block-title:               {0} 차단
+block-reason:              이유:
+block-duration:            기한:
+block-message:             토론 메시지:
+block-anononly:            IP만 막기
+block-creation:            계정 생성을 막기
+block-autoblock:           자동 차단을 활성화
+block-email:               이메일을 막기
+block-usertalk:            토론
+block-usercontribs:        기여
+block-blockloglabel:       차단 기록:
+block-warnloglabel:        경고:
+block-sharedipwarning:     참고: {0}은 공용 IP이거나 유동 IP 주소로 나타났습니다.
+block-sensitivewarning:    이 IP 주소는 다음과 같은 이유로 '민감한' IP 주소 목록에 올라와 있습니다:\n\n   {0}\n\n계속하시겠습니까?
+block-rangeblockwarning:   {0} 은 이미 {1}의 광역 차단의 영향을 받고 있습니다. \n이 차단은 광역 차단을 덮어쓸 것입니다. 계속하시겠습니까?
 </pre>
 
 === Closing form ===
 <pre>
-closing-whitelist:         Обновяване на белия списък с потребители...
-closing-config:            Обновяване на подстраницата с настройки...
+closing-whitelist:         Updating user whitelist...
+closing-config:            Updating configuration subpage...
 </pre>
 
 === Configuration form ===
 <pre>
-config-title:              Настройки
-config-rememberme:         Remember my username
-config-rememberpassword:   Remember my password
+config-title:              속성
+config-rememberme:         나의 사용자 이름을 기억
+config-rememberpassword:   나의 비밀번호를 기억
 config-autowhitelist:      Automatically whitelist users
 config-openinbrowser:      Open browser links in new browser window
 config-shownewedits:       Show new edits to the selected page as they are made
 config-preloads:           Enable preloading of diffs
-config-ircmode:            Use IRC feed for recent changes if possible
-config-ircport:            IRC port (6664 - 6669)
+config-ircmode:            가능할 경우 최근 바뀜의 IRC 피드를 이용합니다
+config-ircport:            IRC 포트 (6664 - 6669)
 config-difffontsize:       Diff font size
 config-logfile:            Log file
 config-viewlocalconfig:    View local configuration folder
@@ -111,7 +111,7 @@ config-confirmwarned:      Confirm reversion to an edit by a warned user
 config-confirmrange:       Confirm reversion to edit by an anonymous user in the same /16 range as the user being reverted
 config-confirmpage:        Confirm reversion of ignored pages
 config-autoadvance:        After reverting, move to next edit in the queue
-config-userollback:        Use rollback if available
+config-userollback:        가능할 경우 되돌리기 권한을 사용합니다.
 config-revertsummaries:    Revert summaries available in menu
 config-clearsummaries:     Summaries entered manually are remembered across sessions; click to clear these
 config-reportlinkexamples: Include links to instances of vandalism in reports
@@ -129,8 +129,8 @@ config-useadminfunctions:  Use administrator functions if available
 config-promptforblock:     Prompt for block if asked to warn a user with a final warning
 config-blockreason:        Default block reason
 config-blocktime:          Default block duration for
-config-blocktimeanon:      anonymous users
-config-blocktimereg:       registered users
+config-blocktimeanon:      익명 사용자
+config-blocktimereg:       등록된 사용자
 config-summaryprompt:      Enter summary
 config-defaultsprompt:     Restore defaults?
 config-logbrowsetitle:     Log file location
@@ -139,41 +139,41 @@ config-shortcutconflict:   Shortcut '{0}' conflicts with the existing shortcut f
 
 === Delete form ===
 <pre>
-delete-title:              Delete {0}
-delete-reason:             Причина:
-delete-deletionlog:        Deletion log:
+delete-title:              {0} 삭제하기
+delete-reason:             이유:
+delete-deletionlog:        삭제 기록:
 </pre>
 
 === Edit form ===
 <pre>
-edit-title:                Editing {0}
-edit-summary:              Резюме:
-edit-minor:                Малка промяна
-edit-watch:                Наблюдаване на тази страница
-edit-page:                 Страница
-edit-edit:                 Редактиране
-edit-view:                 View
+edit-title:                {0} 편집하기
+edit-summary:              편집 요약:
+edit-minor:                사소한 편집
+edit-watch:                이 문서 주시하기
+edit-page:                 문서
+edit-edit:                 편집하기
+edit-view:                 보기
 edit-page-savetofile:      Save to file...
-edit-page-save:            Save
-edit-page-cancel:          Отказване
+edit-page-save:            저장
+edit-page-cancel:          취소
 edit-edit-undo:            Undo
 edit-edit-redo:            Redo
-edit-edit-cut:             Cut
-edit-edit-copy:            Copy
-edit-edit-paste:           Paste
-edit-edit-delete:          Delete
-edit-edit-selectall:       Select All
+edit-edit-cut:             잘라내기
+edit-edit-copy:            복사하기
+edit-edit-paste:           붙이기
+edit-edit-delete:          삭제
+edit-edit-selectall:       모두 선택
 edit-edit-find:            Find
 edit-view-syntax:          Syntax colouring
 edit-matchcase:            Match case
-edit-find:                 Find:
-edit-replace:              Replace:
-edit-findnext:             Next
-edit-findprevious:         Previous
-edit-replaceall:           Replace all
-edit-edittab:              Edit
-edit-previewtab:           Предварителен преглед
-edit-changestab:           Промени
+edit-find:                 찾을 내용:
+edit-replace:              바꿀 내용:
+edit-findnext:             다음
+edit-findprevious:         이전
+edit-replaceall:           모두 바꾸기
+edit-edittab:              편집
+edit-previewtab:           미리 보기
+edit-changestab:           Changes
 edit-searchnotfound:       Phrase not found
 edit-searchwrapstart:      Reached end of page, continued from top
 edit-searchwrapend:        Reached top of page, continued from end
@@ -181,11 +181,11 @@ edit-searchwrapend:        Reached top of page, continued from end
 
 === E-mail form ===
 <pre>
-email-title:               Е-поща {0}
-email-subject:             Тема:
-email-message:             Съобщение:
-email-ccme:                Изпращане до мен на копие от това писмо
-email-send:                Изпращане
+email-title:               {0}에게 이메일 보내기
+email-subject:             제목:
+email-message:             내용:
+email-ccme:                메일 사본을 내 이메일로 보내기
+email-send:                보내기
 </pre>
 
 === IRC feed ===
@@ -194,7 +194,7 @@ irc-connected:             Connected to IRC recent changes feed
 irc-connecting:            Attempting connection to IRC recent changes feed; this may take a few moments...
 irc-disconnected:          Connection to IRC recent changes feed lost; reconnecting...
 irc-nochannel:             IRC channel for {0} not found; using slower API queries instead
-irc-error:                 Неуспешно свързване с IRC recent changes feed.  Using slower API queries instead
+irc-error:                 Unable to connect to IRC recent changes feed. Using slower API queries instead
 </pre>
 
 === List form ===
@@ -227,57 +227,57 @@ list-title:                List Builder
 
 === Login ===
 <pre>
-login-language:            Език:
-login-project:             Проект:
-login-username:            Потребителско име:
-login-password:            Парола:
-login-proxygroup:          Настройки за междинен сървър
-login-proxy:               Използване на междинен сървър
-login-proxyaddress:        Адрес:
-login-proxyport:           Порт:
-login-proxydomain:         Домейн:
-login-start:               Влизане
-login-translate:           Превеждане...
-login-captchatitle:        Captcha required to log in
+login-language:            언어:
+login-project:             프로젝트:
+login-username:            계정 이름:
+login-password:            비밀번호:
+login-proxygroup:          프록시 설정
+login-proxy:               프록시 서버를 이용합니다.
+login-proxyaddress:        주소:
+login-proxyport:           포트:
+login-proxydomain:         도메인:
+login-start:               로그인
+login-translate:           번역하기...
+login-captchatitle:        로그인하려면 Captcha를 거쳐야 합니다.
 
-login-progress-start:      Влизане...
-login-progress-language:   Опресняване на файловете със съобщения...
-login-progress-global:     Проверка на общите настройки...
-login-progress-config:     Проверка на страниците с настройки...
-login-progress-userlist:   Проверка на списъка с потребители...
-login-progress-whitelist:  Получаване на белия списък с потребители...
+login-progress-start:      로그인 중...
+login-progress-language:   Updating message files...
+login-progress-global:     공통 설정을 확인하는 중...
+login-progress-config:     설정 문서를 확인하는 중...
+login-progress-userlist:   사용자 목록을 확인하는 중...
+login-progress-whitelist:  Retrieving user whitelist...
 
-login-error-admin:         За използването на Huggle в този проект са нужни администраторски привилегии на потребителската сметка.
-login-error-age:           За използването на Huggle в този проект е нужно потребителската сметка да е поне на {0} дни.
-login-error-alldisabled:   В момента Huggle е спрян във всички проекти.
-login-error-approval:      За използването на Huggle в този проект е нужно разрешение.
-login-error-autoconfirmed: За използването на Huggle в този проект е нужно потребителската сметка да е автоматично одобрена.
-login-error-cancelled:     Cancelled.
-login-error-captcha:       Невярна парола или код за потвърждение.
-login-error-config:        Неуспех при зареждането на страниците с настройки.
-login-error-count:         За използването на Huggle в този проект са нужни поне {0} редакции.
-login-error-disabled:      Huggle is not enabled for your account, check user configuration page.
-login-error-global:        Неуспех при зареждането на общата страница с настройки.
-login-error-invalid:       Недействително потребителско име.
-login-error-language:      Неуспех при зареждането на файловете със съобщения.
+login-error-admin:         이 프로젝트에서 Huggle을 사용하려면 관리자 계정이 필요합니다.
+login-error-age:           이 프로젝트에서 Huggle을 사용하려면 계정을 만든 후 최소 {0}일이 지나야 합니다.
+login-error-alldisabled:   Huggle이 모든 프로젝트에서 비활성화되었습니다.
+login-error-approval:      이 프로젝트에서 Huggle을 사용하려면 공동체의 승인이 필요합니다.
+login-error-autoconfirmed: 이 프로젝트에서 Huggle을 사용하려면 당신의 계정이 자동 인증되어야 합니다.
+login-error-cancelled:     취소되었습니다.
+login-error-captcha:       Incorrect password or confirmation code.
+login-error-config:        설정 문서를 불러오는 데 실패하였습니다.
+login-error-count:         이 프로젝트에서 Huggle을 사용하려면 최소한 {0}회의 편집이 필요합니다.
+login-error-disabled:      Huggle이 당신 계정에서 활성화되어 있지 않습니다. 사용자 설정 문서를 확인하세요.
+login-error-global:        공통 설정 문서를 불러오는 데 실패하였습니다.
+login-error-invalid:       Invalid username.
+login-error-language:      Failed to load message files.
 login-error-nocaptcha:     Captcha not solved.
-login-error-noconfig:      This project does not have a Huggle configuration page.
-login-error-nouser:        Потребителят не съществува.
-login-error-password:      Невярна парола.
-login-error-projdisabled:  В момента Huggle е спрян в този проект.
-login-error-rollback:      Use of Huggle on this project requires rollback.
-login-error-unknown:       Неуспех при влизане.
-login-error-userlist:      Failed to load user list.
-login-error-version:       Version is out of date. Update to the latest version.
+login-error-noconfig:      이 프로젝트에는 Huggle 설정 문서가 존재하지 않습니다.
+login-error-nouser:        해당 사용자가 존재하지 않습니다.
+login-error-password:      비밀번호를 잘못 입력하였습니다.
+login-error-projdisabled:  Huggle이 이 프로젝트에서는 비활성화되어 있습니다.
+login-error-rollback:      이 프로젝트에서 Huggle을 사용하려면 되돌리기 권한을 갖고 있어야 합니다.
+login-error-unknown:       로그인할 수 없습니다.
+login-error-userlist:      사용자 목록을 불러오는 데 실패하였습니다..
+login-error-version:       당신은 구버전을 사용하고 있습니다. 최신버전으로 업데이트하세요.
 login-error-whitelist:     Failed to load user whitelist.
 </pre>
 
 === Main window ===
 <pre>
-main-page:                 Страница
-main-user:                 Потребител
-main-contribs:             Приноси
-main-history:              История
+main-page:                 Page
+main-user:                 User
+main-contribs:             Contribs
+main-history:              History
 main-new-messages:         You have new messages; select System -> Show new messages or press M to view them.
 main-system:               System
 main-system-messages:      Show new messages
@@ -364,9 +364,9 @@ main-tip-template:         Send template message to user
 main-tip-warn:             Warn user
 main-tip-cancel:           Cancel all pending actions
 main-tip-undo:             Undo recent actions
-main-tip-browserback:      Назад
-main-tip-browserforward:   Напред
-main-tip-browseropen:      Преглед във външен браузър
+main-tip-browserback:      Back
+main-tip-browserforward:   Forward
+main-tip-browseropen:      View this in external browser
 main-tip-browsernewtab:    New tab
 main-tip-browserclosetab:  Close tab
 main-tip-history:          Retrieve page history
@@ -386,28 +386,28 @@ main-tip-pagetagdelete:    Tag this page for deletion
 main-tip-pagedelete:       Delete this page
 main-tip-userinfo:         Show user information
 main-tip-usertalk:         Show user talk page
-main-tip-usermessage:      Съобщение до този потребител
+main-tip-usermessage:      Message this user
 main-tip-userignore:       Ignore all contributions by this user
-main-tip-userreport:       Докладване на този потребител
-main-tip-userblock:        Блокиране на този потребител
+main-tip-userreport:       Report this user
+main-tip-userblock:        Block this user
 </pre>
 
 === Message form ===
 <pre>
 message-title:             Message {0}
 message-help:              Specify one or both of Subject and Summary. If no summary is given, the subject will be used; if no subject is given, no header will be added.
-message-subject:           Тема:
-message-message:           Съобщение:
-message-summary:           Резюме:
-message-autosign:          Автоматично добавяне на подпис
+message-subject:           Subject:
+message-message:           Message:
+message-summary:           Summary:
+message-autosign:          Automatically append signature
 </pre>
 
 === Move form ===
 <pre>
-move-title:                Move {0}
-move-target:               Destination:
-move-reason:               Reason:
-move-movetalk:             Move talk page
+move-title:                {0} 이동하기
+move-target:               새 문서 이름:
+move-reason:               이유:
+move-movetalk:             딸린 토론 문서를 함꼐 이동하기
 </pre>
 
 === Prod form ===
@@ -418,17 +418,17 @@ prod-reason:               Reason:
 
 === Protect form ===
 <pre>
-protect-title:             Protect {0}
-protect-request-title:     Request protection of {0}
-protect-reason:            Reason:
-protect-expiry:            Expiry:
-protect-log:               Protection log:
-protect-currentlevel:      Current protection level:
+protect-title:             {0} 보호하기
+protect-request-title:     {0} 보호 요청
+protect-reason:            이유:
+protect-expiry:            기한:
+protect-log:               보호 기록:
+protect-currentlevel:      현재 보호 수준:
 protect-type:              Protection type:
-protect-none:              None
-protect-semiprotection:    Semi-protection
-protect-fullprotection:    Full protection
-protect-moveprotection:    Move protection
+protect-none:              (없음)
+protect-semiprotection:    준보호
+protect-fullprotection:    보호
+protect-moveprotection:    이동 보호
 </pre>
 
 === Queue form ===
@@ -442,7 +442,7 @@ queue-sortorder:           Sort order:
 queue-removeviewed:        Remove edits when viewed
 queue-removeold:           Remove old edits to the same page
 queue-removeafter:         Remove edits after
-queue-removeaftertime:     минути
+queue-removeaftertime:     minutes
 queue-preload:             Enable preloading of revisions when this queue is selected
 queue-ignorepages:         Ignore edits to pages on the ignored pages list
 queue-traynotification:    Show tray notification when a revision is added to this queue
@@ -457,7 +457,7 @@ queue-applylabel:          Click Apply to apply these filters to the existing pa
 queue-editfiltersgroup:    Edit filters
 queue-userregex:           Username matches regular expression:
 queue-summaryregex:        Summary matches regular expression:
-queue-filternewpage:       Нова страница
+queue-filternewpage:       New page
 queue-filterownuserspace:  User's own userspace
 queue-filteranonymous:     Anonymous user
 queue-filterignored:       Ignored user
@@ -512,7 +512,7 @@ revert-currentonly:        Revert only the selected revision
 
 === Revert and warn form ===
 <pre>
-revertandwarn-title:       Връщане и предупреждаване на {0}
+revertandwarn-title:       Revert and warn {0}
 </pre>
 
 === Reverting ===
@@ -541,7 +541,7 @@ speedy-notifycreator:      Notify page creator
 
 === Statistics form ===
 <pre>
-stats-title:               Статистики
+stats-title:               Statistics
 stats-actions:             Actions this session:
 stats-session:             Session time: {0}
 stats-edits:               Edits
@@ -574,12 +574,12 @@ tag-insertatend:           Insert at the end of the page
 
 === Update form ===
 <pre>
-update-title:              Има нова версия
-update-notification:       Тази версия на Huggle е остаряла.
-update-required:           Трябва да използвате последната версия, {0}.
-update-optional:           Използването на  последната версия, {0}, се препоръчва и в бъдеще може да стане задължително.
+update-title:              New version available
+update-notification:       This version of Huggle is out of date.
+update-required:           You must update to the latest version, {0}.
+update-optional:           Updating to the latest version, {0}, is recommended, and may be required in future.
 update-prompt:             Download and run the latest version now?
-update-download:           Обновяване
+update-download:           Update
 update-progress:           Downloading new version...
 update-error:              Failed to download new version
 </pre>
@@ -620,9 +620,9 @@ xfd-reason:                Reason:
 
 === Web requests ===
 <pre>
-error-apidisabled:         The MediaWiki API is disabled
-error-exception:           Грешка при получаването на '{0}'
-error-fail:                Неуспех при получаването на '{0}'
+error-apidisabled:         미디어위키의 API가 비활성화되어 있스니다.
+error-exception:           '{0}'을 읽는 데 오류가 발생했습니다.Error retrieving '{0}'
+error-fail:                '{0}' 문서를 읽는 데 실패했습니다.
 error-loggedout:           Account has been logged out, logging back in...
 error-noresponse:          No response
 error-pagemissing:         The page does not exist
@@ -630,26 +630,26 @@ error-reloginfail:         Failed to log back in, try restarting Huggle
 error-timeout:             Request timed out
 error-unknown:             Unknown error
 
-retrying:                  Опитване отново...
+retrying:                  Retrying...
 
-block-done:                Blocked '{0}'
-block-fail:                Did not block '{0}'
-block-progress:            Blocking '{0}'...
+block-done:                '{0}' 사용자를 차단하였습니다.
+block-fail:                '{0}' 사용자를 차단하지 못했습니다.
+block-progress:            '{0}' 사용자를 차단하는 중...
 
-blocklog-fail:             Failed to retrieve block log for '{0}'
-blocklog-none:             No block log for '{0}'
-blocklog-progress:         Retrieving block log for '{0}'...
+blocklog-fail:             '{0}' 사용자에 대한 차단 기록을 읽는 데 실패했습니다.
+blocklog-none:             '{0}' 사용자에 대한 차단 기록이 없습니다.
+blocklog-progress:         '{0}' 사용자에 대한 차단 기록을 불러오는 중...
 
 blocknotify-fail:          Did not notify '{0}' of block
 blocknotify-progress:      Notifying '{0}' of block...
 
-delete-done:               Deleted '{0}'
-delete-fail:               Did not delete '{0}'
-delete-progress:           Deleting '{0}'...
+delete-done:               '{0}' 문서를 삭제하였습니다.
+delete-fail:               '{0}' 문서를 삭제하지 못했습니다
+delete-progress:           '{0}' 문서를 삭제하는 중...
 
-deletelog-fail:            Failed to retrieve deletion log for '{0}'
-deletelog-none:            No deletion log for '{0}'
-deletelog-progress:        Retrieving deletion log for '{0}'...
+deletelog-fail:            '{0}' 문서의 삭제 기록을 읽는 데 실패하였습니다.
+deletelog-none:            '{0}' 문서에 대한 삭제 기록이 없습니다.
+deletelog-progress:        '{0}' 문서에 대한 삭제 기록을 불러오는 중...
 
 diff-deleted:              This revision has been deleted.
 diff-fail:                 Failed to retrieve diff of '{0}'

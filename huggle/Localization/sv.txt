@@ -1,6 +1,4 @@
-{{:Huggle/LocalizationHeader}}
-
-<pre>
+Ôªø<pre>
 name:                      Svenska
 </pre>
 
@@ -10,12 +8,12 @@ add:                        Add
 apply:                     Apply
 cancel:                     Avbryt
 clear:                     Rensa
-close:                      St‰ng
-continue:                  Forts‰tt
+close:                      St√§ng
+continue:                  Forts√§tt
 copy:                       Kopiera
 delete:                    Ta bort
 error:                      Error
-exit:                      St‰ng
+exit:                      St√§ng
 minimizewindow:             Minimera
 no:                        Nej
 ok:                         OK
@@ -23,7 +21,7 @@ remove:                    Ta bort
 rename:                     Byt namn
 restorewindow:             Restore
 save:                       Spara
-selectfile:                Bl‰ddra...
+selectfile:                Bl√§ddra...
 yes:                        Ja
 </pre>
 
@@ -34,7 +32,7 @@ edittype-deletenote:       Deletion request  notifications
 edittype-deletetag:        Deletion discussion tags
 edittype-deletereq:         Other deletion discussion edits
 edittype-manual:            Manual edits
-edittype-message:          Anv‰ndarmeddelanden
+edittype-message:          Anv√§ndarmeddelanden
 edittype-note:              Other notifications
 edittype-prodtag:          Proposed deletion tags
 edittype-protectreq:        Protection requests
@@ -77,9 +75,9 @@ closing-config:            Updating  configuration subpage...
 
 === Configuration  form ===
 <pre>
-config-title:               Inst‰llningar
-config-rememberme:         Kom i hÂg mitt anv‰ndarnamn
-config-rememberpassword:    Kom ihÂg mitt lˆsenord
+config-title:               Inst√§llningar
+config-rememberme:         Kom i h√•g mitt anv√§ndarnamn
+config-rememberpassword:    Kom ih√•g mitt l√∂senord
 config-autowhitelist:      Automatically  whitelist users
 config-openinbrowser:      Open browser links in new browser  window
 config-shownewedits:        Show new edits to the selected page as they are made
@@ -102,8 +100,8 @@ config-shortcut:            Shortcut
 config-changeshortcut:     Change shortcut for {0}
 config-noshortcut:          Inget
 config-defaults:            Defaults
-config-minor:              Markera som miniatyr‰ndring
-config-watchlist:           L‰gg till pÂ bevakningslistan
+config-minor:              Markera som miniatyr√§ndring
+config-watchlist:           L√§gg till p√• bevakningslistan
 config-defaultsummary:     Default summary for  manual edits
 config-undosummary:        Summary when undoing own edits
 config-confirmmultiple:     Confirm multiple reversions of an edit by the same user
@@ -120,7 +118,7 @@ config-reportlinkexamples: Include links to instances of  vandalism in reports
 config-extendreports:      Extend reports after  additional vandalism
 config-autoreportgroup:    Auto-report
 config-autoreport:          When asked to warn a user with a final warning
-config-reportnone:          Gˆr inget
+config-reportnone:          G√∂r inget
 config-reportprompt:       Prompt for report
 config-reportauto:          Issue report automatically
 config-templates:          User template  messages
@@ -131,8 +129,8 @@ config-useadminfunctions:  Use administrator  functions if available
 config-promptforblock:     Prompt for block if  asked to warn a user with a final warning
 config-blockreason:         Default block reason
 config-blocktime:          Default block  duration for
-config-blocktimeanon:      anonyma anv‰ndare
-config-blocktimereg:        registrerade anv‰ndare
+config-blocktimeanon:      anonyma anv√§ndare
+config-blocktimereg:        registrerade anv√§ndare
 config-summaryprompt:      Enter summary
 config-defaultsprompt:      Restore defaults?
 config-logbrowsetitle:     Log file location
@@ -363,7 +361,7 @@ main-tip-revertwarn:        Revert this revision, and issue a user warning
 main-tip-nextdiff:          Show the next revision in the queue
 main-tip-revert:            Revert this revision
 main-tip-template:         Send template message  to user
-main-tip-warn:              Varna anv‰ndare
+main-tip-warn:              Varna anv√§ndare
 main-tip-cancel:            Cancel all pending actions
 main-tip-undo:              Undo recent actions
 main-tip-browserback:      Back

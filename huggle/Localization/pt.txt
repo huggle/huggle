@@ -16,27 +16,29 @@ error:                     Erro
 exit:                      Sair
 minimizewindow:            Minimizar
 no:                        Não
-ok:                        Sim
+ok:                        OK
 remove:                    Remover
 rename:                    Renomear
 restorewindow:             Restaurar
 save:                      Gravar
 selectfile:                Selecionar...
 yes:                       Sim
+agf:                       Reverter como edição de boa fé com motivo personalizado
+import:                    Importar da configuração global
 </pre>
 
 === Edit types ===
 <pre>
 edittype-blocknote:        Notificações de bloqueio
 edittype-deletenote:       Notificações de pedidos de eliminação
-edittype-deletetag:        Deletion discussion tags
-edittype-deletereq:        Other deletion discussion edits
+edittype-deletetag:        Marcações em discussões de propostas para eliminação
+edittype-deletereq:        Outras edições em discussões de propostas para eliminação
 edittype-manual:           Edições manuais
 edittype-message:          Mensagens de usuário
 edittype-note:             Outras notificações
-edittype-prodtag:          Marcações de propostas para eliminar
+edittype-prodtag:          Marcações de eliminação semirrápida
 edittype-protectreq:       Pedidos de proteção
-edittype-report:           Reports
+edittype-report:           Reportar a administradores
 edittype-revert:           Reversões
 edittype-speedytag:        Marcações de eliminação rápida
 edittype-tag:              Outras marcações
@@ -64,6 +66,7 @@ block-blockloglabel:       Relatório de bloqueios:
 block-warnloglabel:        Avisos:
 block-sharedipwarning:     Nota: {0} está marcado como sendo um IP partilhado.
 block-sensitivewarning:    Este endereço IP está marcado como 'sensível' pela seguinte razão:\n\n   {0}\n\nContinuar?
+block-rangeblockwarning:   {0} já é afetado por um bloqueio de gama em {1}.\nEste bloqueio substituirá o efeito do bloqueio de gama. Continuar?
 </pre>
 
 === Closing form ===
@@ -74,26 +77,27 @@ closing-config:            Atualização automática da configuração...
 
 === Configuration form ===
 <pre>
+config-summ:               Sumários personalizados de reversão para predefinições
 config-title:              Opções
-config-rememberme:         Lembrar nome de usuário
-config-rememberpassword:   Lembrar palavra-chave
+config-rememberme:         Lembrar o meu nome de usuário
+config-rememberpassword:   Lembrar a minha palavra-chave
 config-autowhitelist:      Adicionar automaticamente usuários à lista branca
 config-openinbrowser:      Abrir hiperligações numa nova janela do navegador externo
-config-shownewedits:       Mostrar novas edições na página automaticamente caso elas ocorram
-config-preloads:           Ativar pré-carregamento de diffs
+config-shownewedits:       Mostrar automaticamente novas edições na página caso elas ocorram
+config-preloads:           Ativar pré-carregamento de difs
 config-ircmode:            Usar se possível o feed IRC para as mudanças recentes
 config-ircport:            Porta do IRC
-config-difffontsize:       Tamanho da fonte na janela de diffs
+config-difffontsize:       Tamanho da fonte
 config-logfile:            Ficheiro de relatórios
 config-viewlocalconfig:    Ver pasta de configuração local
 config-trayicon:           Mostrar ícone na barra de tarefas do Windows
 config-startupmessage:     Mostrar mensagem de inicialização do Huggle
-config-showlog:            Mostrar relatório
+config-showlog:            Mostrar relatório de ações do Huggle
 config-showqueue:          Mostrar fila de edições a rever
-config-rightalignqueue:    Mostrar fila de edições a rever no lado direito
+config-rightalignqueue:    Deslocar fila de edições a rever para o lado direito
 config-showtooltips:       Mostrar tooltips nos menus
-config-shownewmessages:    Mostrar barra de novas mensagens
-config-shortcutlist:       Teclas de atalho
+config-shownewmessages:    Mostrar barra de novas mensagens caso editem a minha página de discussão
+config-shortcutlist:       Teclas de atalhos
 config-shortcutaction:     Ação
 config-shortcut:           Atalho
 config-changeshortcut:     Alterar atalho para {0}
@@ -102,16 +106,17 @@ config-defaults:           Restaurar
 config-minor:              Marcar como edição menor
 config-watchlist:          Adicionar às páginas vigiadas
 config-defaultsummary:     Sumário padrão para edições manuais
-config-undosummary:        Sumário para edições minhas canceladas
+config-undosummary:        Sumário para edições minhas que eu cancelar
 config-confirmmultiple:    Pedir confirmação ao reverter várias edições do mesmo usuário
 config-confirmsame:        Pedir confirmação ao reverter para uma edição do mesmo usuário
 config-confirmselfrevert:  Pedir confirmação ao reverter edições minhas (excluindo desfazer)
 config-confirmwarned:      Pedir confirmação ao reverter para uma edição de um usuário com avisos
 config-confirmrange:       Pedir confirmação ao reverter uma edição de um IP para outra de um IP da mesma gama /16
+config-confirmpage:        Pedir confirmação ao reverter edições nas páginas ignoradas como a pág. de testes
 config-autoadvance:        Após reverter, mostrar automaticamente a próxima edição a rever
 config-userollback:        Usar rollback caso esteja disponível
 config-revertsummaries:    Sumários de edição disponíveis no menu
-config-clearsummaries:     Sumários introduzidos manualmente são memorizados entre sessões; clicar para apagá-los
+config-clearsummaries:     Sumários introduzidos manualmente são memorizados entre sessões; clicar no botão ao lado para os apagar
 config-reportlinkexamples: Incluir ligações para edições de vandalismo ao reportar vândalos aos administradores
 config-extendreports:      Após vandalismo posterior acrescentar novas ligações na página de reportar vândalos
 config-autoreportgroup:    Reportar automaticamente
@@ -119,7 +124,7 @@ config-autoreport:         Quando me for perguntado se quero dar um aviso final 
 config-reportnone:         Não fazer nada
 config-reportprompt:       Perguntar se quero reportar o vândalo
 config-reportauto:         Reportar vândalo automaticamente
-config-templates:          Mensagens de predefinição para usuários
+config-templates:          Mensagens para notificar usuários
 config-templatetext:       Texto
 config-template:           Predefinição
 config-highlightgroup:     Cores de destaque da sintaxe
@@ -127,9 +132,10 @@ config-useadminfunctions:  Usar opções de administradores caso seja possível
 config-promptforblock:     Perguntar se quero bloquear ao avisar pela última vez um usuário
 config-blockreason:        Razão padrão do bloqueio 
 config-blocktime:          Duração padrão do bloqueio para
-config-blocktimeanon:      usuários anónimos
+config-blocktimeanon:      IP
 config-blocktimereg:       usuários registados
 config-summaryprompt:      Introduza o sumário
+config-history:            Baixar todo o histórico de todos os artigos
 config-defaultsprompt:     Restaurar padrão?
 config-logbrowsetitle:     Localização do ficheiro de relatórios
 config-shortcutconflict:   O atalho '{0}' é igual ao atalho de '{1}'.
@@ -140,17 +146,19 @@ config-shortcutconflict:   O atalho '{0}' é igual ao atalho de '{1}'.
 delete-title:              Eliminar {0}
 delete-reason:             Razão:
 delete-deletionlog:        Relatório de eliminações:
+delete-rem-talk:           Eliminar discussão associada
+delete-notify:             Notificar criador
 </pre>
 
 === Edit form ===
 <pre>
 edit-title:                Editando {0}
 edit-summary:              Sumário:
-edit-minor:                Edição menor
+edit-minor:                Ed. menor
 edit-watch:                Vigiar esta página
 edit-page:                 Página
 edit-edit:                 Editar
-edit-view:                 Ver
+edit-view:                 Ver esta edição
 edit-page-savetofile:      Gravar para o ficheiro...
 edit-page-save:            Gravar
 edit-page-cancel:          Cancelar
@@ -161,11 +169,11 @@ edit-edit-copy:            Copiar
 edit-edit-paste:           Colar
 edit-edit-delete:          Apagar
 edit-edit-selectall:       Selecionar tudo
-edit-edit-find:            Procurar
+edit-edit-find:            Buscar
 edit-view-syntax:          Cores de destaque da sintaxe
-edit-matchcase:            Correspondência
-edit-find:                 Procurar:
-edit-replace:              Substituir:
+edit-matchcase:            Texto exato
+edit-find:                 Buscar:
+edit-replace:              Substituir por:
 edit-findnext:             Seguinte
 edit-findprevious:         Anterior
 edit-replaceall:           Substituir tudo
@@ -198,7 +206,7 @@ irc-error:                 Não foi possível ligar ao feed de IRC de mudanças rec
 === List form ===
 <pre>
 list-actions:              Ações e filtros...
-list-browsetitle:          Add text file to list
+list-browsetitle:          Adicionar arquivo de texto à lista
 list-combine:              Combinar
 list-copyto:               Copiar para:
 list-count:                {0} itens
@@ -234,11 +242,12 @@ login-proxy:               Usar um servidor proxy
 login-proxyaddress:        Endereço:
 login-proxyport:           Porta:
 login-proxydomain:         Domínio:
-login-start:               Login
-login-captchatitle:        Captcha necessário para entrar na conta
+login-start:               Entrar
 login-translate:           Traduzir...
+login-captchatitle:        Captcha necessário para entrar na conta
 
 login-progress-start:      A entrar na conta...
+login-progress-language:   A atualizar os ficheiros de mensagens...
 login-progress-global:     A verificar a configuração global...
 login-progress-config:     A verificar a configuração...
 login-progress-userlist:   A verificar a lista de usuários...
@@ -256,6 +265,7 @@ login-error-count:         Para usar o Huggle no projeto que escolheu são necess
 login-error-disabled:      O Huggle não está ativo na sua conta de usuário. Verifique a sua página de configuração pessoal.
 login-error-global:        O Huggle não conseguiu carregar a página de configuração global.
 login-error-invalid:       Introduziu um nome de usuário inválido.
+login-error-language:      Falha ao carregar ficheiros de mensagens. 
 login-error-nocaptcha:     Código de confirmação Captcha errado.
 login-error-noconfig:      Este projeto não tem uma página de configuração do Huggle.
 login-error-nouser:        A conta de usuário não existe.
@@ -278,30 +288,33 @@ main-new-messages:         Tem novas mensagens; selecione Sistema ->Mostrar nova
 main-system:               Sistema
 main-system-messages:      Mostrar novas mensagens
 main-system-reconnectirc:  Tornar a ligar ao feed de IRC
-main-system-savelog:       Gravar relatório...
+main-system-savelog:       Gravar relatório de ações...
 main-system-lists:         Construtor de listas...
 main-system-requests:      Pedidos...
 main-system-statistics:    Estatísticas...
 main-system-showlog:       Mostrar relatório
 main-system-showqueue:     Mostrar fila de edições a rever
+main-system-showtwoqueues: Mostrar duas filas de edições a rever
 main-system-options:       Opções...
 main-system-logout:        Sair da conta
 main-system-exit:          Sair do Huggle
 main-queue:                Fila de edições
-main-queue-next:           Seguinte
-main-queue-trim:           Reduzir
-main-queue-clear:          Apagar lista atual
+main-queue-next:           Ver próxima edição a rever na fila
+main-queue-trim:           Remover edições antigas da fila...
+main-queue-clear:          Remover todas as edições da fila atual
 main-queue-count:          {0} itens
-main-queue-query:          Running query...
-main-queue-reset:          Reset
-main-queue-clearall:       Apagar todas as listas
-main-queue-options:        Gerir listas...
+main-queue-query:          A executar...
+main-queue-reset:          Reinicializar
+main-queue-clearall:       Remover edições de todas as filas
+main-queue-options:        Gerir filas de edições...
 main-goto:                 Ir para
 main-goto-mytalk:          Minha página de discussão
 main-goto-mycontribs:      Minhas edições
-main-revision:             Revisão
+main-revision-decline:     Rejeitar revisão
+main-revision:             Edição
 main-revision-view:        Ver
 main-revision-revert:      Reverter
+main-revision-faith:       Reverter com boa fé
 main-revision-previous:    Anterior
 main-revision-next:        Seguinte
 main-revision-latest:      Última
@@ -312,9 +325,9 @@ main-page-switchtoarticle: Mudar para a página do artigo
 main-page-viewlatest:      Ver a última edição
 main-page-history:         Carregar história
 main-page-historypage:     Mostrar página da história
-main-page-edit:            Editar
-main-page-tag:             Marcar
-main-page-reqdeletion:     Pedir eliminação
+main-page-edit:            Editar...
+main-page-tag:             Marcar esta página com uma predefinição...
+main-page-reqdeletion:     Propor para eliminar
 main-page-reqprotection:   Pedir proteção
 main-page-watch:           Vigiar
 main-page-unwatch:         Deixar de vigiar
@@ -323,13 +336,14 @@ main-page-patrol:          Marcar como patrulhada
 main-page-move:            Mover...
 main-page-protect:         Proteger...
 main-page-delete:          Eliminar...
+main-page-restore:         Restaurar esta versão
 main-user-info:            Mostrar informações do usuário
-main-user-ignore:          Ignorar
-main-user-unignore:        Deixar de ignorar
+main-user-ignore:          Ignorar edições deste usuário
+main-user-unignore:        Deixar de ignorar edições deste usuário
 main-user-contribs:        Carregar contribuições do usuário
-main-user-talk:            Ver página de discussão
-main-user-message:         Mensagem...
-main-user-email:           Email...
+main-user-talk:            Ver página de discussão do usuário
+main-user-message:         Enviar mensagem personalizada...
+main-user-email:           Enviar email...
 main-user-warn:            Avisar...
 main-user-report:          Reportar
 main-user-block:           Bloquear...
@@ -337,11 +351,11 @@ main-browser:              Navegador
 main-browser-newtab:       Nova aba
 main-browser-closetab:     Fechar aba
 main-browser-closeothers:  Fechar todas as outras abas
-main-browser-back:         Anterior
-main-browser-forward:      Seguinte
+main-browser-back:         Ver edição anterior do histórico de navegação
+main-browser-forward:      Ver edição seguinte do histórico de navegação
 main-browser-open:         Ver página no navegador externo
-main-browser-newedits:     Mostar novas edições feitas na página
-main-browser-newcontribs:  Mostrar novas edições do usuário
+main-browser-newedits:     Mostrar automaticamente novas edições feitas na página
+main-browser-newcontribs:  Mostrar automaticamente novas edições feitas pelo usuário
 main-help:                 Ajuda
 main-help-documentation:   Documentação
 main-help-feedback:        Feedback
@@ -364,12 +378,12 @@ main-tip-browserforward:   Seguinte
 main-tip-browseropen:      Ver no navegador externo
 main-tip-browsernewtab:    Nova aba
 main-tip-browserclosetab:  Fechar aba
-main-tip-history:          Receber a história da página
+main-tip-history:          Carregar a história da página
 main-tip-historyprev:      Mostrar edição anterior desta página
 main-tip-historynext:      Mostrar edição seguinte desta página
 main-tip-historylast:      Mostrar última edição desta página
 main-tip-historydifftocur: Mostrar alterações entre esta edição e a última edição desta página
-main-tip-contribs:         Receber edições feitas pelo usuário
+main-tip-contribs:         Carregar edições feitas pelo usuário
 main-tip-contribsprev:     Mostrar edição anterior deste usuário
 main-tip-contribsnext:     Mostrar edição seguinte deste usuário
 main-tip-contribslast:     Mostrar última edição deste usuário
@@ -385,6 +399,7 @@ main-tip-usermessage:      Enviar mensagem a este usuário
 main-tip-userignore:       Ignorar todas as edições deste usuário
 main-tip-userreport:       Reportar este usuário
 main-tip-userblock:        Bloquear este usuário
+main-revision-acceptpend:  Aceitar esta revisão pendente
 </pre>
 
 === Message form ===
@@ -394,7 +409,7 @@ message-help:              Introduza um ou ambos os campos de Assunto e Sumário.
 message-subject:           Assunto:
 message-message:           Mensagem:
 message-summary:           Sumário:
-message-autosign:          Adicionar automaticamente a assinatura
+message-autosign:          Adicionar automaticamente a assinatura no final da mensagem
 </pre>
 
 === Move form ===
@@ -402,12 +417,12 @@ message-autosign:          Adicionar automaticamente a assinatura
 move-title:                Mover {0}
 move-target:               Destino:
 move-reason:               Razão:
-move-movetalk:             Mover página de discussão
+move-movetalk:             Mover também a página de discussão
 </pre>
 
 === Prod form ===
 <pre>
-prod-title:                Proposta para eliminar {0}
+prod-title:                Marcar para eliminação semirrápida {0}
 prod-reason:               Razão:
 </pre>
 
@@ -429,29 +444,29 @@ protect-moveprotection:    Proteção de movimentos
 === Queue form ===
 <pre>
 queue-title:               Fila de edições a rever
-queue-queues:              Filas de edições:
+queue-queues:              Filas de edições a rever:
 queue-typegroup:           Tipo de fila de edições a rever
 queue-listselector:        Lista:
 queue-listbuilder:         Construtor de listas...
 queue-sortorder:           Ordem:
-queue-removeviewed:        Remover edição quando visualizada
-queue-removeold:           Remover edições anteriores da mesma página
-queue-removeafter:         Remover edições após
+queue-removeviewed:        Remover edição da fila quando for visualizada
+queue-removeold:           Remover edições anteriores feitas na mesma página
+queue-removeafter:         Rem. edições após
 queue-removeaftertime:     minutos
 queue-preload:             Ativar pré-carregamento de edições quando esta fila de edições for selecionada
-queue-ignorepages:         Ignorar edições de páginas na lista de páginas ignoradas
-queue-traynotification:    Mostrar notificação na barra de tarefas quando for adicionada uma nova edição a esta fila
+queue-ignorepages:         Ignorar edições nas páginas que estejam na lista de páginas ignoradas
+queue-traynotification:    Mostrar notificação na barra de tarefas quando houver uma nova edição nesta fila
 queue-diffsgroup:          Difs
 queue-nodiffs:             Carregar difs apenas quando estiver a ver a edição
 queue-preloaddiffs:        Carregar previamente os difs quando a fila estiver ativa
 queue-alldiffs:            Carregar difs de todas as edições na fila
 queue-pagefiltersgroup:    Filtros de títulos de páginas
-queue-pageregex:           Título corresponde à expressão regular:
+queue-pageregex:           Título na expressão regular:
 queue-namespaces:          Domínios:
 queue-applylabel:          Clicar em Aplicar para aplicar estes filtros à lista de páginas existente.
 queue-editfiltersgroup:    Editar filtros
-queue-userregex:           Nome de usuário corresponde à expressão regular:
-queue-summaryregex:        Sumário de edição corresponde à expressão regular:
+queue-userregex:           Nome de usuário na expressão regular:
+queue-summaryregex:        Sumário de edição na exp. regular:
 queue-filternewpage:       Página nova
 queue-filterownuserspace:  Pág. e subpáginas do usuário
 queue-filteranonymous:     Usuário anónimo
@@ -462,7 +477,7 @@ queue-filterwarnings:      Aviso
 queue-filtertags:          Marcação com predefinição
 queue-filterbot:           Edição de robô
 queue-filterassisted:      Edição assistida
-queue-filterhuggle:        Edição com Huggle
+queue-filterhuggle:        Edição feita com o Huggle
 queue-filterme:            Minhas edições
 queue-examplelabel1:       Requerer este atributo
 queue-examplelabel2:       Excluir este atributo
@@ -473,7 +488,7 @@ queue-usergroup:           Mostrar apenas edições destes usuários
 === Queue trim form ===
 <pre>
 queuetrim-title:           Remover edições da fila
-queuetrim-age:             Retirar todas as edições a rever mais antigas do que
+queuetrim-age:             Retirar edições mais antigas do que
 queuetrim-ageunit:         minutos
 </pre>
 
@@ -484,7 +499,7 @@ requests-cancelall:        Cancelar tudo
 requests-cancelled:        Cancelado
 requests-inprogress:       A executar
 requests-failed:           Falhou
-requests-completed:        Bem sucedido
+requests-completed:        Executado
 requests-time:             Hora
 requests-type:             Tipo
 requests-query:            Pedido
@@ -501,7 +516,7 @@ report-log:                Avisos para este usuário:
 === Revert form ===
 <pre>
 revert-title:              Reverter {0}
-revert-summary:            Sumário da reversão (para padrão deixar em branco):
+revert-summary:            Sumário da reversão (para sumário padrão deixar em branco):
 revert-currentonly:        Reverter apenas a edição selecionada
 </pre>
 
@@ -514,12 +529,13 @@ revertandwarn-title:       Reverter e avisar {0}
 <pre>
 revert-confirm-ignored:    Reverter edição do usuário '{0}' da lista branca?
 revert-confirm-multiple:   Vai reverter várias edições do usuário '{0}'. Continuar?
+revert-confirm-page:       Reverter a edição na página ignorada '{0}'?
 revert-confirm-range:      O autor da edição para qual vai reverter, {1}, provavelmente é o mesmo autor da edição atual, {0}, por ser um IP da mesma gama; certifique-se se quer mesmo reverter para esta edição. Continuar?
 revert-confirm-same:       Vai reverter para uma edição anterior do mesmo usuário, {0}. Continuar?
 revert-confirm-self:       Vai reverter uma edição sua. Continuar?
 revert-confirm-warned:     Vai reverter para uma edição de {0}; este usuário já foi avisado. Continuar?
 revert-error-first:        Só existe uma edição nesta página por isso não é possível reverter.
-revert-only:               Edit is the only edit to the page.
+revert-only:               A edição é a única existente na página.
 revert-creator:            A última edição foi feita pelo criador da página, {0}.
 revert-delete-instead:     Não será melhor eliminar a página?
 revert-speedy-instead:     Não será melhor marcar para eliminação rápida?
@@ -540,10 +556,10 @@ stats-actions:             Eventos nesta sessão:
 stats-session:             Tempo decorrido da sessão: {0}
 stats-edits:               Edições
 stats-assisted:            Edições assistidas
-stats-huggle:              Edições no Huggle
+stats-huggle:              Edições feitas com o Huggle
 stats-reverts:             Reversões
 stats-warnings:            Avisos
-stats-reports:             Reportes
+stats-reports:             Reportar a administradores
 stats-tags:                Marcações
 stats-notifications:       Notificações
 stats-blocks:              Bloqueios
@@ -560,10 +576,10 @@ stats-other:               Outros
 === Tag form ===
 <pre>
 tag-title:                 Marcar {0}
-tag-tagselector:           Adicionar marcação:
+tag-tagselector:           Adicionar:
 tag-tags:                  Marcações:
 tag-summary:               Sumário:
-tag-insertatend:           Inserir no final da página
+tag-insertatend:           Inserir no final da página e não no início
 </pre>
 
 === Update form ===
@@ -584,8 +600,8 @@ userinfo-title:            Informações sobre o usuário '{0}'
 userinfo-anonymous:        Anónimo:
 userinfo-ignored:          Na lista branca:
 userinfo-edits:            Número de edições:
-userinfo-sessionedits:     Edições nesta sessão:
-userinfo-sharedip:         IP partilhado/dinâmico:
+userinfo-sessionedits:     Ed. nesta sessão:
+userinfo-sharedip:         IP partilhado/dinâm.:
 userinfo-blocklog:         Bloqueios:
 userinfo-warnlog:          Avisos:
 </pre>
@@ -631,7 +647,7 @@ block-fail:                O bloqueio de '{0}' falhou
 block-progress:            A bloquear '{0}'...
 
 blocklog-fail:             Erro ao receber o relatório de bloqueio para '{0}'
-blocklog-none:             Não existem entradas no relatório de bloqueios para '{0}'
+blocklog-none:             '{0}' nunca foi bloqueado
 blocklog-progress:         A receber o relatório de bloqueios para '{0}'...
 
 blocknotify-fail:          Não foi possível notificar '{0}' do bloqueio
@@ -644,8 +660,8 @@ delete-progress:           A eliminar '{0}'...
 deletelog-fail:            Não foi possível receber o relatório de eliminação para '{0}'
 deletelog-none:            Não existem entradas no relatório de eliminações para '{0}'
 deletelog-progress:        A receber o relatório de eliminações para '{0}'...
-diff-deleted:              Esta edição foi eliminada.
 
+diff-deleted:              Esta edição foi eliminada.
 diff-fail:                 Não foi possível receber o dif de '{0}'
 
 reqdelete-duplicate:       A página já foi proposta para eliminação
@@ -678,7 +694,7 @@ notify-unknowncreator:     Não foi possível determinar o criador da página
 patrol-duplicate:          Esta página já está patrulhada
 patrol-done:               '{0}' marcada como patrulhada
 patrol-fail:               Não foi possível marcar '{0}' como patrulhada
-patrol-notfound:           Não foi possível econtrar o id nas mudanças recentes porque a página é demasiado antiga
+patrol-notfound:           Não foi possível encontrar o id nas mudanças recentes porque a página é demasiado antiga
 patrol-progress:           A marcar '{0}' como patrulhada...
 
 protect-done:              Nível de proteção de '{0}' foi alterado
@@ -686,12 +702,14 @@ protect-fail:              Não foi possível alterar o nível de proteção de '{0}'
 protect-progress:          A alterar o nível de proteção de '{0}'...
 
 protectlog-fail:           Não foi possível receber o registo de proteção de páginas para '{0}'
-protectlog-none:           Não existe uma entrada no registo de proteção de páguinas para '{0}'
-protectlog-progress:       A receber o registo de proteção de páguinas para '{0}'...
+protectlog-none:           Não existe uma entrada no registo de proteção de páginas para '{0}'
+protectlog-progress:       A receber o registo de proteção de páginas para '{0}'...
 
 purge-done:                '{0}' recarregada
 purge-fail:                Não foi possível recarregar '{0}'
 purge-progress:            A recarregar '{0}'
+
+queue-refresh-fail:        Ocorreu um erro ao atualizar a fila '{0}'
 
 report-duplicate:          O usuário já foi reportado aos administradores
 report-fail:               Não foi possível reportar '{0}' aos administradores
@@ -730,7 +748,7 @@ speedy-fail:               Não foi possível marcar '{0}' para eliminação rápida
 speedy-progress:           A marcar '{0}' para eliminação rápida...
 
 warnlog-fail:              Não foi possível receber o registo de avisos de '{0}'
-warnlog-none:              '{0}' não foi avisado
+warnlog-none:              '{0}' não tem avisos do Huggle na pág. de discussão
 warnlog-progress:          A receber o registo de avisos de '{0}'...
 
 unwatch-done:              '{0}' removida da lista de páginas vigiadas

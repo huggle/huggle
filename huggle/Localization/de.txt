@@ -25,6 +25,24 @@ selectfile:                Durchsuchen...
 yes:                       Ja
 </pre>
 
+=== Edit types ===
+<pre>
+edittype-blocknote:        Benachrichtigungen über Blocks
+edittype-deletenote:       Benachrichtigungen über Löschanträge
+edittype-deletetag:        Löschdiskussion-Tags
+edittype-deletereq:        Andere Löschdiskussionen-Beiträge
+edittype-manual:           Manuelle Edits
+edittype-message:          Benutzernachrichten
+edittype-note:             Andere Benachrichtigung
+edittype-prodtag:          Löschungsantrags-Tags
+edittype-protectreq:       Seitenschutz-Anträge
+edittype-report:           Benachrichtigungen
+edittype-revert:           Rückgängigmachen
+edittype-speedytag:        Schnelllösch-Tags
+edittype-tag:              Andere Tags
+edittype-warning:          Warnungen
+</pre>
+
 === About form ===
 <pre>
 about-contributors:        Mitwirkende:
@@ -37,9 +55,9 @@ block-reason:              Grund:
 block-duration:            Dauer:
 block-message:             Nachricht auf Diskussionsseite:
 block-anononly:            Nur anonyme Benutzer sperren
-block-creation:            Konto-Erstellen verhindern
+block-creation:            Erstellen von Konten verhindern
 block-autoblock:           Autosperren anschalten
-block-email:               E-Mail sperren
+block-email:               E-Mail-Versand sperren
 block-usertalk:            Benutzer Diskussion
 block-usercontribs:        Benutzerbeiträge
 block-blockloglabel:       Sperrlogbuch:
@@ -52,29 +70,30 @@ block-rangeblockwarning:   {0} ist bereits durch eine Range-Sperrung von {1} bet
 === Closing form ===
 <pre>
 closing-whitelist:         Benutzer-Whitelist wird aktualisiert...
-closing-config:            Konfigurations-Unterseite wird aktualisiert...
+closing-config:            Konfigurationsunterseite wird aktualisiert...
 </pre>
 
 === Configuration form ===
 <pre>
 config-title:              Einstellungen
-config-rememberme:         Benutzername merken
+config-rememberme:         Benutzernamen merken
 config-rememberpassword:   Passwort merken
 config-autowhitelist:      Automatisch Benutzer zur Whitelist hinzufügen
 config-openinbrowser:      Browser-Links in neuem Fenster öffnen
-config-shownewedits:       Zeige neue Änderungen an der gerade ausgewählten Seite sobald diese vorgenommen werden
-config-preloads:           Erlaube das im Hintergrund laden von Vergleichsseiten (Diffs)
-config-ircmode:            Verwende IRC für letzte Änderungen falls möglich
-config-ircport:            IRC-Port (6664 - 6669)
+config-shownewedits:       Zeige neue Änderungen an der gerade ausgewählten Seite, sobald diese vorgenommen werden
+config-preloads:           Erlaube das laden von Vergleichsseiten (Diffs) im Hintergund
+config-ircmode:            Verwende IRC für letzte Änderungen, falls möglich
+config-ircport:            IRC-Port
 config-difffontsize:       Schriftgröße für Vergleichsseiten (Diffs)
 config-logfile:            Logdatei
 config-viewlocalconfig:    Lokalen Konfigurations-Ordner anzeigen
 config-trayicon:           Trayicon anzeigen
-config-startupmessage:     Startmessage anzeigen
+config-startupmessage:     Startnachricht anzeigen
 config-showlog:            Log anzeigen
 config-showqueue:          Veränderungswarteschleife anzeigen
 config-rightalignqueue:    Veränderungswarteschleife auf der rechten Seite anzeigen
-config-showtooltips:       Hilfstexte auf den Menüs anzeigen
+config-showtooltips:       Hilfstexte in den Menüs anzeigen
+config-shownewmessages:    Zeige Balken für neue Nachrichten
 config-shortcutlist:       Tastatur-Abkürzungen
 config-shortcutaction:     Aktion
 config-shortcut:           Abkürzung
@@ -85,35 +104,37 @@ config-minor:              Als "Nur Kleinigkeiten wurden verändert" markieren
 config-watchlist:          Zur Beobachtungsliste hinzufügen
 config-defaultsummary:     Standardzusammenfassung für manuelle Änderungen
 config-undosummary:        Zusammenfassung für das Widerrufen einer eigenen Änderung
-config-confirmmultiple:    Verlange Bestätigung wenn mehrere Änderungen eines Benutzers widerrufen werden sollen
-config-confirmsame:        Verlange Bestätigung wenn die Änderung zurückführt zu einer Version die dieser Benutzer bearbeitet hat
+config-confirmmultiple:    Verlange Bestätigung, wenn mehrere Änderungen eines Benutzers widerrufen werden sollen
+config-confirmsame:        Verlange Bestätigung, wenn die Änderung zurückführt zu einer Version die dieser Benutzer bearbeitet hat
 config-confirmselfrevert:  Verlange Bestätigung für das Widerrufen eigener Änderungen (außer Entfernen)
+config-confirmwarned:      Confirm reversion to an edit by a warned user
+config-confirmrange:       Confirm reversion to edit by an anonymous user in the same /16 range as the user being reverted
+config-confirmpage:        Confirm reversion of ignored pages
 config-autoadvance:        Nach Zurücksetzen die nächste Seite in der Warteschleife aufrufen
-config-userollback:        Verwende "rollback" wenn möglich
+config-userollback:        Verwende "rollback", wenn möglich
 config-revertsummaries:    Zusammenfassungen im Menü
 config-clearsummaries:     Manuell eingegebene Zusammenfassungen werden gespeichert; hier klicken um diese zu löschen
-config-reportlinkexamples: Füge Beispiele über Vandalismus zu den Meldungen hinzu
-config-extendreports:      Erweitere Meldung nachdem mehr Vandalismus geschehen ist
+config-reportlinkexamples: Füge Beispiele von Vandalismus zu den Meldungen hinzu
+config-extendreports:      Erweitere Meldung, nachdem mehr Vandalismus geschehen ist
 config-autoreportgroup:    Automatische Meldung
 config-autoreport:         Wenn ein Benutzer gewarnt werden soll, der schon die letzte Warnung bekommen hat
 config-reportnone:         Nichts tun
-config-reportprompt:       Nachfragen ob gemeldet werden soll
+config-reportprompt:       Nachfragen, ob gemeldet werden soll
 config-reportauto:         Automatisch melden
 config-templates:          Benutzer-Vorlagen-Benachrichtigungen
 config-templatetext:       Text anzeigen
 config-template:           Vorlage
 config-highlightgroup:     Farben zur Syntax-Hervorhebung
-config-useadminfunctions:  Administrator-Funktionen verwenden falls möglich
+config-useadminfunctions:  Administrator-Funktionen verwenden, falls möglich
 config-promptforblock:     Sperrung anbieten, falls ein Benutzer gewarnt werden soll, der schon die letzte Warnung bekommen hat
-config-blockreason:        Standard Sperrungs-Grund
-config-blocktime:          Standard Sperrdauer für
+config-blockreason:        Standard-Sperrgrund
+config-blocktime:          Standard-Sperrdauer für
 config-blocktimeanon:      anonyme Benutzer
 config-blocktimereg:       registrierte Benutzer
 config-summaryprompt:      Zusammenfassung
 config-defaultsprompt:     Standardeinstellungen wiederherstellen?
 config-logbrowsetitle:     Pfad der Logdatei
 config-shortcutconflict:   Abkürzung '{0}' wird bereits für '{1}' verwendet.
-config-addtemplate:        Vorlage hinzufügen
 </pre>
 
 === Delete form ===
@@ -146,7 +167,7 @@ edit-edit-find:            Suchen
 edit-view-syntax:          Syntax farblich markieren
 edit-matchcase:            Groß- und Kleinschreibung beachten
 edit-find:                 Suche nach:
-edit-replace:              Ersetze mit:
+edit-replace:              Ersetze durch:
 edit-findnext:             Weiter
 edit-findprevious:         Zurück
 edit-replaceall:           Alle ersetzen
@@ -170,9 +191,38 @@ email-send:                Senden
 === IRC feed ===
 <pre>
 irc-connected:             Mit IRC-Feed verbunden
+irc-connecting:            Versuche mit IRC-Feed zu verbinden; dies kann einen Augenblick dauern...
 irc-disconnected:          Verbindung mit IRC-Feed unterbrochen; verbinde...
-irc-nochannel:             IRC Channel für {0} nicht gefunden; verwende stattdessen langsamere API Queries
-irc-error:                 Kann nicht mit IRC-Feed verbinden. Verwende stattdessen langsamere API Queries
+irc-nochannel:             IRC Channel für {0} nicht gefunden; verwende stattdessen langsamere API Querys
+irc-error:                 Kann nicht mit IRC-Feed verbinden. Verwende stattdessen langsamere API Querys
+</pre>
+
+=== List form ===
+<pre>
+list-actions:              Aktionen und Filter...
+list-browsetitle:          Text zur Liste hinzufügen
+list-combine:              Verbinden
+list-copyto:               Kopiere nach:
+list-count:                {0} Einträge
+list-deleteconfirm:        Liste '{0}' löschen?
+list-duplicatename:        Eine Liste mit dem Namen '{0}' existiert bereits. Bitte einen anderen Namen wählen.
+list-intersect:            Überkreuzen
+list-limit:                Bis zu:
+list-listempty:            Keine Einträge in der Liste\nNeue Quelle eingeben und "Hinzufügen" klicken
+list-nolists:              Keine Liste definiert\nClick "Hinzufügen" um eine neue anzulegen
+list-query-cancelled:      Abgebrochen.
+list-query-fail:           Anfrage gescheitert.
+list-query-noresults:      Anfrage brachte keine Ergebnisse.
+list-query-progress:       Frage Daten ab...
+list-query-results:        {0} Ergebnisse.
+list-renameprompt:         Neuen Namen eingeben:
+list-replace:              Ersetzen
+list-savefailed:           Kann Liste nicht speichern:
+list-savetitle:            Liste speichern
+list-sourcetype:           Art der Quelle:
+list-start:                Von:
+list-stop:                 Stopp
+list-title:                Listen-Bauer
 </pre>
 
 === Login ===
@@ -227,6 +277,7 @@ main-page:                 Seite
 main-user:                 Benutzer
 main-contribs:             Beiträge
 main-history:              Versionen
+main-new-messages:         Du hast neue Nachrichten, wähle System -> Neue Nachrichten anzeigen oder drücke M, um sie anzusehen.
 main-system:               System
 main-system-messages:      Neue Nachrichten anzeigen
 main-system-reconnectirc:  IRC-Feed neu verbinden
@@ -236,6 +287,7 @@ main-system-requests:      Anfragen...
 main-system-statistics:    Statistiken...
 main-system-showlog:       Log anzeigen
 main-system-showqueue:     Warteschleife anzeigen
+main-system-showtwoqueues: Zwei Warteschleifen anzeigen
 main-system-options:       Einstellungen...
 main-system-logout:        Abmelden
 main-system-exit:          Beenden
@@ -243,16 +295,24 @@ main-queue:                Warteschleife
 main-queue-next:           Weiter
 main-queue-trim:           trimmen
 main-queue-clear:          Aktuelle leeren
+main-queue-count:          {0} Einträge
+main-queue-query:          Running query...
 main-queue-reset:          Reset
 main-queue-clearall:       Alle leeren
 main-queue-options:        Warteschleifen verwalten...
 main-goto:                 Gehe zu
 main-goto-mytalk:          Meine Benutzer Diskussionsseite
 main-goto-mycontribs:      Meine Benutzerbeiträge
+main-revision:             Version
+main-revision-view:        Zeige
+main-revision-revert:      Revert
+main-revision-previous:    Vorherige
+main-revision-next:        Nächste
+main-revision-latest:      Aktuellste
+main-revision-sight:       Sichten
 main-page-switchtotalk:    Diskussionsseite anzeigen
 main-page-switchtosubject: Hauptseite anzeigen
 main-page-switchtoarticle: Artikelseite anzeigen
-main-page-view:            Diese Version ansehen
 main-page-viewlatest:      Aktuelle Version ansehen
 main-page-history:         Versionen anzeigen
 main-page-historypage:     Zeige Versionsübersicht
@@ -341,6 +401,35 @@ message-summary:           Zusammenfassung:
 message-autosign:          Automatisch Signatur anfügen
 </pre>
 
+=== Move form ===
+<pre>
+move-title:                Verschiebe {0}
+move-target:               Ziel:
+move-reason:               Grund:
+move-movetalk:             Diskussionsseite verschieben
+</pre>
+
+=== Prod form ===
+<pre>
+prod-title:                Vorgeschlagene Löschung von {0}
+prod-reason:               Grund:
+</pre>
+
+=== Protect form ===
+<pre>
+protect-title:             {0} schützen
+protect-request-title:     Schutz für {0} beantragen
+protect-reason:            Grund:
+protect-expiry:            Ablaufdatum:
+protect-log:               Seitenschutzlogbuch:
+protect-currentlevel:      Seitenschutzstatus:
+protect-type:              Seitenschutzart:
+protect-none:              Keine
+protect-semiprotection:    Halb-Schutz
+protect-fullprotection:    Kompletter Schutz
+protect-moveprotection:    Schutz vor Verschieben
+</pre>
+
 === Queue form ===
 <pre>
 queue-title:               Warteschleifen
@@ -355,6 +444,11 @@ queue-removeafter:         Entferne Änderungen danach
 queue-removeaftertime:     Minuten
 queue-preload:             Erlaube das Vorabladen von Versionen bei dieser Warteschleife
 queue-ignorepages:         Ignoriere Änderungen an Seiten auf der Ignorierte-Seiten-Liste
+queue-traynotification:    Taskleistenbenachrichtigung wenn eine Änderung in die Warteschleife hinzugefügt wurde
+queue-diffsgroup:          Veränderungen
+queue-nodiffs:             Veränderungen nur laden, wenn die Version angesehen wird
+queue-preloaddiffs:        Veränderungen vorladen wenn Warteschleife aktiv ist
+queue-alldiffs:            Veränderungen laden für jede Version in der Warteschleife
 queue-pagefiltersgroup:    Seiten-Titel Filter
 queue-pageregex:           Titel erfüllt diese regulären Ausdrücke:
 queue-namespaces:          Namensräume:
@@ -377,6 +471,7 @@ queue-filterme:            Meine Änderung
 queue-examplelabel1:       Benötige diese Eigenschaft
 queue-examplelabel2:       Diese Eigenschaft ausschließen
 queue-examplelabel3:       Diese Eigenschaft nicht prüfen
+queue-usergroup:           Nur Änderungen dieser Benutzer anzeigen
 </pre>
 
 === Queue trim form ===
@@ -399,6 +494,14 @@ requests-type:             Art
 requests-query:            Anfrage
 </pre>
 
+=== Report form ===
+<pre>
+report-title:              {0} melden
+report-reason:             Grund:
+report-message:            Nachricht:
+report-log:                Warnungen für diesen Benutzer:
+</pre>
+
 === Revert form ===
 <pre>
 revert-title:              {0} zurücksetzen
@@ -409,6 +512,30 @@ revert-currentonly:        Nur die gewählte Version rückgängigmachen
 === Revert and warn form ===
 <pre>
 revertandwarn-title:       {0} rückgängigmachen und verwarnen
+</pre>
+
+=== Reverting ===
+<pre>
+revert-confirm-ignored:    Veränderung von auf der Whitelist stehenden Benutzer '{0}' rückgängigmachen?
+revert-confirm-multiple:   Dies wird mehrere Änderungen von '{0}' rückgängigmachen. Weiter?
+revert-confirm-range:      Der Bearbeiter der Zielversion, {1}, ist in der selben Range wie der Autor der jetzigen Version und könnte die selbe Person sein; bitte sicherstellen dass die Zielversion die richtige ist. Weiter?
+revert-confirm-page:       Veränderungen an ignorierter Seite '{0}' rückgängig machen?
+revert-confirm-same:       Dies wird die Veränderungen zu einer anderen Version zurücksetzen die der selbe User, {0}, bearbeitet hat. Weiter?
+revert-confirm-self:       Dies wird deine eigene Version rückgängig machen. Weiter?
+revert-confirm-warned:     Dies wird zu einer Version von {0} zurücksetzen; dieser Benutzer wurde bereits verwarnt. Weiter?
+revert-error-first:        Änderung ist die Erste an dieser Seite; Rückgängigmachen nicht möglich.
+revert-only:               Änderung ist die Einzige an dieser Seite.
+revert-creator:            Letze Änderung durch Seitenersteller, {0}.
+revert-delete-instead:     Seite stattdessen löschen?
+revert-speedy-instead:     Stattdessen zur Schnelllöschung vorschlagen?
+</pre>
+
+=== Speedy form ===
+<pre>
+speedy-title:              {0} taggen
+speedy-reason:             Grund:
+speedy-parameters:         Parameter:
+speedy-notifycreator:      Seitenersteller benachrichtigen?
 </pre>
 
 === Statistics form ===
@@ -481,14 +608,26 @@ warning-warntype:          Art der Warnung:
 warning-warnlog:           Verwarnungen dieses Benutzers:
 </pre>
 
+=== XfD form ===
+<pre>
+xfd-title:                 {0} zur Löschung vorschlagen
+xfd-category:              Kategorie:
+xfd-nominationtype:        Vorschlagsart:
+xfd-notify:                Ersteller benachrichtigen
+xfd-reason:                Grund:
+</pre>
+
 === Web requests ===
 <pre>
-error-unknown:             Unbekannter Fehler
+error-apidisabled:         MediaWiki API ist deaktiviert
 error-exception:           Fehler beim Laden von '{0}'
 error-fail:                Fehler beim Laden von '{0}'
+error-loggedout:           Benutzer wurde abgemeldet, logge wieder ein...
 error-noresponse:          Keine Rückmeldung
 error-pagemissing:         Seite existiert nicht
-error-apidisabled:         MediaWiki API ist deaktiviert
+error-reloginfail:         Konnte nicht wieder einloggen, Huggle-Neustart empfohlen
+error-timeout:             Zeitüberschreitung bei Anforderung
+error-unknown:             Unbekannter Fehler
 
 retrying:                  Versuche erneut...
 
@@ -511,6 +650,7 @@ deletelog-fail:            Löschlogbuch für '{0}' konnte nicht geladen werden
 deletelog-none:            Kein Löschlogbuch für '{0}'
 deletelog-progress:        Lade Löschlogbuch für '{0}'...
 
+diff-deleted:              Diese Version wurde gelöscht.
 diff-fail:                 Konnte Vergleich (Diff) für '{0}' nicht laden
 
 reqdelete-duplicate:       Seite bereits markiert
@@ -531,6 +671,7 @@ email-fail:                E-Mail an '{0}' konnte nicht gesendet werden
 email-progress:            Sende E-Mail an '{0}'...
 
 history-fail:              Konnte Versionsgeschichte von '{0}' nicht laden
+history-progress:          Lade Versionsgeschichte von '{0}' ({1})...
 
 move-done:                 '{0}' nach '{1}' verschoben
 move-fail:                 '{0}' wurde nicht nach '{1}' verschoben
@@ -557,6 +698,8 @@ purge-done:                Cache für '{0}' geleert
 purge-fail:                Cache für '{0}' konnte nicht geleert werden
 purge-progress:            Leere Cache von '{0}'
 
+queue-refresh-fail:        Fehler bei Update der Warteschleife '{0}'
+
 report-duplicate:          Dieser Benutzer wurde bereits gemeldet
 report-fail:               '{0}' wurde nicht gemeldet
 report-progress:           Melde '{0}'...
@@ -575,7 +718,9 @@ reqprotection-fail:        Seitensperrung von '{0}' wurde nicht beantragt
 reqprotection-progress:    Beantrage Seitensperrung von '{0}'...
 
 revert-cannotundo:         Konnte nicht entfernen aufgrund mittlerweile geschehener anderer Änderungen
-revert-fail:               '{0}' wurde nicht rückgängiggemacht
+revert-conflict:           The page was edited by ignored user '{0}'
+revert-fail:               '{0}' wurde nicht rückgängig gemacht
+revert-nochange:           Der Inhalt der Zielversion ist gleich dem der jetzigen Version
 revert-nootheruser:        Kein anderer Benutzer hat die Seite bearbeitet
 revert-progress:           Mache '{0}' rückgängig...
 
@@ -583,6 +728,10 @@ tag-alreadytagged:         Seite bereits markiert
 tag-deleted:               Seite wurde gelöscht
 tag-fail:                  '{0}' wurde nicht markiert
 tag-progress:              Markiere '{0}'...
+
+sight-done:                Version {0} von '{1}' als gesehen markiert
+sight-fail:                Konnte Version {0} von '{1}' nicht markieren
+sight-progress:            Markiere {0} von '{1}' als gesehen
 
 speedy-fail:               '{0}' wurde nicht zur Schnelllöschung markiert
 speedy-progress:           Markiere '{0}' für Schnellöschung...
@@ -609,10 +758,10 @@ warn-alreadyreported:      Der Benutzer wurde bereits gemeldet
 warn-oldedit:              Der Benutzer hat seit der letzten Warnung keine Beiträge mehr geschrieben
 warn-recent:               Der Benutzer wurde bereits vor weniger als {0} Sekunden verwarnt
 warn-fail:                 '{0}' wurde nicht verwarnt
-warn-progress:             Verwarn '{0}'...
+warn-progress:             Verwarne '{0}'...
 </pre>
 
 === API ===
 <pre>
-api-help:                  Keine Parameter in API Anfrage
+api-help:                  Keine Parameter in API-Anfrage
 </pre>

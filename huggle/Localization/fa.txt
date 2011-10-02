@@ -1,6 +1,4 @@
-﻿{{:Huggle/LocalizationHeader}}
-
-<pre>
+﻿<pre>
 name:                      Persian
 </pre>
 
@@ -71,37 +69,37 @@ block-rangeblockwarning:   {0} is already affected by a rangeblock on {1}.\nThis
 
 === Closing form ===
 <pre>
-closing-whitelist:         Updating user whitelist...
-closing-config:            به روز کردن زیر صفحهٔ تنظیمات...
+closing-whitelist:         به‌روزرسانی فهرست سفید کاربر...
+closing-config:            به‌روزرسانی زیر‌صفحهٔ تنظیمات...
 </pre>
 
 === Configuration form ===
 <pre>
-config-title:              Options
-config-rememberme:         Remember my username
-config-rememberpassword:   Remember my password
+config-title:              اختیارات
+config-rememberme:         یادآوری نام کاربری من
+config-rememberpassword:   یادآوری گذواژهٔ من
 config-autowhitelist:      Automatically whitelist users
 config-openinbrowser:      Open browser links in new browser window
 config-shownewedits:       Show new edits to the selected page as they are made
 config-preloads:           Enable preloading of diffs
 config-ircmode:            Use IRC feed for recent changes if possible
-config-ircport:            IRC port
+config-ircport:            درگاه آی‌آر‌سی
 config-difffontsize:       Diff font size
-config-logfile:            Log file
+config-logfile:            سیاهه پرونده
 config-viewlocalconfig:    View local configuration folder
 config-trayicon:           Show tray icon
 config-startupmessage:     Show startup message
-config-showlog:            Show log
+config-showlog:            نمایش سیاهه
 config-showqueue:          Show revision queue
 config-rightalignqueue:    Show queue on the right of the window
 config-showtooltips:       Show tooltips on menus
 config-shownewmessages:    Show new messages bar
 config-shortcutlist:       Keyboard shortcuts
-config-shortcutaction:     Action
-config-shortcut:           Shortcut
-config-changeshortcut:     Change shortcut for {0}
-config-noshortcut:         None
-config-defaults:           Defaults
+config-shortcutaction:     عمل
+config-shortcut:           میان‌بر
+config-changeshortcut:     تغییر میان‌بر برای {0}
+config-noshortcut:         هیچ
+config-defaults:           پیش‌فرض‌ها
 config-minor:              Mark as minor
 config-watchlist:          Add to watchlist
 config-defaultsummary:     Default summary for manual edits
@@ -132,18 +130,18 @@ config-promptforblock:     Prompt for block if asked to warn a user with a final
 config-blockreason:        Default block reason
 config-blocktime:          Default block duration for
 config-blocktimeanon:      anonymous users
-config-blocktimereg:       registered users
-config-summaryprompt:      Enter summary
-config-defaultsprompt:     Restore defaults?
-config-logbrowsetitle:     Log file location
+config-blocktimereg:       کاربران ثبت‌شده
+config-summaryprompt:      ورود توضیحات
+config-defaultsprompt:     برگرداندن پیش‌فرض‌ها؟
+config-logbrowsetitle:     موقعیت سیاهه پرونده
 config-shortcutconflict:   Shortcut '{0}' conflicts with the existing shortcut for '{1}'.
 </pre>
 
 === Delete form ===
 <pre>
-delete-title:              Delete {0}
-delete-reason:             Reason:
-delete-deletionlog:        Deletion log:
+delete-title:              حذف {0}
+delete-reason:             دلیل:
+delete-deletionlog:        سیاهه حذف:
 </pre>
 
 === Edit form ===
@@ -768,4 +766,3 @@ warn-progress:             Warning '{0}'...
 <pre>
 api-help:                  No parameters in API query
 </pre>
-
