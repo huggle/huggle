@@ -58,6 +58,8 @@ namespace huggle3
         public static bool ConfigChanged = false; //
         public static Version ConfigVersion = new Version(0, 0, 0);
         public static string DefaultLanguage = "en";
+        public static List<request_core.Request> PendingRequests;
+        public static List<edit> PendingWarnings;
         public static List<string> Languages = new List<string>();
         public static Version LatestVersion = new Version(0, 0, 0);
         public static Dictionary<string, Dictionary<string, string>> Messages = new Dictionary<string,Dictionary<string,string>>();

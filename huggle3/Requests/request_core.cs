@@ -249,6 +249,7 @@ namespace huggle3
                 Illegal,
                 NotExists,
                 WrongPass,
+                NoName,
                 Failed
             }
         }

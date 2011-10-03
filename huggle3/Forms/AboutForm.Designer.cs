@@ -34,6 +34,7 @@
             this.Dev2 = new System.Windows.Forms.LinkLabel();
             this.developers = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.button = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -83,11 +84,22 @@
             this.pictureBox1.TabIndex = 5;
             this.pictureBox1.TabStop = false;
             // 
+            // button
+            // 
+            this.button.Location = new System.Drawing.Point(93, 325);
+            this.button.Name = "button";
+            this.button.Size = new System.Drawing.Size(125, 29);
+            this.button.TabIndex = 6;
+            this.button.Text = "OK";
+            this.button.UseVisualStyleBackColor = true;
+            this.button.Click += new System.EventHandler(this.button_Click);
+            // 
             // AboutForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(320, 316);
+            this.ClientSize = new System.Drawing.Size(320, 364);
+            this.Controls.Add(this.button);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.developers);
             this.Controls.Add(this.Dev2);
@@ -112,5 +124,6 @@
         private System.Windows.Forms.LinkLabel Dev2;
         private System.Windows.Forms.Label developers;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button button;
     }
 }

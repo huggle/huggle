@@ -45,5 +45,10 @@ namespace huggle3.Forms
             Core.History("AboutForm_Load()");
             Localize();
         }
+
+        private void button_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 }

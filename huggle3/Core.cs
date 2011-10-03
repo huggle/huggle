@@ -31,12 +31,13 @@ namespace huggle3
         {
             try
             {
+                // return string
                 if (Config.Messages.ContainsKey(Config.Language) != true)
                 {
                     return "<invalid>";
                 }
                 if (Config.Messages[Config.Language].ContainsKey(id) == false)
-                {
+                { // if there is no such a language it returns the english one
                     if (Config.Messages[Config.DefaultLanguage].ContainsKey(id))
                     {
                         if (Config.Messages[Config.DefaultLanguage][id] == null)
@@ -81,6 +82,7 @@ namespace huggle3
 
             public static bool DestroyCore()
             {
+                // All threads are aborted (usualy when application die)
                 int curr = 0;
                 while (curr < Core.MThread)
                 {
@@ -92,6 +94,7 @@ namespace huggle3
 
             public static bool KillThread(int N)
             {
+                // request thread to be aborted
                 if (ThreadList[N].Active == false)
                 {
                     return false;

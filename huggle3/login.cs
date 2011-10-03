@@ -90,10 +90,5 @@ namespace huggle3
         public static string Error = "";
         public static LoginState phase;
         public static request_core.Request.LoginResult Status;
-        static public int Login()
-        {
-            //this function perform login
-            return 0;
-        }
     }
 }
