@@ -70,7 +70,7 @@ namespace huggle3
         {
             private static int ThreadLast = 0;
             private static int ThreadCount = 0;
-            private static ThreadS[] ThreadList = new ThreadS[Core.MThread];
+            private static List<ThreadS> ThreadList = new List<ThreadS>();
             private class ThreadS
             {
                 public string Decription;
@@ -114,17 +114,17 @@ namespace huggle3
                 {
                     ThreadLast++;
                     int ThreadID = ThreadLast;
-                    while (ThreadList[ThreadID].Active != false)
-                    {
-                        if (ThreadID > Core.MThread)
+                        while (ThreadList[ThreadID].Active != false)
                         {
-                            ThreadID = 0;
+                            if (ThreadID > Core.MThread || ThreadID > ThreadList.Count)
+                            {
+                                ThreadID = 0;
+                            }
+                            else
+                            {
+                                ThreadID++;
+                            }
                         }
-                        else
-                        {
-                            ThreadID++;
-                        }
-                    }
                     ThreadLast = ThreadID;
                     ThreadList[ThreadID].Active = true;
                     ThreadList[ThreadID].Decription = name;
@@ -135,6 +135,17 @@ namespace huggle3
                 catch (Exception A)
                 {
                     return -1;
+                }
+            }
+
+            public static void CreateList()
+            {
+                ThreadList.Clear();
+                int curr = 0;
+                while (curr < Core.MThread)
+                {
+                    curr++;
+                    ThreadList.Add(new ThreadS());
                 }
             }
 
@@ -590,6 +601,7 @@ namespace huggle3
             Core.History("Core.Initialise()");
             Config.DefaultLanguage = "en";
             MainThread = System.Threading.Thread.CurrentThread;
+            Core.Threading.CreateList();
             InitConfig();
             Config.Language = Config.DefaultLanguage;
             System.GC.Collect();

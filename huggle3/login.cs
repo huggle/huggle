@@ -56,7 +56,7 @@ namespace huggle3
             catch (Exception B)
             {
                 Core.ExceptionHandler(B);
-                System.Threading.Thread.CurrentThread.Abort();
+                this.Fail();
             }
         }
     }

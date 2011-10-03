@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(main));
-            System.Windows.Forms.ListViewGroup listViewGroup4 = new System.Windows.Forms.ListViewGroup("Name", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Name", System.Windows.Forms.HorizontalAlignment.Left);
             this.Strip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.MainTool = new System.Windows.Forms.ToolStrip();
@@ -152,11 +152,12 @@
             this.lHistory = new System.Windows.Forms.Label();
             this.lsLog = new System.Windows.Forms.ListView();
             this.logoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tmQueueUpdt = new System.Windows.Forms.Timer(this.components);
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.historyStrip1 = new huggle3.Controls.HistoryStrip();
             this.contribsPanel1 = new huggle3.Controls.ContribsPanel();
             this.queuePanel2 = new huggle3.Controls.QueuePanel();
             this.queuePanel1 = new huggle3.Controls.QueuePanel();
-            this.tmQueueUpdt = new System.Windows.Forms.Timer(this.components);
             this.Strip.SuspendLayout();
             this.MainTool.SuspendLayout();
             this.Usertool.SuspendLayout();
@@ -1134,15 +1135,19 @@
             // 
             // lsLog
             // 
+            this.lsLog.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1});
             this.lsLog.FullRowSelect = true;
             this.lsLog.GridLines = true;
-            listViewGroup4.Header = "Name";
+            listViewGroup1.Header = "Name";
+            listViewGroup1.Name = null;
             this.lsLog.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup4});
+            listViewGroup1});
             this.lsLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.lsLog.Location = new System.Drawing.Point(15, 444);
             this.lsLog.MultiSelect = false;
             this.lsLog.Name = "lsLog";
+            this.lsLog.ShowGroups = false;
             this.lsLog.Size = new System.Drawing.Size(69, 48);
             this.lsLog.TabIndex = 17;
             this.lsLog.UseCompatibleStateImageBehavior = false;
@@ -1153,6 +1158,11 @@
             this.logoutToolStripMenuItem.Name = "logoutToolStripMenuItem";
             this.logoutToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
             this.logoutToolStripMenuItem.Text = "Logout";
+            // 
+            // tmQueueUpdt
+            // 
+            this.tmQueueUpdt.Interval = 1000;
+            this.tmQueueUpdt.Tick += new System.EventHandler(this.tmQueueUpdt_Tick);
             // 
             // historyStrip1
             // 
@@ -1181,11 +1191,6 @@
             this.queuePanel1.Name = "queuePanel1";
             this.queuePanel1.Size = new System.Drawing.Size(226, 73);
             this.queuePanel1.TabIndex = 2;
-            // 
-            // tmQueueUpdt
-            // 
-            this.tmQueueUpdt.Interval = 1000;
-            this.tmQueueUpdt.Tick += new System.EventHandler(this.tmQueueUpdt_Tick);
             // 
             // main
             // 
@@ -1356,5 +1361,6 @@
         private System.Windows.Forms.ListView lsLog;
         private System.Windows.Forms.ToolStripMenuItem logoutToolStripMenuItem;
         private System.Windows.Forms.Timer tmQueueUpdt;
+        private System.Windows.Forms.ColumnHeader columnHeader1;
     }
 }
