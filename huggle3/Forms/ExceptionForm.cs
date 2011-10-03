@@ -42,6 +42,7 @@ namespace huggle3.Forms
 
         private void btExit_Click(object sender, EventArgs e)
         {
+            Core.Threading.DestroyCore(); // abort running threads
             Core.MainThread.Abort(); // terminate
             Application.Exit();
         }

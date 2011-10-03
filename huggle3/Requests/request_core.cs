@@ -42,6 +42,7 @@ namespace huggle3
             public string Query; // query (api / http)
             private States _State;
             protected System.DateTime startdate; // when request is started
+            private int THREAD;
             public static System.Net.CookieContainer _cookies = new System.Net.CookieContainer();
             public Request_Result result;
 
@@ -172,9 +173,8 @@ namespace huggle3
                 Core.History("Request.Start()");
                 try
                 {
-                    System.Threading.Thread thread = new Thread(ProcessThread);
-                    thread.Name = "RequestThread";
-                    thread.Start();
+                    THREAD = Core.Threading.CreateThread(ProcessThread, "RequestThread");
+                    Core.Threading.Execute(THREAD);
                 }catch(Exception ex)
                 {
                     Core.ExceptionHandler(ex);
@@ -189,6 +189,7 @@ namespace huggle3
             public void ThreadDone()
             {
                 Core.History("ThreadDone()");
+                Core.Threading.KillThread(THREAD);
             }
 
             public void ProcessThread()

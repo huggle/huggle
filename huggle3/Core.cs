@@ -71,14 +71,79 @@ namespace huggle3
             private static int ThreadLast = 0;
             private static int ThreadCount = 0;
             private static ThreadS[] ThreadList = new ThreadS[Core.MThread];
-            private struct ThreadS
+            private class ThreadS
             {
                 public string Decription;
                 public System.Threading.Thread handle;
                 public bool Active = false;
                 public int ID;
             }
-            public static int CreateThread(System.Threading.ParameterizedThreadStart startfc)
+
+            public static bool DestroyCore()
+            {
+                int curr = 0;
+                while (curr < Core.MThread)
+                {
+                    KillThread(curr);
+                    curr++;
+                }
+                return true;
+            }
+
+            public static bool KillThread(int N)
+            {
+                if (ThreadList[N].Active == false)
+                {
+                    return false;
+                }
+                if (ThreadList[N].handle.ThreadState == System.Threading.ThreadState.Aborted)
+                {
+                    // it's already down
+                    return false;
+                }
+                ThreadList[N].handle.Abort();
+                ThreadList[N].Active = false;
+                ThreadList[N].Decription = "";
+                ThreadCount = ThreadCount - 1;
+                return true;
+            }
+
+            public static int CreateThread(System.Threading.ThreadStart ThreadStart, string name)
+            {
+                try
+                {
+                    ThreadLast++;
+                    int ThreadID = ThreadLast;
+                    while (ThreadList[ThreadID].Active != false)
+                    {
+                        if (ThreadID > Core.MThread)
+                        {
+                            ThreadID = 0;
+                        }
+                        else
+                        {
+                            ThreadID++;
+                        }
+                    }
+                    ThreadLast = ThreadID;
+                    ThreadList[ThreadID].Active = true;
+                    ThreadList[ThreadID].Decription = name;
+                    ThreadList[ThreadID].handle = new System.Threading.Thread(ThreadStart);
+                    ThreadCount = ThreadCount  + 1;
+                    return ThreadID;
+                }
+                catch (Exception A)
+                {
+                    return -1;
+                }
+            }
+
+            public static int ThCount
+            {
+                get { return ThreadCount; }
+            }
+
+            public static int CreateThread(System.Threading.ThreadStart ThreadStart)
             {
                 try
                 {
@@ -96,11 +161,19 @@ namespace huggle3
                     }
                     ThreadLast = ThreadID;
                     ThreadList[ThreadID].Active = true;
-                    ThreadList[ThreadID].handle = new System.Threading.Thread(startfc);
+                    ThreadList[ThreadID].handle = new System.Threading.Thread(ThreadStart);
                     return ThreadID;
                 } catch (Exception A)
                 {
                     return -1;
+                }
+            }
+
+            public static void Execute(int ID)
+            {
+                if (ThreadList[ID].Active == true)
+                {
+                    ThreadList[ID].handle.Start();
                 }
             }
         }
