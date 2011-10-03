@@ -152,6 +152,11 @@ namespace huggle3
                     cmLanguage.Items.Add(language);
                 }
 
+                if (cmProject.Items.Contains(Config.Project))
+                {
+                    // Default project
+                    cmProject.SelectedItem = Config.Project;
+                }
                 cmLanguage.SelectedItem = Config.DefaultLanguage; // Select the default language
         }
         /// <summary>
