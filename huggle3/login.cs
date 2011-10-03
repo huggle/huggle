@@ -34,17 +34,22 @@ namespace huggle3
                 LoginResult result;
                 result = request_api.DoLogin();
 
+                //If the login is not a success then try and find out what went wrong and give the relevant error message
                 if (result != LoginResult.Success)
                 {
                     switch (result)
                     {
                         case LoginResult.Cancelled:
+                            login.Error = Languages.Get("login-error-cancelled");
                             break;
                         case LoginResult.NoUser:
                             login.Error = Languages.Get("login-error-nouser");
                             break;
                         case LoginResult.WrongPassword:
                             login.Error = Languages.Get("login-error-password");
+                            break;
+                        default: // If it doesnt match any of the above give the default error message
+                            login.Error = Languages.Get("login-error-unknown");
                             break;
                     }
                     login.Status = result;
