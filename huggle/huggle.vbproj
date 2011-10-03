@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <ProjectGuid>{11AD90BE-245A-475B-9768-77BADF176824}</ProjectGuid>
@@ -684,7 +684,7 @@
     <EmbeddedResource Include="Localization\pt.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Localization\ar.txt" />
+    <EmbeddedResource Include="Localization\ar.txt" />
     <EmbeddedResource Include="Localization\es.txt" />
     <EmbeddedResource Include="Localization\fa.txt" />
     <EmbeddedResource Include="Localization\fr.txt" />
@@ -703,6 +703,10 @@
     <EmbeddedResource Include="Localization\ru.txt" />
     <EmbeddedResource Include="Localization\sv.txt" />
     <EmbeddedResource Include="Localization\zh.txt" />
+    <EmbeddedResource Include="Localization\bn.txt" />
+    <EmbeddedResource Include="Localization\km.txt" />
+    <EmbeddedResource Include="Localization\ko.txt" />
+    <EmbeddedResource Include="Localization\ptb.txt" />
     <Content Include="Resources\icons\revision-sight.png" />
     <Content Include="Resources\icons\sight-and-next.png" />
     <Content Include="Resources\WarningSummaries.txt" />
