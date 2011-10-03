@@ -170,12 +170,13 @@
             // lProxy
             // 
             this.lProxy.AutoSize = true;
-            this.lProxy.Location = new System.Drawing.Point(228, 244);
+            this.lProxy.Location = new System.Drawing.Point(223, 244);
             this.lProxy.Name = "lProxy";
             this.lProxy.Size = new System.Drawing.Size(80, 13);
             this.lProxy.TabIndex = 13;
             this.lProxy.TabStop = true;
             this.lProxy.Text = "Configure proxy";
+            this.lProxy.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // lTranslate
             // 
@@ -186,6 +187,7 @@
             this.lTranslate.TabIndex = 0;
             this.lTranslate.TabStop = true;
             this.lTranslate.Text = "Translate huggle";
+            this.lTranslate.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // timer
             // 

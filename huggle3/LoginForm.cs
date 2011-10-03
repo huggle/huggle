@@ -42,9 +42,14 @@ namespace huggle3
             this.lbl_Language.Text = Languages.Get("login-language");
             this.lbl_Project.Text = Languages.Get("login-project");
             this.btExit.Text = Languages.Get("exit"); //This used to be 'login-exit' but this doesn't exist so using 'exit' instead
+            this.btLogin.Text = Languages.Get("login-start");
             this.lPassword.Text = Languages.Get("login-password");
             this.Name = "Huggle";
             this.lblName.Text = Languages.Get("login-username");
+            this.lProxy.Text = Languages.Get("login-proxygroup");
+            this.lTranslate.Text = Languages.Get("login-translate");
+            //proxy
+            //translate
             return false;
         }
 
@@ -76,7 +81,7 @@ namespace huggle3
                 login.phase = login.LoginState.LoggingIn;// set phase
                 LoginRequest lr = new LoginRequest();// start a new login request
                 lr.Login_Fr = this;
-                progress("Logging in...");
+                progress(Languages.Get("login-progress-start"));
                 lr.Start();
                 timer.Enabled = true;
                 //Hide();
@@ -210,7 +215,7 @@ namespace huggle3
                                 break;
                             case login.LoginState.Error:
                                 StatusBar.Value = 0;
-                                progress("Error logging in:");
+                                progress(Languages.Get("login-error-unknown"));
                                 login.LoggingOn = false;
                                 login.LoggedIn = false;
                                 break;
