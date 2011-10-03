@@ -58,23 +58,7 @@ namespace huggle3
             try
             {
                 Core.History("btLogin_Click()");
-                if (Config.Projects.ContainsKey(this.cmProject.Text) == false)
-                {
-                    // ID is not in list
-                    MessageBox.Show("Please select a project");
-                    return;
-                }
-                if (Config.Languages.Contains(cmLanguage.Text))
-                {
-                    Config.Language = cmLanguage.Text;
-                }
-                else
-                {
-                    // Language is not in list
-                    MessageBox.Show(Languages.Get("login-error2"));
-                    return;
-                }
-
+                
                 //Lock the form controls
                 this.textName.Enabled = false;
                 this.textPassword.Enabled = false;
@@ -84,6 +68,7 @@ namespace huggle3
                 this.btExit.Text = Languages.Get("cancel");
                 StatusBar.Value = 0;
 
+                if (Config.Languages.Contains(cmLanguage.Text)) { Config.Language = cmLanguage.Text; } // set language (if needed)
                 Config.Project = cmProject.Text;// set project
                 Config.Password = textPassword.Text; // set password
                 Config.Username = textName.Text;// set username
