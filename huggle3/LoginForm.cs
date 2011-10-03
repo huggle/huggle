@@ -36,7 +36,6 @@ namespace huggle3
         /// <summary>
         /// Localize the form with the relevant language
         /// </summary>
-        /// <returns></returns>
         private bool Localize()
         {
             this.lbl_Language.Text = Languages.Get("login-language");
@@ -48,9 +47,19 @@ namespace huggle3
             this.lblName.Text = Languages.Get("login-username");
             this.lProxy.Text = Languages.Get("login-proxygroup");
             this.lTranslate.Text = Languages.Get("login-translate");
-            //proxy
-            //translate
             return false;
+        }
+
+        /// <summary>
+        /// This either enables or disables the controls on the form depending on their current value
+        /// </summary>
+        private void EnableControls(bool value)
+        {
+            this.textName.Enabled = value;
+            this.textPassword.Enabled = value;
+            this.cmProject.Enabled = value;
+            this.cmLanguage.Enabled = value;
+            this.btLogin.Enabled = value;
         }
 
         /// <summary>
@@ -63,13 +72,7 @@ namespace huggle3
             try
             {
                 Core.History("btLogin_Click()");
-                
-                //Lock the form controls
-                this.textName.Enabled = false;
-                this.textPassword.Enabled = false;
-                this.cmProject.Enabled = false;
-                this.cmLanguage.Enabled = false;
-                this.btLogin.Enabled = false;
+                EnableControls(false);
                 this.btExit.Text = Languages.Get("cancel");
                 StatusBar.Value = 0;
 
@@ -89,14 +92,7 @@ namespace huggle3
             catch (Exception A)
             {
                 Core.ExceptionHandler(A);
-
-                //Unlock the form controls if an error is thrown
-                this.textName.Enabled = true;
-                this.textPassword.Enabled = true;
-                this.cmProject.Enabled = true;
-                this.cmLanguage.Enabled = true;
-                this.btLogin.Enabled = true;
-                this.btExit.Enabled = true;
+                EnableControls(true);
             }
         }
 
