@@ -74,18 +74,6 @@ namespace huggle3
                     MessageBox.Show(Languages.Get("login-error2"));
                     return;
                 }
-                if (textName.Text == "")
-                {
-                    // No name has been entered
-                    MessageBox.Show(Languages.Get("login-error1"));
-                    return;
-                }
-                if (textPassword.Text == "")
-                {
-                    // No password has been entered
-                    MessageBox.Show(Languages.Get("login-error1"));
-                    return;
-                }
 
                 //Lock the form controls
                 this.textName.Enabled = false;
@@ -93,7 +81,7 @@ namespace huggle3
                 this.cmProject.Enabled = false;
                 this.cmLanguage.Enabled = false;
                 this.btLogin.Enabled = false;
-                this.btExit.Text = "cancel";
+                this.btExit.Text = Languages.Get("cancel");
                 StatusBar.Value = 0;
 
                 Config.Project = cmProject.Text;// set project
