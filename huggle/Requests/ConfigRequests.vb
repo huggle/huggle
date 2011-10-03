@@ -223,6 +223,7 @@ Namespace Requests
 
             Dim Items As New List(Of String)
 
+            Items.Add("<nowiki>")
             Items.Add("enable:true")
             Items.Add("version:" & Config.Version.Major.ToString & "." & Config.Version.Minor.ToString & "." & _
                 Config.Version.Build.ToString)
@@ -236,7 +237,7 @@ Namespace Requests
             Items.Add("warn-summary-3:" & Config.WarnSummary3)
             Items.Add("warn-summary-2:" & Config.WarnSummary2)
             Items.Add("warn-summary:" & Config.WarnSummary)
-            Items.Add("block-message:" & CStr(Config.BlockMessage))
+            'Items.Add("block-message:" & CStr(Config.BlockMessage))
             Items.Add("auto-advance:" & CStr(Config.AutoAdvance).ToLower)
             Items.Add("auto-whitelist:" & CStr(Config.AutoWhitelist).ToLower)
             Items.Add("confirm-multiple:" & CStr(Config.ConfirmMultiple).ToLower)
@@ -314,6 +315,7 @@ Namespace Requests
             WatchItems.Sort()
 
             Items.Add("watch:" & String.Join(",", WatchItems.ToArray))
+            Items.Add("</nowiki>")
 
             Dim Result As ApiResult = PostEdit(Config.UserConfigLocation, String.Join(LF, Items.ToArray), _
                 Config.ConfigSummary, Minor:=True)

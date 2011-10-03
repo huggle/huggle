@@ -47,7 +47,7 @@ Class Configuration
         {"blocknote", "deletenote", "deletetag", "deletereq", "manual", "message", "note", "prodtag", _
          "protectreq", "report", "revert", "speedytag", "tag", "warning"}
 
-    Public Devs As Boolean = True
+    Public Devs As Boolean = False
 
     'Values only used at runtime
 
@@ -57,7 +57,7 @@ Class Configuration
     Public Languages As New List(Of String)
     Public LatestVersion As New Version(0, 0, 0)
     Public Messages As New Dictionary(Of String, Dictionary(Of String, String))
-    Public Password As String = "xx"
+    Public Password As String = "PW"
     Public Version As New Version(Application.ProductVersion)
     Public WarningMessages As New Dictionary(Of String, String)
 
