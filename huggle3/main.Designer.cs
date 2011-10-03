@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(main));
-            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Name", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup6 = new System.Windows.Forms.ListViewGroup("Name", System.Windows.Forms.HorizontalAlignment.Left);
             this.Strip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.MainTool = new System.Windows.Forms.ToolStrip();
@@ -73,6 +73,8 @@
             this.tsReport = new System.Windows.Forms.ToolStripButton();
             this.tsBlock = new System.Windows.Forms.ToolStripButton();
             this.Queue = new System.Windows.Forms.Panel();
+            this.queuePanel2 = new huggle3.Controls.QueuePanel();
+            this.queuePanel1 = new huggle3.Controls.QueuePanel();
             this.cbType2 = new System.Windows.Forms.ComboBox();
             this.cbType1 = new System.Windows.Forms.ComboBox();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
@@ -81,6 +83,7 @@
             this.toolStripMenuItem11 = new System.Windows.Forms.ToolStripSeparator();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem12 = new System.Windows.Forms.ToolStripSeparator();
+            this.logoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.queueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -151,13 +154,10 @@
             this.pEdit = new System.Windows.Forms.Panel();
             this.lHistory = new System.Windows.Forms.Label();
             this.lsLog = new System.Windows.Forms.ListView();
-            this.logoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tmQueueUpdt = new System.Windows.Forms.Timer(this.components);
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.historyStrip1 = new huggle3.Controls.HistoryStrip();
-            this.contribsPanel1 = new huggle3.Controls.ContribsPanel();
-            this.queuePanel2 = new huggle3.Controls.QueuePanel();
-            this.queuePanel1 = new huggle3.Controls.QueuePanel();
+            this.tmQueueUpdt = new System.Windows.Forms.Timer(this.components);
+            this.historyStrip = new huggle3.Controls.HistoryStrip();
+            this.contribsPanel = new huggle3.Controls.ContribsPanel();
             this.Strip.SuspendLayout();
             this.MainTool.SuspendLayout();
             this.Usertool.SuspendLayout();
@@ -574,6 +574,20 @@
             this.Queue.Size = new System.Drawing.Size(274, 237);
             this.Queue.TabIndex = 4;
             // 
+            // queuePanel2
+            // 
+            this.queuePanel2.Location = new System.Drawing.Point(9, 158);
+            this.queuePanel2.Name = "queuePanel2";
+            this.queuePanel2.Size = new System.Drawing.Size(247, 65);
+            this.queuePanel2.TabIndex = 3;
+            // 
+            // queuePanel1
+            // 
+            this.queuePanel1.Location = new System.Drawing.Point(21, 41);
+            this.queuePanel1.Name = "queuePanel1";
+            this.queuePanel1.Size = new System.Drawing.Size(226, 73);
+            this.queuePanel1.TabIndex = 2;
+            // 
             // cbType2
             // 
             this.cbType2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -644,6 +658,12 @@
             // 
             this.toolStripMenuItem12.Name = "toolStripMenuItem12";
             this.toolStripMenuItem12.Size = new System.Drawing.Size(179, 6);
+            // 
+            // logoutToolStripMenuItem
+            // 
+            this.logoutToolStripMenuItem.Name = "logoutToolStripMenuItem";
+            this.logoutToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.logoutToolStripMenuItem.Text = "Logout";
             // 
             // exitToolStripMenuItem
             // 
@@ -1076,18 +1096,18 @@
             this.LabelP.AutoSize = true;
             this.LabelP.Location = new System.Drawing.Point(393, 32);
             this.LabelP.Name = "LabelP";
-            this.LabelP.Size = new System.Drawing.Size(32, 13);
+            this.LabelP.Size = new System.Drawing.Size(68, 13);
             this.LabelP.TabIndex = 8;
-            this.LabelP.Text = "Page";
+            this.LabelP.Text = "[[main-page]]";
             // 
             // LUser
             // 
             this.LUser.AutoSize = true;
             this.LUser.Location = new System.Drawing.Point(393, 59);
             this.LUser.Name = "LUser";
-            this.LUser.Size = new System.Drawing.Size(29, 13);
+            this.LUser.Size = new System.Drawing.Size(64, 13);
             this.LUser.TabIndex = 9;
-            this.LUser.Text = "User";
+            this.LUser.Text = "[[main-user]]";
             this.LUser.Click += new System.EventHandler(this.LUser_Click);
             // 
             // CurrentPage
@@ -1098,16 +1118,15 @@
             this.CurrentPage.Size = new System.Drawing.Size(164, 21);
             this.CurrentPage.TabIndex = 10;
             this.CurrentPage.SelectedIndexChanged += new System.EventHandler(this.CurrentPage_SelectedIndexChanged);
-            
             // 
             // LContribs
             // 
             this.LContribs.AutoSize = true;
             this.LContribs.Location = new System.Drawing.Point(601, 59);
             this.LContribs.Name = "LContribs";
-            this.LContribs.Size = new System.Drawing.Size(35, 13);
+            this.LContribs.Size = new System.Drawing.Size(81, 13);
             this.LContribs.TabIndex = 11;
-            this.LContribs.Text = "label1";
+            this.LContribs.Text = "[[main-contribs]]";
             this.LContribs.Click += new System.EventHandler(this.LContribs_Click);
             // 
             // CurrentUser
@@ -1131,9 +1150,9 @@
             this.lHistory.AutoSize = true;
             this.lHistory.Location = new System.Drawing.Point(601, 32);
             this.lHistory.Name = "lHistory";
-            this.lHistory.Size = new System.Drawing.Size(35, 13);
+            this.lHistory.Size = new System.Drawing.Size(49, 13);
             this.lHistory.TabIndex = 16;
-            this.lHistory.Text = "label1";
+            this.lHistory.Text = "[[history]]";
             // 
             // lsLog
             // 
@@ -1141,10 +1160,10 @@
             this.columnHeader1});
             this.lsLog.FullRowSelect = true;
             this.lsLog.GridLines = true;
-            listViewGroup1.Header = "Name";
-            listViewGroup1.Name = null;
+            listViewGroup6.Header = "Name";
+            listViewGroup6.Name = null;
             this.lsLog.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup1});
+            listViewGroup6});
             this.lsLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.lsLog.Location = new System.Drawing.Point(15, 444);
             this.lsLog.MultiSelect = false;
@@ -1155,44 +1174,24 @@
             this.lsLog.UseCompatibleStateImageBehavior = false;
             this.lsLog.View = System.Windows.Forms.View.List;
             // 
-            // logoutToolStripMenuItem
-            // 
-            this.logoutToolStripMenuItem.Name = "logoutToolStripMenuItem";
-            this.logoutToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
-            this.logoutToolStripMenuItem.Text = "Logout";
-            // 
             // tmQueueUpdt
             // 
             this.tmQueueUpdt.Interval = 1000;
             this.tmQueueUpdt.Tick += new System.EventHandler(this.tmQueueUpdt_Tick);
             // 
-            // historyStrip1
+            // historyStrip
             // 
-            this.historyStrip1.Location = new System.Drawing.Point(641, 28);
-            this.historyStrip1.Name = "historyStrip1";
-            this.historyStrip1.Size = new System.Drawing.Size(249, 21);
-            this.historyStrip1.TabIndex = 15;
+            this.historyStrip.Location = new System.Drawing.Point(641, 28);
+            this.historyStrip.Name = "historyStrip";
+            this.historyStrip.Size = new System.Drawing.Size(249, 21);
+            this.historyStrip.TabIndex = 15;
             // 
-            // contribsPanel1
+            // contribsPanel
             // 
-            this.contribsPanel1.Location = new System.Drawing.Point(641, 56);
-            this.contribsPanel1.Name = "contribsPanel1";
-            this.contribsPanel1.Size = new System.Drawing.Size(249, 21);
-            this.contribsPanel1.TabIndex = 14;
-            // 
-            // queuePanel2
-            // 
-            this.queuePanel2.Location = new System.Drawing.Point(9, 158);
-            this.queuePanel2.Name = "queuePanel2";
-            this.queuePanel2.Size = new System.Drawing.Size(247, 65);
-            this.queuePanel2.TabIndex = 3;
-            // 
-            // queuePanel1
-            // 
-            this.queuePanel1.Location = new System.Drawing.Point(21, 41);
-            this.queuePanel1.Name = "queuePanel1";
-            this.queuePanel1.Size = new System.Drawing.Size(226, 73);
-            this.queuePanel1.TabIndex = 2;
+            this.contribsPanel.Location = new System.Drawing.Point(641, 56);
+            this.contribsPanel.Name = "contribsPanel";
+            this.contribsPanel.Size = new System.Drawing.Size(249, 21);
+            this.contribsPanel.TabIndex = 14;
             // 
             // main
             // 
@@ -1201,8 +1200,8 @@
             this.ClientSize = new System.Drawing.Size(906, 584);
             this.Controls.Add(this.lsLog);
             this.Controls.Add(this.lHistory);
-            this.Controls.Add(this.historyStrip1);
-            this.Controls.Add(this.contribsPanel1);
+            this.Controls.Add(this.historyStrip);
+            this.Controls.Add(this.contribsPanel);
             this.Controls.Add(this.pEdit);
             this.Controls.Add(this.CurrentUser);
             this.Controls.Add(this.LContribs);
@@ -1357,8 +1356,8 @@
         private Controls.QueuePanel queuePanel1;
         private Controls.QueuePanel queuePanel2;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
-        private Controls.ContribsPanel contribsPanel1;
-        private Controls.HistoryStrip historyStrip1;
+        private Controls.ContribsPanel contribsPanel;
+        private Controls.HistoryStrip historyStrip;
         private System.Windows.Forms.Label lHistory;
         private System.Windows.Forms.ListView lsLog;
         private System.Windows.Forms.ToolStripMenuItem logoutToolStripMenuItem;
