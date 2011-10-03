@@ -96,16 +96,33 @@ namespace huggle3
                 {
                         return LoginResult.Success;
                 }
+                if (result.ResultText.Contains("result=\"Illegal\""))
+                {
+                    return LoginResult.Illegal;
+                }
+                if (result.ResultText.Contains("result=\"NotExists\""))
+                {
+                    return LoginResult.NotExists;
+                }
                 if (result.ResultText.Contains("result=\"WrongPass\""))
                 {
-                        return LoginResult.WrongPassword;
+                        return LoginResult.WrongPass;
                 }
             }
             catch (Exception x)
             {
                 Core.ExceptionHandler(x);
             }
-            //Well if we have got to here we don't really know what has happened
+
+            //TODO: This result we have not yet accounted for (see list below)
+            //NoName
+            //EmptyPass
+            //WrongPluginPass
+            //CreateBlocked
+            //Throttled
+            //Blocked
+            //mustbeposted
+            //NeedToken
             return LoginResult.None;
         }
        

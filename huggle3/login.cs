@@ -42,10 +42,10 @@ namespace huggle3
                         case LoginResult.Cancelled:
                             login.Error = Languages.Get("login-error-cancelled");
                             break;
-                        case LoginResult.NoUser:
+                        case LoginResult.NoName:
                             login.Error = Languages.Get("login-error-nouser");
                             break;
-                        case LoginResult.WrongPassword:
+                        case LoginResult.WrongPass:
                             login.Error = Languages.Get("login-error-password");
                             break;
                         default: // If it doesnt match any of the above give the default error message

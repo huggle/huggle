@@ -246,8 +246,9 @@ namespace huggle3
                 None,
                 Cancelled,
                 Success,
-                NoUser,
-                WrongPassword,
+                Illegal,
+                NotExists,
+                WrongPass,
                 Failed
             }
         }
