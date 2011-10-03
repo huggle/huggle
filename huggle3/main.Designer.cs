@@ -1097,6 +1097,8 @@
             this.CurrentPage.Name = "CurrentPage";
             this.CurrentPage.Size = new System.Drawing.Size(164, 21);
             this.CurrentPage.TabIndex = 10;
+            this.CurrentPage.SelectedIndexChanged += new System.EventHandler(this.CurrentPage_SelectedIndexChanged);
+            
             // 
             // LContribs
             // 

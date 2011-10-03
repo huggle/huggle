@@ -41,7 +41,6 @@ namespace huggle3
         static void Main()
         {
                 ExceptionHandler EH = new ExceptionHandler();
-                //Application.ThreadException += new System.Threading.ThreadExceptionEventHandler(EH.ThreadExceptionHandle);
                 AppDomain.CurrentDomain.UnhandledException += EH.ThreadExceptionHandle;
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);

@@ -25,7 +25,7 @@ namespace huggle3.Requests
         public override void Process()
         {
             Core.History("Process()");
-
+           
             ApiResult apiResult = ApiRequest("action=query&prop=revisions&rvlimit=1&rvprop=content&titles=" + Config.GlobalConfigLocation, "", "meta");
 
             if (apiResult == null || apiResult.ResultInError)

@@ -199,7 +199,8 @@ namespace huggle3
 
             public void EndRequest()
             {
-                Core.Threading.KillThread(THREAD);
+                //Core.Threading.KillThread(THREAD);
+                Core.Threading.ReleaseHandle(THREAD);
             }
 
             public void Cancel()
@@ -216,12 +217,11 @@ namespace huggle3
             }
 
 
-            public bool Complete(string Message = "", string Text = "")
+            public void Complete(string Message = "", string Text = "")
             {
                 Core.History("Request.Complete()");
                 _State = States.Complete;
                 EndRequest();
-                return false;
             }
 
             public States State

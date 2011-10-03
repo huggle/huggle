@@ -108,6 +108,16 @@ namespace huggle3
                 return true;
             }
 
+            public static void ReleaseHandle(int Thread)
+            {
+                if (ThreadList[Thread].Active == true)
+                {
+                    ThreadList[Thread].handle = null;
+                    ThreadList[Thread].Active = false;
+                    ThreadCount = ThreadCount - 1;
+                }
+            }
+
             public static int CreateThread(System.Threading.ThreadStart ThreadStart, string name)
             {
                 try
@@ -134,6 +144,35 @@ namespace huggle3
                 }
                 catch (Exception A)
                 {
+                    Core.ExceptionHandler(A);
+                    return -1;
+                }
+            }
+
+            public static int CreateThread(System.Threading.ThreadStart ThreadStart)
+            {
+                try
+                {
+                    ThreadLast++;
+                    int ThreadID = ThreadLast;
+                    while (ThreadList[ThreadID].Active != false)
+                    {
+                        if (ThreadID > Core.MThread)
+                        {
+                            ThreadID = 0;
+                        }
+                        else
+                        {
+                            ThreadID++;
+                        }
+                    }
+                    ThreadLast = ThreadID;
+                    ThreadList[ThreadID].Active = true;
+                    ThreadList[ThreadID].handle = new System.Threading.Thread(ThreadStart);
+                    return ThreadID;
+                }
+                catch (Exception A)
+                {
                     return -1;
                 }
             }
@@ -154,30 +193,9 @@ namespace huggle3
                 get { return ThreadCount; }
             }
 
-            public static int CreateThread(System.Threading.ThreadStart ThreadStart)
+            public static System.Threading.Thread GetHandle(int N)
             {
-                try
-                {
-                    ThreadLast++;
-                    int ThreadID = ThreadLast;
-                    while (ThreadList[ThreadID].Active != false)
-                    {
-                        if (ThreadID > Core.MThread)
-                        {
-                            ThreadID = 0;
-                        } else
-                        {
-                            ThreadID++;
-                        }
-                    }
-                    ThreadLast = ThreadID;
-                    ThreadList[ThreadID].Active = true;
-                    ThreadList[ThreadID].handle = new System.Threading.Thread(ThreadStart);
-                    return ThreadID;
-                } catch (Exception A)
-                {
-                    return -1;
-                }
+                return ThreadList[N].handle;
             }
 
             public static void Execute(int ID)

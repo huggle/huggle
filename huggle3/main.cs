@@ -27,6 +27,10 @@ namespace huggle3
 {
     public partial class main : Form
     {
+        public static page _Currentpage;
+        public static user _Currentuser;
+        public static user _Currentedi;
+        
         
         public bool Localize()
         {
@@ -80,6 +84,24 @@ namespace huggle3
         private void main_Close(object sender, EventArgs e)
         {
             Core.ShutdownSystem();
+        }
+
+        public void Browser_DisplayPage(page _Page)
+        {
+            try
+            {
+                if (_Page != null)
+                {
+                    if (_Page !=  _Currentpage)
+                    { 
+                        
+                    }
+                }
+            }
+            catch(Exception B)
+            {
+                Core.ExceptionHandler(B);
+            }
         }
 
         public void Log(string text)
@@ -146,6 +168,14 @@ namespace huggle3
         {
             // update queue
 
+        }
+
+        private void CurrentPage_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Core.History("main.CurrentPage()");
+            page Page = new page();
+            Page.Name = CurrentPage.Text;
+            Browser_DisplayPage(Page);
         }
 
     }
