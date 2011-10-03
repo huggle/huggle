@@ -65,6 +65,7 @@ namespace huggle3
             lsLog.Left = Config.QueueLeft - 10;
             lsLog.Width = Program.MainForm.Width - 40 - Config.QueueLeft;
             lsLog.Height = Program.MainForm.Height - (webBrowser.Top + webBrowser.Height) - 80;
+            lsLog.Columns[1].Width = lsLog.Width;
             // 
             cbType1.Top = 10;
             cbType1.Width = Queue.Width;
@@ -99,6 +100,7 @@ namespace huggle3
             Log("huggle init"); // there is supposed to be inital message concerning start up
             OpenInfo();
             Localize();
+            lsLog.Columns.Add("");
             
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
         }

@@ -66,6 +66,44 @@ namespace huggle3
     }
     public static class Core
     {
+        public static class Threading
+        {
+            private static int ThreadLast = 0;
+            private static int ThreadCount = 0;
+            private static ThreadS[] ThreadList = new ThreadS[Core.MThread];
+            private struct ThreadS
+            {
+                public string Decription;
+                public System.Threading.Thread handle;
+                public bool Active = false;
+                public int ID;
+            }
+            public static int CreateThread(System.Threading.ParameterizedThreadStart startfc)
+            {
+                try
+                {
+                    ThreadLast++;
+                    int ThreadID = ThreadLast;
+                    while (ThreadList[ThreadID].Active != false)
+                    {
+                        if (ThreadID > Core.MThread)
+                        {
+                            ThreadID = 0;
+                        } else
+                        {
+                            ThreadID++;
+                        }
+                    }
+                    ThreadLast = ThreadID;
+                    ThreadList[ThreadID].Active = true;
+                    ThreadList[ThreadID].handle = new System.Threading.Thread(startfc);
+                    return ThreadID;
+                } catch (Exception A)
+                {
+                    return -1;
+                }
+            }
+        }
         private static string _history = "";
 
         private static Exception core_er;
