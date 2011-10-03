@@ -169,7 +169,9 @@ namespace huggle3
             //Close the application
             if (login.LoggingOn)
             {
-                this.Text = Languages.Get("login-exit");
+                this.btExit.Text = Languages.Get("exit");
+                this.btExit.Enabled = false;
+                login.LoggingOn = false;
                 login.phase = login.LoginState.Error;
                 return;
             }

@@ -773,6 +773,7 @@ namespace huggle3
             }
                     return true;
         }
+
         public static bool SetSharedConfigKey(string key, string value)
         {
             switch (key)

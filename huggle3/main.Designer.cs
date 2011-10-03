@@ -28,7 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(main));
+            System.Windows.Forms.ListViewGroup listViewGroup4 = new System.Windows.Forms.ListViewGroup("Name", System.Windows.Forms.HorizontalAlignment.Left);
             this.Strip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.MainTool = new System.Windows.Forms.ToolStrip();
@@ -149,11 +151,12 @@
             this.pEdit = new System.Windows.Forms.Panel();
             this.lHistory = new System.Windows.Forms.Label();
             this.lsLog = new System.Windows.Forms.ListView();
+            this.logoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.historyStrip1 = new huggle3.Controls.HistoryStrip();
             this.contribsPanel1 = new huggle3.Controls.ContribsPanel();
             this.queuePanel2 = new huggle3.Controls.QueuePanel();
             this.queuePanel1 = new huggle3.Controls.QueuePanel();
-            this.logoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tmQueueUpdt = new System.Windows.Forms.Timer(this.components);
             this.Strip.SuspendLayout();
             this.MainTool.SuspendLayout();
             this.Usertool.SuspendLayout();
@@ -1132,12 +1135,24 @@
             // lsLog
             // 
             this.lsLog.FullRowSelect = true;
+            this.lsLog.GridLines = true;
+            listViewGroup4.Header = "Name";
+            this.lsLog.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
+            listViewGroup4});
+            this.lsLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.lsLog.Location = new System.Drawing.Point(15, 444);
+            this.lsLog.MultiSelect = false;
             this.lsLog.Name = "lsLog";
             this.lsLog.Size = new System.Drawing.Size(69, 48);
             this.lsLog.TabIndex = 17;
             this.lsLog.UseCompatibleStateImageBehavior = false;
             this.lsLog.View = System.Windows.Forms.View.List;
+            // 
+            // logoutToolStripMenuItem
+            // 
+            this.logoutToolStripMenuItem.Name = "logoutToolStripMenuItem";
+            this.logoutToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.logoutToolStripMenuItem.Text = "Logout";
             // 
             // historyStrip1
             // 
@@ -1167,11 +1182,10 @@
             this.queuePanel1.Size = new System.Drawing.Size(226, 73);
             this.queuePanel1.TabIndex = 2;
             // 
-            // logoutToolStripMenuItem
+            // tmQueueUpdt
             // 
-            this.logoutToolStripMenuItem.Name = "logoutToolStripMenuItem";
-            this.logoutToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
-            this.logoutToolStripMenuItem.Text = "Logout";
+            this.tmQueueUpdt.Interval = 1000;
+            this.tmQueueUpdt.Tick += new System.EventHandler(this.tmQueueUpdt_Tick);
             // 
             // main
             // 
@@ -1341,5 +1355,6 @@
         private System.Windows.Forms.Label lHistory;
         private System.Windows.Forms.ListView lsLog;
         private System.Windows.Forms.ToolStripMenuItem logoutToolStripMenuItem;
+        private System.Windows.Forms.Timer tmQueueUpdt;
     }
 }

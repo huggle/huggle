@@ -106,7 +106,7 @@ namespace huggle3
         private void OpenInfo()
         {
             // startup page
-            this.webBrowser.Navigate(Config.Project + Config.ShortWikiPath + "index.php?title=" + Config.StartupPage + "&action=render");
+            this.webBrowser.Navigate(Config.Projects[Config.Project] + Config.WikiPath + "index.php?title=" + Config.StartupPage + "&action=render");
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -138,6 +138,12 @@ namespace huggle3
         private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             
+        }
+
+        private void tmQueueUpdt_Tick(object sender, EventArgs e)
+        {
+            // update queue
+
         }
 
     }
