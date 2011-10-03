@@ -27,6 +27,7 @@ namespace huggle3
 {
     public partial class main : Form
     {
+        
         public bool Localize()
         {
             Core.History("Main.Localize()");
@@ -132,6 +133,11 @@ namespace huggle3
         private void LUser_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
         }
 
     }

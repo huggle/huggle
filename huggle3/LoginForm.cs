@@ -93,7 +93,7 @@ namespace huggle3
                 this.cmProject.Enabled = false;
                 this.cmLanguage.Enabled = false;
                 this.btLogin.Enabled = false;
-                this.btExit.Enabled = false;
+                this.btExit.Text = "cancel";
                 StatusBar.Value = 0;
 
                 Config.Project = cmProject.Text;// set project
@@ -152,7 +152,7 @@ namespace huggle3
                     cmLanguage.Items.Add(language);
                 }
 
-                cmLanguage.SelectedItem = "en"; // Select the default language
+                cmLanguage.SelectedItem = Config.DefaultLanguage; // Select the default language
         }
         /// <summary>
         /// On 'Exit' button click
@@ -162,6 +162,12 @@ namespace huggle3
         private void btExit_Click(object sender, EventArgs e)
         {
             //Close the application
+            if (login.LoggingOn)
+            {
+                this.Text = Languages.Get("login-exit");
+                login.phase = login.LoginState.Error;
+                return;
+            }
             Application.Exit();
         }
 

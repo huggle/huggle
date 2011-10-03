@@ -153,6 +153,7 @@
             this.contribsPanel1 = new huggle3.Controls.ContribsPanel();
             this.queuePanel2 = new huggle3.Controls.QueuePanel();
             this.queuePanel1 = new huggle3.Controls.QueuePanel();
+            this.logoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Strip.SuspendLayout();
             this.MainTool.SuspendLayout();
             this.Usertool.SuspendLayout();
@@ -611,6 +612,7 @@
             this.toolStripMenuItem11,
             this.optionsToolStripMenuItem,
             this.toolStripMenuItem12,
+            this.logoutToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.systemToolStripMenuItem.Name = "systemToolStripMenuItem";
             this.systemToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
@@ -632,6 +634,7 @@
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
             this.optionsToolStripMenuItem.Text = "Options";
+            this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
             // toolStripMenuItem12
             // 
@@ -1164,6 +1167,12 @@
             this.queuePanel1.Size = new System.Drawing.Size(226, 73);
             this.queuePanel1.TabIndex = 2;
             // 
+            // logoutToolStripMenuItem
+            // 
+            this.logoutToolStripMenuItem.Name = "logoutToolStripMenuItem";
+            this.logoutToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.logoutToolStripMenuItem.Text = "Logout";
+            // 
             // main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1331,5 +1340,6 @@
         private Controls.HistoryStrip historyStrip1;
         private System.Windows.Forms.Label lHistory;
         private System.Windows.Forms.ListView lsLog;
+        private System.Windows.Forms.ToolStripMenuItem logoutToolStripMenuItem;
     }
 }

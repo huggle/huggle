@@ -81,6 +81,8 @@ namespace huggle3
         public static System.Threading.Thread MainThread;
         public static string[] months;
 
+        public const int MThread=200;
+
 
         public class Block
         {
@@ -479,6 +481,7 @@ namespace huggle3
             MainThread = System.Threading.Thread.CurrentThread;
             InitConfig();
             Config.Language = Config.DefaultLanguage;
+            System.GC.Collect();
             LoadLanguages();
         }
 
