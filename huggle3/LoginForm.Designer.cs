@@ -78,18 +78,18 @@
             this.lPassword.AutoSize = true;
             this.lPassword.Location = new System.Drawing.Point(7, 110);
             this.lPassword.Name = "lPassword";
-            this.lPassword.Size = new System.Drawing.Size(56, 13);
+            this.lPassword.Size = new System.Drawing.Size(83, 13);
             this.lPassword.TabIndex = 2;
-            this.lPassword.Text = "Password:";
+            this.lPassword.Text = "[login-password]";
             // 
             // lblName
             // 
             this.lblName.AutoSize = true;
             this.lblName.Location = new System.Drawing.Point(7, 84);
             this.lblName.Name = "lblName";
-            this.lblName.Size = new System.Drawing.Size(58, 13);
+            this.lblName.Size = new System.Drawing.Size(84, 13);
             this.lblName.TabIndex = 0;
-            this.lblName.Text = "Username:";
+            this.lblName.Text = "[login-username]";
             // 
             // btLogin
             // 
@@ -98,7 +98,7 @@
             this.btLogin.Name = "btLogin";
             this.btLogin.Size = new System.Drawing.Size(100, 25);
             this.btLogin.TabIndex = 10;
-            this.btLogin.Text = "Login";
+            this.btLogin.Text = "[login-start]";
             this.btLogin.UseVisualStyleBackColor = true;
             this.btLogin.Click += new System.EventHandler(this.btLogin_Click);
             // 
@@ -108,7 +108,7 @@
             this.btExit.Name = "btExit";
             this.btExit.Size = new System.Drawing.Size(100, 25);
             this.btExit.TabIndex = 12;
-            this.btExit.Text = "Exit";
+            this.btExit.Text = "[exit]";
             this.btExit.UseVisualStyleBackColor = true;
             this.btExit.Click += new System.EventHandler(this.btExit_Click);
             // 
@@ -117,18 +117,18 @@
             this.lbl_Project.AutoSize = true;
             this.lbl_Project.Location = new System.Drawing.Point(7, 136);
             this.lbl_Project.Name = "lbl_Project";
-            this.lbl_Project.Size = new System.Drawing.Size(43, 13);
+            this.lbl_Project.Size = new System.Drawing.Size(70, 13);
             this.lbl_Project.TabIndex = 4;
-            this.lbl_Project.Text = "Project:";
+            this.lbl_Project.Text = "[login-project]";
             // 
             // lbl_Language
             // 
             this.lbl_Language.AutoSize = true;
             this.lbl_Language.Location = new System.Drawing.Point(7, 163);
             this.lbl_Language.Name = "lbl_Language";
-            this.lbl_Language.Size = new System.Drawing.Size(58, 13);
+            this.lbl_Language.Size = new System.Drawing.Size(82, 13);
             this.lbl_Language.TabIndex = 6;
-            this.lbl_Language.Text = "Language:";
+            this.lbl_Language.Text = "[login-language]";
             // 
             // cmLanguage
             // 
@@ -169,25 +169,27 @@
             // 
             // lProxy
             // 
+            this.lProxy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lProxy.AutoSize = true;
             this.lProxy.Location = new System.Drawing.Point(223, 244);
             this.lProxy.Name = "lProxy";
-            this.lProxy.Size = new System.Drawing.Size(80, 13);
+            this.lProxy.Size = new System.Drawing.Size(90, 13);
             this.lProxy.TabIndex = 13;
             this.lProxy.TabStop = true;
-            this.lProxy.Text = "Configure proxy";
-            this.lProxy.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.lProxy.Text = "[login-proxygroup]";
+            this.lProxy.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lTranslate
             // 
+            this.lTranslate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lTranslate.AutoSize = true;
             this.lTranslate.Location = new System.Drawing.Point(223, 275);
             this.lTranslate.Name = "lTranslate";
-            this.lTranslate.Size = new System.Drawing.Size(86, 13);
+            this.lTranslate.Size = new System.Drawing.Size(82, 13);
             this.lTranslate.TabIndex = 0;
             this.lTranslate.TabStop = true;
-            this.lTranslate.Text = "Translate huggle";
-            this.lTranslate.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.lTranslate.Text = "[login-language]";
+            this.lTranslate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // timer
             // 

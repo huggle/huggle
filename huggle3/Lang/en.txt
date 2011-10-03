@@ -243,7 +243,7 @@ login-proxyaddress:        Address:
 login-proxyport:           Port:
 login-proxydomain:         Domain:
 login-start:               Login
-login-translate:           Translate...
+login-translate:           Translate huggle
 login-captchatitle:        Captcha required to log in
 
 login-progress-start:      Logging in...
