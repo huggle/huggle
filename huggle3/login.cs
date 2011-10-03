@@ -40,8 +40,11 @@ namespace huggle3
                     {
                         case LoginResult.Cancelled:
                             break;
+                        case LoginResult.NoUser:
+                            login.Error = Languages.Get("login-error-nouser");
+                            break;
                         case LoginResult.WrongPassword:
-                            login.Error = Languages.Get("login-invalid");
+                            login.Error = Languages.Get("login-error-password");
                             break;
                     }
                     login.Status = result;
