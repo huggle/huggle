@@ -60,6 +60,7 @@ namespace huggle3
             this.cmProject.Enabled = value;
             this.cmLanguage.Enabled = value;
             this.btLogin.Enabled = value;
+            this.btExit.Text = Languages.Get("exit");
         }
 
         /// <summary>
