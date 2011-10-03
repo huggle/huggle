@@ -1,4 +1,4 @@
-﻿'This is a source code or part of Huggle project
+'This is a source code or part of Huggle project
 'configIO.vb
 'This file contains code for configuration
 'last modified by Petrb
@@ -632,7 +632,7 @@ Module ConfigIO
         LoadLanguage("ja", My.Resources.ja)
         LoadLanguage("ar", My.Resources.ar)
         LoadLanguage("es", My.Resources.es)
-        LoadLanguage("ar", My.Resources.ar)
+        LoadLanguage("sv", My.Resources.sv)
         LoadLanguage("fa", My.Resources.fa)
         LoadLanguage("fr", My.Resources.fr)
         LoadLanguage("nl", My.Resources.nl)
@@ -649,6 +649,11 @@ Module ConfigIO
         LoadLanguage("oc", My.Resources.oc)
         'LoadLanguage("or", My.Resources.or)
         LoadLanguage("zh", My.Resources.zh)
+        LoadLanguage("ptb", My.Resources.ptb)
+        LoadLanguage("bn", My.Resources.bn)
+        LoadLanguage("km", My.Resources.km)
+        LoadLanguage("ko", My.Resources.ko)
+
 
 
         ' Else
