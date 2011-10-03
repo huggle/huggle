@@ -189,7 +189,7 @@ namespace huggle3
             public void ThreadDone()
             {
                 Core.History("ThreadDone()");
-                Core.Threading.KillThread(THREAD);
+                EndRequest();
             }
 
             public void ProcessThread()
@@ -197,15 +197,22 @@ namespace huggle3
                 Process();
             }
 
+            public void EndRequest()
+            {
+                Core.Threading.KillThread(THREAD);
+            }
+
             public void Cancel()
             {
                 Core.History("Request.Cancel()");
                 _State = States.Cancelled;
+                EndRequest();
             }
 
             public void Fail(string description = "", string reason = "")
             {
                 _State = States.Failed;
+                EndRequest();
             }
 
 
@@ -213,6 +220,7 @@ namespace huggle3
             {
                 Core.History("Request.Complete()");
                 _State = States.Complete;
+                EndRequest();
                 return false;
             }
 
