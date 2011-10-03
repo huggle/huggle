@@ -60,35 +60,38 @@ namespace huggle3
             Core.History("DoLogin()");
             try
             {
+                //Get the result of the api login request
                 ApiResult result = new ApiResult();
                 result = ApiRequest("action=login", "lgname=" + System.Web.HttpUtility.UrlEncode(Config.Username), Config.Project);
 
-                if (result == null)
+                //If this returns as null then the login has failed
+                if (result == null || result.ResultText == null)
                 {
                     return LoginResult.Failed;
                 }
 
-                if (result.ResultText == null)
-                {
-                    return LoginResult.Failed;
-                }
-
+                //If no token is found (doesnt match regex) then the login has failed
                 if (System.Text.RegularExpressions.Regex.Match(result.ResultText, "token=\"[0-9A-Za-z]*\"").Success == false)
                 {
                     return LoginResult.Failed;
                 }
 
+                //This means that there must be a token, So lets get this token
                 login.Token = System.Text.RegularExpressions.Regex.Match(result.ResultText, "token=\"[0-9A-Za-z]*\"").Value;
-
+                //And format it properly
                 login.Token = login.Token.Replace("\"", "");
                 login.Token = login.Token.Replace("token=", "");
 
+                //Now we will do a request with our new token
                 result = ApiRequest("action=login", "lgname=" + System.Web.HttpUtility.UrlEncode(Config.Username) + "&lgpassword=" + System.Web.HttpUtility.UrlEncode(Config.Password) + "&lgtoken=" + login.Token, Config.Project);
 
+                //As this has returned as null the login has probably failed
                 if (result.ResultText == null)
                 {
-                    
+                    return LoginResult.Failed;
                 }
+
+                //Now we will try and match all of the other possible values
                 if (result.ResultText.Contains("result=\"Success\""))
                 {
                         return LoginResult.Success;
@@ -102,6 +105,7 @@ namespace huggle3
             {
                 Core.ExceptionHandler(x);
             }
+            //Well if we have got to here we don't really know what has happened
             return LoginResult.None;
         }
        
