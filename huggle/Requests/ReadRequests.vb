@@ -172,29 +172,38 @@ Namespace Requests
                 Result = Result2 & Result.Substring(Result.IndexOf(">undo</a>") + 10)
             End If
 
-            If Result.Contains("<table class='diff'>") Then
-                Result = Result.Substring(Result.IndexOf("<table class='diff'>"))
-                Result = Result.Substring(0, Result.IndexOf("</table>") + 8)
-                Result = "<div style=""font-size: 160%; font-family: Arial"">" & Edit.Page.Name & "</div>" & Result
-
-                'Add the change size in the top-right corner
-                If Edit.Change <> 0 Then
-                    Dim EditChange As String = CStr(Edit.Change)
-                    If Edit.Change > 0 Then EditChange = "+" & EditChange
-
-                    Result = "<div style=""float: right; font-size: 140%; font-family: Arial"">" & _
-                        EditChange & "</div>" & Result
+            If Result.Contains("<table class='diff") Then
+                If Result.Contains("<table class='diff diff") Then
+                    If Result.Contains("talign-left'>") Then
+                        Result = Result.Substring(Result.IndexOf("<table class='diff diff-contentalign-left'>"))
+                    ElseIf Result.Contains("talign-right'>") Then
+                        Result = Result.Substring(Result.IndexOf("<table class='diff diff-contentalign-right'>"))
+                    End If
                 End If
+                    If Result.Contains("<table class='diff'") Then
+                        Result = Result.Substring(Result.IndexOf("<table class='diff'>"))
+                    End If
+                    Result = Result.Substring(0, Result.IndexOf("</table>") + 8)
+                    Result = "<div style=""font-size: 160%; font-family: Arial"">" & Edit.Page.Name & "</div>" & Result
 
-                Complete()
-            ElseIf Result.Contains("<div class=""firstrevisionheader""") Then
-                'This is the first revision to the page... so no diff
-                Callback(AddressOf ReachedEnd)
+                    'Add the change size in the top-right corner
+                    If Edit.Change <> 0 Then
+                        Dim EditChange As String = CStr(Edit.Change)
+                        If Edit.Change > 0 Then EditChange = "+" & EditChange
 
-            Else
-                Edit.DiffCacheState = Edit.CacheState.Uncached
-                Fail()
-            End If
+                        Result = "<div style=""float: right; font-size: 140%; font-family: Arial"">" & _
+                            EditChange & "</div>" & Result
+                    End If
+
+                    Complete()
+                ElseIf Result.Contains("<div class=""firstrevisionheader""") Then
+                    'This is the first revision to the page... so no diff
+                    Callback(AddressOf ReachedEnd)
+
+                Else
+                    Edit.DiffCacheState = Edit.CacheState.Uncached
+                    Fail()
+                End If
         End Sub
 
         Protected Overrides Sub Done()
