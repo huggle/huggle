@@ -39,7 +39,7 @@ namespace huggle3
             this.showNewMessagesToolStripMenuItem.Text = Languages.Get("main-new-messages");
             this.userToolStripMenuItem.Text = Languages.Get("main-user");
             this.showHistoryPageToolStripMenuItem.Text = Languages.Get("main-history");
-            this.LContribs.Text = "";
+            this.LContribs.Text = Languages.Get("main-contribs");
             this.systemToolStripMenuItem.Text = Languages.Get("main-system");
             this.lHistory.Text = Languages.Get("main-history");
             this.retrieveContributionsToolStripMenuItem.Text = Languages.Get("main-contribs");

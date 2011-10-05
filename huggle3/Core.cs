@@ -77,7 +77,6 @@ namespace huggle3
                 public string Decription;
                 public System.Threading.Thread handle;
                 public bool Active = false;
-                public int ID;
             }
 
             public static bool DestroyCore()
@@ -916,6 +915,17 @@ namespace huggle3
                  //case "window-top" : Config.WindowPosition.Y = CInt(Value)
             }
                     return true;
+        }
+
+        public static bool SetProjectConfigValue(string key, string value)
+        {
+            switch (key)
+            {
+                case "3rr":
+                    break;
+
+            }
+            return true;
         }
 
         public static bool SetSharedConfigKey(string key, string value)
