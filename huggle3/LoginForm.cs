@@ -52,6 +52,7 @@ namespace huggle3
 
         /// <summary>
         /// This either enables or disables the controls on the form depending on their current value
+        /// textName, textPassword, cmProject, cmLanguage, btLogin, btExit
         /// </summary>
         private void EnableControls(bool value)
         {
@@ -60,6 +61,7 @@ namespace huggle3
             this.cmProject.Enabled = value;
             this.cmLanguage.Enabled = value;
             this.btLogin.Enabled = value;
+            this.btExit.Enabled = value;
             this.btExit.Text = Languages.Get("exit");
         }
 
@@ -127,6 +129,11 @@ namespace huggle3
                     cmLanguage.Items.Add(language);
                 }
 
+            
+//There was a gap left here for some reason (this comment is incase it was needed)
+
+
+
                 if (cmProject.Items.Contains(Config.Project))
                 {
                     // Default project
@@ -183,6 +190,7 @@ namespace huggle3
                         switch (login.phase)
                         { 
                             case login.LoginState.LoggedIn:
+                                //Load the global config
                                 StatusBar.Value = 40;
                                 StatusBox.Text = Languages.Get("login-progress-global");
                                 login.phase = login.LoginState.LoadingGlobal;
@@ -190,6 +198,7 @@ namespace huggle3
                                 global.Start();
                                 break;
                             case login.LoginState.LoadedGlobal:
+                                //Load the local config
                                 StatusBar.Value = 60;
                                 StatusBox.Text = Languages.Get("login-progress-local");
                                 login.phase = login.LoginState.LoadingLocal;
@@ -197,12 +206,14 @@ namespace huggle3
                                 local_cf.Start();
                                 break;
                             case login.LoginState.LoadedLocal:
+                                //Load the whitelist
                                 StatusBar.Value = 80;
                                 login.phase = login.LoginState.Whitelist;
                                 Requests.request_white_list whitelist_request = new Requests.request_white_list();
                                 whitelist_request.Start();
                                 break;
                             case login.LoginState.Successful:
+                                //Logging in done
                                 // show the form
                                 login.LoggedIn = false;
                                 Program.MainForm = new main();
@@ -211,6 +222,7 @@ namespace huggle3
                                 Hide();
                                 break;
                             case login.LoginState.Error:
+                                //Something has gone wrong (show error)
                                 StatusBar.Value = 0;
                                 progress(Languages.Get("login-error-unknown"));
                                 login.LoggingOn = false;
@@ -221,12 +233,7 @@ namespace huggle3
                 }
                 else
                 {
-                    this.textName.Enabled = true;
-                    this.textPassword.Enabled = true;
-                    this.cmProject.Enabled = true;
-                    this.cmLanguage.Enabled = true;
-                    this.btLogin.Enabled = true;
-                    this.btExit.Enabled = true;
+                    EnableControls(true);
                     if (login.Status != request_core.Request.LoginResult.Success)
                     {
                         this.progress(login.Error);

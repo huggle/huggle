@@ -1,7 +1,7 @@
 ﻿//This is a source code or part of Huggle project
 //
 //This file contains code for
-//last modified by Petrb
+//last modified by Addshore
 
 //Copyright (C) 2011 Huggle team
 //This program is free software: you can redistribute it and/or modify
@@ -42,12 +42,28 @@ namespace huggle3
                         case LoginResult.Cancelled:
                             login.Error = Languages.Get("login-error-cancelled");
                             break;
-                        case LoginResult.NoName:
-                            login.Error = Languages.Get("login-error-nouser");
+                        case LoginResult.NotExists:
+                            login.Error = Languages.Get("login-error-notexists");
                             break;
                         case LoginResult.WrongPass:
                             login.Error = Languages.Get("login-error-password");
                             break;
+                        case LoginResult.Throttled:
+                            login.Error = Languages.Get("login-error-throttled");
+                            break;
+                        case LoginResult.Blocked:
+                            login.Error = Languages.Get("login-error-blocked");
+                            break;
+                        case LoginResult.NeedToken:
+                            login.Error = Languages.Get("login-error-needtoken");
+                            break;
+                        case LoginResult.NoName:
+                            login.Error = Languages.Get("login-error-noname");
+                            break;
+                        case LoginResult.EmptyPass:
+                            login.Error = Languages.Get("login-error-emptypass");
+                            break;
+                            //There are still some cases this doesnt account for
                         default: // If it doesnt match any of the above give the default error message
                             login.Error = Languages.Get("login-error-unknown");
                             break;

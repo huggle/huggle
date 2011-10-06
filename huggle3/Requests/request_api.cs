@@ -1,7 +1,7 @@
 ﻿//This is a source code or part of Huggle project
 //
 //This file contains code for
-//last modified by Petrb
+//last modified by Addshore
 
 //Copyright (C) 2011 Huggle team
 
@@ -108,6 +108,26 @@ namespace huggle3
                 {
                         return LoginResult.WrongPass;
                 }
+                if (result.ResultText.Contains("result=\"NoName\""))
+                {
+                    return LoginResult.NoName;
+                }
+                if (result.ResultText.Contains("result=\"EmptyPass\""))
+                {
+                    return LoginResult.EmptyPass;
+                }
+                if (result.ResultText.Contains("result=\"Throttled\""))
+                {
+                    return LoginResult.Throttled;
+                }
+                if (result.ResultText.Contains("result=\"Blocked\""))
+                {
+                    return LoginResult.Blocked;
+                }
+                if (result.ResultText.Contains("result=\"NeedToken\""))
+                {
+                    return LoginResult.NeedToken;
+                }
             }
             catch (Exception x)
             {
@@ -115,8 +135,6 @@ namespace huggle3
             }
 
             //TODO: This result we have not yet accounted for (see list below)
-            //NoName
-            //EmptyPass
             //WrongPluginPass
             //CreateBlocked
             //Throttled

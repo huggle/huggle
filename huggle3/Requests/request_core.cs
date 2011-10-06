@@ -1,7 +1,7 @@
 ﻿//This is a source code or part of Huggle project
 //
 //This file contains code for
-//last modified by Petrb
+//last modified by Addshore
 
 //Copyright (C) 2011 Huggle team
 
@@ -249,8 +249,17 @@ namespace huggle3
                 Illegal,
                 NotExists,
                 WrongPass,
+                Failed,
                 NoName,
-                Failed
+                EmptyPass,
+                Throttled,
+                Blocked,
+                NeedToken
+
+                //TODO: This result we have not yet accounted for (see list below)
+                //WrongPluginPass
+                //CreateBlocked
+                //mustbeposted
             }
         }
     }
