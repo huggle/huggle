@@ -1,7 +1,7 @@
 ﻿//This is a source code or part of Huggle project
 //
 //This file contains code for
-//last modified by Petrb
+//last modified by Addshore
 
 //Copyright (C) 2011 Huggle team
 
@@ -38,14 +38,35 @@ namespace huggle3
         public static int QueueWidth = 160; // main form
         public static int RequestAttempts = 3;
         public static int RequestRetryInterval = 1000;
+        /// <summary>
+        /// Short path for wiki
+        /// </summary>
         public readonly static string ShortWikiPath = "wiki/";
+        /// <summary>
+        /// Location of the global config file
+        /// </summary>
         public readonly static string GlobalConfigLocation = "Huggle/Config";
-        public readonly static string WikiPath = "w/"; // short path for root of wiki
+        /// <summary>
+        /// Short path for root of wiki
+        /// </summary>
+        public readonly static string WikiPath = "w/";
+        /// <summary>
+        /// URL to metawiki
+        /// </summary>
         public static string Metawiki = "http://meta.wikimedia.org/";
+        /// <summary>
+        /// The current whitelist
+        /// </summary>
         public static List<string> Whitelist = new List<string>();
         public static Dictionary<string, List<string>> AllLists = new Dictionary<string,List<string>>();
-        public readonly  static bool Beta = true; // always true on testing or devel
+        /// <summary>
+        /// Always true on testing or devel
+        /// </summary>
+        public readonly  static bool Beta = true;
 
+        /// <summary>
+        /// Dirrent types of wiki edit
+        /// </summary>
         public readonly static string[] EditTypes = { "blocknote", "deletenote", "deletetag", "deletereq", "manual", "message", "note", "prodtag", "protectreq", "report", "revert", "speedytag", "tag", "warning" };
 
         public static int QueueTop = 80;
@@ -53,34 +74,74 @@ namespace huggle3
 
         public static bool devs = true;
 
+        //////////
         //Values only used at runtime
+        //////////
 
-        public static bool ConfigChanged = false; //
+        /// <summary>
+        /// Has the config changeg TODO: Which Config?
+        /// </summary>
+        public static bool ConfigChanged = false;
         public static Version ConfigVersion = new Version(0, 0, 0);
+        /// <summary>
+        /// Default Language
+        /// </summary>
         public static string DefaultLanguage = "en";
         public static List<request_core.Request> PendingRequests;
         public static List<edit> PendingWarnings;
         public static List<string> Languages = new List<string>();
+        /// <summary>
+        /// Latest version of huggle
+        /// </summary>
         public static Version LatestVersion = new Version(0, 0, 0);
         public static Dictionary<string, Dictionary<string, string>> Messages = new Dictionary<string,Dictionary<string,string>>();
         public static string Password = "xx";
         public static Dictionary<string, string> WarningMessages = new Dictionary<string,string>();
-        //Values stored in local config file
 
+        //////////
+        //Values stored in local config file
+        //////////
+
+        /// <summary>
+        /// Language to be used by huggle
+        /// </summary>
         public static string Language;
+        /// <summary>
+        /// Proxy Username
+        /// </summary>
         public static string ProxyUsername = "";
+        /// <summary>
+        /// Proxy User domain
+        /// </summary>
         public static string ProxyUserDomain = "";
+        /// <summary>
+        /// Proxy Server
+        /// </summary>
         public static string ProxyServer = "";
+        /// <summary>
+        /// Proxy Port
+        /// </summary>
         public static string ProxyPort = "";
+        /// <summary>
+        /// Is the proxy enabled
+        /// </summary>
         public static bool ProxyEnabled = false;
+        /// <summary>
+        /// Remeber the user username on login
+        /// </summary>
         public static bool RememberMe = true;
+        /// <summary>
+        /// remeber the user password on login
+        /// </summary>
         public static bool RememberPassword = false;
         public static string Username = "";
         public static bool WindowMaximize = true;
         public static System.Drawing.Point WindowPosition = new System.Drawing.Point();
         public static System.Drawing.Size WindowSize = new System.Drawing.Size();
 
+        //////////
         //Values changeable through global / project / user config pages
+        //////////
 
         public static string AfdLocation = "";
         public static bool AIV = false;
@@ -124,8 +185,8 @@ namespace huggle3
         public static Int32 Platform = 86;
         public static string DiffFontSize = "8";
         public static string DocsLocation = "http://en.wikipedia.org/wiki/Wikipedia:Huggle";
-        public static string DownloadLocation = "http://huggle3.googlecode.com/files/huggle $1.exe";
-        public static string Downloadloc64 = "http://huggle3.googlecode.com/files/huggle $1x64.exe";
+        public static string DownloadLocation = "http://huggle.googlecode.com/files/huggle $1.exe";
+        public static string Downloadloc64 = "http://huggle.googlecode.com/files/huggle $1x64.exe";
         public static bool Email;
         public static string EmailSubject = "";
         public static string TestWp = "http://hub.tm-irc.org/test/";
@@ -243,7 +304,7 @@ namespace huggle3
         public static bool UpdateWhitelist = false;
         public static bool UpdateWhitelistManual = false;
         public static bool UseAdminFunctions = true;
-        public static string UserAgent = "Huggle2/"; //+ Version.ToString() + "." + Version.Minor.ToString() + "." +  Version.Build.ToString() + " http://en.wikipedia.org/wiki/Wikipedia:Huggle";
+        public static string UserAgent = "Huggle/"; //+ Version.ToString() + "." + Version.Minor.ToString() + "." +  Version.Build.ToString() + " http://en.wikipedia.org/wiki/Wikipedia:Huggle";
         public static string UserConfigLocation = "Special:Mypage/huggle.css";
         public static string UserListLocation;
         public static string UserListUpdateSummary = "";
