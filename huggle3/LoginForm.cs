@@ -66,11 +66,33 @@ namespace huggle3
         }
 
         /// <summary>
-        /// On 'Login' button click
+        /// This checks to see if return is hit when one of the data entry controls is selected on the form
+        /// If it is then it starts a login attempt
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btLogin_Click(object sender, EventArgs e)
+        private void CheckKeyPressLogin(object sender, KeyPressEventArgs e)
+        {
+            //If the key that has been pressed is the enter button (\r)
+            if (e.KeyChar.Equals('\r'))
+            {
+                //And logging in is enabled
+                if (btLogin.Enabled.Equals(true))
+                {
+                    //Start a login attempt
+                    loginattempt();
+                }
+                else
+                {
+                    //Select the next control on the form as if pushing enter when finished typing in a box
+                    this.SelectNextControl(this.ActiveControl,true,true,true,true);
+                }
+            }
+
+        }
+
+        /// <summary>
+        /// Start a login
+        /// </summary>
+        private void loginattempt()
         {
             try
             {
@@ -97,6 +119,17 @@ namespace huggle3
                 Core.ExceptionHandler(A);
                 EnableControls(true);
             }
+        }
+
+        /// <summary>
+        /// On 'Login' button click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btLogin_Click(object sender, EventArgs e)
+        {
+            //Start a login attempt
+            loginattempt();
         }
 
         /// <summary>
@@ -130,16 +163,14 @@ namespace huggle3
                 }
 
             
-//There was a gap left here for some reason (this comment is incase it was needed)
+//There was a gap left here for some reason (this comment is incase it was needed / wanted) - Addshore
 
 
-
-                if (cmProject.Items.Contains(Config.Project))
-                {
-                    // Default project
-                    cmProject.SelectedItem = Config.Project;
-                }
+                cmProject.SelectedItem = "\ren.wikipedia"; // Select the default project
                 cmLanguage.SelectedItem = Config.DefaultLanguage; // Select the default language
+
+                textName.Select(); //Select the name text box straight away to enable a quicker login
+
         }
         /// <summary>
         /// On 'Exit' button click

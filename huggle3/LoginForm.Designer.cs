@@ -55,6 +55,7 @@
             this.textName.Size = new System.Drawing.Size(189, 20);
             this.textName.TabIndex = 1;
             this.textName.TextChanged += new System.EventHandler(this.controlChanged);
+            this.textName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.CheckKeyPressLogin);
             // 
             // pictureBox1
             // 
@@ -72,6 +73,7 @@
             this.textPassword.Size = new System.Drawing.Size(188, 20);
             this.textPassword.TabIndex = 3;
             this.textPassword.TextChanged += new System.EventHandler(this.controlChanged);
+            this.textPassword.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.CheckKeyPressLogin);
             // 
             // lPassword
             // 
