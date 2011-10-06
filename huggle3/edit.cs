@@ -22,8 +22,17 @@ namespace huggle3
 {
     public class edit
     {
+        /// <summary>
+        /// Is the edit a program assisted edit (AWB,HG)
+        /// </summary>
         public bool Assisted;
+        /// <summary>
+        /// Is the edit made by a bot
+        /// </summary>
         public bool Bot;
+        /// <summary>
+        /// Value of the change in size of the page
+        /// </summary>
         public int Change;
         public string ChangedContent;
         public Dictionary<string, edit> All;
@@ -33,26 +42,59 @@ namespace huggle3
         public string Id;
         public user.UserLevel LevelToWarn;
         public bool Multiple;
+        /// <summary>
+        /// Is the edit a creation of a new page
+        /// </summary>
         public bool NewPage;
+        /// <summary>
+        /// Next edit
+        /// </summary>
         public edit Next;
+        /// <summary>
+        /// Next edit (user)
+        /// </summary>
         public edit NextByUser;
         public string Oldid = "";
         public page Page;
+        /// <summary>
+        /// Previous edit
+        /// </summary>
         public edit Prev;
+        /// <summary>
+        /// Previous edit (user)
+        /// </summary>
         public edit PrevByUser;
         public bool Processed;
+        /// <summary>
+        /// RCID (Recent Change ID)
+        /// </summary>
         public string Rcid;
         public string RollbackToken;
         public string SightPostData;
         public bool Sighted;
         public int Size = 0;
         public string Summary;
+        /// <summary>
+        /// Content of the page
+        /// </summary>
         public string Text;
         public double random;
+        /// <summary>
+        /// Time of the edit
+        /// </summary>
         public System.DateTime Time;
+        /// <summary>
+        /// Type of edit
+        /// </summary>
         public edit.EditType type;
         public string TypeToWarn;
+        /// <summary>
+        /// Edit User
+        /// </summary>
         public user User;
+        /// <summary>
+        /// Value of warning the user has
+        /// </summary>
         public user.UserLevel WarningLevel;
 
         public bool IsHuggleEdit

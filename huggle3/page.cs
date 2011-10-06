@@ -22,21 +22,39 @@ namespace huggle3
 {
     public class page
     {
+        /// <summary>
+        /// Name of the article
+        /// </summary>
         public string Name;
         public space _Space = new space();
+        /// <summary>
+        /// Does the page exist
+        /// </summary>
         public bool Exists;
         private Dictionary<string, page> Shared_All;
-        public edit FirstEdit;  //First edit
-        public edit LastEdit; //Current edit
+        /// <summary>
+        /// First Edit
+        /// </summary>
+        public edit FirstEdit;
+        /// <summary>
+        /// Current edit
+        /// </summary>
+        public edit LastEdit;
         public PageLevel level;
         public static List<string> deletes;
         public bool DeletesCurrent;
         //public List<Protection> protection;
         public bool ProtectionsCurrent;
         public string HistoryOffset;
+        /// <summary>
+        /// Has the page been patrolled
+        /// </summary>
         public bool patrolled;
         public string Rcid;
         public SpeedyCriterion SpeedyCrit;
+        /// <summary>
+        /// Page text content
+        /// </summary>
         public string Text;
         public string EditLevel;
         public bool Pending;
