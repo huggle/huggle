@@ -109,7 +109,7 @@ namespace huggle3
                     }
                     if (Core.FindString(Result, "<error") != "")
                     {
-                        //return new ApiResult(Result, System.Web.HttpUtility.HtmlDecode(Core.FindString(Result, "<error")));
+                        return new ApiResult(Result, System.Web.HttpUtility.HtmlDecode(Core.FindString(Result, "<error")));
                     }
                     return new ApiResult(Result, "", "");
 
@@ -199,7 +199,7 @@ namespace huggle3
 
             public void EndRequest()
             {
-                //Core.Threading.KillThread(THREAD);
+                //Core.Threading.KillThread(THREAD)   ;
                 Core.Threading.ReleaseHandle(THREAD);
             }
 

@@ -61,7 +61,7 @@ namespace huggle3
             this.cmProject.Enabled = value;
             this.cmLanguage.Enabled = value;
             this.btLogin.Enabled = value;
-            this.btExit.Enabled = value;
+            this.btExit.Enabled = true;
             this.btExit.Text = Languages.Get("exit");
         }
 
@@ -86,7 +86,6 @@ namespace huggle3
                     this.SelectNextControl(this.ActiveControl,true,true,true,true);
                 }
             }
-
         }
 
         /// <summary>

@@ -23,12 +23,22 @@ namespace huggle3
     public static class irc
     {
         public static bool Connected;
+        public static int thread;
         public static bool IrcConnect()
         {
             Core.History("IrcConnect()");
-            //
+            ////
+
+            thread = Core.Threading.CreateThread(Irc, "Irc");
 
             return false;
         }
+
+        static void Irc()
+        {
+
+        }
     }
+
+    
 }

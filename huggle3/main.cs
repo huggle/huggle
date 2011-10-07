@@ -29,7 +29,7 @@ namespace huggle3
     {
         public static page _Currentpage;
         public static user _Currentuser;
-        public static user _Currentedi;
+        public static user _CurrentEdit;
         
         
         public bool Localize()
