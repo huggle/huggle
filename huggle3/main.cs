@@ -35,7 +35,7 @@ namespace huggle3
         public bool Localize()
         {
             Core.History("Main.Localize()");
-            //this.newTabToolStripMenuItem.Text = Languages.Get("main-browser").ToString();
+            this.newTabToolStripMenuItem.Text = Languages.Get("main-browser");
             this.showNewMessagesToolStripMenuItem.Text = Languages.Get("main-new-messages");
             this.userToolStripMenuItem.Text = Languages.Get("main-user");
             this.showHistoryPageToolStripMenuItem.Text = Languages.Get("main-history");

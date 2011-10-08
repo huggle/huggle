@@ -118,9 +118,18 @@ namespace huggle3
                 return return_value;
             }
 
+            public static string RequestURL(string url, string poststring = null)
+            {
+                Core.History("RequestURL()");
+                string return_value = "";
+
+
+                return return_value;
+            }
+
             public void ClearCookies()
             { 
-                
+               
             }
 
             public static string DoWebRequest(string URL, string PostString = "")
