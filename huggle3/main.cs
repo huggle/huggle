@@ -36,7 +36,7 @@ namespace huggle3
         {
             Core.History("Main.Localize()");
             this.newTabToolStripMenuItem.Text = Languages.Get("main-browser");
-            this.showNewMessagesToolStripMenuItem.Text = Languages.Get("main-new-messages");
+            this.showNewMessagesToolStripMenuItem.Text = Languages.Get("main-system-messages");
             this.userToolStripMenuItem.Text = Languages.Get("main-user");
             this.showHistoryPageToolStripMenuItem.Text = Languages.Get("main-history");
             this.LContribs.Text = Languages.Get("main-contribs");
@@ -74,9 +74,9 @@ namespace huggle3
             lsLog.Columns[0].Width = lsLog.Width;
             // 
             cbType1.Top = 10;
-            cbType1.Width = Queue.Width;
+            cbType1.Width = Queue.Width - 14;
             cbType2.Top = 80 + queuePanel1.Height;
-            cbType2.Width = Queue.Width;
+            cbType2.Width = Queue.Width - 14;
             queuePanel1.Top = cbType1.Top + 40;
             queuePanel1.Width = cbType1.Width;
             queuePanel2.Top = cbType2.Top + 40;
