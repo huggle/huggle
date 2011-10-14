@@ -36,6 +36,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Name = "ContribsPanel";
             this.Size = new System.Drawing.Size(287, 20);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(Draw);
             this.ResumeLayout(false);
 
         }

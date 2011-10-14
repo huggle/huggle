@@ -922,7 +922,248 @@ namespace huggle3
             switch (key)
             {
                 case "3rr":
+                    // 3rr location
+                    Config.TRRLocation = value;
                     break;
+                case "afd":
+                    // afd location
+                    Config.AfdLocation = value;
+                    break;
+                case "aiv":
+                    Config.AIVLocation = value;
+                    break;
+                case "aiv-extend-summary":
+                    Config.ReportExtendSummary = value;
+                    break;
+                case "approval":
+                    Config.Approval = bool.Parse(value);
+                    break;
+                case "assisted-summaries":
+                    //Config.AssistedSummaries = "";
+                    break;
+                case "block":
+                    Config.Block = bool.Parse(value);
+                    break;
+                case "block-expiry-options":
+                    Config.BlockExpiryOptions = GET.list(value);
+                    break;
+                case "cfd":
+                    Config.CfdLocation = value;
+                    break;
+                case "config-summary":
+                    Config.ConfigSummary = value;
+                    break;
+                case "count-batch-size":
+                    //Config.CountBatchSize = int.Parse(value);
+                    break;
+                case "default-queue":
+                    Config.DefaultLanguage = value;
+                    break;
+                case "default-queue-2":
+                    Config.DefaultQueue2 = value;
+                    break;
+                case "delete":
+                    Config.Delete = bool.Parse(value);
+                    break;
+                case "email":
+                    Config.Email = bool.Parse(value);
+                    break;
+                case "email-subject":
+                    Config.EmailSubject = value;
+                    break;
+                case "enable-all":
+                    Config.EnabledForAll = bool.Parse(value);
+                    break;
+                case "go":
+                    Config.GoToPages = GET.list(value);
+                    break;
+                case "irc-channel":
+                    Config.IrcChannel = value;
+                    break;
+                case "ifd":
+                    Config.IfdLocation = value;
+                    break;
+                case "ignore":
+                    Config.IgnoredPages = GET.list(value);
+                    break;
+                case "manual-revert-summary":
+                    Config.RevertSummary = value;
+                    break;
+                case "multiple-revert-summary-parts":
+                    Config.MultipleRevertSummaryParts =  GET.list(value);
+                    break;
+                case "mfd":
+                    Config.MfdLocation = value;
+                    break;
+                case "namespace-aliases":
+
+                    break;
+                case "page-blanked-pattern":
+                    Config.PageBlankedPattern = new System.Text.RegularExpressions.Regex(value, System.Text.RegularExpressions.RegexOptions.Compiled);
+                    break;
+                case "page-created-pattern":
+                    Config.PageCreatedPattern = new System.Text.RegularExpressions.Regex(value, System.Text.RegularExpressions.RegexOptions.Compiled);
+                    break;
+                case "page-redirected-pattern":
+                    Config.PageRedirectedPattern = new System.Text.RegularExpressions.Regex(value, System.Text.RegularExpressions.RegexOptions.Compiled);
+                    break;
+                case "page-replaced-pattern":
+                    Config.PageReplacedPattern = new System.Text.RegularExpressions.Regex(value, System.Text.RegularExpressions.RegexOptions.Compiled);
+                    break;
+                case "patrol":
+                    Config.Patrol = bool.Parse(value);
+                    break;
+                case "protect":
+                    Config.Protect = bool.Parse(value);
+                    break;
+                case "protection-request-page":
+                    Config.ProtectionRequestPage = value;
+                    break;
+                case "protection-request-reason":
+                    Config.ProtectionRequestReason = value;
+                    break;
+                case "protection-request-summary":
+                    Config.ProtectionRequestSummary = value;
+                    break;
+                case "queues":
+                    //
+                    break;
+                case "quick-sight":
+                    Config.QuickSight = bool.Parse(value);
+                    break;
+                case "rc-block-size":
+                    Config.RcBlockSize = int.Parse(value);
+                    break;
+                case "require-admin":
+                    Config.RequireAdmin = bool.Parse(value);
+                    break;
+                case "require-autoconfirmed":
+                    Config.RequireAutoconfirmed = bool.Parse(value);
+                    break;
+                case "require-config":
+                    Config.RequireConfig = bool.Parse(value);
+                    break;
+                case "require-edits":
+                    Config.RequireEdits = int.Parse(value);
+                    break;
+                case "template-summ":
+                    Config.TemplateSummary = GET.dictionary(value);
+                    break;
+                case "agf":
+                    Config.Agf.Add(value);
+                    break;
+                case "require-rollback":
+                    Config.RequireRollback = bool.Parse(value);
+                    break;
+                case "require-time":
+                    Config.RequireTime = int.Parse(value);
+                    break;
+                case "revert-summaries":
+                    Config.RevertSummaries = GET.list(value);
+                    break;
+                case "rollback-summary":
+                    Config.RollbackSummary = value;
+                    break;
+                case "rfd":
+                    Config.RfdLocation = value;
+                    break;
+                case "save-config":
+                    Config.SaveConfig = bool.Parse(value);
+                    break;
+                case "shared-ip-templates":
+                    Config.SharedIPTemplates = GET.list(value);
+                    break;
+                case "sight":
+                    Config.Sight = bool.Parse(value);
+                    break;
+                case "single-revert-summary":
+                    Config.SingleRevertSummary = value;
+                    break;
+                case "sock-reports":
+                    Config.SockReportLocation = value;
+                    break;
+                case "speedy-delete-summary":
+                    Config.SpeedyDeleteSummary = value;
+                    break;
+                case "speedy-options":
+                    break;
+                case "startup-message-location":
+                    Config.StartupPage = value;
+                    break;
+                case "summary":
+                    Config.Summary = value;
+                    break;
+                case "tag-summaries":
+                    Config.TagSummaries = GET.list(value);
+                    break;
+                case "expand-report":
+                    Config.TemplatePs = true;
+                    break;
+                case "template-message-summary":
+                    Config.TemplateMessageSummary = value;
+                    break;
+                case "templates":
+                    Config.TemplateMessagesGlobal = GET.list(value);
+                    break;
+                case "tfd":
+                    Config.TfdLocation = value;
+                    break;
+                case "uaa":
+                    Config.UAALocation = value;
+                    break;
+                case "uaabot":
+                    Config.UAABotLocation = value;
+                    break;
+                case "update-whitelist-manual":
+                    Config.UpdateWhitelistManual = bool.Parse(value);
+                    break;
+                case "userlist":
+                    Config.UserListLocation = value;
+                    break;
+                case "userlist-update-summary":
+                    Config.UserListUpdateSummary = value;
+                    break;
+                case "warning-im-level":
+                    Config.WarningImLevel = bool.Parse(value);
+                    break;
+                case "warning-mode":
+                    Config.WarningMode = value;
+                    break;
+                case "warning-month-headings":
+                    Config.MonthHeadings = bool.Parse(value);
+                    break;
+                case "welcome-summary":
+                    Config.WelcomeSummary = value;
+                    break;
+                case "warning-types":
+                    
+                    break;
+                case "whitelist-edit-count":
+                    Config.WhitelistEditCount = int.Parse(value);
+                    break;
+                case "xfd":
+                    Config.Xfd = bool.Parse(value);
+                    break;
+                case "xfd-discussion-summary":
+                    Config.XfdDiscussionSummary = value;
+                    break;
+                case "xfd-log-summary":
+                    Config.XfdLogSummary = value;
+                    break;
+                case "xfd-message":
+                    Config.XfdMessage = value;
+                    break;
+                case "xfd-message-summary":
+                    Config.XfdMessageSummary = value;
+                    break;
+                case "xfd-message-title":
+                    Config.XfdMessageTitle = value;
+                    break;
+                case "xfd-summary":
+                    Config.XfdSummary = value;
+                    break;
+                
+
 
             }
             return true;
@@ -992,7 +1233,7 @@ namespace huggle3
                     Config.RequireRollback = Boolean.Parse(value);
                     break;
                 case "minor":
-                    //Config.Minor = Boolean.Parse(value);
+                    
                     break;
                 case "open-in-browser":
                     Config.OpenInBrowser = Boolean.Parse(value);
@@ -1085,8 +1326,6 @@ namespace huggle3
                     {
                         Directory.CreateDirectory(Core.LocalPath());
                     }
-        
-                
                     File.WriteAllText((Core.LocalPath() + Config.LocalConfigLocation), huggle3.Properties.Resources.DefaultLocalConfig);
                 } catch ( DirectoryNotFoundException A )
                     {

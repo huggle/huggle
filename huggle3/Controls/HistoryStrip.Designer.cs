@@ -32,12 +32,12 @@
             // 
             // HistoryStrip
             // 
+            this.Paint += new System.Windows.Forms.PaintEventHandler(Draw);
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Name = "HistoryStrip";
             this.Size = new System.Drawing.Size(259, 23);
             this.ResumeLayout(false);
-
         }
 
         #endregion

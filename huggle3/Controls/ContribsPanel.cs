@@ -26,6 +26,20 @@ namespace huggle3.Controls
 {
     public partial class ContribsPanel : UserControl
     {
+        public user ThisUser;
+        public int Offset;
+        public edit SelectedEdit;
+
+        public void Draw(Object s, PaintEventArgs b)
+        {
+            Graphics gf = b.Graphics;
+
+            gf.Clear(Color.FromKnownColor(KnownColor.Control));
+            //gf.DrawImage();
+            gf.DrawRectangle(Pens.DarkGray, 1, 1, Width - 3, Height - 3);
+
+        }
+
         public ContribsPanel()
         {
             InitializeComponent();

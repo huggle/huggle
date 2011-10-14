@@ -83,7 +83,7 @@ namespace huggle3.Requests
                 foreach (KeyValuePair<string, string> value in Core_IO.ProcessConfigFile(projectconfig_file))
                 {
                     Core_IO.SetSharedConfigKey(value.Key, value.Value);
-                    Core_IO.SetGlobalConfigOption(value.Key, value.Value);
+                    Core_IO.SetProjectConfigValue(value.Key, value.Value);
                 }
 
                 Config.UAA = !string.IsNullOrEmpty(Config.UAALocation);
