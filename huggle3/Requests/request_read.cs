@@ -27,10 +27,12 @@ namespace huggle3.Requests
             public Controls.SpecialBrowser browsertab;
             public int Request_Count;
             public int Preload_Count;
+            public string Diff;
             public int MaxSimultaneousR = 20;
             public edit _Edit;
             public override void Process()
             {
+                Core.History("request.diff()");
                 Request_Count--;
 
                 if (Request_Count >= MaxSimultaneousR)
@@ -53,7 +55,15 @@ namespace huggle3.Requests
 
                 string QueryString;
 
-                //QueryString = 
+                QueryString = Core.SitePath() + "index.php?title=" + System.Web.HttpUtility.UrlEncode(_Edit.Page.Name) + "&diff=" + _Edit.Id.ToString() + "&oldid=" + Old + "&uselang=en";
+                if (Config.QuickSight != true || _Edit.Sighted)
+                {
+                    QueryString = QueryString + "&diffonly=1";
+                }
+
+                Diff = request_core.Request.RequestURL(QueryString);
+
+                Complete();
             }
         }
         public class blocklog : request_core.Request

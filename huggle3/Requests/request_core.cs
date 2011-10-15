@@ -39,7 +39,7 @@ namespace huggle3
         public class Request
         {
             
-            public string Query; // query (api / http)
+            public static string Query; // query (api / http)
             private States _State;
             protected System.DateTime startdate; // when request is started
             private int THREAD;
@@ -122,8 +122,41 @@ namespace huggle3
             {
                 Core.History("RequestURL()");
                 string return_value = "";
+                try
+                {
+                    Query = url;
 
+                    if (Query.Contains("?"))
+                    {
+                        Query = url.Substring(url.IndexOf("?") + 1);
+                    }
 
+                    string Result = "";
+                    int Retries = Config.RequestAttempts;
+
+                    do
+                    {
+                        if (Retries < Config.RequestAttempts)
+                        {
+                            System.Threading.Thread.Sleep(Config.RequestRetryInterval);
+                        }
+                        Retries--;
+
+                        Result = DoWebRequest(url, poststring);
+                    }
+                    while (Result != "" || Retries != 0) ;
+
+                    if (Retries == 0)
+                    {
+                        return null;
+                    }
+
+                    return_value = Result;
+                
+                } catch (Exception ex)
+                {
+                    Core.ExceptionHandler(ex);
+                }
                 return return_value;
             }
 

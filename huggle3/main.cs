@@ -159,6 +159,11 @@ namespace huggle3
            
         }
 
+        private void CurrentUser_KeyPressed(object sender, EventArgs e)
+        {
+        
+        }
+
         private void LUser_Click(object sender, EventArgs e)
         {
 
@@ -169,18 +174,32 @@ namespace huggle3
             
         }
 
+        public void DisplayPage(string name)
+        {
+            Core.History("DisplayPage()");
+            page Page = new page();
+            Page.Name = CurrentPage.Text;
+            Browser_DisplayPage(Page);
+        }
+
         private void tmQueueUpdt_Tick(object sender, EventArgs e)
         {
             // update queue
 
         }
 
+        private void CurrentPage_Trigger(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                DisplayPage(CurrentPage.Text);
+            }
+        }
+
         private void CurrentPage_SelectedIndexChanged(object sender, EventArgs e)
         {
             Core.History("main.CurrentPage()");
-            page Page = new page();
-            Page.Name = CurrentPage.Text;
-            Browser_DisplayPage(Page);
+            DisplayPage(CurrentPage.Text);
         }
 
     }

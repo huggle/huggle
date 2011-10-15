@@ -1095,6 +1095,7 @@
             this.CurrentPage.Name = "CurrentPage";
             this.CurrentPage.Size = new System.Drawing.Size(164, 21);
             this.CurrentPage.TabIndex = 10;
+            this.CurrentPage.KeyPress += new System.Windows.Forms.KeyPressEventHandler(CurrentPage_Trigger);
             this.CurrentPage.SelectedIndexChanged += new System.EventHandler(this.CurrentPage_SelectedIndexChanged);
             // 
             // LContribs
@@ -1114,6 +1115,7 @@
             this.CurrentUser.Name = "CurrentUser";
             this.CurrentUser.Size = new System.Drawing.Size(164, 21);
             this.CurrentUser.TabIndex = 12;
+            this.CurrentUser.KeyPress += new System.Windows.Forms.KeyPressEventHandler(CurrentUser_KeyPress);
             this.CurrentUser.SelectedIndexChanged += new System.EventHandler(this.CurrentUser_SelectedIndexChanged);
             // 
             // pEdit
