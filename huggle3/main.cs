@@ -188,9 +188,9 @@ namespace huggle3
 
         }
 
-        private void CurrentPage_Trigger(object sender, KeyEventArgs e)
+        private void CurrentPage_Trigger(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
+            if (e.KeyChar.Equals("\r"))
             {
                 DisplayPage(CurrentPage.Text);
             }
