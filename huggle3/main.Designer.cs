@@ -33,6 +33,8 @@
             System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Name", System.Windows.Forms.HorizontalAlignment.Left);
             this.Strip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripSUser = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripSInfo = new System.Windows.Forms.ToolStripStatusLabel();
             this.MainTool = new System.Windows.Forms.ToolStrip();
             this.tsRevertWarnBt = new System.Windows.Forms.ToolStripButton();
             this.tsNextDiffBt = new System.Windows.Forms.ToolStripButton();
@@ -73,6 +75,8 @@
             this.tsReport = new System.Windows.Forms.ToolStripButton();
             this.tsBlock = new System.Windows.Forms.ToolStripButton();
             this.Queue = new System.Windows.Forms.Panel();
+            this.queuePanel2 = new huggle3.Controls.QueuePanel();
+            this.queuePanel1 = new huggle3.Controls.QueuePanel();
             this.cbType2 = new System.Windows.Forms.ComboBox();
             this.cbType1 = new System.Windows.Forms.ComboBox();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
@@ -153,13 +157,9 @@
             this.lsLog = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tmQueueUpdt = new System.Windows.Forms.Timer(this.components);
-            this.toolStripSUser = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripSInfo = new System.Windows.Forms.ToolStripStatusLabel();
             this.webBrowser = new huggle3.Controls.SpecialBrowser();
             this.historyStrip = new huggle3.Controls.HistoryStrip();
             this.contribsPanel = new huggle3.Controls.ContribsPanel();
-            this.queuePanel2 = new huggle3.Controls.QueuePanel();
-            this.queuePanel1 = new huggle3.Controls.QueuePanel();
             this.Strip.SuspendLayout();
             this.MainTool.SuspendLayout();
             this.Usertool.SuspendLayout();
@@ -181,10 +181,20 @@
             // toolStripStatus
             // 
             this.toolStripStatus.Name = "toolStripStatus";
-            this.toolStripStatus.Size = new System.Drawing.Size(860, 17);
+            this.toolStripStatus.Size = new System.Drawing.Size(891, 17);
             this.toolStripStatus.Spring = true;
             this.toolStripStatus.Text = "toolStripStatusLabel1";
             this.toolStripStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // toolStripSUser
+            // 
+            this.toolStripSUser.Name = "toolStripSUser";
+            this.toolStripSUser.Size = new System.Drawing.Size(0, 17);
+            // 
+            // toolStripSInfo
+            // 
+            this.toolStripSInfo.Name = "toolStripSInfo";
+            this.toolStripSInfo.Size = new System.Drawing.Size(0, 17);
             // 
             // MainTool
             // 
@@ -579,6 +589,20 @@
             this.Queue.Size = new System.Drawing.Size(274, 237);
             this.Queue.TabIndex = 4;
             // 
+            // queuePanel2
+            // 
+            this.queuePanel2.Location = new System.Drawing.Point(9, 158);
+            this.queuePanel2.Name = "queuePanel2";
+            this.queuePanel2.Size = new System.Drawing.Size(247, 65);
+            this.queuePanel2.TabIndex = 3;
+            // 
+            // queuePanel1
+            // 
+            this.queuePanel1.Location = new System.Drawing.Point(21, 41);
+            this.queuePanel1.Name = "queuePanel1";
+            this.queuePanel1.Size = new System.Drawing.Size(226, 73);
+            this.queuePanel1.TabIndex = 2;
+            // 
             // cbType2
             // 
             this.cbType2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -655,6 +679,7 @@
             this.logoutToolStripMenuItem.Name = "logoutToolStripMenuItem";
             this.logoutToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
             this.logoutToolStripMenuItem.Text = "Logout";
+            this.logoutToolStripMenuItem.Click += new System.EventHandler(this.logoutToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
@@ -1163,16 +1188,6 @@
             this.tmQueueUpdt.Interval = 1000;
             this.tmQueueUpdt.Tick += new System.EventHandler(this.tmQueueUpdt_Tick);
             // 
-            // toolStripSUser
-            // 
-            this.toolStripSUser.Name = "toolStripSUser";
-            this.toolStripSUser.Size = new System.Drawing.Size(0, 17);
-            // 
-            // toolStripSInfo
-            // 
-            this.toolStripSInfo.Name = "toolStripSInfo";
-            this.toolStripSInfo.Size = new System.Drawing.Size(0, 17);
-            // 
             // webBrowser
             // 
             this.webBrowser.Location = new System.Drawing.Point(361, 171);
@@ -1194,20 +1209,6 @@
             this.contribsPanel.Name = "contribsPanel";
             this.contribsPanel.Size = new System.Drawing.Size(239, 21);
             this.contribsPanel.TabIndex = 14;
-            // 
-            // queuePanel2
-            // 
-            this.queuePanel2.Location = new System.Drawing.Point(9, 158);
-            this.queuePanel2.Name = "queuePanel2";
-            this.queuePanel2.Size = new System.Drawing.Size(247, 65);
-            this.queuePanel2.TabIndex = 3;
-            // 
-            // queuePanel1
-            // 
-            this.queuePanel1.Location = new System.Drawing.Point(21, 41);
-            this.queuePanel1.Name = "queuePanel1";
-            this.queuePanel1.Size = new System.Drawing.Size(226, 73);
-            this.queuePanel1.TabIndex = 2;
             // 
             // main
             // 

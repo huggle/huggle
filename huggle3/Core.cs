@@ -419,6 +419,24 @@ namespace huggle3
             return "";
         }
 
+        public string TargetBuild()
+        {
+            switch (Config._Platform)
+            { 
+                case Config.platform.windows32:
+                    return "Windows x86";
+                case Config.platform.linux32:
+                    return "Linux x86";
+                case Config.platform.macos32:
+                    return "MacOS x86";
+                case Config.platform.linux64:
+                    return "Linux x64";
+                case Config.platform.windows64:
+                    return "Windows x64";
+            }
+            return "<unknown build>";
+        }
+
         public static string FormatHTML(page Page, string Text)
         {
             History("Core.FormatHTML (" + Page + " )");

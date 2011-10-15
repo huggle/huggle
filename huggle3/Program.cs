@@ -27,6 +27,7 @@ namespace huggle3
         /// </summary>
         /// 
         public static main MainForm;
+        public static LoginForm _LoginForm;
 
         public class ExceptionHandler 
         {
@@ -44,7 +45,8 @@ namespace huggle3
                 AppDomain.CurrentDomain.UnhandledException += EH.ThreadExceptionHandle;
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(new LoginForm()); // spawn
+                _LoginForm = new LoginForm();
+                Application.Run(_LoginForm); // spawn
         }
    
     }

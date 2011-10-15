@@ -160,6 +160,7 @@ namespace huggle3
                             Request.browsertab = browser;
                             Request.Start();
                         }
+                        Program.MainForm.Refresh_Interface();
                     }
                 }
             }

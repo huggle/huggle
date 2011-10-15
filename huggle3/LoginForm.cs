@@ -43,7 +43,11 @@ namespace huggle3
             this.btExit.Text = Languages.Get("exit"); //This used to be 'login-exit' but this doesn't exist so using 'exit' instead
             this.btLogin.Text = Languages.Get("login-start");
             this.lPassword.Text = Languages.Get("login-password");
-            this.Name = "Huggle";
+            this.Name = "Huggle ";
+            if (Config.devs)
+            { 
+                this.Name += "[devs] - target: " + Core.TargetBuild();
+            }
             this.lblName.Text = Languages.Get("login-username");
             this.lProxy.Text = Languages.Get("login-proxygroup");
             this.lTranslate.Text = Languages.Get("login-translate");
@@ -144,6 +148,11 @@ namespace huggle3
         {
                 Core.Initialise();
                 progress("Please enter login details");
+                if (Config._Platform == Config.platform.linux32 || Config._Platform == Config.platform.linux64)
+                {
+                    // gnome fix
+                    this.Width = this.Width - 80;
+                }
                 textPassword.UseSystemPasswordChar = true;
                 //Load the config
                 Core_IO.LoadLocalConfig();

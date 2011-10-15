@@ -273,5 +273,13 @@ namespace huggle3
             DisplayPage(CurrentPage.Text);
         }
 
+        private void logoutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            login.LoggedIn = false;
+            Program._LoginForm.Visible = true;
+            Core.InitConfig();
+            Close();
+        }
+
     }
 }

@@ -59,10 +59,21 @@ namespace huggle3
         /// </summary>
         public static List<string> Whitelist = new List<string>();
         public static Dictionary<string, List<string>> AllLists = new Dictionary<string,List<string>>();
+
+        // Be carefull when changing anything below, never use those variables unless you know what you do:
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         /// <summary>
         /// Always true on testing or devel
         /// </summary>
         public readonly  static bool Beta = true;
+        /// <summary>
+        /// never commit changes to this unless you are release manager
+        /// </summary>
+        public static platform _Platform = platform.windows32;
+        // if this is true huggle will bypass some stuff and produce special output
+        public static bool devs = true;
+
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
         /// <summary>
         /// Dirrent types of wiki edit
@@ -72,7 +83,6 @@ namespace huggle3
         public static int QueueTop = 80;
         public static int QueueLeft = 20;
 
-        public static bool devs = true;
 
         //////////
         //Values only used at runtime
