@@ -419,7 +419,7 @@ namespace huggle3
             return "";
         }
 
-        public string TargetBuild()
+        public static string TargetBuild()
         {
             switch (Config._Platform)
             { 

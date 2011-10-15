@@ -43,10 +43,14 @@ namespace huggle3
             this.btExit.Text = Languages.Get("exit"); //This used to be 'login-exit' but this doesn't exist so using 'exit' instead
             this.btLogin.Text = Languages.Get("login-start");
             this.lPassword.Text = Languages.Get("login-password");
-            this.Name = "Huggle ";
+            this.Text = "Huggle " + Application.ProductVersion.ToString();
             if (Config.devs)
             { 
-                this.Name += "[devs] - target: " + Core.TargetBuild();
+                this.Text = this.Text  + " [devs] - target: " + Core.TargetBuild();
+            }
+            else if (Config.Beta)
+            {
+                this.Text = this.Text + " (Testing only)";
             }
             this.lblName.Text = Languages.Get("login-username");
             this.lProxy.Text = Languages.Get("login-proxygroup");
