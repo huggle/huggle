@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(main));
-            System.Windows.Forms.ListViewGroup listViewGroup6 = new System.Windows.Forms.ListViewGroup("Name", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Name", System.Windows.Forms.HorizontalAlignment.Left);
             this.Strip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.MainTool = new System.Windows.Forms.ToolStrip();
@@ -153,11 +153,11 @@
             this.lsLog = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tmQueueUpdt = new System.Windows.Forms.Timer(this.components);
+            this.webBrowser = new huggle3.Controls.SpecialBrowser();
             this.historyStrip = new huggle3.Controls.HistoryStrip();
             this.contribsPanel = new huggle3.Controls.ContribsPanel();
             this.queuePanel2 = new huggle3.Controls.QueuePanel();
             this.queuePanel1 = new huggle3.Controls.QueuePanel();
-            this.webBrowser = new huggle3.Controls.SpecialBrowser();
             this.Strip.SuspendLayout();
             this.MainTool.SuspendLayout();
             this.Usertool.SuspendLayout();
@@ -1100,7 +1100,7 @@
             // LContribs
             // 
             this.LContribs.AutoSize = true;
-            this.LContribs.Location = new System.Drawing.Point(601, 59);
+            this.LContribs.Location = new System.Drawing.Point(611, 59);
             this.LContribs.Name = "LContribs";
             this.LContribs.Size = new System.Drawing.Size(81, 13);
             this.LContribs.TabIndex = 11;
@@ -1126,7 +1126,7 @@
             // lHistory
             // 
             this.lHistory.AutoSize = true;
-            this.lHistory.Location = new System.Drawing.Point(601, 32);
+            this.lHistory.Location = new System.Drawing.Point(611, 32);
             this.lHistory.Name = "lHistory";
             this.lHistory.Size = new System.Drawing.Size(49, 13);
             this.lHistory.TabIndex = 16;
@@ -1138,10 +1138,10 @@
             this.columnHeader1});
             this.lsLog.FullRowSelect = true;
             this.lsLog.GridLines = true;
-            listViewGroup6.Header = "Name";
-            listViewGroup6.Name = null;
+            listViewGroup2.Header = "Name";
+            listViewGroup2.Name = null;
             this.lsLog.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup6});
+            listViewGroup2});
             this.lsLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.lsLog.Location = new System.Drawing.Point(15, 444);
             this.lsLog.MultiSelect = false;
@@ -1157,18 +1157,26 @@
             this.tmQueueUpdt.Interval = 1000;
             this.tmQueueUpdt.Tick += new System.EventHandler(this.tmQueueUpdt_Tick);
             // 
+            // webBrowser
+            // 
+            this.webBrowser.Location = new System.Drawing.Point(361, 171);
+            this.webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser.Name = "webBrowser";
+            this.webBrowser.Size = new System.Drawing.Size(501, 167);
+            this.webBrowser.TabIndex = 18;
+            // 
             // historyStrip
             // 
-            this.historyStrip.Location = new System.Drawing.Point(656, 27);
+            this.historyStrip.Location = new System.Drawing.Point(666, 27);
             this.historyStrip.Name = "historyStrip";
-            this.historyStrip.Size = new System.Drawing.Size(249, 21);
+            this.historyStrip.Size = new System.Drawing.Size(239, 21);
             this.historyStrip.TabIndex = 15;
             // 
             // contribsPanel
             // 
-            this.contribsPanel.Location = new System.Drawing.Point(656, 55);
+            this.contribsPanel.Location = new System.Drawing.Point(666, 55);
             this.contribsPanel.Name = "contribsPanel";
-            this.contribsPanel.Size = new System.Drawing.Size(249, 21);
+            this.contribsPanel.Size = new System.Drawing.Size(239, 21);
             this.contribsPanel.TabIndex = 14;
             // 
             // queuePanel2
@@ -1184,14 +1192,6 @@
             this.queuePanel1.Name = "queuePanel1";
             this.queuePanel1.Size = new System.Drawing.Size(226, 73);
             this.queuePanel1.TabIndex = 2;
-            // 
-            // webBrowser
-            // 
-            this.webBrowser.Location = new System.Drawing.Point(361, 171);
-            this.webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowser.Name = "webBrowser";
-            this.webBrowser.Size = new System.Drawing.Size(501, 167);
-            this.webBrowser.TabIndex = 18;
             // 
             // main
             // 
