@@ -248,8 +248,7 @@ namespace huggle3
         public void DisplayPage(string name)
         {
             Core.History("DisplayPage()");
-            page Page = new page();
-            Page.Name = CurrentPage.Text;
+            page Page = new page(CurrentPage.Text);
             Browser_DisplayPage(Page);
         }
 

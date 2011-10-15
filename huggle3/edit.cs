@@ -39,7 +39,7 @@ namespace huggle3
         public bool Deleted;
         public string Diff;
         public CacheState DiffCacheState;
-        public string Id;
+        public string Id = "";
         public user.UserLevel LevelToWarn;
         public bool Multiple;
         /// <summary>

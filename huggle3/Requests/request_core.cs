@@ -144,7 +144,7 @@ namespace huggle3
 
                         Result = DoWebRequest(url, poststring);
                     }
-                    while (Result != "" || Retries != 0) ;
+                    while (Result == "" && Retries > 0) ;
 
                     if (Retries == 0)
                     {
@@ -174,8 +174,15 @@ namespace huggle3
                     System.IO.StreamReader ResponseStream;
                     try
                     {
-                        byte[] post_data = System.Text.Encoding.UTF8.GetBytes(PostString); // convert to byte
-
+                        byte[] post_data; // convert to byte
+                        if (PostString != null)
+                        {
+                            post_data = System.Text.Encoding.UTF8.GetBytes(PostString);
+                        }
+                        else
+                        {
+                            post_data = System.Text.Encoding.UTF8.GetBytes("");
+                        }
                         Request.CookieContainer = _cookies;
                         Request.ReadWriteTimeout = Config.RequestTimeout;
                         Request.Timeout = Config.RequestTimeout;      

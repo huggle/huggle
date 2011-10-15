@@ -115,7 +115,7 @@ namespace huggle3
                 if (browser == null)
                 {
                     browser = main._CurrentBrowser;
-
+                }
                     if (_edit != null)
                     {
                         if (_edit.Page != null)
@@ -131,7 +131,7 @@ namespace huggle3
                         if (_edit.Prev == Core.NullEdit)
                         {
                             Requests.request_read.browser_html_data BrowserRequest = new Requests.request_read.browser_html_data();
-                            BrowserRequest.address = Core.SitePath() + "index.php?title=" + System.Web.HttpUtility.UrlEncode(_edit.Page.Name) + "&oldid" + _edit.Id.ToString();
+                            BrowserRequest.address = Core.SitePath() + "index.php?title=" + System.Web.HttpUtility.UrlEncode(_edit.Page.Name) + "&id=" + _edit.Id;
                             BrowserRequest.browser = browser;
                             BrowserRequest.Start();
                         }
@@ -163,7 +163,6 @@ namespace huggle3
                         Program.MainForm.Refresh_Interface();
                     }
                 }
-            }
             catch (Exception ex)
             {
                 Core.ExceptionHandler( ex );

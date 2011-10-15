@@ -598,7 +598,18 @@ namespace huggle3
         public static string SitePath()
         {
             // return site path
-            return Config.Projects[Config.Project] + Config.ShortWikiPath;
+            return Config.Projects[Config.Project] + Config.WikiPath;
+        }
+
+        public static page Get_NewPage(string name)
+        {
+            // create new page
+            page NewPage = new page(name);
+            if (name == null)
+            {
+                return null;
+            }
+            return NewPage;
         }
 
         public static bool StopAll()

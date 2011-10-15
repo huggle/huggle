@@ -60,6 +60,20 @@ namespace huggle3
         public bool Pending;
         public string MoveLevel;
 
+        public page(string Name )
+        {
+            this.Name = Name;
+            _Space = space.Article;
+            Shared_All.Add(Name, this);
+        }
+
+        public page()
+        {
+            // special contructor, obsolete
+            this.Name = "Special:Unknown";
+            Shared_All.Add(Name, this);
+        }
+
         public enum PageLevel
         {
             None = 0,
