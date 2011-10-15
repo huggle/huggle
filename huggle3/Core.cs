@@ -919,6 +919,7 @@ namespace huggle3
 
         public static bool SetProjectConfigValue(string key, string value)
         {
+            // project config only
             switch (key)
             {
                 case "3rr":
@@ -930,18 +931,22 @@ namespace huggle3
                     Config.AfdLocation = value;
                     break;
                 case "aiv":
+                    // aiv location
                     Config.AIVLocation = value;
                     break;
                 case "aiv-extend-summary":
+                    // extend summary
                     Config.ReportExtendSummary = value;
                     break;
                 case "approval":
+                    // if approval is needed
                     Config.Approval = bool.Parse(value);
                     break;
                 case "assisted-summaries":
                     //Config.AssistedSummaries = "";
                     break;
                 case "block":
+                    // blocking enabled
                     Config.Block = bool.Parse(value);
                     break;
                 case "block-expiry-options":
@@ -954,7 +959,7 @@ namespace huggle3
                     Config.ConfigSummary = value;
                     break;
                 case "count-batch-size":
-                    //Config.CountBatchSize = int.Parse(value);
+                    Config.CountBatchSize = int.Parse(value);
                     break;
                 case "default-queue":
                     Config.DefaultLanguage = value;

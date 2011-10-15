@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(main));
-            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Name", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Name", System.Windows.Forms.HorizontalAlignment.Left);
             this.Strip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.MainTool = new System.Windows.Forms.ToolStrip();
@@ -73,8 +73,6 @@
             this.tsReport = new System.Windows.Forms.ToolStripButton();
             this.tsBlock = new System.Windows.Forms.ToolStripButton();
             this.Queue = new System.Windows.Forms.Panel();
-            this.queuePanel2 = new huggle3.Controls.QueuePanel();
-            this.queuePanel1 = new huggle3.Controls.QueuePanel();
             this.cbType2 = new System.Windows.Forms.ComboBox();
             this.cbType1 = new System.Windows.Forms.ComboBox();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
@@ -158,6 +156,8 @@
             this.tmQueueUpdt = new System.Windows.Forms.Timer(this.components);
             this.historyStrip = new huggle3.Controls.HistoryStrip();
             this.contribsPanel = new huggle3.Controls.ContribsPanel();
+            this.queuePanel2 = new huggle3.Controls.QueuePanel();
+            this.queuePanel1 = new huggle3.Controls.QueuePanel();
             this.Strip.SuspendLayout();
             this.MainTool.SuspendLayout();
             this.Usertool.SuspendLayout();
@@ -573,20 +573,6 @@
             this.Queue.Name = "Queue";
             this.Queue.Size = new System.Drawing.Size(274, 237);
             this.Queue.TabIndex = 4;
-            // 
-            // queuePanel2
-            // 
-            this.queuePanel2.Location = new System.Drawing.Point(9, 158);
-            this.queuePanel2.Name = "queuePanel2";
-            this.queuePanel2.Size = new System.Drawing.Size(247, 65);
-            this.queuePanel2.TabIndex = 3;
-            // 
-            // queuePanel1
-            // 
-            this.queuePanel1.Location = new System.Drawing.Point(21, 41);
-            this.queuePanel1.Name = "queuePanel1";
-            this.queuePanel1.Size = new System.Drawing.Size(226, 73);
-            this.queuePanel1.TabIndex = 2;
             // 
             // cbType2
             // 
@@ -1094,7 +1080,7 @@
             // LabelP
             // 
             this.LabelP.AutoSize = true;
-            this.LabelP.Location = new System.Drawing.Point(393, 32);
+            this.LabelP.Location = new System.Drawing.Point(371, 32);
             this.LabelP.Name = "LabelP";
             this.LabelP.Size = new System.Drawing.Size(68, 13);
             this.LabelP.TabIndex = 8;
@@ -1103,7 +1089,7 @@
             // LUser
             // 
             this.LUser.AutoSize = true;
-            this.LUser.Location = new System.Drawing.Point(393, 59);
+            this.LUser.Location = new System.Drawing.Point(371, 59);
             this.LUser.Name = "LUser";
             this.LUser.Size = new System.Drawing.Size(64, 13);
             this.LUser.TabIndex = 9;
@@ -1113,7 +1099,7 @@
             // CurrentPage
             // 
             this.CurrentPage.FormattingEnabled = true;
-            this.CurrentPage.Location = new System.Drawing.Point(431, 29);
+            this.CurrentPage.Location = new System.Drawing.Point(441, 27);
             this.CurrentPage.Name = "CurrentPage";
             this.CurrentPage.Size = new System.Drawing.Size(164, 21);
             this.CurrentPage.TabIndex = 10;
@@ -1132,7 +1118,7 @@
             // CurrentUser
             // 
             this.CurrentUser.FormattingEnabled = true;
-            this.CurrentUser.Location = new System.Drawing.Point(431, 56);
+            this.CurrentUser.Location = new System.Drawing.Point(441, 54);
             this.CurrentUser.Name = "CurrentUser";
             this.CurrentUser.Size = new System.Drawing.Size(164, 21);
             this.CurrentUser.TabIndex = 12;
@@ -1160,10 +1146,10 @@
             this.columnHeader1});
             this.lsLog.FullRowSelect = true;
             this.lsLog.GridLines = true;
-            listViewGroup2.Header = "Name";
-            listViewGroup2.Name = null;
+            listViewGroup1.Header = "Name";
+            listViewGroup1.Name = null;
             this.lsLog.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup2});
+            listViewGroup1});
             this.lsLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.lsLog.Location = new System.Drawing.Point(15, 444);
             this.lsLog.MultiSelect = false;
@@ -1181,17 +1167,31 @@
             // 
             // historyStrip
             // 
-            this.historyStrip.Location = new System.Drawing.Point(641, 28);
+            this.historyStrip.Location = new System.Drawing.Point(656, 27);
             this.historyStrip.Name = "historyStrip";
             this.historyStrip.Size = new System.Drawing.Size(249, 21);
             this.historyStrip.TabIndex = 15;
             // 
             // contribsPanel
             // 
-            this.contribsPanel.Location = new System.Drawing.Point(641, 56);
+            this.contribsPanel.Location = new System.Drawing.Point(656, 55);
             this.contribsPanel.Name = "contribsPanel";
             this.contribsPanel.Size = new System.Drawing.Size(249, 21);
             this.contribsPanel.TabIndex = 14;
+            // 
+            // queuePanel2
+            // 
+            this.queuePanel2.Location = new System.Drawing.Point(9, 158);
+            this.queuePanel2.Name = "queuePanel2";
+            this.queuePanel2.Size = new System.Drawing.Size(247, 65);
+            this.queuePanel2.TabIndex = 3;
+            // 
+            // queuePanel1
+            // 
+            this.queuePanel1.Location = new System.Drawing.Point(21, 41);
+            this.queuePanel1.Name = "queuePanel1";
+            this.queuePanel1.Size = new System.Drawing.Size(226, 73);
+            this.queuePanel1.TabIndex = 2;
             // 
             // main
             // 
