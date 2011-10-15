@@ -19,8 +19,6 @@
             }
             base.Dispose(disposing);
         }
-        public override int Width;
-        public override int Height;
 
         #region Windows Form Designer generated code
 
@@ -32,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(main));
-            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Name", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup6 = new System.Windows.Forms.ListViewGroup("Name", System.Windows.Forms.HorizontalAlignment.Left);
             this.Strip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.MainTool = new System.Windows.Forms.ToolStrip();
@@ -145,7 +143,6 @@
             this.documentationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.feedbackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.webBrowser = new System.Windows.Forms.WebBrowser();
             this.LabelP = new System.Windows.Forms.Label();
             this.LUser = new System.Windows.Forms.Label();
             this.CurrentPage = new System.Windows.Forms.ComboBox();
@@ -160,6 +157,7 @@
             this.contribsPanel = new huggle3.Controls.ContribsPanel();
             this.queuePanel2 = new huggle3.Controls.QueuePanel();
             this.queuePanel1 = new huggle3.Controls.QueuePanel();
+            this.webBrowser = new huggle3.Controls.SpecialBrowser();
             this.Strip.SuspendLayout();
             this.MainTool.SuspendLayout();
             this.Usertool.SuspendLayout();
@@ -1071,14 +1069,6 @@
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
-            // webBrowser
-            // 
-            this.webBrowser.Location = new System.Drawing.Point(358, 181);
-            this.webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowser.Name = "webBrowser";
-            this.webBrowser.Size = new System.Drawing.Size(486, 350);
-            this.webBrowser.TabIndex = 7;
-            // 
             // LabelP
             // 
             this.LabelP.AutoSize = true;
@@ -1148,10 +1138,10 @@
             this.columnHeader1});
             this.lsLog.FullRowSelect = true;
             this.lsLog.GridLines = true;
-            listViewGroup1.Header = "Name";
-            listViewGroup1.Name = null;
+            listViewGroup6.Header = "Name";
+            listViewGroup6.Name = null;
             this.lsLog.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup1});
+            listViewGroup6});
             this.lsLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.lsLog.Location = new System.Drawing.Point(15, 444);
             this.lsLog.MultiSelect = false;
@@ -1195,11 +1185,20 @@
             this.queuePanel1.Size = new System.Drawing.Size(226, 73);
             this.queuePanel1.TabIndex = 2;
             // 
+            // webBrowser
+            // 
+            this.webBrowser.Location = new System.Drawing.Point(361, 171);
+            this.webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser.Name = "webBrowser";
+            this.webBrowser.Size = new System.Drawing.Size(501, 167);
+            this.webBrowser.TabIndex = 18;
+            // 
             // main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(906, 584);
+            this.Controls.Add(this.webBrowser);
             this.Controls.Add(this.lsLog);
             this.Controls.Add(this.lHistory);
             this.Controls.Add(this.historyStrip);
@@ -1210,7 +1209,6 @@
             this.Controls.Add(this.CurrentPage);
             this.Controls.Add(this.LUser);
             this.Controls.Add(this.LabelP);
-            this.Controls.Add(this.webBrowser);
             this.Controls.Add(this.Usertool);
             this.Controls.Add(this.MainTool);
             this.Controls.Add(this.Strip);
@@ -1345,7 +1343,6 @@
         private System.Windows.Forms.ToolStripButton tsIgnore;
         private System.Windows.Forms.ToolStripButton tsReport;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
-        private System.Windows.Forms.WebBrowser webBrowser;
         private System.Windows.Forms.Label LabelP;
         private System.Windows.Forms.Label LUser;
         private System.Windows.Forms.ComboBox CurrentPage;
@@ -1365,5 +1362,6 @@
         private System.Windows.Forms.ToolStripMenuItem logoutToolStripMenuItem;
         private System.Windows.Forms.Timer tmQueueUpdt;
         private System.Windows.Forms.ColumnHeader columnHeader1;
+        private Controls.SpecialBrowser webBrowser;
     }
 }

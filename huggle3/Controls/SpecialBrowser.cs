@@ -24,7 +24,7 @@ using System.Windows.Forms;
 
 namespace huggle3.Controls
 {
-    public partial class SpecialBrowser : UserControl
+    public partial class SpecialBrowser
     {
         public List<Core.HistoryItem> History;
 
@@ -35,6 +35,7 @@ namespace huggle3.Controls
             {
                 return;
             }
+
         }
 
         public void AddToHistory(Core.HistoryItem i)

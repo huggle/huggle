@@ -43,8 +43,6 @@
             // 
             // SpecialBrowser
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.Browser);
             this.Name = "SpecialBrowser";
             this.Size = new System.Drawing.Size(244, 184);
