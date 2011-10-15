@@ -107,5 +107,60 @@ namespace huggle3
             return true;
         }
 
+        public static void DisplayEdit(edit _edit, bool BrowsingHistory = false, Controls.SpecialBrowser browser = null)
+        {
+            Core.History("processing.DisplayEdit()");
+            try
+            {
+                if (browser == null)
+                {
+                    browser = main._CurrentBrowser;
+
+                    if (_edit != null)
+                    {
+                        if (_edit.Page != null)
+                        {
+                            Program.MainForm.Set_Current_Page(_edit.Page);
+                        }
+
+                        if (_edit.Deleted)
+                        {
+                            
+                        }
+
+                        if (_edit.Prev == Core.NullEdit)
+                        {
+                            Requests.request_read.browser_html_data BrowserRequest = new Requests.request_read.browser_html_data();
+                            BrowserRequest.address = Core.SitePath() + "index.php?title=" + System.Web.HttpUtility.UrlEncode(_edit.Page.Name) + "&oldid" + _edit.Id.ToString();
+                            BrowserRequest.browser = browser;
+                            BrowserRequest.Start();
+                        }
+                        else if (_edit.DiffCacheState == edit.CacheState.Viewed || _edit.DiffCacheState == edit.CacheState.Cached)
+                        {
+                            if (_edit.Diff != null)
+                            {
+                                string DocumentText = "", DiffText = "";
+                                DiffText = _edit.Diff;
+
+                                DiffText = DiffText.Replace("href=\"/wiki/", "href=\"" + Config.Projects[Config.Project] + "wiki/");
+                                DiffText = DiffText.Replace("href='/wiki/", "href='" + Config.Projects[Config.Project] + "wiki/");
+                                DiffText = DiffText.Replace("href=\"/w/", "href=\"" + Config.Projects[Config.Project] + "w/");
+                                DiffText = DiffText.Replace("href='/w/", "href='" + Config.Projects[Config.Project] + "w/");
+
+                                browser.DocumentText = DocumentText;
+
+                            }
+                            _edit.DiffCacheState = edit.CacheState.Viewed;
+                        }
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Core.ExceptionHandler( ex );
+            }
+        }
+
     }
 }

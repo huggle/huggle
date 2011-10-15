@@ -30,7 +30,7 @@ namespace huggle3
         public static page _Currentpage;
         public static Controls.SpecialBrowser _CurrentBrowser;
         public static user _Currentuser;
-        public static user _CurrentEdit;
+        public static edit _CurrentEdit;
         
         
         public bool Localize()
@@ -48,6 +48,12 @@ namespace huggle3
            
             return false;
         }
+
+        public void Refresh_Interface()
+        {
+            // make me
+        }
+
         public main()
         {
             InitializeComponent();
@@ -95,11 +101,27 @@ namespace huggle3
         {
             try
             {
-                if (_Page != null)
+                if (_Page != null && this.Visible)
                 {
                     if (_Page !=  _Currentpage)
-                    { 
-                        
+                    {
+                        _CurrentEdit = _Page.LastEdit;
+                        if (_Page.LastEdit == null)
+                        {
+                            _CurrentEdit = new edit();
+                            
+                            _CurrentEdit.Page = _Page;
+                            return;
+                        }
+
+                        Processing.DisplayEdit(_CurrentEdit);
+
+                        if (_Page.LastEdit == Core.NullEdit)
+                        {
+                            
+                        }
+                        Refresh_Interface();
+
                     }
                 }
             }
@@ -114,9 +136,28 @@ namespace huggle3
             lsLog.Items.Add(text);
         }
 
+        public void Draw_Contributions()
+        {
+            Core.History("Draw_Contributions()");
+            // todo
+        }
+
+        public void Draw_Queues()
+        {
+            Core.History("Draw_Queues");
+            int Large = 0;
+        }
+
+
+
         private void main_Resize(object sender, EventArgs e)
         {
             AlignForm();
+        }
+
+        public void StatusBar(string text)
+        {
+            toolStripStatus.Text = text;
         }
 
         private void main_Load(object sender, EventArgs e)
@@ -124,10 +165,13 @@ namespace huggle3
             Core.History("main.main_Load()");
             //init
             AlignForm();
+            toolStripStatus.Text = "Loading";
+            _CurrentBrowser = webBrowser;
             Log("huggle init"); // there is supposed to be inital message concerning start up
             OpenInfo();
             Localize();
             lsLog.Columns.Add("");
+            
             
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
         }
@@ -136,6 +180,29 @@ namespace huggle3
         {
             // startup page
             this.webBrowser.Navigate(Config.Projects[Config.Project] + Config.WikiPath + "index.php?title=" + Config.StartupPage + "&action=render");
+            StatusBar("Done");
+        }
+
+        public bool Set_Current_Page(page _page)
+        {
+            _Currentpage = _page;
+            CurrentPage.Text = _page.Name;
+            if  ( ! CurrentPage.Items.Contains(_page.Name))
+            {
+                CurrentPage.Items.Add(_page.Name);
+                if (CurrentPage.Items.Count > 20) // this needs to be in config
+                {
+                    CurrentPage.Items.RemoveAt(0);
+                }
+            }
+            return true;
+        }
+
+        public bool Set_Current_User(user _user)
+        {
+            _Currentuser = _user;
+            
+            return true;
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)

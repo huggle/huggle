@@ -30,9 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(main));
-            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Name", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Name", System.Windows.Forms.HorizontalAlignment.Left);
             this.Strip = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.MainTool = new System.Windows.Forms.ToolStrip();
             this.tsRevertWarnBt = new System.Windows.Forms.ToolStripButton();
             this.tsNextDiffBt = new System.Windows.Forms.ToolStripButton();
@@ -153,6 +153,8 @@
             this.lsLog = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tmQueueUpdt = new System.Windows.Forms.Timer(this.components);
+            this.toolStripSUser = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripSInfo = new System.Windows.Forms.ToolStripStatusLabel();
             this.webBrowser = new huggle3.Controls.SpecialBrowser();
             this.historyStrip = new huggle3.Controls.HistoryStrip();
             this.contribsPanel = new huggle3.Controls.ContribsPanel();
@@ -168,18 +170,21 @@
             // Strip
             // 
             this.Strip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1});
+            this.toolStripStatus,
+            this.toolStripSUser,
+            this.toolStripSInfo});
             this.Strip.Location = new System.Drawing.Point(0, 562);
             this.Strip.Name = "Strip";
             this.Strip.Size = new System.Drawing.Size(906, 22);
             this.Strip.TabIndex = 1;
-            this.Strip.Text = "statusStrip1";
             // 
-            // toolStripStatusLabel1
+            // toolStripStatus
             // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 17);
-            this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
+            this.toolStripStatus.Name = "toolStripStatus";
+            this.toolStripStatus.Size = new System.Drawing.Size(860, 17);
+            this.toolStripStatus.Spring = true;
+            this.toolStripStatus.Text = "toolStripStatusLabel1";
+            this.toolStripStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // MainTool
             // 
@@ -1095,8 +1100,8 @@
             this.CurrentPage.Name = "CurrentPage";
             this.CurrentPage.Size = new System.Drawing.Size(164, 21);
             this.CurrentPage.TabIndex = 10;
-            this.CurrentPage.KeyPress += new System.Windows.Forms.KeyPressEventHandler(CurrentPage_Trigger);
             this.CurrentPage.SelectedIndexChanged += new System.EventHandler(this.CurrentPage_SelectedIndexChanged);
+            this.CurrentPage.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.CurrentPage_Trigger);
             // 
             // LContribs
             // 
@@ -1115,7 +1120,6 @@
             this.CurrentUser.Name = "CurrentUser";
             this.CurrentUser.Size = new System.Drawing.Size(164, 21);
             this.CurrentUser.TabIndex = 12;
-            this.CurrentUser.KeyPress += new System.Windows.Forms.KeyPressEventHandler(CurrentUser_KeyPress);
             this.CurrentUser.SelectedIndexChanged += new System.EventHandler(this.CurrentUser_SelectedIndexChanged);
             // 
             // pEdit
@@ -1140,10 +1144,10 @@
             this.columnHeader1});
             this.lsLog.FullRowSelect = true;
             this.lsLog.GridLines = true;
-            listViewGroup2.Header = "Name";
-            listViewGroup2.Name = null;
+            listViewGroup1.Header = "Name";
+            listViewGroup1.Name = null;
             this.lsLog.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup2});
+            listViewGroup1});
             this.lsLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.lsLog.Location = new System.Drawing.Point(15, 444);
             this.lsLog.MultiSelect = false;
@@ -1158,6 +1162,16 @@
             // 
             this.tmQueueUpdt.Interval = 1000;
             this.tmQueueUpdt.Tick += new System.EventHandler(this.tmQueueUpdt_Tick);
+            // 
+            // toolStripSUser
+            // 
+            this.toolStripSUser.Name = "toolStripSUser";
+            this.toolStripSUser.Size = new System.Drawing.Size(0, 17);
+            // 
+            // toolStripSInfo
+            // 
+            this.toolStripSInfo.Name = "toolStripSInfo";
+            this.toolStripSInfo.Size = new System.Drawing.Size(0, 17);
             // 
             // webBrowser
             // 
@@ -1353,7 +1367,7 @@
         private System.Windows.Forms.ComboBox cbType2;
         private System.Windows.Forms.ComboBox cbType1;
         private System.Windows.Forms.Panel pEdit;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatus;
         private Controls.QueuePanel queuePanel1;
         private Controls.QueuePanel queuePanel2;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
@@ -1365,5 +1379,7 @@
         private System.Windows.Forms.Timer tmQueueUpdt;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private Controls.SpecialBrowser webBrowser;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripSUser;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripSInfo;
     }
 }

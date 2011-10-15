@@ -27,6 +27,13 @@ namespace huggle3.Controls
     public partial class SpecialBrowser
     {
         public List<Core.HistoryItem> History;
+        public int HistoryIndex = 0;
+        public edit Edit; // edit
+        public ContextMenuStrip ForwardMenu;
+        public ContextMenuStrip BackMenu;
+        public SpecialBrowser parent;
+        public Requests.request_read.browser_html_data Last;
+        public string CurrentUrl; // current url
 
         public void Browser_Navigating(Object b, WebBrowserNavigatingEventArgs x)
         {
@@ -38,9 +45,20 @@ namespace huggle3.Controls
 
         }
 
+        public void HistoryForward()
+        {
+            Core.History("HistoryForward()");
+
+        }
+
+        public void HistoryBack()
+        {
+            Core.History("HistoryBack()");
+        }
+
         public void AddToHistory(Core.HistoryItem i)
         {
-            
+            Core.History("AddToHistory()");
         }
 
         public SpecialBrowser()

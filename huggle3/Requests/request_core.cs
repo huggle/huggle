@@ -228,7 +228,7 @@ namespace huggle3
                 // nothing
             }
 
-            public void ThreadDone()
+            public virtual void ThreadDone()
             {
                 Core.History("ThreadDone()");
                 EndRequest();

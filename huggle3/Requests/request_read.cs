@@ -71,7 +71,32 @@ namespace huggle3.Requests
             public user User;
             public override void Process()
             {
-            
+                Core.History("request_read");
+            }
+        }
+        public class browser_html_data : request_core.Request
+        {
+            public Controls.SpecialBrowser browser;
+            public Core.HistoryItem HistoryItem;
+            public string address;
+
+            public override void ThreadDone()
+            {
+                Core.History("browser_html_data.Done");
+                string _page = "";
+                browser.DocumentText = result.text;
+
+                base.ThreadDone();    
+            }
+
+            public override void Process()
+            {
+                Core.History("request_read.browser_html_data.Process()");
+                browser = main._CurrentBrowser;
+                string Result;
+
+                Result = RequestURL(address);
+                Complete(null, Result);
             }
         }
     }
