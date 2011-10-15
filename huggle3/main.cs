@@ -31,6 +31,8 @@ namespace huggle3
         public static Controls.SpecialBrowser _CurrentBrowser;
         public static user _Currentuser;
         public static edit _CurrentEdit;
+
+        private static ConfigForm config_form;
         
         
         public bool Localize()
@@ -73,8 +75,8 @@ namespace huggle3
             webBrowser.Left = Queue.Left + 20 + Queue.Width;
             webBrowser.Height = Program.MainForm.Height - 280 - MainTool.Height - Usertool.Height;
             webBrowser.Width = this.Width - Config.QueueWidth - 60;
-            contribsPanel.Width = this.Width - historyStrip.Left - 10;
-            historyStrip.Width = this.Width - contribsPanel.Left - 10;
+            contribsPanel.Width = this.Width - historyStrip.Left - 20;
+            historyStrip.Width = this.Width - contribsPanel.Left - 20;
             // 
             lsLog.Top = Config.QueueTop + 20 + Usertool.Height + MainTool.Height + Queue.Height;
             lsLog.Left = Config.QueueLeft - 10;
@@ -111,7 +113,6 @@ namespace huggle3
                             _CurrentEdit = new edit();
                             
                             _CurrentEdit.Page = _Page;
-                            return;
                         }
 
                         Processing.DisplayEdit(_CurrentEdit);
@@ -238,7 +239,10 @@ namespace huggle3
 
         private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
+            if (config_form == null)
+            {
+                
+            }
         }
 
         public void DisplayPage(string name)
@@ -257,7 +261,7 @@ namespace huggle3
 
         private void CurrentPage_Trigger(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar.Equals("\r"))
+            if (e.KeyChar.Equals('\r'))
             {
                 DisplayPage(CurrentPage.Text);
             }

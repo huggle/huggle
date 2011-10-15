@@ -152,7 +152,14 @@ namespace huggle3
                             }
                             _edit.DiffCacheState = edit.CacheState.Viewed;
                         }
-
+                        else if (_edit.DiffCacheState == edit.CacheState.Uncached)
+                        {
+                            _edit.DiffCacheState = edit.CacheState.Caching;
+                            Requests.request_read.diff Request = new Requests.request_read.diff();
+                            Request._Edit = _edit;
+                            Request.browsertab = browser;
+                            Request.Start();
+                        }
                     }
                 }
             }
