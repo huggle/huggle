@@ -19,6 +19,8 @@
             }
             base.Dispose(disposing);
         }
+        public override int Width;
+        public override int Height;
 
         #region Windows Form Designer generated code
 

@@ -26,6 +26,28 @@ namespace huggle3.Controls
 {
     public partial class QueuePanel : UserControl
     {
+        
+        public void Create(queue q, int scroll)
+        {
+            try
+            {
+                int x, y;
+                BufferedGraphics gfx = BufferedGraphicsManager.Current.Allocate(CreateGraphics(), new Rectangle(0, 0, Config.QueueWidth, main.ActiveForm.Height));
+                int QueueHeight = (Height / 20) - 2;
+                int Length = 1;
+                if (QueueHeight >= 1)
+                {
+                    
+                }
+                //gfx.Graphics
+                
+                
+
+            }
+            catch (Exception A)
+            { }
+            
+        }
         public QueuePanel()
         {
             InitializeComponent();

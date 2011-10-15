@@ -1,6 +1,6 @@
 ﻿//This is a source code or part of Huggle project
 //
-//This file contains code for
+//This file contains code for history strip
 //last modified by Petrb
 
 //Copyright (C) 2011 Huggle team

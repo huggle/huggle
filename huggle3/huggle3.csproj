@@ -100,6 +100,12 @@
     <Compile Include="Controls\QueuePanel.Designer.cs">
       <DependentUpon>QueuePanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\SpecialBrowser.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SpecialBrowser.Designer.cs">
+      <DependentUpon>SpecialBrowser.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Throbber.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -338,6 +344,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\QueuePanel.resx">
       <DependentUpon>QueuePanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\SpecialBrowser.resx">
+      <DependentUpon>SpecialBrowser.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\UserLog.resx">
       <DependentUpon>UserLog.cs</DependentUpon>

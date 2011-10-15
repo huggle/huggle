@@ -1,6 +1,6 @@
 ﻿//This is a source code or part of Huggle project
 //
-//This file contains code for
+//This file contains code for browser object
 //last modified by Petrb
 
 //Copyright (C) 2011 Huggle team
@@ -16,18 +16,35 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Data;
 using System.Text;
+using System.Windows.Forms;
 
-namespace huggle3.Requests
+namespace huggle3.Controls
 {
-    public static class request_read 
+    public partial class SpecialBrowser : UserControl
     {
-        public class diff : request_core.Request
+        public List<Core.HistoryItem> History;
+
+        public void Browser_Navigating(Object b, WebBrowserNavigatingEventArgs x)
+        {
+            Core.History("Navigating()");
+            if (x.Url.ToString() == "about:blank")
+            {
+                return;
+            }
+        }
+
+        public void AddToHistory(Core.HistoryItem i)
         {
             
-            public edit _Edit;
         }
-        public class blocklog : request_core.Request
-        { }
+
+        public SpecialBrowser()
+        {
+            InitializeComponent();
+        }
     }
 }
