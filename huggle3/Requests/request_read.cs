@@ -24,10 +24,45 @@ namespace huggle3.Requests
     {
         public class diff : request_core.Request
         {
-            
+            public Controls.SpecialBrowser browsertab;
+            public int Request_Count;
+            public int Preload_Count;
+            public int MaxSimultaneousR = 20;
             public edit _Edit;
+            public override void Process()
+            {
+                Request_Count--;
+
+                if (Request_Count >= MaxSimultaneousR)
+                {
+                    ThreadDone();
+                    return;
+                }
+
+                if (browsertab == null)
+                {
+                    browsertab = main._CurrentBrowser;
+                }
+                _Edit.DiffCacheState = edit.CacheState.Caching;
+                string Old;
+                Old = "prev";
+                if (_Edit.Oldid != "-1")
+                {
+                    Old = _Edit.Oldid;
+                }
+
+                string QueryString;
+
+                //QueryString = 
+            }
         }
         public class blocklog : request_core.Request
-        { }
+        {
+            public user User;
+            public override void Process()
+            {
+            
+            }
+        }
     }
 }

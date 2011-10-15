@@ -28,6 +28,7 @@ namespace huggle3
     public partial class main : Form
     {
         public static page _Currentpage;
+        public static Controls.SpecialBrowser _CurrentBrowser;
         public static user _Currentuser;
         public static user _CurrentEdit;
         
@@ -66,6 +67,8 @@ namespace huggle3
             webBrowser.Left = Queue.Left + 20 + Queue.Width;
             webBrowser.Height = Program.MainForm.Height - 280 - MainTool.Height - Usertool.Height;
             webBrowser.Width = this.Width - Config.QueueWidth - 60;
+            contribsPanel.Width = this.Width - historyStrip.Left - 10;
+            historyStrip.Width = this.Width - contribsPanel.Left - 10;
             // 
             lsLog.Top = Config.QueueTop + 20 + Usertool.Height + MainTool.Height + Queue.Height;
             lsLog.Left = Config.QueueLeft - 10;

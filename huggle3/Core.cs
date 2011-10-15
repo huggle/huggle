@@ -577,6 +577,12 @@ namespace huggle3
             Load_Language("ar", huggle3.Properties.Resources.ar);
         }
 
+        public static string SitePath()
+        {
+            // return site path
+            return Config.Projects[Config.Project] + Config.ShortWikiPath;
+        }
+
         public static bool StopAll()
         {
             // stop everything in system
