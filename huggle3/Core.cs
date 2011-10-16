@@ -79,6 +79,10 @@ namespace huggle3
                 public bool Active = false;
             }
 
+            /// <summary>
+            /// This is only called when exiting
+            /// </summary>
+            /// <returns></returns>
             public static bool DestroyCore()
             {
                 // All threads are aborted (usualy when application die)
@@ -91,6 +95,11 @@ namespace huggle3
                 return true;
             }
 
+            /// <summary>
+            /// Kill thread id
+            /// </summary>
+            /// <param name="N"></param>
+            /// <returns></returns>
             public static bool KillThread(int N)
             {
                 // request thread to be aborted
@@ -110,6 +119,10 @@ namespace huggle3
                 return true;
             }
 
+            /// <summary>
+            /// Insted of kill thread, safe method to release handle of thread which is about to be aborted, should be called as last action of thread
+            /// </summary>
+            /// <param name="Thread"></param>
             public static void ReleaseHandle(int Thread)
             {
                 if (ThreadList[Thread].Active == true)
@@ -151,6 +164,11 @@ namespace huggle3
                 }
             }
 
+            /// <summary>
+            /// Create thread with no name
+            /// </summary>
+            /// <param name="ThreadStart"></param>
+            /// <returns></returns>
             public static int CreateThread(System.Threading.ThreadStart ThreadStart)
             {
                 try
@@ -179,6 +197,9 @@ namespace huggle3
                 }
             }
 
+            /// <summary>
+            /// Only used for initialisation of the huggle
+            /// </summary>
             public static void CreateList()
             {
                 ThreadList.Clear();
@@ -190,16 +211,28 @@ namespace huggle3
                 }
             }
 
+            /// <summary>
+            /// Thread count
+            /// </summary>
             public static int ThCount
             {
                 get { return ThreadCount; }
             }
 
+            /// <summary>
+            /// Return windows / linux handle of thread
+            /// </summary>
+            /// <param name="N"></param>
+            /// <returns></returns>
             public static System.Threading.Thread GetHandle(int N)
             {
                 return ThreadList[N].handle;
             }
 
+            /// <summary>
+            /// Start
+            /// </summary>
+            /// <param name="ID"></param>
             public static void Execute(int ID)
             {
                 if (ThreadList[ID].Active == true)
@@ -225,7 +258,9 @@ namespace huggle3
 
         public const int MThread=200;
 
-
+        /// <summary>
+        /// Represent a block
+        /// </summary>
         public class Block
         {
             public System.DateTime Block_Date;
@@ -236,12 +271,18 @@ namespace huggle3
             public user Block_User;
         }
 
+        /// <summary>
+        /// Used for cache
+        /// </summary>
         public class CacheData
         {
             public edit Edit;
             public string Text;
         }
 
+        /// <summary>
+        /// History item
+        /// </summary>
         public class HistoryItem
         {
             public string text;
@@ -258,11 +299,17 @@ namespace huggle3
             }
         }
 
+        /// <summary>
+        /// Handle for page move
+        /// </summary>
         public class PageMove
         {
             public System.DateTime Date;
         }
 
+        /// <summary>
+        /// Represent a protection of page
+        /// </summary>
         public class Protection
         {
             public bool Cascading;
@@ -276,7 +323,9 @@ namespace huggle3
             public user Sysop;
         }
 
-
+        /// <summary>
+        /// Command
+        /// </summary>
         public class Command
         {
             public edit Edit;
@@ -285,6 +334,9 @@ namespace huggle3
             public page Page;
         }
 
+        /// <summary>
+        /// Type
+        /// </summary>
         enum CommandType
         {
             Revert,
@@ -294,6 +346,9 @@ namespace huggle3
             Ignore,
         }
 
+        /// <summary>
+        /// Contains data of every edit to pages
+        /// </summary>
         public class EditData
         {
             public edit Edit;
@@ -313,12 +368,18 @@ namespace huggle3
             public bool AutoSummary;
         }
 
+        /// <summary>
+        /// Upload info
+        /// </summary>
         public class Upload
         {
             public user User;
             public page File;
         }
 
+        /// <summary>
+        /// Warning
+        /// </summary>
         public class Warning
         {
             public System.DateTime Date;
@@ -326,16 +387,29 @@ namespace huggle3
             
         }
 
+        /// <summary>
+        /// Return path of local user config
+        /// </summary>
+        /// <returns></returns>
         public static string LocalPath()
         {
             return Application.LocalUserAppDataPath + "huggle3" + Path.DirectorySeparatorChar;
         }
 
+        /// <summary>
+        /// Called only for huggle shutdown, used after cleaning up the stuff
+        /// </summary>
         public static void ShutdownSystem()
         {
+            Core.Threading.DestroyCore();
             Application.Exit();
         }
 
+        /// <summary>
+        /// Debugging tool
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
         public static bool History(string text)
         {
             if (_history.Length - Config.HistoryTrim > Config.HistoryLenght)
@@ -347,14 +421,27 @@ namespace huggle3
             return false;
         }
 
+        /// <summary>
+        /// Callback function
+        /// </summary>
+        /// <param name="Target"></param>
+        /// <param name="PostdData"></param>
         public static void callback(System.Threading.SendOrPostCallback Target, Object PostdData)
         {
             Core.History("callback()");
         }
 
+        /// <summary>
+        /// This function look up a string
+        /// </summary>
+        /// <param name="Source"></param>
+        /// <param name="from1"></param>
+        /// <param name="from2"></param>
+        /// <param name="To"></param>
+        /// <returns></returns>
         public static string FindString(string Source, string from1, string from2, string To)
         {
-            //this function look up a string
+            //
             Core.History("FindString(string, string, string, string)");
             if (Source == null)
             {    return null; }
@@ -377,6 +464,15 @@ namespace huggle3
             return "";
         }
 
+        /// <summary>
+        /// This function look up a string in string between other strings
+        /// </summary>
+        /// <param name="Source"></param>
+        /// <param name="from1"></param>
+        /// <param name="from2"></param>
+        /// <param name="from3"></param>
+        /// <param name="To"></param>
+        /// <returns></returns>
         public static string FindString(string Source, string from1, string from2, string from3, string To)
         {
             // same one
@@ -404,6 +500,13 @@ namespace huggle3
             return "";
         }
 
+        /// <summary>
+        /// This function look up a string in string between other strings
+        /// </summary>
+        /// <param name="Source"></param>
+        /// <param name="from"></param>
+        /// <param name="To"></param>
+        /// <returns></returns>
         public static string FindString(string Source, string from, string To)
         {
             Core.History("FindString(Source, string, To)");
@@ -419,6 +522,10 @@ namespace huggle3
             return "";
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public static string TargetBuild()
         {
             switch (Config._Platform)
@@ -437,6 +544,12 @@ namespace huggle3
             return "<unknown build>";
         }
 
+        /// <summary>
+        /// Format a page to html
+        /// </summary>
+        /// <param name="Page"></param>
+        /// <param name="Text"></param>
+        /// <returns></returns>
         public static string FormatHTML(page Page, string Text)
         {
             History("Core.FormatHTML (" + Page + " )");
@@ -472,6 +585,11 @@ namespace huggle3
             return "";
         }
 
+        /// <summary>
+        /// Check if page is mediawiki page
+        /// </summary>
+        /// <param name="Content"></param>
+        /// <returns></returns>
         public static bool IsMW(string Content)
         {
             if (Content == null)
@@ -481,6 +599,12 @@ namespace huggle3
             return System.Text.RegularExpressions.Regex.Match(Content, "<body class=.mediawiki").Success;
         }
 
+        /// <summary>
+        /// This function look up a string in string between other strings
+        /// </summary>
+        /// <param name="Source"></param>
+        /// <param name="From"></param>
+        /// <returns></returns>
         public static string FindString(string Source, string From)
         {
             Core.History("Core.FindString( string, string)");
@@ -500,11 +624,15 @@ namespace huggle3
             return "";
         }
 
+        /// <summary>
+        //// this function initialise config
+        //// reset values
+        //// those values will be default in case that not present in configs
+        //// do not change unless you want to change default presets
+        /// </summary>
+        /// <returns></returns>
         public static bool InitConfig()
-        {   // this function initialise config
-            // reset values
-            // those values will be default in case that not present in configs
-            // do not change unless you want to change default presets
+        {   
             Core.History("Core.InitConfig()");
             Config.Whitelist.Clear();
             Config.AIVLocation = "";
@@ -562,11 +690,17 @@ namespace huggle3
             return true;
         }
 
+        /// <summary>
+        /// Return history
+        /// </summary>
         public static string history
         {
             get { return _history; }
         }
 
+        /// <summary>
+        /// Languages init
+        /// </summary>
         public static void LoadLanguages()
         {
             Config.Messages.Clear();
@@ -595,12 +729,21 @@ namespace huggle3
             Load_Language("ar", huggle3.Properties.Resources.ar);
         }
 
+        /// <summary>
+        /// Site path
+        /// </summary>
+        /// <returns></returns>
         public static string SitePath()
         {
             // return site path
             return Config.Projects[Config.Project] + Config.WikiPath;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public static page Get_NewPage(string name)
         {
             // create new page
@@ -612,12 +755,20 @@ namespace huggle3
             return NewPage;
         }
 
+        /// <summary>
+        /// stop everything in system, used for recovery
+        /// </summary>
+        /// <returns></returns>
         public static bool StopAll()
         {
-            // stop everything in system
             return false;
         }
 
+        /// <summary>
+        /// Initialise language
+        /// </summary>
+        /// <param name="language"></param>
+        /// <param name="data"></param>
         public static void Load_Language(string language, string data)
         {
             if (Config.Languages.Contains(language) == false)
@@ -640,9 +791,11 @@ namespace huggle3
             }
         }
 
+        /// <summary>
+        /// Suspend thread
+        /// </summary>
         public static void Suspend()
         {
-            // Suspend thread
             Core.Interrupted = true;
             while (Core.Interrupted)
             {
@@ -650,9 +803,11 @@ namespace huggle3
             }
         }
 
+        /// <summary>
+        /// Initialisation fc
+        /// </summary>
         public static void Initialise()
         {   
-            //this function is called when the application start
             Core.History("Core.Initialise()");
             Config.DefaultLanguage = "en";
             MainThread = System.Threading.Thread.CurrentThread;
@@ -663,6 +818,12 @@ namespace huggle3
             LoadLanguages();
         }
 
+        /// <summary>
+        /// Throw a huggle error dialog in case of error and recover from crash
+        /// </summary>
+        /// <param name="error_handle"></param>
+        /// <param name="panic"></param>
+        /// <returns></returns>
         public static bool ExceptionHandler(Exception error_handle, bool panic = false)
         {
             System.Threading.Thread Recovery = new System.Threading.Thread(CreateEx);
@@ -682,6 +843,9 @@ namespace huggle3
             return true;
         }
 
+        /// <summary>
+        /// Create error
+        /// </summary>
         public static void CreateEx()
         {
             huggle3.Forms.ExceptionForm fx = new huggle3.Forms.ExceptionForm();
@@ -689,12 +853,22 @@ namespace huggle3
             Application.Run(fx);
         }
 
+        /// <summary>
+        /// Make a windows / linux path
+        /// </summary>
+        /// <param name="Items"></param>
+        /// <returns></returns>
         public static string MakePath(string[] Items)
         {
 
             return "";
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="PageName"></param>
+        /// <returns></returns>
         public static page GetPage(string PageName)
         {
             // get a new page
@@ -712,6 +886,7 @@ namespace huggle3
             return null;
         }
     }
+
     public static class Core_Scripting
     {
         public class plugin
@@ -727,6 +902,11 @@ namespace huggle3
     {
         public static class GET
         {
+            /// <summary>
+            /// Parser
+            /// </summary>
+            /// <param name="data"></param>
+            /// <returns></returns>
             public static Dictionary<string, string> dictionary(string data)
             {
                 Dictionary<string, string> return_value = new Dictionary<string,string>();
@@ -750,10 +930,22 @@ namespace huggle3
 
                 return return_value;
             }
+
+            /// <summary>
+            /// Parser of months
+            /// </summary>
+            /// <param name="data"></param>
+            /// <returns></returns>
             public static bool Months(string data)
             {
                 return true;
             }
+
+            /// <summary>
+            /// Parser
+            /// </summary>
+            /// <param name="data"></param>
+            /// <returns></returns>
             public static List<string> list(string data)
             {
                 //parse
@@ -770,6 +962,13 @@ namespace huggle3
                 }
                 return DATA;
             }
+
+            /// <summary>
+            /// Parser of list
+            /// </summary>
+            /// <param name="fields"></param>
+            /// <param name="text"></param>
+            /// <returns></returns>
             public static List<List<string>> RecordList(int fields, string text)
             {
                 List<List<string>> return_value = new List<List<string>>();
@@ -777,6 +976,12 @@ namespace huggle3
                 return return_value;
             }
         }
+
+        /// <summary>
+        /// Parser
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public static Dictionary<string, string> ProcessConfigFile (string name)
         {
             Core.History("CoreIO.ProcessConfigFile()");
@@ -828,6 +1033,12 @@ namespace huggle3
             return value;
         }
 
+        /// <summary>
+        /// Configure global config from meta
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public static bool SetGlobalConfigOption(string key, string value)
         {
             switch (key)
@@ -864,6 +1075,12 @@ namespace huggle3
             return true;
         }
 
+        /// <summary>
+        /// Configure user options
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public static bool SetUserConfigOption(string key, string value)
         {
             switch (key)
@@ -878,6 +1095,12 @@ namespace huggle3
             return true;
         }
 
+        /// <summary>
+        /// Configure options defined in config.txt
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public static bool SetLocalConfigOption(string key, string value)
         {
             switch (key)
@@ -951,6 +1174,12 @@ namespace huggle3
                     return true;
         }
 
+        /// <summary>
+        /// Project only
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public static bool SetProjectConfigValue(string key, string value)
         {
             // project config only
@@ -1354,6 +1583,10 @@ namespace huggle3
             return true;
         }
 
+        /// <summary>
+        /// config.txt
+        /// </summary>
+        /// <returns></returns>
         public static bool LoadLocalConfig()
         {
             Core.History("LoadLocalConfig()");
@@ -1387,12 +1620,6 @@ namespace huggle3
                     SetLocalConfigOption(Item.Key, Item.Value);
                 }
             }
-            return true;
-        }
-
-        public static bool LoadGlobalConfig()
-        {
-            Core.History("LoadGlobalConfig()");
             return true;
         }
     }

@@ -29,7 +29,6 @@ namespace huggle3.Requests
         public override void Process()
         {
             Core.History("request_white_list.Process()");
-            string WhitelistPath ="";
             string result;
 
             result = DoWebRequest(Config.WhitelistUrl, "action=read&wp=" + System.Web.HttpUtility.UrlEncode(Config.Project));

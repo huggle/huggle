@@ -49,6 +49,13 @@ namespace huggle3
 
             public delegate void RequestCallback();
 
+            /// <summary>
+            /// Perform API request
+            /// </summary>
+            /// <param name="Query">Query data</param>
+            /// <param name="Post">Post string</param>
+            /// <param name="CurrentProject"></param>
+            /// <returns></returns>
             public static ApiResult ApiRequest(string Query, string Post = "", string CurrentProject = "")
             {
                 Core.History("Request.ApiRequest()");
@@ -160,9 +167,12 @@ namespace huggle3
                 return return_value;
             }
 
+            /// <summary>
+            /// comment me
+            /// </summary>
             public void ClearCookies()
-            { 
-               
+            {
+                //_cookies = new System.Net.CookieContainer();
             }
 
             public static string DoWebRequest(string URL, string PostString = "")

@@ -42,12 +42,29 @@ namespace huggle3
 
         }
 
+        public void Config_Load()
+        {
+            //Load all config values
+
+        }
+
         private void Cancel_Click(object sender, EventArgs e)
         {
             Close();
         }
 
+        /// <summary>
+        /// init
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ConfigForm_Load(object sender, EventArgs e)
+        {
+            Localize();
+            Config_Load();
+        }
+
+        private void bSave_Click(object sender, EventArgs e)
         {
 
         }

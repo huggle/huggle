@@ -52,6 +52,7 @@
             this.bSave.TabIndex = 1;
             this.bSave.Text = "button1";
             this.bSave.UseVisualStyleBackColor = true;
+            this.bSave.Click += new System.EventHandler(this.bSave_Click);
             // 
             // listView1
             // 

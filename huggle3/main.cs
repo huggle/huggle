@@ -34,7 +34,6 @@ namespace huggle3
 
         private static ConfigForm config_form;
         
-        
         public bool Localize()
         {
             Core.History("Main.Localize()");
@@ -60,6 +59,7 @@ namespace huggle3
         {
             InitializeComponent();
         }
+
 
         public int AlignForm()
         {
@@ -149,18 +149,25 @@ namespace huggle3
             int Large = 0;
         }
 
-
-
         private void main_Resize(object sender, EventArgs e)
         {
             AlignForm();
         }
 
+        /// <summary>
+        /// Set a text to the status bar
+        /// </summary>
+        /// <param name="text"></param>
         public void StatusBar(string text)
         {
             toolStripStatus.Text = text;
         }
 
+        /// <summary>
+        /// Init
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void main_Load(object sender, EventArgs e)
         {
             Core.History("main.main_Load()");
@@ -174,6 +181,7 @@ namespace huggle3
             OpenInfo();
             Localize();
             lsLog.Columns.Add("");
+            Config.Initialised = true;
             
             
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
@@ -261,6 +269,11 @@ namespace huggle3
 
         }
 
+        /// <summary>
+        /// Someone press enter
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CurrentPage_Trigger(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar.Equals('\r'))

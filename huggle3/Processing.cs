@@ -61,6 +61,23 @@ namespace huggle3
 
             return 0;
         }
+
+        /// <summary>
+        /// Process diff
+        /// </summary>
+        /// <param name="_E"></param>
+        /// <param name="Diff"></param>
+        /// <param name="browser"></param>
+        public static void Process_Diff(edit _E, string Diff, Controls.SpecialBrowser browser)
+        {
+            
+        }
+
+        /// <summary>
+        /// This function is used for processing of new edits
+        /// </summary>
+        /// <param name="_Edit"></param>
+        /// <returns></returns>
         public static bool ProcessNewEdit(edit _Edit)
         {
             Core.History("ProcessEdit( _Edit )");
