@@ -30,7 +30,7 @@ namespace huggle3
             public string text;
             public string message;
 
-            Request_Result(string Text, string Message = "")
+            public Request_Result(string Text, string Message = "")
             {
                 text = Text;
                 this.message = Message;

@@ -314,6 +314,31 @@ namespace huggle3
             Browser_DisplayPage(Page);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public void Draw_History()
+        {
+            Core.History("Draw_History()");
+            try
+            {
+                if (_Currentpage != null)
+                {
+                    historyStrip._Page = _Currentpage;
+                    historyStrip.Refresh();
+
+                    edit Edit;
+                    Edit = _Currentpage.LastEdit;
+                    int x = historyStrip.Width - 18 + (historyStrip.Offset * Config.ItemSize);
+                    bool Enable_Scroll = true;
+                }
+            }
+            catch (Exception B)
+            {
+                Core.ExceptionHandler(B);
+            }
+        }
+
         private void tmQueueUpdt_Tick(object sender, EventArgs e)
         {
             // update queue

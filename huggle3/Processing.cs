@@ -268,6 +268,83 @@ namespace huggle3
             try
             {
                 Core.History("Processing.Process_History()");
+                if (Result == null) return;
+
+                System.Text.RegularExpressions.MatchCollection History = new System.Text.RegularExpressions.Regex("<rev revid=\"([^\"]+)\" parentid=\"([^\"]+)\" user=\"([^\"]+)\" (anon=\"\" )?timestamp=\"([^\"]+)\"( comment=\"([^\"]+)\")?(>([^<]*)</)?", System.Text.RegularExpressions.RegexOptions.Compiled).Matches(Result);
+
+                if (History.Count == 0)
+                {
+                    if (Page.LastEdit == null)
+                    {
+                        Page.LastEdit = Core.NullEdit;
+                    }
+                }
+
+
+
+                edit NextEdit = null;
+                for (int i = 0; i < History.Count - 1; i++)
+                {
+                    edit _Edit = new edit();
+                    string Content = History[i].Groups[1].Value;
+
+                    if (edit.All.ContainsKey(Content))
+                    {
+                        _Edit = edit.All[Content];
+                    }
+
+                    _Edit.Id = Content;
+
+                    if (_Edit.Oldid == null)
+                    {
+                        _Edit.Oldid = "prev";
+                    }
+                    _Edit.Page = Page;
+
+                    if (History[i].Groups[8].Value != "")
+                    {
+                        _Edit.Text = System.Web.HttpUtility.HtmlDecode(History[i].Groups[9].Value);
+                    }
+
+                    _Edit.User = null;
+
+                    if (_Edit.Summary == null)
+                    {
+                        _Edit.Summary = System.Web.HttpUtility.HtmlDecode(History[i].Groups[7].Value);
+                    }
+
+                    if (_Edit.Time == DateTime.MinValue)
+                    {
+                        _Edit.Time = DateTime.Parse(History[i].Groups[5].Value);
+                    }
+
+                    if (Page.LastEdit == null)
+                    {
+                        Page.LastEdit = _Edit;
+                    }
+                    else if (NextEdit != null)
+                    {
+                        _Edit.Next = NextEdit;
+                        NextEdit.Prev = _Edit;
+                        _Edit.Next.Oldid = _Edit.Id;
+                    }
+
+
+                    NextEdit = _Edit;
+                    ProcessEdit(_Edit);
+                }
+
+                if (Result.Contains("<revisions rvstartid=\""))
+                {
+                    Page.HistoryOffset = NextEdit.Id;
+                }
+                else
+                {
+                    Page.HistoryOffset = null;
+                    NextEdit.Prev = Core.NullEdit;
+                    Page.FirstEdit = NextEdit;
+                }
+                Program.MainForm.Draw_History();
             }
             catch (Exception B)
             {

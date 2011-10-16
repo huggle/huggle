@@ -98,7 +98,7 @@ namespace huggle3.Requests
             public override void  Process()
             {
                 Core.History("history.Process()");
-                ApiResult result;
+                ApiResult Result;
                 string Offset;
                 Offset = Page.HistoryOffset;
                 if (_full)
@@ -112,8 +112,31 @@ namespace huggle3.Requests
                     {
                         BlockSize = Math.Min(50, BlockSize);
                     }
-                }
 
+                    string query_string = "action=query&prop=revisions&titles=" + System.Web.HttpUtility.UrlEncode(Page.Name) + "&rvlimit=" + BlockSize.ToString() + "rvprops=ids|timestamp|user|comment";
+
+                    if (GetContent)
+                    {
+                        query_string = query_string + "|content";
+                    }
+                    if (Offset != null)
+                    {
+                        query_string = query_string + "&rvstartid=" + Offset;
+                    }
+                    Result = ApiRequest(query_string);
+                    if (Result.ResultInError)
+                    {
+                        Fail(Languages.Get("history-fail"), Page.Name);
+                    }
+                    if (_full)
+                    {
+                        FullTotal = FullTotal + BlockSize;
+                        result = new request_core.Request_Result(result.text);
+                        Program.MainForm.Log(Languages.Get("history-progress"));
+                    }
+                    
+                }
+                Complete(Text: result.text);
             }
         }
 

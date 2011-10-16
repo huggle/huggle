@@ -173,6 +173,10 @@ namespace huggle3
         /// Size
         /// </summary>
         public static System.Drawing.Size WindowSize = new System.Drawing.Size();
+        /// <summary>
+        /// Size
+        /// </summary>
+        public static int ItemSize = 17;
 
         //////////
         //Values changeable through global / project / user config pages

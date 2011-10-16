@@ -44,7 +44,7 @@ namespace huggle3.Controls
                 int OlderPos = -1;
                 edit Edit = _Page.LastEdit;
                 int x;
-                x = Width - 18 + (Offset * 17);
+                x = Width - 18 + (Offset * Config.ItemSize);
                 int check = 0;
 
                 while (check < 800 && Edit != null && Edit != Core.NullEdit)
@@ -91,7 +91,7 @@ namespace huggle3.Controls
                             {
                                 gf.DrawRectangle(Pens.DarkBlue, x, 2, 15, 15);
                             }
-                            gf.DrawLine(Pens.DarkGray, x + 16, 2, x + 16, 17);
+                            gf.DrawLine(Pens.DarkGray, x + 16, 2, x + 16, Config.ItemSize);
                         }
                     }
                     check = check + 1;
@@ -108,7 +108,7 @@ namespace huggle3.Controls
                         Draw(s, pe);
                     }
                 }
-                gf.DrawLine(Pens.DarkGray, x + 16, 2, x + 16, 17);
+                gf.DrawLine(Pens.DarkGray, x + 16, 2, x + 16, Config.ItemSize);
                 if (NewerPos > -1 && OlderPos > -1)
                 {
                     if (OlderEdit != null && NewerEdit != null)
