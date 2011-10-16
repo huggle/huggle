@@ -30,6 +30,9 @@ namespace huggle3.Requests
             public string Diff;
             public int MaxSimultaneousR = 20;
             public edit _Edit;
+
+
+
             public override void Process()
             {
                 Core.History("request.diff()");
@@ -65,6 +68,13 @@ namespace huggle3.Requests
                 Diff = request_core.Request.RequestURL(QueryString);
 
                 Complete();
+            }
+
+            public override void ThreadDone()
+            {
+                Preload_Count--;
+
+                base.ThreadDone();
             }
         }
         public class blocklog : request_core.Request

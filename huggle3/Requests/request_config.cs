@@ -79,11 +79,21 @@ namespace huggle3.Requests
 
                 string projectconfig_file = System.Web.HttpUtility.HtmlDecode(Core.FindString(Core.FindString(Core.FindString(apiResult.ResultText, "<page", "ns=\"" + Core.GetPage(Config.ProjectConfigLocation)._Space.Number.ToString() + "\"" , "</page>"), "<rev "), ">", "</rev>"));
                 string userconfig_file = System.Web.HttpUtility.HtmlDecode( Core.FindString(Core.FindString(Core.FindString( apiResult.ResultText, "<page", "ns=\"" + Core.GetPage(Config.UserConfigLocation)._Space.Number.ToString() + "\"", "</page>"), "<rev "),">", "</rev>" ));
-
-                foreach (KeyValuePair<string, string> value in Core_IO.ProcessConfigFile(projectconfig_file))
+                try
                 {
-                    Core_IO.SetSharedConfigKey(value.Key, value.Value);
-                    Core_IO.SetProjectConfigValue(value.Key, value.Value);
+                    foreach (KeyValuePair<string, string> value in Core_IO.ProcessConfigFile(projectconfig_file))
+                    {
+                        Core_IO.SetSharedConfigKey(value.Key, value.Value);
+                        Core_IO.SetProjectConfigValue(value.Key, value.Value);
+                    }
+                }
+                catch (Exception ignore)
+                {
+                    // ignore
+                    //if (Config.devs)
+                    //{
+                    
+                    //}
                 }
 
                 Config.UAA = !string.IsNullOrEmpty(Config.UAALocation);

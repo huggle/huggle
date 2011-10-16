@@ -31,7 +31,7 @@ namespace huggle3
         /// Does the page exist
         /// </summary>
         public bool Exists;
-        private Dictionary<string, page> Shared_All;
+        private Dictionary<string, page> Shared_All = new Dictionary<string,page>();
         /// <summary>
         /// First Edit
         /// </summary>

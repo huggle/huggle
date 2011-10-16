@@ -701,8 +701,7 @@ namespace huggle3
             Core.History("GetPage()");
             try
             {
-                page Page = new page();
-                Page.Name = PageName;
+                page Page = new page(PageName);
                 return Page;
             }
             catch (Exception weird)
