@@ -37,6 +37,7 @@ Class DeleteForm
                     OrElse (Item.Code.StartsWith("P") AndAlso Page.Space.Name = "Portal") _
                     OrElse (Item.Code.StartsWith("T") AndAlso Page.Space.Name = "Template") _
                     OrElse (Item.Code.StartsWith("U") AndAlso Page.Space.Name.StartsWith("User")) _
+                    OrElse (Item.Code.StartsWith("ER") AndAlso Config.Project = "pt.wikipedia") _
                     Then Reason.Items.Add(Item.Code & " - " & Item.Description)
             Next Item
         End If
