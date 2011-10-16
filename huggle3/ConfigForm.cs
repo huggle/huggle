@@ -32,7 +32,22 @@ namespace huggle3
             InitializeComponent();
         }
 
+        ///<summary>
+        ///Localize
+        ///</summary>
+        private void Localize()
+        {
+            this.bSave.Text = Languages.Get("config-save");
+            this.Cancel.Text = Languages.Get("config-cancel");
+
+        }
+
         private void Cancel_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void ConfigForm_Load(object sender, EventArgs e)
         {
 
         }

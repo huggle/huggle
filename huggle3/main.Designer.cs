@@ -75,8 +75,6 @@
             this.tsReport = new System.Windows.Forms.ToolStripButton();
             this.tsBlock = new System.Windows.Forms.ToolStripButton();
             this.Queue = new System.Windows.Forms.Panel();
-            this.queuePanel2 = new huggle3.Controls.QueuePanel();
-            this.queuePanel1 = new huggle3.Controls.QueuePanel();
             this.cbType2 = new System.Windows.Forms.ComboBox();
             this.cbType1 = new System.Windows.Forms.ComboBox();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
@@ -160,6 +158,8 @@
             this.webBrowser = new huggle3.Controls.SpecialBrowser();
             this.historyStrip = new huggle3.Controls.HistoryStrip();
             this.contribsPanel = new huggle3.Controls.ContribsPanel();
+            this.queuePanel2 = new huggle3.Controls.QueuePanel();
+            this.queuePanel1 = new huggle3.Controls.QueuePanel();
             this.Strip.SuspendLayout();
             this.MainTool.SuspendLayout();
             this.Usertool.SuspendLayout();
@@ -588,20 +588,6 @@
             this.Queue.Name = "Queue";
             this.Queue.Size = new System.Drawing.Size(274, 237);
             this.Queue.TabIndex = 4;
-            // 
-            // queuePanel2
-            // 
-            this.queuePanel2.Location = new System.Drawing.Point(9, 158);
-            this.queuePanel2.Name = "queuePanel2";
-            this.queuePanel2.Size = new System.Drawing.Size(247, 65);
-            this.queuePanel2.TabIndex = 3;
-            // 
-            // queuePanel1
-            // 
-            this.queuePanel1.Location = new System.Drawing.Point(21, 41);
-            this.queuePanel1.Name = "queuePanel1";
-            this.queuePanel1.Size = new System.Drawing.Size(226, 73);
-            this.queuePanel1.TabIndex = 2;
             // 
             // cbType2
             // 
@@ -1102,6 +1088,7 @@
             // LabelP
             // 
             this.LabelP.AutoSize = true;
+            this.LabelP.BackColor = System.Drawing.Color.Transparent;
             this.LabelP.Location = new System.Drawing.Point(371, 32);
             this.LabelP.Name = "LabelP";
             this.LabelP.Size = new System.Drawing.Size(68, 13);
@@ -1131,6 +1118,7 @@
             // LContribs
             // 
             this.LContribs.AutoSize = true;
+            this.LContribs.BackColor = System.Drawing.Color.Transparent;
             this.LContribs.Location = new System.Drawing.Point(611, 59);
             this.LContribs.Name = "LContribs";
             this.LContribs.Size = new System.Drawing.Size(81, 13);
@@ -1157,6 +1145,7 @@
             // lHistory
             // 
             this.lHistory.AutoSize = true;
+            this.lHistory.BackColor = System.Drawing.Color.Transparent;
             this.lHistory.Location = new System.Drawing.Point(611, 32);
             this.lHistory.Name = "lHistory";
             this.lHistory.Size = new System.Drawing.Size(49, 13);
@@ -1209,6 +1198,20 @@
             this.contribsPanel.Name = "contribsPanel";
             this.contribsPanel.Size = new System.Drawing.Size(239, 21);
             this.contribsPanel.TabIndex = 14;
+            // 
+            // queuePanel2
+            // 
+            this.queuePanel2.Location = new System.Drawing.Point(9, 158);
+            this.queuePanel2.Name = "queuePanel2";
+            this.queuePanel2.Size = new System.Drawing.Size(247, 65);
+            this.queuePanel2.TabIndex = 3;
+            // 
+            // queuePanel1
+            // 
+            this.queuePanel1.Location = new System.Drawing.Point(21, 41);
+            this.queuePanel1.Name = "queuePanel1";
+            this.queuePanel1.Size = new System.Drawing.Size(226, 73);
+            this.queuePanel1.TabIndex = 2;
             // 
             // main
             // 

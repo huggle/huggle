@@ -80,7 +80,9 @@
             this.Controls.Add(this.bSave);
             this.Controls.Add(this.Cancel);
             this.Name = "ConfigForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Config";
+            this.Load += new System.EventHandler(this.ConfigForm_Load);
             this.ResumeLayout(false);
 
         }

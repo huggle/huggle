@@ -167,6 +167,8 @@ namespace huggle3
             //init
             AlignForm();
             toolStripStatus.Text = "Loading";
+            toolStripSInfo.Text = "Wiki: " + Config.Project + " edit rate: <waiting>";
+            toolStripSUser.Text = Config.Username;
             _CurrentBrowser = webBrowser;
             Log("huggle init"); // there is supposed to be inital message concerning start up
             OpenInfo();
@@ -241,8 +243,9 @@ namespace huggle3
         {
             if (config_form == null)
             {
-                
+                config_form = new ConfigForm();
             }
+            config_form.Show();
         }
 
         public void DisplayPage(string name)
