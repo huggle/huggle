@@ -268,6 +268,15 @@ namespace huggle3
         public const int MThread=200;
 
         /// <summary>
+        /// Threads which are not managed by core
+        /// </summary>
+        public static struct SpecialThreads
+        {
+            System.Threading.Thread RecoveryThread;
+            System.Threading.Thread ThreadManager;
+        }
+
+        /// <summary>
         /// Represent a block
         /// </summary>
         public class Block
