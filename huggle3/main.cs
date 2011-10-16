@@ -200,7 +200,18 @@ namespace huggle3
             
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
         }
-        
+
+        /// <summary>
+        /// Called when needed to render stuff
+        /// </summary>
+        public void RetrievePageContent()
+        {
+            if (_CurrentEdit != null)
+            {
+                Processing.DisplayEdit(_CurrentEdit);
+            }
+        }
+
         private void OpenInfo()
         {
             // startup page
@@ -219,6 +230,9 @@ namespace huggle3
                         _CurrentEdit = new edit();
                         _CurrentEdit.Page = _page;
 
+                        Requests.request_read.history History = new Requests.request_read.history();
+                        History.Page = _page;
+                        History.Start(RetrievePageContent);
                     }
                 }
                 if (_page.LastEdit == Core.NullEdit)

@@ -48,6 +48,7 @@ namespace huggle3
 
 
             public delegate void RequestCallback();
+            public RequestCallback Callback;
 
             /// <summary>
             /// Perform API request
@@ -172,7 +173,7 @@ namespace huggle3
             /// </summary>
             public void ClearCookies()
             {
-                //_cookies = new System.Net.CookieContainer();
+                _cookies = new System.Net.CookieContainer();
             }
 
             public static string DoWebRequest(string URL, string PostString = "")
@@ -229,6 +230,7 @@ namespace huggle3
 
             public void Start(RequestCallback Done = null)
             {
+                Callback = Done;
                 Core.History("Request.Start()");
                 try
                 {
@@ -259,6 +261,10 @@ namespace huggle3
             public void EndRequest()
             {
                 //Core.Threading.KillThread(THREAD)   ;
+                if (Callback != null)
+                {
+                    Callback();
+                }
                 Core.Threading.ReleaseHandle(THREAD);
             }
 

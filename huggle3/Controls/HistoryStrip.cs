@@ -98,8 +98,6 @@ namespace huggle3.Controls
                     x = x - 17;
                 }
 
-
-
                 if (x < 0 && Edit != null && Edit == main._CurrentEdit)
                 {
                     if (Edit.Id == main._CurrentEdit.Oldid && _Page.LastEdit != Edit)
