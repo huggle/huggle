@@ -206,9 +206,10 @@ namespace huggle3
         /// </summary>
         public void RetrievePageContent()
         {
-            if (_CurrentEdit != null)
+            if (_Currentpage.LastEdit != null)
             {
-                Processing.DisplayEdit(_CurrentEdit);
+                
+                Processing.DisplayEdit(_Currentpage.LastEdit);
             }
         }
 
