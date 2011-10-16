@@ -43,6 +43,7 @@ namespace huggle3
             this.btExit.Text = Languages.Get("exit"); //This used to be 'login-exit' but this doesn't exist so using 'exit' instead
             this.btLogin.Text = Languages.Get("login-start");
             this.lPassword.Text = Languages.Get("login-password");
+            this.checkBox.Text = Languages.Get("login-ssl");
             this.Text = "Huggle " + Application.ProductVersion.ToString();
             if (Config.devs)
             { 
@@ -312,6 +313,20 @@ namespace huggle3
                 //Disable the login button
                 progress("Please enter login details");
                 btLogin.Enabled = false;
+            }
+        }
+
+        private void checkBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox.Checked == false)
+            {
+                textPassword.ForeColor = Color.White;
+                textName.BackColor = Color.White;
+            }
+            else
+            {
+                textName.BackColor = Color.LightYellow;
+                textPassword.BackColor = Color.LightYellow;
             }
         }
 

@@ -46,6 +46,7 @@
             this.lProxy = new System.Windows.Forms.LinkLabel();
             this.lTranslate = new System.Windows.Forms.LinkLabel();
             this.timer = new System.Windows.Forms.Timer(this.components);
+            this.checkBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -97,7 +98,7 @@
             // btLogin
             // 
             this.btLogin.Enabled = false;
-            this.btLogin.Location = new System.Drawing.Point(12, 238);
+            this.btLogin.Location = new System.Drawing.Point(10, 267);
             this.btLogin.Name = "btLogin";
             this.btLogin.Size = new System.Drawing.Size(100, 25);
             this.btLogin.TabIndex = 10;
@@ -107,7 +108,7 @@
             // 
             // btExit
             // 
-            this.btExit.Location = new System.Drawing.Point(12, 269);
+            this.btExit.Location = new System.Drawing.Point(10, 298);
             this.btExit.Name = "btExit";
             this.btExit.Size = new System.Drawing.Size(100, 25);
             this.btExit.TabIndex = 12;
@@ -157,7 +158,7 @@
             // StatusBox
             // 
             this.StatusBox.AutoSize = true;
-            this.StatusBox.Location = new System.Drawing.Point(9, 218);
+            this.StatusBox.Location = new System.Drawing.Point(8, 237);
             this.StatusBox.Name = "StatusBox";
             this.StatusBox.Size = new System.Drawing.Size(62, 13);
             this.StatusBox.TabIndex = 9;
@@ -165,7 +166,7 @@
             // 
             // StatusBar
             // 
-            this.StatusBar.Location = new System.Drawing.Point(10, 187);
+            this.StatusBar.Location = new System.Drawing.Point(11, 187);
             this.StatusBar.Name = "StatusBar";
             this.StatusBar.Size = new System.Drawing.Size(297, 24);
             this.StatusBar.TabIndex = 8;
@@ -174,7 +175,7 @@
             // 
             this.lProxy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lProxy.AutoSize = true;
-            this.lProxy.Location = new System.Drawing.Point(223, 244);
+            this.lProxy.Location = new System.Drawing.Point(223, 273);
             this.lProxy.Name = "lProxy";
             this.lProxy.Size = new System.Drawing.Size(90, 13);
             this.lProxy.TabIndex = 13;
@@ -186,7 +187,7 @@
             // 
             this.lTranslate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lTranslate.AutoSize = true;
-            this.lTranslate.Location = new System.Drawing.Point(223, 275);
+            this.lTranslate.Location = new System.Drawing.Point(223, 304);
             this.lTranslate.Name = "lTranslate";
             this.lTranslate.Size = new System.Drawing.Size(82, 13);
             this.lTranslate.TabIndex = 0;
@@ -198,11 +199,23 @@
             // 
             this.timer.Tick += new System.EventHandler(this.timer_Tick);
             // 
+            // checkBox
+            // 
+            this.checkBox.AutoSize = true;
+            this.checkBox.Location = new System.Drawing.Point(10, 217);
+            this.checkBox.Name = "checkBox";
+            this.checkBox.Size = new System.Drawing.Size(44, 17);
+            this.checkBox.TabIndex = 14;
+            this.checkBox.Text = "[ssl]";
+            this.checkBox.UseVisualStyleBackColor = true;
+            this.checkBox.CheckedChanged += new System.EventHandler(this.checkBox_CheckedChanged);
+            // 
             // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(320, 302);
+            this.ClientSize = new System.Drawing.Size(320, 331);
+            this.Controls.Add(this.checkBox);
             this.Controls.Add(this.lTranslate);
             this.Controls.Add(this.lProxy);
             this.Controls.Add(this.StatusBar);
@@ -250,5 +263,6 @@
         public System.Windows.Forms.Label StatusBox;
         public System.Windows.Forms.ProgressBar StatusBar;
         private System.Windows.Forms.Timer timer;
+        private System.Windows.Forms.CheckBox checkBox;
     }
 }

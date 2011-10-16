@@ -240,6 +240,7 @@ login-password:            Password:
 login-proxygroup:          Proxy settings
 login-proxy:               Use a proxy server
 login-proxyaddress:        Address:
+login-ssl:                 Enable ssl for wikimedia content
 login-proxyport:           Port:
 login-proxydomain:         Domain:
 login-start:               Login
