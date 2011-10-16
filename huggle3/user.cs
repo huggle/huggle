@@ -24,14 +24,31 @@ namespace huggle3
     public class user
     {
         public edit LastEdit; // last edit of user
-        private bool Anonymous; // no comment
-        private int EditCount; // edit count
+        /// <summary>
+        /// Anonymous
+        /// </summary>
+        private bool Anonymous;
+        /// <summary>
+        /// Edit count of user
+        /// </summary>
+        private int EditCount;
         private bool SharedIP; // wheter it's a shared ip
-        public bool Bot; // user is a bot
-        public bool Ignored = false; // if user is on ignore list
-        public string UserName; // real name of user
+        /// <summary>
+        /// User is a bot
+        /// </summary>
+        public bool Bot;
+        /// <summary>
+        /// If user is on ignore list
+        /// </summary>
+        public bool Ignored = false;
+        /// <summary>
+        /// Real name of user
+        /// </summary>
+        public string UserName;
 
-
+        /// <summary>
+        /// Return user page
+        /// </summary>
         public string UserPage
         {
             get
@@ -47,6 +64,9 @@ namespace huggle3
             this.EditCount = -1;
         }
 
+        /// <summary>
+        /// Return user (logged in)
+        /// </summary>
         public user Me
         {
             get
@@ -55,6 +75,11 @@ namespace huggle3
             }
         }
 
+        /// <summary>
+        /// Sanitize
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <returns></returns>
         public string SanitizeUsername(string Name)
         {
             Core.History("user.SanitizeUsername( Name )");
@@ -71,9 +96,11 @@ namespace huggle3
             get { return "Talk:"; }
         }
 
+        /// <summary>
+        /// Levels
+        /// </summary>
         public enum  UserLevel
         {
-            // levels of warn
             None,
             Notification,
             Reverted,

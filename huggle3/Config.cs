@@ -310,7 +310,7 @@ namespace huggle3
         public static bool SockReports = false; // comment me
         public static string SockReportLocation = ""; // comment me
         public static bool Speedy = false; // comment me
-        //public static Dictionary<string, SpeedyCriterion> SpeedyCriteria;
+        public static Dictionary<string, page.SpeedyCriterion> SpeedyCriteria = new Dictionary<string,page.SpeedyCriterion>();
         public static string SpeedyDeleteSummary = ""; // comment me
         public static string AssociatedDeletion = "G8 - nonexistent dependency"; // comment me
         public static string SpeedyMessageSummar = ""; // comment me
@@ -339,7 +339,7 @@ namespace huggle3
         public static bool UpdateWhitelist = false; // comment me
         public static bool UpdateWhitelistManual = false; // comment me
         public static bool UseAdminFunctions = true;// comment me
-        public static string UserAgent = "Huggle/"; //+ Version.ToString() + "." + Version.Minor.ToString() + "." +  Version.Build.ToString() + " http://en.wikipedia.org/wiki/Wikipedia:Huggle";
+        public static string UserAgent = "Huggle/"; // Version.ToString() + "." + Version.Minor.ToString() + "." +  Version.Build.ToString() + " http://en.wikipedia.org/wiki/Wikipedia:Huggle";
         public static string UserConfigLocation = "Special:Mypage/huggle.css"; // comment me
         public static string UserListLocation; // comment me
         public static string UserListUpdateSummary = ""; // comment me

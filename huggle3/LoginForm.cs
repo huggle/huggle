@@ -178,7 +178,7 @@ namespace huggle3
 //There was a gap left here for some reason (this comment is incase it was needed / wanted) - Addshore
 
 
-                cmProject.SelectedItem = "\ren.wikipedia"; // Select the default project
+                cmProject.SelectedItem = Config.Project; // Select the default project
                 cmLanguage.SelectedItem = Config.DefaultLanguage; // Select the default language
 
                 textName.Select(); //Select the name text box straight away to enable a quicker login

@@ -190,8 +190,212 @@
   <data name="kn" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Lang\kn.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="hugglelogo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\hugglelogo.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="blob_anon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\blob-anon.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="blob_blank" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\blob-blank.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="blob_blanked" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\blob-blanked.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="blob_blocked" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\blob-blocked.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="blob_blocknote" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\blob-blocknote.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="blob_bot" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\blob-bot.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="blob_ignored" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\blob-ignored.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="blob_me" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\blob-me.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="blob_message" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\blob-message.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="blob_new" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\blob-new.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="blob_none" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\blob-none.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="blob_redirect" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\blob-redirect.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="blob_replaced" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\blob-replaced.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="blob_report" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\blob-report.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="blob_reported" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\blob-reported.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="blob_revert" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\blob-revert.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="blob_reverted" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\blob-reverted.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="blob_tag" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\blob-tag.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="blob_warning" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\blob-warning.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="blob_warn_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\blob-warn-1.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="blob_warn_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\blob-warn-2.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="blob_warn_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\blob-warn-3.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="blob_warn_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\blob-warn-4.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="browser_add_tab" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\browser-add-tab.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="browser_next" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\browser-next.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="browser_open" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\browser-open.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="browser_prev" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\browser-prev.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="browser_remove_tab" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\browser-remove-tab.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="cancel_all" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\cancel-all.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="contribs_last" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\contribs-last.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="contribs_next" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\contribs-next.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="contribs_prev" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\contribs-prev.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="diff_next" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\diff-next.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="diff_revert" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\diff-revert.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="diff_revert_warn" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\diff-revert-warn.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="gradient" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\gradient.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="gray_down" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\gray-down.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="gray_last" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\gray-last.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="gray_next" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\gray-next.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="gray_previous" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\gray-previous.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="gray_up" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\gray-up.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="history_last" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\history-last.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="history_next" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\history-next.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="history_previous" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\history-previous.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="history_to_cur" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\history-to-cur.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="huggle3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\huggle3.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="page_delete" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\page-delete.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="page_edit" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\page-edit.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="page_tag" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\page-tag.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="page_tag_delete" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\page-tag-delete.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="page_unwatch" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\page-unwatch.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="page_view" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\page-view.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="page_watch" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\page-watch.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="revision_sight" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\revision-sight.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sight_and_next" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\sight-and-next.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="tri_no" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\tri_no.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="tri_none" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\tri_none.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="tri_yes" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\tri_yes.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="undo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\undo.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="user_block" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\user-block.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="user_info" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\user-info.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="user_message" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\user-message.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="user_report" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\user-report.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="user_talk" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\user-talk.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="user_template" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\user-template.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="user_unwhitelist" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\user-unwhitelist.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="user_warn" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\user-warn.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="user_whitelist" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ResourcesData\user-whitelist.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

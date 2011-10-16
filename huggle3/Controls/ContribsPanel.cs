@@ -35,7 +35,7 @@ namespace huggle3.Controls
             Graphics gf = b.Graphics;
 
             gf.Clear(Color.FromKnownColor(KnownColor.Control));
-            //gf.DrawImage();
+            gf.DrawImage(huggle3.Properties.Resources.gradient, 2, 2, Width - 4, Height - 4);
             gf.DrawRectangle(Pens.DarkGray, 1, 1, Width - 3, Height - 3);
 
         }

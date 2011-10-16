@@ -27,12 +27,13 @@ namespace huggle3
 {
     public partial class main : Form
     {
-        public static page _Currentpage;
-        public static Controls.SpecialBrowser _CurrentBrowser;
-        public static user _Currentuser;
-        public static edit _CurrentEdit;
-
+        public static page _Currentpage; // pointer to page
+        public static Controls.SpecialBrowser _CurrentBrowser; // current browser
+        public static user _Currentuser; // current user
+        public static edit _CurrentEdit; // current edit
+        public static bool DisplayingEdit; // comment me
         private static ConfigForm config_form;
+        public static bool DisplayingLast = false;
         
         public bool Localize()
         {
@@ -94,9 +95,17 @@ namespace huggle3
             return 1;
         }
 
+        /// <summary>
+        /// Close
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void main_Close(object sender, EventArgs e)
         {
-            Core.ShutdownSystem();
+            if (login.LoggedIn)
+            {
+                Core.ShutdownSystem();
+            }
         }
 
         public void Browser_DisplayPage(page _Page)
@@ -130,6 +139,11 @@ namespace huggle3
             {
                 Core.ExceptionHandler(B);
             }
+        }
+
+        private void NotAvailable()
+        {
+            Log("Requested function is not yet available in this revision");
         }
 
         public void Log(string text)
@@ -196,14 +210,36 @@ namespace huggle3
 
         public bool Set_Current_Page(page _page)
         {
-            _Currentpage = _page;
-            CurrentPage.Text = _page.Name;
-            if  ( ! CurrentPage.Items.Contains(_page.Name))
+            if (_page != null)
             {
-                CurrentPage.Items.Add(_page.Name);
-                if (CurrentPage.Items.Count > 20) // this needs to be in config
+                if ((_page != _Currentpage) && DisplayingLast)
                 {
-                    CurrentPage.Items.RemoveAt(0);
+                    if (_page.LastEdit == null)
+                    {
+                        _CurrentEdit = new edit();
+                        _CurrentEdit.Page = _page;
+
+                    }
+                }
+                if (_page.LastEdit == Core.NullEdit)
+                {
+                    CurrentPage.ForeColor = Color.Red;
+                    Refresh_Interface();
+                }
+                if (_Currentpage == _page && _CurrentEdit.Id != null)
+                {
+                    if (edit.All.ContainsKey(_CurrentEdit.Id))
+                    { 
+                    
+                    }
+                }
+                if  ( ! CurrentPage.Items.Contains(_page.Name))
+                {
+                    CurrentPage.Items.Add(_page.Name);
+                    if (CurrentPage.Items.Count > 20) // this needs to be in config
+                    {
+                        CurrentPage.Items.RemoveAt(0);
+                    }
                 }
             }
             return true;
@@ -221,6 +257,11 @@ namespace huggle3
             Core.ShutdownSystem();
         }
 
+        /// <summary>
+        /// About
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             huggle3.Forms.AboutForm about = new huggle3.Forms.AboutForm();
@@ -232,6 +273,11 @@ namespace huggle3
             
         }
 
+        /// <summary>
+        /// Contribs
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void LContribs_Click(object sender, EventArgs e)
         {
            
@@ -247,6 +293,11 @@ namespace huggle3
 
         }
 
+        /// <summary>
+        /// Configuration form
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (config_form == null)
@@ -278,14 +329,13 @@ namespace huggle3
         {
             if (e.KeyChar.Equals('\r'))
             {
-                DisplayPage(CurrentPage.Text);
+                 Set_Current_Page (Core.GetPage(CurrentPage.Text));
             }
         }
 
         private void CurrentPage_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Core.History("main.CurrentPage()");
-            DisplayPage(CurrentPage.Text);
+            Set_Current_Page(Core.GetPage(CurrentPage.Text));
         }
 
         private void logoutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -294,6 +344,191 @@ namespace huggle3
             Program._LoginForm.Visible = true;
             Core.InitConfig();
             Close();
+        }
+
+        private void nextToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void clearAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NotAvailable();
+        }
+
+        private void manageQueuesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NotAvailable();
+        }
+
+        private void myTalkPageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NotAvailable(); 
+        }
+
+        private void myContributionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NotAvailable();
+        }
+
+        private void aIVToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void viewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NotAvailable();
+        }
+
+        private void revertToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NotAvailable();
+        }
+
+        private void goodToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NotAvailable();
+        }
+
+        private void sightToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NotAvailable();
+        }
+
+        private void previousToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NotAvailable();
+        }
+
+        private void nextToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            NotAvailable();
+        }
+
+        private void latestToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NotAvailable();
+        }
+
+        private void acceptPendingRevisionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NotAvailable();
+        }
+
+        private void rejectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NotAvailable();
+        }
+
+        private void switchToTalkPageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NotAvailable();
+        }
+
+        private void viewLatestRevisionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NotAvailable();
+        }
+
+        private void retrieveHistoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NotAvailable();
+        }
+
+        private void showHistoryPageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NotAvailable();
+        }
+
+        private void editToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NotAvailable();
+        }
+
+        private void tagToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NotAvailable();
+        }
+
+        private void showUserInfoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NotAvailable();
+        }
+
+        private void ignoreToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NotAvailable();
+        }
+
+        private void retrieveContributionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NotAvailable();
+        }
+
+        private void viewTalkPageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NotAvailable();
+        }
+
+        private void messageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NotAvailable();
+        }
+
+        private void emailToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NotAvailable();
+        }
+
+        private void warnToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NotAvailable();
+        }
+
+        private void reportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NotAvailable();
+        }
+
+        private void blockToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NotAvailable();
+        }
+
+        private void newTabToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NotAvailable();
+        }
+
+        private void closeTabToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NotAvailable();
+        }
+
+        private void closeOtherTabsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NotAvailable();
+        }
+
+        private void viewThisInExternalBrowserToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NotAvailable();
+        }
+
+        private void forwardToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NotAvailable();
+        }
+
+        private void showNewEditsToPageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NotAvailable();
+        }
+
+        private void showNewContributionsByUserToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NotAvailable();
         }
 
     }

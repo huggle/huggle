@@ -26,11 +26,17 @@ namespace huggle3
         /// Name of the article
         /// </summary>
         public string Name;
+        /// <summary>
+        /// WP-Space
+        /// </summary>
         public space _Space = new space();
         /// <summary>
         /// Does the page exist
         /// </summary>
         public bool Exists;
+        /// <summary>
+        /// List of all pages which are cached
+        /// </summary>
         private Dictionary<string, page> Shared_All = new Dictionary<string,page>();
         /// <summary>
         /// First Edit
@@ -40,24 +46,57 @@ namespace huggle3
         /// Current edit
         /// </summary>
         public edit LastEdit;
+        /// <summary>
+        /// Level
+        /// </summary>
         public PageLevel level;
+        /// <summary>
+        /// Deletes (history)
+        /// </summary>
         public static List<string> deletes;
+        /// <summary>
+        /// Current deletes (deleted)
+        /// </summary>
         public bool DeletesCurrent;
-        //public List<Protection> protection;
+        /// <summary>
+        /// Protections
+        /// </summary>
+        public List<Core.Protection> protection;
+        /// <summary>
+        /// Current protection
+        /// </summary>
         public bool ProtectionsCurrent;
+        /// <summary>
+        /// meh
+        /// </summary>
         public string HistoryOffset;
         /// <summary>
         /// Has the page been patrolled
         /// </summary>
         public bool patrolled;
+        /// <summary>
+        /// RcId
+        /// </summary>
         public string Rcid;
+        /// <summary>
+        /// comment
+        /// </summary>
         public SpeedyCriterion SpeedyCrit;
         /// <summary>
         /// Page text content
         /// </summary>
         public string Text;
+        /// <summary>
+        /// Level
+        /// </summary>
         public string EditLevel;
+        /// <summary>
+        /// Pending revision
+        /// </summary>
         public bool Pending;
+        /// <summary>
+        /// Level
+        /// </summary>
         public string MoveLevel;
 
         public page(string Name )

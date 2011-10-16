@@ -35,7 +35,7 @@ namespace huggle3
         /// </summary>
         public int Change;
         public string ChangedContent;
-        public Dictionary<string, edit> All;
+        public static Dictionary<string, edit> All = new Dictionary<string,edit>();
         public bool Deleted;
         public string Diff;
         public CacheState DiffCacheState;
@@ -69,15 +69,33 @@ namespace huggle3
         /// RCID (Recent Change ID)
         /// </summary>
         public string Rcid;
+        /// <summary>
+        /// Rollback token
+        /// </summary>
         public string RollbackToken;
+        /// <summary>
+        /// Post data
+        /// </summary>
         public string SightPostData;
+        /// <summary>
+        /// Sighted
+        /// </summary>
         public bool Sighted;
+        /// <summary>
+        /// Size
+        /// </summary>
         public int Size = 0;
+        /// <summary>
+        /// Summary (edit)
+        /// </summary>
         public string Summary;
         /// <summary>
         /// Content of the page
         /// </summary>
         public string Text;
+        /// <summary>
+        /// random number
+        /// </summary>
         public double random;
         /// <summary>
         /// Time of the edit
@@ -87,6 +105,9 @@ namespace huggle3
         /// Type of edit
         /// </summary>
         public edit.EditType type;
+        /// <summary>
+        /// Warning type
+        /// </summary>
         public string TypeToWarn;
         /// <summary>
         /// Edit User
@@ -97,8 +118,11 @@ namespace huggle3
         /// </summary>
         public user.UserLevel WarningLevel;
 
+        /// <summary>
+        /// Return if edit is done by another HG user
+        /// </summary>
         public bool IsHuggleEdit
-            { // check if edit is done by another HG user
+            {
                 get {
                         if (Config.Summary == "")
                         {
@@ -109,8 +133,11 @@ namespace huggle3
                     }
             }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public edit()
-        { // constructor
+        { 
             this.random = new Random(DateTime.Now.Millisecond).NextDouble();
             this.Multiple = false;
             this.NewPage = false;
@@ -118,12 +145,14 @@ namespace huggle3
         }
 
         
-
         public override string ToString()
-        { // convert to string
+        { //convert to string
             return Id;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public enum CacheState
         {
                 Viewed,
@@ -132,6 +161,9 @@ namespace huggle3
                 Cached
         }
 
+        /// <summary>
+        /// edit type
+        /// </summary>
         public enum EditType
         {
             Blanked = 2,

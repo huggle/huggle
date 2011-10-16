@@ -114,6 +114,230 @@ namespace huggle3.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap blob_anon {
+            get {
+                object obj = ResourceManager.GetObject("blob_anon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap blob_blank {
+            get {
+                object obj = ResourceManager.GetObject("blob_blank", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap blob_blanked {
+            get {
+                object obj = ResourceManager.GetObject("blob_blanked", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap blob_blocked {
+            get {
+                object obj = ResourceManager.GetObject("blob_blocked", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap blob_blocknote {
+            get {
+                object obj = ResourceManager.GetObject("blob_blocknote", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap blob_bot {
+            get {
+                object obj = ResourceManager.GetObject("blob_bot", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap blob_ignored {
+            get {
+                object obj = ResourceManager.GetObject("blob_ignored", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap blob_me {
+            get {
+                object obj = ResourceManager.GetObject("blob_me", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap blob_message {
+            get {
+                object obj = ResourceManager.GetObject("blob_message", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap blob_new {
+            get {
+                object obj = ResourceManager.GetObject("blob_new", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap blob_none {
+            get {
+                object obj = ResourceManager.GetObject("blob_none", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap blob_redirect {
+            get {
+                object obj = ResourceManager.GetObject("blob_redirect", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap blob_replaced {
+            get {
+                object obj = ResourceManager.GetObject("blob_replaced", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap blob_report {
+            get {
+                object obj = ResourceManager.GetObject("blob_report", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap blob_reported {
+            get {
+                object obj = ResourceManager.GetObject("blob_reported", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap blob_revert {
+            get {
+                object obj = ResourceManager.GetObject("blob_revert", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap blob_reverted {
+            get {
+                object obj = ResourceManager.GetObject("blob_reverted", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap blob_tag {
+            get {
+                object obj = ResourceManager.GetObject("blob_tag", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap blob_warn_1 {
+            get {
+                object obj = ResourceManager.GetObject("blob_warn_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap blob_warn_2 {
+            get {
+                object obj = ResourceManager.GetObject("blob_warn_2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap blob_warn_3 {
+            get {
+                object obj = ResourceManager.GetObject("blob_warn_3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap blob_warn_4 {
+            get {
+                object obj = ResourceManager.GetObject("blob_warn_4", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap blob_warning {
+            get {
+                object obj = ResourceManager.GetObject("blob_warning", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap browser_add_tab {
+            get {
+                object obj = ResourceManager.GetObject("browser_add_tab", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap browser_next {
+            get {
+                object obj = ResourceManager.GetObject("browser_next", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap browser_open {
+            get {
+                object obj = ResourceManager.GetObject("browser_open", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap browser_prev {
+            get {
+                object obj = ResourceManager.GetObject("browser_prev", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap browser_remove_tab {
+            get {
+                object obj = ResourceManager.GetObject("browser_remove_tab", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap cancel_all {
+            get {
+                object obj = ResourceManager.GetObject("cancel_all", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap contribs_last {
+            get {
+                object obj = ResourceManager.GetObject("contribs_last", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap contribs_next {
+            get {
+                object obj = ResourceManager.GetObject("contribs_next", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap contribs_prev {
+            get {
+                object obj = ResourceManager.GetObject("contribs_prev", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to &lt;pre&gt;
         ///name:                      Deutsch
@@ -147,17 +371,38 @@ namespace huggle3.Properties {
         ///    de.wikipedia;http://de.wikipedia.org/,
         ///    en.wikipedia;http://en.wikipedia.org/,
         ///    es.wikipedia;http://es.wikipedia.org/,
-        ///	fr.wikipedia;http://fr.wikipedia.org/,
+        ///    fr.wikipedia;http://fr.wikipedia.org/,
         ///    ko.wikipedia;http://ko.wikipedia.org/,
         ///    nl.wikipedia;http://nl.wikipedia.org/,
         ///    no.wikipedia;http://no.wikipedia.org/,
         ///    pt.wikipedia;http://pt.wikipedia.org/,
-        ///	sv.wikipedia;http://sv.wikipedia.org/,
-        ///	hi.wikipedia;http://hi [rest of string was truncated]&quot;;.
+        ///    sv.wikipedia;http://sv.wikipedia.org/,
+        ///    hi.wikipedia; [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string DefaultLocalConfig {
             get {
                 return ResourceManager.GetString("DefaultLocalConfig", resourceCulture);
+            }
+        }
+        
+        internal static System.Drawing.Bitmap diff_next {
+            get {
+                object obj = ResourceManager.GetObject("diff_next", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap diff_revert {
+            get {
+                object obj = ResourceManager.GetObject("diff_revert", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap diff_revert_warn {
+            get {
+                object obj = ResourceManager.GetObject("diff_revert_warn", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -216,9 +461,7 @@ namespace huggle3.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {{:Huggle/LocalizationHeader}}
-        ///
-        ///&lt;pre&gt;
+        ///   Looks up a localized string similar to &lt;pre&gt;
         ///name:                      Persian
         ///&lt;/pre&gt;
         ///
@@ -235,7 +478,8 @@ namespace huggle3.Properties {
         ///error:                     خطا
         ///exit:                      خارج شدن
         ///minimizewindow:            کوچک نمایی
-        ///no:            [rest of string was truncated]&quot;;.
+        ///no:                        خیر
+        ///ok:              [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string fa {
             get {
@@ -270,29 +514,106 @@ namespace huggle3.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap gradient {
+            get {
+                object obj = ResourceManager.GetObject("gradient", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap gray_down {
+            get {
+                object obj = ResourceManager.GetObject("gray_down", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap gray_last {
+            get {
+                object obj = ResourceManager.GetObject("gray_last", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap gray_next {
+            get {
+                object obj = ResourceManager.GetObject("gray_next", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap gray_previous {
+            get {
+                object obj = ResourceManager.GetObject("gray_previous", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap gray_up {
+            get {
+                object obj = ResourceManager.GetObject("gray_up", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to &lt;pre&gt;
-        ///name:                       हिंदी
+        ///name:                       हिन्दी
         ///&lt;/pre&gt;
         ///
         ///=== General ===
         ///&lt;pre&gt;
         ///add:                       जोड़ें
-        ///apply:                     लागु करें
+        ///apply:                     लागू करें
         ///cancel:                    रद्द करें
         ///clear:                     साफ़ करें
-        ///close:                     बंद करें
-        ///continue:                  जारी करें
-        ///copy:                      अनुकृति करें
+        ///close:                     बन्द करें
+        ///continue:                  जारी रखें
+        ///copy:                      प्रतिलिपि बनाएँ
         ///delete:                    मिटाएँ
-        ///error:                     विकल्प
+        ///error:                     त्रुटि
         ///exit:                      निकास
-        ///minimizewindow:            मिनिमैस
-        ///no:                        नहीं [rest of string was truncated]&quot;;.
+        ///minimizewindow:            विण्डो लघुतम करें
+        ///no:              [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string hi {
             get {
                 return ResourceManager.GetString("hi", resourceCulture);
+            }
+        }
+        
+        internal static System.Drawing.Bitmap history_last {
+            get {
+                object obj = ResourceManager.GetObject("history_last", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap history_next {
+            get {
+                object obj = ResourceManager.GetObject("history_next", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap history_previous {
+            get {
+                object obj = ResourceManager.GetObject("history_previous", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap history_to_cur {
+            get {
+                object obj = ResourceManager.GetObject("history_to_cur", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap huggle3 {
+            get {
+                object obj = ResourceManager.GetObject("huggle3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -304,8 +625,7 @@ namespace huggle3.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 
-        ///&lt;pre&gt;
+        ///   Looks up a localized string similar to &lt;pre&gt;
         ///name:                      Italiano
         ///&lt;/pre&gt;
         ///
@@ -323,7 +643,7 @@ namespace huggle3.Properties {
         ///exit:                      Exit
         ///minimizewindow:            Minimize
         ///no:                        No
-        ///ok:                     [rest of string was truncated]&quot;;.
+        ///ok:                       [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string it {
             get {
@@ -360,8 +680,7 @@ namespace huggle3.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 
-        ///&lt;pre&gt;
+        ///   Looks up a localized string similar to &lt;pre&gt;
         ///name:                      ქართული
         ///&lt;/pre&gt;
         ///
@@ -378,7 +697,7 @@ namespace huggle3.Properties {
         ///error:                     შეცდომა
         ///exit:                      გასვლა
         ///minimizewindow:            შემცირება
-        ///no:                       [rest of string was truncated]&quot;;.
+        ///no:                         [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ka {
             get {
@@ -414,10 +733,7 @@ namespace huggle3.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {{:Huggle/LocalizationHeader}}
-        ///
-        ///
-        ///&lt;pre&gt;
+        ///   Looks up a localized string similar to &lt;pre&gt;
         ///name:                      മലയാളം
         ///&lt;/pre&gt;
         ///
@@ -434,7 +750,8 @@ namespace huggle3.Properties {
         ///error:                     Error
         ///exit:                      Exit
         ///minimizewindow:            Minimize
-        ///no:                [rest of string was truncated]&quot;;.
+        ///no:                        അല്ല
+        ///ok:                   [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ml {
             get {
@@ -456,12 +773,12 @@ namespace huggle3.Properties {
         ///close:                     बंद
         ///continue:                  Continue
         ///copy:                      Copy
-        ///delete:                    काढून टाका
+        ///delete:                    काढून टाका 
         ///error:                     अडथळा
         ///exit:                      बाहेर जा
         ///minimizewindow:            Minimize
-        ///no:                        नाही
-        ///ok:                  [rest of string was truncated]&quot;;.
+        ///no:                        नाही 
+        ///ok:                [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string mr {
             get {
@@ -496,9 +813,8 @@ namespace huggle3.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 
-        ///&lt;pre&gt;
-        ///name:                      Norsk
+        ///   Looks up a localized string similar to &lt;pre&gt;
+        ///name:                      Norsk (bokmål)
         ///&lt;/pre&gt;
         ///
         ///=== General ===
@@ -515,7 +831,7 @@ namespace huggle3.Properties {
         ///exit:                      Gå ut
         ///minimizewindow:            Minimer vindu
         ///no:                        Nei
-        ///ok:          [rest of string was truncated]&quot;;.
+        ///ok:   [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string no {
             get {
@@ -575,6 +891,55 @@ namespace huggle3.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap page_delete {
+            get {
+                object obj = ResourceManager.GetObject("page_delete", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap page_edit {
+            get {
+                object obj = ResourceManager.GetObject("page_edit", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap page_tag {
+            get {
+                object obj = ResourceManager.GetObject("page_tag", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap page_tag_delete {
+            get {
+                object obj = ResourceManager.GetObject("page_tag_delete", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap page_unwatch {
+            get {
+                object obj = ResourceManager.GetObject("page_unwatch", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap page_view {
+            get {
+                object obj = ResourceManager.GetObject("page_view", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap page_watch {
+            get {
+                object obj = ResourceManager.GetObject("page_watch", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to &lt;pre&gt;
         ///name:                      Portuguęs
@@ -603,9 +968,7 @@ namespace huggle3.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {{:Huggle/LocalizationHeader}}
-        ///
-        ///&lt;pre&gt;
+        ///   Looks up a localized string similar to &lt;pre&gt;
         ///name:                      Português do Brasil
         ///&lt;/pre&gt;
         ///
@@ -621,7 +984,8 @@ namespace huggle3.Properties {
         ///delete:                    Eliminar
         ///error:                     Erro
         ///exit:                      Sair
-        ///minimizewindow:            Minim [rest of string was truncated]&quot;;.
+        ///minimizewindow:            Minimizar
+        ///no:                        N [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string pt_br {
             get {
@@ -629,10 +993,15 @@ namespace huggle3.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap revision_sight {
+            get {
+                object obj = ResourceManager.GetObject("revision_sight", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         /// <summary>
-        ///   Looks up a localized string similar to = ru =
-        ///
-        ///&lt;pre&gt;
+        ///   Looks up a localized string similar to &lt;pre&gt;
         ///name:                      Русский
         ///&lt;/pre&gt;
         ///
@@ -649,11 +1018,19 @@ namespace huggle3.Properties {
         ///error:                     Ошибка
         ///exit:                      Выход
         ///minimizewindow:            Свернуть
-        ///no:                    [rest of string was truncated]&quot;;.
+        ///no:                        Нет
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ru {
             get {
                 return ResourceManager.GetString("ru", resourceCulture);
+            }
+        }
+        
+        internal static System.Drawing.Bitmap sight_and_next {
+            get {
+                object obj = ResourceManager.GetObject("sight_and_next", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -681,6 +1058,97 @@ namespace huggle3.Properties {
         internal static string sv {
             get {
                 return ResourceManager.GetString("sv", resourceCulture);
+            }
+        }
+        
+        internal static System.Drawing.Bitmap tri_no {
+            get {
+                object obj = ResourceManager.GetObject("tri_no", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap tri_none {
+            get {
+                object obj = ResourceManager.GetObject("tri_none", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap tri_yes {
+            get {
+                object obj = ResourceManager.GetObject("tri_yes", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap undo {
+            get {
+                object obj = ResourceManager.GetObject("undo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap user_block {
+            get {
+                object obj = ResourceManager.GetObject("user_block", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap user_info {
+            get {
+                object obj = ResourceManager.GetObject("user_info", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap user_message {
+            get {
+                object obj = ResourceManager.GetObject("user_message", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap user_report {
+            get {
+                object obj = ResourceManager.GetObject("user_report", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap user_talk {
+            get {
+                object obj = ResourceManager.GetObject("user_talk", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap user_template {
+            get {
+                object obj = ResourceManager.GetObject("user_template", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap user_unwhitelist {
+            get {
+                object obj = ResourceManager.GetObject("user_unwhitelist", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap user_warn {
+            get {
+                object obj = ResourceManager.GetObject("user_warn", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap user_whitelist {
+            get {
+                object obj = ResourceManager.GetObject("user_whitelist", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

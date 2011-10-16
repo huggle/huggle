@@ -73,10 +73,50 @@ namespace huggle3.Requests
             public override void ThreadDone()
             {
                 Preload_Count--;
-
+                Processing.Process_Diff(_Edit, Diff, browsertab);
                 base.ThreadDone();
             }
         }
+
+        /// <summary>
+        /// History of page
+        /// </summary>
+        public class history : request_core.Request
+        { 
+            public int FullTotal, FullLimit = 5000, BlockSize = Config.HistoryBlockSize;
+            public page Page;
+            public bool _full;
+            public bool GetContent;
+            
+
+            public override void  ThreadDone()
+            {
+                 Processing.Process_History(result.text, Page);
+ 	             base.ThreadDone();
+            }
+
+            public override void  Process()
+            {
+                Core.History("history.Process()");
+                ApiResult result;
+                string Offset;
+                Offset = Page.HistoryOffset;
+                if (_full)
+                {
+                    Program.MainForm.Log(Languages.Get("history"));
+                }
+
+                while ( _full || FullTotal < FullLimit || Offset != null )
+                {
+                    if (GetContent)
+                    {
+                        BlockSize = Math.Min(50, BlockSize);
+                    }
+                }
+
+            }
+        }
+
         public class blocklog : request_core.Request
         {
             public user User;
@@ -85,6 +125,10 @@ namespace huggle3.Requests
                 Core.History("request_read");
             }
         }
+
+        /// <summary>
+        /// Browser request
+        /// </summary>
         public class browser_html_data : request_core.Request
         {
             public Controls.SpecialBrowser browser;

@@ -110,6 +110,9 @@ namespace huggle3
                 if (ThreadList[N].handle.ThreadState == System.Threading.ThreadState.Aborted)
                 {
                     // it's already down
+                    ThreadList[N].Active = false;
+                    ThreadList[N].Decription = "";
+                    ThreadCount = ThreadCount - 1;
                     return false;
                 }
                 ThreadList[N].handle.Abort();
@@ -133,6 +136,12 @@ namespace huggle3
                 }
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="ThreadStart"></param>
+            /// <param name="name"></param>
+            /// <returns></returns>
             public static int CreateThread(System.Threading.ThreadStart ThreadStart, string name)
             {
                 try
@@ -586,6 +595,35 @@ namespace huggle3
         }
 
         /// <summary>
+        /// Convert to wiki page
+        /// </summary>
+        /// <param name="text_html"></param>
+        /// <returns></returns>
+        public static string HtmltoWikitext(string text_html)
+        {
+            Core.History("HtmltoWikitext(text)");
+            if (text_html.EndsWith(")") && text_html.StartsWith("("))
+            {
+                text_html = text_html.Substring(1, text_html.Length - 2);
+                while (text_html.Contains("</a>") && text_html.Contains("<a href="))
+                {
+                    string target = System.Web.HttpUtility.HtmlDecode(Core.FindString(text_html, "<a href=", "title=\"", "\""));
+                    string text = System.Web.HttpUtility.HtmlDecode(Core.FindString(text_html, "<a href=>", ">", "</a>"));
+
+                    if (text == target)
+                    {
+                        text_html = text_html.Substring(0, text_html.IndexOf("<a href=")) + "[[" + text + "]]" + Core.FindString(text_html, "</a>");
+                    }
+                    else
+                    {
+                        text_html = text_html.Substring(0, text_html.IndexOf("<a href=")) + "[[" + target + "|" +text + "]]" + Core.FindString(text_html, "</a>");
+                    }
+                }
+            }
+            return CleanupHTML(text_html);
+        }
+
+        /// <summary>
         /// Check if page is mediawiki page
         /// </summary>
         /// <param name="Content"></param>
@@ -597,6 +635,25 @@ namespace huggle3
                 return false;
             }
             return System.Text.RegularExpressions.Regex.Match(Content, "<body class=.mediawiki").Success;
+        }
+
+        /// <summary>
+        /// Strip html
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static string CleanupHTML(string data)
+        {
+            string return_value = data;
+            if (data == null)
+            {
+                return data;
+            }
+            while (return_value.Contains("<") && return_value.Contains(">"))
+            {
+                return_value = return_value.Substring(0, return_value.IndexOf("<")) + return_value.Substring(return_value.IndexOf(">" + 1));
+            }
+            return return_value;
         }
 
         /// <summary>
@@ -1027,7 +1084,7 @@ namespace huggle3
 
                 if ( ! value.ContainsKey(Name) )
                 {
-                    value.Add(Name, Value);
+                    value.Add(Name, Value.Replace("\r", ""));
                 }
             }
             return value;
