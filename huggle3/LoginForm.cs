@@ -69,6 +69,7 @@ namespace huggle3
             this.textPassword.Enabled = value;
             this.cmProject.Enabled = value;
             this.cmLanguage.Enabled = value;
+            this.checkBox.Enabled = value;
             this.btLogin.Enabled = value;
             this.btExit.Enabled = true;
             this.btExit.Text = Languages.Get("exit");
@@ -149,17 +150,13 @@ namespace huggle3
             this.StatusBox.Text = text;
         }
 
-        private void LoginForm_Load(object sender, EventArgs e)
+        public void PrepareForm()
         {
-                Core.Initialise();
-                progress("Please enter login details");
-                if (Config._Platform == Config.platform.linux32 || Config._Platform == Config.platform.linux64)
-                {
-                    // gnome fix
-                    this.Width = this.Width - 80;
-                }
-                textPassword.UseSystemPasswordChar = true;
-                //Load the config
+            Core.History("PrepareForm()");
+            Config.UserAgent = "Huggle/" + Application.ProductVersion.ToString() + " http://en.wikipedia.org/wiki/Wikipedia:Huggle";
+            progress("Please enter login details");
+            textPassword.UseSystemPasswordChar = true;
+            //Load the config
                 Core_IO.LoadLocalConfig();
                 //For each project listed in the config
                 foreach (KeyValuePair<string, string> Pr in Config.Projects)
@@ -175,16 +172,30 @@ namespace huggle3
                     cmLanguage.Items.Add(language);
                 }
 
-            
-//There was a gap left here for some reason (this comment is incase it was needed / wanted) - Addshore
-
-
                 cmProject.SelectedItem = Config.Project; // Select the default project
+                EnableControls(true);
                 cmLanguage.SelectedItem = Config.DefaultLanguage; // Select the default language
 
                 textName.Select(); //Select the name text box straight away to enable a quicker login
-
+                textPassword.Text = "";
         }
+        
+        /// <summary>
+        /// Load
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void LoginForm_Load(object sender, EventArgs e)
+        {
+                Core.Initialise();
+                if (Config._Platform == Config.platform.linux32 || Config._Platform == Config.platform.linux64)
+                {
+                    // gnome fix
+                    this.Width = this.Width - 80;
+                }
+                PrepareForm();
+        }
+
         /// <summary>
         /// On 'Exit' button click
         /// </summary>
@@ -320,7 +331,7 @@ namespace huggle3
         {
             if (checkBox.Checked == false)
             {
-                textPassword.ForeColor = Color.White;
+                textPassword.BackColor = Color.White;
                 textName.BackColor = Color.White;
             }
             else

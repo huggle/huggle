@@ -143,6 +143,6 @@ namespace huggle3
             //NeedToken
             return LoginResult.None;
         }
-       
+
     }
 }

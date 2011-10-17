@@ -197,6 +197,7 @@ namespace huggle3
                     }
                     ThreadLast = ThreadID;
                     ThreadList[ThreadID].Active = true;
+                    ThreadList[ThreadID].Decription = "Huggle";
                     ThreadList[ThreadID].handle = new System.Threading.Thread(ThreadStart);
                     return ThreadID;
                 }
@@ -204,6 +205,14 @@ namespace huggle3
                 {
                     return -1;
                 }
+            }
+
+            /// <summary>
+            /// Thread manager core
+            /// </summary>
+            public static void ManagerThread()
+            {
+                System.Threading.Thread.Sleep(2000);
             }
 
             /// <summary>
@@ -265,15 +274,15 @@ namespace huggle3
         public static System.Threading.Thread MainThread;
         public static string[] months;
 
-        public const int MThread=200;
+        public const int MThread=600; // Maximum number of threads in core
 
         /// <summary>
         /// Threads which are not managed by core
         /// </summary>
-        public static struct SpecialThreads
+        public struct SpecialThreads
         {
-            System.Threading.Thread RecoveryThread;
-            System.Threading.Thread ThreadManager;
+            public static System.Threading.Thread RecoveryThread;
+            public static System.Threading.Thread ThreadManager;
         }
 
         /// <summary>
@@ -420,6 +429,13 @@ namespace huggle3
         public static void ShutdownSystem()
         {
             Core.Threading.DestroyCore();
+            if (SpecialThreads.RecoveryThread != null)
+            {
+                if (SpecialThreads.RecoveryThread.ThreadState == System.Threading.ThreadState.Running)
+                {
+                    SpecialThreads.RecoveryThread.Abort();
+                }
+            }
             Application.Exit();
         }
 
@@ -690,6 +706,13 @@ namespace huggle3
             return "";
         }
 
+        // User
+        public static user GetUser(string Name)
+        {
+            Core.History("GetUser()");
+            return new user(Name);
+        }
+
         /// <summary>
         //// this function initialise config
         //// reset values
@@ -892,11 +915,13 @@ namespace huggle3
         /// <returns></returns>
         public static bool ExceptionHandler(Exception error_handle, bool panic = false)
         {
-            System.Threading.Thread Recovery = new System.Threading.Thread(CreateEx);
-            
             core_er = error_handle;
-            Recovery.Name = "recovery thread";
-            Recovery.Start();
+            if (SpecialThreads.RecoveryThread == null)
+            {
+                SpecialThreads.RecoveryThread = new System.Threading.Thread(CreateEx);
+                SpecialThreads.RecoveryThread.Name = "Recovery thread";
+            }
+            SpecialThreads.RecoveryThread.Start();
             if (panic == true)
             {
                 StopAll();

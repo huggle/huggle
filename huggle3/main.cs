@@ -27,9 +27,15 @@ namespace huggle3
 {
     public partial class main : Form
     {
-        public static page _Currentpage; // pointer to page
+        /// <summary>
+        /// Current page
+        /// </summary>
+        public static page _Currentpage;
         public static Controls.SpecialBrowser _CurrentBrowser; // current browser
-        public static user _Currentuser; // current user
+        /// <summary>
+        /// Current user
+        /// </summary>
+        public static user _Currentuser;
         public static edit _CurrentEdit; // current edit
         public static bool DisplayingEdit; // comment me
         private static ConfigForm config_form;
@@ -208,7 +214,7 @@ namespace huggle3
         {
             if (_Currentpage.LastEdit != null)
             {
-                
+                _CurrentEdit = _Currentpage.LastEdit;
                 Processing.DisplayEdit(_Currentpage.LastEdit);
             }
         }
@@ -216,6 +222,7 @@ namespace huggle3
         private void OpenInfo()
         {
             // startup page
+            DisplayingLast = true;
             this.webBrowser.Navigate(Config.Projects[Config.Project] + Config.WikiPath + "index.php?title=" + Config.StartupPage + "&action=render");
             StatusBar("Done");
         }

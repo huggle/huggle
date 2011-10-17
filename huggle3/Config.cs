@@ -343,7 +343,7 @@ namespace huggle3
         public static bool UpdateWhitelist = false; // comment me
         public static bool UpdateWhitelistManual = false; // comment me
         public static bool UseAdminFunctions = true;// comment me
-        public static string UserAgent = "Huggle/"; // Version.ToString() + "." + Version.Minor.ToString() + "." +  Version.Build.ToString() + " http://en.wikipedia.org/wiki/Wikipedia:Huggle";
+        public static string UserAgent;
         public static string UserConfigLocation = "Special:Mypage/huggle.css"; // comment me
         public static string UserListLocation; // comment me
         public static string UserListUpdateSummary = ""; // comment me

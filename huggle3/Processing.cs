@@ -98,7 +98,7 @@ namespace huggle3
                 {
                     string D_User = Core.FindString(Diff, "<div id=\"mw-diff-ntitle2\">", ">", "<");
                     D_User = System.Web.HttpUtility.HtmlDecode(D_User.Replace(" (page does not exist)", ""));
-                    
+                    _E.User = Core.GetUser(D_User);
                 }
 
 
@@ -258,6 +258,11 @@ namespace huggle3
             return true;
         }
 
+        public static void Perform_Revert()
+        {
+            Core.History("Processing.Perform_Revert()");
+        }
+
         /// <summary>
         /// History
         /// </summary>
@@ -306,7 +311,7 @@ namespace huggle3
                         _Edit.Text = System.Web.HttpUtility.HtmlDecode(History[i].Groups[9].Value);
                     }
 
-                    _Edit.User = null;
+                    //_Edit.User = Core.GetUser("");
 
                     if (_Edit.Summary == null)
                     {

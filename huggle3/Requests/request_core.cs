@@ -255,6 +255,7 @@ namespace huggle3
 
             public void ProcessThread()
             {
+                _State = States.InProgress;
                 Process();
             }
 

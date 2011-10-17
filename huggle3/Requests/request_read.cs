@@ -106,14 +106,14 @@ namespace huggle3.Requests
                     Program.MainForm.Log(Languages.Get("history"));
                 }
 
-                while ( _full || FullTotal < FullLimit || Offset != null )
+                while ( (_full || FullTotal < FullLimit) || Offset != "" )
                 {
                     if (GetContent)
                     {
                         BlockSize = Math.Min(50, BlockSize);
                     }
 
-                    string query_string = "action=query&prop=revisions&titles=" + System.Web.HttpUtility.UrlEncode(Page.Name) + "&rvlimit=" + BlockSize.ToString() + "rvprops=ids|timestamp|user|comment";
+                    string query_string = "action=query&prop=revisions&titles=" + System.Web.HttpUtility.UrlEncode(Page.Name) + "&rvlimit=" + BlockSize.ToString() + "&rvprops=ids|timestamp|user|comment";
 
                     if (GetContent)
                     {
