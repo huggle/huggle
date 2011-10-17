@@ -30,12 +30,12 @@ namespace huggle3
         /// <summary>
         /// Current page
         /// </summary>
-        public static page _Currentpage;
+        public static page _CurrentPage;
         public static Controls.SpecialBrowser _CurrentBrowser; // current browser
         /// <summary>
         /// Current user
         /// </summary>
-        public static user _Currentuser;
+        public static user _CurrentUser;
         public static edit _CurrentEdit; // current edit
         public static bool DisplayingEdit; // comment me
         private static ConfigForm config_form;
@@ -120,7 +120,7 @@ namespace huggle3
             {
                 if (_Page != null && this.Visible)
                 {
-                    if (_Page !=  _Currentpage)
+                    if (_Page !=  _CurrentPage)
                     {
                         _CurrentEdit = _Page.LastEdit;
                         if (_Page.LastEdit == null)
@@ -212,10 +212,10 @@ namespace huggle3
         /// </summary>
         public void RetrievePageContent()
         {
-            if (_Currentpage.LastEdit != null)
+            if (_CurrentPage.LastEdit != null)
             {
-                _CurrentEdit = _Currentpage.LastEdit;
-                Processing.DisplayEdit(_Currentpage.LastEdit);
+                _CurrentEdit = _CurrentPage.LastEdit;
+                Processing.DisplayEdit(_CurrentPage.LastEdit);
             }
         }
 
@@ -231,12 +231,13 @@ namespace huggle3
         {
             if (_page != null)
             {
-                if ((_page != _Currentpage) && DisplayingLast)
+                if ((_page != _CurrentPage) && DisplayingLast)
                 {
                     if (_page.LastEdit == null)
                     {
                         _CurrentEdit = new edit();
                         _CurrentEdit.Page = _page;
+                        _CurrentPage = _page;
 
                         Requests.request_read.history History = new Requests.request_read.history();
                         History.Page = _page;
@@ -248,7 +249,7 @@ namespace huggle3
                     CurrentPage.ForeColor = Color.Red;
                     Refresh_Interface();
                 }
-                if (_Currentpage == _page && _CurrentEdit.Id != null)
+                if (_CurrentPage == _page && _CurrentEdit.Id != null)
                 {
                     if (edit.All.ContainsKey(_CurrentEdit.Id))
                     { 
@@ -269,7 +270,7 @@ namespace huggle3
 
         public bool Set_Current_User(user _user)
         {
-            _Currentuser = _user;
+            _CurrentUser = _user;
             
             return true;
         }
@@ -344,13 +345,13 @@ namespace huggle3
             Core.History("Draw_History()");
             try
             {
-                if (_Currentpage != null)
+                if (_CurrentPage != null)
                 {
-                    historyStrip._Page = _Currentpage;
+                    historyStrip._Page = _CurrentPage;
                     historyStrip.Refresh();
 
                     edit Edit;
-                    Edit = _Currentpage.LastEdit;
+                    Edit = _CurrentPage.LastEdit;
                     int x = historyStrip.Width - 18 + (historyStrip.Offset * Config.ItemSize);
                     bool Enable_Scroll = true;
                 }
@@ -576,6 +577,14 @@ namespace huggle3
         private void showNewContributionsByUserToolStripMenuItem_Click(object sender, EventArgs e)
         {
             NotAvailable();
+        }
+
+        private void timerStatus_Tick(object sender, EventArgs e)
+        {
+            if (Config.devs)
+            {
+                toolStripSInfo.Text = "Wiki: " + Config.Project + " edit rate: <waiting> threadc: " + Core.Threading.ThCount.ToString();
+            }
         }
 
     }

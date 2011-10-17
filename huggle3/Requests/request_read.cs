@@ -98,7 +98,7 @@ namespace huggle3.Requests
             public override void  Process()
             {
                 Core.History("history.Process()");
-                ApiResult Result;
+                ApiResult Result = new ApiResult();
                 string Offset;
                 Offset = Page.HistoryOffset;
                 if (_full)
@@ -106,7 +106,7 @@ namespace huggle3.Requests
                     Program.MainForm.Log(Languages.Get("history"));
                 }
 
-                while ( (_full || FullTotal < FullLimit) || Offset != "" )
+                while ( (_full || FullTotal < FullLimit) && Offset != "" )
                 {
                     if (GetContent)
                     {
@@ -134,9 +134,13 @@ namespace huggle3.Requests
                         result = new request_core.Request_Result(result.text);
                         Program.MainForm.Log(Languages.Get("history-progress"));
                     }
-                    
+                    Offset = GetParameter(Result.ResultText, "rvstartid");
+                    if (Offset == null)
+                    {
+                        Offset = "";
+                    }
                 }
-                Complete(Text: result.text);
+                Complete(Text: Result.ResultText);
             }
         }
 

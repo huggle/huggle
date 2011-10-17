@@ -228,6 +228,26 @@ namespace huggle3
                 Core.History("Request.Create()");
             }
 
+            public static string GetParameter(string source, string parameter)
+            {
+                Core.History("GetParameter()");
+                if (parameter == null) return null;
+                if (source == null) return null;
+
+                if (source.Contains(parameter + "=") == false)
+                {
+                    return null;
+                }
+
+                if (source.Contains("\"") != true)
+                {
+                    return null;
+                }
+                string return_value = source.Substring(source.IndexOf(parameter + "=\"") + parameter.Length + 2);
+
+                return System.Web.HttpUtility.HtmlDecode(return_value);
+            }
+
             public void Start(RequestCallback Done = null)
             {
                 Callback = Done;

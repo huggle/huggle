@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(main));
-            System.Windows.Forms.ListViewGroup listViewGroup37 = new System.Windows.Forms.ListViewGroup("Name", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Name", System.Windows.Forms.HorizontalAlignment.Left);
             this.Strip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripSUser = new System.Windows.Forms.ToolStripStatusLabel();
@@ -75,6 +75,8 @@
             this.tsReport = new System.Windows.Forms.ToolStripButton();
             this.tsBlock = new System.Windows.Forms.ToolStripButton();
             this.Queue = new System.Windows.Forms.Panel();
+            this.queuePanel2 = new huggle3.Controls.QueuePanel();
+            this.queuePanel1 = new huggle3.Controls.QueuePanel();
             this.cbType2 = new System.Windows.Forms.ComboBox();
             this.cbType1 = new System.Windows.Forms.ComboBox();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
@@ -154,12 +156,11 @@
             this.lHistory = new System.Windows.Forms.Label();
             this.lsLog = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.tmQueueUpdt = new System.Windows.Forms.Timer(this.components);
+            this.timerQueueUpdt = new System.Windows.Forms.Timer(this.components);
             this.webBrowser = new huggle3.Controls.SpecialBrowser();
             this.historyStrip = new huggle3.Controls.HistoryStrip();
             this.contribsPanel = new huggle3.Controls.ContribsPanel();
-            this.queuePanel2 = new huggle3.Controls.QueuePanel();
-            this.queuePanel1 = new huggle3.Controls.QueuePanel();
+            this.timerStatus = new System.Windows.Forms.Timer(this.components);
             this.Strip.SuspendLayout();
             this.MainTool.SuspendLayout();
             this.Usertool.SuspendLayout();
@@ -588,6 +589,20 @@
             this.Queue.Name = "Queue";
             this.Queue.Size = new System.Drawing.Size(274, 237);
             this.Queue.TabIndex = 4;
+            // 
+            // queuePanel2
+            // 
+            this.queuePanel2.Location = new System.Drawing.Point(9, 158);
+            this.queuePanel2.Name = "queuePanel2";
+            this.queuePanel2.Size = new System.Drawing.Size(247, 65);
+            this.queuePanel2.TabIndex = 3;
+            // 
+            // queuePanel1
+            // 
+            this.queuePanel1.Location = new System.Drawing.Point(21, 41);
+            this.queuePanel1.Name = "queuePanel1";
+            this.queuePanel1.Size = new System.Drawing.Size(226, 73);
+            this.queuePanel1.TabIndex = 2;
             // 
             // cbType2
             // 
@@ -1195,10 +1210,10 @@
             this.columnHeader1});
             this.lsLog.FullRowSelect = true;
             this.lsLog.GridLines = true;
-            listViewGroup37.Header = "Name";
-            listViewGroup37.Name = null;
+            listViewGroup2.Header = "Name";
+            listViewGroup2.Name = null;
             this.lsLog.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup37});
+            listViewGroup2});
             this.lsLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.lsLog.Location = new System.Drawing.Point(15, 444);
             this.lsLog.MultiSelect = false;
@@ -1209,10 +1224,10 @@
             this.lsLog.UseCompatibleStateImageBehavior = false;
             this.lsLog.View = System.Windows.Forms.View.List;
             // 
-            // tmQueueUpdt
+            // timerQueueUpdt
             // 
-            this.tmQueueUpdt.Interval = 1000;
-            this.tmQueueUpdt.Tick += new System.EventHandler(this.tmQueueUpdt_Tick);
+            this.timerQueueUpdt.Interval = 1000;
+            this.timerQueueUpdt.Tick += new System.EventHandler(this.tmQueueUpdt_Tick);
             // 
             // webBrowser
             // 
@@ -1236,19 +1251,11 @@
             this.contribsPanel.Size = new System.Drawing.Size(239, 21);
             this.contribsPanel.TabIndex = 14;
             // 
-            // queuePanel2
+            // timerStatus
             // 
-            this.queuePanel2.Location = new System.Drawing.Point(9, 158);
-            this.queuePanel2.Name = "queuePanel2";
-            this.queuePanel2.Size = new System.Drawing.Size(247, 65);
-            this.queuePanel2.TabIndex = 3;
-            // 
-            // queuePanel1
-            // 
-            this.queuePanel1.Location = new System.Drawing.Point(21, 41);
-            this.queuePanel1.Name = "queuePanel1";
-            this.queuePanel1.Size = new System.Drawing.Size(226, 73);
-            this.queuePanel1.TabIndex = 2;
+            this.timerStatus.Enabled = true;
+            this.timerStatus.Interval = 2000;
+            this.timerStatus.Tick += new System.EventHandler(this.timerStatus_Tick);
             // 
             // main
             // 
@@ -1417,10 +1424,11 @@
         private System.Windows.Forms.Label lHistory;
         private System.Windows.Forms.ListView lsLog;
         private System.Windows.Forms.ToolStripMenuItem logoutToolStripMenuItem;
-        private System.Windows.Forms.Timer tmQueueUpdt;
+        private System.Windows.Forms.Timer timerQueueUpdt;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private Controls.SpecialBrowser webBrowser;
         private System.Windows.Forms.ToolStripStatusLabel toolStripSUser;
         private System.Windows.Forms.ToolStripStatusLabel toolStripSInfo;
+        private System.Windows.Forms.Timer timerStatus;
     }
 }
