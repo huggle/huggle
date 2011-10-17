@@ -921,6 +921,11 @@ namespace huggle3
                 SpecialThreads.RecoveryThread = new System.Threading.Thread(CreateEx);
                 SpecialThreads.RecoveryThread.Name = "Recovery thread";
             }
+            else if (SpecialThreads.RecoveryThread.ThreadState != System.Threading.ThreadState.Running)
+            {
+                SpecialThreads.RecoveryThread = new System.Threading.Thread(CreateEx);
+                SpecialThreads.RecoveryThread.Name = "Recovery thread";
+            }
             SpecialThreads.RecoveryThread.Start();
             if (panic == true)
             {

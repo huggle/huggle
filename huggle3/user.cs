@@ -33,10 +33,15 @@ namespace huggle3
         /// </summary>
         private int EditCount;
         private bool SharedIP; // wheter it's a shared ip
+        public static List<user> UserList = new List<user>();
         /// <summary>
         /// User is a bot
         /// </summary>
         public bool Bot;
+        /// <summary>
+        /// 
+        /// </summary>
+        public UserLevel User_Level;
         /// <summary>
         /// If user is on ignore list
         /// </summary>

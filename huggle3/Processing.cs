@@ -22,9 +22,28 @@ namespace huggle3
 {
     public static class Processing
     {
+        public static System.Text.RegularExpressions.Regex RC = new System.Text.RegularExpressions.Regex( "type=\"([^\"]*)\" ns=\"[^\"]*\" title=\"([^\"]*)\" rcid=\"([^\"]*)\" pageid=\"[^\"]*\"revid=\"([^\"]*)\" old_revid=\"([^\"]*)\" user=\"([^\"]*)\"( bot=\")?( anon=\"\")?( new=\")?( minor=\")? oldlen=\"([^\"]*)\" newlen=\"([^\"]*)\" timestamp=\"([^\"]*)\"( comment=\"([^\"]*)\")? />", System.Text.RegularExpressions.RegexOptions.Compiled );
+
+
+        public static int Process_NewEdit(edit _Edit)
+        {
+            return 0;
+        }
+
+
         public static int ProcessEdit(edit _Edit)
         {
             Core.History("Processing.ProcessEdit(new edit)");
+            if (_Edit == null)
+            {
+                return 1;
+            }
+
+            if (_Edit.Time == DateTime.MinValue)
+            {
+                _Edit.Time = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
+            }
+
             if (_Edit.Oldid == null)
             { _Edit.Oldid = "prev"; }
 
@@ -35,7 +54,7 @@ namespace huggle3
 
             if (Config.PageBlankedPattern != null)
             {
-                if (Config.PageBlankedPattern.IsMatch("") || _Edit.Size == 0)
+                if (Config.PageBlankedPattern.IsMatch(_Edit.Summary) || _Edit.Size == 0)
                 {
                     _Edit.type = edit.EditType.Blanked;
                 }
@@ -49,7 +68,7 @@ namespace huggle3
             }
             if (Config.PageReplacedPattern != null)
             {
-                if (Config.PageReplacedPattern.IsMatch(_Edit.Summary))
+                if (Config.PageReplacedPattern.IsMatch(_Edit.Summary) || (_Edit.Size >= 0 && _Edit.Change <= -200))
                 {
                     _Edit.type = edit.EditType.ReplacedWith;
                 }
@@ -57,6 +76,50 @@ namespace huggle3
             if (Config.Summary != "" && _Edit.Summary.EndsWith(Config.Summary) && _Edit.Summary != "")
             {
                 _Edit.Assisted = true;
+            }
+
+            foreach (string item in Config.AssistedSummaries)
+            {
+                if (_Edit.Summary.Contains(item))
+                {
+                    _Edit.Assisted = true;
+                    break;
+                }
+            }
+
+            if (_Edit.User != null && _Edit.Page != null)
+            {
+                if (_Edit.NewPage)
+                {
+                    _Edit.Page.FirstEdit = _Edit;
+                    _Edit.Prev = Core.NullEdit;
+                }
+
+
+                if (_Edit.Summary == Config.UndoSummary + " " + Config.Summary)
+                {
+                    _Edit.type = edit.EditType.Revert;
+                }
+                if (_Edit.type == edit.EditType.Revert && _Edit.Summary.ToLower().Contains("[[special:contributions/"))
+                {
+                    string userName = _Edit.Summary.Substring(_Edit.Summary.ToLower().IndexOf("[[special:contributions/") + 24);
+                    if (userName.Contains("]]") || userName.Contains("|"))
+                    {
+                        if (userName.Contains("|")) userName = userName.Substring(0, userName.IndexOf("|"));
+
+                        if (userName.Contains("]]"))
+                        {
+                            userName = userName.Substring(0, userName.IndexOf("]]")); 
+                        }
+
+                        user RevertedUser = Core.GetUser(userName);
+
+                        if (RevertedUser != _Edit.User && RevertedUser.User_Level == user.UserLevel.None)
+                        {
+                            RevertedUser.User_Level = user.UserLevel.Reverted;
+                        }
+                    }
+                }
             }
 
             return 0;
