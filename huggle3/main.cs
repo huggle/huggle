@@ -53,6 +53,8 @@ namespace huggle3
             this.lHistory.Text = Languages.Get("main-history");
             this.retrieveContributionsToolStripMenuItem.Text = Languages.Get("main-contribs");
             this.clearCurrentToolStripMenuItem.Text = Languages.Get("main-queue-clear");
+            this.LUser.Text = Languages.Get("main-user");
+            this.LabelP.Text = Languages.Get("main-page");
            
             return false;
         }
@@ -389,6 +391,7 @@ namespace huggle3
         private void logoutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             login.LoggedIn = false;
+            Program._LoginForm.PrepareForm();
             Program._LoginForm.Visible = true;
             Core.InitConfig();
             Close();

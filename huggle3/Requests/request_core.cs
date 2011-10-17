@@ -296,14 +296,14 @@ namespace huggle3
                 EndRequest();
             }
 
-            public void Fail(string description = "", string reason = "")
+            public virtual void Fail(string description = "", string reason = "")
             {
                 _State = States.Failed;
                 EndRequest();
             }
 
 
-            public void Complete(string Message = "", string Text = "")
+            public virtual void Complete(string Message = "", string Text = "")
             {
                 Core.History("Request.Complete()");
                 _State = States.Complete;

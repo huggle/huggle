@@ -139,6 +139,15 @@ config-history:	           Download whole history of all articles
 config-defaultsprompt:     Restore defaults?
 config-logbrowsetitle:     Log file location
 config-shortcutconflict:   Shortcut '{0}' conflicts with the existing shortcut for '{1}'.
+config-general:            General
+config-interface:          Interface
+config-keyboard:           Keyboard
+config-editing:            Editing
+config-reverting:          Reverting
+config-reporting:          Reporting
+config-templates-id:       Templates
+config-editor:             Editor
+config-admin:              Admin
 </pre>
 
 === Delete form ===

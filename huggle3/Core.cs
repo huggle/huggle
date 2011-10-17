@@ -33,36 +33,35 @@ namespace huggle3
             try
             {
                 // return string
-                if (Config.Messages.ContainsKey(Config.Language) != true)
+                if (Config.Messages.ContainsKey(Config.DefaultLanguage) != true || Config.Messages.ContainsKey(Config.Language) != true)
                 {
-                    return "<invalid>";
+                    return "<invalid> " + id;
                 }
                 if (Config.Messages[Config.Language].ContainsKey(id) == false)
                 { // if there is no such a language it returns the english one
                     if (Config.Messages[Config.DefaultLanguage].ContainsKey(id))
                     {
-                        if (Config.Messages[Config.DefaultLanguage][id] == null)
-                        {
-                            return "<invalid>";
-                        }
                         return Config.Messages[Config.DefaultLanguage][id];
+                    }
+                    else
+                    {
+                        return "<invalid> " + id;
                     }
                 }
                 else
                 {
                     // got it
-                    if (Config.Messages[Config.Language][id] == null)
+                    if (Config.Messages[Config.Language].ContainsKey(id))
                     {
-                        return "";
+                        return Config.Messages[Config.Language][id];
                     }
-                    return Config.Messages[Config.Language][id];
+                    return "<invalid> " + id;
                 }
             }
             catch (Exception A)
             {
                 Core.ExceptionHandler( A );
             }
-
             return "<invalid> " + id;
         }
     }
@@ -882,7 +881,15 @@ namespace huggle3
                     {
                         string message_value = message.Substring(message.IndexOf(":") + 1).Trim(' ').Replace("\n", "").Replace(Convert.ToChar(13).ToString(), "").Replace(Convert.ToChar(10).ToString(), "");
                         string message_name = message.Substring(0, message.IndexOf(":")).Trim(' ');
-                        Config.Messages[language].Add(message_name, message_value);
+                        if (Config.Messages[language].ContainsKey(message_name) != true)
+                        {
+                            Config.Messages[language].Add(message_name, message_value);
+                            if (Config.devs)
+                            {
+                                // we are dev so we want to know that there is a mistake in the db
+                                Console.Write("Duplicate entry: "+ message_name + "\n");
+                            }
+                        }
                     }
                 }
                 Config.Languages.Add(language);

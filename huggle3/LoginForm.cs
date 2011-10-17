@@ -172,6 +172,8 @@ namespace huggle3
                     cmLanguage.Items.Add(language);
                 }
 
+                StatusBar.Value = 0;
+
                 cmProject.SelectedItem = Config.Project; // Select the default project
                 EnableControls(true);
                 cmLanguage.SelectedItem = Config.DefaultLanguage; // Select the default language

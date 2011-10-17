@@ -47,6 +47,12 @@ namespace huggle3.Requests
 
     public class request_config_local : request_core.Request
     {
+        public override void Fail(string description = "", string reason = "")
+        {
+            login.Error = description;
+            login.phase = login.LoginState.Error;
+            base.Fail(description, reason);
+        }
         public override void Process()
         {
             Core.History("Process()");
@@ -91,10 +97,10 @@ namespace huggle3.Requests
                 catch (Exception ignore)
                 {
                     // ignore
-                    //if (Config.devs)
-                    //{
-                    
-                    //}
+                    if (Config.devs)
+                    {
+                        throw ignore;
+                    }
                 }
 
                 Config.UAA = !string.IsNullOrEmpty(Config.UAALocation);
@@ -143,31 +149,27 @@ namespace huggle3.Requests
                     return;
                 }
 
-                if (userinfo.Contains("rights"))
+                if (userinfo.Contains("<rights>"))
                 {
                     if (userinfo.Contains("anon=\"\""))
                     {
-                        login.phase = login.LoginState.Error;
                         Fail("Error when loggin in", "Can't check the user rights");
                         return;
                     }
 
                     Config.Rights = new List<string>(Core.FindString(userinfo, "<rights>", "</rights>").Replace("</r>","").Split(new string[] { "<r>" }, StringSplitOptions.RemoveEmptyEntries));
-                    if (Config.Rights.Contains("block") && Config.RequireAdmin == false)
+                    if (Config.Rights.Contains("block") == false && Config.RequireAdmin == true)
                     {
-                        login.phase = login.LoginState.Error;
                         Fail(Languages.Get("login-error-admin"));
                         return;
                     }
-                    if (Config.Rights.Contains("autoconfirmed") && Config.RequireAutoconfirmed == false)
+                    if (Config.Rights.Contains("autoconfirmed") == false && Config.RequireAutoconfirmed == true)
                     {
-                        login.phase = login.LoginState.Error;
                         Fail(Languages.Get("login-error-confirmed"));
                         return;
                     }
-                    if (Config.Rights.Contains("rollback") && Config.RequireRollback == false)
+                    if (Config.Rights.Contains("rollback") == false && Config.RequireRollback == true)
                     {
-                        login.phase = login.LoginState.Error;
                         Fail(Languages.Get("login-error-rollback"));
                         return;
                     }
