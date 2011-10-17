@@ -150,6 +150,10 @@ namespace huggle3
         /// </summary>
         public static bool ProxyEnabled = false;
         /// <summary>
+        /// SSL
+        /// </summary>
+        public static bool UseSsl = true;
+        /// <summary>
         /// Remeber the user username on login
         /// </summary>
         public static bool RememberMe = true;
@@ -177,6 +181,7 @@ namespace huggle3
         /// Size
         /// </summary>
         public static int ItemSize = 17;
+        
 
         //////////
         //Values changeable through global / project / user config pages

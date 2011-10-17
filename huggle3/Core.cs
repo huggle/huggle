@@ -21,6 +21,7 @@ using System.Data;
 using System.Drawing;
 using System.Windows;
 using System.Text;
+using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 
@@ -33,7 +34,7 @@ namespace huggle3
             try
             {
                 // return string
-                if (Config.Messages.ContainsKey(Config.DefaultLanguage) != true || Config.Messages.ContainsKey(Config.Language) != true)
+                if (Config.Messages.ContainsKey(Config.DefaultLanguage) != true && Config.Messages.ContainsKey(Config.Language) != true)
                 {
                     return "<invalid> " + id;
                 }
@@ -60,7 +61,11 @@ namespace huggle3
             }
             catch (Exception A)
             {
-                Core.ExceptionHandler( A );
+                if (Config.devs)
+                {
+                    // This is ignored on production build
+                    Core.ExceptionHandler(A);
+                }
             }
             return "<invalid> " + id;
         }
@@ -445,6 +450,17 @@ namespace huggle3
                 }
             }
             Application.Exit();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public static bool DebugLog(string text)
+        {
+            Debug.WriteLine(text);
+            return true;
         }
 
         /// <summary>
@@ -887,7 +903,7 @@ namespace huggle3
                             if (Config.devs)
                             {
                                 // we are dev so we want to know that there is a mistake in the db
-                                Console.Write("Duplicate entry: "+ message_name + "\n");
+                                DebugLog("Duplicate entry: "+ message_name + "\n");
                             }
                         }
                     }
@@ -942,7 +958,7 @@ namespace huggle3
                 Core.Suspend();
                 return false;
             }
-            else if (SpecialThreads.RecoveryThread.ThreadState == System.Threading.ThreadState.Aborted)
+            else  if(SpecialThreads.RecoveryThread.ThreadState == System.Threading.ThreadState.Aborted || SpecialThreads.RecoveryThread.ThreadState == System.Threading.ThreadState.Stopped)
             {
                 SpecialThreads.RecoveryThread = new System.Threading.Thread(CreateEx);
                 SpecialThreads.RecoveryThread.Name = "Recovery thread";

@@ -37,10 +37,10 @@ namespace huggle3
         ///</summary>
         private void Localize()
         {
-            Core.History("configuration.Localize()");
+            Core.History("Configuration.Localize()");
             this.Text = Languages.Get("config-title");
-            this.bSave.Text = Languages.Get("config-save");
-            this.Cancel.Text = Languages.Get("config-cancel");
+            this.bSave.Text = Languages.Get("ok");
+            this.Cancel.Text = Languages.Get("cancel");
             this.groupBox1.Text = Languages.Get("config-general");
             this.groupBox2.Text = Languages.Get("config-interface");
             this.groupBox3.Text = Languages.Get("config-keyboard");
@@ -52,31 +52,45 @@ namespace huggle3
             this.groupBox9.Text = Languages.Get("config-admin");
         }
 
-        public void Tab(string key)
+        public void Tab(int key)
         {
-            foreach (GroupBox gb in this.Controls)
-            {
-                gb.Visible = false;
-            }
+            this.groupBox1.Visible = false;
+            this.groupBox2.Visible = false;
+            this.groupBox3.Visible = false;
+            this.groupBox4.Visible = false;
+            this.groupBox5.Visible = false;
+            this.groupBox6.Visible = false;
+            this.groupBox7.Visible = false;
+            this.groupBox8.Visible = false;
+            this.groupBox9.Visible = false;
             switch (key)
             {
-                case "keyboard":
-                    this.groupBox3.Visible = true;
-                    break;
-                case "general":
+                case 0:
                     this.groupBox1.Visible = true;
                     break;
-                case "interface":
+                case 1:
                     this.groupBox2.Visible = true;
                     break;
-                case "editing":
+                case 2:
+                    this.groupBox3.Visible = true;
+                    break;
+                case 3:
                     this.groupBox4.Visible = true;
                     break;
-                case "reverting":
+                case 4:
                     this.groupBox5.Visible = true;
                     break;
-                case "reporting":
+                case 5:
                     this.groupBox6.Visible = true;
+                    break;
+                case 6:
+                    this.groupBox7.Visible = true;
+                    break;
+                case 7:
+                    this.groupBox8.Visible = true;
+                    break;
+                case 8:
+                    this.groupBox9.Visible = true;
                     break;
             }
         }
@@ -84,7 +98,7 @@ namespace huggle3
         public void Config_Load()
         {
             //Load all config values
-
+            Core.History("Configuration.Config_Load()");
         }
 
         private void Cancel_Click(object sender, EventArgs e)
@@ -110,17 +124,19 @@ namespace huggle3
             listView1.Items.Add("templates", Languages.Get("config-templates-id"), 0);
             listView1.Items.Add("editor", Languages.Get("config-editor"), 0);
             listView1.Items.Add("admin", Languages.Get("config-admin"), 0);
-            Tab("general");
+            Tab(0);
         }
 
         private void bSave_Click(object sender, EventArgs e)
         {
+            Core.History("Configuration.bSave_Click()");
             Hide();
         }
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Tab(listView1.SelectedItems.ToString());
+            Core.History("listView1_SelectedIndexChanged()");
+            Tab(listView1.SelectedItems[1].Index);
         }
     }
 }

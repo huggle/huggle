@@ -32,14 +32,14 @@
             this.bSave = new System.Windows.Forms.Button();
             this.listView1 = new System.Windows.Forms.ListView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
-            this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.groupBox1.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.SuspendLayout();
@@ -67,10 +67,12 @@
             // listView1
             // 
             this.listView1.Location = new System.Drawing.Point(20, 25);
+            this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
             this.listView1.Size = new System.Drawing.Size(156, 372);
             this.listView1.TabIndex = 2;
             this.listView1.UseCompatibleStateImageBehavior = false;
+            this.listView1.View = System.Windows.Forms.View.List;
             this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
             // 
             // groupBox1
@@ -83,6 +85,34 @@
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "groupBox1";
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.groupBox9);
+            this.groupBox4.Location = new System.Drawing.Point(0, 0);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(561, 371);
+            this.groupBox4.TabIndex = 5;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "groupBox4";
+            // 
+            // groupBox9
+            // 
+            this.groupBox9.Location = new System.Drawing.Point(0, 0);
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.Size = new System.Drawing.Size(561, 371);
+            this.groupBox9.TabIndex = 5;
+            this.groupBox9.TabStop = false;
+            this.groupBox9.Text = "groupBox9";
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Location = new System.Drawing.Point(2, 0);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(561, 371);
+            this.groupBox5.TabIndex = 5;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "groupBox5";
             // 
             // groupBox2
             // 
@@ -101,25 +131,6 @@
             this.groupBox3.TabIndex = 5;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "groupBox3";
-            // 
-            // groupBox4
-            // 
-            this.groupBox4.Controls.Add(this.groupBox9);
-            this.groupBox4.Location = new System.Drawing.Point(0, 0);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(561, 371);
-            this.groupBox4.TabIndex = 5;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "groupBox4";
-            // 
-            // groupBox5
-            // 
-            this.groupBox5.Location = new System.Drawing.Point(2, 0);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(561, 371);
-            this.groupBox5.TabIndex = 5;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "groupBox5";
             // 
             // groupBox6
             // 
@@ -147,15 +158,6 @@
             this.groupBox8.TabIndex = 5;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "groupBox8";
-            // 
-            // groupBox9
-            // 
-            this.groupBox9.Location = new System.Drawing.Point(0, 0);
-            this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(561, 371);
-            this.groupBox9.TabIndex = 5;
-            this.groupBox9.TabStop = false;
-            this.groupBox9.Text = "groupBox9";
             // 
             // ConfigForm
             // 

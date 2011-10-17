@@ -111,12 +111,13 @@ namespace huggle3
                 StatusBar.Value = 0;
 
                 if (Config.Languages.Contains(cmLanguage.Text)) { Config.Language = cmLanguage.Text; } // set language (if needed)
-                Config.Project = cmProject.Text;// set project
+                Config.UseSsl = checkBox.Checked;
+                Config.Project = cmProject.Text; // set project
                 Config.Password = textPassword.Text; // set password
-                Config.Username = textName.Text;// set username
-                login.LoggingOn = true;// set loggin in
-                login.phase = login.LoginState.LoggingIn;// set phase
-                LoginRequest lr = new LoginRequest();// start a new login request
+                Config.Username = textName.Text; // set username
+                login.LoggingOn = true; // set loggin in
+                login.phase = login.LoginState.LoggingIn; // set phase
+                LoginRequest lr = new LoginRequest(); // start a new login request
                 lr.Login_Fr = this;
                 progress(Languages.Get("login-progress-start"));
                 lr.Start();
@@ -156,6 +157,7 @@ namespace huggle3
             Config.UserAgent = "Huggle/" + Application.ProductVersion.ToString() + " http://en.wikipedia.org/wiki/Wikipedia:Huggle";
             progress("Please enter login details");
             textPassword.UseSystemPasswordChar = true;
+            checkBox.Checked = Config.UseSsl;
             //Load the config
                 Core_IO.LoadLocalConfig();
                 //For each project listed in the config
