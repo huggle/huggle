@@ -1292,7 +1292,6 @@ namespace huggle3
         /// <returns></returns>
         public static bool SetProjectConfigValue(string key, string value)
         {
-            MessageBox.Show("key " + key + value);
             // project config only
             switch (key)
             {
