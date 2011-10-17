@@ -99,10 +99,14 @@ namespace huggle3
         /// </summary>
         public string MoveLevel;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="Name"></param>
         public page(string Name )
         {
             this.Name = Name;
-            _Space = space.Article;
+            _Space = space.DetectSpace(Name);
             Shared_All.Add(Name, this);
         }
 
@@ -110,7 +114,19 @@ namespace huggle3
         {
             // special contructor, obsolete
             this.Name = "Special:Unknown";
+            _Space = space.DetectSpace(Name);
             Shared_All.Add(Name, this);
+        }
+
+        public bool IsSubpage
+        {
+            get {
+                    if (this.Name.Contains("/"))
+                    {
+                        return true;
+                    }
+                    return false;
+                }
         }
 
         public enum PageLevel

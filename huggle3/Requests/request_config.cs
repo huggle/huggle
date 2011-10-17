@@ -53,8 +53,9 @@ namespace huggle3.Requests
             try
             {
                 ApiResult apiResult;
+                string query = "action=query&meta=userinfo&uiprop=rights|editcount&list=logevents|watchlistraw&letype=newusers&letitle=" + System.Web.HttpUtility.UrlEncode(new user("").Me.UserPage) + "&prop=revisions&rvprop=content&titles=" + System.Web.HttpUtility.UrlEncode(Config.ProjectConfigLocation) + "|" + System.Web.HttpUtility.UrlEncode(Config.UserConfigLocation);
 
-                apiResult = ApiRequest("action=query&meta=userinfo&uiprop=rights|editcount&list=logevents|watchlistraw&letype=newusers&letitle=" + System.Web.HttpUtility.UrlEncode(new user("").Me.UserPage) + "prop=revisions&rvprop=content&titles=" + Config.ProjectConfigLocation + "|" + Config.UserConfigLocation, "" , Config.Project);
+                apiResult = ApiRequest(query, "", Config.Project);
 
                 if (apiResult.ResultInError)
                 {
@@ -78,6 +79,7 @@ namespace huggle3.Requests
                 }
 
                 string projectconfig_file = System.Web.HttpUtility.HtmlDecode(Core.FindString(Core.FindString(Core.FindString(apiResult.ResultText, "<page", "ns=\"" + Core.GetPage(Config.ProjectConfigLocation)._Space.Number.ToString() + "\"" , "</page>"), "<rev "), ">", "</rev>"));
+                string tm = "ns=\"" + space.DetectSpace(Config.UserConfigLocation).Number.ToString() + "\"";
                 string userconfig_file = System.Web.HttpUtility.HtmlDecode( Core.FindString(Core.FindString(Core.FindString( apiResult.ResultText, "<page", "ns=\"" + Core.GetPage(Config.UserConfigLocation)._Space.Number.ToString() + "\"", "</page>"), "<rev "),">", "</rev>" ));
                 try
                 {

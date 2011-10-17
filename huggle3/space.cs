@@ -22,7 +22,7 @@ namespace huggle3
 {
     public class space
     {
-        private int number;
+        public int number;
         private bool locked;
         public static space Article = new space(0);
         private bool subpages;
@@ -45,18 +45,38 @@ namespace huggle3
         public static space File = new space(16, "File", _Subp: true);
         public static space FileTalk = new space(17, "File talk", _Subp: true);
 
-        private List<space> _All;
+        public static List<space> _All = new List<space>();
 
         public List<space> All
         {
-            get { return _All; }
+            get { return Core.All.spaces; }
         }
 
         public space()
         {
             this.name = "";
+            //space._All.Add(this);
         }
 
+        public static space DetectSpace(string page)
+        {
+            Core.History("DetectSpace( string )");
+            if (page.Contains(":"))
+            {
+                foreach (space x in Core.All.spaces)
+                {
+                    if (page.StartsWith(x.Name + ":"))
+                    {
+                        return x;
+                    }
+                }
+            }
+            else
+            {
+                return Article;
+            }
+            return null;
+        }
 
         public bool Locked
         { get { return this.locked; } }
@@ -88,15 +108,24 @@ namespace huggle3
             return true;
         }
 
-      
-
-        space(int _Number, string _Name = null, bool _Lckd = false, bool _Unmovable = false, bool _Subp = false)
+        
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="_Number">ID</param>
+        /// <param name="_Name">Name</param>
+        /// <param name="_Lckd">Locked</param>
+        /// <param name="_Unmovable">Unmovable</param>
+        /// <param name="_Subp">Subpage</param>
+        public space(int _Number, string _Name = null, bool _Lckd = false, bool _Unmovable = false, bool _Subp = false)
         {
+            Core.History("space.space()");
             this.number = _Number;
             this.unmovable = _Unmovable;
             this.locked = _Lckd;
             this.subpages = _Subp;
             this.name = _Name;
+            Core.All.spaces.Add(this);
         }
 
 

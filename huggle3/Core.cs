@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Windows;
 using System.Text;
 using System.IO;
 using System.Windows.Forms;
@@ -275,6 +276,14 @@ namespace huggle3
         public static string[] months;
 
         public const int MThread=600; // Maximum number of threads in core
+
+        /// <summary>
+        /// Should contain list of all static arrays of objects accessible everywhere
+        /// </summary>
+        public struct All
+        {
+            public static List<space> spaces = new List<space>();
+        }
 
         /// <summary>
         /// Threads which are not managed by core
@@ -921,7 +930,12 @@ namespace huggle3
                 SpecialThreads.RecoveryThread = new System.Threading.Thread(CreateEx);
                 SpecialThreads.RecoveryThread.Name = "Recovery thread";
             }
-            else if (SpecialThreads.RecoveryThread.ThreadState != System.Threading.ThreadState.Running)
+            else if (SpecialThreads.RecoveryThread.ThreadState == System.Threading.ThreadState.Running)
+            {
+                Core.Suspend();
+                return false;
+            }
+            else if (SpecialThreads.RecoveryThread.ThreadState == System.Threading.ThreadState.Aborted)
             {
                 SpecialThreads.RecoveryThread = new System.Threading.Thread(CreateEx);
                 SpecialThreads.RecoveryThread.Name = "Recovery thread";
@@ -1278,6 +1292,7 @@ namespace huggle3
         /// <returns></returns>
         public static bool SetProjectConfigValue(string key, string value)
         {
+            MessageBox.Show("key " + key + value);
             // project config only
             switch (key)
             {

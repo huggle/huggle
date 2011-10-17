@@ -120,7 +120,28 @@ namespace huggle3
                         }
                     }
                 }
+
+                if (_Edit.Next != null)
+                {
+                    if (_Edit.Next.type == edit.EditType.Revert && _Edit.User.User_Level == user.UserLevel.None)
+                    {
+                        _Edit.User.User_Level = user.UserLevel.Reverted;
+                    }
+
+                    if (_Edit._space == space.UserTalk && _Edit.Page.IsSubpage)
+                    {
+                        user.UserLevel Summary_Level;
+                    }
+                }
             }
+
+            if (_Edit.Id != null)
+                if (edit.All.ContainsKey(_Edit.Id))
+                {
+                    edit.All.Add(_Edit.Id, _Edit);
+                }
+
+            _Edit.Processed = true;
 
             return 0;
         }

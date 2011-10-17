@@ -36,10 +36,29 @@ namespace huggle3
         public int Change;
         public string ChangedContent;
         public static Dictionary<string, edit> All = new Dictionary<string,edit>();
+        /// <summary>
+        /// 
+        /// </summary>
         public bool Deleted;
+        /// <summary>
+        /// Space
+        /// </summary>
+        public space _space;
+        /// <summary>
+        /// string data of diff
+        /// </summary>
         public string Diff;
+        /// <summary>
+        /// State
+        /// </summary>
         public CacheState DiffCacheState;
+        /// <summary>
+        /// ID
+        /// </summary>
         public string Id = "";
+        /// <summary>
+        /// Warning level
+        /// </summary>
         public user.UserLevel LevelToWarn;
         public bool Multiple;
         /// <summary>
@@ -54,6 +73,9 @@ namespace huggle3
         /// Next edit (user)
         /// </summary>
         public edit NextByUser;
+        /// <summary>
+        /// Previous Id
+        /// </summary>
         public string Oldid = "";
         public page Page;
         /// <summary>
@@ -64,6 +86,9 @@ namespace huggle3
         /// Previous edit (user)
         /// </summary>
         public edit PrevByUser;
+        /// <summary>
+        /// Processed edit
+        /// </summary>
         public bool Processed;
         /// <summary>
         /// RCID (Recent Change ID)

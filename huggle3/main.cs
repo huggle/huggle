@@ -581,9 +581,15 @@ namespace huggle3
 
         private void timerStatus_Tick(object sender, EventArgs e)
         {
+            int rpm = 0;
+            int epm = 0;
             if (Config.devs)
             {
                 toolStripSInfo.Text = "Wiki: " + Config.Project + " edit rate: <waiting> threadc: " + Core.Threading.ThCount.ToString();
+            }
+            else
+            {
+                toolStripSInfo.Text = "Wiki: " + Config.Project + " edit rate: " + rpm.ToString() + ", reverts: " + epm.ToString() +" per minute";
             }
         }
 
