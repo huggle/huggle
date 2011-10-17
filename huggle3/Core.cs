@@ -555,7 +555,7 @@ namespace huggle3
             Core.History("FindString(Source, string, To)");
             if (Source.Contains(from))
             {
-                Source = Source.Substring(Source.IndexOf(from), from.Length);
+                Source = Source.Substring(Source.IndexOf(from) + from.Length);
                 if (Source.Contains(To) == false)
                 {
                     return "";

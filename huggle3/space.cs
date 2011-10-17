@@ -58,6 +58,22 @@ namespace huggle3
             //space._All.Add(this);
         }
 
+        public static int SpaceID(string page)
+        {
+            int value = 0;
+            if (page.Contains(":"))
+            {
+                foreach (space x in Core.All.spaces)
+                {
+                    if (page.StartsWith(x.Name + ":"))
+                    {
+                        value = x.Number;
+                    }
+                }
+            }
+            return value;
+        }
+
         public static space DetectSpace(string page)
         {
             Core.History("DetectSpace( string )");
