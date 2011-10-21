@@ -38,7 +38,6 @@ namespace huggle3
         }
         public class Request
         {
-            
             public static string Query; // query (api / http)
             private States _State;
             protected System.DateTime startdate; // when request is started
@@ -180,6 +179,13 @@ namespace huggle3
             {       // http request
                     System.Net.ServicePointManager.Expect100Continue = false;
                     Core.History("RequestWebRequest()");
+                    if (Config.UseSsl)
+                    {
+                        if (URL.Contains("http://") != false)
+                        {
+                            URL = URL.Replace("http://", "https://");
+                        }
+                    }
                     System.Net.HttpWebRequest Request = (System.Net.HttpWebRequest)System.Net.HttpWebRequest.Create(URL);
                     string return_value = "";
                     System.IO.StreamReader ResponseStream;
