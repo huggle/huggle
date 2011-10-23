@@ -568,6 +568,10 @@ namespace huggle3
         public static string FindString(string Source, string from, string To)
         {
             Core.History("FindString(Source, string, To)");
+            if (Source == null)
+            {
+                return "";
+            }
             if (Source.Contains(from))
             {
                 Source = Source.Substring(Source.IndexOf(from) + from.Length);
@@ -580,12 +584,10 @@ namespace huggle3
             return "";
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
+        /// <returns>Target build</returns>
         public static string TargetBuild()
         {
+            Core.History("TargetBuild()");
             switch (Config._Platform)
             { 
                 case Config.platform.windows32:

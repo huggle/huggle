@@ -187,38 +187,131 @@ namespace huggle3
         //Values changeable through global / project / user config pages
         //////////
 
-        public static string AfdLocation = ""; // location of afd
-        public static bool AIV = false; // if AIV is available on project
-        public static string AIVBotLocation = ""; // AIV bot page
-        public static string AIVLocation = ""; // AIV location
-        public static string AivSingleNote; // Note
-        public static bool Approval = false; // If requires an approval on special page
-        public static List<string> AssistedSummaries = new List<string>(); // Summaries of others
-        public static bool AutoAdvance = false; // Automaticaly advance
-        public static bool AutoReport  = true; // Report users without prompt
-        public static bool AutoWarn  = true; // Automaticaly submit messages to talk
+        /// <summary>
+        /// location of afd
+        /// </summary>
+        public static string AfdLocation = ""; 
+        /// <summary>
+        /// If AIV is available on the project
+        /// </summary>
+        public static bool AIV = false; 
+        /// <summary>
+        /// AIV bot page
+        /// </summary>
+        public static string AIVBotLocation = "";
+        /// <summary>
+        /// AIV location
+        /// </summary>
+        public static string AIVLocation = "";
+        /// <summary>
+        /// Note
+        /// </summary>
+        public static string AivSingleNote;
+        /// <summary>
+        /// If requires an approval on special page
+        /// </summary>
+        public static bool Approval = false;
+        /// <summary>
+        /// Summaries of others
+        /// </summary>
+        public static List<string> AssistedSummaries = new List<string>();
+        /// <summary>
+        /// Automaticaly advance
+        /// </summary>
+        public static bool AutoAdvance = false;
+        /// <summary>
+        /// Report users without prompt
+        /// </summary>
+        public static bool AutoReport  = true;
+        /// <summary>
+        /// Automaticaly submit messages to talk
+        /// </summary>
+        public static bool AutoWarn  = true;
+        /// <summary>
+        /// Comment me (better :))
+        /// </summary>
         public static bool AutoWhitelist  = true; // Update whitelist
-        public static bool Block = false; // Block is allowed over huggle
-        public static List<string> BlockExpiryOptions = new List<string>(); // Options for block
-        public static string BlockMessage; // Default ms
-        public static bool BlockMessageDefault = true; // Use default message instead of preconfigured ones
-        public static string BlockMessageIndef; // Message for indefinite block
+        /// <summary>
+        /// Block is allowed over huggle
+        /// </summary>
+        public static bool Block = false;
+        /// <summary>
+        /// Options for block
+        /// </summary>
+        public static List<string> BlockExpiryOptions = new List<string>();
+        /// <summary>
+        /// Block message
+        /// </summary>
+        public static string BlockMessage; 
+        /// <summary>
+        /// Use default message instead of preconfigured ones
+        /// </summary>
+        public static bool BlockMessageDefault = true;
+        /// <summary>
+        /// Message for indefinite block
+        /// </summary>
+        public static string BlockMessageIndef;
         public static string BlockReason; // Default block reason
-        public static string BlockSummary; // Summary
-        public static string BlockTime = "indefinite"; // Block time
-        public static string BlockTimeAnon = "24 hours"; // block time
-        public static string CfdLocation; // Location of CFD
-        public static string ConfigSummary = ""; // Summary for config
-        public static bool ConfirmIgnored = true; // Confirm if revert ignored user
-        public static bool ConfirmMultiple = false; // Confirm if do action on more users
+        /// <summary>
+        /// Summary
+        /// </summary>
+        public static string BlockSummary;
+        /// <summary>
+        /// Block time
+        /// </summary>
+        public static string BlockTime = "indefinite";
+        /// <summary>
+        /// block time
+        /// </summary>
+        public static string BlockTimeAnon = "24 hours";
+        /// <summary>
+        /// Location of CFD
+        /// </summary>
+        public static string CfdLocation;
+        /// <summary>
+        /// Summary for config
+        /// </summary>
+        public static string ConfigSummary = "";
+        /// <summary>
+        /// Confirm if revert ignored user
+        /// </summary>
+        public static bool ConfirmIgnored = true;
+        /// <summary>
+        /// Confirm if do action on more users
+        /// </summary>
+        public static bool ConfirmMultiple = false;
+        /// <summary>
+        /// 
+        /// </summary>
         public static bool ConfirmPage = true; // HUH
-        public static bool ConfirmRange = true; // Confirm if user belong to same ip range
-        public static string ProdLogs_Name = "ProdLogs"; // Logs
-        public static bool ProdLogs = false; // Save them
-        public static bool SlowIrc = true; // If slow irc mode is active
-        public static bool ConfirmSame = true; // Confirm if revert to same id
-        public static bool ConfirmSelfRevert = true; // Confirm self
-        public static bool ConfirmWarned = true; // Confirm revert of warned user
+        /// <summary>
+        /// Confirm if user belong to same ip range
+        /// </summary>
+        public static bool ConfirmRange = true;
+        /// <summary>
+        /// Logs of prod
+        /// </summary>
+        public static string ProdLogs_Name = "ProdLogs";
+        /// <summary>
+        /// Save them
+        /// </summary>
+        public static bool ProdLogs = false;
+        /// <summary>
+        /// If slow irc mode is active
+        /// </summary>
+        public static bool SlowIrc = true;
+        /// <summary>
+        /// Confirm if revert to same id
+        /// </summary>
+        public static bool ConfirmSame = true;
+        /// <summary>
+        /// Confirm self
+        /// </summary>
+        public static bool ConfirmSelfRevert = true;
+        /// <summary>
+        /// Confirm revert of warned user
+        /// </summary>
+        public static bool ConfirmWarned = true;
         public static int CountBatchSize = 20; // comment me
         public static List<string> CustomRevertSummaries = new List<string>(); // comment me
         public static string DefaultQueue = ""; // Default queue 1
