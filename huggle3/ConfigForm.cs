@@ -130,13 +130,28 @@ namespace huggle3
         private void bSave_Click(object sender, EventArgs e)
         {
             Core.History("Configuration.bSave_Click()");
-            Hide();
+            Close();
         }
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
         {
             Core.History("listView1_SelectedIndexChanged()");
-            Tab(listView1.SelectedItems[1].Index);
+            try
+            {
+                //ta
+                foreach (ListViewItem it in listView1.SelectedItems)
+                {
+                    Tab(it.Index);
+                }
+            }
+            catch (Exception ex)
+            {
+                if (Config.devs)
+                {
+                    // throw for debug info
+                    Core.ExceptionHandler(ex);
+                }
+            }
         }
     }
 }
