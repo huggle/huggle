@@ -89,10 +89,10 @@ namespace huggle3.Requests
             public bool GetContent;
             
 
-            public override void  ThreadDone()
+            public override void  EndRequest()
             {
                  Processing.Process_History(result.text, Page);
- 	             base.ThreadDone();
+ 	             base.EndRequest();
             }
 
             public override void  Process()

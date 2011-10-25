@@ -414,7 +414,7 @@ namespace huggle3
                         _Edit.Text = System.Web.HttpUtility.HtmlDecode(History[i].Groups[9].Value);
                     }
 
-                    //_Edit.User = Core.GetUser("");
+                    _Edit.User = Core.GetUser(System.Web.HttpUtility.HtmlDecode(History[i].Groups[3].Value));
 
                     if (_Edit.Summary == null)
                     {
@@ -466,7 +466,7 @@ namespace huggle3
         /// <param name="_edit"></param>
         /// <param name="BrowsingHistory"></param>
         /// <param name="browser"></param>
-        public static void DisplayEdit(edit _edit, bool BrowsingHistory = false, Controls.SpecialBrowser browser = null)
+        public static void DisplayEdit(edit _edit, bool BrowsingHistory = false, Controls.SpecialBrowser browser = null, bool ChangeEdit = true)
         {
             Core.History("Processing.DisplayEdit()");
             try
@@ -479,6 +479,16 @@ namespace huggle3
                     {
                         if (_edit.Page != null)
                         {
+                            if (BrowsingHistory != true && browser.History.Count == 0 || (browser.History[0].Edit is edit) == false)
+                            {
+                                browser.AddToHistory(new Core.HistoryItem(_edit));
+                            }
+                        }
+
+                        if (main._CurrentBrowser == browser && ChangeEdit == true)
+                        {
+                            browser.Edit = _edit;
+                            Program.MainForm.Set_Current_User(_edit.User);
                             Program.MainForm.Set_Current_Page(_edit.Page);
                         }
 
@@ -486,32 +496,34 @@ namespace huggle3
                         {
                             
                         }
-
-                        if (_edit.Prev == Core.NullEdit)
+                        else if (_edit.Prev == Core.NullEdit)
                         {
                             Requests.request_read.browser_html_data BrowserRequest = new Requests.request_read.browser_html_data();
                             BrowserRequest.address = Core.SitePath() + "index.php?title=" + System.Web.HttpUtility.UrlEncode(_edit.Page.Name) + "&id=" + _edit.Id;
                             BrowserRequest.browser = browser;
                             BrowserRequest.Start();
                         }
-                        else if (_edit.DiffCacheState == edit.CacheState.Viewed || _edit.DiffCacheState == edit.CacheState.Cached)
-                        {
-                            if (_edit.Diff != null)
+                        else
+                        {        
+                            if (_edit.DiffCacheState == edit.CacheState.Viewed || _edit.DiffCacheState == edit.CacheState.Cached)
                             {
-                                string DocumentText = "", DiffText = "";
-                                DiffText = _edit.Diff;
+                                if (_edit.Diff != null)
+                                {
+                                    string DocumentText = "", DiffText = "";
+                                    DiffText = _edit.Diff;
 
-                                DiffText = DiffText.Replace("href=\"/wiki/", "href=\"" + Config.Projects[Config.Project] + "wiki/");
-                                DiffText = DiffText.Replace("href='/wiki/", "href='" + Config.Projects[Config.Project] + "wiki/");
-                                DiffText = DiffText.Replace("href=\"/w/", "href=\"" + Config.Projects[Config.Project] + "w/");
-                                DiffText = DiffText.Replace("href='/w/", "href='" + Config.Projects[Config.Project] + "w/");
+                                    DiffText = DiffText.Replace("href=\"/wiki/", "href=\"" + Config.Projects[Config.Project] + "wiki/");
+                                    DiffText = DiffText.Replace("href='/wiki/", "href='" + Config.Projects[Config.Project] + "wiki/");
+                                    DiffText = DiffText.Replace("href=\"/w/", "href=\"" + Config.Projects[Config.Project] + "w/");
+                                    DiffText = DiffText.Replace("href='/w/", "href='" + Config.Projects[Config.Project] + "w/");
 
-                                browser.DocumentText = DocumentText;
+                                    browser.DocumentText = DocumentText;
 
+                                }
+                                _edit.DiffCacheState = edit.CacheState.Viewed;
                             }
-                            _edit.DiffCacheState = edit.CacheState.Viewed;
                         }
-                        else if (_edit.DiffCacheState == edit.CacheState.Uncached)
+                        if (_edit.DiffCacheState == edit.CacheState.Uncached)
                         {
                             _edit.DiffCacheState = edit.CacheState.Caching;
                             Requests.request_read.diff Request = new Requests.request_read.diff();

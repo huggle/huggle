@@ -162,7 +162,14 @@ namespace huggle3
 
         public void Log(string text)
         {
-            lsLog.Items.Add(text);
+            try
+            {
+                lsLog.Items.Add(text);
+            }
+            catch (Exception ex)
+            {
+                Core.ExceptionHandler(ex);
+            }
         }
 
         public void Draw_Contributions()
@@ -221,6 +228,7 @@ namespace huggle3
         /// </summary>
         public void RetrievePageContent()
         {
+            Core.History("RetrievePageContent()");
             if (_CurrentPage.LastEdit != null)
             {
                 _CurrentEdit = _CurrentPage.LastEdit;

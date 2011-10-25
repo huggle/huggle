@@ -26,7 +26,7 @@ namespace huggle3.Controls
 {
     public partial class SpecialBrowser
     {
-        public List<Core.HistoryItem> History;
+        public List<Core.HistoryItem> History = new List<Core.HistoryItem>();
         public int HistoryIndex = 0;
         public edit Edit; // edit
         public ContextMenuStrip ForwardMenu;

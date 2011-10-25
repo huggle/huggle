@@ -288,7 +288,7 @@ namespace huggle3
                 Process();
             }
 
-            public void EndRequest()
+            public virtual void EndRequest()
             {
                 //Core.Threading.KillThread(THREAD)   ;
                 if (Callback != null)
@@ -315,6 +315,7 @@ namespace huggle3
             public virtual void Complete(string Message = "", string Text = "")
             {
                 Core.History("Request.Complete()");
+                result = new Request_Result(Text, Message);
                 _State = States.Complete;
                 EndRequest();
             }
