@@ -162,25 +162,44 @@ namespace huggle3.Requests
             public Core.HistoryItem HistoryItem;
             public string address;
 
-            public override void ThreadDone()
+            public override void EndRequest()
             {
                 Core.History("browser_html_data.Done");
-                string _page = "";
-                browser.DocumentText = result.text;
+                try
+                {
+                    browser.DocumentText = result.text;
+                    browser.CurrentUrl = address;
+                }
+                catch (Exception A)
+                {
+                    Core.ExceptionHandler(A);
+                }
 
-                base.ThreadDone();    
+                base.EndRequest();    
             }
 
             public override void Process()
             {
                 Core.History("request_read.browser_html_data.Process()");
+                string Result = "";
+                try
+                {
                 browser = main._CurrentBrowser;
-                string Result;
                 if (Config.devs)
                 {
                     Program.MainForm.Log(address);
                 }
                 Result = RequestURL(address);
+                }catch (Exception ex)
+                    {
+                        Fail(ex.Source);
+                    }
+
+                if (Result == "")
+                {
+                    Fail();
+                }
+                
                 Complete(null, Result);
             }
         }

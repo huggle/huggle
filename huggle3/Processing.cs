@@ -357,7 +357,6 @@ namespace huggle3
             _Edit.User.LastEdit = _Edit;
 
             
-
             return true;
         }
 
@@ -387,9 +386,6 @@ namespace huggle3
                         Page.LastEdit = Core.NullEdit;
                     }
                 }
-
-
-
                 edit NextEdit = null;
                 for (int i = 0; i < History.Count - 1; i++)
                 {

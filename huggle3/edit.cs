@@ -52,7 +52,7 @@ namespace huggle3
         /// <summary>
         /// State
         /// </summary>
-        public CacheState DiffCacheState;
+        public CacheState DiffCacheState = CacheState.Uncached;
         /// <summary>
         /// ID
         /// </summary>
