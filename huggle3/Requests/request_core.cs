@@ -175,15 +175,18 @@ namespace huggle3
                 _cookies = new System.Net.CookieContainer();
             }
 
-            public static string DoWebRequest(string URL, string PostString = "")
+            public static string DoWebRequest(string URL, string PostString = "", bool OverrideSsl = false)
             {       // http request
                     System.Net.ServicePointManager.Expect100Continue = false;
                     Core.History("RequestWebRequest()");
-                    if (Config.UseSsl)
+                    if (OverrideSsl != true)
                     {
-                        if (URL.Contains("http://") != false)
+                        if (Config.UseSsl)
                         {
-                            URL = URL.Replace("http://", "https://");
+                            if (URL.Contains("http://") != false)
+                            {
+                                URL = URL.Replace("http://", "https://");
+                            }
                         }
                     }
                     System.Net.HttpWebRequest Request = (System.Net.HttpWebRequest)System.Net.HttpWebRequest.Create(URL);

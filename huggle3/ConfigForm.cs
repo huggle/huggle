@@ -124,6 +124,44 @@ namespace huggle3
             listView1.Items.Add("templates", Languages.Get("config-templates-id"), 0);
             listView1.Items.Add("editor", Languages.Get("config-editor"), 0);
             listView1.Items.Add("admin", Languages.Get("config-admin"), 0);
+            int dw = 560, dh = 320;
+            groupBox1.Left = 200;
+            groupBox1.Top = 25;
+            groupBox3.Left = 200;
+            groupBox3.Top = 25;
+            groupBox2.Left = 200;
+            groupBox2.Top = 25;
+            groupBox4.Left = 200;
+            groupBox4.Top = 25;
+            groupBox5.Left = 200;
+            groupBox5.Top = 25;
+            groupBox6.Left = 200;
+            groupBox6.Top = 25;
+            groupBox7.Left = 200;
+            groupBox7.Top = 25;
+            groupBox8.Left = 200;
+            groupBox8.Top = 25;
+            groupBox9.Left = 200;
+            groupBox9.Top = 25;
+            groupBox1.Height = dh;
+            groupBox1.Width = dw;
+            groupBox2.Height = dh;
+            groupBox2.Width = dw;
+            groupBox3.Height = dh;
+            groupBox3.Width = dw;
+            groupBox4.Height = dh;
+            groupBox4.Width = dw;
+            groupBox5.Height = dh;
+            groupBox5.Width = dw;
+            groupBox6.Height = dh;
+            groupBox6.Width = dw;
+            groupBox7.Height = dh;
+            groupBox7.Width = dw;
+            groupBox8.Height = dh;
+            groupBox8.Width = dw;
+            groupBox9.Height = dh;
+            groupBox9.Width = dw;
+
             Tab(0);
         }
 

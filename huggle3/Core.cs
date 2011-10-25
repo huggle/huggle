@@ -732,11 +732,67 @@ namespace huggle3
             return "";
         }
 
-        // User
+        /// <summary>
+        /// Get user
+        /// </summary>
+        /// <param name="Name">User name</param>
+        /// <returns></returns>
         public static user GetUser(string Name)
         {
             Core.History("GetUser()");
             return new user(Name);
+        }
+
+        /// <summary>
+        /// Get month
+        /// </summary>
+        /// <param name="i"></param>
+        /// <returns></returns>
+        public static string Get_Month_Name(int i)
+        {
+            Core.History("Get_Month_Name(int)");
+            if (i < 1 || i > 12)
+            {
+                return "";
+            }else
+            {
+                return months[i];
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="source">Source</param>
+        /// <param name="param">String</param>
+        /// <returns></returns>
+        public static string Get_Parameter(string source, string param)
+        {
+            Core.History("GetParameter()");
+            string return_value = "";
+            try
+            {
+                if (source == null)
+                {
+                    return null;
+                }
+                if (source.Contains(param + "=\"") == false)
+                {
+                    return "";
+                }
+                return_value = source.Substring(source.IndexOf(param + "=\"") + (param + "=\"").Length);
+                if (return_value.Contains("\""))
+                {
+                    return "";
+                }
+                return_value = return_value.Substring(0, return_value.IndexOf("\""));
+                return System.Web.HttpUtility.HtmlDecode(return_value);
+            }
+            catch (Exception A)
+            {
+                Core.ExceptionHandler(A);
+                return null;
+            }
         }
 
         /// <summary>
