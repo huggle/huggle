@@ -36,8 +36,14 @@ namespace huggle3
         /// Current user
         /// </summary>
         public static user _CurrentUser;
+        /// <summary>
+        /// Current edit
+        /// </summary>
         public static edit _CurrentEdit; // current edit
-        public static bool DisplayingEdit; // comment me
+        public static bool DisplayingEdit;
+        /// <summary>
+        /// Config form
+        /// </summary>
         private static ConfigForm config_form;
         public static bool DisplayingLast = false;
         
@@ -204,6 +210,7 @@ namespace huggle3
             Localize();
             lsLog.Columns.Add("");
             Config.Initialised = true;
+            DisplayingLast = true;
             
             
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
@@ -231,6 +238,7 @@ namespace huggle3
 
         public bool Set_Current_Page(page _page)
         {
+            Core.History("Set_Current_Page()");
             if (_page != null)
             {
                 if ((_page != _CurrentPage) && DisplayingLast)
@@ -254,8 +262,8 @@ namespace huggle3
                 if (_CurrentPage == _page && _CurrentEdit.Id != null)
                 {
                     if (edit.All.ContainsKey(_CurrentEdit.Id))
-                    { 
-                    
+                    {
+                        historyStrip.NewerEdit = edit.All[_CurrentEdit.Id];
                     }
                 }
                 if  ( ! CurrentPage.Items.Contains(_page.Name))

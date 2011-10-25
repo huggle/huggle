@@ -28,6 +28,24 @@ namespace huggle3
 
         public static int Process_NewEdit(edit _Edit)
         {
+            Core.History("Processing.ProcessNewEdit()");
+            try
+            {
+                bool Redraw = false;
+                if (_Edit.Page.LastEdit != null)
+                {
+                    _Edit.Prev = _Edit.Page.LastEdit;
+                    _Edit.Prev.Next = _Edit;
+                    if (_Edit.Prev.Size >= 0 && _Edit.Change != 0)
+                    {
+                        _Edit.Size = _Edit.Prev.Size + _Edit.Change;
+                    }
+                }
+            }
+            catch (Exception A)
+            {
+                Core.ExceptionHandler(A);
+            }
             return 0;
         }
 

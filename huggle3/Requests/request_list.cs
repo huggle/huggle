@@ -31,7 +31,7 @@ namespace huggle3.Requests
             Core.History("request_white_list.Process()");
             string result;
 
-            result = DoWebRequest(Config.WhitelistUrl, "action=read&wp=" + System.Web.HttpUtility.UrlEncode(Config.Project));
+            result = DoWebRequest(Config.WhitelistUrl, "action=read&wp=" + System.Web.HttpUtility.UrlEncode(Config.Project), true);
 
             if (result == null)
             {
