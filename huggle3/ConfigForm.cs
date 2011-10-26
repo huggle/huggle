@@ -50,6 +50,15 @@ namespace huggle3
             this.groupBox7.Text = Languages.Get("config-templates-id");
             this.groupBox8.Text = Languages.Get("config-editor");
             this.groupBox9.Text = Languages.Get("config-admin");
+            this.labelPort.Text = Languages.Get("config-port");
+            this.labelSize.Text = Languages.Get("config-diff-font-size");
+            this.cbIRC.Text = Languages.Get(cbIRC.Text);
+            this.cbOIB.Text = Languages.Get(cbOIB.Text);
+            this.cbRememberUsername.Text = Languages.Get(cbRememberUsername.Text);
+            this.cbShowNewEdits.Text = Languages.Get(cbShowNewEdits.Text);
+            this.cbRememberPassword.Text = Languages.Get(cbRememberPassword.Text);
+            this.cbAutoWhitelist.Text = Languages.Get(cbAutoWhitelist.Text);
+            this.cbDiffPreload.Text = Languages.Get(cbDiffPreload.Text);
         }
 
         public void Tab(int key)
@@ -99,6 +108,12 @@ namespace huggle3
         {
             //Load all config values
             Core.History("Configuration.Config_Load()");
+            this.cbIRC.Checked = Config.UseIrc;
+            this.cbOIB.Checked = Config.OpenInBrowser;
+            this.cbRememberUsername.Checked = Config.RememberMe;
+            this.cbShowNewEdits.Checked = Config.ShowNewEdits;
+            this.cbRememberPassword.Checked = Config.RememberPassword;
+            this.cbDiffPreload.Checked = Config.Preloads != 0;
         }
 
         private void Cancel_Click(object sender, EventArgs e)
@@ -176,7 +191,7 @@ namespace huggle3
             Core.History("listView1_SelectedIndexChanged()");
             try
             {
-                //ta
+                // tab
                 foreach (ListViewItem it in listView1.SelectedItems)
                 {
                     Tab(it.Index);

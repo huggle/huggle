@@ -168,6 +168,7 @@ namespace huggle3
                     ThreadList[ThreadID].Active = true;
                     ThreadList[ThreadID].Decription = name;
                     ThreadList[ThreadID].handle = new System.Threading.Thread(ThreadStart);
+                    ThreadList[ThreadID].handle.Name = name;
                     ThreadCount = ThreadCount  + 1;
                     return ThreadID;
                 }
@@ -202,7 +203,7 @@ namespace huggle3
                     }
                     ThreadLast = ThreadID;
                     ThreadList[ThreadID].Active = true;
-                    ThreadList[ThreadID].Decription = "Huggle";
+                    ThreadList[ThreadID].Decription= "Huggle";
                     ThreadList[ThreadID].handle = new System.Threading.Thread(ThreadStart);
                     return ThreadID;
                 }
