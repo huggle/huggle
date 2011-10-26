@@ -35,7 +35,7 @@ namespace huggle3.Forms
         {
             // localize form
             Core.History("About.Localize()");
-            this.Text = Languages.Get("about-form");
+            this.Text = Languages.Get("about-desc");
             return true;
         }
 
