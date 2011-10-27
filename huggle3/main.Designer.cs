@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(main));
-            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Name", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Name", System.Windows.Forms.HorizontalAlignment.Left);
             this.Strip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripSUser = new System.Windows.Forms.ToolStripStatusLabel();
@@ -157,10 +157,10 @@
             this.lsLog = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.timerQueueUpdt = new System.Windows.Forms.Timer(this.components);
+            this.timerStatus = new System.Windows.Forms.Timer(this.components);
             this.webBrowser = new huggle3.Controls.SpecialBrowser();
             this.historyStrip = new huggle3.Controls.HistoryStrip();
             this.contribsPanel = new huggle3.Controls.ContribsPanel();
-            this.timerStatus = new System.Windows.Forms.Timer(this.components);
             this.Strip.SuspendLayout();
             this.MainTool.SuspendLayout();
             this.Usertool.SuspendLayout();
@@ -1210,10 +1210,10 @@
             this.columnHeader1});
             this.lsLog.FullRowSelect = true;
             this.lsLog.GridLines = true;
-            listViewGroup2.Header = "Name";
-            listViewGroup2.Name = null;
+            listViewGroup1.Header = "Name";
+            listViewGroup1.Name = null;
             this.lsLog.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup2});
+            listViewGroup1});
             this.lsLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.lsLog.Location = new System.Drawing.Point(15, 444);
             this.lsLog.MultiSelect = false;
@@ -1228,6 +1228,12 @@
             // 
             this.timerQueueUpdt.Interval = 1000;
             this.timerQueueUpdt.Tick += new System.EventHandler(this.tmQueueUpdt_Tick);
+            // 
+            // timerStatus
+            // 
+            this.timerStatus.Enabled = true;
+            this.timerStatus.Interval = 2000;
+            this.timerStatus.Tick += new System.EventHandler(this.timerStatus_Tick);
             // 
             // webBrowser
             // 
@@ -1250,12 +1256,6 @@
             this.contribsPanel.Name = "contribsPanel";
             this.contribsPanel.Size = new System.Drawing.Size(239, 21);
             this.contribsPanel.TabIndex = 14;
-            // 
-            // timerStatus
-            // 
-            this.timerStatus.Enabled = true;
-            this.timerStatus.Interval = 2000;
-            this.timerStatus.Tick += new System.EventHandler(this.timerStatus_Tick);
             // 
             // main
             // 

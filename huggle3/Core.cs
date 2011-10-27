@@ -40,6 +40,10 @@ namespace huggle3
                 }
                 if (Config.Messages[Config.Language].ContainsKey(id) == false)
                 { // if there is no such a language it returns the english one
+                    if (Config.Messages.ContainsKey(Config.DefaultLanguage) != true)
+                    {
+                        return "<not present in dict>" + id;
+                    }
                     if (Config.Messages[Config.DefaultLanguage].ContainsKey(id))
                     {
                         return Config.Messages[Config.DefaultLanguage][id];

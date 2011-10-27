@@ -32,7 +32,6 @@ namespace huggle3.Requests
             public edit _Edit;
 
 
-
             public override void Process()
             {
                 Core.History("request.diff()");
@@ -70,11 +69,11 @@ namespace huggle3.Requests
                 Complete();
             }
 
-            public override void ThreadDone()
+            public override void EndRequest()
             {
                 Preload_Count--;
                 Processing.Process_Diff(_Edit, Diff, browsertab);
-                base.ThreadDone();
+                base.EndRequest();
             }
         }
 
