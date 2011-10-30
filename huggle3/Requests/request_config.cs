@@ -53,6 +53,7 @@ namespace huggle3.Requests
             login.phase = login.LoginState.Error;
             base.Fail(description, reason);
         }
+
         public override void Process()
         {
             Core.History("Process()");
