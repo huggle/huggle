@@ -36,7 +36,7 @@ namespace huggle3
                 // return string
                 if (Config.Messages.ContainsKey(Config.DefaultLanguage) != true && Config.Messages.ContainsKey(Config.Language) != true)
                 {
-                    return "<invalid> " + id;
+                    return "<invalid language:" + id + ">";
                 }
                 if (Config.Messages[Config.Language].ContainsKey(id) == false)
                 { // if there is no such a language it returns the english one
@@ -50,7 +50,7 @@ namespace huggle3
                     }
                     else
                     {
-                        return "<invalid> " + id;
+                        return "<invalid string:" + id + ">";
                     }
                 }
                 else
@@ -60,7 +60,7 @@ namespace huggle3
                     {
                         return Config.Messages[Config.Language][id];
                     }
-                    return "<invalid> " + id;
+                    return "<invalid string:" + id + ">";
                 }
             }
             catch (Exception A)
