@@ -33,6 +33,11 @@ namespace huggle3
         {
             try
             {
+                if (id.Contains("["))
+                {
+                    id = id.Replace("]", "");
+                    id = id.Replace("[", "");
+                }
                 // return string
                 if (Config.Messages.ContainsKey(Config.DefaultLanguage) != true && Config.Messages.ContainsKey(Config.Language) != true)
                 {
@@ -1774,7 +1779,6 @@ namespace huggle3
                 case "enable":
                     Config.Enabled = Boolean.Parse(value);
                     break;
-
             }
             return true;
         }

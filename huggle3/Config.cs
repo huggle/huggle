@@ -314,61 +314,226 @@ namespace huggle3
         public static bool ConfirmWarned = true;
         public static int CountBatchSize = 20; // comment me
         public static List<string> CustomRevertSummaries = new List<string>(); // comment me
-        public static string DefaultQueue = ""; // Default queue 1
-        public static string WhitelistUrl = "http://toolserver.org/~petrb/huggle/wl.php"; // whitelist
-        public static string DefaultQueue2; // default 2
-        public static string DefaultSummary = ""; // Default summary for all edits
-        public static bool Delete = false; // Allow deleting of pages
-        public static Int32 Platform = 86; // deprecated
-        public static string DiffFontSize = "8"; // Size of fonts
-        public static string DocsLocation = "http://en.wikipedia.org/wiki/Wikipedia:Huggle"; // Location of manual
-        public static string DownloadLocation = "http://huggle.googlecode.com/files/huggle $1.exe"; // Download of x86, deprecated
+        /// <summary>
+        /// Default queue
+        /// </summary>
+        public static string DefaultQueue = "";
+        /// <summary>
+        /// Whitelist
+        /// </summary>
+        public static string WhitelistUrl = "http://toolserver.org/~petrb/huggle/wl.php";
+        /// <summary>
+        /// Default
+        /// </summary>
+        public static string DefaultQueue2;
+        /// <summary>
+        /// Default summary for all edits
+        /// </summary>
+        public static string DefaultSummary = "";
+        /// <summary>
+        /// If deleting using huggle is available
+        /// </summary>
+        public static bool Delete = false;
+        /// <summary>
+        /// DEPRECATED: platform id
+        /// </summary>
+        public static Int32 Platform = 86;
+        /// <summary>
+        /// Size of font
+        /// </summary>
+        public static string DiffFontSize = "8";
+        /// <summary>
+        /// Location of manual
+        /// </summary>
+        public static string DocsLocation = "http://en.wikipedia.org/wiki/Wikipedia:Huggle";
+        /// <summary>
+        /// DEPRECATED
+        /// </summary>
+        public static string DownloadLocation = "http://huggle.googlecode.com/files/huggle $1.exe";
+        /// <summary>
+        /// DEPRECATED
+        /// </summary>
         public static string Downloadloc64 = "http://huggle.googlecode.com/files/huggle $1x64.exe"; // Download of x64, deprecated
-        public static bool Email; // If emails are allowed
-        public static string EmailSubject = ""; // comment me
-        public static string TestWp = "http://hub.tm-irc.org/test/"; // Huggle wiki
-        public static bool Enabled; // If user has config file
-        public static bool EnabledForAll = false; // If huggle is enabled for all
-        public static bool ExtendReports = false; // comment
-        public static string FeedbackLocation = "http://en.wikipedia.org/wiki/WT:HG"; // Location of feedback
-        public static List<string> GoToPages = new List<string>(); // comment me
-        public static string IconsLocation = "http://en.wikipedia.org/wiki/Wikipedia:Huggle/Icons"; // Locations of graphics
-        public static string IfdLocation = ""; // IFD loc
+        /// <summary>
+        /// Emails
+        /// </summary>
+        public static bool Email;
+        /// <summary>
+        /// Default subject of email
+        /// </summary>
+        public static string EmailSubject = "";
+        /// <summary>
+        /// URL of test wiki
+        /// </summary>
+        public static string TestWp = "http://hub.tm-irc.org/test/";
+        /// <summary>
+        /// If huggle is enabled
+        /// </summary>
+        public static bool Enabled;
+        /// <summary>
+        /// If huggle is enabled on global
+        /// </summary>
+        public static bool EnabledForAll = false;
+        /// <summary>
+        /// If reports should be extended
+        /// </summary>
+        public static bool ExtendReports = false;
+        /// <summary>
+        /// Location of feedback page
+        /// </summary>
+        public static string FeedbackLocation = "http://en.wikipedia.org/wiki/WT:HG";
+        /// <summary>
+        /// List
+        /// </summary>
+        public static List<string> GoToPages = new List<string>();
+        /// <summary>
+        /// Location of icons
+        /// </summary>
+        public static string IconsLocation = "http://en.wikipedia.org/wiki/Wikipedia:Huggle/Icons";
+        /// <summary>
+        /// Location of IFD
+        /// </summary>
+        public static string IfdLocation = "";
         public static List<string> IgnoredPages = new List<string>(); // Ignored pages
-        public static bool Initialised = false; // If huggle is initialised ok
-        public static string IrcChannel = ""; // Default irc
-        public static bool IrcMode = false; // Using irc?
-        public static int IrcPort = 6667; // Port
-        public static string IrcServer = ""; // Server name
-        public static string IrcServerName = ""; // Server name
-        public static string IrcUsername = ""; // Irc user name
-        public static string LocalizatonPath = "Huggle/Localization/"; // Localization
-        public static string LogFile = ""; // Name of a log file
-        public static int MaxReportLinks = 6; // Max
+        /// <summary>
+        /// If huggle is loaded
+        /// </summary>
+        public static bool Initialised = false;
+        /// <summary>
+        /// IRC channel for feed
+        /// </summary>
+        public static string IrcChannel = "";
+        /// <summary>
+        /// If IRC feed is enabled
+        /// </summary>
+        public static bool IrcMode = false;
+        /// <summary>
+        /// Irc port
+        /// </summary>
+        public static int IrcPort = 6667;
+        /// <summary>
+        /// Server name
+        /// </summary>
+        public static string IrcServer = "";
+        /// <summary>
+        /// Server ident
+        /// </summary>
+        public static string IrcServerName = "";
+        /// <summary>
+        /// User name
+        /// </summary>
+        public static string IrcUsername = "";
+        /// <summary>
+        /// Localization
+        /// </summary>
+        public static string LocalizatonPath = "Huggle/Localization/";
+        /// <summary>
+        /// Log file
+        /// </summary>
+        public static string LogFile = "";
+        /// <summary>
+        /// Links
+        /// </summary>
+        public static int MaxReportLinks = 6;
+        /// <summary>
+        /// Location of MFD
+        /// </summary>
         public static string MfdLocation = ""; // MFD location
+        /// <summary>
+        /// Minor
+        /// </summary>
         public static Dictionary<string, bool> Minor = new Dictionary<string,bool>(); // Minor edits
+        /// <summary>
+        /// Minimal allowed version for use on project
+        /// </summary>
         public static Version MinVersion; // Min allowed version
+        /// <summary>
+        /// Wait between issue of warning
+        /// </summary>
         public static int MinWarningWait = 10; // Wait between warning
-        public static bool MonthHeadings = false; // Heading
+        /// <summary>
+        /// If headers are allowed on project
+        /// </summary>
+        public static bool MonthHeadings = false;
+        /// <summary>
+        /// Parts of multiple revert
+        /// </summary>
         public static List<string> MultipleRevertSummaryParts = new List<string>(); // Summary
+        /// <summary>
+        /// If links should be opened in a browser
+        /// </summary>
         public static bool OpenInBrowser = false; // Open link in new tab
+        /// <summary>
+        /// Regex for blanked page
+        /// </summary>
         public static Regex PageBlankedPattern; // blanked
+        /// <summary>
+        /// Regex for created page
+        /// </summary>
         public static Regex PageCreatedPattern; // created
+        /// <summary>
+        /// Regex for redirect
+        /// </summary>
         public static Regex PageRedirectedPattern; // redirect
+        /// <summary>
+        /// Regex for replaced page
+        /// </summary>
         public static Regex PageReplacedPattern; // replaced
-        public static bool Patrol = false; // Patrol tool
-        public static bool PatrolSpeedy = false; // Patrol
+        /// <summary>
+        /// If patroling is allowed
+        /// </summary>
+        public static bool Patrol = false; // Patrol
+        /// <summary>
+        /// If speedy patroling is enabled
+        /// </summary>
+        public static bool PatrolSpeedy = false;
+        /// <summary>
+        /// Preloads n
+        /// </summary>
         public static int Preloads = 2; // How many preloads to get
+        /// <summary>
+        /// If PROD is enabled
+        /// </summary>
         public static bool Prod = false; // prod
+        /// <summary>
+        /// Message for PROD
+        /// </summary>
         public static string ProdMessage; // Message for prod
+        /// <summary>
+        /// Summary message
+        /// </summary>
         public static string ProdMessageSummary = ""; // Summary
+        /// <summary>
+        /// Title for talk
+        /// </summary>
         public static string ProdMessageTitle = ""; // Prod message title
+        /// <summary>
+        /// Summary for talk
+        /// </summary>
         public static string ProdSummary = ""; // Prod summary when editing log
+        /// <summary>
+        /// Active wiki
+        /// </summary>
         public static string Project = ""; // Current wiki
+        /// <summary>
+        /// List of projects which are available
+        /// </summary>
         public static Dictionary<string, string> Projects = new Dictionary<string, string>(); //  wikis
+        /// <summary>
+        /// Location of config
+        /// </summary>
         public static string ProjectConfigLocation; // Location of config
+        /// <summary>
+        /// Confirmation when you want to block someone
+        /// </summary>
         public static bool PromptForBlock = true; // Ask when blocking people
+        /// <summary>
+        /// Confirmation for reporting of user
+        /// </summary>
         public static bool PromptForReport = false; // Prompt
+        /// <summary>
+        /// Log page for CSD
+        /// </summary>
         public static string Csd_Log_Page = ""; // Log page for csd
         public static bool Protect = false; // If protecting is used
         public static string ProtectionReason = ""; // Reason
