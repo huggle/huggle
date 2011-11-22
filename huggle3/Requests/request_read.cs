@@ -83,7 +83,13 @@ namespace huggle3.Requests
         public class history : request_core.Request
         { 
             public int FullTotal, FullLimit = 5000, BlockSize = Config.HistoryBlockSize;
+            /// <summary>
+            /// Page
+            /// </summary>
             public page Page;
+            /// <summary>
+            /// Full history or just a part
+            /// </summary>
             public bool _full;
             public bool GetContent;
             
@@ -133,13 +139,13 @@ namespace huggle3.Requests
                         result = new request_core.Request_Result(result.text);
                         Program.MainForm.Log(Languages.Get("history-progress"));
                     }
-                    Offset = GetParameter(Result.ResultText, "rvstartid");
+                    Offset = GetParameter(Result.Result_Text, "rvstartid");
                     if (Offset == null)
                     {
                         Offset = "";
                     }
                 }
-                Complete(Text: Result.ResultText);
+                Complete(Text: Result.Result_Text);
             }
         }
 

@@ -99,7 +99,7 @@ namespace huggle3
             /// <returns></returns>
             public static bool DestroyCore()
             {
-                // All threads are aborted (usualy when application die)
+                // All threads are aborted (usually when application die)
                 int curr = 0;
                 while (curr < Core.MThread)
                 {
