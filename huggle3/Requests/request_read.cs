@@ -24,6 +24,9 @@ namespace huggle3.Requests
     {
         public class diff : request_core.Request
         {
+            /// <summary>
+            /// Current handle
+            /// </summary>
             public Controls.SpecialBrowser browsertab;
             public int Request_Count;
             public int Preload_Count;

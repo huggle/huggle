@@ -177,7 +177,7 @@ namespace huggle3
         }
 
         /// <summary>
-        /// 
+        /// Cache
         /// </summary>
         public enum CacheState
         {

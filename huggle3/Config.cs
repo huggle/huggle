@@ -950,7 +950,7 @@ namespace huggle3
         /// </summary>
         public static bool RevisionAccess = false; 
         /// <summary>
-        /// Revision review
+        /// Revision count
         /// </summary>
         public static bool RevisionR = false;
         /// <summary>
@@ -969,6 +969,9 @@ namespace huggle3
         public static string WarnSummary3 = "";
         public static string WarnSummary4 = "";
 
+        /// <summary>
+        /// Watch page
+        /// </summary>
         public static bool WatchDelete = false;
         public static string Welcome = "";
         public static string WelcomeAnon = "";
