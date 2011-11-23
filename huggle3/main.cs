@@ -68,6 +68,8 @@ namespace huggle3
         public void Refresh_Interface()
         {
             // make me
+            this.CurrentPage.ForeColor = System.Drawing.Color.Black;
+            StatusBar("Ready");
         }
 
         public main()

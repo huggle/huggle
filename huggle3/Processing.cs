@@ -513,7 +513,7 @@ namespace huggle3
                                     DiffText = DiffText.Replace("href=\"/w/", "href=\"" + Config.Projects[Config.Project] + "w/");
                                     DiffText = DiffText.Replace("href='/w/", "href='" + Config.Projects[Config.Project] + "w/");
 
-                                    browser.DocumentText = DocumentText;
+                                    browser.DocumentText = DiffText;
 
                                 }
                                 _edit.DiffCacheState = edit.CacheState.Viewed;
