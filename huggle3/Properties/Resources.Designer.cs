@@ -488,6 +488,15 @@ namespace huggle3.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;/BODY&gt;.
+        /// </summary>
+        internal static string footer {
+            get {
+                return ResourceManager.GetString("footer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;pre&gt;
         ///name:                      Français
         ///&lt;/pre&gt;
@@ -553,6 +562,19 @@ namespace huggle3.Properties {
             get {
                 object obj = ResourceManager.GetObject("gray_up", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;HTML&gt;
+        ///&lt;HEAD&gt;
+        ///&lt;/HEAD&gt;
+        ///&lt;BODY&gt;
+        ///.
+        /// </summary>
+        internal static string header {
+            get {
+                return ResourceManager.GetString("header", resourceCulture);
             }
         }
         

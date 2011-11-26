@@ -69,6 +69,7 @@ namespace huggle3
         {
             // make me
             this.CurrentPage.ForeColor = System.Drawing.Color.Black;
+            
             StatusBar("Ready");
         }
 
@@ -362,6 +363,12 @@ namespace huggle3
         /// </summary>
         public void Draw_History()
         {
+            if (InvokeRequired) // Line #1
+            {
+                this.Invoke(new MethodInvoker(Draw_History));
+                return;
+            }
+
             Core.History("Draw_History()");
             try
             {

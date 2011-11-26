@@ -483,6 +483,8 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\footer.txt" />
+    <EmbeddedResource Include="Resources\header.txt" />
     <None Include="Resources\en.txt.bmp" />
     <EmbeddedResource Include="DefaultLocalConfig.txt" />
     <Content Include="huggle.ico" />
