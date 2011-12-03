@@ -360,9 +360,24 @@ namespace huggle3
             return true;
         }
 
-        public static void Perform_Revert()
+        public static void Process_Revert(edit Edit, string Summary = "", bool Rollback = true, bool Undo = false, bool Currentonly = false)
         {
-            Core.History("Processing.Perform_Revert()");
+            Core.History("Processing.Process_Revert()");
+            if (Edit == null)
+                return;
+            user LastUser = null;
+
+            if (Edit.Page.LastEdit != null)
+            {
+                LastUser = Edit.Page.LastEdit.User;
+            }
+
+            if (Config.ConfirmSelfRevert && !Undo)
+            { 
+                
+            }
+
+
         }
 
         /// <summary>
@@ -433,7 +448,6 @@ namespace huggle3
                         _Edit.Next.Oldid = _Edit.Id;
                     }
 
-
                     NextEdit = _Edit;
                     ProcessEdit(_Edit);
                 }
@@ -445,8 +459,11 @@ namespace huggle3
                 else
                 {
                     Page.HistoryOffset = null;
-                    NextEdit.Prev = Core.NullEdit;
-                    Page.FirstEdit = NextEdit;
+                    if (NextEdit != null)
+                    {
+                        NextEdit.Prev = Core.NullEdit;
+                        Page.FirstEdit = NextEdit;
+                    }
                 }
                 Program.MainForm.Draw_History();
             }
@@ -513,7 +530,11 @@ namespace huggle3
                                     DiffText = DiffText.Replace("href=\"/w/", "href=\"" + Config.Projects[Config.Project] + "w/");
                                     DiffText = DiffText.Replace("href='/w/", "href='" + Config.Projects[Config.Project] + "w/");
 
-                                    browser.DocumentText = DiffText;
+                                    DocumentText = huggle3.Properties.Resources.header;
+                                    DocumentText += DiffText;
+                                    DocumentText += huggle3.Properties.Resources.footer;
+
+                                    browser.DocumentText = DocumentText;
 
                                 }
                                 _edit.DiffCacheState = edit.CacheState.Viewed;
@@ -535,6 +556,7 @@ namespace huggle3
                 Core.ExceptionHandler( ex );
             }
         }
+
 
     }
 }

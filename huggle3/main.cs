@@ -31,15 +31,22 @@ namespace huggle3
         /// Current page
         /// </summary>
         public static page _CurrentPage;
-        public static Controls.SpecialBrowser _CurrentBrowser; // current browser
+        /// <summary>
+        /// Current browser
+        /// </summary>
+        public static Controls.SpecialBrowser _CurrentBrowser;
         /// <summary>
         /// Current user
         /// </summary>
         public static user _CurrentUser;
         /// <summary>
+        /// Queue
+        /// </summary>
+        public static queue _CurrentQueue;
+        /// <summary>
         /// Current edit
         /// </summary>
-        public static edit _CurrentEdit; // current edit
+        public static edit _CurrentEdit;
         public static bool DisplayingEdit;
         /// <summary>
         /// Config form
@@ -77,7 +84,6 @@ namespace huggle3
         {
             InitializeComponent();
         }
-
 
         public int AlignForm()
         {
@@ -178,7 +184,11 @@ namespace huggle3
         public void Draw_Contributions()
         {
             Core.History("Draw_Contributions()");
-            // todo
+            contribsPanel.ThisUser = _CurrentUser;
+            contribsPanel.Refresh();
+
+            edit Edit = _CurrentUser.LastEdit;
+            int offset = contribsPanel.Width - 20 + (contribsPanel.Offset * 17);
         }
 
         public void Draw_Queues()
@@ -291,8 +301,12 @@ namespace huggle3
 
         public bool Set_Current_User(user _user)
         {
+            if (_user == null)
+            {
+                return true;
+            }
             _CurrentUser = _user;
-            
+
             return true;
         }
 
