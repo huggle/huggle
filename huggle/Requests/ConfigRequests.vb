@@ -142,49 +142,49 @@ Namespace Requests
 
                 'Check user's edit count
                 Dim EditCount As Integer = CInt(GetParameter(Userinfo, "editcount"))
+                If Config.Devs <> True Then
+                    If EditCount < Config.RequireEdits Then
+                        Fail(Msg("login-error-count", CStr(Config.RequireEdits)))
+                        Exit Sub
+                    End If
 
-                If EditCount < Config.RequireEdits Then
-                    Fail(Msg("login-error-count", CStr(Config.RequireEdits)))
-                    Exit Sub
+                    Config.Rights = New List(Of String)(FindString(Userinfo, "<rights>", "</rights>").Replace("</r>", "") _
+                        .Split(New String() {"<r>"}, StringSplitOptions.RemoveEmptyEntries))
+
+                    If Config.RequireAdmin AndAlso Not Config.Rights.Contains("block") Then
+                        Fail(Msg("login-error-admin"))
+                        Exit Sub
+                    End If
+
+                    If Config.RequireAutoconfirmed AndAlso Not Config.Rights.Contains("autoconfirmed") Then
+                        Fail(Msg("login-error-autoconfirmed"))
+                        Exit Sub
+                    End If
+
+                    If Config.UsePending = True And False Then
+                        Config.RightPending = Config.Rights.Contains("review")
+                    End If
+
+                    If Config.RequireRollback AndAlso Not Config.Rights.Contains("rollback") Then
+                        Fail(Msg("login-error-rollback"))
+                        Exit Sub
+                    End If
+
+                    If Not Config.Rights.Contains("writeapi") Then
+                        Fail("Your account is not permitted to edit through the MediaWiki API, which is required by Huggle")
+                        Exit Sub
+                    End If
+
+                    If Not Config.Rights.Contains("edit") Then
+                        Fail("Your account is not permitted to edit.")
+                        Exit Sub
+                    End If
                 End If
-
-                Config.Rights = New List(Of String)(FindString(Userinfo, "<rights>", "</rights>").Replace("</r>", "") _
-                    .Split(New String() {"<r>"}, StringSplitOptions.RemoveEmptyEntries))
-
-                If Config.RequireAdmin AndAlso Not Config.Rights.Contains("block") Then
-                    Fail(Msg("login-error-admin"))
-                    Exit Sub
-                End If
-
-                If Config.RequireAutoconfirmed AndAlso Not Config.Rights.Contains("autoconfirmed") Then
-                    Fail(Msg("login-error-autoconfirmed"))
-                    Exit Sub
-                End If
-
-                If Config.UsePending = True And False Then
-                    Config.RightPending = Config.Rights.Contains("review")
-                End If
-
-                If Config.RequireRollback AndAlso Not Config.Rights.Contains("rollback") Then
-                    Fail(Msg("login-error-rollback"))
-                    Exit Sub
-                End If
-
-                If Not Config.Rights.Contains("writeapi") Then
-                    Fail("Your account is not permitted to edit through the MediaWiki API, which is required by Huggle")
-                    Exit Sub
-                End If
-
-                If Not Config.Rights.Contains("edit") Then
-                    Fail("Your account is not permitted to edit.")
-                    Exit Sub
-                End If
-
             Else
                 Fail(Msg("login-error-rights"))
                 Exit Sub
-            End If
 
+            End If
             If Config.RequireTime > 0 Then
                 'We know the user exists, so if we get an empty result the user must have been 
                 'created in 2005 or earlier, before the log existed

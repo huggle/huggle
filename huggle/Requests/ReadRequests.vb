@@ -127,7 +127,6 @@ Namespace Requests
                 Try
                     Result = DoUrlRequest(QueryString)
 
-
                 Dim Api2 As String
 
                 If (Config.RightPending = True And Config.UsePending = True) Then

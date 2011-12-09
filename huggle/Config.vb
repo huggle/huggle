@@ -47,7 +47,7 @@ Class Configuration
         {"blocknote", "deletenote", "deletetag", "deletereq", "manual", "message", "note", "prodtag", _
          "protectreq", "report", "revert", "speedytag", "tag", "warning"}
 
-    Public Devs As Boolean = False
+    Public Devs As Boolean = True
 
     'Values only used at runtime
 
@@ -125,7 +125,7 @@ Class Configuration
     Public Downloadloc64 As String = "http://huggle.googlecode.com/files/huggle $1x64.exe"
     Public Email As Boolean
     Public EmailSubject As String = ""
-    Public TestWp As String = "http://hub.tm-irc.org/test/"
+    Public TestWp As String = "http://huggle.wmflabs.org/"
     Public Enabled As Boolean
     Public EnabledForAll As Boolean = False
     Public ExtendReports As Boolean = False

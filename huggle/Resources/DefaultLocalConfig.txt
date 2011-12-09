@@ -19,10 +19,10 @@ projects:
 	or.wikipedia;http://or.wikipedia.org/,
     simple.wikipedia;http://simple.wikipedia.org/,
 	commons;http://commons.wikimedia.org/,
-	test2;http://hub.tm-irc.org/test/,
+	test2;http://huggle.wmflabs.org/,
     test wiki;http://test.wikipedia.org/
     
 project:en.wikipedia
 
 whitelist-server:http://toolserver.org/~petrb/huggle/wl.php
-TestWiki:http://hub.tm-irc.org/test
+TestWiki:http://huggle.wmflabs.org/
