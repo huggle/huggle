@@ -27,9 +27,8 @@ namespace huggle3
         public static bool IrcConnect()
         {
             Core.History("IrcConnect()");
-            ////
-
             thread = Core.Threading.CreateThread(Irc, "Irc");
+            Core.Threading.Execute(thread);
 
             return false;
         }

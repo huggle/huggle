@@ -374,7 +374,7 @@ namespace huggle3
         /// <summary>
         /// URL of test wiki
         /// </summary>
-        public static string TestWp = "http://hub.tm-irc.org/test/";
+        public static string TestWp = "http://huggle.wmflabs.org/";
         /// <summary>
         /// If huggle is enabled
         /// </summary>
