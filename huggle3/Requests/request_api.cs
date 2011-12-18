@@ -83,7 +83,6 @@ namespace huggle3
                 //Get the result of the api login request
                 ApiResult result = new ApiResult();
                 result = ApiRequest("action=login", "lgname=" + System.Web.HttpUtility.UrlEncode(Config.Username), Config.Project);
-
                 //If this returns as null then the login has failed
                 if (result == null || result.Result_Text == null)
                 {

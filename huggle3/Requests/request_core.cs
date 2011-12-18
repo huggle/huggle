@@ -73,7 +73,10 @@ namespace huggle3
                 {
                     URL = Config.Projects[CurrentProject];
                 }
+                
                 ApiResult return_value = new ApiResult();
+
+                //System.Windows.Forms.MessageBox.Show(URL);
 
                 string Result = "";
                 int RequestR = Config.RequestAttempts;
