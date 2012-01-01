@@ -62,4 +62,12 @@ Class AboutForm
         'Close
         Close()
     End Sub
+
+    Private Sub NewContributors_Paint(ByVal sender As System.Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles NewContributors.Paint
+
+    End Sub
+
+    Private Sub LinkLabel6_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel6.LinkClicked
+
+    End Sub
 End Class
