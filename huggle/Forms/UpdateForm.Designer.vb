@@ -22,12 +22,12 @@ Partial Class UpdateForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.Message = New System.Windows.Forms.Label
-        Me.Cancel = New System.Windows.Forms.Button
-        Me.Download = New System.Windows.Forms.Button
-        Me.Status = New System.Windows.Forms.Label
-        Me.PictureBox1 = New System.Windows.Forms.PictureBox
-        Me.Progress = New System.Windows.Forms.ProgressBar
+        Me.Message = New System.Windows.Forms.Label()
+        Me.Cancel = New System.Windows.Forms.Button()
+        Me.Download = New System.Windows.Forms.Button()
+        Me.Status = New System.Windows.Forms.Label()
+        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
+        Me.Progress = New System.Windows.Forms.ProgressBar()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -88,9 +88,9 @@ Partial Class UpdateForm
         'Progress
         '
         Me.Progress.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Progress.Location = New System.Drawing.Point(213, 58)
+        Me.Progress.Location = New System.Drawing.Point(57, 58)
         Me.Progress.Name = "Progress"
-        Me.Progress.Size = New System.Drawing.Size(127, 18)
+        Me.Progress.Size = New System.Drawing.Size(283, 18)
         Me.Progress.TabIndex = 2
         Me.Progress.Visible = False
         '

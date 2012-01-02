@@ -22,13 +22,13 @@ Partial Class EmailForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.SubjectLabel = New System.Windows.Forms.Label
-        Me.Subject = New System.Windows.Forms.TextBox
-        Me.MessageLabel = New System.Windows.Forms.Label
-        Me.Message = New System.Windows.Forms.TextBox
-        Me.Cancel = New System.Windows.Forms.Button
-        Me.Send = New System.Windows.Forms.Button
-        Me.CcMe = New System.Windows.Forms.CheckBox
+        Me.SubjectLabel = New System.Windows.Forms.Label()
+        Me.Subject = New System.Windows.Forms.TextBox()
+        Me.MessageLabel = New System.Windows.Forms.Label()
+        Me.Message = New System.Windows.Forms.TextBox()
+        Me.Cancel = New System.Windows.Forms.Button()
+        Me.Send = New System.Windows.Forms.Button()
+        Me.CcMe = New System.Windows.Forms.CheckBox()
         Me.SuspendLayout()
         '
         'SubjectLabel
@@ -66,6 +66,7 @@ Partial Class EmailForm
         Me.Message.Location = New System.Drawing.Point(64, 38)
         Me.Message.Multiline = True
         Me.Message.Name = "Message"
+        Me.Message.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal
         Me.Message.Size = New System.Drawing.Size(467, 249)
         Me.Message.TabIndex = 3
         '

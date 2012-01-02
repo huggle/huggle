@@ -271,7 +271,7 @@ Partial Class ConfigForm
         '
         'PreloadCount
         '
-        Me.PreloadCount.Location = New System.Drawing.Point(190, 127)
+        Me.PreloadCount.Location = New System.Drawing.Point(163, 127)
         Me.PreloadCount.Maximum = New Decimal(New Integer() {5, 0, 0, 0})
         Me.PreloadCount.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.PreloadCount.Name = "PreloadCount"
@@ -330,7 +330,7 @@ Partial Class ConfigForm
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(246, 130)
+        Me.Label2.Location = New System.Drawing.Point(219, 131)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(34, 13)
         Me.Label2.TabIndex = 7
@@ -790,7 +790,7 @@ Partial Class ConfigForm
         Me.RevertSummaries.FormattingEnabled = True
         Me.RevertSummaries.Location = New System.Drawing.Point(6, 222)
         Me.RevertSummaries.Name = "RevertSummaries"
-        Me.RevertSummaries.Size = New System.Drawing.Size(393, 43)
+        Me.RevertSummaries.Size = New System.Drawing.Size(484, 43)
         Me.RevertSummaries.TabIndex = 8
         '
         'UseRollback

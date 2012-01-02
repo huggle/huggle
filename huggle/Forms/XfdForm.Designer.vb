@@ -22,21 +22,21 @@ Partial Class XfdForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.Cancel = New System.Windows.Forms.Button
-        Me.OK = New System.Windows.Forms.Button
-        Me.Reason = New System.Windows.Forms.TextBox
-        Me.ReasonLabel = New System.Windows.Forms.Label
-        Me.Notify = New System.Windows.Forms.CheckBox
-        Me.Category = New System.Windows.Forms.ComboBox
-        Me.CategoryLabel = New System.Windows.Forms.Label
-        Me.NominationTypeLabel = New System.Windows.Forms.Label
-        Me.NominationType = New System.Windows.Forms.Label
+        Me.Cancel = New System.Windows.Forms.Button()
+        Me.OK = New System.Windows.Forms.Button()
+        Me.Reason = New System.Windows.Forms.TextBox()
+        Me.ReasonLabel = New System.Windows.Forms.Label()
+        Me.Notify = New System.Windows.Forms.CheckBox()
+        Me.Category = New System.Windows.Forms.ComboBox()
+        Me.CategoryLabel = New System.Windows.Forms.Label()
+        Me.NominationTypeLabel = New System.Windows.Forms.Label()
+        Me.NominationType = New System.Windows.Forms.Label()
         Me.SuspendLayout()
         '
         'Cancel
         '
         Me.Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Cancel.Location = New System.Drawing.Point(323, 158)
+        Me.Cancel.Location = New System.Drawing.Point(323, 183)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(75, 23)
         Me.Cancel.TabIndex = 8
@@ -47,7 +47,7 @@ Partial Class XfdForm
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.OK.Enabled = False
-        Me.OK.Location = New System.Drawing.Point(242, 158)
+        Me.OK.Location = New System.Drawing.Point(242, 183)
         Me.OK.Name = "OK"
         Me.OK.Size = New System.Drawing.Size(75, 23)
         Me.OK.TabIndex = 7
@@ -63,7 +63,7 @@ Partial Class XfdForm
         Me.Reason.Multiline = True
         Me.Reason.Name = "Reason"
         Me.Reason.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.Reason.Size = New System.Drawing.Size(386, 80)
+        Me.Reason.Size = New System.Drawing.Size(386, 105)
         Me.Reason.TabIndex = 3
         '
         'ReasonLabel
@@ -81,7 +81,7 @@ Partial Class XfdForm
         Me.Notify.AutoSize = True
         Me.Notify.Checked = True
         Me.Notify.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.Notify.Location = New System.Drawing.Point(12, 133)
+        Me.Notify.Location = New System.Drawing.Point(12, 158)
         Me.Notify.Name = "Notify"
         Me.Notify.Size = New System.Drawing.Size(89, 17)
         Me.Notify.TabIndex = 4
@@ -94,7 +94,7 @@ Partial Class XfdForm
         Me.Category.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.Category.FormattingEnabled = True
         Me.Category.Items.AddRange(New Object() {"(Nominator unsure of category)", "Media and music", "Organisation, corporation, or product", "Biographical", "Society topics", "Web or internet", "Games or sports", "Technology and science", "Fiction and the arts", "Places and transportation", "Indiscernible or unclassifiable topic"})
-        Me.Category.Location = New System.Drawing.Point(197, 130)
+        Me.Category.Location = New System.Drawing.Point(197, 155)
         Me.Category.MaxDropDownItems = 12
         Me.Category.Name = "Category"
         Me.Category.Size = New System.Drawing.Size(201, 21)
@@ -104,7 +104,7 @@ Partial Class XfdForm
         '
         Me.CategoryLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.CategoryLabel.AutoSize = True
-        Me.CategoryLabel.Location = New System.Drawing.Point(139, 134)
+        Me.CategoryLabel.Location = New System.Drawing.Point(139, 159)
         Me.CategoryLabel.Name = "CategoryLabel"
         Me.CategoryLabel.Size = New System.Drawing.Size(52, 13)
         Me.CategoryLabel.TabIndex = 5
@@ -132,7 +132,7 @@ Partial Class XfdForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(410, 193)
+        Me.ClientSize = New System.Drawing.Size(410, 218)
         Me.Controls.Add(Me.NominationType)
         Me.Controls.Add(Me.NominationTypeLabel)
         Me.Controls.Add(Me.CategoryLabel)

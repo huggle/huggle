@@ -22,11 +22,11 @@ Partial Class QueueTrimForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.AgeLabel = New System.Windows.Forms.Label
-        Me.AgeUnit = New System.Windows.Forms.Label
-        Me.Cancel = New System.Windows.Forms.Button
-        Me.OK = New System.Windows.Forms.Button
-        Me.Age = New System.Windows.Forms.NumericUpDown
+        Me.AgeLabel = New System.Windows.Forms.Label()
+        Me.AgeUnit = New System.Windows.Forms.Label()
+        Me.Cancel = New System.Windows.Forms.Button()
+        Me.OK = New System.Windows.Forms.Button()
+        Me.Age = New System.Windows.Forms.NumericUpDown()
         CType(Me.Age, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -42,7 +42,7 @@ Partial Class QueueTrimForm
         'AgeUnit
         '
         Me.AgeUnit.AutoSize = True
-        Me.AgeUnit.Location = New System.Drawing.Point(253, 9)
+        Me.AgeUnit.Location = New System.Drawing.Point(248, 9)
         Me.AgeUnit.Name = "AgeUnit"
         Me.AgeUnit.Size = New System.Drawing.Size(43, 13)
         Me.AgeUnit.TabIndex = 2
