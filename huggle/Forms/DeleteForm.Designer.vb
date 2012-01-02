@@ -37,9 +37,10 @@ Partial Class DeleteForm
         'Cancel
         '
         Me.Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Cancel.Location = New System.Drawing.Point(399, 211)
+        Me.Cancel.Location = New System.Drawing.Point(532, 260)
+        Me.Cancel.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.Cancel.Name = "Cancel"
-        Me.Cancel.Size = New System.Drawing.Size(75, 23)
+        Me.Cancel.Size = New System.Drawing.Size(100, 28)
         Me.Cancel.TabIndex = 8
         Me.Cancel.Text = "Cancel"
         Me.Cancel.UseVisualStyleBackColor = True
@@ -47,9 +48,10 @@ Partial Class DeleteForm
         'OK
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.OK.Location = New System.Drawing.Point(318, 211)
+        Me.OK.Location = New System.Drawing.Point(424, 260)
+        Me.OK.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.OK.Name = "OK"
-        Me.OK.Size = New System.Drawing.Size(75, 23)
+        Me.OK.Size = New System.Drawing.Size(100, 28)
         Me.OK.TabIndex = 7
         Me.OK.Text = "OK"
         Me.OK.UseVisualStyleBackColor = True
@@ -57,9 +59,10 @@ Partial Class DeleteForm
         'ReasonLabel
         '
         Me.ReasonLabel.AutoSize = True
-        Me.ReasonLabel.Location = New System.Drawing.Point(12, 15)
+        Me.ReasonLabel.Location = New System.Drawing.Point(16, 18)
+        Me.ReasonLabel.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.ReasonLabel.Name = "ReasonLabel"
-        Me.ReasonLabel.Size = New System.Drawing.Size(47, 13)
+        Me.ReasonLabel.Size = New System.Drawing.Size(61, 17)
         Me.ReasonLabel.TabIndex = 0
         Me.ReasonLabel.Text = "Reason:"
         '
@@ -68,18 +71,20 @@ Partial Class DeleteForm
         Me.Reason.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Reason.FormattingEnabled = True
-        Me.Reason.Location = New System.Drawing.Point(65, 12)
+        Me.Reason.Location = New System.Drawing.Point(87, 15)
+        Me.Reason.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.Reason.MaxDropDownItems = 20
         Me.Reason.Name = "Reason"
-        Me.Reason.Size = New System.Drawing.Size(409, 21)
+        Me.Reason.Size = New System.Drawing.Size(544, 24)
         Me.Reason.TabIndex = 1
         '
         'DeletionLogLabel
         '
         Me.DeletionLogLabel.AutoSize = True
-        Me.DeletionLogLabel.Location = New System.Drawing.Point(12, 83)
+        Me.DeletionLogLabel.Location = New System.Drawing.Point(16, 102)
+        Me.DeletionLogLabel.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.DeletionLogLabel.Name = "DeletionLogLabel"
-        Me.DeletionLogLabel.Size = New System.Drawing.Size(66, 13)
+        Me.DeletionLogLabel.Size = New System.Drawing.Size(87, 17)
         Me.DeletionLogLabel.TabIndex = 5
         Me.DeletionLogLabel.Text = "Deletion log:"
         '
@@ -91,11 +96,12 @@ Partial Class DeleteForm
         Me.DeletionLog.FullRowSelect = True
         Me.DeletionLog.GridLines = True
         Me.DeletionLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
-        Me.DeletionLog.Location = New System.Drawing.Point(15, 99)
+        Me.DeletionLog.Location = New System.Drawing.Point(20, 122)
+        Me.DeletionLog.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.DeletionLog.Mode = Huggle.PageLog.ViewMode.Delete
         Me.DeletionLog.Name = "DeletionLog"
         Me.DeletionLog.Page = Nothing
-        Me.DeletionLog.Size = New System.Drawing.Size(459, 106)
+        Me.DeletionLog.Size = New System.Drawing.Size(611, 130)
         Me.DeletionLog.TabIndex = 6
         Me.DeletionLog.UseCompatibleStateImageBehavior = False
         Me.DeletionLog.View = System.Windows.Forms.View.Details
@@ -103,17 +109,19 @@ Partial Class DeleteForm
         'Throbber
         '
         Me.Throbber.BackColor = System.Drawing.Color.Gainsboro
-        Me.Throbber.Location = New System.Drawing.Point(65, 40)
+        Me.Throbber.Location = New System.Drawing.Point(87, 49)
+        Me.Throbber.Margin = New System.Windows.Forms.Padding(5, 5, 5, 5)
         Me.Throbber.Name = "Throbber"
-        Me.Throbber.Size = New System.Drawing.Size(58, 10)
+        Me.Throbber.Size = New System.Drawing.Size(77, 12)
         Me.Throbber.TabIndex = 2
         '
         'Progress
         '
         Me.Progress.AutoSize = True
-        Me.Progress.Location = New System.Drawing.Point(137, 40)
+        Me.Progress.Location = New System.Drawing.Point(183, 49)
+        Me.Progress.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Progress.Name = "Progress"
-        Me.Progress.Size = New System.Drawing.Size(10, 13)
+        Me.Progress.Size = New System.Drawing.Size(12, 17)
         Me.Progress.TabIndex = 3
         Me.Progress.Text = " "
         '
@@ -121,9 +129,10 @@ Partial Class DeleteForm
         '
         Me.Notify.AutoSize = True
         Me.Notify.Enabled = False
-        Me.Notify.Location = New System.Drawing.Point(65, 59)
+        Me.Notify.Location = New System.Drawing.Point(87, 73)
+        Me.Notify.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.Notify.Name = "Notify"
-        Me.Notify.Size = New System.Drawing.Size(89, 17)
+        Me.Notify.Size = New System.Drawing.Size(115, 21)
         Me.Notify.TabIndex = 4
         Me.Notify.Text = "Notify creator"
         Me.Notify.UseVisualStyleBackColor = True
@@ -131,17 +140,18 @@ Partial Class DeleteForm
         'RemTalk
         '
         Me.RemTalk.AutoSize = True
-        Me.RemTalk.Location = New System.Drawing.Point(190, 59)
+        Me.RemTalk.Location = New System.Drawing.Point(253, 73)
+        Me.RemTalk.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.RemTalk.Name = "RemTalk"
-        Me.RemTalk.Size = New System.Drawing.Size(15, 14)
+        Me.RemTalk.Size = New System.Drawing.Size(18, 17)
         Me.RemTalk.TabIndex = 9
         Me.RemTalk.UseVisualStyleBackColor = True
         '
         'DeleteForm
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(486, 246)
+        Me.ClientSize = New System.Drawing.Size(648, 303)
         Me.Controls.Add(Me.RemTalk)
         Me.Controls.Add(Me.Notify)
         Me.Controls.Add(Me.Progress)
@@ -154,6 +164,7 @@ Partial Class DeleteForm
         Me.Controls.Add(Me.Cancel)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.KeyPreview = True
+        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "DeleteForm"

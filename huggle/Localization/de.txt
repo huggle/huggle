@@ -237,7 +237,7 @@ login-proxyaddress:        Adresse:
 login-proxyport:           Port:
 login-proxydomain:         Domäne:
 login-start:               Einloggen
-login-translate:           Huggle übersetzen
+login-translate:           Übersetzen
 login-captchatitle:        CAPTCHA benötigt zum Login
 
 login-progress-start:      Logge ein...

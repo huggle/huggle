@@ -36,9 +36,10 @@ Partial Class XfdForm
         'Cancel
         '
         Me.Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Cancel.Location = New System.Drawing.Point(323, 183)
+        Me.Cancel.Location = New System.Drawing.Point(431, 225)
+        Me.Cancel.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.Cancel.Name = "Cancel"
-        Me.Cancel.Size = New System.Drawing.Size(75, 23)
+        Me.Cancel.Size = New System.Drawing.Size(100, 28)
         Me.Cancel.TabIndex = 8
         Me.Cancel.Text = "Cancel"
         Me.Cancel.UseVisualStyleBackColor = True
@@ -47,9 +48,10 @@ Partial Class XfdForm
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.OK.Enabled = False
-        Me.OK.Location = New System.Drawing.Point(242, 183)
+        Me.OK.Location = New System.Drawing.Point(323, 225)
+        Me.OK.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.OK.Name = "OK"
-        Me.OK.Size = New System.Drawing.Size(75, 23)
+        Me.OK.Size = New System.Drawing.Size(100, 28)
         Me.OK.TabIndex = 7
         Me.OK.Text = "OK"
         Me.OK.UseVisualStyleBackColor = True
@@ -59,19 +61,21 @@ Partial Class XfdForm
         Me.Reason.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Reason.Location = New System.Drawing.Point(12, 44)
+        Me.Reason.Location = New System.Drawing.Point(16, 54)
+        Me.Reason.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.Reason.Multiline = True
         Me.Reason.Name = "Reason"
         Me.Reason.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.Reason.Size = New System.Drawing.Size(386, 105)
+        Me.Reason.Size = New System.Drawing.Size(513, 128)
         Me.Reason.TabIndex = 3
         '
         'ReasonLabel
         '
         Me.ReasonLabel.AutoSize = True
-        Me.ReasonLabel.Location = New System.Drawing.Point(9, 28)
+        Me.ReasonLabel.Location = New System.Drawing.Point(12, 34)
+        Me.ReasonLabel.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.ReasonLabel.Name = "ReasonLabel"
-        Me.ReasonLabel.Size = New System.Drawing.Size(47, 13)
+        Me.ReasonLabel.Size = New System.Drawing.Size(61, 17)
         Me.ReasonLabel.TabIndex = 2
         Me.ReasonLabel.Text = "Reason:"
         '
@@ -81,9 +85,10 @@ Partial Class XfdForm
         Me.Notify.AutoSize = True
         Me.Notify.Checked = True
         Me.Notify.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.Notify.Location = New System.Drawing.Point(12, 158)
+        Me.Notify.Location = New System.Drawing.Point(16, 194)
+        Me.Notify.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.Notify.Name = "Notify"
-        Me.Notify.Size = New System.Drawing.Size(89, 17)
+        Me.Notify.Size = New System.Drawing.Size(115, 21)
         Me.Notify.TabIndex = 4
         Me.Notify.Text = "Notify creator"
         Me.Notify.UseVisualStyleBackColor = True
@@ -94,45 +99,49 @@ Partial Class XfdForm
         Me.Category.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.Category.FormattingEnabled = True
         Me.Category.Items.AddRange(New Object() {"(Nominator unsure of category)", "Media and music", "Organisation, corporation, or product", "Biographical", "Society topics", "Web or internet", "Games or sports", "Technology and science", "Fiction and the arts", "Places and transportation", "Indiscernible or unclassifiable topic"})
-        Me.Category.Location = New System.Drawing.Point(197, 155)
+        Me.Category.Location = New System.Drawing.Point(263, 191)
+        Me.Category.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.Category.MaxDropDownItems = 12
         Me.Category.Name = "Category"
-        Me.Category.Size = New System.Drawing.Size(201, 21)
+        Me.Category.Size = New System.Drawing.Size(267, 24)
         Me.Category.TabIndex = 6
         '
         'CategoryLabel
         '
         Me.CategoryLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.CategoryLabel.AutoSize = True
-        Me.CategoryLabel.Location = New System.Drawing.Point(139, 159)
+        Me.CategoryLabel.Location = New System.Drawing.Point(185, 196)
+        Me.CategoryLabel.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.CategoryLabel.Name = "CategoryLabel"
-        Me.CategoryLabel.Size = New System.Drawing.Size(52, 13)
+        Me.CategoryLabel.Size = New System.Drawing.Size(69, 17)
         Me.CategoryLabel.TabIndex = 5
         Me.CategoryLabel.Text = "Category:"
         '
         'NominationTypeLabel
         '
         Me.NominationTypeLabel.AutoSize = True
-        Me.NominationTypeLabel.Location = New System.Drawing.Point(9, 9)
+        Me.NominationTypeLabel.Location = New System.Drawing.Point(12, 11)
+        Me.NominationTypeLabel.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.NominationTypeLabel.Name = "NominationTypeLabel"
-        Me.NominationTypeLabel.Size = New System.Drawing.Size(86, 13)
+        Me.NominationTypeLabel.Size = New System.Drawing.Size(114, 17)
         Me.NominationTypeLabel.TabIndex = 0
         Me.NominationTypeLabel.Text = "Nomination type:"
         '
         'NominationType
         '
         Me.NominationType.AutoSize = True
-        Me.NominationType.Location = New System.Drawing.Point(93, 9)
+        Me.NominationType.Location = New System.Drawing.Point(124, 11)
+        Me.NominationType.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.NominationType.Name = "NominationType"
-        Me.NominationType.Size = New System.Drawing.Size(36, 13)
+        Me.NominationType.Size = New System.Drawing.Size(47, 17)
         Me.NominationType.TabIndex = 1
         Me.NominationType.Text = "Article"
         '
         'XfdForm
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(410, 218)
+        Me.ClientSize = New System.Drawing.Size(547, 268)
         Me.Controls.Add(Me.NominationType)
         Me.Controls.Add(Me.NominationTypeLabel)
         Me.Controls.Add(Me.CategoryLabel)
@@ -144,6 +153,7 @@ Partial Class XfdForm
         Me.Controls.Add(Me.Cancel)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.KeyPreview = True
+        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "XfdForm"

@@ -32,9 +32,10 @@ Partial Class ClosingForm
         '
         Me.Status.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Status.Location = New System.Drawing.Point(12, 82)
+        Me.Status.Location = New System.Drawing.Point(16, 101)
+        Me.Status.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Status.Name = "Status"
-        Me.Status.Size = New System.Drawing.Size(295, 21)
+        Me.Status.Size = New System.Drawing.Size(393, 26)
         Me.Status.TabIndex = 0
         Me.Status.Text = " "
         '
@@ -42,10 +43,11 @@ Partial Class ClosingForm
         '
         Me.Progress.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Progress.Location = New System.Drawing.Point(12, 106)
+        Me.Progress.Location = New System.Drawing.Point(16, 130)
+        Me.Progress.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.Progress.Maximum = 3
         Me.Progress.Name = "Progress"
-        Me.Progress.Size = New System.Drawing.Size(295, 23)
+        Me.Progress.Size = New System.Drawing.Size(393, 28)
         Me.Progress.Step = 1
         Me.Progress.Style = System.Windows.Forms.ProgressBarStyle.Continuous
         Me.Progress.TabIndex = 1
@@ -53,7 +55,8 @@ Partial Class ClosingForm
         'Logo
         '
         Me.Logo.Image = Global.Huggle.My.Resources.Resources.huggle_logo
-        Me.Logo.Location = New System.Drawing.Point(0, -1)
+        Me.Logo.Location = New System.Drawing.Point(50, 1)
+        Me.Logo.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.Logo.Name = "Logo"
         Me.Logo.Size = New System.Drawing.Size(320, 80)
         Me.Logo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
@@ -62,13 +65,14 @@ Partial Class ClosingForm
         '
         'ClosingForm
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(319, 141)
+        Me.ClientSize = New System.Drawing.Size(425, 174)
         Me.Controls.Add(Me.Logo)
         Me.Controls.Add(Me.Progress)
         Me.Controls.Add(Me.Status)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
+        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "ClosingForm"
