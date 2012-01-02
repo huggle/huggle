@@ -4,23 +4,23 @@ name:                      Persian
 
 === General ===
 <pre>
-add:                       اضافه
-apply:                     اعمال کردن
-cancel:                    انصراف
-clear:                     پاک کردن
+add:                       افزودن
+apply:                     اعمال‌کردن
+cancel:                    لغو
+clear:                     پاک‌کردن
 close:                     بستن
 continue:                  ادامه
 copy:                      رونوشت
 delete:                    حذف
 error:                     خطا
-exit:                      خارج شدن
-minimizewindow:            کوچک نمایی
+exit:                      خروج
+minimizewindow:            کوچک‌نمایی
 no:                        خیر
-ok:                        OK
-remove:                    حذف کردن
+ok:                        تأیید
+remove:                    حذف‌کردن
 rename:                    تغییر نام
 restorewindow:             بازگردانی
-save:                      ذخیره کردن
+save:                      ذخیره‌کردن
 selectfile:                مرور...
 yes:                       بله
 </pre>
@@ -31,15 +31,15 @@ edittype-blocknote:        جلوگیری از پیغام‌ها
 edittype-deletenote:       پیغام‌های درخواست حذف
 edittype-deletetag:        Deletion discussion tags
 edittype-deletereq:        Other deletion discussion edits
-edittype-manual:           Manual edits
-edittype-message:          User messages
+edittype-manual:           ویرایش‌های دستی
+edittype-message:          پیام‌های کاربر
 edittype-note:             Other notifications
 edittype-prodtag:          Proposed deletion tags
-edittype-protectreq:       Protection requests
-edittype-report:           Reports
-edittype-revert:           Reverts
-edittype-speedytag:        Speedy deletion tags
-edittype-tag:              Other tags
+edittype-protectreq:       درخواست‌های مافظت
+edittype-report:           گزارش‌ها
+edittype-revert:           واگردانی‌ها
+edittype-speedytag:        برچسب حذف سریع
+edittype-tag:              برچسب‌های دیگر
 edittype-warning:          خطاها
 </pre>
 
@@ -96,12 +96,12 @@ config-showtooltips:       Show tooltips on menus
 config-shownewmessages:    Show new messages bar
 config-shortcutlist:       Keyboard shortcuts
 config-shortcutaction:     عمل
-config-shortcut:           میان‌بر
+config-shortcut:           میانبر
 config-changeshortcut:     تغییر میان‌بر برای {0}
 config-noshortcut:         هیچ
 config-defaults:           پیش‌فرض‌ها
-config-minor:              Mark as minor
-config-watchlist:          Add to watchlist
+config-minor:              نشانه‌گذاری به عنوان جزئی
+config-watchlist:          افزودن به پی‌گیری‌ها
 config-defaultsummary:     Default summary for manual edits
 config-undosummary:        Summary when undoing own edits
 config-confirmmultiple:    Confirm multiple reversions of an edit by the same user
@@ -123,7 +123,7 @@ config-reportprompt:       Prompt for report
 config-reportauto:         Issue report automatically
 config-templates:          User template messages
 config-templatetext:       Display text
-config-template:           Template
+config-template:           الگو
 config-highlightgroup:     Syntax highlight colors
 config-useadminfunctions:  Use administrator functions if available
 config-promptforblock:     Prompt for block if asked to warn a user with a final warning
@@ -141,17 +141,17 @@ config-shortcutconflict:   Shortcut '{0}' conflicts with the existing shortcut f
 <pre>
 delete-title:              حذف {0}
 delete-reason:             دلیل:
-delete-deletionlog:        سیاهه حذف:
+delete-deletionlog:        سیاههٔ حذف:
 </pre>
 
 === Edit form ===
 <pre>
-edit-title:                Editing {0}
-edit-summary:              Summary:
-edit-minor:                Minor edit
+edit-title:                در حال ویرایش {0}
+edit-summary:              خلاصهٔ ویرایش:
+edit-minor:                ویرایش جزئی
 edit-watch:                Watch this page
-edit-page:                 Page
-edit-edit:                 Edit
+edit-page:                 صفحه
+edit-edit:                 ویرایش
 edit-view:                 View
 edit-page-savetofile:      Save to file...
 edit-page-save:            Save
@@ -162,18 +162,18 @@ edit-edit-cut:             Cut
 edit-edit-copy:            Copy
 edit-edit-paste:           Paste
 edit-edit-delete:          Delete
-edit-edit-selectall:       Select All
+edit-edit-selectall:       انتخاب همه
 edit-edit-find:            Find
 edit-view-syntax:          Syntax colouring
 edit-matchcase:            Match case
 edit-find:                 Find:
-edit-replace:              Replace:
-edit-findnext:             Next
-edit-findprevious:         Previous
-edit-replaceall:           Replace all
-edit-edittab:              Edit
-edit-previewtab:           Preview
-edit-changestab:           Changes
+edit-replace:              جایگزینی:
+edit-findnext:             بعدی
+edit-findprevious:         قبلی
+edit-replaceall:           جایگزینی همه
+edit-edittab:              ویرایش
+edit-previewtab:           پیش‌نمایش
+edit-changestab:           تغییرات
 edit-searchnotfound:       Phrase not found
 edit-searchwrapstart:      Reached end of page, continued from top
 edit-searchwrapend:        Reached top of page, continued from end
@@ -182,7 +182,7 @@ edit-searchwrapend:        Reached top of page, continued from end
 === E-mail form ===
 <pre>
 email-title:               E-mail {0}
-email-subject:             Subject:
+email-subject:             عنوان:
 email-message:             Message:
 email-ccme:                E-mail me a copy of this message
 email-send:                Send
@@ -227,17 +227,17 @@ list-title:                List Builder
 
 === Login ===
 <pre>
-login-language:            Language:
+login-language:            زبان:
 login-project:             Project:
-login-username:            Username:
-login-password:            Password:
+login-username:            نام کاربری:
+login-password:            گذرواژه:
 login-proxygroup:          Proxy settings
 login-proxy:               Use a proxy server
-login-proxyaddress:        Address:
+login-proxyaddress:        نشانی:
 login-proxyport:           Port:
-login-proxydomain:         Domain:
+login-proxydomain:         دامنه:
 login-start:               Login
-login-translate:           Translate...
+login-translate:           ترجمه...
 login-captchatitle:        Captcha required to log in
 
 login-progress-start:      Logging in...
@@ -252,7 +252,7 @@ login-error-age:           Use of Huggle on this project requires an account at 
 login-error-alldisabled:   Huggle is currently disabled on all projects.
 login-error-approval:      Use of Huggle on this project requires approval.
 login-error-autoconfirmed: Use of Huggle on this project requires that your account is autoconfirmed.
-login-error-cancelled:     Cancelled.
+login-error-cancelled:     لغو شد.
 login-error-captcha:       Incorrect password or confirmation code.
 login-error-config:        Failed to load configuration pages.
 login-error-count:         Use of Huggle on this project requires at least {0} edits.
@@ -274,12 +274,12 @@ login-error-whitelist:     Failed to load user whitelist.
 
 === Main window ===
 <pre>
-main-page:                 Page
-main-user:                 User
-main-contribs:             Contribs
-main-history:              History
+main-page:                 صفحه
+main-user:                 کاربر
+main-contribs:             مشارکت‌ها
+main-history:              تاریخچه
 main-new-messages:         You have new messages; select System -> Show new messages or press M to view them.
-main-system:               System
+main-system:               سامانه
 main-system-messages:      Show new messages
 main-system-reconnectirc:  Reconnect IRC feed
 main-system-savelog:       Save log...
@@ -293,7 +293,7 @@ main-system-options:       Options...
 main-system-logout:        Log out
 main-system-exit:          Exit
 main-queue:                Queue
-main-queue-next:           Next
+main-queue-next:           بعدی
 main-queue-trim:           Trim
 main-queue-clear:          Clear current
 main-queue-count:          {0} items
@@ -301,14 +301,14 @@ main-queue-query:          Running query...
 main-queue-reset:          Reset
 main-queue-clearall:       Clear all
 main-queue-options:        Manage Queues...
-main-goto:                 Go to
-main-goto-mytalk:          My talk page
-main-goto-mycontribs:      My contributions
+main-goto:                 برو به
+main-goto-mytalk:          صفحهٔ بحث من
+main-goto-mycontribs:      مشارکت‌های من
 main-revision:             Revision
-main-revision-view:        View
-main-revision-revert:      Revert
-main-revision-previous:    Previous
-main-revision-next:        Next
+main-revision-view:        نمایش
+main-revision-revert:      واگردانی
+main-revision-previous:    قبلی
+main-revision-next:        بعدی
 main-revision-latest:      Latest
 main-revision-sight:       Sight
 main-page-switchtotalk:    Switch to talk page
@@ -317,17 +317,17 @@ main-page-switchtoarticle: Switch to article
 main-page-viewlatest:      View latest revision
 main-page-history:         Retrieve history
 main-page-historypage:     Show history page
-main-page-edit:            Edit
-main-page-tag:             Tag
-main-page-reqdeletion:     Request deletion
-main-page-reqprotection:   Request protection
-main-page-watch:           Watch
+main-page-edit:            ویرایش
+main-page-tag:             برچسب
+main-page-reqdeletion:     درخواست حذف
+main-page-reqprotection:   درخواست محافظت
+main-page-watch:           پی‌گیری
 main-page-unwatch:         Unwatch
 main-page-purge:           Purge
 main-page-patrol:          Mark patrolled
-main-page-move:            Move...
-main-page-protect:         Protect...
-main-page-delete:          Delete...
+main-page-move:            انتقال...
+main-page-protect:         محافظت...
+main-page-delete:          حذف...
 main-user-info:            Show user info
 main-user-ignore:          Ignore
 main-user-unignore:        Unignore
@@ -336,7 +336,7 @@ main-user-talk:            View talk page
 main-user-message:         Message...
 main-user-email:           E-mail...
 main-user-warn:            Warn...
-main-user-report:          Report
+main-user-report:          گزارش
 main-user-block:           Block...
 main-browser:              Browser
 main-browser-newtab:       New tab
@@ -347,11 +347,11 @@ main-browser-forward:      Forward
 main-browser-open:         View this in external browser
 main-browser-newedits:     Show new edits to page
 main-browser-newcontribs:  Show new contributions by user
-main-help:                 Help
+main-help:                 راهنما
 main-help-documentation:   Documentation
 main-help-feedback:        Feedback
 main-help-about:           About Huggle...
-main-addqueue:             Add...
+main-addqueue:             افزودن...
 main-savelogtitle:         Save log
 main-usermessageother:     Other message...
 main-advanced:             Advanced...
@@ -404,7 +404,7 @@ message-autosign:          Automatically append signature
 
 === Move form ===
 <pre>
-move-title:                Move {0}
+move-title:                انتقال {0}
 move-target:               Destination:
 move-reason:               Reason:
 move-movetalk:             Move talk page
@@ -418,7 +418,7 @@ prod-reason:               Reason:
 
 === Protect form ===
 <pre>
-protect-title:             Protect {0}
+protect-title:             محافظت {0}
 protect-request-title:     Request protection of {0}
 protect-reason:            Reason:
 protect-expiry:            Expiry:
@@ -497,7 +497,7 @@ requests-query:            Query
 
 === Report form ===
 <pre>
-report-title:              Report {0}
+report-title:              گزارش {0}
 report-reason:             Reason:
 report-message:            Message:
 report-log:                Warnings for this user:
@@ -541,7 +541,7 @@ speedy-notifycreator:      Notify page creator
 
 === Statistics form ===
 <pre>
-stats-title:               Statistics
+stats-title:               آمار
 stats-actions:             Actions this session:
 stats-session:             Session time: {0}
 stats-edits:               Edits

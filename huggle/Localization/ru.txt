@@ -23,6 +23,8 @@ restorewindow:             Восстановить
 save:                      Сохранить
 selectfile:                Открыть...
 yes:                       Да
+agf:                       Revert as good faith edit with custom reason
+import:                    Импорт с глобальной конфигурации
 </pre>
 
 === Edit types ===
@@ -75,6 +77,7 @@ closing-config:            Обновление подстраницы наст�
 
 === Configuration form ===
 <pre>
+config-summ:               Custom revert summaries for templates
 config-title:              Настройки
 config-rememberme:         Помнить мой логин
 config-rememberpassword:   Помнить мой пароль
@@ -132,6 +135,7 @@ config-blocktime:          Срок блокировки по умолчанию
 config-blocktimeanon:      анонимные участники
 config-blocktimereg:       зарегистрированные участники
 config-summaryprompt:      Введите описание правки
+config-history:            Загружать всю историю всех статей
 config-defaultsprompt:     Восстановить умолчания?
 config-logbrowsetitle:     Расположение файла журнала
 config-shortcutconflict:   Комбинация '{0}' конфликтует с другой комбинацией клавиш: '{1}'.
@@ -142,6 +146,8 @@ config-shortcutconflict:   Комбинация '{0}' конфликтует с 
 delete-title:              Удалить {0}
 delete-reason:             Причина:
 delete-deletionlog:        Журнал удалений:
+delete-rem-talk:           Delete associated talk
+delete-notify:             Уведомление автору
 </pre>
 
 === Edit form ===
@@ -304,9 +310,11 @@ main-queue-options:        Настройки очередей...
 main-goto:                 Перейти
 main-goto-mytalk:          Моя страница обсуждения
 main-goto-mycontribs:      Мой вклад
+main-revision-decline:     Отклонить правку
 main-revision:             Правка
 main-revision-view:        Просмотр
 main-revision-revert:      Отмена
+main-revision-faith:       Отменить AGF
 main-revision-previous:    Предыдущая
 main-revision-next:        Следующая
 main-revision-latest:      Последняя
@@ -328,6 +336,7 @@ main-page-patrol:          Патрулировать
 main-page-move:            Переименовать...
 main-page-protect:         Защитить...
 main-page-delete:          Удалить...
+main-page-restore:         Восстановить эту версию статьи
 main-user-info:            Показать информацию об участнике
 main-user-ignore:          Добавить в белый список
 main-user-unignore:        Удалить из белого списка
@@ -390,6 +399,7 @@ main-tip-usermessage:      Отправить сообщение участни�
 main-tip-userignore:       Не показывать правки участника в дальнейшем
 main-tip-userreport:       Доложить об участнике
 main-tip-userblock:        Блокировать участника
+main-revision-acceptpend:  Accept this pending revision
 </pre>
 
 === Message form ===

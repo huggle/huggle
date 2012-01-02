@@ -4,22 +4,22 @@ name:                      മലയാളം
 
 === General ===
 <pre>
-add:                       Add
-apply:                     Apply
+add:                       ചേര്‍ക്കുക 
+apply:                     പ്രയോഗിക്കുക
 cancel:                    റദ്ദാക്കുക
-clear:                     Clear
-close:                     Close
-continue:                  Continue
-copy:                      Copy
-delete:                    Delete
-error:                     Error
-exit:                      Exit
-minimizewindow:            Minimize
+clear:                     വൃത്തിയാക്കുക
+close:                     അടയ്‌ക്കുക
+continue:                  തുടരുക
+copy:                      പകര്‍ത്തുക
+delete:                    മായ്ക്കുക
+error:                     പിശക്‌
+exit:                      നിര്‍ഗ്ഗമനം
+minimizewindow:            ചുരുക്കുക
 no:                        അല്ല
 ok:                        ശരി
 remove:                    നീക്കം ചെയ്യുക
 rename:                    പുനർനാമകരണം ചെയ്യുക
-restorewindow:             Restore
+restorewindow:             വീണ്ടെടുക്കുക
 save:                      സേവ്
 selectfile:                Browse...
 yes:                       അതെ
@@ -27,17 +27,17 @@ yes:                       അതെ
 
 === Edit types ===
 <pre>
-edittype-blocknote:        Block notifications
-edittype-deletenote:       Deletion request notifications
+edittype-blocknote:        മുന്നറിയിപ്പുകൾ തടയുക
+edittype-deletenote:       മുന്നറിയിപ്പിനായുള്ള അപേക്ഷ മായ്കുക
 edittype-deletetag:        Deletion discussion tags
 edittype-deletereq:        Other deletion discussion edits
-edittype-manual:           Manual edits
-edittype-message:          User messages
-edittype-note:             Other notifications
+edittype-manual:           സ്വാഭാവികമായ തിരുത്തൽ
+edittype-message:          ഉപയോക്താവിനുള്ള സന്ദേശങ്ങള്‍
+edittype-note:             മറ്റ് മുന്നറിയിപ്പുകൾ
 edittype-prodtag:          Proposed deletion tags
 edittype-protectreq:       Protection requests
-edittype-report:           Reports
-edittype-revert:           Reverts
+edittype-report:           വൃത്താന്തരേഖകള്‍
+edittype-revert:           പൂര്‍വസ്ഥിതിയാക്കലുകള്‍
 edittype-speedytag:        Speedy deletion tags
 edittype-tag:              Other tags
 edittype-warning:          മുന്നറിയിപ്പുകൾ
@@ -45,21 +45,21 @@ edittype-warning:          മുന്നറിയിപ്പുകൾ
 
 === About form ===
 <pre>
-about-contributors:        Contributors:
+about-contributors:        സംഭാവകര്‍:
 </pre>
 
 === Block form ===
 <pre>
 block-title:               Block {0}
 block-reason:              കാരണം:
-block-duration:            Duration:
-block-message:             Talk page message:
+block-duration:            കാലദൈർഘ്യം:
+block-message:             സംവാദ താള്‍ സന്ദേശം:
 block-anononly:            Block anonymous users only
 block-creation:            Block account creation
 block-autoblock:           Enable autoblocks
 block-email:               Block e-mail
-block-usertalk:            Talk
-block-usercontribs:        Contribs
+block-usertalk:            സംവാദം
+block-usercontribs:        സംഭവനകൾ
 block-blockloglabel:       Block log:
 block-warnloglabel:        മുന്നറിയിപ്പുകൾ:
 block-sharedipwarning:     Note: {0} is tagged as a shared or dynamic IP address.
@@ -75,9 +75,9 @@ closing-config:            Updating configuration subpage...
 
 === Configuration form ===
 <pre>
-config-title:              Options
-config-rememberme:         Remember my username
-config-rememberpassword:   Remember my password
+config-title:              ഐച്ഛികങ്ങള്‍
+config-rememberme:         എന്റെ ഉപയോക്തൃനാമം ഓര്‍മിക്കുക
+config-rememberpassword:   എന്റെ രഹസ്യവാക്ക്  ഓര്‍മിക്കുക
 config-autowhitelist:      Automatically whitelist users
 config-openinbrowser:      Open browser links in new browser window
 config-shownewedits:       Show new edits to the selected page as they are made
@@ -146,12 +146,12 @@ delete-deletionlog:        Deletion log:
 
 === Edit form ===
 <pre>
-edit-title:                Editing {0}
+edit-title:                തിരുത്തൽ {0}
 edit-summary:              Summary:
-edit-minor:                Minor edit
-edit-watch:                Watch this page
-edit-page:                 Page
-edit-edit:                 Edit
+edit-minor:                ചെറിയ തിരുത്തലുകൾ
+edit-watch:                ഈ താൾ ശ്രദ്ധിക്കുക:
+edit-page:                 താൾ:
+edit-edit:                 തിരുത്ത്:
 edit-view:                 View
 edit-page-savetofile:      Save to file...
 edit-page-save:            Save
@@ -166,14 +166,14 @@ edit-edit-selectall:       Select All
 edit-edit-find:            Find
 edit-view-syntax:          Syntax colouring
 edit-matchcase:            Match case
-edit-find:                 Find:
+edit-find:                 തിരയുക:
 edit-replace:              Replace:
-edit-findnext:             Next
-edit-findprevious:         Previous
+edit-findnext:             അടുത്തത്:
+edit-findprevious:         മുൻപുള്ളത്:
 edit-replaceall:           Replace all
 edit-edittab:              Edit
 edit-previewtab:           Preview
-edit-changestab:           Changes
+edit-changestab:           മാറ്റങ്ങൾ:
 edit-searchnotfound:       Phrase not found
 edit-searchwrapstart:      Reached end of page, continued from top
 edit-searchwrapend:        Reached top of page, continued from end
@@ -181,11 +181,11 @@ edit-searchwrapend:        Reached top of page, continued from end
 
 === E-mail form ===
 <pre>
-email-title:               E-mail {0}
-email-subject:             Subject:
-email-message:             Message:
-email-ccme:                E-mail me a copy of this message
-email-send:                Send
+email-title:               ഇ-മെയിൽ {0}
+email-subject:             വിഷയം:
+email-message:             സന്ദേശം:
+email-ccme:                ഈ സന്ദേശത്തിന്റെ ഒരു പകർപ്പു എനിക്കും അയയ്ക്കുക:
+email-send:                അയയ്ക്കുക:
 </pre>
 
 === IRC feed ===
@@ -229,11 +229,11 @@ list-title:                List Builder
 <pre>
 login-language:            Language:
 login-project:             Project:
-login-username:            Username:
-login-password:            Password:
+login-username:            ഉപയോക്തൃനാമം:
+login-password:            രഹസ്യവാക്ക്:
 login-proxygroup:          Proxy settings
 login-proxy:               Use a proxy server
-login-proxyaddress:        Address:
+login-proxyaddress:        വിലാസം:
 login-proxyport:           Port:
 login-proxydomain:         Domain:
 login-start:               Login
@@ -274,8 +274,8 @@ login-error-whitelist:     Failed to load user whitelist.
 
 === Main window ===
 <pre>
-main-page:                 Page
-main-user:                 User
+main-page:                 താള്‍
+main-user:                 ഉപയോക്താവ്
 main-contribs:             Contribs
 main-history:              History
 main-new-messages:         You have new messages; select System -> Show new messages or press M to view them.
@@ -484,12 +484,12 @@ queuetrim-ageunit:         minutes
 
 === Requests form ===
 <pre>
-requests-title:            അപേക്ഷകൾ
-requests-cancelall:        എല്ലം റദ്ദാക്കുക
-requests-cancelled:        റദ്ദാക്കി
-requests-inprogress:       In progress
+requests-title:            അപേക്ഷകൾ:
+requests-cancelall:        എല്ലം റദ്ദാക്കുക:
+requests-cancelled:        റദ്ദാക്കി:
+requests-inprogress:       പുരോഗമിക്കുന്നു:
 requests-failed:           Failed
-requests-completed:        Completed
+requests-completed:        പൂർത്തിയായി:
 requests-time:             സമയം
 requests-type:             Type
 requests-query:            Query

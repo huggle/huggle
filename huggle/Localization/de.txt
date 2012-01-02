@@ -147,7 +147,7 @@ delete-deletionlog:        Löschlogbuch:
 === Edit form ===
 <pre>
 edit-title:                Bearbeiten von {0}
-edit-summary:              Zusammenfassung und Quellen:
+edit-summary:              Z & Q:
 edit-minor:                Nur Kleinigkeiten wurden verändert
 edit-watch:                Beobachten
 edit-page:                 Seite
@@ -237,7 +237,7 @@ login-proxyaddress:        Adresse:
 login-proxyport:           Port:
 login-proxydomain:         Domäne:
 login-start:               Einloggen
-login-translate:           Übersetze...
+login-translate:           Huggle übersetzen
 login-captchatitle:        CAPTCHA benötigt zum Login
 
 login-progress-start:      Logge ein...
@@ -260,9 +260,9 @@ login-error-disabled:      Huggle ist für diesen Account nicht aktiviert, überpr
 login-error-global:        Konnte globale Konfigurations-Seite nicht laden.
 login-error-invalid:       Ungültiger Benutzername.
 login-error-language:      Konnte Nachrichten-Dateien nicht laden.
-login-error-nocaptcha:     CAPTCHA nicht gelöst.
+login-error-nocaptcha:     CAPTCHA wurde nicht gelöst.
 login-error-nouser:        Benutzer existiert nicht.
-login-error-password:      Falsches Password.
+login-error-password:      Falsches Passwort.
 login-error-projdisabled:  Huggle ist auf diesem Projekt zur Zeit deaktiviert.
 login-error-rollback:      Benutzung von Huggle auf diesem Projekt erfordert "rollback"-Rechte.
 login-error-unknown:       Anmeldung fehlgeschlagen.

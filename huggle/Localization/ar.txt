@@ -9,7 +9,7 @@ apply:                     طبِّق
 cancel:                    ألغِ
 clear:                     امحُ
 close:                     أغلق
-continue:                  واصل
+continue:                  إستمر
 copy:                      انسخ
 delete:                    احذف
 error:                     خطأ
@@ -23,6 +23,8 @@ restorewindow:             استعد
 save:                      احفظ
 selectfile:                اختر ملفا
 yes:                       نعم
+agf:                    استرجع, حسن نية, مع تخصيص السبب
+import:                 استورد من اعدادات موحدة
 </pre>
 
 === Edit types ===
@@ -45,12 +47,12 @@ edittype-warning:          إنذارات
 
 === About form ===
 <pre>
-about-contributors:        المساهمون:
+about-contributors:        المطورون:
 </pre>
 
 === Block form ===
 <pre>
-block-title:               منع {0}
+block-title:               منع {0} ء
 block-reason:              السبب:
 block-duration:            المدة:
 block-message:             رسالة نقاش المستخدم:
@@ -62,9 +64,9 @@ block-usertalk:            نقاش
 block-usercontribs:        مساهمات
 block-blockloglabel:       سجل المنع:
 block-warnloglabel:        إنذارات:
-block-sharedipwarning:     Note: {0} is tagged as a shared or dynamic IP address.
+block-sharedipwarning:     ملاحظة:{0} تم وسمه كعنوان اي بي مشترك.
 block-sensitivewarning:    عنوان الأي بي هذا يعتبر "حساسا" للسبب التالي:\n\n   {0}\n\nالمتابعة رغم ذلك?
-block-rangeblockwarning:   {0} is already affected by a rangeblock on {1}.\nThis block will override the effect of the rangeblock. Continue?
+block-rangeblockwarning:   هذا المنع سيتجاوز الضرر الناتج في نطاق المنع. إستمر؟\n .تأثر {0} بالفعل من نطاق المنع على {1} ء
 </pre>
 
 === Closing form ===
@@ -75,10 +77,11 @@ closing-config:           تحديث الصفحة الفرعية للإعداد�
 
 === Configuration form ===
 <pre>
+config-summ:               تخصيص استرجاع ملخصات القوالب
 config-title:              خيارات
-config-rememberme:         تذكر اسم مستخدمي
+config-rememberme:         تذكر اسم المستخدم
 config-rememberpassword:   تذكر كلمة المرور
-config-autowhitelist:      ضع المستخدمين في القائمة البيضاء تلقائيا
+config-autowhitelist:      مستخدمون (القائمة البيضاء) تلقائيا
 config-openinbrowser:      افتح وصلات التصفح في صفحات متصفح جديدة
 config-shownewedits:       أظهر التحريرات الجديدة في الصفحة المحددة وقت حدوثها
 config-preloads:           فعل التحميل المسبق للفروق
@@ -97,7 +100,7 @@ config-shownewmessages:    اعرض شريط الرسائل الجديدة
 config-shortcutlist:       مفاتيخ الاختصار
 config-shortcutaction:     إجراء
 config-shortcut:           مختصر
-config-changeshortcut:     غير المختصر {0}
+config-changeshortcut:     غير الاختصار لـ {0}ء
 config-noshortcut:         لا شيء
 config-defaults:           مبدئيات
 config-minor:              طفيف
@@ -109,7 +112,7 @@ config-confirmsame:        أكد الرجوع إلى تعديل قام به ن�
 config-confirmselfrevert:  أكد الرجوع عن تعديلاتك الخاصة (ما عدا التراجع)
 config-confirmwarned:      أكد استرجاعا إلى تعديل قام به مستخدم تم تحذيره
 config-confirmrange:       أكد الرجوع إلى تعديل قام به مجهول من نفس /16 نطاق المستخدم الذي تسترجع تعديله
-config-confirmpage:        Confirm reversion of ignored pages
+config-confirmpage:        اكد الرجوع في الصفحات التي تم تجاهلها
 config-autoadvance:        بعد الرجوع، اذهب إلى الصفحة التالية في الطابور
 config-userollback:        استعمل خاصية الاسترجاع إن أمكن
 config-revertsummaries:    الرجوع عن ملخصات موجودة في القائمة
@@ -119,12 +122,12 @@ config-extendreports:      مدد الإخطار بعد تخريب إضافي
 config-autoreportgroup:    إخطار تلقائي
 config-autoreport:         حين إنذار المستخدم إنذارا نهائيا
 config-reportnone:         لا تفعل شيئا
-config-reportprompt:       سل عن الإخطار
+config-reportprompt:       إخطار فوري 
 config-reportauto:         قم بالإخطار تلقائيا
 config-templates:          قوالب رسائل المستخدم
 config-templatetext:       اعرض النص
 config-template:           قالب
-config-highlightgroup:     ألوان إبراز الصياغة
+config-highlightgroup:     ألوان إبراز الصيغة
 config-useadminfunctions:  استخدم الصلاحيات الإدارية إن أمكن
 config-promptforblock:     سل عن المنع عند تحذير مستخدم مع إنذار نهائي
 config-blockreason:        سبب المنع المبدئي
@@ -134,19 +137,19 @@ config-blocktimereg:       مستخدمون مسجلون
 config-summaryprompt:      أدخل ملخصا
 config-defaultsprompt:     استرجاع المبدئيات?
 config-logbrowsetitle:     موقع ملف السجل
-config-shortcutconflict:   المختصر '{0}' يتعارض مع مختصر موجود لـ '{1}'.
+config-shortcutconflict:   المختصر '{0}' يتعارض مع مختصر موجود لـ '{1}'.ء
 </pre>
 
 === Delete form ===
 <pre>
-delete-title:              احذف {0}
+delete-title:              احذف {0}ء
 delete-reason:             سبب:
 delete-deletionlog:        سجل الحذف:
 </pre>
 
 === Edit form ===
 <pre>
-edit-title:                تعديل {0}
+edit-title:                تعديل {0}ء
 edit-summary:              ملخص:
 edit-minor:                تعديل طفيف
 edit-watch:                راقب هذه الصفحة
@@ -181,7 +184,7 @@ edit-searchwrapend:        وصلنا بداية الصفحة، بعد المت�
 
 === E-mail form ===
 <pre>
-email-title:               راسل {0}
+email-title:               راسل {0}ء
 email-subject:             الموضوع:
 email-message:             الرسالة:
 email-ccme:                أرسل لي نسخة
@@ -193,8 +196,8 @@ email-send:                أرسل
 irc-connected:             تم الاتصال بتلقيم آي آر سي لأحدث التغييرات
 irc-connecting:            قيد الاتصال بتلقيم آي آر سي لأحدث التغييرات؛ قد يستغرق الأمر برهة
 irc-disconnected:          انقطع الاتصال بتلقيم آي آر سي لأحدث التغييرات؛ معاودة الاتصال
-irc-nochannel:             IRC channel for {0} not found; using slower API queries instead
-irc-error:                 تعذر الاتصال بتلقيم آي آر سي لأحدث التغييرات. Using slower API queries instead
+irc-nochannel:             قناة آي آر سي ل{0} غير موجودة؛ استخدام استعلامات واجهة برمجة تطبيقات أبطأ بدلاً منها
+irc-error:                 تعذر الاتصال بملقم آي آر سي لأحدث التغييرات. استخدام استعلامات واجهة برمجة تطبيقات أبطأ بدلاً منها
 </pre>
 
 === List form ===
@@ -204,12 +207,12 @@ list-browsetitle:          أضف ملفا نصيا للقائمة
 list-combine:              اجمع
 list-copyto:               انسخ إلى
 list-count:                {0} عناصر
-list-deleteconfirm:        هل أحذف القائمة '{0}'?
+list-deleteconfirm:        هل أحذف القائمة '{0}'؟
 list-duplicatename:        هنالك قائمة بالاسم '{0}'. اختر اسما آخر.
 list-intersect:            تقاطع
 list-limit:                حتى:
 list-listempty:            لا عناصر في القائمة\nأدخل مصدرا وانقر على "أضف"
-list-nolists:              No lists defined\nClick "Add" to create one
+list-nolists:              لايوجد قوائم محددة\nأنقر على "أضف" لإنشاء قائمة
 list-query-cancelled:      تم إلغاؤه.
 list-query-fail:           فشل الاستعلام.
 list-query-noresults:      الاستعلام لم يرجع نتائجا.
@@ -238,20 +241,20 @@ login-proxyport:           منفذ:
 login-proxydomain:         نطاق:
 login-start:               ولوج
 login-translate:           ترجم...
-login-captchatitle:        Captcha required to log in
+login-captchatitle:        يتطلب الولوج كابتشا
 
 login-progress-start:      قيد الولوج...
 login-progress-language:   ملفات الرسائل قيد التحديث...
 login-progress-global:     الخيارات العمومية قيد الفحص...
 login-progress-config:     صفحات الخيارات قيد الفحص...
 login-progress-userlist:   قائمة المستخدمين قيد الفحص...
-login-progress-whitelist:  Retrieving user whitelist...
+login-progress-whitelist:  قيد استرجاع القائمة البيضاء للمستخدم...
 
 login-error-admin:         استخدام Huggle في هذا المشروع يحتاج حسابا إداريا.
 login-error-age:           استخدام Huggle في هذا المشروع يحتاج حسابا عمره {0} يوما على الأقل.
 login-error-alldisabled:   تم تعطيل Huggle حاليا في كل المشاريع.
 login-error-approval:      استخدام Huggle في هذا المشروع يحتاج تصديقا.
-login-error-autoconfirmed: Use of Huggle on this project requires that your account is autoconfirmed.
+login-error-autoconfirmed: استخدام Huggle في هذا المشروع يستلزم ان يكون حسابك مستخدم مؤكد تلقائياً
 login-error-cancelled:     ملغى.
 login-error-captcha:       خطأ في كلمة السر أو كود التصديق
 login-error-config:        فشل تحميل صفحات الخيارات.
@@ -260,7 +263,7 @@ login-error-disabled:      Huggle غير مفعلة في حسابك، راجع �
 login-error-global:        تعذر تحميل صفحة الخيارات العمومية.
 login-error-invalid:       اسم مستخدم خاطئ.
 login-error-language:      تعذر تحميل ملفات الرسائل.
-login-error-nocaptcha:     Captcha not solved.
+login-error-nocaptcha:     الكابتشا لم تحل.
 login-error-noconfig:      ليس لهذا المشروع صفحة خيارات لبرمجية Huggle.
 login-error-nouser:        مستخدم غير موجود.
 login-error-password:      كلمة سر خاطئة.
@@ -269,7 +272,7 @@ login-error-rollback:      استخدام Huggle في هذا المشروع يت
 login-error-unknown:       تعذر الولوج.
 login-error-userlist:      تعذر تحميل قائمة المستخدمين.
 login-error-version:       هذا الإصدار قديم، يرجى تحديث البرمجية.
-login-error-whitelist:     تعذر تحميل القائمة المستخدمين البيضاء.
+login-error-whitelist:     تعذر تحميل قائمة المستخدمون البيضاء
 </pre>
 
 === Main window ===
@@ -278,7 +281,7 @@ main-page:                 الصفحة
 main-user:                 مستخدم
 main-contribs:             مساهمات
 main-history:              تاريخ
-main-new-messages:         لديك رسائل جديدة؛ اختر النظام -> اعرض الرسائل الجديدة or press M to view them.
+main-new-messages:         لديك رسائل جديدة؛ اختر النظام -> اعرض الرسائل الجديدة أو اضغط (م) لعرضهم
 main-system:               النظام
 main-system-messages:      اعرض الرسائل الجديدة
 main-system-reconnectirc:  عاود الاتصال بتلقيم آي آر سي
@@ -291,7 +294,7 @@ main-system-showqueue:     أظهر الطابور
 main-system-showtwoqueues: أظهر طابورين
 main-system-options:       الخيارات...
 main-system-logout:        خروج
-main-system-exit:          Exit
+main-system-exit:          خروج
 main-queue:                طابور
 main-queue-next:           تالي
 main-queue-trim:           تقليم
@@ -310,7 +313,7 @@ main-revision-revert:      استرجاع
 main-revision-previous:    سابق
 main-revision-next:        تالي
 main-revision-latest:      الأخير
-main-revision-sight:       Sight
+main-revision-sight:       ناظر
 main-page-switchtotalk:    حول إلى صفحة النقاش
 main-page-switchtosubject: حول إلى صفحة الموضوع
 main-page-switchtoarticle: حول إلى المقالة
@@ -318,71 +321,71 @@ main-page-viewlatest:      شاهد المراجعة الأخيرة
 main-page-history:         اجلب التاريخ
 main-page-historypage:     أظهر صفحة التاريخ
 main-page-edit:            عدل
-main-page-tag:             Tag
+main-page-tag:             وسم
 main-page-reqdeletion:     اطلب الحذف
 main-page-reqprotection:   اطلب الحماية
 main-page-watch:           راقب
-main-page-unwatch:         Unwatch
-main-page-purge:           Purge
+main-page-unwatch:         لا تراقب
+main-page-purge:           امسح اختزان الصفحة
 main-page-patrol:          علم كمراجعة
 main-page-move:            انقل...
 main-page-protect:         احم...
 main-page-delete:          احذف...
 main-user-info:            أظهر معلومات المستخدم
 main-user-ignore:          تجاهل
-main-user-unignore:        Unignore
-main-user-contribs:        Retrieve contributions
+main-user-unignore:        لا تتجاهل
+main-user-contribs:        استرد المساهمات
 main-user-talk:            معاينة نقاش المستخدم
 main-user-message:         رسالة...
 main-user-email:           بريد إلكتروني...
 main-user-warn:            نبه...
-main-user-report:          Report
+main-user-report:          أبلغ
 main-user-block:           امنع...
 main-browser:              متصفح
-main-browser-newtab:       New tab
-main-browser-closetab:     Close tab
-main-browser-closeothers:  Close other tabs
-main-browser-back:         Back
-main-browser-forward:      Forward
-main-browser-open:         View this in external browser
+main-browser-newtab:       صفحة تبويب جديدة
+main-browser-closetab:     اغلق صفحة التبويب
+main-browser-closeothers:  اغلق صفحات التبويب الأخرى
+main-browser-back:         خلف
+main-browser-forward:      أمام
+main-browser-open:         عرض هذا في متصفح خارجي
 main-browser-newedits:     أظهر التعديلات الجديدة للصفحة
 main-browser-newcontribs:  أظهر مساهمات المستخدم الجديدة
 main-help:                 مساعدة
-main-help-documentation:   Documentation
-main-help-feedback:        Feedback
+main-help-documentation:   المستندات
+main-help-feedback:        رأيك
 main-help-about:           عن Huggle...
 main-addqueue:             أضف...
 main-savelogtitle:         احفظ السجل
 main-usermessageother:     رسالة أخرى...
 main-advanced:             متقدّم...
-main-stats:                {0} edits per minute, {1} reverts per minute
+main-stats:                {0} حرر في الدقيقة, {1} استرجع في الدقيقة
 
 main-tip-revertwarn:       استرجع هذه النسخة ونبه المستخدم
-main-tip-nextdiff:         Show the next revision in the queue
-main-tip-revert:           استرجع هذه النسخة
-main-tip-template:         Send template message to user
+main-tip-nextdiff:         اظهر النسخة التالية في الصف
+main-tip-revert:           اجلب هذه النسخة
+main-tip-template:         أرسل رسالة قالب الى المستخدم
 main-tip-warn:             نبه المستخدم
-main-tip-cancel:           Cancel all pending actions
-main-tip-undo:             Undo recent actions
-main-tip-browserback:      Back
-main-tip-browserforward:   Forward
-main-tip-browseropen:      View this in external browser
-main-tip-browsernewtab:    New tab
-main-tip-browserclosetab:  Close tab
-main-tip-history:          Retrieve page history
-main-tip-historyprev:      Show previous revision to this page
-main-tip-historynext:      Show next revision to this page
-main-tip-historylast:      Show latest revision to this page
-main-tip-historydifftocur: Show diff between this revision and the latest revision to this page
-main-tip-contribs:         Retrieve user contributions
-main-tip-contribsprev:     Show previous revision by this user
-main-tip-contribsnext:     Show next revision by this user
-main-tip-contribslast:     Show latest revision by this user
+main-tip-cancel:           إلغ جميع إجراءات النسخ المعلقة
+main-tip-undo:             تراجع عن الإجراءات الأخيرة
+main-tip-browserback:      خلف
+main-tip-browserforward:   أمام
+main-tip-browseropen:      اعرض هذا في متصفح خارجي
+main-tip-browsernewtab:    افتح صفحة تبويب جديدة
+main-tip-browserclosetab:  اغلق صفحة التبويب
+main-tip-history:          اجلب تاريخ الصفحة
+main-tip-historyprev:      اعرض النسخة السابقة لهذه الصفحة
+main-tip-historynext:      اعرض النسخة التالية لهذه الصفحة
+main-tip-historylast:      اعرض اخر نسخة لهذه الصفحة
+main-tip-historydifftocur: اظهر الاختلاف بين هذه النسخة واخر نسخة
+main-tip-contribs:         اجلب مساهمات المستخدم
+main-tip-contribsprev:     اظهر النسخة السابقة بواسطة هذا المستخدم
+main-tip-contribsnext:     اظهر النسخة التالية بواسطة هذا المستخدم
+main-tip-contribslast:     اظهر اخر نسخة بواسطة هذا المستخدم
 main-tip-pageview:         عاين هذه النسخة
 main-tip-pageedit:         عدل هذه الصفحة
 main-tip-pagewatch:        راقب هذه الصفحة
-main-tip-pagetag:          Tag this page
-main-tip-pagetagdelete:    Tag this page for deletion
+main-tip-pagetag:          اوسم هذه الصغحة
+main-tip-pagetagdelete:    وسم هذه الصفحة للشطب
 main-tip-pagedelete:       احذف هذه الصفحة
 main-tip-userinfo:         أظهر معلومات عن المستخدم
 main-tip-usertalk:         أظهر صفحة نقاش المستخدم
@@ -394,7 +397,7 @@ main-tip-userblock:        امنع هذا المستخدم
 
 === Message form ===
 <pre>
-message-title:             رسالة {0}
+message-title:             رسالة {0}ء
 message-help:              حدد العنوان أو الملخص او كلاهما. لدى انعدام الملخص سيتم استخدام العنوان؛ لدى انعدام العنوان لن تتم إضافة ترويسة
 message-subject:           العنوان:
 message-message:           الرسالة:
@@ -404,7 +407,7 @@ message-autosign:          ذيل التوقيع تلقائيا.
 
 === Move form ===
 <pre>
-move-title:                انقل {0}
+move-title:                انقل {0}ء
 move-target:               الوجهة:
 move-reason:               السبب:
 move-movetalk:             انقل صفحة النقاش
@@ -412,16 +415,16 @@ move-movetalk:             انقل صفحة النقاش
 
 === Prod form ===
 <pre>
-prod-title:                ترشيح حذف {0}
+prod-title:                ترشيح حذف {0}ء
 prod-reason:               السبب:
 </pre>
 
 === Protect form ===
 <pre>
-protect-title:             احمِ {0}
-protect-request-title:     طلب حماية {0}
+protect-title:             احمِ {0}ء
+protect-request-title:     طلب حماية {0}ء
 protect-reason:            السبب:
-protect-expiry:            Expiry:
+protect-expiry:            إنتهاء:
 protect-log:               سجل الحماية:
 protect-currentlevel:      درجة الحماية الحالية:
 protect-type:              نوعية الحماية:
@@ -433,9 +436,9 @@ protect-moveprotection:    حماية من النقل
 
 === Queue form ===
 <pre>
-queue-title:               طوابير
+queue-title:               عنوان:
 queue-queues:              طوابير:
-queue-typegroup:           نوع الطابور
+queue-typegroup:           نوع الطابور:
 queue-listselector:        قائمة:
 queue-listbuilder:         باني القوائم...
 queue-sortorder:           نظام الفرز:
@@ -448,37 +451,37 @@ queue-ignorepages:         تجاهل تعديلات الصفحات الموجو
 queue-traynotification:    أظهر إعلاما في لوحة النظام عند إضافة مراجعة لهذا الطابور
 queue-diffsgroup:          فرق
 queue-nodiffs:             حمل الفروق فقط عند معاينة المراجعة
-queue-preloaddiffs:        Preload diffs when queue is active
+queue-preloaddiffs:        حمل الفروق مسبقاً عندما يكون الطابور نشطاً
 queue-alldiffs:            حمل الفروق لكل مراجعة في الطابور
 queue-pagefiltersgroup:    مرشحات عنوان الصفحة
-queue-pageregex:           Title matches regular expression:
+queue-pageregex:           المصطلح الدائم لنتيجة البحث عن العناوين
 queue-namespaces:          اسماء النطاق:
-queue-applylabel:          Click Apply to apply these filters to the existing page list.
+queue-applylabel:          انقر على تطبيق لاضافة هذه المرشحات إلى قائمة صفحة موجودة.
 queue-editfiltersgroup:    عدل المرشحات
-queue-userregex:           Username matches regular expression:
-queue-summaryregex:        Summary matches regular expression:
+queue-userregex:           المصطلح الدائم لنتيجة البحث عن اسم مستخدم:
+queue-summaryregex:        المصطلح الدائم لنتيجة البحث عن ملخص:
 queue-filternewpage:       صفحة جديدة
-queue-filterownuserspace:  User's own userspace
+queue-filterownuserspace:  مساحة المستخدم
 queue-filteranonymous:     مستخدم مجهول
 queue-filterignored:       مستخدم متجاهل
 queue-filterreverts:       استرجع
-queue-filternotifications: Notification
+queue-filternotifications: إشعار
 queue-filterwarnings:      تحذير
 queue-filtertags:          وسم
 queue-filterbot:           تعديل بوت
-queue-filterassisted:      Assisted edit
-queue-filterhuggle:        Huggle edit
+queue-filterassisted:      مساعدة التحرير
+queue-filterhuggle:        Huggle تحرير
 queue-filterme:            تعديلي
-queue-examplelabel1:       Require this attribute
-queue-examplelabel2:       Exclude this attribute
-queue-examplelabel3:       Don't check this attribute
+queue-examplelabel1:       يستدعي خاصية
+queue-examplelabel2:       الغاء خاصية
+queue-examplelabel3:       لا تفحص هذه الخاصية
 queue-usergroup:           أظهر تعديلات هؤلاء المستخدمين فقط
 </pre>
 
 === Queue trim form ===
 <pre>
-queuetrim-title:           Trim queue
-queuetrim-age:             Discard all queued revisions older than
+queuetrim-title:           تقليم الطابور
+queuetrim-age:             تجاهل كل النسخ في الطابور اقدم من
 queuetrim-ageunit:         دقائق
 </pre>
 
@@ -491,13 +494,13 @@ requests-inprogress:       قيد التنفيذ
 requests-failed:           فشل
 requests-completed:        تم
 requests-time:             وقت
-requests-type:             Type
-requests-query:            Query
+requests-type:             نمط
+requests-query:            استعلام
 </pre>
 
 === Report form ===
 <pre>
-report-title:              أخطر عن {0}
+report-title:              أخطر عن {0}ء
 report-reason:             السبب:
 report-message:            الرسالة:
 report-log:                التنبيهات لهذا المستخدم:
@@ -505,7 +508,7 @@ report-log:                التنبيهات لهذا المستخدم:
 
 === Revert form ===
 <pre>
-revert-title:              استرجع {0}
+revert-title:              استرجع {0}ء
 revert-summary:            ملخص الاسترجاع (اتركه فارغا للنص الافتراضي):
 revert-currentonly:        استرجع النسخة المعلّمة فقط
 </pre>
@@ -517,25 +520,25 @@ revertandwarn-title:       استرجع ونبه {0}
 
 === Reverting ===
 <pre>
-revert-confirm-ignored:    Revert edit by whitelisted user '{0}'?
-revert-confirm-multiple:   هذا سيسترجع تعديلات متعددة لـ '{0}'. أتريد الاستمرار?
-revert-confirm-range:      The author of the target revision, {1}, is in the same range as the author of the current revision, {0}, and may be the same person; ensure the target revision is correct before proceeding. Continue?
-revert-confirm-page:       Revert edit to ignored page '{0}'?
-revert-confirm-same:       This will revert to another revision by the user that is being reverted, {0}. Continue?
-revert-confirm-self:       This will revert your own edit. Continue?
-revert-confirm-warned:     This will revert to a revision by {0}; this user has previously been warned. Continue?
-revert-error-first:        Edit is the first edit to the page; unable to revert.
-revert-only:               Edit is the only edit to the page.
-revert-creator:            Last edit was made by page creator, {0}.
-revert-delete-instead:     Delete page instead?
-revert-speedy-instead:     Tag for speedy deletion instead?
+revert-confirm-ignored:    استرجع التعديل بواسطة مستخدم في القائمة البيضاء '{0}'؟
+revert-confirm-multiple:   هذا سيسترجع تعديلات متعددة لـ '{0}'. استمر؟
+revert-confirm-range:      مؤلف النسخة المستهدفة, {1}, في نفس نطاق مؤلف النسخة الحالية, {0}, وقد يكون نفس الشخص; لضمان أن النسخة المستهدفة صحيحة قبل الاستمرار. استمر؟
+revert-confirm-page:       استرجع التعديل لتجاهل الصفحة '{0}'؟
+revert-confirm-same:       هذا سيسترجع الى نسخة اخرى بواسطة نفس المستخدم , {0} . استمر؟
+revert-confirm-self:       هذا سيسترجع تعديلك, استمر؟
+revert-confirm-warned:     هذا سيسترجع الى نسخه بواسطة {0} , هذا المستخدم تلقى تحذير مؤخراً, استمر؟
+revert-error-first:        هذا اول تحرير للصفحة, لايمكن الاسترجاع
+revert-only:               هذا التعديل الوحيد للصفحة
+revert-creator:            اخر تعديل على الصفحة تم بواسطة الذي أنشأ الصفحة,{0} .ء
+revert-delete-instead:     احذف الصفحة بدلاً عن ذلك؟
+revert-speedy-instead:     وسم الصفحة للشطب السريع بدلاً عن ذلك؟
 </pre>
 
 === Speedy form ===
 <pre>
 speedy-title:              {0} شطب
 speedy-reason:             السبب:
-speedy-parameters:         Parameters:
+speedy-parameters:         المعلمة:
 speedy-notifycreator:      أعلم منشئ الصفحة
 </pre>
 
@@ -543,10 +546,10 @@ speedy-notifycreator:      أعلم منشئ الصفحة
 <pre>
 stats-title:               إحصائيات
 stats-actions:             العمليات في الجلسة الحالية:
-stats-session:             زمن الجلسة: {0}
+stats-session:             زمن الجلسة: {0}ء
 stats-edits:               تعديلات
-stats-assisted:            Assisted edits
-stats-huggle:              Huggle edits
+stats-assisted:            مساعدة التحرير
+stats-huggle:              Huggle تحرير
 stats-reverts:             استرجاعات
 stats-warnings:            تحذيرات
 stats-reports:             تقارير
@@ -565,9 +568,9 @@ stats-other:               آخر
 
 === Tag form ===
 <pre>
-tag-title:                 وسم {0}
+tag-title:                 وسم {0}ء
 tag-tagselector:           أضف وسم:
-tag-tags:                  Tag(s):
+tag-tags:                  عدة وسوم:
 tag-summary:               تعديل:
 tag-insertatend:           أضف في نهاية الصفحة
 </pre>
@@ -575,30 +578,30 @@ tag-insertatend:           أضف في نهاية الصفحة
 === Update form ===
 <pre>
 update-title:              يوجد إصدار جديد
-update-notification:       This version of Huggle is out of date.
-update-required:           You must update to the latest version, {0}.
-update-optional:           Updating to the latest version, {0}, is recommended, and may be required in future.
-update-prompt:             Download and run the latest version now?
+update-notification:       هذا الاصدار من Huggle يحتاج الى تحديث
+update-required:           يجب تحديثه الى اخر اصدار, {0}.ء
+update-optional:           التحديث الى اخر اصدار, {0}, موصى به, وقد يكون مطلوب مستقبلاً.
+update-prompt:             تنزيل وتشغيل اخر اصدار؟
 update-download:           تحديث
-update-progress:           تحميل نسخة جديدة. . .
-update-error:              فشل في تحميل النسخة الجديدة
+update-progress:           جاري تنزيل الاصدار الجديد. . .
+update-error:              فشل تنزيل الاصدار الجديد
 </pre>
 
 === User info form ===
 <pre>
-userinfo-title:            معلومات المستخدم '{0}'
+userinfo-title:            معلومات المستخدم '{0}'ء
 userinfo-anonymous:        مجهولون:
 userinfo-ignored:          اللائحة البيضاء:
 userinfo-edits:            عدد التعديلات:
 userinfo-sessionedits:     التعديلات خلال الجلسة:
-userinfo-sharedip:         Shared/dynamic IP:
+userinfo-sharedip:         اي بي مشترك:
 userinfo-blocklog:         منع:
 userinfo-warnlog:          تحذيرات:
 </pre>
 
 === Warning form ===
 <pre>
-warning-title:             حذّر {0}
+warning-title:             حذّر {0}ء
 warning-levelgroup:        مستوى التحذير
 warning-levelauto:         تلقائي
 warning-level1:            المستوى 1
@@ -620,9 +623,9 @@ xfd-reason:                السبب:
 
 === Web requests ===
 <pre>
-error-apidisabled:         The MediaWiki API is disabled
-error-exception:           خطأ في جلب '{0}'
-error-fail:                تعذر جلب '{0}'
+error-apidisabled:         تم تعطيل واجهة برمجة التطبيقات لميدياويكي
+error-exception:           خطأ في جلب '{0}'ء
+error-fail:                تعذر جلب '{0}'ء
 error-loggedout:           تم الخروج من الحساب، قيد تسجيل الدخول...
 error-noresponse:          لا رد
 error-pagemissing:         الصفحة غير موجودة
@@ -632,137 +635,137 @@ error-unknown:             خطأ غير معروف
 
 retrying:                  قيد إعادة المحاولة...
 
-block-done:                تم المنع '{0}'
-block-fail:                لم يتم المنع '{0}'
-block-progress:            قيد المنع '{0}'...
+block-done:                تم المنع '{0}'ء
+block-fail:                لم يتم المنع '{0}'ء
+block-progress:            قيد المنع '{0}'...ءء
 
-blocklog-fail:             تعذر جلب سجل المنع لـ '{0}'
-blocklog-none:             لا يوجد سجل منع لـ '{0}'
-blocklog-progress:         جلب سجل المنع لـ '{0}'...
+blocklog-fail:             تعذر جلب سجل المنع لـ '{0}'ء
+blocklog-none:             لا يوجد سجل منع لـ '{0}'ء
+blocklog-progress:         جلب سجل المنع لـ '{0}'...ء
 
 blocknotify-fail:          لم يتم تبليغ '{0}' عن المنع
 blocknotify-progress:      قيد تبليغ '{0}' عن المنع...
 
-delete-done:               تم حذف '{0}'
-delete-fail:               لم يتم حذف '{0}'
-delete-progress:           قيد الحذف '{0}'...
+delete-done:               تم حذف '{0}'ء
+delete-fail:               لم يتم حذف '{0}'ء
+delete-progress:           قيد الحذف '{0}'...ء
 
-deletelog-fail:            تعذر جلب سجل حذف '{0}'
-deletelog-none:            لا سجل حذف لـ '{0}'
-deletelog-progress:        يجلب سجل حذف '{0}'...
+deletelog-fail:            تعذر جلب سجل حذف '{0}'ء
+deletelog-none:            لا يوجد سجل حذف لـ '{0}ء
+deletelog-progress:        يجلب سجل حذف '{0}'...ء
 
 diff-deleted:              تم حذف هذه النسخة.
-diff-fail:                 تعذر جلب الفرق '{0}'
+diff-fail:                 تعذر جلب الفرق '{0}'ء
 
 reqdelete-duplicate:       سبق أن تم وسم هذه الصفحة
-reqdelete-tagfail:         Did not tag '{0}' for deletion discussion
-reqdelete-redirectfail:    The page is a redirect and no redirect discussion process is defined
-reqdelete-tagprogress:     Tagging '{0}' for deletion discussion...
+reqdelete-tagfail:         لم يتم وسم '{0}' لنقاش الحذف
+reqdelete-redirectfail:    الصفحة هي تحويلة ولكن لايوجد نقاش معين عن نقل الصفحة
+reqdelete-tagprogress:     قيد وسم '{0}' لمناقشة الحذف
 
-reqdelete-subpageprogress: Creating deletion discussion subpage for '{0}'...
-reqdelete-subpagefail:     Did not create deletion discussion subpage for '{0}'
-reqdelete-logprogress:     Adding '{0}' to deletion discussion log...
-reqdelete-logfail:         Did not add '{0}' to deletion discussion log
+reqdelete-subpageprogress: انشىء صفحة نقاش فرعية ل '{0}'ء
+reqdelete-subpagefail:     لم تنشىء صفحة نقاش فرعية ل '{0}'ء
+reqdelete-logprogress:     قيد اضافة  '{0}' لسجل نقاش الحذف
+reqdelete-logfail:         لم تضف '{0}' الى سجل نقاش الحذف
 
-edit-fail:                 Did not edit '{0}'
-edit-progress:             Editing '{0}'...
+edit-fail:                 لم تعدل  '{0}'ء
+edit-progress:             قيد تعديل '{0}'...ء
 
-email-done:                Sent e-mail to '{0}'
-email-fail:                Failed to send e-mail to '{0}'
-email-progress:            Sending e-mail to '{0}'...
+email-done:                تم ارسال ايميل الى '{0}'ء
+email-fail:                فشل ارسال ايميل الى '{0}'ء
+email-progress:            قيد ارسال ايميل الى '{0}'...ء
 
-history-fail:              Failed to retrieve history of '{0}'
-history-progress:          Retrieving history of '{0}' ({1})...
+history-fail:              فشل جلب تاريخ '{0}'ء
+history-progress:          قيد جلب تاريخ '{0}'ء
 
-move-done:                 Moved '{0}' to '{1}'
-move-fail:                 Did not move '{0}' to '{1}'
-move-progress:             Moving '{0}' to '{1}'...
+move-done:                 تم نقل '{0}' الى '{1}'
+move-fail:                 لم يتم نقل '{0}' الى '{1}'
+move-progress:             قيد نقل '{0}' الى '{1}'...
 
-notify-fail:               Did not notify the creator of '{0}'
-notify-unknowncreator:     لا يستطيع إيجاد منشئ الصفحة
+notify-fail:               لم تشعر منشىء '{0}'ء
+notify-unknowncreator:     لا يمكن العثور على منشئ الصفحة
 
-patrol-duplicate:          The page is already patrolled
-patrol-done:               Marked '{0}' as patrolled
-patrol-fail:               Did not mark '{0}' as patrolled
-patrol-notfound:           Cannot find recent-changes id, page is too old
-patrol-progress:           Marking '{0}' as patrolled...
+patrol-duplicate:          الصفحة بالفعل مراجعة
+patrol-done:               تم تعليم '{0}' كصفحة مراجعة
+patrol-fail:               لم تعلم الصفحة '{0}' كمراجعة
+patrol-notfound:           لا  يمكن العثور على معرف لاخر تغييرات, الصفحة قديمة جداً
+patrol-progress:           يتم الان تعليم '{0}' كمراجعه...
 
-protect-done:              Changed protection level for '{0}'
-protect-fail:              Did not change protection level for '{0}'
-protect-progress:          Changing protection level for '{0}'...
+protect-done:              غير مستوى الحماية لـ '{0}'ء
+protect-fail:              لم تغير مستوى الحماية لـ '{0}'ء
+protect-progress:          قيد تغيير مستوى الحماية لـ '{0}'...ء
 
-protectlog-fail:           Failed to retrieve protection log for '{0}'
-protectlog-none:           No protection log for '{0}'
-protectlog-progress:       Retrieving protection log for '{0}'...
+protectlog-fail:           فشل جلب سجل الحماية لـ '{0}'ء
+protectlog-none:           لايوجد سجل حماية لـ '{0}'ء
+protectlog-progress:       قيد جلب سجل الحماية لـ '{0}'...ء
 
-purge-done:                Purged '{0}'
-purge-fail:                Failed to purge '{0}'
-purge-progress:            Purging '{0}'
+purge-done:                محو اختزان '{0}'ء
+purge-fail:                فشل محو اختزان '{0}'ء
+purge-progress:            يتم الان محو اختزان '{0}'ء
 
-queue-refresh-fail:        Error refreshing queue '{0}'
+queue-refresh-fail:        خطأ في اعادة تحديث الطابور '{0}'ء
 
-report-duplicate:          The user has already been reported
-report-fail:               Did not report '{0}'
-report-progress:           Reporting '{0}'...
+report-duplicate:          تم الاخطار عن هذا المستخدم
+report-fail:               لم يتم الاخطار عن '{0}'ء
+report-progress:           قيد اخطار اداري عن '{0}'...ء
 
-saveuserconfig-done:       Updated user configuration page
-saveuserconfig-fail:       Did not update user configuration page
-saveuserconfig-progress:   Updating user configuration page...
+saveuserconfig-done:       حدث صفحة اعدادات المستخدم
+saveuserconfig-fail:       لم تحدث صفحة اعدادات المستخدم 
+saveuserconfig-progress:   يتم الان تحديث صفحة اعدادات المستخدم...
 
-loadglobalconfig-fail:     Failed to load global configuration page
-loadprojectconfig-fail:    Failed to load project configuration page
-loaduserconfig-fail:       Failed to load user configuration page
+loadglobalconfig-fail:     فشل تحميل صفحة الاعدادات الموحدة
+loadprojectconfig-fail:    فشل تحميل صفحة اعدادات المشروع
+loaduserconfig-fail:       فشل تحميل صفحة اعدادات المستخدم
 
-reqprotection-badformat:   Format of request page unknown
-reqprotection-duplicate:   Protection has already been requested
-reqprotection-fail:        Did not request protection of '{0}'
-reqprotection-progress:    Requesting protection of '{0}'...
+reqprotection-badformat:   صيغة الصفحة المطلوبة غير معروفة
+reqprotection-duplicate:   تم طلب الحماية بالفعل
+reqprotection-fail:        لم يتم طلب الحماية لـ'{0}'ء
+reqprotection-progress:    قيد طلب طلب الحماية لـ'{0}'...ء
 
-revert-cannotundo:         Cannot undo due to conflicting intermediate edits
-revert-conflict:           The page was edited by ignored user '{0}'
-revert-fail:               Did not revert '{0}'
-revert-nochange:           The content of the target revision is identical to that of the current revision
-revert-nootheruser:        No other user has edited the page
-revert-progress:           Reverting '{0}'...
+revert-cannotundo:         لا يمكن التراجع بسبب وجود تعديلات متوسطة التناقض
+revert-conflict:           تم تعديل الصفحة بواسطة مستخدم متجاهل '{0}'ء
+revert-fail:               لم يتم استرجاع '{0}'ء
+revert-nochange:           محتوى النسخة المستهدفة مطابق لمحتوى النسخة الحالية
+revert-nootheruser:        لايوجد مستخدم اخر قام بتعديل الصفحة
+revert-progress:           قيد الاسترجاع '{0}'...ء
 
-tag-alreadytagged:         The page has already been tagged
-tag-deleted:               The page has been deleted
-tag-fail:                  Did not tag '{0}'
-tag-progress:              Tagging '{0}'...
+tag-alreadytagged:         تم وسم الصفحة بالفعل
+tag-deleted:               تم حذف الصفحة
+tag-fail:                  لم يتم وسم '{0}'ء
+tag-progress:              قيد وسم '{0}'...ء
 
-sight-done:                Marked revision {0} of '{1}' as sighted
-sight-fail:                Failed to sight revision {0} of '{1}'
-sight-progress:            Marking revision {0} of '{1}' as sighted
+sight-done:                تم تعليم النسخة {0} من '{1}' كنسخة منظورة
+sight-fail:                فشل تعليم النسخة {0} كنسخة منظورة من '{1}'
+sight-progress:            قيد تعليم النسخة {0} من '{1}' كنسخة منظورة
 
-speedy-fail:               Did not tag '{0}' for speedy deletion
-speedy-progress:           Tagging '{0}' for speedy deletion...
+speedy-fail:               لم يتم وسم '{0}' للحذف السريع
+speedy-progress:           قيد وسم '{0}' للحذف السريع...
 
-warnlog-fail:              Failed to retrieve warning log for '{0}'
-warnlog-none:              '{0}' has not been warned
-warnlog-progress:          Retrieving warning log for '{0}'...
+warnlog-fail:              فشل جلب سجل الانذار لـ '{0}'ء
+warnlog-none:              '{0}' لم يسبق انذار
+warnlog-progress:          قيد جلب سجل الانذار '{0}'...ء
 
-unwatch-done:              Removed '{0}' from watchlist
-unwatch-fail:              Failed to remove '{0}' from watchlist
-unwatch-progress:          Removing '{0}' from watchlist...
+unwatch-done:              تم استبعاد '{0}' من قائمة المراقبة
+unwatch-fail:              فشل استبعاد '{0}' من قائمة المراقبة
+unwatch-progress:          قيد استبعاد '{0}' من قائمة المراقبة...
 
-usermessage-duplicate:     A message about the same thing was already present
-usermessage-fail:          Did not message '{0}'
-usermessage-progress:      Messaging '{0}'...
+usermessage-duplicate:     رسالة موجودة عن نفس الشيء 
+usermessage-fail:          لم يتم ارسال رسالة '{0}'ء
+usermessage-progress:      قيد ارسال رسالة '{0}'...ء
 
-watch-done:                Added '{0}' to watchlist
-watch-fail:                Failed to add '{0}' to watchlist
-watch-progress:            Adding '{0}' to watchlist...
+watch-done:                تمت اضافة '{0}' الى قائمة المراقبة
+watch-fail:                فشل اضافة '{0}' الى قائمة المراقبة   
+watch-progress:            قيد اضافة '{0}' الى قائمة المراقبة...
 
-warn-alreadyfinal:         The user already has a final warning
-warn-alreadyblocked:       The user has already been blocked
-warn-alreadyreported:      The user has already been reported
-warn-oldedit:              The user has not edited since their latest warning
-warn-recent:               The user was warned less than {0} seconds ago
-warn-fail:                 Did not warn '{0}'
-warn-progress:             تحذير '{0}'...
+warn-alreadyfinal:         المستخدم تلقى التحذير الاخير بالفعل
+warn-alreadyblocked:       تم منع المستخدم بالفعل
+warn-alreadyreported:      تم الابلاغ عن المستخدم بالفعل
+warn-oldedit:              المستخدم لم يعدل منذ اخر انذار
+warn-recent:               تم انذار المستخدم قبل اقل من {0} ثواني
+warn-fail:                 لم يتم انذار '{0}'ء
+warn-progress:             انذار '{0}'...ء
 </pre>
 
 === API ===
 <pre>
-api-help:                  No parameters in API query
+api-help:                  لايوجد شيء معلم في قائمة استعلام واجهة برمجة التطبيقات
 </pre>
