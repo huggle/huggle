@@ -354,7 +354,7 @@ namespace huggle3
         /// <summary>
         /// Location of manual
         /// </summary>
-        public static string DocsLocation = "http://en.wikipedia.org/wiki/Wikipedia:Huggle";
+        public static string DocsLocation = "http://www.mediawiki.org/wiki/Manual:Huggle";
         /// <summary>
         /// DEPRECATED
         /// </summary>

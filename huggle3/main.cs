@@ -394,7 +394,21 @@ namespace huggle3
                     edit Edit;
                     Edit = _CurrentPage.LastEdit;
                     int x = historyStrip.Width - 18 + (historyStrip.Offset * Config.ItemSize);
-                    bool Enable_Scroll = true;
+                    bool Enable_Scroll = false;
+                    while (Edit != null && Edit != Core.NullEdit)
+                    {
+                        if (x < 0)
+                        {
+                            Enable_Scroll = true;
+                            break;
+                        }
+                        x -= 17;
+                        Edit = Edit.Prev;
+                    }
+                    if (_CurrentPage.FirstEdit == null)
+                    { 
+                        
+                    }
                 }
             }
             catch (Exception B)
@@ -406,7 +420,10 @@ namespace huggle3
         private void tmQueueUpdt_Tick(object sender, EventArgs e)
         {
             // update queue
-
+            if (!Config.IrcMode)
+            { 
+                
+            }
         }
 
         /// <summary>
