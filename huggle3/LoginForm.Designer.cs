@@ -169,7 +169,7 @@
             // StatusBox
             // 
             this.StatusBox.AutoSize = true;
-            this.StatusBox.Location = new System.Drawing.Point(11, 326);
+            this.StatusBox.Location = new System.Drawing.Point(13, 332);
             this.StatusBox.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.StatusBox.Name = "StatusBox";
             this.StatusBox.Size = new System.Drawing.Size(82, 17);
@@ -178,7 +178,7 @@
             // 
             // StatusBar
             // 
-            this.StatusBar.Location = new System.Drawing.Point(15, 264);
+            this.StatusBar.Location = new System.Drawing.Point(11, 298);
             this.StatusBar.Margin = new System.Windows.Forms.Padding(4);
             this.StatusBar.Name = "StatusBar";
             this.StatusBar.Size = new System.Drawing.Size(396, 30);
@@ -217,7 +217,7 @@
             // checkBox
             // 
             this.checkBox.AutoSize = true;
-            this.checkBox.Location = new System.Drawing.Point(13, 301);
+            this.checkBox.Location = new System.Drawing.Point(12, 269);
             this.checkBox.Margin = new System.Windows.Forms.Padding(4);
             this.checkBox.Name = "checkBox";
             this.checkBox.Size = new System.Drawing.Size(55, 21);

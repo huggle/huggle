@@ -60,5 +60,10 @@ namespace huggle3.Forms
         {
 
         }
+
+        private void developers_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

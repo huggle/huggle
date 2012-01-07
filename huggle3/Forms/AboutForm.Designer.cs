@@ -79,6 +79,7 @@
             this.developers.Size = new System.Drawing.Size(80, 17);
             this.developers.TabIndex = 4;
             this.developers.Text = "Developers";
+            this.developers.Click += new System.EventHandler(this.developers_Click);
             // 
             // pictureBox1
             // 
