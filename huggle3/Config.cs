@@ -3,7 +3,7 @@
 //This file contains code for
 //last modified by Addshore
 
-//Copyright (C) 2011 Huggle team
+//Copyright (C) 2011-2012 Huggle team
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by

@@ -36,9 +36,10 @@
             // 
             // btContinue
             // 
-            this.btContinue.Location = new System.Drawing.Point(355, 307);
+            this.btContinue.Location = new System.Drawing.Point(473, 378);
+            this.btContinue.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btContinue.Name = "btContinue";
-            this.btContinue.Size = new System.Drawing.Size(95, 25);
+            this.btContinue.Size = new System.Drawing.Size(127, 31);
             this.btContinue.TabIndex = 0;
             this.btContinue.Text = "Continue";
             this.btContinue.UseVisualStyleBackColor = true;
@@ -46,9 +47,10 @@
             // 
             // btExit
             // 
-            this.btExit.Location = new System.Drawing.Point(456, 307);
+            this.btExit.Location = new System.Drawing.Point(608, 378);
+            this.btExit.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btExit.Name = "btExit";
-            this.btExit.Size = new System.Drawing.Size(95, 25);
+            this.btExit.Size = new System.Drawing.Size(127, 31);
             this.btExit.TabIndex = 1;
             this.btExit.Text = "Exit";
             this.btExit.UseVisualStyleBackColor = true;
@@ -57,33 +59,37 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 26);
+            this.label1.Location = new System.Drawing.Point(16, 32);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(187, 13);
+            this.label1.Size = new System.Drawing.Size(247, 17);
             this.label1.TabIndex = 2;
             this.label1.Text = "Huggle has crashed! Bellow is the log:";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // ErrorLog
             // 
-            this.ErrorLog.Location = new System.Drawing.Point(15, 42);
+            this.ErrorLog.Location = new System.Drawing.Point(20, 52);
+            this.ErrorLog.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ErrorLog.Multiline = true;
             this.ErrorLog.Name = "ErrorLog";
             this.ErrorLog.ReadOnly = true;
             this.ErrorLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.ErrorLog.Size = new System.Drawing.Size(587, 244);
+            this.ErrorLog.Size = new System.Drawing.Size(781, 299);
             this.ErrorLog.TabIndex = 4;
             // 
             // ExceptionForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(614, 344);
+            this.ClientSize = new System.Drawing.Size(819, 423);
             this.ControlBox = false;
             this.Controls.Add(this.ErrorLog);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btExit);
             this.Controls.Add(this.btContinue);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "ExceptionForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Huggle error";

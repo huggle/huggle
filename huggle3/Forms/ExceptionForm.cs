@@ -3,7 +3,7 @@
 //This file contains code for
 //last modified by Petrb
 
-//Copyright (C) 2011 Huggle team
+//Copyright (C) 2011-2012 Huggle team
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
 //the Free Software Foundation, either version 3 of the License, or
@@ -52,6 +52,11 @@ namespace huggle3.Forms
             Core.Interrupted = false;
             System.Threading.Thread.CurrentThread.Abort();
             Close();
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

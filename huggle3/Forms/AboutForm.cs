@@ -3,7 +3,7 @@
 //This file contains code for
 //last modified by Addshore
 
-//Copyright (C) 2011 Huggle team
+//Copyright (C) 2011-2012 Huggle team
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
 //the Free Software Foundation, either version 3 of the License, or
@@ -49,6 +49,16 @@ namespace huggle3.Forms
         private void button_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Copyright_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
