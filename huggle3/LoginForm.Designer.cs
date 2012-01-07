@@ -106,7 +106,7 @@
             this.btLogin.Location = new System.Drawing.Point(13, 363);
             this.btLogin.Margin = new System.Windows.Forms.Padding(4);
             this.btLogin.Name = "btLogin";
-            this.btLogin.Size = new System.Drawing.Size(133, 31);
+            this.btLogin.Size = new System.Drawing.Size(394, 31);
             this.btLogin.TabIndex = 10;
             this.btLogin.Text = "[login-start]";
             this.btLogin.UseVisualStyleBackColor = true;
@@ -114,7 +114,7 @@
             // 
             // btExit
             // 
-            this.btExit.Location = new System.Drawing.Point(13, 401);
+            this.btExit.Location = new System.Drawing.Point(274, 418);
             this.btExit.Margin = new System.Windows.Forms.Padding(4);
             this.btExit.Name = "btExit";
             this.btExit.Size = new System.Drawing.Size(133, 31);
@@ -188,7 +188,7 @@
             // 
             this.lProxy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lProxy.AutoSize = true;
-            this.lProxy.Location = new System.Drawing.Point(297, 370);
+            this.lProxy.Location = new System.Drawing.Point(13, 400);
             this.lProxy.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lProxy.Name = "lProxy";
             this.lProxy.Size = new System.Drawing.Size(122, 17);
@@ -201,7 +201,7 @@
             // 
             this.lTranslate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lTranslate.AutoSize = true;
-            this.lTranslate.Location = new System.Drawing.Point(297, 408);
+            this.lTranslate.Location = new System.Drawing.Point(13, 431);
             this.lTranslate.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lTranslate.Name = "lTranslate";
             this.lTranslate.Size = new System.Drawing.Size(110, 17);
@@ -230,7 +230,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(427, 441);
+            this.ClientSize = new System.Drawing.Size(427, 464);
             this.Controls.Add(this.checkBox);
             this.Controls.Add(this.lTranslate);
             this.Controls.Add(this.lProxy);
