@@ -232,10 +232,9 @@
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.textName);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            if (Config._Platform == Config.platform.windows64 || Config._Platform == Config.platform.windows32)
-            {
-                this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            }
+#if WINDOWS
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+#endif
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "LoginForm";
