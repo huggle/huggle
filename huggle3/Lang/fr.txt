@@ -45,6 +45,7 @@ edittype-warning:          Avertissements
 
 === About form ===
 <pre>
+about-desc:                About Huggle
 about-contributors:        Contributeurs :
 </pre>
 

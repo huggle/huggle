@@ -45,6 +45,7 @@ edittype-warning:          خطاها
 
 === About form ===
 <pre>
+about-desc:                About Huggle
 about-contributors:        مشارکت‌ها:
 </pre>
 
