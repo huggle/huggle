@@ -22,19 +22,20 @@ Partial Class RevertForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.Cancel = New System.Windows.Forms.Button
-        Me.OK = New System.Windows.Forms.Button
-        Me.SummaryLabel = New System.Windows.Forms.Label
-        Me.Summary = New System.Windows.Forms.ComboBox
-        Me.CurrentOnly = New System.Windows.Forms.CheckBox
+        Me.Cancel = New System.Windows.Forms.Button()
+        Me.OK = New System.Windows.Forms.Button()
+        Me.SummaryLabel = New System.Windows.Forms.Label()
+        Me.Summary = New System.Windows.Forms.ComboBox()
+        Me.CurrentOnly = New System.Windows.Forms.CheckBox()
         Me.SuspendLayout()
         '
         'Cancel
         '
         Me.Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Cancel.Location = New System.Drawing.Point(354, 52)
+        Me.Cancel.Location = New System.Drawing.Point(472, 64)
+        Me.Cancel.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.Cancel.Name = "Cancel"
-        Me.Cancel.Size = New System.Drawing.Size(75, 23)
+        Me.Cancel.Size = New System.Drawing.Size(100, 28)
         Me.Cancel.TabIndex = 4
         Me.Cancel.Text = "Cancel"
         Me.Cancel.UseVisualStyleBackColor = True
@@ -42,9 +43,10 @@ Partial Class RevertForm
         'OK
         '
         Me.OK.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.OK.Location = New System.Drawing.Point(273, 52)
+        Me.OK.Location = New System.Drawing.Point(364, 64)
+        Me.OK.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.OK.Name = "OK"
-        Me.OK.Size = New System.Drawing.Size(75, 23)
+        Me.OK.Size = New System.Drawing.Size(100, 28)
         Me.OK.TabIndex = 3
         Me.OK.Text = "OK"
         Me.OK.UseVisualStyleBackColor = True
@@ -52,9 +54,10 @@ Partial Class RevertForm
         'SummaryLabel
         '
         Me.SummaryLabel.AutoSize = True
-        Me.SummaryLabel.Location = New System.Drawing.Point(12, 9)
+        Me.SummaryLabel.Location = New System.Drawing.Point(16, 11)
+        Me.SummaryLabel.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.SummaryLabel.Name = "SummaryLabel"
-        Me.SummaryLabel.Size = New System.Drawing.Size(200, 13)
+        Me.SummaryLabel.Size = New System.Drawing.Size(269, 17)
         Me.SummaryLabel.TabIndex = 0
         Me.SummaryLabel.Text = "Revert summary (leave blank for default):"
         '
@@ -65,26 +68,28 @@ Partial Class RevertForm
         Me.Summary.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest
         Me.Summary.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems
         Me.Summary.FormattingEnabled = True
-        Me.Summary.Location = New System.Drawing.Point(15, 25)
+        Me.Summary.Location = New System.Drawing.Point(20, 31)
+        Me.Summary.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.Summary.Name = "Summary"
-        Me.Summary.Size = New System.Drawing.Size(414, 21)
+        Me.Summary.Size = New System.Drawing.Size(551, 24)
         Me.Summary.TabIndex = 1
         '
         'CurrentOnly
         '
         Me.CurrentOnly.AutoSize = True
-        Me.CurrentOnly.Location = New System.Drawing.Point(15, 52)
+        Me.CurrentOnly.Location = New System.Drawing.Point(20, 64)
+        Me.CurrentOnly.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.CurrentOnly.Name = "CurrentOnly"
-        Me.CurrentOnly.Size = New System.Drawing.Size(180, 17)
+        Me.CurrentOnly.Size = New System.Drawing.Size(236, 21)
         Me.CurrentOnly.TabIndex = 2
         Me.CurrentOnly.Text = "Revert only the selected revision"
         Me.CurrentOnly.UseVisualStyleBackColor = True
         '
         'RevertForm
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(441, 85)
+        Me.ClientSize = New System.Drawing.Size(588, 105)
         Me.Controls.Add(Me.CurrentOnly)
         Me.Controls.Add(Me.Summary)
         Me.Controls.Add(Me.SummaryLabel)
@@ -92,6 +97,7 @@ Partial Class RevertForm
         Me.Controls.Add(Me.Cancel)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.KeyPreview = True
+        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "RevertForm"

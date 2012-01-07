@@ -422,4 +422,15 @@ Class EditForm
 
     End Class
 
+    Private Sub EditForm_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
+    End Sub
+
+    Private Sub PageText_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PageText.TextChanged
+
+    End Sub
+
+    Private Sub PageText_SelectionChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PageText.SelectionChanged
+
+    End Sub
 End Class

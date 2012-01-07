@@ -42,7 +42,6 @@ Partial Class EditForm
         Me.Find = New System.Windows.Forms.TextBox()
         Me.FindLabel = New System.Windows.Forms.Label()
         Me.WaitMessage = New System.Windows.Forms.Label()
-        Me.PageText = New Huggle.WikiTextBox()
         Me.EditStrip = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.EditUndo = New System.Windows.Forms.ToolStripMenuItem()
         Me.EditRedo = New System.Windows.Forms.ToolStripMenuItem()
@@ -56,9 +55,7 @@ Partial Class EditForm
         Me.EditSeparator3 = New System.Windows.Forms.ToolStripSeparator()
         Me.EditFind = New System.Windows.Forms.ToolStripMenuItem()
         Me.PreviewTab = New System.Windows.Forms.TabPage()
-        Me.Preview = New Huggle.WebBrowser()
         Me.ChangesTab = New System.Windows.Forms.TabPage()
-        Me.Diff = New Huggle.WebBrowser()
         Me.EditMenu = New System.Windows.Forms.ToolStripMenuItem()
         Me.KeystrokeTimer = New System.Windows.Forms.Timer(Me.components)
         Me.MenuBar = New System.Windows.Forms.MenuStrip()
@@ -69,6 +66,9 @@ Partial Class EditForm
         Me.PageCancel = New System.Windows.Forms.ToolStripMenuItem()
         Me.ViewMenu = New System.Windows.Forms.ToolStripMenuItem()
         Me.ViewSyntax = New System.Windows.Forms.ToolStripMenuItem()
+        Me.PageText = New Huggle.WikiTextBox()
+        Me.Preview = New Huggle.WebBrowser()
+        Me.Diff = New Huggle.WebBrowser()
         Me.Tabs.SuspendLayout()
         Me.EditTab.SuspendLayout()
         Me.FindGroup.SuspendLayout()
@@ -84,11 +84,12 @@ Partial Class EditForm
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Summary.Enabled = False
         Me.Summary.Location = New System.Drawing.Point(13, 691)
-        Me.Summary.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Summary.Margin = New System.Windows.Forms.Padding(4)
         Me.Summary.MaxLength = 250
         Me.Summary.Name = "Summary"
         Me.Summary.Size = New System.Drawing.Size(1013, 22)
         Me.Summary.TabIndex = 3
+        Me.Summary.Text = "test"
         '
         'SummaryLabel
         '
@@ -107,7 +108,7 @@ Partial Class EditForm
         Me.Minor.AutoSize = True
         Me.Minor.Enabled = False
         Me.Minor.Location = New System.Drawing.Point(553, 660)
-        Me.Minor.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Minor.Margin = New System.Windows.Forms.Padding(4)
         Me.Minor.Name = "Minor"
         Me.Minor.Size = New System.Drawing.Size(92, 21)
         Me.Minor.TabIndex = 4
@@ -120,7 +121,7 @@ Partial Class EditForm
         Me.Watch.AutoSize = True
         Me.Watch.Enabled = False
         Me.Watch.Location = New System.Drawing.Point(668, 660)
-        Me.Watch.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Watch.Margin = New System.Windows.Forms.Padding(4)
         Me.Watch.Name = "Watch"
         Me.Watch.Size = New System.Drawing.Size(132, 21)
         Me.Watch.TabIndex = 5
@@ -132,7 +133,7 @@ Partial Class EditForm
         Me.Save.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Save.Enabled = False
         Me.Save.Location = New System.Drawing.Point(818, 655)
-        Me.Save.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Save.Margin = New System.Windows.Forms.Padding(4)
         Me.Save.Name = "Save"
         Me.Save.Size = New System.Drawing.Size(100, 28)
         Me.Save.TabIndex = 6
@@ -143,7 +144,7 @@ Partial Class EditForm
         '
         Me.Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Cancel.Location = New System.Drawing.Point(926, 656)
-        Me.Cancel.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Cancel.Margin = New System.Windows.Forms.Padding(4)
         Me.Cancel.Name = "Cancel"
         Me.Cancel.Size = New System.Drawing.Size(100, 28)
         Me.Cancel.TabIndex = 7
@@ -160,7 +161,7 @@ Partial Class EditForm
         Me.Tabs.Controls.Add(Me.ChangesTab)
         Me.Tabs.ItemSize = New System.Drawing.Size(80, 20)
         Me.Tabs.Location = New System.Drawing.Point(4, 33)
-        Me.Tabs.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Tabs.Margin = New System.Windows.Forms.Padding(4)
         Me.Tabs.Name = "Tabs"
         Me.Tabs.SelectedIndex = 0
         Me.Tabs.Size = New System.Drawing.Size(1040, 597)
@@ -173,9 +174,9 @@ Partial Class EditForm
         Me.EditTab.Controls.Add(Me.WaitMessage)
         Me.EditTab.Controls.Add(Me.PageText)
         Me.EditTab.Location = New System.Drawing.Point(4, 24)
-        Me.EditTab.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.EditTab.Margin = New System.Windows.Forms.Padding(4)
         Me.EditTab.Name = "EditTab"
-        Me.EditTab.Padding = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.EditTab.Padding = New System.Windows.Forms.Padding(4)
         Me.EditTab.Size = New System.Drawing.Size(1032, 569)
         Me.EditTab.TabIndex = 0
         Me.EditTab.Text = "Edit"
@@ -195,9 +196,9 @@ Partial Class EditForm
         Me.FindGroup.Controls.Add(Me.Find)
         Me.FindGroup.Controls.Add(Me.FindLabel)
         Me.FindGroup.Location = New System.Drawing.Point(8, 504)
-        Me.FindGroup.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.FindGroup.Margin = New System.Windows.Forms.Padding(4)
         Me.FindGroup.Name = "FindGroup"
-        Me.FindGroup.Padding = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.FindGroup.Padding = New System.Windows.Forms.Padding(4)
         Me.FindGroup.Size = New System.Drawing.Size(1013, 52)
         Me.FindGroup.TabIndex = 1
         Me.FindGroup.TabStop = False
@@ -206,7 +207,7 @@ Partial Class EditForm
         '
         Me.ReplaceAll.Enabled = False
         Me.ReplaceAll.Location = New System.Drawing.Point(901, 15)
-        Me.ReplaceAll.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.ReplaceAll.Margin = New System.Windows.Forms.Padding(4)
         Me.ReplaceAll.Name = "ReplaceAll"
         Me.ReplaceAll.Size = New System.Drawing.Size(100, 28)
         Me.ReplaceAll.TabIndex = 8
@@ -228,7 +229,7 @@ Partial Class EditForm
         Me.Replace.BackColor = System.Drawing.SystemColors.Window
         Me.Replace.ForeColor = System.Drawing.SystemColors.WindowText
         Me.Replace.Location = New System.Drawing.Point(667, 17)
-        Me.Replace.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Replace.Margin = New System.Windows.Forms.Padding(4)
         Me.Replace.Name = "Replace"
         Me.Replace.Size = New System.Drawing.Size(225, 22)
         Me.Replace.TabIndex = 7
@@ -248,9 +249,9 @@ Partial Class EditForm
         '
         Me.MatchCase.AutoSize = True
         Me.MatchCase.Location = New System.Drawing.Point(475, 20)
-        Me.MatchCase.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.MatchCase.Margin = New System.Windows.Forms.Padding(4)
         Me.MatchCase.Name = "MatchCase"
-        Me.MatchCase.Size = New System.Drawing.Size(136, 26)
+        Me.MatchCase.Size = New System.Drawing.Size(102, 21)
         Me.MatchCase.TabIndex = 4
         Me.MatchCase.Text = "Match case"
         Me.MatchCase.UseVisualStyleBackColor = True
@@ -259,7 +260,7 @@ Partial Class EditForm
         '
         Me.FindPrevious.Enabled = False
         Me.FindPrevious.Location = New System.Drawing.Point(383, 15)
-        Me.FindPrevious.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.FindPrevious.Margin = New System.Windows.Forms.Padding(4)
         Me.FindPrevious.Name = "FindPrevious"
         Me.FindPrevious.Size = New System.Drawing.Size(84, 28)
         Me.FindPrevious.TabIndex = 3
@@ -270,7 +271,7 @@ Partial Class EditForm
         '
         Me.FindNext.Enabled = False
         Me.FindNext.Location = New System.Drawing.Point(291, 15)
-        Me.FindNext.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.FindNext.Margin = New System.Windows.Forms.Padding(4)
         Me.FindNext.Name = "FindNext"
         Me.FindNext.Size = New System.Drawing.Size(84, 28)
         Me.FindNext.TabIndex = 2
@@ -282,7 +283,7 @@ Partial Class EditForm
         Me.Find.BackColor = System.Drawing.SystemColors.Window
         Me.Find.ForeColor = System.Drawing.SystemColors.WindowText
         Me.Find.Location = New System.Drawing.Point(56, 17)
-        Me.Find.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Find.Margin = New System.Windows.Forms.Padding(4)
         Me.Find.Name = "Find"
         Me.Find.Size = New System.Drawing.Size(225, 22)
         Me.Find.TabIndex = 1
@@ -309,28 +310,13 @@ Partial Class EditForm
         Me.WaitMessage.Name = "WaitMessage"
         Me.WaitMessage.Size = New System.Drawing.Size(1013, 490)
         Me.WaitMessage.TabIndex = 0
-        Me.WaitMessage.Text = " "
         Me.WaitMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'PageText
-        '
-        Me.PageText.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.PageText.ContextMenuStrip = Me.EditStrip
-        Me.PageText.DetectUrls = False
-        Me.PageText.HideSelection = False
-        Me.PageText.Location = New System.Drawing.Point(8, 10)
-        Me.PageText.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
-        Me.PageText.Name = "PageText"
-        Me.PageText.Size = New System.Drawing.Size(1012, 491)
-        Me.PageText.TabIndex = 0
-        Me.PageText.Text = ""
         '
         'EditStrip
         '
         Me.EditStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EditUndo, Me.EditRedo, Me.EditSeparator1, Me.EditCut, Me.EditCopy, Me.EditPaste, Me.EditDelete, Me.EditSeparator2, Me.EditSelectAll, Me.EditSeparator3, Me.EditFind})
         Me.EditStrip.Name = "ContextMenu"
+        Me.EditStrip.OwnerItem = Me.EditMenu
         Me.EditStrip.Size = New System.Drawing.Size(141, 214)
         '
         'EditUndo
@@ -407,53 +393,25 @@ Partial Class EditForm
         '
         Me.PreviewTab.Controls.Add(Me.Preview)
         Me.PreviewTab.Location = New System.Drawing.Point(4, 24)
-        Me.PreviewTab.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.PreviewTab.Margin = New System.Windows.Forms.Padding(4)
         Me.PreviewTab.Name = "PreviewTab"
-        Me.PreviewTab.Padding = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.PreviewTab.Padding = New System.Windows.Forms.Padding(4)
         Me.PreviewTab.Size = New System.Drawing.Size(1032, 569)
         Me.PreviewTab.TabIndex = 1
         Me.PreviewTab.Text = "Preview"
         Me.PreviewTab.UseVisualStyleBackColor = True
         '
-        'Preview
-        '
-        Me.Preview.AllowWebBrowserDrop = False
-        Me.Preview.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Preview.IsWebBrowserContextMenuEnabled = False
-        Me.Preview.Location = New System.Drawing.Point(4, 4)
-        Me.Preview.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
-        Me.Preview.MinimumSize = New System.Drawing.Size(27, 25)
-        Me.Preview.Name = "Preview"
-        Me.Preview.ScriptErrorsSuppressed = True
-        Me.Preview.Size = New System.Drawing.Size(1024, 561)
-        Me.Preview.TabIndex = 0
-        Me.Preview.WebBrowserShortcutsEnabled = False
-        '
         'ChangesTab
         '
         Me.ChangesTab.Controls.Add(Me.Diff)
         Me.ChangesTab.Location = New System.Drawing.Point(4, 24)
-        Me.ChangesTab.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.ChangesTab.Margin = New System.Windows.Forms.Padding(4)
         Me.ChangesTab.Name = "ChangesTab"
-        Me.ChangesTab.Padding = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.ChangesTab.Padding = New System.Windows.Forms.Padding(4)
         Me.ChangesTab.Size = New System.Drawing.Size(1032, 569)
         Me.ChangesTab.TabIndex = 2
         Me.ChangesTab.Text = "Changes"
         Me.ChangesTab.UseVisualStyleBackColor = True
-        '
-        'Diff
-        '
-        Me.Diff.AllowWebBrowserDrop = False
-        Me.Diff.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Diff.IsWebBrowserContextMenuEnabled = False
-        Me.Diff.Location = New System.Drawing.Point(4, 4)
-        Me.Diff.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
-        Me.Diff.MinimumSize = New System.Drawing.Size(27, 25)
-        Me.Diff.Name = "Diff"
-        Me.Diff.ScriptErrorsSuppressed = True
-        Me.Diff.Size = New System.Drawing.Size(1024, 561)
-        Me.Diff.TabIndex = 1
-        Me.Diff.WebBrowserShortcutsEnabled = False
         '
         'EditMenu
         '
@@ -524,6 +482,49 @@ Partial Class EditForm
         Me.ViewSyntax.Size = New System.Drawing.Size(180, 24)
         Me.ViewSyntax.Text = "Syntax coloring"
         '
+        'PageText
+        '
+        Me.PageText.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.PageText.ContextMenuStrip = Me.EditStrip
+        Me.PageText.DetectUrls = False
+        Me.PageText.HideSelection = False
+        Me.PageText.Location = New System.Drawing.Point(8, 10)
+        Me.PageText.Margin = New System.Windows.Forms.Padding(4)
+        Me.PageText.Name = "PageText"
+        Me.PageText.Size = New System.Drawing.Size(1012, 491)
+        Me.PageText.TabIndex = 0
+        Me.PageText.Text = ""
+        '
+        'Preview
+        '
+        Me.Preview.AllowWebBrowserDrop = False
+        Me.Preview.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Preview.IsWebBrowserContextMenuEnabled = False
+        Me.Preview.Location = New System.Drawing.Point(4, 4)
+        Me.Preview.Margin = New System.Windows.Forms.Padding(4)
+        Me.Preview.MinimumSize = New System.Drawing.Size(27, 25)
+        Me.Preview.Name = "Preview"
+        Me.Preview.ScriptErrorsSuppressed = True
+        Me.Preview.Size = New System.Drawing.Size(1024, 561)
+        Me.Preview.TabIndex = 0
+        Me.Preview.WebBrowserShortcutsEnabled = False
+        '
+        'Diff
+        '
+        Me.Diff.AllowWebBrowserDrop = False
+        Me.Diff.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Diff.IsWebBrowserContextMenuEnabled = False
+        Me.Diff.Location = New System.Drawing.Point(4, 4)
+        Me.Diff.Margin = New System.Windows.Forms.Padding(4)
+        Me.Diff.MinimumSize = New System.Drawing.Size(27, 25)
+        Me.Diff.Name = "Diff"
+        Me.Diff.ScriptErrorsSuppressed = True
+        Me.Diff.Size = New System.Drawing.Size(1024, 561)
+        Me.Diff.TabIndex = 1
+        Me.Diff.WebBrowserShortcutsEnabled = False
+        '
         'EditForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
@@ -539,7 +540,7 @@ Partial Class EditForm
         Me.Controls.Add(Me.SummaryLabel)
         Me.KeyPreview = True
         Me.MainMenuStrip = Me.MenuBar
-        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Margin = New System.Windows.Forms.Padding(4)
         Me.MinimumSize = New System.Drawing.Size(567, 359)
         Me.Name = "EditForm"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen

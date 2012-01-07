@@ -34,9 +34,10 @@ Partial Class EmailForm
         'SubjectLabel
         '
         Me.SubjectLabel.AutoSize = True
-        Me.SubjectLabel.Location = New System.Drawing.Point(12, 15)
+        Me.SubjectLabel.Location = New System.Drawing.Point(16, 18)
+        Me.SubjectLabel.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.SubjectLabel.Name = "SubjectLabel"
-        Me.SubjectLabel.Size = New System.Drawing.Size(46, 13)
+        Me.SubjectLabel.Size = New System.Drawing.Size(59, 17)
         Me.SubjectLabel.TabIndex = 0
         Me.SubjectLabel.Text = "Subject:"
         '
@@ -44,17 +45,19 @@ Partial Class EmailForm
         '
         Me.Subject.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Subject.Location = New System.Drawing.Point(64, 12)
+        Me.Subject.Location = New System.Drawing.Point(85, 15)
+        Me.Subject.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.Subject.Name = "Subject"
-        Me.Subject.Size = New System.Drawing.Size(467, 20)
+        Me.Subject.Size = New System.Drawing.Size(621, 22)
         Me.Subject.TabIndex = 1
         '
         'MessageLabel
         '
         Me.MessageLabel.AutoSize = True
-        Me.MessageLabel.Location = New System.Drawing.Point(5, 41)
+        Me.MessageLabel.Location = New System.Drawing.Point(7, 50)
+        Me.MessageLabel.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.MessageLabel.Name = "MessageLabel"
-        Me.MessageLabel.Size = New System.Drawing.Size(53, 13)
+        Me.MessageLabel.Size = New System.Drawing.Size(69, 17)
         Me.MessageLabel.TabIndex = 2
         Me.MessageLabel.Text = "Message:"
         '
@@ -63,19 +66,21 @@ Partial Class EmailForm
         Me.Message.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Message.Location = New System.Drawing.Point(64, 38)
+        Me.Message.Location = New System.Drawing.Point(85, 47)
+        Me.Message.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.Message.Multiline = True
         Me.Message.Name = "Message"
         Me.Message.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal
-        Me.Message.Size = New System.Drawing.Size(467, 249)
+        Me.Message.Size = New System.Drawing.Size(621, 306)
         Me.Message.TabIndex = 3
         '
         'Cancel
         '
         Me.Cancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Cancel.Location = New System.Drawing.Point(456, 293)
+        Me.Cancel.Location = New System.Drawing.Point(608, 361)
+        Me.Cancel.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.Cancel.Name = "Cancel"
-        Me.Cancel.Size = New System.Drawing.Size(75, 23)
+        Me.Cancel.Size = New System.Drawing.Size(100, 28)
         Me.Cancel.TabIndex = 6
         Me.Cancel.Text = "Cancel"
         Me.Cancel.UseVisualStyleBackColor = True
@@ -84,9 +89,10 @@ Partial Class EmailForm
         '
         Me.Send.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Send.Enabled = False
-        Me.Send.Location = New System.Drawing.Point(375, 293)
+        Me.Send.Location = New System.Drawing.Point(500, 361)
+        Me.Send.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.Send.Name = "Send"
-        Me.Send.Size = New System.Drawing.Size(75, 23)
+        Me.Send.Size = New System.Drawing.Size(100, 28)
         Me.Send.TabIndex = 5
         Me.Send.Text = "Send"
         Me.Send.UseVisualStyleBackColor = True
@@ -97,18 +103,19 @@ Partial Class EmailForm
         Me.CcMe.AutoSize = True
         Me.CcMe.Checked = True
         Me.CcMe.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CcMe.Location = New System.Drawing.Point(64, 297)
+        Me.CcMe.Location = New System.Drawing.Point(85, 366)
+        Me.CcMe.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.CcMe.Name = "CcMe"
-        Me.CcMe.Size = New System.Drawing.Size(182, 17)
+        Me.CcMe.Size = New System.Drawing.Size(241, 21)
         Me.CcMe.TabIndex = 4
         Me.CcMe.Text = "E-mail me a copy of this message"
         Me.CcMe.UseVisualStyleBackColor = True
         '
         'EmailForm
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(543, 328)
+        Me.ClientSize = New System.Drawing.Size(724, 404)
         Me.Controls.Add(Me.CcMe)
         Me.Controls.Add(Me.Send)
         Me.Controls.Add(Me.Cancel)
@@ -118,6 +125,7 @@ Partial Class EmailForm
         Me.Controls.Add(Me.SubjectLabel)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.KeyPreview = True
+        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.MaximizeBox = False
         Me.Name = "EmailForm"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen

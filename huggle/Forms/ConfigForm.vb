@@ -416,4 +416,8 @@ Class ConfigForm
         'Config.TemplateSummary.Add(data)
         'Next data
     End Sub
+
+    Private Sub RememberMe_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RememberMe.CheckedChanged
+
+    End Sub
 End Class
