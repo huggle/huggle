@@ -52,27 +52,30 @@
             // 
             // textName
             // 
-            this.textName.Location = new System.Drawing.Point(120, 81);
+            this.textName.Location = new System.Drawing.Point(160, 134);
+            this.textName.Margin = new System.Windows.Forms.Padding(4);
             this.textName.Name = "textName";
-            this.textName.Size = new System.Drawing.Size(189, 20);
+            this.textName.Size = new System.Drawing.Size(251, 22);
             this.textName.TabIndex = 1;
             this.textName.TextChanged += new System.EventHandler(this.controlChanged);
             this.textName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.CheckKeyPressLogin);
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = global::huggle3.Properties.Resources.hugglelogo;
-            this.pictureBox1.Location = new System.Drawing.Point(0, 1);
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(87, 1);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(325, 74);
+            this.pictureBox1.Size = new System.Drawing.Size(243, 123);
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
             // 
             // textPassword
             // 
-            this.textPassword.Location = new System.Drawing.Point(120, 107);
+            this.textPassword.Location = new System.Drawing.Point(160, 166);
+            this.textPassword.Margin = new System.Windows.Forms.Padding(4);
             this.textPassword.Name = "textPassword";
-            this.textPassword.Size = new System.Drawing.Size(188, 20);
+            this.textPassword.Size = new System.Drawing.Size(249, 22);
             this.textPassword.TabIndex = 3;
             this.textPassword.TextChanged += new System.EventHandler(this.controlChanged);
             this.textPassword.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.CheckKeyPressLogin);
@@ -80,27 +83,30 @@
             // lPassword
             // 
             this.lPassword.AutoSize = true;
-            this.lPassword.Location = new System.Drawing.Point(7, 110);
+            this.lPassword.Location = new System.Drawing.Point(9, 169);
+            this.lPassword.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lPassword.Name = "lPassword";
-            this.lPassword.Size = new System.Drawing.Size(83, 13);
+            this.lPassword.Size = new System.Drawing.Size(111, 17);
             this.lPassword.TabIndex = 2;
             this.lPassword.Text = "[login-password]";
             // 
             // lblName
             // 
             this.lblName.AutoSize = true;
-            this.lblName.Location = new System.Drawing.Point(7, 84);
+            this.lblName.Location = new System.Drawing.Point(9, 137);
+            this.lblName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblName.Name = "lblName";
-            this.lblName.Size = new System.Drawing.Size(84, 13);
+            this.lblName.Size = new System.Drawing.Size(114, 17);
             this.lblName.TabIndex = 0;
             this.lblName.Text = "[login-username]";
             // 
             // btLogin
             // 
             this.btLogin.Enabled = false;
-            this.btLogin.Location = new System.Drawing.Point(10, 267);
+            this.btLogin.Location = new System.Drawing.Point(13, 363);
+            this.btLogin.Margin = new System.Windows.Forms.Padding(4);
             this.btLogin.Name = "btLogin";
-            this.btLogin.Size = new System.Drawing.Size(100, 25);
+            this.btLogin.Size = new System.Drawing.Size(133, 31);
             this.btLogin.TabIndex = 10;
             this.btLogin.Text = "[login-start]";
             this.btLogin.UseVisualStyleBackColor = true;
@@ -108,9 +114,10 @@
             // 
             // btExit
             // 
-            this.btExit.Location = new System.Drawing.Point(10, 298);
+            this.btExit.Location = new System.Drawing.Point(13, 401);
+            this.btExit.Margin = new System.Windows.Forms.Padding(4);
             this.btExit.Name = "btExit";
-            this.btExit.Size = new System.Drawing.Size(100, 25);
+            this.btExit.Size = new System.Drawing.Size(133, 31);
             this.btExit.TabIndex = 12;
             this.btExit.Text = "[exit]";
             this.btExit.UseVisualStyleBackColor = true;
@@ -119,18 +126,20 @@
             // lbl_Project
             // 
             this.lbl_Project.AutoSize = true;
-            this.lbl_Project.Location = new System.Drawing.Point(7, 136);
+            this.lbl_Project.Location = new System.Drawing.Point(9, 201);
+            this.lbl_Project.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbl_Project.Name = "lbl_Project";
-            this.lbl_Project.Size = new System.Drawing.Size(70, 13);
+            this.lbl_Project.Size = new System.Drawing.Size(94, 17);
             this.lbl_Project.TabIndex = 4;
             this.lbl_Project.Text = "[login-project]";
             // 
             // lbl_Language
             // 
             this.lbl_Language.AutoSize = true;
-            this.lbl_Language.Location = new System.Drawing.Point(7, 163);
+            this.lbl_Language.Location = new System.Drawing.Point(9, 235);
+            this.lbl_Language.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbl_Language.Name = "lbl_Language";
-            this.lbl_Language.Size = new System.Drawing.Size(82, 13);
+            this.lbl_Language.Size = new System.Drawing.Size(110, 17);
             this.lbl_Language.TabIndex = 6;
             this.lbl_Language.Text = "[login-language]";
             // 
@@ -138,9 +147,10 @@
             // 
             this.cmLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmLanguage.FormattingEnabled = true;
-            this.cmLanguage.Location = new System.Drawing.Point(120, 160);
+            this.cmLanguage.Location = new System.Drawing.Point(160, 231);
+            this.cmLanguage.Margin = new System.Windows.Forms.Padding(4);
             this.cmLanguage.Name = "cmLanguage";
-            this.cmLanguage.Size = new System.Drawing.Size(188, 21);
+            this.cmLanguage.Size = new System.Drawing.Size(249, 24);
             this.cmLanguage.TabIndex = 7;
             this.cmLanguage.SelectedIndexChanged += new System.EventHandler(this.cmLanguage_SelectedIndexChanged);
             this.cmLanguage.SelectedValueChanged += new System.EventHandler(this.controlChanged);
@@ -149,35 +159,39 @@
             // 
             this.cmProject.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmProject.FormattingEnabled = true;
-            this.cmProject.Location = new System.Drawing.Point(120, 133);
+            this.cmProject.Location = new System.Drawing.Point(160, 198);
+            this.cmProject.Margin = new System.Windows.Forms.Padding(4);
             this.cmProject.Name = "cmProject";
-            this.cmProject.Size = new System.Drawing.Size(188, 21);
+            this.cmProject.Size = new System.Drawing.Size(249, 24);
             this.cmProject.TabIndex = 5;
             this.cmProject.SelectedValueChanged += new System.EventHandler(this.controlChanged);
             // 
             // StatusBox
             // 
             this.StatusBox.AutoSize = true;
-            this.StatusBox.Location = new System.Drawing.Point(8, 237);
+            this.StatusBox.Location = new System.Drawing.Point(11, 326);
+            this.StatusBox.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.StatusBox.Name = "StatusBox";
-            this.StatusBox.Size = new System.Drawing.Size(62, 13);
+            this.StatusBox.Size = new System.Drawing.Size(82, 17);
             this.StatusBox.TabIndex = 9;
             this.StatusBox.Text = "Status label";
             // 
             // StatusBar
             // 
-            this.StatusBar.Location = new System.Drawing.Point(11, 187);
+            this.StatusBar.Location = new System.Drawing.Point(15, 264);
+            this.StatusBar.Margin = new System.Windows.Forms.Padding(4);
             this.StatusBar.Name = "StatusBar";
-            this.StatusBar.Size = new System.Drawing.Size(297, 24);
+            this.StatusBar.Size = new System.Drawing.Size(396, 30);
             this.StatusBar.TabIndex = 8;
             // 
             // lProxy
             // 
             this.lProxy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lProxy.AutoSize = true;
-            this.lProxy.Location = new System.Drawing.Point(223, 273);
+            this.lProxy.Location = new System.Drawing.Point(297, 370);
+            this.lProxy.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lProxy.Name = "lProxy";
-            this.lProxy.Size = new System.Drawing.Size(90, 13);
+            this.lProxy.Size = new System.Drawing.Size(122, 17);
             this.lProxy.TabIndex = 13;
             this.lProxy.TabStop = true;
             this.lProxy.Text = "[login-proxygroup]";
@@ -187,9 +201,10 @@
             // 
             this.lTranslate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lTranslate.AutoSize = true;
-            this.lTranslate.Location = new System.Drawing.Point(223, 304);
+            this.lTranslate.Location = new System.Drawing.Point(297, 408);
+            this.lTranslate.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lTranslate.Name = "lTranslate";
-            this.lTranslate.Size = new System.Drawing.Size(82, 13);
+            this.lTranslate.Size = new System.Drawing.Size(110, 17);
             this.lTranslate.TabIndex = 0;
             this.lTranslate.TabStop = true;
             this.lTranslate.Text = "[login-language]";
@@ -202,9 +217,10 @@
             // checkBox
             // 
             this.checkBox.AutoSize = true;
-            this.checkBox.Location = new System.Drawing.Point(10, 217);
+            this.checkBox.Location = new System.Drawing.Point(13, 301);
+            this.checkBox.Margin = new System.Windows.Forms.Padding(4);
             this.checkBox.Name = "checkBox";
-            this.checkBox.Size = new System.Drawing.Size(44, 17);
+            this.checkBox.Size = new System.Drawing.Size(55, 21);
             this.checkBox.TabIndex = 14;
             this.checkBox.Text = "[ssl]";
             this.checkBox.UseVisualStyleBackColor = true;
@@ -212,9 +228,9 @@
             // 
             // LoginForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(320, 331);
+            this.ClientSize = new System.Drawing.Size(427, 441);
             this.Controls.Add(this.checkBox);
             this.Controls.Add(this.lTranslate);
             this.Controls.Add(this.lProxy);
@@ -232,9 +248,8 @@
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.textName);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-#if WINDOWS
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-#endif
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "LoginForm";
