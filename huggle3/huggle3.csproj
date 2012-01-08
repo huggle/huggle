@@ -508,11 +508,11 @@
     <Content Include="Lang\oc.txt" />
     <Content Include="Lang\or.txt" />
     <Content Include="Lang\pt.txt" />
-    <None Include="Lang\ptb.txt" />
+    <Content Include="Lang\ptb.txt" />
     <Content Include="Lang\ru.txt" />
     <Content Include="Lang\sv.txt" />
     <None Include="hugglelogo.png" />
-    <None Include="Lang\zh.txt" />
+    <Content Include="Lang\zh.txt" />
     <Content Include="ResourcesData\blob-anon.png" />
     <Content Include="ResourcesData\blob-blank.png" />
     <Content Include="ResourcesData\blob-blanked.png" />
