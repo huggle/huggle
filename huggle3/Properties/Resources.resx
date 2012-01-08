@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+ <?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -184,8 +184,8 @@
   <data name="de" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Lang\de.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1250</value>
   </data>
-  <data name="pt_br" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Lang\pt-br.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ptb" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Lang\ptb.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="kn" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Lang\kn.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
