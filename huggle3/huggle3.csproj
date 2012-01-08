@@ -507,8 +507,8 @@
     <Content Include="Lang\no.txt" />
     <Content Include="Lang\oc.txt" />
     <Content Include="Lang\or.txt" />
-    <Content Include="Lang\pt-br.txt" />
     <Content Include="Lang\pt.txt" />
+    <None Include="Lang\ptb.txt" />
     <Content Include="Lang\ru.txt" />
     <Content Include="Lang\sv.txt" />
     <None Include="hugglelogo.png" />

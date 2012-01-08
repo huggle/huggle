@@ -1023,9 +1023,9 @@ namespace huggle3.Properties {
         ///minimizewindow:            Minimizar
         ///no:                        N [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string pt_br {
+        internal static string ptb {
             get {
-                return ResourceManager.GetString("pt_br", resourceCulture);
+                return ResourceManager.GetString("ptb", resourceCulture);
             }
         }
         

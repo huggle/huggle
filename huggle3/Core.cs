@@ -904,6 +904,7 @@ namespace huggle3
             Load_Language("oc", huggle3.Properties.Resources.oc);
             Load_Language("or", huggle3.Properties.Resources.or);
             Load_Language("pt", huggle3.Properties.Resources.pt);
+            Load_Language("ptb", huggle3.Properties.Resources.ptb);
             Load_Language("ru", huggle3.Properties.Resources.ru);
             Load_Language("sv", huggle3.Properties.Resources.sv);
             Load_Language("zh", huggle3.Properties.Resources.zh);
