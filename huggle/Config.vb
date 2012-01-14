@@ -47,7 +47,7 @@ Class Configuration
         {"blocknote", "deletenote", "deletetag", "deletereq", "manual", "message", "note", "prodtag", _
          "protectreq", "report", "revert", "speedytag", "tag", "warning"}
 
-    Public Devs As Boolean = True
+    Public Devs As Boolean = False
 
     'Values only used at runtime
 
