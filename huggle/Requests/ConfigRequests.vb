@@ -151,6 +151,8 @@ Namespace Requests
                     Config.Rights = New List(Of String)(FindString(Userinfo, "<rights>", "</rights>").Replace("</r>", "") _
                         .Split(New String() {"<r>"}, StringSplitOptions.RemoveEmptyEntries))
 
+
+
                     If Config.RequireAdmin AndAlso Not Config.Rights.Contains("block") Then
                         Fail(Msg("login-error-admin"))
                         Exit Sub
