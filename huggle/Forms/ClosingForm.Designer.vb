@@ -55,7 +55,7 @@ Partial Class ClosingForm
         'Logo
         '
         Me.Logo.Image = Global.Huggle.My.Resources.Resources.huggle_logo
-        Me.Logo.Location = New System.Drawing.Point(51, -1)
+		Me.Logo.Location = New System.Drawing.Point(0,0)
         Me.Logo.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.Logo.Name = "Logo"
         Me.Logo.Size = New System.Drawing.Size(320, 80)
