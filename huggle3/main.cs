@@ -338,17 +338,17 @@ namespace huggle3
         /// <param name="e"></param>
         private void LContribs_Click(object sender, EventArgs e)
         {
-           
+            NotAvailable();
         }
 
         private void CurrentUser_KeyPressed(object sender, EventArgs e)
         {
-        
+            NotAvailable();
         }
 
         private void LUser_Click(object sender, EventArgs e)
         {
-
+            NotAvailable();
         }
 
         /// <summary>
@@ -358,7 +358,11 @@ namespace huggle3
         /// <param name="e"></param>
         private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (config_form.IsDisposed || config_form == null)
+            if (config_form == null)
+            {
+                config_form = new ConfigForm();
+            }
+            else if (config_form.IsDisposed)
             {
                 config_form = new ConfigForm();
             }
@@ -373,11 +377,11 @@ namespace huggle3
         }
 
         /// <summary>
-        /// 
+        /// Draw
         /// </summary>
         public void Draw_History()
         {
-            if (InvokeRequired) // Line #1
+            if (InvokeRequired)
             {
                 this.Invoke(new MethodInvoker(Draw_History));
                 return;
@@ -455,7 +459,7 @@ namespace huggle3
 
         private void nextToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            NotAvailable();
         }
 
         private void clearAllToolStripMenuItem_Click(object sender, EventArgs e)
