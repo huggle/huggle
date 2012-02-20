@@ -358,7 +358,7 @@ namespace huggle3
         /// <param name="e"></param>
         private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (config_form == null)
+            if (config_form.IsDisposed || config_form == null)
             {
                 config_form = new ConfigForm();
             }
