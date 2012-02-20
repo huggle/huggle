@@ -1,7 +1,7 @@
 ﻿//This is a source code or part of Huggle project
 //
 //This file contains code for
-//last modified by Addshore
+//last modified by Petrb
 
 //Copyright (C) 2011-2012 Huggle team
 
@@ -38,13 +38,27 @@ namespace huggle3
         }
         public class Request
         {
-            public static string Query; // query (api / http)
+            /// <summary>
+            /// query for api
+            /// </summary>
+            public static string Query;
+            /// <summary>
+            /// Status
+            /// </summary>
             private States _State;
-            protected System.DateTime startdate; // when request is started
+            /// <summary>
+            /// When request is started
+            /// </summary>
+            protected System.DateTime startdate;
+            /// <summary>
+            /// ID of thread
+            /// </summary>
             private int THREAD;
+            /// <summary>
+            /// Cookie container for request
+            /// </summary>
             public static System.Net.CookieContainer _cookies = new System.Net.CookieContainer();
             public Request_Result result;
-
 
             public delegate void RequestCallback();
             public RequestCallback Callback;
@@ -61,13 +75,13 @@ namespace huggle3
                 Core.History("Request.ApiRequest()");
                 if (CurrentProject == "")
                 {
-                    // retrieve project
+                    // retrieve project in case we don't know it
                     CurrentProject = Config.Project;
                 }
-                string URL;
+                string URL; // url of request
                 if (CurrentProject == "meta")
                 {
-                    URL = Config.Metawiki;
+                    URL = Config.Metawiki; // meta has specific url so we need to put it from config file
                 }
                 else
                 {
@@ -76,21 +90,20 @@ namespace huggle3
                 
                 ApiResult return_value = new ApiResult();
 
-                //System.Windows.Forms.MessageBox.Show(URL);
-
                 string Result = "";
-                int RequestR = Config.RequestAttempts;
+                int Retries = Config.RequestAttempts;
 
-                while (RequestR > 0 && (Result == ""))
+                while (Retries > 0 && (Result == ""))
                 {
-                    if (RequestR < Config.RequestAttempts)
+                    if (Retries < Config.RequestAttempts)
                     {
-                        System.Threading.Thread.Sleep(Config.RequestRetryInterval);
+                        System.Threading.Thread.Sleep(Config.RequestRetryInterval); // timeout before requests to save resources
                     }
-                    RequestR = RequestR - 1;
+                    Retries--;
 
                     try
                     {
+                        // Perform a request now and catch all exceptions caused by connection
                         Result = DoWebRequest(URL + Config.WikiPath + "api.php?format=xml&" + Query, Post);
                     }
                     catch (System.Net.WebException Connectionx)
@@ -171,13 +184,20 @@ namespace huggle3
             }
 
             /// <summary>
-            /// comment me
+            /// Clear
             /// </summary>
             public void ClearCookies()
             {
-                _cookies = new System.Net.CookieContainer();
+                _cookies = new System.Net.CookieContainer(); // let GC do it
             }
 
+            /// <summary>
+            /// Start web req
+            /// </summary>
+            /// <param name="URL">Url of request</param>
+            /// <param name="PostString">Post data</param>
+            /// <param name="OverrideSsl">If we need to turn off ssl</param>
+            /// <returns></returns>
             public static string DoWebRequest(string URL, string PostString = "", bool OverrideSsl = false)
             {       // http request
                     System.Net.ServicePointManager.Expect100Continue = false;
@@ -235,11 +255,20 @@ namespace huggle3
                 return null;
             }
 
+            /// <summary>
+            /// Constructor
+            /// </summary>
             public Request()
-            {   // constructor
+            {
                 Core.History("Request.Create()");
             }
 
+            /// <summary>
+            /// Return a parameter of request
+            /// </summary>
+            /// <param name="source">Source text</param>
+            /// <param name="parameter">String</param>
+            /// <returns></returns>
             public static string GetParameter(string source, string parameter)
             {
                 Core.History("GetParameter()");
@@ -260,6 +289,10 @@ namespace huggle3
                 return System.Web.HttpUtility.HtmlDecode(return_value);
             }
 
+            /// <summary>
+            /// Start
+            /// </summary>
+            /// <param name="Done"></param>
             public void Start(RequestCallback Done = null)
             {
                 Callback = Done;
@@ -274,26 +307,41 @@ namespace huggle3
                 }
             }
 
+            /// <summary>
+            /// This is a function which needs to be overriden by request, in case it's not do nothing
+            /// </summary>
             public virtual void Process()
             {
                 // nothing
             }
 
+            /// <summary>
+            /// This is a function which is called when request is done, by default it log to core
+            /// </summary>
             public virtual void ThreadDone()
             {
                 Core.History("ThreadDone()");
                 EndRequest();
             }
 
+            /// <summary>
+            /// This is a function started before creation of new thread and executing it
+            /// </summary>
             public void ProcessThread()
             {
                 _State = States.InProgress;
                 Process();
             }
 
-            public virtual void EndRequest()
+            /// <summary>
+            /// This is function which starts on every correct end of request
+            /// </summary>
+            public virtual void EndRequest(bool terminate = false)
             {
-                //Core.Threading.KillThread(THREAD)   ;
+                if (terminate)
+                {
+                    Core.Threading.KillThread(THREAD);
+                }
                 if (Callback != null)
                 {
                     Callback();
@@ -301,20 +349,44 @@ namespace huggle3
                 Core.Threading.ReleaseHandle(THREAD);
             }
 
+            /// <summary>
+            /// Cancel all
+            /// </summary>
             public void Cancel()
             {
                 Core.History("Request.Cancel()");
                 _State = States.Cancelled;
-                EndRequest();
+                EndRequest( true );
             }
 
+            /// <summary>
+            /// This is function which starts on every correct end of request
+            /// </summary>
+            public virtual void EndRequest()
+            {
+                if (Callback != null)
+                {
+                    Callback();
+                }
+                Core.Threading.ReleaseHandle(THREAD);
+            }
+
+            /// <summary>
+            /// Called on fail of request we do
+            /// </summary>
+            /// <param name="description">Description of error</param>
+            /// <param name="reason">Why it fallen to error</param>
             public virtual void Fail(string description = "", string reason = "")
             {
                 _State = States.Failed;
                 EndRequest();
             }
 
-
+            /// <summary>
+            /// Called when the request is completed, before delivering result
+            /// </summary>
+            /// <param name="Message"></param>
+            /// <param name="Text"></param>
             public virtual void Complete(string Message = "", string Text = "")
             {
                 Core.History("Request.Complete()");
@@ -323,13 +395,14 @@ namespace huggle3
                 EndRequest();
             }
 
+            /// <summary>
+            /// Property returning status
+            /// </summary>
             public States State
             {
                 get { return _State; }
 
             }
-
-            //public ApiResult GetText()
 
             public enum States
             { 

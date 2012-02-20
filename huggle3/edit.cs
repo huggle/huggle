@@ -35,10 +35,13 @@ namespace huggle3
         /// Value of the change in size of the page
         /// </summary>
         public int Change;
+        /// <summary>
+        /// Diff
+        /// </summary>
         public string ChangedContent;
         public static Dictionary<string, edit> All = new Dictionary<string,edit>();
         /// <summary>
-        /// 
+        /// Removed edit
         /// </summary>
         public bool Deleted;
         /// <summary>
@@ -61,6 +64,9 @@ namespace huggle3
         /// Warning level
         /// </summary>
         public user.UserLevel LevelToWarn;
+        /// <summary>
+        /// Multiple edit
+        /// </summary>
         public bool Multiple;
         /// <summary>
         /// Is the edit a creation of a new page
@@ -78,6 +84,9 @@ namespace huggle3
         /// Previous Id
         /// </summary>
         public string Oldid = "";
+        /// <summary>
+        /// Page
+        /// </summary>
         public page Page;
         /// <summary>
         /// Previous edit
@@ -170,9 +179,12 @@ namespace huggle3
             this.Processed = false;
         }
 
-        
+        /// <summary>
+        /// Convert to string
+        /// </summary>
+        /// <returns>Id</returns>
         public override string ToString()
-        { //convert to string
+        {
             return Id;
         }
 

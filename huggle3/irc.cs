@@ -20,11 +20,12 @@ using System.Text;
 
 namespace huggle3
 {
-    public static class irc
+    public class irc
     {
-        public static bool Connected;
-        public static int thread;
-        public static bool IrcConnect()
+        public bool Connected;
+        public string Network = null;
+        public int thread;
+        public bool IrcConnect()
         {
             Core.History("IrcConnect()");
             thread = Core.Threading.CreateThread(Irc, "Irc");
@@ -39,5 +40,14 @@ namespace huggle3
         }
     }
 
-    
+    public static class rc
+    {
+        private static irc Network;
+        public static void IrcConnect()
+        {
+            rc.Network = new irc();
+            rc.IrcConnect();
+        }
+            
+    }
 }

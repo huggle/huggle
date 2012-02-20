@@ -284,7 +284,7 @@ namespace huggle3
         public static string EditToken;
         public static bool HidingEdit = false;
         public static System.DateTime LastRCTime = new System.DateTime();
-        public static edit NullEdit;
+        public static edit NullEdit = new edit();
         public static string Patrol_Token;
         public static System.Threading.Thread MainThread;
         public static string[] months;
