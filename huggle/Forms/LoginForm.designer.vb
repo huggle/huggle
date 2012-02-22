@@ -90,7 +90,7 @@ Partial Class LoginForm
         Me.ProxyGroup.Controls.Add(Me.ProxyPortLabel)
         Me.ProxyGroup.Controls.Add(Me.ProxyAddressLabel)
         Me.ProxyGroup.Controls.Add(Me.ProxyAddress)
-        Me.ProxyGroup.Location = New System.Drawing.Point(12, 290)
+        Me.ProxyGroup.Location = New System.Drawing.Point(12, 238)
         Me.ProxyGroup.Name = "ProxyGroup"
         Me.ProxyGroup.Size = New System.Drawing.Size(292, 153)
         Me.ProxyGroup.TabIndex = 12
@@ -279,7 +279,7 @@ Partial Class LoginForm
         Me.Progress.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Progress.Enabled = False
-        Me.Progress.Location = New System.Drawing.Point(12, 299)
+        Me.Progress.Location = New System.Drawing.Point(12, 239)
         Me.Progress.Maximum = 6
         Me.Progress.Name = "Progress"
         Me.Progress.Size = New System.Drawing.Size(292, 19)
@@ -370,7 +370,7 @@ Partial Class LoginForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(316, 330)
+        Me.ClientSize = New System.Drawing.Size(316, 270)
         Me.Controls.Add(Me.Progress)
         Me.Controls.Add(Me.ShowProxySettings)
         Me.Controls.Add(Me.Translate)
