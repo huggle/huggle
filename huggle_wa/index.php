@@ -6,6 +6,7 @@ include("app/index.php");
 <html>
 <head>
 	<title>Huggle WA</title>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 </head>
 <body>
 
