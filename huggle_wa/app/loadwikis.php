@@ -1,7 +1,7 @@
 <?php
 /* Huggle WA - app/loadwikis.php */
 	$ch1 = curl_init();
-	$curlurl1 = "$gwikiprotocol$gwikiadress/index.php?action=raw&title=Huggle_WA/TestConf";
+	$curlurl1 = $gwikiprotocol.$gwikiadress."/index.php?action=raw&title=Huggle_WA/TestConf";
 
 	curl_setopt($ch1, CURLOPT_URL, $curlurl1);
 	curl_setopt($ch1, CURLOPT_HEADER, 0);
