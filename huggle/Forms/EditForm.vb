@@ -31,7 +31,7 @@ Class EditForm
         PreviewTab.Text = Msg("edit-previewtab")
         ChangesTab.Text = Msg("edit-changestab")
 
-        Summary.Text = Config.DefaultSummary
+        Summary.Text = "" 'Blank because we don't want to have the default summary there
         Minor.Checked = Config.Minor("manual")
         Watch.Checked = (Watchlist.Contains(Page) OrElse Config.Watch("manual"))
         WaitMessage.Text = "Retrieving page text..."
