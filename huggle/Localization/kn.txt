@@ -4,25 +4,25 @@ name:                      ಕನ್ನಡ
 
 === General ===
 <pre>
-add:                       Add
-apply:                     Apply
-cancel:                    Cancel
-clear:                     Clear
-close:                     Close
-continue:                  Continue
-copy:                      Copy
-delete:                    Delete
-error:                     Error
-exit:                      Exit
-minimizewindow:            Minimize
-no:                        No
-ok:                        OK
-remove:                    Remove
-rename:                    Rename
-restorewindow:             Restore
-save:                      Save
-selectfile:                Browse...
-yes:                       Yes
+add:                       ಸೇರಿಸು
+apply:                     ಅನ್ವಯಿಸು
+cancel:                    ರದ್ದುಪಡಿಸು
+clear:                     ಅಳಿಸು
+close:                     ಮುಚ್ಚು
+continue:                  ಮುಂದುವರೆಸು
+copy:                      ನಕಲಿಸು
+delete:                    ತೊಡೆದುಹಾಕು
+error:                     ದೋಷ
+exit:                      ನಿರ್ಗಮಿಸು
+minimizewindow:            ಕುಗ್ಗಿಸು
+no:                        ಇಲ್ಲ
+ok:                        ಸರಿ
+remove:                    ತೆಗೆದುಹಾಕು
+rename:                    ಮರುಹೆಸರಿಸು
+restorewindow:             ಹಿಂದಿರುಗಿಸು
+save:                      ಉಳಿಸು...
+selectfile:                ವೀಕ್ಷಿಸು...
+yes:                       ಹೌದು
 </pre>
 
 === Edit types ===
