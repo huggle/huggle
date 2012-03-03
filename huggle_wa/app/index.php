@@ -5,4 +5,5 @@ $gwikiadress = "huggle.wmflabs.org/w"; // Path for the global wiki
 include("loadwikis.php");
 include("functions.php");
 include("parse-rc.php");
+include("renderapp.php");
 ?>

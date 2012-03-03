@@ -1,0 +1,12 @@
+root {
+}
+
+body {
+	background-color:#EEE9E9;
+	font-family:Arial;
+}
+
+div.header1 {
+	font-size:150%;
+	text-align:center;
+}
