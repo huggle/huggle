@@ -37,7 +37,7 @@ private static function Menu() {
 	{
 		echo "$hgwa_Username" . '<a href="index.php?action=logoff">' . Core::GetMessage("logout") . "</a></div>";
 	}	
-	echo "</div>";
+	echo "</div></div>";
 }
 
 private static function ToolBar() {
