@@ -15,7 +15,7 @@
 //GNU General Public License for more details
 
 if ( !defined( 'HUGGLE' ) ) {
-	echo "This is a part of huggle wa";
+	echo "This is a part of huggle wa, unable to load config";
 	die (1);
 }
 
@@ -24,28 +24,38 @@ include ("includes/variables.php");
 class Core {
 	// Return a translated text
 	public static function GetMessage ( $text ) {
-		global $hgwa_Message;
+		global $hgwa_Message, $hgwa_Debugging;
 		return $hgwa_Message["$text"];
 	}
 	
 	public static function LoadLanguage () {
-		global $hgwa_DefaultLoc, $hgwa_Locals, $hgwa_Message, $hgwa_Language;
+		global $hgwa_Debugging, $hgwa_DefaultLoc, $hgwa_Locals, $hgwa_Message, $hgwa_Language;
 		switch ($hgwa_Language) {
 		case 'en':
 		case 'cs':
 			include ( "$hgwa_Locals" . $hgwa_Language . "_main.php" );
 			return true;
 		}
+		if ( $hgwa_Debugging ) {
+			echo "<!-- Error: Invalid language -->\n";
+		}
 		include ( "$hgwa_Locals" . 'en.php' );
 		return true;
 	}
 
 	public static function Initialise() {
+		global $hgwa_Debugging, $hgwa_Version;
 		Core::LoadLanguage();
+		if ( $hgwa_Debugging ) {
+			echo "<!-- Started huggle version " . $hgwa_Version . " languages loaded, loading other files -->\n";
+		}
 		include("includes/loadwikis.php");
 		include("includes/functions.php");
 		include("includes/parse-rc.php");
 		include("includes/renderapp.php");
+		if ( $hgwa_Debugging ) {
+			echo "<!-- All include files were loaded, initialisation is done -->\n";
+		}
 	}
 
 	// Load a web page
