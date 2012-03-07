@@ -29,27 +29,27 @@ private static function Header() {
 }
 private static function Menu() {
 	global $hgwa_Username;
-	echo "<tr colspan=2><td><table align=right border=0><tr><td></td><td>";
+	echo "<tr colspan=2><td><table align=right border=0><tr><td>\n</td><td>";
 	if ($hgwa_Username === false) {
 		echo '<a href="index.php?action=login">' . Core::GetMessage("login").'</a>';
 	} else
 	{
 		echo "$hgwa_Username" . '<a href="index.php?action=logoff">' . Core::GetMessage("logout") . "</a>";
 	}	
-	echo "</td></tr></table></td></tr>";
+	echo "</td></tr>\n</table>\n</td>\n</tr>";
 }
 
 private static function Content() {
 	global $hgwa_Username, $hgwa_QueueWidth;
 	// queue
-	echo "<tr><td width=\"" . $hgwa_QueueWidth . "\">" . Core::GetMessage("queue") . "</td>";
+	echo "<tr>\n<td width=\"" . $hgwa_QueueWidth . "\">" . Core::GetMessage("queue") . "\n</td>";
 
 	// body
 	echo "<td>";
 	if ( $hgwa_Username === false ) {
 		echo "<font size=4>". Core::GetMessage("anon") ."</font>";	
 	}
-	echo "</td></tr>";
+	echo "</td>\n</tr>";
 
 }
 
