@@ -20,6 +20,8 @@
 $hgwa_Message = array(
         "html_title" => "Huggle",
         "select_wiki" => "Please select a wiki from the list:",
+	"anon" => "You are not logged in. That means, I can't do much for you :)",
+	"queue" => "Queue:",
         "logout" => "Logout",
         "login" => "Login"
 );

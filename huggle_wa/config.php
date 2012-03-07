@@ -22,5 +22,6 @@ $hgwa_Message = "";
 $hgwa_HtmlTitle='Huggle';
 $hgwa_WikiProtocol = "http://"; // Protocol for the global wiki
 $hgwa_WikiAddress = "huggle.wmflabs.org/w"; // Path for the global wiki
+$hgwa_QueueWidth = "200px";
 
 $hgwa_Language='en';

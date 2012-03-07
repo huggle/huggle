@@ -29,7 +29,7 @@ private static function Header() {
 }
 private static function Menu() {
 	global $hgwa_Username;
-	echo "<tr><td><table align=right border=0><tr><td></td><td>";
+	echo "<tr colspan=2><td><table align=right border=0><tr><td></td><td>";
 	if ($hgwa_Username === false) {
 		echo '<a href="index.php?action=login">' . Core::GetMessage("login").'</a>';
 	} else
@@ -37,6 +37,20 @@ private static function Menu() {
 		echo "$hgwa_Username" . '<a href="index.php?action=logoff">' . Core::GetMessage("logout") . "</a>";
 	}	
 	echo "</td></tr></table></td></tr>";
+}
+
+private static function Content() {
+	global $hgwa_Username, $hgwa_QueueWidth;
+	// queue
+	echo "<tr><td width=\"" . $hgwa_QueueWidth . "\">" . Core::GetMessage("queue") . "</td>";
+
+	// body
+	echo "<td>";
+	if ( $hgwa_Username === false ) {
+		echo "<font size=4>". Core::GetMessage("anon") ."</font>";	
+	}
+	echo "</td></tr>";
+
 }
 
 private static function Footer() {
@@ -47,8 +61,7 @@ private static function Footer() {
 public static function LoadContent() {
 	self::Header();
 	self::Menu();
-	$selectedwiki = "<p>" . Core::GetMessage("select_wiki") . "</p>"; // Function not implemented
-	echo $selectedwiki;
+	self::Content();
 	Html::Footer();
 	return 0;
 }

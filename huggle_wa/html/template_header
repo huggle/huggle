@@ -7,7 +7,7 @@
 </head>
 <body>
 	<table width="100%" border=1>
-		<tr>
+		<tr colspan="2">
 			<td>
 				<p align=center><font size=8>Huggle</font><br>Web application</p>
 			</td>
