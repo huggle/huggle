@@ -24,11 +24,11 @@ class Core {
 	// Return a translated text
 	public static function GetMessage ( $text ) {
 		global $hgwa_Message;
-		return $hgwa_Message[$text];
+		return $hgwa_Message["$text"];
 	}
 	
 	public static function LoadLanguage () {
-		global $hgwa_DefaultLoc, $hgwa_Locals, $hgwa_Language;
+		global $hgwa_DefaultLoc, $hgwa_Locals, $hgwa_Message, $hgwa_Language;
 		switch ($hgwa_Language) {
 		case 'en':
 		case 'cs':

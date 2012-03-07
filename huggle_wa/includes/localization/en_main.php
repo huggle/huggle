@@ -17,6 +17,10 @@
 //GNU General Public License for more details.
 
 // local text
-$hgwa_Message['html_title'] = "Huggle";
-$hgwa_Message['select_wiki'] = "Please select a wiki from the list:";
-$hgwa_Message['login'] = "Login";
+$hgwa_Message = array(
+        "html_title" => "Huggle",
+        "select_wiki" => "Please select a wiki from the list:",
+        "logout" => "Logout",
+        "login" => "Login"
+);
+
