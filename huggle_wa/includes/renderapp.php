@@ -35,11 +35,13 @@ private static function Menu() {
 }
 
 private static function Footer() {
+	global $hgwa_HtmlTitle;
 	include "html/template_footer";
 }
 
 public static function LoadContent() {
-	Html::Header();
+	self::Header();
+	self::Menu();
 	$selectedwiki = "<p>" . Core::GetMessage("select_wiki") . "</p>"; // Function not implemented
 	echo $selectedwiki;
 	Html::Footer();
