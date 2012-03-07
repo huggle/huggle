@@ -6,7 +6,14 @@ body {
 	font-family:Arial;
 }
 
-div.header1 {
-	font-size:150%;
+div.header {
 	text-align:center;
+}
+
+div.headertext1 {
+	font-size:200%;
+}
+
+div.queue {
+	background-color:white;
 }

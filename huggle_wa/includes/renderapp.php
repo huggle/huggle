@@ -2,7 +2,7 @@
 //This is a source code or part of Huggle project
 //
 //This file contains code for index page
-//last modified by Petrb
+//last modified by IWorld
 
 //Copyright (C) 2011-2012 Huggle team
 
@@ -29,7 +29,7 @@ private static function Header() {
 }
 private static function Menu() {
 	global $hgwa_Username;
-	echo "<tr><td colspan=2><table align=right border=0><tr><td>\n</td><td>";
+	echo "<tr><td colspan=2><table align=right border=0 height='100%'><tr><td>\n</td><td>";
 	if ($hgwa_Username === false) {
 		echo '<a href="index.php?action=login">' . Core::GetMessage("login").'</a>';
 	} else
@@ -42,7 +42,7 @@ private static function Menu() {
 private static function Content() {
 	global $hgwa_Username, $hgwa_QueueWidth;
 	// queue
-	echo "<tr>\n<td width=\"" . $hgwa_QueueWidth . "\">" . Core::GetMessage("queue") . "\n</td>";
+	echo "<tr>\n<td width=\"" . $hgwa_QueueWidth . "\" height=\"100%\" style=\"border-right:1px solid black; background-color:white;\">" . Core::GetMessage("queue") . "\n</td>";
 
 	// body
 	echo "<td>";
