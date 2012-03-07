@@ -16,7 +16,7 @@
 
 if ( !defined( 'HUGGLE' ) ) {
 	echo "This is a part of huggle wa";
-	die 1;
+	die (1);
 }
 
 
