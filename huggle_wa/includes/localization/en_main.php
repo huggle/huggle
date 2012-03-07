@@ -16,11 +16,7 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
-
-/* Huggle WA - index.php */
-require ("config.php");
-require ("includes/main.php");
-require ("app/index.php");
-
-Core::Initialise();
-Core::LoadContent();
+// local text
+$hgwa_Message['html_title'] = "Huggle";
+$hgwa_Message['select_wiki'] = "Please select a wiki from the list:";
+$hgwa_Message['login'] = "Login";

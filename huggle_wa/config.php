@@ -1,6 +1,4 @@
-<?php
-//This is a source code or part of Huggle project
-//
+<?
 //This file contains code for index page
 //last modified by Petrb
 
@@ -14,13 +12,9 @@
 //This program is distributed in the hope that it will be useful,
 //but WITHOUT ANY WARRANTY; without even the implied warranty of
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//GNU General Public License for more details.
+//GNU General Public License for more details
 
+define ('HUGGLE', 0);
+$hgwa_Locals='includes/localization/';
 
-/* Huggle WA - index.php */
-require ("config.php");
-require ("includes/main.php");
-require ("app/index.php");
-
-Core::Initialise();
-Core::LoadContent();
+$hgwa_Language='en';
