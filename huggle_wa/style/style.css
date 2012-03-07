@@ -8,12 +8,40 @@ body {
 
 div.header {
 	text-align:center;
+	border-bottom:1px solid black;
 }
 
 div.headertext1 {
 	font-size:200%;
 }
 
+div.menu {
+
+}
+
+div.menubuttons {
+	float:left;
+	width:80%;
+}
+
+div.menulogin {
+	margin-left: 30%;
+}
+div.interface {
+	border-top:1px solid black;
+}
 div.queue {
 	background-color:white;
+	width: 200px;
+	float:left;
+	border-right:1px solid black;
+}
+
+div.content{
+	font-size:16pt;
+}
+
+div.footer {
+	text-align:center;
+	font-size:8pt;
 }

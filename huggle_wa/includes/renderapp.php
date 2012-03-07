@@ -15,7 +15,7 @@
 //but WITHOUT ANY WARRANTY; without even the implied warranty of
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
-/* Huggle WA - app/renderapp.php */
+/* Huggle WA - includes/renderapp.php */
 
 if ( !defined( 'HUGGLE' ) ) {
 	echo "This is a part of huggle wa, unable to load config";
@@ -25,18 +25,19 @@ if ( !defined( 'HUGGLE' ) ) {
 class Html {
 
 private static function Header() {
+	$hgwa_HtmlTitle = "Huggle WA"; // only temporary
 	include "html/template_header";
 }
 private static function Menu() {
 	global $hgwa_Username;
-	echo "<tr><td colspan=2><table align=right border=0 height='100%'><tr><td>\n</td><td>";
+	echo "\n<div class='menu'><div class='menubuttons'><!-- Menu -->Menu</div><div class='menulogin'>";
 	if ($hgwa_Username === false) {
 		echo '<a href="index.php?action=login">' . Core::GetMessage("login").'</a>';
 	} else
 	{
-		echo "$hgwa_Username" . '<a href="index.php?action=logoff">' . Core::GetMessage("logout") . "</a>";
+		echo "$hgwa_Username" . '<a href="index.php?action=logoff">' . Core::GetMessage("logout") . "</a></div>";
 	}	
-	echo "</td></tr>\n</table>\n</td>\n</tr>";
+	echo "</div>";
 }
 
 private static function ToolBar() {
@@ -55,15 +56,15 @@ private static function Statsbar() {
 
 private static function Content() {
 	global $hgwa_Username, $hgwa_QueueWidth;
+	echo "<div class=\"interface\">";
 	// queue
-	echo "<tr>\n<td width=\"" . $hgwa_QueueWidth . "\" height=\"100%\" style=\"border-right:1px solid black; background-color:white;\">" . Core::GetMessage("queue") . "\n</td>";
-
+	echo "<div class=\"queue\">" . Core::GetMessage("queue") . "\n</div>";
 	// body
-	echo "<td>";
+	echo "<div class=\"content\">";
 	if ( $hgwa_Username === false ) {
-		echo "<font size=4>". Core::GetMessage("anon") ."</font>";	
+		echo Core::GetMessage("anon");	
 	}
-	echo "</td>\n</tr>";
+	echo "</div></div>";
 
 }
 

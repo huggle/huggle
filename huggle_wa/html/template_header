@@ -6,9 +6,4 @@
 	<link rel="stylesheet" type="text/css" href="./style/style.css">
 </head>
 <body>
-	<table width="100%" border=0>
-		<tr>
-			<td colspan="2">
-				<div class='header'><div class='headertext1'>Huggle</div><br />Web application</div>
-			</td>
-		</tr>
+	<div class='header'><div class='headertext1'>Huggle</div><br />Web application</div>
