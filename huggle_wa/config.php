@@ -16,5 +16,6 @@
 
 define ('HUGGLE', 0);
 $hgwa_Locals='includes/localization/';
+$hgwa_DefaultLoc='';
 
 $hgwa_Language='en';

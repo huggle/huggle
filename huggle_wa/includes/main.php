@@ -27,11 +27,11 @@ class Core {
 	}
 	
 	public static function LoadLanguage () {
-		global $hgwa_Language;
+		global $hgwa_DefaultLoc, $hgwa_Locals, $hg$hgwa_Language;
 		switch ($hgwa_Language) {
 		case 'en':
 		case 'cs':
-			include ( "$hgwa_Locals" . $hgwa_Language . ".php" );
+			include ( "$hgwa_Locals" . $hgwa_Language . "_main.php" );
 			return true;
 		}
 		include ( "$hgwa_Locals" . 'en.php' );
@@ -43,7 +43,7 @@ class Core {
 	}
 
 	// Load a web page
-	public static funtion LoadContent() {
+	public static function LoadContent() {
 		include ("html/template_header");
 		loadcontent();
 		include ("html/template_footer");
