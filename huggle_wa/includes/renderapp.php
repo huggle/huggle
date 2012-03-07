@@ -29,7 +29,7 @@ private static function Header() {
 }
 private static function Menu() {
 	global $hgwa_Username;
-	echo "<tr><td colspan="2"><table align=right border=0><tr><td>\n</td><td>";
+	echo "<tr><td colspan=2><table align=right border=0><tr><td>\n</td><td>";
 	if ($hgwa_Username === false) {
 		echo '<a href="index.php?action=login">' . Core::GetMessage("login").'</a>';
 	} else
