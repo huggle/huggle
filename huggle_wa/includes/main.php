@@ -27,7 +27,7 @@ class Core {
 	}
 	
 	public static function LoadLanguage () {
-		global $hgwa_DefaultLoc, $hgwa_Locals, $hg$hgwa_Language;
+		global $hgwa_DefaultLoc, $hgwa_Locals, $hgwa_Language;
 		switch ($hgwa_Language) {
 		case 'en':
 		case 'cs':
