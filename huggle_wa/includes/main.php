@@ -50,7 +50,7 @@ class Core {
 	public static function LoadContent() {
 		global $hgwa_HtmlTitle;
 		include ("html/template_header");
-		loadcontent();
+		Html::LoadContent();
 		include ("html/template_footer");
 		return 1;
 	}

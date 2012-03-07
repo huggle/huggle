@@ -16,6 +16,11 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 /* Huggle WA - app/loadwikis.php */
+
+
+class Wiki {
+	public static function LoadWikis() {
+	global $hgwa_WikiProtocol, $hgwa_WikiAddress;
 	$ch1 = curl_init();
 	$curlurl1 = $hgwa_WikiProtocol.$hgwa_WikiAddress."/index.php?action=raw&title=Huggle_WA/TestConf";
 
@@ -31,4 +36,5 @@
 
 	$wikiname1 = $conf->wikiname[0];
 	$wikiurl1 = $conf->wikiurl[0];
-
+	}
+}

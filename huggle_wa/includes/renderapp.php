@@ -16,9 +16,13 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 /* Huggle WA - app/renderapp.php */
-function loadcontent() {
-	$header = "<div class=\"header1\">Huggle WA</div>";
+
+class Html {
+public static function LoadContent() {
+	$header = "<div class=\"header1\">Huggle</div>";
 	echo $header;
-	$selectedwiki = "<p>Your selected wiki:</p>"; // Function not implemented
+	$selectedwiki = "<p>" . Core::GetMessage("select_wiki") . ":</p>"; // Function not implemented
 	echo $selectedwiki;
+	return 0;
+}
 }
