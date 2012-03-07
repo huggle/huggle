@@ -16,5 +16,10 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
+if ( !defined( 'HUGGLE' ) ) {
+	echo "This is a part of huggle wa, unable to load config";
+	die (1);
+}
+
 $hgwa_Username = false;
 $hgwa_Version = "1.0.0";

@@ -17,6 +17,10 @@
 //GNU General Public License for more details.
 /* Huggle WA - app/loadwikis.php */
 
+if ( !defined( 'HUGGLE' ) ) {
+	echo "This is a part of huggle wa, unable to load config";
+	die (1);
+}
 
 class Wiki {
 	public static function LoadWikis() {

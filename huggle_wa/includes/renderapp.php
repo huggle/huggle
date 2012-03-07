@@ -17,6 +17,11 @@
 //GNU General Public License for more details.
 /* Huggle WA - app/renderapp.php */
 
+if ( !defined( 'HUGGLE' ) ) {
+	echo "This is a part of huggle wa, unable to load config";
+	die (1);
+}
+
 class Html {
 
 private static function Header() {

@@ -17,3 +17,7 @@
 //GNU General Public License for more details.
 /* Huggle WA - app/functions.php */
 
+if ( !defined( 'HUGGLE' ) ) {
+	echo "This is a part of huggle wa, unable to load config";
+	die (1);
+}
