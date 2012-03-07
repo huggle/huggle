@@ -15,7 +15,7 @@
 //but WITHOUT ANY WARRANTY; without even the implied warranty of
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
-/* Huggle WA - app/parse-rc.php */
+/* Huggle WA - app/parse-rc.php 
 	$ch2 = curl_init();
 	$curlurl2 = $wikiurl1."/api.php?action=query&list=recentchanges&format=xml";
 
@@ -41,5 +41,6 @@
 	"revid" => $revid,
 	"oldrevid" => $oldrevid,
 	"timestamp" => $timestamp
-	);
-	
+);
+	fix me
+ */	
