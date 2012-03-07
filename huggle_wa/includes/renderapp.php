@@ -18,11 +18,31 @@
 /* Huggle WA - app/renderapp.php */
 
 class Html {
+
+private static function Header() {
+	include "html/template_header";
+}
+private static function Menu() {
+	global $hgwa_Username;
+	echo "<table align=right border=0><tr><td></td><td>";
+	if ($hgwa_Username === false) {
+		echo '<a href="index.php?action=login">' . Core::GetMessage("login").'</a>';
+	} else
+	{
+		echo "$hgwa_Username" . '<a href="index.php?action=logoff">' . Core::GetMessage("logout") . "</a>";
+	}	
+	echo "</td></tr></table>";
+}
+
+private static function Footer() {
+	include "html/template_footer";
+}
+
 public static function LoadContent() {
-	$header = "<div class=\"header1\">Huggle</div>";
-	echo $header;
-	$selectedwiki = "<p>" . Core::GetMessage("select_wiki") . ":</p>"; // Function not implemented
+	Html::Header();
+	$selectedwiki = "<p>" . Core::GetMessage("select_wiki") . "</p>"; // Function not implemented
 	echo $selectedwiki;
+	Html::Footer();
 	return 0;
 }
 }

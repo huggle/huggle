@@ -19,6 +19,7 @@ if ( !defined( 'HUGGLE' ) ) {
 	die (1);
 }
 
+include ("includes/variables.php");
 
 class Core {
 	// Return a translated text
@@ -49,10 +50,8 @@ class Core {
 
 	// Load a web page
 	public static function LoadContent() {
-		global $hgwa_HtmlTitle;
-		include ("html/template_header");
+		global $hgwa_HtmlTitle, $hgwa_Version;
 		Html::LoadContent();
-		include ("html/template_footer");
 		return 1;
 	}
 }
