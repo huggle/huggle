@@ -29,14 +29,14 @@ private static function Header() {
 }
 private static function Menu() {
 	global $hgwa_Username;
-	echo "<table align=right border=0><tr><td></td><td>";
+	echo "<tr><td><table align=right border=0><tr><td></td><td>";
 	if ($hgwa_Username === false) {
 		echo '<a href="index.php?action=login">' . Core::GetMessage("login").'</a>';
 	} else
 	{
 		echo "$hgwa_Username" . '<a href="index.php?action=logoff">' . Core::GetMessage("logout") . "</a>";
 	}	
-	echo "</td></tr></table>";
+	echo "</td></tr></table></td></tr>";
 }
 
 private static function Footer() {
