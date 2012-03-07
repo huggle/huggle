@@ -40,10 +40,10 @@ class Core {
 
 	public static function Initialise() {
 		Core::LoadLanguage();
-		include("app/loadwikis.php");
-		include("app/functions.php");
-		include("app/parse-rc.php");
-		include("app/renderapp.php");
+		include("includes/loadwikis.php");
+		include("includes/functions.php");
+		include("includes/parse-rc.php");
+		include("includes/renderapp.php");
 	}
 
 	// Load a web page

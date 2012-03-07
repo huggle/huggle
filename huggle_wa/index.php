@@ -20,7 +20,6 @@
 /* Huggle WA - index.php */
 require ("config.php");
 require ("includes/main.php");
-require ("app/index.php");
 
 Core::Initialise();
 Core::LoadContent();
