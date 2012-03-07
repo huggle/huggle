@@ -23,6 +23,7 @@ if ( !defined( 'HUGGLE' ) ) {
 class Core {
 	// Return a translated text
 	public static function GetMessage ( $text ) {
+		global $hgwa_Message;
 		return $hgwa_Message[$text];
 	}
 	
