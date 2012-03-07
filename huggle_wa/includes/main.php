@@ -40,10 +40,15 @@ class Core {
 
 	public static function Initialise() {
 		Core::LoadLanguage();
+		include("app/loadwikis.php");
+		include("app/functions.php");
+		include("app/parse-rc.php");
+		include("app/renderapp.php");
 	}
 
 	// Load a web page
 	public static function LoadContent() {
+		global $hgwa_HtmlTitle;
 		include ("html/template_header");
 		loadcontent();
 		include ("html/template_footer");

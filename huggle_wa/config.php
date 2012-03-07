@@ -18,4 +18,8 @@ define ('HUGGLE', 0);
 $hgwa_Locals='includes/localization/';
 $hgwa_DefaultLoc='';
 
+$hgwa_HtmlTitle='Huggle';
+$hgwa_WikiProtocol = "http://"; // Protocol for the global wiki
+$hgwa_WikiAddress = "huggle.wmflabs.org/w"; // Path for the global wiki
+
 $hgwa_Language='en';
