@@ -22,11 +22,10 @@ $hgwa_DefaultLoc='';
 $hgwa_Message = "";
 
 // title for browser
-$hgwa_HtmlTitle='Huggle';
+$hgwa_HtmlTitle='Huggle (WA)';
 $hgwa_WikiProtocol = "http://"; // Protocol for the global wiki
 $hgwa_WikiAddress = "huggle.wmflabs.org/w"; // Path for the global wiki
 // Size of queue
-$hgwa_QueueWidth = "200px";
 $hgwa_Debugging = true;
 
 $hgwa_Language='en';
