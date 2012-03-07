@@ -7,8 +7,8 @@
 </head>
 <body>
 	<table width="100%" border=1>
-		<tr colspan="2">
-			<td>
+		<tr>
+			<td colspan="2">
 				<p align=center><font size=8>Huggle</font><br>Web application</p>
 			</td>
 		</tr>
