@@ -39,6 +39,20 @@ private static function Menu() {
 	echo "</td></tr>\n</table>\n</td>\n</tr>";
 }
 
+private static function ToolBar() {
+	global $hgwa_Debugging;
+	if ( $hgwa_Debugging ) {
+			echo "<!-- Tool bar -->\n";
+		}
+}
+
+private static function Statsbar() {
+	global $hgwa_Debugging;
+	if ( $hgwa_Debugging ) {
+			echo "<!-- Status bar -->\n";
+		}
+}
+
 private static function Content() {
 	global $hgwa_Username, $hgwa_QueueWidth;
 	// queue
@@ -61,7 +75,9 @@ private static function Footer() {
 public static function LoadContent() {
 	self::Header();
 	self::Menu();
+	self::ToolBar();
 	self::Content();
+	self::Statsbar();
 	Html::Footer();
 	return 0;
 }
