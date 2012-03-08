@@ -6,4 +6,5 @@
 	<link rel="stylesheet" type="text/css" href="./style/style.css">
 </head>
 <body>
-	<div class='header'><div class='headertext1'>Huggle</div><br />Web application</div>
+	<div class='bkg1'>
+	<!-- <div class='header'><div class='headertext1'>Huggle</div><br />Web application</div> -->

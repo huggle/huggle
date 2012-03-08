@@ -1,4 +1,5 @@
 
-<div class="footer">&copy; Copyright 2012 Huggle team. This software is open source, licensed under <a href="http://www.gnu.org/licenses/gpl-3.0.html">GNU GPL</a>.</div>
+<div class="footer"><div class="footertext">&copy; Copyright 2012 Huggle team. This software is open source, licensed under <a href="http://www.gnu.org/licenses/gpl-3.0.html">GNU GPL</a>.</div></div>
+</div>
 </body>
 </html>
