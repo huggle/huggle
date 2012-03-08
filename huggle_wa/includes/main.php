@@ -43,25 +43,31 @@ class Core {
 		return true;
 	}
 
+	public static function Info($data) {
+		global $hgwa_Debugging;
+		if ( $hgwa_Debugging == false ) {
+			return 0;
+		}
+		echo "<!-- Message: $data -->\n";
+	}
+
 	public static function Initialise() {
 		global $hgwa_Debugging, $hgwa_Version;
 		Core::LoadLanguage();
-		if ( $hgwa_Debugging ) {
-			echo "<!-- Started huggle version " . $hgwa_Version . " languages loaded, loading other files -->\n";
-		}
+		Core::Info ( "<!-- Started huggle version " . $hgwa_Version . " languages loaded, loading other files -->\n" );
 		include("includes/loadwikis.php");
 		include("includes/functions.php");
 		include("includes/parse-rc.php");
 		include("includes/renderapp.php");
-		if ( $hgwa_Debugging ) {
-			echo "<!-- All include files were loaded, initialisation is done -->\n";
+		Core::Info( "<!-- All include files were loaded, initialisation is done -->\n" );
 		}
 	}
 
 	// Load a web page
 	public static function LoadContent() {
-		global $hgwa_HtmlTitle, $hgwa_Version;
+		global $hgwa_HtmlTitle $hgwa_Version;
 		Html::LoadContent();
+		Core::Info( "Page generated ok" );
 		return 1;
 	}
 }

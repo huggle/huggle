@@ -19,9 +19,7 @@
 
 /* Huggle WA - index.php */
 require ("config.php");
-if ( $hgwa_Debugging ) {
-	$hgwa_Exec = microtime(true);
-}
+$hgwa_Exec = microtime(true);
 require ("includes/main.php");
 
 Core::Initialise();
