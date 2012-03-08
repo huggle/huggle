@@ -51,6 +51,7 @@ class Core {
 		echo "<!-- Message: $data -->\n";
 	}
 
+	// Initialise
 	public static function Initialise() {
 		global $hgwa_Debugging, $hgwa_Version;
 		Core::LoadLanguage();
@@ -64,7 +65,7 @@ class Core {
 
 	// Load a web page
 	public static function LoadContent() {
-		global $hgwa_HtmlTitle $hgwa_Version;
+		global $hgwa_HtmlTitle, $hgwa_Version;
 		Html::LoadContent();
 		Core::Info( "Page generated ok" );
 		return 1;
