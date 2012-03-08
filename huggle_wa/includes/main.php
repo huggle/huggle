@@ -60,7 +60,6 @@ class Core {
 		include("includes/parse-rc.php");
 		include("includes/renderapp.php");
 		Core::Info( "<!-- All include files were loaded, initialisation is done -->\n" );
-		}
 	}
 
 	// Load a web page
