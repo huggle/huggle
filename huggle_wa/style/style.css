@@ -38,7 +38,7 @@ div.menubuttons {
 }
 
 div.menulogin {
-	margin-left: 30%;
+
 }
 div.interface {
 	/* border-top:1px solid black; */
@@ -51,12 +51,16 @@ div.queue {
 
 div.content{
 	margin-left:200px;
-	font-size:16pt;
 	background-color:white;
 	height:500px;
 	border-top:1px solid #7AC5CD;
 	border-left:1px solid #7AC5CD;
 	border-bottom:1px solid #7AC5CD;
+}
+
+div.contentloggedout {
+	font-size:16pt;
+	text-align:center;
 }
 
 div.footer {
@@ -71,5 +75,5 @@ div.footertext {
 }
 
 div.footerimg {
-	
+	margin-left:91%;
 }

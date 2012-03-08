@@ -62,7 +62,7 @@ private static function Content() {
 	// body
 	echo "<div class=\"content\">";
 	if ( $hgwa_Username === false ) {
-		echo Core::GetMessage("anon");	
+		echo "<div class=\"contentloggedout\">" . Core::GetMessage("anon") . "</div>";
 	}
 	echo "</div></div>";
 
