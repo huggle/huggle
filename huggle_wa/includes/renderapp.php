@@ -79,7 +79,7 @@ public static function LoadContent() {
 	self::ToolBar();
 	self::Content();
 	self::Statsbar();
-	Html::Footer();
+	self::Footer();
 	return 0;
 }
 }
