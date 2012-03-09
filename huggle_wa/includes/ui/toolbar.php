@@ -26,7 +26,7 @@ class ToolBar extends Tool {
 		parent::CreateButton ("revert", "rv", "diff-revert", Core::GetMessage('main-tip-revert'));
 		parent::CreateButton ("notice", "notice", "diff-notice", Core::GetMessage('main-tip-notice'));
 		parent::CreateButton ("warn", "warning", "diff-warn", Core::GetMessage('main-tip-warn')); 
-		parent::CreateButton ("stop", "cancel", "cancel-all", Core:GetMessage('main-tip-cancel'));
+		parent::CreateButton ("stop", "cancel", "cancel-all", Core::GetMessage('main-tip-cancel'));
 		parent::CreateButton ("undo", "restore", "undo", Core::GetMessage('main-tip-undo'));
 		return 0;
 	}
