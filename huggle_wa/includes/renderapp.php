@@ -2,7 +2,7 @@
 //This is a source code or part of Huggle project
 //
 //This file contains code for index page
-//last modified by Petrb
+//last modified by Addshore
 
 //Copyright (C) 2011-2012 Huggle team
 
@@ -81,9 +81,9 @@ private static function Footer() {
 }
 
 public static function LoadContent() {
-	require ( 'includes/ui/generictool.php' );
-	require ( 'includes/ui/toolbar.php' );
-	require ( "includes/ui/statusbar.php" ); 
+	require ("includes/ui/generictool.php");
+	require ("includes/ui/toolbar.php");
+	require ("includes/ui/statusbar.php"); 
 	self::Header();
 	self::Menubuttons();
 	self::ToolBar();
