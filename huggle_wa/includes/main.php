@@ -82,13 +82,13 @@ class Core {
 
 	private static function Login() {
 		global $hgwa_Username;
+		Html::ChangeTitle( Core::Message( 'title-login' ) );
+		Core::Info ( "User login" );
 		if ( $hgwa_Username != null ) {
 			Core::Info( "User is already logged in" );
 			Html::$_page = Core::Message( 'loggedfail' );
-			Html::ChangeTitle( Core::Message( 'title-login' ) );	
 			return 0;
 		}
-		Core::Info ( "User login" );
 		return 0;
 	}
 
@@ -104,7 +104,7 @@ class Core {
 	public static function Initialise() {
 		global $hgwa_Debugging, $hgwa_Version;
 		Core::LoadLanguage();
-		Core::Info ( "<!-- Started huggle version " . $hgwa_Version . " languages loaded, loading other files -->\n" );
+		Core::Info ( "Started huggle version " . $hgwa_Version . " languages loaded, loading other files\n" );
 		include("includes/loadwikis.php");
 		include("includes/functions.php");
 		include("includes/parse-rc.php");
