@@ -21,8 +21,8 @@ class ToolBar extends Tool {
 		self.Render();
 	}
 	public function Create() {
-		self.CreateButton ("revert-and-warn", "huggle_raw", "", Core::Mesage('main-revert-and-warn') );
-		self.CreateButton ("revert", "huggle-rv", "", Core::Message(''));
+		parent::CreateButton ("revert-and-warn", "huggle_raw", "", Core::Message('main-revert-and-warn') );
+		parent::CreateButton ("revert", "huggle-rv", "", Core::Message(''));
 		return 0;
 	}
 }

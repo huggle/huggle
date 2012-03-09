@@ -45,7 +45,7 @@ private static function Menu() {
 private static function ToolBar() {
 	global $hgwa_Debugging;
 	self::$_toolbar = new Toolbar();
-	$_toolbar->Create();
+	self::$_toolbar->Create();
 	if ( $hgwa_Debugging ) {
 			echo "<!-- Tool bar -->\n";
 		}
