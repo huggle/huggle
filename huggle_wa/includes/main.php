@@ -110,7 +110,7 @@ class Core {
 		include("includes/parse-rc.php");
 		include("includes/renderapp.php");
 		Core::getAction();
-		Core::Info( "<!-- All include files were loaded, initialisation is done -->\n" );
+		Core::Info( "All include files were loaded, initialisation is done\n" );
 	}
 
 	// Load a web page

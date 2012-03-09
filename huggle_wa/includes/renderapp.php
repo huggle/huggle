@@ -46,9 +46,7 @@ private static function ToolBar() {
 	global $hgwa_Debugging;
 	self::$_toolbar = new Toolbar();
 	self::$_toolbar->Create();
-	if ( $hgwa_Debugging ) {
-			echo "<!-- Tool bar -->\n";
-		}
+	
 }
 
 public static function ChangeTitle( $content ) {
@@ -59,9 +57,6 @@ public static function ChangeTitle( $content ) {
 private static function Statsbar() {
 	global $hgwa_Debugging;
 	self::$_statusbar = new Statusbar();
-	if ( $hgwa_Debugging ) {
-			echo "<!-- Status bar -->\n";
-		}
 }
 
 private static function Content() {
