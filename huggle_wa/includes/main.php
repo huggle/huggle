@@ -85,7 +85,7 @@ class Core {
 			return 0;
 		}
 		Core::Info ( "User login" );
-
+		return 0;
 	}
 
 	public static function Info($data) {
