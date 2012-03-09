@@ -60,7 +60,7 @@ class Core {
 					Core::$Action = "options";
 					break;
 				case "about":
-					Core::Action = "about";
+					Core::$Action = "about";
 					break;
 				default:
 					Core::Info = 'unknown "$action"';
@@ -68,10 +68,12 @@ class Core {
 			}
 		}
 	}
-	
+		
 	private static function Logout() {
 		global $hgwa_Username;
 		$hgwa_Username = null;
+		Html::$_page = Core::Message( 'logout-done' );
+	        return;	
 	}
 
 	private static function Login() {
