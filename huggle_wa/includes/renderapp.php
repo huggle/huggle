@@ -23,7 +23,7 @@ if ( !defined( 'HUGGLE' ) ) {
 }
 
 class Html {
-
+public static $_page = "";
 private static function Header() {
 	$hgwa_HtmlTitle = "Huggle WA"; // only temporary
 	include "html/template_header";
@@ -47,6 +47,11 @@ private static function ToolBar() {
 		}
 }
 
+public static function ChangeTitle( $content ) {
+	global $hgwa_HtmlTitle;
+	$hgwa_HtmlTitle = $content;
+}
+
 private static function Statsbar() {
 	global $hgwa_Debugging;
 	if ( $hgwa_Debugging ) {
@@ -61,9 +66,7 @@ private static function Content() {
 	echo "<div class=\"queue\">" . Core::GetMessage("queue") . "\n</div>";
 	// body
 	echo "<div class=\"content\">";
-	if ( $hgwa_Username === false ) {
-		echo "<div class=\"contentloggedout\">" . Core::GetMessage("anon") . "</div>";
-	}
+	echo self::$_page;
 	echo "</div></div>";
 
 }

@@ -22,6 +22,7 @@ if ( !defined( 'HUGGLE' ) ) {
 include ("includes/variables.php");
 
 class Core {
+	public static $action = null;
 	// Return a translated text
 	public static function GetMessage ( $text ) {
 		global $hgwa_Message, $hgwa_Debugging;
@@ -43,6 +44,48 @@ class Core {
 		return true;
 	}
 
+	private static getAction() {
+		global $hgwa_Username;
+		if ( $_GET['action'] != null ) {
+			switch($_GET['action'])
+			{
+				case "logout":
+					Core::Action = "logout";
+					Core::Logout();	
+					break;
+				case "login":
+					Core::Action = "login";
+					Core::Login();
+					break;
+				case "options":
+					Core::Action = "options";
+					break;
+				case "about":
+					Core::Action = "about";
+				default:
+					Core::Info = 'unknown "$action"';
+					break;
+			}
+		}
+	}
+	
+	private static function Logout() {
+		global $hgwa_Username;
+		$hgwa_Username = null;
+	}
+
+	private static function Login() {
+		global $hgwa_Username;
+		if ( $hgwa_Username != null ) {
+			Core::Info( "User is already logged in" );
+			Html::$_page = "You are already logged in";
+			
+			return 0;
+		}
+		Core::Info ( "User login" );
+
+	}
+
 	public static function Info($data) {
 		global $hgwa_Debugging;
 		if ( $hgwa_Debugging == false ) {
@@ -60,6 +103,7 @@ class Core {
 		include("includes/functions.php");
 		include("includes/parse-rc.php");
 		include("includes/renderapp.php");
+		Core::getAction();
 		Core::Info( "<!-- All include files were loaded, initialisation is done -->\n" );
 	}
 

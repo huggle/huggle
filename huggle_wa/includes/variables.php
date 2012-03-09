@@ -22,4 +22,5 @@ if ( !defined( 'HUGGLE' ) ) {
 }
 
 $hgwa_Username = false;
+$hgwa_Browser = null;
 $hgwa_Version = "1.0.0";
