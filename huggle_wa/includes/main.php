@@ -26,7 +26,7 @@ class Core {
 	// Return a translated text
 	public static function GetMessage ( $text ) {
 		global $hgwa_Message, $hgwa_Debugging;
-		if ( !isset $hgwa_Message[$text] ) {
+		if ( !isset ($hgwa_Message[$text]) ) {
 			return "undefined: $text";
 		}
 		
