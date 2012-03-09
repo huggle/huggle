@@ -16,8 +16,6 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
-require ( "includes/ui/generictool.php" );
-
 class StatusBar extends Tool {
 	public function Display() {
 		self.Render();

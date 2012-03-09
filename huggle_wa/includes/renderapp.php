@@ -82,7 +82,8 @@ private static function Footer() {
 }
 
 public static function LoadContent() {
-	require ( "includes/ui/toolbar.php" );
+	require ( 'includes/ui/generictool.php' );
+	require ( 'includes/ui/toolbar.php' );
 	require ( "includes/ui/statusbar.php" ); 
 	self::Header();
 	self::Menu();
