@@ -118,7 +118,7 @@ class Core {
 		include("includes/parse-rc.php");
 		include("includes/renderapp.php");
 		Core::getAction();
-		if (Core::action == null) {
+		if (Core::$action == null) {
 			Core::Auth();
 		}
 		Core::Info( "All include files were loaded, initialisation is done\n" );
