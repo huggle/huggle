@@ -46,7 +46,7 @@ class Core {
 
 	private static function getAction() {
 		global $hgwa_Username;
-		if ( $_GET['action'] != null ) {
+		if ( isset ($_GET['action']) ) {
 			switch($_GET['action'])  {
 				case "logout":
 					Core::$action = "logout";
