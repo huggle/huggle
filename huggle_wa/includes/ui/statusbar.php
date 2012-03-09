@@ -20,6 +20,6 @@ require ( "includes/ui/generictool.php" );
 
 class StatusBar extends Tool {
 	public Display() {
-		self->Render();
+		self.Render();
 	}
 }
