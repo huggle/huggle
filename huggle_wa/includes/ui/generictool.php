@@ -22,10 +22,10 @@ class Button {
 	public $Picture;
 	public $Tip;
 	public function __construct($_name, $_url, $_picture, $_tip) {
-		self->$Name = $_name;
-		self->$Picture = $_picture;
-		self->$Tip = $_tip;
-		self->$Action = $_url;
+		self.$Name = $_name;
+		self.$Picture = $_picture;
+		self.$Tip = $_tip;
+		self.$Action = $_url;
 	}
 }
 
@@ -44,17 +44,17 @@ class Tool {
 	}
 
 	public function CreateButton( $name, $url, $pict, $tip ) {
-		if ( self->$Buttons == null ) {
-			self->$Buttons = array ( new Button( $name, $url, $pict, $tip ) );
+		if ( self.$Buttons == null ) {
+			self.$Buttons = array ( new Button( $name, $url, $pict, $tip ) );
 			return false;
 		}
-		array_push(self->$Buttons, new Button ( $name, $url, $pict, $tip ) );
+		array_push(self.$Buttons, new Button ( $name, $url, $pict, $tip ) );
 		return true;
 	}
 
 	public function CreateLabel($name) {
-		if ( self->$Labels == null ) {
-			self->$Labels = array ( new Label ( $name ) );
+		if ( self.$Labels == null ) {
+			self.$Labels = array ( new Label ( $name ) );
 		}	
 	}
 }
