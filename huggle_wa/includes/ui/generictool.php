@@ -48,7 +48,7 @@ class Tool {
 			self.$Buttons = array ( new Button( $name, $url, $pict, $tip ) );
 			return false;
 		}
-		array_push(self.$Buttons, new Button ( $name, $url, $pict, $tip ) );
+		array_push(&self.$Buttons, new Button ( $name, $url, $pict, $tip ) );
 		return true;
 	}
 
