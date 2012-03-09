@@ -30,16 +30,8 @@ private static function Header() {
 	$hgwa_HtmlTitle = "Huggle WA"; // only temporary
 	include "html/template_header";
 }
-private static function Menu() {
-	global $hgwa_Username;
-	echo "\n<div class='menu'><div class='menubuttons'><!-- Menu -->Menu</div><div class='menulogin'>";
-	if ($hgwa_Username === false) {
-		echo '<a href="index.php?action=login">' . Core::GetMessage("login").'</a>';
-	} else
-	{
-		echo "$hgwa_Username" . '<a href="index.php?action=logoff">' . Core::GetMessage("logout") . "</a></div>";
-	}	
-	echo "</div></div>";
+private static function Menubuttons() {
+	echo "\n<div class='menu'><div class='menubuttons'>";
 }
 
 private static function ToolBar() {
@@ -47,6 +39,18 @@ private static function ToolBar() {
 	self::$_toolbar = new Toolbar();
 	self::$_toolbar->Create();
 	self::$_toolbar->Render();	
+}
+
+private static function Menulogin() {
+	global $hgwa_Username;
+	echo "</div><div style=\"menulogin\">";
+	if ($hgwa_Username === false) {
+		echo '<a href="index.php?action=login">' . Core::GetMessage("login").'</a>';
+	} else
+	{
+		echo "$hgwa_Username" . '<a href="index.php?action=logoff">' . Core::GetMessage("logout") . "</a></div>";
+	}	
+	echo "</div></div>";
 }
 
 public static function ChangeTitle( $content ) {
@@ -81,8 +85,9 @@ public static function LoadContent() {
 	require ( 'includes/ui/toolbar.php' );
 	require ( "includes/ui/statusbar.php" ); 
 	self::Header();
-	self::Menu();
+	self::Menubuttons();
 	self::ToolBar();
+	self::Menulogin();
 	self::Content();
 	self::Statsbar();
 	self::Footer();
