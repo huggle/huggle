@@ -40,7 +40,7 @@ class Tool {
 	public function Render () {
 		echo "<table><tr>";
 			foreach ($this->Buttons as $name => $_button) {
-				echo "<td>".$_button->Name."<img link=".$_button->Picture."></img></td>";
+				echo "<td>".$_button->Name."<a href=index.php?action=toolbar&button=". $_button->Action ."><img link=\"html/png/".$_button->Picture.".png\" alt=\"". $button->Tip ."\"></img></td>";
 			}
 		echo "</tr></table>";
 		return;
