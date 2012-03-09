@@ -44,7 +44,7 @@ class Core {
 		return true;
 	}
 
-	private static getAction() {
+	private static function getAction() {
 		global $hgwa_Username;
 		if ( $_GET['action'] != null ) {
 			switch($_GET['action'])
@@ -78,8 +78,8 @@ class Core {
 		global $hgwa_Username;
 		if ( $hgwa_Username != null ) {
 			Core::Info( "User is already logged in" );
-			Html::$_page = "You are already logged in";
-			
+			Html::$_page = Core::Message( 'loggedfail' );
+			Html::ChangeTitle( Core::Message( '' );	
 			return 0;
 		}
 		Core::Info ( "User login" );
