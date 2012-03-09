@@ -76,17 +76,17 @@ class Core {
 	private static function Logout() {
 		global $hgwa_Username;
 		$hgwa_Username = null;
-		Html::$_page = Core::Message( 'logout-done' );
+		Html::$_page = Core::GetMessage( 'logout-done' );
 	        return;	
 	}
 
 	private static function Login() {
 		global $hgwa_Username;
-		Html::ChangeTitle( Core::Message( 'title-login' ) );
+		Html::ChangeTitle( Core::GetMessage( 'title-login' ) );
 		Core::Info ( "User login" );
 		if ( $hgwa_Username != null ) {
 			Core::Info( "User is already logged in" );
-			Html::$_page = Core::Message( 'loggedfail' );
+			Html::$_page = Core::GetMessage( 'loggedfail' );
 			return 0;
 		}
 		return 0;
