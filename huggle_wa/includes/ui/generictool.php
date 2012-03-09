@@ -21,7 +21,7 @@ class Button {
 	public $Action;
 	public $Picture;
 	public $Tip;
-	public __construct($_name, $_url, $_picture, $_tip) {
+	public function __construct($_name, $_url, $_picture, $_tip) {
 		self->$Name = $_name;
 		self->$Picture = $_picture;
 		self->$Tip = $_tip;
