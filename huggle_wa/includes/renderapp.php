@@ -2,7 +2,7 @@
 //This is a source code or part of Huggle project
 //
 //This file contains code for index page
-//last modified by IWorld
+//last modified by Petrb
 
 //Copyright (C) 2011-2012 Huggle team
 
@@ -24,6 +24,8 @@ if ( !defined( 'HUGGLE' ) ) {
 
 class Html {
 public static $_page = "";
+public static $_toolbar;
+public static $_statusbar;
 private static function Header() {
 	$hgwa_HtmlTitle = "Huggle WA"; // only temporary
 	include "html/template_header";
@@ -42,6 +44,8 @@ private static function Menu() {
 
 private static function ToolBar() {
 	global $hgwa_Debugging;
+	self::$_toolbar = new Toolbar();
+	$_toolbar->Create();
 	if ( $hgwa_Debugging ) {
 			echo "<!-- Tool bar -->\n";
 		}
@@ -54,6 +58,7 @@ public static function ChangeTitle( $content ) {
 
 private static function Statsbar() {
 	global $hgwa_Debugging;
+	self::$_statusbar = new Statusbar();
 	if ( $hgwa_Debugging ) {
 			echo "<!-- Status bar -->\n";
 		}
@@ -77,6 +82,8 @@ private static function Footer() {
 }
 
 public static function LoadContent() {
+	require ( "includes/ui/toolbar.php" );
+	require ( "includes/ui/statusbar.php" ); 
 	self::Header();
 	self::Menu();
 	self::ToolBar();
