@@ -81,7 +81,7 @@ class Core {
 		if ( $hgwa_Username != null ) {
 			Core::Info( "User is already logged in" );
 			Html::$_page = Core::Message( 'loggedfail' );
-			Html::ChangeTitle( Core::Message( '' );	
+			Html::ChangeTitle( Core::Message( 'title-login' ) );	
 			return 0;
 		}
 		Core::Info ( "User login" );
