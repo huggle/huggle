@@ -20,6 +20,7 @@ class ToolBar extends Tool {
 	public function Display() {
 		self.Render();
 	}
+	// Create a bar
 	public function Create() {
 		parent::CreateButton ("revert-and-warn", "raw", "diff-revert-warn", Core::GetMessage('main-revert-and-warn'));
 		parent::CreateButton ("next-edit", "next", "diff-next", Core::GetMessage('main-tip-next'));
