@@ -21,8 +21,9 @@ class ToolBar extends Tool {
 		self.Render();
 	}
 	public function Create() {
-		parent::CreateButton ("revert-and-warn", "huggle_raw", "", Core::GetMessage('main-revert-and-warn') );
-		parent::CreateButton ("revert", "huggle-rv", "", Core::GetMessage(''));
+		parent::CreateButton ("revert-and-warn", "huggle_raw", "diff-revert-warn", Core::GetMessage('main-revert-and-warn') );
+		parent::CreateButton ("next-edit", "diff_next", "diff-next", Core::GetMessage('main-next') );
+		parent::CreateButton ("revert", "huggle-rv", "diff-revert", Core::GetMessage('main-revert'));
 		return 0;
 	}
 }
