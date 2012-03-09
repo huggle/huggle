@@ -63,7 +63,7 @@ class Core {
 					Core::$Action = "about";
 					break;
 				default:
-					Core::Info = 'unknown "$action"';
+					Core::Info('unknown "$action"' );
 					break;
 			}
 		}

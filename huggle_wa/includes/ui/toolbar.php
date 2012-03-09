@@ -17,3 +17,9 @@
 //GNU General Public License for more details.
 
 require ( "includes/ui/generictool.php" );
+
+class ToolBar : Tool {
+	public Display() {
+		self:Render();
+	}
+}
