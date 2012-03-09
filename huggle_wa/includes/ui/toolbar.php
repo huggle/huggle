@@ -20,6 +20,11 @@ require ( "includes/ui/generictool.php" );
 
 class ToolBar : Tool {
 	public Display() {
-		self:Render();
+		self->Render();
+	}
+	public Create() {
+		self->CreateButton ("revert-and-warn", "huggle_raw", "", Core::Mesage('main-revert-and-warn') );
+		self->CreateButton ("revert", "huggle-rv", "", Core::Message(''));
+		return 0;
 	}
 }

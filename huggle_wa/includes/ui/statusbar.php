@@ -18,7 +18,8 @@
 
 require ( "includes/ui/generictool.php" );
 
-class StatusBar {
-	public static Display() {
+class StatusBar : Tool {
+	public Display() {
+		self->Render();
 	}
 }
