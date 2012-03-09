@@ -49,15 +49,15 @@ class Core {
 		if ( $_GET['action'] != null ) {
 			switch($_GET['action'])  {
 				case "logout":
-					Core::Action = "logout";
+					Core::$Action = "logout";
 					Core::Logout();	
 					break;
 				case "login":
-					Core::Action = "login";
+					Core::$Action = "login";
 					Core::Login();
 					break;
 				case "options":
-					Core::Action = "options";
+					Core::$Action = "options";
 					break;
 				case "about":
 					Core::Action = "about";
