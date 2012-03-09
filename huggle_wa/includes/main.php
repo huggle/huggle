@@ -26,6 +26,10 @@ class Core {
 	// Return a translated text
 	public static function GetMessage ( $text ) {
 		global $hgwa_Message, $hgwa_Debugging;
+		if ( !isset $hgwa_Message[$text] ) {
+			return "undefined: $text";
+		}
+		
 		return $hgwa_Message["$text"];
 	}
 	
@@ -46,7 +50,7 @@ class Core {
 
 	private static function getAction() {
 		global $hgwa_Username;
-		if ( isset ($_GET['action']) ) {
+		if ( isset ($_GET['action'] ) ) {
 			switch($_GET['action'])  {
 				case "logout":
 					Core::$action = "logout";
