@@ -63,7 +63,7 @@ class Core {
 		if ( isset ($_GET['uselang']) ) {
 			if (Core::isLanguage($_GET['uselang'])) {
 				$hgwa_Language = $_GET['uselang'];
-				self:LoadLanguage();
+				self::LoadLanguage();
 			}
 			Core::Info("Override for language is triggered");
 		}
