@@ -18,7 +18,7 @@
 
 require ( "includes/ui/generictool.php" );
 
-class ToolBar : Tool {
+class ToolBar extends Tool {
 	public Display() {
 		self->Render();
 	}
