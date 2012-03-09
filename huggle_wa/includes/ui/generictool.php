@@ -44,7 +44,7 @@ class Tool {
 	}
 
 	public function CreateButton( $name, $url, $pict, $tip ) {
-		$this->Buttons[$name] = new Button ( $name, $url, $pict, $tip ) );
+		$this->Buttons[$name] = new Button ( $name, $url, $pict, $tip );
 		return true;
 	}
 
