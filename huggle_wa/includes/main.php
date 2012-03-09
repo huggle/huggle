@@ -72,7 +72,15 @@ class Core {
 			}
 		}
 	}
-		
+	
+	public static function Auth() {
+		global $hgwa_Username;
+		if ($hgwa_Username == null) {
+			Html::$_page = Core::GetMessage( 'anon' );
+			return false;
+		}
+		return true;
+	}
 	private static function Logout() {
 		global $hgwa_Username;
 		$hgwa_Username = null;
@@ -110,6 +118,9 @@ class Core {
 		include("includes/parse-rc.php");
 		include("includes/renderapp.php");
 		Core::getAction();
+		if (Core::action == null) {
+			Core::Auth();
+		}
 		Core::Info( "All include files were loaded, initialisation is done\n" );
 	}
 
