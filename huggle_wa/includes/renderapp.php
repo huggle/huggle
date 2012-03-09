@@ -46,7 +46,7 @@ private static function ToolBar() {
 	global $hgwa_Debugging;
 	self::$_toolbar = new Toolbar();
 	self::$_toolbar->Create();
-	
+	self::$_toolbar->Render();	
 }
 
 public static function ChangeTitle( $content ) {

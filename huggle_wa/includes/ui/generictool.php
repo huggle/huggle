@@ -39,6 +39,9 @@ class Tool {
 	public $Buttons = array();
 	public function Render () {
 		echo "<table><tr>";
+			foreach ($this->Buttons as $name => $_button) {
+				echo "<td>".$_button->Name."<img link=".$_button->Picture."></img></td>";
+			}
 		echo "</tr></table>";
 		return;
 	}
