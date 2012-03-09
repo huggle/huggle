@@ -34,9 +34,9 @@ class Label {
 }	
 
 class Tool {
-	public $Labels = null;
+	public $Labels = array();
 	public $Name = null;
-	public $Buttons = null;
+	public $Buttons = array();
 	public function Render () {
 		echo "<table><tr>";
 		echo "</tr></table>";
@@ -44,17 +44,11 @@ class Tool {
 	}
 
 	public function CreateButton( $name, $url, $pict, $tip ) {
-		if ( $this->Buttons == null ) {
-			$this->Buttons = array ( new Button( $name, $url, $pict, $tip ) );
-			return false;
-		}
-		array_push( $this->Buttons, new Button ( $name, $url, $pict, $tip ) );
+		$this->Buttons[$name] = new Button ( $name, $url, $pict, $tip ) );
 		return true;
 	}
 
 	public function CreateLabel($name) {
-		if ( $this->Labels == null ) {
-			$this->Labels = array ( new Label ( $name ) );
-		}	
+		return false;
 	}
 }
