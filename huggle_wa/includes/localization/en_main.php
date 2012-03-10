@@ -44,7 +44,6 @@ $hgwa_Message = array(
 	"minimizewindow" =>            "Minimize",
 	"no" =>                        "No",
 	"ok" =>                        "OK",
-	"queue" =>                     "Queue",
 	"remove" =>                    "Remove",
 	"rename" =>                    "Rename",
 	"restorewindow" =>             "Restore",

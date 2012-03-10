@@ -56,6 +56,7 @@ div.content{
 	border-top:1px solid #7AC5CD;
 	border-left:1px solid #7AC5CD;
 	border-bottom:1px solid #7AC5CD;
+	overflow:scroll;
 }
 
 div.contentloggedout {
@@ -76,4 +77,29 @@ div.footertext {
 
 div.footerimg {
 	margin-left:91%;
+}
+
+/* Media Queries */
+@media only screen 
+and (max-device-width : 400px) {
+	div.menubuttons {
+		text-align:center;
+		width:100%;
+	}
+	div.queue {
+		visibility:hidden;
+	}
+	div.content {
+		margin-left:0px;
+	}
+	div.menulogin {
+		text-align:center;
+	}
+	div.footerimg {
+		margin-left:40%;
+	}
+	div.footertext {
+		margin-left:0;
+		text-align:center;
+	}
 }
