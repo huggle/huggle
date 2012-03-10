@@ -39,7 +39,7 @@ class Tool {
 	public $Buttons = array();
 	public function Render () {
 			foreach ($this->Buttons as $name => $_button) {
-				echo "<a href=index.php?action=toolbar&button=". $_button->Action ."><img src=\"./html/png/".$_button->Picture.".png\" alt=\"". $_button->Tip ."\" height=\"40\" /></a>";
+				echo "<a href=\"index.php?action=toolbar&button=". $_button->Action ."\"><img src=\"./html/png/".$_button->Picture.".png\" alt=\"". $_button->Tip ."\" height=\"40\" /></a>";
 			}
 		return;
 	}
