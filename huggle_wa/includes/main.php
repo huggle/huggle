@@ -150,6 +150,7 @@ class Core {
 		include("includes/functions.php");
 		include("includes/parse-rc.php");
 		include("includes/renderapp.php");
+		Core::getOverrides();
 		Core::getAction();
 		if (Core::$action == null) {
 			Core::Auth();
