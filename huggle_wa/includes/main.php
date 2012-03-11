@@ -25,13 +25,28 @@ class Core {
 	public static $action = null;
 	// Return a translated text
 	public static function GetMessage ( $text ) {
-		global $hgwa_Message;
-		if ( !isset ($hgwa_Message["$text"]) ) {
-			return "undefined: $text";
-		}
+		global $hgwa_Message, $hgwa_Debugging;
 		return $hgwa_Message["$text"];
+		if (!isset($hgwa_Message)) {
+			echo "undefinded translation";
+		}
 	}
 	
+	public static function LoadLanguage () {
+		global $hgwa_Debugging, $hgwa_DefaultLoc, $hgwa_Locals, $hgwa_Message, $hgwa_Language;
+		switch ($hgwa_Language) {
+		case 'en':
+		case 'cs':
+			include ( "$hgwa_Locals" . $hgwa_Language . "_main.php" );
+			return true;
+		}
+		if ( $hgwa_Debugging ) {
+			echo "<!-- Error: Invalid language -->\n";
+		}
+		include ( "$hgwa_Locals" . 'en.php' );
+		return true;
+	}
+
 	public static function isLanguage( $code ) {
 		switch ($code) {
 			case "en":
@@ -66,18 +81,6 @@ class Core {
 			}
 			Core::Info("Override for language is triggered");
 		}
-	}
-
-	private static function LoadLanguage () {
-		global $hgwa_Locals, $hgwa_Language;
-		if (Core::isLanguage( $hgwa_Language )) {
-			include ( "$hgwa_Locals" . $hgwa_Language . "_main.php" );
-			Core::Info( "Loading $hgwa_Language" );
-			return true;
-		}
-		echo "<!-- Error: Invalid language -->\n";
-		include ( "$hgwa_Locals" . 'en.php' );
-		return true;
 	}
 
 	private static function getAction() {
