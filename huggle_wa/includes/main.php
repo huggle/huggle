@@ -73,6 +73,7 @@ class Core {
 		global $hgwa_Locals, $hgwa_Language;
 		if (Core::isLanguage( $hgwa_Language )) {
 			include ( "$hgwa_Locals" . $hgwa_Language . "_main.php" );
+			Core::Info( "Loading $hgwa_Language" );
 			return true;
 		}
 		echo "<!-- Error: Invalid language -->\n";
