@@ -27,6 +27,7 @@ public static $_page = "";
 public static $_toolbar;
 public static $_statusbar;
 private static function Header() {
+	global $hgwa_HtmlTitle;
 	$hgwa_HtmlTitle = "Huggle WA"; // only temporary
 	include "html/template_header";
 }
