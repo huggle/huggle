@@ -16,6 +16,16 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
+/*
+ *  Developers of the origional code that these functions were based upon:
+ *      Cobi    - [[User:Cobi]]     - Wrote the http class and some of the wikipedia class
+ *      Chris   - [[User:Chris_G]]  - Wrote the most of the wikipedia class
+ *      Fale    - [[User:Fale]]     - Polish, wrote the extended and some of the wikipedia class
+ *      Kaldari - [[User:Kaldari]]  - Submitted a patch for the imagematches function
+ *      Gutza   - [[User:Gutza]]    - Submitted a patch for http->setHTTPcreds()
+ *      Addshore- [[User:Addshore]] - Altered all code for use in huggle-wa
+ **/
+
 class wikipedia {
     private $http;
     private $token;
@@ -29,6 +39,41 @@ class wikipedia {
         $this->ecTimestamp = null;
         if ($hu!==null)
             $this->http->setHTTPcreds($hu,$hp);
+    }
+	
+	/**
+     * Sends a query to the api.
+     * @param $query The query string.
+     * @param $post POST data if its a post request (optional).
+     * @return The api result.
+     **/
+    function query ($query,$post=null) {
+        if ($post==null)
+            $ret = $this->http->get($this->url.$query);
+        else
+            $ret = $this->http->post($this->url.$query,$post);
+        return unserialize($ret);
+    }
+
+    /**
+     * Gets the content of a page. Returns false on error.
+     * @param $page The wikipedia page to fetch.
+     * @param $revid The revision id to fetch (optional)
+     * @return The wikitext for the page.
+     **/
+    function getpage ($page,$revid=null,$detectEditConflict=false) {
+        $append = '';
+        if ($revid!=null)
+            $append = '&rvstartid='.$revid;
+        $x = $this->query('?action=query&format=php&prop=revisions&titles='.urlencode($page).'&rvlimit=1&rvprop=content|timestamp'.$append);
+        foreach ($x['query']['pages'] as $ret) {
+            if (isset($ret['revisions'][0]['*'])) {
+                if ($detectEditConflict)
+                    $this->ecTimestamp = $ret['revisions'][0]['timestamp'];
+                return $ret['revisions'][0]['*'];
+            } else
+                return false;
+        }
     }
 	
 }//end wikipedia class
@@ -119,6 +164,7 @@ class http {
         curl_close($this->ch);
         @unlink('/tmp/huggle.cookies.'.$this->uid.'.dat');
     }
-}
+	
+}//end of http class
 
 ?>
