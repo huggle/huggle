@@ -110,7 +110,7 @@ class Core {
 	
 	public static function ETime() {
 		global $hgwa_Exec;
-		$d = (( microtime(true) - $hgwa_Exec );
+		$d = ( microtime(true) - $hgwa_Exec );
 		if ( $d <= 0 ) {
 			return $d;
 		}
