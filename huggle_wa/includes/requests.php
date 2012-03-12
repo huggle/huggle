@@ -258,40 +258,6 @@ class wikipedia {
         }
     }
 
-    /* crappy hack to allow users to use cookies from old sessions */
-    function setLogin($data) {
-        $this->http->cookie_jar = array(
-        $data['cookieprefix'].'UserName' => $data['lgusername'],
-        $data['cookieprefix'].'UserID' => $data['lguserid'],
-        $data['cookieprefix'].'Token' => $data['lgtoken'],
-        $data['cookieprefix'].'_session' => $data['sessionid'],
-        );
-    }
-
-    /**
-     * Check if we're allowed to edit $page.
-     * See http://en.wikipedia.org/wiki/Template:Bots
-     * for more info.
-     * @param $page The page we want to edit.
-     * @param $user The bot's username.
-     * @return bool
-     **/
-    function nobots ($page,$user=null,$text=null) {
-        if ($text == null) {
-            $text = $this->getpage($page);
-        }
-        if ($user != null) {
-            if (preg_match('/\{\{(nobots|bots\|allow=none|bots\|deny=all|bots\|optout=all|bots\|deny=.*?'.preg_quote($user,'/').'.*?)\}\}/iS',$text)) {
-                return false;
-            }
-        } else {
-            if (preg_match('/\{\{(nobots|bots\|allow=none|bots\|deny=all|bots\|optout=all)\}\}/iS',$text)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     /**
      * This function returns the edit token for the current user.
      * @return edit token.
@@ -594,27 +560,6 @@ class wikipedia {
         }
         return $this->query('?action=protect&format=php',$params);
     }
-
-    /**
-     * Uploads an image.
-     * @param $page The destination file name.
-     * @param $file The local file path.
-     * @param $desc The upload discrption (defaults to '').
-     **/
-     function upload ($page,$file,$desc='') {
-        if ($this->token == null) {
-                $this->token = $this->getedittoken();
-        }
-        $params = array(
-                'filename'        => $page,
-                'comment'         => $desc,
-                'text'            => $desc,
-                'token'           => $this->token,
-                'ignorewarnings'  => '1',
-                'file'            => '@'.$file
-        );
-        return $this->query('?action=upload&format=php',$params);
-     }
     
     /*
     $page - page
@@ -640,26 +585,6 @@ class wikipedia {
             'wpSubmit' => 'Apply to selected revision(s)'
         );
         return $this->http->post(str_replace('api.php','index.php',$this->url).'?title=Special:RevisionDelete&action=submit',$post);
-    }
-
-    /**
-     * Creates a new account.
-     * Uses index.php as there is no api to create accounts yet :(
-     * @param $username The username the new account will have.
-     * @param $password The password the new account will have.
-     * @param $email The email the new account will have.
-     **/
-    function createaccount ($username,$password,$email=null) {
-        $post = array(
-            'wpName' => $username,
-            'wpPassword' => $password,
-            'wpRetype' => $password,
-            'wpEmail' => $email,
-            'wpRemember' => 0,
-            'wpIgnoreAntiSpoof' => 0,
-            'wpCreateaccount' => 'Create account',
-        );
-        return $this->http->post(str_replace('api.php','index.php',$this->url).'?title=Special:UserLogin&action=submitlogin&type=signup',$post);
     }
 
     /**
