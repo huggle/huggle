@@ -108,6 +108,14 @@ class Core {
 		return true;
 	}
 	
+	public static function ETime() {
+		global $hgwa_Exec;
+		$d = (( microtime(true) - $hgwa_Exec );
+		if ( $d <= 0 ) {
+			return $d;
+		}
+		return (( microtime(true) - $hgwa_Exec ) / 1000);
+	}
 	private static function Logout() {
 		global $hgwa_Username;
 		$hgwa_Username = null;
@@ -118,7 +126,7 @@ class Core {
 	private static function cbLogin($data) {
 		Html::$_page = $data;	
 	}
-
+	
 	private static function Login() {
 		global $hgwa_Username;
 		Html::ChangeTitle( Core::GetMessage( 'title-login' ) );
@@ -159,7 +167,7 @@ class Core {
 	public static function Initialise() {
 		global $hgwa_Debugging, $hgwa_Version;
 		Core::LoadLanguage();
-		Core::Info ( "Started huggle version " . $hgwa_Version . " languages loaded, loading other files\n" );
+		Core::Info ( "Started huggle version " . $hgwa_Version . " languages loaded, loading other files" );
 		include("includes/parse-rc.php");
 		include("includes/renderapp.php");
 		Core::getOverrides();
@@ -168,14 +176,14 @@ class Core {
 		if (Core::$action == null) {
 			Core::Auth();
 		}
-		Core::Info( "All include files were loaded, initialisation is done\n" );
+		Core::Info( "All include files were loaded, initialisation is done in " . Core::ETime() );
 	}
 
 	// Load a web page
 	public static function LoadContent() {
 		global $hgwa_HtmlTitle, $hgwa_Version;
 		Html::LoadContent();
-		Core::Info( "Page generated ok" );
+		Core::Info( "Page generated ok, generation took " . Core::Etime() . " seconds" );
 		return 1;
 	}
 }

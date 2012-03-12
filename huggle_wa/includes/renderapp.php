@@ -91,6 +91,7 @@ public static function LoadContent() {
 	require ("includes/ui/generictool.php");
 	require ("includes/ui/toolbar.php");
 	require ("includes/ui/statusbar.php"); 
+	require ("includes/ui/jsdialog.php");
 	self::Header();
 	self::Menubuttons();
 	self::ToolBar();
