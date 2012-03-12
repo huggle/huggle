@@ -26,27 +26,12 @@ class Core {
 	// Return a translated text
 	public static function GetMessage ( $text ) {
 		global $hgwa_Message, $hgwa_Debugging;
-		return $hgwa_Message["$text"];
-		if (!isset($hgwa_Message)) {
-			echo "undefinded translation";
+		if ( !isset ($hgwa_Message["$text"]) ) {
+			return "undefined: $text";
 		}
+		return $hgwa_Message["$text"];
 	}
 	
-	public static function LoadLanguage () {
-		global $hgwa_Debugging, $hgwa_DefaultLoc, $hgwa_Locals, $hgwa_Message, $hgwa_Language;
-		switch ($hgwa_Language) {
-		case 'en':
-		case 'cs':
-			include ( "$hgwa_Locals" . $hgwa_Language . "_main.php" );
-			return true;
-		}
-		if ( $hgwa_Debugging ) {
-			echo "<!-- Error: Invalid language -->\n";
-		}
-		include ( "$hgwa_Locals" . 'en.php' );
-		return true;
-	}
-
 	public static function isLanguage( $code ) {
 		switch ($code) {
 			case "en":
@@ -72,6 +57,7 @@ class Core {
 		}
 		return false;
 	}
+
 	public static function getOverrides() {
 		global $hgwa_Language, $hgwa_Skin;
 		if ( isset ($_GET['uselang']) ) {
@@ -83,24 +69,28 @@ class Core {
 		}
 	}
 
+	private static function LoadLanguage () {
+		global $hgwa_Message, $hgwa_Locals, $hgwa_Language;
+		if (Core::isLanguage( $hgwa_Language )) {
+			include ( "$hgwa_Locals" . $hgwa_Language . "_main.php" );
+			Core::Info( "Loading $hgwa_Language" );
+			return true;
+		}
+		Core::Info( "Error: Invalid language $hgwa_Language" );
+		include ( "$hgwa_Locals" . 'en.php' );
+		return true;
+	}
+
 	private static function getAction() {
 		global $hgwa_Username;
 		if ( isset ($_GET['action'] ) ) {
 			switch($_GET['action'])  {
 				case "logout":
-					Core::$action = "logout";
-					Core::Logout();	
-					break;
 				case "login":
-					Core::$action = "login";
-					Core::Login();
-					break;
 				case "options":
-					Core::$action = "options";
-					break;
 				case "about":
-					Core::$action = "about";
-					break;
+				case "editbar":
+					Core::$action = $_GET['action'];
 				default:
 					Core::Info('unknown "$action"' );
 					break;
@@ -134,6 +124,19 @@ class Core {
 			return 0;
 		}
 		return 0;
+	}
+
+	public static function doAction() {
+		switch (Core::$action)
+		{
+			case "logout":
+				Core::Logout();
+				break;
+			case "login":
+				Core::Login();
+				break;
+		}
+		return false;
 	}
 
 	public static function Info($data) {
