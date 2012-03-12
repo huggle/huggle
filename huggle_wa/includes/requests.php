@@ -16,6 +16,23 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
+class wikipedia {
+    private $http;
+    private $token;
+    private $ecTimestamp;
+    public $url;
+
+    function __construct ($url='http://en.wikipedia.org/w/api.php',$hu=null,$hp=null) {
+        $this->http = new http;
+        $this->token = null;
+        $this->url = $url;
+        $this->ecTimestamp = null;
+        if ($hu!==null)
+            $this->http->setHTTPcreds($hu,$hp);
+    }
+	
+}//end wikipedia class
+
 class http {
     private $ch;
     private $uid;
@@ -35,7 +52,7 @@ class http {
 
     function __construct () {
         $this->ch = curl_init();
-		//Generate a ranomd number for the cookie, if it exists do it again
+		//Generate a random number for the cookie, if it exists do it again
 		do {
 			$this->uid = dechex(rand(0,99999999));
 		}while(file_exists('/tmp/huggle.cookies.'.$this->uid.'.dat') == true)
