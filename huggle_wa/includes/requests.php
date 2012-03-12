@@ -20,8 +20,6 @@ class http {
     private $ch;
     private $uid;
     public $cookie_jar;
-    public $postfollowredirs;
-    public $getfollowredirs;
 
     function data_encode ($data, $keyprefix = "", $keypostfix = "") {
         assert( is_array($data) );
@@ -37,14 +35,14 @@ class http {
 
     function __construct () {
         $this->ch = curl_init();
-		//TODO: Add extra check here to make sure cookie files doesnt already exist
-        $this->uid = dechex(rand(0,99999999));
+		//Generate a ranomd number for the cookie, if it exists do it again
+		do {
+			$this->uid = dechex(rand(0,99999999));
+		}while(file_exists('/tmp/huggle.cookies.'.$this->uid.'.dat') == true)
         curl_setopt($this->ch,CURLOPT_COOKIEJAR,'/tmp/huggle.cookies.'.$this->uid.'.dat');
         curl_setopt($this->ch,CURLOPT_COOKIEFILE,'/tmp/huggle.cookies.'.$this->uid.'.dat');
         curl_setopt($this->ch,CURLOPT_MAXCONNECTS,100);
         curl_setopt($this->ch,CURLOPT_CLOSEPOLICY,CURLCLOSEPOLICY_LEAST_RECENTLY_USED);
-        $this->postfollowredirs = 0;
-        $this->getfollowredirs = 1;
         $this->cookie_jar = array();
     }
 
@@ -61,7 +59,6 @@ class http {
         }
         if ($cookies != null)
             curl_setopt($this->ch,CURLOPT_COOKIE,$cookies);
-        curl_setopt($this->ch,CURLOPT_FOLLOWLOCATION,$this->postfollowredirs);
         curl_setopt($this->ch,CURLOPT_MAXREDIRS,10);
         curl_setopt($this->ch, CURLOPT_HTTPHEADER, array('Expect:'));
         curl_setopt($this->ch,CURLOPT_RETURNTRANSFER,1);
@@ -86,7 +83,6 @@ class http {
         }
         if ($cookies != null)
             curl_setopt($this->ch,CURLOPT_COOKIE,$cookies);
-        curl_setopt($this->ch,CURLOPT_FOLLOWLOCATION,$this->getfollowredirs);
         curl_setopt($this->ch,CURLOPT_MAXREDIRS,10);
         curl_setopt($this->ch,CURLOPT_HEADER,0);
         curl_setopt($this->ch,CURLOPT_RETURNTRANSFER,1);
