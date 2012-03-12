@@ -18,8 +18,8 @@
 
 // local text
 $hgwa_Message = array(
-        "html_title" => "Huggle",
-        "select_wiki" => "Please select a wiki from the list:",
+    "html_title" => "Huggle",
+    "select_wiki" => "Please select a wiki from the list:",
 	"anon" => "You are not logged in. That means, I can't do much for you :)",
 	"loggedfail" => "You are already logged in, error",
 	"loggedtitle" => "Unable to login",
@@ -35,6 +35,8 @@ $hgwa_Message = array(
 	"error" =>                     "Error",
 	"exit" =>                      "Exit",
 	"login" =>                     "Login",
+	"login-username" =>            "Username",
+	"login-password" =>            "Password",
 	"main-revert-and-warn" =>      "Revert this revision, and issue a user warning",
 	"main-tip-next" =>             "Show the next revision in the queue",
 	"main-tip-revert" =>           "Revert this revision",
@@ -66,7 +68,7 @@ $hgwa_Message = array(
 	"edittype-speedytag" =>        "Speedy deletion tags",
 	"edittype-tag" =>              "Other tags",
 	"edittype-warning" =>          "Warnings",
-        "logout" => "Logout",
-        "login" => "Login"
+    "logout" => "Logout",
+    "login" => "Login"
 );
 
