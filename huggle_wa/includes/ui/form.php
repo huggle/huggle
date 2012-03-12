@@ -22,4 +22,7 @@ if ( !defined( 'HUGGLE' ) ) {
 class Form {
 	public $Title;
 	public $Menu;
+	public function Render() {
+		echo "<div>";
+	}
 }

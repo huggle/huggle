@@ -91,6 +91,7 @@ class Core {
 				case "about":
 				case "editbar":
 					Core::$action = $_GET['action'];
+					break;
 				default:
 					Core::Info('unknown "$action"' );
 					break;
