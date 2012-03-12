@@ -160,7 +160,6 @@ class Core {
 		global $hgwa_Debugging, $hgwa_Version;
 		Core::LoadLanguage();
 		Core::Info ( "Started huggle version " . $hgwa_Version . " languages loaded, loading other files\n" );
-		include("includes/functions.php");
 		include("includes/parse-rc.php");
 		include("includes/renderapp.php");
 		Core::getOverrides();
