@@ -37,6 +37,7 @@ class Tool {
 	public $Labels = array();
 	public $Name = null;
 	public $Buttons = array();
+	public $Style;
 	public function Render () {
 			foreach ($this->Buttons as $name => $_button) {
 				echo "<a href=\"index.php?action=toolbar&button=". $_button->Action ."\"><img src=\"./html/png/".$_button->Picture.".png\" alt=\"". $_button->Tip ."\" height=\"40\" /></a>";

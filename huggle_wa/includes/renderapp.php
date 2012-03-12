@@ -35,6 +35,12 @@ private static function Menubuttons() {
 	echo "\n<div class='menu'><div class='menubuttons'>";
 }
 
+public static function getBuffer ($html) {
+	global $hgwa_HtmlTitle;
+	self::$_page += $html;
+}
+
+
 private static function ToolBar() {
 	global $hgwa_Debugging;
 	self::$_toolbar = new Toolbar();

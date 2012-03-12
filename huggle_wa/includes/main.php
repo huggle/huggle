@@ -115,6 +115,10 @@ class Core {
 	        return;	
 	}
 
+	private static function cbLogin($data) {
+		Html::$_page = $data;	
+	}
+
 	private static function Login() {
 		global $hgwa_Username;
 		Html::ChangeTitle( Core::GetMessage( 'title-login' ) );
@@ -124,10 +128,9 @@ class Core {
 			Html::$_page = Core::GetMessage( 'loggedfail' );
 			return 0;
 		}
-		$lp = file_get_contents( "html/script_login" );
-		if ( $lp !== false ) {
-			Html::$_page = $lp;
-		}
+		ob_start("Html::getBuffer");
+		include( "html/script_login" );
+		ob_end_clean();
 		return 0;
 	}
 
@@ -157,7 +160,6 @@ class Core {
 		global $hgwa_Debugging, $hgwa_Version;
 		Core::LoadLanguage();
 		Core::Info ( "Started huggle version " . $hgwa_Version . " languages loaded, loading other files\n" );
-		include("includes/loadwikis.php");
 		include("includes/functions.php");
 		include("includes/parse-rc.php");
 		include("includes/renderapp.php");

@@ -22,7 +22,7 @@ if ( !defined( 'HUGGLE' ) ) {
 	die (1);
 }
 
-/* class Wiki {
+class Wiki {
 	public static function LoadWikis() {
 		global $hgwa_WikiProtocol, $hgwa_WikiAddress;
 		$ch1 = curl_init();
