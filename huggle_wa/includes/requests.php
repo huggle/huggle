@@ -37,6 +37,7 @@ class http {
 
     function __construct () {
         $this->ch = curl_init();
+		//TODO: Add extra check here to make sure cookie files doesnt already exist
         $this->uid = dechex(rand(0,99999999));
         curl_setopt($this->ch,CURLOPT_COOKIEJAR,'/tmp/huggle.cookies.'.$this->uid.'.dat');
         curl_setopt($this->ch,CURLOPT_COOKIEFILE,'/tmp/huggle.cookies.'.$this->uid.'.dat');
