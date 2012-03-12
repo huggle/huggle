@@ -37,7 +37,7 @@ private static function Menubuttons() {
 
 public static function getBuffer ($html) {
 	global $hgwa_HtmlTitle;
-	self::$_page += $html;
+	self::$_page = self::$_page . $html;
 }
 
 
