@@ -21,7 +21,6 @@
  *      Cobi    - [[User:Cobi]]     - Wrote the http class and some of the wikipedia class
  *      Chris   - [[User:Chris_G]]  - Wrote the most of the wikipedia class
  *      Fale    - [[User:Fale]]     - Polish, wrote the extended and some of the wikipedia class
- *      Kaldari - [[User:Kaldari]]  - Submitted a patch for the imagematches function
  *      Gutza   - [[User:Gutza]]    - Submitted a patch for http->setHTTPcreds()
  *      Addshore- [[User:Addshore]] - Altered all code for use in huggle-wa
  **/
@@ -75,6 +74,615 @@ class wikipedia {
                 return false;
         }
     }
+	
+	/**
+     * Gets the page id for a page.
+     * @param $page The wikipedia page to get the id for.
+     * @return The page id of the page.
+     **/
+    function getpageid ($page) {
+        $x = $this->query('?action=query&format=php&prop=revisions&titles='.urlencode($page).'&rvlimit=1&rvprop=content');
+        foreach ($x['query']['pages'] as $ret) {
+            return $ret['pageid'];
+        }
+    }
+
+    /**
+     * Gets the number of contributions a user has.
+     * @param $user The username for which to get the edit count.
+     * @return The number of contributions the user has.
+     **/
+    function contribcount ($user) {
+        $x = $this->query('?action=query&list=allusers&format=php&auprop=editcount&aulimit=1&aufrom='.urlencode($user));
+        return $x['query']['allusers'][0]['editcount'];
+    }
+
+    /**
+     * Returns an array with all the members of $category
+     * @param $category The category to use.
+     * @param $subcat (bool) Go into sub categories?
+     * @return array
+     **/
+    function categorymembers ($category,$subcat=false) {
+        $continue = '';
+        $pages = array();
+        while (true) {
+            $res = $this->query('?action=query&list=categorymembers&cmtitle='.urlencode($category).'&format=php&cmlimit=500'.$continue);
+            if (isset($x['error'])) {
+                return false;
+            }
+            foreach ($res['query']['categorymembers'] as $x) {
+                $pages[] = $x['title'];
+            }
+            if (empty($res['query-continue']['categorymembers']['cmcontinue'])) {
+                if ($subcat) {
+                    foreach ($pages as $p) {
+                        if (substr($p,0,9)=='Category:') {
+                            $pages2 = $this->categorymembers($p,true);
+                            $pages = array_merge($pages,$pages2);
+                        }
+                    }
+                }
+                return $pages;
+            } else {
+                $continue = '&cmcontinue='.urlencode($res['query-continue']['categorymembers']['cmcontinue']);
+            }
+        }
+    }
+
+    /**
+     * Returns a list of pages that link to $page.
+     * @param $page
+     * @param $extra (defaults to null)
+     * @return array
+     **/
+    function whatlinkshere ($page,$extra=null) {
+        $continue = '';
+        $pages = array();
+        while (true) {
+            $res = $this->query('?action=query&list=backlinks&bltitle='.urlencode($page).'&bllimit=500&format=php'.$continue.$extra);
+            if (isset($res['error'])) {
+                return false;
+            }
+            foreach ($res['query']['backlinks'] as $x) {
+                $pages[] = $x['title'];
+            }
+            if (empty($res['query-continue']['backlinks']['blcontinue'])) {
+                return $pages;
+            } else {
+                $continue = '&blcontinue='.urlencode($res['query-continue']['backlinks']['blcontinue']);
+            }
+        }
+    }
+
+    /**
+    * Returns a list of pages that include the image.
+    * @param $image
+    * @param $extra (defaults to null)
+    * @return array
+    **/
+    function whereisincluded ($image,$extre=null) {
+        $continue = '';
+        $pages = array();
+        while (true) {
+            $res = $this->query('?action=query&list=imageusage&iutitle='.urlencode($image).'&iulimit=500&format=php'.$continue.$extra);
+            if (isset($res['error']))
+                return false;
+            foreach ($res['query']['imageusage'] as $x) {
+                $pages[] = $x['title'];
+            }
+            if (empty($res['query-continue']['imageusage']['iucontinue']))
+                return $pages;
+            else
+                $continue = '&iucontinue='.urlencode($res['query-continue']['imageusage']['iucontinue']);
+        }
+    }
+    
+    /**
+    * Returns a list of pages that use the $template.
+    * @param $template the template we are intereste into
+    * @param $extra (defaults to null)
+    * @return array
+    **/
+    function whatusethetemplate ($template,$extra=null) {
+        $continue = '';
+        $pages = array();
+        while (true) {
+            $res = $this->query('?action=query&list=embeddedin&eititle=Template:'.urlencode($template).'&eilimit=500&format=php'.$continue.$extra);
+            if (isset($res['error'])) {
+                return false;
+            }
+            foreach ($res['query']['embeddedin'] as $x) {
+                $pages[] = $x['title'];
+            }
+            if (empty($res['query-continue']['embeddedin']['eicontinue'])) {
+                return $pages;
+            } else {
+                $continue = '&eicontinue='.urlencode($res['query-continue']['embeddedin']['eicontinue']);
+            }
+         }
+     }
+    
+    /**
+     * Returns an array with all the subpages of $page
+     * @param $page
+     * @return array
+     **/
+    function subpages ($page) {
+        /* Calculate all the namespace codes */
+        $ret = $this->query('?action=query&meta=siteinfo&siprop=namespaces&format=php');
+        foreach ($ret['query']['namespaces'] as $x) {
+            $namespaces[$x['*']] = $x['id'];
+        }
+        $temp = explode(':',$page,2);
+        $namespace = $namespaces[$temp[0]];
+        $title = $temp[1];
+        $continue = '';
+        $subpages = array();
+        while (true) {
+            $res = $this->query('?action=query&format=php&list=allpages&apprefix='.urlencode($title).'&aplimit=500&apnamespace='.$namespace.$continue);
+            if (isset($x[error])) {
+                return false;
+            }
+            foreach ($res['query']['allpages'] as $p) {
+                $subpages[] = $p['title'];
+            }
+            if (empty($res['query-continue']['allpages']['apfrom'])) {
+                return $subpages;
+            } else {
+                $continue = '&apfrom='.urlencode($res['query-continue']['allpages']['apfrom']);
+            }
+        }
+    }
+
+    /**
+     * This function takes a username and password and logs you into wikipedia.
+     * @param $user Username to login as.
+     * @param $pass Password that corrisponds to the username.
+     * @return array
+     **/
+    function login ($user,$pass) {
+        $post = array('lgname' => $user, 'lgpassword' => $pass);
+        $ret = $this->query('?action=login&format=php',$post);
+        /* This is now required - see https://bugzilla.wikimedia.org/show_bug.cgi?id=23076 */
+        if ($ret['login']['result'] == 'NeedToken') {
+            $post['lgtoken'] = $ret['login']['token'];
+            $ret = $this->query( '?action=login&format=php', $post );
+        }
+        if ($ret['login']['result'] != 'Success') {
+            echo "Login error: \n";
+            print_r($ret);
+            die();
+        } else {
+            return $ret;
+        }
+    }
+
+    /* crappy hack to allow users to use cookies from old sessions */
+    function setLogin($data) {
+        $this->http->cookie_jar = array(
+        $data['cookieprefix'].'UserName' => $data['lgusername'],
+        $data['cookieprefix'].'UserID' => $data['lguserid'],
+        $data['cookieprefix'].'Token' => $data['lgtoken'],
+        $data['cookieprefix'].'_session' => $data['sessionid'],
+        );
+    }
+
+    /**
+     * Check if we're allowed to edit $page.
+     * See http://en.wikipedia.org/wiki/Template:Bots
+     * for more info.
+     * @param $page The page we want to edit.
+     * @param $user The bot's username.
+     * @return bool
+     **/
+    function nobots ($page,$user=null,$text=null) {
+        if ($text == null) {
+            $text = $this->getpage($page);
+        }
+        if ($user != null) {
+            if (preg_match('/\{\{(nobots|bots\|allow=none|bots\|deny=all|bots\|optout=all|bots\|deny=.*?'.preg_quote($user,'/').'.*?)\}\}/iS',$text)) {
+                return false;
+            }
+        } else {
+            if (preg_match('/\{\{(nobots|bots\|allow=none|bots\|deny=all|bots\|optout=all)\}\}/iS',$text)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * This function returns the edit token for the current user.
+     * @return edit token.
+     **/
+    function getedittoken () {
+        $x = $this->query('?action=query&prop=info&intoken=edit&titles=Main%20Page&format=php');
+        foreach ($x['query']['pages'] as $ret) {
+            return $ret['edittoken'];
+        }
+    }
+
+    /**
+     * Purges the cache of $page.
+     * @param $page The page to purge.
+     * @return Api result.
+     **/
+    function purgeCache($page) {
+        return $this->query('?action=purge&titles='.urlencode($page).'&format=php');
+    }
+
+    /**
+     * Checks if $user has email enabled.
+     * Uses index.php.
+     * @param $user The user to check.
+     * @return bool.
+     **/
+    function checkEmail($user) {
+        $x = $this->query('?action=query&meta=allmessages&ammessages=noemailtext|notargettext&amlang=en&format=php');
+        $messages[0] = $x['query']['allmessages'][0]['*'];
+        $messages[1] = $x['query']['allmessages'][1]['*'];
+        $page = $this->http->get(str_replace('api.php','index.php',$this->url).'?title=Special:EmailUser&target='.urlencode($user));
+        if (preg_match('/('.preg_quote($messages[0],'/').'|'.preg_quote($messages[1],'/').')/i',$page)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * Returns all the pages $page is transcluded on.
+     * @param $page The page to get the transclusions from.
+     * @param $sleep The time to sleep between requets (set to null to disable).
+     * @return array.
+     **/
+    function getTransclusions($page,$sleep=null,$extra=null) {
+        $continue = '';
+        $pages = array();
+        while (true) {
+            $ret = $this->query('?action=query&list=embeddedin&eititle='.urlencode($page).$continue.$extra.'&eilimit=500&format=php');
+            if ($sleep != null) {
+                sleep($sleep);
+            }
+            foreach ($ret['query']['embeddedin'] as $x) {
+                $pages[] = $x['title'];
+            }
+            if (isset($ret['query-continue']['embeddedin']['eicontinue'])) {
+                $continue = '&eicontinue='.$ret['query-continue']['embeddedin']['eicontinue'];
+            } else {
+                return $pages;
+            }
+        }
+    }
+
+    /**
+     * Edits a page.
+     * @param $page Page name to edit.
+     * @param $data Data to post to page.
+     * @param $summary Edit summary to use.
+     * @param $minor Whether or not to mark edit as minor.  (Default false)
+     * @param $bot Whether or not to mark edit as a bot edit.  (Default true)
+     * @return api result
+     **/
+    function edit ($page,$data,$summary = '',$minor = false,$bot = true,$section = null,$detectEC=false,$maxlag='') {
+        if ($this->token==null) {
+            $this->token = $this->getedittoken();
+        }
+        $params = array(
+            'title' => $page,
+            'text' => $data,
+            'token' => $this->token,
+            'summary' => $summary,
+            ($minor?'minor':'notminor') => '1',
+            ($bot?'bot':'notbot') => '1'
+        );
+        if ($section != null) {
+            $params['section'] = $section;
+        }
+        if ($this->ecTimestamp != null && $detectEC == true) {
+            $params['basetimestamp'] = $this->ecTimestamp;
+            $this->ecTimestamp = null;
+        }
+        if ($maxlag!='') {
+            $maxlag='&maxlag='.$maxlag;
+        }
+        return $this->query('?action=edit&format=php'.$maxlag,$params);
+    }
+
+    /**
+    * Add a text at the bottom of a page
+    * @param $page The page we're working with.
+    * @param $text The text that you want to add.
+    * @param $summary Edit summary to use.
+    * @param $minor Whether or not to mark edit as minor.  (Default false)
+    * @param $bot Whether or not to mark edit as a bot edit.  (Default true)
+    * @return api result
+    **/
+    function addtext( $page, $text, $summary = '', $minor = false, $bot = true )
+    {
+        $data = $this->getpage( $page );
+        $data.= "\n" . $text;
+        return $this->edit( $page, $data, $summary, $minor, $bot );
+    }
+    
+    /**
+     * Moves a page.
+     * @param $old Name of page to move.
+     * @param $new New page title.
+     * @param $reason Move summary to use.
+     * @param $movetalk Move the page's talkpage as well.
+     * @return api result
+     **/
+    function move ($old,$new,$reason,$options=null) {
+        if ($this->token==null) {
+            $this->token = $this->getedittoken();
+        }
+        $params = array(
+            'from' => $old,
+            'to' => $new,
+            'token' => $this->token,
+            'reason' => $reason
+        );
+        if ($options != null) {
+            $option = explode('|',$options);
+            foreach ($option as $o) {
+                $params[$o] = true;
+            }
+        }
+        return $this->query('?action=move&format=php',$params);
+    }
+
+    /**
+     * Rollback an edit.
+     * @param $title Title of page to rollback.
+     * @param $user Username of last edit to the page to rollback.
+     * @param $reason Edit summary to use for rollback.
+     * @param $bot mark the rollback as bot.
+     * @return api result
+     **/
+    function rollback ($title,$user,$reason=null,$bot=false) {
+        $ret = $this->query('?action=query&prop=revisions&rvtoken=rollback&titles='.urlencode($title).'&format=php');
+        foreach ($ret['query']['pages'] as $x) {
+            $token = $x['revisions'][0]['rollbacktoken'];
+            break;
+        }
+        $params = array(
+            'title' => $title,
+            'user' => $user,
+            'token' => $token
+        );
+        if ($bot) {
+            $params['markbot'] = true;
+        }
+        if ($reason != null) { $params['summary'] = $reason; }
+            return $this->query('?action=rollback&format=php',$params);
+        }
+
+    /**
+     * Blocks a user.
+     * @param $user The user to block.
+     * @param $reason The block reason.
+     * @param $expiry The block expiry.
+     * @param $options a piped string containing the block options.
+     * @return api result
+     **/
+    function block ($user,$reason='vand',$expiry='infinite',$options=null,$retry=true) {
+        if ($this->token==null) {
+            $this->token = $this->getedittoken();
+        }
+        $params = array(
+            'expiry' => $expiry,
+            'user' => $user,
+            'reason' => $reason,
+            'token' => $this->token
+        );
+        if ($options != null) {
+            $option = explode('|',$options);
+            foreach ($option as $o) {
+                $params[$o] = true;
+            }
+        }
+        $ret = $this->query('?action=block&format=php',$params);
+        /* Retry on a failed token. */
+        if ($retry and $ret['error']['code']=='badtoken') {
+            $this->token = $this->getedittoken();
+            return $this->block($user,$reason,$expiry,$options,false);
+        }
+        return $ret;
+    }
+
+    /**
+     * Unblocks a user.
+     * @param $user The user to unblock.
+     * @param $reason The unblock reason.
+     * @return api result
+     **/
+    function unblock ($user,$reason) {
+        if ($this->token==null) {
+            $this->token = $this->getedittoken();
+        }
+        $params = array(
+            'user' => $user,
+            'reason' => $reason,
+            'token' => $this->token
+        );
+        return $this->query('?action=unblock&format=php',$params);
+    }
+
+    /**
+     * Emails a user.
+     * @param $target The user to email.
+     * @param $subject The email subject.
+     * @param $text The body of the email.
+     * @param $ccme Send a copy of the email to the user logged in.
+     * @return api result
+     **/
+    function email ($target,$subject,$text,$ccme=false) {
+        if ($this->token==null) {
+            $this->token = $this->getedittoken();
+        }
+        $params = array(
+            'target' => $target,
+            'subject' => $subject,
+            'text' => $text,
+            'token' => $this->token
+        );
+        if ($ccme) {
+            $params['ccme'] = true;
+        }
+        return $this->query('?action=emailuser&format=php',$params);
+    }
+
+    /**
+     * Deletes a page.
+     * @param $title The page to delete.
+     * @param $reason The delete reason.
+     * @return api result
+     **/
+    function delete ($title,$reason) {
+        if ($this->token==null) {
+            $this->token = $this->getedittoken();
+        }
+        $params = array(
+            'title' => $title,
+            'reason' => $reason,
+            'token' => $this->token
+        );
+        return $this->query('?action=delete&format=php',$params);
+    }
+
+    /**
+     * Undeletes a page.
+     * @param $title The page to undelete.
+     * @param $reason The undelete reason.
+     * @return api result
+     **/
+    function undelete ($title,$reason) {
+        if ($this->token==null) {
+            $this->token = $this->getedittoken();
+        }
+        $params = array(
+            'title' => $title,
+            'reason' => $reason,
+            'token' => $this->token
+        );
+        return $this->query('?action=undelete&format=php',$params);
+    }
+
+    /**
+     * (Un)Protects a page.
+     * @param $title The page to (un)protect.
+     * @param $protections The protection levels (e.g. 'edit=autoconfirmed|move=sysop')
+     * @param $expiry When the protection should expire (e.g. '1 day|infinite')
+     * @param $reason The (un)protect reason.
+     * @param $cascade Enable cascading protection? (defaults to false)
+     * @return api result
+     **/
+    function protect ($title,$protections,$expiry,$reason,$cascade=false) {
+        if ($this->token==null) {
+            $this->token = $this->getedittoken();
+        }
+        $params = array(
+            'title' => $title,
+            'protections' => $protections,
+            'expiry' => $expiry,
+            'reason' => $reason,
+            'token' => $this->token
+        );
+        if ($cascade) {
+            $params['cascade'] = true;
+        }
+        return $this->query('?action=protect&format=php',$params);
+    }
+
+    /**
+     * Uploads an image.
+     * @param $page The destination file name.
+     * @param $file The local file path.
+     * @param $desc The upload discrption (defaults to '').
+     **/
+     function upload ($page,$file,$desc='') {
+        if ($this->token == null) {
+                $this->token = $this->getedittoken();
+        }
+        $params = array(
+                'filename'        => $page,
+                'comment'         => $desc,
+                'text'            => $desc,
+                'token'           => $this->token,
+                'ignorewarnings'  => '1',
+                'file'            => '@'.$file
+        );
+        return $this->query('?action=upload&format=php',$params);
+     }
+    
+    /*
+    $page - page
+    $revs - rev ids to delete (seperated with ,)
+    $comment - delete comment
+    */
+    function revdel ($page,$revs,$comment) {
+        
+        if ($this->token==null) {
+            $this->token = $this->getedittoken();
+        }
+        
+        $post = array(
+            'wpEditToken'       => $this->token,
+            'ids' => $revs,
+            'target' => $page,
+            'type' => 'revision',
+            'wpHidePrimary' => 1,
+            'wpHideComment' => 1,
+            'wpHideUser' => 0,
+            'wpRevDeleteReasonList' => 'other',
+            'wpReason' => $comment,
+            'wpSubmit' => 'Apply to selected revision(s)'
+        );
+        return $this->http->post(str_replace('api.php','index.php',$this->url).'?title=Special:RevisionDelete&action=submit',$post);
+    }
+
+    /**
+     * Creates a new account.
+     * Uses index.php as there is no api to create accounts yet :(
+     * @param $username The username the new account will have.
+     * @param $password The password the new account will have.
+     * @param $email The email the new account will have.
+     **/
+    function createaccount ($username,$password,$email=null) {
+        $post = array(
+            'wpName' => $username,
+            'wpPassword' => $password,
+            'wpRetype' => $password,
+            'wpEmail' => $email,
+            'wpRemember' => 0,
+            'wpIgnoreAntiSpoof' => 0,
+            'wpCreateaccount' => 'Create account',
+        );
+        return $this->http->post(str_replace('api.php','index.php',$this->url).'?title=Special:UserLogin&action=submitlogin&type=signup',$post);
+    }
+
+    /**
+     * Changes a users rights.
+     * @param $user   The user we're working with.
+     * @param $add    A pipe-separated list of groups you want to add.
+     * @param $remove A pipe-separated list of groups you want to remove.
+     * @param $reason The reason for the change (defaults to '').
+     **/
+    function userrights ($user,$add,$remove,$reason='') {
+        // get the userrights token
+        $token = $this->query('?action=query&list=users&ususers='.urlencode($user).'&ustoken=userrights&format=php');
+        $token = $token['query']['users'][0]['userrightstoken'];
+        $params = array(
+            'user' => $user,
+            'token' => $token,
+            'add' => $add,
+            'remove' => $remove,
+            'reason' => $reason
+        );
+        return $this->query('?action=userrights&format=php',$params);
+    }
+
 	
 }//end wikipedia class
 
