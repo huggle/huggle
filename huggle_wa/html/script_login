@@ -3,5 +3,7 @@
 	<form action="#" method="post">
 		<p><? echo Core::GetMessage("login-username"); ?> <input type="text" name="username"><br />
 		<? echo Core::GetMessage("login-password"); ?> &nbsp;<input type="password" name="password"></p>
+		<? echo Core::GetMessage("select_wiki"); ?> <select name="lang"><option value="en">en</option><option value="de">de</option><option value="cz">cz</option></select>.
+		<select name="wiki"><option value="testwiki">Test wiki</option><option value="wp">Wikipedia</option></select>
 	</form>
 </div>

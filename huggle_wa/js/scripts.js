@@ -1,7 +1,7 @@
 $(document).ready(function() {
     $("#logindialog").dialog({
 	title: 'Login',
-	width: '300',
+	width: '350',
 	height: '250',
 	resizable: false,
 	modal: true,
