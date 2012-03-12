@@ -249,13 +249,8 @@ class wikipedia {
             $post['lgtoken'] = $ret['login']['token'];
             $ret = $this->query( '?action=login&format=php', $post );
         }
-        if ($ret['login']['result'] != 'Success') {
-            echo "Login error: \n";
-            print_r($ret);
-            die();
-        } else {
-            return $ret;
-        }
+		return $ret;
+		//May want to return $ret['login']['result'];
     }
 
     /**
