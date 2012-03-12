@@ -1,7 +1,7 @@
 <div id="logindialog" style="display:none;">
 	<? Core::GetMessage("login-info"); ?>
 	<form action="#" method="post">
-		<p><? Core::GetMessage("login-username"); ?> <input type="text" name="username"><br />
-		<? Core::GetMessage("login-password"); ?> &nbsp;<input type="password" name="password"></p>
+		<p><? echo Core::GetMessage("login-username"); ?> <input type="text" name="username"><br />
+		<? echo Core::GetMessage("login-password"); ?> &nbsp;<input type="password" name="password"></p>
 	</form>
 </div>
