@@ -30,7 +30,7 @@ class Dialog {
 		Html::$_page = Html::$_page + $code;
 	}
 
-	public static function __construct( $_text, $_posx, $_posy, $_hght, $_wdth ) {
+	public function __construct( $_text, $_posx, $_posy, $_hght, $_wdth ) {
 		$this->Text = $_text;
 		$this->PosX = $_posx;
 		$this->PosY = $_posy;
