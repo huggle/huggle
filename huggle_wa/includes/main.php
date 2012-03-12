@@ -162,6 +162,7 @@ class Core {
 		include("includes/renderapp.php");
 		Core::getOverrides();
 		Core::getAction();
+		Core::doAction();
 		if (Core::$action == null) {
 			Core::Auth();
 		}
