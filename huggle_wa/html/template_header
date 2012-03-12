@@ -5,18 +5,11 @@
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 	<link rel="stylesheet" type="text/css" href="./style/style.css">
 	<link href="./js/jquery-ui.css" rel="stylesheet" type="text/css"/>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+    	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+    	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
 	<script src="js/scripts.js" type="text/javascript"></script>
 	<meta name="viewport" content="width=device-width; initial-scale=1.0">
 </head>
 <body>
 	<div class='bkg1'>
 	<!-- <div class='header'><div class='headertext1'>Huggle</div><br />Web application</div> -->
-	<div id="logindialog" style="display:none;">
-	Here you can login into Huggle WA.
-	<form action="#" method="post">
-		<p>Username: <input type="text" name="username"><br />
-		Password: &nbsp;<input type="password" name="password"></p>
-	</form>
-	</div>

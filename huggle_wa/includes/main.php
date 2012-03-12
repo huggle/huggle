@@ -123,6 +123,10 @@ class Core {
 			Html::$_page = Core::GetMessage( 'loggedfail' );
 			return 0;
 		}
+		$lp = file_get_contents( "html/script_login" );
+		if ( $lp !== false ) {
+			Html::$_page = $lp;
+		}
 		return 0;
 	}
 
