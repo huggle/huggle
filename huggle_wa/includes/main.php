@@ -114,7 +114,7 @@ class Core {
 		if ( $d <= 0 ) {
 			return $d;
 		}
-		return (( microtime(true) - $hgwa_Exec ) / 1000);
+		return (microtime(true) - $hgwa_Exec);
 	}
 	private static function Logout() {
 		global $hgwa_Username;
@@ -183,7 +183,7 @@ class Core {
 	public static function LoadContent() {
 		global $hgwa_HtmlTitle, $hgwa_Version;
 		Html::LoadContent();
-		Core::Info( "Page generated ok, generation took " . Core::Etime() . " seconds" );
+		Core::Info( "Page generated ok, generation of content took " . Core::Etime() );
 		return 1;
 	}
 }
