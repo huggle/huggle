@@ -58,6 +58,9 @@ namespace huggle3
             /// Cookie container for request
             /// </summary>
             public static System.Net.CookieContainer _cookies = new System.Net.CookieContainer();
+            /// <summary>
+            /// Value
+            /// </summary>
             public Request_Result result;
 
             public delegate void RequestCallback();
@@ -141,6 +144,12 @@ namespace huggle3
                 return return_value;
             }
 
+            /// <summary>
+            /// Return a value of request
+            /// </summary>
+            /// <param name="url"></param>
+            /// <param name="poststring"></param>
+            /// <returns></returns>
             public static string RequestURL(string url, string poststring = null)
             {
                 Core.History("RequestURL()");

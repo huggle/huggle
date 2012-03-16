@@ -60,7 +60,7 @@ namespace huggle3.Requests
 
                 string QueryString;
 
-                QueryString = Core.SitePath() + "index.php?title=" + System.Web.HttpUtility.UrlEncode(_Edit.Page.Name) + "&diff=" + _Edit.Id+ "&oldid=" + Old + "&uselang=en";
+                QueryString = Core.SitePath() + "index.php?title=" + System.Web.HttpUtility.UrlEncode(_Edit._Page.Name) + "&diff=" + _Edit.Id+ "&oldid=" + Old + "&uselang=en";
 
                 if (Config.QuickSight != true || _Edit.Sighted)
                 {

@@ -151,9 +151,9 @@ namespace huggle3
             }
 
             /// <summary>
-            /// 
+            /// Create a thread with name
             /// </summary>
-            /// <param name="ThreadStart"></param>
+            /// <param name="ThreadStart">Callback function</param>
             /// <param name="name"></param>
             /// <returns></returns>
             public static int CreateThread(System.Threading.ThreadStart ThreadStart, string name)
@@ -191,7 +191,7 @@ namespace huggle3
             /// <summary>
             /// Create thread with no name
             /// </summary>
-            /// <param name="ThreadStart"></param>
+            /// <param name="ThreadStart">Callback function</param>
             /// <returns></returns>
             public static int CreateThread(System.Threading.ThreadStart ThreadStart)
             {
@@ -274,13 +274,31 @@ namespace huggle3
                 }
             }
         }
+        /// <summary>
+        /// Container for history
+        /// </summary>
         private static string _history = "";
 
+        /// <summary>
+        /// For exception handler
+        /// </summary>
         private static Exception core_er;
 
+        /// <summary>
+        /// Custom reverts
+        /// </summary>
         public static Dictionary<page, string> CustomReverts = new Dictionary<page,string>();
+        /// <summary>
+        /// Current queue
+        /// </summary>
         public static queue Current_Queue;
+        /// <summary>
+        /// Return true in case of fatal error when core is stopped
+        /// </summary>
         public static bool Interrupted = false;
+        /// <summary>
+        /// Edit token
+        /// </summary>
         public static string EditToken;
         public static bool HidingEdit = false;
         public static System.DateTime LastRCTime = new System.DateTime();
@@ -771,7 +789,7 @@ namespace huggle3
         }
 
         /// <summary>
-        /// 
+        /// Parameter
         /// </summary>
         /// <param name="source">Source</param>
         /// <param name="param">String</param>
@@ -922,7 +940,7 @@ namespace huggle3
         }
 
         /// <summary>
-        /// 
+        /// Return a new page
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
@@ -1100,6 +1118,7 @@ namespace huggle3
         public static string Main = "main.tcl";
         public static bool Enabled = true;
     }
+
     public static class Core_IO
     {
         public static class GET
@@ -1269,7 +1288,6 @@ namespace huggle3
                     break;
                 case "sensitive-addresses":
                     break;
-                
                 case "irc-server-name":
                     Config.IrcServerName = value;
                     break;

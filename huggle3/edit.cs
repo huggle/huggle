@@ -26,28 +26,28 @@ namespace huggle3
         /// <summary>
         /// Is the edit a program assisted edit (AWB,HG)
         /// </summary>
-        public bool Assisted;
+        public bool _Assisted;
         /// <summary>
         /// Is the edit made by a bot
         /// </summary>
-        public bool Bot;
+        public bool _Bot;
         /// <summary>
         /// Value of the change in size of the page
         /// </summary>
-        public int Change;
+        public int _Change;
         /// <summary>
         /// Diff
         /// </summary>
-        public string ChangedContent;
+        public string _ChangedContent;
         public static Dictionary<string, edit> All = new Dictionary<string,edit>();
         /// <summary>
         /// Removed edit
         /// </summary>
-        public bool Deleted;
+        public bool _Deleted;
         /// <summary>
         /// Space
         /// </summary>
-        public space _space;
+        public space _Space;
         /// <summary>
         /// string data of diff
         /// </summary>
@@ -67,7 +67,7 @@ namespace huggle3
         /// <summary>
         /// Multiple edit
         /// </summary>
-        public bool Multiple;
+        public bool _Multiple;
         /// <summary>
         /// Is the edit a creation of a new page
         /// </summary>
@@ -87,7 +87,7 @@ namespace huggle3
         /// <summary>
         /// Page
         /// </summary>
-        public page Page;
+        public page _Page;
         /// <summary>
         /// Previous edit
         /// </summary>
@@ -127,27 +127,27 @@ namespace huggle3
         /// <summary>
         /// Content of the page
         /// </summary>
-        public string Text;
+        public string _Text;
         /// <summary>
         /// random number
         /// </summary>
-        public double random;
+        public double _Random;
         /// <summary>
         /// Time of the edit
         /// </summary>
-        public System.DateTime Time;
+        public System.DateTime _Time;
         /// <summary>
         /// Type of edit
         /// </summary>
-        public edit.EditType type;
+        public edit.EditType _Type;
         /// <summary>
         /// Warning type
         /// </summary>
-        public string TypeToWarn;
+        public string _TypeToWarn;
         /// <summary>
         /// Edit User
         /// </summary>
-        public user User;
+        public user _User;
         /// <summary>
         /// Value of warning the user has
         /// </summary>
@@ -164,7 +164,7 @@ namespace huggle3
                             // not defined in config
                             return false;
                         }
-                        return (Summary.Contains(Config.Summary) && User.Ignored);
+                        return (Summary.Contains(Config.Summary) && _User.Ignored);
                     }
             }
 
@@ -173,8 +173,8 @@ namespace huggle3
         /// </summary>
         public edit()
         { 
-            this.random = new Random(DateTime.Now.Millisecond).NextDouble();
-            this.Multiple = false;
+            this._Random = new Random(DateTime.Now.Millisecond).NextDouble();
+            this._Multiple = false;
             this.NewPage = false;
             this.Processed = false;
         }

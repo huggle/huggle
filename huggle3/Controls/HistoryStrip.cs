@@ -85,9 +85,9 @@ namespace huggle3.Controls
                             NewerPos = x - 1;
                         }
 
-                        if (Edit.Page != null)
+                        if (Edit._Page != null)
                         {
-                            if (Edit == Edit.Page.LastEdit)
+                            if (Edit == Edit._Page.LastEdit)
                             {
                                 gf.DrawRectangle(Pens.DarkBlue, x, 2, 15, 15);
                             }

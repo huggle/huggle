@@ -47,6 +47,9 @@ namespace huggle3
         /// Current edit
         /// </summary>
         public static edit _CurrentEdit;
+        /// <summary>
+        /// Shows if we are currently rendering a diff
+        /// </summary>
         public static bool DisplayingEdit;
         /// <summary>
         /// Config form
@@ -144,7 +147,7 @@ namespace huggle3
                         {
                             _CurrentEdit = new edit();
                             
-                            _CurrentEdit.Page = _Page;
+                            _CurrentEdit._Page = _Page;
                         }
 
                         Processing.DisplayEdit(_CurrentEdit);
@@ -267,7 +270,7 @@ namespace huggle3
                     if (_page.LastEdit == null)
                     {
                         _CurrentEdit = new edit();
-                        _CurrentEdit.Page = _page;
+                        _CurrentEdit._Page = _page;
                         _CurrentPage = _page;
 
                         Requests.request_read.history History = new Requests.request_read.history();

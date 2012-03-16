@@ -101,6 +101,9 @@ namespace huggle3
         /// Pending requests
         /// </summary>
         public static List<request_core.Request> PendingRequests = new List<request_core.Request>();
+        /// <summary>
+        /// 
+        /// </summary>
         public static List<edit> PendingWarnings;
         /// <summary>
         /// Languages info
@@ -284,9 +287,9 @@ namespace huggle3
         /// </summary>
         public static bool ConfirmMultiple = false;
         /// <summary>
-        /// 
+        /// Confirm page
         /// </summary>
-        public static bool ConfirmPage = true; // HUH
+        public static bool ConfirmPage = true;
         /// <summary>
         /// Confirm if user belong to same ip range
         /// </summary>
@@ -330,7 +333,7 @@ namespace huggle3
         /// <summary>
         /// Whitelist
         /// </summary>
-        public static string WhitelistUrl = "http://toolserver.org/~petrb/huggle/wl.php";
+        public static string WhitelistUrl = "http://huggle.wmflabs.org/data/wl.php";
         /// <summary>
         /// Default
         /// </summary>
