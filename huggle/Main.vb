@@ -3,7 +3,7 @@
 'This file contains code for
 'last modified by Petrb
 
-'Copyright (C) 2011 Huggle team
+'Copyright (C) 2012 Huggle team
 
 'This program is free software: you can redistribute it and/or modify
 'it under the terms of the GNU General Public License as published by
@@ -1106,7 +1106,7 @@ Class Main
                     Text = Text.Substring(0, Text.Length - 1)
                 End While
 
-                Text &= "…"
+                Text &= "Â…"
             End If
 
             If CBool(e.State And DrawItemState.Selected) _
