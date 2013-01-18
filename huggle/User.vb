@@ -208,8 +208,12 @@ Class User
             .Replace("_", " ").Trim(" "c)
 
         If Name.EndsWith(":") Then Return Nothing
-        Name = Name.Substring(Name.LastIndexOf(":") + 1)
-        
+        If (Name.Contains(":")) Then
+            If (Name.Substring(Name.IndexOf(":") + 1).Contains(":") = False) Then
+                Name = Name.Substring(Name.IndexOf(":") + 1)
+            End If
+        End If
+
         If Name Is Nothing OrElse Name.Length = 0 Then Return Nothing
 
         'Capitalize
