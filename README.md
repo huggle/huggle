@@ -27,12 +27,19 @@ string MyFunction(string parameter)
 
 Every class should look like:
  
-
+```
 class Class
- { //explanation
+{ //explanation
     public string blah; //variables
     public string name
-    { get { return ""; } } // properties
+    {
+      get 
+      { 
+        return "";
+      } 
+    } 
+    // properties
     public string foo() // functions
  }
- }
+}
+```
