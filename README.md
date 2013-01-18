@@ -13,17 +13,18 @@ Use comments everywhere possible.
 Standards
 =========
 
-All code should be compileable in visual c#, code is written in the philophy that stability > performance > style.
+All code should be compileable in visual c#, code is written in the philosophy that stability > performance > style.
 
 Every function should have look similar to this:
 
+```
 string MyFunction(string parameter)
  {
    // what is it
    Core.History("Class.MyFunction()");
    ...
  }
- 
+```
 
 Every class should look like:
  
