@@ -21,6 +21,7 @@ using System.Data;
 using System.Drawing;
 using System.Windows;
 using System.Text;
+using System.Xml;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
@@ -274,6 +275,11 @@ namespace huggle3
                 }
             }
         }
+
+        /// <summary>
+        /// Container for system log which is in memory
+        /// </summary>
+        public static List<string> SystemLog = new List<string>();
         /// <summary>
         /// Container for history
         /// </summary>

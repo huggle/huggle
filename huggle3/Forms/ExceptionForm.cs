@@ -34,10 +34,29 @@ namespace huggle3.Forms
 
         private void ExceptionForm_Load(object sender, EventArgs e)
         {
-            this.ErrorLog.Lines = new string[] {
-                                    "Please send the following data for analysis \n\n",
-                                    Core.history,  error.Message, "Source: " , error.Source , "Stack trace :\n",
-                                    error.StackTrace };
+            try
+            {
+                List<string> text = new List<string>();
+                text.Add("Please send the following data for analysis \n\n");
+                text.Add(Core.history);
+                text.Add(error.Message);
+                text.Add("Source: ");
+                text.Add(error.Source);
+                text.Add("Stack trace :\n");
+                text.Add(error.StackTrace);
+                text.Add("Logs");
+                lock (Core.SystemLog)
+                {
+                    text.AddRange(Core.SystemLog);
+                }
+
+                this.ErrorLog.Lines = text.ToArray();
+            }
+            catch (Exception fail)
+            {
+                Console.WriteLine("Unable to handle the exception, killing the program: " + fail.Message);
+                System.Diagnostics.Process.GetCurrentProcess().Kill();
+            }
         }
 
         private void btExit_Click(object sender, EventArgs e)
