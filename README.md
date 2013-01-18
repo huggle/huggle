@@ -18,6 +18,11 @@ All code should be compileable in visual c#, code is written in the philosophy t
 Every function should have look similar to this:
 
 ```
+/// <summary>
+/// This is description what this function is doing
+/// </summary>
+/// <param name="parameter">This is a description of parameter</param>
+/// <returns></returns>
 string MyFunction(string parameter)
  {
    // what is it
@@ -32,6 +37,7 @@ Every class should look like:
 class Class
 { //explanation
     public string blah; //variables
+    // properties
     public string name
     {
       get 
@@ -39,7 +45,6 @@ class Class
         return "";
       } 
     } 
-    // properties
     public string foo() // functions
  }
 }
