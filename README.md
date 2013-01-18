@@ -5,7 +5,7 @@ Huggle is an anti-vandalism tool for use on Wikipedia and other Wikimedia projec
 
 Download
 =========
-See https://en.wikipedia.org/wiki/Wikipedia:Huggle/Download
+See https://meta.wikimedia.org/wiki/Huggle/Download
 
 Repository rules
 ================
