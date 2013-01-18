@@ -494,6 +494,7 @@ namespace huggle3
         public static bool DebugLog(string text)
         {
             Debug.WriteLine(text);
+            WriteLog("DEBUG: " + text);
             return true;
         }
 
@@ -1077,6 +1078,13 @@ namespace huggle3
             huggle3.Forms.ExceptionForm fx = new huggle3.Forms.ExceptionForm();
             fx.error = core_er;
             Application.Run(fx);
+        }
+
+        public static void WriteLog(string text)
+        {
+            string x = DateTime.Now.ToString() + ": " + text;
+            SystemLog.Add(x);
+            Console.WriteLine(x);
         }
 
         /// <summary>
