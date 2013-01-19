@@ -86,12 +86,14 @@ namespace huggle3
                 //If this returns as null then the login has failed
                 if (result == null || result.Result_Text == null)
                 {
+                    Core.DebugLog("The request returned a null value");
                     return LoginResult.Failed;
                 }
 
                 //If no token is found (doesnt match regex) then the login has failed
                 if (System.Text.RegularExpressions.Regex.Match(result.Result_Text, "token=\"[0-9A-Za-z]*\"").Success == false)
                 {
+                    Core.DebugLog("Request did not match the login regex");
                     return LoginResult.Failed;
                 }
 
@@ -107,6 +109,7 @@ namespace huggle3
                 //As this has returned as null the login has probably failed
                 if (result.Result_Text == null)
                 {
+                    Core.WriteLog("Request to login (with token) returned a null");
                     return LoginResult.Failed;
                 }
 

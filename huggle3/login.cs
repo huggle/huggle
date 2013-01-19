@@ -37,6 +37,8 @@ namespace huggle3
                 result = request_api.DoLogin();
 
                 //If the login is not a success then try and find out what went wrong and give the relevant error message
+
+                Core.WriteLog("Login resulted as " + result.ToString());
                 if (result != LoginResult.Success)
                 {
                     switch (result)

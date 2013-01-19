@@ -106,6 +106,7 @@ namespace huggle3
             try
             {
                 Core.History("btLogin_Click()");
+                Hook.On_Login(this);
                 EnableControls(false);
                 this.btExit.Text = Languages.Get("cancel");
                 StatusBar.Value = 0;

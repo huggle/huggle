@@ -20,46 +20,11 @@ using System.Text;
 
 namespace huggle3
 {
-    public class Plugin
+    class Hook
     {
-        public static List<Plugin> ExtensionList = new List<Plugin>();
-        public Status status;
-        public string Name = null;
-
-        public Plugin()
-        { 
-        
-        }
-
-        public void Load()
+        public static void On_Login(LoginForm form)
         { 
             
-        }
-
-        ~Plugin()
-        {
-            try
-            {
-
-            }
-            catch (Exception fail)
-            {
-                Core.ExceptionHandler(fail);
-            }
-        }
-
-        public virtual bool Hook_RegisterSelf()
-        {
-            return true;
-        }
-
-        public enum Status
-        { 
-            Active,
-            Loading,
-            Terminating,
-            Terminated,
-            Stopped
         }
     }
 }

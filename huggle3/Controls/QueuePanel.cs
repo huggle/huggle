@@ -26,31 +26,64 @@ namespace huggle3.Controls
 {
     public partial class QueuePanel : UserControl
     {
-        
+        public List<EditItem> List = new List<EditItem>();
+        private int OffsetX = 0;
+
         public void Create(queue q, int scroll)
         {
             try
             {
-                int x, y;
-                BufferedGraphics gfx = BufferedGraphicsManager.Current.Allocate(CreateGraphics(), new Rectangle(0, 0, Config.QueueWidth, main.ActiveForm.Height));
-                int QueueHeight = (Height / 20) - 2;
-                int Length = 1;
-                if (QueueHeight >= 1)
-                {
+                //int x, y;
+                //BufferedGraphics gfx = BufferedGraphicsManager.Current.Allocate(CreateGraphics(), new Rectangle(0, 0, Config.QueueWidth, main.ActiveForm.Height));
+                //int QueueHeight = (Height / 20) - 2;
+                //int Length = 1;
+                //if (QueueHeight >= 1)
+                //{
                     
-                }
+                //}
                 //gfx.Graphics
                 
                 
 
             }
-            catch (Exception A)
+            catch (Exception fail)
             { }
             
         }
+
+        public void Redraw()
+        {
+            try
+            {
+                lock (List)
+                {
+                    int X = 10 - OffsetX;
+                    foreach (EditItem curr in List)
+                    {
+                        if (X > 0)
+                        {
+                            curr.Top = X;
+                            curr.Left = 2;
+                            curr.Width = this.Width - 20;
+                        }
+                        X = X + curr.Height + 6;
+                    }
+                }
+            }
+            catch (Exception ff)
+            {
+                Core.ExceptionHandler(ff);
+            }
+        }
+
         public QueuePanel()
         {
             InitializeComponent();
+        }
+
+        private void QueuePanel_Load(object sender, EventArgs e)
+        {
+            vScrollBar1.Enabled = false;
         }
     }
 }

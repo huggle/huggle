@@ -598,6 +598,84 @@ namespace huggle3
             return "";
         }
 
+        public static bool RegisterPlugin(string path)
+        {
+            try
+            {
+                if (File.Exists(path))
+                {
+                    System.Reflection.Assembly library = System.Reflection.Assembly.LoadFrom(path);
+                    if (library == null)
+                    {
+                        Core.DebugLog("Unable to load " + path + " because the file can't be read");
+                        return false;
+                    }
+                    Type[] types = library.GetTypes();
+                    Type type = library.GetType("huggle3.RestrictedPlugin");
+                    Type pluginInfo = null;
+                    foreach (Type curr in types)
+                    {
+                        if (curr.IsAssignableFrom(type))
+                        {
+                            pluginInfo = curr;
+                            break;
+                        }
+                    }
+                    if (pluginInfo == null)
+                    {
+                        Core.DebugLog("Unable to load " + path + " because the library contains no module");
+                        return false;
+                    }
+                    Plugin _plugin = (Plugin)Activator.CreateInstance(pluginInfo);
+                    lock (Plugin.ExtensionList)
+                    {
+                        if (Plugin.ExtensionList.Contains(_plugin))
+                        {
+                            Core.DebugLog("Unable to load extension because the handle is already known to core");
+                            return false;
+                        }
+                        bool problem = false;
+                        foreach (Plugin x in Plugin.ExtensionList)
+                        {
+                            if (x.Name == _plugin.Name)
+                            {
+                                Core.WriteLog("Unable to load the extension, because the extension with same name is already loaded");
+                                _plugin.status = Plugin.Status.Terminated;
+                                problem = true;
+                                break;
+                            }
+                        }
+                        if (problem)
+                        {
+                            if (Plugin.ExtensionList.Contains(_plugin))
+                            {
+                                Plugin.ExtensionList.Remove(_plugin);
+                            }
+                        }
+                        Core.WriteLog("Everything is fine, registering " + _plugin.Name);
+                        Plugin.ExtensionList.Add(_plugin);
+                    }
+                    if (_plugin.Hook_RegisterSelf())
+                    {
+                        _plugin.Load();
+                        _plugin.status = Plugin.Status.Active;
+                        Core.WriteLog("Finished loading of module " + _plugin.Name);
+                        return true;
+                    }
+                    else
+                    {
+                        Core.WriteLog("SYSTEM: failed to run OnRegister for " + _plugin.Name);
+                    }
+                    return false;
+                }
+            }
+            catch (Exception fail)
+            {
+                Core.ExceptionHandler(fail);
+            }
+            return false;
+        }
+
         /// <summary>
         /// This function look up a string in string between other strings
         /// </summary>
