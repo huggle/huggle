@@ -1248,7 +1248,7 @@
             this.lsLog.Size = new System.Drawing.Size(906, 59);
             this.lsLog.TabIndex = 18;
             this.lsLog.UseCompatibleStateImageBehavior = false;
-            this.lsLog.View = System.Windows.Forms.View.List;
+            this.lsLog.View = System.Windows.Forms.View.Details;
             // 
             // splitContainer3
             // 
