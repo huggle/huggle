@@ -291,6 +291,11 @@ namespace huggle3
         private static Exception core_er;
 
         /// <summary>
+        /// Time when system was loaded
+        /// </summary>
+        private static DateTime Uptime;
+
+        /// <summary>
         /// Custom reverts
         /// </summary>
         public static Dictionary<page, string> CustomReverts = new Dictionary<page,string>();
@@ -1022,8 +1027,11 @@ namespace huggle3
         /// Initialisation fc
         /// </summary>
         public static void Initialise()
-        {   
+        {
+            Uptime = DateTime.Now;
             Core.History("Core.Initialise()");
+            WriteLog("Huggle " + Application.ProductVersion.ToString() + " starting");
+            WriteLog("OS " + Environment.OSVersion.ToString());
             Config.DefaultLanguage = "en";
             MainThread = System.Threading.Thread.CurrentThread;
             Core.Threading.CreateList();
