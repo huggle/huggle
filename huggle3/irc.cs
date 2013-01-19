@@ -16,38 +16,139 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Text.RegularExpressions;
+using System.Threading;
 using System.Text;
 
 namespace huggle3
 {
-    public class irc
+    public class IRC
     {
+        /// <summary>
+        /// Tells you if you are connected to network
+        /// </summary>
         public bool Connected;
+        /// <summary>
+        /// Name of server
+        /// </summary>
         public string Network = null;
+        /// <summary>
+        /// Port
+        /// </summary>
+        public int Port = 6667;
+        /// <summary>
+        /// Nickname
+        /// </summary>
+        public string Nick = null;
+        /// <summary>
+        /// ID of thread
+        /// </summary>
         public int thread;
-        public bool IrcConnect()
-        {
-            Core.History("IrcConnect()");
-            thread = Core.Threading.CreateThread(Irc, "Irc");
-            Core.Threading.Execute(thread);
+        /// <summary>
+        /// ID of pinger
+        /// </summary>
+        private int pt;
+        /// <summary>
+        /// Connectiong class
+        /// </summary>
+        private System.Net.Sockets.NetworkStream Connection;
+        /// <summary>
+        /// Stream reader
+        /// </summary>
+        private StreamReader SR = null;
+        private StreamWriter SW = null;
+        public static Regex line =
+            new Regex(":rc-pmtpa!~rc-pmtpa@[^ ]* PRIVMSG #[^:]*:14\\[\\[07([^]*)14\\]\\]4 (M?)(B?)10 02.*di" +
+                      "ff=([^&]*)&oldid=([^]*) 5\\* 03([^]*) 5\\* \\(?([^]*)?\\) 10([^]*)?");
 
-            return false;
-        }
+        public static List<string> Channels = new List<string>();
 
-        static void Irc()
-        {
 
-        }
-    }
-
-    public static class rc
-    {
-        private static irc Network;
-        public static void IrcConnect()
-        {
-            rc.Network = new irc();
-            rc.IrcConnect();
-        }
+        public void Join(string channel)
+        { 
             
+        }
+
+        /// <summary>
+        /// Creates an irc class and start a connection
+        /// </summary>
+        /// <param name="network">Network you want to connect to</param>
+        /// <param name="port">Port of the server</param>
+        /// <param name="nick">Nickname to use</param>
+        /// <param name="channel">Channel to join</param>
+        public IRC(string network, int port, string nick, string channel)
+        {
+            try
+            {
+                Nick = nick;
+                Port = port;
+                Channels.Add(channel);
+                Network = network;
+                thread = Core.Threading.CreateThread(Run, "IRC");
+                Core.Threading.Execute(thread);
+            }
+            catch (Exception fail)
+            {
+                Core.ExceptionHandler(fail);
+            }
+        }
+
+        public void Pinger()
+        {
+            try
+            {
+                while (true)
+                {
+                    Send("PING");
+                    Thread.Sleep(20000);
+                }
+            }
+            catch (ThreadAbortException)
+            {
+                return;
+            }
+            catch (Exception fail)
+            {
+                Core.ExceptionHandler(fail);
+            }
+        }
+
+        private void Send(string text)
+        {
+            SW.WriteLine(text);
+            SW.Flush();
+        }
+
+        private void Connect()
+        {
+            Core.WriteLog("IRC: connecting to " + Network + ":" + Port);
+            Connection = new System.Net.Sockets.TcpClient(Network, Port).GetStream();
+            SW = new StreamWriter(Connection);
+            SR = new StreamReader(Connection, System.Text.Encoding.UTF8);
+            pt = Core.Threading.CreateThread(Pinger, "Pinger for wm feed");
+            Core.Threading.Execute(pt);
+            Send("USER " + "huggle3" + " 8 * :" + "huggle3");
+            Send("NICK " + Nick);
+        }
+
+        private void Run()
+        {
+            try
+            {
+                Connect();
+
+            }
+            catch (ThreadAbortException)
+            {
+                Core.WriteLog("IRC thread was requested to stop");
+                Connected = false;
+                return;
+            }
+            catch (Exception fail)
+            {
+                Core.ExceptionHandler(fail);
+            }
+        }
     }
 }

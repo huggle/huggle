@@ -176,12 +176,6 @@ namespace huggle3
             int offset = contribsPanel.Width - 20 + (contribsPanel.Offset * 17);
         }
 
-        public void Draw_Queues()
-        {
-            Core.History("Draw_Queues");
-            int Large = 0;
-        }
-
         private void main_Resize(object sender, EventArgs e)
         {
             AlignForm();
@@ -210,6 +204,11 @@ namespace huggle3
             toolStripSInfo.Text = "Wiki: " + Config.Project + " edit rate: <waiting>";
             toolStripSUser.Text = Config.Username;
             _CurrentBrowser = webBrowser;
+            OpenInfo();
+            Localize();
+            lsLog.Columns.Add("");
+            Config.Initialised = true;
+            DisplayingLast = true;
             lock (Core.SystemLog)
             {
                 foreach (string message in Core.SystemLog)
@@ -217,12 +216,6 @@ namespace huggle3
                     Log(message);
                 }
             }
-            OpenInfo();
-            Localize();
-            lsLog.Columns.Add("");
-            Config.Initialised = true;
-            DisplayingLast = true;
-            
             
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
         }

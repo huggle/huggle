@@ -271,8 +271,11 @@ namespace huggle3
             {
                 if (ThreadList[ID].Active == true)
                 {
+                    Core.WriteLog("Starting thread: " + ThreadList[ID].Decription);
                     ThreadList[ID].handle.Start();
+                    return;
                 }
+                Core.WriteLog("Unable to start the thread, non existend handle");
             }
         }
 
