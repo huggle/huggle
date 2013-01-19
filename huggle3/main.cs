@@ -96,33 +96,9 @@ namespace huggle3
         public int AlignForm()
         {
             Core.History("main.AlignForm()");
-            // queue
-            Queue.Left = Config.QueueLeft;
-            Queue.Top = Config.QueueTop + Usertool.Height + MainTool.Height;
-            Queue.Height = Program.MainForm.Height - 280 - MainTool.Height - Usertool.Height;
-            Queue.Width = Config.QueueWidth;
-            // browser
-            webBrowser.BringToFront();
-            webBrowser.Top = Config.QueueTop + Usertool.Height + MainTool.Height;
-            webBrowser.Left = Queue.Left + 20 + Queue.Width;
-            webBrowser.Height = Program.MainForm.Height - 280 - MainTool.Height - Usertool.Height;
-            webBrowser.Width = this.Width - Config.QueueWidth - 60;
             contribsPanel.Width = this.Width - historyStrip.Left - 20;
             historyStrip.Width = this.Width - contribsPanel.Left - 20;
-            // 
-            lsLog.Top = Config.QueueTop + 20 + Usertool.Height + MainTool.Height + Queue.Height;
-            lsLog.Left = Config.QueueLeft - 10;
-            lsLog.Width = Program.MainForm.Width - 40 - Config.QueueLeft;
-            lsLog.Height = Program.MainForm.Height - (webBrowser.Top + webBrowser.Height) - 80;
             lsLog.Columns[0].Width = lsLog.Width;
-            // 
-            cbType1.Top = 10;
-            cbType1.Width = Queue.Width - 14;
-            cbType2.Top = 80 + queuePanel1.Height;
-            cbType2.Width = Queue.Width - 14;
-            queuePanel1.Top = cbType1.Top + 40;
-            queuePanel1.Width = cbType1.Width;
-            queuePanel2.Top = cbType2.Top + 40;
             return 1;
         }
 
