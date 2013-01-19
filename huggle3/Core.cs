@@ -994,6 +994,7 @@ namespace huggle3
         {
             Config.Messages.Clear();
             Core.History("Core.LoadLanguages()");
+            Load_Language("bg", huggle3.Properties.Resources.bg);
             Load_Language("de", huggle3.Properties.Resources.de);
             Load_Language("en", huggle3.Properties.Resources.en);
             Load_Language("es", huggle3.Properties.Resources.es);
@@ -1006,7 +1007,6 @@ namespace huggle3
             Load_Language("kn", huggle3.Properties.Resources.kn);
             Load_Language("ml", huggle3.Properties.Resources.ml);
             Load_Language("mr", huggle3.Properties.Resources.mr);
-            Load_Language("bg", huggle3.Properties.Resources.bg);
             Load_Language("nl", huggle3.Properties.Resources.nl);
             Load_Language("no", huggle3.Properties.Resources.no);
             Load_Language("oc", huggle3.Properties.Resources.oc);
@@ -1078,6 +1078,9 @@ namespace huggle3
                         if (Config.Messages[language].ContainsKey(message_name) != true)
                         {
                             Config.Messages[language].Add(message_name, message_value);
+                        }
+                        else
+                        {
                             if (Config.devs)
                             {
                                 // we are dev so we want to know that there is a mistake in the db
