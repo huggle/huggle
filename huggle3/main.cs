@@ -86,6 +86,11 @@ namespace huggle3
         public main()
         {
             InitializeComponent();
+            systemWindowToolStripMenuItem.Visible = false;
+            if (Config.devs)
+            {
+                systemWindowToolStripMenuItem.Visible = true;
+            }
         }
 
         public int AlignForm()
@@ -657,6 +662,12 @@ namespace huggle3
             {
                 toolStripSInfo.Text = "Wiki: " + Config.Project + " edit rate: " + rpm.ToString() + ", reverts: " + epm.ToString() +" per minute";
             }
+        }
+
+        private void systemWindowToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Forms.Syslog form = new Forms.Syslog();
+            form.Show();
         }
 
     }

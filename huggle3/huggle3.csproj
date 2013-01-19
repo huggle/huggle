@@ -269,6 +269,12 @@
     <Compile Include="Forms\StatsForm.Designer.cs">
       <DependentUpon>StatsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Syslog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Syslog.Designer.cs">
+      <DependentUpon>Syslog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\TagForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -418,6 +424,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\StatsForm.resx">
       <DependentUpon>StatsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Syslog.resx">
+      <DependentUpon>Syslog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\TagForm.resx">
       <DependentUpon>TagForm.cs</DependentUpon>

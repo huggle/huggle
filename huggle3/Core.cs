@@ -1042,6 +1042,7 @@ namespace huggle3
         public static bool ExceptionHandler(Exception error_handle, bool panic = false)
         {
             core_er = error_handle;
+            WriteLog("EXCEPTION: " + error_handle.Message);
             if (SpecialThreads.RecoveryThread == null)
             {
                 SpecialThreads.RecoveryThread = new System.Threading.Thread(CreateEx);
@@ -1126,7 +1127,6 @@ namespace huggle3
         public class plugin
         {
             public int ID;
-            
         }
 
         public static string Main = "main.tcl";

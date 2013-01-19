@@ -161,6 +161,7 @@
             this.webBrowser = new huggle3.Controls.SpecialBrowser();
             this.historyStrip = new huggle3.Controls.HistoryStrip();
             this.contribsPanel = new huggle3.Controls.ContribsPanel();
+            this.systemWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Strip.SuspendLayout();
             this.MainTool.SuspendLayout();
             this.Usertool.SuspendLayout();
@@ -647,7 +648,8 @@
             this.optionsToolStripMenuItem,
             this.toolStripMenuItem12,
             this.logoutToolStripMenuItem,
-            this.exitToolStripMenuItem});
+            this.exitToolStripMenuItem,
+            this.systemWindowToolStripMenuItem});
             this.systemToolStripMenuItem.Name = "systemToolStripMenuItem";
             this.systemToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
             this.systemToolStripMenuItem.Text = "System";
@@ -1257,6 +1259,13 @@
             this.contribsPanel.Size = new System.Drawing.Size(239, 21);
             this.contribsPanel.TabIndex = 14;
             // 
+            // systemWindowToolStripMenuItem
+            // 
+            this.systemWindowToolStripMenuItem.Name = "systemWindowToolStripMenuItem";
+            this.systemWindowToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.systemWindowToolStripMenuItem.Text = "System window";
+            this.systemWindowToolStripMenuItem.Click += new System.EventHandler(this.systemWindowToolStripMenuItem_Click);
+            // 
             // main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1430,5 +1439,6 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripSUser;
         private System.Windows.Forms.ToolStripStatusLabel toolStripSInfo;
         private System.Windows.Forms.Timer timerStatus;
+        private System.Windows.Forms.ToolStripMenuItem systemWindowToolStripMenuItem;
     }
 }
