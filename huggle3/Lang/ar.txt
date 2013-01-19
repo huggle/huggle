@@ -1,0 +1,769 @@
+﻿<pre>
+name:                    Arabic
+</pre>
+
+=== General ===
+<pre>
+add:                       أضف
+apply:                     طبِّق
+cancel:                    ألغِ
+clear:                     امحُ
+close:                     أغلق
+continue:                  واصل
+copy:                      انسخ
+delete:                    احذف
+error:                     خطأ
+exit:                      خروج
+minimizewindow:            تصغير
+no:                        لا
+ok:                        موافق
+remove:                    أزل
+rename:                    غير الاسم
+restorewindow:             استعد
+save:                      احفظ
+selectfile:                اختر ملفا
+yes:                       نعم
+</pre>
+
+=== Edit types ===
+<pre>
+edittype-blocknote:        إخطارات المنع
+edittype-deletenote:       إخطارات طلب الحذف
+edittype-deletetag:        وسوم نقاش الحذف
+edittype-deletereq:        تعديلات أخرى في نقاش الخذف
+edittype-manual:           تعديلات يدوية
+edittype-message:          رسائل المستخدم
+edittype-note:             إِخطارات أخرى
+edittype-prodtag:          وسوم ترشيح للحذف
+edittype-protectreq:       طلبات حماية
+edittype-report:           تقارير
+edittype-revert:           استرجاعات
+edittype-speedytag:        وسوم الحذف السريع
+edittype-tag:              وسوم أخرى
+edittype-warning:          إنذارات
+</pre>
+
+=== About form ===
+<pre>
+about-desc:                About Huggle
+about-contributors:        المساهمون:
+</pre>
+
+=== Block form ===
+<pre>
+block-title:               منع {0}
+block-reason:              السبب:
+block-duration:            المدة:
+block-message:             رسالة نقاش المستخدم:
+block-anononly:            امنع المستخدمين المجهولين فقط
+block-creation:            امنع إنشاء حسابات جديدة
+block-autoblock:           فعل المنع التلقائي
+block-email:               امنع البريد الإلكتروني
+block-usertalk:            نقاش
+block-usercontribs:        مساهمات
+block-blockloglabel:       سجل المنع:
+block-warnloglabel:        إنذارات:
+block-sharedipwarning:     Note: {0} is tagged as a shared or dynamic IP address.
+block-sensitivewarning:    عنوان الأي بي هذا يعتبر "حساسا" للسبب التالي:\n\n   {0}\n\nالمتابعة رغم ذلك?
+block-rangeblockwarning:   {0} is already affected by a rangeblock on {1}.\nThis block will override the effect of the rangeblock. Continue?
+</pre>
+
+=== Closing form ===
+<pre>
+closing-whitelist:         تحديث قائمة المستخدم البيضاء...
+closing-config:           تحديث الصفحة الفرعية للإعدادات...
+</pre>
+
+=== Configuration form ===
+<pre>
+config-title:              خيارات
+config-rememberme:         تذكر اسم مستخدمي
+config-rememberpassword:   تذكر كلمة المرور
+config-autowhitelist:      ضع المستخدمين في القائمة البيضاء تلقائيا
+config-openinbrowser:      افتح وصلات التصفح في صفحات متصفح جديدة
+config-shownewedits:       أظهر التحريرات الجديدة في الصفحة المحددة وقت حدوثها
+config-preloads:           فعل التحميل المسبق للفروق
+config-ircmode:            استخدم تلقيم الآي آر سي لأحدث التغييرات إن أمكن
+config-ircport:            منفذ آي آر سي
+config-difffontsize:       حجم خط الفرق
+config-logfile:            ملف السجل
+config-viewlocalconfig:    اعرض مجلد التضبيطات المحلي
+config-trayicon:           أظهر أيقونة لوحة النظام
+config-startupmessage:     أظهر رسالة بدء التشغيل
+config-showlog:            أظهر السجل
+config-showqueue:          أظهر طابور الاسترجاع
+config-rightalignqueue:    أظهر الطابور في يمين النافذة
+config-showtooltips:       أظهر التلميحات في القائمة
+config-shownewmessages:    اعرض شريط الرسائل الجديدة
+config-shortcutlist:       مفاتيخ الاختصار
+config-shortcutaction:     إجراء
+config-shortcut:           مختصر
+config-changeshortcut:     غير المختصر {0}
+config-noshortcut:         لا شيء
+config-defaults:           مبدئيات
+config-minor:              طفيف
+config-watchlist:          أضف لقائمة مراقباتي
+config-defaultsummary:     الملخص المبدئي للتعديلات اليدوية
+config-undosummary:        الملخص عند رجوعك عن تعديلاتك الخاصة
+config-confirmmultiple:    أكد استرجاعات متعدد لتعديل لنفس المستخدم
+config-confirmsame:        أكد الرجوع إلى تعديل قام به نفس المستخدم الذي تقوم باسترجاع تعديله
+config-confirmselfrevert:  أكد الرجوع عن تعديلاتك الخاصة (ما عدا التراجع)
+config-confirmwarned:      أكد استرجاعا إلى تعديل قام به مستخدم تم تحذيره
+config-confirmrange:       أكد الرجوع إلى تعديل قام به مجهول من نفس /16 نطاق المستخدم الذي تسترجع تعديله
+config-confirmpage:        Confirm reversion of ignored pages
+config-autoadvance:        بعد الرجوع، اذهب إلى الصفحة التالية في الطابور
+config-userollback:        استعمل خاصية الاسترجاع إن أمكن
+config-revertsummaries:    الرجوع عن ملخصات موجودة في القائمة
+config-clearsummaries:     إن الملخصات المدخلة يدويا يتم تذكرها عبر الجلسات؛ انقر لمحوها
+config-reportlinkexamples: ضمن وصلات لحالات تخريب في الإخطارات
+config-extendreports:      مدد الإخطار بعد تخريب إضافي
+config-autoreportgroup:    إخطار تلقائي
+config-autoreport:         حين إنذار المستخدم إنذارا نهائيا
+config-reportnone:         لا تفعل شيئا
+config-reportprompt:       سل عن الإخطار
+config-reportauto:         قم بالإخطار تلقائيا
+config-templates:          قوالب رسائل المستخدم
+config-templatetext:       اعرض النص
+config-template:           قالب
+config-highlightgroup:     ألوان إبراز الصياغة
+config-useadminfunctions:  استخدم الصلاحيات الإدارية إن أمكن
+config-promptforblock:     سل عن المنع عند تحذير مستخدم مع إنذار نهائي
+config-blockreason:        سبب المنع المبدئي
+config-blocktime:          مدة المنع المبدئية
+config-blocktimeanon:      مستخدمون مجهولون
+config-blocktimereg:       مستخدمون مسجلون
+config-summaryprompt:      أدخل ملخصا
+config-defaultsprompt:     استرجاع المبدئيات?
+config-logbrowsetitle:     موقع ملف السجل
+config-shortcutconflict:   المختصر '{0}' يتعارض مع مختصر موجود لـ '{1}'.
+</pre>
+
+=== Delete form ===
+<pre>
+delete-title:              احذف {0}
+delete-reason:             سبب:
+delete-deletionlog:        سجل الحذف:
+</pre>
+
+=== Edit form ===
+<pre>
+edit-title:                تعديل {0}
+edit-summary:              ملخص:
+edit-minor:                تعديل طفيف
+edit-watch:                راقب هذه الصفحة
+edit-page:                 صفحة
+edit-edit:                 عدل
+edit-view:                 اعرض
+edit-page-savetofile:      احفظ بالملف...
+edit-page-save:            احفظ
+edit-page-cancel:          ألغ
+edit-edit-undo:            تراجع
+edit-edit-redo:            أعد
+edit-edit-cut:             قص
+edit-edit-copy:            انسخ
+edit-edit-paste:           ألصق
+edit-edit-delete:          احذف
+edit-edit-selectall:       اختر الكل
+edit-edit-find:            بحث
+edit-view-syntax:          تلوين الصياغة
+edit-matchcase:            تطابق
+edit-find:                 جد:
+edit-replace:              استبدل:
+edit-findnext:             تالي
+edit-findprevious:         سابق
+edit-replaceall:           استبدل الكل
+edit-edittab:              تعديل
+edit-previewtab:           مشاهدة
+edit-changestab:           تغييرات
+edit-searchnotfound:       العبارة غير موجودة
+edit-searchwrapstart:      وصلنا نهاية الصفحة، تابع من البداية
+edit-searchwrapend:        وصلنا بداية الصفحة، بعد المتابعة من النهاية
+</pre>
+
+=== E-mail form ===
+<pre>
+email-title:               راسل {0}
+email-subject:             الموضوع:
+email-message:             الرسالة:
+email-ccme:                أرسل لي نسخة
+email-send:                أرسل
+</pre>
+
+=== IRC feed ===
+<pre>
+irc-connected:             تم الاتصال بتلقيم آي آر سي لأحدث التغييرات
+irc-connecting:            قيد الاتصال بتلقيم آي آر سي لأحدث التغييرات؛ قد يستغرق الأمر برهة
+irc-disconnected:          انقطع الاتصال بتلقيم آي آر سي لأحدث التغييرات؛ معاودة الاتصال
+irc-nochannel:             IRC channel for {0} not found; using slower API queries instead
+irc-error:                 تعذر الاتصال بتلقيم آي آر سي لأحدث التغييرات. Using slower API queries instead
+</pre>
+
+=== List form ===
+<pre>
+list-actions:              إجراءات ومرشحات...
+list-browsetitle:          أضف ملفا نصيا للقائمة
+list-combine:              اجمع
+list-copyto:               انسخ إلى
+list-count:                {0} عناصر
+list-deleteconfirm:        هل أحذف القائمة '{0}'?
+list-duplicatename:        هنالك قائمة بالاسم '{0}'. اختر اسما آخر.
+list-intersect:            تقاطع
+list-limit:                حتى:
+list-listempty:            لا عناصر في القائمة\nأدخل مصدرا وانقر على "أضف"
+list-nolists:              No lists defined\nClick "Add" to create one
+list-query-cancelled:      تم إلغاؤه.
+list-query-fail:           فشل الاستعلام.
+list-query-noresults:      الاستعلام لم يرجع نتائجا.
+list-query-progress:       الاستعلام قيد التنفيذ...
+list-query-results:        {0} نتائج.
+list-renameprompt:         أدخل اسما جديدا:
+list-replace:              استبدل
+list-savefailed:           تعذر حفظ القائمة:
+list-savetitle:            احفظ القائمة
+list-sourcetype:           نوع المصدر:
+list-start:                من:
+list-stop:                 توقف
+list-title:                باني القوئم
+</pre>
+
+=== Login ===
+<pre>
+login-language:            اللغة:
+login-project:             المشروع:
+login-username:            اسم المستخدم:
+login-password:            كلمة السر:
+login-proxygroup:          إعدادات الوسيط
+login-proxy:               استخدم خادوما وسيطا
+login-proxyaddress:        عنوان:
+login-proxyport:           منفذ:
+login-proxydomain:         نطاق:
+login-start:               ولوج
+login-translate:           ترجم...
+login-captchatitle:        Captcha required to log in
+
+login-progress-start:      قيد الولوج...
+login-progress-language:   ملفات الرسائل قيد التحديث...
+login-progress-global:     الخيارات العمومية قيد الفحص...
+login-progress-config:     صفحات الخيارات قيد الفحص...
+login-progress-userlist:   قائمة المستخدمين قيد الفحص...
+login-progress-whitelist:  Retrieving user whitelist...
+
+login-error-admin:         استخدام Huggle في هذا المشروع يحتاج حسابا إداريا.
+login-error-age:           استخدام Huggle في هذا المشروع يحتاج حسابا عمره {0} يوما على الأقل.
+login-error-alldisabled:   تم تعطيل Huggle حاليا في كل المشاريع.
+login-error-approval:      استخدام Huggle في هذا المشروع يحتاج تصديقا.
+login-error-autoconfirmed: Use of Huggle on this project requires that your account is autoconfirmed.
+login-error-cancelled:     ملغى.
+login-error-captcha:       خطأ في كلمة السر أو كود التصديق
+login-error-config:        فشل تحميل صفحات الخيارات.
+login-error-count:         استخدام Huggle في هذا المشروع يحتاج {0} تعديلات على الأقل.
+login-error-disabled:      Huggle غير مفعلة في حسابك، راجع صفحة خيارات المستخدم.
+login-error-global:        تعذر تحميل صفحة الخيارات العمومية.
+login-error-invalid:       اسم مستخدم خاطئ.
+login-error-language:      تعذر تحميل ملفات الرسائل.
+login-error-nocaptcha:     Captcha not solved.
+login-error-noconfig:      ليس لهذا المشروع صفحة خيارات لبرمجية Huggle.
+login-error-nouser:        مستخدم غير موجود.
+login-error-password:      كلمة سر خاطئة.
+login-error-projdisabled:  Huggle معطل حاليا في هذا المشروع.
+login-error-rollback:      استخدام Huggle في هذا المشروع يتطلب الاسترجاع
+login-error-unknown:       تعذر الولوج.
+login-error-userlist:      تعذر تحميل قائمة المستخدمين.
+login-error-version:       هذا الإصدار قديم، يرجى تحديث البرمجية.
+login-error-whitelist:     تعذر تحميل القائمة المستخدمين البيضاء.
+</pre>
+
+=== Main window ===
+<pre>
+main-page:                 الصفحة
+main-user:                 مستخدم
+main-contribs:             مساهمات
+main-history:              تاريخ
+main-new-messages:         لديك رسائل جديدة؛ اختر النظام -> اعرض الرسائل الجديدة or press M to view them.
+main-system:               النظام
+main-system-messages:      اعرض الرسائل الجديدة
+main-system-reconnectirc:  عاود الاتصال بتلقيم آي آر سي
+main-system-savelog:       احفظ السجل...
+main-system-lists:         باني القوائن...
+main-system-requests:      الطلبات...
+main-system-statistics:    إحصائيات...
+main-system-showlog:       أظهر السجل
+main-system-showqueue:     أظهر الطابور
+main-system-showtwoqueues: أظهر طابورين
+main-system-options:       الخيارات...
+main-system-logout:        خروج
+main-system-exit:          Exit
+main-queue:                طابور
+main-queue-next:           تالي
+main-queue-trim:           تقليم
+main-queue-clear:          امسح الحالي
+main-queue-count:          {0} عناصر
+main-queue-query:          الاستعلام قيد الإجراء...
+main-queue-reset:          تصفير
+main-queue-clearall:       امسح الكل
+main-queue-options:        إدارة الطوابير...
+main-goto:                 اذهب إلى
+main-goto-mytalk:          صفحة نقاشي
+main-goto-mycontribs:      مساهماتي
+main-revision:             مراجعة
+main-revision-view:        معاينة
+main-revision-revert:      استرجاع
+main-revision-previous:    سابق
+main-revision-next:        تالي
+main-revision-latest:      الأخير
+main-revision-sight:       Sight
+main-page-switchtotalk:    حول إلى صفحة النقاش
+main-page-switchtosubject: حول إلى صفحة الموضوع
+main-page-switchtoarticle: حول إلى المقالة
+main-page-viewlatest:      شاهد المراجعة الأخيرة
+main-page-history:         اجلب التاريخ
+main-page-historypage:     أظهر صفحة التاريخ
+main-page-edit:            عدل
+main-page-tag:             Tag
+main-page-reqdeletion:     اطلب الحذف
+main-page-reqprotection:   اطلب الحماية
+main-page-watch:           راقب
+main-page-unwatch:         Unwatch
+main-page-purge:           Purge
+main-page-patrol:          علم كمراجعة
+main-page-move:            انقل...
+main-page-protect:         احم...
+main-page-delete:          احذف...
+main-user-info:            أظهر معلومات المستخدم
+main-user-ignore:          تجاهل
+main-user-unignore:        Unignore
+main-user-contribs:        Retrieve contributions
+main-user-talk:            معاينة نقاش المستخدم
+main-user-message:         رسالة...
+main-user-email:           بريد إلكتروني...
+main-user-warn:            نبه...
+main-user-report:          Report
+main-user-block:           امنع...
+main-browser:              متصفح
+main-browser-newtab:       New tab
+main-browser-closetab:     Close tab
+main-browser-closeothers:  Close other tabs
+main-browser-back:         Back
+main-browser-forward:      Forward
+main-browser-open:         View this in external browser
+main-browser-newedits:     أظهر التعديلات الجديدة للصفحة
+main-browser-newcontribs:  أظهر مساهمات المستخدم الجديدة
+main-help:                 مساعدة
+main-help-documentation:   Documentation
+main-help-feedback:        Feedback
+main-help-about:           عن Huggle...
+main-addqueue:             أضف...
+main-savelogtitle:         احفظ السجل
+main-usermessageother:     رسالة أخرى...
+main-advanced:             متقدّم...
+main-stats:                {0} edits per minute, {1} reverts per minute
+
+main-tip-revertwarn:       استرجع هذه النسخة ونبه المستخدم
+main-tip-nextdiff:         Show the next revision in the queue
+main-tip-revert:           استرجع هذه النسخة
+main-tip-template:         Send template message to user
+main-tip-warn:             نبه المستخدم
+main-tip-cancel:           Cancel all pending actions
+main-tip-undo:             Undo recent actions
+main-tip-browserback:      Back
+main-tip-browserforward:   Forward
+main-tip-browseropen:      View this in external browser
+main-tip-browsernewtab:    New tab
+main-tip-browserclosetab:  Close tab
+main-tip-history:          Retrieve page history
+main-tip-historyprev:      Show previous revision to this page
+main-tip-historynext:      Show next revision to this page
+main-tip-historylast:      Show latest revision to this page
+main-tip-historydifftocur: Show diff between this revision and the latest revision to this page
+main-tip-contribs:         Retrieve user contributions
+main-tip-contribsprev:     Show previous revision by this user
+main-tip-contribsnext:     Show next revision by this user
+main-tip-contribslast:     Show latest revision by this user
+main-tip-pageview:         عاين هذه النسخة
+main-tip-pageedit:         عدل هذه الصفحة
+main-tip-pagewatch:        راقب هذه الصفحة
+main-tip-pagetag:          Tag this page
+main-tip-pagetagdelete:    Tag this page for deletion
+main-tip-pagedelete:       احذف هذه الصفحة
+main-tip-userinfo:         أظهر معلومات عن المستخدم
+main-tip-usertalk:         أظهر صفحة نقاش المستخدم
+main-tip-usermessage:      راسل هذا المستخدم
+main-tip-userignore:       تجاهل كافة مساهمات هذا المستخدم
+main-tip-userreport:       أخطر عن هذا المستخدم
+main-tip-userblock:        امنع هذا المستخدم
+</pre>
+
+=== Message form ===
+<pre>
+message-title:             رسالة {0}
+message-help:              حدد العنوان أو الملخص او كلاهما. لدى انعدام الملخص سيتم استخدام العنوان؛ لدى انعدام العنوان لن تتم إضافة ترويسة
+message-subject:           العنوان:
+message-message:           الرسالة:
+message-summary:           الملخص:
+message-autosign:          ذيل التوقيع تلقائيا.
+</pre>
+
+=== Move form ===
+<pre>
+move-title:                انقل {0}
+move-target:               الوجهة:
+move-reason:               السبب:
+move-movetalk:             انقل صفحة النقاش
+</pre>
+
+=== Prod form ===
+<pre>
+prod-title:                ترشيح حذف {0}
+prod-reason:               السبب:
+</pre>
+
+=== Protect form ===
+<pre>
+protect-title:             احمِ {0}
+protect-request-title:     طلب حماية {0}
+protect-reason:            السبب:
+protect-expiry:            Expiry:
+protect-log:               سجل الحماية:
+protect-currentlevel:      درجة الحماية الحالية:
+protect-type:              نوعية الحماية:
+protect-none:              لا شيء
+protect-semiprotection:    حماية جزئية
+protect-fullprotection:    حماية كاملة
+protect-moveprotection:    حماية من النقل
+</pre>
+
+=== Queue form ===
+<pre>
+queue-title:               طوابير
+queue-queues:              طوابير:
+queue-typegroup:           نوع الطابور
+queue-listselector:        قائمة:
+queue-listbuilder:         باني القوائم...
+queue-sortorder:           نظام الفرز:
+queue-removeviewed:        أزل التعديلات عند مشاهدتها
+queue-removeold:           أزل التعديلات القديمة لنفس الصفحة
+queue-removeafter:         أزل التعديلات بعد
+queue-removeaftertime:     دقائق
+queue-preload:             فعل التحميل المسبق للمراجعات عند اختيار هذا الطابور
+queue-ignorepages:         تجاهل تعديلات الصفحات الموجودة في قائمة الصفحات المتجاهلة
+queue-traynotification:    أظهر إعلاما في لوحة النظام عند إضافة مراجعة لهذا الطابور
+queue-diffsgroup:          فرق
+queue-nodiffs:             حمل الفروق فقط عند معاينة المراجعة
+queue-preloaddiffs:        Preload diffs when queue is active
+queue-alldiffs:            حمل الفروق لكل مراجعة في الطابور
+queue-pagefiltersgroup:    مرشحات عنوان الصفحة
+queue-pageregex:           Title matches regular expression:
+queue-namespaces:          اسماء النطاق:
+queue-applylabel:          Click Apply to apply these filters to the existing page list.
+queue-editfiltersgroup:    عدل المرشحات
+queue-userregex:           Username matches regular expression:
+queue-summaryregex:        Summary matches regular expression:
+queue-filternewpage:       صفحة جديدة
+queue-filterownuserspace:  User's own userspace
+queue-filteranonymous:     مستخدم مجهول
+queue-filterignored:       مستخدم متجاهل
+queue-filterreverts:       استرجع
+queue-filternotifications: Notification
+queue-filterwarnings:      تحذير
+queue-filtertags:          وسم
+queue-filterbot:           تعديل بوت
+queue-filterassisted:      Assisted edit
+queue-filterhuggle:        Huggle edit
+queue-filterme:            تعديلي
+queue-examplelabel1:       Require this attribute
+queue-examplelabel2:       Exclude this attribute
+queue-examplelabel3:       Don't check this attribute
+queue-usergroup:           أظهر تعديلات هؤلاء المستخدمين فقط
+</pre>
+
+=== Queue trim form ===
+<pre>
+queuetrim-title:           Trim queue
+queuetrim-age:             Discard all queued revisions older than
+queuetrim-ageunit:         دقائق
+</pre>
+
+=== Requests form ===
+<pre>
+requests-title:            طلبات
+requests-cancelall:        ألغ الكل
+requests-cancelled:        ملغي
+requests-inprogress:       قيد التنفيذ
+requests-failed:           فشل
+requests-completed:        تم
+requests-time:             وقت
+requests-type:             Type
+requests-query:            Query
+</pre>
+
+=== Report form ===
+<pre>
+report-title:              أخطر عن {0}
+report-reason:             السبب:
+report-message:            الرسالة:
+report-log:                التنبيهات لهذا المستخدم:
+</pre>
+
+=== Revert form ===
+<pre>
+revert-title:              استرجع {0}
+revert-summary:            ملخص الاسترجاع (اتركه فارغا للنص الافتراضي):
+revert-currentonly:        استرجع النسخة المعلّمة فقط
+</pre>
+
+=== Revert and warn form ===
+<pre>
+revertandwarn-title:       استرجع ونبه {0}
+</pre>
+
+=== Reverting ===
+<pre>
+revert-confirm-ignored:    Revert edit by whitelisted user '{0}'?
+revert-confirm-multiple:   هذا سيسترجع تعديلات متعددة لـ '{0}'. أتريد الاستمرار?
+revert-confirm-range:      The author of the target revision, {1}, is in the same range as the author of the current revision, {0}, and may be the same person; ensure the target revision is correct before proceeding. Continue?
+revert-confirm-page:       Revert edit to ignored page '{0}'?
+revert-confirm-same:       This will revert to another revision by the user that is being reverted, {0}. Continue?
+revert-confirm-self:       This will revert your own edit. Continue?
+revert-confirm-warned:     This will revert to a revision by {0}; this user has previously been warned. Continue?
+revert-error-first:        Edit is the first edit to the page; unable to revert.
+revert-only:               Edit is the only edit to the page.
+revert-creator:            Last edit was made by page creator, {0}.
+revert-delete-instead:     Delete page instead?
+revert-speedy-instead:     Tag for speedy deletion instead?
+</pre>
+
+=== Speedy form ===
+<pre>
+speedy-title:              {0} شطب
+speedy-reason:             السبب:
+speedy-parameters:         Parameters:
+speedy-notifycreator:      أعلم منشئ الصفحة
+</pre>
+
+=== Statistics form ===
+<pre>
+stats-title:               إحصائيات
+stats-actions:             العمليات في الجلسة الحالية:
+stats-session:             زمن الجلسة: {0}
+stats-edits:               تعديلات
+stats-assisted:            Assisted edits
+stats-huggle:              Huggle edits
+stats-reverts:             استرجاعات
+stats-warnings:            تحذيرات
+stats-reports:             تقارير
+stats-tags:                وسوم
+stats-notifications:       الإخطارات
+stats-blocks:              عمليات منع
+stats-deletes:             عمليات حذف
+stats-protections:         عمليات حماية
+stats-allusers:            جميع المستخدمين
+stats-me:                  أنا
+stats-ignored:             متجاهلون
+stats-anon:                مجهولون
+stats-bots:                بوتات
+stats-other:               آخر
+</pre>
+
+=== Tag form ===
+<pre>
+tag-title:                 وسم {0}
+tag-tagselector:           أضف وسم:
+tag-tags:                  Tag(s):
+tag-summary:               تعديل:
+tag-insertatend:           أضف في نهاية الصفحة
+</pre>
+
+=== Update form ===
+<pre>
+update-title:              يوجد إصدار جديد
+update-notification:       This version of Huggle is out of date.
+update-required:           You must update to the latest version, {0}.
+update-optional:           Updating to the latest version, {0}, is recommended, and may be required in future.
+update-prompt:             Download and run the latest version now?
+update-download:           تحديث
+update-progress:           تحميل نسخة جديدة. . .
+update-error:              فشل في تحميل النسخة الجديدة
+</pre>
+
+=== User info form ===
+<pre>
+userinfo-title:            معلومات المستخدم '{0}'
+userinfo-anonymous:        مجهولون:
+userinfo-ignored:          اللائحة البيضاء:
+userinfo-edits:            عدد التعديلات:
+userinfo-sessionedits:     التعديلات خلال الجلسة:
+userinfo-sharedip:         Shared/dynamic IP:
+userinfo-blocklog:         منع:
+userinfo-warnlog:          تحذيرات:
+</pre>
+
+=== Warning form ===
+<pre>
+warning-title:             حذّر {0}
+warning-levelgroup:        مستوى التحذير
+warning-levelauto:         تلقائي
+warning-level1:            المستوى 1
+warning-level2:            المستوى 2
+warning-level3:            المستوى 3
+warning-level4:            المستوى 4 (النهائي)
+warning-warntype:          التحذير من النوع:
+warning-warnlog:           تحذيرات لهذا المستخدم:
+</pre>
+
+=== XfD form ===
+<pre>
+xfd-title:                 رشح {0} للحذف
+xfd-category:              تصنيف:
+xfd-nominationtype:        نوع الترشيح:
+xfd-notify:                أخبر منشئ المقالة
+xfd-reason:                السبب:
+</pre>
+
+=== Web requests ===
+<pre>
+error-apidisabled:         The MediaWiki API is disabled
+error-exception:           خطأ في جلب '{0}'
+error-fail:                تعذر جلب '{0}'
+error-loggedout:           تم الخروج من الحساب، قيد تسجيل الدخول...
+error-noresponse:          لا رد
+error-pagemissing:         الصفحة غير موجودة
+error-reloginfail:         تعذر تسجيل الدخول، يرجى إعادة تشغيل البرنامج
+error-timeout:             انتهى وقت الطلب
+error-unknown:             خطأ غير معروف
+
+retrying:                  قيد إعادة المحاولة...
+
+block-done:                تم المنع '{0}'
+block-fail:                لم يتم المنع '{0}'
+block-progress:            قيد المنع '{0}'...
+
+blocklog-fail:             تعذر جلب سجل المنع لـ '{0}'
+blocklog-none:             لا يوجد سجل منع لـ '{0}'
+blocklog-progress:         جلب سجل المنع لـ '{0}'...
+
+blocknotify-fail:          لم يتم تبليغ '{0}' عن المنع
+blocknotify-progress:      قيد تبليغ '{0}' عن المنع...
+
+delete-done:               تم حذف '{0}'
+delete-fail:               لم يتم حذف '{0}'
+delete-progress:           قيد الحذف '{0}'...
+
+deletelog-fail:            تعذر جلب سجل حذف '{0}'
+deletelog-none:            لا سجل حذف لـ '{0}'
+deletelog-progress:        يجلب سجل حذف '{0}'...
+
+diff-deleted:              تم حذف هذه النسخة.
+diff-fail:                 تعذر جلب الفرق '{0}'
+
+reqdelete-duplicate:       سبق أن تم وسم هذه الصفحة
+reqdelete-tagfail:         Did not tag '{0}' for deletion discussion
+reqdelete-redirectfail:    The page is a redirect and no redirect discussion process is defined
+reqdelete-tagprogress:     Tagging '{0}' for deletion discussion...
+
+reqdelete-subpageprogress: Creating deletion discussion subpage for '{0}'...
+reqdelete-subpagefail:     Did not create deletion discussion subpage for '{0}'
+reqdelete-logprogress:     Adding '{0}' to deletion discussion log...
+reqdelete-logfail:         Did not add '{0}' to deletion discussion log
+
+edit-fail:                 Did not edit '{0}'
+edit-progress:             Editing '{0}'...
+
+email-done:                Sent e-mail to '{0}'
+email-fail:                Failed to send e-mail to '{0}'
+email-progress:            Sending e-mail to '{0}'...
+
+history-fail:              Failed to retrieve history of '{0}'
+history-progress:          Retrieving history of '{0}' ({1})...
+
+move-done:                 Moved '{0}' to '{1}'
+move-fail:                 Did not move '{0}' to '{1}'
+move-progress:             Moving '{0}' to '{1}'...
+
+notify-fail:               Did not notify the creator of '{0}'
+notify-unknowncreator:     لا يستطيع إيجاد منشئ الصفحة
+
+patrol-duplicate:          The page is already patrolled
+patrol-done:               Marked '{0}' as patrolled
+patrol-fail:               Did not mark '{0}' as patrolled
+patrol-notfound:           Cannot find recent-changes id, page is too old
+patrol-progress:           Marking '{0}' as patrolled...
+
+protect-done:              Changed protection level for '{0}'
+protect-fail:              Did not change protection level for '{0}'
+protect-progress:          Changing protection level for '{0}'...
+
+protectlog-fail:           Failed to retrieve protection log for '{0}'
+protectlog-none:           No protection log for '{0}'
+protectlog-progress:       Retrieving protection log for '{0}'...
+
+purge-done:                Purged '{0}'
+purge-fail:                Failed to purge '{0}'
+purge-progress:            Purging '{0}'
+
+queue-refresh-fail:        Error refreshing queue '{0}'
+
+report-duplicate:          The user has already been reported
+report-fail:               Did not report '{0}'
+report-progress:           Reporting '{0}'...
+
+saveuserconfig-done:       Updated user configuration page
+saveuserconfig-fail:       Did not update user configuration page
+saveuserconfig-progress:   Updating user configuration page...
+
+loadglobalconfig-fail:     Failed to load global configuration page
+loadprojectconfig-fail:    Failed to load project configuration page
+loaduserconfig-fail:       Failed to load user configuration page
+
+reqprotection-badformat:   Format of request page unknown
+reqprotection-duplicate:   Protection has already been requested
+reqprotection-fail:        Did not request protection of '{0}'
+reqprotection-progress:    Requesting protection of '{0}'...
+
+revert-cannotundo:         Cannot undo due to conflicting intermediate edits
+revert-conflict:           The page was edited by ignored user '{0}'
+revert-fail:               Did not revert '{0}'
+revert-nochange:           The content of the target revision is identical to that of the current revision
+revert-nootheruser:        No other user has edited the page
+revert-progress:           Reverting '{0}'...
+
+tag-alreadytagged:         The page has already been tagged
+tag-deleted:               The page has been deleted
+tag-fail:                  Did not tag '{0}'
+tag-progress:              Tagging '{0}'...
+
+sight-done:                Marked revision {0} of '{1}' as sighted
+sight-fail:                Failed to sight revision {0} of '{1}'
+sight-progress:            Marking revision {0} of '{1}' as sighted
+
+speedy-fail:               Did not tag '{0}' for speedy deletion
+speedy-progress:           Tagging '{0}' for speedy deletion...
+
+warnlog-fail:              Failed to retrieve warning log for '{0}'
+warnlog-none:              '{0}' has not been warned
+warnlog-progress:          Retrieving warning log for '{0}'...
+
+unwatch-done:              Removed '{0}' from watchlist
+unwatch-fail:              Failed to remove '{0}' from watchlist
+unwatch-progress:          Removing '{0}' from watchlist...
+
+usermessage-duplicate:     A message about the same thing was already present
+usermessage-fail:          Did not message '{0}'
+usermessage-progress:      Messaging '{0}'...
+
+watch-done:                Added '{0}' to watchlist
+watch-fail:                Failed to add '{0}' to watchlist
+watch-progress:            Adding '{0}' to watchlist...
+
+warn-alreadyfinal:         The user already has a final warning
+warn-alreadyblocked:       The user has already been blocked
+warn-alreadyreported:      The user has already been reported
+warn-oldedit:              The user has not edited since their latest warning
+warn-recent:               The user was warned less than {0} seconds ago
+warn-fail:                 Did not warn '{0}'
+warn-progress:             تحذير '{0}'...
+</pre>
+
+=== API ===
+<pre>
+api-help:                  No parameters in API query
+</pre>
