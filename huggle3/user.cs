@@ -1,7 +1,10 @@
 ﻿//This is a source code or part of Huggle project
 //
-//This file contains code for
-//last modified by Petrb
+//This file contains code for users of wiki
+
+/// <DOCUMENTATION>
+/// There is no documentation for this
+/// </DOCUMENTATION>
 
 //Copyright (C) 2011-2012 Huggle team
 
@@ -23,7 +26,7 @@ namespace huggle3
 {
     public class user
     {
-        public edit LastEdit; // last edit of user
+        public Edit LastEdit; // last edit of user
         /// <summary>
         /// Anonymous
         /// </summary>

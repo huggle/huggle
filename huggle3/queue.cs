@@ -1,7 +1,10 @@
 ﻿//This is a source code or part of Huggle project
 //
-//This file contains code for
-//last modified by Petrb
+//This file contains code for queues
+
+/// <DOCUMENTATION>
+/// There is no documentation for this
+/// </DOCUMENTATION>
 
 //Copyright (C) 2011-2012 Huggle team
 //This program is free software: you can redistribute it and/or modify
@@ -41,13 +44,14 @@ namespace huggle3
         private int _RemoveAfter = 0;
         private bool _RemoveViewed = false;
         private System.Text.RegularExpressions.Regex RevisionRegex;
-        private QueueSortOrder _SortOrder = null;
+        private QueueSortOrder _SortOrder;
         private List<Space> _Spaces = null;
         private System.Text.RegularExpressions.Regex _SummaryRegex;
         private bool _TrayNotification = false;
         private QueueType _Type;
         private System.Text.RegularExpressions.Regex _UserRegex;
         private List<string> _Users = new List<string>();
+        private List<Edit> Edits = new List<Edit>();
 
         private QueueFilter _FilterAnonymous = QueueFilter.None;
         private QueueFilter _FilterAssisted = QueueFilter.None;
@@ -72,6 +76,25 @@ namespace huggle3
         {
             set { _name = Name; }
             get { return _name; }
+        }
+
+        public bool Matches(Edit _edit)
+        {
+            return true;
+        }
+
+        public static void Enqueue(Edit _edit)
+        {
+            lock (All)
+            {
+                foreach (KeyValuePair<string,Queue> x in All)
+                {
+                    if (x.Value.Matches(_edit))
+                    {
+                        x.Value.Edits.Add(_edit);
+                    }
+                }
+            }
         }
 
         enum QueueSortOrder

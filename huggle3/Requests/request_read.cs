@@ -1,7 +1,10 @@
 ﻿//This is a source code or part of Huggle project
 //
-//This file contains code for
-//last modified by Petrb
+//This file contains code for reading
+
+/// <DOCUMENTATION>
+/// There is no documentation for this
+/// </DOCUMENTATION>
 
 //Copyright (C) 2011-2012 Huggle team
 //This program is free software: you can redistribute it and/or modify
@@ -32,7 +35,7 @@ namespace huggle3.Requests
             public int Preload_Count;
             public string Diff;
             public int MaxSimultaneousR = 20;
-            public edit _Edit;
+            public Edit _Edit;
 
 
             public override void Process()
@@ -50,7 +53,7 @@ namespace huggle3.Requests
                 {
                     browsertab = main._CurrentBrowser;
                 }
-                _Edit.DiffCacheState = edit.CacheState.Caching;
+                _Edit.DiffCacheState = Edit.CacheState.Caching;
                 string Old;
                 Old = "prev";
                 if (_Edit.Oldid != "-1")
@@ -89,7 +92,7 @@ namespace huggle3.Requests
             /// <summary>
             /// Page
             /// </summary>
-            public page Page;
+            public Page Page;
             /// <summary>
             /// Full history or just a part
             /// </summary>

@@ -1,7 +1,10 @@
 ﻿//This is a source code or part of Huggle project
 //
 //This file contains code for
-//last modified by Petrb
+
+/// <DOCUMENTATION>
+/// There is no documentation for this
+/// </DOCUMENTATION>
 
 //Copyright (C) 2011-2012 Huggle team
 //This program is free software: you can redistribute it and/or modify
@@ -21,7 +24,7 @@ using System.Diagnostics;
 
 namespace huggle3
 {
-    public class page
+    public class Page
     {
         /// <summary>
         /// Name of the article
@@ -38,15 +41,15 @@ namespace huggle3
         /// <summary>
         /// List of all pages which are cached
         /// </summary>
-        private Dictionary<string, page> Shared_All = new Dictionary<string,page>();
+        private Dictionary<string, Page> Shared_All = new Dictionary<string,Page>();
         /// <summary>
         /// First Edit
         /// </summary>
-        public edit FirstEdit;
+        public Edit FirstEdit;
         /// <summary>
         /// Current edit
         /// </summary>
-        public edit LastEdit;
+        public Edit LastEdit;
         /// <summary>
         /// Level
         /// </summary>
@@ -104,14 +107,14 @@ namespace huggle3
         /// Constructor
         /// </summary>
         /// <param name="Name"></param>
-        public page(string Name )
+        public Page(string Name )
         {
             this.Name = Name;
             _Space = Space.DetectSpace(Name);
             Shared_All.Add(Name, this);
         }
 
-        public page()
+        public Page()
         {
             // special contructor, obsolete
             this.Name = "Special:Unknown";

@@ -1,7 +1,10 @@
 ﻿//This is a source code or part of Huggle project
 //
-//This file contains code for
-//last modified by Addshore
+//This file contains code for api requests
+
+/// <DOCUMENTATION>
+/// There is no documentation for this
+/// </DOCUMENTATION>
 
 //Copyright (C) 2011-2012 Huggle team
 

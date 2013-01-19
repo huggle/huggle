@@ -1,7 +1,10 @@
 ﻿//This is a source code or part of Huggle project
 //
-//This file contains code for
-//last modified by Petrb
+//This file contains code for edit requests
+
+/// <DOCUMENTATION>
+/// There is no documentation for this
+/// </DOCUMENTATION>
 
 //Copyright (C) 2011-2012 Huggle team
 //This program is free software: you can redistribute it and/or modify
@@ -22,6 +25,6 @@ namespace huggle3.Requests
 {
     public class request_edit : request_core.Request
     {
-        public page Page;
+        public Page Page;
     }
 }

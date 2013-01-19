@@ -1,6 +1,18 @@
 ﻿//This is a source code or part of Huggle project
 //
-//This file contains code for
+//This file contains code for huggle
+
+/// <DOCUMENTATION>
+/// This is a entry point for program
+/// this file contains the main class and definition for 2 objects - the login form and main form
+/// as you can see the application is actually not started by calling Core.Init() but,
+/// by creating instance of Login form which then call the Core and start everything.
+/// 
+/// This instance is loaded during whole run of huggle. You can't unload it, only hide it.
+/// Login form also creates main form, which can be unloaded anytime.
+/// </DOCUMENTATION>
+
+
 //last modified by Petrb
 
 //Copyright (C) 2011-2012 Huggle team

@@ -21,7 +21,7 @@ using System.Diagnostics;
 
 namespace huggle3
 {
-    public class edit
+    public class Edit
     {
         /// <summary>
         /// Is the edit a program assisted edit (AWB,HG)
@@ -39,7 +39,7 @@ namespace huggle3
         /// Diff
         /// </summary>
         public string _ChangedContent;
-        public static Dictionary<string, edit> All = new Dictionary<string,edit>();
+        public static Dictionary<string, Edit> All = new Dictionary<string,Edit>();
         /// <summary>
         /// Removed edit
         /// </summary>
@@ -75,11 +75,11 @@ namespace huggle3
         /// <summary>
         /// Next edit
         /// </summary>
-        public edit Next;
+        public Edit Next;
         /// <summary>
         /// Next edit (user)
         /// </summary>
-        public edit NextByUser;
+        public Edit NextByUser;
         /// <summary>
         /// Previous Id
         /// </summary>
@@ -87,15 +87,15 @@ namespace huggle3
         /// <summary>
         /// Page
         /// </summary>
-        public page _Page;
+        public Page _Page;
         /// <summary>
         /// Previous edit
         /// </summary>
-        public edit Prev;
+        public Edit Prev;
         /// <summary>
         /// Previous edit (user)
         /// </summary>
-        public edit PrevByUser;
+        public Edit PrevByUser;
         /// <summary>
         /// Processed edit
         /// </summary>
@@ -139,7 +139,7 @@ namespace huggle3
         /// <summary>
         /// Type of edit
         /// </summary>
-        public edit.EditType _Type;
+        public Edit.EditType _Type;
         /// <summary>
         /// Warning type
         /// </summary>
@@ -171,7 +171,7 @@ namespace huggle3
         /// <summary>
         /// Constructor
         /// </summary>
-        public edit()
+        public Edit()
         { 
             this._Random = new Random(DateTime.Now.Millisecond).NextDouble();
             this._Multiple = false;

@@ -1,7 +1,14 @@
 ﻿//This is a source code or part of Huggle project
 //
-//This file contains code for
-//last modified by Petrb
+//This file contains code for requests
+
+/// <DOCUMENTATION>
+/// Huggle is using so called requests in order to download data
+/// 
+/// Each request is a class inherited from main core request class with bunch of virtual functions
+/// the request basically consist of some initial functions and special function Process which
+/// spawn a new thread which handle the request itself.
+/// </DOCUMENTATION>
 
 //Copyright (C) 2011-2012 Huggle team
 

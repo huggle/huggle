@@ -63,10 +63,10 @@
   <ItemGroup>
     <Compile Include="apicalls.cs" />
     <Compile Include="Config.cs" />
-    <Compile Include="ConfigForm.cs">
+    <Compile Include="Forms\ConfigForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ConfigForm.Designer.cs">
+    <Compile Include="Forms\ConfigForm.Designer.cs">
       <DependentUpon>ConfigForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\ContribsPanel.cs">
@@ -144,12 +144,6 @@
     <Compile Include="Forms\AboutForm.Designer.cs">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\AddTemplateForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\AddTemplateForm.Designer.cs">
-      <DependentUpon>AddTemplateForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\BlockForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -192,12 +186,6 @@
     <Compile Include="Forms\MoveForm.Designer.cs">
       <DependentUpon>MoveForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\ProdForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\ProdForm.Designer.cs">
-      <DependentUpon>ProdForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\ProgressForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -228,12 +216,6 @@
     <Compile Include="Forms\QueueTrimForm.Designer.cs">
       <DependentUpon>QueueTrimForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Report3rrForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\Report3rrForm.Designer.cs">
-      <DependentUpon>Report3rrForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\ReportForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -257,18 +239,6 @@
     </Compile>
     <Compile Include="Forms\RevertForm.Designer.cs">
       <DependentUpon>RevertForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\SockReportForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\SockReportForm.Designer.cs">
-      <DependentUpon>SockReportForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\SpeedyForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\SpeedyForm.Designer.cs">
-      <DependentUpon>SpeedyForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\StatsForm.cs">
       <SubType>Form</SubType>
@@ -310,10 +280,10 @@
     <Compile Include="irc.cs" />
     <Compile Include="list.cs" />
     <Compile Include="login.cs" />
-    <Compile Include="LoginForm.cs">
+    <Compile Include="Forms\LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LoginForm.Designer.cs">
+    <Compile Include="Forms\LoginForm.Designer.cs">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </Compile>
     <Compile Include="main.cs">
@@ -337,11 +307,9 @@
     <Compile Include="Requests\request_read.cs" />
     <Compile Include="Requests\request_report.cs" />
     <Compile Include="Requests\request_revert.cs" />
-    <Compile Include="Requests\request_xfd.cs" />
     <Compile Include="space.cs" />
-    <Compile Include="stats.cs" />
     <Compile Include="user.cs" />
-    <EmbeddedResource Include="ConfigForm.resx">
+    <EmbeddedResource Include="Forms\ConfigForm.resx">
       <DependentUpon>ConfigForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ContribsPanel.resx">
@@ -377,9 +345,6 @@
     <EmbeddedResource Include="Forms\AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\AddTemplateForm.resx">
-      <DependentUpon>AddTemplateForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\BlockForm.resx">
       <DependentUpon>BlockForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -401,9 +366,6 @@
     <EmbeddedResource Include="Forms\MoveForm.resx">
       <DependentUpon>MoveForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ProdForm.resx">
-      <DependentUpon>ProdForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\ProgressForm.resx">
       <DependentUpon>ProgressForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -416,9 +378,6 @@
     <EmbeddedResource Include="Forms\QueueForm.resx">
       <DependentUpon>QueueForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Report3rrForm.resx">
-      <DependentUpon>Report3rrForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\ReportForm.resx">
       <DependentUpon>ReportForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -427,12 +386,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\RevertForm.resx">
       <DependentUpon>RevertForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\SockReportForm.resx">
-      <DependentUpon>SockReportForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\SpeedyForm.resx">
-      <DependentUpon>SpeedyForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\StatsForm.resx">
       <DependentUpon>StatsForm.cs</DependentUpon>
@@ -452,7 +405,7 @@
     <EmbeddedResource Include="Forms\WarningForm.resx">
       <DependentUpon>WarningForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LoginForm.resx">
+    <EmbeddedResource Include="Forms\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="main.resx">

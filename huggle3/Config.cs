@@ -1,7 +1,10 @@
 ﻿//This is a source code or part of Huggle project
 //
-//This file contains code for
-//last modified by Addshore
+//This file contains code for configuration
+
+/// <DOCUMENTATION>
+/// This file contains runtime configs
+/// </DOCUMENTATION>
 
 //Copyright (C) 2011-2012 Huggle team
 
@@ -104,7 +107,7 @@ namespace huggle3
         /// <summary>
         /// 
         /// </summary>
-        public static List<edit> PendingWarnings;
+        public static List<Edit> PendingWarnings;
         /// <summary>
         /// Languages info
         /// </summary>
@@ -197,7 +200,7 @@ namespace huggle3
         /// <summary>
         /// Note
         /// </summary>
-        public static string AIVSingleNote;
+        public static string AIVSingleNote = "";
         /// <summary>
         /// AIV bot page
         /// </summary>
@@ -253,15 +256,15 @@ namespace huggle3
         /// <summary>
         /// Message for indefinite block
         /// </summary>
-        public static string BlockMessageIndef;
+        public static string BlockMessageIndef = "";
         /// <summary>
         /// Default block reason
         /// </summary>
-        public static string BlockReason;
+        public static string BlockReason = "";
         /// <summary>
         /// Summary
         /// </summary>
-        public static string BlockSummary;
+        public static string BlockSummary = "";
         /// <summary>
         /// Block time
         /// </summary>
@@ -273,7 +276,7 @@ namespace huggle3
         /// <summary>
         /// Location of CFD
         /// </summary>
-        public static string CfdLocation;
+        public static string CfdLocation = "";
         /// <summary>
         /// Summary for config
         /// </summary>
@@ -717,7 +720,7 @@ namespace huggle3
         /// <summary>
         /// Speedy criteria
         /// </summary>
-        public static Dictionary<string, page.SpeedyCriterion> SpeedyCriteria = new Dictionary<string,page.SpeedyCriterion>();
+        public static Dictionary<string, Page.SpeedyCriterion> SpeedyCriteria = new Dictionary<string,Page.SpeedyCriterion>();
         /// <summary>
         /// Speedy delete summary
         /// </summary>

@@ -1,6 +1,11 @@
 ﻿//This is a source code or part of Huggle project
 //
-//This file contains code for
+//This file contains code for core
+
+/// <DOCUMENTATION>
+/// There is no documentation for this
+/// </DOCUMENTATION>
+
 //last modified by Petrb
 
 //Copyright (C) 2011-2012 Huggle team
@@ -301,7 +306,7 @@ namespace huggle3
         /// <summary>
         /// Custom reverts
         /// </summary>
-        public static Dictionary<page, string> CustomReverts = new Dictionary<page,string>();
+        public static Dictionary<Page, string> CustomReverts = new Dictionary<Page,string>();
         /// <summary>
         /// Current queue
         /// </summary>
@@ -316,7 +321,7 @@ namespace huggle3
         public static string EditToken;
         public static bool HidingEdit = false;
         public static System.DateTime LastRCTime = new System.DateTime();
-        public static edit NullEdit = new edit();
+        public static Edit NullEdit = new Edit();
         public static string Patrol_Token;
         public static System.Threading.Thread MainThread;
         public static string[] months;
@@ -358,7 +363,7 @@ namespace huggle3
         /// </summary>
         public class CacheData
         {
-            public edit Edit;
+            public Edit Edit;
             public string Text;
         }
 
@@ -369,13 +374,13 @@ namespace huggle3
         {
             public string text;
             public string url;
-            public edit Edit;
+            public Edit Edit;
             public HistoryItem(string _url)
             {
                 this.url = _url;
             }
 
-            public HistoryItem(edit _edit)
+            public HistoryItem(Edit _edit)
             {
                 this.Edit = _edit;
             }
@@ -410,10 +415,10 @@ namespace huggle3
         /// </summary>
         public class Command
         {
-            public edit Edit;
+            public Edit Edit;
             public string Description;
             public user User;
-            public page Page;
+            public Page Page;
         }
 
         /// <summary>
@@ -433,8 +438,8 @@ namespace huggle3
         /// </summary>
         public class EditData
         {
-            public edit Edit;
-            public page Page;
+            public Edit Edit;
+            public Page Page;
             public string CaptchaWord; // deprecated
             public string CaptchaId;
             public string Text;
@@ -456,7 +461,7 @@ namespace huggle3
         public class Upload
         {
             public user User;
-            public page File;
+            public Page File;
         }
 
         /// <summary>
@@ -731,7 +736,7 @@ namespace huggle3
         /// <param name="Page"></param>
         /// <param name="Text"></param>
         /// <returns></returns>
-        public static string FormatHTML(page Page, string Text)
+        public static string FormatHTML(Page Page, string Text)
         {
             History("Core.FormatHTML (" + Page + " )");
             try
@@ -1037,10 +1042,10 @@ namespace huggle3
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public static page Get_NewPage(string name)
+        public static Page Get_NewPage(string name)
         {
             // create new page
-            page NewPage = new page(name);
+            Page NewPage = new Page(name);
             if (name == null)
             {
                 return null;
@@ -1199,13 +1204,13 @@ namespace huggle3
         /// </summary>
         /// <param name="PageName"></param>
         /// <returns></returns>
-        public static page GetPage(string PageName)
+        public static Page GetPage(string PageName)
         {
             // get a new page
             Core.History("GetPage()");
             try
             {
-                page Page = new page(PageName);
+                Page Page = new Page(PageName);
                 return Page;
             }
             catch (Exception weird)

@@ -30,7 +30,7 @@ namespace huggle3
         /// <summary>
         /// Current page
         /// </summary>
-        public static page _CurrentPage;
+        public static Page _CurrentPage;
         /// <summary>
         /// Current browser
         /// </summary>
@@ -46,7 +46,7 @@ namespace huggle3
         /// <summary>
         /// Current edit
         /// </summary>
-        public static edit _CurrentEdit;
+        public static Edit _CurrentEdit;
         /// <summary>
         /// Shows if we are currently rendering a diff
         /// </summary>
@@ -115,7 +115,7 @@ namespace huggle3
             }
         }
 
-        public void Browser_DisplayPage(page _Page)
+        public void Browser_DisplayPage(Page _Page)
         {
             try
             {
@@ -126,7 +126,7 @@ namespace huggle3
                         _CurrentEdit = _Page.LastEdit;
                         if (_Page.LastEdit == null)
                         {
-                            _CurrentEdit = new edit();
+                            _CurrentEdit = new Edit();
                             
                             _CurrentEdit._Page = _Page;
                         }
@@ -172,7 +172,7 @@ namespace huggle3
             contribsPanel.ThisUser = _CurrentUser;
             contribsPanel.Refresh();
 
-            edit Edit = _CurrentUser.LastEdit;
+            Edit Edit = _CurrentUser.LastEdit;
             int offset = contribsPanel.Width - 20 + (contribsPanel.Offset * 17);
         }
 
@@ -242,7 +242,7 @@ namespace huggle3
             StatusBar("Done");
         }
 
-        public bool Set_Current_Page(page _page)
+        public bool Set_Current_Page(Page _page)
         {
             Core.History("Set_Current_Page()");
             if (_page != null)
@@ -251,7 +251,7 @@ namespace huggle3
                 {
                     if (_page.LastEdit == null)
                     {
-                        _CurrentEdit = new edit();
+                        _CurrentEdit = new Edit();
                         _CurrentEdit._Page = _page;
                         _CurrentPage = _page;
 
@@ -267,9 +267,9 @@ namespace huggle3
                 }
                 if (_CurrentPage == _page && _CurrentEdit.Id != null)
                 {
-                    if (edit.All.ContainsKey(_CurrentEdit.Id))
+                    if (Edit.All.ContainsKey(_CurrentEdit.Id))
                     {
-                        historyStrip.NewerEdit = edit.All[_CurrentEdit.Id];
+                        historyStrip.NewerEdit = Edit.All[_CurrentEdit.Id];
                     }
                 }
                 if  ( ! CurrentPage.Items.Contains(_page.Name))
@@ -357,7 +357,7 @@ namespace huggle3
         public void DisplayPage(string name)
         {
             Core.History("DisplayPage()");
-            page Page = new page(CurrentPage.Text);
+            Page Page = new Page(CurrentPage.Text);
             Browser_DisplayPage(Page);
         }
 
@@ -380,7 +380,7 @@ namespace huggle3
                     historyStrip._Page = _CurrentPage;
                     historyStrip.Refresh();
 
-                    edit Edit;
+                    Edit Edit;
                     Edit = _CurrentPage.LastEdit;
                     int x = historyStrip.Width - 18 + (historyStrip.Offset * Config.ItemSize);
                     bool Enable_Scroll = false;

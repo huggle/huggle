@@ -1,7 +1,10 @@
 ﻿//This is a source code or part of Huggle project
 //
-//This file contains code
-//last modified by Petrb
+//This file contains code for processing
+
+/// <DOCUMENTATION>
+/// There is no documentation for this
+/// </DOCUMENTATION>
 
 //Copyright (C) 2011-2012 Huggle team
 //This program is free software: you can redistribute it and/or modify
@@ -26,7 +29,7 @@ namespace huggle3
         public static System.Text.RegularExpressions.Regex RC = new System.Text.RegularExpressions.Regex( "type=\"([^\"]*)\" ns=\"[^\"]*\" title=\"([^\"]*)\" rcid=\"([^\"]*)\" pageid=\"[^\"]*\"revid=\"([^\"]*)\" old_revid=\"([^\"]*)\" user=\"([^\"]*)\"( bot=\")?( anon=\"\")?( new=\")?( minor=\")? oldlen=\"([^\"]*)\" newlen=\"([^\"]*)\" timestamp=\"([^\"]*)\"( comment=\"([^\"]*)\")? />", System.Text.RegularExpressions.RegexOptions.Compiled );
 
 
-        public static int Process_NewEdit(edit _Edit)
+        public static int Process_NewEdit(Edit _Edit)
         {
             Core.History("Processing.ProcessNewEdit()");
             try
@@ -50,7 +53,7 @@ namespace huggle3
         }
 
 
-        public static int ProcessEdit(edit _Edit)
+        public static int ProcessEdit(Edit _Edit)
         {
             Core.History("Processing.ProcessEdit(new edit)");
             if (_Edit == null)
@@ -75,21 +78,21 @@ namespace huggle3
             {
                 if (Config.PageBlankedPattern.IsMatch(_Edit.Summary) || _Edit.Size == 0)
                 {
-                    _Edit._Type = edit.EditType.Blanked;
+                    _Edit._Type = Edit.EditType.Blanked;
                 }
             }
             if (Config.PageRedirectedPattern != null)
             {
                 if (Config.PageRedirectedPattern.IsMatch(_Edit.Summary))
                 {
-                    _Edit._Type = edit.EditType.Redirect;
+                    _Edit._Type = Edit.EditType.Redirect;
                 }
             }
             if (Config.PageReplacedPattern != null)
             {
                 if (Config.PageReplacedPattern.IsMatch(_Edit.Summary) || (_Edit.Size >= 0 && _Edit._Change <= -200))
                 {
-                    _Edit._Type = edit.EditType.ReplacedWith;
+                    _Edit._Type = Edit.EditType.ReplacedWith;
                 }
             }
             if (Config.Summary != "" && _Edit.Summary.EndsWith(Config.Summary) && _Edit.Summary != "")
@@ -117,9 +120,9 @@ namespace huggle3
 
                 if (_Edit.Summary == Config.UndoSummary + " " + Config.Summary)
                 {
-                    _Edit._Type = edit.EditType.Revert;
+                    _Edit._Type = Edit.EditType.Revert;
                 }
-                if (_Edit._Type == edit.EditType.Revert && _Edit.Summary.ToLower().Contains("[[special:contributions/"))
+                if (_Edit._Type == Edit.EditType.Revert && _Edit.Summary.ToLower().Contains("[[special:contributions/"))
                 {
                     string userName = _Edit.Summary.Substring(_Edit.Summary.ToLower().IndexOf("[[special:contributions/") + 24);
                     if (userName.Contains("]]") || userName.Contains("|"))
@@ -142,7 +145,7 @@ namespace huggle3
 
                 if (_Edit.Next != null)
                 {
-                    if (_Edit.Next._Type == edit.EditType.Revert && _Edit._User.User_Level == user.UserLevel.None)
+                    if (_Edit.Next._Type == Edit.EditType.Revert && _Edit._User.User_Level == user.UserLevel.None)
                     {
                         _Edit._User.User_Level = user.UserLevel.Reverted;
                     }
@@ -155,9 +158,9 @@ namespace huggle3
             }
 
             if (_Edit.Id != null)
-                if (edit.All.ContainsKey(_Edit.Id))
+                if (Edit.All.ContainsKey(_Edit.Id))
                 {
-                    edit.All.Add(_Edit.Id, _Edit);
+                    Edit.All.Add(_Edit.Id, _Edit);
                 }
 
             _Edit.Processed = true;
@@ -171,7 +174,7 @@ namespace huggle3
         /// <param name="_E"></param>
         /// <param name="Diff"></param>
         /// <param name="browser"></param>
-        public static void Process_Diff(edit _E, string Diff, Controls.SpecialBrowser browser)
+        public static void Process_Diff(Edit _E, string Diff, Controls.SpecialBrowser browser)
         {
             Core.History("Processing.Process_Diff()");
             if (_E._Multiple == false)
@@ -189,9 +192,9 @@ namespace huggle3
                 {
                     _E.Id = Core.FindString(Diff, "<div id=\"mw-diff-ntitle1\"><strong><a", "oldid=", "'");
                 }
-                if (_E.Id != "cur" && edit.All.ContainsKey(_E.Id))
+                if (_E.Id != "cur" && Edit.All.ContainsKey(_E.Id))
                 { 
-                    _E = edit.All[_E.Id];
+                    _E = Edit.All[_E.Id];
                 }
                 if (_E.Oldid == "prev" && Diff.Contains("<div id=\"mw-diff-otitle1\">"))
                 {
@@ -211,7 +214,7 @@ namespace huggle3
                 }
                 else
                 {
-                    _E.Prev = new edit();
+                    _E.Prev = new Edit();
                     _E.Prev._Page = _E._Page;
                     _E.Prev.Next = _E;
                     _E.Prev.Id = _E.Oldid;
@@ -299,7 +302,7 @@ namespace huggle3
                 }
             }
             _E.Diff = Diff;
-            _E.DiffCacheState = edit.CacheState.Cached;
+            _E.DiffCacheState = Edit.CacheState.Cached;
 
             if (browser != null)
             {
@@ -315,7 +318,7 @@ namespace huggle3
         /// </summary>
         /// <param name="_Edit"></param>
         /// <returns></returns>
-        public static bool ProcessNewEdit(edit _Edit)
+        public static bool ProcessNewEdit(Edit _Edit)
         {
             Core.History("Processing.ProcessEdit( _Edit )");
             if (_Edit._User == null || _Edit._Page == null)
@@ -360,7 +363,7 @@ namespace huggle3
             return true;
         }
 
-        public static void Process_Revert(edit Edit, string Summary = "", bool Rollback = true, bool Undo = false, bool Currentonly = false)
+        public static void Process_Revert(Edit Edit, string Summary = "", bool Rollback = true, bool Undo = false, bool Currentonly = false)
         {
             Core.History("Processing.Process_Revert()");
             if (Edit == null)
@@ -385,7 +388,7 @@ namespace huggle3
         /// </summary>
         /// <param name="Result"></param>
         /// <param name="Page"></param>
-        public static void Process_History(string Result, page Page)
+        public static void Process_History(string Result, Page Page)
         {
             try
             {
@@ -401,15 +404,15 @@ namespace huggle3
                         Page.LastEdit = Core.NullEdit;
                     }
                 }
-                edit NextEdit = null;
+                Edit NextEdit = null;
                 for (int i = 0; i < History.Count - 1; i++)
                 {
-                    edit _Edit = new edit();
+                    Edit _Edit = new Edit();
                     string Content = History[i].Groups[1].Value;
 
-                    if (edit.All.ContainsKey(Content))
+                    if (Edit.All.ContainsKey(Content))
                     {
-                        _Edit = edit.All[Content];
+                        _Edit = Edit.All[Content];
                     }
 
                     _Edit.Id = Content;
@@ -479,7 +482,7 @@ namespace huggle3
         /// <param name="_edit"></param>
         /// <param name="BrowsingHistory"></param>
         /// <param name="browser"></param>
-        public static void DisplayEdit(edit _edit, bool BrowsingHistory = false, Controls.SpecialBrowser browser = null, bool ChangeEdit = true)
+        public static void DisplayEdit(Edit _edit, bool BrowsingHistory = false, Controls.SpecialBrowser browser = null, bool ChangeEdit = true)
         {
             Core.History("Processing.DisplayEdit()");
             try
@@ -492,7 +495,7 @@ namespace huggle3
                     {
                         if (_edit._Page != null)
                         {
-                            if (BrowsingHistory != true && browser.History.Count == 0 || (browser.History[0].Edit is edit) == false)
+                            if (BrowsingHistory != true && browser.History.Count == 0 || (browser.History[0].Edit is Edit) == false)
                             {
                                 browser.AddToHistory(new Core.HistoryItem(_edit));
                             }
@@ -518,7 +521,7 @@ namespace huggle3
                         }
                         else
                         {        
-                            if (_edit.DiffCacheState == edit.CacheState.Viewed || _edit.DiffCacheState == edit.CacheState.Cached)
+                            if (_edit.DiffCacheState == Edit.CacheState.Viewed || _edit.DiffCacheState == Edit.CacheState.Cached)
                             {
                                 if (_edit.Diff != null)
                                 {
@@ -537,12 +540,12 @@ namespace huggle3
                                     browser.DocumentText = DocumentText;
 
                                 }
-                                _edit.DiffCacheState = edit.CacheState.Viewed;
+                                _edit.DiffCacheState = Edit.CacheState.Viewed;
                             }
                         }
-                        if (_edit.DiffCacheState == edit.CacheState.Uncached)
+                        if (_edit.DiffCacheState == Edit.CacheState.Uncached)
                         {
-                            _edit.DiffCacheState = edit.CacheState.Caching;
+                            _edit.DiffCacheState = Edit.CacheState.Caching;
                             Requests.request_read.diff Request = new Requests.request_read.diff();
                             Request._Edit = _edit;
                             Request.browsertab = browser;

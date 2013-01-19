@@ -1,7 +1,10 @@
 ﻿//This is a source code or part of Huggle project
 //
 //This file contains code for irc
-//last modified by Petrb
+
+/// <DOCUMENTATION>
+/// There is no documentation for this
+/// </DOCUMENTATION>
 
 //Copyright (C) 2011-2012 Huggle team
 //This program is free software: you can redistribute it and/or modify
@@ -164,10 +167,11 @@ namespace huggle3
                             string username = Edit.Groups[6].Value;
                             string change = Edit.Groups[7].Value;
                             string summary = Edit.Groups[8].Value;
-                            edit curr = new edit();
+                            Edit curr = new Edit();
                             curr._Change = int.Parse(change);
                             curr.Summary = summary;
-                            curr._Page = new page(page);
+                            curr._Page = new Page(page);
+                            Queue.Enqueue(curr);
                             Program.MainForm.queuePanel1.Add(curr);
                         }
                         else

@@ -1,6 +1,11 @@
 ﻿//This is a source code or part of Huggle project
 //
 //This file contains code for history strip
+
+/// <DOCUMENTATION>
+/// There is no documentation for this
+/// </DOCUMENTATION>
+
 //last modified by Petrb
 
 //Copyright (C) 2011-2012 Huggle team
@@ -26,9 +31,9 @@ namespace huggle3.Controls
 {
     public partial class HistoryStrip : UserControl
     {
-        public page _Page;
+        public Page _Page;
         public int Offset;
-        public edit OlderEdit, NewerEdit;
+        public Edit OlderEdit, NewerEdit;
 
         public void Draw(Object s, PaintEventArgs pe)
         {
@@ -42,7 +47,7 @@ namespace huggle3.Controls
             {
                 int NewerPos = -1;
                 int OlderPos = -1;
-                edit Edit = _Page.LastEdit;
+                Edit Edit = _Page.LastEdit;
                 int x;
                 x = Width - 18 + (Offset * Config.ItemSize);
                 int check = 0;

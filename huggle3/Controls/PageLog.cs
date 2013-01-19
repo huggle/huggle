@@ -1,6 +1,11 @@
 ﻿//This is a source code or part of Huggle project
 //
 //This file contains code for Page Log
+
+/// <DOCUMENTATION>
+/// There is no documentation for this
+/// </DOCUMENTATION>
+
 //last modified by Petrb
 
 //Copyright (C) 2011-2012 Huggle team

@@ -10,12 +10,12 @@ namespace huggle3.Controls
 {
     public partial class EditItem : UserControl
     {
-        public edit Edit = null;
-        public page Page = null;
+        public Edit Edit = null;
+        public Page Page = null;
         public bool Registered = false;
 
 
-        public EditItem(page __Page, edit __Edit)
+        public EditItem(Page __Page, Edit __Edit)
         {
             this.Edit = __Edit;
             this.Page = __Page;

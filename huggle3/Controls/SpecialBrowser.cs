@@ -1,6 +1,11 @@
 ﻿//This is a source code or part of Huggle project
 //
 //This file contains code for browser object
+
+/// <DOCUMENTATION>
+/// There is no documentation for this
+/// </DOCUMENTATION>
+
 //last modified by Petrb
 
 //Copyright (C) 2011-2012 Huggle team
@@ -28,7 +33,7 @@ namespace huggle3.Controls
     {
         public List<Core.HistoryItem> History = new List<Core.HistoryItem>();
         public int HistoryIndex = 0;
-        public edit Edit; // edit
+        public Edit Edit; // edit
         public ContextMenuStrip ForwardMenu;
         public ContextMenuStrip BackMenu;
         public SpecialBrowser parent;
