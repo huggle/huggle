@@ -209,7 +209,13 @@ namespace huggle3
             toolStripSInfo.Text = "Wiki: " + Config.Project + " edit rate: <waiting>";
             toolStripSUser.Text = Config.Username;
             _CurrentBrowser = webBrowser;
-            Log("huggle init"); // there is supposed to be inital message concerning start up
+            lock (Core.SystemLog)
+            {
+                foreach (string message in Core.SystemLog)
+                {
+                    Log(message);
+                }
+            }
             OpenInfo();
             Localize();
             lsLog.Columns.Add("");
