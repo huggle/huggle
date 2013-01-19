@@ -47,7 +47,7 @@ namespace huggle3
         /// <summary>
         /// Space
         /// </summary>
-        public space _Space;
+        public Space _Space;
         /// <summary>
         /// string data of diff
         /// </summary>

@@ -30,7 +30,7 @@ namespace huggle3
         /// <summary>
         /// WP-Space
         /// </summary>
-        public space _Space = new space();
+        public Space _Space = new Space();
         /// <summary>
         /// Does the page exist
         /// </summary>
@@ -107,7 +107,7 @@ namespace huggle3
         public page(string Name )
         {
             this.Name = Name;
-            _Space = space.DetectSpace(Name);
+            _Space = Space.DetectSpace(Name);
             Shared_All.Add(Name, this);
         }
 
@@ -115,7 +115,7 @@ namespace huggle3
         {
             // special contructor, obsolete
             this.Name = "Special:Unknown";
-            _Space = space.DetectSpace(Name);
+            _Space = Space.DetectSpace(Name);
             Shared_All.Add(Name, this);
         }
 

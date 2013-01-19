@@ -20,39 +20,39 @@ using System.Text;
 
 namespace huggle3
 {
-    public class space
+    public class Space
     {
         public int number;
         private bool locked;
-        public static space Article = new space(0);
+        public static Space Article = new Space(0);
         private bool subpages;
         private bool unmovable;
         private string name;
-        public static space Talk = new space(1, "Talk", _Subp: true );
-        public static space User = new space(2, "User", _Subp: true );
-        public static space UserTalk = new space(3, "User talk", _Subp: true);
-        public static space Project = new space(4, "Project", _Subp: true);
-        public static space ProjectTalk = new space(5, "Project talk", _Subp: true);
-        public static space Image = new space(6, "Image", _Subp: false);
-        public static space ImageTalk = new space(7, "Image talk", _Subp: false);
-        public static space MediaWiki = new space(8, "MediaWiki", _Lckd: true);
-        public static space MediaWikiTalk = new space(9, "MediaWiki talk", _Subp: true);
-        public static space Template = new space(10, "Template", _Subp: true);
-        public static space TemplateTalk = new space(11, "Template talk", _Subp: true);
-        public static space Help = new space(12, "Help", _Subp: true);
-        public static space HelpTalk = new space(13, "Help talk", _Subp: true);
-        public static space Category = new space(14, "Category", _Subp: true);
-        public static space File = new space(16, "File", _Subp: true);
-        public static space FileTalk = new space(17, "File talk", _Subp: true);
+        public static Space Talk = new Space(1, "Talk", _Subp: true );
+        public static Space User = new Space(2, "User", _Subp: true );
+        public static Space UserTalk = new Space(3, "User talk", _Subp: true);
+        public static Space Project = new Space(4, "Project", _Subp: true);
+        public static Space ProjectTalk = new Space(5, "Project talk", _Subp: true);
+        public static Space Image = new Space(6, "Image", _Subp: false);
+        public static Space ImageTalk = new Space(7, "Image talk", _Subp: false);
+        public static Space MediaWiki = new Space(8, "MediaWiki", _Lckd: true);
+        public static Space MediaWikiTalk = new Space(9, "MediaWiki talk", _Subp: true);
+        public static Space Template = new Space(10, "Template", _Subp: true);
+        public static Space TemplateTalk = new Space(11, "Template talk", _Subp: true);
+        public static Space Help = new Space(12, "Help", _Subp: true);
+        public static Space HelpTalk = new Space(13, "Help talk", _Subp: true);
+        public static Space Category = new Space(14, "Category", _Subp: true);
+        public static Space File = new Space(16, "File", _Subp: true);
+        public static Space FileTalk = new Space(17, "File talk", _Subp: true);
 
-        public static List<space> _All = new List<space>();
+        public static List<Space> _All = new List<Space>();
 
-        public List<space> All
+        public List<Space> All
         {
             get { return Core.All.spaces; }
         }
 
-        public space()
+        public Space()
         {
             this.name = "";
             //space._All.Add(this);
@@ -63,7 +63,7 @@ namespace huggle3
             int value = 0;
             if (page.Contains(":"))
             {
-                foreach (space x in Core.All.spaces)
+                foreach (Space x in Core.All.spaces)
                 {
                     if (page.StartsWith(x.Name + ":"))
                     {
@@ -74,12 +74,12 @@ namespace huggle3
             return value;
         }
 
-        public static space DetectSpace(string page)
+        public static Space DetectSpace(string page)
         {
             Core.History("DetectSpace( string )");
             if (page.Contains(":"))
             {
-                foreach (space x in Core.All.spaces)
+                foreach (Space x in Core.All.spaces)
                 {
                     if (page.StartsWith(x.Name + ":"))
                     {
@@ -133,7 +133,7 @@ namespace huggle3
         /// <param name="_Lckd">Locked</param>
         /// <param name="_Unmovable">Unmovable</param>
         /// <param name="_Subp">Subpage</param>
-        public space(int _Number, string _Name = null, bool _Lckd = false, bool _Unmovable = false, bool _Subp = false)
+        public Space(int _Number, string _Name = null, bool _Lckd = false, bool _Unmovable = false, bool _Subp = false)
         {
             Core.History("space.space()");
             this.number = _Number;

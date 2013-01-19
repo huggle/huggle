@@ -305,7 +305,7 @@ namespace huggle3
         /// <summary>
         /// Current queue
         /// </summary>
-        public static queue Current_Queue;
+        public static Queue Current_Queue;
         /// <summary>
         /// Return true in case of fatal error when core is stopped
         /// </summary>
@@ -328,7 +328,7 @@ namespace huggle3
         /// </summary>
         public struct All
         {
-            public static List<space> spaces = new List<space>();
+            public static List<Space> spaces = new List<Space>();
         }
 
         /// <summary>

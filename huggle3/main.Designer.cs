@@ -1169,6 +1169,7 @@
             // 
             // timerQueueUpdt
             // 
+            this.timerQueueUpdt.Enabled = true;
             this.timerQueueUpdt.Interval = 1000;
             this.timerQueueUpdt.Tick += new System.EventHandler(this.tmQueueUpdt_Tick);
             // 
@@ -1504,12 +1505,12 @@
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.Panel Queue;
         private System.Windows.Forms.SplitContainer splitContainer3;
-        private Controls.QueuePanel queuePanel1;
         private System.Windows.Forms.ComboBox cbType1;
         private System.Windows.Forms.ComboBox cbType2;
         private Controls.SpecialBrowser webBrowser;
         private System.Windows.Forms.ListView lsLog;
         private System.Windows.Forms.ColumnHeader columnHeader1;
-        private Controls.QueuePanel queuePanel2;
+        public Controls.QueuePanel queuePanel1;
+        public Controls.QueuePanel queuePanel2;
     }
 }

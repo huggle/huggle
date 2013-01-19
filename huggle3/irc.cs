@@ -66,8 +66,11 @@ namespace huggle3
 
 
         public void Join(string channel)
-        { 
-            
+        {
+            if (Connected)
+            {
+                Send("JOIN " + channel);
+            }
         }
 
         /// <summary>
@@ -100,7 +103,10 @@ namespace huggle3
             {
                 while (true)
                 {
-                    Send("PING");
+                    if (Connected)
+                    {
+                        Send("PING");
+                    }
                     Thread.Sleep(20000);
                 }
             }
@@ -130,6 +136,11 @@ namespace huggle3
             Core.Threading.Execute(pt);
             Send("USER " + "huggle3" + " 8 * :" + "huggle3");
             Send("NICK " + Nick);
+            Connected = true;
+            foreach (string name in Channels)
+            {
+                Join(name);
+            }
         }
 
         private void Run()
@@ -137,16 +148,46 @@ namespace huggle3
             try
             {
                 Connect();
-
+                while (!SR.EndOfStream)
+                {
+                    string data = SR.ReadLine();
+                    Match Edit = line.Match(data);
+                    if (line.IsMatch(data) && Edit != null)
+                    {
+                        string _channel = data.Substring(data.IndexOf("PRIVMSG"));
+                        _channel = _channel.Substring(_channel.IndexOf("#"));
+                        _channel = _channel.Substring(0, _channel.IndexOf(" "));
+                        if (Edit.Groups.Count > 7)
+                        {
+                            string page = Edit.Groups[1].Value;
+                            string link = Edit.Groups[4].Value;
+                            string username = Edit.Groups[6].Value;
+                            string change = Edit.Groups[7].Value;
+                            string summary = Edit.Groups[8].Value;
+                            edit curr = new edit();
+                            curr._Change = int.Parse(change);
+                            curr.Summary = summary;
+                            curr._Page = new page(page);
+                            Program.MainForm.queuePanel1.Add(curr);
+                        }
+                        else
+                        {
+                            Core.WriteLog("Received malformed RC information " + data);
+                        }
+                    }
+                    Thread.Sleep(100);
+                }
             }
             catch (ThreadAbortException)
             {
                 Core.WriteLog("IRC thread was requested to stop");
+                Core.Threading.KillThread(pt);
                 Connected = false;
                 return;
             }
             catch (Exception fail)
             {
+                Connected = false;
                 Core.ExceptionHandler(fail);
             }
         }

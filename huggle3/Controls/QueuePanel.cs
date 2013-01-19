@@ -29,7 +29,7 @@ namespace huggle3.Controls
         public List<EditItem> List = new List<EditItem>();
         private int OffsetX = 0;
 
-        public void Create(queue q, int scroll)
+        public void Create(Queue q, int scroll)
         {
             try
             {
@@ -51,6 +51,21 @@ namespace huggle3.Controls
             
         }
 
+        public void Add(edit Edit)
+        {
+            try
+            {
+                lock (List)
+                { 
+                    List.Add(new EditItem(Edit._Page, Edit));
+                }
+            }
+            catch (Exception fail)
+            {
+                Core.ExceptionHandler(fail);
+            }
+        }
+
         public void Redraw()
         {
             try
@@ -60,6 +75,11 @@ namespace huggle3.Controls
                     int X = 10 - OffsetX;
                     foreach (EditItem curr in List)
                     {
+                        if (!curr.Registered)
+                        {
+                            curr.Registered = true;
+                            Controls.Add(curr);
+                        }
                         if (X > 0)
                         {
                             curr.Top = X;

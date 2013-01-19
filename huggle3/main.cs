@@ -42,7 +42,7 @@ namespace huggle3
         /// <summary>
         /// Queue
         /// </summary>
-        public static queue _CurrentQueue;
+        public static Queue _CurrentQueue;
         /// <summary>
         /// Current edit
         /// </summary>
@@ -218,6 +218,7 @@ namespace huggle3
             }
             
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            Program.feed = new IRC(Config.IrcServer, Config.IrcPort, "huggle3", "#en.wikipedia");
         }
 
         /// <summary>
@@ -408,10 +409,7 @@ namespace huggle3
         private void tmQueueUpdt_Tick(object sender, EventArgs e)
         {
             // update queue
-            if (!Config.IrcMode)
-            { 
-                
-            }
+            queuePanel1.Redraw();
         }
 
         /// <summary>

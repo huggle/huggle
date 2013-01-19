@@ -147,7 +147,7 @@ namespace huggle3
                         _Edit._User.User_Level = user.UserLevel.Reverted;
                     }
 
-                    if (_Edit._Space == space.UserTalk && _Edit._Page.IsSubpage)
+                    if (_Edit._Space == Space.UserTalk && _Edit._Page.IsSubpage)
                     {
                         user.UserLevel Summary_Level;
                     }

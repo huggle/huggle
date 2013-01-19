@@ -85,8 +85,8 @@ namespace huggle3.Requests
                     Config.Minor.Add(minor, false);
                 }
 
-                string projectconfig_file = System.Web.HttpUtility.HtmlDecode(Core.FindString(Core.FindString(Core.FindString(apiResult.Result_Text, "<page", "ns=\"" + space.SpaceID(Config.ProjectConfigLocation).ToString() + "\"", "</page>"), "<rev "), ">", "</rev>"));
-                string userconfig_file = System.Web.HttpUtility.HtmlDecode( Core.FindString(Core.FindString(Core.FindString( apiResult.Result_Text, "<page", "ns=\"" + space.SpaceID(Config.UserConfigLocation).ToString() + "\"", "</page>"), "<rev "),">", "</rev>" ));
+                string projectconfig_file = System.Web.HttpUtility.HtmlDecode(Core.FindString(Core.FindString(Core.FindString(apiResult.Result_Text, "<page", "ns=\"" + Space.SpaceID(Config.ProjectConfigLocation).ToString() + "\"", "</page>"), "<rev "), ">", "</rev>"));
+                string userconfig_file = System.Web.HttpUtility.HtmlDecode( Core.FindString(Core.FindString(Core.FindString( apiResult.Result_Text, "<page", "ns=\"" + Space.SpaceID(Config.UserConfigLocation).ToString() + "\"", "</page>"), "<rev "),">", "</rev>" ));
                 try
                 {
                     foreach (KeyValuePair<string, string> value in Core_IO.ProcessConfigFile(projectconfig_file))

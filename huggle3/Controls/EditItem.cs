@@ -12,6 +12,8 @@ namespace huggle3.Controls
     {
         public edit Edit = null;
         public page Page = null;
+        public bool Registered = false;
+
 
         public EditItem(page __Page, edit __Edit)
         {
@@ -29,6 +31,7 @@ namespace huggle3.Controls
         private void EditItem_Load(object sender, EventArgs e)
         {
             Repaint(null, null);
+            label1.Text = Page.Name;
         }
     }
 }

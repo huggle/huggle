@@ -20,9 +20,9 @@ using System.Text;
 
 namespace huggle3
 {
-    public class queue
+    public class Queue
     {
-        public Dictionary<string, queue> All;
+        public static Dictionary<string, Queue> All = new Dictionary<string,Queue>();
         public string _name = "";
         private DiffMode _Diffs;
         private int _Limit = 0;
@@ -31,8 +31,8 @@ namespace huggle3
         private bool _IgnorePages = false;
         private string _ListName = "";
         private bool _NeedsReset = false;
-        private System.Text.RegularExpressions.Regex _PageRegex;
-        private string  _Pages;
+        private System.Text.RegularExpressions.Regex _PageRegex = null;
+        private string  _Pages = null;
         private bool _Refreshing = false;
         private bool _RefreshAlways = false;
         private bool _RefreshReAdd = false;
@@ -41,8 +41,8 @@ namespace huggle3
         private int _RemoveAfter = 0;
         private bool _RemoveViewed = false;
         private System.Text.RegularExpressions.Regex RevisionRegex;
-        private QueueSortOrder _SortOrder;
-        private List<space> _Spaces;
+        private QueueSortOrder _SortOrder = null;
+        private List<Space> _Spaces = null;
         private System.Text.RegularExpressions.Regex _SummaryRegex;
         private bool _TrayNotification = false;
         private QueueType _Type;
@@ -62,7 +62,7 @@ namespace huggle3
         private QueueFilter _FilterTags = QueueFilter.None;
         private QueueFilter _FilterWarnings = QueueFilter.None;
 
-        public queue(string Name)
+        public Queue(string Name)
         {
             _name = Name;
             _RemoveViewed = true;

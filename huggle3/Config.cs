@@ -927,7 +927,8 @@ namespace huggle3
         /// <summary>
         /// Message
         /// </summary>
-        public static string XfdMessage = ""; 
+        public static string XfdMessage = "";
+        public static int RefreshInterval = 1000;
         /// <summary>
         /// Message summary
         /// </summary>
