@@ -29,6 +29,8 @@ namespace huggle3
             try {
                 Core.History("Login-Request.Process()");
 
+                Core.WriteLog("Logging in as " + Config.Username);
+
                 login.LoggedIn = false;
 
                 LoginResult result;

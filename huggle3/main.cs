@@ -158,6 +158,7 @@ namespace huggle3
             try
             {
                 lsLog.Items.Add(text);
+                lsLog.Items[lsLog.Items.Count - 1].EnsureVisible();
             }
             catch (Exception ex)
             {

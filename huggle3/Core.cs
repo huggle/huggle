@@ -983,6 +983,7 @@ namespace huggle3
         /// <param name="data"></param>
         public static void Load_Language(string language, string data)
         {
+            WriteLog("Loading data: " + language);
             if (Config.Languages.Contains(language) == false)
             {
                 if (Config.Messages.ContainsKey(language))
@@ -1034,7 +1035,9 @@ namespace huggle3
             WriteLog("OS " + Environment.OSVersion.ToString());
             Config.DefaultLanguage = "en";
             MainThread = System.Threading.Thread.CurrentThread;
+            WriteLog("Kernel thread: " + MainThread.ManagedThreadId.ToString());
             Core.Threading.CreateList();
+            WriteLog("Loading config");
             InitConfig();
             Config.Language = Config.DefaultLanguage;
             System.GC.Collect();

@@ -81,6 +81,12 @@
     <Compile Include="Controls\EditBox.Designer.cs">
       <DependentUpon>EditBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\EditItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\EditItem.Designer.cs">
+      <DependentUpon>EditItem.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\HistoryStrip.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -315,6 +321,7 @@
       <DependentUpon>main.cs</DependentUpon>
     </Compile>
     <Compile Include="page.cs" />
+    <Compile Include="Plugin.cs" />
     <Compile Include="Processing.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -340,6 +347,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\EditBox.resx">
       <DependentUpon>EditBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\EditItem.resx">
+      <DependentUpon>EditItem.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\HistoryStrip.resx">
       <DependentUpon>HistoryStrip.cs</DependentUpon>
