@@ -22,7 +22,7 @@ namespace huggle3.Controls
             InitializeComponent();
         }
 
-        private void Repaint(object sender, EventArgs e)
+        public void Repaint(object sender, EventArgs e)
         {
             label1.Left = this.Width - 2;
             label1.Top = this.Width - 2;

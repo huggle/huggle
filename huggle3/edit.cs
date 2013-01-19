@@ -1,7 +1,10 @@
 ﻿//This is a source code or part of Huggle project
 //
-//This file contains code for
-//last modified by Petrb
+//This file contains code for edit
+
+/// <DOCUMENTATION>
+/// There is no documentation for this
+/// </DOCUMENTATION>
 
 //Copyright (C) 2011-2012 Huggle team
 //This program is free software: you can redistribute it and/or modify
@@ -26,32 +29,32 @@ namespace huggle3
         /// <summary>
         /// Is the edit a program assisted edit (AWB,HG)
         /// </summary>
-        public bool _Assisted;
+        public bool _Assisted = false;
         /// <summary>
         /// Is the edit made by a bot
         /// </summary>
-        public bool _Bot;
+        public bool _Bot = false;
         /// <summary>
         /// Value of the change in size of the page
         /// </summary>
-        public int _Change;
+        public int _Change = 0;
         /// <summary>
         /// Diff
         /// </summary>
-        public string _ChangedContent;
+        public string _ChangedContent = null;
         public static Dictionary<string, Edit> All = new Dictionary<string,Edit>();
         /// <summary>
         /// Removed edit
         /// </summary>
-        public bool _Deleted;
+        public bool _Deleted = false;
         /// <summary>
         /// Space
         /// </summary>
-        public Space _Space;
+        public Space _Space = null;
         /// <summary>
         /// string data of diff
         /// </summary>
-        public string Diff;
+        public string Diff = null;
         /// <summary>
         /// State
         /// </summary>
@@ -67,19 +70,19 @@ namespace huggle3
         /// <summary>
         /// Multiple edit
         /// </summary>
-        public bool _Multiple;
+        public bool _Multiple = false;
         /// <summary>
         /// Is the edit a creation of a new page
         /// </summary>
-        public bool NewPage;
+        public bool NewPage = false;
         /// <summary>
         /// Next edit
         /// </summary>
-        public Edit Next;
+        public Edit Next = null;
         /// <summary>
         /// Next edit (user)
         /// </summary>
-        public Edit NextByUser;
+        public Edit NextByUser = null;
         /// <summary>
         /// Previous Id
         /// </summary>
@@ -87,35 +90,35 @@ namespace huggle3
         /// <summary>
         /// Page
         /// </summary>
-        public Page _Page;
+        public Page _Page = null;
         /// <summary>
         /// Previous edit
         /// </summary>
-        public Edit Prev;
+        public Edit Prev = null;
         /// <summary>
         /// Previous edit (user)
         /// </summary>
-        public Edit PrevByUser;
+        public Edit PrevByUser = null;
         /// <summary>
         /// Processed edit
         /// </summary>
-        public bool Processed;
+        public bool Processed = false;
         /// <summary>
         /// RCID (Recent Change ID)
         /// </summary>
-        public string Rcid;
+        public string Rcid = null;
         /// <summary>
         /// Rollback token
         /// </summary>
-        public string RollbackToken;
+        public string RollbackToken = null;
         /// <summary>
         /// Post data
         /// </summary>
-        public string SightPostData;
+        public string SightPostData = null;
         /// <summary>
         /// Sighted
         /// </summary>
-        public bool Sighted;
+        public bool Sighted = false;
         /// <summary>
         /// Size
         /// </summary>
@@ -123,15 +126,15 @@ namespace huggle3
         /// <summary>
         /// Summary (edit)
         /// </summary>
-        public string Summary;
+        public string Summary = null;
         /// <summary>
         /// Content of the page
         /// </summary>
-        public string _Text;
+        public string _Text = null;
         /// <summary>
         /// random number
         /// </summary>
-        public double _Random;
+        public double _Random = 0;
         /// <summary>
         /// Time of the edit
         /// </summary>
@@ -143,11 +146,11 @@ namespace huggle3
         /// <summary>
         /// Warning type
         /// </summary>
-        public string _TypeToWarn;
+        public string _TypeToWarn = null;
         /// <summary>
         /// Edit User
         /// </summary>
-        public user _User;
+        public user _User = null;
         /// <summary>
         /// Value of warning the user has
         /// </summary>

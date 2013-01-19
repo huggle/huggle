@@ -34,28 +34,6 @@ namespace huggle3.Controls
         public List<EditItem> List = new List<EditItem>();
         private int OffsetX = 0;
 
-        public void Create(Queue q, int scroll)
-        {
-            try
-            {
-                //int x, y;
-                //BufferedGraphics gfx = BufferedGraphicsManager.Current.Allocate(CreateGraphics(), new Rectangle(0, 0, Config.QueueWidth, main.ActiveForm.Height));
-                //int QueueHeight = (Height / 20) - 2;
-                //int Length = 1;
-                //if (QueueHeight >= 1)
-                //{
-                    
-                //}
-                //gfx.Graphics
-                
-                
-
-            }
-            catch (Exception fail)
-            { }
-            
-        }
-
         public void Add(Edit Edit)
         {
             try
@@ -90,6 +68,7 @@ namespace huggle3.Controls
                             curr.Top = X;
                             curr.Left = 2;
                             curr.Width = this.Width - 20;
+                            curr.Repaint(null, null);
                         }
                         X = X + curr.Height + 6;
                     }
