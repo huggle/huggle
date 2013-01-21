@@ -25,6 +25,19 @@ using System.Text;
 
 namespace huggle3
 {
+    /// <summary>
+    /// This class has definitions of api queries, should they be updated in media wiki this is a place to fix them
+    /// 
+    /// variables:
+    /// $COUNT = limit of list (if you request logs count is how many of them you will get)
+    /// $NAMESPACE = NS you want to get
+    /// $DATEFROM = time of beginning of request
+    /// </summary>
+    public class MWStandardApi
+    {
+        public readonly static string RCtoXML = "/w/api.php?action=query&list=recentchanges&format=xml&rcdir=older&rcnamespace=$NAMESPACE&rclimit=$COUNT";
+    }
+
     public class ApiResult
     {
         /// <summary>

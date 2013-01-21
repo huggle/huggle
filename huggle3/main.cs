@@ -27,6 +27,7 @@ namespace huggle3
 {
     public partial class main : Form
     {
+        public Feed feed = null;
         /// <summary>
         /// Current page
         /// </summary>
