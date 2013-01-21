@@ -156,12 +156,6 @@
     <Compile Include="Forms\DeleteForm.Designer.cs">
       <DependentUpon>DeleteForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\EditForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\EditForm.Designer.cs">
-      <DependentUpon>EditForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\ExceptionForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -192,12 +186,6 @@
     <Compile Include="Forms\ProgressForm.Designer.cs">
       <DependentUpon>ProgressForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\ProtectForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\ProtectForm.Designer.cs">
-      <DependentUpon>ProtectForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\ProtectionForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -215,12 +203,6 @@
     </Compile>
     <Compile Include="Forms\QueueTrimForm.Designer.cs">
       <DependentUpon>QueueTrimForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\ReportForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\ReportForm.Designer.cs">
-      <DependentUpon>ReportForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\RequestForm.cs">
       <SubType>Form</SubType>
@@ -351,9 +333,6 @@
     <EmbeddedResource Include="Forms\DeleteForm.resx">
       <DependentUpon>DeleteForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\EditForm.resx">
-      <DependentUpon>EditForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\ExceptionForm.resx">
       <DependentUpon>ExceptionForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -369,17 +348,11 @@
     <EmbeddedResource Include="Forms\ProgressForm.resx">
       <DependentUpon>ProgressForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ProtectForm.resx">
-      <DependentUpon>ProtectForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\ProtectionForm.resx">
       <DependentUpon>ProtectionForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\QueueForm.resx">
       <DependentUpon>QueueForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ReportForm.resx">
-      <DependentUpon>ReportForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\RequestForm.resx">
       <DependentUpon>RequestForm.cs</DependentUpon>

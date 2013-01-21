@@ -32,17 +32,21 @@ namespace huggle3
         public bool UsingIRC = false;
         public IRC irc;
         public int FeedTh = 0;
+        private string url = null;
 
         public void Manual()
         {
+            Core.History("Feed.Manual");
             Core.WriteLog("We don't have irc feed, let's do the things from api");
             irc = null;
+            url = MWStandardApi.RCtoXML.Replace("$COUNT", Config.FeedSize.ToString());
             FeedTh = Core.Threading.CreateThread(Feeder, "Feeder");
             Core.Threading.Execute(FeedTh);
         }
 
         private void Irc()
         {
+            Core.History("Feed.Irc");
             Random random = new Random();
             int randomNumber = random.Next(0, 10000);
             irc = new IRC(Config.IrcServer, Config.IrcPort, "huggle3_" + DateTime.Now.ToBinary().ToString().Substring(10) + randomNumber.ToString(), Config.IrcChannel);
@@ -72,7 +76,30 @@ namespace huggle3
                 try
                 {
                     // retrieve a list of edits
+                    ApiResult result = request_core.Request.ApiRequest(url);
+                    if (result.ResultInError)
+                    {
+                        Core.DebugLog("Unable to parse the feed from api: " + result.Error_Code + result.Error_Data);
+                    }
+                    else
+                    {
+                        XmlDocument data = new XmlDocument();
+                        data.LoadXml(result.Result_Text);
 
+                        // parse each item
+                        foreach (XmlNode node in data.ChildNodes)
+                        {
+                            foreach (XmlAttribute value in node.Attributes)
+                            {
+                                switch (value.Name)
+                                { 
+                                    case "ID":
+                                        break;
+                                }
+                            }
+                        }
+                    }
+                    System.Threading.Thread.Sleep(Config.RefreshInterval);
                 }
                 catch (System.Threading.ThreadAbortException)
                 {

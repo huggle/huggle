@@ -43,6 +43,7 @@ namespace huggle3
                 this.message = Message;
             }
         }
+
         public class Request
         {
             /// <summary>
