@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
@@ -64,9 +65,16 @@ namespace huggle3.Forms
 
         private void btExit_Click(object sender, EventArgs e)
         {
-            Core.Threading.DestroyCore(); // abort running threads
-            Core.MainThread.Abort(); // terminate
-            Application.Exit();
+            try
+            {
+                Core.Threading.DestroyCore(); // abort running threads
+                Core.MainThread.Abort(); // terminate
+                Core.Process.Kill();
+            }
+            catch (Exception)
+            {
+                Core.Process.Kill();
+            }
         }
 
         private void btContinue_Click(object sender, EventArgs e)

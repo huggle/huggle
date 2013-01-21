@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.label1 = new System.Windows.Forms.Label();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.btExit = new System.Windows.Forms.Button();
             this.btContinue = new System.Windows.Forms.Button();
             this.ErrorLog = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -55,6 +55,15 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(768, 369);
             this.tableLayoutPanel1.TabIndex = 5;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(187, 13);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "Huggle has crashed! Bellow is the log:";
+            // 
             // flowLayoutPanel1
             // 
             this.flowLayoutPanel1.Controls.Add(this.btExit);
@@ -72,6 +81,7 @@
             this.btExit.Name = "btExit";
             this.btExit.Size = new System.Drawing.Size(95, 25);
             this.btExit.TabIndex = 3;
+            this.btExit.Click += new System.EventHandler(btExit_Click);
             this.btExit.Text = "Exit";
             this.btExit.UseVisualStyleBackColor = true;
             // 
@@ -83,6 +93,7 @@
             this.btContinue.TabIndex = 2;
             this.btContinue.Text = "Continue";
             this.btContinue.UseVisualStyleBackColor = true;
+            this.btContinue.Click += new System.EventHandler(this.btContinue_Click);
             // 
             // ErrorLog
             // 
@@ -94,15 +105,6 @@
             this.ErrorLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.ErrorLog.Size = new System.Drawing.Size(762, 303);
             this.ErrorLog.TabIndex = 5;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(187, 13);
-            this.label1.TabIndex = 6;
-            this.label1.Text = "Huggle has crashed! Bellow is the log:";
             // 
             // ExceptionForm
             // 

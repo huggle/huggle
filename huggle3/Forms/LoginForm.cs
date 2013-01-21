@@ -123,7 +123,7 @@ namespace huggle3
                 login.LoggingOn = true; // set loggin in
                 login.phase = login.LoginState.LoggingIn; // set phase
                 LoginRequest lr = new LoginRequest(); // start a new login request
-                lr.Login_Fr = this;
+                lr.Login_Form = this;
                 progress(Languages.Get("login-progress-start"));
                 lr.Start();
                 timer.Enabled = true;

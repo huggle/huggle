@@ -26,10 +26,11 @@ namespace huggle3
 {
     public class LoginRequest : request_core.Request
     {
-        public LoginForm Login_Fr;
+        public LoginForm Login_Form;
         public override void Process()
         {
-            try {
+            try
+            {
                 Core.History("Login-Request.Process()");
 
                 Core.WriteLog("Logging in as " + Config.Username);
@@ -70,7 +71,7 @@ namespace huggle3
                         case LoginResult.EmptyPass:
                             login.Error = Languages.Get("login-error-emptypass");
                             break;
-                            //There are still some cases this doesnt account for
+                        //There are still some cases this doesnt account for
                         default: // If it doesnt match any of the above give the default error message
                             login.Error = Languages.Get("login-error-unknown");
                             break;
@@ -91,7 +92,7 @@ namespace huggle3
             }
         }
     }
-    
+
     static class login
     {
         public enum LoginState
@@ -107,9 +108,9 @@ namespace huggle3
             Error
         }
 
-        public static string Token;
-        public static bool LoggedIn;
-        public static bool LoggingOn;
+        public static string Token = null;
+        public static bool LoggedIn = false;
+        public static bool LoggingOn = false;
         public static string Error = "";
         public static LoginState phase;
         public static request_core.Request.LoginResult Status;

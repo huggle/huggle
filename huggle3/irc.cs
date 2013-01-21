@@ -192,7 +192,8 @@ namespace huggle3
             catch (Exception fail)
             {
                 Connected = false;
-                Core.ExceptionHandler(fail);
+                //Core.ExceptionHandler(fail);
+                Core.WriteLog("IRC: " + fail.Message);
                 Core.WriteLog("Failed to read from irc, switching to manual");
                 Program.MainForm.feed.UsingIRC = false;
                 Program.MainForm.feed.Manual();

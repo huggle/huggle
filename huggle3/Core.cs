@@ -326,6 +326,8 @@ namespace huggle3
         public static System.Threading.Thread MainThread;
         public static string[] months;
 
+        public static System.Diagnostics.Process Process;
+
         public const int MThread=600; // Maximum number of threads in core
 
         /// <summary>
@@ -1109,6 +1111,7 @@ namespace huggle3
         public static void Initialise()
         {
             Uptime = DateTime.Now;
+            Process = System.Diagnostics.Process.GetCurrentProcess();
             Core.History("Core.Initialise()");
             WriteLog("Huggle " + Application.ProductVersion.ToString() + " starting");
             WriteLog("OS " + Environment.OSVersion.ToString());

@@ -87,15 +87,59 @@ namespace huggle3
                         data.LoadXml(result.Result_Text);
 
                         // parse each item
-                        foreach (XmlNode node in data.ChildNodes)
+                        foreach (XmlNode node in data.ChildNodes[1].ChildNodes[0].ChildNodes[0].ChildNodes)
                         {
+                            if (node.Attributes == null)
+                            {
+                                continue;
+                            }
+                            string type = null;
+                            string title = null;
+                            string ns = null;
+                            string rcid = null;
+                            string pageid = null;
+                            string revid = null;
+                            string old_revid = null;
+                            string timestamp = null;
+                            // <rc type="edit" ns="0" title="Adrian Sina" rcid="550449879" pageid="38282555" revid="534182539" old_revid="534120597" timestamp="2013-01-21T16:38:15Z" />
                             foreach (XmlAttribute value in node.Attributes)
                             {
                                 switch (value.Name)
                                 { 
-                                    case "ID":
+                                    case "type":
+                                        type = value.Value;
+                                        break;
+                                    case "ns":
+                                        ns = value.Value;
+                                        break;
+                                    case "title":
+                                        title = value.Value;
+                                        break;
+                                    case "rcid":
+                                        rcid = value.Value;
+                                        break;
+                                    case "pageid":
+                                        pageid = value.Value;
+                                        break;
+                                    case "revid":
+                                        revid = value.Value;
+                                        break;
+                                    case "old_revid":
+                                        old_revid = value.Value;
+                                        break;
+                                    case "timestamp":
+                                        timestamp = value.Value;
                                         break;
                                 }
+                            }
+                            if (type == "edit")
+                            {
+                                Edit edit = new Edit();
+                                edit._Page = new Page(title);
+                                edit.Rcid = rcid;
+                                edit.Oldid = old_revid;
+                                edit._Time = DateTime.Parse(timestamp);
+                                Program.MainForm.queuePanel1.Add(edit);
                             }
                         }
                     }
