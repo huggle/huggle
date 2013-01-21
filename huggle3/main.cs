@@ -219,7 +219,8 @@ namespace huggle3
             }
             
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            Program.feed = new IRC(Config.IrcServer, Config.IrcPort, "huggle3", "#en.wikipedia");
+            feed = new Feed(Config.UseIrc);
+            //Program.feed = new IRC(Config.IrcServer, Config.IrcPort, "huggle3", "#en.wikipedia");
         }
 
         /// <summary>

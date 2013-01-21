@@ -40,7 +40,6 @@ namespace huggle3
         /// 
         public static main MainForm;
         public static LoginForm _LoginForm;
-        public static IRC feed = null;
 
         public class ExceptionHandler 
         {

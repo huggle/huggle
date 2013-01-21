@@ -932,7 +932,6 @@ namespace huggle3
         {   
             Core.History("Core.InitConfig()");
             Config.Whitelist.Clear();
-            Config.AIVLocation = "";
             Config.Approval = false;
             Config.AutoAdvance = false;
             Config.AutoReport = false;
@@ -954,7 +953,6 @@ namespace huggle3
             Config.ConfirmSame = false;
             Config.ConfirmSelfRevert = true;
             Config.ConfirmWarned = false;
-            Config.Csd_Log_Page = "Special:MyPage/HgLogs";
             Config.DefaultSummary = "";
             Config.Delete = false;
             Config.Email = false;
@@ -966,16 +964,8 @@ namespace huggle3
             Config.Password = "";
             Config.Patrol = true;
             Config.PatrolSpeedy = true;
-            Config.Prod = false;
-            Config.ProdLogs = true;
-            Config.ProdMessage = "";
-            Config.ProdMessageSummary = "";
             Config.Project = "";
             Config.ProtectionReason = "";
-            Config.ProtectionRequestPage = "";
-            Config.ProtectionRequestReason = "";
-            Config.ProtectionRequests = false;
-            Config.ProtectionRequestSummary = "";
             Config.ProtectionTime = "";
             Config.ProxyEnabled = false;
             Config.ProxyPort = "";
@@ -1519,22 +1509,6 @@ namespace huggle3
             // project config only
             switch (key)
             {
-                case "3rr":
-                    // 3rr location
-                    Config.TRRLocation = value;
-                    break;
-                case "afd":
-                    // afd location
-                    Config.AfdLocation = value;
-                    break;
-                case "aiv":
-                    // aiv location
-                    Config.AIVLocation = value;
-                    break;
-                case "aiv-extend-summary":
-                    // extend summary
-                    Config.ReportExtendSummary = value;
-                    break;
                 case "approval":
                     // if approval is needed
                     Config.Approval = bool.Parse(value);
@@ -1548,9 +1522,6 @@ namespace huggle3
                     break;
                 case "block-expiry-options":
                     Config.BlockExpiryOptions = GET.list(value);
-                    break;
-                case "cfd":
-                    Config.CfdLocation = value;
                     break;
                 case "config-summary":
                     Config.ConfigSummary = value;
@@ -1594,12 +1565,6 @@ namespace huggle3
                 case "multiple-revert-summary-parts":
                     Config.MultipleRevertSummaryParts =  GET.list(value);
                     break;
-                case "mfd":
-                    Config.MfdLocation = value;
-                    break;
-                case "namespace-aliases":
-
-                    break;
                 case "page-blanked-pattern":
                     Config.PageBlankedPattern = new System.Text.RegularExpressions.Regex(value, System.Text.RegularExpressions.RegexOptions.Compiled);
                     break;
@@ -1618,23 +1583,8 @@ namespace huggle3
                 case "protect":
                     Config.Protect = bool.Parse(value);
                     break;
-                case "protection-request-page":
-                    Config.ProtectionRequestPage = value;
-                    break;
-                case "protection-request-reason":
-                    Config.ProtectionRequestReason = value;
-                    break;
-                case "protection-request-summary":
-                    Config.ProtectionRequestSummary = value;
-                    break;
-                case "queues":
-                    //
-                    break;
                 case "quick-sight":
                     Config.QuickSight = bool.Parse(value);
-                    break;
-                case "rc-block-size":
-                    Config.RcBlockSize = int.Parse(value);
                     break;
                 case "require-admin":
                     Config.RequireAdmin = bool.Parse(value);
@@ -1666,9 +1616,6 @@ namespace huggle3
                 case "rollback-summary":
                     Config.RollbackSummary = value;
                     break;
-                case "rfd":
-                    Config.RfdLocation = value;
-                    break;
                 case "save-config":
                     Config.SaveConfig = bool.Parse(value);
                     break;
@@ -1680,14 +1627,6 @@ namespace huggle3
                     break;
                 case "single-revert-summary":
                     Config.SingleRevertSummary = value;
-                    break;
-                case "sock-reports":
-                    Config.SockReportLocation = value;
-                    break;
-                case "speedy-delete-summary":
-                    Config.SpeedyDeleteSummary = value;
-                    break;
-                case "speedy-options":
                     break;
                 case "startup-message-location":
                     Config.StartupPage = value;
@@ -1707,15 +1646,6 @@ namespace huggle3
                 case "templates":
                     Config.TemplateMessagesGlobal = GET.list(value);
                     break;
-                case "tfd":
-                    Config.TfdLocation = value;
-                    break;
-                case "uaa":
-                    Config.UAALocation = value;
-                    break;
-                case "uaabot":
-                    Config.UAABotLocation = value;
-                    break;
                 case "update-whitelist-manual":
                     Config.UpdateWhitelistManual = bool.Parse(value);
                     break;
@@ -1734,39 +1664,9 @@ namespace huggle3
                 case "warning-month-headings":
                     Config.MonthHeadings = bool.Parse(value);
                     break;
-                case "welcome-summary":
-                    Config.WelcomeSummary = value;
-                    break;
-                case "warning-types":
-                    
-                    break;
                 case "whitelist-edit-count":
                     Config.WhitelistEditCount = int.Parse(value);
                     break;
-                case "xfd":
-                    Config.Xfd = bool.Parse(value);
-                    break;
-                case "xfd-discussion-summary":
-                    Config.XfdDiscussionSummary = value;
-                    break;
-                case "xfd-log-summary":
-                    Config.XfdLogSummary = value;
-                    break;
-                case "xfd-message":
-                    Config.XfdMessage = value;
-                    break;
-                case "xfd-message-summary":
-                    Config.XfdMessageSummary = value;
-                    break;
-                case "xfd-message-title":
-                    Config.XfdMessageTitle = value;
-                    break;
-                case "xfd-summary":
-                    Config.XfdSummary = value;
-                    break;
-                
-
-
             }
             return true;
         }
@@ -1846,27 +1746,6 @@ namespace huggle3
                 case "preload":
                     Config.Preloads = int.Parse(value);
                     break;
-                case "prod":
-                    Config.Prod = Boolean.Parse(value);
-                    break;
-                case "prod-log":
-                    Config.ProdLogs = Boolean.Parse(value);
-                    break;
-                case "prod-message":
-                    Config.ProdMessage = value;
-                    break;
-                case "prod-page":
-                    Config.ProdLogs_Name = value;
-                    break;
-                case "prod-message-summary":
-                    Config.ProdMessageSummary = value;
-                    break;
-                case "prod-message-title":
-                    Config.ProdMessageTitle = value;
-                    break;
-                case "prod-summary":
-                    Config.ProdSummary = value;
-                    break;
                 case "protection-reason":
                     Config.ProtectionReason = value;
                     break;
@@ -1875,12 +1754,6 @@ namespace huggle3
                     break;
                 case "show-tool-tips":
                     Config.ShowToolTips = Boolean.Parse(value);
-                    break;
-                case "speedy-message-title":
-                    Config.SpeedyMessageTitle = value;
-                    break;
-                case "speedy-summary":
-                    Config.SpeedySummary = value;
                     break;
                 case "tray-icon":
                     Config.TrayIcon = Boolean.Parse(value);
@@ -1891,20 +1764,8 @@ namespace huggle3
                 case "update-whitelist":
                     Config.UpdateWhitelist = Boolean.Parse(value);
                     break;
-                case "vandal-report-reason":
-                    Config.VandalReportReason = value;
-                    break;
-                case "welcome":
-                    Config.Welcome = value;
-                    break;
-                case "welcome-anon":
-                    Config.WelcomeAnon = value;
-                    break;
                 case "warn-summary":
                     Config.WarnSummary = value;
-                    break;
-                case "protection-requests":
-                    Config.ProtectionRequests = Boolean.Parse(value);
                     break;
                 case "irc-port":
                     Config.IrcPort = int.Parse(value);

@@ -194,26 +194,6 @@ namespace huggle3
         //////////
 
         /// <summary>
-        /// location of afd
-        /// </summary>
-        public static string AfdLocation = "";
-        /// <summary>
-        /// Note
-        /// </summary>
-        public static string AIVSingleNote = "";
-        /// <summary>
-        /// AIV bot page
-        /// </summary>
-        public static string AIVBotLocation = "";
-        /// <summary>
-        /// AIV location
-        /// </summary>
-        public static string AIVLocation = "";
-        /// <summary>
-        /// If AIV is available on the project
-        /// </summary>
-        public static bool AIV = false; 
-        /// <summary>
         /// If requires an approval on special page
         /// </summary>
         public static bool Approval = false;
@@ -274,10 +254,6 @@ namespace huggle3
         /// </summary>
         public static string BlockTimeAnon = "24 hours";
         /// <summary>
-        /// Location of CFD
-        /// </summary>
-        public static string CfdLocation = "";
-        /// <summary>
         /// Summary for config
         /// </summary>
         public static string ConfigSummary = "";
@@ -297,14 +273,6 @@ namespace huggle3
         /// Confirm if user belong to same ip range
         /// </summary>
         public static bool ConfirmRange = true;
-        /// <summary>
-        /// Logs of prod
-        /// </summary>
-        public static string ProdLogs_Name = "ProdLogs";
-        /// <summary>
-        /// Save them
-        /// </summary>
-        public static bool ProdLogs = false;
         /// <summary>
         /// If slow irc mode is active
         /// </summary>
@@ -454,17 +422,13 @@ namespace huggle3
         /// </summary>
         public static int MaxReportLinks = 6;
         /// <summary>
-        /// Location of MFD
-        /// </summary>
-        public static string MfdLocation = ""; // MFD location
-        /// <summary>
         /// Minor
         /// </summary>
         public static Dictionary<string, bool> Minor = new Dictionary<string,bool>(); // Minor edits
         /// <summary>
         /// Minimal allowed version for use on project
         /// </summary>
-        public static Version MinVersion;
+        public static Version MinVersion = new Version(3, 0, 0, 0);
         /// <summary>
         /// Wait between issue of warning
         /// </summary>
@@ -510,26 +474,6 @@ namespace huggle3
         /// </summary>
         public static int Preloads = 2;
         /// <summary>
-        /// If PROD is enabled
-        /// </summary>
-        public static bool Prod = false;
-        /// <summary>
-        /// Message for PROD
-        /// </summary>
-        public static string ProdMessage;
-        /// <summary>
-        /// Summary message
-        /// </summary>
-        public static string ProdMessageSummary = "";
-        /// <summary>
-        /// Title for talk
-        /// </summary>
-        public static string ProdMessageTitle = "";
-        /// <summary>
-        /// Summary for talk
-        /// </summary>
-        public static string ProdSummary = "";
-        /// <summary>
         /// Active wiki
         /// </summary>
         public static string Project = "";
@@ -550,10 +494,6 @@ namespace huggle3
         /// </summary>
         public static bool PromptForReport = false; // Prompt
         /// <summary>
-        /// Log page for CSD
-        /// </summary>
-        public static string Csd_Log_Page = ""; // Log page for csd
-        /// <summary>
         /// Protection allowed
         /// </summary>
         public static bool Protect = false; // If protecting is used
@@ -561,22 +501,6 @@ namespace huggle3
         /// Protection default
         /// </summary>
         public static string ProtectionReason = ""; // Reason
-        /// <summary>
-        /// Request for protection
-        /// </summary>
-        public static bool ProtectionRequests = false; // Protection requeust
-        /// <summary>
-        /// Protection request page
-        /// </summary>
-        public static string ProtectionRequestPage = ""; // Request page
-        /// <summary>
-        /// Default reason
-        /// </summary>
-        public static string ProtectionRequestReason = ""; // Reason
-        /// <summary>
-        /// Default summary for protection
-        /// </summary>
-        public static string ProtectionRequestSummary  = ""; // Summary
         /// <summary>
         /// Default
         /// </summary>
@@ -589,14 +513,6 @@ namespace huggle3
         /// Quick sight
         /// </summary>
         public static bool QuickSight;
-        /// <summary>
-        /// Block size RC
-        /// </summary>
-        public static int RcBlockSize = 100;
-        /// <summary>
-        /// Extend summary of others
-        /// </summary>
-        public static string ReportExtendSummary = ""; // comment me
         /// <summary>
         /// Insert diffs to report
         /// </summary>
@@ -645,10 +561,6 @@ namespace huggle3
         /// Revert summaries
         /// </summary>
         public static List<string> RevertSummaries = new List<string>(); // Summary
-        /// <summary>
-        /// RfD location
-        /// </summary>
-        public static string RfdLocation = "";
         /// <summary>
         /// Align queue on right
         /// </summary>
@@ -706,41 +618,9 @@ namespace huggle3
         /// </summary>
         public static string SingleRevertSummary;
         /// <summary>
-        /// Enable sr
-        /// </summary>
-        public static bool SockReports = false;
-        /// <summary>
-        /// Location for sock reports
-        /// </summary>
-        public static string SockReportLocation = "";
-        /// <summary>
-        /// Enable speedy deletes feature
-        /// </summary>
-        public static bool Speedy = false;
-        /// <summary>
         /// Speedy criteria
         /// </summary>
         public static Dictionary<string, Page.SpeedyCriterion> SpeedyCriteria = new Dictionary<string,Page.SpeedyCriterion>();
-        /// <summary>
-        /// Speedy delete summary
-        /// </summary>
-        public static string SpeedyDeleteSummary = "";
-        /// <summary>
-        /// Deletion summary for talk page
-        /// </summary>
-        public static string AssociatedDeletion = "G8 - nonexistent dependency";
-        /// <summary>
-        /// Speedy message summary
-        /// </summary>
-        public static string SpeedyMessageSummar = "";
-        /// <summary>
-        /// Speedy message header
-        /// </summary>
-        public static string SpeedyMessageTitle = "";
-        /// <summary>
-        /// Speedy symmary
-        /// </summary>
-        public static string SpeedySummary = "";
         /// <summary>
         /// Startup page
         /// </summary>
@@ -778,10 +658,6 @@ namespace huggle3
         /// </summary>
         public static Dictionary<string, string> GlobalSumm = new Dictionary<string, string>();
         /// <summary>
-        /// TfD location
-        /// </summary>
-        public static string TfdLocation = "";
-        /// <summary>
         /// Localization url
         /// </summary>
         public static string TranslateLocation = "http://meta.wikimedia.org/wiki/Huggle/Localization";
@@ -789,34 +665,6 @@ namespace huggle3
         /// Display tray icon
         /// </summary>
         public static bool TrayIcon = true;
-        /// <summary>
-        /// TRR
-        /// </summary>
-        public static bool TRR = false;
-        /// <summary>
-        /// Welcome's
-        /// </summary>
-        public static Dictionary<string, string> WelcomesList = new Dictionary<string, string>();
-        /// <summary>
-        /// Enable welcome template
-        /// </summary>
-        public static bool WelcomeEnabled = false;
-        /// <summary>
-        /// TRR
-        /// </summary>
-        public static string TRRLocation = "";
-        /// <summary>
-        /// UAA enabled
-        /// </summary>
-        public static bool UAA = false;
-        /// <summary>
-        /// UAA loc
-        /// </summary>
-        public static string UAALocation = "";
-        /// <summary>
-        /// UAA bot
-        /// </summary>
-        public static string UAABotLocation = "";
         /// <summary>
         /// Summary
         /// </summary>
@@ -874,10 +722,6 @@ namespace huggle3
         /// </summary>
         public static Dictionary<Regex, user.UserLevel> UserTalkSummaries = new Dictionary<Regex, user.UserLevel>();
         /// <summary>
-        /// Default reason
-        /// </summary>
-        public static string VandalReportReason = "";
-        /// <summary>
         /// Custom summaries
         /// </summary>
         public static bool UseCSummaries = false;
@@ -916,38 +760,15 @@ namespace huggle3
         /// </summary>
         public static readonly string WhitelistUpdateSummary = ""; 
         /// <summary>
-        /// Deletes
+        /// Size of RC feed in case we want to retrieve it by hand
         /// </summary>
-        public static bool Xfd = false; 
-        /// <summary>
-        /// Discussion summary
-        /// </summary>
-        public static string XfdDiscussionSummary = ""; 
-        /// <summary>
-        /// Summary for log
-        /// </summary>
-        public static string XfdLogSummary = ""; 
-        /// <summary>
-        /// Message
-        /// </summary>
-        public static string XfdMessage = "";
+        public static int FeedSize = 100;
+
         public static int RefreshInterval = 1000;
-        /// <summary>
-        /// Message summary
-        /// </summary>
-        public static string XfdMessageSummary = "";
         /// <summary>
         /// Template
         /// </summary>
         public static bool TemplatePs = false;
-        /// <summary>
-        /// Message title
-        /// </summary>
-        public static string XfdMessageTitle = "";
-        /// <summary>
-        /// Summary
-        /// </summary>
-        public static string XfdSummary = "";
         /// <summary>
         /// Insert user to list
         /// </summary>
@@ -961,14 +782,6 @@ namespace huggle3
         /// </summary>
         public static bool RevisionR = false;
         /// <summary>
-        /// Welcome user
-        /// </summary>
-        public static bool WelcomeUser = false;
-        /// <summary>
-        /// Welcome string
-        /// </summary>
-        public static Dictionary<string, string> WelcomeString = new Dictionary<string, string>();
-        /// <summary>
         /// Summaries
         /// </summary>
         public static string WarnSummary = "";
@@ -980,9 +793,6 @@ namespace huggle3
         /// Watch page
         /// </summary>
         public static bool WatchDelete = false;
-        public static string Welcome = "";
-        public static string WelcomeAnon = "";
-        public static string WelcomeSummary = "";
 
         public enum platform
         {

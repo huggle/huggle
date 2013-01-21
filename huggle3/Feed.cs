@@ -22,6 +22,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Xml;
 using System.Text;
 
 namespace huggle3
@@ -32,7 +33,7 @@ namespace huggle3
         public IRC irc;
         public int FeedTh = 0;
 
-        private void Manual()
+        public void Manual()
         {
             Core.WriteLog("We don't have irc feed, let's do the things from api");
             irc = null;
@@ -52,6 +53,7 @@ namespace huggle3
         /// </summary>
         public Feed(bool IRC)
         {
+            Core.WriteLog("Creating a feed of changes");
             UsingIRC = IRC;
             if (!IRC)
             {
@@ -64,8 +66,23 @@ namespace huggle3
         }
 
         private void Feeder()
-        { 
-            
+        {
+            while (true)
+            {
+                try
+                {
+                    // retrieve a list of edits
+
+                }
+                catch (System.Threading.ThreadAbortException)
+                {
+                    return;
+                }
+                catch (Exception fail)
+                {
+                    Core.ExceptionHandler(fail);
+                }
+            }
         }
     }
 }

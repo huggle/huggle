@@ -193,6 +193,9 @@ namespace huggle3
             {
                 Connected = false;
                 Core.ExceptionHandler(fail);
+                Core.WriteLog("Failed to read from irc, switching to manual");
+                Program.MainForm.feed.UsingIRC = false;
+                Program.MainForm.feed.Manual();
             }
         }
     }

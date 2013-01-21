@@ -107,9 +107,6 @@ namespace huggle3.Requests
                     }
                 }
 
-                Config.UAA = !string.IsNullOrEmpty(Config.UAALocation);
-                Config.TRR = !string.IsNullOrEmpty(Config.TRRLocation);
-                Config.AIV = !string.IsNullOrEmpty(Config.AIVLocation);
 
                 if (userconfig_file != null)
                 {

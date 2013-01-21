@@ -35,7 +35,7 @@ namespace huggle3
     /// </summary>
     public class MWStandardApi
     {
-        public readonly static string RCtoXML = "/w/api.php?action=query&list=recentchanges&format=xml&rcdir=older&rcnamespace=$NAMESPACE&rclimit=$COUNT";
+        public readonly static string RCtoXML = "action=query&list=recentchanges&rcdir=older&rcnamespace=$NAMESPACE&rclimit=$COUNT";
     }
 
     public class ApiResult
@@ -87,9 +87,10 @@ namespace huggle3
         }
 
     }
+
     public class request_api : request_core.Request
     {
-        static string ApiQuery = "";
+        public string ApiQuery = "";
 
         public static LoginResult DoLogin()
         {
