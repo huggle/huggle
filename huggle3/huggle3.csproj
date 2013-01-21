@@ -433,7 +433,7 @@
     <EmbeddedResource Include="Resources\footer.txt" />
     <EmbeddedResource Include="Resources\header.txt" />
     <None Include="Resources\en.txt.bmp" />
-    <EmbeddedResource Include="DefaultLocalConfig.txt" />
+    <EmbeddedResource Include="Resources\DefaultLocalConfig.txt" />
     <Content Include="huggle.ico" />
     <None Include="hugglelogo_new.png" />
     <Content Include="Lang\ar.txt" />

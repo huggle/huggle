@@ -125,7 +125,7 @@
     <value>..\Lang\no.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="DefaultLocalConfig" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\DefaultLocalConfig.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1250</value>
+    <value>..\Resources\DefaultLocalConfig.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1250</value>
   </data>
   <data name="sv" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Lang\sv.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
