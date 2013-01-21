@@ -1,7 +1,13 @@
 ﻿//This is a source code or part of Huggle project
 //
-//This file contains code for
-//last modified by Petrb
+//This file contains code for dispatcher
+
+/// <DOCUMENTATION>
+/// Feed dispatcher is thing responsible for parsing the feed.
+/// 
+/// There is a one global instance that is created when you login to huggle, based on configuration it attempt to connect
+/// to irc, or uses api to parse the feed and forward it to other classes responsible for them
+/// </DOCUMENTATION>
 
 //Copyright (C) 2011-2012 Huggle team
 //This program is free software: you can redistribute it and/or modify
@@ -20,10 +26,44 @@ using System.Text;
 
 namespace huggle3
 {
-    class Feed
+    public class Feed
     {
         public bool UsingIRC = false;
-        public Feed()
+        public IRC irc;
+        public int FeedTh = 0;
+
+        private void Manual()
+        {
+            Core.WriteLog("We don't have irc feed, let's do the things from api");
+            irc = null;
+            FeedTh = Core.Threading.CreateThread(Feeder, "Feeder");
+            Core.Threading.Execute(FeedTh);
+        }
+
+        private void Irc()
+        {
+            Random random = new Random();
+            int randomNumber = random.Next(0, 10000);
+            irc = new IRC(Config.IrcServer, Config.IrcPort, "huggle3_" + DateTime.Now.ToBinary().ToString().Substring(10) + randomNumber.ToString(), Config.IrcChannel);
+        }
+
+        /// <summary>
+        /// Creates a feed dispatcher
+        /// </summary>
+        public Feed(bool IRC)
+        {
+            UsingIRC = IRC;
+            if (!IRC)
+            {
+                Manual();
+            }
+            else
+            {
+                Irc();
+            }
+        }
+
+        private void Feeder()
         { 
             
         }
