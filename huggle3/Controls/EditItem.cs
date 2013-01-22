@@ -25,13 +25,29 @@ namespace huggle3.Controls
         public void Repaint(object sender, EventArgs e)
         {
             label1.Left = this.Width - 20;
-            label1.Top = this.Width - 2;
+            label1.Height = this.Height - 2;
+            label2.Width = this.Width - label1.Width - 2;
         }
 
         private void EditItem_Load(object sender, EventArgs e)
         {
             Repaint(null, null);
             label2.Text = Page.Name;
+        }
+
+        public void Click()
+        { 
+            
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+            Click();
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+            Click();
         }
     }
 }

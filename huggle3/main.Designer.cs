@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(main));
-            System.Windows.Forms.ListViewGroup listViewGroup4 = new System.Windows.Forms.ListViewGroup("Name", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Name", System.Windows.Forms.HorizontalAlignment.Left);
             this.Strip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripSUser = new System.Windows.Forms.ToolStripStatusLabel();
@@ -93,8 +93,6 @@
             this.gotoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.myTalkPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.myContributionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
-            this.aIVToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.revisionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.revertToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -104,8 +102,6 @@
             this.previousToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nextToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.latestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.acceptPendingRevisionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.rejectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.switchToTalkPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
@@ -125,7 +121,6 @@
             this.emailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
             this.warnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.reportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.blockToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.browserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newTabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -155,13 +150,13 @@
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.QueuePanel = new System.Windows.Forms.Panel();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
-            this.queuePanel1 = new huggle3.Controls.QueuePanel();
             this.cbType1 = new System.Windows.Forms.ComboBox();
-            this.queuePanel2 = new huggle3.Controls.QueuePanel();
             this.cbType2 = new System.Windows.Forms.ComboBox();
-            this.webBrowser = new huggle3.Controls.SpecialBrowser();
             this.lsLog = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.queuePanel1 = new huggle3.Controls.QueuePanel();
+            this.queuePanel2 = new huggle3.Controls.QueuePanel();
+            this.webBrowser = new huggle3.Controls.SpecialBrowser();
             this.historyStrip = new huggle3.Controls.HistoryStrip();
             this.contribsPanel = new huggle3.Controls.ContribsPanel();
             this.Strip.SuspendLayout();
@@ -684,7 +679,6 @@
             this.nextToolStripMenuItem.Name = "nextToolStripMenuItem";
             this.nextToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.nextToolStripMenuItem.Text = "Next";
-            this.nextToolStripMenuItem.Click += new System.EventHandler(this.nextToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
@@ -708,22 +702,18 @@
             this.clearAllToolStripMenuItem.Name = "clearAllToolStripMenuItem";
             this.clearAllToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.clearAllToolStripMenuItem.Text = "Clear all";
-            this.clearAllToolStripMenuItem.Click += new System.EventHandler(this.clearAllToolStripMenuItem_Click);
             // 
             // manageQueuesToolStripMenuItem
             // 
             this.manageQueuesToolStripMenuItem.Name = "manageQueuesToolStripMenuItem";
             this.manageQueuesToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.manageQueuesToolStripMenuItem.Text = "Manage queues";
-            this.manageQueuesToolStripMenuItem.Click += new System.EventHandler(this.manageQueuesToolStripMenuItem_Click);
             // 
             // gotoToolStripMenuItem
             // 
             this.gotoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.myTalkPageToolStripMenuItem,
-            this.myContributionsToolStripMenuItem,
-            this.toolStripMenuItem2,
-            this.aIVToolStripMenuItem});
+            this.myContributionsToolStripMenuItem});
             this.gotoToolStripMenuItem.Name = "gotoToolStripMenuItem";
             this.gotoToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.gotoToolStripMenuItem.Text = "goto";
@@ -733,26 +723,12 @@
             this.myTalkPageToolStripMenuItem.Name = "myTalkPageToolStripMenuItem";
             this.myTalkPageToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.myTalkPageToolStripMenuItem.Text = "My talk page";
-            this.myTalkPageToolStripMenuItem.Click += new System.EventHandler(this.myTalkPageToolStripMenuItem_Click);
             // 
             // myContributionsToolStripMenuItem
             // 
             this.myContributionsToolStripMenuItem.Name = "myContributionsToolStripMenuItem";
             this.myContributionsToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.myContributionsToolStripMenuItem.Text = "My contributions";
-            this.myContributionsToolStripMenuItem.Click += new System.EventHandler(this.myContributionsToolStripMenuItem_Click);
-            // 
-            // toolStripMenuItem2
-            // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(162, 6);
-            // 
-            // aIVToolStripMenuItem
-            // 
-            this.aIVToolStripMenuItem.Name = "aIVToolStripMenuItem";
-            this.aIVToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
-            this.aIVToolStripMenuItem.Text = "AIV";
-            this.aIVToolStripMenuItem.Click += new System.EventHandler(this.aIVToolStripMenuItem_Click);
             // 
             // revisionToolStripMenuItem
             // 
@@ -764,9 +740,7 @@
             this.toolStripMenuItem3,
             this.previousToolStripMenuItem,
             this.nextToolStripMenuItem1,
-            this.latestToolStripMenuItem,
-            this.acceptPendingRevisionToolStripMenuItem,
-            this.rejectToolStripMenuItem});
+            this.latestToolStripMenuItem});
             this.revisionToolStripMenuItem.Name = "revisionToolStripMenuItem";
             this.revisionToolStripMenuItem.Size = new System.Drawing.Size(63, 20);
             this.revisionToolStripMenuItem.Text = "Revision";
@@ -774,70 +748,49 @@
             // viewToolStripMenuItem
             // 
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            this.viewToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.viewToolStripMenuItem.Text = "View";
-            this.viewToolStripMenuItem.Click += new System.EventHandler(this.viewToolStripMenuItem_Click);
             // 
             // revertToolStripMenuItem
             // 
             this.revertToolStripMenuItem.Name = "revertToolStripMenuItem";
-            this.revertToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.revertToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.revertToolStripMenuItem.Text = "Revert";
-            this.revertToolStripMenuItem.Click += new System.EventHandler(this.revertToolStripMenuItem_Click);
             // 
             // goodToolStripMenuItem
             // 
             this.goodToolStripMenuItem.Name = "goodToolStripMenuItem";
-            this.goodToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.goodToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.goodToolStripMenuItem.Text = "Good";
-            this.goodToolStripMenuItem.Click += new System.EventHandler(this.goodToolStripMenuItem_Click);
             // 
             // sightToolStripMenuItem
             // 
             this.sightToolStripMenuItem.Name = "sightToolStripMenuItem";
-            this.sightToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.sightToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.sightToolStripMenuItem.Text = "Sight";
-            this.sightToolStripMenuItem.Click += new System.EventHandler(this.sightToolStripMenuItem_Click);
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(199, 6);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(116, 6);
             // 
             // previousToolStripMenuItem
             // 
             this.previousToolStripMenuItem.Name = "previousToolStripMenuItem";
-            this.previousToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.previousToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.previousToolStripMenuItem.Text = "Previous";
-            this.previousToolStripMenuItem.Click += new System.EventHandler(this.previousToolStripMenuItem_Click);
             // 
             // nextToolStripMenuItem1
             // 
             this.nextToolStripMenuItem1.Name = "nextToolStripMenuItem1";
-            this.nextToolStripMenuItem1.Size = new System.Drawing.Size(202, 22);
+            this.nextToolStripMenuItem1.Size = new System.Drawing.Size(119, 22);
             this.nextToolStripMenuItem1.Text = "Next";
-            this.nextToolStripMenuItem1.Click += new System.EventHandler(this.nextToolStripMenuItem1_Click);
             // 
             // latestToolStripMenuItem
             // 
             this.latestToolStripMenuItem.Name = "latestToolStripMenuItem";
-            this.latestToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.latestToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.latestToolStripMenuItem.Text = "Latest";
-            this.latestToolStripMenuItem.Click += new System.EventHandler(this.latestToolStripMenuItem_Click);
-            // 
-            // acceptPendingRevisionToolStripMenuItem
-            // 
-            this.acceptPendingRevisionToolStripMenuItem.Name = "acceptPendingRevisionToolStripMenuItem";
-            this.acceptPendingRevisionToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
-            this.acceptPendingRevisionToolStripMenuItem.Text = "Accept pending revision";
-            this.acceptPendingRevisionToolStripMenuItem.Click += new System.EventHandler(this.acceptPendingRevisionToolStripMenuItem_Click);
-            // 
-            // rejectToolStripMenuItem
-            // 
-            this.rejectToolStripMenuItem.Name = "rejectToolStripMenuItem";
-            this.rejectToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
-            this.rejectToolStripMenuItem.Text = "Reject";
-            this.rejectToolStripMenuItem.Click += new System.EventHandler(this.rejectToolStripMenuItem_Click);
             // 
             // pageToolStripMenuItem
             // 
@@ -859,7 +812,6 @@
             this.switchToTalkPageToolStripMenuItem.Name = "switchToTalkPageToolStripMenuItem";
             this.switchToTalkPageToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
             this.switchToTalkPageToolStripMenuItem.Text = "Switch to talk page";
-            this.switchToTalkPageToolStripMenuItem.Click += new System.EventHandler(this.switchToTalkPageToolStripMenuItem_Click);
             // 
             // toolStripMenuItem4
             // 
@@ -871,21 +823,18 @@
             this.viewLatestRevisionToolStripMenuItem.Name = "viewLatestRevisionToolStripMenuItem";
             this.viewLatestRevisionToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
             this.viewLatestRevisionToolStripMenuItem.Text = "View latest revision";
-            this.viewLatestRevisionToolStripMenuItem.Click += new System.EventHandler(this.viewLatestRevisionToolStripMenuItem_Click);
             // 
             // retrieveHistoryToolStripMenuItem
             // 
             this.retrieveHistoryToolStripMenuItem.Name = "retrieveHistoryToolStripMenuItem";
             this.retrieveHistoryToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
             this.retrieveHistoryToolStripMenuItem.Text = "Retrieve history";
-            this.retrieveHistoryToolStripMenuItem.Click += new System.EventHandler(this.retrieveHistoryToolStripMenuItem_Click);
             // 
             // showHistoryPageToolStripMenuItem
             // 
             this.showHistoryPageToolStripMenuItem.Name = "showHistoryPageToolStripMenuItem";
             this.showHistoryPageToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
             this.showHistoryPageToolStripMenuItem.Text = "Show history page";
-            this.showHistoryPageToolStripMenuItem.Click += new System.EventHandler(this.showHistoryPageToolStripMenuItem_Click);
             // 
             // toolStripMenuItem7
             // 
@@ -897,14 +846,12 @@
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
             this.editToolStripMenuItem.Text = "Edit";
-            this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
             // 
             // tagToolStripMenuItem
             // 
             this.tagToolStripMenuItem.Name = "tagToolStripMenuItem";
             this.tagToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
             this.tagToolStripMenuItem.Text = "Tag";
-            this.tagToolStripMenuItem.Click += new System.EventHandler(this.tagToolStripMenuItem_Click);
             // 
             // userToolStripMenuItem
             // 
@@ -918,7 +865,6 @@
             this.emailToolStripMenuItem,
             this.toolStripMenuItem6,
             this.warnToolStripMenuItem,
-            this.reportToolStripMenuItem,
             this.blockToolStripMenuItem});
             this.userToolStripMenuItem.Name = "userToolStripMenuItem";
             this.userToolStripMenuItem.Size = new System.Drawing.Size(42, 20);
@@ -929,28 +875,24 @@
             this.showUserInfoToolStripMenuItem.Name = "showUserInfoToolStripMenuItem";
             this.showUserInfoToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
             this.showUserInfoToolStripMenuItem.Text = "Show user info";
-            this.showUserInfoToolStripMenuItem.Click += new System.EventHandler(this.showUserInfoToolStripMenuItem_Click);
             // 
             // ignoreToolStripMenuItem
             // 
             this.ignoreToolStripMenuItem.Name = "ignoreToolStripMenuItem";
             this.ignoreToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
             this.ignoreToolStripMenuItem.Text = "Ignore";
-            this.ignoreToolStripMenuItem.Click += new System.EventHandler(this.ignoreToolStripMenuItem_Click);
             // 
             // retrieveContributionsToolStripMenuItem
             // 
             this.retrieveContributionsToolStripMenuItem.Name = "retrieveContributionsToolStripMenuItem";
             this.retrieveContributionsToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
             this.retrieveContributionsToolStripMenuItem.Text = "Retrieve contributions";
-            this.retrieveContributionsToolStripMenuItem.Click += new System.EventHandler(this.retrieveContributionsToolStripMenuItem_Click);
             // 
             // viewTalkPageToolStripMenuItem
             // 
             this.viewTalkPageToolStripMenuItem.Name = "viewTalkPageToolStripMenuItem";
             this.viewTalkPageToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
             this.viewTalkPageToolStripMenuItem.Text = "View talk page";
-            this.viewTalkPageToolStripMenuItem.Click += new System.EventHandler(this.viewTalkPageToolStripMenuItem_Click);
             // 
             // toolStripMenuItem5
             // 
@@ -962,14 +904,12 @@
             this.messageToolStripMenuItem.Name = "messageToolStripMenuItem";
             this.messageToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
             this.messageToolStripMenuItem.Text = "Message";
-            this.messageToolStripMenuItem.Click += new System.EventHandler(this.messageToolStripMenuItem_Click);
             // 
             // emailToolStripMenuItem
             // 
             this.emailToolStripMenuItem.Name = "emailToolStripMenuItem";
             this.emailToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
             this.emailToolStripMenuItem.Text = "Email";
-            this.emailToolStripMenuItem.Click += new System.EventHandler(this.emailToolStripMenuItem_Click);
             // 
             // toolStripMenuItem6
             // 
@@ -981,21 +921,12 @@
             this.warnToolStripMenuItem.Name = "warnToolStripMenuItem";
             this.warnToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
             this.warnToolStripMenuItem.Text = "Warn";
-            this.warnToolStripMenuItem.Click += new System.EventHandler(this.warnToolStripMenuItem_Click);
-            // 
-            // reportToolStripMenuItem
-            // 
-            this.reportToolStripMenuItem.Name = "reportToolStripMenuItem";
-            this.reportToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
-            this.reportToolStripMenuItem.Text = "Report";
-            this.reportToolStripMenuItem.Click += new System.EventHandler(this.reportToolStripMenuItem_Click);
             // 
             // blockToolStripMenuItem
             // 
             this.blockToolStripMenuItem.Name = "blockToolStripMenuItem";
             this.blockToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
             this.blockToolStripMenuItem.Text = "Block";
-            this.blockToolStripMenuItem.Click += new System.EventHandler(this.blockToolStripMenuItem_Click);
             // 
             // browserToolStripMenuItem
             // 
@@ -1020,21 +951,18 @@
             this.newTabToolStripMenuItem.Name = "newTabToolStripMenuItem";
             this.newTabToolStripMenuItem.Size = new System.Drawing.Size(243, 22);
             this.newTabToolStripMenuItem.Text = "New tab";
-            this.newTabToolStripMenuItem.Click += new System.EventHandler(this.newTabToolStripMenuItem_Click);
             // 
             // closeTabToolStripMenuItem
             // 
             this.closeTabToolStripMenuItem.Name = "closeTabToolStripMenuItem";
             this.closeTabToolStripMenuItem.Size = new System.Drawing.Size(243, 22);
             this.closeTabToolStripMenuItem.Text = "Close tab";
-            this.closeTabToolStripMenuItem.Click += new System.EventHandler(this.closeTabToolStripMenuItem_Click);
             // 
             // closeOtherTabsToolStripMenuItem
             // 
             this.closeOtherTabsToolStripMenuItem.Name = "closeOtherTabsToolStripMenuItem";
             this.closeOtherTabsToolStripMenuItem.Size = new System.Drawing.Size(243, 22);
             this.closeOtherTabsToolStripMenuItem.Text = "Close other tabs";
-            this.closeOtherTabsToolStripMenuItem.Click += new System.EventHandler(this.closeOtherTabsToolStripMenuItem_Click);
             // 
             // toolStripMenuItem8
             // 
@@ -1052,7 +980,6 @@
             this.forwardToolStripMenuItem.Name = "forwardToolStripMenuItem";
             this.forwardToolStripMenuItem.Size = new System.Drawing.Size(243, 22);
             this.forwardToolStripMenuItem.Text = "Forward";
-            this.forwardToolStripMenuItem.Click += new System.EventHandler(this.forwardToolStripMenuItem_Click);
             // 
             // toolStripMenuItem9
             // 
@@ -1064,7 +991,6 @@
             this.viewThisInExternalBrowserToolStripMenuItem.Name = "viewThisInExternalBrowserToolStripMenuItem";
             this.viewThisInExternalBrowserToolStripMenuItem.Size = new System.Drawing.Size(243, 22);
             this.viewThisInExternalBrowserToolStripMenuItem.Text = "View this in external browser";
-            this.viewThisInExternalBrowserToolStripMenuItem.Click += new System.EventHandler(this.viewThisInExternalBrowserToolStripMenuItem_Click);
             // 
             // toolStripMenuItem10
             // 
@@ -1076,14 +1002,12 @@
             this.showNewEditsToPageToolStripMenuItem.Name = "showNewEditsToPageToolStripMenuItem";
             this.showNewEditsToPageToolStripMenuItem.Size = new System.Drawing.Size(243, 22);
             this.showNewEditsToPageToolStripMenuItem.Text = "Show new edits to page";
-            this.showNewEditsToPageToolStripMenuItem.Click += new System.EventHandler(this.showNewEditsToPageToolStripMenuItem_Click);
             // 
             // showNewContributionsByUserToolStripMenuItem
             // 
             this.showNewContributionsByUserToolStripMenuItem.Name = "showNewContributionsByUserToolStripMenuItem";
             this.showNewContributionsByUserToolStripMenuItem.Size = new System.Drawing.Size(243, 22);
             this.showNewContributionsByUserToolStripMenuItem.Text = "Show new contributions by user";
-            this.showNewContributionsByUserToolStripMenuItem.Click += new System.EventHandler(this.showNewContributionsByUserToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -1132,7 +1056,6 @@
             this.LUser.Size = new System.Drawing.Size(64, 13);
             this.LUser.TabIndex = 9;
             this.LUser.Text = "[[main-user]]";
-            this.LUser.Click += new System.EventHandler(this.LUser_Click);
             // 
             // CurrentPage
             // 
@@ -1153,7 +1076,6 @@
             this.LContribs.Size = new System.Drawing.Size(81, 13);
             this.LContribs.TabIndex = 11;
             this.LContribs.Text = "[[main-contribs]]";
-            this.LContribs.Click += new System.EventHandler(this.LContribs_Click);
             // 
             // CurrentUser
             // 
@@ -1218,7 +1140,7 @@
             // 
             this.splitContainer2.Panel2.Controls.Add(this.webBrowser);
             this.splitContainer2.Size = new System.Drawing.Size(906, 383);
-            this.splitContainer2.SplitterDistance = 73;
+            this.splitContainer2.SplitterDistance = 110;
             this.splitContainer2.TabIndex = 0;
             // 
             // QueuePanel
@@ -1227,7 +1149,7 @@
             this.QueuePanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.QueuePanel.Location = new System.Drawing.Point(0, 0);
             this.QueuePanel.Name = "QueuePanel";
-            this.QueuePanel.Size = new System.Drawing.Size(73, 383);
+            this.QueuePanel.Size = new System.Drawing.Size(110, 383);
             this.QueuePanel.TabIndex = 5;
             // 
             // splitContainer3
@@ -1246,17 +1168,9 @@
             // 
             this.splitContainer3.Panel2.Controls.Add(this.queuePanel2);
             this.splitContainer3.Panel2.Controls.Add(this.cbType2);
-            this.splitContainer3.Size = new System.Drawing.Size(73, 383);
+            this.splitContainer3.Size = new System.Drawing.Size(110, 383);
             this.splitContainer3.SplitterDistance = 186;
             this.splitContainer3.TabIndex = 4;
-            // 
-            // queuePanel1
-            // 
-            this.queuePanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.queuePanel1.Location = new System.Drawing.Point(0, 21);
-            this.queuePanel1.Name = "queuePanel1";
-            this.queuePanel1.Size = new System.Drawing.Size(73, 165);
-            this.queuePanel1.TabIndex = 5;
             // 
             // cbType1
             // 
@@ -1265,17 +1179,9 @@
             this.cbType1.FormattingEnabled = true;
             this.cbType1.Location = new System.Drawing.Point(0, 0);
             this.cbType1.Name = "cbType1";
-            this.cbType1.Size = new System.Drawing.Size(73, 21);
+            this.cbType1.Size = new System.Drawing.Size(110, 21);
             this.cbType1.TabIndex = 3;
             this.cbType1.SelectedIndexChanged += new System.EventHandler(this.cbType1_SelectedIndexChanged);
-            // 
-            // queuePanel2
-            // 
-            this.queuePanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.queuePanel2.Location = new System.Drawing.Point(0, 21);
-            this.queuePanel2.Name = "queuePanel2";
-            this.queuePanel2.Size = new System.Drawing.Size(73, 172);
-            this.queuePanel2.TabIndex = 4;
             // 
             // cbType2
             // 
@@ -1284,18 +1190,9 @@
             this.cbType2.FormattingEnabled = true;
             this.cbType2.Location = new System.Drawing.Point(0, 0);
             this.cbType2.Name = "cbType2";
-            this.cbType2.Size = new System.Drawing.Size(73, 21);
+            this.cbType2.Size = new System.Drawing.Size(110, 21);
             this.cbType2.TabIndex = 2;
             this.cbType2.SelectedIndexChanged += new System.EventHandler(this.cbType2_SelectedIndexChanged);
-            // 
-            // webBrowser
-            // 
-            this.webBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webBrowser.Location = new System.Drawing.Point(0, 0);
-            this.webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowser.Name = "webBrowser";
-            this.webBrowser.Size = new System.Drawing.Size(829, 383);
-            this.webBrowser.TabIndex = 20;
             // 
             // lsLog
             // 
@@ -1304,10 +1201,10 @@
             this.lsLog.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lsLog.FullRowSelect = true;
             this.lsLog.GridLines = true;
-            listViewGroup4.Header = "Name";
-            listViewGroup4.Name = null;
+            listViewGroup1.Header = "Name";
+            listViewGroup1.Name = null;
             this.lsLog.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup4});
+            listViewGroup1});
             this.lsLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.lsLog.Location = new System.Drawing.Point(0, 0);
             this.lsLog.MultiSelect = false;
@@ -1317,6 +1214,33 @@
             this.lsLog.TabIndex = 18;
             this.lsLog.UseCompatibleStateImageBehavior = false;
             this.lsLog.View = System.Windows.Forms.View.Details;
+            // 
+            // queuePanel1
+            // 
+            this.queuePanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.queuePanel1.Location = new System.Drawing.Point(0, 21);
+            this.queuePanel1.Name = "queuePanel1";
+            this.queuePanel1.queue = null;
+            this.queuePanel1.Size = new System.Drawing.Size(110, 165);
+            this.queuePanel1.TabIndex = 5;
+            // 
+            // queuePanel2
+            // 
+            this.queuePanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.queuePanel2.Location = new System.Drawing.Point(0, 21);
+            this.queuePanel2.Name = "queuePanel2";
+            this.queuePanel2.queue = null;
+            this.queuePanel2.Size = new System.Drawing.Size(110, 172);
+            this.queuePanel2.TabIndex = 4;
+            // 
+            // webBrowser
+            // 
+            this.webBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webBrowser.Location = new System.Drawing.Point(0, 0);
+            this.webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser.Name = "webBrowser";
+            this.webBrowser.Size = new System.Drawing.Size(792, 383);
+            this.webBrowser.TabIndex = 20;
             // 
             // historyStrip
             // 
@@ -1401,8 +1325,6 @@
         private System.Windows.Forms.ToolStripMenuItem gotoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem myTalkPageToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem myContributionsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
-        private System.Windows.Forms.ToolStripMenuItem aIVToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem revisionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem revertToolStripMenuItem;
@@ -1412,8 +1334,6 @@
         private System.Windows.Forms.ToolStripMenuItem previousToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem nextToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem latestToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem acceptPendingRevisionToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem rejectToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pageToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem switchToTalkPageToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
@@ -1433,7 +1353,6 @@
         private System.Windows.Forms.ToolStripMenuItem emailToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem6;
         private System.Windows.Forms.ToolStripMenuItem warnToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem reportToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem blockToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem browserToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newTabToolStripMenuItem;

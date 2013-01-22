@@ -85,8 +85,47 @@ namespace huggle3
 
         public bool Matches(Edit _edit)
         {
-            return false;
+            bool matches = false;
+            // check page name
+            if (_PageRegex != null && _edit._Page != null)
+            {
+                if (_PageRegex.IsMatch(_edit._Page.Name))
+                {
+                    matches = true;
+                } else
+                {
+                    return false;
+                }
+            }
+
+            // check summary
+            if (_SummaryRegex != null && _edit.Summary != null)
+            {
+                if  (_SummaryRegex.IsMatch(_edit.Summary))
+                {
+                    matches = true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            if (_UserRegex != null && _edit._User != null)
+            {
+                if (_UserRegex.IsMatch(_edit._User.UserName))
+                {
+                    matches = true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            return matches;
         }
+
 
 
         /// <summary>
@@ -110,15 +149,90 @@ namespace huggle3
             return null;
         }
 
+        public bool MatchesPanel()
+        {
+            if (Panel != null)
+            {
+                if (Panel.queue == this)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool ContainsEdit(Edit edit)
+        {
+            try
+            {
+                lock (Edits)
+                {
+                    // performance tweak
+                    if (Edits.Contains(edit))
+                    {
+                        return true;
+                    }
+
+                    foreach (Edit kk in Edits)
+                    { 
+                        if (edit.Id != kk.Id)
+                        {
+                            continue;
+                        }
+
+                        if (edit.Summary != kk.Summary)
+                        {
+                            continue;
+                        }
+
+                        if (edit.Rcid != kk.Rcid)
+                        {
+                            continue;
+                        }
+
+                        if (edit._Page != null && kk._Page != null)
+                        {
+                            if (edit._Page.Name != kk._Page.Name)
+                            {
+                                continue;
+                            }
+                        }
+
+                        if (edit.Oldid != kk.Oldid)
+                        {
+                            continue;
+                        }
+                        return true;
+                    }
+                }
+            }
+            catch (Exception fail)
+            {
+                Core.ExceptionHandler(fail);
+            }
+            return false;
+        }
+
         public static void Enqueue(Edit _edit)
         {
             lock (All)
             {
                 foreach (KeyValuePair<string,Queue> x in All)
                 {
-                    if (x.Value.Matches(_edit))
+                    if (!x.Value.ContainsEdit(_edit))
                     {
-                        x.Value.Edits.Add(_edit);
+                        if (x.Value.Matches(_edit))
+                        {
+                            lock (x.Value.Edits)
+                            {
+                                x.Value.Edits.Add(_edit);
+                            }
+                            // Check if this is currently selected queue
+                            if (x.Value.MatchesPanel())
+                            {
+                                x.Value.Panel.Add(_edit);
+                            }
+                        }
                     }
                 }
             }

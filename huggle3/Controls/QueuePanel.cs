@@ -48,6 +48,7 @@ namespace huggle3.Controls
                 if (value != null)
                 {
                     _Queue.Panel = this;
+                    Rebuild();
                 }
             }
             get
@@ -57,13 +58,57 @@ namespace huggle3.Controls
         }
         private int OffsetX = 0;
 
+        public void Rebuild()
+        {
+            Core.History("QueuePanel.Rebuild");
+            lock (List)
+            {
+                List.Clear();
+                if (_Queue != null)
+                {
+                    lock (_Queue.Edits)
+                    {
+                        foreach (Edit xx in _Queue.Edits)
+                        {
+                            Add(xx);
+                        }
+                    }
+                }
+            }
+        }
+
         public void Add(Edit Edit)
         {
             try
             {
                 lock (List)
                 { 
-                    List.Add(new EditItem(Edit._Page, Edit));
+                    List.Insert(0, new EditItem(Edit._Page, Edit));
+                }
+            }
+            catch (Exception fail)
+            {
+                Core.ExceptionHandler(fail);
+            }
+        }
+
+        public void UpdateScroll()
+        {
+            try
+            {
+                if ((List.Count * 22) > this.Height)
+                {
+                    vScrollBar1.Enabled = true;
+                    int maximum = List.Count * 22 - this.Height;
+                    if (maximum < 1)
+                    {
+                        maximum = 1;
+                    }
+                    vScrollBar1.Maximum = maximum;
+                }
+                else
+                {
+                    vScrollBar1.Enabled = false;
                 }
             }
             catch (Exception fail)
@@ -86,15 +131,21 @@ namespace huggle3.Controls
                             curr.Registered = true;
                             Controls.Add(curr);
                         }
-                        if (X > 0)
+                        if ((X + 20) > 0 && (X - 20) < this.Height)
                         {
                             curr.Top = X;
                             curr.Left = 2;
                             curr.Width = this.Width - 20;
                             curr.Repaint(null, null);
+                            curr.Visible = true;
                         }
-                        X = X + curr.Height + 6;
+                        else
+                        {
+                            curr.Visible = false;
+                        }
+                        X = X + curr.Height + 2;
                     }
+                    UpdateScroll();
                 }
             }
             catch (Exception ff)
@@ -108,9 +159,20 @@ namespace huggle3.Controls
             InitializeComponent();
         }
 
+        public void QueuePanel_Change(object sender, EventArgs e)
+        {
+            Redraw();
+        }
+
         private void QueuePanel_Load(object sender, EventArgs e)
         {
             vScrollBar1.Enabled = false;
+        }
+
+        private void vScrollBar1_Scroll(object sender, ScrollEventArgs e)
+        {
+            OffsetX = vScrollBar1.Value;
+            Redraw();
         }
     }
 }

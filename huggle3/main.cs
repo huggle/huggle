@@ -149,11 +149,6 @@ namespace huggle3
             }
         }
 
-        private void NotAvailable()
-        {
-            Log("Requested function is not yet available in this revision");
-        }
-
         public void Log(string text)
         {
             try
@@ -363,26 +358,6 @@ namespace huggle3
         }
 
         /// <summary>
-        /// Contribs
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void LContribs_Click(object sender, EventArgs e)
-        {
-            NotAvailable();
-        }
-
-        private void CurrentUser_KeyPressed(object sender, EventArgs e)
-        {
-            NotAvailable();
-        }
-
-        private void LUser_Click(object sender, EventArgs e)
-        {
-            NotAvailable();
-        }
-
-        /// <summary>
         /// Configuration form
         /// </summary>
         /// <param name="sender"></param>
@@ -485,191 +460,6 @@ namespace huggle3
             Close();
         }
 
-        private void nextToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            NotAvailable();
-        }
-
-        private void clearAllToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            NotAvailable();
-        }
-
-        private void manageQueuesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            NotAvailable();
-        }
-
-        private void myTalkPageToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            NotAvailable(); 
-        }
-
-        private void myContributionsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            NotAvailable();
-        }
-
-        private void aIVToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void viewToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            NotAvailable();
-        }
-
-        private void revertToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            NotAvailable();
-        }
-
-        private void goodToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            NotAvailable();
-        }
-
-        private void sightToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            NotAvailable();
-        }
-
-        private void previousToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            NotAvailable();
-        }
-
-        private void nextToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            NotAvailable();
-        }
-
-        private void latestToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            NotAvailable();
-        }
-
-        private void acceptPendingRevisionToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            NotAvailable();
-        }
-
-        private void rejectToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            NotAvailable();
-        }
-
-        private void switchToTalkPageToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            NotAvailable();
-        }
-
-        private void viewLatestRevisionToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            NotAvailable();
-        }
-
-        private void retrieveHistoryToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            NotAvailable();
-        }
-
-        private void showHistoryPageToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            NotAvailable();
-        }
-
-        private void editToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            NotAvailable();
-        }
-
-        private void tagToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            NotAvailable();
-        }
-
-        private void showUserInfoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            NotAvailable();
-        }
-
-        private void ignoreToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            NotAvailable();
-        }
-
-        private void retrieveContributionsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            NotAvailable();
-        }
-
-        private void viewTalkPageToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            NotAvailable();
-        }
-
-        private void messageToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            NotAvailable();
-        }
-
-        private void emailToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            NotAvailable();
-        }
-
-        private void warnToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            NotAvailable();
-        }
-
-        private void reportToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            NotAvailable();
-        }
-
-        private void blockToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            NotAvailable();
-        }
-
-        private void newTabToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            NotAvailable();
-        }
-
-        private void closeTabToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            NotAvailable();
-        }
-
-        private void closeOtherTabsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            NotAvailable();
-        }
-
-        private void viewThisInExternalBrowserToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            NotAvailable();
-        }
-
-        private void forwardToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            NotAvailable();
-        }
-
-        private void showNewEditsToPageToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            NotAvailable();
-        }
-
-        private void showNewContributionsByUserToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            NotAvailable();
-        }
-
         private void timerStatus_Tick(object sender, EventArgs e)
         {
             int rpm = 0;
@@ -692,13 +482,26 @@ namespace huggle3
 
         private void cbType1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (cbType2.SelectedItem != null)
+            {
+                if (cbType1.SelectedItem.ToString() == cbType2.SelectedItem.ToString())
+                {
+                    return;
+                }
+            }
             queuePanel1.queue = Queue.fromString(cbType1.SelectedItem.ToString());
         }
 
         private void cbType2_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (cbType1.SelectedItem != null)
+            {
+                if (cbType1.SelectedItem.ToString() == cbType2.SelectedItem.ToString())
+                {
+                    return;
+                }
+            }
             queuePanel2.queue = Queue.fromString(cbType2.SelectedItem.ToString());
         }
-
     }
 }

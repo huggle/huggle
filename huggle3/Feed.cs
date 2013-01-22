@@ -172,7 +172,7 @@ namespace huggle3
                             }
                         }
                     }
-                    System.Threading.Thread.Sleep(Config.RefreshInterval);
+                    System.Threading.Thread.Sleep(10 * Config.RefreshInterval);
                 }
                 catch (System.Threading.ThreadAbortException)
                 {
