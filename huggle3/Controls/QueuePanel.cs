@@ -40,8 +40,15 @@ namespace huggle3.Controls
         {
             set
             {
+                if (_Queue != null)
+                {
+                    _Queue.Panel = null;
+                }
                 _Queue = value;
-                _Queue.Panel = this;
+                if (value != null)
+                {
+                    _Queue.Panel = this;
+                }
             }
             get
             {

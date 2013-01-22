@@ -692,12 +692,12 @@ namespace huggle3
 
         private void cbType1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            queuePanel1.queue = Queue.fromString(cbType1.SelectedText);
+            queuePanel1.queue = Queue.fromString(cbType1.SelectedItem.ToString());
         }
 
         private void cbType2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            queuePanel2.queue = Queue.fromString(cbType2.SelectedText);
+            queuePanel2.queue = Queue.fromString(cbType2.SelectedItem.ToString());
         }
 
     }
