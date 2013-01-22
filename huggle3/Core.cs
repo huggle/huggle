@@ -1780,6 +1780,23 @@ namespace huggle3
             return true;
         }
 
+        public static void PostLoad()
+        {
+            Core.History("PostLoad()");
+            try
+            {
+                if (Queue.All.Count == 0)
+                {
+                    Queue edits = new Queue("All edits");
+                    Queue.All.Add("All edits", edits);
+                }
+            }
+            catch (Exception fail)
+            {
+                Core.ExceptionHandler(fail);
+            }
+        }
+
         /// <summary>
         /// config.txt
         /// </summary>

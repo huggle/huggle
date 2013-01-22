@@ -30,12 +30,12 @@ namespace huggle3
         /// <summary>
         /// Anonymous
         /// </summary>
-        private bool Anonymous;
+        private bool Anonymous = false;
         /// <summary>
         /// Edit count of user
         /// </summary>
-        private int EditCount;
-        private bool SharedIP; // wheter it's a shared ip
+        private int EditCount = 0;
+        private bool SharedIP = false; // wheter it's a shared ip
         public static List<user> UserList = new List<user>();
         /// <summary>
         /// User is a bot
@@ -52,7 +52,9 @@ namespace huggle3
         /// <summary>
         /// Real name of user
         /// </summary>
-        public string UserName;
+        public string UserName = null;
+
+        public int ID = 0;
 
         /// <summary>
         /// Return user page
@@ -65,10 +67,17 @@ namespace huggle3
             }
         }
 
-        public user(string Name)
+        public user(string name)
         {
             // contructor of class
-            this.UserName = Name;
+            this.UserName = name;
+            this.EditCount = -1;
+        }
+
+        public user(string name, int ID)
+        {
+            this.UserName = name;
+            this.ID = ID;
             this.EditCount = -1;
         }
 

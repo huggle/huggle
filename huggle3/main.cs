@@ -191,6 +191,49 @@ namespace huggle3
             toolStripStatus.Text = text;
         }
 
+
+        /// <summary>
+        /// Refresh the information about queues and insert all queuest to list
+        /// </summary>
+        public void RefreshQueues()
+        {
+            try
+            {
+                string A = cbType1.SelectedText;
+                string B = cbType2.SelectedText;
+                cbType2.Items.Clear();
+                cbType1.Items.Clear();
+                foreach (KeyValuePair<string, Queue> queue in Queue.All)
+                {
+                    cbType1.Items.Add(queue.Key);
+                    cbType2.Items.Add(queue.Key);
+                }
+                if (cbType1.Items.Count > 0)
+                {
+                    if (cbType1.Items.Contains(A))
+                    {
+                        cbType1.SelectedItem = A;
+                    }
+                    else
+                    {
+                        cbType1.SelectedIndex = 0;
+                    }
+                    if (cbType2.Items.Contains(B))
+                    {
+                        cbType2.SelectedItem = B;
+                    }
+                    else
+                    {
+                        cbType2.SelectedIndex = 0;
+                    }
+                }
+            }
+            catch (Exception fail)
+            {
+                Core.ExceptionHandler(fail);
+            }
+        }
+
         /// <summary>
         /// Init
         /// </summary>
@@ -210,6 +253,7 @@ namespace huggle3
             lsLog.Columns.Add("");
             Config.Initialised = true;
             DisplayingLast = true;
+            RefreshQueues();
             lock (Core.SystemLog)
             {
                 foreach (string message in Core.SystemLog)

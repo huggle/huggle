@@ -24,14 +24,14 @@ namespace huggle3.Controls
 
         public void Repaint(object sender, EventArgs e)
         {
-            label1.Left = this.Width - 2;
+            label1.Left = this.Width - 20;
             label1.Top = this.Width - 2;
         }
 
         private void EditItem_Load(object sender, EventArgs e)
         {
             Repaint(null, null);
-            label1.Text = Page.Name;
+            label2.Text = Page.Name;
         }
     }
 }

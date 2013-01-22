@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(main));
-            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Name", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Name", System.Windows.Forms.HorizontalAlignment.Left);
             this.Strip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripSUser = new System.Windows.Forms.ToolStripStatusLabel();
@@ -82,6 +82,7 @@
             this.toolStripMenuItem12 = new System.Windows.Forms.ToolStripSeparator();
             this.logoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.systemWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.queueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
@@ -150,18 +151,17 @@
             this.lHistory = new System.Windows.Forms.Label();
             this.timerQueueUpdt = new System.Windows.Forms.Timer(this.components);
             this.timerStatus = new System.Windows.Forms.Timer(this.components);
-            this.systemWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.Queue = new System.Windows.Forms.Panel();
+            this.QueuePanel = new System.Windows.Forms.Panel();
+            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this.queuePanel1 = new huggle3.Controls.QueuePanel();
+            this.cbType1 = new System.Windows.Forms.ComboBox();
+            this.queuePanel2 = new huggle3.Controls.QueuePanel();
+            this.cbType2 = new System.Windows.Forms.ComboBox();
+            this.webBrowser = new huggle3.Controls.SpecialBrowser();
             this.lsLog = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
-            this.cbType1 = new System.Windows.Forms.ComboBox();
-            this.cbType2 = new System.Windows.Forms.ComboBox();
-            this.queuePanel1 = new huggle3.Controls.QueuePanel();
-            this.queuePanel2 = new huggle3.Controls.QueuePanel();
-            this.webBrowser = new huggle3.Controls.SpecialBrowser();
             this.historyStrip = new huggle3.Controls.HistoryStrip();
             this.contribsPanel = new huggle3.Controls.ContribsPanel();
             this.Strip.SuspendLayout();
@@ -174,7 +174,7 @@
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
-            this.Queue.SuspendLayout();
+            this.QueuePanel.SuspendLayout();
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
@@ -658,6 +658,13 @@
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            // 
+            // systemWindowToolStripMenuItem
+            // 
+            this.systemWindowToolStripMenuItem.Name = "systemWindowToolStripMenuItem";
+            this.systemWindowToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.systemWindowToolStripMenuItem.Text = "System window";
+            this.systemWindowToolStripMenuItem.Click += new System.EventHandler(this.systemWindowToolStripMenuItem_Click);
             // 
             // queueToolStripMenuItem
             // 
@@ -1179,13 +1186,6 @@
             this.timerStatus.Interval = 2000;
             this.timerStatus.Tick += new System.EventHandler(this.timerStatus_Tick);
             // 
-            // systemWindowToolStripMenuItem
-            // 
-            this.systemWindowToolStripMenuItem.Name = "systemWindowToolStripMenuItem";
-            this.systemWindowToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
-            this.systemWindowToolStripMenuItem.Text = "System window";
-            this.systemWindowToolStripMenuItem.Click += new System.EventHandler(this.systemWindowToolStripMenuItem_Click);
-            // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1212,7 +1212,7 @@
             // 
             // splitContainer2.Panel1
             // 
-            this.splitContainer2.Panel1.Controls.Add(this.Queue);
+            this.splitContainer2.Panel1.Controls.Add(this.QueuePanel);
             // 
             // splitContainer2.Panel2
             // 
@@ -1221,35 +1221,14 @@
             this.splitContainer2.SplitterDistance = 73;
             this.splitContainer2.TabIndex = 0;
             // 
-            // Queue
+            // QueuePanel
             // 
-            this.Queue.Controls.Add(this.splitContainer3);
-            this.Queue.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Queue.Location = new System.Drawing.Point(0, 0);
-            this.Queue.Name = "Queue";
-            this.Queue.Size = new System.Drawing.Size(73, 383);
-            this.Queue.TabIndex = 5;
-            // 
-            // lsLog
-            // 
-            this.lsLog.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1});
-            this.lsLog.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lsLog.FullRowSelect = true;
-            this.lsLog.GridLines = true;
-            listViewGroup1.Header = "Name";
-            listViewGroup1.Name = null;
-            this.lsLog.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup1});
-            this.lsLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
-            this.lsLog.Location = new System.Drawing.Point(0, 0);
-            this.lsLog.MultiSelect = false;
-            this.lsLog.Name = "lsLog";
-            this.lsLog.ShowGroups = false;
-            this.lsLog.Size = new System.Drawing.Size(906, 59);
-            this.lsLog.TabIndex = 18;
-            this.lsLog.UseCompatibleStateImageBehavior = false;
-            this.lsLog.View = System.Windows.Forms.View.Details;
+            this.QueuePanel.Controls.Add(this.splitContainer3);
+            this.QueuePanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.QueuePanel.Location = new System.Drawing.Point(0, 0);
+            this.QueuePanel.Name = "QueuePanel";
+            this.QueuePanel.Size = new System.Drawing.Size(73, 383);
+            this.QueuePanel.TabIndex = 5;
             // 
             // splitContainer3
             // 
@@ -1268,8 +1247,16 @@
             this.splitContainer3.Panel2.Controls.Add(this.queuePanel2);
             this.splitContainer3.Panel2.Controls.Add(this.cbType2);
             this.splitContainer3.Size = new System.Drawing.Size(73, 383);
-            this.splitContainer3.SplitterDistance = 187;
+            this.splitContainer3.SplitterDistance = 186;
             this.splitContainer3.TabIndex = 4;
+            // 
+            // queuePanel1
+            // 
+            this.queuePanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.queuePanel1.Location = new System.Drawing.Point(0, 21);
+            this.queuePanel1.Name = "queuePanel1";
+            this.queuePanel1.Size = new System.Drawing.Size(73, 165);
+            this.queuePanel1.TabIndex = 5;
             // 
             // cbType1
             // 
@@ -1281,6 +1268,14 @@
             this.cbType1.Size = new System.Drawing.Size(73, 21);
             this.cbType1.TabIndex = 3;
             // 
+            // queuePanel2
+            // 
+            this.queuePanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.queuePanel2.Location = new System.Drawing.Point(0, 21);
+            this.queuePanel2.Name = "queuePanel2";
+            this.queuePanel2.Size = new System.Drawing.Size(73, 172);
+            this.queuePanel2.TabIndex = 4;
+            // 
             // cbType2
             // 
             this.cbType2.Dock = System.Windows.Forms.DockStyle.Top;
@@ -1291,22 +1286,6 @@
             this.cbType2.Size = new System.Drawing.Size(73, 21);
             this.cbType2.TabIndex = 2;
             // 
-            // queuePanel1
-            // 
-            this.queuePanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.queuePanel1.Location = new System.Drawing.Point(0, 21);
-            this.queuePanel1.Name = "queuePanel1";
-            this.queuePanel1.Size = new System.Drawing.Size(73, 166);
-            this.queuePanel1.TabIndex = 5;
-            // 
-            // queuePanel2
-            // 
-            this.queuePanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.queuePanel2.Location = new System.Drawing.Point(0, 21);
-            this.queuePanel2.Name = "queuePanel2";
-            this.queuePanel2.Size = new System.Drawing.Size(73, 171);
-            this.queuePanel2.TabIndex = 4;
-            // 
             // webBrowser
             // 
             this.webBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1315,6 +1294,27 @@
             this.webBrowser.Name = "webBrowser";
             this.webBrowser.Size = new System.Drawing.Size(829, 383);
             this.webBrowser.TabIndex = 20;
+            // 
+            // lsLog
+            // 
+            this.lsLog.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1});
+            this.lsLog.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lsLog.FullRowSelect = true;
+            this.lsLog.GridLines = true;
+            listViewGroup2.Header = "Name";
+            listViewGroup2.Name = null;
+            this.lsLog.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
+            listViewGroup2});
+            this.lsLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.lsLog.Location = new System.Drawing.Point(0, 0);
+            this.lsLog.MultiSelect = false;
+            this.lsLog.Name = "lsLog";
+            this.lsLog.ShowGroups = false;
+            this.lsLog.Size = new System.Drawing.Size(906, 59);
+            this.lsLog.TabIndex = 18;
+            this.lsLog.UseCompatibleStateImageBehavior = false;
+            this.lsLog.View = System.Windows.Forms.View.Details;
             // 
             // historyStrip
             // 
@@ -1368,7 +1368,7 @@
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
             this.splitContainer2.ResumeLayout(false);
-            this.Queue.ResumeLayout(false);
+            this.QueuePanel.ResumeLayout(false);
             this.splitContainer3.Panel1.ResumeLayout(false);
             this.splitContainer3.Panel2.ResumeLayout(false);
             this.splitContainer3.ResumeLayout(false);
@@ -1503,7 +1503,7 @@
         private System.Windows.Forms.ToolStripMenuItem systemWindowToolStripMenuItem;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.SplitContainer splitContainer2;
-        private System.Windows.Forms.Panel Queue;
+        private System.Windows.Forms.Panel QueuePanel;
         private System.Windows.Forms.SplitContainer splitContainer3;
         private System.Windows.Forms.ComboBox cbType1;
         private System.Windows.Forms.ComboBox cbType2;

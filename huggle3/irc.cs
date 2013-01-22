@@ -172,7 +172,6 @@ namespace huggle3
                             curr.Summary = summary;
                             curr._Page = new Page(page);
                             Queue.Enqueue(curr);
-                            Program.MainForm.queuePanel1.Add(curr);
                         }
                         else
                         {

@@ -32,6 +32,22 @@ namespace huggle3.Controls
     public partial class QueuePanel : UserControl
     {
         public List<EditItem> List = new List<EditItem>();
+        private Queue _Queue = null;
+        /// <summary>
+        /// The queue which is connected to this panel
+        /// </summary>
+        public Queue queue
+        {
+            set
+            {
+                _Queue = value;
+                _Queue.Panel = this;
+            }
+            get
+            {
+                return _Queue;
+            }
+        }
         private int OffsetX = 0;
 
         public void Add(Edit Edit)

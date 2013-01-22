@@ -27,42 +27,43 @@ namespace huggle3
     {
         public static Dictionary<string, Queue> All = new Dictionary<string,Queue>();
         public string _name = "";
-        private DiffMode _Diffs;
-        private int _Limit = 0;
-        private string _SourceType = "";
-        private string _Source = "";
-        private bool _IgnorePages = false;
-        private string _ListName = "";
-        private bool _NeedsReset = false;
-        private System.Text.RegularExpressions.Regex _PageRegex = null;
-        private string  _Pages = null;
-        private bool _Refreshing = false;
-        private bool _RefreshAlways = false;
-        private bool _RefreshReAdd = false;
-        private List<string> _RemovedPages;
-        private bool _RemoveOld = false;
-        private int _RemoveAfter = 0;
-        private bool _RemoveViewed = false;
-        private System.Text.RegularExpressions.Regex RevisionRegex;
-        private QueueSortOrder _SortOrder;
-        private List<Space> _Spaces = null;
-        private System.Text.RegularExpressions.Regex _SummaryRegex;
-        private bool _TrayNotification = false;
-        private QueueType _Type;
-        private System.Text.RegularExpressions.Regex _UserRegex;
-        private List<string> _Users = new List<string>();
-        private List<Edit> Edits = new List<Edit>();
+        public DiffMode _Diffs;
+        public int _Limit = 0;
+        public string _SourceType = "";
+        public string _Source = "";
+        public bool _IgnorePages = false;
+        public string _ListName = "";
+        public bool _NeedsReset = false;
+        public System.Text.RegularExpressions.Regex _PageRegex = null;
+        public string _Pages = null;
+        public bool _Refreshing = false;
+        public bool _RefreshAlways = false;
+        public bool _RefreshReAdd = false;
+        public List<string> _RemovedPages;
+        public bool _RemoveOld = false;
+        public int _RemoveAfter = 0;
+        public bool _RemoveViewed = false;
+        public System.Text.RegularExpressions.Regex RevisionRegex;
+        public QueueSortOrder _SortOrder;
+        public List<Space> _Spaces = null;
+        public System.Text.RegularExpressions.Regex _SummaryRegex;
+        public bool _TrayNotification = false;
+        public QueueType _Type;
+        public System.Text.RegularExpressions.Regex _UserRegex;
+        public Controls.QueuePanel Panel = null;
+        public List<string> _Users = new List<string>();
+        public List<Edit> Edits = new List<Edit>();
 
-        private QueueFilter _FilterAnonymous = QueueFilter.None;
-        private QueueFilter _FilterAssisted = QueueFilter.None;
-        private QueueFilter _FilterBot = QueueFilter.None;
-        private QueueFilter _FilterHuggle = QueueFilter.None;
-        private QueueFilter _FilterIgnored = QueueFilter.None;
-        private QueueFilter _FilterMe = QueueFilter.None;
-        private QueueFilter _FilterNewPage = QueueFilter.None;
-        private QueueFilter _FilterNotifications = QueueFilter.None;
-        private QueueFilter _FilterOwnUserspace = QueueFilter.None;
-        private QueueFilter _FilterReverts = QueueFilter.None;
+        public QueueFilter _FilterAnonymous = QueueFilter.None;
+        public QueueFilter _FilterAssisted = QueueFilter.None;
+        public QueueFilter _FilterBot = QueueFilter.None;
+        public QueueFilter _FilterHuggle = QueueFilter.None;
+        public QueueFilter _FilterIgnored = QueueFilter.None;
+        public QueueFilter _FilterMe = QueueFilter.None;
+        public QueueFilter _FilterNewPage = QueueFilter.None;
+        public QueueFilter _FilterNotifications = QueueFilter.None;
+        public QueueFilter _FilterOwnUserspace = QueueFilter.None;
+        public QueueFilter _FilterReverts = QueueFilter.None;
         private QueueFilter _FilterTags = QueueFilter.None;
         private QueueFilter _FilterWarnings = QueueFilter.None;
 
@@ -80,7 +81,7 @@ namespace huggle3
 
         public bool Matches(Edit _edit)
         {
-            return true;
+            return false;
         }
 
         public static void Enqueue(Edit _edit)

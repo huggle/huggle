@@ -101,11 +101,37 @@ namespace huggle3
                             string revid = null;
                             string old_revid = null;
                             string timestamp = null;
-                            // <rc type="edit" ns="0" title="Adrian Sina" rcid="550449879" pageid="38282555" revid="534182539" old_revid="534120597" timestamp="2013-01-21T16:38:15Z" />
+                            string comment = null;
+                            string user = null;
+                            string user_id = "0";
+                            string oldlen = null;
+                            string newlen = null;
+                            string parsedcomment = null;
+                            // <rc type="edit" ns="0" title="Melanie Kannokada" rcid="550573236" pageid="35857502" revid="534301614" 
+                            //old_revid="534125323" user="Ileana Cruz" userid="16966521" oldlen="5531" newlen="5787" 
+                            //timestamp="2013-01-22T08:56:08Z" comment="" parsedcomment=""><tags /></rc>
                             foreach (XmlAttribute value in node.Attributes)
                             {
                                 switch (value.Name)
                                 { 
+                                    case "comment":
+                                        comment = value.Value;
+                                        break;
+                                    case "user_id":
+                                        user_id = value.Value;
+                                        break;
+                                    case "oldlen":
+                                        oldlen = value.Value;
+                                        break;
+                                    case "user":
+                                        user = value.Value;
+                                        break;
+                                    case "newlen":
+                                        newlen = value.Value;
+                                        break;
+                                    case "parsedcomment":
+                                        parsedcomment = value.Value;
+                                        break;
                                     case "type":
                                         type = value.Value;
                                         break;
@@ -138,8 +164,11 @@ namespace huggle3
                                 edit._Page = new Page(title);
                                 edit.Rcid = rcid;
                                 edit.Oldid = old_revid;
+                                edit.Summary = comment;
+                                edit._User = new huggle3.user(user, int.Parse(user_id));
+                                edit._Change = int.Parse(oldlen) - int.Parse(newlen);
                                 edit._Time = DateTime.Parse(timestamp);
-                                Program.MainForm.queuePanel1.Add(edit);
+                                Queue.Enqueue(edit);
                             }
                         }
                     }
