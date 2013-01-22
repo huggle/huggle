@@ -1788,6 +1788,11 @@ namespace huggle3
                 if (Queue.All.Count == 0)
                 {
                     Queue edits = new Queue("All edits");
+                    edits._Diffs = Queue.DiffMode.Preload;
+                    edits._PageRegex = new System.Text.RegularExpressions.Regex(".*");
+                    edits._SortOrder = Queue.QueueSortOrder.Quality;
+                    edits._SummaryRegex = new System.Text.RegularExpressions.Regex(".*");
+                    edits._UserRegex = new System.Text.RegularExpressions.Regex(".*");
                     Queue.All.Add("All edits", edits);
                 }
             }

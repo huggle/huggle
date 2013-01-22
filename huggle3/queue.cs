@@ -26,7 +26,7 @@ namespace huggle3
     public class Queue
     {
         public static Dictionary<string, Queue> All = new Dictionary<string,Queue>();
-        public string _name = "";
+        private string _name = "";
         public DiffMode _Diffs;
         public int _Limit = 0;
         public string _SourceType = "";
@@ -67,6 +67,10 @@ namespace huggle3
         private QueueFilter _FilterTags = QueueFilter.None;
         private QueueFilter _FilterWarnings = QueueFilter.None;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="Name">Name</param>
         public Queue(string Name)
         {
             _name = Name;
@@ -84,6 +88,28 @@ namespace huggle3
             return false;
         }
 
+
+        /// <summary>
+        /// Convert string to queue object, if exist
+        /// </summary>
+        /// <param name="name">Name</param>
+        /// <returns>Queue with the provided name</returns>
+        public static Queue fromString(string name)
+        {
+            Core.History("Queue.fromString(string)");
+            lock (All)
+            {
+                foreach (KeyValuePair<string, Queue> current_queue in All)
+                {
+                    if (current_queue.Value.Name == name)
+                    {
+                        return current_queue.Value;
+                    }
+                }
+            }
+            return null;
+        }
+
         public static void Enqueue(Edit _edit)
         {
             lock (All)
@@ -98,19 +124,19 @@ namespace huggle3
             }
         }
 
-        enum QueueSortOrder
+        public enum QueueSortOrder
         {
-                Time , TimeReverse , Quality
+                Time, TimeReverse, Quality
         }
-        enum DiffMode
+        public enum DiffMode
         {
-                None , Preload , All
+                None, Preload, All
         }
-        enum QueueType
+        public enum QueueType
         {
             FixedList , LiveList , Live, Dynamic
         }
-        enum QueueFilter
+        public enum QueueFilter
         {
             Require, None, Exclude
         }

@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(main));
-            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Name", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup4 = new System.Windows.Forms.ListViewGroup("Name", System.Windows.Forms.HorizontalAlignment.Left);
             this.Strip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripSUser = new System.Windows.Forms.ToolStripStatusLabel();
@@ -1267,6 +1267,7 @@
             this.cbType1.Name = "cbType1";
             this.cbType1.Size = new System.Drawing.Size(73, 21);
             this.cbType1.TabIndex = 3;
+            this.cbType1.SelectedIndexChanged += new System.EventHandler(this.cbType1_SelectedIndexChanged);
             // 
             // queuePanel2
             // 
@@ -1285,6 +1286,7 @@
             this.cbType2.Name = "cbType2";
             this.cbType2.Size = new System.Drawing.Size(73, 21);
             this.cbType2.TabIndex = 2;
+            this.cbType2.SelectedIndexChanged += new System.EventHandler(this.cbType2_SelectedIndexChanged);
             // 
             // webBrowser
             // 
@@ -1302,10 +1304,10 @@
             this.lsLog.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lsLog.FullRowSelect = true;
             this.lsLog.GridLines = true;
-            listViewGroup2.Header = "Name";
-            listViewGroup2.Name = null;
+            listViewGroup4.Header = "Name";
+            listViewGroup4.Name = null;
             this.lsLog.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup2});
+            listViewGroup4});
             this.lsLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.lsLog.Location = new System.Drawing.Point(0, 0);
             this.lsLog.MultiSelect = false;
