@@ -35,7 +35,7 @@ namespace huggle3
     /// </summary>
     public class MWStandardApi
     {
-        public readonly static string RCtoXML = "action=query&list=recentchanges&rcdir=older&rclimit=$COUNT";
+        public readonly static string RCtoXML = "action=query&list=recentchanges&format=xml&rcdir=older&rcprop=user%7Cuserid%7Ccomment%7Cparsedcomment%7Cflags%7Ctimestamp%7Ctitle%7Cids%7Csizes%7Credirect%7Cpatrolled%7Cloginfo%7Ctags&rclimit=10&rctype=edit%7Cexternal%7Cnew&rclimit=$COUNT";
     }
 
     public class ApiResult
