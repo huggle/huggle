@@ -33,6 +33,7 @@ namespace huggle3.Controls
     {
         public List<EditItem> List = new List<EditItem>();
         private Queue _Queue = null;
+
         /// <summary>
         /// The queue which is connected to this panel
         /// </summary>
@@ -58,12 +59,46 @@ namespace huggle3.Controls
         }
         private int OffsetX = 0;
 
+        public Edit GetNext()
+        { 
+            if (List.Count > 0)
+            {
+                return List[0].Edit;
+            }
+            return null;
+        }
+
+        public void Remove(Edit edit)
+        {
+            lock (List)
+            {
+                List<EditItem> remove = new List<EditItem>();
+                foreach (EditItem curr in List)
+                {
+                    if (curr.Edit == edit)
+                    {
+                        remove.Add(curr);
+                    }
+                }
+                foreach (EditItem curr in remove)
+                {
+                    if (Controls.Contains(curr))
+                    {
+                        Controls.Remove(curr);
+                    }
+                    curr.Dispose();
+                    List.Remove(curr);
+                }
+                Redraw();
+            }
+        }
+
         public void Rebuild()
         {
             Core.History("QueuePanel.Rebuild");
             lock (List)
             {
-                List.Clear();
+                Clear();
                 if (_Queue != null)
                 {
                     lock (_Queue.Edits)
@@ -104,12 +139,32 @@ namespace huggle3.Controls
                     {
                         maximum = 1;
                     }
-                    vScrollBar1.Maximum = maximum;
+                    vScrollBar1.Maximum = maximum + 100;
                 }
                 else
                 {
                     vScrollBar1.Enabled = false;
                 }
+            }
+            catch (Exception fail)
+            {
+                Core.ExceptionHandler(fail);
+            }
+        }
+
+        public void Clear()
+        {
+            try
+            {
+                foreach (EditItem curr in List)
+                {
+                    if (Controls.Contains(curr))
+                    {
+                        Controls.Remove(curr);
+                    }
+                    curr.Dispose();
+                }
+                List.Clear();
             }
             catch (Exception fail)
             {
