@@ -24,7 +24,7 @@ using System.Text;
 
 namespace huggle3
 {
-    public class user
+    public class User
     {
         public Edit LastEdit; // last edit of user
         /// <summary>
@@ -36,7 +36,7 @@ namespace huggle3
         /// </summary>
         private int EditCount = 0;
         private bool SharedIP = false; // wheter it's a shared ip
-        public static List<user> UserList = new List<user>();
+        public static List<User> UserList = new List<User>();
         /// <summary>
         /// User is a bot
         /// </summary>
@@ -67,14 +67,14 @@ namespace huggle3
             }
         }
 
-        public user(string name)
+        public User(string name)
         {
             // contructor of class
             this.UserName = name;
             this.EditCount = -1;
         }
 
-        public user(string name, int ID)
+        public User(string name, int ID)
         {
             this.UserName = name;
             this.ID = ID;
@@ -84,11 +84,11 @@ namespace huggle3
         /// <summary>
         /// Return user (logged in)
         /// </summary>
-        public user Me
+        public User Me
         {
             get
             {
-                return new user(SanitizeUsername(Config.Username));
+                return new User(SanitizeUsername(Config.Username));
             }
         }
 

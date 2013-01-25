@@ -63,7 +63,7 @@ namespace huggle3.Requests
             try
             {
                 ApiResult apiResult;
-                string query = "action=query&meta=userinfo&uiprop=rights|editcount&list=logevents|watchlistraw&letype=newusers&letitle=" + System.Web.HttpUtility.UrlEncode(new user("").Me.UserPage) + "&prop=revisions&rvprop=content&titles=" + System.Web.HttpUtility.UrlEncode(Config.ProjectConfigLocation) + "|" + System.Web.HttpUtility.UrlEncode(Config.UserConfigLocation);
+                string query = "action=query&meta=userinfo&uiprop=rights|editcount&list=logevents|watchlistraw&letype=newusers&letitle=" + System.Web.HttpUtility.UrlEncode(new User("").Me.UserPage) + "&prop=revisions&rvprop=content&titles=" + System.Web.HttpUtility.UrlEncode(Config.ProjectConfigLocation) + "|" + System.Web.HttpUtility.UrlEncode(Config.UserConfigLocation);
 
                 apiResult = ApiRequest(query, "", Config.Project);
 

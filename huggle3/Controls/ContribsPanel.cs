@@ -31,7 +31,7 @@ namespace huggle3.Controls
 {
     public partial class ContribsPanel : UserControl
     {
-        public user ThisUser;
+        public User ThisUser;
         public int Offset;
         public Edit SelectedEdit;
 

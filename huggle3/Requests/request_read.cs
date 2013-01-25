@@ -157,7 +157,7 @@ namespace huggle3.Requests
 
         public class blocklog : request_core.Request
         {
-            public user User;
+            public User User;
             public override void Process()
             {
                 Core.History("request_read");

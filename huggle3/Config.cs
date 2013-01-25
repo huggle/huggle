@@ -720,7 +720,7 @@ namespace huggle3
         /// <summary>
         /// Summaries for talk
         /// </summary>
-        public static Dictionary<Regex, user.UserLevel> UserTalkSummaries = new Dictionary<Regex, user.UserLevel>();
+        public static Dictionary<Regex, User.UserLevel> UserTalkSummaries = new Dictionary<Regex, User.UserLevel>();
         /// <summary>
         /// Custom summaries
         /// </summary>

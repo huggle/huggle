@@ -354,8 +354,8 @@ namespace huggle3
             public string Block_Comment;
             public string Block_Duration;
             public string Block_Action;
-            public user Block_Sysop;
-            public user Block_User;
+            public User Block_Sysop;
+            public User Block_User;
         }
 
         /// <summary>
@@ -372,17 +372,32 @@ namespace huggle3
         /// </summary>
         public class HistoryItem
         {
-            public string text;
-            public string url;
-            public Edit Edit;
+            /// <summary>
+            /// Summary
+            /// </summary>
+            public string text = null;
+            /// <summary>
+            /// URL
+            /// </summary>
+            public string url = null;
+            public Edit _Edit = null;
+
+            /// <summary>
+            /// Creates a new object
+            /// </summary>
+            /// <param name="_url">URL</param>
             public HistoryItem(string _url)
             {
                 this.url = _url;
             }
-
+            
+            /// <summary>
+            /// Creates a new object
+            /// </summary>
+            /// <param name="_edit">Edit</param>
             public HistoryItem(Edit _edit)
             {
-                this.Edit = _edit;
+                this._Edit = _edit;
             }
         }
 
@@ -399,15 +414,15 @@ namespace huggle3
         /// </summary>
         public class Protection
         {
-            public bool Cascading;
-            public bool Pending;
-            public string MoveLevel;
-            public string CreateLevel;
-            public string Action;
-            public string Summary;
-            public string EditLevel;
+            public bool Cascading = false;
+            public bool Pending = false;
+            public string MoveLevel = null;
+            public string CreateLevel = null;
+            public string Action = null;
+            public string Summary = null;
+            public string EditLevel = null;
             public System.DateTime Date;
-            public user Sysop;
+            public User Sysop;
         }
 
         /// <summary>
@@ -415,10 +430,10 @@ namespace huggle3
         /// </summary>
         public class Command
         {
-            public Edit Edit;
-            public string Description;
-            public user User;
-            public Page Page;
+            public Edit _Edit = null;
+            public string Description = null;
+            public User User = null;
+            public Page Page = null;
         }
 
         /// <summary>
@@ -438,21 +453,48 @@ namespace huggle3
         /// </summary>
         public class EditData
         {
-            public Edit Edit;
-            public Page Page;
-            public string CaptchaWord; // deprecated
-            public string CaptchaId;
-            public string Text;
-            public string Summary;
-            public string Section;
-            public string Token;
-            public string EditTime;
-            public bool Error;
-            public bool Creating;
-            public bool Minor;
-            public bool CannotUndo;
-            public bool Watch;
-            public bool AutoSummary;
+            /// <summary>
+            /// Edit
+            /// </summary>
+            public Edit _Edit = null;
+            /// <summary>
+            /// Page
+            /// </summary>
+            public Page _Page = null;
+            /// <summary>
+            /// Deprecated
+            /// </summary>
+            public string CaptchaWord = null;
+            /// <summary>
+            /// Deprecated
+            /// </summary>
+            public string CaptchaId = null;
+            /// <summary>
+            /// Text of edit
+            /// </summary>
+            public string Text = null;
+            /// <summary>
+            /// Summary
+            /// </summary>
+            public string Summary = null;
+            /// <summary>
+            /// Section ID
+            /// </summary>
+            public string Section = null;
+            /// <summary>
+            /// Token
+            /// </summary>
+            public string Token = null;
+            /// <summary>
+            /// Time of edit
+            /// </summary>
+            public string EditTime = null;
+            public bool Error = false;
+            public bool Creating = false;
+            public bool Minor = false;
+            public bool CannotUndo = true;
+            public bool Watch = false;
+            public bool AutoSummary = false;
         }
 
         /// <summary>
@@ -460,7 +502,7 @@ namespace huggle3
         /// </summary>
         public class Upload
         {
-            public user User;
+            public User User;
             public Page File;
         }
 
@@ -470,7 +512,7 @@ namespace huggle3
         public class Warning
         {
             public System.DateTime Date;
-            public user User;
+            public User User;
             
         }
 
@@ -863,10 +905,10 @@ namespace huggle3
         /// </summary>
         /// <param name="Name">User name</param>
         /// <returns></returns>
-        public static user GetUser(string Name)
+        public static User GetUser(string Name)
         {
             Core.History("GetUser()");
-            return new user(Name);
+            return new User(Name);
         }
 
         /// <summary>

@@ -66,7 +66,7 @@ namespace huggle3
         /// <summary>
         /// Warning level
         /// </summary>
-        public user.UserLevel LevelToWarn;
+        public User.UserLevel LevelToWarn;
         /// <summary>
         /// Multiple edit
         /// </summary>
@@ -150,11 +150,11 @@ namespace huggle3
         /// <summary>
         /// Edit User
         /// </summary>
-        public user _User = null;
+        public User _User = null;
         /// <summary>
         /// Value of warning the user has
         /// </summary>
-        public user.UserLevel WarningLevel;
+        public User.UserLevel WarningLevel;
 
         /// <summary>
         /// Return if edit is done by another HG user

@@ -66,17 +66,17 @@ namespace huggle3.Controls
 
                         switch (Edit.WarningLevel)
                         {
-                            case user.UserLevel.Warn1:
+                            case User.UserLevel.Warn1:
                                 gf.DrawString("!1", Font, Brushes.Black, x + 2, 3);
                                 break;
-                            case user.UserLevel.Warn2:
+                            case User.UserLevel.Warn2:
                                 gf.DrawString("!2", Font, Brushes.Black, x + 2, 3);
                                 break;
-                            case user.UserLevel.Warn3:
+                            case User.UserLevel.Warn3:
                                 gf.DrawString("!3", Font, Brushes.Black, x + 2, 3);
                                 break;
-                            case user.UserLevel.WarnFinal:
-                            case user.UserLevel.Warn4im:
+                            case User.UserLevel.WarnFinal:
+                            case User.UserLevel.Warn4im:
                                 gf.DrawString("!4", Font, Brushes.Black, x + 2, 3);
                                 break;
                         }

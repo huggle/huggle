@@ -165,7 +165,7 @@ namespace huggle3
                                 edit.Rcid = rcid;
                                 edit.Oldid = old_revid;
                                 edit.Summary = comment;
-                                edit._User = new huggle3.user(user, int.Parse(user_id));
+                                edit._User = new huggle3.User(user, int.Parse(user_id));
                                 edit._Change = int.Parse(oldlen) - int.Parse(newlen);
                                 edit._Time = DateTime.Parse(timestamp);
                                 Queue.Enqueue(edit);

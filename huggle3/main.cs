@@ -39,7 +39,7 @@ namespace huggle3
         /// <summary>
         /// Current user
         /// </summary>
-        public static user _CurrentUser;
+        public static User _CurrentUser;
         /// <summary>
         /// Queue
         /// </summary>
@@ -325,7 +325,7 @@ namespace huggle3
             return true;
         }
 
-        public bool Set_Current_User(user _user)
+        public bool Set_Current_User(User _user)
         {
             if (_user == null)
             {

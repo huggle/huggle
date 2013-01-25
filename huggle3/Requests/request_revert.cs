@@ -25,7 +25,7 @@ namespace huggle3.Requests
 {
     class request_revert : request_core.Request
     {
-        public user LastUser;
+        public User LastUser;
         public Edit Edit = new Edit();
 
     }

@@ -134,25 +134,25 @@ namespace huggle3
                             userName = userName.Substring(0, userName.IndexOf("]]")); 
                         }
 
-                        user RevertedUser = Core.GetUser(userName);
+                        User RevertedUser = Core.GetUser(userName);
 
-                        if (RevertedUser != _Edit._User && RevertedUser.User_Level == user.UserLevel.None)
+                        if (RevertedUser != _Edit._User && RevertedUser.User_Level == User.UserLevel.None)
                         {
-                            RevertedUser.User_Level = user.UserLevel.Reverted;
+                            RevertedUser.User_Level = User.UserLevel.Reverted;
                         }
                     }
                 }
 
                 if (_Edit.Next != null)
                 {
-                    if (_Edit.Next._Type == Edit.EditType.Revert && _Edit._User.User_Level == user.UserLevel.None)
+                    if (_Edit.Next._Type == Edit.EditType.Revert && _Edit._User.User_Level == User.UserLevel.None)
                     {
-                        _Edit._User.User_Level = user.UserLevel.Reverted;
+                        _Edit._User.User_Level = User.UserLevel.Reverted;
                     }
 
                     if (_Edit._Space == Space.UserTalk && _Edit._Page.IsSubpage)
                     {
-                        user.UserLevel Summary_Level;
+                        User.UserLevel Summary_Level;
                     }
                 }
             }
@@ -368,7 +368,7 @@ namespace huggle3
             Core.History("Processing.Process_Revert()");
             if (Edit == null)
                 return;
-            user LastUser = null;
+            User LastUser = null;
 
             if (Edit._Page.LastEdit != null)
             {
@@ -495,7 +495,7 @@ namespace huggle3
                     {
                         if (_edit._Page != null)
                         {
-                            if (BrowsingHistory != true && browser.History.Count == 0 || (browser.History[0].Edit is Edit) == false)
+                            if (BrowsingHistory != true && browser.History.Count == 0 || (browser.History[0]._Edit is Edit) == false)
                             {
                                 browser.AddToHistory(new Core.HistoryItem(_edit));
                             }
