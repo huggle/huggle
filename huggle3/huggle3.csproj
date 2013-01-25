@@ -357,8 +357,14 @@
     <EmbeddedResource Include="Forms\QueueForm.resx">
       <DependentUpon>QueueForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\QueueTrimForm.resx">
+      <DependentUpon>QueueTrimForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\RequestForm.resx">
       <DependentUpon>RequestForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\RevertAndWarnForm.resx">
+      <DependentUpon>RevertAndWarnForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\RevertForm.resx">
       <DependentUpon>RevertForm.cs</DependentUpon>

@@ -24,11 +24,30 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Forms;
 
 namespace huggle3
 {
     public static class Languages
     {
+        public static void Localize(Form form)
+        {
+            try
+            {
+                lock (form.Controls)
+                {
+                    foreach (Control control in form.Controls)
+                    {
+                        control.Text = Get(control.Text);
+                    }
+                }
+            }
+            catch (Exception fail)
+            {
+                Core.ExceptionHandler(fail);
+            }
+        }
+
 
         public static string Get(string id)
         {

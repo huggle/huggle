@@ -30,12 +30,12 @@
         {
             this.lblType = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.lists1 = new System.Windows.Forms.ListBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.buttonRename = new System.Windows.Forms.Button();
             this.buttonCopy = new System.Windows.Forms.Button();
             this.buttonDelete = new System.Windows.Forms.Button();
             this.buttonAdd = new System.Windows.Forms.Button();
+            this.lists1 = new System.Windows.Forms.ListBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -64,15 +64,6 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 17.48252F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(694, 433);
             this.tableLayoutPanel1.TabIndex = 6;
-            // 
-            // lists1
-            // 
-            this.lists1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lists1.FormattingEnabled = true;
-            this.lists1.Location = new System.Drawing.Point(3, 3);
-            this.lists1.Name = "lists1";
-            this.lists1.Size = new System.Drawing.Size(174, 351);
-            this.lists1.TabIndex = 2;
             // 
             // panel1
             // 
@@ -120,6 +111,15 @@
             this.buttonAdd.Text = "[[Add]]";
             this.buttonAdd.UseVisualStyleBackColor = true;
             // 
+            // lists1
+            // 
+            this.lists1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lists1.FormattingEnabled = true;
+            this.lists1.Location = new System.Drawing.Point(3, 3);
+            this.lists1.Name = "lists1";
+            this.lists1.Size = new System.Drawing.Size(174, 351);
+            this.lists1.TabIndex = 2;
+            // 
             // ListForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -129,6 +129,7 @@
             this.Controls.Add(this.lblType);
             this.Name = "ListForm";
             this.Text = "ListForm";
+            this.Load += new System.EventHandler(this.ListForm_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);

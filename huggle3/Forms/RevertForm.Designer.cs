@@ -37,6 +37,7 @@
             this.ClientSize = new System.Drawing.Size(506, 303);
             this.Name = "RevertForm";
             this.Text = "RevertForm";
+            this.Load += new System.EventHandler(this.RevertForm_Load);
             this.ResumeLayout(false);
 
         }

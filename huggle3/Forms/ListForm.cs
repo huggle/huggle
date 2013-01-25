@@ -33,5 +33,10 @@ namespace huggle3.Forms
         {
             InitializeComponent();
         }
+
+        private void ListForm_Load(object sender, EventArgs e)
+        {
+            Languages.Localize(this);
+        }
     }
 }

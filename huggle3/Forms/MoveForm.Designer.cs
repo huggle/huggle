@@ -37,6 +37,7 @@
             this.ClientSize = new System.Drawing.Size(390, 246);
             this.Name = "MoveForm";
             this.Text = "MoveForm";
+            this.Load += new System.EventHandler(this.MoveForm_Load);
             this.ResumeLayout(false);
 
         }

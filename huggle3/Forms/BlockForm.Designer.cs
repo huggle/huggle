@@ -37,6 +37,7 @@
             this.ClientSize = new System.Drawing.Size(444, 312);
             this.Name = "BlockForm";
             this.Text = "BlockForm";
+            this.Load += new System.EventHandler(this.BlockForm_Load);
             this.ResumeLayout(false);
 
         }

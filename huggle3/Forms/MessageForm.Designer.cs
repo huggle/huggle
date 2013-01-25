@@ -37,6 +37,7 @@
             this.ClientSize = new System.Drawing.Size(328, 279);
             this.Name = "MessageForm";
             this.Text = "MessageForm";
+            this.Load += new System.EventHandler(this.MessageForm_Load);
             this.ResumeLayout(false);
 
         }

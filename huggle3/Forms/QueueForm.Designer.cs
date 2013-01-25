@@ -37,6 +37,7 @@
             this.ClientSize = new System.Drawing.Size(398, 278);
             this.Name = "QueueForm";
             this.Text = "QueueForm";
+            this.Load += new System.EventHandler(this.QueueForm_Load);
             this.ResumeLayout(false);
 
         }

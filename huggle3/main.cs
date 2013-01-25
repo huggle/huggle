@@ -61,17 +61,7 @@ namespace huggle3
         public bool Localize()
         {
             Core.History("Main.Localize()");
-            this.newTabToolStripMenuItem.Text = Languages.Get("main-browser");
-            this.showNewMessagesToolStripMenuItem.Text = Languages.Get("main-system-messages");
-            this.userToolStripMenuItem.Text = Languages.Get("main-user");
-            this.showHistoryPageToolStripMenuItem.Text = Languages.Get("main-history");
-            this.LContribs.Text = Languages.Get("main-contribs");
-            this.systemToolStripMenuItem.Text = Languages.Get("main-system");
-            this.lHistory.Text = Languages.Get("main-history");
-            this.retrieveContributionsToolStripMenuItem.Text = Languages.Get("main-contribs");
-            this.clearCurrentToolStripMenuItem.Text = Languages.Get("main-queue-clear");
-            this.LUser.Text = Languages.Get("main-user");
-            this.LabelP.Text = Languages.Get("main-page");
+            Languages.Localize(this);
            
             return false;
         }

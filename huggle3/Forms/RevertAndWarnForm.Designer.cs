@@ -37,6 +37,7 @@
             this.ClientSize = new System.Drawing.Size(425, 268);
             this.Name = "RevertAndWarnForm";
             this.Text = "RevertAndWarnForm";
+            this.Load += new System.EventHandler(this.RevertAndWarnForm_Load);
             this.ResumeLayout(false);
 
         }

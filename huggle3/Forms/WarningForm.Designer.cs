@@ -37,6 +37,7 @@
             this.ClientSize = new System.Drawing.Size(482, 313);
             this.Name = "WarningForm";
             this.Text = "WarningForm";
+            this.Load += new System.EventHandler(this.WarningForm_Load);
             this.ResumeLayout(false);
 
         }

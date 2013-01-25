@@ -19,6 +19,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Text;
 
 namespace huggle3
@@ -26,12 +27,13 @@ namespace huggle3
     public class Plugin
     {
         public static List<Plugin> ExtensionList = new List<Plugin>();
-        public Status status;
+        public Status status = Status.Loading;
         public string Name = null;
+        public List<Thread> Threads = new List<Thread>();
 
         public Plugin()
         { 
-        
+            
         }
 
         public void Load()
@@ -51,7 +53,56 @@ namespace huggle3
             }
         }
 
+        public void Terminate()
+        {
+            status = Status.Terminating;
+            if (Hook_OnTerminate())
+            {
+                lock (ExtensionList)
+                {
+                    if (ExtensionList.Contains(this))
+                    {
+                        ExtensionList.Remove(this);
+                    }
+                }
+                status = Status.Terminated;
+            }
+            else
+            {
+                Kill();
+            }
+        }
+
+
+        /// <summary>
+        /// Mecilessly kill
+        /// </summary>
+        public void Kill()
+        {
+            try
+            {
+                status = Status.Terminating;
+                lock (ExtensionList)
+                {
+                    if (ExtensionList.Contains(this))
+                    {
+                        ExtensionList.Remove(this);
+                    }
+                }
+                status = Status.Terminated;
+            }
+            catch (Exception fail)
+            {
+                Core.ExceptionHandler(fail);
+            }
+        }
+
         public virtual bool Hook_RegisterSelf()
+        {
+            return true;
+        }
+
+        public virtual bool Hook_OnTerminate()
         {
             return true;
         }

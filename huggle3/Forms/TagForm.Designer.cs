@@ -37,6 +37,7 @@
             this.ClientSize = new System.Drawing.Size(419, 297);
             this.Name = "TagForm";
             this.Text = "TagForm";
+            this.Load += new System.EventHandler(this.TagForm_Load);
             this.ResumeLayout(false);
 
         }

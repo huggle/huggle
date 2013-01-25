@@ -37,6 +37,7 @@
             this.ClientSize = new System.Drawing.Size(602, 370);
             this.Name = "ProtectionForm";
             this.Text = "ProtectionForm";
+            this.Load += new System.EventHandler(this.ProtectionForm_Load);
             this.ResumeLayout(false);
 
         }

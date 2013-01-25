@@ -37,6 +37,7 @@
             this.ClientSize = new System.Drawing.Size(388, 310);
             this.Name = "StatsForm";
             this.Text = "StatsForm";
+            this.Load += new System.EventHandler(this.StatsForm_Load);
             this.ResumeLayout(false);
 
         }

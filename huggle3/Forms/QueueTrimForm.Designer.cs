@@ -37,6 +37,7 @@
             this.ClientSize = new System.Drawing.Size(347, 115);
             this.Name = "QueueTrimForm";
             this.Text = "QueueTrimForm";
+            this.Load += new System.EventHandler(this.QueueTrimForm_Load);
             this.ResumeLayout(false);
 
         }
