@@ -107,7 +107,7 @@ namespace huggle3
         /// <summary>
         /// 
         /// </summary>
-        public static List<Edit> PendingWarnings;
+        public static List<Edit> PendingWarnings = new List<Edit>();
         /// <summary>
         /// Languages info
         /// </summary>
@@ -441,6 +441,10 @@ namespace huggle3
         /// Parts of multiple revert
         /// </summary>
         public static List<string> MultipleRevertSummaryParts = new List<string>();
+        /// <summary>
+        /// Maximum number of messages in ring log
+        /// </summary>
+        public static int RingSize = 200000;
         /// <summary>
         /// If links should be opened in a browser
         /// </summary>

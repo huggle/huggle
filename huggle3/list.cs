@@ -26,6 +26,6 @@ namespace huggle3
 {
     public class list<T>
     {
-        List<T> items;
+        List<T> items = null;
     }
 }

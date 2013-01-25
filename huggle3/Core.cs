@@ -31,257 +31,8 @@ using System.Windows.Forms;
 
 namespace huggle3
 {
-    public static class Languages
+    public static partial class Core
     {
-        public static string Get(string id)
-        {
-            try
-            {
-                if (id.Contains("["))
-                {
-                    id = id.Replace("]", "");
-                    id = id.Replace("[", "");
-                }
-                // return string
-                if (Config.Messages.ContainsKey(Config.DefaultLanguage) != true && Config.Messages.ContainsKey(Config.Language) != true)
-                {
-                    return "<invalid language:" + id + ">";
-                }
-                if (Config.Messages[Config.Language].ContainsKey(id) == false)
-                { // if there is no such a language it returns the english one
-                    if (Config.Messages.ContainsKey(Config.DefaultLanguage) != true)
-                    {
-                        return "<not present in dict>" + id;
-                    }
-                    if (Config.Messages[Config.DefaultLanguage].ContainsKey(id))
-                    {
-                        return Config.Messages[Config.DefaultLanguage][id];
-                    }
-                    else
-                    {
-                        return "<invalid string:" + id + ">";
-                    }
-                }
-                else
-                {
-                    // got it
-                    if (Config.Messages[Config.Language].ContainsKey(id))
-                    {
-                        return Config.Messages[Config.Language][id];
-                    }
-                    return "<invalid string:" + id + ">";
-                }
-            }
-            catch (Exception A)
-            {
-                if (Config.devs)
-                {
-                    // This is ignored on production build
-                    Core.ExceptionHandler(A);
-                }
-            }
-            return "<invalid> " + id;
-        }
-    }
-    public static class Core
-    {
-        public static class Threading
-        {
-            private static int ThreadLast = 0;
-            private static int ThreadCount = 0;
-            private static List<ThreadS> ThreadList = new List<ThreadS>();
-            private class ThreadS
-            {
-                public string Decription;
-                public System.Threading.Thread handle;
-                public bool Active = false;
-            }
-
-            /// <summary>
-            /// This is only called when exiting
-            /// </summary>
-            /// <returns></returns>
-            public static bool DestroyCore()
-            {
-                // All threads are aborted (usually when application die)
-                int curr = 0;
-                while (curr < Core.MThread)
-                {
-                    KillThread(curr);
-                    curr++;
-                }
-                return true;
-            }
-
-            /// <summary>
-            /// Kill thread id
-            /// </summary>
-            /// <param name="N"></param>
-            /// <returns></returns>
-            public static bool KillThread(int N)
-            {
-                // request thread to be aborted
-                if (ThreadList[N].Active == false)
-                {
-                    return false;
-                }
-                if (ThreadList[N].handle.ThreadState == System.Threading.ThreadState.Aborted)
-                {
-                    // it's already down
-                    ThreadList[N].Active = false;
-                    ThreadList[N].Decription = "";
-                    ThreadCount = ThreadCount - 1;
-                    return false;
-                }
-                ThreadList[N].handle.Abort();
-                ThreadList[N].Active = false;
-                ThreadList[N].Decription = "";
-                ThreadCount = ThreadCount - 1;
-                return true;
-            }
-
-            /// <summary>
-            /// Insted of kill thread, safe method to release handle of thread which is about to be aborted, should be called as last action of thread
-            /// </summary>
-            /// <param name="Thread"></param>
-            public static void ReleaseHandle(int Thread)
-            {
-                if (ThreadList[Thread].Active == true)
-                {
-                    ThreadList[Thread].handle = null;
-                    ThreadList[Thread].Active = false;
-                    ThreadCount = ThreadCount - 1;
-                }
-            }
-
-            /// <summary>
-            /// Create a thread with name
-            /// </summary>
-            /// <param name="ThreadStart">Callback function</param>
-            /// <param name="name"></param>
-            /// <returns></returns>
-            public static int CreateThread(System.Threading.ThreadStart ThreadStart, string name)
-            {
-                try
-                {
-                    ThreadLast++;
-                    int ThreadID = ThreadLast;
-                        while (ThreadList[ThreadID].Active != false)
-                        {
-                            if (ThreadID > Core.MThread || ThreadID > ThreadList.Count)
-                            {
-                                ThreadID = 0;
-                            }
-                            else
-                            {
-                                ThreadID++;
-                            }
-                        }
-                    ThreadLast = ThreadID;
-                    ThreadList[ThreadID].Active = true;
-                    ThreadList[ThreadID].Decription = name;
-                    ThreadList[ThreadID].handle = new System.Threading.Thread(ThreadStart);
-                    ThreadList[ThreadID].handle.Name = name;
-                    ThreadCount = ThreadCount  + 1;
-                    return ThreadID;
-                }
-                catch (Exception A)
-                {
-                    Core.ExceptionHandler(A);
-                    return -1;
-                }
-            }
-
-            /// <summary>
-            /// Create thread with no name
-            /// </summary>
-            /// <param name="ThreadStart">Callback function</param>
-            /// <returns></returns>
-            public static int CreateThread(System.Threading.ThreadStart ThreadStart)
-            {
-                try
-                {
-                    ThreadLast++;
-                    int ThreadID = ThreadLast;
-                    while (ThreadList[ThreadID].Active != false)
-                    {
-                        if (ThreadID > Core.MThread)
-                        {
-                            ThreadID = 0;
-                        }
-                        else
-                        {
-                            ThreadID++;
-                        }
-                    }
-                    ThreadLast = ThreadID;
-                    ThreadList[ThreadID].Active = true;
-                    ThreadList[ThreadID].Decription= "Huggle";
-                    ThreadList[ThreadID].handle = new System.Threading.Thread(ThreadStart);
-                    return ThreadID;
-                }
-                catch (Exception A)
-                {
-                    return -1;
-                }
-            }
-
-            /// <summary>
-            /// Thread manager core
-            /// </summary>
-            public static void ManagerThread()
-            {
-                System.Threading.Thread.Sleep(2000);
-            }
-
-            /// <summary>
-            /// Only used for initialisation of the huggle
-            /// </summary>
-            public static void CreateList()
-            {
-                ThreadList.Clear();
-                int curr = 0;
-                while (curr < Core.MThread)
-                {
-                    curr++;
-                    ThreadList.Add(new ThreadS());
-                }
-            }
-
-            /// <summary>
-            /// Thread count
-            /// </summary>
-            public static int ThCount
-            {
-                get { return ThreadCount; }
-            }
-
-            /// <summary>
-            /// Return windows / linux handle of thread
-            /// </summary>
-            /// <param name="N"></param>
-            /// <returns></returns>
-            public static System.Threading.Thread GetHandle(int N)
-            {
-                return ThreadList[N].handle;
-            }
-
-            /// <summary>
-            /// Start
-            /// </summary>
-            /// <param name="ID"></param>
-            public static void Execute(int ID)
-            {
-                if (ThreadList[ID].Active == true)
-                {
-                    Core.WriteLog("Starting thread: " + ThreadList[ID].Decription);
-                    ThreadList[ID].handle.Start();
-                    return;
-                }
-                Core.WriteLog("Unable to start the thread, non existend handle");
-            }
-        }
-
         /// <summary>
         /// Container for system log which is in memory
         /// </summary>
@@ -304,7 +55,7 @@ namespace huggle3
         /// <summary>
         /// Custom reverts
         /// </summary>
-        public static Dictionary<Page, string> CustomReverts = new Dictionary<Page,string>();
+        public static Dictionary<Page, string> CustomReverts = new Dictionary<Page, string>();
         /// <summary>
         /// Current queue
         /// </summary>
@@ -317,16 +68,44 @@ namespace huggle3
         /// Edit token
         /// </summary>
         public static string EditToken;
+        /// <summary>
+        /// ??
+        /// </summary>
         public static bool HidingEdit = false;
+        /// <summary>
+        /// Last time RC was parsed (deprecated)
+        /// </summary>
         public static System.DateTime LastRCTime = new System.DateTime();
+        /// <summary>
+        /// Null edit
+        /// </summary>
         public static Edit NullEdit = new Edit();
-        public static string Patrol_Token;
+        /// <summary>
+        /// Patrol token
+        /// </summary>
+        public static string PatrolToken;
+        /// <summary>
+        /// Main thread this core run as
+        /// </summary>
         public static System.Threading.Thread MainThread;
+        /// <summary>
+        /// Months in system language
+        /// </summary>
         public static string[] months;
+        /// <summary>
+        /// Current status of core
+        /// </summary>
+        public static Status status = Status.Running;
 
+        /// <summary>
+        /// Process of huggle
+        /// </summary>
         public static System.Diagnostics.Process Process;
 
-        public const int MThread=600; // Maximum number of threads in core
+        /// <summary>
+        /// Maximum number of threads in core
+        /// </summary>
+        public const int MThread = 600;
 
         /// <summary>
         /// Should contain list of all static arrays of objects accessible everywhere
@@ -341,8 +120,14 @@ namespace huggle3
         /// </summary>
         public struct SpecialThreads
         {
-            public static System.Threading.Thread RecoveryThread;
-            public static System.Threading.Thread ThreadManager;
+            public static System.Threading.Thread RecoveryThread = null;
+            public static System.Threading.Thread ThreadManager = null;
+        }
+
+        public enum Status
+        { 
+            Running,
+            Stopped
         }
 
         /// <summary>
@@ -390,7 +175,7 @@ namespace huggle3
             {
                 this.url = _url;
             }
-            
+
             /// <summary>
             /// Creates a new object
             /// </summary>
@@ -513,7 +298,7 @@ namespace huggle3
         {
             public System.DateTime Date;
             public User User;
-            
+
         }
 
         /// <summary>
@@ -522,7 +307,7 @@ namespace huggle3
         /// <returns></returns>
         public static string LocalPath()
         {
-            return Application.LocalUserAppDataPath + "huggle3" + Path.DirectorySeparatorChar;
+            return Application.LocalUserAppDataPath + Path.DirectorySeparatorChar + "huggle3" + Path.DirectorySeparatorChar;
         }
 
         /// <summary>
@@ -592,8 +377,8 @@ namespace huggle3
             //
             Core.History("FindString(string, string, string, string)");
             if (Source == null)
-            {    return null; }
-            
+            { return null; }
+
             if (Source.Contains(from1) != true)
             {
                 return null;
@@ -757,7 +542,7 @@ namespace huggle3
         {
             Core.History("TargetBuild()");
             switch (Config._Platform)
-            { 
+            {
                 case Config.platform.windows32:
                     return "Windows x86";
                 case Config.platform.linux32:
@@ -835,7 +620,7 @@ namespace huggle3
                     }
                     else
                     {
-                        text_html = text_html.Substring(0, text_html.IndexOf("<a href=")) + "[[" + target + "|" +text + "]]" + Core.FindString(text_html, "</a>");
+                        text_html = text_html.Substring(0, text_html.IndexOf("<a href=")) + "[[" + target + "|" + text + "]]" + Core.FindString(text_html, "</a>");
                     }
                 }
             }
@@ -922,7 +707,8 @@ namespace huggle3
             if (i < 1 || i > 12)
             {
                 return "";
-            }else
+            }
+            else
             {
                 return months[i];
             }
@@ -971,7 +757,7 @@ namespace huggle3
         /// </summary>
         /// <returns></returns>
         public static bool InitConfig()
-        {   
+        {
             Core.History("Core.InitConfig()");
             Config.Whitelist.Clear();
             Config.Approval = false;
@@ -1109,10 +895,10 @@ namespace huggle3
                 {
                     Config.Messages.Remove(language);
                 }
-                Config.Messages.Add(language , new Dictionary<string, string>());
-                foreach ( string message in data.Split(new string[] {"\n"}, StringSplitOptions.RemoveEmptyEntries) )
+                Config.Messages.Add(language, new Dictionary<string, string>());
+                foreach (string message in data.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries))
                 {
-                    if ( message.Contains(":") )
+                    if (message.Contains(":"))
                     {
                         string message_value = message.Substring(message.IndexOf(":") + 1).Trim(' ').Replace("\n", "").Replace(Convert.ToChar(13).ToString(), "").Replace(Convert.ToChar(10).ToString(), "");
                         string message_name = message.Substring(0, message.IndexOf(":")).Trim(' ');
@@ -1125,7 +911,7 @@ namespace huggle3
                             if (Config.devs)
                             {
                                 // we are dev so we want to know that there is a mistake in the db
-                                DebugLog("Duplicate entry: "+ message_name + "\n");
+                                DebugLog("Duplicate entry: " + message_name + "\n");
                             }
                         }
                     }
@@ -1155,6 +941,7 @@ namespace huggle3
             Process = System.Diagnostics.Process.GetCurrentProcess();
             Core.History("Core.Initialise()");
             WriteLog("Huggle " + Application.ProductVersion.ToString() + " starting");
+            WriteLog("Directory: " + LocalPath());
             WriteLog("OS " + Environment.OSVersion.ToString());
             Config.DefaultLanguage = "en";
             MainThread = System.Threading.Thread.CurrentThread;
@@ -1162,7 +949,7 @@ namespace huggle3
             Core.Threading.CreateList();
             WriteLog("Loading config");
             InitConfig();
-            
+
             Config.Language = Config.DefaultLanguage;
             System.GC.Collect();
             LoadLanguages();
@@ -1188,7 +975,7 @@ namespace huggle3
                 Core.Suspend();
                 return false;
             }
-            else  if(SpecialThreads.RecoveryThread.ThreadState == System.Threading.ThreadState.Aborted || SpecialThreads.RecoveryThread.ThreadState == System.Threading.ThreadState.Stopped)
+            else if (SpecialThreads.RecoveryThread.ThreadState == System.Threading.ThreadState.Aborted || SpecialThreads.RecoveryThread.ThreadState == System.Threading.ThreadState.Stopped)
             {
                 SpecialThreads.RecoveryThread = new System.Threading.Thread(CreateEx);
                 SpecialThreads.RecoveryThread.Name = "Recovery thread";
@@ -1202,7 +989,7 @@ namespace huggle3
             {
                 Core.Suspend();
             }
-            
+
             return true;
         }
 
@@ -1219,7 +1006,14 @@ namespace huggle3
         public static void WriteLog(string text)
         {
             string x = DateTime.Now.ToString() + ": " + text;
-            SystemLog.Add(x);
+            lock (SystemLog)
+            {
+                while (SystemLog.Count > Config.RingSize)
+                {
+                    SystemLog.RemoveAt(0);
+                }
+                SystemLog.Add(x);
+            }
             Console.WriteLine(x);
         }
 

@@ -26,7 +26,14 @@ namespace huggle3
 {
     public class User
     {
-        public Edit LastEdit; // last edit of user
+        /// <summary>
+        /// List of all instances of object
+        /// </summary>
+        public static List<User> UserList = new List<User>();
+        /// <summary>
+        /// last edit of user
+        /// </summary>
+        public Edit LastEdit;
         /// <summary>
         /// Anonymous
         /// </summary>
@@ -35,14 +42,17 @@ namespace huggle3
         /// Edit count of user
         /// </summary>
         private int EditCount = 0;
-        private bool SharedIP = false; // wheter it's a shared ip
-        public static List<User> UserList = new List<User>();
+        /// <summary>
+        /// Whether it's a shared ip
+        /// </summary>
+        private bool SharedIP = false;
         /// <summary>
         /// User is a bot
         /// </summary>
         public bool Bot;
         /// <summary>
-        /// 
+        /// Level of this user one of None, Notification, Reverted, ReportedUAA, Message, Warning, Warn1, Warn2, Warn3, Warn4im,
+        /// WarnFinal, ReportedAIV, Blocked
         /// </summary>
         public UserLevel User_Level;
         /// <summary>
@@ -53,7 +63,9 @@ namespace huggle3
         /// Real name of user
         /// </summary>
         public string UserName = null;
-
+        /// <summary>
+        /// User id
+        /// </summary>
         public int ID = 0;
 
         /// <summary>
@@ -67,13 +79,21 @@ namespace huggle3
             }
         }
 
+        /// <summary>
+        /// Creates a new user
+        /// </summary>
+        /// <param name="name">Name of this user</param>
         public User(string name)
         {
-            // contructor of class
             this.UserName = name;
             this.EditCount = -1;
         }
 
+        /// <summary>
+        /// Creates a new user
+        /// </summary>
+        /// <param name="name">Name of this user</param>
+        /// <param name="ID">Wiki ID</param>
         public User(string name, int ID)
         {
             this.UserName = name;
@@ -93,10 +113,10 @@ namespace huggle3
         }
 
         /// <summary>
-        /// Sanitize
+        /// Removes wrong chars from user name
         /// </summary>
-        /// <param name="Name"></param>
-        /// <returns></returns>
+        /// <param name="Name">Name to be corrected</param>
+        /// <returns>Returns corrected user name</returns>
         public string SanitizeUsername(string Name)
         {
             Core.History("user.SanitizeUsername( Name )");
@@ -108,9 +128,12 @@ namespace huggle3
             return Name;
         }
 
+        /// <summary>
+        /// Get a name of talk page
+        /// </summary>
         public string TalkPage
         {
-            get { return "Talk:"; }
+            get { return "User talk:" + UserName; }
         }
 
         /// <summary>

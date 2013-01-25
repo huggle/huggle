@@ -34,7 +34,7 @@ namespace huggle3
             Core.History("Processing.ProcessNewEdit()");
             try
             {
-                bool Redraw = false;
+                //bool Redraw = false;
                 if (_Edit._Page.LastEdit != null)
                 {
                     _Edit.Prev = _Edit._Page.LastEdit;

@@ -261,6 +261,7 @@
     </Compile>
     <Compile Include="Hook.cs" />
     <Compile Include="irc.cs" />
+    <Compile Include="Languages.cs" />
     <Compile Include="list.cs" />
     <Compile Include="login.cs" />
     <Compile Include="Forms\LoginForm.cs">
@@ -291,6 +292,7 @@
     <Compile Include="Requests\request_report.cs" />
     <Compile Include="Requests\request_revert.cs" />
     <Compile Include="space.cs" />
+    <Compile Include="ThreadingSystem.cs" />
     <Compile Include="user.cs" />
     <EmbeddedResource Include="Forms\ConfigForm.resx">
       <DependentUpon>ConfigForm.cs</DependentUpon>

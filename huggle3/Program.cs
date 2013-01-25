@@ -12,10 +12,7 @@
 /// Login form also creates main form, which can be unloaded anytime.
 /// </DOCUMENTATION>
 
-
-//last modified by Petrb
-
-//Copyright (C) 2011-2012 Huggle team
+//Copyright (C) 2011-2013 Huggle team
 
 //This program is free software: you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by

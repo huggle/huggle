@@ -42,6 +42,9 @@ namespace huggle3
         /// Diff
         /// </summary>
         public string _ChangedContent = null;
+        /// <summary>
+        /// List of all edits loaded in memory
+        /// </summary>
         public static Dictionary<string, Edit> All = new Dictionary<string,Edit>();
         /// <summary>
         /// Removed edit
@@ -155,7 +158,6 @@ namespace huggle3
         /// Value of warning the user has
         /// </summary>
         public User.UserLevel WarningLevel;
-
         /// <summary>
         /// Return if edit is done by another HG user
         /// </summary>
