@@ -30,15 +30,42 @@ namespace huggle3
 {
     public static class Languages
     {
+        public static List<Control> GetControls(Control form)
+        {
+            var controlList = new List<Control>();
+
+            foreach (Control childControl in form.Controls)
+            {
+                // Recurse child controls.
+                controlList.AddRange(GetControls(childControl));
+                controlList.Add(childControl);
+            }
+            return controlList;
+        }
+
         public static void Localize(Form form)
         {
             try
             {
                 lock (form.Controls)
                 {
-                    foreach (Control control in form.Controls)
+                    foreach (Control control in GetControls(form))
                     {
-                        control.Text = Get(control.Text);
+                        if (control.Text.StartsWith("[["))
+                        {
+                            control.Text = Get(control.Text.Substring(2).Replace("]]", ""));
+                        }
+                        /*if (control.GetType() == typeof(MenuStrip))
+                        {
+                            MenuStrip menu = (MenuStrip)control;
+                            foreach (ToolStripMenuItem item in menu.Items)
+                            {
+                                if (item.Text.StartsWith("[["))
+                                {
+                                    item.Text = Get(item.Text.Substring(2).Replace("]]", ""));
+                                }
+                            }
+                        } */
                     }
                 }
             }

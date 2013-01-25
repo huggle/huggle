@@ -84,7 +84,7 @@
             this.lPassword.Name = "lPassword";
             this.lPassword.Size = new System.Drawing.Size(83, 13);
             this.lPassword.TabIndex = 2;
-            this.lPassword.Text = "[login-password]";
+            this.lPassword.Text = "[[login-password]]";
             // 
             // lblName
             // 
@@ -93,7 +93,7 @@
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(84, 13);
             this.lblName.TabIndex = 0;
-            this.lblName.Text = "[login-username]";
+            this.lblName.Text = "[[login-username]]";
             // 
             // btLogin
             // 
@@ -102,7 +102,7 @@
             this.btLogin.Name = "btLogin";
             this.btLogin.Size = new System.Drawing.Size(296, 25);
             this.btLogin.TabIndex = 10;
-            this.btLogin.Text = "[login-start]";
+            this.btLogin.Text = "[[login-start]]";
             this.btLogin.UseVisualStyleBackColor = true;
             this.btLogin.Click += new System.EventHandler(this.btLogin_Click);
             // 
@@ -112,7 +112,7 @@
             this.btExit.Name = "btExit";
             this.btExit.Size = new System.Drawing.Size(100, 25);
             this.btExit.TabIndex = 12;
-            this.btExit.Text = "[exit]";
+            this.btExit.Text = "[[exit]]";
             this.btExit.UseVisualStyleBackColor = true;
             this.btExit.Click += new System.EventHandler(this.btExit_Click);
             // 
@@ -123,7 +123,7 @@
             this.lbl_Project.Name = "lbl_Project";
             this.lbl_Project.Size = new System.Drawing.Size(70, 13);
             this.lbl_Project.TabIndex = 4;
-            this.lbl_Project.Text = "[login-project]";
+            this.lbl_Project.Text = "[[login-project]]";
             // 
             // lbl_Language
             // 
@@ -132,7 +132,7 @@
             this.lbl_Language.Name = "lbl_Language";
             this.lbl_Language.Size = new System.Drawing.Size(82, 13);
             this.lbl_Language.TabIndex = 6;
-            this.lbl_Language.Text = "[login-language]";
+            this.lbl_Language.Text = "[[login-language]]";
             // 
             // cmLanguage
             // 
@@ -180,7 +180,7 @@
             this.lProxy.Size = new System.Drawing.Size(90, 13);
             this.lProxy.TabIndex = 13;
             this.lProxy.TabStop = true;
-            this.lProxy.Text = "[login-proxygroup]";
+            this.lProxy.Text = "[[login-proxygroup]]";
             this.lProxy.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lTranslate
@@ -192,7 +192,7 @@
             this.lTranslate.Size = new System.Drawing.Size(82, 13);
             this.lTranslate.TabIndex = 0;
             this.lTranslate.TabStop = true;
-            this.lTranslate.Text = "[login-language]";
+            this.lTranslate.Text = "[[login-translate]]";
             this.lTranslate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // timer
@@ -206,7 +206,7 @@
             this.checkBox.Name = "checkBox";
             this.checkBox.Size = new System.Drawing.Size(44, 17);
             this.checkBox.TabIndex = 14;
-            this.checkBox.Text = "[ssl]";
+            this.checkBox.Text = "[[login-ssl]]";
             this.checkBox.UseVisualStyleBackColor = true;
             this.checkBox.CheckedChanged += new System.EventHandler(this.checkBox_CheckedChanged);
             // 

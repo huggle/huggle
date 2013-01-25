@@ -963,34 +963,54 @@ namespace huggle3
         /// <returns></returns>
         public static bool ExceptionHandler(Exception error_handle, bool panic = false)
         {
-            core_er = error_handle;
-            WriteLog("EXCEPTION: " + error_handle.Message);
-            if (SpecialThreads.RecoveryThread == null)
+            try
             {
-                SpecialThreads.RecoveryThread = new System.Threading.Thread(CreateEx);
-                SpecialThreads.RecoveryThread.Name = "Recovery thread";
+                WriteLog("EXCEPTION: " + error_handle.Message);
+                if (!panic)
+                {
+                    if (System.Threading.Thread.CurrentThread != MainThread)
+                    {
+                        if (typeof(System.Threading.ThreadAbortException) == error_handle.GetType())
+                        {
+                            WriteLog("Suppressing non panic exception ThreadAbortException: " + error_handle.StackTrace);
+                            return true;
+                        }
+                    }
+                }
+                core_er = error_handle;
+                if (SpecialThreads.RecoveryThread == null)
+                {
+                    SpecialThreads.RecoveryThread = new System.Threading.Thread(CreateEx);
+                    SpecialThreads.RecoveryThread.Name = "Recovery thread";
+                }
+                else if (SpecialThreads.RecoveryThread.ThreadState == System.Threading.ThreadState.Running)
+                {
+                    Core.Suspend();
+                    return false;
+                }
+                else if (SpecialThreads.RecoveryThread.ThreadState == System.Threading.ThreadState.Aborted || SpecialThreads.RecoveryThread.ThreadState == System.Threading.ThreadState.Stopped)
+                {
+                    SpecialThreads.RecoveryThread = new System.Threading.Thread(CreateEx);
+                    SpecialThreads.RecoveryThread.Name = "Recovery thread";
+                }
+                SpecialThreads.RecoveryThread.Start();
+                if (panic == true)
+                {
+                    StopAll();
+                }
+                if (MainThread == System.Threading.Thread.CurrentThread)
+                {
+                    Core.Suspend();
+                }
+                return true;
             }
-            else if (SpecialThreads.RecoveryThread.ThreadState == System.Threading.ThreadState.Running)
+            catch (Exception fail)
             {
-                Core.Suspend();
+                Console.WriteLine("Huggle3 thrown exception during handling of another one, killing");
+                Console.WriteLine(fail.StackTrace + "\n\n" + fail.Message);
+                Process.Kill();
                 return false;
             }
-            else if (SpecialThreads.RecoveryThread.ThreadState == System.Threading.ThreadState.Aborted || SpecialThreads.RecoveryThread.ThreadState == System.Threading.ThreadState.Stopped)
-            {
-                SpecialThreads.RecoveryThread = new System.Threading.Thread(CreateEx);
-                SpecialThreads.RecoveryThread.Name = "Recovery thread";
-            }
-            SpecialThreads.RecoveryThread.Start();
-            if (panic == true)
-            {
-                StopAll();
-            }
-            if (MainThread == System.Threading.Thread.CurrentThread)
-            {
-                Core.Suspend();
-            }
-
-            return true;
         }
 
         /// <summary>

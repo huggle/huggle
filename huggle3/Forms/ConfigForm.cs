@@ -35,35 +35,6 @@ namespace huggle3
             InitializeComponent();
         }
 
-        ///<summary>
-        ///Localize
-        ///</summary>
-        private void Localize()
-        {
-            Core.History("Configuration.Localize()");
-            this.Text = Languages.Get("config-title");
-            this.bSave.Text = Languages.Get("ok");
-            this.Cancel.Text = Languages.Get("cancel");
-            this.groupBox1.Text = Languages.Get("config-general");
-            this.groupBox2.Text = Languages.Get("config-interface");
-            this.groupBox3.Text = Languages.Get("config-keyboard");
-            this.groupBox4.Text = Languages.Get("config-editing");
-            this.groupBox5.Text = Languages.Get("config-reverting");
-            this.groupBox6.Text = Languages.Get("config-reporting");
-            this.groupBox7.Text = Languages.Get("config-templates-id");
-            this.groupBox8.Text = Languages.Get("config-editor");
-            this.groupBox9.Text = Languages.Get("config-admin");
-            this.labelPort.Text = Languages.Get("config-port");
-            this.labelSize.Text = Languages.Get("config-diff-font-size");
-            this.cbIRC.Text = Languages.Get(cbIRC.Text);
-            this.cbOIB.Text = Languages.Get(cbOIB.Text);
-            this.cbRememberUsername.Text = Languages.Get(cbRememberUsername.Text);
-            this.cbShowNewEdits.Text = Languages.Get(cbShowNewEdits.Text);
-            this.cbRememberPassword.Text = Languages.Get(cbRememberPassword.Text);
-            this.cbAutoWhitelist.Text = Languages.Get(cbAutoWhitelist.Text);
-            this.cbDiffPreload.Text = Languages.Get(cbDiffPreload.Text);
-        }
-
         public void Tab(int key)
         {
             this.groupBox1.Visible = false;
@@ -110,7 +81,6 @@ namespace huggle3
         public void Config_Load()
         {
             //Load all config values
-            Languages.Localize(this);
             Core.History("Configuration.Config_Load()");
             this.cbIRC.Checked = Config.UseIrc;
             this.cbOIB.Checked = Config.OpenInBrowser;
@@ -140,7 +110,7 @@ namespace huggle3
         /// <param name="e"></param>
         private void ConfigForm_Load(object sender, EventArgs e)
         {
-            Localize();
+            Languages.Localize(this);
             Config_Load();
             listView1.Items.Add("general", Languages.Get("config-general"), 0);
             listView1.Items.Add("interface", Languages.Get("config-interface"), 0);

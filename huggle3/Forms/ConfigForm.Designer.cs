@@ -31,8 +31,13 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.listView1 = new System.Windows.Forms.ListView();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.cbIRC = new System.Windows.Forms.CheckBox();
             this.cbDiffPreload = new System.Windows.Forms.CheckBox();
@@ -45,21 +50,16 @@
             this.labelPort = new System.Windows.Forms.Label();
             this.textPort = new System.Windows.Forms.TextBox();
             this.listSize = new System.Windows.Forms.ListBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.groupBox7 = new System.Windows.Forms.GroupBox();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.groupBox8 = new System.Windows.Forms.GroupBox();
-            this.groupBox9 = new System.Windows.Forms.GroupBox();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.bSave = new System.Windows.Forms.Button();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.Cancel = new System.Windows.Forms.Button();
+            this.bSave = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -112,30 +112,70 @@
             this.listView1.TabIndex = 5;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.List;
+            this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
             // 
-            // groupBox2
+            // groupBox5
             // 
-            this.groupBox2.Location = new System.Drawing.Point(19, 115);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(46, 60);
-            this.groupBox2.TabIndex = 5;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "groupBox2";
+            this.groupBox5.Location = new System.Drawing.Point(462, 189);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(109, 130);
+            this.groupBox5.TabIndex = 18;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "[[config-reverting]]";
             // 
-            // tableLayoutPanel2
+            // groupBox9
             // 
-            this.tableLayoutPanel2.ColumnCount = 2;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 180F));
-            this.tableLayoutPanel2.Controls.Add(this.Cancel, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.bSave, 0, 0);
-            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 393);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 1;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(783, 54);
-            this.tableLayoutPanel2.TabIndex = 1;
+            this.groupBox9.Location = new System.Drawing.Point(390, 68);
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.Size = new System.Drawing.Size(89, 113);
+            this.groupBox9.TabIndex = 17;
+            this.groupBox9.TabStop = false;
+            this.groupBox9.Text = "[[config-admin]]";
+            // 
+            // groupBox8
+            // 
+            this.groupBox8.Location = new System.Drawing.Point(241, 208);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Size = new System.Drawing.Size(100, 118);
+            this.groupBox8.TabIndex = 16;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "[[config-editor]]";
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Location = new System.Drawing.Point(347, 208);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(98, 111);
+            this.groupBox6.TabIndex = 15;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "[[config-reporting]]";
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Location = new System.Drawing.Point(191, 208);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(37, 118);
+            this.groupBox4.TabIndex = 14;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "[[config-editing]]";
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Location = new System.Drawing.Point(241, 70);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(87, 113);
+            this.groupBox7.TabIndex = 13;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "[[config-templates]]";
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Location = new System.Drawing.Point(347, 70);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(37, 113);
+            this.groupBox3.TabIndex = 12;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "[[config-keyboard]]";
             // 
             // groupBox1
             // 
@@ -150,12 +190,12 @@
             this.groupBox1.Controls.Add(this.labelPort);
             this.groupBox1.Controls.Add(this.textPort);
             this.groupBox1.Controls.Add(this.listSize);
-            this.groupBox1.Location = new System.Drawing.Point(129, 70);
+            this.groupBox1.Location = new System.Drawing.Point(14, 26);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(106, 112);
+            this.groupBox1.Size = new System.Drawing.Size(142, 325);
             this.groupBox1.TabIndex = 11;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "groupBox1";
+            this.groupBox1.Text = "[[config-general]]";
             // 
             // cbIRC
             // 
@@ -182,9 +222,9 @@
             this.cbShowNewEdits.AutoSize = true;
             this.cbShowNewEdits.Location = new System.Drawing.Point(19, 111);
             this.cbShowNewEdits.Name = "cbShowNewEdits";
-            this.cbShowNewEdits.Size = new System.Drawing.Size(38, 17);
+            this.cbShowNewEdits.Size = new System.Drawing.Size(67, 17);
             this.cbShowNewEdits.TabIndex = 8;
-            this.cbShowNewEdits.Text = "[[]]";
+            this.cbShowNewEdits.Text = "[[config]]";
             this.cbShowNewEdits.UseVisualStyleBackColor = true;
             // 
             // cbOIB
@@ -192,9 +232,9 @@
             this.cbOIB.AutoSize = true;
             this.cbOIB.Location = new System.Drawing.Point(19, 88);
             this.cbOIB.Name = "cbOIB";
-            this.cbOIB.Size = new System.Drawing.Size(130, 17);
+            this.cbOIB.Size = new System.Drawing.Size(139, 17);
             this.cbOIB.TabIndex = 7;
-            this.cbOIB.Text = "[[config-openinbrows]]";
+            this.cbOIB.Text = "[[config-openinbrowser]]";
             this.cbOIB.UseVisualStyleBackColor = true;
             // 
             // cbAutoWhitelist
@@ -260,68 +300,39 @@
             this.listSize.Size = new System.Drawing.Size(87, 17);
             this.listSize.TabIndex = 0;
             // 
-            // groupBox3
+            // groupBox2
             // 
-            this.groupBox3.Location = new System.Drawing.Point(347, 70);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(98, 113);
-            this.groupBox3.TabIndex = 12;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "groupBox3";
+            this.groupBox2.Location = new System.Drawing.Point(485, 70);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(156, 84);
+            this.groupBox2.TabIndex = 5;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "[[config-interface]]";
             // 
-            // groupBox7
+            // tableLayoutPanel2
             // 
-            this.groupBox7.Location = new System.Drawing.Point(241, 70);
-            this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(87, 113);
-            this.groupBox7.TabIndex = 13;
-            this.groupBox7.TabStop = false;
-            this.groupBox7.Text = "groupBox7";
+            this.tableLayoutPanel2.ColumnCount = 2;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 180F));
+            this.tableLayoutPanel2.Controls.Add(this.Cancel, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.bSave, 0, 0);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 393);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 1;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(783, 54);
+            this.tableLayoutPanel2.TabIndex = 1;
             // 
-            // groupBox4
+            // Cancel
             // 
-            this.groupBox4.Location = new System.Drawing.Point(129, 208);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(99, 118);
-            this.groupBox4.TabIndex = 14;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "groupBox4";
-            // 
-            // groupBox6
-            // 
-            this.groupBox6.Location = new System.Drawing.Point(347, 208);
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(98, 111);
-            this.groupBox6.TabIndex = 15;
-            this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "groupBox6";
-            // 
-            // groupBox8
-            // 
-            this.groupBox8.Location = new System.Drawing.Point(241, 208);
-            this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(100, 118);
-            this.groupBox8.TabIndex = 16;
-            this.groupBox8.TabStop = false;
-            this.groupBox8.Text = "groupBox8";
-            // 
-            // groupBox9
-            // 
-            this.groupBox9.Location = new System.Drawing.Point(462, 69);
-            this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(109, 113);
-            this.groupBox9.TabIndex = 17;
-            this.groupBox9.TabStop = false;
-            this.groupBox9.Text = "groupBox9";
-            // 
-            // groupBox5
-            // 
-            this.groupBox5.Location = new System.Drawing.Point(462, 189);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(109, 130);
-            this.groupBox5.TabIndex = 18;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "groupBox5";
+            this.Cancel.Location = new System.Drawing.Point(606, 3);
+            this.Cancel.Name = "Cancel";
+            this.Cancel.Size = new System.Drawing.Size(104, 23);
+            this.Cancel.TabIndex = 3;
+            this.Cancel.Text = "[[config-close]]";
+            this.Cancel.UseVisualStyleBackColor = true;
+            this.Cancel.Click += new System.EventHandler(this.Cancel_Click);
             // 
             // bSave
             // 
@@ -330,17 +341,9 @@
             this.bSave.Name = "bSave";
             this.bSave.Size = new System.Drawing.Size(99, 23);
             this.bSave.TabIndex = 2;
-            this.bSave.Text = "button1";
+            this.bSave.Text = "[[config-save]]";
             this.bSave.UseVisualStyleBackColor = true;
-            // 
-            // Cancel
-            // 
-            this.Cancel.Location = new System.Drawing.Point(606, 3);
-            this.Cancel.Name = "Cancel";
-            this.Cancel.Size = new System.Drawing.Size(104, 23);
-            this.Cancel.TabIndex = 3;
-            this.Cancel.Text = "Close";
-            this.Cancel.UseVisualStyleBackColor = true;
+            this.bSave.Click += new System.EventHandler(this.bSave_Click);
             // 
             // ConfigForm
             // 
@@ -350,15 +353,15 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "ConfigForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Config";
+            this.Text = "[[config-title]]";
             this.Load += new System.EventHandler(this.ConfigForm_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.ResumeLayout(false);
-            this.tableLayoutPanel2.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.tableLayoutPanel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

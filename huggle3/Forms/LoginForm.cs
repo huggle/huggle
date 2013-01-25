@@ -42,12 +42,7 @@ namespace huggle3
         /// </summary>
         private bool Localize()
         {
-            this.lbl_Language.Text = Languages.Get("login-language");
-            this.lbl_Project.Text = Languages.Get("login-project");
-            this.btExit.Text = Languages.Get("exit"); //This used to be 'login-exit' but this doesn't exist so using 'exit' instead
-            this.btLogin.Text = Languages.Get("login-start");
-            this.lPassword.Text = Languages.Get("login-password");
-            this.checkBox.Text = Languages.Get("login-ssl");
+            Languages.Localize(this);
             this.Text = "Huggle " + Application.ProductVersion.ToString();
             if (Config.devs)
             { 
@@ -57,9 +52,6 @@ namespace huggle3
             {
                 this.Text = this.Text + " (Testing only)";
             }
-            this.lblName.Text = Languages.Get("login-username");
-            this.lProxy.Text = Languages.Get("login-proxygroup");
-            this.lTranslate.Text = Languages.Get("login-translate");
             return false;
         }
 

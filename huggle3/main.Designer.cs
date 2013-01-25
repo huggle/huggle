@@ -614,50 +614,50 @@
             this.exitToolStripMenuItem,
             this.systemWindowToolStripMenuItem});
             this.systemToolStripMenuItem.Name = "systemToolStripMenuItem";
-            this.systemToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
-            this.systemToolStripMenuItem.Text = "System";
+            this.systemToolStripMenuItem.Size = new System.Drawing.Size(104, 20);
+            this.systemToolStripMenuItem.Text = "[[main-system]]";
             // 
             // showNewMessagesToolStripMenuItem
             // 
             this.showNewMessagesToolStripMenuItem.Name = "showNewMessagesToolStripMenuItem";
-            this.showNewMessagesToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.showNewMessagesToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
             this.showNewMessagesToolStripMenuItem.Text = "Show new messages";
             // 
             // toolStripMenuItem11
             // 
             this.toolStripMenuItem11.Name = "toolStripMenuItem11";
-            this.toolStripMenuItem11.Size = new System.Drawing.Size(179, 6);
+            this.toolStripMenuItem11.Size = new System.Drawing.Size(201, 6);
             // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
-            this.optionsToolStripMenuItem.Text = "Options";
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.optionsToolStripMenuItem.Text = "[[main-system-options]]";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
             // toolStripMenuItem12
             // 
             this.toolStripMenuItem12.Name = "toolStripMenuItem12";
-            this.toolStripMenuItem12.Size = new System.Drawing.Size(179, 6);
+            this.toolStripMenuItem12.Size = new System.Drawing.Size(201, 6);
             // 
             // logoutToolStripMenuItem
             // 
             this.logoutToolStripMenuItem.Name = "logoutToolStripMenuItem";
-            this.logoutToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
-            this.logoutToolStripMenuItem.Text = "Logout";
+            this.logoutToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.logoutToolStripMenuItem.Text = "[[main-system-logout]]";
             this.logoutToolStripMenuItem.Click += new System.EventHandler(this.logoutToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
-            this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.exitToolStripMenuItem.Text = "[[main-system-exit]]";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // systemWindowToolStripMenuItem
             // 
             this.systemWindowToolStripMenuItem.Name = "systemWindowToolStripMenuItem";
-            this.systemWindowToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.systemWindowToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
             this.systemWindowToolStripMenuItem.Text = "System window";
             this.systemWindowToolStripMenuItem.Click += new System.EventHandler(this.systemWindowToolStripMenuItem_Click);
             // 
