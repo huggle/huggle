@@ -110,6 +110,7 @@ namespace huggle3
         public void Config_Load()
         {
             //Load all config values
+            Languages.Localize(this);
             Core.History("Configuration.Config_Load()");
             this.cbIRC.Checked = Config.UseIrc;
             this.cbOIB.Checked = Config.OpenInBrowser;
@@ -117,6 +118,14 @@ namespace huggle3
             this.cbShowNewEdits.Checked = Config.ShowNewEdits;
             this.cbRememberPassword.Checked = Config.RememberPassword;
             this.cbDiffPreload.Checked = Config.Preloads != 0;
+            this.groupBox7.Dock = DockStyle.Fill;
+            this.groupBox1.Dock = DockStyle.Fill;
+            this.groupBox2.Dock = DockStyle.Fill;
+            this.groupBox3.Dock = DockStyle.Fill;
+            this.groupBox4.Dock = DockStyle.Fill;
+            this.groupBox5.Dock = DockStyle.Fill;
+            this.groupBox6.Dock = DockStyle.Fill;
+            this.groupBox8.Dock = DockStyle.Fill;
         }
 
         private void Cancel_Click(object sender, EventArgs e)
@@ -142,45 +151,6 @@ namespace huggle3
             listView1.Items.Add("templates", Languages.Get("config-templates-id"), 0);
             listView1.Items.Add("editor", Languages.Get("config-editor"), 0);
             listView1.Items.Add("admin", Languages.Get("config-admin"), 0);
-            int dw = 560, dh = 340;
-            int posl = 200, post = 25;
-            groupBox1.Left = posl;
-            groupBox1.Top = post;
-            groupBox3.Left = posl;
-            groupBox3.Top = post;
-            groupBox2.Left = posl;
-            groupBox2.Top = post;
-            groupBox4.Left = posl;
-            groupBox4.Top = post;
-            groupBox5.Left = posl;
-            groupBox5.Top = post;
-            groupBox6.Left = posl;
-            groupBox6.Top = post;
-            groupBox7.Left = posl;
-            groupBox7.Top = post;
-            groupBox8.Left = posl;
-            groupBox8.Top = post;
-            groupBox9.Left = posl;
-            groupBox9.Top = post;
-            groupBox1.Height = dh;
-            groupBox1.Width = dw;
-            groupBox2.Height = dh;
-            groupBox2.Width = dw;
-            groupBox3.Height = dh;
-            groupBox3.Width = dw;
-            groupBox4.Height = dh;
-            groupBox4.Width = dw;
-            groupBox5.Height = dh;
-            groupBox5.Width = dw;
-            groupBox6.Height = dh;
-            groupBox6.Width = dw;
-            groupBox7.Height = dh;
-            groupBox7.Width = dw;
-            groupBox8.Height = dh;
-            groupBox8.Width = dw;
-            groupBox9.Height = dh;
-            groupBox9.Width = dw;
-
             Tab(0);
         }
 
