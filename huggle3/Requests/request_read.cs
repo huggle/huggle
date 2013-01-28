@@ -169,9 +169,9 @@ namespace huggle3.Requests
         /// </summary>
         public class browser_html_data : request_core.Request
         {
-            public Controls.SpecialBrowser browser;
-            public Core.HistoryItem HistoryItem;
-            public string address;
+            public Controls.SpecialBrowser browser = null;
+            public Core.HistoryItem HistoryItem = null;
+            public string address = null;
 
             public override void EndRequest()
             {
@@ -180,6 +180,7 @@ namespace huggle3.Requests
                 {
                     browser.DocumentText = result.text;
                     browser.CurrentUrl = address;
+                    browser.ScriptErrorsSuppressed = true;
                 }
                 catch (Exception A)
                 {

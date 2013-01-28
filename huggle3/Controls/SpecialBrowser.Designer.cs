@@ -35,16 +35,15 @@
             // 
             this.Browser.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Browser.Location = new System.Drawing.Point(0, 0);
-            this.Browser.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(Browser_Navigating);
             this.Browser.MinimumSize = new System.Drawing.Size(20, 20);
             this.Browser.Name = "Browser";
             this.Browser.Size = new System.Drawing.Size(244, 184);
             this.Browser.TabIndex = 0;
+            this.Browser.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.Browser_Navigating);
             // 
             // SpecialBrowser
             // 
             this.Controls.Add(this.Browser);
-            this.Name = "SpecialBrowser";
             this.Size = new System.Drawing.Size(244, 184);
             this.ResumeLayout(false);
 
@@ -52,6 +51,7 @@
 
         #endregion
 
-        private System.Windows.Forms.WebBrowser Browser;
+        public System.Windows.Forms.WebBrowser Browser;
+
     }
 }

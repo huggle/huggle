@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Reflection;
 using System.Data;
 using System.Text;
 using System.Windows.Forms;
@@ -47,7 +48,7 @@ namespace huggle3.Controls
             {
                 return;
             }
-
+            this.Browser.ScriptErrorsSuppressed = true;
         }
 
         public void HistoryForward()

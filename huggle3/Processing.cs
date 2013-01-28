@@ -26,7 +26,7 @@ namespace huggle3
 {
     public static class Processing
     {
-        public static System.Text.RegularExpressions.Regex RC = new System.Text.RegularExpressions.Regex( "type=\"([^\"]*)\" ns=\"[^\"]*\" title=\"([^\"]*)\" rcid=\"([^\"]*)\" pageid=\"[^\"]*\"revid=\"([^\"]*)\" old_revid=\"([^\"]*)\" user=\"([^\"]*)\"( bot=\")?( anon=\"\")?( new=\")?( minor=\")? oldlen=\"([^\"]*)\" newlen=\"([^\"]*)\" timestamp=\"([^\"]*)\"( comment=\"([^\"]*)\")? />", System.Text.RegularExpressions.RegexOptions.Compiled );
+        public static System.Text.RegularExpressions.Regex RC = new System.Text.RegularExpressions.Regex("type=\"([^\"]*)\" ns=\"[^\"]*\" title=\"([^\"]*)\" rcid=\"([^\"]*)\" pageid=\"[^\"]*\"revid=\"([^\"]*)\" old_revid=\"([^\"]*)\" user=\"([^\"]*)\"( bot=\")?( anon=\"\")?( new=\")?( minor=\")? oldlen=\"([^\"]*)\" newlen=\"([^\"]*)\" timestamp=\"([^\"]*)\"( comment=\"([^\"]*)\")? />", System.Text.RegularExpressions.RegexOptions.Compiled);
 
 
         public static int Process_NewEdit(Edit _Edit)
@@ -131,7 +131,7 @@ namespace huggle3
 
                         if (userName.Contains("]]"))
                         {
-                            userName = userName.Substring(0, userName.IndexOf("]]")); 
+                            userName = userName.Substring(0, userName.IndexOf("]]"));
                         }
 
                         User RevertedUser = Core.GetUser(userName);
@@ -193,7 +193,7 @@ namespace huggle3
                     _E.Id = Core.FindString(Diff, "<div id=\"mw-diff-ntitle1\"><strong><a", "oldid=", "'");
                 }
                 if (_E.Id != "cur" && Edit.All.ContainsKey(_E.Id))
-                { 
+                {
                     _E = Edit.All[_E.Id];
                 }
                 if (_E.Oldid == "prev" && Diff.Contains("<div id=\"mw-diff-otitle1\">"))
@@ -227,7 +227,7 @@ namespace huggle3
                     if (et.Contains("Revision as of"))
                     {
                         et = Core.FindString(et, "Revision as of");
-                        if ( DateTime.TryParse(et, out _E._Time) )
+                        if (DateTime.TryParse(et, out _E._Time))
                         {
                             _E._Time = DateTime.SpecifyKind(DateTime.Parse(et), DateTimeKind.Local).ToUniversalTime();
                         }
@@ -253,7 +253,7 @@ namespace huggle3
                 if (Diff.Contains("<div id=\"mw-diff-otitle2\">") && _E.Prev._User == null)
                 {
                     string username = System.Web.HttpUtility.HtmlDecode(Core.FindString(Diff, "<div id=\"mw-diff-otitle2\">", ">", "</a>"));
-                    
+
                 }
                 if (_E.Prev.Summary == null)
                 {
@@ -286,7 +286,7 @@ namespace huggle3
                     {
                         _E.Prev.Prev = Core.NullEdit;
                         _E._Page.FirstEdit = _E.Prev;
-                        
+
                     }
                     if (Diff.Contains("<div id=\"mw-diff-ntitle4\">&nbsp;</div>"))
                     {
@@ -298,7 +298,7 @@ namespace huggle3
                         ProcessEdit(_E.Prev);
                     }
                     //_E.ChangedContent =
-                    
+
                 }
             }
             _E.Diff = Diff;
@@ -327,12 +327,12 @@ namespace huggle3
             }
             bool Redraw = false;
 
-            if ( _Edit._Page.LastEdit != null )
+            if (_Edit._Page.LastEdit != null)
             {
                 _Edit.Prev.Next = _Edit;
                 _Edit.Prev = _Edit._Page.LastEdit;
 
-                if ( _Edit.Prev.Size >= 0 && _Edit._Change != 0 )
+                if (_Edit.Prev.Size >= 0 && _Edit._Change != 0)
                 {
                     _Edit.Size = _Edit.Prev.Size + _Edit._Change;
                 }
@@ -342,7 +342,7 @@ namespace huggle3
                 }
             }
 
-            if ( _Edit._User == null )
+            if (_Edit._User == null)
             {
                 _Edit._User = _Edit._Page.LastEdit._User;
             }
@@ -359,7 +359,7 @@ namespace huggle3
             _Edit._Page.LastEdit = _Edit;
             _Edit._User.LastEdit = _Edit;
 
-            
+
             return true;
         }
 
@@ -376,8 +376,8 @@ namespace huggle3
             }
 
             if (Config.ConfirmSelfRevert && !Undo)
-            { 
-                
+            {
+
             }
 
 
@@ -487,76 +487,86 @@ namespace huggle3
             Core.History("Processing.DisplayEdit()");
             try
             {
+                // in case that browser is null we use the currently selected browser
                 if (browser == null)
                 {
                     browser = main._CurrentBrowser;
                 }
-                    if (_edit != null)
+                // we will not proceed if edit is null
+                if (_edit != null)
+                {
+                    // in case that page is not null we want to insert it to browsing history
+                    if (_edit._Page != null)
                     {
-                        if (_edit._Page != null)
+                        if (BrowsingHistory != true && browser.History.Count == 0 || (browser.History[0]._Edit is Edit) == false)
                         {
-                            if (BrowsingHistory != true && browser.History.Count == 0 || (browser.History[0]._Edit is Edit) == false)
-                            {
-                                browser.AddToHistory(new Core.HistoryItem(_edit));
-                            }
+                            browser.AddToHistory(new Core.HistoryItem(_edit));
                         }
-
-                        if (main._CurrentBrowser == browser && ChangeEdit == true)
-                        {
-                            browser.Edit = _edit;
-                            Program.MainForm.Set_Current_User(_edit._User);
-                            Program.MainForm.Set_Current_Page(_edit._Page);
-                        }
-
-                        if (_edit._Deleted)
-                        {
-                            
-                        }
-                        else if (_edit.Prev == Core.NullEdit)
-                        {
-                            Requests.request_read.browser_html_data BrowserRequest = new Requests.request_read.browser_html_data();
-                            BrowserRequest.address = Core.SitePath() + "index.php?title=" + System.Web.HttpUtility.UrlEncode(_edit._Page.Name) + "&id=" + _edit.Id;
-                            BrowserRequest.browser = browser;
-                            BrowserRequest.Start();
-                        }
-                        else
-                        {        
-                            if (_edit.DiffCacheState == Edit.CacheState.Viewed || _edit.DiffCacheState == Edit.CacheState.Cached)
-                            {
-                                if (_edit.Diff != null)
-                                {
-                                    string DocumentText = "", DiffText = "";
-                                    DiffText = _edit.Diff;
-
-                                    DiffText = DiffText.Replace("href=\"/wiki/", "href=\"" + Config.Projects[Config.Project] + "wiki/");
-                                    DiffText = DiffText.Replace("href='/wiki/", "href='" + Config.Projects[Config.Project] + "wiki/");
-                                    DiffText = DiffText.Replace("href=\"/w/", "href=\"" + Config.Projects[Config.Project] + "w/");
-                                    DiffText = DiffText.Replace("href='/w/", "href='" + Config.Projects[Config.Project] + "w/");
-
-                                    DocumentText = huggle3.Properties.Resources.header;
-                                    DocumentText += DiffText;
-                                    DocumentText += huggle3.Properties.Resources.footer;
-
-                                    browser.DocumentText = DocumentText;
-
-                                }
-                                _edit.DiffCacheState = Edit.CacheState.Viewed;
-                            }
-                        }
-                        if (_edit.DiffCacheState == Edit.CacheState.Uncached)
-                        {
-                            _edit.DiffCacheState = Edit.CacheState.Caching;
-                            Requests.request_read.diff Request = new Requests.request_read.diff();
-                            Request._Edit = _edit;
-                            Request.browsertab = browser;
-                            Request.Start();
-                        }
-                        Program.MainForm.Refresh_Interface();
                     }
+
+                    // in case that browser is currently selected, we need to force update
+                    if (main._CurrentBrowser == browser && ChangeEdit == true)
+                    {
+                        browser.Edit = _edit;
+                        Program.MainForm.Set_Current_User(_edit._User);
+                        Program.MainForm.Set_Current_Page(_edit._Page);
+                    }
+
+                    // I have no idea what is this
+                    if (_edit._Deleted)
+                    {
+
+                    }
+                    else if (_edit.Prev == Core.NullEdit)
+                    {
+                        // Load a html code from mediawiki
+                        Requests.request_read.browser_html_data BrowserRequest = new Requests.request_read.browser_html_data();
+                        BrowserRequest.address = Core.SitePath() + "index.php?title=" + System.Web.HttpUtility.UrlEncode(_edit._Page.Name) + "&id=" + _edit.Id;
+                        BrowserRequest.browser = browser;
+                        BrowserRequest.Start();
+                    }
+                    else
+                    {
+                        if (_edit.DiffCacheState == Edit.CacheState.Viewed || _edit.DiffCacheState == Edit.CacheState.Cached)
+                        {
+                            if (_edit.Diff != null)
+                            {
+                                string DocumentText = "", DiffText = "";
+                                DiffText = _edit.Diff;
+
+                                DiffText = DiffText.Replace("href=\"/wiki/", "href=\"" + Config.Projects[Config.Project] + "wiki/");
+                                DiffText = DiffText.Replace("href='/wiki/", "href='" + Config.Projects[Config.Project] + "wiki/");
+                                DiffText = DiffText.Replace("href=\"/w/", "href=\"" + Config.Projects[Config.Project] + "w/");
+                                DiffText = DiffText.Replace("href='/w/", "href='" + Config.Projects[Config.Project] + "w/");
+
+                                DocumentText = huggle3.Properties.Resources.header;
+                                DocumentText += DiffText;
+                                DocumentText += huggle3.Properties.Resources.footer;
+
+                                browser.DocumentText = DocumentText;
+
+                            }
+                            _edit.DiffCacheState = Edit.CacheState.Viewed;
+                        }
+                    }
+                    if (_edit.DiffCacheState == Edit.CacheState.Uncached)
+                    {
+                        _edit.DiffCacheState = Edit.CacheState.Caching;
+                        Requests.request_read.diff Request = new Requests.request_read.diff();
+                        Request._Edit = _edit;
+                        Request.browsertab = browser;
+                        Request.Start();
+                    }
+                    Program.MainForm.Refresh_Interface();
                 }
+                else
+                {
+                    Core.DebugLog("NULL edit");
+                }
+            }
             catch (Exception ex)
             {
-                Core.ExceptionHandler( ex );
+                Core.ExceptionHandler(ex);
             }
         }
 

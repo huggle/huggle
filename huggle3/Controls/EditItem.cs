@@ -19,6 +19,13 @@ namespace huggle3.Controls
         {
             this.Edit = __Edit;
             this.Page = __Page;
+            lock (__Edit)
+            {
+                if (__Edit != null && __Edit.Processed != true)
+                {
+                    Processing.ProcessEdit(__Edit);
+                }
+            }
             InitializeComponent();
         }
 

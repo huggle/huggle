@@ -33,11 +33,24 @@ namespace huggle3
             private static int ThreadLast = 0;
             private static int ThreadCount = 0;
             private static List<ThreadS> ThreadList = new List<ThreadS>();
-            private class ThreadS
+            public class ThreadS
             {
                 public string Decription;
                 public System.Threading.Thread handle;
                 public bool Active = false;
+            }
+
+            public static List<ThreadS> Threads
+            {
+                get
+                {
+                    lock (ThreadList)
+                    {
+                        List<ThreadS> threads = new List<ThreadS>();
+                        threads.AddRange(ThreadList);
+                        return threads;
+                    }
+                }
             }
 
             public static int SystemThreadCount
