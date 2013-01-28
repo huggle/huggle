@@ -43,6 +43,22 @@ namespace huggle3
             return controlList;
         }
 
+        public static List<ToolStripMenuItem> GetMenu(ToolStripMenuItem form)
+        {
+            var controlList = new List<ToolStripMenuItem>();
+
+            foreach (ToolStripItem childControl in form.DropDownItems)
+            {
+                // Recurse child controls.
+                if (typeof(ToolStripMenuItem) == childControl.GetType())
+                {
+                    controlList.AddRange(GetMenu((ToolStripMenuItem)childControl));
+                    controlList.Add((ToolStripMenuItem)childControl);
+                }
+            }
+            return controlList;
+        }
+
         public static void Localize(Form form)
         {
             try
@@ -53,19 +69,24 @@ namespace huggle3
                     {
                         if (control.Text.StartsWith("[["))
                         {
-                            control.Text = Get(control.Text.Substring(2).Replace("]]", ""));
+                            control.Text = Get(control.Text);
                         }
-                        /*if (control.GetType() == typeof(MenuStrip))
+                        if (control.GetType() == typeof(MenuStrip))
                         {
                             MenuStrip menu = (MenuStrip)control;
                             foreach (ToolStripMenuItem item in menu.Items)
                             {
                                 if (item.Text.StartsWith("[["))
                                 {
-                                    item.Text = Get(item.Text.Substring(2).Replace("]]", ""));
+                                    item.Text = Get(item.Text);
+                                }
+                                foreach(ToolStripMenuItem item2 in GetMenu(item))
+                                if (item2.Text.StartsWith("[["))
+                                {
+                                    item2.Text = Get(item2.Text);
                                 }
                             }
-                        } */
+                        }
                     }
                 }
             }
