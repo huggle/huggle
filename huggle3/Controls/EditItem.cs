@@ -42,19 +42,19 @@ namespace huggle3.Controls
             label2.Text = Page.Name;
         }
 
-        public void Click()
+        public void Requested()
         { 
             
         }
 
         private void label1_Click(object sender, EventArgs e)
         {
-            Click();
+            Requested();
         }
 
         private void label2_Click(object sender, EventArgs e)
         {
-            Click();
+            Requested();
         }
     }
 }

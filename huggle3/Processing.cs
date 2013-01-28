@@ -543,6 +543,12 @@ namespace huggle3
                                 DocumentText += DiffText;
                                 DocumentText += huggle3.Properties.Resources.footer;
 
+                                // in case we are loading another page, kill it
+                                if (browser.IsBusy)
+                                {
+                                    browser.Stop();
+                                }
+
                                 browser.DocumentText = DocumentText;
 
                             }
