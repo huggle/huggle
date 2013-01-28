@@ -59,6 +59,27 @@ namespace huggle3.Controls
         }
         private int OffsetX = 0;
 
+        public void Remove(int index)
+        {
+            try
+            {
+                lock (List)
+                { 
+                    if (List.Count < index)
+                    {
+                        // there is no such thing to remove, skip
+                        return;
+                    }
+                    List[index].Visible = false;
+                    List.RemoveAt(index);
+                }
+            }
+            catch (Exception fail)
+            {
+                Core.ExceptionHandler(fail);
+            }
+        }
+
         /// <summary>
         /// Move the first edit from queue into return value
         /// </summary>
@@ -70,7 +91,7 @@ namespace huggle3.Controls
                 if (List.Count > 0)
                 {
                     Edit edit = List[0].Edit;
-                    List.RemoveAt(0);
+                    Remove(0);
                     return edit;
                     
                 }
@@ -92,6 +113,7 @@ namespace huggle3.Controls
                 }
                 foreach (EditItem curr in remove)
                 {
+                    curr.Visible = false;
                     if (Controls.Contains(curr))
                     {
                         Controls.Remove(curr);

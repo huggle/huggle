@@ -287,6 +287,7 @@ namespace huggle3
             Core.History("Set_Current_Page()");
             if (_page != null)
             {
+                CurrentPage.Text = _page.Name;
                 if ((_page != _CurrentPage) && DisplayingLast)
                 {
                     if (_page.LastEdit == null)
@@ -330,6 +331,7 @@ namespace huggle3
             {
                 return true;
             }
+            CurrentUser.Text = _user.UserName;
             _CurrentUser = _user;
 
             return true;
