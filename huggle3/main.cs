@@ -86,10 +86,20 @@ namespace huggle3
 
         public int AlignForm()
         {
-            Core.History("main.AlignForm()");
-            contribsPanel.Width = this.Width - historyStrip.Left - 20;
-            historyStrip.Width = this.Width - contribsPanel.Left - 20;
-            lsLog.Columns[0].Width = lsLog.Width;
+            try
+            {
+                Core.History("main.AlignForm()");
+                contribsPanel.Width = this.Width - historyStrip.Left - 20;
+                historyStrip.Width = this.Width - contribsPanel.Left - 20;
+                if (lsLog.Width > 100)
+                {
+                    lsLog.Columns[0].Width = lsLog.Width - 100;
+                }
+            }
+            catch (Exception fail)
+            {
+                Core.ExceptionHandler(fail);
+            }
             return 1;
         }
 
@@ -175,7 +185,6 @@ namespace huggle3
         {
             toolStripStatus.Text = text;
         }
-
 
         /// <summary>
         /// Refresh the information about queues and insert all queuest to list

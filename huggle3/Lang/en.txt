@@ -295,20 +295,20 @@ login-error-whitelist:     Failed to load user whitelist.
 <pre>
 main-page:                 Page
 main-user:                 User
-main-contmain-historyribs:             Contribs
-:              History
+main-contribs:             Contribs
+main-history:              History
 main-new-messages:         You have new messages; select System -> Show new messages or press M to view them.
 main-system:               System
 main-system-messages:      Show new messages
 main-system-reconnectirc:  Reconnect IRC feed
-main-system-savelog:       Save log...
-main-system-lists:         List Builder...
+main-system-savelog:       Save log
+main-system-lists:         List Builder
 main-system-requests:      Requests...
-main-system-statistics:    Statistics...
+main-system-statistics:    Statistics
 main-system-showlog:       Show log
 main-system-showqueue:     Show queue
 main-system-showtwoqueues: Show two queues
-main-system-options:       Options...
+main-system-options:       Options
 main-system-logout:        Log out
 main-system-exit:          Exit
 main-queue:                Queue
@@ -319,7 +319,7 @@ main-queue-count:          {0} items
 main-queue-query:          Running query...
 main-queue-reset:          Reset
 main-queue-clearall:       Clear all
-main-queue-options:        Manage Queues
+main-queue-options:        Manage Queues.
 main-goto:                 Go to
 main-goto-mytalk:          My talk page
 main-goto-mycontribs:      My contributions

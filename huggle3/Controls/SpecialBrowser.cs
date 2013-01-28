@@ -69,6 +69,7 @@ namespace huggle3.Controls
         public SpecialBrowser()
         {
             InitializeComponent();
+            this.Browser.ScriptErrorsSuppressed = true;
         }
     }
 }

@@ -211,6 +211,7 @@ namespace huggle3
                 this.btExit.Enabled = false;
                 login.LoggingOn = false;
                 login.phase = login.LoginState.Error;
+                StatusBar.Value = 0;
                 return;
             }
             Application.Exit();
