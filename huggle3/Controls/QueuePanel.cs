@@ -59,11 +59,21 @@ namespace huggle3.Controls
         }
         private int OffsetX = 0;
 
+        /// <summary>
+        /// Move the first edit from queue into return value
+        /// </summary>
+        /// <returns></returns>
         public Edit GetNext()
-        { 
-            if (List.Count > 0)
+        {
+            lock (List)
             {
-                return List[0].Edit;
+                if (List.Count > 0)
+                {
+                    Edit edit = List[0].Edit;
+                    List.RemoveAt(0);
+                    return edit;
+                    
+                }
             }
             return null;
         }

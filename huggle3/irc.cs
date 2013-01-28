@@ -60,6 +60,9 @@ namespace huggle3
         /// Stream reader
         /// </summary>
         private StreamReader SR = null;
+        /// <summary>
+        /// Stream writer
+        /// </summary>
         private StreamWriter SW = null;
         public static Regex line =
             new Regex(":rc-pmtpa!~rc-pmtpa@[^ ]* PRIVMSG #[^:]*:14\\[\\[07([^]*)14\\]\\]4 (M?)(B?)10 02.*di" +

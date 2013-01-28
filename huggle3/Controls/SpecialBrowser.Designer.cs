@@ -37,6 +37,7 @@
             this.Browser.Location = new System.Drawing.Point(0, 0);
             this.Browser.MinimumSize = new System.Drawing.Size(20, 20);
             this.Browser.Name = "Browser";
+            this.Browser.ScriptErrorsSuppressed = true;
             this.Browser.Size = new System.Drawing.Size(244, 184);
             this.Browser.TabIndex = 0;
             this.Browser.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.Browser_Navigating);
@@ -44,6 +45,7 @@
             // SpecialBrowser
             // 
             this.Controls.Add(this.Browser);
+            this.ScriptErrorsSuppressed = true;
             this.Size = new System.Drawing.Size(244, 184);
             this.ResumeLayout(false);
 
