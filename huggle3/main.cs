@@ -493,5 +493,24 @@ namespace huggle3
             }
             queuePanel2.queue = Queue.fromString(cbType2.SelectedItem.ToString());
         }
+
+        public void Next()
+        {
+            Core.History("main.Next()");
+            Edit edit = queuePanel1.GetNext();
+            Processing.DisplayEdit(edit);
+        }
+
+        private void tsNextDiffBt_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Next();
+            }
+            catch (Exception fail)
+            {
+                Core.ExceptionHandler(fail);
+            }
+        }
     }
 }

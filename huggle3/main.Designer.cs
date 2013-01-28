@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(main));
-            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Name", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Name", System.Windows.Forms.HorizontalAlignment.Left);
             this.Strip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripSUser = new System.Windows.Forms.ToolStripStatusLabel();
@@ -244,6 +244,7 @@
             this.tsNextDiffBt.Name = "tsNextDiffBt";
             this.tsNextDiffBt.Size = new System.Drawing.Size(52, 52);
             this.tsNextDiffBt.Text = "toolStripButton4";
+            this.tsNextDiffBt.Click += new System.EventHandler(this.tsNextDiffBt_Click);
             // 
             // toolStripSeparator3
             // 
@@ -1228,10 +1229,10 @@
             this.lsLog.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lsLog.FullRowSelect = true;
             this.lsLog.GridLines = true;
-            listViewGroup1.Header = "Name";
-            listViewGroup1.Name = null;
+            listViewGroup2.Header = "Name";
+            listViewGroup2.Name = null;
             this.lsLog.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup1});
+            listViewGroup2});
             this.lsLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.lsLog.Location = new System.Drawing.Point(0, 0);
             this.lsLog.MultiSelect = false;

@@ -32,8 +32,14 @@ namespace huggle3
         public List<Thread> Threads = new List<Thread>();
 
         public Plugin()
-        { 
-            
+        {
+            lock (ExtensionList)
+            {
+                if (!ExtensionList.Contains(this))
+                {
+                    ExtensionList.Add(this);
+                }
+            }
         }
 
         public void Load()
@@ -45,7 +51,13 @@ namespace huggle3
         {
             try
             {
-
+                lock (ExtensionList)
+                {
+                    if (ExtensionList.Contains(this))
+                    {
+                        ExtensionList.Remove(this);
+                    }
+                }
             }
             catch (Exception fail)
             {
@@ -55,20 +67,28 @@ namespace huggle3
 
         public void Terminate()
         {
-            status = Status.Terminating;
-            if (Hook_OnTerminate())
+            try
             {
-                lock (ExtensionList)
+                status = Status.Terminating;
+                if (Hook_OnTerminate())
                 {
-                    if (ExtensionList.Contains(this))
+                    lock (ExtensionList)
                     {
-                        ExtensionList.Remove(this);
+                        if (ExtensionList.Contains(this))
+                        {
+                            ExtensionList.Remove(this);
+                        }
                     }
+                    status = Status.Terminated;
                 }
-                status = Status.Terminated;
+                else
+                {
+                    Kill();
+                }
             }
-            else
+            catch (Exception fail)
             {
+                Core.ExceptionHandler(fail);
                 Kill();
             }
         }
@@ -82,6 +102,17 @@ namespace huggle3
             try
             {
                 status = Status.Terminating;
+                foreach (Thread xx in Threads)
+                {
+                    try
+                    {
+                        xx.Abort();
+                    }
+                    catch (Exception TX)
+                    {
+                        Core.WriteLog("Unable to exit the thread of extension" + Name + ": " + TX.ToString());
+                    }
+                }
                 lock (ExtensionList)
                 {
                     if (ExtensionList.Contains(this))

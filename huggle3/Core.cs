@@ -634,6 +634,7 @@ namespace huggle3
         /// <returns></returns>
         public static bool IsMW(string Content)
         {
+            Core.History("Core.IsMW(string)");
             if (Content == null)
             {
                 return false;
@@ -648,6 +649,7 @@ namespace huggle3
         /// <returns></returns>
         public static string CleanupHTML(string data)
         {
+            Core.History("Core.CleanupHTML(string data)");
             string return_value = data;
             if (data == null)
             {

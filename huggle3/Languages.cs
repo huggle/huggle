@@ -115,7 +115,7 @@ namespace huggle3
                 { // if there is no such a language it returns the english one
                     if (Config.Messages.ContainsKey(Config.DefaultLanguage) != true)
                     {
-                        return "<not present in dict>" + id;
+                        return "<not present in dict$" + id +">";
                     }
                     if (Config.Messages[Config.DefaultLanguage].ContainsKey(id))
                     {
@@ -144,7 +144,7 @@ namespace huggle3
                     Core.ExceptionHandler(A);
                 }
             }
-            return "<invalid> " + id;
+            return "<invalid string:" + id + ">";
         }
     }
 }
