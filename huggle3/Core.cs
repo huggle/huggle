@@ -657,7 +657,7 @@ namespace huggle3
             }
             while (return_value.Contains("<") && return_value.Contains(">"))
             {
-                return_value = return_value.Substring(0, return_value.IndexOf("<")) + return_value.Substring(return_value.IndexOf(">" + 1));
+                return_value = return_value.Substring(0, return_value.IndexOf("<")) + return_value.Substring(return_value.IndexOf(">") + 1);
             }
             return return_value;
         }

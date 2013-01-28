@@ -465,7 +465,7 @@ namespace huggle3
             int epm = 0;
             if (Config.devs)
             {
-                toolStripSInfo.Text = "Wiki: " + Config.Project + " edit rate: <waiting> threadc: " + Core.Threading.ThCount.ToString();
+                toolStripSInfo.Text = "Wiki: " + Config.Project + " edit rate: <waiting> threadc: " + Core.Process.Threads.Count.ToString();
             }
             else
             {
