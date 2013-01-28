@@ -137,7 +137,7 @@
       <DependentUpon>WikiTextBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Core.cs" />
-    <Compile Include="edit.cs" />
+    <Compile Include="Edit.cs" />
     <Compile Include="Feed.cs" />
     <Compile Include="Forms\AboutForm.cs">
       <SubType>Form</SubType>

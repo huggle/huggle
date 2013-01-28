@@ -152,7 +152,7 @@ namespace huggle3
 
                     if (_Edit._Space == Space.UserTalk && _Edit._Page.IsSubpage)
                     {
-                        User.UserLevel Summary_Level;
+                        //User.UserLevel Summary_Level;
                     }
                 }
             }
@@ -325,7 +325,7 @@ namespace huggle3
             {
                 return false;
             }
-            bool Redraw = false;
+            //bool Redraw = false;
 
             if (_Edit._Page.LastEdit != null)
             {

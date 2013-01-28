@@ -13,12 +13,14 @@ namespace huggle3.Controls
         public Edit Edit = null;
         public Page Page = null;
         public bool Registered = false;
+        private QueuePanel Parent = null;
 
 
-        public EditItem(Page __Page, Edit __Edit)
+        public EditItem(Page __Page, Edit __Edit, QueuePanel parent)
         {
             this.Edit = __Edit;
             this.Page = __Page;
+            Parent = parent;
             lock (__Edit)
             {
                 if (__Edit != null && __Edit.Processed != true)
@@ -43,8 +45,23 @@ namespace huggle3.Controls
         }
 
         public void Requested()
-        { 
-            
+        {
+            try
+            {
+                lock (Parent.List)
+                {
+                    if (Parent.List.Contains(this))
+                    {
+                        Parent.List.Remove(this);
+                    }
+                    this.Visible = false;
+                    Processing.DisplayEdit(Edit);
+                }
+            }
+            catch (Exception fail)
+            {
+                Core.ExceptionHandler(fail);
+            }
         }
 
         private void label1_Click(object sender, EventArgs e)

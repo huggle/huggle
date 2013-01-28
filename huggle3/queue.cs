@@ -64,8 +64,8 @@ namespace huggle3
         public QueueFilter _FilterNotifications = QueueFilter.None;
         public QueueFilter _FilterOwnUserspace = QueueFilter.None;
         public QueueFilter _FilterReverts = QueueFilter.None;
-        private QueueFilter _FilterTags = QueueFilter.None;
-        private QueueFilter _FilterWarnings = QueueFilter.None;
+        public QueueFilter _FilterTags = QueueFilter.None;
+        public QueueFilter _FilterWarnings = QueueFilter.None;
 
         /// <summary>
         /// Constructor

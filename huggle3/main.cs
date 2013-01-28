@@ -194,13 +194,20 @@ namespace huggle3
             try
             {
                 string A = cbType1.SelectedText;
-                string B = cbType2.SelectedText;
-                cbType2.Items.Clear();
+                string B = null;
+                if (Config.ShowTwoQueues)
+                {
+                    B = cbType2.SelectedText;
+                    cbType2.Items.Clear();
+                }
                 cbType1.Items.Clear();
                 foreach (KeyValuePair<string, Queue> queue in Queue.All)
                 {
                     cbType1.Items.Add(queue.Key);
-                    cbType2.Items.Add(queue.Key);
+                    if (Config.ShowTwoQueues)
+                    {
+                        cbType2.Items.Add(queue.Key);
+                    }
                 }
                 if (cbType1.Items.Count > 0)
                 {
@@ -212,13 +219,16 @@ namespace huggle3
                     {
                         cbType1.SelectedIndex = 0;
                     }
-                    if (cbType2.Items.Contains(B))
+                    if (Config.ShowTwoQueues)
                     {
-                        cbType2.SelectedItem = B;
-                    }
-                    else
-                    {
-                        cbType2.SelectedIndex = 0;
+                        if (cbType2.Items.Contains(B))
+                        {
+                            cbType2.SelectedItem = B;
+                        }
+                        else
+                        {
+                            cbType2.SelectedIndex = 0;
+                        }
                     }
                 }
             }
@@ -235,29 +245,44 @@ namespace huggle3
         /// <param name="e"></param>
         private void main_Load(object sender, EventArgs e)
         {
-            Core.History("main.main_Load()");
-            //init
-            AlignForm();
-            toolStripStatus.Text = "Loading";
-            toolStripSInfo.Text = "Wiki: " + Config.Project + " edit rate: <waiting>";
-            toolStripSUser.Text = Config.Username;
-            _CurrentBrowser = webBrowser;
-            OpenInfo();
-            Localize();
-            lsLog.Columns.Add("");
-            Config.Initialised = true;
-            DisplayingLast = true;
-            RefreshQueues();
-            lock (Core.SystemLog)
+            try
             {
-                foreach (string message in Core.SystemLog)
+                Core.History("main.main_Load()");
+                //init
+                if (!Config.ShowTwoQueues)
                 {
-                    Log(message);
+                    splitContainer3.Panel2.Hide();
                 }
+                else
+                {
+                    showTwoToolStripMenuItem.Checked = true;
+                }
+                AlignForm();
+                toolStripStatus.Text = "Loading";
+                toolStripSInfo.Text = "Wiki: " + Config.Project + " edit rate: <waiting>";
+                toolStripSUser.Text = Config.Username;
+                _CurrentBrowser = webBrowser;
+                OpenInfo();
+                Localize();
+                lsLog.Columns.Add("");
+                Config.Initialised = true;
+                DisplayingLast = true;
+                RefreshQueues();
+                lock (Core.SystemLog)
+                {
+                    foreach (string message in Core.SystemLog)
+                    {
+                        Log(message);
+                    }
+                }
+
+                this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                feed = new Feed(Config.UseIrc);
             }
-            
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            feed = new Feed(Config.UseIrc);
+            catch (Exception fail)
+            {
+                Core.ExceptionHandler(fail);
+            }
             //Program.feed = new IRC(Config.IrcServer, Config.IrcPort, "huggle3", "#en.wikipedia");
         }
 
@@ -521,6 +546,22 @@ namespace huggle3
             catch (Exception fail)
             {
                 Core.ExceptionHandler(fail);
+            }
+        }
+
+        private void showTwoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Config.ShowTwoQueues)
+            {
+                showTwoToolStripMenuItem.Checked = false;
+                splitContainer3.Panel2.Hide();
+                Config.ShowTwoQueues = false;
+            }
+            else
+            {
+                showTwoToolStripMenuItem.Checked = true;
+                splitContainer3.Panel2.Show();
+                Config.ShowTwoQueues = true;
             }
         }
     }

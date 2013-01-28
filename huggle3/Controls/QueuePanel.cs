@@ -150,7 +150,7 @@ namespace huggle3.Controls
             {
                 lock (List)
                 { 
-                    List.Insert(0, new EditItem(Edit._Page, Edit));
+                    List.Insert(0, new EditItem(Edit._Page, Edit, this));
                 }
             }
             catch (Exception fail)

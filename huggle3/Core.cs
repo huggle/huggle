@@ -628,7 +628,7 @@ namespace huggle3
         }
 
         /// <summary>
-        /// Check if page is mediawiki page
+        /// Check if page is a mediawiki page
         /// </summary>
         /// <param name="Content"></param>
         /// <returns></returns>
@@ -665,9 +665,9 @@ namespace huggle3
         /// <summary>
         /// This function look up a string in string between other strings
         /// </summary>
-        /// <param name="Source"></param>
-        /// <param name="From"></param>
-        /// <returns></returns>
+        /// <param name="Source">Source text</param>
+        /// <param name="From">This is where we start parsing our text from</param>
+        /// <returns>Return a text which begins with From content</returns>
         public static string FindString(string Source, string From)
         {
             Core.History("Core.FindString( string, string)");
@@ -691,7 +691,7 @@ namespace huggle3
         /// Get user
         /// </summary>
         /// <param name="Name">User name</param>
-        /// <returns></returns>
+        /// <returns>Creates a new user object with specified name</returns>
         public static User GetUser(string Name)
         {
             Core.History("GetUser()");
@@ -702,7 +702,7 @@ namespace huggle3
         /// Get month
         /// </summary>
         /// <param name="i"></param>
-        /// <returns></returns>
+        /// <returns>Month (for example October) in current language</returns>
         public static string Get_Month_Name(int i)
         {
             Core.History("Get_Month_Name(int)");
@@ -712,7 +712,10 @@ namespace huggle3
             }
             else
             {
-                return months[i];
+                lock (months)
+                {
+                    return months[i];
+                }
             }
         }
 
