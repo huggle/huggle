@@ -252,6 +252,7 @@ namespace huggle3
                 if (!Config.ShowTwoQueues)
                 {
                     splitContainer3.Panel2.Hide();
+                    splitContainer3.Panel1MinSize = splitContainer3.Height;
                 }
                 else
                 {
@@ -555,12 +556,14 @@ namespace huggle3
             {
                 showTwoToolStripMenuItem.Checked = false;
                 splitContainer3.Panel2.Hide();
+                splitContainer3.Panel1MinSize = splitContainer3.Height;
                 Config.ShowTwoQueues = false;
             }
             else
             {
                 showTwoToolStripMenuItem.Checked = true;
                 splitContainer3.Panel2.Show();
+                splitContainer3.Panel2MinSize = splitContainer3.Height / 2;
                 Config.ShowTwoQueues = true;
             }
         }
