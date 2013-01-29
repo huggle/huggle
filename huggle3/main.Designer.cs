@@ -150,17 +150,17 @@
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.QueuePanel = new System.Windows.Forms.Panel();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
-            this.queuePanel1 = new huggle3.Controls.QueuePanel();
             this.cbType1 = new System.Windows.Forms.ComboBox();
-            this.queuePanel2 = new huggle3.Controls.QueuePanel();
             this.cbType2 = new System.Windows.Forms.ComboBox();
-            this.webBrowser = new huggle3.Controls.SpecialBrowser();
             this.lsLog = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.historyStrip = new huggle3.Controls.HistoryStrip();
-            this.contribsPanel = new huggle3.Controls.ContribsPanel();
             this.tsRevertWarnBt = new System.Windows.Forms.ToolStripSplitButton();
             this.revertAndWarnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.queuePanel1 = new huggle3.Controls.QueuePanel();
+            this.queuePanel2 = new huggle3.Controls.QueuePanel();
+            this.webBrowser = new huggle3.Controls.SpecialBrowser();
+            this.historyStrip = new huggle3.Controls.HistoryStrip();
+            this.contribsPanel = new huggle3.Controls.ContribsPanel();
             this.Strip.SuspendLayout();
             this.MainTool.SuspendLayout();
             this.Usertool.SuspendLayout();
@@ -1043,7 +1043,7 @@
             // 
             this.LabelP.AutoSize = true;
             this.LabelP.BackColor = System.Drawing.Color.Transparent;
-            this.LabelP.Location = new System.Drawing.Point(371, 32);
+            this.LabelP.Location = new System.Drawing.Point(387, 30);
             this.LabelP.Name = "LabelP";
             this.LabelP.Size = new System.Drawing.Size(68, 13);
             this.LabelP.TabIndex = 8;
@@ -1052,7 +1052,7 @@
             // LUser
             // 
             this.LUser.AutoSize = true;
-            this.LUser.Location = new System.Drawing.Point(371, 59);
+            this.LUser.Location = new System.Drawing.Point(387, 57);
             this.LUser.Name = "LUser";
             this.LUser.Size = new System.Drawing.Size(64, 13);
             this.LUser.TabIndex = 9;
@@ -1173,15 +1173,6 @@
             this.splitContainer3.SplitterDistance = 186;
             this.splitContainer3.TabIndex = 4;
             // 
-            // queuePanel1
-            // 
-            this.queuePanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.queuePanel1.Location = new System.Drawing.Point(0, 21);
-            this.queuePanel1.Name = "queuePanel1";
-            this.queuePanel1.queue = null;
-            this.queuePanel1.Size = new System.Drawing.Size(110, 165);
-            this.queuePanel1.TabIndex = 5;
-            // 
             // cbType1
             // 
             this.cbType1.Dock = System.Windows.Forms.DockStyle.Top;
@@ -1193,15 +1184,6 @@
             this.cbType1.TabIndex = 3;
             this.cbType1.SelectedIndexChanged += new System.EventHandler(this.cbType1_SelectedIndexChanged);
             // 
-            // queuePanel2
-            // 
-            this.queuePanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.queuePanel2.Location = new System.Drawing.Point(0, 21);
-            this.queuePanel2.Name = "queuePanel2";
-            this.queuePanel2.queue = null;
-            this.queuePanel2.Size = new System.Drawing.Size(110, 172);
-            this.queuePanel2.TabIndex = 4;
-            // 
             // cbType2
             // 
             this.cbType2.Dock = System.Windows.Forms.DockStyle.Top;
@@ -1212,17 +1194,6 @@
             this.cbType2.Size = new System.Drawing.Size(110, 21);
             this.cbType2.TabIndex = 2;
             this.cbType2.SelectedIndexChanged += new System.EventHandler(this.cbType2_SelectedIndexChanged);
-            // 
-            // webBrowser
-            // 
-            this.webBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webBrowser.IsWebBrowserContextMenuEnabled = false;
-            this.webBrowser.Location = new System.Drawing.Point(0, 0);
-            this.webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowser.Name = "webBrowser";
-            this.webBrowser.ScriptErrorsSuppressed = true;
-            this.webBrowser.Size = new System.Drawing.Size(792, 383);
-            this.webBrowser.TabIndex = 20;
             // 
             // lsLog
             // 
@@ -1245,20 +1216,6 @@
             this.lsLog.UseCompatibleStateImageBehavior = false;
             this.lsLog.View = System.Windows.Forms.View.Details;
             // 
-            // historyStrip
-            // 
-            this.historyStrip.Location = new System.Drawing.Point(666, 27);
-            this.historyStrip.Name = "historyStrip";
-            this.historyStrip.Size = new System.Drawing.Size(239, 21);
-            this.historyStrip.TabIndex = 15;
-            // 
-            // contribsPanel
-            // 
-            this.contribsPanel.Location = new System.Drawing.Point(666, 55);
-            this.contribsPanel.Name = "contribsPanel";
-            this.contribsPanel.Size = new System.Drawing.Size(239, 21);
-            this.contribsPanel.TabIndex = 14;
-            // 
             // tsRevertWarnBt
             // 
             this.tsRevertWarnBt.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -1276,6 +1233,49 @@
             this.revertAndWarnToolStripMenuItem.Name = "revertAndWarnToolStripMenuItem";
             this.revertAndWarnToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.revertAndWarnToolStripMenuItem.Text = "Revert and warn";
+            // 
+            // queuePanel1
+            // 
+            this.queuePanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.queuePanel1.Location = new System.Drawing.Point(0, 21);
+            this.queuePanel1.Name = "queuePanel1";
+            this.queuePanel1.queue = null;
+            this.queuePanel1.Size = new System.Drawing.Size(110, 165);
+            this.queuePanel1.TabIndex = 5;
+            // 
+            // queuePanel2
+            // 
+            this.queuePanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.queuePanel2.Location = new System.Drawing.Point(0, 21);
+            this.queuePanel2.Name = "queuePanel2";
+            this.queuePanel2.queue = null;
+            this.queuePanel2.Size = new System.Drawing.Size(110, 172);
+            this.queuePanel2.TabIndex = 4;
+            // 
+            // webBrowser
+            // 
+            this.webBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webBrowser.IsWebBrowserContextMenuEnabled = false;
+            this.webBrowser.Location = new System.Drawing.Point(0, 0);
+            this.webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser.Name = "webBrowser";
+            this.webBrowser.ScriptErrorsSuppressed = true;
+            this.webBrowser.Size = new System.Drawing.Size(792, 383);
+            this.webBrowser.TabIndex = 20;
+            // 
+            // historyStrip
+            // 
+            this.historyStrip.Location = new System.Drawing.Point(666, 27);
+            this.historyStrip.Name = "historyStrip";
+            this.historyStrip.Size = new System.Drawing.Size(239, 21);
+            this.historyStrip.TabIndex = 15;
+            // 
+            // contribsPanel
+            // 
+            this.contribsPanel.Location = new System.Drawing.Point(666, 55);
+            this.contribsPanel.Name = "contribsPanel";
+            this.contribsPanel.Size = new System.Drawing.Size(239, 21);
+            this.contribsPanel.TabIndex = 14;
             // 
             // main
             // 
