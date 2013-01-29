@@ -958,6 +958,14 @@ namespace huggle3
             Config.Language = Config.DefaultLanguage;
             System.GC.Collect();
             LoadLanguages();
+            if (Directory.Exists(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + Path.DirectorySeparatorChar + "modules"))
+            {
+                foreach (string dll in Directory.GetFiles(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + Path.DirectorySeparatorChar + "modules", "*.hext"))
+                {
+                    DebugLog("Registering plugin " + dll);
+                    RegisterPlugin(dll);
+                }
+            }
         }
 
         /// <summary>

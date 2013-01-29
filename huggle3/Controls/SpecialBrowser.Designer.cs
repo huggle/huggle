@@ -34,6 +34,7 @@
             // Browser
             // 
             this.Browser.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Browser.IsWebBrowserContextMenuEnabled = false;
             this.Browser.Location = new System.Drawing.Point(0, 0);
             this.Browser.MinimumSize = new System.Drawing.Size(20, 20);
             this.Browser.Name = "Browser";
@@ -45,6 +46,7 @@
             // SpecialBrowser
             // 
             this.Controls.Add(this.Browser);
+            this.IsWebBrowserContextMenuEnabled = false;
             this.ScriptErrorsSuppressed = true;
             this.Size = new System.Drawing.Size(244, 184);
             this.ResumeLayout(false);

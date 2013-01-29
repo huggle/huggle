@@ -29,14 +29,13 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Name", System.Windows.Forms.HorizontalAlignment.Left);
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(main));
-            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Name", System.Windows.Forms.HorizontalAlignment.Left);
             this.Strip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripSUser = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripSInfo = new System.Windows.Forms.ToolStripStatusLabel();
             this.MainTool = new System.Windows.Forms.ToolStrip();
-            this.tsRevertWarnBt = new System.Windows.Forms.ToolStripButton();
             this.tsNextDiffBt = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.tsSightBt = new System.Windows.Forms.ToolStripButton();
@@ -78,6 +77,7 @@
             this.systemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showNewMessagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem11 = new System.Windows.Forms.ToolStripSeparator();
+            this.showTwoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem12 = new System.Windows.Forms.ToolStripSeparator();
             this.logoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -150,16 +150,17 @@
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.QueuePanel = new System.Windows.Forms.Panel();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this.queuePanel1 = new huggle3.Controls.QueuePanel();
             this.cbType1 = new System.Windows.Forms.ComboBox();
+            this.queuePanel2 = new huggle3.Controls.QueuePanel();
             this.cbType2 = new System.Windows.Forms.ComboBox();
+            this.webBrowser = new huggle3.Controls.SpecialBrowser();
             this.lsLog = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.queuePanel1 = new huggle3.Controls.QueuePanel();
-            this.queuePanel2 = new huggle3.Controls.QueuePanel();
-            this.webBrowser = new huggle3.Controls.SpecialBrowser();
             this.historyStrip = new huggle3.Controls.HistoryStrip();
             this.contribsPanel = new huggle3.Controls.ContribsPanel();
-            this.showTwoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsRevertWarnBt = new System.Windows.Forms.ToolStripSplitButton();
+            this.revertAndWarnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Strip.SuspendLayout();
             this.MainTool.SuspendLayout();
             this.Usertool.SuspendLayout();
@@ -225,16 +226,6 @@
             this.MainTool.Size = new System.Drawing.Size(906, 55);
             this.MainTool.TabIndex = 2;
             this.MainTool.Text = "toolStrip1";
-            // 
-            // tsRevertWarnBt
-            // 
-            this.tsRevertWarnBt.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsRevertWarnBt.Image = ((System.Drawing.Image)(resources.GetObject("tsRevertWarnBt.Image")));
-            this.tsRevertWarnBt.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.tsRevertWarnBt.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsRevertWarnBt.Name = "tsRevertWarnBt";
-            this.tsRevertWarnBt.Size = new System.Drawing.Size(52, 52);
-            this.tsRevertWarnBt.Text = "toolStripButton1";
             // 
             // tsNextDiffBt
             // 
@@ -631,6 +622,13 @@
             this.toolStripMenuItem11.Name = "toolStripMenuItem11";
             this.toolStripMenuItem11.Size = new System.Drawing.Size(247, 6);
             // 
+            // showTwoToolStripMenuItem
+            // 
+            this.showTwoToolStripMenuItem.Name = "showTwoToolStripMenuItem";
+            this.showTwoToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
+            this.showTwoToolStripMenuItem.Text = "[[main-system-showtwoqueues]]";
+            this.showTwoToolStripMenuItem.Click += new System.EventHandler(this.showTwoToolStripMenuItem_Click);
+            // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
@@ -751,48 +749,48 @@
             // viewToolStripMenuItem
             // 
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            this.viewToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.viewToolStripMenuItem.Text = "View";
             // 
             // revertToolStripMenuItem
             // 
             this.revertToolStripMenuItem.Name = "revertToolStripMenuItem";
-            this.revertToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.revertToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.revertToolStripMenuItem.Text = "Revert";
             // 
             // goodToolStripMenuItem
             // 
             this.goodToolStripMenuItem.Name = "goodToolStripMenuItem";
-            this.goodToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.goodToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.goodToolStripMenuItem.Text = "Good";
             // 
             // sightToolStripMenuItem
             // 
             this.sightToolStripMenuItem.Name = "sightToolStripMenuItem";
-            this.sightToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.sightToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.sightToolStripMenuItem.Text = "Sight";
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(149, 6);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(116, 6);
             // 
             // previousToolStripMenuItem
             // 
             this.previousToolStripMenuItem.Name = "previousToolStripMenuItem";
-            this.previousToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.previousToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.previousToolStripMenuItem.Text = "Previous";
             // 
             // nextToolStripMenuItem1
             // 
             this.nextToolStripMenuItem1.Name = "nextToolStripMenuItem1";
-            this.nextToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.nextToolStripMenuItem1.Size = new System.Drawing.Size(119, 22);
             this.nextToolStripMenuItem1.Text = "Next";
             // 
             // latestToolStripMenuItem
             // 
             this.latestToolStripMenuItem.Name = "latestToolStripMenuItem";
-            this.latestToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.latestToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.latestToolStripMenuItem.Text = "Latest";
             // 
             // pageToolStripMenuItem
@@ -1175,6 +1173,15 @@
             this.splitContainer3.SplitterDistance = 186;
             this.splitContainer3.TabIndex = 4;
             // 
+            // queuePanel1
+            // 
+            this.queuePanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.queuePanel1.Location = new System.Drawing.Point(0, 21);
+            this.queuePanel1.Name = "queuePanel1";
+            this.queuePanel1.queue = null;
+            this.queuePanel1.Size = new System.Drawing.Size(110, 165);
+            this.queuePanel1.TabIndex = 5;
+            // 
             // cbType1
             // 
             this.cbType1.Dock = System.Windows.Forms.DockStyle.Top;
@@ -1185,6 +1192,15 @@
             this.cbType1.Size = new System.Drawing.Size(110, 21);
             this.cbType1.TabIndex = 3;
             this.cbType1.SelectedIndexChanged += new System.EventHandler(this.cbType1_SelectedIndexChanged);
+            // 
+            // queuePanel2
+            // 
+            this.queuePanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.queuePanel2.Location = new System.Drawing.Point(0, 21);
+            this.queuePanel2.Name = "queuePanel2";
+            this.queuePanel2.queue = null;
+            this.queuePanel2.Size = new System.Drawing.Size(110, 172);
+            this.queuePanel2.TabIndex = 4;
             // 
             // cbType2
             // 
@@ -1197,6 +1213,17 @@
             this.cbType2.TabIndex = 2;
             this.cbType2.SelectedIndexChanged += new System.EventHandler(this.cbType2_SelectedIndexChanged);
             // 
+            // webBrowser
+            // 
+            this.webBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webBrowser.IsWebBrowserContextMenuEnabled = false;
+            this.webBrowser.Location = new System.Drawing.Point(0, 0);
+            this.webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser.Name = "webBrowser";
+            this.webBrowser.ScriptErrorsSuppressed = true;
+            this.webBrowser.Size = new System.Drawing.Size(792, 383);
+            this.webBrowser.TabIndex = 20;
+            // 
             // lsLog
             // 
             this.lsLog.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -1204,10 +1231,10 @@
             this.lsLog.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lsLog.FullRowSelect = true;
             this.lsLog.GridLines = true;
-            listViewGroup2.Header = "Name";
-            listViewGroup2.Name = null;
+            listViewGroup1.Header = "Name";
+            listViewGroup1.Name = null;
             this.lsLog.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup2});
+            listViewGroup1});
             this.lsLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.lsLog.Location = new System.Drawing.Point(0, 0);
             this.lsLog.MultiSelect = false;
@@ -1217,34 +1244,6 @@
             this.lsLog.TabIndex = 18;
             this.lsLog.UseCompatibleStateImageBehavior = false;
             this.lsLog.View = System.Windows.Forms.View.Details;
-            // 
-            // queuePanel1
-            // 
-            this.queuePanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.queuePanel1.Location = new System.Drawing.Point(0, 21);
-            this.queuePanel1.Name = "queuePanel1";
-            this.queuePanel1.queue = null;
-            this.queuePanel1.Size = new System.Drawing.Size(110, 165);
-            this.queuePanel1.TabIndex = 5;
-            // 
-            // queuePanel2
-            // 
-            this.queuePanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.queuePanel2.Location = new System.Drawing.Point(0, 21);
-            this.queuePanel2.Name = "queuePanel2";
-            this.queuePanel2.queue = null;
-            this.queuePanel2.Size = new System.Drawing.Size(110, 172);
-            this.queuePanel2.TabIndex = 4;
-            // 
-            // webBrowser
-            // 
-            this.webBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webBrowser.Location = new System.Drawing.Point(0, 0);
-            this.webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowser.Name = "webBrowser";
-            this.webBrowser.ScriptErrorsSuppressed = true;
-            this.webBrowser.Size = new System.Drawing.Size(792, 383);
-            this.webBrowser.TabIndex = 20;
             // 
             // historyStrip
             // 
@@ -1260,12 +1259,23 @@
             this.contribsPanel.Size = new System.Drawing.Size(239, 21);
             this.contribsPanel.TabIndex = 14;
             // 
-            // showTwoToolStripMenuItem
+            // tsRevertWarnBt
             // 
-            this.showTwoToolStripMenuItem.Name = "showTwoToolStripMenuItem";
-            this.showTwoToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
-            this.showTwoToolStripMenuItem.Text = "[[main-system-showtwoqueues]]";
-            this.showTwoToolStripMenuItem.Click += new System.EventHandler(this.showTwoToolStripMenuItem_Click);
+            this.tsRevertWarnBt.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsRevertWarnBt.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.revertAndWarnToolStripMenuItem});
+            this.tsRevertWarnBt.Image = ((System.Drawing.Image)(resources.GetObject("tsRevertWarnBt.Image")));
+            this.tsRevertWarnBt.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.tsRevertWarnBt.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsRevertWarnBt.Name = "tsRevertWarnBt";
+            this.tsRevertWarnBt.Size = new System.Drawing.Size(64, 52);
+            this.tsRevertWarnBt.Text = "toolStripButton1";
+            // 
+            // revertAndWarnToolStripMenuItem
+            // 
+            this.revertAndWarnToolStripMenuItem.Name = "revertAndWarnToolStripMenuItem";
+            this.revertAndWarnToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.revertAndWarnToolStripMenuItem.Text = "Revert and warn";
             // 
             // main
             // 
@@ -1387,7 +1397,6 @@
         private System.Windows.Forms.ToolStripButton tsBrowserO;
         private System.Windows.Forms.ToolStripButton tsBrowserC;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripButton tsRevertWarnBt;
         private System.Windows.Forms.ToolStripButton tsNextDiffBt;
         private System.Windows.Forms.ToolStripButton tsSightBt;
         private System.Windows.Forms.ToolStripButton tsRevertBt;
@@ -1445,5 +1454,7 @@
         public Controls.QueuePanel queuePanel1;
         public Controls.QueuePanel queuePanel2;
         private System.Windows.Forms.ToolStripMenuItem showTwoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSplitButton tsRevertWarnBt;
+        private System.Windows.Forms.ToolStripMenuItem revertAndWarnToolStripMenuItem;
     }
 }

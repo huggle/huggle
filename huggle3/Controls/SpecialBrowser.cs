@@ -73,5 +73,10 @@ namespace huggle3.Controls
             this.ScriptErrorsSuppressed = true;
             this.Browser.ScriptErrorsSuppressed = true;
         }
+
+        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
+        {
+
+        }
     }
 }
