@@ -46,6 +46,7 @@ namespace huggle3
             this.groupBox7.Visible = false;
             this.groupBox8.Visible = false;
             this.groupBox9.Visible = false;
+            this.groupBox10.Visible = false;
             switch (key)
             {
                 case 0:
@@ -75,6 +76,9 @@ namespace huggle3
                 case 8:
                     this.groupBox9.Visible = true;
                     break;
+                case 9:
+                    this.groupBox10.Visible = true;
+                    break;
             }
         }
 
@@ -96,6 +100,8 @@ namespace huggle3
             this.groupBox5.Dock = DockStyle.Fill;
             this.groupBox6.Dock = DockStyle.Fill;
             this.groupBox8.Dock = DockStyle.Fill;
+            this.groupBox9.Dock = DockStyle.Fill;
+            this.groupBox10.Dock = DockStyle.Fill;
         }
 
         private void Cancel_Click(object sender, EventArgs e)
@@ -121,6 +127,7 @@ namespace huggle3
             listView1.Items.Add("templates", Languages.Get("config-templates-id"), 0);
             listView1.Items.Add("editor", Languages.Get("config-editor"), 0);
             listView1.Items.Add("admin", Languages.Get("config-admin"), 0);
+            listView1.Items.Add("admin", Languages.Get("config-plugin"), 0);
             Tab(0);
         }
 
@@ -128,6 +135,21 @@ namespace huggle3
         {
             Core.History("Configuration.bSave_Click()");
             Close();
+        }
+
+        private void Reload()
+        {
+            listView2.Items.Clear();
+            lock (Plugin.ExtensionList)
+            {
+                foreach (Plugin dd in Plugin.ExtensionList)
+                {
+                    ListViewItem item = new ListViewItem(dd.Name);
+                    item.SubItems.Add(dd.Maintainer);
+                    item.SubItems.Add(dd.Info);
+                    listView2.Items.Add(item);
+                }
+            }
         }
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)

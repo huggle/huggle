@@ -150,6 +150,9 @@ config-reporting:          Reporting
 config-templates-id:       Templates
 config-editor:             Editor
 config-admin:              Admin
+config-plugin:             Extensions
+config-plugin-load:			Load an extension from a file
+config-plugin-list:			List of extensions that are currently loaded
 </pre>
 
 === Delete form ===

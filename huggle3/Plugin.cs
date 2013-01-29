@@ -29,22 +29,23 @@ namespace huggle3
         public static List<Plugin> ExtensionList = new List<Plugin>();
         public Status status = Status.Loading;
         public string Name = null;
+        public string Info = "This extension contains no description";
+        public string Maintainer = "There is no person listed in description";
         public List<Thread> Threads = new List<Thread>();
 
         public Plugin()
         {
-            lock (ExtensionList)
-            {
-                if (!ExtensionList.Contains(this))
-                {
-                    ExtensionList.Add(this);
-                }
-            }
+            
         }
 
         public void Load()
-        { 
-            
+        {
+            WriteLog("Loaded");
+        }
+
+        private void WriteLog(string text)
+        {
+            Core.WriteLog("EXTENSION_INFO " + Name + ": " + text);
         }
 
         ~Plugin()

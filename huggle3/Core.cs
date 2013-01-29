@@ -53,6 +53,11 @@ namespace huggle3
         private static DateTime Uptime;
 
         /// <summary>
+        /// Local path
+        /// </summary>
+        private static string _LocalPath = null;
+
+        /// <summary>
         /// Custom reverts
         /// </summary>
         public static Dictionary<Page, string> CustomReverts = new Dictionary<Page, string>();
@@ -307,7 +312,21 @@ namespace huggle3
         /// <returns></returns>
         public static string LocalPath()
         {
-            return Application.LocalUserAppDataPath + Path.DirectorySeparatorChar + "huggle3" + Path.DirectorySeparatorChar;
+            if (_LocalPath != null)
+            {
+                return _LocalPath;
+            }
+            if (Application.LocalUserAppDataPath.Contains("huggle3"))
+            {
+                if (Application.LocalUserAppDataPath.EndsWith(Application.ProductVersion.ToString()))
+                {
+                    _LocalPath = Application.LocalUserAppDataPath.Substring(0, Application.LocalUserAppDataPath.Length - Application.ProductVersion.ToString().Length);
+                    return _LocalPath;
+                }
+                return Application.LocalUserAppDataPath;
+            }
+            _LocalPath = Application.LocalUserAppDataPath + Path.DirectorySeparatorChar + "huggle3" + Path.DirectorySeparatorChar;
+            return _LocalPath;
         }
 
         /// <summary>
@@ -315,15 +334,23 @@ namespace huggle3
         /// </summary>
         public static void ShutdownSystem()
         {
-            Core.Threading.DestroyCore();
-            if (SpecialThreads.RecoveryThread != null)
+            Core_IO.SaveLocalConfig();
+            try
             {
-                if (SpecialThreads.RecoveryThread.ThreadState == System.Threading.ThreadState.Running)
+                Core.Threading.DestroyCore();
+                if (SpecialThreads.RecoveryThread != null)
                 {
-                    SpecialThreads.RecoveryThread.Abort();
+                    if (SpecialThreads.RecoveryThread.ThreadState == System.Threading.ThreadState.Running)
+                    {
+                        SpecialThreads.RecoveryThread.Abort();
+                    }
                 }
+                Application.Exit();
             }
-            Application.Exit();
+            catch (Exception)
+            {
+                Process.Kill();
+            }
         }
 
         /// <summary>

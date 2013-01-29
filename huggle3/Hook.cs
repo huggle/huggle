@@ -3,7 +3,7 @@
 //This file contains code for various hooks
 
 /// <DOCUMENTATION>
-/// There is no documentation for this
+/// This file contains all hooks that can be used for changing the code using extensions
 /// </DOCUMENTATION>
 
 //Copyright (C) 2011-2012 Huggle team
@@ -26,6 +26,26 @@ namespace huggle3
     class Hook
     {
         public static void On_Login(LoginForm form)
+        { 
+            
+        }
+
+        public static void On_Main(ref main Main)
+        { 
+            
+        }
+
+        public static void On_Log(ref string text)
+        { 
+            
+        }
+
+        public static void On_ProcessEdit(ref Edit edit)
+        { 
+            
+        }
+
+        public static void On_Exit()
         { 
             
         }

@@ -19,6 +19,8 @@
 
 using System;
 using System.IO;
+using System.Xml;
+using System.Threading;
 using System.Collections.Generic;
 using System.Text;
 
@@ -159,6 +161,105 @@ namespace huggle3
             return value;
         }
 
+        private class XmlInfo
+        { 
+            public XmlNode xmlnode = null;
+            public XmlAttribute key = null;
+            public XmlDocument config = null;
+            public XmlNode conf = null;
+        }
+
+        private static void node(XmlInfo info, string config_key, string config_data, string name = "data", string flag = "configuration")
+        {
+            info.key = info.config.CreateAttribute(flag);
+            info.xmlnode = info.config.CreateElement(name);
+            info.key.Value = config_key;
+            info.xmlnode.Attributes.Append(info.key);
+            info.xmlnode.InnerText = config_data;
+            info.conf.AppendChild(info.xmlnode);
+        }
+
+        public static void SaveLocalConfig()
+        {
+            Core.History("SaveLocalConfig()");
+            try
+            {
+                string config_file = Core.LocalPath() + "config.xml";
+                if (File.Exists(config_file))
+                {
+                    File.Copy(config_file, config_file + "~", true);
+                }
+                XmlDocument document = new XmlDocument();
+                XmlNode xmlNode = document.CreateElement("huggle");
+                System.Xml.XmlNode curr = null;
+                XmlInfo info = new XmlInfo();
+                info.xmlnode = curr;
+                info.config = document;
+                info.conf = xmlNode;
+
+                node(info, "Config.AutoAdvance", Config.AutoAdvance.ToString());
+                node(info, "Config.AutoWarn", Config.AutoWarn.ToString());
+                node(info, "Config.AutoWhitelist", Config.AutoWhitelist.ToString());
+                node(info, "Config.BlockMessage", Config.BlockMessage);
+                node(info, "Config.BlockMessageDefault", Config.BlockMessageDefault.ToString());
+                node(info, "Config.BlockMessageIndef", Config.BlockMessageIndef);
+                node(info, "Config.BlockReason", Config.BlockReason);
+                node(info, "Config.BlockSummary", Config.BlockSummary);
+                node(info, "Config.BlockTime", Config.BlockTime);
+                node(info, "Config.BlockTimeAnon", Config.BlockTimeAnon);
+                node(info, "Config.ConfirmIgnored", Config.ConfirmIgnored.ToString());
+                node(info, "Config.ConfirmMultiple", Config.ConfirmMultiple.ToString());
+                node(info, "Config.ConfirmPage", Config.ConfirmPage.ToString());
+                node(info, "Config.ConfirmRange", Config.ConfirmRange.ToString());
+                node(info, "Config.ConfirmSame", Config.ConfirmSame.ToString());
+                node(info, "Config.ConfirmSelfRevert", Config.ConfirmSelfRevert.ToString());
+                node(info, "Config.ConfirmWarned", Config.ConfirmWarned.ToString());
+                node(info, "Config.ContribsBlockSize", Config.ContribsBlockSize.ToString());
+                node(info, "Config.CountBatchSize", Config.CountBatchSize.ToString());
+                node(info, "Config.DefaultQueue", Config.DefaultQueue);
+                node(info, "Config.DefaultQueue2", Config.DefaultQueue2);
+                node(info, "Config.DefaultSummary", Config.DefaultSummary);
+                node(info, "Config.Delete", Config.Delete.ToString());
+                node(info, "Config.DiffFontSize", Config.DiffFontSize);
+                node(info, "Config.Email", Config.Email.ToString());
+                node(info, "Config.EmailSubject", Config.EmailSubject);
+                node(info, "Config.ExtendReports", Config.ExtendReports.ToString());
+                node(info, "Config.FeedSize", Config.FeedSize.ToString());
+                node(info, "Config.FullHistoryBlockSize", Config.FullHistoryBlockSize.ToString());
+                node(info, "Config.HistoryBlockSize", Config.HistoryBlockSize.ToString());
+                node(info, "Config.HistoryLenght", Config.HistoryLenght.ToString());
+                node(info, "Config.HistoryScrollSpeed", Config.HistoryScrollSpeed.ToString());
+                node(info, "Config.HistoryTrim", Config.HistoryTrim.ToString());
+                node(info, "Config.IrcConnectionTimeout", Config.IrcConnectionTimeout.ToString());
+                node(info, "Config.IrcMode", Config.IrcMode.ToString());
+                node(info, "Config.IrcPort", Config.IrcPort.ToString());
+                node(info, "Config.IrcServer", Config.IrcServer.ToString());
+                node(info, "Config.ItemSize", Config.ItemSize.ToString());
+                node(info, "Config.Language", Config.Language.ToString());
+                node(info, "Config.LogFile", Config.LogFile.ToString());
+
+                
+
+                foreach (KeyValuePair<string, string> hh in Config.Projects)
+                {
+                    node(info, hh.Key, hh.Value, "project", "name");
+                }
+
+                document.AppendChild(xmlNode);
+
+                document.Save(config_file);
+
+                if (File.Exists(config_file + "~"))
+                {
+                    File.Delete(config_file + "~");
+                }
+            }
+            catch (Exception fail)
+            {
+                Core.ExceptionHandler(fail);
+            }
+        }
+
         /// <summary>
         /// Configure global config from meta
         /// </summary>
@@ -216,85 +317,6 @@ namespace huggle3
                 case "templates":
                     Config.TemplateMessages = GET.list(value);
                     break;
-            }
-            return true;
-        }
-
-        /// <summary>
-        /// Configure options defined in config.txt
-        /// </summary>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static bool SetLocalConfigOption(string key, string value)
-        {
-            switch (key)
-            {
-                case "language":
-                    Config.Language = value;
-                    break;
-                case "log-file":
-                    Config.LogFile = value;
-                    break;
-                case "password":
-                    Config.RememberPassword = true;
-                    Config.Password = value;
-                    break;
-                case "projects":
-                    Config.Projects = GET.dictionary(value);
-                    if (Config.Projects.ContainsKey("test2") == false)
-                    {
-                        Config.Projects.Add("test2", Config.TestWp);
-                    }
-                    break;
-                case "project":
-                    Config.Project = value;
-                    break;
-                case "proxy-enabled":
-                    Config.ProxyEnabled = Boolean.Parse(value);
-                    break;
-                case "proxy-port":
-                    Config.ProxyPort = value;
-                    break;
-                case "proxy-server":
-                    Config.ProxyServer = value;
-                    break;
-                case "proxy-userdomain":
-                    Config.ProxyUserDomain = value;
-                    break;
-                case "proxy-username":
-                    Config.ProxyUsername = value;
-                    break;
-                case "queue-right-align":
-                    Config.RightAlignQueue = Boolean.Parse(value);
-                    break;
-                case "revert-summaries":
-                    Config.RevertSummaries = GET.list(value);
-                    break;
-                //case "shortcuts" : SetShortcuts(Value)
-                case "show-new-messages":
-                    Config.ShowNewMessages = bool.Parse(value);
-                    break;
-                case "show-two-queues":
-                    Config.ShowTwoQueues = Boolean.Parse(value);
-                    break;
-                case "TestWp":
-                    Config.TestWp = value;
-                    break;
-                case "username":
-                    Config.Username = value;
-                    break;
-                case "whitelist-timestamps":
-                    Config.WhitelistTimestamps = GET.dictionary(value);
-                    break;
-                case "window-height":
-                    Config.WindowSize.Height = int.Parse(value);
-                    break;
-                //case "window-left":Config.WindowPosition.X = CInt(Value)
-                case "window-maximize":
-                    Config.WindowMaximize = Boolean.Parse(value);
-                    break;
-                //case "window-top" : Config.WindowPosition.Y = CInt(Value)
             }
             return true;
         }
@@ -608,36 +630,48 @@ namespace huggle3
         public static bool LoadLocalConfig()
         {
             Core.History("LoadLocalConfig()");
-            if (!System.IO.File.Exists(Core.LocalPath() + Config.LocalConfigLocation))
+            try
             {
-                try
-                {
-                    if (!Directory.Exists(Core.LocalPath()))
+                string config_file = Core.LocalPath() + "config.xml";
+                    XmlDocument document = new XmlDocument();
+                    if (!File.Exists(config_file))
                     {
-                        Directory.CreateDirectory(Core.LocalPath());
+                        document.LoadXml(huggle3.Properties.Resources.DefaultLocalConfig);
+                    }else
+                    {
+                        document.Load(config_file);
                     }
-                    File.WriteAllText((Core.LocalPath() + Config.LocalConfigLocation), huggle3.Properties.Resources.DefaultLocalConfig);
-                }
-                catch (DirectoryNotFoundException A)
-                {
-                    Core.ExceptionHandler(A);
-                    return true;
-                }
+                    foreach (XmlNode curr in document.ChildNodes[0].ChildNodes)
+                    {
+                        if (curr.Attributes.Count > 0)
+                        {
+                            if (curr.Name == "data")
+                            {
+                                switch (curr.Attributes[0].Value)
+                                { 
+                                    case "Config.AutoAdvance":
+                                        Config.AutoAdvance = bool.Parse(curr.InnerText);
+                                        break;
+                                    case "Config.Project":
+                                        Config.Project = curr.InnerText;
+                                        break;
+                                }
+                                continue;
+                            }
+                            if (curr.Name == "project")
+                            {
+                                lock (Config.Projects)
+                                {
+                                    Config.Projects.Add(curr.Attributes[0].Value, curr.InnerText);
+                                }
+                                continue;
+                            }
+                        }
+                    }
             }
-
-            if (System.IO.File.Exists(Core.LocalPath() + Config.LocalConfigLocation))
+            catch (Exception fail)
             {
-                foreach (KeyValuePair<string, string> Item in ProcessConfigFile(File.ReadAllText(Core.LocalPath() + Config.LocalConfigLocation)))
-                {
-                    SetLocalConfigOption(Item.Key, Item.Value);
-                }
-            }
-            if (Config.Projects.Count == 0)
-            {
-                foreach (KeyValuePair<string, string> Item in ProcessConfigFile(huggle3.Properties.Resources.DefaultLocalConfig))
-                {
-                    SetLocalConfigOption(Item.Key, Item.Value);
-                }
+                Core.ExceptionHandler(fail);
             }
             return true;
         }

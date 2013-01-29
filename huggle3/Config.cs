@@ -452,19 +452,19 @@ namespace huggle3
         /// <summary>
         /// Regex for blanked page
         /// </summary>
-        public static Regex PageBlankedPattern; // blanked
+        public static Regex PageBlankedPattern = null; // blanked
         /// <summary>
         /// Regex for created page
         /// </summary>
-        public static Regex PageCreatedPattern;
+        public static Regex PageCreatedPattern = null;
         /// <summary>
         /// Regex for redirect
         /// </summary>
-        public static Regex PageRedirectedPattern;
+        public static Regex PageRedirectedPattern = null;
         /// <summary>
         /// Regex for replaced page
         /// </summary>
-        public static Regex PageReplacedPattern;
+        public static Regex PageReplacedPattern = null;
         /// <summary>
         /// If patroling is allowed
         /// </summary>
@@ -488,7 +488,7 @@ namespace huggle3
         /// <summary>
         /// Location of config
         /// </summary>
-        public static string ProjectConfigLocation; // Location of config
+        public static string ProjectConfigLocation = null; // Location of config
         /// <summary>
         /// Confirmation when you want to block someone
         /// </summary>
@@ -516,7 +516,7 @@ namespace huggle3
         /// <summary>
         /// Quick sight
         /// </summary>
-        public static bool QuickSight;
+        public static bool QuickSight = false;
         /// <summary>
         /// Insert diffs to report
         /// </summary>
@@ -552,7 +552,7 @@ namespace huggle3
         /// <summary>
         /// Require time
         /// </summary>
-        public static int RequireTime;
+        public static int RequireTime = 0;
         /// <summary>
         /// Revert regex to detect
         /// </summary>
@@ -620,7 +620,7 @@ namespace huggle3
         /// <summary>
         /// Single revert summary
         /// </summary>
-        public static string SingleRevertSummary;
+        public static string SingleRevertSummary = null;
         /// <summary>
         /// Speedy criteria
         /// </summary>
@@ -644,7 +644,7 @@ namespace huggle3
         /// <summary>
         /// Template summary
         /// </summary>
-        public static string TemplateMessageSummary;
+        public static string TemplateMessageSummary = null;
         /// <summary>
         /// Template messages
         /// </summary>
@@ -672,7 +672,7 @@ namespace huggle3
         /// <summary>
         /// Summary
         /// </summary>
-        public static string UndoSummary;
+        public static string UndoSummary = null;
         /// <summary>
         /// Update whitelist is needed
         /// </summary>
@@ -688,7 +688,11 @@ namespace huggle3
         /// <summary>
         /// User agent
         /// </summary>
-        public static string UserAgent;
+        public static string UserAgent = null;
+        /// <summary>
+        /// User config xml
+        /// </summary>
+        public static string UserConfigLocation_Xml = "Special:Mypage/huggle.xml.css";
         /// <summary>
         /// User config location
         /// </summary>
@@ -696,7 +700,7 @@ namespace huggle3
         /// <summary>
         /// User list
         /// </summary>
-        public static string UserListLocation;
+        public static string UserListLocation = null;
         /// <summary>
         /// Summary for update of user list
         /// </summary>
