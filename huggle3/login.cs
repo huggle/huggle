@@ -77,6 +77,8 @@ namespace huggle3
                             break;
                     }
                     login.Status = result;
+                    // remove the password from memory for security reasons
+                    Config.Password = "";
                     login.LoggingOn = false;
                     return;
                 }
