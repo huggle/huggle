@@ -44,6 +44,9 @@ namespace huggle3
             Core.Threading.Execute(FeedTh);
         }
 
+        /// <summary>
+        /// RC feed
+        /// </summary>
         private void Irc()
         {
             Core.History("Feed.Irc");

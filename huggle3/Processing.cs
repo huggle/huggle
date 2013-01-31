@@ -3,7 +3,17 @@
 //This file contains code for processing
 
 /// <DOCUMENTATION>
-/// There is no documentation for this
+/// How this works:
+/// Huggle parses all data using this class, edit is either displayed or processed
+/// 
+/// when you create an instance of edit, it contains only some basic data,
+/// mostly what you get from a feed you are currently using, like irc,
+/// calling Process on this edit will attempt to retrieve all possible
+/// information using mediawiki.
+/// 
+/// You don't need to process an edit in order to use it, but it will likely
+/// be requested to be processed later, if you won't do it, so processing
+/// edit after you create is a good way to save resources
 /// </DOCUMENTATION>
 
 //Copyright (C) 2011-2012 Huggle team
@@ -28,39 +38,21 @@ namespace huggle3
     {
         public static System.Text.RegularExpressions.Regex RC = new System.Text.RegularExpressions.Regex("type=\"([^\"]*)\" ns=\"[^\"]*\" title=\"([^\"]*)\" rcid=\"([^\"]*)\" pageid=\"[^\"]*\"revid=\"([^\"]*)\" old_revid=\"([^\"]*)\" user=\"([^\"]*)\"( bot=\")?( anon=\"\")?( new=\")?( minor=\")? oldlen=\"([^\"]*)\" newlen=\"([^\"]*)\" timestamp=\"([^\"]*)\"( comment=\"([^\"]*)\")? />", System.Text.RegularExpressions.RegexOptions.Compiled);
 
-
-        public static int Process_NewEdit(Edit _Edit)
-        {
-            Core.History("Processing.ProcessNewEdit()");
-            try
-            {
-                //bool Redraw = false;
-                if (_Edit._Page.LastEdit != null)
-                {
-                    _Edit.Prev = _Edit._Page.LastEdit;
-                    _Edit.Prev.Next = _Edit;
-                    if (_Edit.Prev.Size >= 0 && _Edit._Change != 0)
-                    {
-                        _Edit.Size = _Edit.Prev.Size + _Edit._Change;
-                    }
-                }
-            }
-            catch (Exception A)
-            {
-                Core.ExceptionHandler(A);
-            }
-            return 0;
-        }
-
-
+        /// <summary>
+        /// Check if the object contains all data and if not, if will download them from wikimedia project
+        /// </summary>
+        /// <param name="_Edit">Edit</param>
+        /// <returns>1 on error (not enough data), 0 on success</returns>
         public static int ProcessEdit(Edit _Edit)
         {
             Core.History("Processing.ProcessEdit(new edit)");
+            // in case edit doesn't contain any basic data, we don't know what to do with it, so we return 1
             if (_Edit == null)
             {
                 return 1;
             }
 
+            // if there is no time for this edit, we give it current time
             if (_Edit._Time == DateTime.MinValue)
             {
                 _Edit._Time = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
@@ -69,11 +61,21 @@ namespace huggle3
             if (_Edit.Oldid == null)
             { _Edit.Oldid = "prev"; }
 
+            // if edit has a bot flag, the user is a bot
             if (_Edit._Bot == true)
             {
-                _Edit._User.Bot = true;
+                if (_Edit._User != null)
+                {
+                    _Edit._User.Bot = true;
+                }
+                else
+                {
+                    Core.DebugLog("User object for edit was null at " + _Edit.Id);
+                }
             }
 
+            // we check if there is config pattern for blanking edit in config, and if so, we check if this edit
+            // is removing all text from a page
             if (Config.PageBlankedPattern != null)
             {
                 if (Config.PageBlankedPattern.IsMatch(_Edit.Summary) || _Edit.Size == 0)
@@ -81,6 +83,9 @@ namespace huggle3
                     _Edit._Type = Edit.EditType.Blanked;
                 }
             }
+            
+            // we check the same for redirect pattern
+
             if (Config.PageRedirectedPattern != null)
             {
                 if (Config.PageRedirectedPattern.IsMatch(_Edit.Summary))
@@ -88,6 +93,7 @@ namespace huggle3
                     _Edit._Type = Edit.EditType.Redirect;
                 }
             }
+
             if (Config.PageReplacedPattern != null)
             {
                 if (Config.PageReplacedPattern.IsMatch(_Edit.Summary) || (_Edit.Size >= 0 && _Edit._Change <= -200))
@@ -95,6 +101,7 @@ namespace huggle3
                     _Edit._Type = Edit.EditType.ReplacedWith;
                 }
             }
+
             if (Config.Summary != "" && _Edit.Summary.EndsWith(Config.Summary) && _Edit.Summary != "")
             {
                 _Edit._Assisted = true;
@@ -109,6 +116,8 @@ namespace huggle3
                 }
             }
 
+            // if user or page is not unknown object, we retrieve information for that as well
+
             if (_Edit._User != null && _Edit._Page != null)
             {
                 if (_Edit.NewPage)
@@ -116,7 +125,6 @@ namespace huggle3
                     _Edit._Page.FirstEdit = _Edit;
                     _Edit.Prev = Core.NullEdit;
                 }
-
 
                 if (_Edit.Summary == Config.UndoSummary + " " + Config.Summary)
                 {
@@ -477,7 +485,7 @@ namespace huggle3
         }
 
         /// <summary>
-        /// Display edit
+        /// Display edit in a browser on main form
         /// </summary>
         /// <param name="_edit"></param>
         /// <param name="BrowsingHistory"></param>

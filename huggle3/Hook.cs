@@ -35,6 +35,11 @@ namespace huggle3
             
         }
 
+        public static void On_Init()
+        { 
+            
+        }
+
         public static void On_Log(ref string text)
         { 
             
