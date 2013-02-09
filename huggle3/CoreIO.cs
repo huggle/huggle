@@ -26,6 +26,32 @@ using System.Text;
 
 namespace huggle3
 {
+    public static class RevisionProvider
+    {
+        public static string GetHash()
+        {
+            try
+            {
+                using (var stream = System.Reflection.Assembly.GetExecutingAssembly()
+                                            .GetManifestResourceStream(
+                                            "Client" + "." + "version.txt"))
+                using (var reader = new StreamReader(stream))
+                {
+                    string result = reader.ReadLine();
+                    if (!reader.EndOfStream)
+                    {
+                        result += " [" + reader.ReadLine() + "]";
+                    }
+                    return result;
+                }
+            }
+            catch (Exception fail)
+            {
+                Core.ExceptionHandler(fail);
+            }
+            return "";
+        }
+    }
     public static class Core_IO
     {
         public static class GET
