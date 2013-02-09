@@ -34,7 +34,7 @@ namespace huggle3
             {
                 using (var stream = System.Reflection.Assembly.GetExecutingAssembly()
                                             .GetManifestResourceStream(
-                                            "Client" + "." + "version.txt"))
+                                            "huggle3" + "." + "version.txt"))
                 using (var reader = new StreamReader(stream))
                 {
                     string result = reader.ReadLine();
