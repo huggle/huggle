@@ -47,6 +47,7 @@
             this.lTranslate = new System.Windows.Forms.LinkLabel();
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.checkBox = new System.Windows.Forms.CheckBox();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -82,7 +83,7 @@
             this.lPassword.AutoSize = true;
             this.lPassword.Location = new System.Drawing.Point(7, 137);
             this.lPassword.Name = "lPassword";
-            this.lPassword.Size = new System.Drawing.Size(83, 13);
+            this.lPassword.Size = new System.Drawing.Size(89, 13);
             this.lPassword.TabIndex = 2;
             this.lPassword.Text = "[[login-password]]";
             // 
@@ -91,7 +92,7 @@
             this.lblName.AutoSize = true;
             this.lblName.Location = new System.Drawing.Point(7, 111);
             this.lblName.Name = "lblName";
-            this.lblName.Size = new System.Drawing.Size(84, 13);
+            this.lblName.Size = new System.Drawing.Size(90, 13);
             this.lblName.TabIndex = 0;
             this.lblName.Text = "[[login-username]]";
             // 
@@ -121,7 +122,7 @@
             this.lbl_Project.AutoSize = true;
             this.lbl_Project.Location = new System.Drawing.Point(7, 163);
             this.lbl_Project.Name = "lbl_Project";
-            this.lbl_Project.Size = new System.Drawing.Size(70, 13);
+            this.lbl_Project.Size = new System.Drawing.Size(76, 13);
             this.lbl_Project.TabIndex = 4;
             this.lbl_Project.Text = "[[login-project]]";
             // 
@@ -130,7 +131,7 @@
             this.lbl_Language.AutoSize = true;
             this.lbl_Language.Location = new System.Drawing.Point(7, 191);
             this.lbl_Language.Name = "lbl_Language";
-            this.lbl_Language.Size = new System.Drawing.Size(82, 13);
+            this.lbl_Language.Size = new System.Drawing.Size(88, 13);
             this.lbl_Language.TabIndex = 6;
             this.lbl_Language.Text = "[[login-language]]";
             // 
@@ -177,7 +178,7 @@
             this.lProxy.AutoSize = true;
             this.lProxy.Location = new System.Drawing.Point(10, 325);
             this.lProxy.Name = "lProxy";
-            this.lProxy.Size = new System.Drawing.Size(90, 13);
+            this.lProxy.Size = new System.Drawing.Size(96, 13);
             this.lProxy.TabIndex = 13;
             this.lProxy.TabStop = true;
             this.lProxy.Text = "[[login-proxygroup]]";
@@ -187,13 +188,14 @@
             // 
             this.lTranslate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lTranslate.AutoSize = true;
-            this.lTranslate.Location = new System.Drawing.Point(10, 350);
+            this.lTranslate.Location = new System.Drawing.Point(10, 340);
             this.lTranslate.Name = "lTranslate";
-            this.lTranslate.Size = new System.Drawing.Size(82, 13);
+            this.lTranslate.Size = new System.Drawing.Size(84, 13);
             this.lTranslate.TabIndex = 0;
             this.lTranslate.TabStop = true;
             this.lTranslate.Text = "[[login-translate]]";
             this.lTranslate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lTranslate.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lTranslate_LinkClicked);
             // 
             // timer
             // 
@@ -204,17 +206,31 @@
             this.checkBox.AutoSize = true;
             this.checkBox.Location = new System.Drawing.Point(9, 219);
             this.checkBox.Name = "checkBox";
-            this.checkBox.Size = new System.Drawing.Size(44, 17);
+            this.checkBox.Size = new System.Drawing.Size(75, 17);
             this.checkBox.TabIndex = 14;
             this.checkBox.Text = "[[login-ssl]]";
             this.checkBox.UseVisualStyleBackColor = true;
             this.checkBox.CheckedChanged += new System.EventHandler(this.checkBox_CheckedChanged);
+            // 
+            // linkLabel1
+            // 
+            this.linkLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.Location = new System.Drawing.Point(10, 355);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(70, 13);
+            this.linkLabel1.TabIndex = 15;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "About huggle";
+            this.linkLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
             // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(320, 377);
+            this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.checkBox);
             this.Controls.Add(this.lTranslate);
             this.Controls.Add(this.lProxy);
@@ -232,10 +248,6 @@
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.textName);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            if (Config._Platform == Config.platform.windows64 || Config._Platform == Config.platform.windows32)
-            {
-                this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            }
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "LoginForm";
@@ -267,5 +279,6 @@
          public System.Windows.Forms.ProgressBar StatusBar;
          private System.Windows.Forms.Timer timer;
          private System.Windows.Forms.CheckBox checkBox;
+         private System.Windows.Forms.LinkLabel linkLabel1;
      }
  }

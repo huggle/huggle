@@ -47,6 +47,7 @@ namespace huggle3.Forms
         {
             Core.History("AboutForm_Load()");
             Localize();
+            label1.Text = "Version: " + Application.ProductVersion + " revision: " + RevisionProvider.GetHash();
         }
 
         private void button_Click(object sender, EventArgs e)
