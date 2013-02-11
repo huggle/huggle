@@ -24,7 +24,5 @@ using System.Text;
 
 namespace huggle3.Requests
 {
-    public class request_action : request_core.Request
-    {
-    }
+
 }

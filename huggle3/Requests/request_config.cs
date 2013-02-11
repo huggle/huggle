@@ -37,7 +37,7 @@ namespace huggle3.Requests
                 Fail(Languages.Get("loadglobalconfig-fail"));
             }
 
-            foreach (KeyValuePair<string, string> x in Core_IO.ProcessConfigFile(apiResult.Result_Text))
+            foreach (KeyValuePair<string, string> x in Core_IO.ProcessConfigFile(apiResult.Text))
             {
                 Core_IO.SetGlobalConfigOption(x.Key, x.Value);
             }
@@ -88,8 +88,8 @@ namespace huggle3.Requests
                     Config.Minor.Add(minor, false);
                 }
 
-                string projectconfig_file = System.Web.HttpUtility.HtmlDecode(Core.FindString(Core.FindString(Core.FindString(apiResult.Result_Text, "<page", "ns=\"" + Space.SpaceID(Config.ProjectConfigLocation).ToString() + "\"", "</page>"), "<rev "), ">", "</rev>"));
-                string userconfig_file = System.Web.HttpUtility.HtmlDecode( Core.FindString(Core.FindString(Core.FindString( apiResult.Result_Text, "<page", "ns=\"" + Space.SpaceID(Config.UserConfigLocation).ToString() + "\"", "</page>"), "<rev "),">", "</rev>" ));
+                string projectconfig_file = System.Web.HttpUtility.HtmlDecode(Core.FindString(Core.FindString(Core.FindString(apiResult.Text, "<page", "ns=\"" + Space.SpaceID(Config.ProjectConfigLocation).ToString() + "\"", "</page>"), "<rev "), ">", "</rev>"));
+                string userconfig_file = System.Web.HttpUtility.HtmlDecode( Core.FindString(Core.FindString(Core.FindString( apiResult.Text, "<page", "ns=\"" + Space.SpaceID(Config.UserConfigLocation).ToString() + "\"", "</page>"), "<rev "),">", "</rev>" ));
                 try
                 {
                     foreach (KeyValuePair<string, string> value in Core_IO.ProcessConfigFile(projectconfig_file))
@@ -142,7 +142,7 @@ namespace huggle3.Requests
                     Config.WarnSummary4 = Config.WarnSummary;
                 }
 
-                string userinfo = Core.FindString(apiResult.Result_Text, "<userinfo", "</userinfo>");
+                string userinfo = Core.FindString(apiResult.Text, "<userinfo", "</userinfo>");
 
                 if (userinfo == null)
                 {

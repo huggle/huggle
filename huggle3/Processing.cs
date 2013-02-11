@@ -615,26 +615,6 @@ namespace huggle3
             return true;
         }
 
-        public static void ProcessRevert(Edit edit, string Summary = "", bool Rollback = true, bool Undo = false, bool CurrentOnly = false)
-        {
-            Core.History("Processing.ProcessRevert()");
-            if (edit == null)
-                return;
-            User LastUser = null;
-
-            if (edit._Page.LastEdit != null)
-            {
-                LastUser = edit._Page.LastEdit.EditUser;
-            }
-
-            if (Config.ConfirmSelfRevert && !Undo)
-            {
-
-            }
-
-
-        }
-
         /// <summary>
         /// History
         /// </summary>
@@ -825,6 +805,202 @@ namespace huggle3
             }
         }
 
+        /// <summary>
+        /// Perform a revert of a page
+        /// </summary>
+        /// <param name="edit"></param>
+        /// <param name="reason"></param>
+        /// <param name="Rollback"></param>
+        /// <param name="Undo"></param>
+        /// <param name="CurrentOnly"></param>
+        /// <returns></returns>
+        public static bool ProcessRevert(Edit edit, string reason, bool Rollback = true, bool Undo = false, bool CurrentOnly = false)
+        {
+            // check if we have all needed info
+            if (edit == null || edit._Page == null || edit.EditUser == null)
+            {
+                return false;
+            }
 
+            User LastEditor = null;
+            if (edit._Page.LastEdit != null)
+            {
+                LastEditor = edit._Page.LastEdit.EditUser;
+            }
+
+            if (Config.ConfirmSelfRevert && !Undo && edit.EditUser.IsCurrentUser
+                && (edit._Page.FirstEdit == null || edit.Id != edit._Page.FirstEdit.Id)
+                && System.Windows.Forms.MessageBox.Show("Do you really want to revert your own edit?", "Confirm revert",
+                System.Windows.Forms.MessageBoxButtons.YesNo,
+                System.Windows.Forms.MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.No)
+            {
+                return false;
+            }
+
+            if (Config.ConfirmIgnored && edit.EditUser.Ignored && !edit.EditUser.IsCurrentUser
+                && System.Windows.Forms.MessageBox.Show("Do you really want to revert whitelisted user?", "Confirm revert",
+                System.Windows.Forms.MessageBoxButtons.YesNo,
+                System.Windows.Forms.MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.No)
+            {
+                return false;
+            }
+
+            if (!Undo && edit.EditUser.User_Level == User.UserLevel.None)
+            { 
+                edit.EditUser.User_Level = User.UserLevel.Reverted;
+            }
+
+            if (!Undo && edit._Page.level == Page.PageLevel.None)
+            {
+                edit._Page.level = Page.PageLevel.Watch;
+            }
+
+            if (edit._Page.FirstEdit != null && edit.Id == edit._Page.FirstEdit.Id && (edit._Page._Space == Space.UserTalk))
+            { 
+                // request edit
+            }
+
+            return false;
+        }
+        /*
+
+        'Confirm reversion of multiple edits
+        If Config.ConfirmMultiple AndAlso Edit.Prev IsNot Nothing AndAlso Edit.User Is Edit.Prev.User _
+            AndAlso MessageBox.Show(Msg("revert-confirm-multiple", Edit.User.Name), "Huggle", _
+            MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.No Then Return False
+
+        'If reverting first edit to user talk page, blank it
+        If Edit.Page.FirstEdit IsNot Nothing AndAlso Edit.Id = Edit.Page.FirstEdit.Id _
+            AndAlso Edit.Page.Space Is Space.UserTalk Then
+
+            Dim NewRequest As New EditRequest
+            NewRequest.Text = ""
+            NewRequest.Page = Edit.Page
+            NewRequest.Minor = Config.Minor("revert")
+            NewRequest.Watch = Config.Watch("revert")
+            If Undoing Then NewRequest.Summary = Config.UndoSummary Else NewRequest.Summary = _
+                "Revert edit by [[Special:Contributions/" & Config.Username & "|" & Config.Username & "]]"
+            NewRequest.Start()
+            Return False
+        End If
+
+        'If reverting first edit to page, offer to tag for speedy deletion
+        If Edit.Page.FirstEdit IsNot Nothing AndAlso Edit.Id = Edit.Page.FirstEdit.Id Then
+            If Not Config.Speedy Then
+                MessageBox.Show(Msg("revert-error-first"))
+                Return False
+            End If
+
+            Dim Prompt As String = Msg("revert-only") & " "
+
+            If Config.Rights.Contains("delete") _
+                Then Prompt &= Msg("revert-delete-instead") Else Prompt &= Msg("revert-speedy-instead")
+            If MessageBox.Show(Prompt, "Huggle", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes _
+            Then UserDeleteRequest(Edit.Page)
+
+            Return False
+        End If
+
+        'If reverting page creator, offer to tag for speedy deletion
+        If Edit.Page.FirstEdit IsNot Nothing AndAlso Config.Speedy AndAlso Edit.User Is Edit.Page.FirstEdit.User Then
+
+            Dim Prompt As String = Msg("revert-creator", Edit.User.Name) & " "
+            If Config.Rights.Contains("delete") _
+                Then Prompt &= Msg("revert-delete-instead") Else Prompt &= Msg("revert-speedy-instead")
+
+            Select Case MessageBox.Show(Prompt, "Huggle", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
+
+                Case DialogResult.Yes
+                    UserDeleteRequest(Edit.Page)
+                    Return False
+
+                Case DialogResult.Cancel
+                    Return False
+            End Select
+        End If
+
+        'Confirm revert to revision by a warned user
+        If Config.ConfirmWarned AndAlso Not Undoing AndAlso Edit.Prev IsNot Nothing AndAlso Edit.Prev.User IsNot Nothing _
+            AndAlso Edit.Prev.User IsNot Edit.User AndAlso Edit.Prev.User.Level >= UserLevel.Warn1 AndAlso _
+            MessageBox.Show(Msg("revert-confirm-warned", Edit.User.Name), "Huggle", MessageBoxButtons.YesNo, _
+            MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = DialogResult.No Then Return False
+
+        'Confirm revert to revision by anonymous user in same /16 block as user being reverted
+        If Config.ConfirmRange AndAlso Not Undoing AndAlso Edit.Prev IsNot Nothing AndAlso Edit.Prev.User IsNot Nothing _
+            AndAlso Edit.Prev.User.Anonymous AndAlso Edit.User.Anonymous AndAlso Edit.Prev.User IsNot Edit.User AndAlso _
+            Edit.Prev.User.Range = Edit.User.Range AndAlso MessageBox.Show(Msg("revert-confirm-range", _
+            Edit.User.Name, Edit.Prev.User.Name), "Huggle", MessageBoxButtons.YesNo, MessageBoxIcon.Question, _
+            MessageBoxDefaultButton.Button2) = DialogResult.No Then Return False
+
+        'Confirm revert of ignored page
+        If Config.ConfirmPage AndAlso Not Undoing AndAlso Config.IgnoredPages.Contains(Edit.Page.Name) AndAlso _
+            MessageBox.Show(Msg("revert-confirm-page", Edit.Page.Name), "Huggle", MessageBoxButtons.YesNo, _
+            MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = DialogResult.No Then Return False
+
+        If Not Edit.User.Ignored AndAlso Not Edit.User.IsMe AndAlso Not Edit.User.RecentContribsRetrieved Then
+            Edit.User.RecentContribsRetrieved = True
+
+            Dim NewRequest As New ContribsRequest
+            NewRequest.BlockSize = 10
+            NewRequest.User = Edit.User
+            NewRequest.Start()
+        End If
+
+        'Use rollback if possible
+        If Rollback AndAlso Config.Rights.Contains("rollback") AndAlso Config.UseRollback AndAlso Not Undoing _
+            AndAlso (Edit Is Edit.Page.LastEdit) AndAlso (Edit.RollbackToken IsNot Nothing) _
+            AndAlso Not (CurrentOnly AndAlso (Edit.Prev Is Nothing OrElse Edit.User Is Edit.Prev.User)) Then
+
+            If Edit Is CurrentEdit Then MainForm.StartRevert()
+
+            Dim NewRequest As New RollbackRequest
+            NewRequest.Edit = Edit
+            NewRequest.Summary = Summary
+            NewRequest.Start()
+            Return True
+        End If
+
+        'Revert all edits by the last editor of the page, if possible
+        If Edit Is Edit.Page.LastEdit AndAlso Not Undoing _
+            AndAlso Not (CurrentOnly AndAlso (Edit.Prev Is Nothing OrElse Edit.User Is Edit.Prev.User)) Then
+
+            If Edit Is CurrentEdit Then MainForm.StartRevert()
+
+            Dim NewRequest As New FakeRollbackRequest
+            NewRequest.Page = Edit.Page
+            NewRequest.ExcludeUser = Edit.User
+            NewRequest.LastUser = LastEditor
+            NewRequest.Summary = Summary
+            NewRequest.Start()
+            Return True
+        End If
+
+        'Confirm revert to another revision by the same user
+        If Not Undoing AndAlso Edit.Prev IsNot Nothing AndAlso Edit.Prev.User Is Edit.User _
+            AndAlso Config.ConfirmSame AndAlso Edit.User IsNot User.Me AndAlso _
+            MessageBox.Show(Msg("revert-confirm-same", Edit.User.Name), "Huggle", MessageBoxButtons.YesNo, _
+            MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = DialogResult.No Then Return False
+
+        If Edit Is CurrentEdit Then MainForm.StartRevert()
+
+        If CurrentOnly AndAlso Edit IsNot Edit.Page.LastEdit Then
+            'Use 'undo' with single edit if necessary
+            Dim NewRequest As New UndoRequest
+            NewRequest.Edit = Edit
+            NewRequest.Summary = Summary
+            NewRequest.Start()
+            Return True
+        Else
+            'Plain old reversion
+            Dim NewRequest As New RevertRequest
+            NewRequest.Edit = Edit.Prev
+            NewRequest.LastUser = LastEditor
+            NewRequest.Summary = Summary
+            NewRequest.Start()
+            Return True
+        End If
+         
+         * 
+         */
     }
 }

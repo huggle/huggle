@@ -25,6 +25,16 @@ namespace huggle3.Requests
 {
     public class request_edit : request_core.Request
     {
-        public Page Page;
+        public Page page = null;
+        public string text = null;
+        public string summary = null;
+        public bool minor = false;
+        public bool watch = false;
+        public bool noautosummary = false;
+
+        public override void Process()
+        {
+            ApiResult result = null;
+        }
     }
 }

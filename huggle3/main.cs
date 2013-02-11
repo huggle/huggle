@@ -567,5 +567,27 @@ namespace huggle3
                 Config.ShowTwoQueues = true;
             }
         }
+
+        private void Revert(string reason)
+        {
+            if (_CurrentEdit == null)
+            {
+                MessageBox.Show("This edit can't be reverted, because the variable _CurrentEdit or _CurrentPage is NULL, make sure this is editable page", "Unable to revert page", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            Processing.ProcessRevert(_CurrentEdit, reason);
+        }
+
+        private void tsRevertWarnBt_ButtonClick(object sender, EventArgs e)
+        {
+            try
+            {
+                Revert(Config.RevertSummary);
+            }
+            catch (Exception fail)
+            {
+                Core.ExceptionHandler(fail);
+            }
+        }
     }
 }

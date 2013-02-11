@@ -90,7 +90,7 @@ namespace huggle3
                     else
                     {
                         XmlDocument data = new XmlDocument();
-                        data.LoadXml(result.Result_Text);
+                        data.LoadXml(result.Text);
 
                         // parse each item
                         foreach (XmlNode node in data.ChildNodes[1].ChildNodes[0].ChildNodes[0].ChildNodes)

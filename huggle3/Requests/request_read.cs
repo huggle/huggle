@@ -142,16 +142,16 @@ namespace huggle3.Requests
                     if (_full)
                     {
                         FullTotal = FullTotal + BlockSize;
-                        result = new request_core.Request_Result(result.text);
+                        result = new request_core.RequestResult(result.text);
                         Program.MainForm.Log(Languages.Get("history-progress"));
                     }
-                    Offset = GetParameter(Result.Result_Text, "rvstartid");
+                    Offset = GetParameter(Result.Text, "rvstartid");
                     if (Offset == null)
                     {
                         Offset = "";
                     }
                 }
-                Complete(Text: Result.Result_Text);
+                Complete(Text: Result.Text);
             }
         }
 

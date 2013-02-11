@@ -30,6 +30,10 @@ namespace huggle3
         /// List of pending warnings
         /// </summary>
         public static List<Edit> PendingWarnings = new List<Edit>();
+        /// <summary>
+        /// Edit token which is currently useable
+        /// </summary>
+        public static string EditToken = null;
 
         /// <summary>
         /// Initalise class to its default values

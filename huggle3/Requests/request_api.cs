@@ -43,15 +43,15 @@ namespace huggle3
         /// <summary>
         /// Error code
         /// </summary>
-        public string Error_Code;
+        public string Error_Code = null;
         /// <summary>
         /// Result text
         /// </summary>
-        public string Result_Text;
+        public string Text = null;
         /// <summary>
         /// Error text
         /// </summary>
-        public string Error_Data;
+        public string Error_Data = null;
 
         public bool ResultInError
         {
@@ -69,7 +69,7 @@ namespace huggle3
         /// </summary>
         public ApiResult()
         {
-            this.Result_Text = null;
+            this.Text = null;
             this.Error_Data = null;
         }
 
@@ -81,7 +81,7 @@ namespace huggle3
         /// <param name="Descr"></param>
         public ApiResult(string Text, string Error = null, string Descr = null)
         {
-            this.Result_Text = Text;
+            this.Text = Text;
             this.Error_Data = Descr;
             this.Error_Code = Error;
         }
@@ -101,21 +101,21 @@ namespace huggle3
                 ApiResult result = new ApiResult();
                 result = ApiRequest("action=login", "lgname=" + System.Web.HttpUtility.UrlEncode(Config.Username), Config.Project);
                 //If this returns as null then the login has failed
-                if (result == null || result.Result_Text == null)
+                if (result == null || result.Text == null)
                 {
                     Core.DebugLog("The request returned a null value");
                     return LoginResult.Failed;
                 }
 
                 //If no token is found (doesnt match regex) then the login has failed
-                if (System.Text.RegularExpressions.Regex.Match(result.Result_Text, "token=\"[0-9A-Za-z]*\"").Success == false)
+                if (System.Text.RegularExpressions.Regex.Match(result.Text, "token=\"[0-9A-Za-z]*\"").Success == false)
                 {
                     Core.DebugLog("Request did not match the login regex");
                     return LoginResult.Failed;
                 }
 
                 //This means that there must be a token, So lets get this token
-                Login.Token = System.Text.RegularExpressions.Regex.Match(result.Result_Text, "token=\"[0-9A-Za-z]*\"").Value;
+                Login.Token = System.Text.RegularExpressions.Regex.Match(result.Text, "token=\"[0-9A-Za-z]*\"").Value;
                 //And format it properly
                 Login.Token = Login.Token.Replace("\"", "");
                 Login.Token = Login.Token.Replace("token=", "");
@@ -124,47 +124,47 @@ namespace huggle3
                 result = ApiRequest("action=login", "lgname=" + System.Web.HttpUtility.UrlEncode(Config.Username) + "&lgpassword=" + System.Web.HttpUtility.UrlEncode(Config.Password) + "&lgtoken=" + Login.Token, Config.Project);
 
                 //As this has returned as null the login has probably failed
-                if (result.Result_Text == null)
+                if (result.Text == null)
                 {
                     Core.WriteLog("Request to login (with token) returned a null");
                     return LoginResult.Failed;
                 }
 
                 //Now we will try and match all of the other possible values
-                if (result.Result_Text.Contains("result=\"Success\""))
+                if (result.Text.Contains("result=\"Success\""))
                 {
                     // Logged in    
                     return LoginResult.Success;
                 }
-                if (result.Result_Text.Contains("result=\"Illegal\""))
+                if (result.Text.Contains("result=\"Illegal\""))
                 {
                     return LoginResult.Illegal;
                 }
-                if (result.Result_Text.Contains("result=\"NotExists\""))
+                if (result.Text.Contains("result=\"NotExists\""))
                 {
                     return LoginResult.NotExists;
                 }
-                if (result.Result_Text.Contains("result=\"WrongPass\""))
+                if (result.Text.Contains("result=\"WrongPass\""))
                 {
                     return LoginResult.WrongPass;
                 }
-                if (result.Result_Text.Contains("result=\"NoName\""))
+                if (result.Text.Contains("result=\"NoName\""))
                 {
                     return LoginResult.NoName;
                 }
-                if (result.Result_Text.Contains("result=\"EmptyPass\""))
+                if (result.Text.Contains("result=\"EmptyPass\""))
                 {
                     return LoginResult.EmptyPass;
                 }
-                if (result.Result_Text.Contains("result=\"Throttled\""))
+                if (result.Text.Contains("result=\"Throttled\""))
                 {
                     return LoginResult.Throttled;
                 }
-                if (result.Result_Text.Contains("result=\"Blocked\""))
+                if (result.Text.Contains("result=\"Blocked\""))
                 {
                     return LoginResult.Blocked;
                 }
-                if (result.Result_Text.Contains("result=\"NeedToken\""))
+                if (result.Text.Contains("result=\"NeedToken\""))
                 {
                     return LoginResult.NeedToken;
                 }

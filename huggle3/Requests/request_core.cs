@@ -32,15 +32,15 @@ namespace huggle3
 {
     public class request_core
     {
-        public class Request_Result
+        public class RequestResult
         {
             public string text;
             public string message;
 
-            public Request_Result(string Text, string Message = "")
+            public RequestResult(string Text, string Message = "")
             {
                 text = Text;
-                this.message = Message;
+                message = Message;
             }
         }
 
@@ -69,9 +69,14 @@ namespace huggle3
             /// <summary>
             /// Value
             /// </summary>
-            public Request_Result result;
-
+            public RequestResult result;
+            /// <summary>
+            /// Function that is used as return point
+            /// </summary>
             public delegate void RequestCallback();
+            /// <summary>
+            /// Function that is used as return point
+            /// </summary>
             public RequestCallback Callback;
 
             /// <summary>
@@ -207,6 +212,107 @@ namespace huggle3
             {
                 _cookies = new System.Net.CookieContainer(); // let GC do it
             }
+
+            public ApiResult PostEdit(Page page, string text, string reason, string section = null, bool minor = false, bool watch = false, bool SuppressSummary = false, bool Create = true)
+            { 
+                ApiResult result = new ApiResult(null, null, null);
+
+                string token = null;
+                bool InvalidToken = false;
+
+                while (!InvalidToken)
+                {
+                    while (token == null)
+                    {
+                        if (section != null || Variables.EditToken == null)
+                        {
+                            result = ApiRequest("action=query&prop=info&intoken=edit&titles=" + System.Web.HttpUtility.UrlEncode(page.Name));
+                            if (result.ResultInError)
+                            {
+                                return result;
+                            }
+                            token = GetParameter(result.Text, "edittoken");
+                        }
+                    }
+                }
+
+                return result;
+            }
+
+                /*
+                 * 
+                 *
+                 * Protected Function PostEdit(ByVal Page As Page, ByVal Text As String, ByVal Summary As String, _
+            Optional ByVal Section As String = Nothing, Optional ByVal Minor As Boolean = False, _
+            Optional ByVal Watch As Boolean = False, Optional ByVal SuppressAutoSummary As Boolean = False, _
+            Optional ByVal AllowCreate As Boolean = True) As ApiResult
+            Dim BreakA As Integer = 0, BreakB As Integer = 0
+
+            While BadToken = False And BreakB < Misc.GlExcess
+                BreakB = BreakB + 1
+                'Get edit token
+                While Token Is Nothing And BreakA < Misc.GlExcess
+                    BreakA = BreakA + 1
+                    If Section IsNot Nothing OrElse EditToken Is Nothing Then
+                        Result = DoApiRequest("action=query&prop=info&intoken=edit&titles=" & UrlEncode(Page.Name))
+                        If Result.Error Then Return Result
+                        Token = GetParameter(Result.Text, "edittoken")
+                        If Section Is Nothing Then EditToken = Token
+                    Else
+                        Token = EditToken
+                    End If
+
+                    If EditToken IsNot Nothing Then
+                        If EditToken.Length < 16 Then
+                            'Logged out somehow, logging back in
+                            Token = Nothing
+                            EditToken = Nothing
+                            LogProgress(Msg("error-loggedout"))
+
+                            If DoLogin() <> LoginResult.Success _
+                                Then Return New ApiResult(Nothing, "", Msg("error-reloginfail"))
+                        End If
+                    End If
+                End While
+
+                'Edit page
+                Dim QueryString As String = "title=" & UrlEncode(Page.Name) & "&text=" & UrlEncode(Text) _
+                    & "&summary=" & UrlEncode(Summary)
+
+                If Config.Summary <> "" AndAlso Not SuppressAutoSummary _
+                    Then QueryString &= UrlEncode(" " & Config.Summary)
+
+                QueryString &= "&token=" & UrlEncode(Token)
+
+                If Section IsNot Nothing Then QueryString &= "&section=" & UrlEncode(Section)
+                If Minor Then QueryString &= "&minor"
+                If Watch Then QueryString &= "&watch"
+
+                Result = DoApiRequest("action=edit", QueryString)
+
+                If Result.ErrorCode = "badtoken" Then
+                    BadToken = True
+                    EditToken = Nothing
+                Else
+                    BadToken = False
+                    Return Result
+                End If
+            End While
+            If Result IsNot Nothing Then
+                If Not Result.Error AndAlso Not Watchlist.Contains(Page.SubjectPage) Then Watchlist.Add(Page.SubjectPage)
+            End If
+            Return Result
+        End Function
+
+        Protected Function PostEdit(ByVal PageName As String, ByVal Text As String, ByVal Summary As String, _
+            Optional ByVal Section As String = Nothing, Optional ByVal Minor As Boolean = False, _
+            Optional ByVal Watch As Boolean = False, Optional ByVal SuppressAutoSummary As Boolean = False) _
+            As ApiResult
+
+            Return PostEdit(GetPage(PageName), Text, Summary, Section, Minor, Watch, SuppressAutoSummary)
+        End Function
+                 * 
+                 */
 
             /// <summary>
             /// Start web req
@@ -407,7 +513,7 @@ namespace huggle3
             public virtual void Complete(string Message = "", string Text = "")
             {
                 Core.History("Request.Complete()");
-                result = new Request_Result(Text, Message);
+                result = new RequestResult(Text, Message);
                 _State = States.Complete;
                 EndRequest();
             }
