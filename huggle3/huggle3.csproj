@@ -295,6 +295,7 @@
     <Compile Include="space.cs" />
     <Compile Include="ThreadingSystem.cs" />
     <Compile Include="user.cs" />
+    <Compile Include="Variables.cs" />
     <EmbeddedResource Include="Forms\ConfigForm.resx">
       <DependentUpon>ConfigForm.cs</DependentUpon>
     </EmbeddedResource>

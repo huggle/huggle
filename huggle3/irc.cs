@@ -171,7 +171,7 @@ namespace huggle3
                             string change = Edit.Groups[7].Value;
                             string summary = Edit.Groups[8].Value;
                             Edit curr = new Edit();
-                            curr._Change = int.Parse(change);
+                            curr.Change = int.Parse(change);
                             curr.Summary = summary;
                             curr._Page = new Page(page);
                             Queue.Enqueue(curr);

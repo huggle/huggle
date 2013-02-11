@@ -56,20 +56,20 @@ namespace huggle3
             }
 
             // if there is no time for this edit, we give it current time
-            if (edit._Time == DateTime.MinValue)
+            if (edit.Time == DateTime.MinValue)
             {
-                edit._Time = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
+                edit.Time = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
             }
 
             if (edit.Oldid == null)
             { edit.Oldid = "prev"; }
 
             // if edit has a bot flag, the user is a bot
-            if (edit._Bot == true)
+            if (edit.Bot == true)
             {
-                if (edit._User != null)
+                if (edit.EditUser != null)
                 {
-                    edit._User.Bot = true;
+                    edit.EditUser.Bot = true;
                 }
                 else
                 {
@@ -83,7 +83,7 @@ namespace huggle3
             {
                 if (Config.PageBlankedPattern.IsMatch(edit.Summary) || edit.Size == 0)
                 {
-                    edit._Type = Edit.EditType.Blanked;
+                    edit.Type = Edit.EditType.Blanked;
                 }
             }
 
@@ -93,35 +93,35 @@ namespace huggle3
             {
                 if (Config.PageRedirectedPattern.IsMatch(edit.Summary))
                 {
-                    edit._Type = Edit.EditType.Redirect;
+                    edit.Type = Edit.EditType.Redirect;
                 }
             }
 
             if (Config.PageReplacedPattern != null)
             {
-                if (Config.PageReplacedPattern.IsMatch(edit.Summary) || (edit.Size >= 0 && edit._Change <= -200))
+                if (Config.PageReplacedPattern.IsMatch(edit.Summary) || (edit.Size >= 0 && edit.Change <= -200))
                 {
-                    edit._Type = Edit.EditType.ReplacedWith;
+                    edit.Type = Edit.EditType.ReplacedWith;
                 }
             }
 
             if (Config.Summary != "" && edit.Summary.EndsWith(Config.Summary) && edit.Summary != "")
             {
-                edit._Assisted = true;
+                edit.Assisted = true;
             }
 
             foreach (string item in Config.AssistedSummaries)
             {
                 if (edit.Summary.Contains(item))
                 {
-                    edit._Assisted = true;
+                    edit.Assisted = true;
                     break;
                 }
             }
 
             // if user or page is not unknown object, we retrieve information for that as well
 
-            if (edit._User != null && edit._Page != null)
+            if (edit.EditUser != null && edit._Page != null)
             {
                 if (edit.NewPage)
                 {
@@ -131,10 +131,10 @@ namespace huggle3
 
                 if (edit.Summary == Config.UndoSummary + " " + Config.Summary)
                 {
-                    edit._Type = Edit.EditType.Revert;
+                    edit.Type = Edit.EditType.Revert;
                 }
 
-                if (edit._Type == Edit.EditType.Revert && edit.Summary.ToLower().Contains("[[special:contributions/"))
+                if (edit.Type == Edit.EditType.Revert && edit.Summary.ToLower().Contains("[[special:contributions/"))
                 {
                     string userName = edit.Summary.Substring(edit.Summary.ToLower().IndexOf("[[special:contributions/") + 24);
                     if (userName.Contains("]]") || userName.Contains("|"))
@@ -148,7 +148,7 @@ namespace huggle3
 
                         User RevertedUser = Core.GetUser(userName);
 
-                        if (RevertedUser != edit._User && RevertedUser.User_Level == User.UserLevel.None)
+                        if (RevertedUser != edit.EditUser && RevertedUser.User_Level == User.UserLevel.None)
                         {
                             RevertedUser.User_Level = User.UserLevel.Reverted;
                         }
@@ -157,12 +157,12 @@ namespace huggle3
 
                 if (edit.Next != null)
                 {
-                    if (edit.Next._Type == Edit.EditType.Revert && edit._User.User_Level == User.UserLevel.None)
+                    if (edit.Next.Type == Edit.EditType.Revert && edit.EditUser.User_Level == User.UserLevel.None)
                     {
-                        edit._User.User_Level = User.UserLevel.Reverted;
+                        edit.EditUser.User_Level = User.UserLevel.Reverted;
                     }
 
-                    if (edit._Space == Space.UserTalk && edit._Page.IsSubpage)
+                    if (edit.EditSpace == Space.UserTalk && edit._Page.IsSubpage)
                     {
                         //User.UserLevel Summary_Level;
                     }
@@ -194,7 +194,7 @@ namespace huggle3
             Core.History("Processing.Process_Diff()");
             try
             {
-                if (edit._Multiple == false)
+                if (edit.Multiple == false)
                 {
                     if (diff.Contains("<span class=\"mw-rollback-link\">"))
                     {
@@ -223,11 +223,11 @@ namespace huggle3
                         edit.Oldid = Core.FindString(diff, "<div id=\"mw-diff-otitle1\"><strong><a", "oldid=", "'");
                     }
 
-                    if (diff.Contains("<div id=\"mw-diff-ntitle2\">") && edit._User != null)
+                    if (diff.Contains("<div id=\"mw-diff-ntitle2\">") && edit.EditUser != null)
                     {
                         string D_User = Core.FindString(diff, "<div id=\"mw-diff-ntitle2\">", ">", "<");
                         D_User = System.Web.HttpUtility.HtmlDecode(D_User.Replace(" (page does not exist)", ""));
-                        edit._User = Core.GetUser(D_User);
+                        edit.EditUser = Core.GetUser(D_User);
                     }
 
 
@@ -240,37 +240,37 @@ namespace huggle3
                         edit.Prev.Oldid = "prev";
                     }
 
-                    if (diff.Contains("<div id=\"mw-diff-ntitle1\">") && edit._Time == DateTime.MinValue)
+                    if (diff.Contains("<div id=\"mw-diff-ntitle1\">") && edit.Time == DateTime.MinValue)
                     {
                         string et = Core.FindString(diff, "<div id=\"mw-diff-ntitle1\">", "</div>");
 
                         if (et.Contains("Revision as of"))
                         {
                             et = Core.FindString(et, "Revision as of");
-                            if (DateTime.TryParse(et, out edit._Time))
+                            if (DateTime.TryParse(et, out edit.Time))
                             {
-                                edit._Time = DateTime.SpecifyKind(DateTime.Parse(et), DateTimeKind.Local).ToUniversalTime();
+                                edit.Time = DateTime.SpecifyKind(DateTime.Parse(et), DateTimeKind.Local).ToUniversalTime();
                             }
                         }
                         else if (et.Contains("Current revision"))
                         {
                             et = Core.FindString(et, "Current revision</a>", "(");
-                            if (DateTime.TryParse(et, out edit._Time))
+                            if (DateTime.TryParse(et, out edit.Time))
                             {
-                                edit._Time = DateTime.SpecifyKind(DateTime.Parse(et), DateTimeKind.Local).ToUniversalTime();
+                                edit.Time = DateTime.SpecifyKind(DateTime.Parse(et), DateTimeKind.Local).ToUniversalTime();
                             }
                         }
-                        if (diff.Contains("<div id=\"mw-diff-otitle1\">") && edit.Prev._Time == DateTime.MinValue)
+                        if (diff.Contains("<div id=\"mw-diff-otitle1\">") && edit.Prev.Time == DateTime.MinValue)
                         {
                             string etime = Core.FindString(diff, "<div id=\"mw-diff-otitle1\">", "</div>");
                             etime = etime.Substring(etime.IndexOf(":") - 2);
-                            if (DateTime.TryParse(etime, out edit._Time))
+                            if (DateTime.TryParse(etime, out edit.Time))
                             {
-                                edit._Time = DateTime.SpecifyKind(DateTime.Parse(etime), DateTimeKind.Local).ToUniversalTime();
+                                edit.Time = DateTime.SpecifyKind(DateTime.Parse(etime), DateTimeKind.Local).ToUniversalTime();
                             }
                         }
                     }
-                    if (diff.Contains("<div id=\"mw-diff-otitle2\">") && edit.Prev._User == null)
+                    if (diff.Contains("<div id=\"mw-diff-otitle2\">") && edit.Prev.EditUser == null)
                     {
                         string username = System.Web.HttpUtility.HtmlDecode(Core.FindString(diff, "<div id=\"mw-diff-otitle2\">", ">", "</a>"));
 
@@ -340,48 +340,289 @@ namespace huggle3
         /// <summary>
         /// This function is used for processing of new edits
         /// </summary>
-        /// <param name="_Edit"></param>
+        /// <param name="edit"></param>
         /// <returns></returns>
-        public static bool ProcessNewEdit(Edit _Edit)
+        public static bool ProcessNewEdit(Edit edit)
         {
-            Core.History("Processing.ProcessEdit( _Edit )");
-            if (_Edit._User == null || _Edit._Page == null)
+            Core.History("Processing.ProcessNewEdit( Edit )");
+            if (edit.EditUser == null || edit._Page == null)
             {
                 return false;
             }
-            //bool Redraw = false;
+            
+            bool Redraw = false;
 
-            if (_Edit._Page.LastEdit != null)
+            // Update edit properties
+            if (edit._Page.LastEdit != null)
             {
-                _Edit.Prev.Next = _Edit;
-                _Edit.Prev = _Edit._Page.LastEdit;
+                edit.Prev.Next = edit;
+                edit.Prev = edit._Page.LastEdit;
 
-                if (_Edit.Prev.Size >= 0 && _Edit._Change != 0)
+                if (edit.Prev.Size >= 0 && edit.Change != 0)
                 {
-                    _Edit.Size = _Edit.Prev.Size + _Edit._Change;
+                    edit.Size = edit.Prev.Size + edit.Change;
                 }
-                if (_Edit._Change != 0 && _Edit.Size >= 0)
+
+                if (edit.Change != 0 && edit.Size >= 0)
                 {
-                    _Edit.Prev.Size = _Edit.Size - _Edit._Change;
+                    edit.Prev.Size = edit.Size - edit.Change;
                 }
             }
 
-            if (_Edit._User == null)
+            if (edit.EditUser == null && edit._Page.LastEdit != null)
             {
-                _Edit._User = _Edit._Page.LastEdit._User;
+                edit.EditUser = edit._Page.LastEdit.EditUser;
             }
 
-            if (_Edit._User.LastEdit != null)
+            if (edit.EditUser != null && edit.EditUser.LastEdit != null)
             {
-                _Edit.PrevByUser = _Edit._User.LastEdit;
-                _Edit.PrevByUser.NextByUser = _Edit;
+                edit.PrevByUser = edit.EditUser.LastEdit;
+                edit.PrevByUser.NextByUser = edit;
             }
 
-            _Edit._Page.Exists = true;
-            _Edit._Page.Text = null;
-            _Edit._Page.SpeedyCrit = null;
-            _Edit._Page.LastEdit = _Edit;
-            _Edit._User.LastEdit = _Edit;
+            edit._Page.Exists = true;
+            edit._Page.Text = null;
+            edit._Page.SpeedyCrit = null;
+            edit._Page.LastEdit = edit;
+            edit.EditUser.LastEdit = edit;
+
+            if (Variables.CustomReverts.ContainsKey(edit._Page)
+            {
+                
+            }
+
+            /*
+             * 
+             If CustomReverts.ContainsKey(Edit.Page) Then
+            If Edit.User.IsMe AndAlso Edit.Summary = CustomReverts(Edit.Page) Then Edit.Type = EditType.Revert
+            CustomReverts.Remove(Edit.Page)
+        End If
+
+        'Update statistics and edit counts
+        Stats.Update(Edit)
+        Edit.User.SessionEditCount += 1
+        If Edit.User.EditCount > -1 Then Edit.User.EditCount += 1
+
+        'Add edit to the all lists
+        For Each Queue As Queue In Queue.All.Values
+            If Queue.MatchesFilter(Edit) Then
+                If Queue.RevisionRegex IsNot Nothing AndAlso Queue.DiffMode = DiffMode.All Then
+                    If Edit.DiffCacheState = Edit.CacheState.Uncached Then
+                        Edit.DiffCacheState = Huggle.Edit.CacheState.Caching
+
+                        Dim NewRequest As New DiffRequest
+                        NewRequest.Edit = Edit
+                        NewRequest.Start()
+                    End If
+                Else
+                    Queue.AddEdit(Edit)
+
+                    If Queue Is CurrentQueue Then
+                        'Keep user's viewing position when adding new items, if not looking at the top of the queue
+                        If (Queue.SortOrder = QueueSortOrder.Time And (MainForm.QueueScroll.Value) < MainForm.QueueScroll.Maximum And MainForm.QueueScroll.Value > 1) Then MainForm.QueueScroll.Value += 1
+                        Redraw = True
+                    End If
+                End If
+            End If
+        Next Queue
+
+        'Issue warnings
+        Dim i As Integer = 0
+        Dim Break As Integer = 0
+        While i < PendingWarnings.Count
+            If PendingWarnings(i).Page Is Edit.Page Then
+                If Edit.User.IsMe Then
+                    Dim Last As Edit = PendingWarnings(i).User.TalkPage.LastEdit
+
+                    If Last IsNot Nothing AndAlso Last.Time.AddSeconds(Config.MinWarningWait) > Date.UtcNow Then
+                        'Do nothing if there is a very recent warning to try to compensate for
+                        'stupid broken tools that warn for other people's reverts *cough* vandalproof *cough*
+
+                        Log(Msg("warn-fail", PendingWarnings(i).User.Name) & ": " & Msg("warn-recent", _
+                            CStr(Config.MinWarningWait)))
+                    Else
+
+                        Dim NewWarningRequest As New WarningRequest
+                        NewWarningRequest.Edit = PendingWarnings(i)
+                        NewWarningRequest.Start()
+                    End If
+                End If
+
+                PendingWarnings.RemoveAt(i)
+            Else
+                i += 1
+            End If
+        End While
+
+        'Refresh undo information
+        For Each Item As Command In Undo
+            If Item.Edit IsNot Nothing AndAlso Item.Edit.Page Is Edit.Page Then
+                MainForm.RemoveFromUndoList(Item)
+                Exit For
+            End If
+        Next Item
+        'Remove in-progress log entries
+        Dim j As Integer = 0
+        Break = 0
+        While j < MainForm.Status.Items.Count And Break < Misc.GlExcess
+            If TypeOf MainForm.Status.Items(j).Tag Is Page AndAlso CType(MainForm.Status.Items(j).Tag, Page) _
+                Is Edit.Page Then MainForm.Status.Items.RemoveAt(j) Else j += 1
+            Break = Break + 1
+        End While
+
+        If Edit.User.IsMe Then
+            'Log user's edits
+            If Edit.Summary = "" Then Log("Edited '" & Edit.Page.Name & "': (no summary)", Edit) _
+                Else Log("Edited '" & Edit.Page.Name & "': " & TrimSummary(Edit.Summary), Edit)
+
+            'Add undo information
+            Dim NewCommand As New Command
+
+            NewCommand.Edit = Edit
+
+            Select Case Edit.Type
+                Case EditType.Warning
+                    NewCommand.Type = CommandType.Warning
+                    NewCommand.Description = "Warn " & Edit.Page.Name.Substring(10)
+
+                Case EditType.Revert
+                    NewCommand.Type = CommandType.Revert
+                    NewCommand.Description = "Revert on " & Edit.Page.Name
+
+                Case EditType.Report
+                    NewCommand.Type = CommandType.Report
+                    NewCommand.Description = "Report " & TrimSummary(Edit.Summary).Substring(10)
+
+                Case Else
+                    NewCommand.Type = CommandType.Edit
+                    NewCommand.Description = "Edit " & Edit.Page.Name
+            End Select
+
+            If MainForm IsNot Nothing Then MainForm.AddToUndoList(NewCommand)
+        End If
+
+        'Check for new messages
+        If Edit.Page Is User.Me.TalkPage AndAlso Not Edit.Bot Then
+            MainForm.SystemMessages.Enabled = Not Edit.User.IsMe
+            If MainForm.SystemMessages.Enabled AndAlso Config.TrayIcon Then MainForm.TrayIcon.ShowBalloonTip(10000)
+        End If
+
+        'Warnings
+        If Edit.Page.Space Is Space.UserTalk AndAlso Not Edit.Page.IsSubpage Then
+            Dim PageOwner As User = GetUser(Edit.Page.Name.Substring(10))
+            Dim WarningLevel As UserLevel = GetUserLevelFromSummary(Edit)
+
+            If PageOwner IsNot Nothing Then
+                If Edit.User.IsMe AndAlso PageOwner.WarningsCurrent AndAlso WarningLevel >= UserLevel.Warning Then
+
+                    'Add our own warnings straight to the list
+                    Dim NewWarning As New Warning
+
+                    NewWarning.Level = WarningLevel
+                    NewWarning.Time = Edit.Time
+                    NewWarning.Type = "huggle"
+                    NewWarning.User = User.Me
+
+                    If PageOwner.Warnings Is Nothing Then PageOwner.Warnings = New List(Of Warning)
+                    PageOwner.Warnings.Add(NewWarning)
+                    PageOwner.Warnings.Sort(AddressOf SortWarningsByDate)
+                Else
+                    'Even if we can get the level of others, we can rarely even guess at the type
+                    PageOwner.WarningsCurrent = False
+                End If
+
+                'Refresh any open user info form
+                For Each Item As Form In Application.OpenForms
+                    Dim uif As UserInfoForm = TryCast(Item, UserInfoForm)
+
+                    If uif IsNot Nothing AndAlso uif.User Is PageOwner Then uif.RefreshWarnings()
+                Next Item
+            End If
+        End If
+
+        'Get edit counts for non-whitelisted registered users, in batches, and whitelist if appropriate
+        If Config.AutoWhitelist AndAlso Not Edit.User.Anonymous AndAlso Not Edit.User.Ignored _
+            AndAlso Not Edit.User.EditCount > 0 Then
+
+            NextCount.Add(Edit.User)
+
+            'If the list has more than "CountBatchSize" entrys then...
+            If NextCount.Count >= Config.CountBatchSize Then
+                Dim NewCountRequest As New CountRequest
+                NewCountRequest.Users.AddRange(NextCount)
+                NewCountRequest.Start()
+                NextCount.Clear()
+            End If
+        End If
+
+        'Preload diffs
+        If CurrentQueue IsNot Nothing AndAlso CurrentQueue.DiffMode = DiffMode.Preload _
+            AndAlso DiffRequest.PreloadCount < Config.Preloads + 1 Then
+
+            For k As Integer = 0 To Math.Min(CurrentQueue.Edits.Count, Config.Preloads) - 1
+                If CurrentQueue.Edits(k).DiffCacheState = Edit.CacheState.Uncached Then
+                    CurrentQueue.Edits(k).DiffCacheState = Huggle.Edit.CacheState.Caching
+
+                    Dim NewRequest As New DiffRequest
+                    NewRequest.Edit = CurrentQueue.Edits(k)
+                    NewRequest.Start()
+
+                    DiffRequest.PreloadCount += 1
+                    If DiffRequest.PreloadCount >= Config.Preloads Then Exit For
+                End If
+            Next k
+        End If
+
+        'Refresh the interface
+        If MainForm IsNot Nothing AndAlso MainForm.Visible Then
+            If CurrentEdit IsNot Nothing AndAlso CurrentPage IsNot Nothing AndAlso CurrentUser IsNot Nothing AndAlso _
+                (Edit.Page Is CurrentPage OrElse Edit.User Is CurrentUser OrElse Edit.Page Is CurrentUser.TalkPage) Then
+
+                MainForm.DrawHistory()
+                MainForm.DrawContribs()
+            End If
+
+            If Config.ShowQueue AndAlso Redraw Then MainForm.DrawQueues()
+
+
+
+            For Each Item As TabPage In MainForm.Tabs.TabPages
+                Dim ThisTab As BrowserTab = CType(Item.Controls(0), BrowserTab)
+
+                If ThisTab.Edit IsNot Nothing Then
+                    If ThisTab.Edit.Page Is Edit.Page AndAlso ThisTab.ShowNewEdits Then
+                        'Show new edits to page
+                        DisplayEdit(Edit, False, ThisTab, Not Edit.User.IsMe)
+
+                        If ThisTab Is CurrentTab Then
+                            MainForm.RevertB.Enabled = False
+                            MainForm.RevertWarnB.Enabled = False
+                            MainForm.Reverting = False
+                            MainForm.RevertTimer.Stop()
+                            MainForm.RevertTimer.Interval = 3000
+                            MainForm.RevertTimer.Start()
+                        Else
+                            ThisTab.Highlight = True
+                        End If
+
+                    ElseIf ThisTab.Edit.User Is Edit.User AndAlso ThisTab.ShowNewContribs Then
+                        'Show new contribs by user
+                        DisplayEdit(Edit, False, ThisTab)
+
+                        If ThisTab Is CurrentTab Then
+                            MainForm.RevertB.Enabled = False
+                            MainForm.RevertWarnB.Enabled = False
+                            MainForm.RevertTimer.Start()
+                        Else
+                            ThisTab.Highlight = True
+                        End If
+                    End If
+                End If
+            Next Item
+        End If 
+             * 
+             */
+
 
 
             return true;
@@ -396,7 +637,7 @@ namespace huggle3
 
             if (Edit._Page.LastEdit != null)
             {
-                LastUser = Edit._Page.LastEdit._User;
+                LastUser = Edit._Page.LastEdit.EditUser;
             }
 
             if (Config.ConfirmSelfRevert && !Undo)
@@ -449,19 +690,19 @@ namespace huggle3
 
                     if (History[i].Groups[8].Value != "")
                     {
-                        _Edit._Text = System.Web.HttpUtility.HtmlDecode(History[i].Groups[9].Value);
+                        _Edit.Text = System.Web.HttpUtility.HtmlDecode(History[i].Groups[9].Value);
                     }
 
-                    _Edit._User = Core.GetUser(System.Web.HttpUtility.HtmlDecode(History[i].Groups[3].Value));
+                    _Edit.EditUser = Core.GetUser(System.Web.HttpUtility.HtmlDecode(History[i].Groups[3].Value));
 
                     if (_Edit.Summary == null)
                     {
                         _Edit.Summary = System.Web.HttpUtility.HtmlDecode(History[i].Groups[7].Value);
                     }
 
-                    if (_Edit._Time == DateTime.MinValue)
+                    if (_Edit.Time == DateTime.MinValue)
                     {
-                        _Edit._Time = DateTime.Parse(History[i].Groups[5].Value);
+                        _Edit.Time = DateTime.Parse(History[i].Groups[5].Value);
                     }
 
                     if (Page.LastEdit == null)
@@ -532,12 +773,12 @@ namespace huggle3
                     if (main._CurrentBrowser == browser && ChangeEdit == true)
                     {
                         browser.Edit = _edit;
-                        Program.MainForm.Set_Current_User(_edit._User);
+                        Program.MainForm.Set_Current_User(_edit.EditUser);
                         Program.MainForm.Set_Current_Page(_edit._Page);
                     }
 
                     // I have no idea what is this
-                    if (_edit._Deleted)
+                    if (_edit.Deleted)
                     {
 
                     }

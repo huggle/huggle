@@ -112,9 +112,9 @@ namespace huggle3
                 }
             }
 
-            if (_UserRegex != null && _edit._User != null)
+            if (_UserRegex != null && _edit.EditUser != null)
             {
-                if (_UserRegex.IsMatch(_edit._User.UserName))
+                if (_UserRegex.IsMatch(_edit.EditUser.UserName))
                 {
                     matches = true;
                 }
