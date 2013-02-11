@@ -86,7 +86,7 @@ namespace huggle3
                     _Edit._Type = Edit.EditType.Blanked;
                 }
             }
-            
+
             // we check the same for redirect pattern
 
             if (Config.PageRedirectedPattern != null)
@@ -169,11 +169,14 @@ namespace huggle3
             }
 
             if (_Edit.Id != null)
+            {
                 if (Edit.All.ContainsKey(_Edit.Id))
                 {
                     Edit.All.Add(_Edit.Id, _Edit);
                 }
+            }
 
+            // we successfully processed edit
             _Edit.Processed = true;
 
             return 0;
