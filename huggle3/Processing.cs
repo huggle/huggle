@@ -386,77 +386,61 @@ namespace huggle3
             edit._Page.LastEdit = edit;
             edit.EditUser.LastEdit = edit;
 
-            if (Variables.CustomReverts.ContainsKey(edit._Page))
+            lock (Variables.CustomReverts)
             {
-                if (edit.EditUser.IsCurrentUser && edit.Summary == Variables.CustomReverts[edit._Page])
+                if (Variables.CustomReverts.ContainsKey(edit._Page))
                 {
-                    edit.Type = Edit.EditType.Revert;
+                    if (edit.EditUser.IsCurrentUser && edit.Summary == Variables.CustomReverts[edit._Page])
+                    {
+                        edit.Type = Edit.EditType.Revert;
+                    }
+                    Variables.CustomReverts.Remove(edit._Page);
+                }
+            }
+
+            edit.EditUser.SessionEditCount++;
+            Hook.UpdateStats(edit);
+
+            if (edit.EditUser.EditCount >= 0)
+            {
+                edit.EditUser.EditCount++;
+            }
+
+            List<Edit> FinishedWarnings = new List<Edit>();
+
+            lock (Variables.PendingWarnings)
+            {
+                foreach (Edit currentWarning in Variables.PendingWarnings)
+                {
+                    if (currentWarning._Page == edit._Page)
+                    {
+                        if (edit.EditUser.IsCurrentUser && currentWarning.EditUser.TalkPage != null)
+                        {
+                            Edit last = currentWarning.EditUser.TalkPage.LastEdit;
+                            if (last != null && last.Time.AddSeconds(Config.MinWarningWait) > DateTime.UtcNow)
+                            {
+                                // Do nothing if there is a very recent warning to try to compensate for
+                                //stupid broken tools that warn for other people's reverts *cough* vandalproof *cough*
+                                Core.WriteLog("Failed to issue warning for: " + currentWarning.EditUser.UserName);
+                            }
+                            else
+                            { 
+                                // here we need to insert warnings
+                                // similar to original huggle
+                            }
+                        }
+                        FinishedWarnings.Add(currentWarning);
+                    }
+                }
+
+                foreach (Edit finishedWarning in FinishedWarnings)
+                {
+                    Variables.PendingWarnings.Remove(finishedWarning);
                 }
             }
 
             /*
              * 
-             If CustomReverts.ContainsKey(Edit.Page) Then
-            If Edit.User.IsMe AndAlso Edit.Summary = CustomReverts(Edit.Page) Then Edit.Type = EditType.Revert
-            CustomReverts.Remove(Edit.Page)
-        End If
-
-        'Update statistics and edit counts
-        Stats.Update(Edit)
-        Edit.User.SessionEditCount += 1
-        If Edit.User.EditCount > -1 Then Edit.User.EditCount += 1
-
-        'Add edit to the all lists
-        For Each Queue As Queue In Queue.All.Values
-            If Queue.MatchesFilter(Edit) Then
-                If Queue.RevisionRegex IsNot Nothing AndAlso Queue.DiffMode = DiffMode.All Then
-                    If Edit.DiffCacheState = Edit.CacheState.Uncached Then
-                        Edit.DiffCacheState = Huggle.Edit.CacheState.Caching
-
-                        Dim NewRequest As New DiffRequest
-                        NewRequest.Edit = Edit
-                        NewRequest.Start()
-                    End If
-                Else
-                    Queue.AddEdit(Edit)
-
-                    If Queue Is CurrentQueue Then
-                        'Keep user's viewing position when adding new items, if not looking at the top of the queue
-                        If (Queue.SortOrder = QueueSortOrder.Time And (MainForm.QueueScroll.Value) < MainForm.QueueScroll.Maximum And MainForm.QueueScroll.Value > 1) Then MainForm.QueueScroll.Value += 1
-                        Redraw = True
-                    End If
-                End If
-            End If
-        Next Queue
-
-        'Issue warnings
-        Dim i As Integer = 0
-        Dim Break As Integer = 0
-        While i < PendingWarnings.Count
-            If PendingWarnings(i).Page Is Edit.Page Then
-                If Edit.User.IsMe Then
-                    Dim Last As Edit = PendingWarnings(i).User.TalkPage.LastEdit
-
-                    If Last IsNot Nothing AndAlso Last.Time.AddSeconds(Config.MinWarningWait) > Date.UtcNow Then
-                        'Do nothing if there is a very recent warning to try to compensate for
-                        'stupid broken tools that warn for other people's reverts *cough* vandalproof *cough*
-
-                        Log(Msg("warn-fail", PendingWarnings(i).User.Name) & ": " & Msg("warn-recent", _
-                            CStr(Config.MinWarningWait)))
-                    Else
-
-                        Dim NewWarningRequest As New WarningRequest
-                        NewWarningRequest.Edit = PendingWarnings(i)
-                        NewWarningRequest.Start()
-                    End If
-                End If
-
-                PendingWarnings.RemoveAt(i)
-            Else
-                i += 1
-            End If
-        End While
-
         'Refresh undo information
         For Each Item As Command In Undo
             If Item.Edit IsNot Nothing AndAlso Item.Edit.Page Is Edit.Page Then
@@ -631,16 +615,16 @@ namespace huggle3
             return true;
         }
 
-        public static void Process_Revert(Edit Edit, string Summary = "", bool Rollback = true, bool Undo = false, bool Currentonly = false)
+        public static void ProcessRevert(Edit edit, string Summary = "", bool Rollback = true, bool Undo = false, bool CurrentOnly = false)
         {
-            Core.History("Processing.Process_Revert()");
-            if (Edit == null)
+            Core.History("Processing.ProcessRevert()");
+            if (edit == null)
                 return;
             User LastUser = null;
 
-            if (Edit._Page.LastEdit != null)
+            if (edit._Page.LastEdit != null)
             {
-                LastUser = Edit._Page.LastEdit.EditUser;
+                LastUser = edit._Page.LastEdit.EditUser;
             }
 
             if (Config.ConfirmSelfRevert && !Undo)
@@ -654,22 +638,22 @@ namespace huggle3
         /// <summary>
         /// History
         /// </summary>
-        /// <param name="Result"></param>
-        /// <param name="Page"></param>
-        public static void Process_History(string Result, Page Page)
+        /// <param name="result"></param>
+        /// <param name="page"></param>
+        public static void ProcessHistory(string result, Page page)
         {
             try
             {
-                Core.History("Processing.Process_History()");
-                if (Result == null) return;
+                Core.History("Processing.ProcessHistory()");
+                if (result == null) return;
 
-                System.Text.RegularExpressions.MatchCollection History = new System.Text.RegularExpressions.Regex("<rev revid=\"([^\"]+)\" parentid=\"([^\"]+)\" user=\"([^\"]+)\" (anon=\"\" )?timestamp=\"([^\"]+)\"( comment=\"([^\"]+)\")?(>([^<]*)</)?", System.Text.RegularExpressions.RegexOptions.Compiled).Matches(Result);
+                System.Text.RegularExpressions.MatchCollection History = new System.Text.RegularExpressions.Regex("<rev revid=\"([^\"]+)\" parentid=\"([^\"]+)\" user=\"([^\"]+)\" (anon=\"\" )?timestamp=\"([^\"]+)\"( comment=\"([^\"]+)\")?(>([^<]*)</)?", System.Text.RegularExpressions.RegexOptions.Compiled).Matches(result);
 
                 if (History.Count == 0)
                 {
-                    if (Page.LastEdit == null)
+                    if (page.LastEdit == null)
                     {
-                        Page.LastEdit = Core.NullEdit;
+                        page.LastEdit = Core.NullEdit;
                     }
                 }
                 Edit NextEdit = null;
@@ -689,7 +673,7 @@ namespace huggle3
                     {
                         _Edit.Oldid = "prev";
                     }
-                    _Edit._Page = Page;
+                    _Edit._Page = page;
 
                     if (History[i].Groups[8].Value != "")
                     {
@@ -708,9 +692,9 @@ namespace huggle3
                         _Edit.Time = DateTime.Parse(History[i].Groups[5].Value);
                     }
 
-                    if (Page.LastEdit == null)
+                    if (page.LastEdit == null)
                     {
-                        Page.LastEdit = _Edit;
+                        page.LastEdit = _Edit;
                     }
                     else if (NextEdit != null)
                     {
@@ -723,17 +707,17 @@ namespace huggle3
                     ProcessEdit(_Edit);
                 }
 
-                if (Result.Contains("<revisions rvstartid=\""))
+                if (result.Contains("<revisions rvstartid=\""))
                 {
-                    Page.HistoryOffset = NextEdit.Id;
+                    page.HistoryOffset = NextEdit.Id;
                 }
                 else
                 {
-                    Page.HistoryOffset = null;
+                    page.HistoryOffset = null;
                     if (NextEdit != null)
                     {
                         NextEdit.Prev = Core.NullEdit;
-                        Page.FirstEdit = NextEdit;
+                        page.FirstEdit = NextEdit;
                     }
                 }
                 Program.MainForm.Draw_History();

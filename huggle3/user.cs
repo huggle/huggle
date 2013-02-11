@@ -37,15 +37,15 @@ namespace huggle3
         /// <summary>
         /// Anonymous
         /// </summary>
-        private bool Anonymous = false;
+        public bool Anonymous = false;
         /// <summary>
         /// Edit count of user
         /// </summary>
-        private int EditCount = 0;
+        public int EditCount = 0;
         /// <summary>
         /// Whether it's a shared ip
         /// </summary>
-        private bool SharedIP = false;
+        public bool SharedIP = false;
         /// <summary>
         /// User is a bot
         /// </summary>
@@ -67,6 +67,8 @@ namespace huggle3
         /// User id
         /// </summary>
         public int ID = 0;
+        public int SessionEditCount = 0;
+        public Page TalkPage = null;
         public bool IsCurrentUser
         {
             get
@@ -138,14 +140,6 @@ namespace huggle3
             }
             Name = Name.Replace("]", "").Replace("[", "");
             return Name;
-        }
-
-        /// <summary>
-        /// Get a name of talk page
-        /// </summary>
-        public string TalkPage
-        {
-            get { return "User talk:" + UserName; }
         }
 
         /// <summary>

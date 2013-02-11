@@ -102,7 +102,7 @@ namespace huggle3.Requests
 
             public override void  EndRequest()
             {
-                 Processing.Process_History(result.text, Page);
+                 Processing.ProcessHistory(result.text, Page);
  	             base.EndRequest();
             }
 

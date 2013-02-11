@@ -54,5 +54,10 @@ namespace huggle3
         { 
             
         }
+
+        public static void UpdateStats(Edit edit)
+        { 
+            
+        }
     }
 }
