@@ -25,7 +25,7 @@ namespace huggle3
 {
     public class Queue
     {
-        public static Dictionary<string, Queue> All = new Dictionary<string,Queue>();
+        public static Dictionary<string, Queue> All = new Dictionary<string, Queue>();
         private string _name = "";
         public DiffMode _Diffs;
         public int _Limit = 0;
@@ -92,7 +92,8 @@ namespace huggle3
                 if (_PageRegex.IsMatch(_edit._Page.Name))
                 {
                     matches = true;
-                } else
+                }
+                else
                 {
                     return false;
                 }
@@ -101,7 +102,7 @@ namespace huggle3
             // check summary
             if (_SummaryRegex != null && _edit.Summary != null)
             {
-                if  (_SummaryRegex.IsMatch(_edit.Summary))
+                if (_SummaryRegex.IsMatch(_edit.Summary))
                 {
                     matches = true;
                 }
@@ -149,6 +150,10 @@ namespace huggle3
             return null;
         }
 
+        /// <summary>
+        /// Return true in case that a queue panel is currently drawing this queue
+        /// </summary>
+        /// <returns></returns>
         public bool MatchesPanel()
         {
             if (Panel != null)
@@ -161,63 +166,70 @@ namespace huggle3
             return false;
         }
 
+        /// <summary>
+        /// Check if the queue has this edit
+        /// </summary>
+        /// <param name="edit"></param>
+        /// <returns></returns>
         public bool ContainsEdit(Edit edit)
         {
-            try
+            lock (Edits)
             {
-                lock (Edits)
+                if (edit == null)
                 {
-                    // performance tweak
-                    if (Edits.Contains(edit))
-                    {
-                        return true;
-                    }
-
-                    foreach (Edit kk in Edits)
-                    { 
-                        if (edit.Id != kk.Id)
-                        {
-                            continue;
-                        }
-
-                        if (edit.Summary != kk.Summary)
-                        {
-                            continue;
-                        }
-
-                        if (edit.Rcid != kk.Rcid)
-                        {
-                            continue;
-                        }
-
-                        if (edit._Page != null && kk._Page != null)
-                        {
-                            if (edit._Page.Name != kk._Page.Name)
-                            {
-                                continue;
-                            }
-                        }
-
-                        if (edit.Oldid != kk.Oldid)
-                        {
-                            continue;
-                        }
-                        return true;
-                    }
+                    throw new Exception("The edit you were about to check is null");
                 }
-            }
-            catch (Exception fail)
-            {
-                Core.ExceptionHandler(fail);
+
+                // performance tweak
+                if (Edits.Contains(edit))
+                {
+                    return true;
+                }
+
+                foreach (Edit kk in Edits)
+                {
+                    if (edit.Id != kk.Id)
+                    {
+                        continue;
+                    }
+
+                    if (edit.Summary != kk.Summary)
+                    {
+                        continue;
+                    }
+
+                    if (edit.Rcid != kk.Rcid)
+                    {
+                        continue;
+                    }
+
+                    if (edit._Page != null && kk._Page != null)
+                    {
+                        if (edit._Page.Name != kk._Page.Name)
+                        {
+                            continue;
+                        }
+                    }
+
+                    if (edit.Oldid != kk.Oldid)
+                    {
+                        continue;
+                    }
+                    return true;
+                }
             }
             return false;
         }
 
+        /// <summary>
+        /// Insert an edit to any queue which matches the data
+        /// </summary>
+        /// <param name="_edit"></param>
         public static void Enqueue(Edit _edit)
         {
             lock (All)
             {
-                foreach (KeyValuePair<string,Queue> x in All)
+                foreach (KeyValuePair<string, Queue> x in All)
                 {
                     if (!x.Value.ContainsEdit(_edit))
                     {
@@ -240,16 +252,19 @@ namespace huggle3
 
         public enum QueueSortOrder
         {
-                Time, TimeReverse, Quality
+            Time, TimeReverse, Quality
         }
+
         public enum DiffMode
         {
-                None, Preload, All
+            None, Preload, All
         }
+
         public enum QueueType
         {
-            FixedList , LiveList , Live, Dynamic
+            FixedList, LiveList, Live, Dynamic
         }
+
         public enum QueueFilter
         {
             Require, None, Exclude

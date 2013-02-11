@@ -72,6 +72,9 @@ namespace huggle3
             }
         }
 
+        /// <summary>
+        /// This is a thread core which gets a feed
+        /// </summary>
         private void Feeder()
         {
             while (true)
