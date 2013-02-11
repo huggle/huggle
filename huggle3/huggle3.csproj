@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="apicalls.cs" />
+    <Compile Include="ApiHelper.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="CoreIO.cs" />
     <Compile Include="Forms\ConfigForm.cs">

@@ -43,7 +43,7 @@ namespace huggle3
         private bool Localize()
         {
             Languages.Localize(this);
-            this.Text = "Huggle " + Application.ProductVersion.ToString() + " " + RevisionProvider.GetHash();
+            this.Text = "Huggle " + Application.ProductVersion.ToString() + " " + RevisionProvider.GetHash(true);
             if (Config.devs)
             { 
                 this.Text = this.Text  + " [devs] - target: " + Core.TargetBuild();

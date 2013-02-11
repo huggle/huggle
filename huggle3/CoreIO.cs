@@ -28,7 +28,7 @@ namespace huggle3
 {
     public static class RevisionProvider
     {
-        public static string GetHash()
+        public static string GetHash(bool shortened = false)
         {
             try
             {
@@ -38,6 +38,10 @@ namespace huggle3
                 using (var reader = new StreamReader(stream))
                 {
                     string result = reader.ReadLine();
+                    if (shortened)
+                    {
+                        return result;
+                    }
                     if (!reader.EndOfStream)
                     {
                         result += " [" + reader.ReadLine() + "]";
