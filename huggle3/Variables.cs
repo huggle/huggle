@@ -26,7 +26,10 @@ namespace huggle3
     class Variables
     {
         public static Dictionary<Page, string> CustomReverts = null;
-
+        /// <summary>
+        /// List of pending warnings
+        /// </summary>
+        public static List<Edit> PendingWarnings = new List<Edit>();
 
         /// <summary>
         /// Initalise class to its default values

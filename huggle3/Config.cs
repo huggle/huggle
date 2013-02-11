@@ -105,10 +105,6 @@ namespace huggle3
         /// </summary>
         public static List<request_core.Request> PendingRequests = new List<request_core.Request>();
         /// <summary>
-        /// 
-        /// </summary>
-        public static List<Edit> PendingWarnings = new List<Edit>();
-        /// <summary>
         /// Languages info
         /// </summary>
         public static List<string> Languages = new List<string>();
@@ -134,7 +130,7 @@ namespace huggle3
         /// <summary>
         /// Language to be used by huggle
         /// </summary>
-        public static string Language;
+        public static string Language = "en";
         /// <summary>
         /// Proxy Username
         /// </summary>

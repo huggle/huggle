@@ -67,6 +67,18 @@ namespace huggle3
         /// User id
         /// </summary>
         public int ID = 0;
+        public bool IsCurrentUser
+        {
+            get
+            {
+                if(Config.Username == UserName)
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
+
 
         /// <summary>
         /// Return user page

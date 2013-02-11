@@ -388,7 +388,10 @@ namespace huggle3
 
             if (Variables.CustomReverts.ContainsKey(edit._Page))
             {
-                if (edit.EditUser.Me)
+                if (edit.EditUser.IsCurrentUser && edit.Summary == Variables.CustomReverts[edit._Page])
+                {
+                    edit.Type = Edit.EditType.Revert;
+                }
             }
 
             /*
