@@ -267,7 +267,7 @@ namespace huggle3
                 node(info, "Config.ItemSize", Config.ItemSize.ToString());
                 node(info, "Config.Language", Config.Language.ToString());
                 node(info, "Config.LogFile", Config.LogFile.ToString());
-
+                node(info, "Config.Project", Config.Project);
                 
 
                 foreach (KeyValuePair<string, string> hh in Config.Projects)
