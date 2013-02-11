@@ -33,7 +33,7 @@ namespace huggle3.Requests
 
             if (apiResult == null || apiResult.ResultInError)
             {
-                login.phase = login.LoginState.Error;
+                Login.phase = Login.LoginState.Error;
                 Fail(Languages.Get("loadglobalconfig-fail"));
             }
 
@@ -42,7 +42,7 @@ namespace huggle3.Requests
                 Core_IO.SetGlobalConfigOption(x.Key, x.Value);
             }
 
-            login.phase = login.LoginState.LoadedGlobal;
+            Login.phase = Login.LoginState.LoadedGlobal;
 
             Complete();
         }
@@ -52,8 +52,8 @@ namespace huggle3.Requests
     {
         public override void Fail(string description = "", string reason = "")
         {
-            login.Error = description;
-            login.phase = login.LoginState.Error;
+            Login.Error = description;
+            Login.phase = Login.LoginState.Error;
             base.Fail(description, reason);
         }
 
@@ -69,14 +69,14 @@ namespace huggle3.Requests
 
                 if (apiResult.ResultInError)
                 {
-                    login.phase = login.LoginState.Error;
+                    Login.phase = Login.LoginState.Error;
                     Fail(Languages.Get("login-error-config"), apiResult.Error_Data);
                     return;
                 }
 
                 if (Config.ProjectConfigLocation == null )
                 {
-                    login.phase = login.LoginState.Error;
+                    Login.phase = Login.LoginState.Error;
                     Fail(Languages.Get("login-project-config-is-wrong"), "Invalid path");
                     return;
                 }
@@ -146,7 +146,7 @@ namespace huggle3.Requests
 
                 if (userinfo == null)
                 {
-                    login.phase = login.LoginState.Error;
+                    Login.phase = Login.LoginState.Error;
                     return;
                 }
 
@@ -181,7 +181,7 @@ namespace huggle3.Requests
                     }
                 }
 
-                login.phase = login.LoginState.LoadedLocal;
+                Login.phase = Login.LoginState.LoadedLocal;
 
                 Complete();
 

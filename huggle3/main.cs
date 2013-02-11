@@ -110,7 +110,7 @@ namespace huggle3
         /// <param name="e"></param>
         private void main_Close(object sender, EventArgs e)
         {
-            if (login.LoggedIn)
+            if (Login.LoggedIn)
             {
                 Core.ShutdownSystem();
             }
@@ -480,7 +480,7 @@ namespace huggle3
 
         private void logoutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            login.LoggedIn = false;
+            Login.LoggedIn = false;
             Program._LoginForm.PrepareForm();
             Program._LoginForm.Visible = true;
             Core.InitConfig();

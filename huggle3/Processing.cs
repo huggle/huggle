@@ -386,9 +386,9 @@ namespace huggle3
             edit._Page.LastEdit = edit;
             edit.EditUser.LastEdit = edit;
 
-            if (Variables.CustomReverts.ContainsKey(edit._Page)
+            if (Variables.CustomReverts.ContainsKey(edit._Page))
             {
-                
+                if (edit.EditUser.Me)
             }
 
             /*

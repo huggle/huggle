@@ -39,14 +39,14 @@ namespace huggle3.Requests
             if (result == null)
             {
                 Fail("unable to get a wl");
-                login.phase = login.LoginState.Successful;
+                Login.phase = Login.LoginState.Successful;
                 return;
             }
 
             result = result.Replace("<!-- list -->", "");
 
             Config.Whitelist.AddRange(result.Split('|'));
-            login.phase = login.LoginState.Successful;
+            Login.phase = Login.LoginState.Successful;
 
             Complete();
         }

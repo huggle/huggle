@@ -112,8 +112,8 @@ namespace huggle3
                 Config.Project = cmProject.Text; // set project
                 Config.Password = textPassword.Text; // set password
                 Config.Username = textName.Text; // set username
-                login.LoggingOn = true; // set loggin in
-                login.phase = login.LoginState.LoggingIn; // set phase
+                Login.LoggingOn = true; // set loggin in
+                Login.phase = Login.LoginState.LoggingIn; // set phase
                 LoginRequest lr = new LoginRequest(); // start a new login request
                 lr.Login_Form = this;
                 progress(Languages.Get("login-progress-start"));
@@ -205,12 +205,12 @@ namespace huggle3
         private void btExit_Click(object sender, EventArgs e)
         {
             //Close the application
-            if (login.LoggingOn)
+            if (Login.LoggingOn)
             {
                 this.btExit.Text = Languages.Get("exit");
                 this.btExit.Enabled = false;
-                login.LoggingOn = false;
-                login.phase = login.LoginState.Error;
+                Login.LoggingOn = false;
+                Login.phase = Login.LoginState.Error;
                 StatusBar.Value = 0;
                 return;
             }
@@ -240,50 +240,50 @@ namespace huggle3
         {
             try
             {
-                if (login.LoggingOn == true)
+                if (Login.LoggingOn == true)
                 {
-                    if (login.LoggedIn == true)
+                    if (Login.LoggedIn == true)
                     {
-                        switch (login.phase)
+                        switch (Login.phase)
                         { 
-                            case login.LoginState.LoggedIn:
+                            case Login.LoginState.LoggedIn:
                                 //Load the global config
                                 StatusBar.Value = 40;
                                 StatusBox.Text = Languages.Get("login-progress-global");
-                                login.phase = login.LoginState.LoadingGlobal;
+                                Login.phase = Login.LoginState.LoadingGlobal;
                                 Requests.request_config_global global = new Requests.request_config_global();
                                 global.Start();
                                 break;
-                            case login.LoginState.LoadedGlobal:
+                            case Login.LoginState.LoadedGlobal:
                                 //Load the local config
                                 StatusBar.Value = 60;
                                 StatusBox.Text = Languages.Get("login-progress-local");
-                                login.phase = login.LoginState.LoadingLocal;
+                                Login.phase = Login.LoginState.LoadingLocal;
                                 Requests.request_config_local local_cf = new Requests.request_config_local();
                                 local_cf.Start();
                                 break;
-                            case login.LoginState.LoadedLocal:
+                            case Login.LoginState.LoadedLocal:
                                 //Load the whitelist
                                 StatusBar.Value = 80;
-                                login.phase = login.LoginState.Whitelist;
+                                Login.phase = Login.LoginState.Whitelist;
                                 Requests.request_white_list whitelist_request = new Requests.request_white_list();
                                 whitelist_request.Start();
                                 break;
-                            case login.LoginState.Successful:
+                            case Login.LoginState.Successful:
                                 //Logging in done
                                 // show the form
-                                login.LoggedIn = false;
+                                Login.LoggedIn = false;
                                 Program.MainForm = new main();
                                 Program.MainForm.Show();
                                 timer.Enabled = false;
                                 Hide();
                                 break;
-                            case login.LoginState.Error:
+                            case Login.LoginState.Error:
                                 //Something has gone wrong (show error)
                                 StatusBar.Value = 0;
                                 progress(Languages.Get("login-error-unknown"));
-                                login.LoggingOn = false;
-                                login.LoggedIn = false;
+                                Login.LoggingOn = false;
+                                Login.LoggedIn = false;
                                 break;
                         }
                     }
@@ -291,9 +291,9 @@ namespace huggle3
                 else
                 {
                     EnableControls(true);
-                    if (login.Status != request_core.Request.LoginResult.Success)
+                    if (Login.Status != request_core.Request.LoginResult.Success)
                     {
-                        this.progress(login.Error);
+                        this.progress(Login.Error);
                     }
                     timer.Enabled = false;
                 }

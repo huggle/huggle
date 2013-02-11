@@ -115,13 +115,13 @@ namespace huggle3
                 }
 
                 //This means that there must be a token, So lets get this token
-                login.Token = System.Text.RegularExpressions.Regex.Match(result.Result_Text, "token=\"[0-9A-Za-z]*\"").Value;
+                Login.Token = System.Text.RegularExpressions.Regex.Match(result.Result_Text, "token=\"[0-9A-Za-z]*\"").Value;
                 //And format it properly
-                login.Token = login.Token.Replace("\"", "");
-                login.Token = login.Token.Replace("token=", "");
+                Login.Token = Login.Token.Replace("\"", "");
+                Login.Token = Login.Token.Replace("token=", "");
 
                 //Now we will do a request with our new token
-                result = ApiRequest("action=login", "lgname=" + System.Web.HttpUtility.UrlEncode(Config.Username) + "&lgpassword=" + System.Web.HttpUtility.UrlEncode(Config.Password) + "&lgtoken=" + login.Token, Config.Project);
+                result = ApiRequest("action=login", "lgname=" + System.Web.HttpUtility.UrlEncode(Config.Username) + "&lgpassword=" + System.Web.HttpUtility.UrlEncode(Config.Password) + "&lgtoken=" + Login.Token, Config.Project);
 
                 //As this has returned as null the login has probably failed
                 if (result.Result_Text == null)

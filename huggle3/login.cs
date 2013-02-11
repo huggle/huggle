@@ -35,7 +35,7 @@ namespace huggle3
 
                 Core.WriteLog("Logging in as " + Config.Username);
 
-                login.LoggedIn = false;
+                Login.LoggedIn = false;
 
                 LoginResult result;
                 result = request_api.DoLogin();
@@ -48,43 +48,43 @@ namespace huggle3
                     switch (result)
                     {
                         case LoginResult.Cancelled:
-                            login.Error = Languages.Get("login-error-cancelled");
+                            Login.Error = Languages.Get("login-error-cancelled");
                             break;
                         case LoginResult.NotExists:
-                            login.Error = Languages.Get("login-error-notexists");
+                            Login.Error = Languages.Get("login-error-notexists");
                             break;
                         case LoginResult.WrongPass:
-                            login.Error = Languages.Get("login-error-password");
+                            Login.Error = Languages.Get("login-error-password");
                             break;
                         case LoginResult.Throttled:
-                            login.Error = Languages.Get("login-error-throttled");
+                            Login.Error = Languages.Get("login-error-throttled");
                             break;
                         case LoginResult.Blocked:
-                            login.Error = Languages.Get("login-error-blocked");
+                            Login.Error = Languages.Get("login-error-blocked");
                             break;
                         case LoginResult.NeedToken:
-                            login.Error = Languages.Get("login-error-needtoken");
+                            Login.Error = Languages.Get("login-error-needtoken");
                             break;
                         case LoginResult.NoName:
-                            login.Error = Languages.Get("login-error-noname");
+                            Login.Error = Languages.Get("login-error-noname");
                             break;
                         case LoginResult.EmptyPass:
-                            login.Error = Languages.Get("login-error-emptypass");
+                            Login.Error = Languages.Get("login-error-emptypass");
                             break;
                         //There are still some cases this doesnt account for
                         default: // If it doesnt match any of the above give the default error message
-                            login.Error = Languages.Get("login-error-unknown");
+                            Login.Error = Languages.Get("login-error-unknown");
                             break;
                     }
-                    login.Status = result;
+                    Login.Status = result;
                     // remove the password from memory for security reasons
                     Config.Password = "";
-                    login.LoggingOn = false;
+                    Login.LoggingOn = false;
                     return;
                 }
 
-                login.phase = login.LoginState.LoggedIn;
-                login.LoggedIn = true;
+                Login.phase = Login.LoginState.LoggedIn;
+                Login.LoggedIn = true;
                 Complete();
             }
             catch (Exception B)
@@ -95,7 +95,7 @@ namespace huggle3
         }
     }
 
-    static class login
+    static class Login
     {
         public enum LoginState
         {
