@@ -184,7 +184,7 @@ namespace huggle3
         }
 
         /// <summary>
-        /// Process diff
+        /// Process diff (the html version we are trying to parse) [obsolete]
         /// </summary>
         /// <param name="edit"></param>
         /// <param name="diff"></param>
@@ -192,140 +192,148 @@ namespace huggle3
         public static void ProcessDiff(Edit edit, string diff, Controls.SpecialBrowser browser)
         {
             Core.History("Processing.Process_Diff()");
-            if (edit._Multiple == false)
+            try
             {
-                if (diff.Contains("<span class=\"mw-rollback-link\">"))
+                if (edit._Multiple == false)
                 {
-                    // edit contains a rollback token, so we save it for later use
-                    string RollbackToken = diff.Substring(diff.IndexOf("span class=\"mw-rollback-link\">"));
-                    edit.RollbackToken = System.Web.HttpUtility.HtmlDecode(Core.FindString(RollbackToken, "<a href=\"", "&amp;token=", "\""));
-                }
-
-                if (edit.Id == "next" | edit.Id == "cur" && diff.Contains("<div id=\"mw-diff-ntitle1\">"))
-                {
-                    edit.Id = Core.FindString(diff, "<div id=\"mw-diff-ntitle1\"><strong><a", "oldid=", "'");
-                }
-
-                if (edit.Id != "cur" && Edit.All.ContainsKey(edit.Id))
-                {
-                    edit = Edit.All[edit.Id];
-                }
-
-                if (edit.Oldid == "prev" && diff.Contains("<div id=\"mw-diff-otitle1\">"))
-                {
-                    edit.Oldid = Core.FindString(diff, "<div id=\"mw-diff-otitle1\"><strong><a", "oldid=", "'");
-                }
-
-                if (diff.Contains("<div id=\"mw-diff-ntitle2\">") && edit._User != null)
-                {
-                    string D_User = Core.FindString(diff, "<div id=\"mw-diff-ntitle2\">", ">", "<");
-                    D_User = System.Web.HttpUtility.HtmlDecode(D_User.Replace(" (page does not exist)", ""));
-                    edit._User = Core.GetUser(D_User);
-                }
-
-
-                if (edit.Prev != null)
-                {
-                    //ok
-                }
-                else
-                {
-                    edit.Prev = new Edit();
-                    edit.Prev._Page = edit._Page;
-                    edit.Prev.Next = edit;
-                    edit.Prev.Id = edit.Oldid;
-                    edit.Prev.Oldid = "prev";
-                }
-                if (diff.Contains("<div id=\"mw-diff-ntitle1\">") && edit._Time == DateTime.MinValue)
-                {
-                    string et = Core.FindString(diff, "<div id=\"mw-diff-ntitle1\">", "</div>");
-
-                    if (et.Contains("Revision as of"))
+                    if (diff.Contains("<span class=\"mw-rollback-link\">"))
                     {
-                        et = Core.FindString(et, "Revision as of");
-                        if (DateTime.TryParse(et, out edit._Time))
+                        // edit contains a rollback token, so we save it for later use
+                        string RollbackToken = diff.Substring(diff.IndexOf("span class=\"mw-rollback-link\">"));
+                        edit.RollbackToken = System.Web.HttpUtility.HtmlDecode(Core.FindString(RollbackToken, "<a href=\"", "&amp;token=", "\""));
+                    }
+
+                    if (edit.Id == "next" | edit.Id == "cur" && diff.Contains("<div id=\"mw-diff-ntitle1\">"))
+                    {
+                        // check the ID of edit
+                        edit.Id = Core.FindString(diff, "<div id=\"mw-diff-ntitle1\"><strong><a", "oldid=", "'");
+                    }
+
+                    lock (Edit.All)
+                    {
+                        if (edit.Id != "cur" && Edit.All.ContainsKey(edit.Id))
                         {
-                            edit._Time = DateTime.SpecifyKind(DateTime.Parse(et), DateTimeKind.Local).ToUniversalTime();
+                            // we already parsed an edit with this ID
+                            edit = Edit.All[edit.Id];
                         }
                     }
-                    else if (et.Contains("Current revision"))
-                    {
-                        et = Core.FindString(et, "Current revision</a>", "(");
-                        if (DateTime.TryParse(et, out edit._Time))
-                        {
-                            edit._Time = DateTime.SpecifyKind(DateTime.Parse(et), DateTimeKind.Local).ToUniversalTime();
-                        }
-                    }
-                    if (diff.Contains("<div id=\"mw-diff-otitle1\">") && edit.Prev._Time == DateTime.MinValue)
-                    {
-                        string etime = Core.FindString(diff, "<div id=\"mw-diff-otitle1\">", "</div>");
-                        etime = etime.Substring(etime.IndexOf(":") - 2);
-                        if (DateTime.TryParse(etime, out edit._Time))
-                        {
-                            edit._Time = DateTime.SpecifyKind(DateTime.Parse(etime), DateTimeKind.Local).ToUniversalTime();
-                        }
-                    }
-                }
-                if (diff.Contains("<div id=\"mw-diff-otitle2\">") && edit.Prev._User == null)
-                {
-                    string username = System.Web.HttpUtility.HtmlDecode(Core.FindString(diff, "<div id=\"mw-diff-otitle2\">", ">", "</a>"));
 
-                }
-                if (edit.Prev.Summary == null)
-                {
-                    if (diff.Contains("<div id=\"mw-diff-otitle3\">"))
+                    if (edit.Oldid == "prev" && diff.Contains("<div id=\"mw-diff-otitle1\">"))
                     {
-                        string esummary = Core.FindString(diff, "<div id=\"mw-diff-otitle3\">");
-                        if (esummary.Contains("<div id=\"mw-diff-ntitle3\">"))
+                        edit.Oldid = Core.FindString(diff, "<div id=\"mw-diff-otitle1\"><strong><a", "oldid=", "'");
+                    }
+
+                    if (diff.Contains("<div id=\"mw-diff-ntitle2\">") && edit._User != null)
+                    {
+                        string D_User = Core.FindString(diff, "<div id=\"mw-diff-ntitle2\">", ">", "<");
+                        D_User = System.Web.HttpUtility.HtmlDecode(D_User.Replace(" (page does not exist)", ""));
+                        edit._User = Core.GetUser(D_User);
+                    }
+
+
+                    if (edit.Prev == null)
+                    {
+                        edit.Prev = new Edit();
+                        edit.Prev._Page = edit._Page;
+                        edit.Prev.Next = edit;
+                        edit.Prev.Id = edit.Oldid;
+                        edit.Prev.Oldid = "prev";
+                    }
+
+                    if (diff.Contains("<div id=\"mw-diff-ntitle1\">") && edit._Time == DateTime.MinValue)
+                    {
+                        string et = Core.FindString(diff, "<div id=\"mw-diff-ntitle1\">", "</div>");
+
+                        if (et.Contains("Revision as of"))
                         {
-                            esummary = esummary.Substring(0, esummary.IndexOf("<div id=\"mw-diff-ntitle3\">"));
-                        }
-                        if (esummary.Contains("<span class=\"comment\">"))
-                        {
-                            if (esummary.Contains("</span></div>"))
+                            et = Core.FindString(et, "Revision as of");
+                            if (DateTime.TryParse(et, out edit._Time))
                             {
-                                esummary = Core.FindString(esummary, "<span class=\"comment\">", "</span></div>");
+                                edit._Time = DateTime.SpecifyKind(DateTime.Parse(et), DateTimeKind.Local).ToUniversalTime();
                             }
-                            else if (esummary.Contains("</span>&nbsp;"))
-                            {
-                                esummary = Core.FindString(esummary, "<span class=\"comment\">", "</span>&nbsp;");
-                            }
-                            esummary = Core.HtmltoWikitext(esummary);
-                            edit.Prev.Summary = esummary;
                         }
-                        else
+                        else if (et.Contains("Current revision"))
                         {
-                            edit.Prev.Summary = "";
+                            et = Core.FindString(et, "Current revision</a>", "(");
+                            if (DateTime.TryParse(et, out edit._Time))
+                            {
+                                edit._Time = DateTime.SpecifyKind(DateTime.Parse(et), DateTimeKind.Local).ToUniversalTime();
+                            }
+                        }
+                        if (diff.Contains("<div id=\"mw-diff-otitle1\">") && edit.Prev._Time == DateTime.MinValue)
+                        {
+                            string etime = Core.FindString(diff, "<div id=\"mw-diff-otitle1\">", "</div>");
+                            etime = etime.Substring(etime.IndexOf(":") - 2);
+                            if (DateTime.TryParse(etime, out edit._Time))
+                            {
+                                edit._Time = DateTime.SpecifyKind(DateTime.Parse(etime), DateTimeKind.Local).ToUniversalTime();
+                            }
                         }
                     }
-                    if (Config.PageCreatedPattern != null && Config.PageCreatedPattern.IsMatch(edit.Prev.Summary))
+                    if (diff.Contains("<div id=\"mw-diff-otitle2\">") && edit.Prev._User == null)
                     {
-                        edit.Prev.Prev = Core.NullEdit;
-                        edit._Page.FirstEdit = edit.Prev;
+                        string username = System.Web.HttpUtility.HtmlDecode(Core.FindString(diff, "<div id=\"mw-diff-otitle2\">", ">", "</a>"));
 
                     }
-                    if (diff.Contains("<div id=\"mw-diff-ntitle4\">&nbsp;</div>"))
+                    if (edit.Prev.Summary == null)
                     {
-                        edit._Page.LastEdit = edit;
-                    }
+                        if (diff.Contains("<div id=\"mw-diff-otitle3\">"))
+                        {
+                            string esummary = Core.FindString(diff, "<div id=\"mw-diff-otitle3\">");
+                            if (esummary.Contains("<div id=\"mw-diff-ntitle3\">"))
+                            {
+                                esummary = esummary.Substring(0, esummary.IndexOf("<div id=\"mw-diff-ntitle3\">"));
+                            }
+                            if (esummary.Contains("<span class=\"comment\">"))
+                            {
+                                if (esummary.Contains("</span></div>"))
+                                {
+                                    esummary = Core.FindString(esummary, "<span class=\"comment\">", "</span></div>");
+                                }
+                                else if (esummary.Contains("</span>&nbsp;"))
+                                {
+                                    esummary = Core.FindString(esummary, "<span class=\"comment\">", "</span>&nbsp;");
+                                }
+                                esummary = Core.HtmltoWikitext(esummary);
+                                edit.Prev.Summary = esummary;
+                            }
+                            else
+                            {
+                                edit.Prev.Summary = "";
+                            }
+                        }
+                        if (Config.PageCreatedPattern != null && Config.PageCreatedPattern.IsMatch(edit.Prev.Summary))
+                        {
+                            edit.Prev.Prev = Core.NullEdit;
+                            edit._Page.FirstEdit = edit.Prev;
 
-                    if (edit.Prev.Processed == false)
+                        }
+                        if (diff.Contains("<div id=\"mw-diff-ntitle4\">&nbsp;</div>"))
+                        {
+                            edit._Page.LastEdit = edit;
+                        }
+
+                        if (edit.Prev.Processed == false)
+                        {
+                            ProcessEdit(edit.Prev);
+                        }
+
+                    }
+                }
+                edit.Diff = diff;
+                edit.DiffCacheState = Edit.CacheState.Cached;
+
+                if (browser != null)
+                {
+                    if ((browser.Edit.Next == edit) || browser.Edit == edit)
                     {
-                        ProcessEdit(edit.Prev);
+                        DisplayEdit(edit, false, browser);
                     }
-                    //_E.ChangedContent =
-
                 }
             }
-            edit.Diff = diff;
-            edit.DiffCacheState = Edit.CacheState.Cached;
-
-            if (browser != null)
+            catch (Exception fail)
             {
-                if ((browser.Edit.Next == edit) || browser.Edit == edit)
-                {
-                    DisplayEdit(edit, false, browser);
-                }
+                Core.ExceptionHandler(fail);
             }
         }
 
