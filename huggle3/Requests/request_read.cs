@@ -78,7 +78,7 @@ namespace huggle3.Requests
             public override void EndRequest()
             {
                 Preload_Count--;
-                Processing.Process_Diff(_Edit, Diff, browsertab);
+                Processing.ProcessDiff(_Edit, Diff, browsertab);
                 base.EndRequest();
             }
         }
