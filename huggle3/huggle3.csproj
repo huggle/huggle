@@ -65,6 +65,8 @@
     <EmbeddedResource Include="Languages\ar.txt" />
     <EmbeddedResource Include="Languages\bg.txt" />
     <EmbeddedResource Include="Languages\bn.txt" />
+    <EmbeddedResource Include="Pictures\huggle.ico" />
+    <EmbeddedResource Include="Pictures\huggle3_newlogo.png" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="gtk-gui\generated.cs" />
@@ -102,6 +104,7 @@
     <Folder Include="Forms\" />
     <Folder Include="Requests\" />
     <Folder Include="Languages\" />
+    <Folder Include="Pictures\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Languages\de.txt" />
@@ -127,5 +130,6 @@
     <None Include="Languages\ru.txt" />
     <None Include="Languages\sv.txt" />
     <None Include="Languages\zh.txt" />
+    <None Include="Pictures\huggle3.png" />
   </ItemGroup>
 </Project>
