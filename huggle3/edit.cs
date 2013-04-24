@@ -20,6 +20,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Gtk;
 using System.Diagnostics;
 
 namespace huggle3
