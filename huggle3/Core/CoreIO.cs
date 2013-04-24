@@ -56,6 +56,7 @@ namespace huggle3
 			return "";
 		}
 	}
+
 	public static class Core_IO
 	{
 		public static class GET

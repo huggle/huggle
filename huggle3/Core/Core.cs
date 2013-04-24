@@ -968,6 +968,7 @@ namespace huggle3
 			WriteLog("Huggle " + Application.ProductVersion.ToString() + " starting");
 			WriteLog("Directory: " + LocalPath());
 			WriteLog("OS " + Environment.OSVersion.ToString());
+			Properties.Init();
 			Config.DefaultLanguage = "en";
 			MainThread = System.Threading.Thread.CurrentThread;
 			WriteLog("Kernel thread: " + MainThread.ManagedThreadId.ToString());

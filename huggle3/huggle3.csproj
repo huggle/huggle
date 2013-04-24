@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>10.0.0</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{33C64E54-DEFF-46A9-BB2B-93FFB53101C0}</ProjectGuid>
+    <ProjectGuid>{A56FAB1F-6AF1-4037-BF2C-8B57E4215191}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>huggle3</RootNamespace>
     <AssemblyName>huggle3</AssemblyName>
@@ -51,80 +51,78 @@
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="Mono.Posix, Version=2.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="gtk-gui\gui.stetic">
       <LogicalName>gui.stetic</LogicalName>
     </EmbeddedResource>
+    <EmbeddedResource Include="Languages\ar.txt" />
+    <EmbeddedResource Include="Languages\bg.txt" />
+    <EmbeddedResource Include="Languages\bn.txt" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="gtk-gui\generated.cs" />
-    <Compile Include="MainWindow.cs" />
-    <Compile Include="gtk-gui\MainWindow.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Config.cs" />
-    <Compile Include="Requests\request_action.cs" />
-    <Compile Include="Requests\request_api.cs" />
-    <Compile Include="Requests\request_config.cs" />
-    <Compile Include="Requests\request_core.cs" />
-    <Compile Include="Requests\request_edit.cs" />
-    <Compile Include="Requests\request_list.cs" />
-    <Compile Include="Requests\request_read.cs" />
-    <Compile Include="Requests\request_report.cs" />
-    <Compile Include="Requests\request_revert.cs" />
-    <Compile Include="Core\CoreIO.cs" />
     <Compile Include="Core\Core.cs" />
-    <Compile Include="Page.cs" />
+    <Compile Include="Core\CoreIO.cs" />
+    <Compile Include="Forms\Login.cs" />
+    <Compile Include="gtk-gui\huggle3.Forms.Login.cs" />
+    <Compile Include="Configuration.cs" />
+    <Compile Include="Space.cs" />
     <Compile Include="User.cs" />
-    <Compile Include="Controls\SpecialBrowser.cs" />
-    <Compile Include="gtk-gui\huggle3.Controls.SpecialBrowser.cs" />
+    <Compile Include="Edit.cs" />
+    <Compile Include="Page.cs" />
+    <Compile Include="Queue.cs" />
+    <Compile Include="Requests\RequestCore.cs" />
     <Compile Include="Controls\QueuePanel.cs" />
     <Compile Include="gtk-gui\huggle3.Controls.QueuePanel.cs" />
-    <Compile Include="Edit.cs" />
-    <Compile Include="Space.cs" />
-    <Compile Include="Queue.cs" />
-    <Compile Include="Languages.cs" />
-    <Compile Include="Variables.cs" />
+    <Compile Include="Core\Threading.cs" />
+    <Compile Include="Plugin.cs" />
+    <Compile Include="Core\Properties.cs" />
+    <Compile Include="Forms\ExceptionForm.cs" />
+    <Compile Include="Forms\ExceptionForm.Designer.cs" />
+    <Compile Include="Controls\EditItem.cs" />
+    <Compile Include="gtk-gui\huggle3.Controls.EditItem.cs" />
+    <Compile Include="Requests\RequestApi.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <Folder Include="Lang\" />
-    <Folder Include="Requests\" />
     <Folder Include="Core\" />
     <Folder Include="Controls\" />
+    <Folder Include="Forms\" />
+    <Folder Include="Requests\" />
+    <Folder Include="Languages\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Lang\ar.txt" />
-    <None Include="Lang\bg.txt" />
-    <None Include="Lang\bn.txt" />
-    <None Include="Lang\de.txt" />
-    <None Include="Lang\en.txt" />
-    <None Include="Lang\es.txt" />
-    <None Include="Lang\fa.txt" />
-    <None Include="Lang\fr.txt" />
-    <None Include="Lang\hi.txt" />
-    <None Include="Lang\it.txt" />
-    <None Include="Lang\ja.txt" />
-    <None Include="Lang\ka.txt" />
-    <None Include="Lang\km.txt" />
-    <None Include="Lang\kn.txt" />
-    <None Include="Lang\ko.txt" />
-    <None Include="Lang\ml.txt" />
-    <None Include="Lang\mr.txt" />
-    <None Include="Lang\nl.txt" />
-    <None Include="Lang\no.txt" />
-    <None Include="Lang\oc.txt" />
-    <None Include="Lang\or.txt" />
-    <None Include="Lang\pt.txt" />
-    <None Include="Lang\ptb.txt" />
-    <None Include="Lang\ru.txt" />
-    <None Include="Lang\sv.txt" />
-    <None Include="Lang\zh.txt" />
+    <None Include="Languages\de.txt" />
+    <None Include="Languages\en.txt" />
+    <None Include="Languages\es.txt" />
+    <None Include="Languages\fa.txt" />
+    <None Include="Languages\fr.txt" />
+    <None Include="Languages\hi.txt" />
+    <None Include="Languages\it.txt" />
+    <None Include="Languages\ja.txt" />
+    <None Include="Languages\ka.txt" />
+    <None Include="Languages\km.txt" />
+    <None Include="Languages\kn.txt" />
+    <None Include="Languages\ko.txt" />
+    <None Include="Languages\ml.txt" />
+    <None Include="Languages\mr.txt" />
+    <None Include="Languages\nl.txt" />
+    <None Include="Languages\no.txt" />
+    <None Include="Languages\oc.txt" />
+    <None Include="Languages\or.txt" />
+    <None Include="Languages\pt.txt" />
+    <None Include="Languages\ptb.txt" />
+    <None Include="Languages\ru.txt" />
+    <None Include="Languages\sv.txt" />
+    <None Include="Languages\zh.txt" />
   </ItemGroup>
 </Project>

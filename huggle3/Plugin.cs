@@ -1,4 +1,4 @@
-﻿//This is a source code or part of Huggle project
+//This is a source code or part of Huggle project
 //
 //This file contains code for extensions
 
@@ -24,128 +24,128 @@ using System.Text;
 
 namespace huggle3
 {
-    public class Plugin
-    {
-        public static List<Plugin> ExtensionList = new List<Plugin>();
-        public Status status = Status.Loading;
-        public string Name = null;
-        public string Info = "This extension contains no description";
-        public string Maintainer = "There is no person listed in description";
-        public List<Thread> Threads = new List<Thread>();
-
-        public Plugin()
-        {
-            
-        }
-
-        public void Load()
-        {
-            WriteLog("Loaded");
-        }
-
-        private void WriteLog(string text)
-        {
-            Core.WriteLog("EXTENSION_INFO " + Name + ": " + text);
-        }
-
-        ~Plugin()
-        {
-            try
-            {
-                lock (ExtensionList)
-                {
-                    if (ExtensionList.Contains(this))
-                    {
-                        ExtensionList.Remove(this);
-                    }
-                }
-            }
-            catch (Exception fail)
-            {
-                Core.ExceptionHandler(fail);
-            }
-        }
-
-        public void Terminate()
-        {
-            try
-            {
-                status = Status.Terminating;
-                if (Hook_OnTerminate())
-                {
-                    lock (ExtensionList)
-                    {
-                        if (ExtensionList.Contains(this))
-                        {
-                            ExtensionList.Remove(this);
-                        }
-                    }
-                    status = Status.Terminated;
-                }
-                else
-                {
-                    Kill();
-                }
-            }
-            catch (Exception fail)
-            {
-                Core.ExceptionHandler(fail);
-                Kill();
-            }
-        }
-
-
-        /// <summary>
-        /// Mecilessly kill
-        /// </summary>
-        public void Kill()
-        {
-            try
-            {
-                status = Status.Terminating;
-                foreach (Thread xx in Threads)
-                {
-                    try
-                    {
-                        xx.Abort();
-                    }
-                    catch (Exception TX)
-                    {
-                        Core.WriteLog("Unable to exit the thread of extension" + Name + ": " + TX.ToString());
-                    }
-                }
-                lock (ExtensionList)
-                {
-                    if (ExtensionList.Contains(this))
-                    {
-                        ExtensionList.Remove(this);
-                    }
-                }
-                status = Status.Terminated;
-            }
-            catch (Exception fail)
-            {
-                Core.ExceptionHandler(fail);
-            }
-        }
-
-        public virtual bool Hook_RegisterSelf()
-        {
-            return true;
-        }
-
-        public virtual bool Hook_OnTerminate()
-        {
-            return true;
-        }
-
-        public enum Status
-        { 
-            Active,
-            Loading,
-            Terminating,
-            Terminated,
-            Stopped
-        }
-    }
+	public class Plugin
+	{
+		public static List<Plugin> ExtensionList = new List<Plugin>();
+		public Status status = Status.Loading;
+		public string Name = null;
+		public string Info = "This extension contains no description";
+		public string Maintainer = "There is no person listed in description";
+		public List<Thread> Threads = new List<Thread>();
+		
+		public Plugin()
+		{
+			
+		}
+		
+		public void Load()
+		{
+			WriteLog("Loaded");
+		}
+		
+		private void WriteLog(string text)
+		{
+			Core.WriteLog("EXTENSION_INFO " + Name + ": " + text);
+		}
+		
+		~Plugin()
+		{
+			try
+			{
+				lock (ExtensionList)
+				{
+					if (ExtensionList.Contains(this))
+					{
+						ExtensionList.Remove(this);
+					}
+				}
+			}
+			catch (Exception fail)
+			{
+				Core.ExceptionHandler(fail);
+			}
+		}
+		
+		public void Terminate()
+		{
+			try
+			{
+				status = Status.Terminating;
+				if (Hook_OnTerminate())
+				{
+					lock (ExtensionList)
+					{
+						if (ExtensionList.Contains(this))
+						{
+							ExtensionList.Remove(this);
+						}
+					}
+					status = Status.Terminated;
+				}
+				else
+				{
+					Kill();
+				}
+			}
+			catch (Exception fail)
+			{
+				Core.ExceptionHandler(fail);
+				Kill();
+			}
+		}
+		
+		
+		/// <summary>
+		/// Mecilessly kill
+		/// </summary>
+		public void Kill()
+		{
+			try
+			{
+				status = Status.Terminating;
+				foreach (Thread xx in Threads)
+				{
+					try
+					{
+						xx.Abort();
+					}
+					catch (Exception TX)
+					{
+						Core.WriteLog("Unable to exit the thread of extension" + Name + ": " + TX.ToString());
+					}
+				}
+				lock (ExtensionList)
+				{
+					if (ExtensionList.Contains(this))
+					{
+						ExtensionList.Remove(this);
+					}
+				}
+				status = Status.Terminated;
+			}
+			catch (Exception fail)
+			{
+				Core.ExceptionHandler(fail);
+			}
+		}
+		
+		public virtual bool Hook_RegisterSelf()
+		{
+			return true;
+		}
+		
+		public virtual bool Hook_OnTerminate()
+		{
+			return true;
+		}
+		
+		public enum Status
+		{ 
+			Active,
+			Loading,
+			Terminating,
+			Terminated,
+			Stopped
+		}
+	}
 }
