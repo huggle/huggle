@@ -242,7 +242,8 @@ namespace huggle3
 							// Check if this is currently selected queue
 							if (x.Value.MatchesPanel())
 							{
-								x.Value.Panel.Add(_edit);
+								// $fixme$
+								//x.Value.Panel.Add(_edit);
 							}
 						}
 					}

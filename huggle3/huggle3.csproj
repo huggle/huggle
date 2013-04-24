@@ -91,6 +91,9 @@
     <Compile Include="Controls\EditItem.cs" />
     <Compile Include="gtk-gui\huggle3.Controls.EditItem.cs" />
     <Compile Include="Requests\RequestApi.cs" />
+    <Compile Include="Languages.cs" />
+    <Compile Include="Variables.cs" />
+    <Compile Include="Login.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
