@@ -61,7 +61,7 @@ namespace huggle3
 
 		public static string Localize(string text)
 		{
-			if (text.StartsWith("[[")
+			if (text.StartsWith("[["))
 			{
 				return Get (text);
 			}
