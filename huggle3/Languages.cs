@@ -58,36 +58,23 @@ namespace huggle3
 			}
 			return controlList;
 		}
-		
-		public static void Localize(Form form)
+
+		public static string Localize(string text)
+		{
+			if (text.StartsWith("[[")
+			{
+				return Get (text);
+			}
+			return text;
+		}
+
+		public static void Localize(Gtk.Window form)
 		{
 			try
 			{
-				lock (form.Controls)
+				foreach (Gtk.Widget widget in form.Children)
 				{
-					foreach (Control control in GetControls(form))
-					{
-						if (control.Text.StartsWith("[["))
-						{
-							control.Text = Get(control.Text);
-						}
-						if (control.GetType() == typeof(MenuStrip))
-						{
-							MenuStrip menu = (MenuStrip)control;
-							foreach (ToolStripMenuItem item in menu.Items)
-							{
-								if (item.Text.StartsWith("[["))
-								{
-									item.Text = Get(item.Text);
-								}
-								foreach(ToolStripMenuItem item2 in GetMenu(item))
-									if (item2.Text.StartsWith("[["))
-								{
-									item2.Text = Get(item2.Text);
-								}
-							}
-						}
-					}
+					LocalizeWidget(widget);
 				}
 			}
 			catch (Exception fail)
@@ -95,7 +82,49 @@ namespace huggle3
 				Core.ExceptionHandler(fail);
 			}
 		}
-		
+
+		public static void LocalizeWidget(Gtk.Widget widget)
+		{
+			if (widget.GetType() == typeof(Gtk.Label))
+			{
+				Gtk.Label label = (Gtk.Label)widget;
+				label.Text = Localize(label.Text);
+			}
+
+			if (widget.GetType() == typeof(Gtk.CheckButton))
+			{
+				Gtk.CheckButton checkButton = (Gtk.CheckButton)widget;
+				checkButton.Label = Localize(checkButton.Label);
+			}
+			LocalizeWChildrens(widget);
+		}
+
+		public static void LocalizeWChildrens(Gtk.Widget widget)
+		{
+			if (widget.GetType() == typeof(Gtk.VBox))
+			{
+				foreach (Gtk.Widget ch in ((Gtk.VBox)widget).Children)
+				{
+					LocalizeWidget(ch);
+				}
+			}
+
+			if (widget.GetType() == typeof(Gtk.HBox))
+			{
+				foreach (Gtk.Widget ch in ((Gtk.HBox)widget).Children)
+				{
+					LocalizeWidget(ch);
+				}
+			}
+
+			if (widget.GetType() == typeof(Gtk.Table))
+			{
+				foreach (Gtk.Widget ch in ((Gtk.Table)widget).Children)
+				{
+					LocalizeWidget(ch);
+				}
+			}
+		}
 		
 		public static string Get(string id)
 		{

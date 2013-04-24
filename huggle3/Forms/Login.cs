@@ -29,6 +29,7 @@ namespace huggle3.Forms
 			Core.Initialise();
 			this.Build ();
 			this.DeleteEvent += new Gtk.DeleteEventHandler(onClose);
+			Languages.Localize(this);
 		}
 
 		public void onClose(object sender, Gtk.DeleteEventArgs e)
