@@ -67,6 +67,29 @@
     <EmbeddedResource Include="Languages\bn.txt" />
     <EmbeddedResource Include="Pictures\huggle.ico" />
     <EmbeddedResource Include="Pictures\huggle3_newlogo.png" />
+    <EmbeddedResource Include="Languages\de.txt" />
+    <EmbeddedResource Include="Languages\en.txt" />
+    <EmbeddedResource Include="Languages\es.txt" />
+    <EmbeddedResource Include="Languages\fa.txt" />
+    <EmbeddedResource Include="Languages\fr.txt" />
+    <EmbeddedResource Include="Languages\hi.txt" />
+    <EmbeddedResource Include="Languages\it.txt" />
+    <EmbeddedResource Include="Languages\ja.txt" />
+    <EmbeddedResource Include="Languages\ka.txt" />
+    <EmbeddedResource Include="Languages\km.txt" />
+    <EmbeddedResource Include="Languages\kn.txt" />
+    <EmbeddedResource Include="Languages\ko.txt" />
+    <EmbeddedResource Include="Languages\ml.txt" />
+    <EmbeddedResource Include="Languages\mr.txt" />
+    <EmbeddedResource Include="Languages\nl.txt" />
+    <EmbeddedResource Include="Languages\no.txt" />
+    <EmbeddedResource Include="Languages\oc.txt" />
+    <EmbeddedResource Include="Languages\or.txt" />
+    <EmbeddedResource Include="Languages\pt.txt" />
+    <EmbeddedResource Include="Languages\ptb.txt" />
+    <EmbeddedResource Include="Languages\ru.txt" />
+    <EmbeddedResource Include="Languages\sv.txt" />
+    <EmbeddedResource Include="Languages\zh.txt" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="gtk-gui\generated.cs" />
@@ -107,29 +130,6 @@
     <Folder Include="Pictures\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Languages\de.txt" />
-    <None Include="Languages\en.txt" />
-    <None Include="Languages\es.txt" />
-    <None Include="Languages\fa.txt" />
-    <None Include="Languages\fr.txt" />
-    <None Include="Languages\hi.txt" />
-    <None Include="Languages\it.txt" />
-    <None Include="Languages\ja.txt" />
-    <None Include="Languages\ka.txt" />
-    <None Include="Languages\km.txt" />
-    <None Include="Languages\kn.txt" />
-    <None Include="Languages\ko.txt" />
-    <None Include="Languages\ml.txt" />
-    <None Include="Languages\mr.txt" />
-    <None Include="Languages\nl.txt" />
-    <None Include="Languages\no.txt" />
-    <None Include="Languages\oc.txt" />
-    <None Include="Languages\or.txt" />
-    <None Include="Languages\pt.txt" />
-    <None Include="Languages\ptb.txt" />
-    <None Include="Languages\ru.txt" />
-    <None Include="Languages\sv.txt" />
-    <None Include="Languages\zh.txt" />
     <None Include="Pictures\huggle3.png" />
   </ItemGroup>
 </Project>

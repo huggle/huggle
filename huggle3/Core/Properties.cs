@@ -36,12 +36,19 @@ namespace huggle3
 
 		public static string LoadResource(string name)
 		{
-			using (Stream stream = Assembly.GetExecutingAssembly()
-			       .GetManifestResourceStream("huggle3.Languages." + name + ".txt"))
-				using (StreamReader reader = new StreamReader(stream))
+			try
 			{
-				return reader.ReadToEnd();
+				using (Stream stream = Assembly.GetExecutingAssembly()
+				       .GetManifestResourceStream("huggle3.Languages." + name + ".txt"))
+					using (StreamReader reader = new StreamReader(stream))
+				{
+					return reader.ReadToEnd();
+				}
+			} catch (Exception fail)
+			{
+				Core.ExceptionHandler(fail);
 			}
+			return "";
 		}
 
 		public static void Init()
@@ -51,6 +58,24 @@ namespace huggle3
 			Resources.de = LoadResource("de");
 			Resources.en = LoadResource("en");
 			Resources.es = LoadResource("es");
+			Resources.fa = LoadResource("fa");
+			Resources.fr = LoadResource("fr");
+			Resources.hi = LoadResource("hi");
+			Resources.it = LoadResource("it");
+			Resources.ja = LoadResource("ja");
+			Resources.ka = LoadResource("ka");
+			Resources.kn = LoadResource("kn");
+			Resources.ml = LoadResource("ml");
+			Resources.mr = LoadResource("mr");
+			Resources.nl = LoadResource("nl");
+			Resources.no = LoadResource("no");
+			Resources.oc = LoadResource("oc");
+			Resources.or = LoadResource("or");
+			Resources.pt = LoadResource("pt");
+			Resources.ptb = LoadResource("ptb");
+			Resources.ru = LoadResource("ru");
+			Resources.sv = LoadResource("sv");
+			Resources.zh = LoadResource("zh");
 		}
 	
 	}

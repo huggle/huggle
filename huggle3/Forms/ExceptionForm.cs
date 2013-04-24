@@ -40,6 +40,10 @@ namespace huggle3.Forms
         {
             try
             {
+				if (Core.Panic)
+				{
+					btContinue.Enabled = false;
+				}
                 List<string> text = new List<string>();
                 text.Add("Please send the following data for analysis \n\n");
                 text.Add(Core.history);

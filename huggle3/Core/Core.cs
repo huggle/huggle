@@ -106,6 +106,10 @@ namespace huggle3
 		/// </summary>
 		public const int MThread = 600;
 		/// <summary>
+		/// This is true in case that critical exception was thrown so that exception form knows it and doesn't offer recovery option
+		/// </summary>
+		public static bool Panic = false;
+		/// <summary>
 		/// Should contain list of all static arrays of objects accessible everywhere
 		/// </summary>
 		public struct All
@@ -338,7 +342,7 @@ namespace huggle3
 						SpecialThreads.RecoveryThread.Abort();
 					}
 				}
-				Application.Exit();
+				Environment.Exit(0);
 			}
 			catch (Exception)
 			{

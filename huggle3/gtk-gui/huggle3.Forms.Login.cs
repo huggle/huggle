@@ -28,6 +28,7 @@ namespace huggle3.Forms
 			this.Title = global::Mono.Unix.Catalog.GetString ("Huggle");
 			this.Icon = global::Gdk.Pixbuf.LoadFromResource ("huggle3.Pictures.huggle.ico");
 			this.WindowPosition = ((global::Gtk.WindowPosition)(1));
+			this.Resizable = false;
 			// Container child huggle3.Forms.Login.Gtk.Container+ContainerChild
 			this.vbox1 = new global::Gtk.VBox ();
 			this.vbox1.Name = "vbox1";
@@ -35,6 +36,7 @@ namespace huggle3.Forms
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.image1 = new global::Gtk.Image ();
 			this.image1.Name = "image1";
+			this.image1.Pixbuf = global::Gdk.Pixbuf.LoadFromResource ("huggle3.Pictures.huggle3_newlogo.png");
 			this.vbox1.Add (this.image1);
 			global::Gtk.Box.BoxChild w1 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.image1]));
 			w1.Position = 0;
@@ -181,8 +183,8 @@ namespace huggle3.Forms
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
 			}
-			this.DefaultWidth = 373;
-			this.DefaultHeight = 414;
+			this.DefaultWidth = 381;
+			this.DefaultHeight = 455;
 			this.Show ();
 		}
 	}
