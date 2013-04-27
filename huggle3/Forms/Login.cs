@@ -24,15 +24,27 @@ namespace huggle3.Forms
 {
 	public partial class Login : Gtk.Window
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="huggle3.Forms.Login"/> class.
+		/// </summary>
 		public Login () : base(Gtk.WindowType.Toplevel)
 		{
 			Core.Initialise();
 			this.Build ();
 			this.DeleteEvent += new Gtk.DeleteEventHandler(onClose);
 			Languages.Localize(this);
+			this.Title = "Huggle " + System.Windows.Forms.Application.ProductVersion.ToString() + " " + RevisionProvider.GetHash(true);
+            if (Config.devs)
+            {
+                this.Title = this.Title  + " [devs] - target: " + Core.TargetBuild();
+            }
+            else if (Config.Beta)
+            {
+                this.Title = this.Title + " (Testing only)";
+            }
 		}
 
-		public void onClose(object sender, Gtk.DeleteEventArgs e)
+		private void onClose(object sender, Gtk.DeleteEventArgs e)
 		{
 			try
 			{
@@ -44,7 +56,7 @@ namespace huggle3.Forms
 			}
 		}
 
-		public void Close()
+		private void Close()
 		{
 			this.Hide();
 			Core.ShutdownSystem();

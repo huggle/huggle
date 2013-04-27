@@ -940,7 +940,7 @@ namespace huggle3
 							if (Config.devs)
 							{
 								// we are dev so we want to know that there is a mistake in the db
-								DebugLog("Duplicate entry: " + message_name + "\n");
+								DebugLog("Duplicate entry: " + message_name);
 							}
 						}
 					}
