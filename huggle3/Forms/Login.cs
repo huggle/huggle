@@ -29,21 +29,38 @@ namespace huggle3.Forms
 		/// </summary>
 		public Login () : base(Gtk.WindowType.Toplevel)
 		{
-			Core.Initialise();
-			this.Build ();
-			this.DeleteEvent += new Gtk.DeleteEventHandler(onClose);
-			Languages.Localize(this);
-			this.Title = "Huggle " + System.Windows.Forms.Application.ProductVersion.ToString() + " " + RevisionProvider.GetHash(true);
-            if (Config.devs)
-            {
-                this.Title = this.Title  + " [devs] - target: " + Core.TargetBuild();
-            }
-            else if (Config.Beta)
-            {
-                this.Title = this.Title + " (Testing only)";
-            }
+			try
+			{
+				Core.Initialise();
+				this.Build ();
+				this.DeleteEvent += new Gtk.DeleteEventHandler(onClose);
+				Languages.Localize(this);
+				this.Title = "Huggle " + System.Windows.Forms.Application.ProductVersion.ToString() + " " + RevisionProvider.GetHash(true);
+	            if (Config.devs)
+	            {
+	                this.Title = this.Title  + " [devs] - target: " + Core.TargetBuild();
+	            }
+	            else if (Config.Beta)
+	            {
+	                this.Title = this.Title + " (Testing only)";
+	            }
+				Clear();
+			} catch (Exception fail)
+			{
+				Core.ExceptionHandler(fail);
+			}
 		}
-
+		
+		/// <summary>
+		/// Clear this form
+		/// </summary>
+		public void Clear()
+		{
+			this.label5.Text = "Please fill in your username and password in order to login";
+			entry1.Text = "";
+			entry2.Text = "";
+		}
+		
 		private void onClose(object sender, Gtk.DeleteEventArgs e)
 		{
 			try
