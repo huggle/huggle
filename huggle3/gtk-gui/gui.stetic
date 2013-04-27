@@ -411,4 +411,11 @@
       <placeholder />
     </child>
   </widget>
+  <widget class="Gtk.Bin" id="huggle3.Browser" design-size="300 300">
+    <property name="MemberName" />
+    <property name="Visible">False</property>
+    <child>
+      <placeholder />
+    </child>
+  </widget>
 </stetic-interface>
