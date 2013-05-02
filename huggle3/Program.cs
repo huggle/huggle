@@ -1,4 +1,4 @@
-﻿//This is a source code or part of Huggle project
+//This is a source code or part of Huggle project
 //
 //This file contains code for huggle
 
@@ -7,7 +7,7 @@
 /// this file contains the main class and definition for 2 objects - the login form and main form
 /// as you can see the application is actually not started by calling Core.Init() but,
 /// by creating instance of Login form which then call the Core and start everything.
-/// 
+///
 /// This instance is loaded during whole run of huggle. You can't unload it, only hide it.
 /// Login form also creates main form, which can be unloaded anytime.
 /// </DOCUMENTATION>
@@ -21,42 +21,42 @@
 
 //This program is distributed in the hope that it will be useful,
 //but WITHOUT ANY WARRANTY; without even the implied warranty of
-//MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 //GNU General Public License for more details.
 using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
+using Gtk;
 
 namespace huggle3
 {
-    static class Program
-    {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        /// 
-        public static main MainForm;
-        public static LoginForm _LoginForm;
-
-        public class ExceptionHandler 
-        {
-            public void ThreadExceptionHandle(object sender, UnhandledExceptionEventArgs t)
-            {
-                // exception
-                Core.ExceptionHandler(new Exception("PANIC:" + t.ToString()), true);
-            }
-        }
-
-        [STAThread]
-        static void Main()
-        {
-                ExceptionHandler EH = new ExceptionHandler();
-                AppDomain.CurrentDomain.UnhandledException += EH.ThreadExceptionHandle;
-                Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
-                _LoginForm = new LoginForm();
-                Application.Run(_LoginForm); // spawn
-        }
-   
-    }
+	static class Program
+	{
+		/// <summary>
+		/// The main entry point for the application.
+		/// </summary>
+		///
+		//public static main MainForm;
+		public static Forms.Login _LoginForm;
+		
+		public class ExceptionHandler
+		{
+			public void ThreadExceptionHandle(object sender, UnhandledExceptionEventArgs t)
+			{
+				// exception
+				Core.ExceptionHandler(new Exception("PANIC:" + t.ToString()), true);
+			}
+		}
+		
+		[STAThread]
+		static void Main()
+		{
+			ExceptionHandler EH = new ExceptionHandler();
+			AppDomain.CurrentDomain.UnhandledException += EH.ThreadExceptionHandle;
+			Application.Init ();
+			_LoginForm = new Forms.Login();
+			_LoginForm.Show ();
+			Application.Run ();
+		}
+		
+	}
 }
