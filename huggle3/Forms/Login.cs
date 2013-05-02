@@ -18,6 +18,7 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
+using System.Drawing;
 using System;
 
 namespace huggle3.Forms
@@ -36,7 +37,12 @@ namespace huggle3.Forms
 			{
 				Core.Initialise();
 				this.Build ();
+				button1.Activated += new EventHandler(btLogin_Click);
+				button2.Activated += new EventHandler(btExit_Click);
 				this.DeleteEvent += new Gtk.DeleteEventHandler(onClose);
+				this.label6.ModifyFg(Gtk.StateType.Normal, Core.fromColor(Color.Blue));
+				this.label7.ModifyFg(Gtk.StateType.Normal, Core.fromColor(Color.Blue));
+				this.label8.ModifyFg(Gtk.StateType.Normal, Core.fromColor(Color.Blue));
 				Languages.Localize(this);
 				this.Title = "Huggle " + System.Windows.Forms.Application.ProductVersion.ToString() + " " + RevisionProvider.GetHash(true);
 	            if (Config.devs)
@@ -75,7 +81,7 @@ namespace huggle3.Forms
 			//Start a login attempt
 			login();
 		}
-
+		
 		private void login()
 		{
 			try
@@ -88,6 +94,18 @@ namespace huggle3.Forms
 			{
 				Core.ExceptionHandler(fail);
 				EnableControls (true);
+			}
+		}
+		
+		private void btExit_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				Close ();
+			}
+			catch (Exception fail)
+			{
+				Core.ExceptionHandler(fail);
 			}
 		}
 

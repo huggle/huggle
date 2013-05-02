@@ -608,7 +608,17 @@ namespace huggle3
 			}
 			return false;
 		}
-		
+
+		/// <summary>
+		/// Convert Drawing to Gdk color
+		/// </summary>
+		/// <returns>The color.</returns>
+		/// <param name="color">Color.</param>
+		public static Gdk.Color fromColor(System.Drawing.Color color)
+		{
+			return new Gdk.Color(color.R, color.G, color.B);
+		}
+
 		/// <summary>
 		/// This function look up a string in string between other strings
 		/// </summary>
