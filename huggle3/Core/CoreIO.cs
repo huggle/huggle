@@ -26,8 +26,16 @@ using System.Text;
 
 namespace huggle3
 {
+	/// <summary>
+	/// Revision provider.
+	/// </summary>
 	public static class RevisionProvider
 	{
+		/// <summary>
+		/// Gets the git hash
+		/// </summary>
+		/// <returns>The hash.</returns>
+		/// <param name="shortened">If set to <c>true</c> shortened.</param>
 		public static string GetHash(bool shortened = false)
 		{
 			try
@@ -57,6 +65,9 @@ namespace huggle3
 		}
 	}
 
+	/// <summary>
+	/// Core IO
+	/// </summary>
 	public static class Core_IO
 	{
 		public static class GET
@@ -194,8 +205,17 @@ namespace huggle3
 		
 		private class XmlInfo
 		{ 
+			/// <summary>
+			/// The xmlnode.
+			/// </summary>
 			public XmlNode xmlnode = null;
+			/// <summary>
+			/// The key.
+			/// </summary>
 			public XmlAttribute key = null;
+			/// <summary>
+			/// The config.
+			/// </summary>
 			public XmlDocument config = null;
 			public XmlNode conf = null;
 		}
@@ -209,7 +229,10 @@ namespace huggle3
 			info.xmlnode.InnerText = config_data;
 			info.conf.AppendChild(info.xmlnode);
 		}
-		
+
+		/// <summary>
+		/// Saves the local config.
+		/// </summary>
 		public static void SaveLocalConfig()
 		{
 			Core.History("SaveLocalConfig()");
@@ -363,274 +386,283 @@ namespace huggle3
 			// project config only
 			switch (key)
 			{
-			case "approval":
-				// if approval is needed
-				Config.Approval = bool.Parse(value);
-				break;
-			case "assisted-summaries":
-				//Config.AssistedSummaries = "";
-				break;
-			case "block":
-				// blocking enabled
-				Config.Block = bool.Parse(value);
-				break;
-			case "block-expiry-options":
-				Config.BlockExpiryOptions = GET.list(value);
-				break;
-			case "config-summary":
-				Config.ConfigSummary = value;
-				break;
-			case "count-batch-size":
-				Config.CountBatchSize = int.Parse(value);
-				break;
-			case "default-queue":
-				Config.DefaultLanguage = value;
-				break;
-			case "default-queue-2":
-				Config.DefaultQueue2 = value;
-				break;
-			case "delete":
-				Config.Delete = bool.Parse(value);
-				break;
-			case "email":
-				Config.Email = bool.Parse(value);
-				break;
-			case "email-subject":
-				Config.EmailSubject = value;
-				break;
-			case "enable-all":
-				Config.EnabledForAll = bool.Parse(value);
-				break;
-			case "go":
-				Config.GoToPages = GET.list(value);
-				break;
-			case "irc-channel":
-				Config.IrcChannel = value;
-				break;
-			case "ifd":
-				Config.IfdLocation = value;
-				break;
-			case "ignore":
-				Config.IgnoredPages = GET.list(value);
-				break;
-			case "manual-revert-summary":
-				Config.RevertSummary = value;
-				break;
-			case "multiple-revert-summary-parts":
-				Config.MultipleRevertSummaryParts = GET.list(value);
-				break;
-			case "page-blanked-pattern":
-				Config.PageBlankedPattern = new System.Text.RegularExpressions.Regex(value, System.Text.RegularExpressions.RegexOptions.Compiled);
-				break;
-			case "page-created-pattern":
-				Config.PageCreatedPattern = new System.Text.RegularExpressions.Regex(value, System.Text.RegularExpressions.RegexOptions.Compiled);
-				break;
-			case "page-redirected-pattern":
-				Config.PageRedirectedPattern = new System.Text.RegularExpressions.Regex(value, System.Text.RegularExpressions.RegexOptions.Compiled);
-				break;
-			case "page-replaced-pattern":
-				Config.PageReplacedPattern = new System.Text.RegularExpressions.Regex(value, System.Text.RegularExpressions.RegexOptions.Compiled);
-				break;
-			case "patrol":
-				Config.Patrol = bool.Parse(value);
-				break;
-			case "protect":
-				Config.Protect = bool.Parse(value);
-				break;
-			case "quick-sight":
-				Config.QuickSight = bool.Parse(value);
-				break;
-			case "require-admin":
-				Config.RequireAdmin = bool.Parse(value);
-				break;
-			case "require-autoconfirmed":
-				Config.RequireAutoconfirmed = bool.Parse(value);
-				break;
-			case "require-config":
-				Config.RequireConfig = bool.Parse(value);
-				break;
-			case "require-edits":
-				Config.RequireEdits = int.Parse(value);
-				break;
-			case "template-summ":
-				Config.TemplateSummary = GET.dictionary(value);
-				break;
-			case "agf":
-				Config.Agf.Add(value);
-				break;
-			case "require-rollback":
-				Config.RequireRollback = bool.Parse(value);
-				break;
-			case "require-time":
-				Config.RequireTime = int.Parse(value);
-				break;
-			case "revert-summaries":
-				Config.RevertSummaries = GET.list(value);
-				break;
-			case "rollback-summary":
-				Config.RollbackSummary = value;
-				break;
-			case "save-config":
-				Config.SaveConfig = bool.Parse(value);
-				break;
-			case "shared-ip-templates":
-				Config.SharedIPTemplates = GET.list(value);
-				break;
-			case "sight":
-				Config.Sight = bool.Parse(value);
-				break;
-			case "single-revert-summary":
-				Config.SingleRevertSummary = value;
-				break;
-			case "startup-message-location":
-				Config.StartupPage = value;
-				break;
-			case "summary":
-				Config.Summary = value;
-				break;
-			case "tag-summaries":
-				Config.TagSummaries = GET.list(value);
-				break;
-			case "expand-report":
-				Config.TemplatePs = true;
-				break;
-			case "template-message-summary":
-				Config.TemplateMessageSummary = value;
-				break;
-			case "templates":
-				Config.TemplateMessagesGlobal = GET.list(value);
-				break;
-			case "update-whitelist-manual":
-				Config.UpdateWhitelistManual = bool.Parse(value);
-				break;
-			case "userlist":
-				Config.UserListLocation = value;
-				break;
-			case "userlist-update-summary":
-				Config.UserListUpdateSummary = value;
-				break;
-			case "warning-im-level":
-				Config.WarningImLevel = bool.Parse(value);
-				break;
-			case "warning-mode":
-				Config.WarningMode = value;
-				break;
-			case "warning-month-headings":
-				Config.MonthHeadings = bool.Parse(value);
-				break;
-			case "whitelist-edit-count":
-				Config.WhitelistEditCount = int.Parse(value);
-				break;
+				case "approval":
+					// if approval is needed
+					Config.Approval = bool.Parse(value);
+					break;
+				case "assisted-summaries":
+					//Config.AssistedSummaries = "";
+					break;
+				case "block":
+					// blocking enabled
+					Config.Block = bool.Parse(value);
+					break;
+				case "block-expiry-options":
+					Config.BlockExpiryOptions = GET.list(value);
+					break;
+				case "config-summary":
+					Config.ConfigSummary = value;
+					break;
+				case "count-batch-size":
+					Config.CountBatchSize = int.Parse(value);
+					break;
+				case "default-queue":
+					Config.DefaultLanguage = value;
+					break;
+				case "default-queue-2":
+					Config.DefaultQueue2 = value;
+					break;
+				case "delete":
+					Config.Delete = bool.Parse(value);
+					break;
+				case "email":
+					Config.Email = bool.Parse(value);
+					break;
+				case "email-subject":
+					Config.EmailSubject = value;
+					break;
+				case "enable-all":
+					Config.EnabledForAll = bool.Parse(value);
+					break;
+				case "go":
+					Config.GoToPages = GET.list(value);
+					break;
+				case "irc-channel":
+					Config.IrcChannel = value;
+					break;
+				case "ifd":
+					Config.IfdLocation = value;
+					break;
+				case "ignore":
+					Config.IgnoredPages = GET.list(value);
+					break;
+				case "manual-revert-summary":
+					Config.RevertSummary = value;
+					break;
+				case "multiple-revert-summary-parts":
+					Config.MultipleRevertSummaryParts = GET.list(value);
+					break;
+				case "page-blanked-pattern":
+					Config.PageBlankedPattern = new System.Text.RegularExpressions.Regex(value, System.Text.RegularExpressions.RegexOptions.Compiled);
+					break;
+				case "page-created-pattern":
+					Config.PageCreatedPattern = new System.Text.RegularExpressions.Regex(value, System.Text.RegularExpressions.RegexOptions.Compiled);
+					break;
+				case "page-redirected-pattern":
+					Config.PageRedirectedPattern = new System.Text.RegularExpressions.Regex(value, System.Text.RegularExpressions.RegexOptions.Compiled);
+					break;
+				case "page-replaced-pattern":
+					Config.PageReplacedPattern = new System.Text.RegularExpressions.Regex(value, System.Text.RegularExpressions.RegexOptions.Compiled);
+					break;
+				case "patrol":
+					Config.Patrol = bool.Parse(value);
+					break;
+				case "protect":
+					Config.Protect = bool.Parse(value);
+					break;
+				case "quick-sight":
+					Config.QuickSight = bool.Parse(value);
+					break;
+				case "require-admin":
+					Config.RequireAdmin = bool.Parse(value);
+					break;
+				case "require-autoconfirmed":
+					Config.RequireAutoconfirmed = bool.Parse(value);
+					break;
+				case "require-config":
+					Config.RequireConfig = bool.Parse(value);
+					break;
+				case "require-edits":
+					Config.RequireEdits = int.Parse(value);
+					break;
+				case "template-summ":
+					Config.TemplateSummary = GET.dictionary(value);
+					break;
+				case "agf":
+					Config.Agf.Add(value);
+					break;
+				case "require-rollback":
+					Config.RequireRollback = bool.Parse(value);
+					break;
+				case "require-time":
+					Config.RequireTime = int.Parse(value);
+					break;
+				case "revert-summaries":
+					Config.RevertSummaries = GET.list(value);
+					break;
+				case "rollback-summary":
+					Config.RollbackSummary = value;
+					break;
+				case "save-config":
+					Config.SaveConfig = bool.Parse(value);
+					break;
+				case "shared-ip-templates":
+					Config.SharedIPTemplates = GET.list(value);
+					break;
+				case "sight":
+					Config.Sight = bool.Parse(value);
+					break;
+				case "single-revert-summary":
+					Config.SingleRevertSummary = value;
+					break;
+				case "startup-message-location":
+					Config.StartupPage = value;
+					break;
+				case "summary":
+					Config.Summary = value;
+					break;
+				case "tag-summaries":
+					Config.TagSummaries = GET.list(value);
+					break;
+				case "expand-report":
+					Config.TemplatePs = true;
+					break;
+				case "template-message-summary":
+					Config.TemplateMessageSummary = value;
+					break;
+				case "templates":
+					Config.TemplateMessagesGlobal = GET.list(value);
+					break;
+				case "update-whitelist-manual":
+					Config.UpdateWhitelistManual = bool.Parse(value);
+					break;
+				case "userlist":
+					Config.UserListLocation = value;
+					break;
+				case "userlist-update-summary":
+					Config.UserListUpdateSummary = value;
+					break;
+				case "warning-im-level":
+					Config.WarningImLevel = bool.Parse(value);
+					break;
+				case "warning-mode":
+					Config.WarningMode = value;
+					break;
+				case "warning-month-headings":
+					Config.MonthHeadings = bool.Parse(value);
+					break;
+				case "whitelist-edit-count":
+					Config.WhitelistEditCount = int.Parse(value);
+					break;
 			}
 			return true;
 		}
-		
+
+		/// <summary>
+		/// Sets the shared config key.
+		/// </summary>
+		/// <returns><c>true</c>, if shared config key was set, <c>false</c> otherwise.</returns>
+		/// <param name="key">Key.</param>
+		/// <param name="value">Value.</param>
 		public static bool SetSharedConfigKey(string key, string value)
 		{
 			switch (key)
 			{
-			case "admin":
-				Config.UseAdminFunctions = Boolean.Parse(value);
-				break;
-			case "aiv-extend-reports":
-				Config.ExtendReports = Boolean.Parse(value);
-				break;
-			case "blocktime":
-				Config.BlockTime = value;
-				break;
-			case "prodlogs":
-				break;
-			case "blocktime-anon":
-				Config.BlockTimeAnon = value;
-				break;
-			case "block-message-default":
-				Config.BlockMessageDefault = Boolean.Parse(value);
-				break;
-			case "block-message":
-				Config.BlockMessage = value;
-				break;
-			case "block-prompt":
-				Config.PromptForBlock = Boolean.Parse(value);
-				break;
-			case "block-summary":
-				Config.BlockSummary = value;
-				break;
-			case "confirm-ignored":
-				Config.ConfirmIgnored = Boolean.Parse(value);
-				break;
-			case "confirm-multiple":
-				Config.ConfirmMultiple = Boolean.Parse(value);
-				break;
-			case "confirm-same":
-				Config.ConfirmSame = Boolean.Parse(value);
-				break;
-			case "confirm-page":
-				Config.ConfirmPage = Boolean.Parse(value);
-				break;
-			case "confirm-range":
-				Config.ConfirmRange = Boolean.Parse(value);
-				break;
-			case "confirm-self-revert":
-				Config.ConfirmSelfRevert = false;
-				break;
-			case "confirm-warned":
-				Config.ConfirmWarned = Boolean.Parse(value);
-				break;
-			case "default-summary":
-				Config.DefaultSummary = value;
-				break;
-			case "diff-font-size":
-				Config.DiffFontSize = value;
-				break;
-			case "irc":
-				Config.UseIrc = Boolean.Parse(value);
-				break;
-			case "rollback":
-				Config.RequireRollback = Boolean.Parse(value);
-				break;
-			case "minor":
-				
-				break;
-			case "open-in-browser":
-				Config.OpenInBrowser = Boolean.Parse(value);
-				break;
-			case "patrol-speedy":
-				Config.PatrolSpeedy = Boolean.Parse(value);
-				break;
-			case "preload":
-				Config.Preloads = int.Parse(value);
-				break;
-			case "protection-reason":
-				Config.ProtectionReason = value;
-				break;
-			case "show-queue":
-				Config.ShowQueue = Boolean.Parse(value);
-				break;
-			case "show-tool-tips":
-				Config.ShowToolTips = Boolean.Parse(value);
-				break;
-			case "tray-icon":
-				Config.TrayIcon = Boolean.Parse(value);
-				break;
-			case "undo-summary":
-				Config.UndoSummary = value;
-				break;
-			case "update-whitelist":
-				Config.UpdateWhitelist = Boolean.Parse(value);
-				break;
-			case "warn-summary":
-				Config.WarnSummary = value;
-				break;
-			case "irc-port":
-				Config.IrcPort = int.Parse(value);
-				break;
-			case "enable":
-				Config.Enabled = Boolean.Parse(value);
-				break;
+				case "admin":
+					Config.UseAdminFunctions = Boolean.Parse(value);
+					break;
+				case "aiv-extend-reports":
+					Config.ExtendReports = Boolean.Parse(value);
+					break;
+				case "blocktime":
+					Config.BlockTime = value;
+					break;
+				case "prodlogs":
+					break;
+				case "blocktime-anon":
+					Config.BlockTimeAnon = value;
+					break;
+				case "block-message-default":
+					Config.BlockMessageDefault = Boolean.Parse(value);
+					break;
+				case "block-message":
+					Config.BlockMessage = value;
+					break;
+				case "block-prompt":
+					Config.PromptForBlock = Boolean.Parse(value);
+					break;
+				case "block-summary":
+					Config.BlockSummary = value;
+					break;
+				case "confirm-ignored":
+					Config.ConfirmIgnored = Boolean.Parse(value);
+					break;
+				case "confirm-multiple":
+					Config.ConfirmMultiple = Boolean.Parse(value);
+					break;
+				case "confirm-same":
+					Config.ConfirmSame = Boolean.Parse(value);
+					break;
+				case "confirm-page":
+					Config.ConfirmPage = Boolean.Parse(value);
+					break;
+				case "confirm-range":
+					Config.ConfirmRange = Boolean.Parse(value);
+					break;
+				case "confirm-self-revert":
+					Config.ConfirmSelfRevert = false;
+					break;
+				case "confirm-warned":
+					Config.ConfirmWarned = Boolean.Parse(value);
+					break;
+				case "default-summary":
+					Config.DefaultSummary = value;
+					break;
+				case "diff-font-size":
+					Config.DiffFontSize = value;
+					break;
+				case "irc":
+					Config.UseIrc = Boolean.Parse(value);
+					break;
+				case "rollback":
+					Config.RequireRollback = Boolean.Parse(value);
+					break;
+				case "minor":
+					
+					break;
+				case "open-in-browser":
+					Config.OpenInBrowser = Boolean.Parse(value);
+					break;
+				case "patrol-speedy":
+					Config.PatrolSpeedy = Boolean.Parse(value);
+					break;
+				case "preload":
+					Config.Preloads = int.Parse(value);
+					break;
+				case "protection-reason":
+					Config.ProtectionReason = value;
+					break;
+				case "show-queue":
+					Config.ShowQueue = Boolean.Parse(value);
+					break;
+				case "show-tool-tips":
+					Config.ShowToolTips = Boolean.Parse(value);
+					break;
+				case "tray-icon":
+					Config.TrayIcon = Boolean.Parse(value);
+					break;
+				case "undo-summary":
+					Config.UndoSummary = value;
+					break;
+				case "update-whitelist":
+					Config.UpdateWhitelist = Boolean.Parse(value);
+					break;
+				case "warn-summary":
+					Config.WarnSummary = value;
+					break;
+				case "irc-port":
+					Config.IrcPort = int.Parse(value);
+					break;
+				case "enable":
+					Config.Enabled = Boolean.Parse(value);
+					break;
 			}
 			return true;
 		}
-		
+
+		/// <summary>
+		/// Post load
+		/// </summary>
 		public static void PostLoad()
 		{
 			Core.History("PostLoad()");

@@ -24,8 +24,19 @@ using System.Diagnostics;
 
 namespace huggle3
 {
+	/// <summary>
+	/// Page
+	/// </summary>
 	public class Page
 	{
+		public class SpeedyCriterion
+		{
+			public string Code;
+			public string DisplayCode;
+			public string Description;
+			public string Template;
+			public string Parameter;
+		}
 		/// <summary>
 		/// Name of the article
 		/// </summary>
@@ -102,26 +113,11 @@ namespace huggle3
 		/// Level
 		/// </summary>
 		public string MoveLevel;
-		
+
 		/// <summary>
-		/// Constructor
+		/// Gets a value indicating whether this instance is subpage.
 		/// </summary>
-		/// <param name="Name"></param>
-		public Page(string Name )
-		{
-			this.Name = Name;
-			_Space = Space.DetectSpace(Name);
-			Shared_All.Add(Name, this);
-		}
-		
-		public Page()
-		{
-			// special contructor, obsolete
-			this.Name = "Special:Unknown";
-			_Space = Space.DetectSpace(Name);
-			Shared_All.Add(Name, this);
-		}
-		
+		/// <value><c>true</c> if this instance is subpage; otherwise, <c>false</c>.</value>
 		public bool IsSubpage
 		{
 			get {
@@ -132,6 +128,30 @@ namespace huggle3
 				return false;
 			}
 		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="huggle3.Page"/> class.
+		/// </summary>
+		/// <param name="Name">Name.</param>
+		public Page(string Name )
+		{
+			this.Name = Name;
+			_Space = Space.DetectSpace(Name);
+			Shared_All.Add(Name, this);
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="huggle3.Page"/> class.
+		/// </summary>
+		public Page()
+		{
+			// special contructor, obsolete
+			this.Name = "Special:Unknown";
+			_Space = Space.DetectSpace(Name);
+			Shared_All.Add(Name, this);
+		}
+		
+
 		
 		public enum PageLevel
 		{
@@ -148,16 +168,5 @@ namespace huggle3
 			Sysop,
 			PC
 		}
-		
-		public class SpeedyCriterion
-		{
-			public string Code;
-			public string DisplayCode;
-			public string Description;
-			public string Template;
-			public string Parameter;
-		}
 	}
-	
-	
 }

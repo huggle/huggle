@@ -201,14 +201,41 @@ namespace huggle3
 		/// </summary>
 		public class Protection
 		{
+			/// <summary>
+			/// The cascading.
+			/// </summary>
 			public bool Cascading = false;
+			/// <summary>
+			/// The pending.
+			/// </summary>
 			public bool Pending = false;
+			/// <summary>
+			/// The move level.
+			/// </summary>
 			public string MoveLevel = null;
+			/// <summary>
+			/// The create level.
+			/// </summary>
 			public string CreateLevel = null;
+			/// <summary>
+			/// The action.
+			/// </summary>
 			public string Action = null;
+			/// <summary>
+			/// The summary.
+			/// </summary>
 			public string Summary = null;
+			/// <summary>
+			/// The edit level.
+			/// </summary>
 			public string EditLevel = null;
+			/// <summary>
+			/// The date.
+			/// </summary>
 			public System.DateTime Date;
+			/// <summary>
+			/// The sysop.
+			/// </summary>
 			public User Sysop;
 		}
 		
@@ -217,9 +244,21 @@ namespace huggle3
 		/// </summary>
 		public class Command
 		{
+			/// <summary>
+			/// The _ edit.
+			/// </summary>
 			public Edit _Edit = null;
+			/// <summary>
+			/// The description.
+			/// </summary>
 			public string Description = null;
+			/// <summary>
+			/// The user.
+			/// </summary>
 			public User User = null;
+			/// <summary>
+			/// The page.
+			/// </summary>
 			public Page Page = null;
 		}
 		
@@ -276,11 +315,29 @@ namespace huggle3
 			/// Time of edit
 			/// </summary>
 			public string EditTime = null;
+			/// <summary>
+			/// The error.
+			/// </summary>
 			public bool Error = false;
+			/// <summary>
+			/// The creating.
+			/// </summary>
 			public bool Creating = false;
+			/// <summary>
+			/// The minor.
+			/// </summary>
 			public bool Minor = false;
+			/// <summary>
+			/// The cannot undo.
+			/// </summary>
 			public bool CannotUndo = true;
+			/// <summary>
+			/// The watch.
+			/// </summary>
 			public bool Watch = false;
+			/// <summary>
+			/// The auto summary.
+			/// </summary>
 			public bool AutoSummary = false;
 		}
 		
@@ -289,7 +346,13 @@ namespace huggle3
 		/// </summary>
 		public class Upload
 		{
+			/// <summary>
+			/// The user.
+			/// </summary>
 			public User User;
+			/// <summary>
+			/// The file.
+			/// </summary>
 			public Page File;
 		}
 		
@@ -298,7 +361,13 @@ namespace huggle3
 		/// </summary>
 		public class Warning
 		{
+			/// <summary>
+			/// The date.
+			/// </summary>
 			public System.DateTime Date;
+			/// <summary>
+			/// The user.
+			/// </summary>
 			public User User;
 			
 		}
@@ -456,7 +525,12 @@ namespace huggle3
 			}
 			return "";
 		}
-		
+
+		/// <summary>
+		/// Registers the plugin.
+		/// </summary>
+		/// <returns><c>true</c>, if plugin was registered, <c>false</c> otherwise.</returns>
+		/// <param name="path">Path.</param>
 		public static bool RegisterPlugin(string path)
 		{
 			try
@@ -1076,10 +1150,10 @@ namespace huggle3
 		}
 		
 		/// <summary>
-		/// 
+		/// Gets the page
 		/// </summary>
-		/// <param name="PageName"></param>
-		/// <returns></returns>
+		/// <returns>The page.</returns>
+		/// <param name="PageName">Page name.</param>
 		public static Page GetPage(string PageName)
 		{
 			// get a new page
@@ -1097,16 +1171,4 @@ namespace huggle3
 			return null;
 		}
 	}
-	
-	public static class Core_Scripting
-	{
-		public class plugin
-		{
-			public int ID;
-		}
-		
-		public static string Main = "main.tcl";
-		public static bool Enabled = true;
-	}
-	
 }

@@ -26,20 +26,62 @@ using System.Text;
 
 namespace huggle3
 {
+	/// <summary>
+	/// Config
+	/// </summary>
 	static class Config
 	{
-		public readonly  static int ContribsBlockSize  = 100;
-		public readonly  static int HistoryBlockSize  = 200;
-		public readonly  static int HistoryScrollSpeed = 40;
-		public readonly  static int FullHistoryBlockSize = 500;
-		public readonly  static int IrcConnectionTimeout = 60000;
-		public readonly  static string LocalConfigLocation = "config.txt";
-		public readonly  static int RequestTimeout = 30000;
+		/// <summary>
+		/// The size of the contribs block.
+		/// </summary>
+		public readonly static int ContribsBlockSize  = 100;
+		/// <summary>
+		/// The size of the history block.
+		/// </summary>
+		public readonly static int HistoryBlockSize  = 200;
+		/// <summary>
+		/// The history scroll speed.
+		/// </summary>
+		public readonly static int HistoryScrollSpeed = 40;
+		/// <summary>
+		/// The full size of the history block.
+		/// </summary>
+		public readonly static int FullHistoryBlockSize = 500;
+		/// <summary>
+		/// The irc connection timeout.
+		/// </summary>
+		public readonly static int IrcConnectionTimeout = 60000;
+		/// <summary>
+		/// The local config location.
+		/// </summary>
+		public readonly static string LocalConfigLocation = "config.txt";
+		/// <summary>
+		/// The request timeout.
+		/// </summary>
+		public readonly static int RequestTimeout = 30000;
+		/// <summary>
+		/// The size of the queue.
+		/// </summary>
 		public static int QueueSize = 5000;
+		/// <summary>
+		/// The history lenght.
+		/// </summary>
 		public static int HistoryLenght = 1000;
+		/// <summary>
+		/// The history trim.
+		/// </summary>
 		public static int HistoryTrim = 400;
+		/// <summary>
+		/// The width of the queue.
+		/// </summary>
 		public static int QueueWidth = 160; // main form
+		/// <summary>
+		/// The request attempts.
+		/// </summary>
 		public static int RequestAttempts = 3;
+		/// <summary>
+		/// The request retry interval.
+		/// </summary>
 		public static int RequestRetryInterval = 1000;
 		/// <summary>
 		/// Short path for wiki
@@ -61,6 +103,9 @@ namespace huggle3
 		/// The current whitelist
 		/// </summary>
 		public static List<string> Whitelist = new List<string>();
+		/// <summary>
+		/// All lists
+		/// </summary>
 		public static Dictionary<string, List<string>> AllLists = new Dictionary<string,List<string>>();
 		
 		// Be carefull when changing anything below, never use those variables unless you know what you do:
@@ -73,7 +118,9 @@ namespace huggle3
 		/// never commit changes to this unless you are release manager
 		/// </summary>
 		public static platform _Platform = platform.windows32;
-		// if this is true huggle will bypass some stuff and produce special output
+		/// <summary>
+		/// if this is true huggle will bypass some stuff and produce special output
+		/// </summary>
 		public static bool devs = true;
 		
 		// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -82,9 +129,14 @@ namespace huggle3
 		/// Dirrent types of wiki edit
 		/// </summary>
 		public readonly static string[] EditTypes = { "blocknote", "deletenote", "deletetag", "deletereq", "manual", "message", "note", "prodtag", "protectreq", "report", "revert", "speedytag", "tag", "warning" };
-		
-		public static int QueueTop = 80; // location of queue
-		public static int QueueLeft = 20; // left
+		/// <summary>
+		/// location of queue
+		/// </summary>
+		public static int QueueTop = 80;
+		/// <summary>
+		/// queue left.
+		/// </summary>
+		public static int QueueLeft = 20;
 		
 		
 		//////////
@@ -95,6 +147,9 @@ namespace huggle3
 		/// Has the user config changed
 		/// </summary>
 		public static bool ConfigChanged = false;
+		/// <summary>
+		/// The config version.
+		/// </summary>
 		public static Version ConfigVersion = new Version(0, 0, 0);
 		/// <summary>
 		/// Default Language
@@ -121,6 +176,9 @@ namespace huggle3
 		/// issue with mw api (it must not be blank)
 		/// </summary>
 		public static string Password = "xx";
+		/// <summary>
+		/// The warning messages list
+		/// </summary>
 		public static Dictionary<string, string> WarningMessages = new Dictionary<string,string>();
 		
 		//////////
@@ -789,8 +847,17 @@ namespace huggle3
 		/// Summaries
 		/// </summary>
 		public static string WarnSummary = "";
+		/// <summary>
+		/// The warn summary2.
+		/// </summary>
 		public static string WarnSummary2 = "";
+		/// <summary>
+		/// The warn summary3.
+		/// </summary>
 		public static string WarnSummary3 = "";
+		/// <summary>
+		/// The warn summary4.
+		/// </summary>
 		public static string WarnSummary4 = "";
 		
 		/// <summary>

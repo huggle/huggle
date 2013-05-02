@@ -23,27 +23,54 @@ using System.Text;
 
 namespace huggle3
 {
+	/// <summary>
+	/// Queue
+	/// </summary>
 	public class Queue
 	{
+		/// <summary>
+		/// List of all queues loaded in system
+		/// </summary>
 		public static Dictionary<string, Queue> All = new Dictionary<string, Queue>();
-		private string _name = "";
+		/// <summary>
+		/// The name.
+		/// </summary>
+		private string name = "";
 		public DiffMode _Diffs;
-		public int _Limit = 0;
-		public string _SourceType = "";
-		public string _Source = "";
-		public bool _IgnorePages = false;
-		public string _ListName = "";
-		public bool _NeedsReset = false;
+		/// <summary>
+		/// Limit.
+		/// </summary>
+		public int Limit = 0;
+		/// <summary>
+		/// The type of the source.
+		/// </summary>
+		public string SourceType = "";
+		/// <summary>
+		/// The source.
+		/// </summary>
+		public string Source = "";
+		/// <summary>
+		/// Ignore pages
+		/// </summary>
+		public bool IgnorePages = false;
+		/// <summary>
+		/// The name of the list.
+		/// </summary>
+		public string ListName = "";
+		/// <summary>
+		/// Needs reset.
+		/// </summary>
+		public bool NeedsReset = false;
 		public System.Text.RegularExpressions.Regex _PageRegex = null;
-		public string _Pages = null;
-		public bool _Refreshing = false;
-		public bool _RefreshAlways = false;
-		public bool _RefreshReAdd = false;
-		public List<string> _RemovedPages;
-		public bool _RemoveOld = false;
-		public int _RemoveAfter = 0;
-		public bool _RemoveViewed = false;
-		public System.Text.RegularExpressions.Regex RevisionRegex;
+		public string Pages = null;
+		public bool Refreshing = false;
+		public bool RefreshAlways = false;
+		public bool RefreshReAdd = false;
+		public List<string> RemovedPages = null;
+		public bool RemoveOld = false;
+		public int RemoveAfter = 0;
+		public bool RemoveViewed = false;
+		public System.Text.RegularExpressions.Regex RevisionRegex = null;
 		public QueueSortOrder _SortOrder;
 		public List<Space> _Spaces = null;
 		public System.Text.RegularExpressions.Regex _SummaryRegex;
@@ -66,23 +93,27 @@ namespace huggle3
 		public QueueFilter _FilterReverts = QueueFilter.None;
 		public QueueFilter _FilterTags = QueueFilter.None;
 		public QueueFilter _FilterWarnings = QueueFilter.None;
-		
+
+		/// <summary>
+		/// Gets or sets the name.
+		/// </summary>
+		/// <value>The name.</value>
+		public string Name
+		{
+			set { name = value; }
+			get { return name; }
+		}
+
 		/// <summary>
 		/// Constructor
 		/// </summary>
 		/// <param name="Name">Name</param>
 		public Queue(string Name)
 		{
-			_name = Name;
-			_RemoveViewed = true;
+			name = Name;
+			RemoveViewed = true;
 		}
-		
-		public string Name
-		{
-			set { _name = Name; }
-			get { return _name; }
-		}
-		
+
 		public bool Matches(Edit _edit)
 		{
 			bool matches = false;
@@ -141,7 +172,7 @@ namespace huggle3
 			{
 				foreach (KeyValuePair<string, Queue> current_queue in All)
 				{
-					if (current_queue.Value.Name == name)
+					if (current_queue.Value.name == name)
 					{
 						return current_queue.Value;
 					}

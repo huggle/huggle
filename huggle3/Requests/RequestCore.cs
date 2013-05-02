@@ -30,13 +30,30 @@ using System.Text;
 
 namespace huggle3
 {
+	/// <summary>
+	/// Request core
+	/// </summary>
 	public class RequestCore
 	{
+		/// <summary>
+		/// Request result
+		/// </summary>
 		public class RequestResult
 		{
+			/// <summary>
+			/// The text.
+			/// </summary>
 			public string text;
+			/// <summary>
+			/// The message.
+			/// </summary>
 			public string message;
-			
+
+			/// <summary>
+			/// Initializes a new instance of the <see cref="huggle3.RequestCore+RequestResult"/> class.
+			/// </summary>
+			/// <param name="Text">Text.</param>
+			/// <param name="Message">Message.</param>
 			public RequestResult(string Text, string Message = "")
 			{
 				text = Text;
@@ -53,7 +70,7 @@ namespace huggle3
 			/// <summary>
 			/// Status
 			/// </summary>
-			private States _State;
+			private Status _State;
 			/// <summary>
 			/// When request is started
 			/// </summary>
@@ -238,82 +255,7 @@ namespace huggle3
 				
 				return result;
 			}
-			
-			/*
-                 * 
-                 *
-                 * Protected Function PostEdit(ByVal Page As Page, ByVal Text As String, ByVal Summary As String, _
-            Optional ByVal Section As String = Nothing, Optional ByVal Minor As Boolean = False, _
-            Optional ByVal Watch As Boolean = False, Optional ByVal SuppressAutoSummary As Boolean = False, _
-            Optional ByVal AllowCreate As Boolean = True) As ApiResult
-            Dim BreakA As Integer = 0, BreakB As Integer = 0
 
-            While BadToken = False And BreakB < Misc.GlExcess
-                BreakB = BreakB + 1
-                'Get edit token
-                While Token Is Nothing And BreakA < Misc.GlExcess
-                    BreakA = BreakA + 1
-                    If Section IsNot Nothing OrElse EditToken Is Nothing Then
-                        Result = DoApiRequest("action=query&prop=info&intoken=edit&titles=" & UrlEncode(Page.Name))
-                        If Result.Error Then Return Result
-                        Token = GetParameter(Result.Text, "edittoken")
-                        If Section Is Nothing Then EditToken = Token
-                    Else
-                        Token = EditToken
-                    End If
-
-                    If EditToken IsNot Nothing Then
-                        If EditToken.Length < 16 Then
-                            'Logged out somehow, logging back in
-                            Token = Nothing
-                            EditToken = Nothing
-                            LogProgress(Msg("error-loggedout"))
-
-                            If DoLogin() <> LoginResult.Success _
-                                Then Return New ApiResult(Nothing, "", Msg("error-reloginfail"))
-                        End If
-                    End If
-                End While
-
-                'Edit page
-                Dim QueryString As String = "title=" & UrlEncode(Page.Name) & "&text=" & UrlEncode(Text) _
-                    & "&summary=" & UrlEncode(Summary)
-
-                If Config.Summary <> "" AndAlso Not SuppressAutoSummary _
-                    Then QueryString &= UrlEncode(" " & Config.Summary)
-
-                QueryString &= "&token=" & UrlEncode(Token)
-
-                If Section IsNot Nothing Then QueryString &= "&section=" & UrlEncode(Section)
-                If Minor Then QueryString &= "&minor"
-                If Watch Then QueryString &= "&watch"
-
-                Result = DoApiRequest("action=edit", QueryString)
-
-                If Result.ErrorCode = "badtoken" Then
-                    BadToken = True
-                    EditToken = Nothing
-                Else
-                    BadToken = False
-                    Return Result
-                End If
-            End While
-            If Result IsNot Nothing Then
-                If Not Result.Error AndAlso Not Watchlist.Contains(Page.SubjectPage) Then Watchlist.Add(Page.SubjectPage)
-            End If
-            Return Result
-        End Function
-
-        Protected Function PostEdit(ByVal PageName As String, ByVal Text As String, ByVal Summary As String, _
-            Optional ByVal Section As String = Nothing, Optional ByVal Minor As Boolean = False, _
-            Optional ByVal Watch As Boolean = False, Optional ByVal SuppressAutoSummary As Boolean = False) _
-            As ApiResult
-
-            Return PostEdit(GetPage(PageName), Text, Summary, Section, Minor, Watch, SuppressAutoSummary)
-        End Function
-                 * 
-                 */
-			
 			/// <summary>
 			/// Start web req
 			/// </summary>
@@ -452,7 +394,7 @@ namespace huggle3
 			/// </summary>
 			public void ProcessThread()
 			{
-				_State = States.InProgress;
+				_State = Status.InProgress;
 				Process();
 			}
 			
@@ -478,7 +420,7 @@ namespace huggle3
 			public void Cancel()
 			{
 				Core.History("Request.Cancel()");
-				_State = States.Cancelled;
+				_State = Status.Cancelled;
 				EndRequest( true );
 			}
 			
@@ -501,7 +443,7 @@ namespace huggle3
 			/// <param name="reason">Why it fallen to error</param>
 			public virtual void Fail(string description = "", string reason = "")
 			{
-				_State = States.Failed;
+				_State = Status.Failed;
 				EndRequest();
 			}
 			
@@ -514,41 +456,98 @@ namespace huggle3
 			{
 				Core.History("Request.Complete()");
 				result = new RequestResult(Text, Message);
-				_State = States.Complete;
+				_State = Status.Complete;
 				EndRequest();
 			}
 			
 			/// <summary>
 			/// Property returning status
 			/// </summary>
-			public States State
+			public Status State
 			{
 				get { return _State; }
 				
 			}
-			
-			public enum States
+
+			/// <summary>
+			/// Statuses
+			/// </summary>
+			public enum Status
 			{ 
+				/// <summary>
+				/// In progress
+				/// </summary>
 				InProgress,
+				/// <summary>
+				/// Failed.
+				/// </summary>
 				Failed,
+				/// <summary>
+				/// Cancelled.
+				/// </summary>
 				Cancelled,
+				/// <summary>
+				/// Spam filter.
+				/// </summary>
 				SpamFilter,
+				/// <summary>
+				/// The complete.
+				/// </summary>
 				Complete
 			}
-			
+
+			/// <summary>
+			/// Login result
+			/// </summary>
 			public enum LoginResult
 			{ 
+				/// <summary>
+				/// None.
+				/// </summary>
 				None,
+				/// <summary>
+				/// Cancelled.
+				/// </summary>
 				Cancelled,
+				/// <summary>
+				/// The success.
+				/// </summary>
 				Success,
+				/// <summary>
+				/// The illegal.
+				/// </summary>
 				Illegal,
+				/// <summary>
+				/// Login does not exists.
+				/// </summary>
 				NotExists,
+				/// <summary>
+				/// Wrong pass.
+				/// </summary>
 				WrongPass,
+				/// <summary>
+				/// The failed.
+				/// </summary>
 				Failed,
+				/// <summary>
+				/// The name of the no.
+				/// </summary>
 				NoName,
+				/// <summary>
+				/// The empty pass.
+				/// </summary>
 				EmptyPass,
+				/// <summary>
+				/// The throttled.
+				/// </summary>
 				Throttled,
+				/// <summary>
+				/// The blocked.
+				/// </summary>
 				Blocked,
+				/// <summary>
+				/// The need token.
+				/// </summary>
 				NeedToken
 				
 				//TODO: This result we have not yet accounted for (see list below)

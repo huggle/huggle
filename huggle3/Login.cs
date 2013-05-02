@@ -3,7 +3,7 @@
 //This file contains code for
 
 /// <DOCUMENTATION>
-/// There is no documentation for this
+/// This file is processing the initial login request when you are logging into a wiki
 /// </DOCUMENTATION>
 
 //Copyright (C) 2011-2012 Huggle team
@@ -29,7 +29,9 @@ namespace huggle3
 	/// </summary>
 	public class LoginRequest : RequestCore.Request
 	{
-		public Forms.Login Login_Form;
+		/// <summary>
+		/// This is a function which needs to be overriden by request, in case it's not do nothing
+		/// </summary>
 		public override void Process()
 		{
 			try
@@ -97,7 +99,10 @@ namespace huggle3
 			}
 		}
 	}
-	
+
+	/// <summary>
+	/// Login helper
+	/// </summary>
 	static class Login
 	{
 		public enum LoginState
@@ -112,12 +117,30 @@ namespace huggle3
 			Successful,
 			Error
 		}
-		
+
+		/// <summary>
+		/// The token.
+		/// </summary>
 		public static string Token = null;
+		/// <summary>
+		/// The logged in.
+		/// </summary>
 		public static bool LoggedIn = false;
+		/// <summary>
+		/// The logging on.
+		/// </summary>
 		public static bool LoggingOn = false;
+		/// <summary>
+		/// The error.
+		/// </summary>
 		public static string Error = "";
+		/// <summary>
+		/// The phase.
+		/// </summary>
 		public static LoginState phase;
+		/// <summary>
+		/// The status.
+		/// </summary>
 		public static RequestCore.Request.LoginResult Status;
 	}
 }
