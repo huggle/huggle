@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -52,15 +52,12 @@
     <Reference Include="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <Reference Include="pango-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <Reference Include="atk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <Reference Include="gdk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <Reference Include="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
       <Private>False</Private>
     </Reference>
-    <Reference Include="pango-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <Reference Include="atk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
       <Private>False</Private>
     </Reference>
-    <Reference Include="gdk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <Reference Include="gtk-dotnet, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
       <Private>False</Private>
     </Reference>
@@ -119,7 +116,9 @@
     <Compile Include="Core\Threading.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Core\Properties.cs" />
-    <Compile Include="Forms\ExceptionForm.cs" />
+    <Compile Include="Forms\ExceptionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\ExceptionForm.Designer.cs" />
     <Compile Include="Controls\EditItem.cs" />
     <Compile Include="gtk-gui\huggle3.Controls.EditItem.cs" />
@@ -131,16 +130,11 @@
     <Compile Include="gtk-gui\huggle3.Forms.HuggleForm.cs" />
     <Compile Include="Controls\Browser.cs" />
     <Compile Include="gtk-gui\huggle3.Browser.cs" />
+    <Compile Include="gtk-gui\huggle3.About.cs" />
+    <Compile Include="Forms\About.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <Folder Include="Core\" />
-    <Folder Include="Controls\" />
-    <Folder Include="Forms\" />
-    <Folder Include="Requests\" />
-    <Folder Include="Languages\" />
-    <Folder Include="Pictures\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="Pictures\huggle3.png" />
   </ItemGroup>
