@@ -37,8 +37,8 @@ namespace huggle3.Forms
 			{
 				Core.Initialise();
 				this.Build ();
-				button1.Activated += new EventHandler(btLogin_Click);
-				button2.Activated += new EventHandler(btExit_Click);
+				button1.Clicked += new EventHandler(btLogin_Click);
+				button2.Clicked += new EventHandler(btExit_Click);
 				this.DeleteEvent += new Gtk.DeleteEventHandler(onClose);
 				this.label6.ModifyFg(Gtk.StateType.Normal, Core.fromColor(Color.Blue));
 				this.label7.ModifyFg(Gtk.StateType.Normal, Core.fromColor(Color.Blue));
