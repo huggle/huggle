@@ -88,7 +88,7 @@ namespace huggle3
 		
 	}
 	
-	public class request_api : request_core.Request
+	public class request_api : RequestCore.Request
 	{
 		public string ApiQuery = "";
 		

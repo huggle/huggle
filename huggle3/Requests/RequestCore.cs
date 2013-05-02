@@ -30,7 +30,7 @@ using System.Text;
 
 namespace huggle3
 {
-	public class request_core
+	public class RequestCore
 	{
 		public class RequestResult
 		{

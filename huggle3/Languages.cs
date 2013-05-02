@@ -28,46 +28,28 @@ using System.Windows.Forms;
 
 namespace huggle3
 {
+	/// <summary>
+	/// Languages
+	/// </summary>
 	public static class Languages
 	{
-		public static List<Control> GetControls(Control form)
-		{
-			var controlList = new List<Control>();
-			
-			foreach (Control childControl in form.Controls)
-			{
-				// Recurse child controls.
-				controlList.AddRange(GetControls(childControl));
-				controlList.Add(childControl);
-			}
-			return controlList;
-		}
-		
-		public static List<ToolStripMenuItem> GetMenu(ToolStripMenuItem form)
-		{
-			var controlList = new List<ToolStripMenuItem>();
-			
-			foreach (ToolStripItem childControl in form.DropDownItems)
-			{
-				// Recurse child controls.
-				if (typeof(ToolStripMenuItem) == childControl.GetType())
-				{
-					controlList.AddRange(GetMenu((ToolStripMenuItem)childControl));
-					controlList.Add((ToolStripMenuItem)childControl);
-				}
-			}
-			return controlList;
-		}
-
+		/// <summary>
+		/// Localize the specified text.
+		/// </summary>
+		/// <param name="text">Text.</param>
 		public static string Localize(string text)
 		{
 			if (text.StartsWith("[["))
 			{
-				return Get (text);
+				return Get(text);
 			}
 			return text;
 		}
 
+		/// <summary>
+		/// Localize the specified form.
+		/// </summary>
+		/// <param name="form">Form.</param>
 		public static void Localize(Gtk.Window form)
 		{
 			try
@@ -83,6 +65,10 @@ namespace huggle3
 			}
 		}
 
+		/// <summary>
+		/// Localizes the widget.
+		/// </summary>
+		/// <param name="widget">Widget.</param>
 		public static void LocalizeWidget(Gtk.Widget widget)
 		{
 			if (widget.GetType() == typeof(Gtk.Label))
@@ -99,6 +85,10 @@ namespace huggle3
 			LocalizeWChildrens(widget);
 		}
 
+		/// <summary>
+		/// Localizes the W childrens.
+		/// </summary>
+		/// <param name="widget">Widget.</param>
 		public static void LocalizeWChildrens(Gtk.Widget widget)
 		{
 			if (widget.GetType() == typeof(Gtk.VBox))
@@ -125,7 +115,11 @@ namespace huggle3
 				}
 			}
 		}
-		
+
+		/// <summary>
+		/// Get the specified id.
+		/// </summary>
+		/// <param name="id">Identifier.</param>
 		public static string Get(string id)
 		{
 			try

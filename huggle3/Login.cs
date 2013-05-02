@@ -24,7 +24,10 @@ using System.Text;
 
 namespace huggle3
 {
-	public class LoginRequest : request_core.Request
+	/// <summary>
+	/// Login request
+	/// </summary>
+	public class LoginRequest : RequestCore.Request
 	{
 		public Forms.Login Login_Form;
 		public override void Process()
@@ -115,6 +118,6 @@ namespace huggle3
 		public static bool LoggingOn = false;
 		public static string Error = "";
 		public static LoginState phase;
-		public static request_core.Request.LoginResult Status;
+		public static RequestCore.Request.LoginResult Status;
 	}
 }

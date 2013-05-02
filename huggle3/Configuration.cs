@@ -103,7 +103,7 @@ namespace huggle3
 		/// <summary>
 		/// Pending requests
 		/// </summary>
-		public static List<request_core.Request> PendingRequests = new List<request_core.Request>();
+		public static List<RequestCore.Request> PendingRequests = new List<RequestCore.Request>();
 		/// <summary>
 		/// Languages info
 		/// </summary>
