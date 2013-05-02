@@ -19,6 +19,12 @@ namespace huggle3.Forms
 		private global::Gtk.ProgressBar progressbar1;
 		private global::Gtk.Label label5;
 		private global::Gtk.Button button1;
+		private global::Gtk.HBox hbox1;
+		private global::Gtk.VBox vbox2;
+		private global::Gtk.Label label6;
+		private global::Gtk.Label label7;
+		private global::Gtk.Label label8;
+		private global::Gtk.Button button2;
 		
 		protected virtual void Build ()
 		{
@@ -49,6 +55,7 @@ namespace huggle3.Forms
 			this.table1.ColumnSpacing = ((uint)(6));
 			// Container child table1.Gtk.Table+TableChild
 			this.combobox1 = global::Gtk.ComboBox.NewText ();
+			this.combobox1.WidthRequest = 245;
 			this.combobox1.Name = "combobox1";
 			this.table1.Add (this.combobox1);
 			global::Gtk.Table.TableChild w2 = ((global::Gtk.Table.TableChild)(this.table1 [this.combobox1]));
@@ -97,7 +104,6 @@ namespace huggle3.Forms
 			w5.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table1.Gtk.Table+TableChild
 			this.label1 = new global::Gtk.Label ();
-			this.label1.WidthRequest = 180;
 			this.label1.Name = "label1";
 			this.label1.LabelProp = global::Mono.Unix.Catalog.GetString ("[[login-username]]");
 			this.table1.Add (this.label1);
@@ -179,12 +185,68 @@ namespace huggle3.Forms
 			w14.Position = 5;
 			w14.Expand = false;
 			w14.Fill = false;
+			// Container child vbox1.Gtk.Box+BoxChild
+			this.hbox1 = new global::Gtk.HBox ();
+			this.hbox1.Name = "hbox1";
+			this.hbox1.Spacing = 6;
+			// Container child hbox1.Gtk.Box+BoxChild
+			this.vbox2 = new global::Gtk.VBox ();
+			this.vbox2.Name = "vbox2";
+			this.vbox2.Spacing = 6;
+			// Container child vbox2.Gtk.Box+BoxChild
+			this.label6 = new global::Gtk.Label ();
+			this.label6.Name = "label6";
+			this.label6.LabelProp = global::Mono.Unix.Catalog.GetString ("label1");
+			this.vbox2.Add (this.label6);
+			global::Gtk.Box.BoxChild w15 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.label6]));
+			w15.Position = 0;
+			w15.Expand = false;
+			w15.Fill = false;
+			// Container child vbox2.Gtk.Box+BoxChild
+			this.label7 = new global::Gtk.Label ();
+			this.label7.Name = "label7";
+			this.label7.LabelProp = global::Mono.Unix.Catalog.GetString ("label2");
+			this.vbox2.Add (this.label7);
+			global::Gtk.Box.BoxChild w16 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.label7]));
+			w16.Position = 1;
+			w16.Expand = false;
+			w16.Fill = false;
+			// Container child vbox2.Gtk.Box+BoxChild
+			this.label8 = new global::Gtk.Label ();
+			this.label8.Name = "label8";
+			this.label8.LabelProp = global::Mono.Unix.Catalog.GetString ("label3");
+			this.vbox2.Add (this.label8);
+			global::Gtk.Box.BoxChild w17 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.label8]));
+			w17.Position = 2;
+			w17.Expand = false;
+			w17.Fill = false;
+			this.hbox1.Add (this.vbox2);
+			global::Gtk.Box.BoxChild w18 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.vbox2]));
+			w18.Position = 0;
+			w18.Expand = false;
+			w18.Fill = false;
+			// Container child hbox1.Gtk.Box+BoxChild
+			this.button2 = new global::Gtk.Button ();
+			this.button2.CanFocus = true;
+			this.button2.Name = "button2";
+			this.button2.UseUnderline = true;
+			this.button2.Label = global::Mono.Unix.Catalog.GetString ("[[exit]]");
+			this.hbox1.Add (this.button2);
+			global::Gtk.Box.BoxChild w19 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.button2]));
+			w19.Position = 1;
+			w19.Expand = false;
+			w19.Fill = false;
+			this.vbox1.Add (this.hbox1);
+			global::Gtk.Box.BoxChild w20 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.hbox1]));
+			w20.Position = 6;
+			w20.Expand = false;
+			w20.Fill = false;
 			this.Add (this.vbox1);
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
 			}
 			this.DefaultWidth = 381;
-			this.DefaultHeight = 455;
+			this.DefaultHeight = 479;
 			this.Show ();
 		}
 	}
