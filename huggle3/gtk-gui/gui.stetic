@@ -2,10 +2,11 @@
 <stetic-interface>
   <configuration>
     <images-root-path>..</images-root-path>
+    <target-gtk-version>2.12</target-gtk-version>
   </configuration>
   <import>
-    <widget-library name="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <widget-library name="../bin/Debug/huggle3.exe" internal="true" />
+    <widget-library name="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
   </import>
   <widget class="Gtk.Window" id="huggle3.Forms.Login" design-size="381 479">
     <property name="MemberName" />
@@ -272,6 +273,7 @@
                 <child>
                   <widget class="Gtk.Label" id="label6">
                     <property name="MemberName" />
+                    <property name="WidthRequest">280</property>
                     <property name="LabelProp" translatable="yes">label1</property>
                   </widget>
                   <packing>
@@ -353,11 +355,11 @@
       <placeholder />
     </child>
   </widget>
-  <widget class="Gtk.Window" id="huggle3.Forms.HuggleForm" design-size="851 448">
+  <widget class="Gtk.Window" id="huggle3.Forms.HuggleForm" design-size="936 500">
     <action-group name="Default">
-      <action id="FileAction">
+      <action id="MainSystemAction">
         <property name="Type">Action</property>
-        <property name="Label" translatable="yes">File</property>
+        <property name="Label" translatable="yes">[[main-system]]</property>
         <property name="ShortLabel" translatable="yes">File</property>
       </action>
       <action id="HelpAction">
@@ -365,9 +367,9 @@
         <property name="Label" translatable="yes">Help</property>
         <property name="ShortLabel" translatable="yes">Help</property>
       </action>
-      <action id="ShowNewMessagesAction">
+      <action id="MainSystemMessagesAction">
         <property name="Type">Action</property>
-        <property name="Label" translatable="yes">Show new messages</property>
+        <property name="Label" translatable="yes">[[main-system-messages]]</property>
         <property name="ShortLabel" translatable="yes">Show new messages</property>
       </action>
       <action id="Action">
@@ -375,15 +377,165 @@
         <property name="Label" translatable="yes">-</property>
         <property name="ShortLabel" translatable="yes">-</property>
       </action>
-      <action id="PreferencesAction">
+      <action id="MainSystemOptionsAction">
         <property name="Type">Action</property>
-        <property name="Label" translatable="yes">Preferences</property>
+        <property name="Label" translatable="yes">[[main-system-options]]</property>
         <property name="ShortLabel" translatable="yes">Preferences</property>
       </action>
-      <action id="ExitAction">
+      <action id="MainSystemExitAction">
         <property name="Type">Action</property>
-        <property name="Label" translatable="yes">Exit</property>
+        <property name="Label" translatable="yes">[[main-system-exit]]</property>
         <property name="ShortLabel" translatable="yes">Exit</property>
+      </action>
+      <action id="MainQueueAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">[[main-queue]]</property>
+        <property name="ShortLabel" translatable="yes">[[main-queue]]</property>
+      </action>
+      <action id="MainGotoAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">[[main-goto]]</property>
+        <property name="ShortLabel" translatable="yes">[[main-goto]]</property>
+      </action>
+      <action id="MainRevisionAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">[[main-revision]]</property>
+        <property name="ShortLabel" translatable="yes">[[main-revision]]</property>
+      </action>
+      <action id="MainPageAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">[[main-page]]</property>
+        <property name="ShortLabel" translatable="yes">[[main-page]]</property>
+      </action>
+      <action id="MainUserAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">[[main-user]]</property>
+        <property name="ShortLabel" translatable="yes">[[main-user]]</property>
+      </action>
+      <action id="MainBrowserAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">[[main-browser]]</property>
+        <property name="ShortLabel" translatable="yes">[[main-browser]]</property>
+      </action>
+      <action id="MainQueueNextAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">[[main-queue-next]]</property>
+        <property name="ShortLabel" translatable="yes">[[main-queue-next]]</property>
+      </action>
+      <action id="MainQueueClearAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">[[main-queue-clear]]</property>
+        <property name="ShortLabel" translatable="yes">[[main-queue-clear]]</property>
+      </action>
+      <action id="MainQueueTrimAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">[[main-queue-trim]]</property>
+        <property name="ShortLabel" translatable="yes">[[main-queue-trim]]</property>
+      </action>
+      <action id="MainQueueClearAllAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">[[main-queue-clear-all]]</property>
+        <property name="ShortLabel" translatable="yes">[[main-queue-clear-all]]</property>
+      </action>
+      <action id="MainQueueOptionsAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">[[main-queue-options]]</property>
+        <property name="ShortLabel" translatable="yes">[[main-queue-options]]</property>
+      </action>
+      <action id="MainGotoTalkAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">[[main-goto-talk]]</property>
+        <property name="ShortLabel" translatable="yes">[[main-goto-talk]]</property>
+      </action>
+      <action id="MainGotoMyContAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">[[main-goto-my-cont]]</property>
+        <property name="ShortLabel" translatable="yes">[[main-goto-my-cont]]</property>
+      </action>
+      <action id="MainRevisionViewAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">[[main-revision-view]]</property>
+        <property name="ShortLabel" translatable="yes">[[main-revision-view]]</property>
+      </action>
+      <action id="MainRevisionRevertAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">[[main-revision-revert]]</property>
+        <property name="ShortLabel" translatable="yes">[[main-revision-revert]]</property>
+      </action>
+      <action id="MainRevisionGoodAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">[[main-revision-good]]</property>
+        <property name="ShortLabel" translatable="yes">[[main-revision-good]]</property>
+      </action>
+      <action id="MainRevisionSightAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">[[main-revision-sight]]</property>
+        <property name="ShortLabel" translatable="yes">[[main-revision-sight]]</property>
+      </action>
+      <action id="MainRevisionPreviousAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">[[main-revision-previous]]</property>
+        <property name="ShortLabel" translatable="yes">[[main-revision-previous]]</property>
+      </action>
+      <action id="MainRevisionNextAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">[[main-revision-next]]</property>
+        <property name="ShortLabel" translatable="yes">[[main-revision-next]]</property>
+      </action>
+      <action id="MainRevisionLatestAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">[[main-revision-latest]]</property>
+        <property name="ShortLabel" translatable="yes">[[main-revision-latest]]</property>
+      </action>
+      <action id="MainPageSwitchtotalkAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">[[main-page-switchtotalk]]</property>
+        <property name="ShortLabel" translatable="yes">[[main-page-switchtotalk]]</property>
+      </action>
+      <action id="MainPageViewlatestAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">[[main-page-viewlatest]]</property>
+        <property name="ShortLabel" translatable="yes">[[main-page-viewlatest]]</property>
+      </action>
+      <action id="MainPageHistoryAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">[[main-page-history]]</property>
+        <property name="ShortLabel" translatable="yes">[[main-page-history]]</property>
+      </action>
+      <action id="MainPageHistorypageAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">[[main-page-historypage]]</property>
+        <property name="ShortLabel" translatable="yes">[[main-page-historypage]]</property>
+      </action>
+      <action id="MainPageEditAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">[[main-page-edit]]</property>
+        <property name="ShortLabel" translatable="yes">[[main-page-edit]]</property>
+      </action>
+      <action id="MainPageTagAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">[[main-page-tag]]</property>
+        <property name="ShortLabel" translatable="yes">[[main-page-tag]]</property>
+      </action>
+      <action id="MainUserShowAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">[[main-user-show]]</property>
+        <property name="ShortLabel" translatable="yes">[[main-user-show]]</property>
+      </action>
+      <action id="MainUserIgnoreAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">[[main-user-ignore]]</property>
+        <property name="ShortLabel" translatable="yes">[[main-user-ignore]]</property>
+      </action>
+      <action id="goBackAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes" />
+        <property name="StockId">gtk-go-back</property>
+      </action>
+      <action id="goForwardAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes" />
+        <property name="StockId">gtk-go-forward</property>
       </action>
     </action-group>
     <property name="MemberName" />
@@ -397,12 +549,49 @@
           <widget class="Gtk.MenuBar" id="menubar1">
             <property name="MemberName" />
             <node name="menubar1" type="Menubar">
-              <node type="Menu" action="FileAction">
-                <node type="Menuitem" action="ShowNewMessagesAction" />
+              <node type="Menu" action="MainSystemAction">
+                <node type="Menuitem" action="MainSystemMessagesAction" />
                 <node type="Separator" />
-                <node type="Menuitem" action="PreferencesAction" />
-                <node type="Menuitem" action="ExitAction" />
+                <node type="Menuitem" action="MainSystemOptionsAction" />
+                <node type="Menuitem" action="MainSystemExitAction" />
               </node>
+              <node type="Menu" action="MainQueueAction">
+                <node type="Menuitem" action="MainQueueNextAction" />
+                <node type="Separator" />
+                <node type="Menuitem" action="MainQueueTrimAction" />
+                <node type="Menuitem" action="MainQueueClearAction" />
+                <node type="Menuitem" action="MainQueueClearAllAction" />
+                <node type="Menuitem" action="MainQueueOptionsAction" />
+              </node>
+              <node type="Menu" action="MainGotoAction">
+                <node type="Menuitem" action="MainGotoTalkAction" />
+                <node type="Menuitem" action="MainGotoMyContAction" />
+              </node>
+              <node type="Menu" action="MainRevisionAction">
+                <node type="Menuitem" action="MainRevisionViewAction" />
+                <node type="Menuitem" action="MainRevisionRevertAction" />
+                <node type="Menuitem" action="MainRevisionGoodAction" />
+                <node type="Menuitem" action="MainRevisionSightAction" />
+                <node type="Separator" />
+                <node type="Menuitem" action="MainRevisionPreviousAction" />
+                <node type="Menuitem" action="MainRevisionNextAction" />
+                <node type="Menuitem" action="MainRevisionLatestAction" />
+              </node>
+              <node type="Menu" action="MainPageAction">
+                <node type="Menuitem" action="MainPageSwitchtotalkAction" />
+                <node type="Separator" />
+                <node type="Menuitem" action="MainPageViewlatestAction" />
+                <node type="Menuitem" action="MainPageHistoryAction" />
+                <node type="Menuitem" action="MainPageHistorypageAction" />
+                <node type="Separator" />
+                <node type="Menuitem" action="MainPageEditAction" />
+                <node type="Menuitem" action="MainPageTagAction" />
+              </node>
+              <node type="Menu" action="MainUserAction">
+                <node type="Menuitem" action="MainUserShowAction" />
+                <node type="Menuitem" action="MainUserIgnoreAction" />
+              </node>
+              <node type="Menu" action="MainBrowserAction" />
               <node type="Menu" action="HelpAction" />
             </node>
           </widget>
@@ -414,7 +603,33 @@
           </packing>
         </child>
         <child>
-          <placeholder />
+          <widget class="Gtk.Toolbar" id="toolbar1">
+            <property name="MemberName" />
+            <property name="ShowArrow">False</property>
+            <node name="__gtksharp_134_Stetic_Editor_ActionToolbar" type="Toolbar" />
+          </widget>
+          <packing>
+            <property name="Position">1</property>
+            <property name="AutoSize">True</property>
+            <property name="Expand">False</property>
+            <property name="Fill">False</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.Toolbar" id="toolbar2">
+            <property name="MemberName" />
+            <property name="ShowArrow">False</property>
+            <node name="__gtksharp_134_Stetic_Editor_ActionToolbar" type="Toolbar">
+              <node type="Toolitem" action="goBackAction" />
+              <node type="Toolitem" action="goForwardAction" />
+            </node>
+          </widget>
+          <packing>
+            <property name="Position">2</property>
+            <property name="AutoSize">True</property>
+            <property name="Expand">False</property>
+            <property name="Fill">False</property>
+          </packing>
         </child>
         <child>
           <widget class="Gtk.HPaned" id="hpaned1">
@@ -422,15 +637,27 @@
             <property name="CanFocus">True</property>
             <property name="Position">68</property>
             <child>
-              <placeholder />
+              <widget class="huggle3.Controls.QueuePanel" id="queuepanel1">
+                <property name="MemberName" />
+                <property name="Events">ButtonPressMask</property>
+              </widget>
+              <packing>
+                <property name="Resize">False</property>
+              </packing>
             </child>
             <child>
               <widget class="Gtk.VPaned" id="vpaned1">
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
-                <property name="Position">112</property>
+                <property name="Position">215</property>
                 <child>
-                  <placeholder />
+                  <widget class="huggle3.Browser" id="browser1">
+                    <property name="MemberName" />
+                    <property name="Events">ButtonPressMask</property>
+                  </widget>
+                  <packing>
+                    <property name="Resize">False</property>
+                  </packing>
                 </child>
                 <child>
                   <widget class="Gtk.ScrolledWindow" id="GtkScrolledWindow">
@@ -450,7 +677,7 @@
             </child>
           </widget>
           <packing>
-            <property name="Position">2</property>
+            <property name="Position">3</property>
             <property name="AutoSize">True</property>
           </packing>
         </child>
@@ -466,7 +693,7 @@
             </child>
           </widget>
           <packing>
-            <property name="Position">3</property>
+            <property name="Position">4</property>
             <property name="AutoSize">True</property>
             <property name="Expand">False</property>
             <property name="Fill">False</property>

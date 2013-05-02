@@ -22,6 +22,9 @@ using System;
 
 namespace huggle3.Forms
 {
+	/// <summary>
+	/// Login form
+	/// </summary>
 	public partial class Login : Gtk.Window
 	{
 		/// <summary>

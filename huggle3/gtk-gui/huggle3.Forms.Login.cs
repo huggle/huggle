@@ -195,6 +195,7 @@ namespace huggle3.Forms
 			this.vbox2.Spacing = 6;
 			// Container child vbox2.Gtk.Box+BoxChild
 			this.label6 = new global::Gtk.Label ();
+			this.label6.WidthRequest = 280;
 			this.label6.Name = "label6";
 			this.label6.LabelProp = global::Mono.Unix.Catalog.GetString ("label1");
 			this.vbox2.Add (this.label6);
