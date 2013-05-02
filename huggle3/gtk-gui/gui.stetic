@@ -653,13 +653,7 @@
                 <property name="CanFocus">True</property>
                 <property name="Position">215</property>
                 <child>
-                  <widget class="huggle3.Browser" id="browser1">
-                    <property name="MemberName" />
-                    <property name="Events">ButtonPressMask</property>
-                  </widget>
-                  <packing>
-                    <property name="Resize">False</property>
-                  </packing>
+                  <placeholder />
                 </child>
                 <child>
                   <widget class="Gtk.ScrolledWindow" id="GtkScrolledWindow">
