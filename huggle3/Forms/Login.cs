@@ -48,6 +48,7 @@ namespace huggle3.Forms
 	                this.Title = this.Title + " (Testing only)";
 	            }
 				Clear();
+				button2.Label = Languages.Get("exit");
 			} catch (Exception fail)
 			{
 				Core.ExceptionHandler(fail);
@@ -63,7 +64,21 @@ namespace huggle3.Forms
 			entry1.Text = "";
 			entry2.Text = "";
 		}
-		
+
+		/// <summary>
+		/// This either enables or disables the controls on the form depending on their current value
+		/// textName, textPassword, cmProject, cmLanguage, btLogin, btExit
+		/// </summary>
+		private void EnableControls(bool value)
+		{
+			this.entry1.Sensitive = value;
+			this.entry2.Sensitive = value;
+			this.combobox1.Sensitive = value;
+			this.combobox2.Sensitive = value;
+			this.checkbutton1.Sensitive = value;
+			this.button1.Sensitive = value;
+		}
+
 		private void onClose(object sender, Gtk.DeleteEventArgs e)
 		{
 			try
