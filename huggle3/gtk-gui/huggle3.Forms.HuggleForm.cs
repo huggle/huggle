@@ -238,9 +238,7 @@ namespace huggle3.Forms
 			this.hpaned1.Name = "hpaned1";
 			this.hpaned1.Position = 68;
 			// Container child hpaned1.Gtk.Paned+PanedChild
-			this.queuepanel1 = new global::huggle3.Controls.QueuePanel ();
-			this.queuepanel1.Events = ((global::Gdk.EventMask)(256));
-			this.queuepanel1.Name = "queuepanel1";
+			this.queuepanel1 = null;
 			this.hpaned1.Add (this.queuepanel1);
 			global::Gtk.Paned.PanedChild w5 = ((global::Gtk.Paned.PanedChild)(this.hpaned1 [this.queuepanel1]));
 			w5.Resize = false;
