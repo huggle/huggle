@@ -51,6 +51,27 @@ namespace huggle3
 			return "";
 		}
 
+		/// <summary>
+		/// Load a default local config
+		/// </summary>
+		/// <returns>The cf.</returns>
+		public static string LoadCf()
+		{
+			try
+			{
+				using (Stream stream = Assembly.GetExecutingAssembly()
+				       .GetManifestResourceStream("huggle3.Resources.DefaultLocalConfig.txt"))
+					using (StreamReader reader = new StreamReader(stream))
+				{
+					return reader.ReadToEnd();
+				}
+			} catch (Exception fail)
+			{
+				Core.ExceptionHandler(fail);
+			}
+			return "";
+		}
+
 		public static void Init()
 		{
 			Resources.ar = LoadResource("ar");
@@ -76,8 +97,8 @@ namespace huggle3
 			Resources.ru = LoadResource("ru");
 			Resources.sv = LoadResource("sv");
 			Resources.zh = LoadResource("zh");
+			Resources.DefaultLocalConfig = LoadCf();
 		}
-	
 	}
 }
 

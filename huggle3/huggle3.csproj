@@ -96,6 +96,7 @@
     <EmbeddedResource Include="Languages\sv.txt" />
     <EmbeddedResource Include="Languages\zh.txt" />
     <EmbeddedResource Include="version.txt" />
+    <EmbeddedResource Include="Resources\DefaultLocalConfig.txt" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="gtk-gui\generated.cs" />
@@ -139,5 +140,8 @@
   <ItemGroup />
   <ItemGroup>
     <None Include="Pictures\huggle3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
   </ItemGroup>
 </Project>

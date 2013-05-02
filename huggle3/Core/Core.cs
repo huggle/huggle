@@ -863,10 +863,9 @@ namespace huggle3
 		}
 		
 		/// <summary>
-		//// this function initialise config
-		//// reset values
-		//// those values will be default in case that not present in configs
-		//// do not change unless you want to change default presets
+		/// this function initialise config
+		/// those values will be default in case that not present in config
+		/// do not change unless you want to change default presets
 		/// </summary>
 		/// <returns></returns>
 		public static bool InitConfig()
@@ -916,6 +915,7 @@ namespace huggle3
 			Config.DefaultLanguage = "en";
 			Core.months = new string[] { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
 			Core_IO.PostLoad();
+			Core_IO.LoadLocalConfig();
 			return true;
 		}
 		
