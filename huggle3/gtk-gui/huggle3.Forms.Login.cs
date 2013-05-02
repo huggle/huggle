@@ -197,7 +197,7 @@ namespace huggle3.Forms
 			this.label6 = new global::Gtk.Label ();
 			this.label6.WidthRequest = 280;
 			this.label6.Name = "label6";
-			this.label6.LabelProp = global::Mono.Unix.Catalog.GetString ("label1");
+			this.label6.LabelProp = global::Mono.Unix.Catalog.GetString ("Translate to other languages");
 			this.vbox2.Add (this.label6);
 			global::Gtk.Box.BoxChild w15 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.label6]));
 			w15.Position = 0;
@@ -206,7 +206,7 @@ namespace huggle3.Forms
 			// Container child vbox2.Gtk.Box+BoxChild
 			this.label7 = new global::Gtk.Label ();
 			this.label7.Name = "label7";
-			this.label7.LabelProp = global::Mono.Unix.Catalog.GetString ("label2");
+			this.label7.LabelProp = global::Mono.Unix.Catalog.GetString ("About huggle");
 			this.vbox2.Add (this.label7);
 			global::Gtk.Box.BoxChild w16 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.label7]));
 			w16.Position = 1;
@@ -215,7 +215,7 @@ namespace huggle3.Forms
 			// Container child vbox2.Gtk.Box+BoxChild
 			this.label8 = new global::Gtk.Label ();
 			this.label8.Name = "label8";
-			this.label8.LabelProp = global::Mono.Unix.Catalog.GetString ("label3");
+			this.label8.LabelProp = global::Mono.Unix.Catalog.GetString ("Proxy settings");
 			this.vbox2.Add (this.label8);
 			global::Gtk.Box.BoxChild w17 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.label8]));
 			w17.Position = 2;
@@ -228,6 +228,7 @@ namespace huggle3.Forms
 			w18.Fill = false;
 			// Container child hbox1.Gtk.Box+BoxChild
 			this.button2 = new global::Gtk.Button ();
+			this.button2.WidthRequest = 80;
 			this.button2.CanFocus = true;
 			this.button2.Name = "button2";
 			this.button2.UseUnderline = true;

@@ -66,6 +66,32 @@ namespace huggle3.Forms
 		}
 
 		/// <summary>
+		/// On 'Login' button click
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void btLogin_Click(object sender, EventArgs e)
+		{
+			//Start a login attempt
+			login();
+		}
+
+		private void login()
+		{
+			try
+			{
+				// disable all controls so that user can't change them while logging in
+				EnableControls (false);
+
+			}
+			catch (Exception fail)
+			{
+				Core.ExceptionHandler(fail);
+				EnableControls (true);
+			}
+		}
+
+		/// <summary>
 		/// This either enables or disables the controls on the form depending on their current value
 		/// textName, textPassword, cmProject, cmLanguage, btLogin, btExit
 		/// </summary>

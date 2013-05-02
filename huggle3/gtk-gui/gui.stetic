@@ -5,8 +5,9 @@
     <target-gtk-version>2.12</target-gtk-version>
   </configuration>
   <import>
-    <widget-library name="../bin/Debug/huggle3.exe" internal="true" />
     <widget-library name="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <widget-library name="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <widget-library name="../bin/Debug/huggle3.exe" internal="true" />
   </import>
   <widget class="Gtk.Window" id="huggle3.Forms.Login" design-size="381 479">
     <property name="MemberName" />
@@ -274,7 +275,7 @@
                   <widget class="Gtk.Label" id="label6">
                     <property name="MemberName" />
                     <property name="WidthRequest">280</property>
-                    <property name="LabelProp" translatable="yes">label1</property>
+                    <property name="LabelProp" translatable="yes">Translate to other languages</property>
                   </widget>
                   <packing>
                     <property name="Position">0</property>
@@ -286,7 +287,7 @@
                 <child>
                   <widget class="Gtk.Label" id="label7">
                     <property name="MemberName" />
-                    <property name="LabelProp" translatable="yes">label2</property>
+                    <property name="LabelProp" translatable="yes">About huggle</property>
                   </widget>
                   <packing>
                     <property name="Position">1</property>
@@ -298,7 +299,7 @@
                 <child>
                   <widget class="Gtk.Label" id="label8">
                     <property name="MemberName" />
-                    <property name="LabelProp" translatable="yes">label3</property>
+                    <property name="LabelProp" translatable="yes">Proxy settings</property>
                   </widget>
                   <packing>
                     <property name="Position">2</property>
@@ -318,6 +319,7 @@
             <child>
               <widget class="Gtk.Button" id="button2">
                 <property name="MemberName" />
+                <property name="WidthRequest">80</property>
                 <property name="CanFocus">True</property>
                 <property name="Type">TextOnly</property>
                 <property name="Label" translatable="yes">[[exit]]</property>
@@ -606,7 +608,7 @@
           <widget class="Gtk.Toolbar" id="toolbar1">
             <property name="MemberName" />
             <property name="ShowArrow">False</property>
-            <node name="__gtksharp_134_Stetic_Editor_ActionToolbar" type="Toolbar" />
+            <node name="toolbar1" type="Toolbar" />
           </widget>
           <packing>
             <property name="Position">1</property>
@@ -619,7 +621,7 @@
           <widget class="Gtk.Toolbar" id="toolbar2">
             <property name="MemberName" />
             <property name="ShowArrow">False</property>
-            <node name="__gtksharp_134_Stetic_Editor_ActionToolbar" type="Toolbar">
+            <node name="toolbar2" type="Toolbar">
               <node type="Toolitem" action="goBackAction" />
               <node type="Toolitem" action="goForwardAction" />
             </node>
