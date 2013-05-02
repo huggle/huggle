@@ -20,6 +20,8 @@
 
 using System.Drawing;
 using System;
+using Gtk;
+using System.Text;
 
 namespace huggle3.Forms
 {
@@ -49,6 +51,7 @@ namespace huggle3.Forms
 				this.label7.ModifyFg(Gtk.StateType.Normal, Core.fromColor(Color.Blue));
 				this.label8.ModifyFg(Gtk.StateType.Normal, Core.fromColor(Color.Blue));
 				Languages.Localize(this);
+				this.entry2.Visibility = false;
 				this.Title = "Huggle " + System.Windows.Forms.Application.ProductVersion.ToString() + " " + RevisionProvider.GetHash(true);
 	            if (Config.devs)
 	            {
@@ -59,6 +62,30 @@ namespace huggle3.Forms
 	                this.Title = this.Title + " (Testing only)";
 	            }
 				Clear();
+				ListStore store1 = new ListStore(typeof(string));
+				ListStore store2 = new ListStore(typeof(string));
+				// load projects
+				foreach (string project in Config.Projects.Keys)
+				{
+					store1.AppendValues (project);
+				}
+				// load languages
+				int dl = 0;
+				int curr = 0;
+				foreach (string language in Config.Languages)
+				{
+					// we need to get the current language id
+					if (language == Config.Language)
+					{
+						dl = curr;
+					}
+					curr++;
+					store2.AppendValues (language);
+				}
+				combobox1.Model = store1;
+				combobox2.Model = store2;
+				combobox1.Active = 0;
+				combobox2.Active = dl;
 				button2.Label = Languages.Get("exit");
 			} catch (Exception fail)
 			{
@@ -102,7 +129,8 @@ namespace huggle3.Forms
 				EnableControls (false);
 				button2.Label = Languages.Get("cancel");
 				LoggingIn = true;
-
+				Config.UseSsl = checkbutton1.Active;
+				Config.Project = combobox1.ActiveText;
 			}
 			catch (Exception fail)
 			{
