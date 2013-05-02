@@ -29,6 +29,11 @@ namespace huggle3.Forms
 	public partial class Login : Gtk.Window
 	{
 		/// <summary>
+		/// Putting this to true will make it behave as if you are logging in, so that quit button will cancel
+		/// the login instead of shutting down
+		/// </summary>
+		private bool LoggingIn = false;
+		/// <summary>
 		/// Initializes a new instance of the <see cref="huggle3.Forms.Login"/> class.
 		/// </summary>
 		public Login () : base(Gtk.WindowType.Toplevel)
@@ -71,6 +76,13 @@ namespace huggle3.Forms
 			entry2.Text = "";
 		}
 
+		private void CancelLogin()
+		{
+			EnableControls(true);
+			LoggingIn = false;
+			button2.Label = Languages.Get("exit");
+		}
+
 		/// <summary>
 		/// On 'Login' button click
 		/// </summary>
@@ -88,6 +100,8 @@ namespace huggle3.Forms
 			{
 				// disable all controls so that user can't change them while logging in
 				EnableControls (false);
+				button2.Label = Languages.Get("cancel");
+				LoggingIn = true;
 
 			}
 			catch (Exception fail)
@@ -101,6 +115,11 @@ namespace huggle3.Forms
 		{
 			try
 			{
+				if (LoggingIn)
+				{
+					CancelLogin ();
+					return;
+				}
 				Close ();
 			}
 			catch (Exception fail)

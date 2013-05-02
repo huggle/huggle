@@ -130,9 +130,9 @@
     <Compile Include="Forms\HuggleForm.cs" />
     <Compile Include="gtk-gui\huggle3.Forms.HuggleForm.cs" />
     <Compile Include="Controls\Browser.cs" />
-    <Compile Include="gtk-gui\huggle3.Browser.cs" />
     <Compile Include="Forms\About.cs" />
     <Compile Include="gtk-gui\huggle3.Forms.About.cs" />
+    <Compile Include="gtk-gui\huggle3.Controls.Browser.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />

@@ -704,7 +704,7 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Bin" id="huggle3.Browser" design-size="300 300">
+  <widget class="Gtk.Bin" id="huggle3.Controls.Browser" design-size="300 300">
     <property name="MemberName" />
     <property name="Visible">False</property>
     <child>
@@ -839,6 +839,13 @@ Contains images available under the terms of the GNU Lesser General Public Licen
           </packing>
         </child>
       </widget>
+    </child>
+  </widget>
+  <widget class="Gtk.Bin" id="huggle3.Browser" design-size="300 300">
+    <property name="MemberName" />
+    <property name="Visible">False</property>
+    <child>
+      <placeholder />
     </child>
   </widget>
 </stetic-interface>
