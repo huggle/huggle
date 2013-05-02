@@ -719,4 +719,54 @@
       <placeholder />
     </child>
   </widget>
+  <widget class="Gtk.Window" id="huggle3.About" design-size="425 477">
+    <property name="MemberName" />
+    <property name="Title" translatable="yes">About</property>
+    <property name="WindowPosition">CenterOnParent</property>
+    <child>
+      <widget class="Gtk.VBox" id="vbox1">
+        <property name="MemberName" />
+        <property name="Spacing">6</property>
+        <child>
+          <widget class="Gtk.Image" id="image1">
+            <property name="MemberName" />
+            <property name="Pixbuf">resource:huggle3.Pictures.huggle3_newlogo.png</property>
+          </widget>
+          <packing>
+            <property name="Position">0</property>
+            <property name="AutoSize">True</property>
+            <property name="Expand">False</property>
+            <property name="Fill">False</property>
+          </packing>
+        </child>
+        <child>
+          <placeholder />
+        </child>
+        <child>
+          <widget class="Gtk.Label" id="label1">
+            <property name="MemberName" />
+            <property name="LabelProp" translatable="yes">Use of this application is subject to Wikipedia policies and guidelines. Responsibility for edits rests with the owner of the account. Please read the documentation before using this application. Huggle is licensed under GNU GPL as free software.
+
+Contains images available under the terms of the GNU Lesser General Public License; see details.
+</property>
+            <property name="Wrap">True</property>
+          </widget>
+          <packing>
+            <property name="Position">2</property>
+            <property name="AutoSize">True</property>
+            <property name="Expand">False</property>
+            <property name="Fill">False</property>
+          </packing>
+        </child>
+      </widget>
+    </child>
+  </widget>
+  <widget class="Gtk.Window" id="huggle3.About" design-size="400 300">
+    <property name="MemberName" />
+    <property name="Title" translatable="yes">About</property>
+    <property name="WindowPosition">CenterOnParent</property>
+    <child>
+      <placeholder />
+    </child>
+  </widget>
 </stetic-interface>
