@@ -16,5 +16,6 @@ Global
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = huggle3.csproj
+		version = 3.0.0.0
 	EndGlobalSection
 EndGlobal

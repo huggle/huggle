@@ -9,6 +9,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>huggle3</RootNamespace>
     <AssemblyName>huggle3</AssemblyName>
+    <ReleaseVersion>3.0.0.0</ReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
