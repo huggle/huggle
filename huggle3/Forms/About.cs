@@ -1,9 +1,9 @@
 //This is a source code or part of Huggle project
 //
-//This file contains code for misc
+//This file contains code for exception form
 
 /// <DOCUMENTATION>
-/// This is what used to be misc in older huggle
+/// There is no documentation for this
 /// </DOCUMENTATION>
 
 //Copyright (C) 2011-2012 Huggle team
@@ -18,29 +18,28 @@
 //GNU General Public License for more details.
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace huggle3
+namespace huggle3.Forms
 {
-	class Variables
+	/// <summary>
+	/// About form
+	/// </summary>
+	public partial class About : Gtk.Window
 	{
-		public static Dictionary<Page, string> CustomReverts = null;
 		/// <summary>
-		/// List of pending warnings
+		/// Initializes a new instance of the <see cref="huggle3.Forms.About"/> class.
 		/// </summary>
-		public static List<Edit> PendingWarnings = new List<Edit>();
-		/// <summary>
-		/// Edit token which is currently useable
-		/// </summary>
-		public static string EditToken = null;
-		
-		/// <summary>
-		/// Initalise class to its default values
-		/// </summary>
-		public static void Reset()
+		public About() : base(Gtk.WindowType.Toplevel)
 		{
-			CustomReverts = new Dictionary<Page, string>();
+			try
+			{
+				this.Build ();
+				this.label1.Text = System.Windows.Forms.Application.ProductVersion.ToString() + " " + RevisionProvider.GetHash(true);
+			} catch (Exception fail)
+			{
+				Core.ExceptionHandler(fail);
+			}
 		}
 	}
 }
+
