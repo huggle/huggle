@@ -23,24 +23,24 @@ using System.Text;
 
 namespace huggle3
 {
-	class Variables
-	{
-		public static Dictionary<Page, string> CustomReverts = null;
-		/// <summary>
-		/// List of pending warnings
-		/// </summary>
-		public static List<Edit> PendingWarnings = new List<Edit>();
-		/// <summary>
-		/// Edit token which is currently useable
-		/// </summary>
-		public static string EditToken = null;
-		
-		/// <summary>
-		/// Initalise class to its default values
-		/// </summary>
-		public static void Reset()
-		{
-			CustomReverts = new Dictionary<Page, string>();
-		}
-	}
+    class Variables
+    {
+        public static Dictionary<Page, string> CustomReverts = null;
+        /// <summary>
+        /// List of pending warnings
+        /// </summary>
+        public static List<Edit> PendingWarnings = new List<Edit>();
+        /// <summary>
+        /// Edit token which is currently useable
+        /// </summary>
+        public static string EditToken = null;
+        
+        /// <summary>
+        /// Initalise class to its default values
+        /// </summary>
+        public static void Reset()
+        {
+            CustomReverts = new Dictionary<Page, string>();
+        }
+    }
 }

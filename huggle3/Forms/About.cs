@@ -21,25 +21,25 @@ using System;
 
 namespace huggle3.Forms
 {
-	/// <summary>
-	/// About form
-	/// </summary>
-	public partial class About : Gtk.Window
-	{
-		/// <summary>
-		/// Initializes a new instance of the <see cref="huggle3.Forms.About"/> class.
-		/// </summary>
-		public About() : base(Gtk.WindowType.Toplevel)
-		{
-			try
-			{
-				this.Build ();
-				this.label1.Text = System.Windows.Forms.Application.ProductVersion.ToString() + " " + RevisionProvider.GetHash(true);
-			} catch (Exception fail)
-			{
-				Core.ExceptionHandler(fail);
-			}
-		}
-	}
+    /// <summary>
+    /// About form
+    /// </summary>
+    public partial class About : Gtk.Window
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="huggle3.Forms.About"/> class.
+        /// </summary>
+        public About() : base(Gtk.WindowType.Toplevel)
+        {
+            try
+            {
+                this.Build ();
+                this.label1.Text = System.Windows.Forms.Application.ProductVersion.ToString() + " " + RevisionProvider.GetHash(true);
+            } catch (Exception fail)
+            {
+                Core.ExceptionHandler(fail);
+            }
+        }
+    }
 }
 

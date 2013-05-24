@@ -21,19 +21,19 @@ using System;
 
 namespace huggle3.Controls
 {
-	/// <summary>
-	/// Browser
-	/// </summary>
-	[System.ComponentModel.ToolboxItem(true)]
-	public partial class Browser : Gtk.Bin
-	{
-		/// <summary>
-		/// Initializes a new instance of the <see cref="huggle3.Controls.Browser"/> class.
-		/// </summary>
-		public Browser ()
-		{
-			this.Build ();
-		}
-	}
+    /// <summary>
+    /// Browser
+    /// </summary>
+    [System.ComponentModel.ToolboxItem(true)]
+    public partial class Browser : Gtk.Bin
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="huggle3.Controls.Browser"/> class.
+        /// </summary>
+        public Browser ()
+        {
+            this.Build ();
+        }
+    }
 }
 

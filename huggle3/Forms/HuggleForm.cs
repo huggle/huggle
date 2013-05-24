@@ -22,17 +22,17 @@ using System;
 
 namespace huggle3.Forms
 {
-	public partial class HuggleForm : Gtk.Window
-	{
-		/// <summary>
-		/// Initializes a new instance of the <see cref="huggle3.Forms.HuggleForm"/> class.
-		/// </summary>
-		public HuggleForm () : 	base(Gtk.WindowType.Toplevel)
-		{
-			this.Build ();
-			this.DeleteEvent += new Gtk.DeleteEventHandler(onClose);
-			Languages.Localize(this);
-			this.Title = "Huggle " + System.Windows.Forms.Application.ProductVersion.ToString() + " " + RevisionProvider.GetHash(true);
+    public partial class HuggleForm : Gtk.Window
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="huggle3.Forms.HuggleForm"/> class.
+        /// </summary>
+        public HuggleForm () :  base(Gtk.WindowType.Toplevel)
+        {
+            this.Build ();
+            this.DeleteEvent += new Gtk.DeleteEventHandler(onClose);
+            Languages.Localize(this);
+            this.Title = "Huggle " + System.Windows.Forms.Application.ProductVersion.ToString() + " " + RevisionProvider.GetHash(true);
             if (Config.devs)
             {
                 this.Title = this.Title  + " [devs] - target: " + Core.TargetBuild();
@@ -41,12 +41,12 @@ namespace huggle3.Forms
             {
                 this.Title = this.Title + " (Testing only)";
             }
-		}
-		
-		private void onClose(object sender, Gtk.DeleteEventArgs e)
-		{
-			
-		}
-	}
+        }
+        
+        private void onClose(object sender, Gtk.DeleteEventArgs e)
+        {
+            
+        }
+    }
 }
 
