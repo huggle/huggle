@@ -28,22 +28,24 @@ namespace huggle3.Forms
 	/// <summary>
 	/// Login form
 	/// </summary>
-	public partial class Login : Gtk.Window
+	public partial class LoginForm : Gtk.Window
 	{
 		/// <summary>
 		/// Putting this to true will make it behave as if you are logging in, so that quit button will cancel
 		/// the login instead of shutting down
 		/// </summary>
 		private bool LoggingIn = false;
+
+        private GLib.TimeoutHandler timer = null;
 		/// <summary>
 		/// Initializes a new instance of the <see cref="huggle3.Forms.Login"/> class.
 		/// </summary>
-		public Login () : base(Gtk.WindowType.Toplevel)
+		public LoginForm() : base(Gtk.WindowType.Toplevel)
 		{
 			try
 			{
 				Core.Initialise();
-				this.Build ();
+				this.Build();
 				button1.Clicked += new EventHandler(btLogin_Click);
 				button2.Clicked += new EventHandler(btExit_Click);
 				this.DeleteEvent += new Gtk.DeleteEventHandler(onClose);
@@ -52,6 +54,7 @@ namespace huggle3.Forms
 				this.label8.ModifyFg(Gtk.StateType.Normal, Core.fromColor(Color.Blue));
 				Languages.Localize(this);
 				this.entry2.Visibility = false;
+                this.progressbar1.Adjustment.Upper = 100;
 				this.Title = "Huggle " + System.Windows.Forms.Application.ProductVersion.ToString() + " " + RevisionProvider.GetHash(true);
 	            if (Config.devs)
 	            {
@@ -64,11 +67,13 @@ namespace huggle3.Forms
 				Clear();
 				ListStore store1 = new ListStore(typeof(string));
 				ListStore store2 = new ListStore(typeof(string));
+
 				// load projects
 				foreach (string project in Config.Projects.Keys)
 				{
 					store1.AppendValues (project);
 				}
+
 				// load languages
 				int dl = 0;
 				int curr = 0;
@@ -127,10 +132,23 @@ namespace huggle3.Forms
 			{
 				// disable all controls so that user can't change them while logging in
 				EnableControls (false);
-				button2.Label = Languages.Get("cancel");
+				this.button2.Label = Languages.Get("cancel");
 				LoggingIn = true;
 				Config.UseSsl = checkbutton1.Active;
 				Config.Project = combobox1.ActiveText;
+				this.progressbar1.Adjustment.Value = 0;
+				// FIXME
+				//if (Config.Languages.Contains(cmLanguage.Text)) { Config.Language = cmLanguage.Text; } // set language (if needed)
+				Config.Username = entry1.Text; // set username
+				Config.Password = entry2.Text; // set password
+				Login.LoggingOn = true; // set loggin in
+				Login.phase = Login.LoginState.LoggingIn; // set phase
+				LoginRequest lr = new LoginRequest(); // start a new login request
+				//lr.Login_Form = this;
+				progress(Languages.Get("login-progress-start"));
+				lr.Start();
+                timer = new GLib.TimeoutHandler(login_Tick);
+                GLib.Timeout.Add(200, timer);
 			}
 			catch (Exception fail)
 			{
@@ -138,7 +156,85 @@ namespace huggle3.Forms
 				EnableControls (true);
 			}
 		}
-		
+
+        private bool login_Tick()
+        {
+            try
+            {
+                if (Login.LoggingOn == true)
+                {
+                    if (Login.LoggedIn == true)
+                    {
+                        switch (Login.phase)
+                        {
+                            case Login.LoginState.LoggedIn:
+                                //Load the global config
+                                this.progressbar1.Adjustment.Value = 40;
+                                progress(Languages.Get("login-progress-global"));
+                                Login.phase = Login.LoginState.LoadingGlobal;
+                                Requests.RequestConfigGlobal global = new Requests.RequestConfigGlobal();
+                                global.Start();
+                                break;
+                            case Login.LoginState.LoadedGlobal:
+                                //Load the local config
+                                this.progressbar1.Adjustment.Value = 60;
+                                progress(Languages.Get("login-progress-local"));
+                                Login.phase = Login.LoginState.LoadingLocal;
+                                Requests.RequestConfigLocal local_cf = new Requests.RequestConfigLocal();
+                                local_cf.Start();
+                                break;
+                            case Login.LoginState.LoadedLocal:
+                                //Load the whitelist
+                                //this.progressbar1.Adjustment.Value = 80;
+                                //Login.phase = Login.LoginState.Whitelist;
+                                //Requests.request_white_list whitelist_request = new Requests.request_white_list();
+                                //whitelist_request.Start();
+                                //break;
+                            case Login.LoginState.Successful:
+                                //Logging in done
+                                // show the form
+                                Login.LoggedIn = false;
+                                Program.HuggleForm = new HuggleForm();
+                                Program.HuggleForm.Show();
+                                Hide();
+                                return false;
+                            case Login.LoginState.Error:
+                                //Something has gone wrong (show error)
+                                this.progressbar1.Adjustment.Value = 0;
+                                progress(Languages.Get("login-error-unknown"));
+                                Login.LoggingOn = false;
+                                Login.LoggedIn = false;
+                                break;
+                        }
+                    }
+                }
+                else
+                {
+                    EnableControls(true);
+                    if (Login.Status != RequestCore.Request.LoginResult.Success)
+                    {
+                        this.progress(Login.Error);
+                    }
+                    return false;
+                }
+                return true;
+            }
+            catch (Exception A)
+            {
+                Core.ExceptionHandler(A);
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Update the progress of the form with the given text
+        /// </summary>
+        /// <param name="text"></param>
+        public void progress(string text)
+        {
+            this.label5.Text = text;
+        }
+
 		private void btExit_Click(object sender, EventArgs e)
 		{
 			try

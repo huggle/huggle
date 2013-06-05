@@ -36,7 +36,8 @@ namespace huggle3
 		/// </summary>
 		///
 		//public static main MainForm;
-		public static Forms.Login _LoginForm;
+		public static Forms.LoginForm LoginForm = null;
+        public static Forms.HuggleForm HuggleForm = null;
 		
 		public class ExceptionHandler
 		{
@@ -53,8 +54,8 @@ namespace huggle3
 			ExceptionHandler EH = new ExceptionHandler();
 			AppDomain.CurrentDomain.UnhandledException += EH.ThreadExceptionHandle;
 			Application.Init ();
-			_LoginForm = new Forms.Login();
-			_LoginForm.Show ();
+			LoginForm = new Forms.LoginForm();
+			LoginForm.Show ();
 			Application.Run ();
 		}
 		

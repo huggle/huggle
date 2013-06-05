@@ -7,11 +7,8 @@ namespace huggle3.Forms
 		private global::Gtk.VBox vbox1;
 		private global::Gtk.Image image1;
 		private global::Gtk.Label label2;
-		private global::Gtk.Table table1;
-		private global::Gtk.Label label3;
-		private global::Gtk.Label label4;
-		private global::Gtk.Label label5;
 		private global::Gtk.Label label1;
+		private global::Gtk.Label label3;
 		
 		protected virtual void Build ()
 		{
@@ -36,50 +33,14 @@ namespace huggle3.Forms
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.label2 = new global::Gtk.Label ();
 			this.label2.Name = "label2";
-			this.label2.LabelProp = global::Mono.Unix.Catalog.GetString ("label1");
+			this.label2.LabelProp = global::Mono.Unix.Catalog.GetString ("Huggle is a Windows application for dealing with vandalism on Wikipedia.");
+			this.label2.Wrap = true;
+			this.label2.Justify = ((global::Gtk.Justification)(2));
 			this.vbox1.Add (this.label2);
 			global::Gtk.Box.BoxChild w2 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.label2]));
 			w2.Position = 1;
 			w2.Expand = false;
 			w2.Fill = false;
-			// Container child vbox1.Gtk.Box+BoxChild
-			this.table1 = new global::Gtk.Table (((uint)(3)), ((uint)(2)), false);
-			this.table1.Name = "table1";
-			this.table1.RowSpacing = ((uint)(6));
-			this.table1.ColumnSpacing = ((uint)(6));
-			// Container child table1.Gtk.Table+TableChild
-			this.label3 = new global::Gtk.Label ();
-			this.label3.Name = "label3";
-			this.label3.LabelProp = global::Mono.Unix.Catalog.GetString ("Contributors:");
-			this.table1.Add (this.label3);
-			global::Gtk.Table.TableChild w3 = ((global::Gtk.Table.TableChild)(this.table1 [this.label3]));
-			w3.XOptions = ((global::Gtk.AttachOptions)(4));
-			w3.YOptions = ((global::Gtk.AttachOptions)(4));
-			// Container child table1.Gtk.Table+TableChild
-			this.label4 = new global::Gtk.Label ();
-			this.label4.Name = "label4";
-			this.label4.LabelProp = global::Mono.Unix.Catalog.GetString ("addshore");
-			this.table1.Add (this.label4);
-			global::Gtk.Table.TableChild w4 = ((global::Gtk.Table.TableChild)(this.table1 [this.label4]));
-			w4.LeftAttach = ((uint)(1));
-			w4.RightAttach = ((uint)(2));
-			w4.XOptions = ((global::Gtk.AttachOptions)(4));
-			w4.YOptions = ((global::Gtk.AttachOptions)(4));
-			// Container child table1.Gtk.Table+TableChild
-			this.label5 = new global::Gtk.Label ();
-			this.label5.Name = "label5";
-			this.label5.LabelProp = global::Mono.Unix.Catalog.GetString ("Petrb");
-			this.table1.Add (this.label5);
-			global::Gtk.Table.TableChild w5 = ((global::Gtk.Table.TableChild)(this.table1 [this.label5]));
-			w5.TopAttach = ((uint)(1));
-			w5.BottomAttach = ((uint)(2));
-			w5.LeftAttach = ((uint)(1));
-			w5.RightAttach = ((uint)(2));
-			w5.XOptions = ((global::Gtk.AttachOptions)(4));
-			w5.YOptions = ((global::Gtk.AttachOptions)(4));
-			this.vbox1.Add (this.table1);
-			global::Gtk.Box.BoxChild w6 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.table1]));
-			w6.Position = 2;
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.label1 = new global::Gtk.Label ();
 			this.label1.Name = "label1";
@@ -88,17 +49,33 @@ namespace huggle3.Forms
 Contains images available under the terms of the GNU Lesser General Public License; see details.
 ");
 			this.label1.Wrap = true;
+			this.label1.Justify = ((global::Gtk.Justification)(2));
 			this.vbox1.Add (this.label1);
-			global::Gtk.Box.BoxChild w7 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.label1]));
-			w7.Position = 3;
-			w7.Expand = false;
-			w7.Fill = false;
+			global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.label1]));
+			w3.Position = 2;
+			w3.Expand = false;
+			w3.Fill = false;
+			// Container child vbox1.Gtk.Box+BoxChild
+			this.label3 = new global::Gtk.Label ();
+			this.label3.Name = "label3";
+			this.label3.LabelProp = global::Mono.Unix.Catalog.GetString (@"<b>Current Contributors</b>
+<a href=""http://meta.wikimedia.org/wiki/User:Addshore"">Addshore</a>
+<a href=""http://en.wikipedia.org/wiki/User:Petrb"">Petrb</a>
+
+<b>Past Contributors</b>
+For a list of past contributors please see <a href=""http://meta.wikimedia.org/wiki/Huggle/Members"">this list</a>.");
+			this.label3.UseMarkup = true;
+			this.vbox1.Add (this.label3);
+			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.label3]));
+			w4.Position = 3;
+			w4.Expand = false;
+			w4.Fill = false;
 			this.Add (this.vbox1);
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
 			}
-			this.DefaultWidth = 408;
-			this.DefaultHeight = 477;
+			this.DefaultWidth = 407;
+			this.DefaultHeight = 454;
 			this.Show ();
 		}
 	}
