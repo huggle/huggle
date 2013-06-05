@@ -31,6 +31,8 @@ namespace huggle3.Forms
 		{
 			this.Build ();
 			this.DeleteEvent += new Gtk.DeleteEventHandler(onClose);
+            this.Icon = global::Gdk.Pixbuf.LoadFromResource("huggle3.Pictures.huggle.ico");
+            this.Maximize();
 			Languages.Localize(this);
 			this.Title = "Huggle " + System.Windows.Forms.Application.ProductVersion.ToString() + " " + RevisionProvider.GetHash(true);
             if (Config.devs)
@@ -45,7 +47,7 @@ namespace huggle3.Forms
 		
 		private void onClose(object sender, Gtk.DeleteEventArgs e)
 		{
-			
+            Core.ShutdownSystem();
 		}
 	}
 }
