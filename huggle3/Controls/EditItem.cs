@@ -32,7 +32,7 @@ namespace huggle3.Controls
         /// </summary>
         public EditItem ()
         {
-            this.Build ();
+            //this.Build ();
         }
     }
 }
