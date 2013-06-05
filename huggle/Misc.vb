@@ -54,7 +54,9 @@ Module Misc
     Public WhitelistAutoChanges As New List(Of String)
     Public WhitelistLoaded As Boolean
     Public WhitelistManualChanges As New List(Of String)
-    Public GlExcess As Integer = 20000
+    ' 5/June/2013 Addshore - Change 20000 -> 10 after massive looping memory leak as reported
+    ' https://en.wikipedia.org/w/index.php?title=Wikipedia:Huggle/Feedback&diff=558338713&oldid=556694544
+    Public GlExcess As Integer = 10
     Public Errors As String
 
     Public Delegate Sub Action()
@@ -489,10 +491,10 @@ Module Misc
 
             If LinkTarget = LinkText Then
                 Text = Text.Substring(0, Text.IndexOf("<a href=")) & "[[" & LinkText & "]]" & _
-                    FindString(Text, "</a>")
+                FindString(Text, "</a>")
             Else
                 Text = Text.Substring(0, Text.IndexOf("<a href=")) & "[[" & LinkTarget & "|" & LinkText & "]]" & _
-                    FindString(Text, "</a>")
+                FindString(Text, "</a>")
             End If
             Break = Break + 1
         End While
