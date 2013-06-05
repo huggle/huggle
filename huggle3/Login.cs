@@ -24,123 +24,123 @@ using System.Text;
 
 namespace huggle3
 {
-	/// <summary>
-	/// Login request
-	/// </summary>
-	public class LoginRequest : RequestCore.Request
-	{
-		/// <summary>
-		/// This is a function which needs to be overriden by request, in case it's not do nothing
-		/// </summary>
-		public override void Process()
-		{
-			try
-			{
-				Core.History("Login-Request.Process()");
-				
-				Core.WriteLog("Logging in as " + Config.Username);
-				
-				Login.LoggedIn = false;
-				
-				LoginResult result;
-				result = request_api.DoLogin();
-				
-				//If the login is not a success then try and find out what went wrong and give the relevant error message
-				
-				Core.WriteLog("Login resulted as " + result.ToString());
-				if (result != LoginResult.Success)
-				{
-					switch (result)
-					{
-					case LoginResult.Cancelled:
-						Login.Error = Languages.Get("login-error-cancelled");
-						break;
-					case LoginResult.NotExists:
-						Login.Error = Languages.Get("login-error-notexists");
-						break;
-					case LoginResult.WrongPass:
-						Login.Error = Languages.Get("login-error-password");
-						break;
-					case LoginResult.Throttled:
-						Login.Error = Languages.Get("login-error-throttled");
-						break;
-					case LoginResult.Blocked:
-						Login.Error = Languages.Get("login-error-blocked");
-						break;
-					case LoginResult.NeedToken:
-						Login.Error = Languages.Get("login-error-needtoken");
-						break;
-					case LoginResult.NoName:
-						Login.Error = Languages.Get("login-error-noname");
-						break;
-					case LoginResult.EmptyPass:
-						Login.Error = Languages.Get("login-error-emptypass");
-						break;
-						//There are still some cases this doesnt account for
-					default: // If it doesnt match any of the above give the default error message
-						Login.Error = Languages.Get("login-error-unknown");
-						break;
-					}
-					Login.Status = result;
-					// remove the password from memory for security reasons
-					Config.Password = "";
-					Login.LoggingOn = false;
-					return;
-				}
-				
-				Login.phase = Login.LoginState.LoggedIn;
-				Login.LoggedIn = true;
-				Complete();
-			}
-			catch (Exception B)
-			{
-				Core.ExceptionHandler(B);
-				this.Fail();
-			}
-		}
-	}
+    /// <summary>
+    /// Login request
+    /// </summary>
+    public class LoginRequest : RequestCore.Request
+    {
+        /// <summary>
+        /// This is a function which needs to be overriden by request, in case it's not do nothing
+        /// </summary>
+        public override void Process()
+        {
+            try
+            {
+                Core.History("Login-Request.Process()");
+                
+                Core.WriteLog("Logging in as " + Config.Username);
+                
+                Login.LoggedIn = false;
+                
+                LoginResult result;
+                result = request_api.DoLogin();
+                
+                //If the login is not a success then try and find out what went wrong and give the relevant error message
+                
+                Core.WriteLog("Login resulted as " + result.ToString());
+                if (result != LoginResult.Success)
+                {
+                    switch (result)
+                    {
+                    case LoginResult.Cancelled:
+                        Login.Error = Languages.Get("login-error-cancelled");
+                        break;
+                    case LoginResult.NotExists:
+                        Login.Error = Languages.Get("login-error-notexists");
+                        break;
+                    case LoginResult.WrongPass:
+                        Login.Error = Languages.Get("login-error-password");
+                        break;
+                    case LoginResult.Throttled:
+                        Login.Error = Languages.Get("login-error-throttled");
+                        break;
+                    case LoginResult.Blocked:
+                        Login.Error = Languages.Get("login-error-blocked");
+                        break;
+                    case LoginResult.NeedToken:
+                        Login.Error = Languages.Get("login-error-needtoken");
+                        break;
+                    case LoginResult.NoName:
+                        Login.Error = Languages.Get("login-error-noname");
+                        break;
+                    case LoginResult.EmptyPass:
+                        Login.Error = Languages.Get("login-error-emptypass");
+                        break;
+                        //There are still some cases this doesnt account for
+                    default: // If it doesnt match any of the above give the default error message
+                        Login.Error = Languages.Get("login-error-unknown");
+                        break;
+                    }
+                    Login.Status = result;
+                    // remove the password from memory for security reasons
+                    Config.Password = "";
+                    Login.LoggingOn = false;
+                    return;
+                }
+                
+                Login.phase = Login.LoginState.LoggedIn;
+                Login.LoggedIn = true;
+                Complete();
+            }
+            catch (Exception B)
+            {
+                Core.ExceptionHandler(B);
+                this.Fail();
+            }
+        }
+    }
 
-	/// <summary>
-	/// Login helper
-	/// </summary>
-	static class Login
-	{
-		public enum LoginState
-		{
-			LoggingIn,
-			LoadingGlobal,
-			LoadingLocal,
-			Whitelist,
-			LoggedIn,
-			LoadedLocal,
-			LoadedGlobal,
-			Successful,
-			Error
-		}
+    /// <summary>
+    /// Login helper
+    /// </summary>
+    static class Login
+    {
+        public enum LoginState
+        {
+            LoggingIn,
+            LoadingGlobal,
+            LoadingLocal,
+            Whitelist,
+            LoggedIn,
+            LoadedLocal,
+            LoadedGlobal,
+            Successful,
+            Error
+        }
 
-		/// <summary>
-		/// The token.
-		/// </summary>
-		public static string Token = null;
-		/// <summary>
-		/// The logged in.
-		/// </summary>
-		public static bool LoggedIn = false;
-		/// <summary>
-		/// The logging on.
-		/// </summary>
-		public static bool LoggingOn = false;
-		/// <summary>
-		/// The error.
-		/// </summary>
-		public static string Error = "";
-		/// <summary>
-		/// The phase.
-		/// </summary>
-		public static LoginState phase;
-		/// <summary>
-		/// The status.
-		/// </summary>
-		public static RequestCore.Request.LoginResult Status;
-	}
+        /// <summary>
+        /// The token.
+        /// </summary>
+        public static string Token = null;
+        /// <summary>
+        /// The logged in.
+        /// </summary>
+        public static bool LoggedIn = false;
+        /// <summary>
+        /// The logging on.
+        /// </summary>
+        public static bool LoggingOn = false;
+        /// <summary>
+        /// The error.
+        /// </summary>
+        public static string Error = "";
+        /// <summary>
+        /// The phase.
+        /// </summary>
+        public static LoginState phase;
+        /// <summary>
+        /// The status.
+        /// </summary>
+        public static RequestCore.Request.LoginResult Status;
+    }
 }

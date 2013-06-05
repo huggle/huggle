@@ -357,16 +357,16 @@
       <placeholder />
     </child>
   </widget>
-  <widget class="Gtk.Window" id="huggle3.Forms.HuggleForm" design-size="936 500">
+  <widget class="Gtk.Window" id="huggle3.Forms.HuggleForm" design-size="984 500">
     <action-group name="Default">
       <action id="MainSystemAction">
         <property name="Type">Action</property>
         <property name="Label" translatable="yes">[[main-system]]</property>
         <property name="ShortLabel" translatable="yes">File</property>
       </action>
-      <action id="HelpAction">
+      <action id="MainHelpAction">
         <property name="Type">Action</property>
-        <property name="Label" translatable="yes">Help</property>
+        <property name="Label" translatable="yes">[[main-help]]</property>
         <property name="ShortLabel" translatable="yes">Help</property>
       </action>
       <action id="MainSystemMessagesAction">
@@ -539,6 +539,31 @@
         <property name="Label" translatable="yes" />
         <property name="StockId">gtk-go-forward</property>
       </action>
+      <action id="MainHelpAboutAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">[[main-help-about]]</property>
+        <property name="ShortLabel" translatable="yes">[[main-help-about]]</property>
+      </action>
+      <action id="MainHelpBugAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">[[main-help-bug]]</property>
+        <property name="ShortLabel" translatable="yes">[[main-help-bug]]</property>
+      </action>
+      <action id="MainHelpDocumentationAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">[[main-help-documentation]]</property>
+        <property name="ShortLabel" translatable="yes">[[main-help-documentation]]</property>
+      </action>
+      <action id="MainHelpFeedbackAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">[[main-help-feedback]]</property>
+        <property name="ShortLabel" translatable="yes">[[main-help-feedback]]</property>
+      </action>
+      <action id="MainHelpAboutAction1">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">[[main-help-about]]</property>
+        <property name="ShortLabel" translatable="yes">[[main-help-about]]</property>
+      </action>
     </action-group>
     <property name="MemberName" />
     <property name="Title" translatable="yes">HuggleForm</property>
@@ -594,7 +619,12 @@
                 <node type="Menuitem" action="MainUserIgnoreAction" />
               </node>
               <node type="Menu" action="MainBrowserAction" />
-              <node type="Menu" action="HelpAction" />
+              <node type="Menu" action="MainHelpAction">
+                <node type="Menuitem" action="MainHelpBugAction" />
+                <node type="Menuitem" action="MainHelpDocumentationAction" />
+                <node type="Menuitem" action="MainHelpFeedbackAction" />
+                <node type="Menuitem" action="MainHelpAboutAction1" />
+              </node>
             </node>
           </widget>
           <packing>

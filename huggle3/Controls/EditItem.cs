@@ -21,19 +21,19 @@ using System;
 
 namespace huggle3.Controls
 {
-	/// <summary>
-	/// Edit item.
-	/// </summary>
-	[System.ComponentModel.ToolboxItem(true)]
-	public partial class EditItem : Gtk.Bin
-	{
-		/// <summary>
-		/// Initializes a new instance of the <see cref="huggle3.Controls.EditItem"/> class.
-		/// </summary>
-		public EditItem ()
-		{
-			this.Build ();
-		}
-	}
+    /// <summary>
+    /// Edit item.
+    /// </summary>
+    [System.ComponentModel.ToolboxItem(true)]
+    public partial class EditItem : Gtk.Bin
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="huggle3.Controls.EditItem"/> class.
+        /// </summary>
+        public EditItem ()
+        {
+            this.Build ();
+        }
+    }
 }
 
