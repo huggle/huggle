@@ -266,6 +266,21 @@ namespace huggle3.Forms
 			this.button1.Sensitive = value;
 		}
 
+        /// <summary>
+        /// This either enables or disables login button depending upon the state of input in the login fields
+        /// </summary>
+        private void EnableLogin()
+        {
+            if ( ( this.entry1.Text.Length > 0 ) && ( this.entry2.Text.Length > 0 ) )
+            {
+                this.button1.Sensitive = true;
+            }
+            else
+            {
+                this.button1.Sensitive = false;
+            }
+        }
+
 		private void onClose(object sender, Gtk.DeleteEventArgs e)
 		{
 			try
