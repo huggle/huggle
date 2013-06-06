@@ -21,7 +21,7 @@ projects:
 	zh.wikipedia;http://zh.wikipedia.org/,
     simple.wikipedia;http://simple.wikipedia.org/,
 	commons;http://commons.wikimedia.org/,
-	wikidata'http://www.wikidata.org/,
+	wikidata;http://www.wikidata.org/,
 	test2;http://huggle.wmflabs.org/,
     test wiki;http://test.wikipedia.org/
     

@@ -54,9 +54,7 @@ Module Misc
     Public WhitelistAutoChanges As New List(Of String)
     Public WhitelistLoaded As Boolean
     Public WhitelistManualChanges As New List(Of String)
-    ' 5/June/2013 Addshore - Change 20000 -> 10 after massive looping memory leak as reported
-    ' https://en.wikipedia.org/w/index.php?title=Wikipedia:Huggle/Feedback&diff=558338713&oldid=556694544
-    Public GlExcess As Integer = 10
+    Public GlExcess As Integer = 20000
     Public Errors As String
 
     Public Delegate Sub Action()
@@ -485,7 +483,9 @@ Module Misc
 
         Dim Break As Integer = 0
 
-        While Text.Contains("<a href=") AndAlso Text.Contains("</a>") And Break < Misc.GlExcess
+        ' 5/June/2013 Addshore - Add a limit of 10 to this loop after massive memory leak
+        ' https://en.wikipedia.org/w/index.php?title=Wikipedia:Huggle/Feedback&diff=558338713&oldid=556694544
+        While Text.Contains("<a href=") AndAlso Text.Contains("</a>") And Break < Misc.GlExcess And Break < 10
             Dim LinkTarget As String = HtmlDecode(FindString(Text, "<a href=", "title=""", """"))
             Dim LinkText As String = HtmlDecode(FindString(Text, "<a href=", ">", "</a>"))
 
