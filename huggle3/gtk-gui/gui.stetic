@@ -9,7 +9,7 @@
     <widget-library name="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <widget-library name="../bin/Debug/huggle3.exe" internal="true" />
   </import>
-  <widget class="Gtk.Window" id="huggle3.Forms.Login" design-size="381 479">
+  <widget class="Gtk.Window" id="huggle3.Forms.LoginForm" design-size="381 468">
     <property name="MemberName" />
     <property name="Title" translatable="yes">Huggle</property>
     <property name="Icon">resource:huggle3.Pictures.huggle.ico</property>
@@ -253,7 +253,7 @@
             <property name="MemberName" />
             <property name="CanFocus">True</property>
             <property name="Type">TextOnly</property>
-            <property name="Label" translatable="yes">GtkButton</property>
+            <property name="Label" translatable="yes">[[login-start]]</property>
             <property name="UseUnderline">True</property>
           </widget>
           <packing>

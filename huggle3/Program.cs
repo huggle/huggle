@@ -29,34 +29,35 @@ using Gtk;
 
 namespace huggle3
 {
-    static class Program
-    {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        ///
-        //public static main MainForm;
-        public static Forms.Login _LoginForm;
-        
-        public class ExceptionHandler
-        {
-            public void ThreadExceptionHandle(object sender, UnhandledExceptionEventArgs t)
-            {
-                // exception
-                Core.ExceptionHandler(new Exception("PANIC:" + t.ToString()), true);
-            }
-        }
-        
-        [STAThread]
-        static void Main()
-        {
-            ExceptionHandler EH = new ExceptionHandler();
-            AppDomain.CurrentDomain.UnhandledException += EH.ThreadExceptionHandle;
-            Application.Init ();
-            _LoginForm = new Forms.Login();
-            _LoginForm.Show ();
-            Application.Run ();
-        }
-        
-    }
+	static class Program
+	{
+		/// <summary>
+		/// The main entry point for the application.
+		/// </summary>
+		///
+		//public static main MainForm;
+		public static Forms.LoginForm LoginForm = null;
+        public static Forms.HuggleForm HuggleForm = null;
+		
+		public class ExceptionHandler
+		{
+			public void ThreadExceptionHandle(object sender, UnhandledExceptionEventArgs t)
+			{
+				// exception
+				Core.ExceptionHandler(new Exception("PANIC:" + t.ToString()), true);
+			}
+		}
+		
+		[STAThread]
+		static void Main()
+		{
+			ExceptionHandler EH = new ExceptionHandler();
+			AppDomain.CurrentDomain.UnhandledException += EH.ThreadExceptionHandle;
+			Application.Init ();
+			LoginForm = new Forms.LoginForm();
+			LoginForm.Show ();
+			Application.Run ();
+		}
+		
+	}
 }

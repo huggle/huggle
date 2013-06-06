@@ -4,7 +4,7 @@ namespace huggle3.Controls
 {
     public partial class EditItem
     {
-        protected virtual void Build ()
+        /*protected virtual void Build ()
         {
             global::Stetic.Gui.Initialize (this);
             // Widget huggle3.Controls.EditItem
@@ -14,6 +14,6 @@ namespace huggle3.Controls
                 this.Child.ShowAll ();
             }
             this.Hide ();
-        }
+        } */
     }
 }

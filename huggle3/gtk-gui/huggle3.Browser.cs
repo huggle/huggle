@@ -4,7 +4,7 @@ namespace huggle3
 {
     public partial class Browser
     {
-        protected virtual void Build ()
+        /*protected virtual void Build ()
         {
             global::Stetic.Gui.Initialize (this);
             // Widget huggle3.Browser
@@ -14,6 +14,6 @@ namespace huggle3
                 this.Child.ShowAll ();
             }
             this.Hide ();
-        }
+        }*/
     }
 }

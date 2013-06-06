@@ -105,8 +105,8 @@
     <Compile Include="Core\Core.cs" />
     <Compile Include="Core\CoreIO.cs" />
     <Compile Include="Forms\Login.cs" />
-    <Compile Include="gtk-gui\huggle3.Forms.Login.cs" />
     <Compile Include="Configuration.cs" />
+    <Compile Include="Requests\RequestConfig.cs" />
     <Compile Include="Space.cs" />
     <Compile Include="User.cs" />
     <Compile Include="Edit.cs" />
@@ -135,13 +135,12 @@
     <Compile Include="gtk-gui\huggle3.Forms.About.cs" />
     <Compile Include="gtk-gui\huggle3.Controls.Browser.cs" />
     <Compile Include="gtk-gui\huggle3.Browser.cs" />
+    <Compile Include="gtk-gui\huggle3.Forms.LoginForm.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />
   <ItemGroup>
     <None Include="Pictures\huggle3.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>
