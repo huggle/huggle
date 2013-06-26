@@ -306,7 +306,6 @@ Namespace Requests
 
             Select Case Config.Project
                 Case "en.wikipedia" : Links = ", including <span class=""plainlinks"">"
-                Case "es.wikipedia", "de.wikipedia" : Links = ""
             End Select
 
             For i As Integer = 0 To Math.Min(Config.MaxReportLinks - 1, RevertedEdits.Count - 1)
@@ -318,7 +317,6 @@ Namespace Requests
 
             Select Case Config.Project
                 Case "en.wikipedia" : Links &= "</span>"
-                Case "es.wikipedia", "de.wikipedia" : Links &= ""
             End Select
 
             Return Links
