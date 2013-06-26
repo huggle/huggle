@@ -316,7 +316,12 @@ Namespace Requests
                 If i < Math.Min(Config.MaxReportLinks - 1, RevertedEdits.Count - 1) Then Links &= ", "
             Next i
 
-            Return Links & "</span>"
+            Select Case Config.Project
+                Case "en.wikipedia" : Links &= "</span>"
+                Case "es.wikipedia", "de.wikipedia" : Links &= ""
+            End Select
+
+            Return Links
         End Function
 
         Protected Overrides Sub Done()
