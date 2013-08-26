@@ -33,26 +33,13 @@ namespace huggle3
 {
     public static partial class Core
     {
-        /// <summary>
-        /// Container for system log which is in memory
-        /// </summary>
-        public static List<string> SystemLog = new List<string>();
+        
         /// <summary>
         /// Container for history
         /// </summary>
         private static string _history = "";
-        /// <summary>
-        /// For exception handler
-        /// </summary>
-        private static Exception core_er;
-        /// <summary>
-        /// Time when system was loaded
-        /// </summary>
-        private static DateTime Uptime;
-        /// <summary>
-        /// Local path
-        /// </summary>
-        private static string _LocalPath = null;
+        
+        
         /// <summary>
         /// Custom reverts
         /// </summary>
@@ -85,10 +72,7 @@ namespace huggle3
         /// Patrol token
         /// </summary>
         public static string PatrolToken;
-        /// <summary>
-        /// Main thread this core run as
-        /// </summary>
-        public static System.Threading.Thread MainThread;
+        
         /// <summary>
         /// Months in system language
         /// </summary>
@@ -97,18 +81,9 @@ namespace huggle3
         /// Current status of core
         /// </summary>
         public static Status status = Status.Running;
-        /// <summary>
-        /// Process of huggle
-        /// </summary>
-        public static System.Diagnostics.Process Process;
-        /// <summary>
-        /// Maximum number of threads in core
-        /// </summary>
-        public const int MThread = 600;
-        /// <summary>
-        /// This is true in case that critical exception was thrown so that exception form knows it and doesn't offer recovery option
-        /// </summary>
-        public static bool Panic = false;
+        
+        
+        
         /// <summary>
         /// Should contain list of all static arrays of objects accessible everywhere
         /// </summary>
@@ -117,20 +92,9 @@ namespace huggle3
             public static List<Space> spaces = new List<Space>();
         }
         
-        /// <summary>
-        /// Threads which are not managed by core
-        /// </summary>
-        public struct SpecialThreads
-        {
-            public static System.Threading.Thread RecoveryThread = null;
-            public static System.Threading.Thread ThreadManager = null;
-        }
         
-        public enum Status
-        { 
-            Running,
-            Stopped
-        }
+        
+        
         
         /// <summary>
         /// Represent a block
@@ -609,15 +573,7 @@ namespace huggle3
             return false;
         }
 
-        /// <summary>
-        /// Convert Drawing to Gdk color
-        /// </summary>
-        /// <returns>The color.</returns>
-        /// <param name="color">Color.</param>
-        public static Gdk.Color fromColor(System.Drawing.Color color)
-        {
-            return new Gdk.Color(color.R, color.G, color.B);
-        }
+
 
         /// <summary>
         /// This function look up a string in string between other strings
@@ -646,24 +602,7 @@ namespace huggle3
         }
         
         /// <returns>Target build</returns>
-        public static string TargetBuild()
-        {
-            Core.History("TargetBuild()");
-            switch (Config._Platform)
-            {
-            case Config.platform.windows32:
-                return "Windows x86";
-            case Config.platform.linux32:
-                return "Linux x86";
-            case Config.platform.macos32:
-                return "MacOS x86";
-            case Config.platform.linux64:
-                return "Linux x64";
-            case Config.platform.windows64:
-                return "Windows x64";
-            }
-            return "<unknown build>";
-        }
+        
         
         /// <summary>
         /// Format a page to html
@@ -1033,17 +972,7 @@ namespace huggle3
             }
         }
         
-        /// <summary>
-        /// Suspend thread
-        /// </summary>
-        public static void Suspend()
-        {
-            Core.Interrupted = true;
-            while (Core.Interrupted)
-            {
-                System.Threading.Thread.Sleep(2000);
-            }
-        }
+        
         
         /// <summary>
         /// Initialisation fc
@@ -1077,87 +1006,11 @@ namespace huggle3
             }
         }
         
-        /// <summary>
-        /// Throw a huggle error dialog in case of error and recover from crash
-        /// </summary>
-        /// <param name="error_handle"></param>
-        /// <param name="panic"></param>
-        /// <returns></returns>
-        public static bool ExceptionHandler(Exception error_handle, bool panic = false)
-        {
-            try
-            {
-                WriteLog("EXCEPTION: " + error_handle.Message);
-                if (!panic)
-                {
-                    if (System.Threading.Thread.CurrentThread != MainThread)
-                    {
-                        if (typeof(System.Threading.ThreadAbortException) == error_handle.GetType())
-                        {
-                            WriteLog("Suppressing non panic exception ThreadAbortException: " + error_handle.StackTrace);
-                            return true;
-                        }
-                    }
-                }
-                core_er = error_handle;
-                if (SpecialThreads.RecoveryThread == null)
-                {
-                    SpecialThreads.RecoveryThread = new System.Threading.Thread(CreateEx);
-                    SpecialThreads.RecoveryThread.Name = "Recovery thread";
-                }
-                else if (SpecialThreads.RecoveryThread.ThreadState == System.Threading.ThreadState.Running)
-                {
-                    Core.Suspend();
-                    return false;
-                }
-                else if (SpecialThreads.RecoveryThread.ThreadState == System.Threading.ThreadState.Aborted || SpecialThreads.RecoveryThread.ThreadState == System.Threading.ThreadState.Stopped)
-                {
-                    SpecialThreads.RecoveryThread = new System.Threading.Thread(CreateEx);
-                    SpecialThreads.RecoveryThread.Name = "Recovery thread";
-                }
-                SpecialThreads.RecoveryThread.Start();
-                if (panic == true)
-                {
-                    StopAll();
-                }
-                if (MainThread == System.Threading.Thread.CurrentThread)
-                {
-                    Core.Suspend();
-                }
-                return true;
-            }
-            catch (Exception fail)
-            {
-                Console.WriteLine("Huggle3 thrown exception during handling of another one, killing");
-                Console.WriteLine(fail.StackTrace + "\n\n" + fail.Message);
-                Process.Kill();
-                return false;
-            }
-        }
         
-        /// <summary>
-        /// Create error
-        /// </summary>
-        public static void CreateEx()
-        {
-            huggle3.Forms.ExceptionForm fx = new huggle3.Forms.ExceptionForm();
-            fx.error = core_er;
-            Application.Run(fx);
-        }
         
-        public static void WriteLog(string text)
-        {
-            string x = DateTime.Now.ToString() + ": " + text;
-            lock (SystemLog)
-            {
-                while (SystemLog.Count > Config.RingSize)
-                {
-                    SystemLog.RemoveAt(0);
-                }
-                SystemLog.Add(x);
-            }
-            Console.WriteLine(x);
-        }
+        
+        
+        
         
         /// <summary>
         /// Gets the page

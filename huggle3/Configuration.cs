@@ -535,10 +535,7 @@ namespace huggle3
         /// Active wiki
         /// </summary>
         public static string Project = "";
-        /// <summary>
-        /// List of projects which are available
-        /// </summary>
-        public static Dictionary<string, string> Projects = new Dictionary<string, string>(); //  wikis
+        
         /// <summary>
         /// Location of config
         /// </summary>
