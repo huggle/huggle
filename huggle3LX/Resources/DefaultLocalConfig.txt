@@ -1,0 +1,27 @@
+<huggle>
+  <project name="bg.wikipedia">http://bg.wikipedia.org/</project>
+  <project name="ca.wikipedia">http://ca.wikipedia.org/</project>
+  <project name="de.wikipedia">http://de.wikipedia.org/</project>
+  <project name="en.wikipedia">http://en.wikipedia.org/</project>
+  <project name="es.wikipedia">http://es.wikipedia.org/</project>
+  <project name="fr.wikipedia">http://fr.wikipedia.org/</project>
+  <project name="ko.wikipedia">http://ko.wikipedia.org/</project>
+  <project name="nl.wikipedia">http://nl.wikipedia.org/</project>
+  <project name="no.wikipedia">http://no.wikipedia.org/</project>
+  <project name="pt.wikipedia">http://pt.wikipedia.org/</project>
+  <project name="sv.wikipedia">http://sv.wikipedia.org/</project>
+  <project name="hi.wikipedia">http://hi.wikipedia.org/</project>
+  <project name="zh.wikipedia">http://zh.wikipedia.org/</project>
+  <project name="ru.wikipedia">http://ru.wikipedia.org/</project>
+  <project name="te.wikipedia">http://te.wikipedia.org/</project>
+  <project name="km.wikipedia">http://km.wikipedia.org/</project>
+  <project name="vi.wikipedia">http://vi.wikipedia.org/</project>
+  <project name="or.wikipedia">http://or.wikipedia.org/</project>
+  <project name="simple.wikipedia">http://simple.wikipedia.org/</project>
+  <project name="commons">http://commons.wikimedia.org/</project>
+  <project name="test2">http://huggle.wmflabs.org/</project>
+  <project name="test wiki">http://test.wikipedia.org/</project>
+  <data configuration="Config.Project">en.wikipedia</data>
+  <data configuration="Config.Whitelist">http://toolserver.org/~petrb/huggle/wl.php</data>
+  <data configuration="Config.test2">http://huggle.wmflabs.org/</data>
+</huggle>

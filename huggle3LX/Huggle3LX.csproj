@@ -30,6 +30,9 @@
     <PlatformTarget>x86</PlatformTarget>
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Pictures\huggle3_newlogo.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="gtk-sharp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
@@ -61,6 +64,10 @@
     <EmbeddedResource Include="gtk-gui\gui.stetic">
       <LogicalName>gui.stetic</LogicalName>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Configuration.cs" />
@@ -84,10 +91,91 @@
     <Compile Include="Forms\MainWindow.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Module\" />
     <Folder Include="Requests\" />
+    <Folder Include="Resources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Pictures\blob-anon.png" />
+    <Content Include="Pictures\blob-blank.png" />
+    <Content Include="Pictures\blob-blanked.png" />
+    <Content Include="Pictures\blob-blocked.png" />
+    <Content Include="Pictures\blob-blocknote.png" />
+    <Content Include="Pictures\blob-bot.png" />
+    <Content Include="Pictures\blob-ignored.png" />
+    <Content Include="Pictures\blob-me.png" />
+    <Content Include="Pictures\blob-message.png" />
+    <Content Include="Pictures\blob-new.png" />
+    <Content Include="Pictures\blob-none.png" />
+    <Content Include="Pictures\blob-redirect.png" />
+    <Content Include="Pictures\blob-replaced.png" />
+    <Content Include="Pictures\blob-report.png" />
+    <Content Include="Pictures\blob-reported.png" />
+    <Content Include="Pictures\blob-revert.png" />
+    <Content Include="Pictures\blob-reverted.png" />
+    <Content Include="Pictures\blob-tag.png" />
+    <Content Include="Pictures\blob-warn-1.png" />
+    <Content Include="Pictures\blob-warn-2.png" />
+    <Content Include="Pictures\blob-warn-3.png" />
+    <Content Include="Pictures\blob-warn-4.png" />
+    <Content Include="Pictures\blob-warning.png" />
+    <Content Include="Pictures\browser-add-tab.png" />
+    <Content Include="Pictures\browser-next.png" />
+    <Content Include="Pictures\browser-open.png" />
+    <Content Include="Pictures\browser-prev.png" />
+    <Content Include="Pictures\browser-remove-tab.png" />
+    <Content Include="Pictures\cancel-all.png" />
+    <Content Include="Pictures\contribs-last.png" />
+    <Content Include="Pictures\contribs-next.png" />
+    <Content Include="Pictures\contribs-prev.png" />
+    <Content Include="Pictures\diff-next.png" />
+    <Content Include="Pictures\diff-revert-warn.png" />
+    <Content Include="Pictures\diff-revert.png" />
+    <Content Include="Pictures\gradient.png" />
+    <Content Include="Pictures\gray-down.png" />
+    <Content Include="Pictures\gray-last.png" />
+    <Content Include="Pictures\gray-next.png" />
+    <Content Include="Pictures\gray-previous.png" />
+    <Content Include="Pictures\gray-up.png" />
+    <Content Include="Pictures\history-last.png" />
+    <Content Include="Pictures\history-next.png" />
+    <Content Include="Pictures\history-previous.png" />
+    <Content Include="Pictures\history-to-cur.png" />
+    <Content Include="Pictures\huggle.ico" />
+    <Content Include="Pictures\huggle3.ico" />
+    <Content Include="Pictures\huggle3.png" />
+    <Content Include="Pictures\huggle3_newlogo.ico" />
+    <Content Include="Pictures\huggle3_newlogo.png" />
+    <Content Include="Pictures\page-delete.png" />
+    <Content Include="Pictures\page-edit.png" />
+    <Content Include="Pictures\page-tag-delete.png" />
+    <Content Include="Pictures\page-tag.png" />
+    <Content Include="Pictures\page-unwatch.png" />
+    <Content Include="Pictures\page-view.png" />
+    <Content Include="Pictures\page-watch.png" />
+    <Content Include="Pictures\revision-sight.png" />
+    <Content Include="Pictures\sight-and-next.png" />
+    <Content Include="Pictures\tri_no.png" />
+    <Content Include="Pictures\tri_none.png" />
+    <Content Include="Pictures\tri_yes.png" />
+    <Content Include="Pictures\undo.png" />
+    <Content Include="Pictures\user-block.png" />
+    <Content Include="Pictures\user-info.png" />
+    <Content Include="Pictures\user-message.png" />
+    <Content Include="Pictures\user-report.png" />
+    <Content Include="Pictures\user-talk.png" />
+    <Content Include="Pictures\user-template.png" />
+    <Content Include="Pictures\user-unwhitelist.png" />
+    <Content Include="Pictures\user-warn.png" />
+    <Content Include="Pictures\user-whitelist.png" />
+    <EmbeddedResource Include="version.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

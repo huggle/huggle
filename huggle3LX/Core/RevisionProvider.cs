@@ -34,7 +34,7 @@ namespace Huggle3LX
             {
                 using (var stream = Assembly.GetExecutingAssembly()
                                             .GetManifestResourceStream(
-                                            "Client" + "." + "version.txt"))
+                                            "Huggle3LX" + "." + "version.txt"))
                 using (var reader = new StreamReader(stream))
                 {
                     string result = reader.ReadLine();
