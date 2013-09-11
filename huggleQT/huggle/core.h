@@ -11,7 +11,13 @@
 #ifndef CORE_H
 #define CORE_H
 
+#include <iostream>
+#include <QString>
+#include "configuration.h"
 #include "mainwindow.h"
+#include "login.h"
+
+using namespace std;
 
 class Core
 {
@@ -19,6 +25,8 @@ public:
     // Global variables
     static MainWindow Main;
     Core();
+    static void Log(QString Message);
+    static void DebugLog(QString Message, int Verbosity = 1);
 };
 
 #endif // CORE_H

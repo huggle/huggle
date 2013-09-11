@@ -13,3 +13,16 @@
 Core::Core()
 {
 }
+
+void Core::Log(QString Message)
+{
+    cout << Message.toStdString() << endl;
+}
+
+void Core::DebugLog(QString Message, int Verbosity)
+{
+    if (Configuration::Verbosity >= Verbosity)
+    {
+        Core::DebugLog("DEBUG: " + Message);
+    }
+}

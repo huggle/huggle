@@ -8,25 +8,18 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
-#ifndef PREFERENCES_H
-#define PREFERENCES_H
+#ifndef QUERY_H
+#define QUERY_H
 
-#include <QDialog>
+#include <QString>
+#include "queryresult.h"
 
-namespace Ui {
-class Preferences;
-}
-
-class Preferences : public QDialog
+class Query
 {
-    Q_OBJECT
-
 public:
-    explicit Preferences(QWidget *parent = 0);
-    ~Preferences();
-
-private:
-    Ui::Preferences *ui;
+    Query();
+    QueryResult *Result;
+    virtual void Process() {}
 };
 
-#endif // PREFERENCES_H
+#endif // QUERY_H

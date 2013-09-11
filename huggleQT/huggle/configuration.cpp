@@ -10,6 +10,8 @@
 
 #include "configuration.h"
 
+unsigned int Configuration::Verbosity = 0;
+
 Configuration::Configuration()
 {
 }

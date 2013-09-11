@@ -17,14 +17,25 @@ SOURCES += main.cpp\
     login.cpp \
     core.cpp \
     configuration.cpp \
-    preferences.cpp
+    preferences.cpp \
+    oauth.cpp \
+    query.cpp \
+    apiquery.cpp \
+    queryresult.cpp
 
 HEADERS  += mainwindow.h \
     login.h \
     core.h \
     configuration.h \
-    preferences.h
+    preferences.h \
+    oauth.h \
+    query.h \
+    apiquery.h \
+    queryresult.h
 
 FORMS    += mainwindow.ui \
     login.ui \
     preferences.ui
+
+RESOURCES += \
+    pictures.qrc

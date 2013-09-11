@@ -15,6 +15,8 @@
 class Configuration
 {
 public:
+    //! Verbosity for debugging to terminal etc, can be switched with parameter --verbosity
+    static unsigned int Verbosity;
     Configuration();
 };
 

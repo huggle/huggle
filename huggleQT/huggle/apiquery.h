@@ -8,25 +8,16 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
-#ifndef PREFERENCES_H
-#define PREFERENCES_H
+#ifndef APIQUERY_H
+#define APIQUERY_H
 
-#include <QDialog>
+#include "query.h"
 
-namespace Ui {
-class Preferences;
-}
-
-class Preferences : public QDialog
+class ApiQuery : Query
 {
-    Q_OBJECT
-
 public:
-    explicit Preferences(QWidget *parent = 0);
-    ~Preferences();
+    ApiQuery();
 
-private:
-    Ui::Preferences *ui;
 };
 
-#endif // PREFERENCES_H
+#endif // APIQUERY_H
