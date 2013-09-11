@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/huggle/pictures">
+        <file>Resources/huggle3_newlogo.ico</file>
+        <file>Resources/huggle3_newlogo.png</file>
+    </qresource>
+</RCC>
