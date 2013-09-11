@@ -8,8 +8,18 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
-#include "core.h"
+#ifndef OAUTH_H
+#define OAUTH_H
 
-Core::Core()
+#include <QString>
+
+class OAuth
 {
-}
+public:
+    OAuth(QString login);
+    bool CheckSubscription();
+    bool RequestSubscription();
+    QString ObtainToken();
+};
+
+#endif // OAUTH_H
