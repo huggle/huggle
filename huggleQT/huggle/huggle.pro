@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -21,7 +21,8 @@ SOURCES += main.cpp\
     oauth.cpp \
     query.cpp \
     apiquery.cpp \
-    queryresult.cpp
+    queryresult.cpp \
+    exception.cpp
 
 HEADERS  += mainwindow.h \
     login.h \
@@ -31,7 +32,8 @@ HEADERS  += mainwindow.h \
     oauth.h \
     query.h \
     apiquery.h \
-    queryresult.h
+    queryresult.h \
+    exception.h
 
 FORMS    += mainwindow.ui \
     login.ui \

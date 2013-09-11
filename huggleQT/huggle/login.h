@@ -29,6 +29,8 @@ private slots:
     void on_ButtonOK_clicked();
     void on_ButtonExit_clicked();
 
+    void on_Login_destroyed();
+
 private:
     Ui::Login *ui;
     void Reset();

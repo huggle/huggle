@@ -8,14 +8,22 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
-#include "login.h"
 #include <QApplication>
+#include "login.h"
+#include "core.h"
+#include "exception.h"
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-    Login w;
-    w.show();
-
-    return a.exec();
+    try
+    {
+        QApplication a(argc, argv);
+        Login w;
+        w.show();
+        return a.exec();
+    } catch (Exception fail)
+    {
+        Core::Log("FATAL: Unhandled exception occured, description: " + fail.Message);
+        return fail.ErrorCode;
+    }
 }

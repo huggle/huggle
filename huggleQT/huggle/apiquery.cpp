@@ -12,5 +12,20 @@
 
 ApiQuery::ApiQuery()
 {
+    URL = "";
+}
 
+void ApiQuery::Process()
+{
+    if (URL == "")
+    {
+        throw new Exception("You must provide an arguments to query");
+    }
+    this->Status = Processing;
+    QUrl url = QUrl::fromEncoded(URL.toUtf8());
+    QNetworkRequest request(url);
+    this->Result = new QueryResult();
+    QNetworkReply *reply = this->NetworkManager.get(request);
+    this->Result->Data = QString(reply->readAll());
+    this->Status = Done;
 }

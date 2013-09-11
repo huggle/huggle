@@ -13,4 +13,6 @@
 Query::Query()
 {
     this->Result = NULL;
+    this->ProcessInSeparateThread = false;
+    this->Status = Null;
 }

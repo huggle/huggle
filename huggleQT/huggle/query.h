@@ -14,11 +14,24 @@
 #include <QString>
 #include "queryresult.h"
 
+enum _Status
+{
+    Null,
+    Done,
+    Processing,
+    InError
+};
+
 class Query
 {
 public:
     Query();
+    //! If true the request will be processed in a separate thread. In that case
+    //! the process function will not immediately result in query being
+    //! completed. You will need to wait for status to change to Done
+    bool ProcessInSeparateThread;
     QueryResult *Result;
+    enum _Status Status;
     virtual void Process() {}
 };
 

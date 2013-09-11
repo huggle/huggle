@@ -26,7 +26,9 @@ public:
     static MainWindow Main;
     Core();
     static void Log(QString Message);
-    static void DebugLog(QString Message, int Verbosity = 1);
+    static void DebugLog(QString Message, unsigned int Verbosity = 1);
+    //! Helper function that will return URL of project in question
+    static QString GetProjectURL(QString Project);
 };
 
 #endif // CORE_H

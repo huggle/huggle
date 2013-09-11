@@ -37,3 +37,8 @@ void Login::on_ButtonExit_clicked()
 {
     QApplication::quit();
 }
+
+void Login::on_Login_destroyed()
+{
+    QApplication::quit();
+}

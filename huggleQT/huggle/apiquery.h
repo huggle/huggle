@@ -11,13 +11,21 @@
 #ifndef APIQUERY_H
 #define APIQUERY_H
 
+#include <QString>
+#include <QtNetwork/QtNetwork>
+#include <QUrl>
+#include "core.h"
+#include "exception.h"
 #include "query.h"
 
 class ApiQuery : Query
 {
+private:
+    QNetworkAccessManager NetworkManager;
 public:
     ApiQuery();
-
+    QString URL;
+    void Process();
 };
 
 #endif // APIQUERY_H

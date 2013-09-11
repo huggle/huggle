@@ -19,10 +19,19 @@ void Core::Log(QString Message)
     cout << Message.toStdString() << endl;
 }
 
-void Core::DebugLog(QString Message, int Verbosity)
+void Core::DebugLog(QString Message, unsigned int Verbosity)
 {
     if (Configuration::Verbosity >= Verbosity)
     {
         Core::DebugLog("DEBUG: " + Message);
     }
+}
+
+QString Core::GetProjectURL(QString Project)
+{
+    if (Project == "enwiki")
+    {
+        return Configuration::GetURLProtocolPrefix() + "en.wikipedia.org/";
+    }
+    return NULL;
 }

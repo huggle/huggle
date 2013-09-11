@@ -11,6 +11,17 @@
 #include "configuration.h"
 
 unsigned int Configuration::Verbosity = 0;
+QString Configuration::Project = "enwiki";
+bool Configuration::UsingSSL = true;
+
+QString Configuration::GetURLProtocolPrefix()
+{
+    if (!Configuration::UsingSSL)
+    {
+        return "http://";
+    }
+    return "https://";
+}
 
 Configuration::Configuration()
 {
