@@ -12,8 +12,8 @@
 
 void Core::Init()
 {
-    Configuration::Project = new WikiSite("enwiki", "en.wikipedia.org/");
-    Configuration::ProjectList << *Configuration::Project;
+    Configuration::ProjectList << Configuration::Project;
+    Configuration::ProjectList << WikiSite("mediawiki","www.mediawiki.org/");
 }
 
 void Core::Log(QString Message)

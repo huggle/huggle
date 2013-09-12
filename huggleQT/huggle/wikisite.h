@@ -20,6 +20,7 @@ public:
     QString URL;
     QString LongPath;
     QString ScriptPath;
+    QString OAuthURL;
     bool SupportHttps;
     bool SupportOAuth;
     WikiSite(QString name, QString url);

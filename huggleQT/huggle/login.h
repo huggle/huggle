@@ -12,10 +12,19 @@
 #define LOGIN_H
 
 #include <QDialog>
+#include "core.h"
+#include "configuration.h"
 
 namespace Ui {
 class Login;
 }
+
+enum Status
+{
+    LoggingIn,
+    Nothing,
+    Cancelling
+};
 
 class Login : public QDialog
 {
@@ -28,12 +37,16 @@ public:
 private slots:
     void on_ButtonOK_clicked();
     void on_ButtonExit_clicked();
-
     void on_Login_destroyed();
 
 private:
     Ui::Login *ui;
+    Status _Status;
     void Reset();
+    void Enable();
+    void CancelLogin();
+    void Disable();
+    void PressOK();
 };
 
 #endif // LOGIN_H

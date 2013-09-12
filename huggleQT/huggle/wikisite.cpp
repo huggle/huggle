@@ -16,6 +16,7 @@ WikiSite::WikiSite(QString name, QString url)
     this->Name = name;
     this->URL = url;
     this->ScriptPath = "w";
+    this->OAuthURL = url + "w/index.php?title=Special:MWOAuth";
     this->SupportHttps = true;
     this->SupportOAuth = true;
 }
@@ -25,6 +26,7 @@ WikiSite::WikiSite(QString name, QString url, QString path, QString script, bool
     this->LongPath = path;
     this->Name = name;
     this->SupportHttps = https;
+    this->OAuthURL = url + "w/index.php?title=Special:MWOAuth";
     this->ScriptPath = script;
     this->URL = url;
     this->SupportOAuth = oauth;

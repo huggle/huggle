@@ -23,10 +23,12 @@ public:
     //! Verbosity for debugging to terminal etc, can be switched with parameter --verbosity
     static unsigned int Verbosity;
     //! currently selected project
-    static WikiSite *Project;
+    static WikiSite Project;
+    static QString UserName;
     static bool UsingSSL;
     static QString GetURLProtocolPrefix();
     static QList<WikiSite> ProjectList;
+    static QString WmfOAuthConsumerKey;
     Configuration();
 };
 

@@ -14,11 +14,19 @@
 Login::Login(QWidget *parent) :   QDialog(parent),   ui(new Ui::Login)
 {
     ui->setupUi(this);
+    this->_Status = Nothing;
     this->setWindowTitle("Huggle 3 QT");
     this->Reset();
     // set the language to dummy english
     ui->Language->addItem("English");
-    ui->Language->setCurrentText("English");
+    ui->Language->setCurrentIndex(0);
+    int current = 0;
+    while (current < Configuration::ProjectList.size())
+    {
+        ui->Project->addItem(Configuration::ProjectList.at(current).Name);
+        current++;
+    }
+    ui->Project->setCurrentIndex(0);
 }
 
 Login::~Login()
@@ -31,9 +39,50 @@ void Login::Reset()
     ui->label_6->setText("Please enter your wikipedia username and pick a project. The authentication will be processed using OAuth.");
 }
 
+void Login::CancelLogin()
+{
+    ui->progressBar->setValue(0);
+    this->Enable();
+    this->_Status = Nothing;
+    ui->ButtonOK->setText("Login");
+}
+
+void Login::Enable()
+{
+    ui->lineEdit->setEnabled(true);
+    ui->Language->setEnabled(true);
+    ui->Project->setEnabled(true);
+}
+
+void Login::Disable()
+{
+    ui->lineEdit->setDisabled(true);
+    ui->Language->setDisabled(true);
+    ui->Project->setDisabled(true);
+}
+
+void Login::PressOK()
+{
+    Configuration::Project = Configuration::ProjectList.at(ui->Project->currentIndex());
+    Configuration::UserName = ui->lineEdit->text();
+    this->_Status = LoggingIn;
+    this->Disable();
+    ui->ButtonOK->setText("Cancel");
+}
+
 void Login::on_ButtonOK_clicked()
 {
+    if (this->_Status == Nothing)
+    {
+        this->PressOK();
+        return;
+    }
 
+    if (this->_Status == LoggingIn)
+    {
+        this->CancelLogin();
+        return;
+    }
 }
 
 void Login::on_ButtonExit_clicked()

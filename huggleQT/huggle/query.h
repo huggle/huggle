@@ -22,6 +22,8 @@ enum _Status
     InError
 };
 
+//! Every request to website is processed as a query, this is a base object that all
+//! other queries are derived from
 class Query
 {
 public:
@@ -30,7 +32,9 @@ public:
     //! the process function will not immediately result in query being
     //! completed. You will need to wait for status to change to Done
     bool ProcessInSeparateThread;
+    //! Result
     QueryResult *Result;
+    //! Current status
     enum _Status Status;
     virtual void Process() {}
 };

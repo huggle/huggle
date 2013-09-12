@@ -17,6 +17,7 @@ int main(int argc, char *argv[])
 {
     try
     {
+        Core::Init();
         QApplication a(argc, argv);
         Login w;
         w.show();

@@ -24,7 +24,8 @@ SOURCES += main.cpp\
     queryresult.cpp \
     exception.cpp \
     wikisite.cpp \
-    user.cpp
+    user.cpp \
+    oauthlogin.cpp
 
 HEADERS  += mainwindow.h \
     login.h \
@@ -37,11 +38,13 @@ HEADERS  += mainwindow.h \
     queryresult.h \
     exception.h \
     wikisite.h \
-    user.h
+    user.h \
+    oauthlogin.h
 
 FORMS    += mainwindow.ui \
     login.ui \
-    preferences.ui
+    preferences.ui \
+    oauthlogin.ui
 
 RESOURCES += \
     pictures.qrc
