@@ -22,7 +22,9 @@ SOURCES += main.cpp\
     query.cpp \
     apiquery.cpp \
     queryresult.cpp \
-    exception.cpp
+    exception.cpp \
+    wikisite.cpp \
+    user.cpp
 
 HEADERS  += mainwindow.h \
     login.h \
@@ -33,7 +35,9 @@ HEADERS  += mainwindow.h \
     query.h \
     apiquery.h \
     queryresult.h \
-    exception.h
+    exception.h \
+    wikisite.h \
+    user.h
 
 FORMS    += mainwindow.ui \
     login.ui \

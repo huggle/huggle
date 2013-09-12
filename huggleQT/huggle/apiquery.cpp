@@ -10,8 +10,14 @@
 
 #include "apiquery.h"
 
+void ApiQuery::ConstructUrl()
+{
+
+}
+
 ApiQuery::ApiQuery()
 {
+    RequestFormat = XML;
     URL = "";
 }
 

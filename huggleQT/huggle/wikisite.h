@@ -8,35 +8,22 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
-#ifndef APIQUERY_H
-#define APIQUERY_H
+#ifndef WIKISITE_H
+#define WIKISITE_H
 
 #include <QString>
-#include <QtNetwork/QtNetwork>
-#include <QUrl>
-#include "core.h"
-#include "exception.h"
-#include "query.h"
 
-enum Format
+class WikiSite
 {
-    XML,
-    JSON,
-    PlainText,
-    Default
-};
-
-class ApiQuery : Query
-{
-private:
-    QNetworkAccessManager NetworkManager;
-    void ConstructUrl();
 public:
-    ApiQuery();
-    //! This is a requested format in which the result should be written in
-    Format RequestFormat;
+    QString Name;
     QString URL;
-    void Process();
+    QString LongPath;
+    QString ScriptPath;
+    bool SupportHttps;
+    bool SupportOAuth;
+    WikiSite(QString name, QString url);
+    WikiSite(QString name, QString url, QString path, QString script, bool https, bool oauth);
 };
 
-#endif // APIQUERY_H
+#endif // WIKISITE_H

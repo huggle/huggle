@@ -16,6 +16,9 @@ Login::Login(QWidget *parent) :   QDialog(parent),   ui(new Ui::Login)
     ui->setupUi(this);
     this->setWindowTitle("Huggle 3 QT");
     this->Reset();
+    // set the language to dummy english
+    ui->Language->addItem("English");
+    ui->Language->setCurrentText("English");
 }
 
 Login::~Login()

@@ -8,35 +8,15 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
-#ifndef APIQUERY_H
-#define APIQUERY_H
+#ifndef USER_H
+#define USER_H
 
 #include <QString>
-#include <QtNetwork/QtNetwork>
-#include <QUrl>
-#include "core.h"
-#include "exception.h"
-#include "query.h"
 
-enum Format
+class User
 {
-    XML,
-    JSON,
-    PlainText,
-    Default
-};
-
-class ApiQuery : Query
-{
-private:
-    QNetworkAccessManager NetworkManager;
-    void ConstructUrl();
 public:
-    ApiQuery();
-    //! This is a requested format in which the result should be written in
-    Format RequestFormat;
-    QString URL;
-    void Process();
+    User();
 };
 
-#endif // APIQUERY_H
+#endif // USER_H

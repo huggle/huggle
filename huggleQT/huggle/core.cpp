@@ -10,8 +10,10 @@
 
 #include "core.h"
 
-Core::Core()
+void Core::Init()
 {
+    Configuration::Project = new WikiSite("enwiki", "en.wikipedia.org/");
+    Configuration::ProjectList << *Configuration::Project;
 }
 
 void Core::Log(QString Message)
@@ -27,11 +29,18 @@ void Core::DebugLog(QString Message, unsigned int Verbosity)
     }
 }
 
-QString Core::GetProjectURL(QString Project)
+QString Core::GetProjectURL(WikiSite Project)
 {
-    if (Project == "enwiki")
-    {
-        return Configuration::GetURLProtocolPrefix() + "en.wikipedia.org/";
-    }
-    return NULL;
+    return Configuration::GetURLProtocolPrefix() + Project.URL;
 }
+
+QString Core::GetProjectWikiURL(WikiSite Project)
+{
+    return Core::GetProjectURL(Project) + Project.LongPath;
+}
+
+QString Core::GetProjectScriptURL(WikiSite Project)
+{
+    return Core::GetProjectURL(Project) + Project.ScriptPath;
+}
+

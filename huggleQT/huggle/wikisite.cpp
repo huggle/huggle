@@ -8,22 +8,24 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
-#include "configuration.h"
+#include "wikisite.h"
 
-unsigned int Configuration::Verbosity = 0;
-WikiSite *Configuration::Project = NULL;
-bool Configuration::UsingSSL = true;
-QList<WikiSite> Configuration::ProjectList;
-
-QString Configuration::GetURLProtocolPrefix()
+WikiSite::WikiSite(QString name, QString url)
 {
-    if (!Configuration::UsingSSL)
-    {
-        return "http://";
-    }
-    return "https://";
+    this->LongPath = "wiki";
+    this->Name = name;
+    this->URL = url;
+    this->ScriptPath = "w";
+    this->SupportHttps = true;
+    this->SupportOAuth = true;
 }
 
-Configuration::Configuration()
+WikiSite::WikiSite(QString name, QString url, QString path, QString script, bool https, bool oauth)
 {
+    this->LongPath = path;
+    this->Name = name;
+    this->SupportHttps = https;
+    this->ScriptPath = script;
+    this->URL = url;
+    this->SupportOAuth = oauth;
 }

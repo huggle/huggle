@@ -12,17 +12,21 @@
 #ifndef CONFIGURATION_H
 #define CONFIGURATION_H
 
+#include <QList>
 #include <QString>
+#include "user.h"
+#include "wikisite.h"
 
 class Configuration
 {
 public:
     //! Verbosity for debugging to terminal etc, can be switched with parameter --verbosity
     static unsigned int Verbosity;
-    //! String ID of currently selected project
-    static QString Project;
+    //! currently selected project
+    static WikiSite *Project;
     static bool UsingSSL;
     static QString GetURLProtocolPrefix();
+    static QList<WikiSite> ProjectList;
     Configuration();
 };
 

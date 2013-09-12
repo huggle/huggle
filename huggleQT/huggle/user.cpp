@@ -8,22 +8,8 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
-#include "configuration.h"
+#include "user.h"
 
-unsigned int Configuration::Verbosity = 0;
-WikiSite *Configuration::Project = NULL;
-bool Configuration::UsingSSL = true;
-QList<WikiSite> Configuration::ProjectList;
-
-QString Configuration::GetURLProtocolPrefix()
-{
-    if (!Configuration::UsingSSL)
-    {
-        return "http://";
-    }
-    return "https://";
-}
-
-Configuration::Configuration()
+User::User()
 {
 }
