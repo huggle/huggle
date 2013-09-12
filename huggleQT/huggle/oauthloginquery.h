@@ -8,17 +8,17 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
-#include "oauthlogin.h"
-#include "ui_oauthlogin.h"
+#ifndef OAUTHLOGINQUERY_H
+#define OAUTHLOGINQUERY_H
 
-OAuthLogin::OAuthLogin(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::OAuthLogin)
-{
-    ui->setupUi(this);
-}
+#include <QString>
+#include "query.h"
+#include "core.h"
 
-OAuthLogin::~OAuthLogin()
+class OAuthLoginQuery : Query
 {
-    delete ui;
-}
+public:
+    OAuthLoginQuery();
+};
+
+#endif // OAUTHLOGINQUERY_H

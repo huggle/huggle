@@ -19,8 +19,11 @@ int main(int argc, char *argv[])
     {
         Core::Init();
         QApplication a(argc, argv);
-        Login w;
-        w.show();
+        Login LoginForm;
+        LoginForm.show();
+
+        // basically we should never reach this part of source code
+        //delete LoginForm;
         return a.exec();
     } catch (Exception fail)
     {

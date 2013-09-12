@@ -25,7 +25,9 @@ SOURCES += main.cpp\
     exception.cpp \
     wikisite.cpp \
     user.cpp \
-    oauthlogin.cpp
+    oauthlogin.cpp \
+    oauthloginquery.cpp \
+    loginthread.cpp
 
 HEADERS  += mainwindow.h \
     login.h \
@@ -39,7 +41,9 @@ HEADERS  += mainwindow.h \
     exception.h \
     wikisite.h \
     user.h \
-    oauthlogin.h
+    oauthlogin.h \
+    oauthloginquery.h \
+    loginthread.h
 
 FORMS    += mainwindow.ui \
     login.ui \

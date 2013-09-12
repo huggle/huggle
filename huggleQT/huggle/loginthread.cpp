@@ -8,17 +8,9 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
-#include "oauthlogin.h"
-#include "ui_oauthlogin.h"
+#include "loginthread.h"
 
-OAuthLogin::OAuthLogin(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::OAuthLogin)
+void LoginThread::run()
 {
-    ui->setupUi(this);
-}
 
-OAuthLogin::~OAuthLogin()
-{
-    delete ui;
 }

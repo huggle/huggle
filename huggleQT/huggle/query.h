@@ -28,6 +28,7 @@ class Query
 {
 public:
     Query();
+    virtual ~Query();
     //! If true the request will be processed in a separate thread. In that case
     //! the process function will not immediately result in query being
     //! completed. You will need to wait for status to change to Done

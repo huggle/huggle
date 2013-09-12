@@ -16,3 +16,8 @@ Query::Query()
     this->ProcessInSeparateThread = false;
     this->Status = Null;
 }
+
+Query::~Query()
+{
+    delete Result;
+}

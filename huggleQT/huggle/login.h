@@ -12,6 +12,8 @@
 #define LOGIN_H
 
 #include <QDialog>
+#include "loginthread.h"
+#include "oauthloginquery.h"
 #include "core.h"
 #include "configuration.h"
 
@@ -32,6 +34,7 @@ class Login : public QDialog
 
 public:
     explicit Login(QWidget *parent = 0);
+    int Progress;
     ~Login();
 
 private slots:
@@ -40,6 +43,7 @@ private slots:
     void on_Login_destroyed();
 
 private:
+    LoginThread *Thread;
     Ui::Login *ui;
     Status _Status;
     void Reset();

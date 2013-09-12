@@ -11,14 +11,13 @@
 #ifndef CORE_H
 #define CORE_H
 
+#include "configuration.h"
+#include "mainwindow.h"
+#include "wikisite.h"
+#include "user.h"
 #include <iostream>
 #include <QList>
 #include <QString>
-#include "configuration.h"
-#include "mainwindow.h"
-#include "login.h"
-#include "wikisite.h"
-#include "user.h"
 
 using namespace std;
 

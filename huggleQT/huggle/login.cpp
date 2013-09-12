@@ -16,6 +16,8 @@ Login::Login(QWidget *parent) :   QDialog(parent),   ui(new Ui::Login)
     ui->setupUi(this);
     this->_Status = Nothing;
     this->setWindowTitle("Huggle 3 QT");
+    this->Progress = 0;
+    //this->Thread = new LoginThread(this);
     this->Reset();
     // set the language to dummy english
     ui->Language->addItem("English");
@@ -31,6 +33,7 @@ Login::Login(QWidget *parent) :   QDialog(parent),   ui(new Ui::Login)
 
 Login::~Login()
 {
+    delete Thread;
     delete ui;
 }
 
@@ -68,6 +71,10 @@ void Login::PressOK()
     this->_Status = LoggingIn;
     this->Disable();
     ui->ButtonOK->setText("Cancel");
+    // First of all, we need to login to the site
+    OAuthLoginQuery *query = new OAuthLoginQuery();
+
+    delete query;
 }
 
 void Login::on_ButtonOK_clicked()
