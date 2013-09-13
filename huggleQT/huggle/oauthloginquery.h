@@ -15,7 +15,7 @@
 #include "query.h"
 #include "core.h"
 
-class OAuthLoginQuery : Query
+class OAuthLoginQuery : public Query
 {
 public:
     OAuthLoginQuery();

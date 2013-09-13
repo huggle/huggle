@@ -49,7 +49,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>[[login-language]]</string>
+    <string>Language:</string>
    </property>
   </widget>
   <widget class="QProgressBar" name="progressBar">
@@ -91,7 +91,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>[[login]]</string>
+    <string>Login</string>
    </property>
   </widget>
   <widget class="QPushButton" name="ButtonExit">
@@ -104,7 +104,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>[[exit]]</string>
+    <string>Exit</string>
    </property>
   </widget>
   <widget class="QComboBox" name="Project">
@@ -133,7 +133,7 @@
      <x>10</x>
      <y>130</y>
      <width>341</width>
-     <height>141</height>
+     <height>121</height>
     </rect>
    </property>
    <property name="currentIndex">
@@ -153,7 +153,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>[[login-username]]</string>
+      <string>Username:</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="lineEdit">
@@ -164,6 +164,19 @@
        <width>201</width>
        <height>20</height>
       </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_8">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>70</y>
+       <width>311</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>This method is not supported in this moment</string>
      </property>
     </widget>
    </widget>
@@ -232,7 +245,20 @@
     </rect>
    </property>
    <property name="text">
-    <string>[[login-project]]</string>
+    <string>Project:</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="checkBox">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>260</y>
+     <width>321</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Enforce SSL</string>
    </property>
   </widget>
  </widget>

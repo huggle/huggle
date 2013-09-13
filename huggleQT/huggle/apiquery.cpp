@@ -12,26 +12,105 @@
 
 void ApiQuery::ConstructUrl()
 {
+    if (this->ActionPart == "")
+    {
+        throw new Exception("No action provided for api request");
+    }
+    URL = Core::GetProjectScriptURL(Configuration::Project) + "api.php?action=" + this->ActionPart;
+    if (this->Parameters != "")
+    {
+        URL = URL + "&" + this->Parameters;
+    }
 
+    if (!this->FormatIsCurrentlySupported())
+    {
+        Core::Log("WARNING: you requested to process api request using JSON format, which isn't supported yet");
+    }
+
+    switch (this->RequestFormat)
+    {
+    case XML:
+        URL += "&format=xml";
+        break;
+    }
+}
+
+bool ApiQuery::FormatIsCurrentlySupported()
+{
+    // other formats will be supported later
+    return (this->RequestFormat == XML);
 }
 
 ApiQuery::ApiQuery()
 {
     RequestFormat = XML;
     URL = "";
+    this->ActionPart = "";
+    this->Parameters = "";
 }
 
 void ApiQuery::Process()
 {
-    if (URL == "")
+    if (this->URL == "")
     {
-        throw new Exception("You must provide an arguments to query");
+        this->ConstructUrl();
     }
     this->Status = Processing;
+    Core::DebugLog("Processing api request " + this->URL);
     QUrl url = QUrl::fromEncoded(URL.toUtf8());
     QNetworkRequest request(url);
     this->Result = new QueryResult();
     QNetworkReply *reply = this->NetworkManager.get(request);
     this->Result->Data = QString(reply->readAll());
+    // now we need to check if request was successful or not
+    if (!this->FormatIsCurrentlySupported())
+    {
+        this->Result->Failed = true;
+        this->Result->ErrorMessage = "The requested format isn't supported";
+    } else
+    {
+        if (this->RequestFormat == XML)
+        {
+            // we support XML
+
+
+        }
+    }
     this->Status = Done;
+}
+
+void ApiQuery::SetAction(Action action)
+{
+    switch (action)
+    {
+    case ActionQuery:
+        this->ActionPart = "query";
+        return;
+    case ActionLogin:
+        this->ActionPart = "login";
+        return;
+    case ActionLogout:
+        this->ActionPart = "logout";
+        return;
+    case ActionTokens:
+        this->ActionPart = "tokens";
+        return;
+    case ActionPurge:
+        this->ActionPart = "purge";
+        return;
+    case ActionRollback:
+        this->ActionPart = "rollback";
+        return;
+    case ActionDelete:
+        this->ActionPart = "delete";
+        return;
+    case ActionUndelete:
+        this->ActionPart = "undelete";
+        return;
+    }
+}
+
+void ApiQuery::SetAction(QString action)
+{
+    this->ActionPart = action;
 }

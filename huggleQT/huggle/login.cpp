@@ -15,10 +15,13 @@ Login::Login(QWidget *parent) :   QDialog(parent),   ui(new Ui::Login)
 {
     ui->setupUi(this);
     this->_Status = Nothing;
+    this->timer = new QTimer(this);
+    connect(this->timer, SIGNAL(timeout()), this, SLOT(on_Time()));
     this->setWindowTitle("Huggle 3 QT");
-    this->Progress = 0;
-    //this->Thread = new LoginThread(this);
+    this->Thread = new LoginThread();
     this->Reset();
+    this->StatusText = "hello";
+    this->progress = 0;
     // set the language to dummy english
     ui->Language->addItem("English");
     ui->Language->setCurrentIndex(0);
@@ -35,6 +38,12 @@ Login::~Login()
 {
     delete Thread;
     delete ui;
+    delete timer;
+}
+
+void Login::Progress(int progress)
+{
+    this->progress = progress;
 }
 
 void Login::Reset()
@@ -44,9 +53,12 @@ void Login::Reset()
 
 void Login::CancelLogin()
 {
+    this->timer->stop();
+    this->Thread->terminate();
     ui->progressBar->setValue(0);
     this->Enable();
     this->_Status = Nothing;
+    this->Reset();
     ui->ButtonOK->setText("Login");
 }
 
@@ -66,15 +78,24 @@ void Login::Disable()
 
 void Login::PressOK()
 {
+    if (ui->tab->isVisible())
+    {
+        QMessageBox mb;
+        mb.setText("Function not supported");
+        mb.setInformativeText("This function is not available for wmf wikis in this moment");
+        mb.exec();
+        //mb.setStyle(QStyle::SP_MessageBoxCritical);
+        return;
+    }
     Configuration::Project = Configuration::ProjectList.at(ui->Project->currentIndex());
-    Configuration::UserName = ui->lineEdit->text();
+    Configuration::UserName = ui->lineEdit_2->text();
+    Configuration::Password = ui->lineEdit_3->text();
     this->_Status = LoggingIn;
     this->Disable();
     ui->ButtonOK->setText("Cancel");
     // First of all, we need to login to the site
-    OAuthLoginQuery *query = new OAuthLoginQuery();
-
-    delete query;
+    this->timer->start(200);
+    this->Thread->start();
 }
 
 void Login::on_ButtonOK_clicked()
@@ -94,10 +115,41 @@ void Login::on_ButtonOK_clicked()
 
 void Login::on_ButtonExit_clicked()
 {
-    QApplication::quit();
+    Core::Shutdown();
 }
 
 void Login::on_Login_destroyed()
 {
     QApplication::quit();
+}
+
+void Login::on_Time()
+{
+    ui->label_6->setText(this->StatusText);
+    ui->progressBar->setValue(this->progress);
+    if (this->_Status == LoginFailed)
+    {
+        this->Enable();
+        timer->stop();
+        ui->ButtonOK->setText("Login");
+        this->_Status = Nothing;
+    }
+}
+
+void LoginThread::run()
+{
+    Core::f_Login->StatusText = "Logging in";
+    Core::f_Login->Progress(10);
+    // we create an api request to login
+    ApiQuery *query = new ApiQuery();
+    query->SetAction(ActionLogin);
+    query->Parameters = "lgname=" + QUrl::toPercentEncoding(Configuration::UserName) + "&lgpassword=" + QUrl::toPercentEncoding(Configuration::Password);
+    query->Process();
+    if (query->Result->Failed)
+    {
+        Core::f_Login->StatusText = "Login failed: " + query->Result->ErrorMessage;
+        Core::f_Login->Progress(0);
+        Core::f_Login->_Status = LoginFailed;
+    }
+    delete query;
 }

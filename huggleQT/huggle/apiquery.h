@@ -14,9 +14,23 @@
 #include <QString>
 #include <QtNetwork/QtNetwork>
 #include <QUrl>
+#include <QtXml/QtXml>
+#include "configuration.h"
 #include "core.h"
 #include "exception.h"
 #include "query.h"
+
+enum Action
+{
+    ActionQuery,
+    ActionLogin,
+    ActionLogout,
+    ActionTokens,
+    ActionPurge,
+    ActionRollback,
+    ActionDelete,
+    ActionUndelete
+};
 
 enum Format
 {
@@ -26,17 +40,25 @@ enum Format
     Default
 };
 
-class ApiQuery : Query
+class ApiQuery : public Query
 {
 private:
     QNetworkAccessManager NetworkManager;
+    QString ActionPart;
     void ConstructUrl();
+    bool FormatIsCurrentlySupported();
 public:
     ApiQuery();
     //! This is a requested format in which the result should be written in
     Format RequestFormat;
+    //! This is an url of api request, you probably don't want to change it unless
+    //! you want to construct whole api request yourself
     QString URL;
+    //! Parameters for action, for example page title
+    QString Parameters;
     void Process();
+    void SetAction(Action action);
+    void SetAction(QString action);
 };
 
 #endif // APIQUERY_H

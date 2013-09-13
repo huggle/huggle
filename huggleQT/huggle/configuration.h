@@ -29,6 +29,7 @@ public:
     static QString GetURLProtocolPrefix();
     static QList<WikiSite> ProjectList;
     static QString WmfOAuthConsumerKey;
+    static QString Password;
     Configuration();
 };
 

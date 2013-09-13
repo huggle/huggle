@@ -13,20 +13,24 @@
 
 #include "configuration.h"
 #include "mainwindow.h"
+#include "login.h"
 #include "wikisite.h"
 #include "user.h"
 #include <iostream>
+#include <QApplication>
+#include <QNetworkAccessManager>
 #include <QList>
 #include <QString>
 
-using namespace std;
+class Login;
 
 class Core
 {
 public:
     // Global variables
     static void Init();
-    static MainWindow Main;
+    static MainWindow *Main;
+    static Login *f_Login;
     static void Log(QString Message);
     static void DebugLog(QString Message, unsigned int Verbosity = 1);
     //! Helper function that will return URL of project in question
@@ -35,6 +39,7 @@ public:
     static QString GetProjectWikiURL(WikiSite Project);
     //! Return a script url like http://en.wikipedia.org/w/
     static QString GetProjectScriptURL(WikiSite Project);
+    static void Shutdown();
 };
 
 #endif // CORE_H

@@ -10,6 +10,10 @@
 
 #include "core.h"
 
+MainWindow *Core::Main = NULL;
+
+Login *Core::f_Login = NULL;
+
 void Core::Init()
 {
     Configuration::ProjectList << Configuration::Project;
@@ -18,7 +22,7 @@ void Core::Init()
 
 void Core::Log(QString Message)
 {
-    cout << Message.toStdString() << endl;
+    std::cout << Message.toStdString() << std::endl;
 }
 
 void Core::DebugLog(QString Message, unsigned int Verbosity)
@@ -42,5 +46,11 @@ QString Core::GetProjectWikiURL(WikiSite Project)
 QString Core::GetProjectScriptURL(WikiSite Project)
 {
     return Core::GetProjectURL(Project) + Project.ScriptPath;
+}
+
+void Core::Shutdown()
+{
+    delete Core::f_Login;
+    QApplication::quit();
 }
 

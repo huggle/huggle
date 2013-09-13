@@ -12,9 +12,13 @@
 #define LOGIN_H
 
 #include <QDialog>
-#include "loginthread.h"
+#include <QMessageBox>
+#include <QThread>
+#include <QUrl>
+#include <QTimer>
 #include "oauthloginquery.h"
 #include "core.h"
+#include "apiquery.h"
 #include "configuration.h"
 
 namespace Ui {
@@ -25,7 +29,16 @@ enum Status
 {
     LoggingIn,
     Nothing,
-    Cancelling
+    Cancelling,
+    LoginFailed,
+    LoginDone
+};
+
+class LoginThread : public QThread
+{
+    Q_OBJECT
+private:
+    void run();
 };
 
 class Login : public QDialog
@@ -34,18 +47,22 @@ class Login : public QDialog
 
 public:
     explicit Login(QWidget *parent = 0);
-    int Progress;
     ~Login();
+    QString StatusText;
+    Status _Status;
+    void Progress(int progress);
 
 private slots:
     void on_ButtonOK_clicked();
     void on_ButtonExit_clicked();
     void on_Login_destroyed();
+    void on_Time();
 
 private:
+    int progress;
     LoginThread *Thread;
     Ui::Login *ui;
-    Status _Status;
+    QTimer *timer;
     void Reset();
     void Enable();
     void CancelLogin();
