@@ -29,7 +29,7 @@ void Core::DebugLog(QString Message, unsigned int Verbosity)
 {
     if (Configuration::Verbosity >= Verbosity)
     {
-        Core::DebugLog("DEBUG: " + Message);
+        Core::Log("DEBUG: " + Message);
     }
 }
 

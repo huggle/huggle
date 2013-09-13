@@ -15,6 +15,8 @@
 #include <QtNetwork/QtNetwork>
 #include <QUrl>
 #include <QtXml/QtXml>
+#include <QObject>
+#include <QThread>
 #include "configuration.h"
 #include "core.h"
 #include "exception.h"
@@ -42,13 +44,18 @@ enum Format
 
 class ApiQuery : public Query
 {
+    Q_OBJECT
+
 private:
     QNetworkAccessManager NetworkManager;
     QString ActionPart;
+    QNetworkReply *reply;
     void ConstructUrl();
     bool FormatIsCurrentlySupported();
+private slots:
+    void Finished();
 public:
-    ApiQuery();
+    explicit ApiQuery();
     //! This is a requested format in which the result should be written in
     Format RequestFormat;
     //! This is an url of api request, you probably don't want to change it unless

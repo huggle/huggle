@@ -151,5 +151,7 @@ void LoginThread::run()
         Core::f_Login->Progress(0);
         Core::f_Login->_Status = LoginFailed;
     }
+    Core::f_Login->Progress(60);
+    Core::f_Login->StatusText = query->Result->Data;
     delete query;
 }

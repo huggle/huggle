@@ -12,10 +12,10 @@
 
 WikiSite::WikiSite(QString name, QString url)
 {
-    this->LongPath = "wiki";
+    this->LongPath = "wiki/";
     this->Name = name;
     this->URL = url;
-    this->ScriptPath = "w";
+    this->ScriptPath = "w/";
     this->OAuthURL = url + "w/index.php?title=Special:MWOAuth";
     this->SupportHttps = true;
     this->SupportOAuth = true;

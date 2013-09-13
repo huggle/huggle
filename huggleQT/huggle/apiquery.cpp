@@ -49,18 +49,8 @@ ApiQuery::ApiQuery()
     this->Parameters = "";
 }
 
-void ApiQuery::Process()
+void ApiQuery::Finished()
 {
-    if (this->URL == "")
-    {
-        this->ConstructUrl();
-    }
-    this->Status = Processing;
-    Core::DebugLog("Processing api request " + this->URL);
-    QUrl url = QUrl::fromEncoded(URL.toUtf8());
-    QNetworkRequest request(url);
-    this->Result = new QueryResult();
-    QNetworkReply *reply = this->NetworkManager.get(request);
     this->Result->Data = QString(reply->readAll());
     // now we need to check if request was successful or not
     if (!this->FormatIsCurrentlySupported())
@@ -76,7 +66,23 @@ void ApiQuery::Process()
 
         }
     }
+    Core::DebugLog("Finished request");
     this->Status = Done;
+}
+
+void ApiQuery::Process()
+{
+    if (this->URL == "")
+    {
+        this->ConstructUrl();
+    }
+    this->Status = Processing;
+    Core::DebugLog("Processing api request " + this->URL);
+    QUrl url = QUrl::fromEncoded(URL.toUtf8());
+    QNetworkRequest request(url);
+    this->Result = new QueryResult();
+    this->reply = this->NetworkManager.get(request);
+    QObject::connect(this->reply, SIGNAL(finished()), this, SLOT(Finished()));
 }
 
 void ApiQuery::SetAction(Action action)

@@ -11,6 +11,7 @@
 #ifndef QUERY_H
 #define QUERY_H
 
+#include <QObject>
 #include <QString>
 #include "queryresult.h"
 
@@ -24,7 +25,7 @@ enum _Status
 
 //! Every request to website is processed as a query, this is a base object that all
 //! other queries are derived from
-class Query
+class Query : public QObject
 {
 public:
     Query();
