@@ -11,6 +11,8 @@
 #include "login.h"
 #include "ui_login.h"
 
+QString Login::Test = "<login result=\"NeedToken\" token=\"";
+
 Login::Login(QWidget *parent) :   QDialog(parent),   ui(new Ui::Login)
 {
     ui->setupUi(this);
@@ -55,7 +57,6 @@ void Login::CancelLogin()
     ui->progressBar->setValue(0);
     this->Enable();
     this->_Status = Nothing;
-    this->Reset();
     ui->ButtonOK->setText("Login");
 }
 
@@ -65,6 +66,9 @@ void Login::Enable()
     ui->Language->setEnabled(true);
     ui->Project->setEnabled(true);
     ui->checkBox->setEnabled(true);
+    ui->lineEdit_2->setEnabled(true);
+    ui->ButtonExit->setEnabled(true);
+    ui->lineEdit_3->setEnabled(true);
 }
 
 void Login::Disable()
@@ -73,10 +77,18 @@ void Login::Disable()
     ui->Language->setDisabled(true);
     ui->Project->setDisabled(true);
     ui->checkBox->setDisabled(true);
+    ui->ButtonExit->setDisabled(true);
+    ui->lineEdit_3->setDisabled(true);
+    ui->lineEdit_2->setDisabled(true);
 }
 
 void Login::PressOK()
 {
+    if (ui->lineEdit_2->text() == "Developer Mode")
+    {
+        DeveloperMode();
+        return;
+    }
     if (ui->tab->isVisible())
     {
         QMessageBox mb;
@@ -105,7 +117,7 @@ void Login::PerformLogin()
     // we create an api request to login
     this->LoginQuery = new ApiQuery();
     this->LoginQuery->SetAction(ActionLogin);
-    this->LoginQuery->Parameters = "lgname=" + QUrl::toPercentEncoding(Configuration::UserName) + "&lgpassword=" + QUrl::toPercentEncoding(Configuration::Password);
+    this->LoginQuery->Parameters = "lgname=" + QUrl::toPercentEncoding(Configuration::UserName);
     this->LoginQuery->UsingPOST = true;
     this->LoginQuery->Process();
     this->_Status = WaitingForLoginQuery;
@@ -126,11 +138,121 @@ void Login::FinishLogin()
         this->LoginQuery = NULL;
         return;
     }
-    this->Progress(60);
-    ui->label_6->setText(this->LoginQuery->Result->Data);
-    this->_Status = LoggedIn;
+    this->Progress(20);
+    Core::DebugLog(this->LoginQuery->Result->Data);
+    this->Token = this->LoginQuery->Result->Data;
+    this->_Status = WaitingForToken;
     delete this->LoginQuery;
-    this->LoginQuery = NULL;
+    this->Token = GetToken();
+    this->LoginQuery = new ApiQuery();
+    this->LoginQuery->SetAction(ActionLogin);
+    this->LoginQuery->Parameters = "lgname=" + QUrl::toPercentEncoding(Configuration::UserName)
+            + "&lgpassword=" + QUrl::toPercentEncoding(Configuration::Password) + "&lgtoken=" + Token ;
+    this->LoginQuery->UsingPOST = true;
+    this->LoginQuery->Process();
+}
+
+void Login::FinishToken()
+{
+    if (!this->LoginQuery->Processed())
+    {
+        return;
+    }
+    if (this->LoginQuery->Result->Failed)
+    {
+        ui->label_6->setText("Login failed: " + this->LoginQuery->Result->ErrorMessage);
+        this->Progress(0);
+        this->_Status = LoginFailed;
+        delete this->LoginQuery;
+        this->LoginQuery = NULL;
+        return;
+    }
+    this->Progress(60);
+
+    // this is last step but in fact we should load the config now
+    this->timer->stop();
+    Core::DebugLog(this->LoginQuery->Result->Data);
+
+    // Assume login was successful
+    if (this->ProcessOutput())
+    {
+        Core::Main = new MainWindow();
+        this->hide();
+        Core::Main->show();
+    }
+    // that's all
+    delete this->LoginQuery;
+}
+
+void Login::DeveloperMode()
+{
+    Core::Main = new MainWindow();
+    Core::Main->show();
+    this->hide();
+}
+
+void Login::DisplayError(QString message)
+{
+    this->_Status = LoginFailed;
+    Core::DebugLog(this->LoginQuery->Result->Data);
+    ui->label_6->setText(message);
+    this->CancelLogin();
+}
+
+bool Login::ProcessOutput()
+{
+    // Check what the result was
+    QString Result = this->LoginQuery->Result->Data;
+    if (!Result.contains(("<login result")))
+    {
+        DisplayError("ERROR: The api.php responded with invalid text (webserver is down?), please check debug log for precise information");
+        return false;
+    }
+
+    Result = Result.mid(Result.indexOf("result=\"") + 8);
+    if (!Result.contains("\""))
+    {
+        DisplayError("ERROR: The api.php responded with invalid text (webserver is broken), please check debug log for precise information");
+        return false;
+    }
+
+    Result = Result.mid(0, Result.indexOf("\""));
+
+    if (Result == "Success")
+    {
+        return true;
+    }
+
+    if (Result == "EmptyPass")
+    {
+        DisplayError("The password you entered was empty");
+        return false;
+    }
+
+    DisplayError("ERROR: The api.php responded with unknown result: " + Result);
+    return false;
+}
+
+QString Login::GetToken()
+{
+    QString token = this->Token;
+    if (!token.contains(Login::Test))
+    {
+        // this is invalid token?
+        Core::Log("WARNING: the result of api request doesn't contain valid token");
+        Core::DebugLog("The token didn't contain the correct string, token was " + token);
+        return "<invalid token>";
+    }
+    token = token.mid(token.indexOf(Login::Test) + Login::Test.length());
+    if (!token.contains("\""))
+    {
+        // this is invalid token?
+        Core::Log("WARNING: the result of api request doesn't contain valid token");
+        Core::DebugLog("The token didn't contain the closing mark, token was " + token);
+        return "<invalid token>";
+    }
+    token = token.mid(0, token.indexOf("\""));
+    return token;
 }
 
 void Login::on_ButtonOK_clicked()
@@ -167,6 +289,15 @@ void Login::on_Time()
         break;
     case WaitingForLoginQuery:
         FinishLogin();
+        break;
+    case WaitingForToken:
+        FinishToken();
+        break;
+    case LoggedIn:
+    case Nothing:
+    case Cancelling:
+    case LoginFailed:
+    case LoginDone:
         break;
     }
     if (this->_Status == LoginFailed)

@@ -8,41 +8,25 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef HUGGLELOG_H
+#define HUGGLELOG_H
 
-#include <QMainWindow>
-#include <QSplitter>
 #include <QDockWidget>
-#include "configuration.h"
-#include "core.h"
-#include "aboutform.h"
-#include "preferences.h"
-#include "hugglelog.h"
-#include "hugglequeue.h"
-#include "huggleweb.h"
 
 namespace Ui {
-class MainWindow;
+class HuggleLog;
 }
 
-class MainWindow : public QMainWindow
+class HuggleLog : public QDockWidget
 {
     Q_OBJECT
-
+    
 public:
-    explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
-    HuggleLog *SystemLog;
-    HuggleQueue *Queue1;
-    HuggleWeb *Browser;
-
-
-private slots:
-    void on_actionExit_triggered();
-
+    explicit HuggleLog(QWidget *parent = 0);
+    ~HuggleLog();
+    
 private:
-    Ui::MainWindow *ui;
+    Ui::HuggleLog *ui;
 };
 
-#endif // MAINWINDOW_H
+#endif // HUGGLELOG_H

@@ -8,27 +8,25 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
-#include "query.h"
+#ifndef HUGGLEWEB_H
+#define HUGGLEWEB_H
 
-QNetworkAccessManager Query::NetworkManager;
+#include <QFrame>
 
-Query::Query()
-{
-    this->Result = NULL;
-    this->ProcessInSeparateThread = false;
-    this->Status = Null;
+namespace Ui {
+class HuggleWeb;
 }
 
-Query::~Query()
+class HuggleWeb : public QFrame
 {
-    delete Result;
-}
+    Q_OBJECT
+    
+public:
+    explicit HuggleWeb(QWidget *parent = 0);
+    ~HuggleWeb();
+    
+private:
+    Ui::HuggleWeb *ui;
+};
 
-bool Query::Processed()
-{
-    if (this->Status == Done)
-    {
-        return true;
-    }
-    return false;
-}
+#endif // HUGGLEWEB_H

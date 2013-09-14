@@ -13,6 +13,7 @@
 
 #include <QObject>
 #include <QString>
+#include <QNetworkAccessManager>
 #include "queryresult.h"
 
 enum _Status
@@ -39,6 +40,7 @@ public:
     //! Current status
     enum _Status Status;
     //! Return true in case this query has been finished
+    static QNetworkAccessManager NetworkManager;
     virtual bool Processed();
     virtual void Process() {}
     virtual void Kill() {}

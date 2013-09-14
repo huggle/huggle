@@ -29,6 +29,7 @@ enum Status
 {
     LoggingIn,
     WaitingForLoginQuery,
+    WaitingForToken,
     LoggedIn,
     Nothing,
     Cancelling,
@@ -55,17 +56,28 @@ private slots:
     void on_Time();
 
 private:
-    //LoginThread *Thread;
     Ui::Login *ui;
     QTimer *timer;
     ApiQuery *LoginQuery;
+    //! The token obtained from login
+    QString Token;
+    static QString Test;
+    //! Reset the interface to default
     void Reset();
+    //! Enable parts of interface
     void Enable();
+    //! Cancel currently running login attempt
     void CancelLogin();
     void Disable();
     void PressOK();
     void PerformLogin();
     void FinishLogin();
+    void FinishToken();
+    void DeveloperMode();
+    void DisplayError(QString message);
+    //! This function make sure that login result is done
+    bool ProcessOutput();
+    QString GetToken();
 };
 
 #endif // LOGIN_H

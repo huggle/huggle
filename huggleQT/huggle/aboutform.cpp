@@ -8,27 +8,17 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
-#include "query.h"
+#include "aboutform.h"
+#include "ui_aboutform.h"
 
-QNetworkAccessManager Query::NetworkManager;
-
-Query::Query()
+AboutForm::AboutForm(QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::AboutForm)
 {
-    this->Result = NULL;
-    this->ProcessInSeparateThread = false;
-    this->Status = Null;
+    ui->setupUi(this);
 }
 
-Query::~Query()
+AboutForm::~AboutForm()
 {
-    delete Result;
-}
-
-bool Query::Processed()
-{
-    if (this->Status == Done)
-    {
-        return true;
-    }
-    return false;
+    delete ui;
 }

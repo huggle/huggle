@@ -24,12 +24,19 @@ public:
     static unsigned int Verbosity;
     //! currently selected project
     static WikiSite Project;
+    //! User name
     static QString UserName;
+    //! If SSL is being used
     static bool UsingSSL;
-    static QString GetURLProtocolPrefix();
+    //! List of projects
     static QList<WikiSite> ProjectList;
+    //! Consumer key
     static QString WmfOAuthConsumerKey;
+    //! Password
     static QString Password;
+    //! When this is true most of functions will not work
+    static bool Restricted;
+    static QString GetURLProtocolPrefix();
     Configuration();
 };
 

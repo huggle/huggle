@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network
+QT       += webkit core gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -26,7 +26,11 @@ SOURCES += main.cpp\
     wikisite.cpp \
     user.cpp \
     oauthlogin.cpp \
-    oauthloginquery.cpp
+    oauthloginquery.cpp \
+    aboutform.cpp \
+    hugglequeue.cpp \
+    hugglelog.cpp \
+    huggleweb.cpp
 
 HEADERS  += mainwindow.h \
     login.h \
@@ -41,12 +45,20 @@ HEADERS  += mainwindow.h \
     wikisite.h \
     user.h \
     oauthlogin.h \
-    oauthloginquery.h
+    oauthloginquery.h \
+    aboutform.h \
+    hugglequeue.h \
+    hugglelog.h \
+    huggleweb.h
 
 FORMS    += mainwindow.ui \
     login.ui \
     preferences.ui \
-    oauthlogin.ui
+    oauthlogin.ui \
+    aboutform.ui \
+    hugglequeue.ui \
+    hugglelog.ui \
+    huggleweb.ui
 
 RESOURCES += \
     pictures.qrc

@@ -14,9 +14,26 @@
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    this->showMaximized();
+    this->SystemLog = new HuggleLog(this);
+    this->Browser = new HuggleWeb(this);
+    this->Queue1 = new HuggleQueue(this);
+    this->addDockWidget(Qt::LeftDockWidgetArea, this->Queue1);
+    this->addDockWidget(Qt::BottomDockWidgetArea, this->SystemLog);
+    this->setWindowTitle("Huggle 3 QT-LX");
+    ui->verticalLayout->addWidget(this->Browser);
+    setLayout(ui->verticalLayout);
 }
 
 MainWindow::~MainWindow()
 {
+    delete this->Queue1;
+    delete this->SystemLog;
+    delete this->Browser;
     delete ui;
+}
+
+void MainWindow::on_actionExit_triggered()
+{
+    Core::Shutdown();
 }

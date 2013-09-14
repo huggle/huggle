@@ -8,27 +8,17 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
-#include "query.h"
+#include "hugglelog.h"
+#include "ui_hugglelog.h"
 
-QNetworkAccessManager Query::NetworkManager;
-
-Query::Query()
+HuggleLog::HuggleLog(QWidget *parent) :
+    QDockWidget(parent),
+    ui(new Ui::HuggleLog)
 {
-    this->Result = NULL;
-    this->ProcessInSeparateThread = false;
-    this->Status = Null;
+    ui->setupUi(this);
 }
 
-Query::~Query()
+HuggleLog::~HuggleLog()
 {
-    delete Result;
-}
-
-bool Query::Processed()
-{
-    if (this->Status == Done)
-    {
-        return true;
-    }
-    return false;
+    delete ui;
 }

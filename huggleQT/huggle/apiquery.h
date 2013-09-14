@@ -47,7 +47,6 @@ class ApiQuery : public Query
     Q_OBJECT
 
 private:
-    QNetworkAccessManager NetworkManager;
     QString ActionPart;
     QNetworkReply *reply;
     void ConstructUrl();

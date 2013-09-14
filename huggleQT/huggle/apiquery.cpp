@@ -32,6 +32,12 @@ void ApiQuery::ConstructUrl()
     case XML:
         URL += "&format=xml";
         break;
+    case JSON:
+        URL += "&format=json";
+        break;
+    case PlainText:
+    case Default:
+        break;
     }
 }
 
@@ -53,6 +59,7 @@ ApiQuery::ApiQuery()
 void ApiQuery::Finished()
 {
     this->Result->Data += QString(this->reply->readAll());
+    // now we need to check if request was successful or not
     if (this->reply->error())
     {
         this->Result->ErrorMessage = reply->errorString();
@@ -60,20 +67,6 @@ void ApiQuery::Finished()
         this->reply->deleteLater();
         this->reply = NULL;
         return;
-    }
-    // now we need to check if request was successful or not
-    if (!this->FormatIsCurrentlySupported())
-    {
-        this->Result->Failed = true;
-        this->Result->ErrorMessage = "The requested format isn't supported";
-    } else
-    {
-        if (this->RequestFormat == XML)
-        {
-            // we support XML
-
-
-        }
     }
     this->reply->deleteLater();
     this->reply = NULL;
@@ -97,10 +90,10 @@ void ApiQuery::Process()
     }
     if (UsingPOST)
     {
-        this->reply = this->NetworkManager.post(request, url.encodedQuery());
+        this->reply = Query::NetworkManager.post(request, url.encodedQuery());
     } else
     {
-        this->reply = this->NetworkManager.get(request);
+        this->reply = Query::NetworkManager.get(request);
     }
     QObject::connect(this->reply, SIGNAL(finished()), this, SLOT(Finished()));
     QObject::connect(this->reply, SIGNAL(readyRead()), this, SLOT(ReadData()));

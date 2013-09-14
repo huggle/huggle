@@ -22,7 +22,9 @@
 #include <QList>
 #include <QString>
 
+// Predeclaring some types
 class Login;
+class MainWindow;
 
 class Core
 {
