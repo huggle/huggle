@@ -89,8 +89,19 @@ void ApiQuery::Process()
     }
     this->Status = Processing;
     this->Result = new QueryResult();
-    QNetworkRequest request(QUrl(this->URL));
-    this->reply = this->NetworkManager.get(request);
+    QUrl url(this->URL);
+    QNetworkRequest request(url);
+    if (UsingPOST)
+    {
+        request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+    }
+    if (UsingPOST)
+    {
+        this->reply = this->NetworkManager.post(request, url.encodedQuery());
+    } else
+    {
+        this->reply = this->NetworkManager.get(request);
+    }
     QObject::connect(this->reply, SIGNAL(finished()), this, SLOT(Finished()));
     QObject::connect(this->reply, SIGNAL(readyRead()), this, SLOT(ReadData()));
     Core::DebugLog("Processing api request " + this->URL);
