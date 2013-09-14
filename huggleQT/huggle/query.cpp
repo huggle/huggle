@@ -21,3 +21,12 @@ Query::~Query()
 {
     delete Result;
 }
+
+bool Query::Processed()
+{
+    if (this->Status == Done)
+    {
+        return true;
+    }
+    return false;
+}

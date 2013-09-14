@@ -38,7 +38,10 @@ public:
     QueryResult *Result;
     //! Current status
     enum _Status Status;
+    //! Return true in case this query has been finished
+    virtual bool Processed();
     virtual void Process() {}
+    virtual void Kill() {}
 };
 
 #endif // QUERY_H

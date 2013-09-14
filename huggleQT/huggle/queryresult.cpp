@@ -12,4 +12,7 @@
 
 QueryResult::QueryResult()
 {
+    this->Data = "";
+    this->ErrorMessage = "";
+    this->Failed = false;
 }

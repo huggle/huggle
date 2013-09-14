@@ -18,10 +18,8 @@ Login::Login(QWidget *parent) :   QDialog(parent),   ui(new Ui::Login)
     this->timer = new QTimer(this);
     connect(this->timer, SIGNAL(timeout()), this, SLOT(on_Time()));
     this->setWindowTitle("Huggle 3 QT");
-    this->Thread = new LoginThread();
     this->Reset();
-    this->StatusText = "hello";
-    this->progress = 0;
+    ui->checkBox->setChecked(Configuration::UsingSSL);
     // set the language to dummy english
     ui->Language->addItem("English");
     ui->Language->setCurrentIndex(0);
@@ -36,14 +34,14 @@ Login::Login(QWidget *parent) :   QDialog(parent),   ui(new Ui::Login)
 
 Login::~Login()
 {
-    delete Thread;
+    delete LoginQuery;
     delete ui;
     delete timer;
 }
 
 void Login::Progress(int progress)
 {
-    this->progress = progress;
+    ui->progressBar->setValue(progress);
 }
 
 void Login::Reset()
@@ -54,7 +52,6 @@ void Login::Reset()
 void Login::CancelLogin()
 {
     this->timer->stop();
-    this->Thread->terminate();
     ui->progressBar->setValue(0);
     this->Enable();
     this->_Status = Nothing;
@@ -67,6 +64,7 @@ void Login::Enable()
     ui->lineEdit->setEnabled(true);
     ui->Language->setEnabled(true);
     ui->Project->setEnabled(true);
+    ui->checkBox->setEnabled(true);
 }
 
 void Login::Disable()
@@ -74,6 +72,7 @@ void Login::Disable()
     ui->lineEdit->setDisabled(true);
     ui->Language->setDisabled(true);
     ui->Project->setDisabled(true);
+    ui->checkBox->setDisabled(true);
 }
 
 void Login::PressOK()
@@ -91,11 +90,47 @@ void Login::PressOK()
     Configuration::UserName = ui->lineEdit_2->text();
     Configuration::Password = ui->lineEdit_3->text();
     this->_Status = LoggingIn;
+    Configuration::UsingSSL = ui->checkBox->isChecked();
     this->Disable();
     ui->ButtonOK->setText("Cancel");
     // First of all, we need to login to the site
     this->timer->start(200);
-    this->Thread->start();
+    //this->Thread->start();
+}
+
+void Login::PerformLogin()
+{
+    ui->label_6->setText("Logging in");
+    this->Progress(10);
+    // we create an api request to login
+    this->LoginQuery = new ApiQuery();
+    this->LoginQuery->SetAction(ActionLogin);
+    this->LoginQuery->Parameters = "lgname=" + QUrl::toPercentEncoding(Configuration::UserName) + "&lgpassword=" + QUrl::toPercentEncoding(Configuration::Password);
+    this->LoginQuery->UsingPOST = true;
+    this->LoginQuery->Process();
+    this->_Status = WaitingForLoginQuery;
+}
+
+void Login::FinishLogin()
+{
+    if (!this->LoginQuery->Processed())
+    {
+        return;
+    }
+    if (this->LoginQuery->Result->Failed)
+    {
+        ui->label_6->setText("Login failed: " + this->LoginQuery->Result->ErrorMessage);
+        this->Progress(0);
+        this->_Status = LoginFailed;
+        delete this->LoginQuery;
+        this->LoginQuery = NULL;
+        return;
+    }
+    this->Progress(60);
+    ui->label_6->setText(this->LoginQuery->Result->Data);
+    this->_Status = LoggedIn;
+    delete this->LoginQuery;
+    this->LoginQuery = NULL;
 }
 
 void Login::on_ButtonOK_clicked()
@@ -125,8 +160,15 @@ void Login::on_Login_destroyed()
 
 void Login::on_Time()
 {
-    ui->label_6->setText(this->StatusText);
-    ui->progressBar->setValue(this->progress);
+    switch (this->_Status)
+    {
+    case LoggingIn:
+        PerformLogin();
+        break;
+    case WaitingForLoginQuery:
+        FinishLogin();
+        break;
+    }
     if (this->_Status == LoginFailed)
     {
         this->Enable();
@@ -136,22 +178,3 @@ void Login::on_Time()
     }
 }
 
-void LoginThread::run()
-{
-    Core::f_Login->StatusText = "Logging in";
-    Core::f_Login->Progress(10);
-    // we create an api request to login
-    ApiQuery *query = new ApiQuery();
-    query->SetAction(ActionLogin);
-    query->Parameters = "lgname=" + QUrl::toPercentEncoding(Configuration::UserName) + "&lgpassword=" + QUrl::toPercentEncoding(Configuration::Password);
-    query->Process();
-    if (query->Result->Failed)
-    {
-        Core::f_Login->StatusText = "Login failed: " + query->Result->ErrorMessage;
-        Core::f_Login->Progress(0);
-        Core::f_Login->_Status = LoginFailed;
-    }
-    Core::f_Login->Progress(60);
-    Core::f_Login->StatusText = query->Result->Data;
-    delete query;
-}

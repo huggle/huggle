@@ -47,11 +47,20 @@ ApiQuery::ApiQuery()
     URL = "";
     this->ActionPart = "";
     this->Parameters = "";
+    this->UsingPOST = false;
 }
 
 void ApiQuery::Finished()
 {
-    this->Result->Data = QString(reply->readAll());
+    this->Result->Data += QString(this->reply->readAll());
+    if (this->reply->error())
+    {
+        this->Result->ErrorMessage = reply->errorString();
+        this->Result->Failed = true;
+        this->reply->deleteLater();
+        this->reply = NULL;
+        return;
+    }
     // now we need to check if request was successful or not
     if (!this->FormatIsCurrentlySupported())
     {
@@ -66,7 +75,9 @@ void ApiQuery::Finished()
 
         }
     }
-    Core::DebugLog("Finished request");
+    this->reply->deleteLater();
+    this->reply = NULL;
+    Core::DebugLog("Finished request " + URL);
     this->Status = Done;
 }
 
@@ -77,12 +88,17 @@ void ApiQuery::Process()
         this->ConstructUrl();
     }
     this->Status = Processing;
-    Core::DebugLog("Processing api request " + this->URL);
-    QUrl url = QUrl::fromEncoded(URL.toUtf8());
-    QNetworkRequest request(url);
     this->Result = new QueryResult();
+    QNetworkRequest request(QUrl(this->URL));
     this->reply = this->NetworkManager.get(request);
     QObject::connect(this->reply, SIGNAL(finished()), this, SLOT(Finished()));
+    QObject::connect(this->reply, SIGNAL(readyRead()), this, SLOT(ReadData()));
+    Core::DebugLog("Processing api request " + this->URL);
+}
+
+void ApiQuery::ReadData()
+{
+    this->Result->Data += QString(this->reply->readAll());
 }
 
 void ApiQuery::SetAction(Action action)
@@ -119,4 +135,9 @@ void ApiQuery::SetAction(Action action)
 void ApiQuery::SetAction(QString action)
 {
     this->ActionPart = action;
+}
+
+void ApiQuery::Kill()
+{
+    reply->abort();
 }

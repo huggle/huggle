@@ -53,9 +53,12 @@ private:
     void ConstructUrl();
     bool FormatIsCurrentlySupported();
 private slots:
+    void ReadData();
     void Finished();
 public:
     explicit ApiQuery();
+    //! Whether the query will submit parameters using POST data
+    bool UsingPOST;
     //! This is a requested format in which the result should be written in
     Format RequestFormat;
     //! This is an url of api request, you probably don't want to change it unless
@@ -66,6 +69,7 @@ public:
     void Process();
     void SetAction(Action action);
     void SetAction(QString action);
+    void Kill();
 };
 
 #endif // APIQUERY_H

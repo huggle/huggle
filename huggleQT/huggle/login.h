@@ -28,18 +28,15 @@ class Login;
 enum Status
 {
     LoggingIn,
+    WaitingForLoginQuery,
+    LoggedIn,
     Nothing,
     Cancelling,
     LoginFailed,
     LoginDone
 };
 
-class LoginThread : public QThread
-{
-    Q_OBJECT
-private:
-    void run();
-};
+class ApiQuery;
 
 class Login : public QDialog
 {
@@ -48,7 +45,6 @@ class Login : public QDialog
 public:
     explicit Login(QWidget *parent = 0);
     ~Login();
-    QString StatusText;
     Status _Status;
     void Progress(int progress);
 
@@ -59,15 +55,17 @@ private slots:
     void on_Time();
 
 private:
-    int progress;
-    LoginThread *Thread;
+    //LoginThread *Thread;
     Ui::Login *ui;
     QTimer *timer;
+    ApiQuery *LoginQuery;
     void Reset();
     void Enable();
     void CancelLogin();
     void Disable();
     void PressOK();
+    void PerformLogin();
+    void FinishLogin();
 };
 
 #endif // LOGIN_H
