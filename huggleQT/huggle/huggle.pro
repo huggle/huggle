@@ -24,13 +24,16 @@ SOURCES += main.cpp\
     queryresult.cpp \
     exception.cpp \
     wikisite.cpp \
-    user.cpp \
     oauthlogin.cpp \
     oauthloginquery.cpp \
     aboutform.cpp \
     hugglequeue.cpp \
     hugglelog.cpp \
-    huggleweb.cpp
+    huggletool.cpp \
+    huggleweb.cpp \
+    terminalparser.cpp \
+    wikiuser.cpp \
+    wikipage.cpp
 
 HEADERS  += mainwindow.h \
     login.h \
@@ -43,13 +46,16 @@ HEADERS  += mainwindow.h \
     queryresult.h \
     exception.h \
     wikisite.h \
-    user.h \
     oauthlogin.h \
     oauthloginquery.h \
     aboutform.h \
     hugglequeue.h \
     hugglelog.h \
-    huggleweb.h
+    huggletool.h \
+    huggleweb.h \
+    terminalparser.h \
+    wikiuser.h \
+    wikipage.h
 
 FORMS    += mainwindow.ui \
     login.ui \
@@ -58,6 +64,7 @@ FORMS    += mainwindow.ui \
     aboutform.ui \
     hugglequeue.ui \
     hugglelog.ui \
+    huggletool.ui \
     huggleweb.ui
 
 RESOURCES += \

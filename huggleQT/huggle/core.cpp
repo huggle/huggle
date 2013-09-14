@@ -48,6 +48,21 @@ QString Core::GetProjectScriptURL(WikiSite Project)
     return Core::GetProjectURL(Project) + Project.ScriptPath;
 }
 
+QString Core::GetProjectURL()
+{
+    return Configuration::GetURLProtocolPrefix() + Configuration::Project.URL;
+}
+
+QString Core::GetProjectWikiURL()
+{
+    return Core::GetProjectURL(Configuration::Project) + Configuration::Project.LongPath;
+}
+
+QString Core::GetProjectScriptURL()
+{
+    return Core::GetProjectURL(Configuration::Project) + Configuration::Project.ScriptPath;
+}
+
 void Core::Shutdown()
 {
     delete Core::f_Login;

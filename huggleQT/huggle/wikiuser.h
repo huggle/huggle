@@ -8,31 +8,16 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
-#ifndef HUGGLEWEB_H
-#define HUGGLEWEB_H
+#ifndef WIKIUSER_H
+#define WIKIUSER_H
 
-#include <QFrame>
-#include "wikipage.h"
-#include "core.h"
+#include <QString>
 
-namespace Ui {
-class HuggleWeb;
-}
-
-class HuggleWeb : public QFrame
+class WikiUser
 {
-    Q_OBJECT
-    
 public:
-    explicit HuggleWeb(QWidget *parent = 0);
-    ~HuggleWeb();
-    void DisplayPreFormattedPage(WikiPage *page);
-    void DisplayPreFormattedPage(QString url);
-    void DisplayPage(QString url);
-    void RenderHtml(QString html);
-    
-private:
-    Ui::HuggleWeb *ui;
+    WikiUser();
+    QString Username;
 };
 
-#endif // HUGGLEWEB_H
+#endif // WIKIUSER_H

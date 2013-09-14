@@ -14,7 +14,6 @@
 
 #include <QList>
 #include <QString>
-#include "user.h"
 #include "wikisite.h"
 
 class Configuration
@@ -37,6 +36,9 @@ public:
     //! When this is true most of functions will not work
     static bool Restricted;
     static QString GetURLProtocolPrefix();
+    //! Where the welcome message is stored
+    static QString WelcomeMP;
+    static int Cache_InfoSize;
     Configuration();
 };
 

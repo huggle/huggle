@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'huggleweb.ui'
 **
-** Created: Sat Sep 14 18:32:14 2013
+** Created: Sat Sep 14 20:29:31 2013
 **      by: Qt User Interface Compiler version 4.8.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -16,6 +16,7 @@
 #include <QtGui/QButtonGroup>
 #include <QtGui/QFrame>
 #include <QtGui/QHeaderView>
+#include <QtGui/QVBoxLayout>
 #include <QtWebKit/QWebView>
 
 QT_BEGIN_NAMESPACE
@@ -23,24 +24,26 @@ QT_BEGIN_NAMESPACE
 class Ui_HuggleWeb
 {
 public:
+    QVBoxLayout *verticalLayout;
     QWebView *webView;
 
     void setupUi(QFrame *HuggleWeb)
     {
         if (HuggleWeb->objectName().isEmpty())
             HuggleWeb->setObjectName(QString::fromUtf8("HuggleWeb"));
-        HuggleWeb->resize(447, 330);
+        HuggleWeb->resize(400, 300);
         HuggleWeb->setFrameShape(QFrame::StyledPanel);
         HuggleWeb->setFrameShadow(QFrame::Raised);
+        verticalLayout = new QVBoxLayout(HuggleWeb);
+        verticalLayout->setSpacing(0);
+        verticalLayout->setContentsMargins(0, 0, 0, 0);
+        verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         webView = new QWebView(HuggleWeb);
         webView->setObjectName(QString::fromUtf8("webView"));
-        webView->setGeometry(QRect(0, 0, 300, 200));
-        QSizePolicy sizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
-        sizePolicy.setHorizontalStretch(0);
-        sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(webView->sizePolicy().hasHeightForWidth());
-        webView->setSizePolicy(sizePolicy);
         webView->setUrl(QUrl(QString::fromUtf8("about:blank")));
+
+        verticalLayout->addWidget(webView);
+
 
         retranslateUi(HuggleWeb);
 

@@ -22,3 +22,21 @@ HuggleWeb::~HuggleWeb()
 {
     delete ui;
 }
+
+void HuggleWeb::DisplayPreFormattedPage(WikiPage *page)
+{
+    ui->webView->load(Core::GetProjectScriptURL() + "index.php?title=" + page->PageName + "&action=render");
+}
+
+void HuggleWeb::DisplayPreFormattedPage(QString url)
+{
+    ui->webView->load(url + "&action=render");
+}
+
+void HuggleWeb::DisplayPage(QString url)
+{
+}
+
+void HuggleWeb::RenderHtml(QString html)
+{
+}

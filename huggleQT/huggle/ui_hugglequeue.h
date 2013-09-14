@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'hugglequeue.ui'
 **
-** Created: Sat Sep 14 18:32:14 2013
+** Created: Sat Sep 14 20:29:31 2013
 **      by: Qt User Interface Compiler version 4.8.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -41,7 +41,7 @@ public:
 
     void retranslateUi(QDockWidget *HuggleQueue)
     {
-        HuggleQueue->setWindowTitle(QApplication::translate("HuggleQueue", "DockWidget", 0, QApplication::UnicodeUTF8));
+        HuggleQueue->setWindowTitle(QApplication::translate("HuggleQueue", "Queue", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };

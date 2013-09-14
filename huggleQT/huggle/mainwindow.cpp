@@ -15,14 +15,16 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 {
     ui->setupUi(this);
     this->showMaximized();
+    this->tb = new HuggleTool();
     this->SystemLog = new HuggleLog(this);
     this->Browser = new HuggleWeb(this);
     this->Queue1 = new HuggleQueue(this);
     this->addDockWidget(Qt::LeftDockWidgetArea, this->Queue1);
     this->addDockWidget(Qt::BottomDockWidgetArea, this->SystemLog);
+    this->addDockWidget(Qt::TopDockWidgetArea, this->tb);
     this->setWindowTitle("Huggle 3 QT-LX");
     ui->verticalLayout->addWidget(this->Browser);
-    setLayout(ui->verticalLayout);
+    DisplayWelcomeMessage();
 }
 
 MainWindow::~MainWindow()
@@ -31,9 +33,16 @@ MainWindow::~MainWindow()
     delete this->SystemLog;
     delete this->Browser;
     delete ui;
+    delete this->tb;
 }
 
 void MainWindow::on_actionExit_triggered()
 {
     Core::Shutdown();
+}
+
+void MainWindow::DisplayWelcomeMessage()
+{
+    WikiPage *welcome = new WikiPage(Configuration::WelcomeMP);
+    this->Browser->DisplayPreFormattedPage(welcome);
 }

@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'hugglelog.ui'
 **
-** Created: Sat Sep 14 18:35:03 2013
+** Created: Sat Sep 14 20:29:31 2013
 **      by: Qt User Interface Compiler version 4.8.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -26,7 +26,6 @@ class Ui_HuggleLog
 {
 public:
     QWidget *dockWidgetContents;
-    QWidget *verticalLayoutWidget;
     QVBoxLayout *verticalLayout;
     QTextEdit *textEdit;
 
@@ -34,18 +33,17 @@ public:
     {
         if (HuggleLog->objectName().isEmpty())
             HuggleLog->setObjectName(QString::fromUtf8("HuggleLog"));
-        HuggleLog->resize(637, 163);
+        HuggleLog->resize(637, 116);
+        HuggleLog->setFeatures(QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable);
         dockWidgetContents = new QWidget();
         dockWidgetContents->setObjectName(QString::fromUtf8("dockWidgetContents"));
-        verticalLayoutWidget = new QWidget(dockWidgetContents);
-        verticalLayoutWidget->setObjectName(QString::fromUtf8("verticalLayoutWidget"));
-        verticalLayoutWidget->setGeometry(QRect(30, 10, 531, 101));
-        verticalLayout = new QVBoxLayout(verticalLayoutWidget);
-        verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
-        verticalLayout->setSizeConstraint(QLayout::SetMaximumSize);
+        verticalLayout = new QVBoxLayout(dockWidgetContents);
+        verticalLayout->setSpacing(0);
         verticalLayout->setContentsMargins(0, 0, 0, 0);
-        textEdit = new QTextEdit(verticalLayoutWidget);
+        verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
+        textEdit = new QTextEdit(dockWidgetContents);
         textEdit->setObjectName(QString::fromUtf8("textEdit"));
+        textEdit->setReadOnly(true);
 
         verticalLayout->addWidget(textEdit);
 

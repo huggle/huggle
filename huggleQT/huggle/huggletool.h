@@ -8,31 +8,25 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
-#ifndef HUGGLEWEB_H
-#define HUGGLEWEB_H
+#ifndef HUGGLETOOL_H
+#define HUGGLETOOL_H
 
-#include <QFrame>
-#include "wikipage.h"
-#include "core.h"
+#include <QDockWidget>
 
 namespace Ui {
-class HuggleWeb;
+class HuggleTool;
 }
 
-class HuggleWeb : public QFrame
+class HuggleTool : public QDockWidget
 {
     Q_OBJECT
     
 public:
-    explicit HuggleWeb(QWidget *parent = 0);
-    ~HuggleWeb();
-    void DisplayPreFormattedPage(WikiPage *page);
-    void DisplayPreFormattedPage(QString url);
-    void DisplayPage(QString url);
-    void RenderHtml(QString html);
+    explicit HuggleTool(QWidget *parent = 0);
+    ~HuggleTool();
     
 private:
-    Ui::HuggleWeb *ui;
+    Ui::HuggleTool *ui;
 };
 
-#endif // HUGGLEWEB_H
+#endif // HUGGLETOOL_H

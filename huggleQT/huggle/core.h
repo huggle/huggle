@@ -15,7 +15,8 @@
 #include "mainwindow.h"
 #include "login.h"
 #include "wikisite.h"
-#include "user.h"
+#include "wikiuser.h"
+#include "wikipage.h"
 #include <iostream>
 #include <QApplication>
 #include <QNetworkAccessManager>
@@ -41,6 +42,11 @@ public:
     static QString GetProjectWikiURL(WikiSite Project);
     //! Return a script url like http://en.wikipedia.org/w/
     static QString GetProjectScriptURL(WikiSite Project);
+    static QString GetProjectURL();
+    //! Return a full url like http://en.wikipedia.org/wiki/
+    static QString GetProjectWikiURL();
+    //! Return a script url like http://en.wikipedia.org/w/
+    static QString GetProjectScriptURL();
     static void Shutdown();
 };
 

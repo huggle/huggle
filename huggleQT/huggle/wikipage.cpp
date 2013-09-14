@@ -8,8 +8,15 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
-#include "user.h"
+#include "wikipage.h"
 
-User::User()
+WikiPage::WikiPage()
 {
+    Site = NULL;
+}
+
+WikiPage::WikiPage(QString name)
+{
+    PageName = name;
+    Site = NULL;
 }

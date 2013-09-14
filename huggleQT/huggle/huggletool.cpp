@@ -8,15 +8,17 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
-#ifndef USER_H
-#define USER_H
+#include "huggletool.h"
+#include "ui_huggletool.h"
 
-#include <QString>
-
-class User
+HuggleTool::HuggleTool(QWidget *parent) :
+    QDockWidget(parent),
+    ui(new Ui::HuggleTool)
 {
-public:
-    User();
-};
+    ui->setupUi(this);
+}
 
-#endif // USER_H
+HuggleTool::~HuggleTool()
+{
+    delete ui;
+}

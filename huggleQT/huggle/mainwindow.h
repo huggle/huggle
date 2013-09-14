@@ -20,11 +20,16 @@
 #include "preferences.h"
 #include "hugglelog.h"
 #include "hugglequeue.h"
+#include "huggletool.h"
 #include "huggleweb.h"
+#include "wikipage.h"
+#include "wikiuser.h"
 
 namespace Ui {
 class MainWindow;
 }
+
+class HuggleWeb;
 
 class MainWindow : public QMainWindow
 {
@@ -36,13 +41,14 @@ public:
     HuggleLog *SystemLog;
     HuggleQueue *Queue1;
     HuggleWeb *Browser;
-
+    HuggleTool *tb;
 
 private slots:
     void on_actionExit_triggered();
 
 private:
     Ui::MainWindow *ui;
+    void DisplayWelcomeMessage();
 };
 
 #endif // MAINWINDOW_H

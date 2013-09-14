@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Sat Sep 14 18:32:14 2013
+** Created: Sat Sep 14 20:29:31 2013
 **      by: Qt User Interface Compiler version 4.8.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -32,8 +32,10 @@ public:
     QAction *actionExit;
     QAction *actionContents;
     QAction *actionAbout;
+    QAction *actionRevert_and_warn;
+    QAction *actionRevert;
+    QAction *actionWarn;
     QWidget *centralWidget;
-    QWidget *verticalLayoutWidget;
     QVBoxLayout *verticalLayout;
     QMenuBar *menuBar;
     QMenu *menuFile;
@@ -45,7 +47,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(663, 399);
+        MainWindow->resize(794, 482);
         QIcon icon;
         icon.addFile(QString::fromUtf8(":/huggle/pictures/Resources/huggle3_newlogo.ico"), QSize(), QIcon::Normal, QIcon::Off);
         MainWindow->setWindowIcon(icon);
@@ -57,21 +59,38 @@ public:
         actionContents->setObjectName(QString::fromUtf8("actionContents"));
         actionAbout = new QAction(MainWindow);
         actionAbout->setObjectName(QString::fromUtf8("actionAbout"));
+        actionRevert_and_warn = new QAction(MainWindow);
+        actionRevert_and_warn->setObjectName(QString::fromUtf8("actionRevert_and_warn"));
+        QIcon icon1;
+        icon1.addFile(QString::fromUtf8(":/huggle/pictures/Resources/diff-revert-warn.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionRevert_and_warn->setIcon(icon1);
+        actionRevert = new QAction(MainWindow);
+        actionRevert->setObjectName(QString::fromUtf8("actionRevert"));
+        QIcon icon2;
+        icon2.addFile(QString::fromUtf8(":/huggle/pictures/Resources/diff-revert.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionRevert->setIcon(icon2);
+        actionWarn = new QAction(MainWindow);
+        actionWarn->setObjectName(QString::fromUtf8("actionWarn"));
+        QIcon icon3;
+        icon3.addFile(QString::fromUtf8(":/huggle/pictures/Resources/user-warn.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionWarn->setIcon(icon3);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
-        verticalLayoutWidget = new QWidget(centralWidget);
-        verticalLayoutWidget->setObjectName(QString::fromUtf8("verticalLayoutWidget"));
-        verticalLayoutWidget->setGeometry(QRect(170, 80, 160, 80));
-        verticalLayout = new QVBoxLayout(verticalLayoutWidget);
-        verticalLayout->setSpacing(6);
-        verticalLayout->setContentsMargins(11, 11, 11, 11);
-        verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
-        verticalLayout->setSizeConstraint(QLayout::SetMaximumSize);
+        centralWidget->setEnabled(true);
+        QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(centralWidget->sizePolicy().hasHeightForWidth());
+        centralWidget->setSizePolicy(sizePolicy);
+        centralWidget->setMaximumSize(QSize(16777215, 16777215));
+        verticalLayout = new QVBoxLayout(centralWidget);
+        verticalLayout->setSpacing(0);
         verticalLayout->setContentsMargins(0, 0, 0, 0);
+        verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 663, 23));
+        menuBar->setGeometry(QRect(0, 0, 794, 23));
         menuFile = new QMenu(menuBar);
         menuFile->setObjectName(QString::fromUtf8("menuFile"));
         menuHelp = new QMenu(menuBar);
@@ -92,6 +111,9 @@ public:
         menuHelp->addAction(actionContents);
         menuHelp->addSeparator();
         menuHelp->addAction(actionAbout);
+        mainToolBar->addAction(actionRevert_and_warn);
+        mainToolBar->addAction(actionRevert);
+        mainToolBar->addAction(actionWarn);
 
         retranslateUi(MainWindow);
 
@@ -105,6 +127,9 @@ public:
         actionExit->setText(QApplication::translate("MainWindow", "Exit", 0, QApplication::UnicodeUTF8));
         actionContents->setText(QApplication::translate("MainWindow", "Contents", 0, QApplication::UnicodeUTF8));
         actionAbout->setText(QApplication::translate("MainWindow", "About", 0, QApplication::UnicodeUTF8));
+        actionRevert_and_warn->setText(QApplication::translate("MainWindow", "Revert and warn", 0, QApplication::UnicodeUTF8));
+        actionRevert->setText(QApplication::translate("MainWindow", "Revert", 0, QApplication::UnicodeUTF8));
+        actionWarn->setText(QApplication::translate("MainWindow", "Warn", 0, QApplication::UnicodeUTF8));
         menuFile->setTitle(QApplication::translate("MainWindow", "File", 0, QApplication::UnicodeUTF8));
         menuHelp->setTitle(QApplication::translate("MainWindow", "Help", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
