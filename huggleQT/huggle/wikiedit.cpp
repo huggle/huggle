@@ -25,12 +25,20 @@ WikiEdit::WikiEdit()
 
 WikiEdit::WikiEdit(const WikiEdit &edit)
 {
+    this->User = NULL;
+    this->Page = NULL;
     this->Bot = edit.Bot;
     this->Minor = edit.Minor;
     this->NewPage = edit.NewPage;
-    this->Page = edit.Page;
+    if (edit.Page != NULL)
+    {
+        this->Page = new WikiPage(edit.Page);
+    }
     this->Size = edit.Size;
-    this->User = edit.User;
+    if (edit.User != NULL)
+    {
+        this->User = new WikiUser(edit.User);
+    }
     this->Diff = edit.Diff;
     this->OldID = edit.OldID;
     this->Summary = edit.Summary;
@@ -38,13 +46,27 @@ WikiEdit::WikiEdit(const WikiEdit &edit)
 
 WikiEdit::WikiEdit(WikiEdit *edit)
 {
+    this->User = NULL;
+    this->Page = NULL;
     this->Bot = edit->Bot;
     this->Minor = edit->Minor;
     this->NewPage = edit->NewPage;
-    this->Page = edit->Page;
+    if (edit->Page != NULL)
+    {
+        this->Page = new WikiPage(edit->Page);
+    }
     this->Size = edit->Size;
-    this->User = edit->User;
+    if (edit->User != NULL)
+    {
+        this->User = new WikiUser(edit->User);
+    }
     this->Diff = edit->Diff;
     this->OldID = edit->OldID;
     this->Summary = edit->Summary;
+}
+
+WikiEdit::~WikiEdit()
+{
+    delete User;
+    delete Page;
 }

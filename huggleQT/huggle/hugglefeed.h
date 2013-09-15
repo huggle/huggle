@@ -11,10 +11,10 @@
 #ifndef HUGGLEFEED_H
 #define HUGGLEFEED_H
 
-#include "hugglequeuefilter.h"
 #include "exception.h"
-#include "wikiedit.h"
 
+class HuggleQueueFilter;
+class WikiEdit;
 class HuggleFeed
 {
 public:

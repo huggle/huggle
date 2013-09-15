@@ -13,12 +13,6 @@
 
 #include "configuration.h"
 #include "mainwindow.h"
-#include "login.h"
-#include "wikisite.h"
-#include "wikiuser.h"
-#include "wikipage.h"
-#include "hugglefeedproviderirc.h"
-#include "hugglefeed.h"
 
 #ifdef PYTHONENGINE
 #include "pythonengine.h"
@@ -34,6 +28,9 @@
 class Login;
 class MainWindow;
 class HuggleFeed;
+class WikiSite;
+class WikiPage;
+class WikiUser;
 
 class Core
 {

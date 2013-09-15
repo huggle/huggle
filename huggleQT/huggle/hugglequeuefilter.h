@@ -12,7 +12,6 @@
 #define HUGGLEQUEUEFILTER_H
 
 #include <QString>
-#include "hugglequeue.h"
 
 class HuggleQueue;
 

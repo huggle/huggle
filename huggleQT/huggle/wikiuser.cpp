@@ -12,4 +12,15 @@
 
 WikiUser::WikiUser()
 {
+    this->Username = "";
+}
+
+WikiUser::WikiUser(WikiUser *u)
+{
+    this->Username = u->Username;
+}
+
+WikiUser::WikiUser(const WikiUser &u)
+{
+    this->Username = u.Username;
 }

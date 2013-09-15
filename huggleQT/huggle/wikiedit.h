@@ -21,6 +21,7 @@ public:
     WikiEdit();
     WikiEdit(const WikiEdit& edit);
     WikiEdit(WikiEdit *edit);
+    ~WikiEdit();
     //! Page that was changed by edit
     WikiPage *Page;
     //! User who changed the page

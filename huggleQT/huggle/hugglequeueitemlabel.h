@@ -11,13 +11,15 @@
 #ifndef HUGGLEQUEUEITEMLABEL_H
 #define HUGGLEQUEUEITEMLABEL_H
 
+#include <QMouseEvent>
 #include <QFrame>
-#include "wikiedit.h"
+#include "core.h"
 
 namespace Ui {
 class HuggleQueueItemLabel;
 }
 
+class WikiEdit;
 class HuggleQueueItemLabel : public QFrame
 {
     Q_OBJECT
@@ -29,6 +31,12 @@ public:
     QString GetName();
     WikiEdit *page;
     
+private slots:
+    void on_label_2_linkActivated(const QString &link);
+
+protected:
+    void mousePressEvent(QMouseEvent *event);
+
 private:
     Ui::HuggleQueueItemLabel *ui;
 };

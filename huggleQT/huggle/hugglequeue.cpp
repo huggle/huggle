@@ -41,7 +41,6 @@ void HuggleQueue::AddItem(WikiEdit *page)
     label->SetName(page->Page->PageName);
     this->layout->addWidget(label);
     count++;
-    //this->Items.append(label);
 }
 
 int HuggleQueue::Count()

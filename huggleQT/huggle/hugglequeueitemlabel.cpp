@@ -32,3 +32,16 @@ QString HuggleQueueItemLabel::GetName()
 {
     return ui->label_2->text();
 }
+
+void HuggleQueueItemLabel::on_label_2_linkActivated(const QString &link)
+{
+    QApplication::exit();
+}
+
+void HuggleQueueItemLabel::mousePressEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton)
+    {
+
+    }
+}
