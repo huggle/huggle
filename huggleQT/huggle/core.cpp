@@ -10,16 +10,20 @@
 
 #include "core.h"
 
-MainWindow *Core::Main = NULL;
+#ifdef PYTHONENGINE
+PythonEngine *Core::Python = NULL;
+#endif
 
+MainWindow *Core::Main = NULL;
 Login *Core::f_Login = NULL;
+
 
 void Core::Init()
 {
     Core::Log("Huggle 3 QT-LX");
 #ifdef PYTHONENGINE
     Core::Log("Loading python engine");
-    this->Python = new PythonEngine();
+    Core::Python = new PythonEngine();
 #endif
     Core::DebugLog("Loading wikis");
     Configuration::ProjectList << Configuration::Project;
@@ -72,6 +76,10 @@ QString Core::GetProjectScriptURL()
 
 void Core::Shutdown()
 {
+#ifdef PYTHONENGINE
+    Core::Log("Unloading python");
+    delete Core::Python;
+#endif
     delete Core::f_Login;
     QApplication::quit();
 }

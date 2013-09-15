@@ -139,7 +139,7 @@ void Login::FinishLogin()
         return;
     }
     this->Progress(20);
-    Core::DebugLog(this->LoginQuery->Result->Data);
+    Core::DebugLog(this->LoginQuery->Result->Data, 6);
     this->Token = this->LoginQuery->Result->Data;
     this->_Status = WaitingForToken;
     delete this->LoginQuery;
@@ -226,6 +226,18 @@ bool Login::ProcessOutput()
     if (Result == "EmptyPass")
     {
         DisplayError("The password you entered was empty");
+        return false;
+    }
+
+    if (Result == "WrongPass")
+    {
+        DisplayError("Your password is not correct");
+        return false;
+    }
+
+    if (Result == "NoName")
+    {
+        DisplayError("You provided no correct user name for login");
         return false;
     }
 
