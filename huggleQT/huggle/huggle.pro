@@ -37,7 +37,8 @@ SOURCES += main.cpp\
     wikiuser.cpp \
     wikipage.cpp \
     proxy.cpp \
-    pythonengine.cpp
+    pythonengine.cpp \
+    hugglequeuefilter.cpp
 
 HEADERS  += mainwindow.h \
     login.h \
@@ -61,7 +62,8 @@ HEADERS  += mainwindow.h \
     wikiuser.h \
     wikipage.h \
     proxy.h \
-    pythonengine.h
+    pythonengine.h \
+    hugglequeuefilter.h
 
 FORMS    += mainwindow.ui \
     login.ui \

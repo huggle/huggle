@@ -8,25 +8,10 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
-#ifndef PROXY_H
-#define PROXY_H
+#include "hugglequeuefilter.h"
 
-#include <QDialog>
-
-namespace Ui {
-class Proxy;
-}
-
-class Proxy : public QDialog
+HuggleQueueFilter::HuggleQueueFilter(HuggleQueue *Parent)
 {
-    Q_OBJECT
-    
-public:
-    explicit Proxy(QWidget *parent = 0);
-    ~Proxy();
-    
-private:
-    Ui::Proxy *ui;
-};
-
-#endif // PROXY_H
+    this->parent = Parent;
+    QueueName = "default";
+}

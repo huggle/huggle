@@ -171,7 +171,7 @@ void Login::FinishToken()
 
     // this is last step but in fact we should load the config now
     this->timer->stop();
-    Core::DebugLog(this->LoginQuery->Result->Data);
+    Core::DebugLog(this->LoginQuery->Result->Data, 6);
 
     // Assume login was successful
     if (this->ProcessOutput())
@@ -186,6 +186,7 @@ void Login::FinishToken()
 
 void Login::DeveloperMode()
 {
+    Configuration::Restricted = true;
     Core::Main = new MainWindow();
     Core::Main->show();
     this->hide();
