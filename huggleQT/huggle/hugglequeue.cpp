@@ -17,10 +17,25 @@ HuggleQueue::HuggleQueue(QWidget *parent) :
 {
     ui->setupUi(this);
     CurrentFilter = new HuggleQueueFilter(this);
+    this->layout = new QVBoxLayout(ui->scrollArea);
+    this->layout->setMargin(0);
+    this->layout->setSpacing(0);
+    this->xx = new QWidget();
+    ui->scrollArea->setWidget(this->xx);
+    xx->setLayout(this->layout);
 }
 
 HuggleQueue::~HuggleQueue()
 {
+    delete layout;
     delete CurrentFilter;
     delete ui;
+}
+
+void HuggleQueue::AddItem(WikiPage *page)
+{
+    HuggleQueueItemLabel *label = new HuggleQueueItemLabel(this);
+    label->SetName(page->PageName);
+    this->layout->addWidget(label);
+    //this->Items.append(label);
 }

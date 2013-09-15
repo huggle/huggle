@@ -34,6 +34,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
         Core::PrimaryFeedProvider = new HuggleFeedProviderIRC();
         Core::PrimaryFeedProvider->Start();
     }
+    this->Queue1->AddItem(new WikiPage("Bla"));
+    this->Queue1->AddItem(new WikiPage("x"));
+    this->Queue1->AddItem(new WikiPage("Bla"));
 }
 
 MainWindow::~MainWindow()

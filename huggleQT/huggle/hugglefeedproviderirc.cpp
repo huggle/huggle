@@ -44,6 +44,7 @@ void HuggleFeedProviderIRC::Start()
     Core::Log("IRC: Successfuly connected to irc rc feed");
     this->TcpSocket->write(QString("USER " + Configuration::IRCNick + " 8 * :" + Configuration::IRCIdent + "\n").toAscii());
     this->TcpSocket->write(QString("NICK " + Configuration::IRCNick + Configuration::UserName + "\n").toAscii());
+    this->TcpSocket->write(QString("JOIN " + Configuration::Project.IRCChannel + "\n").toAscii());
     this->thread = new HuggleFeedProviderIRC_t(TcpSocket);
     this->thread->start();
     Connected = true;

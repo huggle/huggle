@@ -40,7 +40,8 @@ SOURCES += main.cpp\
     pythonengine.cpp \
     hugglequeuefilter.cpp \
     hugglefeed.cpp \
-    hugglefeedproviderirc.cpp
+    hugglefeedproviderirc.cpp \
+    hugglequeueitemlabel.cpp
 
 HEADERS  += mainwindow.h \
     login.h \
@@ -67,7 +68,8 @@ HEADERS  += mainwindow.h \
     pythonengine.h \
     hugglequeuefilter.h \
     hugglefeed.h \
-    hugglefeedproviderirc.h
+    hugglefeedproviderirc.h \
+    hugglequeueitemlabel.h
 
 FORMS    += mainwindow.ui \
     login.ui \
@@ -78,7 +80,8 @@ FORMS    += mainwindow.ui \
     hugglelog.ui \
     huggletool.ui \
     huggleweb.ui \
-    proxy.ui
+    proxy.ui \
+    hugglequeueitemlabel.ui
 
 RESOURCES += \
     pictures.qrc

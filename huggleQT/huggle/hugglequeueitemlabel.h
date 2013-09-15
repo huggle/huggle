@@ -8,38 +8,29 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
-#ifndef HUGGLEQUEUE_H
-#define HUGGLEQUEUE_H
+#ifndef HUGGLEQUEUEITEMLABEL_H
+#define HUGGLEQUEUEITEMLABEL_H
 
-#include <QDockWidget>
-#include <QList>
-#include <QWidget>
-#include <QVBoxLayout>
-#include "hugglequeuefilter.h"
-#include "hugglequeueitemlabel.h"
+#include <QFrame>
 #include "wikipage.h"
 
 namespace Ui {
-class HuggleQueue;
+class HuggleQueueItemLabel;
 }
 
-class HuggleQueueFilter;
-
-class HuggleQueue : public QDockWidget
+class HuggleQueueItemLabel : public QFrame
 {
     Q_OBJECT
     
 public:
-    explicit HuggleQueue(QWidget *parent = 0);
-    ~HuggleQueue();
-    void AddItem(WikiPage *page);
+    explicit HuggleQueueItemLabel(QWidget *parent = 0);
+    ~HuggleQueueItemLabel();
+    void SetName(QString name);
+    QString GetName();
+    WikiPage *page;
     
 private:
-    Ui::HuggleQueue *ui;
-    HuggleQueueFilter *CurrentFilter;
-    QList<HuggleQueueItemLabel> Items;
-    QVBoxLayout *layout;
-    QWidget *xx;
+    Ui::HuggleQueueItemLabel *ui;
 };
 
-#endif // HUGGLEQUEUE_H
+#endif // HUGGLEQUEUEITEMLABEL_H
