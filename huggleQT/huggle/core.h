@@ -31,6 +31,7 @@ class HuggleFeed;
 class WikiSite;
 class WikiPage;
 class WikiUser;
+class WikiEdit;
 
 class Core
 {
@@ -59,6 +60,7 @@ public:
     static QString GetProjectWikiURL();
     //! Return a script url like http://en.wikipedia.org/w/
     static QString GetProjectScriptURL();
+    static void ProcessEdit(WikiEdit *e);
     static void Shutdown();
 };
 

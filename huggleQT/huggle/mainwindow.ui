@@ -78,6 +78,8 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionRevert_and_warn"/>
+   <addaction name="actionNext"/>
+   <addaction name="separator"/>
    <addaction name="actionRevert"/>
    <addaction name="actionWarn"/>
   </widget>
@@ -127,6 +129,15 @@
    </property>
    <property name="text">
     <string>Warn</string>
+   </property>
+  </action>
+  <action name="actionNext">
+   <property name="icon">
+    <iconset resource="pictures.qrc">
+     <normaloff>:/huggle/pictures/Resources/diff-next.png</normaloff>:/huggle/pictures/Resources/diff-next.png</iconset>
+   </property>
+   <property name="text">
+    <string>Next</string>
    </property>
   </action>
  </widget>

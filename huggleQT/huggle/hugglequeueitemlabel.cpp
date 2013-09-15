@@ -11,9 +11,9 @@
 #include "hugglequeueitemlabel.h"
 #include "ui_hugglequeueitemlabel.h"
 
-HuggleQueueItemLabel::HuggleQueueItemLabel(QWidget *parent) :
-    QFrame(parent),
-    ui(new Ui::HuggleQueueItemLabel)
+int HuggleQueueItemLabel::Count = 0;
+
+HuggleQueueItemLabel::HuggleQueueItemLabel(QWidget *parent) : QFrame(parent), ui(new Ui::HuggleQueueItemLabel)
 {
     ui->setupUi(this);
 }
@@ -33,6 +33,14 @@ QString HuggleQueueItemLabel::GetName()
     return ui->label_2->text();
 }
 
+void HuggleQueueItemLabel::Process()
+{
+    HuggleQueueItemLabel::Count--;
+    Core::ProcessEdit(this->page);
+    this->hide();
+    this->close();
+}
+
 void HuggleQueueItemLabel::on_label_2_linkActivated(const QString &link)
 {
     QApplication::exit();
@@ -42,6 +50,6 @@ void HuggleQueueItemLabel::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton)
     {
-
+        this->Process();
     }
 }

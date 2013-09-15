@@ -48,6 +48,7 @@ public:
     Preferences *preferencesForm;
     AboutForm *aboutForm;
     //! Recreate interface, should be called everytime you do anything with main form
+    void ProcessEdit(WikiEdit *e);
     void Render();
 
 
@@ -63,6 +64,8 @@ private slots:
     void on_MainWindow_destroyed();
 
     void on_Tick();
+    void on_actionNext_triggered();
+
 private:
     Ui::MainWindow *ui;
     QTimer *timer1;

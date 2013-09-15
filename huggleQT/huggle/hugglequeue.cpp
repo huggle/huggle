@@ -40,10 +40,15 @@ void HuggleQueue::AddItem(WikiEdit *page)
     label->page = page;
     label->SetName(page->Page->PageName);
     this->layout->addWidget(label);
-    count++;
+    HuggleQueueItemLabel::Count++;
 }
 
-int HuggleQueue::Count()
+void HuggleQueue::Next()
 {
-    return count;
+    if (HuggleQueueItemLabel::Count < 1)
+    {
+        return;
+    }
+    HuggleQueueItemLabel *label = (HuggleQueueItemLabel*)this->layout->itemAt(1)->widget();
+    label->Process();
 }

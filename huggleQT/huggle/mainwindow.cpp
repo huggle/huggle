@@ -50,6 +50,12 @@ MainWindow::~MainWindow()
     delete this->tb;
 }
 
+void MainWindow::ProcessEdit(WikiEdit *e)
+{
+    // Make the browser display a diff
+
+}
+
 void MainWindow::Render()
 {
     this->tb->SetTitle(this->Browser->CurrentPageName());
@@ -93,4 +99,9 @@ void MainWindow::on_Tick()
     {
         this->Queue1->AddItem(Core::PrimaryFeedProvider->RetrieveEdit());
     }
+}
+
+void MainWindow::on_actionNext_triggered()
+{
+    this->Queue1->Next();
 }

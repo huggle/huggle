@@ -29,7 +29,9 @@ public:
     ~HuggleQueueItemLabel();
     void SetName(QString name);
     QString GetName();
+    void Process();
     WikiEdit *page;
+    static int Count;
     
 private slots:
     void on_label_2_linkActivated(const QString &link);

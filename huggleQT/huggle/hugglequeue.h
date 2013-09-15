@@ -18,6 +18,7 @@
 #include <QVBoxLayout>
 #include "hugglequeuefilter.h"
 #include "hugglequeueitemlabel.h"
+#include "core.h"
 #include "wikiedit.h"
 
 namespace Ui {
@@ -34,7 +35,7 @@ public:
     explicit HuggleQueue(QWidget *parent = 0);
     ~HuggleQueue();
     void AddItem(WikiEdit *page);
-    int Count();
+    void Next();
 
 private:
     Ui::HuggleQueue *ui;
@@ -43,7 +44,6 @@ private:
     QVBoxLayout *layout;
     QWidget *xx;
     QFrame *frame;
-    int count;
 };
 
 #endif // HUGGLEQUEUE_H

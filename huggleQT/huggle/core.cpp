@@ -76,6 +76,11 @@ QString Core::GetProjectScriptURL()
     return Core::GetProjectURL(Configuration::Project) + Configuration::Project.ScriptPath;
 }
 
+void Core::ProcessEdit(WikiEdit *e)
+{
+    Core::Main->ProcessEdit(e);
+}
+
 void Core::Shutdown()
 {
 #ifdef PYTHONENGINE
