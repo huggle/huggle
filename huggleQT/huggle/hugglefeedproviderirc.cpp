@@ -89,10 +89,93 @@ void HuggleFeedProviderIRC::InsertEdit(WikiEdit edit)
 
 void HuggleFeedProviderIRC::ParseEdit(QString line)
 {
-    if (!line.startsWith(":PRIVMSG "))
+    if (!line.contains(" PRIVMSG "))
     {
         return;
     }
+
+    line = line.mid(line.indexOf(" PRIVMSG ") + 9);
+
+    if (!line.contains(":"))
+    {
+        Core::DebugLog("Invalid line (no:):" + line);
+        return;
+    }
+
+    line = line.mid(line.indexOf(":") + 1);
+
+    if (!line.contains(QString(QChar(003)) + "07"))
+    {
+        Core::DebugLog("Invalid line (no07):" + line);
+        return;
+    }
+
+    line = line.mid(line.indexOf(QString(QChar(003)) + "07") + 3);
+
+    if (!line.contains(QString(QChar(003)) + "14"))
+    {
+        Core::DebugLog("Invalid line (no14):" + line);
+        return;
+    }
+
+    WikiEdit edit;
+    edit.Page = new WikiPage(line.mid(0, line.indexOf(QString(QChar(003)) + "14")));
+
+    if (!line.contains(QString(QChar(003)) + "4 "))
+    {
+        Core::DebugLog("Invalid line (no:x4:" + line);
+        return;
+    }
+
+    line = line.mid(line.indexOf(QString(QChar(003)) + "4 ") + 2);
+    QString flags = line.mid(0, 3);
+    edit.Bot = flags.contains("B");
+    edit.NewPage = flags.contains("N");
+    edit.Minor = flags.contains("M");
+
+    if (edit.NewPage)
+    {
+        Core::Log(line);
+    }
+
+    if (!line.contains("?diff="))
+    {
+        Core::DebugLog("Invalid line (no diff):" + line);
+        return;
+    }
+
+    line = line.mid(line.indexOf("?diff=") + 6);
+
+    if (!line.contains("&"))
+    {
+        Core::DebugLog("Invalid line (no &):" + line);
+        return;
+    }
+
+    edit.Diff = line.mid(0, line.indexOf("&")).toInt();
+
+    if (!line.contains("&oldid="))
+    {
+        Core::DebugLog("Invalid line (no oldid?):" + line);
+        return;
+    }
+
+    line = line.mid(line.indexOf("&oldid=") + 7);
+
+    if (!line.contains(QString(QChar(003))))
+    {
+        Core::DebugLog("Invalid line (no termin):" + line);
+        return;
+    }
+
+    edit.OldID = line.mid(0, line.indexOf(QString(QChar(003)))).toInt();
+
+    this->InsertEdit(edit);
+}
+
+bool HuggleFeedProviderIRC::ContainsEdit()
+{
+    return (this->Buffer.size() != 0);
 }
 
 void HuggleFeedProviderIRC_t::run()
@@ -134,4 +217,15 @@ HuggleFeedProviderIRC_t::HuggleFeedProviderIRC_t(QTcpSocket *socket)
 HuggleFeedProviderIRC_t::~HuggleFeedProviderIRC_t()
 {
     // we must not delete the socket here, that's a job of parent object
+}
+
+WikiEdit *HuggleFeedProviderIRC::RetrieveEdit()
+{
+    if (this->Buffer.size() == 0)
+    {
+        return NULL;
+    }
+    WikiEdit *edit = new WikiEdit(this->Buffer.at(0));
+    this->Buffer.removeAt(0);
+    return edit;
 }

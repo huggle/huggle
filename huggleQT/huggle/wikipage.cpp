@@ -20,3 +20,15 @@ WikiPage::WikiPage(QString name)
     PageName = name;
     Site = NULL;
 }
+
+WikiPage::WikiPage(WikiPage *page)
+{
+    this->PageName = page->PageName;
+    this->Site = page->Site;
+}
+
+WikiPage::WikiPage(const WikiPage &page)
+{
+    this->PageName = page.PageName;
+    this->Site = page.Site;
+}

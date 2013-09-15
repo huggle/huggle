@@ -10,7 +10,12 @@
 
 #include "terminalparser.h"
 
-TerminalParser::TerminalParser()
+TerminalParser::TerminalParser(int argc_, char *argv_[])
 {
+    this->argc = argc_;
+}
 
+bool TerminalParser::Parse()
+{
+    return false;
 }

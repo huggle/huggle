@@ -18,4 +18,33 @@ WikiEdit::WikiEdit()
     this->NewPage = false;
     this->Size = 0;
     this->User = NULL;
+    this->Diff = 0;
+    this->OldID = 0;
+    this->Summary = "";
+}
+
+WikiEdit::WikiEdit(const WikiEdit &edit)
+{
+    this->Bot = edit.Bot;
+    this->Minor = edit.Minor;
+    this->NewPage = edit.NewPage;
+    this->Page = edit.Page;
+    this->Size = edit.Size;
+    this->User = edit.User;
+    this->Diff = edit.Diff;
+    this->OldID = edit.OldID;
+    this->Summary = edit.Summary;
+}
+
+WikiEdit::WikiEdit(WikiEdit *edit)
+{
+    this->Bot = edit->Bot;
+    this->Minor = edit->Minor;
+    this->NewPage = edit->NewPage;
+    this->Page = edit->Page;
+    this->Size = edit->Size;
+    this->User = edit->User;
+    this->Diff = edit->Diff;
+    this->OldID = edit->OldID;
+    this->Summary = edit->Summary;
 }

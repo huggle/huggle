@@ -26,6 +26,7 @@ public:
     ///////////////////////////
     //! Verbosity for debugging to terminal etc, can be switched with parameter --verbosity
     static unsigned int Verbosity;
+    //! Version
     static QString HuggleVersion;
     //! currently selected project
     static WikiSite Project;
@@ -33,11 +34,15 @@ public:
     static QList<WikiSite> ProjectList;
     //! When this is true most of functions will not work
     static bool Restricted;
+    //! Return a prefix for url
     static QString GetURLProtocolPrefix();
     //! Where the welcome message is stored
     static QString WelcomeMP;
+    //! Size of info cache
     static int Cache_InfoSize;
+    //! Whether python is available
     static bool PythonEngine;
+    //! Size of feed
     static unsigned int ProviderCache;
 
     ///////////////////////////
@@ -59,9 +64,13 @@ public:
 
     //! Whether IRC is being used
     static bool UsingIRC;
+    //! Server
     static QString IRCServer;
+    //! Nick
     static QString IRCNick;
+    //! Ident
     static QString IRCIdent;
+    //! Port
     static quint16 IRCPort;
     Configuration();
 };

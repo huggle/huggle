@@ -21,8 +21,10 @@ HuggleQueue::HuggleQueue(QWidget *parent) :
     this->layout->setMargin(0);
     this->layout->setSpacing(0);
     this->xx = new QWidget();
+    this->frame = new QFrame();
     ui->scrollArea->setWidget(this->xx);
     xx->setLayout(this->layout);
+    this->layout->addWidget(this->frame);
 }
 
 HuggleQueue::~HuggleQueue()
@@ -32,10 +34,17 @@ HuggleQueue::~HuggleQueue()
     delete ui;
 }
 
-void HuggleQueue::AddItem(WikiPage *page)
+void HuggleQueue::AddItem(WikiEdit *page)
 {
     HuggleQueueItemLabel *label = new HuggleQueueItemLabel(this);
-    label->SetName(page->PageName);
+    label->page = page;
+    label->SetName(page->Page->PageName);
     this->layout->addWidget(label);
+    count++;
     //this->Items.append(label);
+}
+
+int HuggleQueue::Count()
+{
+    return count;
 }

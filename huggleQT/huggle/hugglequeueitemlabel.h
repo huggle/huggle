@@ -12,7 +12,7 @@
 #define HUGGLEQUEUEITEMLABEL_H
 
 #include <QFrame>
-#include "wikipage.h"
+#include "wikiedit.h"
 
 namespace Ui {
 class HuggleQueueItemLabel;
@@ -27,7 +27,7 @@ public:
     ~HuggleQueueItemLabel();
     void SetName(QString name);
     QString GetName();
-    WikiPage *page;
+    WikiEdit *page;
     
 private:
     Ui::HuggleQueueItemLabel *ui;

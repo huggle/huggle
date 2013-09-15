@@ -11,12 +11,20 @@
 #include <QApplication>
 #include "login.h"
 #include "core.h"
+#include "terminalparser.h"
 #include "exception.h"
 
 int main(int argc, char *argv[])
 {
     try
     {
+        TerminalParser *p = new TerminalParser(argc, argv);
+        if (p->Parse())
+        {
+            delete p;
+            return 0;
+        }
+        delete p;
         Core::Init();
         QApplication a(argc, argv);
         Core::f_Login = new Login();

@@ -13,11 +13,12 @@
 
 #include <QDockWidget>
 #include <QList>
+#include <QFrame>
 #include <QWidget>
 #include <QVBoxLayout>
 #include "hugglequeuefilter.h"
 #include "hugglequeueitemlabel.h"
-#include "wikipage.h"
+#include "wikiedit.h"
 
 namespace Ui {
 class HuggleQueue;
@@ -32,14 +33,17 @@ class HuggleQueue : public QDockWidget
 public:
     explicit HuggleQueue(QWidget *parent = 0);
     ~HuggleQueue();
-    void AddItem(WikiPage *page);
-    
+    void AddItem(WikiEdit *page);
+    int Count();
+
 private:
     Ui::HuggleQueue *ui;
     HuggleQueueFilter *CurrentFilter;
     QList<HuggleQueueItemLabel> Items;
     QVBoxLayout *layout;
     QWidget *xx;
+    QFrame *frame;
+    int count;
 };
 
 #endif // HUGGLEQUEUE_H

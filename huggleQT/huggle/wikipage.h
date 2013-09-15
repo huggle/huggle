@@ -20,6 +20,8 @@ class WikiPage
 public:
     WikiPage();
     WikiPage(QString name);
+    WikiPage(WikiPage *page);
+    WikiPage(const WikiPage& page);
     QString PageName;
     WikiSite *Site;
 };

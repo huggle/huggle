@@ -19,6 +19,8 @@ class WikiEdit
 {
 public:
     WikiEdit();
+    WikiEdit(const WikiEdit& edit);
+    WikiEdit(WikiEdit *edit);
     //! Page that was changed by edit
     WikiPage *Page;
     //! User who changed the page
@@ -27,6 +29,9 @@ public:
     bool Bot;
     bool NewPage;
     int Size;
+    int Diff;
+    int OldID;
+    QString Summary;
 };
 
 #endif // WIKIEDIT_H

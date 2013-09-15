@@ -33,6 +33,7 @@
 // Predeclaring some types
 class Login;
 class MainWindow;
+class HuggleFeed;
 
 class Core
 {

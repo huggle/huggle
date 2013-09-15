@@ -34,6 +34,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
         Core::PrimaryFeedProvider = new HuggleFeedProviderIRC();
         Core::PrimaryFeedProvider->Start();
     }
+    this->timer1 = new QTimer(this);
+    connect(this->timer1, SIGNAL(timeout()), this, SLOT(on_Tick()));
+    this->timer1->start(200);
 }
 
 MainWindow::~MainWindow()
@@ -82,4 +85,12 @@ void MainWindow::on_actionAbout_triggered()
 void MainWindow::on_MainWindow_destroyed()
 {
     Core::Shutdown();
+}
+
+void MainWindow::on_Tick()
+{
+    if (Core::PrimaryFeedProvider->ContainsEdit())
+    {
+        this->Queue1->AddItem(Core::PrimaryFeedProvider->RetrieveEdit());
+    }
 }

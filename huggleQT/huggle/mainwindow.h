@@ -12,6 +12,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QTimer>
 #include <QSplitter>
 #include <QDockWidget>
 #include "configuration.h"
@@ -61,8 +62,10 @@ private slots:
 
     void on_MainWindow_destroyed();
 
+    void on_Tick();
 private:
     Ui::MainWindow *ui;
+    QTimer *timer1;
     void DisplayWelcomeMessage();
 };
 

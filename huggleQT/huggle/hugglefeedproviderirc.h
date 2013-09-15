@@ -15,11 +15,11 @@
 #include <QThread>
 #include <QList>
 #include <QTcpSocket>
+#include "hugglefeed.h"
 #include "core.h"
 #include "exception.h"
 #include "configuration.h"
 #include "wikiedit.h"
-#include "hugglefeed.h"
 
 class HuggleFeedProviderIRC;
 
@@ -48,6 +48,8 @@ public:
     void Restart() { this->Stop(); this->Start(); }
     void InsertEdit(WikiEdit edit);
     void ParseEdit(QString line);
+    bool ContainsEdit();
+    WikiEdit *RetrieveEdit();
 private:
     bool Connected;
     QList<WikiEdit> Buffer;
