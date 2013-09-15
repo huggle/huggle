@@ -29,6 +29,7 @@ namespace Ui {
 class MainWindow;
 }
 
+class HuggleQueue;
 class HuggleWeb;
 
 class MainWindow : public QMainWindow

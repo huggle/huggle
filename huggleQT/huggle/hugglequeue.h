@@ -12,10 +12,13 @@
 #define HUGGLEQUEUE_H
 
 #include <QDockWidget>
+#include "hugglequeuefilter.h"
 
 namespace Ui {
 class HuggleQueue;
 }
+
+class HuggleQueueFilter;
 
 class HuggleQueue : public QDockWidget
 {
@@ -27,6 +30,7 @@ public:
     
 private:
     Ui::HuggleQueue *ui;
+    HuggleQueueFilter *CurrentFilter;
 };
 
 #endif // HUGGLEQUEUE_H

@@ -16,6 +16,8 @@ PythonEngine *Core::Python = NULL;
 
 MainWindow *Core::Main = NULL;
 Login *Core::f_Login = NULL;
+HuggleFeed *Core::SecondaryFeedProvider = NULL;
+HuggleFeed *Core::PrimaryFeedProvider = NULL;
 
 
 void Core::Init()

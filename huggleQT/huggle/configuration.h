@@ -21,20 +21,15 @@
 class Configuration
 {
 public:
+    ///////////////////////////
+    // System
+    ///////////////////////////
     //! Verbosity for debugging to terminal etc, can be switched with parameter --verbosity
     static unsigned int Verbosity;
     //! currently selected project
     static WikiSite Project;
-    //! User name
-    static QString UserName;
-    //! If SSL is being used
-    static bool UsingSSL;
     //! List of projects
     static QList<WikiSite> ProjectList;
-    //! Consumer key
-    static QString WmfOAuthConsumerKey;
-    //! Password
-    static QString Password;
     //! When this is true most of functions will not work
     static bool Restricted;
     static QString GetURLProtocolPrefix();
@@ -42,6 +37,30 @@ public:
     static QString WelcomeMP;
     static int Cache_InfoSize;
     static bool PythonEngine;
+
+    ///////////////////////////
+    // Login
+    ///////////////////////////
+
+    //! User name
+    static QString UserName;
+    //! If SSL is being used
+    static bool UsingSSL;
+    //! Consumer key
+    static QString WmfOAuthConsumerKey;
+    //! Password
+    static QString Password;
+
+    /////////////////////////////
+    // IRC
+    /////////////////////////////
+
+    //! Whether IRC is being used
+    static bool UsingIRC;
+    static QString IRCServer;
+    static QString IRCNick;
+    static QString IRCIdent;
+    static int IRCPort;
     Configuration();
 };
 

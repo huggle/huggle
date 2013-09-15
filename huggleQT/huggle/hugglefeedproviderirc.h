@@ -8,27 +8,18 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
-#ifndef HUGGLEQUEUEFILTER_H
-#define HUGGLEQUEUEFILTER_H
+#ifndef HUGGLEFEEDPROVIDERIRC_H
+#define HUGGLEFEEDPROVIDERIRC_H
 
 #include <QString>
-#include "core.h"
-#include "hugglequeue.h"
+#include "configuration.h"
+#include "hugglefeed.h"
 
-class HuggleQueue;
-
-class HuggleQueueFilter
+class HuggleFeedProviderIRC : HuggleFeed
 {
 public:
-    QString QueueName;
-    HuggleQueue *parent;
-    HuggleQueueFilter(HuggleQueue *Parent);
-private:
-    bool IgnoreMinor;
-    bool IgnoreUsers;
-    bool IgnoreIP;
-    bool IgnoreBots;
-    bool IgnoreFriends;
+    HuggleFeedProviderIRC();
+    ~HuggleFeedProviderIRC();
 };
 
-#endif // HUGGLEQUEUEFILTER_H
+#endif // HUGGLEFEEDPROVIDERIRC_H

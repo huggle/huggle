@@ -17,6 +17,8 @@
 #include "wikisite.h"
 #include "wikiuser.h"
 #include "wikipage.h"
+#include "hugglefeedproviderirc.h"
+#include "hugglefeed.h"
 
 #ifdef PYTHONENGINE
 #include "pythonengine.h"
@@ -39,6 +41,8 @@ public:
     static void Init();
     static MainWindow *Main;
     static Login *f_Login;
+    static HuggleFeed *PrimaryFeedProvider;
+    static HuggleFeed *SecondaryFeedProvider;
 
 #ifdef PYTHONENGINE
     static PythonEngine *Python;

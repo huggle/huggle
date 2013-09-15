@@ -16,9 +16,11 @@ HuggleQueue::HuggleQueue(QWidget *parent) :
     ui(new Ui::HuggleQueue)
 {
     ui->setupUi(this);
+    CurrentFilter = new HuggleQueueFilter(this);
 }
 
 HuggleQueue::~HuggleQueue()
 {
+    delete CurrentFilter;
     delete ui;
 }
