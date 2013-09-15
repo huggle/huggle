@@ -60,7 +60,7 @@ public:
     static QString IRCServer;
     static QString IRCNick;
     static QString IRCIdent;
-    static int IRCPort;
+    static quint16 IRCPort;
     Configuration();
 };
 

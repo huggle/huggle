@@ -24,6 +24,7 @@ class HuggleTool : public QDockWidget
 public:
     explicit HuggleTool(QWidget *parent = 0);
     ~HuggleTool();
+    void SetTitle(QString title);
     
 private:
     Ui::HuggleTool *ui;

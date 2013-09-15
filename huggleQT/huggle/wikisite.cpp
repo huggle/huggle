@@ -19,10 +19,12 @@ WikiSite::WikiSite(QString name, QString url)
     this->OAuthURL = url + "w/index.php?title=Special:MWOAuth";
     this->SupportHttps = true;
     this->SupportOAuth = true;
+    this->IRCChannel = "#wikipedia.en";
 }
 
-WikiSite::WikiSite(QString name, QString url, QString path, QString script, bool https, bool oauth)
+WikiSite::WikiSite(QString name, QString url, QString path, QString script, bool https, bool oauth, QString ic)
 {
+    this->IRCChannel = ic;
     this->LongPath = path;
     this->Name = name;
     this->SupportHttps = https;

@@ -22,18 +22,34 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     this->addDockWidget(Qt::LeftDockWidgetArea, this->Queue1);
     this->addDockWidget(Qt::BottomDockWidgetArea, this->SystemLog);
     this->addDockWidget(Qt::TopDockWidgetArea, this->tb);
+    this->preferencesForm = new Preferences(this);
+    this->aboutForm = new AboutForm(this);
+    this->SystemLog->resize(100, 80);
     this->setWindowTitle("Huggle 3 QT-LX");
     ui->verticalLayout->addWidget(this->Browser);
     DisplayWelcomeMessage();
+    // initialise queues
+    if (Configuration::UsingIRC)
+    {
+        Core::PrimaryFeedProvider = new HuggleFeedProviderIRC();
+        Core::PrimaryFeedProvider->Start();
+    }
 }
 
 MainWindow::~MainWindow()
 {
+    delete this->preferencesForm;
+    delete this->aboutForm;
     delete this->Queue1;
     delete this->SystemLog;
     delete this->Browser;
     delete ui;
     delete this->tb;
+}
+
+void MainWindow::Render()
+{
+    this->tb->SetTitle(this->Browser->CurrentPageName());
 }
 
 void MainWindow::on_actionExit_triggered()
@@ -45,4 +61,25 @@ void MainWindow::DisplayWelcomeMessage()
 {
     WikiPage *welcome = new WikiPage(Configuration::WelcomeMP);
     this->Browser->DisplayPreFormattedPage(welcome);
+    this->Render();
+}
+
+void MainWindow::on_actionPreferences_triggered()
+{
+    preferencesForm->show();
+}
+
+void MainWindow::on_actionContents_triggered()
+{
+
+}
+
+void MainWindow::on_actionAbout_triggered()
+{
+    aboutForm->show();
+}
+
+void MainWindow::on_MainWindow_destroyed()
+{
+    Core::Shutdown();
 }

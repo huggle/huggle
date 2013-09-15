@@ -24,6 +24,7 @@
 #include "huggleweb.h"
 #include "wikipage.h"
 #include "wikiuser.h"
+#include "hugglefeedproviderirc.h"
 
 namespace Ui {
 class MainWindow;
@@ -43,9 +44,22 @@ public:
     HuggleQueue *Queue1;
     HuggleWeb *Browser;
     HuggleTool *tb;
+    Preferences *preferencesForm;
+    AboutForm *aboutForm;
+    //! Recreate interface, should be called everytime you do anything with main form
+    void Render();
+
 
 private slots:
     void on_actionExit_triggered();
+
+    void on_actionPreferences_triggered();
+
+    void on_actionContents_triggered();
+
+    void on_actionAbout_triggered();
+
+    void on_MainWindow_destroyed();
 
 private:
     Ui::MainWindow *ui;

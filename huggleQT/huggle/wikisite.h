@@ -21,10 +21,11 @@ public:
     QString LongPath;
     QString ScriptPath;
     QString OAuthURL;
+    QString IRCChannel;
     bool SupportHttps;
     bool SupportOAuth;
     WikiSite(QString name, QString url);
-    WikiSite(QString name, QString url, QString path, QString script, bool https, bool oauth);
+    WikiSite(QString name, QString url, QString path, QString script, bool https, bool oauth, QString ic);
 };
 
 #endif // WIKISITE_H

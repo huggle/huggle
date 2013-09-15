@@ -70,7 +70,7 @@ void ApiQuery::Finished()
     }
     this->reply->deleteLater();
     this->reply = NULL;
-    Core::DebugLog("Finished request " + URL);
+    Core::DebugLog("Finished request " + URL, 2);
     this->Status = Done;
 }
 
@@ -97,7 +97,7 @@ void ApiQuery::Process()
     }
     QObject::connect(this->reply, SIGNAL(finished()), this, SLOT(Finished()));
     QObject::connect(this->reply, SIGNAL(readyRead()), this, SLOT(ReadData()));
-    Core::DebugLog("Processing api request " + this->URL);
+    Core::DebugLog("Processing api request " + this->URL, 2);
 }
 
 void ApiQuery::ReadData()

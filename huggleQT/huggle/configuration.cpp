@@ -30,7 +30,7 @@ bool Configuration::UsingIRC = true;
 QString Configuration::IRCIdent = "huggle";
 QString Configuration::IRCServer = "irc.wikimedia.org";
 QString Configuration::IRCNick = "huggle";
-int Configuration::IRCPort = 6667;
+quint16 Configuration::IRCPort = 6667;
 
 
 QString Configuration::GetURLProtocolPrefix()

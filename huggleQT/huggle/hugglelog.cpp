@@ -16,6 +16,7 @@ HuggleLog::HuggleLog(QWidget *parent) :
     ui(new Ui::HuggleLog)
 {
     ui->setupUi(this);
+    ui->textEdit->resize(ui->textEdit->width(), 60);
 }
 
 HuggleLog::~HuggleLog()

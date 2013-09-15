@@ -22,3 +22,9 @@ HuggleTool::~HuggleTool()
 {
     delete ui;
 }
+
+void HuggleTool::SetTitle(QString title)
+{
+    ui->lineEdit->setText(title);
+    ui->comboBox_2->lineEdit()->setText(title);
+}

@@ -16,6 +16,14 @@ class HuggleFeed
 public:
     HuggleFeed();
     virtual ~HuggleFeed();
+    //! Return true if this feed is operational or not
+    virtual bool IsWorking() { return false; }
+    //! Restart the feed engine
+    virtual void Restart() {}
+    //! Stop the feed engine
+    virtual void Stop() {}
+    //! Start the feed engine
+    virtual void Start() {}
 };
 
 #endif // HUGGLEFEED_H

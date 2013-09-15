@@ -12,14 +12,39 @@
 #define HUGGLEFEEDPROVIDERIRC_H
 
 #include <QString>
+#include <QThread>
+#include <QTcpSocket>
+#include "core.h"
+#include "exception.h"
 #include "configuration.h"
 #include "hugglefeed.h"
 
-class HuggleFeedProviderIRC : HuggleFeed
+class HuggleFeedProviderIRC_t : public QThread
+{
+    Q_OBJECT
+public:
+    HuggleFeedProviderIRC_t(QTcpSocket *socket);
+    ~HuggleFeedProviderIRC_t();
+    bool Running;
+protected:
+    void run();
+private:
+    QTcpSocket *s;
+};
+
+class HuggleFeedProviderIRC : public HuggleFeed
 {
 public:
     HuggleFeedProviderIRC();
     ~HuggleFeedProviderIRC();
+    void Start();
+    bool IsWorking();
+    void Stop();
+    void Restart() { this->Stop(); this->Start(); }
+private:
+    bool Connected;
+    HuggleFeedProviderIRC_t *thread;
+    QTcpSocket *TcpSocket;
 };
 
 #endif // HUGGLEFEEDPROVIDERIRC_H
