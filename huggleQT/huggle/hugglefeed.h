@@ -11,6 +11,8 @@
 #ifndef HUGGLEFEED_H
 #define HUGGLEFEED_H
 
+#include "wikiedit.h"
+
 class HuggleFeed
 {
 public:
@@ -24,6 +26,11 @@ public:
     virtual void Stop() {}
     //! Start the feed engine
     virtual void Start() {}
+    //! Return a last edit from cache or NULL
+    virtual WikiEdit *RetrieveEdit() { return NULL; }
+    //! Apply a filter on buffer and return last edit which is matching it
+    //virtual WikiEdit *FilterEdit(HuggleQueueFilter *filter) { return NULL; }
+    //HuggleQueueFilter *Filter;
 };
 
 #endif // HUGGLEFEED_H

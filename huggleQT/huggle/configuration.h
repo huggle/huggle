@@ -26,6 +26,7 @@ public:
     ///////////////////////////
     //! Verbosity for debugging to terminal etc, can be switched with parameter --verbosity
     static unsigned int Verbosity;
+    static QString HuggleVersion;
     //! currently selected project
     static WikiSite Project;
     //! List of projects
@@ -37,6 +38,7 @@ public:
     static QString WelcomeMP;
     static int Cache_InfoSize;
     static bool PythonEngine;
+    static unsigned int ProviderCache;
 
     ///////////////////////////
     // Login

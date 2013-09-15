@@ -13,11 +13,15 @@
 
 #include <QString>
 #include <QThread>
+#include <QList>
 #include <QTcpSocket>
 #include "core.h"
 #include "exception.h"
 #include "configuration.h"
+#include "wikiedit.h"
 #include "hugglefeed.h"
+
+class HuggleFeedProviderIRC;
 
 class HuggleFeedProviderIRC_t : public QThread
 {
@@ -26,6 +30,7 @@ public:
     HuggleFeedProviderIRC_t(QTcpSocket *socket);
     ~HuggleFeedProviderIRC_t();
     bool Running;
+    HuggleFeedProviderIRC *p;
 protected:
     void run();
 private:
@@ -41,8 +46,11 @@ public:
     bool IsWorking();
     void Stop();
     void Restart() { this->Stop(); this->Start(); }
+    void InsertEdit(WikiEdit edit);
+    void ParseEdit(QString line);
 private:
     bool Connected;
+    QList<WikiEdit> Buffer;
     HuggleFeedProviderIRC_t *thread;
     QTcpSocket *TcpSocket;
 };

@@ -46,6 +46,7 @@ void HuggleFeedProviderIRC::Start()
     this->TcpSocket->write(QString("NICK " + Configuration::IRCNick + Configuration::UserName + "\n").toAscii());
     this->TcpSocket->write(QString("JOIN " + Configuration::Project.IRCChannel + "\n").toAscii());
     this->thread = new HuggleFeedProviderIRC_t(TcpSocket);
+    this->thread->p = this;
     this->thread->start();
     Connected = true;
 }
@@ -77,8 +78,29 @@ void HuggleFeedProviderIRC::Stop()
     this->thread = NULL;
 }
 
+void HuggleFeedProviderIRC::InsertEdit(WikiEdit edit)
+{
+    while (this->Buffer.size() > Configuration::ProviderCache)
+    {
+        this->Buffer.removeAt(0);
+    }
+    this->Buffer.append(edit);
+}
+
+void HuggleFeedProviderIRC::ParseEdit(QString line)
+{
+    if (!line.startsWith(":PRIVMSG "))
+    {
+        return;
+    }
+}
+
 void HuggleFeedProviderIRC_t::run()
 {
+    if (this->p == NULL)
+    {
+        throw new Exception("Pointer to parent IRC feed is NULL");
+    }
     int ping = 2000;
     while (this->Running && this->s->isOpen())
     {
@@ -94,7 +116,8 @@ void HuggleFeedProviderIRC_t::run()
             ping -= 100;
             continue;
         }
-        Core::DebugLog("IRC Input: " + text);
+        Core::DebugLog("IRC Input: " + text, 6);
+        p->ParseEdit(text);
         QThread::usleep(200000);
         ping--;
     }
@@ -105,6 +128,7 @@ HuggleFeedProviderIRC_t::HuggleFeedProviderIRC_t(QTcpSocket *socket)
 {
     this->s = socket;
     Running = true;
+    this->p = NULL;
 }
 
 HuggleFeedProviderIRC_t::~HuggleFeedProviderIRC_t()

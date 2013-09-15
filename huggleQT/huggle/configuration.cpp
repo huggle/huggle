@@ -31,6 +31,8 @@ QString Configuration::IRCIdent = "huggle";
 QString Configuration::IRCServer = "irc.wikimedia.org";
 QString Configuration::IRCNick = "huggle";
 quint16 Configuration::IRCPort = 6667;
+unsigned int Configuration::ProviderCache = 2000;
+QString Configuration::HuggleVersion = "3.0.0.0";
 
 
 QString Configuration::GetURLProtocolPrefix()
