@@ -16,6 +16,7 @@ HuggleWeb::HuggleWeb(QWidget *parent) :
     ui(new Ui::HuggleWeb)
 {
     ui->setupUi(this);
+    CurrentPage = "No page is displayed now";
 }
 
 HuggleWeb::~HuggleWeb()
@@ -23,14 +24,21 @@ HuggleWeb::~HuggleWeb()
     delete ui;
 }
 
+QString HuggleWeb::CurrentPageName()
+{
+    return CurrentPage;
+}
+
 void HuggleWeb::DisplayPreFormattedPage(WikiPage *page)
 {
     ui->webView->load(Core::GetProjectScriptURL() + "index.php?title=" + page->PageName + "&action=render");
+    CurrentPage = page->PageName;
 }
 
 void HuggleWeb::DisplayPreFormattedPage(QString url)
 {
     ui->webView->load(url + "&action=render");
+    CurrentPage = ui->webView->title();
 }
 
 void HuggleWeb::DisplayPage(QString url)

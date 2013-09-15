@@ -10,6 +10,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = huggle
 TEMPLATE = app
+INCLUDEPATH += "/usr/include/python2.7"
 
 
 SOURCES += main.cpp\
@@ -33,7 +34,9 @@ SOURCES += main.cpp\
     huggleweb.cpp \
     terminalparser.cpp \
     wikiuser.cpp \
-    wikipage.cpp
+    wikipage.cpp \
+    proxy.cpp \
+    pythonengine.cpp
 
 HEADERS  += mainwindow.h \
     login.h \
@@ -55,7 +58,9 @@ HEADERS  += mainwindow.h \
     huggleweb.h \
     terminalparser.h \
     wikiuser.h \
-    wikipage.h
+    wikipage.h \
+    proxy.h \
+    pythonengine.h
 
 FORMS    += mainwindow.ui \
     login.ui \
@@ -65,7 +70,8 @@ FORMS    += mainwindow.ui \
     hugglequeue.ui \
     hugglelog.ui \
     huggletool.ui \
-    huggleweb.ui
+    huggleweb.ui \
+    proxy.ui
 
 RESOURCES += \
     pictures.qrc

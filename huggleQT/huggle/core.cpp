@@ -16,7 +16,14 @@ Login *Core::f_Login = NULL;
 
 void Core::Init()
 {
+    Core::Log("Huggle 3 QT-LX");
+#ifdef PYTHONENGINE
+    Core::Log("Loading python engine");
+    this->Python = new PythonEngine();
+#endif
+    Core::DebugLog("Loading wikis");
     Configuration::ProjectList << Configuration::Project;
+    // this is a temporary only for oauth testing
     Configuration::ProjectList << WikiSite("mediawiki","www.mediawiki.org/");
 }
 

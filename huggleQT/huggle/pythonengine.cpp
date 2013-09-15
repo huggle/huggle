@@ -8,24 +8,15 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
-#include <QApplication>
-#include "login.h"
-#include "core.h"
-#include "exception.h"
+#include "configuration.h"
 
-int main(int argc, char *argv[])
+#ifdef PYTHONENGINE
+
+#include "pythonengine.h"
+
+PythonEngine::PythonEngine()
 {
-    try
-    {
-        Core::Init();
-        QApplication a(argc, argv);
-        Core::f_Login = new Login();
-        Core::f_Login->show();
-
-        return a.exec();
-    } catch (Exception fail)
-    {
-        Core::Log("FATAL: Unhandled exception occured, description: " + fail.Message);
-        return fail.ErrorCode;
-    }
+    Py_Initialize();
 }
+
+#endif

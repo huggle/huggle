@@ -8,6 +8,8 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
+// comment this if you want to disable python support
+#define PYTHONENGINE
 
 #ifndef CONFIGURATION_H
 #define CONFIGURATION_H
@@ -39,6 +41,7 @@ public:
     //! Where the welcome message is stored
     static QString WelcomeMP;
     static int Cache_InfoSize;
+    static bool PythonEngine;
     Configuration();
 };
 

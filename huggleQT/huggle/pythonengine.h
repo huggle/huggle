@@ -8,24 +8,23 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
-#include <QApplication>
-#include "login.h"
-#include "core.h"
-#include "exception.h"
+// This class is only available if you compile huggle with python support
 
-int main(int argc, char *argv[])
+#include "configuration.h"
+
+#ifdef PYTHONENGINE
+
+#ifndef PYTHONENGINE_H
+#define PYTHONENGINE_H
+
+#include <Python.h>
+
+class PythonEngine
 {
-    try
-    {
-        Core::Init();
-        QApplication a(argc, argv);
-        Core::f_Login = new Login();
-        Core::f_Login->show();
+public:
+    PythonEngine();
+};
 
-        return a.exec();
-    } catch (Exception fail)
-    {
-        Core::Log("FATAL: Unhandled exception occured, description: " + fail.Message);
-        return fail.ErrorCode;
-    }
-}
+#endif // PYTHONENGINE_H
+
+#endif

@@ -26,6 +26,7 @@ class HuggleWeb : public QFrame
 public:
     explicit HuggleWeb(QWidget *parent = 0);
     ~HuggleWeb();
+    QString CurrentPageName();
     void DisplayPreFormattedPage(WikiPage *page);
     void DisplayPreFormattedPage(QString url);
     void DisplayPage(QString url);
@@ -33,6 +34,7 @@ public:
     
 private:
     Ui::HuggleWeb *ui;
+    QString CurrentPage;
 };
 
 #endif // HUGGLEWEB_H

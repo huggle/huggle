@@ -17,6 +17,11 @@
 #include "wikisite.h"
 #include "wikiuser.h"
 #include "wikipage.h"
+
+#ifdef PYTHONENGINE
+#include "pythonengine.h"
+#endif
+
 #include <iostream>
 #include <QApplication>
 #include <QNetworkAccessManager>
@@ -34,6 +39,11 @@ public:
     static void Init();
     static MainWindow *Main;
     static Login *f_Login;
+
+#ifdef PYTHONENGINE
+    static PythonEngine *Python;
+#endif
+
     static void Log(QString Message);
     static void DebugLog(QString Message, unsigned int Verbosity = 1);
     //! Helper function that will return URL of project in question
