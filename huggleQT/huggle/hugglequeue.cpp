@@ -49,6 +49,8 @@ void HuggleQueue::Next()
     {
         return;
     }
-    HuggleQueueItemLabel *label = (HuggleQueueItemLabel*)this->layout->itemAt(1)->widget();
+    QLayoutItem *i = this->layout->itemAt(1);
+    HuggleQueueItemLabel *label = (HuggleQueueItemLabel*)i->widget();
     label->Process();
+    this->layout->removeItem(i);
 }
