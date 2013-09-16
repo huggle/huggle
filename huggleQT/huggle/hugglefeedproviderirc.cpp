@@ -24,12 +24,12 @@ HuggleFeedProviderIRC::~HuggleFeedProviderIRC()
     delete TcpSocket;
 }
 
-void HuggleFeedProviderIRC::Start()
+bool HuggleFeedProviderIRC::Start()
 {
     if (Connected)
     {
         Core::DebugLog("Attempted to start connection which was already started");
-        return;
+        return false;
     }
     TcpSocket = new QTcpSocket(Core::Main);
     TcpSocket->connectToHost(Configuration::IRCServer, Configuration::IRCPort);
@@ -39,7 +39,7 @@ void HuggleFeedProviderIRC::Start()
         TcpSocket->close();
         delete TcpSocket;
         TcpSocket = NULL;
-        return;
+        return false;
     }
     Core::Log("IRC: Successfuly connected to irc rc feed");
     this->TcpSocket->write(QString("USER " + Configuration::IRCNick + " 8 * :" + Configuration::IRCIdent + "\n").toAscii());
@@ -49,6 +49,7 @@ void HuggleFeedProviderIRC::Start()
     this->thread->p = this;
     this->thread->start();
     Connected = true;
+    return true;
 }
 
 bool HuggleFeedProviderIRC::IsWorking()
@@ -80,11 +81,13 @@ void HuggleFeedProviderIRC::Stop()
 
 void HuggleFeedProviderIRC::InsertEdit(WikiEdit edit)
 {
+    this->lock.lock();
     while (this->Buffer.size() > Configuration::ProviderCache)
     {
         this->Buffer.removeAt(0);
     }
     this->Buffer.append(edit);
+    this->lock.unlock();
 }
 
 void HuggleFeedProviderIRC::ParseEdit(QString line)
@@ -253,11 +256,13 @@ HuggleFeedProviderIRC_t::~HuggleFeedProviderIRC_t()
 
 WikiEdit *HuggleFeedProviderIRC::RetrieveEdit()
 {
+    this->lock.lock();
     if (this->Buffer.size() == 0)
     {
         return NULL;
     }
     WikiEdit *edit = new WikiEdit(this->Buffer.at(0));
     this->Buffer.removeAt(0);
+    this->lock.unlock();
     return edit;
 }

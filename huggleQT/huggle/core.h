@@ -62,6 +62,10 @@ public:
     static QString GetProjectScriptURL();
     static void ProcessEdit(WikiEdit *e);
     static void Shutdown();
+    static QString RingLogToText();
+    static void InsertToRingLog(QString text);
+private:
+    static QList<QString> *RingLog;
 };
 
 #endif // CORE_H

@@ -25,6 +25,7 @@
 #include "huggleweb.h"
 #include "wikipage.h"
 #include "wikiuser.h"
+#include "hugglefeedproviderwiki.h"
 #include "hugglefeedproviderirc.h"
 
 namespace Ui {

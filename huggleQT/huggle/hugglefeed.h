@@ -23,11 +23,11 @@ public:
     //! Return true if this feed is operational or not
     virtual bool IsWorking() { return false; }
     //! Restart the feed engine
-    virtual void Restart() {}
+    virtual bool Restart() {return false;}
     //! Stop the feed engine
     virtual void Stop() {}
     //! Start the feed engine
-    virtual void Start() {}
+    virtual bool Start() { return false; }
     virtual bool ContainsEdit() { return false; }
     //! Return a last edit from cache or NULL
     virtual WikiEdit *RetrieveEdit() { return NULL; }

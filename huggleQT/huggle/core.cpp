@@ -18,6 +18,7 @@ MainWindow *Core::Main = NULL;
 Login *Core::f_Login = NULL;
 HuggleFeed *Core::SecondaryFeedProvider = NULL;
 HuggleFeed *Core::PrimaryFeedProvider = NULL;
+QList<QString> *Core::RingLog = new QList<QString>();
 
 
 void Core::Init()
@@ -36,6 +37,14 @@ void Core::Init()
 void Core::Log(QString Message)
 {
     std::cout << Message.toStdString() << std::endl;
+    Core::InsertToRingLog(Message);
+    if (Core::Main != NULL)
+    {
+        if (Core::Main->SystemLog != NULL)
+        {
+            Core::Main->SystemLog->InsertText(Message);
+        }
+    }
 }
 
 void Core::DebugLog(QString Message, unsigned int Verbosity)
@@ -89,5 +98,26 @@ void Core::Shutdown()
 #endif
     delete Core::f_Login;
     QApplication::quit();
+}
+
+QString Core::RingLogToText()
+{
+    int i = 0;
+    QString text = "";
+    while (i<Core::RingLog->size())
+    {
+        text = Core::RingLog->at(i) + "\n" + text;
+        i++;
+    }
+    return text;
+}
+
+void Core::InsertToRingLog(QString text)
+{
+    if (Core::RingLog->size()+1 > Configuration::RingLogMaxSize)
+    {
+        Core::RingLog->removeAt(0);
+    }
+    Core::RingLog->append(text);
 }
 

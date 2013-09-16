@@ -19,6 +19,11 @@ HuggleLog::HuggleLog(QWidget *parent) :
     ui->textEdit->resize(ui->textEdit->width(), 60);
 }
 
+void HuggleLog::InsertText(QString text)
+{
+    ui->textEdit->insertPlainText(text + "\n");
+}
+
 HuggleLog::~HuggleLog()
 {
     delete ui;

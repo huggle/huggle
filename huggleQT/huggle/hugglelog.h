@@ -11,6 +11,7 @@
 #ifndef HUGGLELOG_H
 #define HUGGLELOG_H
 
+#include <QString>
 #include <QDockWidget>
 
 namespace Ui {
@@ -23,6 +24,7 @@ class HuggleLog : public QDockWidget
     
 public:
     explicit HuggleLog(QWidget *parent = 0);
+    void InsertText(QString text);
     ~HuggleLog();
     
 private:

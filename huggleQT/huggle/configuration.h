@@ -44,6 +44,7 @@ public:
     static bool PythonEngine;
     //! Size of feed
     static unsigned int ProviderCache;
+    static unsigned int RingLogMaxSize;
 
     ///////////////////////////
     // Login

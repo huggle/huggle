@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += webkit core gui network
+QT       += xml webkit core gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -42,7 +42,8 @@ SOURCES += main.cpp\
     hugglefeed.cpp \
     hugglefeedproviderirc.cpp \
     hugglequeueitemlabel.cpp \
-    wikiedit.cpp
+    wikiedit.cpp \
+    hugglefeedproviderwiki.cpp
 
 HEADERS  += mainwindow.h \
     login.h \
@@ -71,7 +72,8 @@ HEADERS  += mainwindow.h \
     hugglefeed.h \
     hugglefeedproviderirc.h \
     hugglequeueitemlabel.h \
-    wikiedit.h
+    wikiedit.h \
+    hugglefeedproviderwiki.h
 
 FORMS    += mainwindow.ui \
     login.ui \

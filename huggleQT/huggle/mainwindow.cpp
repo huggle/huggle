@@ -25,6 +25,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     this->preferencesForm = new Preferences(this);
     this->aboutForm = new AboutForm(this);
     this->SystemLog->resize(100, 80);
+    SystemLog->InsertText(Core::RingLogToText());
     this->setWindowTitle("Huggle 3 QT-LX");
     ui->verticalLayout->addWidget(this->Browser);
     DisplayWelcomeMessage();
@@ -32,6 +33,16 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     if (Configuration::UsingIRC)
     {
         Core::PrimaryFeedProvider = new HuggleFeedProviderIRC();
+        if (!Core::PrimaryFeedProvider->Start())
+        {
+            Core::Log("ERROR: primary feed provider has failed, fallback to wiki provider");
+            delete Core::PrimaryFeedProvider;
+            Core::PrimaryFeedProvider = new HuggleFeedProviderWiki();
+            Core::PrimaryFeedProvider->Start();
+        }
+    } else
+    {
+        Core::PrimaryFeedProvider = new HuggleFeedProviderWiki();
         Core::PrimaryFeedProvider->Start();
     }
     this->timer1 = new QTimer(this);

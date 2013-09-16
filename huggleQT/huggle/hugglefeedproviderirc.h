@@ -14,6 +14,7 @@
 #include <QString>
 #include <QThread>
 #include <QList>
+#include <QMutex>
 #include <QTcpSocket>
 #include "hugglefeed.h"
 #include "core.h"
@@ -42,15 +43,16 @@ class HuggleFeedProviderIRC : public HuggleFeed
 public:
     HuggleFeedProviderIRC();
     ~HuggleFeedProviderIRC();
-    void Start();
+    bool Start();
     bool IsWorking();
     void Stop();
-    void Restart() { this->Stop(); this->Start(); }
+    bool Restart() { this->Stop(); return this->Start(); }
     void InsertEdit(WikiEdit edit);
     void ParseEdit(QString line);
     bool ContainsEdit();
     WikiEdit *RetrieveEdit();
 private:
+    QMutex lock;
     bool Connected;
     QList<WikiEdit> Buffer;
     HuggleFeedProviderIRC_t *thread;
