@@ -13,6 +13,8 @@
 
 #include <QFrame>
 #include "wikipage.h"
+#include "wikiedit.h"
+#include "exception.h"
 #include "core.h"
 
 namespace Ui {
@@ -31,6 +33,7 @@ public:
     void DisplayPreFormattedPage(QString url);
     void DisplayPage(QString url);
     void RenderHtml(QString html);
+    void DisplayDiff(WikiEdit *edit);
     
 private:
     Ui::HuggleWeb *ui;

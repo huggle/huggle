@@ -25,6 +25,8 @@ public:
     explicit HuggleTool(QWidget *parent = 0);
     ~HuggleTool();
     void SetTitle(QString title);
+    void SetInfo(QString info);
+    void SetUser(QString user);
     
 private:
     Ui::HuggleTool *ui;

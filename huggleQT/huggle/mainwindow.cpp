@@ -26,6 +26,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     this->aboutForm = new AboutForm(this);
     this->SystemLog->resize(100, 80);
     SystemLog->InsertText(Core::RingLogToText());
+    this->CurrentEdit = NULL;
     this->setWindowTitle("Huggle 3 QT-LX");
     ui->verticalLayout->addWidget(this->Browser);
     DisplayWelcomeMessage();
@@ -63,12 +64,24 @@ MainWindow::~MainWindow()
 
 void MainWindow::ProcessEdit(WikiEdit *e)
 {
-    // Make the browser display a diff
-
+    this->CurrentEdit = e;
+    this->Browser->DisplayDiff(e);
+    this->Render();
 }
 
 void MainWindow::Render()
 {
+    if (this->CurrentEdit != NULL)
+    {
+        if (this->CurrentEdit->Page == NULL)
+        {
+            throw new Exception("Page of CurrentEdit can't be NULL at MainWindow::Render()");
+        }
+        this->tb->SetTitle(this->CurrentEdit->Page->PageName);
+        this->tb->SetUser(this->CurrentEdit->User->Username);
+        this->tb->SetInfo("Diff of page: " + this->CurrentEdit->Page->PageName);
+        return;
+    }
     this->tb->SetTitle(this->Browser->CurrentPageName());
 }
 

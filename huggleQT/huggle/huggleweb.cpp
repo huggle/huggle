@@ -48,3 +48,13 @@ void HuggleWeb::DisplayPage(QString url)
 void HuggleWeb::RenderHtml(QString html)
 {
 }
+
+void HuggleWeb::DisplayDiff(WikiEdit *edit)
+{
+    if (edit->Page == NULL)
+    {
+        throw new Exception("The page of edit was NULL in HuggleWeb::DisplayDiff(*edit)");
+    }
+    ui->webView->load(Core::GetProjectScriptURL() + "index.php?title=" + edit->Page->PageName + "&diff="
+                      + QString::number(edit->Diff) + "&action=render");
+}

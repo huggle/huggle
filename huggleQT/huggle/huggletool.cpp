@@ -28,3 +28,13 @@ void HuggleTool::SetTitle(QString title)
     ui->lineEdit->setText(title);
     ui->comboBox_2->lineEdit()->setText(title);
 }
+
+void HuggleTool::SetInfo(QString info)
+{
+    ui->lineEdit->setText(info);
+}
+
+void HuggleTool::SetUser(QString user)
+{
+    ui->comboBox->lineEdit()->setText(user);
+}

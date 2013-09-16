@@ -25,6 +25,7 @@
 #include "huggleweb.h"
 #include "wikipage.h"
 #include "wikiuser.h"
+#include "exception.h"
 #include "hugglefeedproviderwiki.h"
 #include "hugglefeedproviderirc.h"
 
@@ -34,6 +35,9 @@ class MainWindow;
 
 class HuggleQueue;
 class HuggleWeb;
+class WikiEdit;
+class WikiPage;
+class WikiUser;
 
 class MainWindow : public QMainWindow
 {
@@ -48,6 +52,7 @@ public:
     HuggleTool *tb;
     Preferences *preferencesForm;
     AboutForm *aboutForm;
+    WikiEdit *CurrentEdit;
     //! Recreate interface, should be called everytime you do anything with main form
     void ProcessEdit(WikiEdit *e);
     void Render();
