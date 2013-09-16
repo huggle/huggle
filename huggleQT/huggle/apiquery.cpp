@@ -22,11 +22,6 @@ void ApiQuery::ConstructUrl()
         URL = URL + "&" + this->Parameters;
     }
 
-    if (!this->FormatIsCurrentlySupported())
-    {
-        Core::Log("WARNING: you requested to process api request using JSON format, which isn't supported yet");
-    }
-
     switch (this->RequestFormat)
     {
     case XML:

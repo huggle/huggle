@@ -16,8 +16,7 @@ HuggleFeedProviderWiki::HuggleFeedProviderWiki()
     Refreshing = false;
     q = NULL;
     // we set the latest time to yesterday so that we don't get in troubles with time offset
-    LatestTime = QDateTime::currentDateTime();
-    LatestTime = LatestTime.addDays(-1);
+    LatestTime = QDateTime::currentDateTime().addDays(-1);
 }
 
 HuggleFeedProviderWiki::~HuggleFeedProviderWiki()
@@ -80,7 +79,7 @@ void HuggleFeedProviderWiki::Refresh()
     Refreshing = true;
     q = new ApiQuery();
     q->SetAction(ActionQuery);
-    q->Parameters = "list=recentchanges&rcprop=user%7Cuserid%7Ccomment%7Cflags%7Ctimestamp%7Ctitle%7Cids%7Csizes&rcshow=!bot&rclimit=10";
+    q->Parameters = "list=recentchanges&rcprop=user|userid|comment|flags|timestamp|title|ids|sizes&rcshow=!bot&rclimit=10";
     q->Process();
 }
 
@@ -103,19 +102,26 @@ void HuggleFeedProviderWiki::Process(QString data)
     QDomNodeList l = d.elementsByTagName("rc");
     int CurrentNode = 0;
     // recursively scan all RC changes
-    while (CurrentNode < l.size())
+    int parsed = 0;
+    while (CurrentNode < l.count())
     {
         // get a time of rc change
         QDomElement item = l.at(CurrentNode).toElement();
 
-        if (!item.attributes().contains("timestamp"))
+        if (item.nodeName() != "rc")
         {
-            Core::DebugLog("RC Feed: Item was missing timestamp attribute: " + item.text());
             CurrentNode++;
             continue;
         }
 
-        QDateTime time = QDateTime::fromString(item.attribute("timestamp"), "yyyy-MM-ddThh:mi:ssZ");
+        if (!item.attributes().contains("timestamp"))
+        {
+            Core::Log("RC Feed: Item was missing timestamp attribute: " + item.toElement().nodeName());
+            CurrentNode++;
+            continue;
+        }
+
+        QDateTime time = QDateTime::fromString(item.attribute("timestamp"), "yyyy-MM-ddThh:mm:ssZ");
 
         if (time < this->LatestTime)
         {
@@ -126,7 +132,7 @@ void HuggleFeedProviderWiki::Process(QString data)
 
         if (!item.attributes().contains("type"))
         {
-            Core::DebugLog("RC Feed: Item was missing type attribute: " + item.text());
+            Core::Log("RC Feed: Item was missing type attribute: " + item.text());
             CurrentNode++;
             continue;
         }
@@ -135,6 +141,13 @@ void HuggleFeedProviderWiki::Process(QString data)
 
         if (type != "edit" && type != "new")
         {
+            CurrentNode++;
+            continue;
+        }
+
+        if (!item.attributes().contains("title"))
+        {
+            Core::Log("RC Feed: Item was missing title attribute: " + item.text());
             CurrentNode++;
             continue;
         }
@@ -162,7 +175,23 @@ void HuggleFeedProviderWiki::Process(QString data)
             edit.Summary = item.attribute("comment");
         }
 
+        if (item.attributes().contains("bot"))
+        {
+            edit.Bot = true;
+        }
+
+        if (item.attributes().contains("anon"))
+        {
+            edit.User->IP = true;
+        }
+
+        if (item.attributes().contains("minor"))
+        {
+            edit.Minor = true;
+        }
+
         this->InsertEdit(edit);
+
         CurrentNode++;
     }
 }

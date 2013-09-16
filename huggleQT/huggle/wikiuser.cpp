@@ -13,19 +13,23 @@
 WikiUser::WikiUser()
 {
     this->Username = "";
+    this->IP = true;
 }
 
 WikiUser::WikiUser(WikiUser *u)
 {
+    this->IP = u->IP;
     this->Username = u->Username;
 }
 
 WikiUser::WikiUser(const WikiUser &u)
 {
+    this->IP = u.IP;
     this->Username = u.Username;
 }
 
 WikiUser::WikiUser(QString user)
 {
+    this->IP = false;
     this->Username = user;
 }

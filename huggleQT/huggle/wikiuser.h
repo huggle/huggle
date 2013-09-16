@@ -21,6 +21,7 @@ public:
     WikiUser(const WikiUser& u);
     WikiUser(QString user);
     QString Username;
+    bool IP;
 };
 
 #endif // WIKIUSER_H
