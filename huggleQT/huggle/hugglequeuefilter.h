@@ -15,6 +15,7 @@
 #include "wikiedit.h"
 
 class HuggleQueue;
+class WikiEdit;
 
 class HuggleQueueFilter
 {

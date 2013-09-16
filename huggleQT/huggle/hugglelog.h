@@ -26,6 +26,7 @@ public:
     explicit HuggleLog(QWidget *parent = 0);
     void InsertText(QString text);
     ~HuggleLog();
+    QString content;
     
 private:
     Ui::HuggleLog *ui;

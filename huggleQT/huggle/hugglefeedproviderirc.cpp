@@ -175,7 +175,6 @@ void HuggleFeedProviderIRC::ParseEdit(QString line)
         edit.Diff = line.mid(0, line.indexOf("&")).toInt();
     }
 
-
     if (!line.contains("&oldid="))
     {
         Core::DebugLog("Invalid line (no oldid?):" + line);
@@ -230,7 +229,7 @@ void HuggleFeedProviderIRC_t::run()
             this->s->write(QString("PING :" + Configuration::IRCServer).toAscii());
             ping = 2000;
         }
-        QString text(this->s->readLine());
+        QString text = QString::fromUtf8(this->s->readLine());
         if (text == "")
         {
             QThread::usleep(2000000);
@@ -267,5 +266,7 @@ WikiEdit *HuggleFeedProviderIRC::RetrieveEdit()
     WikiEdit *edit = new WikiEdit(this->Buffer.at(0));
     this->Buffer.removeAt(0);
     this->lock.unlock();
+    Core::PreProcessEdit(edit);
+    Core::PostProcessEdit(edit);
     return edit;
 }

@@ -15,7 +15,7 @@ QNetworkAccessManager Query::NetworkManager;
 Query::Query()
 {
     this->Result = NULL;
-    this->ProcessInSeparateThread = false;
+    this->Type = QueryNull;
     this->Status = Null;
 }
 

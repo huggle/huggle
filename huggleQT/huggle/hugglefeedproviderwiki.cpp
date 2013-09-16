@@ -90,6 +90,8 @@ WikiEdit *HuggleFeedProviderWiki::RetrieveEdit()
         return NULL;
     }
     WikiEdit *edit = new WikiEdit(this->Buffer->at(0));
+    Core::PreProcessEdit(edit);
+    Core::PostProcessEdit(edit);
     this->Buffer->removeAt(0);
     return edit;
 }
@@ -102,7 +104,6 @@ void HuggleFeedProviderWiki::Process(QString data)
     QDomNodeList l = d.elementsByTagName("rc");
     int CurrentNode = 0;
     // recursively scan all RC changes
-    int parsed = 0;
     QDateTime t = this->LatestTime;
     while (CurrentNode < l.count())
     {

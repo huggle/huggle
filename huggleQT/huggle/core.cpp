@@ -14,11 +14,14 @@
 PythonEngine *Core::Python = NULL;
 #endif
 
+// definitions
 MainWindow *Core::Main = NULL;
 Login *Core::f_Login = NULL;
 HuggleFeed *Core::SecondaryFeedProvider = NULL;
 HuggleFeed *Core::PrimaryFeedProvider = NULL;
 QList<QString> *Core::RingLog = new QList<QString>();
+QList<Query*> Core::RunningQueries;
+QList<WikiEdit*> Core::ProcessingEdits;
 
 void Core::Init()
 {
@@ -165,11 +168,39 @@ void Core::SaveConfig()
 
 void Core::PostProcessEdit(WikiEdit *_e)
 {
-
+    _e->PostProcess();
+    Core::ProcessingEdits.append(_e);
 }
 
 bool Core::PreflightCheck(WikiEdit *_e)
 {
     return true;
+}
+
+ApiQuery *Core::RevertEdit(WikiEdit *_e, QString summary, bool minor, bool rollback)
+{
+    if (_e->User == NULL)
+    {
+        throw new Exception("Object user was NULL in Core::Revert");
+    }
+    ApiQuery *query = new ApiQuery();
+    if (_e->Page == NULL)
+    {
+        throw new Exception("Object page was NULL");
+    }
+    if (rollback)
+    {
+        query->SetAction(ActionRollback);
+        query->Parameters = "title=" + QUrl::toPercentEncoding(_e->Page->PageName)
+                + "&user=" + QUrl::toPercentEncoding(_e->User->Username)
+                + "&token=" + _e->RollbackToken + "&summary="
+                + QUrl::toPercentEncoding(summary);
+
+        query->UsingPOST = true;
+        query->Process();
+        Core::RunningQueries.append(query);
+    }
+
+    return query;
 }
 

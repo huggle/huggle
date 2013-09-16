@@ -12,6 +12,8 @@
 #define WIKIEDIT_H
 
 #include <QString>
+#include <QtXml>
+#include "apiquery.h"
 #include "wikiuser.h"
 #include "wikipage.h"
 
@@ -25,6 +27,16 @@ enum WarningLevel
     WarningLevel5
 };
 
+enum WEStatus
+{
+    StatusNone,
+    StatusProcessed,
+    StatusPostProcessed
+};
+
+class Query;
+class ApiQuery;
+
 class WikiEdit
 {
 public:
@@ -32,6 +44,10 @@ public:
     WikiEdit(const WikiEdit& edit);
     WikiEdit(WikiEdit *edit);
     ~WikiEdit();
+    bool FinalizePostProcessing();
+    void PostProcess();
+    //! Return true in case this edit was post processed already
+    bool IsPostProcessed();
     //! Page that was changed by edit
     WikiPage *Page;
     //! User who changed the page
@@ -42,9 +58,10 @@ public:
     int Size;
     int Diff;
     int OldID;
-    bool Processed;
+    WEStatus Status;
     WarningLevel CurrentUserWarningLevel;
     QString Summary;
+    QString RollbackToken;
     //! If this is true the edit was made by huggle
     bool EditMadeByHuggle;
     //! If this is true the edit was made by some other
@@ -52,6 +69,9 @@ public:
     bool TrustworthEdit;
     //! Edit was made by you
     bool OwnEdit;
+private:
+    bool PostProcessing;
+    ApiQuery* ProcessingQuery;
 };
 
 #endif // WIKIEDIT_H

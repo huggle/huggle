@@ -24,6 +24,12 @@ enum _Status
     InError
 };
 
+enum QueryType
+{
+    QueryNull,
+    QueryApi
+};
+
 //! Every request to website is processed as a query, this is a base object that all
 //! other queries are derived from
 class Query : public QObject
@@ -31,14 +37,11 @@ class Query : public QObject
 public:
     Query();
     virtual ~Query();
-    //! If true the request will be processed in a separate thread. In that case
-    //! the process function will not immediately result in query being
-    //! completed. You will need to wait for status to change to Done
-    bool ProcessInSeparateThread;
     //! Result
     QueryResult *Result;
     //! Current status
     enum _Status Status;
+    QueryType Type;
     //! Return true in case this query has been finished
     static QNetworkAccessManager NetworkManager;
     virtual bool Processed();

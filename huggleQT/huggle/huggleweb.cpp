@@ -56,6 +56,10 @@ void HuggleWeb::RenderHtml(QString html)
 void HuggleWeb::DisplayDiff(WikiEdit *edit)
 {
     ui->webView->history()->clear();
+    if (edit == NULL)
+    {
+        throw new Exception("The page of edit was NULL in HuggleWeb::DisplayDiff(*edit)");
+    }
     if (edit->Page == NULL)
     {
         throw new Exception("The page of edit was NULL in HuggleWeb::DisplayDiff(*edit)");

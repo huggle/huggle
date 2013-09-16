@@ -44,8 +44,9 @@ bool ApiQuery::FormatIsCurrentlySupported()
 
 ApiQuery::ApiQuery()
 {
-    RequestFormat = XML;
-    URL = "";
+    this->RequestFormat = XML;
+    this->URL = "";
+    this->Type = QueryApi;
     this->ActionPart = "";
     this->Parameters = "";
     this->UsingPOST = false;
@@ -128,6 +129,8 @@ void ApiQuery::SetAction(Action action)
     case ActionUndelete:
         this->ActionPart = "undelete";
         return;
+    case ActionEdit:
+        this->ActionPart = "edit";
     }
 }
 

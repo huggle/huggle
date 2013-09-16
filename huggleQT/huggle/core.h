@@ -30,6 +30,8 @@
 
 // Predeclaring some types
 class Login;
+class Query;
+class ApiQuery;
 class MainWindow;
 class HuggleFeed;
 class WikiSite;
@@ -46,6 +48,10 @@ public:
     static Login *f_Login;
     static HuggleFeed *PrimaryFeedProvider;
     static HuggleFeed *SecondaryFeedProvider;
+    static QList<Query*> RunningQueries;
+    //! This is a list of all edits that are being processed by some way
+    //! whole list needs to be checked and probed everytime once a while
+    static QList<WikiEdit*> ProcessingEdits;
 
 #ifdef PYTHONENGINE
     static PythonEngine *Python;
@@ -81,6 +87,7 @@ public:
     static void PostProcessEdit(WikiEdit *_e);
     //! Check if we can revert this edit
     static bool PreflightCheck(WikiEdit *_e);
+    static ApiQuery *RevertEdit(WikiEdit* _e, QString summary = "", bool minor = false, bool rollback = true);
     static void LoadDB();
 private:
     static QList<QString> *RingLog;

@@ -12,6 +12,7 @@
 
 Exception::Exception(QString Text)
 {
+    std::cerr << "FATAL Exception thrown: " + Text.toStdString() << std::endl;
     this->Message = Text;
     this->ErrorCode = 2;
 }

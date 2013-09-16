@@ -14,6 +14,8 @@
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    this->Status = new QLabel();
+    ui->statusBar->addWidget(this->Status);
     this->showMaximized();
     this->tb = new HuggleTool();
     this->SystemLog = new HuggleLog(this);
@@ -57,6 +59,7 @@ MainWindow::~MainWindow()
     delete this->aboutForm;
     delete this->Queue1;
     delete this->SystemLog;
+    delete this->Status;
     delete this->Browser;
     delete ui;
     delete this->tb;
@@ -94,7 +97,7 @@ bool MainWindow::Revert()
     if (this->CurrentEdit == NULL)
     {
         Core::Log("ERROR: Unable to revert, edit is null");
-        return;
+        return false;
     }
 
     if (Core::PreflightCheck(this->CurrentEdit))
@@ -102,6 +105,11 @@ bool MainWindow::Revert()
         return true;
     }
     return false;
+}
+
+bool MainWindow::Warn()
+{
+    return true;
 }
 
 void MainWindow::on_actionExit_triggered()
@@ -141,6 +149,28 @@ void MainWindow::on_Tick()
     if (Core::PrimaryFeedProvider->ContainsEdit())
     {
         this->Queue1->AddItem(Core::PrimaryFeedProvider->RetrieveEdit());
+    }
+    this->Status->setText("Currently processing " + QString::number(Core::ProcessingEdits.count()) + " edits and 0 queries");
+    // let's refresh the edits that are being post processed
+    if (Core::ProcessingEdits.count() > 0)
+    {
+        QList<WikiEdit*> rm;
+        int Edit = 0;
+        while (Edit < Core::ProcessingEdits.count())
+        {
+            if (Core::ProcessingEdits.at(Edit)->FinalizePostProcessing())
+            {
+                rm.append(Core::ProcessingEdits.at(Edit));
+            }
+            Edit++;
+        }
+        // remove the edits that were already processed from queue now :o
+        Edit = 0;
+        while (Edit < rm.count())
+        {
+            Core::ProcessingEdits.removeOne(rm.at(Edit));
+            Edit++;
+        }
     }
 }
 

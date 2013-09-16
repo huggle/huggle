@@ -15,13 +15,15 @@ HuggleLog::HuggleLog(QWidget *parent) :
     QDockWidget(parent),
     ui(new Ui::HuggleLog)
 {
+    content = "";
     ui->setupUi(this);
     ui->textEdit->resize(ui->textEdit->width(), 60);
 }
 
 void HuggleLog::InsertText(QString text)
 {
-    ui->textEdit->insertPlainText(text + "\n");
+    ui->textEdit->append(text);
+    //ui->textEdit->setPlainText(content);
 }
 
 HuggleLog::~HuggleLog()

@@ -13,6 +13,7 @@
 
 #include <QMainWindow>
 #include <QTimer>
+#include <QLabel>
 #include <QSplitter>
 #include <QDockWidget>
 #include "configuration.h"
@@ -57,6 +58,7 @@ public:
     void ProcessEdit(WikiEdit *e);
     void Render();
     bool Revert();
+    bool Warn();
 
 
 private slots:
@@ -90,6 +92,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     QTimer *timer1;
+    QLabel *Status;
     void DisplayWelcomeMessage();
 };
 

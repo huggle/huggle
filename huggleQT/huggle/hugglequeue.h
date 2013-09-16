@@ -25,6 +25,7 @@ namespace Ui {
 class HuggleQueue;
 }
 
+class HuggleQueueFilter;
 class HuggleQueueItemLabel;
 
 class HuggleQueue : public QDockWidget

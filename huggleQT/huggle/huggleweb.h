@@ -22,6 +22,8 @@ namespace Ui {
 class HuggleWeb;
 }
 
+class WikiEdit;
+
 class HuggleWeb : public QFrame
 {
     Q_OBJECT

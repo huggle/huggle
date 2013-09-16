@@ -31,7 +31,8 @@ enum Action
     ActionPurge,
     ActionRollback,
     ActionDelete,
-    ActionUndelete
+    ActionUndelete,
+    ActionEdit
 };
 
 enum Format
