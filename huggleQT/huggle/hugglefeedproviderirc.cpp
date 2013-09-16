@@ -128,31 +128,47 @@ void HuggleFeedProviderIRC::ParseEdit(QString line)
     }
 
     line = line.mid(line.indexOf(QString(QChar(003)) + "4 ") + 2);
-    QString flags = line.mid(0, 3);
+    QString flags = line.mid(0, line.indexOf(QChar(003)));
     edit.Bot = flags.contains("B");
-    edit.NewPage = flags.contains("N");
+    edit.NewPage = flags.contains("create");
     edit.Minor = flags.contains("M");
+
+    if (flags.contains("hit"))
+    {
+        // abuse filter hit
+        return;
+    }
+
+    if (flags.contains("move"))
+    {
+        return;
+    }
 
     if (edit.NewPage)
     {
         Core::Log(line);
-    }
-
-    if (!line.contains("?diff="))
-    {
-        Core::DebugLog("Invalid line (no diff):" + line);
         return;
     }
 
-    line = line.mid(line.indexOf("?diff=") + 6);
-
-    if (!line.contains("&"))
+    if (!edit.NewPage)
     {
-        Core::DebugLog("Invalid line (no &):" + line);
-        return;
+        if (!line.contains("?diff="))
+        {
+            Core::DebugLog("Invalid line (no diff):" + line);
+            return;
+        }
+
+        line = line.mid(line.indexOf("?diff=") + 6);
+
+        if (!line.contains("&"))
+        {
+            Core::DebugLog("Invalid line (no &):" + line);
+            return;
+        }
+
+        edit.Diff = line.mid(0, line.indexOf("&")).toInt();
     }
 
-    edit.Diff = line.mid(0, line.indexOf("&")).toInt();
 
     if (!line.contains("&oldid="))
     {
@@ -169,6 +185,22 @@ void HuggleFeedProviderIRC::ParseEdit(QString line)
     }
 
     edit.OldID = line.mid(0, line.indexOf(QString(QChar(003)))).toInt();
+
+    if (!line.contains(QString(QChar(003)) + "03"))
+    {
+        Core::DebugLog("Invalid line, no user: " + line);
+        return;
+    }
+
+    line = line.mid(line.indexOf(QString(QChar(003)) + "03") + 3);
+
+    if (!line.contains(QString(QChar(3))))
+    {
+        Core::DebugLog("Invalid line (no termin):" + line);
+        return;
+    }
+
+    edit.User = new WikiUser(line.mid(0, line.indexOf(QString(QChar(003)))));
 
     this->InsertEdit(edit);
 }

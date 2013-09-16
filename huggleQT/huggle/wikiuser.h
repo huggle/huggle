@@ -19,6 +19,7 @@ public:
     WikiUser();
     WikiUser(WikiUser *u);
     WikiUser(const WikiUser& u);
+    WikiUser(QString user);
     QString Username;
 };
 

@@ -24,3 +24,8 @@ WikiUser::WikiUser(const WikiUser &u)
 {
     this->Username = u.Username;
 }
+
+WikiUser::WikiUser(QString user)
+{
+    this->Username = user;
+}
