@@ -12,6 +12,7 @@
 #define HUGGLEWEB_H
 
 #include <QFrame>
+#include <QWebHistory>
 #include "wikipage.h"
 #include "wikiedit.h"
 #include "exception.h"

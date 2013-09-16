@@ -15,6 +15,7 @@
 #define CONFIGURATION_H
 
 #include <QList>
+#include <QStringList>
 #include <QDir>
 #include <QString>
 #include "wikisite.h"
@@ -48,6 +49,8 @@ public:
     static unsigned int RingLogMaxSize;
     //! Path where huggle contains its data
     static QString HomePath;
+    static QString WikiDB;
+    static QString GetConfigurationPath();
 
     ///////////////////////////
     // Login
@@ -77,6 +80,14 @@ public:
     //! Port
     static quint16 IRCPort;
     Configuration();
+
+    ////////////////////////////
+    // Friends
+    ////////////////////////////
+    //! Suffix used by huggle
+    static QString EditSuffixOfHuggle;
+    //! Regexes that other tools can be identified with
+    static QStringList EditRegexOfTools;
 };
 
 #endif // CONFIGURATION_H

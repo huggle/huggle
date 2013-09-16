@@ -31,26 +31,31 @@ QString HuggleWeb::CurrentPageName()
 
 void HuggleWeb::DisplayPreFormattedPage(WikiPage *page)
 {
+    ui->webView->history()->clear();
     ui->webView->load(Core::GetProjectScriptURL() + "index.php?title=" + page->PageName + "&action=render");
     CurrentPage = page->PageName;
 }
 
 void HuggleWeb::DisplayPreFormattedPage(QString url)
 {
+    ui->webView->history()->clear();
     ui->webView->load(url + "&action=render");
     CurrentPage = ui->webView->title();
 }
 
 void HuggleWeb::DisplayPage(QString url)
 {
+    ui->webView->load(url);
 }
 
 void HuggleWeb::RenderHtml(QString html)
 {
+    ui->webView->setContent(html.toAscii());
 }
 
 void HuggleWeb::DisplayDiff(WikiEdit *edit)
 {
+    ui->webView->history()->clear();
     if (edit->Page == NULL)
     {
         throw new Exception("The page of edit was NULL in HuggleWeb::DisplayDiff(*edit)");

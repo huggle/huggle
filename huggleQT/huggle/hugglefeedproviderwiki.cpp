@@ -103,6 +103,7 @@ void HuggleFeedProviderWiki::Process(QString data)
     int CurrentNode = 0;
     // recursively scan all RC changes
     int parsed = 0;
+    QDateTime t = this->LatestTime;
     while (CurrentNode < l.count())
     {
         // get a time of rc change
@@ -135,6 +136,11 @@ void HuggleFeedProviderWiki::Process(QString data)
             Core::Log("RC Feed: Item was missing type attribute: " + item.text());
             CurrentNode++;
             continue;
+        }
+
+        if (time > t)
+        {
+            t = time;
         }
 
         QString type = item.attribute("type");
@@ -194,6 +200,7 @@ void HuggleFeedProviderWiki::Process(QString data)
 
         CurrentNode++;
     }
+    this->LatestTime = t.addSecs(1);
 }
 
 void HuggleFeedProviderWiki::InsertEdit(WikiEdit edit)

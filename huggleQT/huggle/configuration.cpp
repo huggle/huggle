@@ -35,6 +35,9 @@ unsigned int Configuration::ProviderCache = 2000;
 QString Configuration::HuggleVersion = "3.0.0.0";
 unsigned int Configuration::RingLogMaxSize = 2000;
 QString Configuration::HomePath = QDir::currentPath();
+QString Configuration::EditSuffixOfHuggle = "([[WP:HG]])";
+QStringList Configuration::EditRegexOfTools;
+QString Configuration::WikiDB = Configuration::GetConfigurationPath() + "wikidb.xml";
 
 
 QString Configuration::GetURLProtocolPrefix()
@@ -44,6 +47,11 @@ QString Configuration::GetURLProtocolPrefix()
         return "http://";
     }
     return "https://";
+}
+
+QString Configuration::GetConfigurationPath()
+{
+    return Configuration::HomePath + QDir::separator() + "Configuration" + QDir::separator();
 }
 
 Configuration::Configuration()

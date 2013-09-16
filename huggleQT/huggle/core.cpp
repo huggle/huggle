@@ -30,9 +30,26 @@ void Core::Init()
     Core::Python = new PythonEngine();
 #endif
     Core::DebugLog("Loading wikis");
+    Core::LoadDB();
+}
+
+void Core::LoadDB()
+{
     Configuration::ProjectList << Configuration::Project;
     // this is a temporary only for oauth testing
+    Configuration::ProjectList << WikiSite("testwiki", "test.wikipedia.org/");
     Configuration::ProjectList << WikiSite("mediawiki","www.mediawiki.org/");
+    if (QFile::exists(Configuration::WikiDB))
+    {
+        QFile db(Configuration::WikiDB);
+        if (!db.open(QIODevice::ReadOnly | QIODevice::Text))
+        {
+            Core::Log("ERROR: Unable to read " + Configuration::WikiDB);
+            return;
+        }
+        QDomDocument *d = new QDomDocument();
+        d->setContent(&db);
+    }
 }
 
 void Core::Log(QString Message)
@@ -136,7 +153,17 @@ void Core::LoadConfig()
 
 }
 
+void Core::PreProcessEdit(WikiEdit *_e)
+{
+
+}
+
 void Core::SaveConfig()
+{
+
+}
+
+void Core::PostProcessEdit(WikiEdit *_e)
 {
 
 }

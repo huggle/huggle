@@ -12,6 +12,7 @@
 #define CORE_H
 
 #include "configuration.h"
+#include "wikiedit.h"
 #include "mainwindow.h"
 
 #ifdef PYTHONENGINE
@@ -23,6 +24,8 @@
 #include <QNetworkAccessManager>
 #include <QList>
 #include <QString>
+#include <QFile>
+#include <QtXml>
 #include <QMessageBox>
 
 // Predeclaring some types
@@ -66,8 +69,17 @@ public:
     static QString RingLogToText();
     static void InsertToRingLog(QString text);
     static void DeveloperError();
+    //! Save the local configuration to file
     static void SaveConfig();
+    //! Load the local configuration from disk
     static void LoadConfig();
+    //! Check the edit summary and similar in order to
+    //! determine several edit attributes etc
+    static void PreProcessEdit(WikiEdit *_e);
+    //! Perform more expensive tasks to finalize
+    //! edit processing
+    static void PostProcessEdit(WikiEdit *_e);
+    static void LoadDB();
 private:
     static QList<QString> *RingLog;
 };

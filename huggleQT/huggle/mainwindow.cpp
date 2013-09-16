@@ -64,6 +64,10 @@ MainWindow::~MainWindow()
 
 void MainWindow::ProcessEdit(WikiEdit *e)
 {
+    if (this->CurrentEdit != NULL)
+    {
+        delete this->CurrentEdit;
+    }
     this->CurrentEdit = e;
     this->Browser->DisplayDiff(e);
     this->Render();
