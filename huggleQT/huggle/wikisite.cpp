@@ -20,9 +20,10 @@ WikiSite::WikiSite(QString name, QString url)
     this->SupportHttps = true;
     this->SupportOAuth = true;
     this->IRCChannel = "#en.wikipedia";
+    this->WhiteList = "en.wikipedia";
 }
 
-WikiSite::WikiSite(QString name, QString url, QString path, QString script, bool https, bool oauth, QString ic)
+WikiSite::WikiSite(QString name, QString url, QString path, QString script, bool https, bool oauth, QString ic, QString wl)
 {
     this->IRCChannel = ic;
     this->LongPath = path;
@@ -32,4 +33,5 @@ WikiSite::WikiSite(QString name, QString url, QString path, QString script, bool
     this->ScriptPath = script;
     this->URL = url;
     this->SupportOAuth = oauth;
+    this->WhiteList = wl;
 }

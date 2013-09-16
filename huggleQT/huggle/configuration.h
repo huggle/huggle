@@ -51,6 +51,7 @@ public:
     static QString HomePath;
     static QString WikiDB;
     static QString GetConfigurationPath();
+    static QStringList WhiteList;
 
     ///////////////////////////
     // Login
@@ -88,6 +89,14 @@ public:
     static QString EditSuffixOfHuggle;
     //! Regexes that other tools can be identified with
     static QStringList EditRegexOfTools;
+
+    ///////////////////////////////
+    // Reverting
+    ///////////////////////////////
+
+    static QString DefaultRevertSummary;
+    static QString GetDefaultRevertSummary(QString source);
+
 };
 
 #endif // CONFIGURATION_H

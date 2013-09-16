@@ -32,10 +32,12 @@ Login::Login(QWidget *parent) :   QDialog(parent),   ui(new Ui::Login)
         current++;
     }
     ui->Project->setCurrentIndex(0);
+    wq = NULL;
 }
 
 Login::~Login()
 {
+    delete wq;
     delete LoginQuery;
     delete ui;
     delete timer;
@@ -170,18 +172,39 @@ void Login::FinishToken()
     this->Progress(60);
 
     // this is last step but in fact we should load the config now
-    this->timer->stop();
     Core::DebugLog(this->LoginQuery->Result->Data, 6);
 
     // Assume login was successful
     if (this->ProcessOutput())
     {
-        Core::Main = new MainWindow();
-        this->hide();
-        Core::Main->show();
+        // Get a whitelist
+        this->_Status = RetrievingWhitelist;
     }
     // that's all
     delete this->LoginQuery;
+    this->LoginQuery = NULL;
+}
+
+void Login::RetrieveWhitelist()
+{
+    if (wq != NULL)
+    {
+        if (wq->Processed())
+        {
+            Configuration::WhiteList = wq->Result->Data.split("|");
+            delete wq;
+            wq = NULL;
+            this->_Status = LoginDone;
+            Finish();
+            return;
+        }
+        return;
+    }
+    this->Progress(80);
+    ui->label_6->setText("Retrieving whitelist");
+    wq = new WLQuery();
+    wq->Process();
+    return;
 }
 
 void Login::DeveloperMode()
@@ -198,6 +221,14 @@ void Login::DisplayError(QString message)
     Core::DebugLog(this->LoginQuery->Result->Data);
     ui->label_6->setText(message);
     this->CancelLogin();
+}
+
+void Login::Finish()
+{
+    this->timer->stop();
+    Core::Main = new MainWindow();
+    this->hide();
+    Core::Main->show();
 }
 
 bool Login::ProcessOutput()
@@ -302,6 +333,9 @@ void Login::on_Time()
         break;
     case WaitingForLoginQuery:
         FinishLogin();
+        break;
+    case RetrievingWhitelist:
+        RetrieveWhitelist();
         break;
     case WaitingForToken:
         FinishToken();

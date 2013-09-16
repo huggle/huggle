@@ -188,6 +188,12 @@ ApiQuery *Core::RevertEdit(WikiEdit *_e, QString summary, bool minor, bool rollb
     {
         throw new Exception("Object page was NULL");
     }
+
+    if (summary == "")
+    {
+        summary = Configuration::GetDefaultRevertSummary(_e->User->Username);
+    }
+
     if (rollback)
     {
         query->SetAction(ActionRollback);

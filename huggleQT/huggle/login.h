@@ -18,6 +18,7 @@
 #include <QTimer>
 #include "oauthloginquery.h"
 #include "core.h"
+#include "wlquery.h"
 #include "apiquery.h"
 #include "configuration.h"
 
@@ -34,9 +35,11 @@ enum Status
     Nothing,
     Cancelling,
     LoginFailed,
-    LoginDone
+    LoginDone,
+    RetrievingWhitelist
 };
 
+class WLQuery;
 class ApiQuery;
 
 class Login : public QDialog
@@ -58,6 +61,7 @@ private slots:
 private:
     Ui::Login *ui;
     QTimer *timer;
+    WLQuery *wq;
     ApiQuery *LoginQuery;
     //! The token obtained from login
     QString Token;
@@ -73,8 +77,10 @@ private:
     void PerformLogin();
     void FinishLogin();
     void FinishToken();
+    void RetrieveWhitelist();
     void DeveloperMode();
     void DisplayError(QString message);
+    void Finish();
     //! This function make sure that login result is done
     bool ProcessOutput();
     QString GetToken();

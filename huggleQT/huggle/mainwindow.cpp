@@ -94,14 +94,28 @@ void MainWindow::Render()
 
 bool MainWindow::Revert()
 {
+    bool rollback = true;
     if (this->CurrentEdit == NULL)
     {
         Core::Log("ERROR: Unable to revert, edit is null");
         return false;
     }
 
+    if (!this->CurrentEdit->IsPostProcessed())
+    {
+        Core::Log("ERROR: This edit is still being processed, please wait");
+        return false;
+    }
+
+    if (this->CurrentEdit->RollbackToken == "")
+    {
+        Core::Log("WARNING: Rollback token for edit " + this->CurrentEdit->Page->PageName + " could not be retrieved, fallback to manual edit");
+        rollback = false;
+    }
+
     if (Core::PreflightCheck(this->CurrentEdit))
     {
+        Core::RevertEdit(this->CurrentEdit);
         return true;
     }
     return false;
@@ -150,7 +164,10 @@ void MainWindow::on_Tick()
     {
         this->Queue1->AddItem(Core::PrimaryFeedProvider->RetrieveEdit());
     }
-    this->Status->setText("Currently processing " + QString::number(Core::ProcessingEdits.count()) + " edits and 0 queries");
+    this->Status->setText("Currently processing " + QString::number(Core::ProcessingEdits.count())
+                          + " edits and " + QString::number(Core::RunningQueries.count()) + " queries"
+                          + " I have " + QString::number(Configuration::WhiteList.size())
+                          + " whitelisted users");
     // let's refresh the edits that are being post processed
     if (Core::ProcessingEdits.count() > 0)
     {

@@ -38,7 +38,8 @@ QString Configuration::HomePath = QDir::currentPath();
 QString Configuration::EditSuffixOfHuggle = "([[WP:HG]])";
 QStringList Configuration::EditRegexOfTools;
 QString Configuration::WikiDB = Configuration::GetConfigurationPath() + "wikidb.xml";
-
+QString Configuration::DefaultRevertSummary = "Reverted edits by $1 identified as vandalism";
+QStringList Configuration::WhiteList;
 
 QString Configuration::GetURLProtocolPrefix()
 {
@@ -56,4 +57,9 @@ QString Configuration::GetConfigurationPath()
 
 Configuration::Configuration()
 {
+}
+
+QString Configuration::GetDefaultRevertSummary(QString source)
+{
+    return Configuration::DefaultRevertSummary.replace("$1", source) + " " + Configuration::EditSuffixOfHuggle;
 }

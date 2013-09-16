@@ -43,7 +43,8 @@ SOURCES += main.cpp\
     hugglefeedproviderirc.cpp \
     hugglequeueitemlabel.cpp \
     wikiedit.cpp \
-    hugglefeedproviderwiki.cpp
+    hugglefeedproviderwiki.cpp \
+    wlquery.cpp
 
 HEADERS  += mainwindow.h \
     login.h \
@@ -73,7 +74,8 @@ HEADERS  += mainwindow.h \
     hugglefeedproviderirc.h \
     hugglequeueitemlabel.h \
     wikiedit.h \
-    hugglefeedproviderwiki.h
+    hugglefeedproviderwiki.h \
+    wlquery.h
 
 FORMS    += mainwindow.ui \
     login.ui \

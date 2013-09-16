@@ -8,25 +8,28 @@
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
 
-#ifndef WIKISITE_H
-#define WIKISITE_H
+#ifndef WLQUERY_H
+#define WLQUERY_H
 
 #include <QString>
+#include <QtNetwork/QtNetwork>
+#include <QUrl>
+#include "configuration.h"
+#include "query.h"
 
-class WikiSite
+class WLQuery : public Query
 {
+    Q_OBJECT
 public:
-    QString Name;
-    QString URL;
-    QString LongPath;
-    QString ScriptPath;
-    QString OAuthURL;
-    QString IRCChannel;
-    QString WhiteList;
-    bool SupportHttps;
-    bool SupportOAuth;
-    WikiSite(QString name, QString url);
-    WikiSite(QString name, QString url, QString path, QString script, bool https, bool oauth, QString ic, QString wl);
+    WLQuery();
+    ~WLQuery();
+    bool Processed();
+    void Process();
+private slots:
+    void ReadData();
+    void Finished();
+private:
+    QNetworkReply *r;
 };
 
-#endif // WIKISITE_H
+#endif // WLQUERY_H
