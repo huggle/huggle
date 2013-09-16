@@ -89,6 +89,21 @@ void MainWindow::Render()
     this->tb->SetTitle(this->Browser->CurrentPageName());
 }
 
+bool MainWindow::Revert()
+{
+    if (this->CurrentEdit == NULL)
+    {
+        Core::Log("ERROR: Unable to revert, edit is null");
+        return;
+    }
+
+    if (Core::PreflightCheck(this->CurrentEdit))
+    {
+        return true;
+    }
+    return false;
+}
+
 void MainWindow::on_actionExit_triggered()
 {
     Core::Shutdown();
@@ -155,6 +170,8 @@ void MainWindow::on_actionRevert_currently_displayed_edit_triggered()
         Core::DeveloperError();
         return;
     }
+
+    this->Revert();
 }
 
 void MainWindow::on_actionWarn_the_user_triggered()
@@ -173,6 +190,11 @@ void MainWindow::on_actionRevert_currently_displayed_edit_and_warn_the_user_trig
         Core::DeveloperError();
         return;
     }
+
+    if (this->Revert())
+    {
+
+    }
 }
 
 void MainWindow::on_actionRevert_and_warn_triggered()
@@ -181,6 +203,10 @@ void MainWindow::on_actionRevert_and_warn_triggered()
     {
         Core::DeveloperError();
         return;
+    }
+    if (this->Revert())
+    {
+
     }
 }
 
@@ -191,4 +217,5 @@ void MainWindow::on_actionRevert_triggered()
         Core::DeveloperError();
         return;
     }
+    this->Revert();
 }

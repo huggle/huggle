@@ -168,3 +168,8 @@ void Core::PostProcessEdit(WikiEdit *_e)
 
 }
 
+bool Core::PreflightCheck(WikiEdit *_e)
+{
+    return true;
+}
+

@@ -56,6 +56,7 @@ public:
     //! Recreate interface, should be called everytime you do anything with main form
     void ProcessEdit(WikiEdit *e);
     void Render();
+    bool Revert();
 
 
 private slots:

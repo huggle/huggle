@@ -79,6 +79,8 @@ public:
     //! Perform more expensive tasks to finalize
     //! edit processing
     static void PostProcessEdit(WikiEdit *_e);
+    //! Check if we can revert this edit
+    static bool PreflightCheck(WikiEdit *_e);
     static void LoadDB();
 private:
     static QList<QString> *RingLog;
