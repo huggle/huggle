@@ -21,6 +21,11 @@ WikiEdit::WikiEdit()
     this->Diff = 0;
     this->OldID = 0;
     this->Summary = "";
+    this->Processed = false;
+    this->CurrentUserWarningLevel = WarningLevelNone;
+    this->OwnEdit = false;
+    this->EditMadeByHuggle = false;
+    this->TrustworthEdit = false;
 }
 
 WikiEdit::WikiEdit(const WikiEdit &edit)
@@ -41,7 +46,12 @@ WikiEdit::WikiEdit(const WikiEdit &edit)
     }
     this->Diff = edit.Diff;
     this->OldID = edit.OldID;
+    this->CurrentUserWarningLevel = edit.CurrentUserWarningLevel;
     this->Summary = edit.Summary;
+    this->Processed = edit.Processed;
+    this->OwnEdit = edit.OwnEdit;
+    this->EditMadeByHuggle = edit.EditMadeByHuggle;
+    this->TrustworthEdit = edit.TrustworthEdit;
 }
 
 WikiEdit::WikiEdit(WikiEdit *edit)
@@ -60,9 +70,14 @@ WikiEdit::WikiEdit(WikiEdit *edit)
     {
         this->User = new WikiUser(edit->User);
     }
-    this->Diff = edit->Diff;
     this->OldID = edit->OldID;
+    this->CurrentUserWarningLevel = edit->CurrentUserWarningLevel;
+    this->Processed = edit->Processed;
     this->Summary = edit->Summary;
+    this->Diff = edit->Diff;
+    this->OwnEdit = edit->OwnEdit;
+    this->EditMadeByHuggle = edit->EditMadeByHuggle;
+    this->TrustworthEdit = edit->TrustworthEdit;
 }
 
 WikiEdit::~WikiEdit()

@@ -72,6 +72,20 @@ private slots:
     void on_Tick();
     void on_actionNext_triggered();
 
+    void on_actionNext_2_triggered();
+
+    void on_actionWarn_triggered();
+
+    void on_actionRevert_currently_displayed_edit_triggered();
+
+    void on_actionWarn_the_user_triggered();
+
+    void on_actionRevert_currently_displayed_edit_and_warn_the_user_triggered();
+
+    void on_actionRevert_and_warn_triggered();
+
+    void on_actionRevert_triggered();
+
 private:
     Ui::MainWindow *ui;
     QTimer *timer1;
@@ -79,3 +93,4 @@ private:
 };
 
 #endif // MAINWINDOW_H
+

@@ -15,6 +15,7 @@
 #define CONFIGURATION_H
 
 #include <QList>
+#include <QDir>
 #include <QString>
 #include "wikisite.h"
 
@@ -45,6 +46,8 @@ public:
     //! Size of feed
     static unsigned int ProviderCache;
     static unsigned int RingLogMaxSize;
+    //! Path where huggle contains its data
+    static QString HomePath;
 
     ///////////////////////////
     // Login

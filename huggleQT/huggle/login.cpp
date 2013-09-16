@@ -92,8 +92,8 @@ void Login::PressOK()
     if (ui->tab->isVisible())
     {
         QMessageBox mb;
-        mb.setText("Function not supported");
-        mb.setInformativeText("This function is not available for wmf wikis in this moment");
+        mb.setWindowTitle("Function not supported");
+        mb.setText("This function is not available for wmf wikis in this moment");
         mb.exec();
         //mb.setStyle(QStyle::SP_MessageBoxCritical);
         return;

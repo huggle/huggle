@@ -34,6 +34,7 @@ quint16 Configuration::IRCPort = 6667;
 unsigned int Configuration::ProviderCache = 2000;
 QString Configuration::HuggleVersion = "3.0.0.0";
 unsigned int Configuration::RingLogMaxSize = 2000;
+QString Configuration::HomePath = QDir::currentPath();
 
 
 QString Configuration::GetURLProtocolPrefix()

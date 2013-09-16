@@ -32,6 +32,7 @@ class HuggleQueue : public QDockWidget
     Q_OBJECT
     
 public:
+    HuggleQueueFilter *CurrentFilter;
     explicit HuggleQueue(QWidget *parent = 0);
     ~HuggleQueue();
     void AddItem(WikiEdit *page);
@@ -39,7 +40,6 @@ public:
 
 private:
     Ui::HuggleQueue *ui;
-    HuggleQueueFilter *CurrentFilter;
     QList<HuggleQueueItemLabel> Items;
     QVBoxLayout *layout;
     QWidget *xx;

@@ -198,9 +198,12 @@ void HuggleFeedProviderWiki::Process(QString data)
 
 void HuggleFeedProviderWiki::InsertEdit(WikiEdit edit)
 {
-    while (this->Buffer->size() > Configuration::ProviderCache)
+    if (Core::Main->Queue1->CurrentFilter->Matches(edit))
     {
-        this->Buffer->removeAt(0);
+        while (this->Buffer->size() > Configuration::ProviderCache)
+        {
+            this->Buffer->removeAt(0);
+        }
+        this->Buffer->append(edit);
     }
-    this->Buffer->append(edit);
 }

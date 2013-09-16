@@ -67,7 +67,18 @@
     <addaction name="separator"/>
     <addaction name="actionAbout"/>
    </widget>
+   <widget class="QMenu" name="menuPage">
+    <property name="title">
+     <string>Page</string>
+    </property>
+    <addaction name="actionNext_2"/>
+    <addaction name="separator"/>
+    <addaction name="actionRevert_currently_displayed_edit"/>
+    <addaction name="actionRevert_currently_displayed_edit_and_warn_the_user"/>
+    <addaction name="actionWarn_the_user"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuPage"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
@@ -138,6 +149,26 @@
    </property>
    <property name="text">
     <string>Next</string>
+   </property>
+  </action>
+  <action name="actionNext_2">
+   <property name="text">
+    <string>Next</string>
+   </property>
+  </action>
+  <action name="actionRevert_currently_displayed_edit">
+   <property name="text">
+    <string>Revert currently displayed edit</string>
+   </property>
+  </action>
+  <action name="actionRevert_currently_displayed_edit_and_warn_the_user">
+   <property name="text">
+    <string>Revert currently displayed edit and warn the user</string>
+   </property>
+  </action>
+  <action name="actionWarn_the_user">
+   <property name="text">
+    <string>Warn the user</string>
    </property>
   </action>
  </widget>

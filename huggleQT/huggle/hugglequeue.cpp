@@ -25,6 +25,8 @@ HuggleQueue::HuggleQueue(QWidget *parent) :
     ui->scrollArea->setWidget(this->xx);
     xx->setLayout(this->layout);
     this->layout->addWidget(this->frame);
+    ui->comboBox->addItem(this->CurrentFilter->QueueName);
+    ui->comboBox->setCurrentIndex(0);
 }
 
 HuggleQueue::~HuggleQueue()

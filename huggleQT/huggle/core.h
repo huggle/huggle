@@ -23,6 +23,7 @@
 #include <QNetworkAccessManager>
 #include <QList>
 #include <QString>
+#include <QMessageBox>
 
 // Predeclaring some types
 class Login;
@@ -64,6 +65,9 @@ public:
     static void Shutdown();
     static QString RingLogToText();
     static void InsertToRingLog(QString text);
+    static void DeveloperError();
+    static void SaveConfig();
+    static void LoadConfig();
 private:
     static QList<QString> *RingLog;
 };

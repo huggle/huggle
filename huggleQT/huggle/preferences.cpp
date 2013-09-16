@@ -20,3 +20,8 @@ Preferences::~Preferences()
 {
     delete ui;
 }
+
+void Preferences::on_pushButton_clicked()
+{
+    this->hide();
+}

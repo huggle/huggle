@@ -129,3 +129,62 @@ void MainWindow::on_actionNext_triggered()
 {
     this->Queue1->Next();
 }
+
+void MainWindow::on_actionNext_2_triggered()
+{
+    this->Queue1->Next();
+}
+
+void MainWindow::on_actionWarn_triggered()
+{
+    if (Configuration::Restricted)
+    {
+        Core::DeveloperError();
+        return;
+    }
+}
+
+void MainWindow::on_actionRevert_currently_displayed_edit_triggered()
+{
+    if (Configuration::Restricted)
+    {
+        Core::DeveloperError();
+        return;
+    }
+}
+
+void MainWindow::on_actionWarn_the_user_triggered()
+{
+    if (Configuration::Restricted)
+    {
+        Core::DeveloperError();
+        return;
+    }
+}
+
+void MainWindow::on_actionRevert_currently_displayed_edit_and_warn_the_user_triggered()
+{
+    if (Configuration::Restricted)
+    {
+        Core::DeveloperError();
+        return;
+    }
+}
+
+void MainWindow::on_actionRevert_and_warn_triggered()
+{
+    if (Configuration::Restricted)
+    {
+        Core::DeveloperError();
+        return;
+    }
+}
+
+void MainWindow::on_actionRevert_triggered()
+{
+    if (Configuration::Restricted)
+    {
+        Core::DeveloperError();
+        return;
+    }
+}

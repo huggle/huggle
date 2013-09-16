@@ -25,6 +25,9 @@ public:
     explicit Preferences(QWidget *parent = 0);
     ~Preferences();
 
+private slots:
+    void on_pushButton_clicked();
+
 private:
     Ui::Preferences *ui;
 };

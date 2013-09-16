@@ -19,6 +19,7 @@
 #include "core.h"
 #include "hugglefeed.h"
 #include "apiquery.h"
+//#include "hugglequeuefilter.h"
 #include "configuration.h"
 #include "wikiedit.h"
 

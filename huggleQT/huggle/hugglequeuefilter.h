@@ -12,6 +12,7 @@
 #define HUGGLEQUEUEFILTER_H
 
 #include <QString>
+#include "wikiedit.h"
 
 class HuggleQueue;
 
@@ -21,11 +22,13 @@ public:
     QString QueueName;
     HuggleQueue *parent;
     HuggleQueueFilter(HuggleQueue *Parent);
+    bool Matches(WikiEdit edit);
 private:
     bool IgnoreMinor;
     bool IgnoreUsers;
     bool IgnoreIP;
     bool IgnoreBots;
+    bool IgnoreNP;
     bool IgnoreFriends;
 };
 

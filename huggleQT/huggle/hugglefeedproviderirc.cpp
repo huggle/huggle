@@ -81,13 +81,16 @@ void HuggleFeedProviderIRC::Stop()
 
 void HuggleFeedProviderIRC::InsertEdit(WikiEdit edit)
 {
-    this->lock.lock();
-    while (this->Buffer.size() > Configuration::ProviderCache)
+    if (Core::Main->Queue1->CurrentFilter->Matches(edit))
     {
-        this->Buffer.removeAt(0);
+        this->lock.lock();
+        while (this->Buffer.size() > Configuration::ProviderCache)
+        {
+            this->Buffer.removeAt(0);
+        }
+        this->Buffer.append(edit);
+        this->lock.unlock();
     }
-    this->Buffer.append(edit);
-    this->lock.unlock();
 }
 
 void HuggleFeedProviderIRC::ParseEdit(QString line)

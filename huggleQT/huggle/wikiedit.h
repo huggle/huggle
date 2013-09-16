@@ -15,6 +15,16 @@
 #include "wikiuser.h"
 #include "wikipage.h"
 
+enum WarningLevel
+{
+    WarningLevelNone,
+    WarningLevel1,
+    WarningLevel2,
+    WarningLevel3,
+    WarningLevel4,
+    WarningLevel5
+};
+
 class WikiEdit
 {
 public:
@@ -32,7 +42,16 @@ public:
     int Size;
     int Diff;
     int OldID;
+    bool Processed;
+    WarningLevel CurrentUserWarningLevel;
     QString Summary;
+    //! If this is true the edit was made by huggle
+    bool EditMadeByHuggle;
+    //! If this is true the edit was made by some other
+    //! tool for vandalism reverting
+    bool TrustworthEdit;
+    //! Edit was made by you
+    bool OwnEdit;
 };
 
 #endif // WIKIEDIT_H

@@ -20,10 +20,11 @@ HuggleFeed *Core::SecondaryFeedProvider = NULL;
 HuggleFeed *Core::PrimaryFeedProvider = NULL;
 QList<QString> *Core::RingLog = new QList<QString>();
 
-
 void Core::Init()
 {
-    Core::Log("Huggle 3 QT-LX");
+    Core::Log("Huggle 3 QT-LX, version " + Configuration::HuggleVersion);
+    Core::Log("Loading configuration");
+    Core::LoadConfig();
 #ifdef PYTHONENGINE
     Core::Log("Loading python engine");
     Core::Python = new PythonEngine();
@@ -119,5 +120,24 @@ void Core::InsertToRingLog(QString text)
         Core::RingLog->removeAt(0);
     }
     Core::RingLog->append(text);
+}
+
+void Core::DeveloperError()
+{
+    QMessageBox *mb = new QMessageBox();
+    mb->setWindowTitle("Function is restricted now");
+    mb->setText("You can't perform this action in developer mode, because you aren't logged into the wiki");
+    mb->exec();
+    delete mb;
+}
+
+void Core::LoadConfig()
+{
+
+}
+
+void Core::SaveConfig()
+{
+
 }
 
