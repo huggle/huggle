@@ -256,13 +256,17 @@ ApiQuery *Core::RevertEdit(WikiEdit *_e, QString summary, bool minor, bool rollb
             return NULL;
         }
         query->SetAction(ActionRollback);
+        QString token = _e->RollbackToken;
+        if (_e->RollbackToken.endsWith("+\\"))
+        {
+            token = token.mid(0, token.indexOf("+")) + "%2B\\";
+        }
         query->Parameters = "title=" + QUrl::toPercentEncoding(_e->Page->PageName)
+                + "&token=" + token
                 + "&user=" + QUrl::toPercentEncoding(_e->User->Username)
-                + "&token=" + QUrl::toPercentEncoding(_e->RollbackToken) + "&summary="
-                + QUrl::toPercentEncoding(summary);
-
+                + "&summary=" + QUrl::toPercentEncoding(summary);
         query->UsingPOST = true;
-        DebugLog("Rolling back " + _e->Page->PageName + " using token " + _e->RollbackToken);
+        DebugLog("Rolling back " + _e->Page->PageName + " using token " + token);
         query->Process();
         Core::RunningQueries.append(query);
     }

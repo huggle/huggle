@@ -224,6 +224,9 @@ bool WikiEdit::FinalizePostProcessing()
             {
                 this->DiffText = e.text();
             }
+        } else
+        {
+            Core::DebugLog("Failed to obtain diff for " + this->Page->PageName + " the error was: " + DifferenceQuery->Result->Data);
         }
         // we are done processing the diff
         this->ProcessingDiff = false;
@@ -254,12 +257,12 @@ void WikiEdit::PostProcess()
     this->ProcessingQuery = new ApiQuery();
     this->ProcessingQuery->SetAction(ActionQuery);
     this->ProcessingQuery->Parameters = "prop=revisions&rvprop=ids|user&rvlimit=1&rvtoken=rollback&titles=" +
-            QUrl::toPercentEncoding(this->Page->PageName);
+            this->Page->PageName;
     this->ProcessingQuery->Process();
     this->DifferenceQuery = new ApiQuery();
     this->DifferenceQuery->SetAction(ActionQuery);
     this->DifferenceQuery->Parameters = "prop=revisions&rvtoken=rollback&rvdiffto=prev&titles=" +
-            QUrl::toPercentEncoding(this->Page->PageName);
+            this->Page->PageName;
     this->DifferenceQuery->Process();
     this->ProcessingDiff = true;
     this->ProcessingRevs = true;

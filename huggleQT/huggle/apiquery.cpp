@@ -86,7 +86,8 @@ void ApiQuery::Process()
     }
     if (UsingPOST)
     {
-        this->reply = Query::NetworkManager.post(request, url.encodedQuery());
+        //this->reply = Query::NetworkManager.post(request, url.encodedQuery());
+        this->reply = Query::NetworkManager.post(request, this->Parameters.toUtf8());
     } else
     {
         this->reply = Query::NetworkManager.get(request);
