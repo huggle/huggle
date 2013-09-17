@@ -32,6 +32,7 @@ HuggleFeed *Core::PrimaryFeedProvider = NULL;
 QList<QString> *Core::RingLog = new QList<QString>();
 QList<Query*> Core::RunningQueries;
 QList<WikiEdit*> Core::ProcessingEdits;
+QList<WikiEdit*> Core::ProcessedEdits;
 
 void Core::Init()
 {
@@ -201,6 +202,7 @@ void Core::PostProcessEdit(WikiEdit *_e)
 
 void Core::CheckQueries()
 {
+     //  <?xml version="1.0"?><api servedby="mw1128"><error code="alreadyrolled" info="The page you tried to rollback was already rolled back" /></api>
     int curr = 0;
     if (Core::RunningQueries.count() == 0)
     {
@@ -210,6 +212,7 @@ void Core::CheckQueries()
     while (curr < Core::RunningQueries.count())
     {
         Query *q = Core::RunningQueries.at(curr);
+        Core::Main->Queries->UpdateQuery(q);
         if (q->Processed())
         {
             Finished.append(q);

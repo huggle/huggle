@@ -15,6 +15,7 @@ int HuggleQueueItemLabel::Count = 0;
 
 HuggleQueueItemLabel::HuggleQueueItemLabel(QWidget *parent) : QFrame(parent), ui(new Ui::HuggleQueueItemLabel)
 {
+    ParentQueue = (HuggleQueue*)parent;
     ui->setupUi(this);
 }
 
@@ -64,6 +65,10 @@ QString HuggleQueueItemLabel::GetName()
 void HuggleQueueItemLabel::Process()
 {
     HuggleQueueItemLabel::Count--;
+    if (this->ParentQueue->Items.contains(this))
+    {
+        this->ParentQueue->Items.removeOne(this);
+    }
     Core::ProcessEdit(this->page);
     this->hide();
     this->close();

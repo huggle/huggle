@@ -59,6 +59,7 @@ public:
     bool NewPage;
     int Size;
     int Diff;
+    int Priority;
     int OldID;
     WEStatus Status;
     WarningLevel CurrentUserWarningLevel;

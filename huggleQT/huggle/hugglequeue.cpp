@@ -38,10 +38,12 @@ HuggleQueue::~HuggleQueue()
 
 void HuggleQueue::AddItem(WikiEdit *page)
 {
+    // so we need to insert the item somehow
     HuggleQueueItemLabel *label = new HuggleQueueItemLabel(this);
     label->page = page;
     label->SetName(page->Page->PageName);
     this->layout->addWidget(label);
+    this->Items.append(label);
     HuggleQueueItemLabel::Count++;
 }
 

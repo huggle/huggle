@@ -93,6 +93,9 @@
    <addaction name="separator"/>
    <addaction name="actionRevert"/>
    <addaction name="actionWarn"/>
+   <addaction name="separator"/>
+   <addaction name="actionBack"/>
+   <addaction name="actionForward"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionPreferences">
@@ -169,6 +172,24 @@
   <action name="actionWarn_the_user">
    <property name="text">
     <string>Warn the user</string>
+   </property>
+  </action>
+  <action name="actionBack">
+   <property name="icon">
+    <iconset resource="pictures.qrc">
+     <normaloff>:/huggle/pictures/Resources/browser-prev.png</normaloff>:/huggle/pictures/Resources/browser-prev.png</iconset>
+   </property>
+   <property name="text">
+    <string>Back</string>
+   </property>
+  </action>
+  <action name="actionForward">
+   <property name="icon">
+    <iconset resource="pictures.qrc">
+     <normaloff>:/huggle/pictures/Resources/browser-next.png</normaloff>:/huggle/pictures/Resources/browser-next.png</iconset>
+   </property>
+   <property name="text">
+    <string>Forward</string>
    </property>
   </action>
  </widget>

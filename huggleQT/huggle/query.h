@@ -39,6 +39,7 @@ public:
     virtual ~Query();
     //! Result
     QueryResult *Result;
+    unsigned int ID;
     //! Current status
     enum _Status Status;
     QueryType Type;
@@ -47,6 +48,11 @@ public:
     virtual bool Processed();
     virtual void Process() {}
     virtual void Kill() {}
+    virtual QString QueryTypeToString();
+    virtual QString QueryTargetToString();
+    virtual QString QueryStatusToString();
+private:
+    static unsigned int LastID;
 };
 
 #endif // QUERY_H

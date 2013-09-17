@@ -150,6 +150,18 @@ void HuggleFeedProviderIRC::ParseEdit(QString line)
         return;
     }
 
+    if (flags.contains("modify"))
+    {
+        delete edit;
+        return;
+    }
+
+    if (flags.contains("block"))
+    {
+        delete edit;
+        return;
+    }
+
     if (flags.contains("protect"))
     {
         delete edit;

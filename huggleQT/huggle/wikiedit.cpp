@@ -34,6 +34,7 @@ WikiEdit::WikiEdit()
     this->ProcessingDiff = false;
     this->ProcessingRevs = false;
     this->DiffText = "";
+    this->Priority = 20;
 }
 
 WikiEdit::WikiEdit(const WikiEdit &edit)
@@ -68,6 +69,7 @@ WikiEdit::WikiEdit(const WikiEdit &edit)
     this->ProcessingDiff = false;
     this->ProcessingRevs = false;
     this->DiffText = edit.DiffText;
+    this->Priority = edit.Priority;
 }
 
 WikiEdit::WikiEdit(WikiEdit *edit)
@@ -102,6 +104,7 @@ WikiEdit::WikiEdit(WikiEdit *edit)
     this->ProcessingDiff = false;
     this->ProcessingRevs = false;
     this->DiffText = edit->DiffText;
+    this->Priority = edit->Priority;
 }
 
 WikiEdit::~WikiEdit()

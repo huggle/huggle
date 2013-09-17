@@ -44,7 +44,8 @@ SOURCES += main.cpp\
     hugglequeueitemlabel.cpp \
     wikiedit.cpp \
     hugglefeedproviderwiki.cpp \
-    wlquery.cpp
+    wlquery.cpp \
+    processlist.cpp
 
 HEADERS  += mainwindow.h \
     login.h \
@@ -75,7 +76,8 @@ HEADERS  += mainwindow.h \
     hugglequeueitemlabel.h \
     wikiedit.h \
     hugglefeedproviderwiki.h \
-    wlquery.h
+    wlquery.h \
+    processlist.h
 
 FORMS    += mainwindow.ui \
     login.ui \
@@ -87,7 +89,8 @@ FORMS    += mainwindow.ui \
     huggletool.ui \
     huggleweb.ui \
     proxy.ui \
-    hugglequeueitemlabel.ui
+    hugglequeueitemlabel.ui \
+    processlist.ui
 
 RESOURCES += \
     pictures.qrc

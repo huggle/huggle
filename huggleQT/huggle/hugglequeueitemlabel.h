@@ -20,6 +20,7 @@ class HuggleQueueItemLabel;
 }
 
 class WikiEdit;
+class HuggleQueue;
 class HuggleQueueItemLabel : public QFrame
 {
     Q_OBJECT
@@ -27,6 +28,7 @@ class HuggleQueueItemLabel : public QFrame
 public:
     explicit HuggleQueueItemLabel(QWidget *parent = 0);
     ~HuggleQueueItemLabel();
+    HuggleQueue *ParentQueue;
     void SetName(QString name);
     QString GetName();
     void Process();

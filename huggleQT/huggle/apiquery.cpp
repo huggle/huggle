@@ -50,6 +50,7 @@ ApiQuery::ApiQuery()
     this->ActionPart = "";
     this->Parameters = "";
     this->UsingPOST = false;
+    this->Target = "none";
 }
 
 void ApiQuery::Finished()
@@ -143,4 +144,15 @@ void ApiQuery::SetAction(QString action)
 void ApiQuery::Kill()
 {
     reply->abort();
+}
+
+QString ApiQuery::QueryTargetToString()
+{
+    return this->Target;
+}
+
+QString ApiQuery::QueryTypeToString()
+{
+    return "ApiQuery (" +
+            this->ActionPart + ")";
 }

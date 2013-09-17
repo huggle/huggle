@@ -18,12 +18,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->statusBar->addWidget(this->Status);
     this->showMaximized();
     this->tb = new HuggleTool();
+    this->Queries = new ProcessList(this);
     this->SystemLog = new HuggleLog(this);
     this->Browser = new HuggleWeb(this);
     this->Queue1 = new HuggleQueue(this);
     this->addDockWidget(Qt::LeftDockWidgetArea, this->Queue1);
     this->addDockWidget(Qt::BottomDockWidgetArea, this->SystemLog);
     this->addDockWidget(Qt::TopDockWidgetArea, this->tb);
+    this->addDockWidget(Qt::BottomDockWidgetArea, this->Queries);
     this->preferencesForm = new Preferences(this);
     this->aboutForm = new AboutForm(this);
     this->SystemLog->resize(100, 80);
@@ -55,6 +57,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 MainWindow::~MainWindow()
 {
+    delete this->Queries;
     delete this->preferencesForm;
     delete this->aboutForm;
     delete this->Queue1;
@@ -67,10 +70,10 @@ MainWindow::~MainWindow()
 
 void MainWindow::ProcessEdit(WikiEdit *e)
 {
-    // FIXME we need to safely delete the edit later
+    // we need to safely delete the edit later
     if (this->CurrentEdit != NULL)
     {
-        //delete this->CurrentEdit;
+        Core::ProcessedEdits.append(this->CurrentEdit);
     }
     this->CurrentEdit = e;
     this->Browser->DisplayDiff(e);

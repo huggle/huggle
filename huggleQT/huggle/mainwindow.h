@@ -26,6 +26,7 @@
 #include "huggletool.h"
 #include "huggleweb.h"
 #include "wikipage.h"
+#include "processlist.h"
 #include "wikiuser.h"
 #include "exception.h"
 #include "hugglefeedproviderwiki.h"
@@ -56,6 +57,7 @@ public:
     Preferences *preferencesForm;
     AboutForm *aboutForm;
     WikiEdit *CurrentEdit;
+    ProcessList *Queries;
     QStringList UnwrittenLogs;
     QMutex lUnwrittenLogs;
     //! Recreate interface, should be called everytime you do anything with main form

@@ -10,6 +10,7 @@
 
 #include "query.h"
 
+unsigned int Query::LastID = 0;
 QNetworkAccessManager Query::NetworkManager;
 
 Query::Query()
@@ -17,6 +18,8 @@ Query::Query()
     this->Result = NULL;
     this->Type = QueryNull;
     this->Status = Null;
+    this->ID = this->LastID;
+    this->LastID++;
 }
 
 Query::~Query()
@@ -31,4 +34,37 @@ bool Query::Processed()
         return true;
     }
     return false;
+}
+
+QString Query::QueryTypeToString()
+{
+    switch (this->Type)
+    {
+        case QueryNull:
+            return "null";
+        case QueryApi:
+            return "Api Query";
+    }
+    return "Unknown";
+}
+
+QString Query::QueryTargetToString()
+{
+    return "Invalid target";
+}
+
+QString Query::QueryStatusToString()
+{
+    switch (this->Status)
+    {
+    case Null:
+        return "NULL";
+    case Done:
+        return "Done";
+    case Processing:
+        return "Processing";
+    case InError:
+        return "InError";
+    }
+    return "Unknown";
 }

@@ -70,6 +70,9 @@ public:
     void SetAction(Action action);
     void SetAction(QString action);
     void Kill();
+    QString QueryTargetToString();
+    QString QueryTypeToString();
+    QString Target;
 };
 
 #endif // APIQUERY_H
