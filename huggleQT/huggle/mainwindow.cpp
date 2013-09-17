@@ -193,7 +193,9 @@ void MainWindow::on_Tick()
     this->Status->setText("Currently processing " + QString::number(Core::ProcessingEdits.count())
                           + " edits and " + QString::number(Core::RunningQueries.count()) + " queries"
                           + " I have " + QString::number(Configuration::WhiteList.size())
-                          + " whitelisted users");
+                          + " whitelisted users and you have "
+                          + QString::number(HuggleQueueItemLabel::Count)
+                          + " edits waiting in queue");
     // let's refresh the edits that are being post processed
     if (Core::ProcessingEdits.count() > 0)
     {
@@ -215,6 +217,19 @@ void MainWindow::on_Tick()
             Edit++;
         }
     }
+    Core::CheckQueries();
+    this->lUnwrittenLogs.lock();
+    if (this->UnwrittenLogs.count() > 0)
+    {
+        int c = 0;
+        while (c < this->UnwrittenLogs.count())
+        {
+            this->SystemLog->InsertText(this->UnwrittenLogs.at(c));
+            c++;
+        }
+        this->UnwrittenLogs.clear();
+    }
+    this->lUnwrittenLogs.unlock();
 }
 
 void MainWindow::on_actionNext_triggered()

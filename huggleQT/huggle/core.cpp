@@ -71,10 +71,9 @@ void Core::Log(QString Message)
     Core::InsertToRingLog(Message);
     if (Core::Main != NULL)
     {
-        if (Core::Main->SystemLog != NULL)
-        {
-            Core::Main->SystemLog->InsertText(Message);
-        }
+        Core::Main->lUnwrittenLogs.lock();
+        Core::Main->UnwrittenLogs.append(Message);
+        Core::Main->lUnwrittenLogs.unlock();
     }
 }
 
@@ -137,7 +136,7 @@ QString Core::RingLogToText()
     QString text = "";
     while (i<Core::RingLog->size())
     {
-        text = text + Core::RingLog->at(i) + "\n";
+        text = Core::RingLog->at(i) + "\n" + text;
         i++;
     }
     return text;
@@ -200,6 +199,32 @@ void Core::PostProcessEdit(WikiEdit *_e)
     Core::ProcessingEdits.append(_e);
 }
 
+void Core::CheckQueries()
+{
+    int curr = 0;
+    if (Core::RunningQueries.count() == 0)
+    {
+        return;
+    }
+    QList<Query*> Finished;
+    while (curr < Core::RunningQueries.count())
+    {
+        Query *q = Core::RunningQueries.at(curr);
+        if (q->Processed())
+        {
+            Finished.append(q);
+            Core::DebugLog("Query finished with: " + q->Result->Data);
+        }
+        curr++;
+    }
+    curr = 0;
+    while (curr < Finished.count())
+    {
+        Core::RunningQueries.removeOne(Finished.at(curr));
+        curr++;
+    }
+}
+
 bool Core::PreflightCheck(WikiEdit *_e)
 {
     return true;
@@ -233,7 +258,7 @@ ApiQuery *Core::RevertEdit(WikiEdit *_e, QString summary, bool minor, bool rollb
         query->SetAction(ActionRollback);
         query->Parameters = "title=" + QUrl::toPercentEncoding(_e->Page->PageName)
                 + "&user=" + QUrl::toPercentEncoding(_e->User->Username)
-                + "&token=" + _e->RollbackToken + "&summary="
+                + "&token=" + QUrl::toPercentEncoding(_e->RollbackToken) + "&summary="
                 + QUrl::toPercentEncoding(summary);
 
         query->UsingPOST = true;

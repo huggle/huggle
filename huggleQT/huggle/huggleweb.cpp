@@ -53,6 +53,24 @@ void HuggleWeb::RenderHtml(QString html)
     ui->webView->setContent(html.toAscii());
 }
 
+QString HuggleWeb::Encode(const QString &string)
+{
+    QString encoded;
+    for(int i=0;i<string.size();++i)
+    {
+        QChar ch = string.at(i);
+        if(ch.unicode() > 255)
+        {
+            encoded += QString("&#%1;").arg((int)ch.unicode());
+        }
+        else
+        {
+            encoded += ch;
+        }
+    }
+    return encoded;
+}
+
 void HuggleWeb::DisplayDiff(WikiEdit *edit)
 {
     ui->webView->history()->clear();
@@ -72,5 +90,17 @@ void HuggleWeb::DisplayDiff(WikiEdit *edit)
         return;
     }
 
-    ui->webView->setHtml(Core::HtmlHeader + edit->DiffText + Core::HtmlFooter);
+    QString Summary;
+
+    if (edit->Summary == "")
+    {
+        Summary = "<font color=red>No summary was provided</font>";
+    } else
+    {
+        Summary = Encode(edit->Summary);
+    }
+
+    ui->webView->setHtml(Core::HtmlHeader + "<tr></td colspan=2><b>Summary:</b> "
+                         + Summary + "</td></tr>" + edit->DiffText
+                         + Core::HtmlFooter);
 }

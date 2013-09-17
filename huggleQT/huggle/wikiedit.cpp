@@ -211,6 +211,10 @@ bool WikiEdit::FinalizePostProcessing()
                         }
                     }
                 }
+                if (e.attributes().contains("comment"))
+                {
+                    this->Summary = e.attribute("comment");
+                }
             }
         }
         if (diff.count() > 0)

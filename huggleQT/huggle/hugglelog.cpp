@@ -21,7 +21,11 @@ HuggleLog::HuggleLog(QWidget *parent) :
 
 void HuggleLog::InsertText(QString text)
 {
-    ui->textEdit->append(text);
+    QString t = ui->textEdit->toPlainText();
+    t.prepend(text + "\n");
+
+    //ui->textEdit->moveCursor(QTextCursor::start, 0);
+    ui->textEdit->setPlainText(t);
 }
 
 HuggleLog::~HuggleLog()

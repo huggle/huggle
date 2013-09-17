@@ -12,6 +12,7 @@
 #define HUGGLELOG_H
 
 #include <QString>
+#include <QCursor>
 #include <QDockWidget>
 
 namespace Ui {

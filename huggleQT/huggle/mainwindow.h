@@ -14,6 +14,7 @@
 #include <QMainWindow>
 #include <QTimer>
 #include <QLabel>
+#include <QMutex>
 #include <QSplitter>
 #include <QDockWidget>
 #include "configuration.h"
@@ -55,6 +56,8 @@ public:
     Preferences *preferencesForm;
     AboutForm *aboutForm;
     WikiEdit *CurrentEdit;
+    QStringList UnwrittenLogs;
+    QMutex lUnwrittenLogs;
     //! Recreate interface, should be called everytime you do anything with main form
     void ProcessEdit(WikiEdit *e);
     void Render();

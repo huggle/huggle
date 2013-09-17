@@ -142,13 +142,39 @@ void HuggleFeedProviderIRC::ParseEdit(QString line)
     edit->NewPage = flags.contains("N");
     edit->Minor = flags.contains("M");
 
+    // this below looks like a nasty hack to filter out just what we need
+    // but I will later use all of these actions for something too
     if (flags.contains("patrol"))
     {
         delete edit;
         return;
     }
 
+    if (flags.contains("protect"))
+    {
+        delete edit;
+        return;
+    }
+
     if (flags.contains("reblock"))
+    {
+        delete edit;
+        return;
+    }
+
+    if (flags.contains("resolve"))
+    {
+        delete edit;
+        return;
+    }
+
+    if (flags.contains("noaction"))
+    {
+        delete edit;
+        return;
+    }
+
+    if (flags.contains("selfadd"))
     {
         delete edit;
         return;
@@ -235,6 +261,15 @@ void HuggleFeedProviderIRC::ParseEdit(QString line)
     }
 
     edit->User = new WikiUser(line.mid(0, line.indexOf(QString(QChar(003)))));
+
+    if (line.contains(QString(QChar(3)) + "10"))
+    {
+        line = line.mid(line.indexOf(QString(QChar(3)) + "10"));
+        if (line.contains(QString(QChar(3))))
+        {
+            edit->Summary = line.mid(0, line.indexOf(QString(QChar(3))));
+        }
+    }
 
     this->InsertEdit(edit);
 }

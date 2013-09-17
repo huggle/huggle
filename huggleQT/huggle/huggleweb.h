@@ -39,6 +39,7 @@ public:
     void DisplayDiff(WikiEdit *edit);
     
 private:
+    QString Encode(const QString &string);
     Ui::HuggleWeb *ui;
     QString CurrentPage;
 };
