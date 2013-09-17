@@ -23,10 +23,12 @@ public:
     QString QueueName;
     HuggleQueue *parent;
     HuggleQueueFilter(HuggleQueue *Parent);
+    bool Matches(WikiEdit *edit);
     bool Matches(WikiEdit edit);
 private:
     bool IgnoreMinor;
     bool IgnoreUsers;
+    bool IgnoreWL;
     bool IgnoreIP;
     bool IgnoreBots;
     bool IgnoreNP;

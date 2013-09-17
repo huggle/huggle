@@ -28,7 +28,12 @@ WikiEdit::WikiEdit()
     this->TrustworthEdit = false;
     this->RollbackToken = "";
     this->PostProcessing = false;
+    this->DifferenceQuery = NULL;
     this->ProcessingQuery = NULL;
+    this->Whitelisted = false;
+    this->ProcessingDiff = false;
+    this->ProcessingRevs = false;
+    this->DiffText = "";
 }
 
 WikiEdit::WikiEdit(const WikiEdit &edit)
@@ -58,6 +63,11 @@ WikiEdit::WikiEdit(const WikiEdit &edit)
     this->TrustworthEdit = edit.TrustworthEdit;
     this->PostProcessing = false;
     this->ProcessingQuery = NULL;
+    this->Whitelisted = edit.Whitelisted;
+    this->DifferenceQuery = NULL;
+    this->ProcessingDiff = false;
+    this->ProcessingRevs = false;
+    this->DiffText = edit.DiffText;
 }
 
 WikiEdit::WikiEdit(WikiEdit *edit)
@@ -87,10 +97,16 @@ WikiEdit::WikiEdit(WikiEdit *edit)
     this->TrustworthEdit = edit->TrustworthEdit;
     this->PostProcessing = false;
     this->ProcessingQuery = NULL;
+    this->Whitelisted = edit->Whitelisted;
+    this->DifferenceQuery = NULL;
+    this->ProcessingDiff = false;
+    this->ProcessingRevs = false;
+    this->DiffText = edit->DiffText;
 }
 
 WikiEdit::~WikiEdit()
 {
+    delete this->DifferenceQuery;
     delete this->ProcessingQuery;
     delete this->User;
     delete this->Page;
@@ -102,51 +118,121 @@ bool WikiEdit::FinalizePostProcessing()
     {
         return false;
     }
+    if (this->DifferenceQuery == NULL)
+    {
+        return false;
+    }
     if (this->ProcessingQuery == NULL)
     {
         return false;
     }
-    // check if api was processed
-    if (!this->ProcessingQuery->Processed())
+    if (this->ProcessingRevs)
     {
-        return false;
-    }
-
-    if (this->ProcessingQuery->Result->Failed)
-    {
-        // whoa it ended in error, we need to get rid of this edit somehow now
-        delete this->ProcessingQuery;
-        this->ProcessingQuery = NULL;
-        this->PostProcessing = false;
-        return true;
-    }
-
-    // so we can parse the data from query now
-
-    QDomDocument d;
-    d.setContent(this->ProcessingQuery->Result->Data);
-    QDomNodeList l = d.elementsByTagName("rev");
-    // get last id
-    if (l.count() > 0)
-    {
-        QDomElement e = l.at(0).toElement();
-        if (e.nodeName() == "rev")
+        // check if api was processed
+        if (!this->ProcessingQuery->Processed())
         {
-            // check if this revision matches our user
-            if (e.attributes().contains("user"))
+            return false;
+        }
+
+        if (this->ProcessingQuery->Result->Failed)
+        {
+            // whoa it ended in error, we need to get rid of this edit somehow now
+            delete this->ProcessingQuery;
+            this->ProcessingQuery = NULL;
+            this->PostProcessing = false;
+            return true;
+        }
+
+        // so we can parse the data from query now
+
+        QDomDocument d;
+        d.setContent(this->ProcessingQuery->Result->Data);
+        QDomNodeList l = d.elementsByTagName("rev");
+        // get last id
+        if (l.count() > 0)
+        {
+            QDomElement e = l.at(0).toElement();
+            if (e.nodeName() == "rev")
             {
-                if (e.attribute("user") == this->User->Username)
+                // check if this revision matches our user
+                if (e.attributes().contains("user"))
                 {
-                    if (e.attributes().contains("rollbacktoken"))
+                    if (e.attribute("user") == this->User->Username)
                     {
-                        // finally we managed to get a rollback token
-                        this->RollbackToken = e.attribute("rollbacktoken");
+                        if (e.attributes().contains("rollbacktoken"))
+                        {
+                            // finally we managed to get a rollback token
+                            this->RollbackToken = e.attribute("rollbacktoken");
+                        }
                     }
                 }
             }
         }
+        this->ProcessingRevs = false;
     }
 
+    if (this->ProcessingDiff)
+    {
+        // check if api was processed
+        if (!this->DifferenceQuery->Processed())
+        {
+            return false;
+        }
+
+        if (this->DifferenceQuery->Result->Failed)
+        {
+            // whoa it ended in error, we need to get rid of this edit somehow now
+            delete this->DifferenceQuery;
+            this->DifferenceQuery = NULL;
+            this->PostProcessing = false;
+            return true;
+        }
+
+        // parse the diff now
+        QDomDocument d;
+        d.setContent(this->DifferenceQuery->Result->Data);
+        QDomNodeList l = d.elementsByTagName("rev");
+        QDomNodeList diff = d.elementsByTagName("diff");
+        // get last id
+        if (l.count() > 0)
+        {
+            QDomElement e = l.at(0).toElement();
+            if (e.nodeName() == "rev")
+            {
+                // check if this revision matches our user
+                if (e.attributes().contains("user"))
+                {
+                    if (e.attribute("user") == this->User->Username)
+                    {
+                        if (e.attributes().contains("rollbacktoken"))
+                        {
+                            // let's update it from fresh diff
+                            this->RollbackToken = e.attribute("rollbacktoken");
+                        }
+                    }
+                }
+            }
+        }
+        if (diff.count() > 0)
+        {
+            QDomElement e = diff.at(0).toElement();
+            if (e.nodeName() == "diff")
+            {
+                this->DiffText = e.text();
+            }
+        }
+        // we are done processing the diff
+        this->ProcessingDiff = false;
+    }
+
+    // check if everything was processed and clean up
+    if (this->ProcessingRevs || this->ProcessingDiff)
+    {
+        return false;
+    }
+
+    delete this->DifferenceQuery;
+    this->DifferenceQuery = NULL;
     delete this->ProcessingQuery;
     this->ProcessingQuery = NULL;
     this->Status = StatusPostProcessed;
@@ -166,6 +252,13 @@ void WikiEdit::PostProcess()
     this->ProcessingQuery->Parameters = "prop=revisions&rvprop=ids|user&rvlimit=1&rvtoken=rollback&titles=" +
             QUrl::toPercentEncoding(this->Page->PageName);
     this->ProcessingQuery->Process();
+    this->DifferenceQuery = new ApiQuery();
+    this->DifferenceQuery->SetAction(ActionQuery);
+    this->DifferenceQuery->Parameters = "prop=revisions&rvtoken=rollback&rvdiffto=prev&titles=" +
+            QUrl::toPercentEncoding(this->Page->PageName);
+    this->DifferenceQuery->Process();
+    this->ProcessingDiff = true;
+    this->ProcessingRevs = true;
 }
 
 bool WikiEdit::IsPostProcessed()

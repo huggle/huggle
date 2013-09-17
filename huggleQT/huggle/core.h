@@ -46,6 +46,8 @@ public:
     static void Init();
     static MainWindow *Main;
     static Login *f_Login;
+    static QString HtmlHeader;
+    static QString HtmlFooter;
     static HuggleFeed *PrimaryFeedProvider;
     static HuggleFeed *SecondaryFeedProvider;
     static QList<Query*> RunningQueries;

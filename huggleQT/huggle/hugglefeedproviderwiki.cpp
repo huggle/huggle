@@ -90,7 +90,6 @@ WikiEdit *HuggleFeedProviderWiki::RetrieveEdit()
         return NULL;
     }
     WikiEdit *edit = new WikiEdit(this->Buffer->at(0));
-    Core::PreProcessEdit(edit);
     Core::PostProcessEdit(edit);
     this->Buffer->removeAt(0);
     return edit;
@@ -206,6 +205,7 @@ void HuggleFeedProviderWiki::Process(QString data)
 
 void HuggleFeedProviderWiki::InsertEdit(WikiEdit edit)
 {
+    Core::PreProcessEdit(&edit);
     if (Core::Main->Queue1->CurrentFilter->Matches(edit))
     {
         while (this->Buffer->size() > Configuration::ProviderCache)

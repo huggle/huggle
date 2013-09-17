@@ -52,7 +52,9 @@ public:
     WikiPage *Page;
     //! User who changed the page
     WikiUser *User;
+    //! Edit is a minor edit
     bool Minor;
+    //! Edit is a bot edit
     bool Bot;
     bool NewPage;
     int Size;
@@ -62,16 +64,21 @@ public:
     WarningLevel CurrentUserWarningLevel;
     QString Summary;
     QString RollbackToken;
+    QString DiffText;
     //! If this is true the edit was made by huggle
     bool EditMadeByHuggle;
     //! If this is true the edit was made by some other
     //! tool for vandalism reverting
     bool TrustworthEdit;
+    bool Whitelisted;
     //! Edit was made by you
     bool OwnEdit;
 private:
     bool PostProcessing;
+    bool ProcessingRevs;
+    bool ProcessingDiff;
     ApiQuery* ProcessingQuery;
+    ApiQuery* DifferenceQuery;
 };
 
 #endif // WIKIEDIT_H

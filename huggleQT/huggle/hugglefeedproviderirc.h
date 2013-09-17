@@ -47,14 +47,14 @@ public:
     bool IsWorking();
     void Stop();
     bool Restart() { this->Stop(); return this->Start(); }
-    void InsertEdit(WikiEdit edit);
+    void InsertEdit(WikiEdit *edit);
     void ParseEdit(QString line);
     bool ContainsEdit();
     WikiEdit *RetrieveEdit();
 private:
     QMutex lock;
     bool Connected;
-    QList<WikiEdit> Buffer;
+    QList<WikiEdit*> Buffer;
     HuggleFeedProviderIRC_t *thread;
     QTcpSocket *TcpSocket;
 };

@@ -79,13 +79,15 @@ void HuggleFeedProviderIRC::Stop()
     this->thread = NULL;
 }
 
-void HuggleFeedProviderIRC::InsertEdit(WikiEdit edit)
+void HuggleFeedProviderIRC::InsertEdit(WikiEdit *edit)
 {
+    Core::PreProcessEdit(edit);
     if (Core::Main->Queue1->CurrentFilter->Matches(edit))
     {
         this->lock.lock();
         while (this->Buffer.size() > Configuration::ProviderCache)
         {
+            delete this->Buffer.at(0);
             this->Buffer.removeAt(0);
         }
         this->Buffer.append(edit);
@@ -124,43 +126,65 @@ void HuggleFeedProviderIRC::ParseEdit(QString line)
         return;
     }
 
-    WikiEdit edit;
-    edit.Page = new WikiPage(line.mid(0, line.indexOf(QString(QChar(003)) + "14")));
+    WikiEdit *edit = new WikiEdit();
+    edit->Page = new WikiPage(line.mid(0, line.indexOf(QString(QChar(003)) + "14")));
 
     if (!line.contains(QString(QChar(003)) + "4 "))
     {
         Core::DebugLog("Invalid line (no:x4:" + line);
+        delete edit;
         return;
     }
 
     line = line.mid(line.indexOf(QString(QChar(003)) + "4 ") + 2);
     QString flags = line.mid(0, line.indexOf(QChar(003)));
-    edit.Bot = flags.contains("B");
-    edit.NewPage = flags.contains("create");
-    edit.Minor = flags.contains("M");
+    edit->Bot = flags.contains("B");
+    edit->NewPage = flags.contains("N");
+    edit->Minor = flags.contains("M");
+
+    if (flags.contains("patrol"))
+    {
+        delete edit;
+        return;
+    }
+
+    if (flags.contains("reblock"))
+    {
+        delete edit;
+        return;
+    }
 
     if (flags.contains("hit"))
     {
         // abuse filter hit
+        delete edit;
+        return;
+    }
+
+    if (flags.contains("create"))
+    {
+        delete edit;
+        return;
+    }
+
+    if (flags.contains("delete"))
+    {
+        delete edit;
         return;
     }
 
     if (flags.contains("move"))
     {
+        delete edit;
         return;
     }
 
-    if (edit.NewPage)
-    {
-        Core::Log(line);
-        return;
-    }
-
-    if (!edit.NewPage)
+    if (!edit->NewPage)
     {
         if (!line.contains("?diff="))
         {
-            Core::DebugLog("Invalid line (no diff):" + line);
+            Core::DebugLog("Invalid line (flags: " + flags + ") (no diff):" + line);
+            delete edit;
             return;
         }
 
@@ -169,31 +193,35 @@ void HuggleFeedProviderIRC::ParseEdit(QString line)
         if (!line.contains("&"))
         {
             Core::DebugLog("Invalid line (no &):" + line);
+            delete edit;
             return;
         }
 
-        edit.Diff = line.mid(0, line.indexOf("&")).toInt();
+        edit->Diff = line.mid(0, line.indexOf("&")).toInt();
     }
 
-    if (!line.contains("&oldid="))
+    if (!line.contains("oldid="))
     {
         Core::DebugLog("Invalid line (no oldid?):" + line);
+        delete edit;
         return;
     }
 
-    line = line.mid(line.indexOf("&oldid=") + 7);
+    line = line.mid(line.indexOf("oldid=") + 6);
 
     if (!line.contains(QString(QChar(003))))
     {
         Core::DebugLog("Invalid line (no termin):" + line);
+        delete edit;
         return;
     }
 
-    edit.OldID = line.mid(0, line.indexOf(QString(QChar(003)))).toInt();
+    edit->OldID = line.mid(0, line.indexOf(QString(QChar(003)))).toInt();
 
     if (!line.contains(QString(QChar(003)) + "03"))
     {
         Core::DebugLog("Invalid line, no user: " + line);
+        delete edit;
         return;
     }
 
@@ -202,10 +230,11 @@ void HuggleFeedProviderIRC::ParseEdit(QString line)
     if (!line.contains(QString(QChar(3))))
     {
         Core::DebugLog("Invalid line (no termin):" + line);
+        delete edit;
         return;
     }
 
-    edit.User = new WikiUser(line.mid(0, line.indexOf(QString(QChar(003)))));
+    edit->User = new WikiUser(line.mid(0, line.indexOf(QString(QChar(003)))));
 
     this->InsertEdit(edit);
 }
@@ -263,10 +292,9 @@ WikiEdit *HuggleFeedProviderIRC::RetrieveEdit()
     {
         return NULL;
     }
-    WikiEdit *edit = new WikiEdit(this->Buffer.at(0));
+    WikiEdit *edit = this->Buffer.at(0);
     this->Buffer.removeAt(0);
     this->lock.unlock();
-    Core::PreProcessEdit(edit);
     Core::PostProcessEdit(edit);
     return edit;
 }

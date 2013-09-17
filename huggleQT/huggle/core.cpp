@@ -15,6 +15,16 @@ PythonEngine *Core::Python = NULL;
 #endif
 
 // definitions
+// This needs to be moved to resource file
+
+QString Core::HtmlHeader = "<html><head><style type=\"text/css\">"\
+        "table.diff{background:white}td.diff-otitle{background:#ffffff}td.diff-ntitle{background:#ffffff}"\
+        "td.diff-addedline{background:#ccffcc;font-size:smaller;border:solid 2px black}"\
+        "td.diff-deletedline{background:#ffffaa;font-size:smaller;border:dotted 2px black}"\
+        "td.diff-context{background:#eeeeee;font-size:smaller}.diffchange{color:silver;font-weight:bold;text-decoration:underline}"\
+        "</style></head><body><table class='diff diff-contentalign-left'>";
+QString Core::HtmlFooter = "</table></body></html>";
+
 MainWindow *Core::Main = NULL;
 Login *Core::f_Login = NULL;
 HuggleFeed *Core::SecondaryFeedProvider = NULL;
@@ -127,7 +137,7 @@ QString Core::RingLogToText()
     QString text = "";
     while (i<Core::RingLog->size())
     {
-        text = Core::RingLog->at(i) + "\n" + text;
+        text = text + Core::RingLog->at(i) + "\n";
         i++;
     }
     return text;
@@ -158,7 +168,25 @@ void Core::LoadConfig()
 
 void Core::PreProcessEdit(WikiEdit *_e)
 {
+    if (_e == NULL)
+    {
+        throw new Exception("NULL edit");
+    }
 
+    if (_e->Status == StatusProcessed)
+    {
+        return;
+    }
+
+    if (_e->User == NULL)
+    {
+        throw new Exception("Edit user was NULL in Core::PreProcessEdit");
+    }
+
+    _e->Whitelisted = Configuration::WhiteList.contains(_e->User->Username);
+    _e->EditMadeByHuggle = _e->Summary.contains(Configuration::EditSuffixOfHuggle);
+
+    _e->Status = StatusProcessed;
 }
 
 void Core::SaveConfig()
@@ -196,6 +224,12 @@ ApiQuery *Core::RevertEdit(WikiEdit *_e, QString summary, bool minor, bool rollb
 
     if (rollback)
     {
+        if (_e->RollbackToken == "")
+        {
+            Log("ERROR, unable to rollback, because the rollback token was empty: " + _e->Page->PageName);
+            delete query;
+            return NULL;
+        }
         query->SetAction(ActionRollback);
         query->Parameters = "title=" + QUrl::toPercentEncoding(_e->Page->PageName)
                 + "&user=" + QUrl::toPercentEncoding(_e->User->Username)
@@ -203,6 +237,7 @@ ApiQuery *Core::RevertEdit(WikiEdit *_e, QString summary, bool minor, bool rollb
                 + QUrl::toPercentEncoding(summary);
 
         query->UsingPOST = true;
+        DebugLog("Rolling back " + _e->Page->PageName + " using token " + _e->RollbackToken);
         query->Process();
         Core::RunningQueries.append(query);
     }

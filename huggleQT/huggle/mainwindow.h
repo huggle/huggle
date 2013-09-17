@@ -47,6 +47,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    QList<WikiEdit*> PendingEdits;
     HuggleLog *SystemLog;
     HuggleQueue *Queue1;
     HuggleWeb *Browser;
@@ -63,30 +64,18 @@ public:
 
 private slots:
     void on_actionExit_triggered();
-
     void on_actionPreferences_triggered();
-
     void on_actionContents_triggered();
-
     void on_actionAbout_triggered();
-
     void on_MainWindow_destroyed();
-
     void on_Tick();
     void on_actionNext_triggered();
-
     void on_actionNext_2_triggered();
-
     void on_actionWarn_triggered();
-
     void on_actionRevert_currently_displayed_edit_triggered();
-
     void on_actionWarn_the_user_triggered();
-
     void on_actionRevert_currently_displayed_edit_and_warn_the_user_triggered();
-
     void on_actionRevert_and_warn_triggered();
-
     void on_actionRevert_triggered();
 
 private:

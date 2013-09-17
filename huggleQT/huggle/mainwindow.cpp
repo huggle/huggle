@@ -67,9 +67,10 @@ MainWindow::~MainWindow()
 
 void MainWindow::ProcessEdit(WikiEdit *e)
 {
+    // FIXME we need to safely delete the edit later
     if (this->CurrentEdit != NULL)
     {
-        delete this->CurrentEdit;
+        //delete this->CurrentEdit;
     }
     this->CurrentEdit = e;
     this->Browser->DisplayDiff(e);
@@ -162,7 +163,32 @@ void MainWindow::on_Tick()
 {
     if (Core::PrimaryFeedProvider->ContainsEdit())
     {
-        this->Queue1->AddItem(Core::PrimaryFeedProvider->RetrieveEdit());
+        // we take the edit and start post processing it
+        WikiEdit *edit = Core::PrimaryFeedProvider->RetrieveEdit();
+        Core::PostProcessEdit(edit);
+        PendingEdits.append(edit);
+    }
+    if (PendingEdits.count() > 0)
+    {
+        // postprocessed edits can be added to queue
+        QList<WikiEdit*> Processed;
+        int c = 0;
+        while (c<PendingEdits.count())
+        {
+            if (PendingEdits.at(c)->IsPostProcessed())
+            {
+                Processed.append(PendingEdits.at(c));
+            }
+            c++;
+        }
+        c = 0;
+        while (c< Processed.count())
+        {
+            // insert it to queue
+            this->Queue1->AddItem(Processed.at(c));
+            PendingEdits.removeOne(Processed.at(c));
+            c++;
+        }
     }
     this->Status->setText("Currently processing " + QString::number(Core::ProcessingEdits.count())
                           + " edits and " + QString::number(Core::RunningQueries.count()) + " queries"

@@ -64,6 +64,13 @@ void HuggleWeb::DisplayDiff(WikiEdit *edit)
     {
         throw new Exception("The page of edit was NULL in HuggleWeb::DisplayDiff(*edit)");
     }
-    ui->webView->load(Core::GetProjectScriptURL() + "index.php?title=" + edit->Page->PageName + "&diff="
+    if (edit->DiffText == "")
+    {
+        Core::Log("Warning, unable to retrieve diff for edit " + edit->Page->PageName + " fallback to web rendering");
+        ui->webView->load(Core::GetProjectScriptURL() + "index.php?title=" + edit->Page->PageName + "&diff="
                       + QString::number(edit->Diff) + "&action=render");
+        return;
+    }
+
+    ui->webView->setHtml(Core::HtmlHeader + edit->DiffText + Core::HtmlFooter);
 }

@@ -15,6 +15,7 @@ HuggleQueueFilter::HuggleQueueFilter(HuggleQueue *Parent)
     this->parent = Parent;
     QueueName = "default";
     this->IgnoreBots = true;
+    this->IgnoreWL = true;
     this->IgnoreFriends = true;
     this->IgnoreIP = false;
     this->IgnoreMinor = false;
@@ -22,24 +23,33 @@ HuggleQueueFilter::HuggleQueueFilter(HuggleQueue *Parent)
     this->IgnoreUsers = false;
 }
 
-bool HuggleQueueFilter::Matches(WikiEdit edit)
+bool HuggleQueueFilter::Matches(WikiEdit *edit)
 {
-    if (edit.TrustworthEdit && IgnoreFriends)
+    if (edit->Whitelisted && this->IgnoreWL)
     {
         return false;
     }
-    if (edit.Minor && IgnoreMinor)
+    if (edit->TrustworthEdit && this->IgnoreFriends)
     {
         return false;
     }
-    if (edit.NewPage && IgnoreNP)
+    if (edit->Minor && this->IgnoreMinor)
     {
         return false;
     }
-    if (edit.Bot && IgnoreBots)
+    if (edit->NewPage && this->IgnoreNP)
+    {
+        return false;
+    }
+    if (edit->Bot && IgnoreBots)
     {
         return false;
     }
     return true;
+}
+
+bool HuggleQueueFilter::Matches(WikiEdit edit)
+{
+    return this->Matches(&edit);
 }
 
