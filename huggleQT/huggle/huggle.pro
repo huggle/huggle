@@ -6,13 +6,13 @@
 
 QT       += xml webkit core gui network
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets webkitwidgets
 
 TARGET = huggle
 TEMPLATE = app
 INCLUDEPATH += "C:\python33\include"
 INCLUDEPATH += "/usr/include/python2.7"
-LIBS += "-lpython2.7"
+#LIBS += "-lpython2.7"
 
 
 SOURCES += main.cpp\
