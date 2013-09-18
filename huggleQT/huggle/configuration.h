@@ -9,7 +9,7 @@
 //GNU General Public License for more details.
 
 // comment this if you want to disable python support
-#define PYTHONENGINE
+//#define PYTHONENGINE
 
 #ifndef CONFIGURATION_H
 #define CONFIGURATION_H
