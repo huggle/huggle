@@ -50,7 +50,7 @@ void HuggleWeb::DisplayPage(QString url)
 
 void HuggleWeb::RenderHtml(QString html)
 {
-    ui->webView->setContent(html.toAscii());
+    ui->webView->setContent(html.toUtf8());
 }
 
 QString HuggleWeb::Encode(const QString &string)
