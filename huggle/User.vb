@@ -24,12 +24,15 @@ Class User
     'Represents a user account or anonymous user
 
     'Regex to match IP addresses
-    Private Shared AnonymousRegex As New Regex _
+    Private Shared AnonymousIPv4Regex As New Regex _
         ("((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)", RegexOptions.Compiled)
+    Private Shared AnonymousIPv6Regex As New Regex _
+        ("(?:[A-F0-9]{1,4}:){6}(?:[A-F0-9]{1,4}:[A-F0-9]{1,4}|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.){3}(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9]))", RegexOptions.Compiled)
 
     Private Shared All As New Dictionary(Of String, User)
 
-    Private _Anonymous As Boolean
+    Private _AnonymousIPv4 As Boolean
+    Private _AnonymousIPv6 As Boolean
     Private _EditCount As Integer
     Private _Ignored As Boolean
     Private _Level As UserLevel
@@ -51,7 +54,8 @@ Class User
     Public Sub New(ByVal Name As String)
         _Name = Name
         _EditCount = -1
-        _Anonymous = AnonymousRegex.IsMatch(Name)
+        _AnonymousIPv4 = AnonymousIPv4Regex.IsMatch(Name)
+        _AnonymousIPv6 = AnonymousIPv6Regex.IsMatch(Name)
         _Ignored = Whitelist.Contains(Name)
         If Not All.ContainsKey(Name) Then All.Add(Name, Me)
     End Sub
@@ -64,7 +68,7 @@ Class User
 
     Public ReadOnly Property Anonymous() As Boolean
         Get
-            Return _Anonymous
+            Return _AnonymousIPv4 Or _AnonymousIPv6
         End Get
     End Property
 
@@ -96,6 +100,7 @@ Class User
         Get
             If Not Anonymous Then Return Nothing
 
+            'TODO: currently no range support for IPv6, this will return the full address
             Dim NamePart As String = Name.Substring(0, Name.LastIndexOf("."))
             NamePart = NamePart.Substring(0, NamePart.LastIndexOf("."))
             Return NamePart

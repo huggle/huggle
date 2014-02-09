@@ -22,8 +22,8 @@ Imports System.Web.HttpUtility
 Module Processing
 
     Private RcLineRegex As New Regex _
-        ("type=""([^""]*)"" ns=""[^""]*"" title=""([^""]*)"" rcid=""([^""]*)"" pageid=""[^""]*"" " _
-        & "revid=""([^""]*)"" old_revid=""([^""]*)"" user=""([^""]*)""( bot="""")?( anon=" _
+        ("type=""([^""]*)"" ns=""[^""]*"" title=""([^""]*)"" pageid=""[^""]*"" " _
+        & "revid=""([^""]*)"" old_revid=""([^""]*)"" rcid=""([^""]*)"" user=""([^""]*)""( bot="""")?( anon=" _
         & """"")?( new="""")?( minor="""")? oldlen=""([^""]*)"" newlen=""([^""]*)"" times" _
         & "tamp=""([^""]*)""( comment=""([^""]*)"")? />", RegexOptions.Compiled)
 
@@ -1132,9 +1132,9 @@ Module Processing
         Dim Edit As New Edit
 
         Edit.Page = GetPage(HtmlDecode(Match.Groups(2).Value))
-        Edit.Rcid = Match.Groups(3).Value
-        Edit.Id = Match.Groups(4).Value
-        Edit.Oldid = Match.Groups(5).Value
+        Edit.Rcid = Match.Groups(5).Value
+        Edit.Id = Match.Groups(3).Value
+        Edit.Oldid = Match.Groups(4).Value
         Edit.User = GetUser(HtmlDecode(Match.Groups(6).Value))
         Edit.Change = (CInt(Match.Groups(12).Value) - CInt(Match.Groups(11).Value))
         Edit.Size = CInt(Match.Groups(12).Value)
@@ -1154,10 +1154,10 @@ Module Processing
         Edit.NewPage = True
         Edit.Page = GetPage(HtmlDecode(Match.Groups(2).Value))
         Edit.Page.FirstEdit = Edit
-        Edit.Rcid = Match.Groups(3).Value
+        Edit.Rcid = Match.Groups(5).Value
         Edit.Page.Rcid = Edit.Rcid
         Edit.Prev = NullEdit
-        Edit.Id = Match.Groups(4).Value
+        Edit.Id = Match.Groups(3).Value
         Edit.Oldid = "-1"
         Edit.User = GetUser(HtmlDecode(Match.Groups(6).Value))
         Edit.Change = CInt(Match.Groups(12).Value)
@@ -1192,7 +1192,7 @@ Module Processing
                 End If
 
                 NewBlock.Comment = FindString(Summary, "): ")
-                NewBlock.Admin = GetUser(HtmlDecode(Match.Groups(5).Value))
+                NewBlock.Admin = GetUser(HtmlDecode(Match.Groups(6).Value))
                 NewBlock.Time = Date.SpecifyKind(CDate(Match.Groups(12).Value).ToUniversalTime, DateTimeKind.Utc)
 
                 ProcessBlock(NewBlock)
@@ -1203,7 +1203,7 @@ Module Processing
 
                 If Summary.StartsWith("deleted") Then NewDelete.Action = "delete" Else NewDelete.Action = "restore"
                 NewDelete.Page = GetPage(FindString(Summary, "[[", "]]"))
-                NewDelete.Admin = GetUser(HtmlDecode(Match.Groups(5).Value))
+                NewDelete.Admin = GetUser(HtmlDecode(Match.Groups(6).Value))
                 NewDelete.Time = Date.SpecifyKind(CDate(Match.Groups(12).Value).ToUniversalTime, DateTimeKind.Utc)
                 NewDelete.Comment = FindString(Summary, """: ")
 
@@ -1221,7 +1221,7 @@ Module Processing
                     NewProtection.Action = "change"
                 End If
 
-                NewProtection.Admin = GetUser(HtmlDecode(Match.Groups(5).Value))
+                NewProtection.Admin = GetUser(HtmlDecode(Match.Groups(6).Value))
                 NewProtection.Time = Date.SpecifyKind(CDate(Match.Groups(12).Value).ToUniversalTime, DateTimeKind.Utc)
                 NewProtection.Page = GetPage(FindString(Summary, "[[", "]]"))
 
