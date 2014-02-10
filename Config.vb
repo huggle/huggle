@@ -121,8 +121,8 @@ Class Configuration
     Public Platform As Long = 86
     Public DiffFontSize As String = "8"
     Public DocsLocation As String = "http://en.wikipedia.org/wiki/Wikipedia:Huggle"
-    Public DownloadLocation As String = "http://http://tools.wmflabs.org/huggle/files/huggle $1.exe"
-    Public Downloadloc64 As String = "http://http://tools.wmflabs.org/huggle/files/huggle $1.exe"
+    Public DownloadLocation As String = "http://tools.wmflabs.org/huggle/files/huggle $1.exe"
+    Public Downloadloc64 As String = "http://tools.wmflabs.org/huggle/files/huggle $1.exe"
     Public Email As Boolean
     Public EmailSubject As String = ""
     Public TestWp As String = "http://huggle.wmflabs.org/"
