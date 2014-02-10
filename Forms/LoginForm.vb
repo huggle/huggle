@@ -150,33 +150,20 @@ Class LoginForm
         Canlogin()
     End Sub
 
-    Private Sub Password_TextChanged() Handles Password.TextChanged
-        Canlogin()
-    End Sub
+    Private Sub Canlogin() Handles Password.TextChanged,
+        ProxyPassword.TextChanged,
+        ProxyUsername.TextChanged,
+        ProxyUsername.TextChanged,
+        ProxyDomain.TextChanged,
+        ProxyPort.TextChanged,
+        Proxy.TextChanged
 
-    Private Sub Proxy_TextChanged() Handles Proxy.TextChanged
-        Canlogin()
-    End Sub
-
-    Private Sub ProxyPort_TextChanged() Handles ProxyPort.TextChanged
-        Canlogin()
-    End Sub
-    Private Sub ProxyDomain_TextChanged() Handles ProxyDomain.TextChanged
-        Canlogin()
-    End Sub
-    Private Sub ProxyUsername_TextChanged() Handles ProxyUsername.TextChanged
-        Canlogin()
-    End Sub
-    Private Sub ProxyPassword_TextChanged() Handles ProxyPassword.TextChanged
-        Canlogin()
-    End Sub
-
-    Private Sub Canlogin()
         If Proxy.Checked = True Then
             OK.Enabled = (Username.Text <> "" AndAlso Password.Text <> "" AndAlso ProxyPort.Text <> "" AndAlso ProxyDomain.Text <> "" AndAlso ProxyUsername.Text <> "" AndAlso ProxyPassword.Text <> "")
         Else
             OK.Enabled = (Username.Text <> "" AndAlso Password.Text <> "")
         End If
+
     End Sub
 
     Private Sub ShowProxySettings_Click() Handles ShowProxySettings.Click
