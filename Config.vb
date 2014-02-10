@@ -114,7 +114,7 @@ Class Configuration
     Public CountBatchSize As Integer = 20
     Public CustomRevertSummaries As New List(Of String)
     Public DefaultQueue As String = ""
-    Public WhitelistUrl As String = "http://toolserver.org/~petrb/huggle/wl.php"
+    Public WhitelistUrl As String = "http://huggle.wmflabs.org/data/wl.php "
     Public DefaultQueue2 As String
     Public DefaultSummary As String = ""
     Public Delete As Boolean = False
