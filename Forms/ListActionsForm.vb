@@ -1,5 +1,4 @@
 ﻿'This is a source code or part of Huggle project
-'revertrequests.vb
 'This file contains code for listactions form
 'last modified by Petrb
 
