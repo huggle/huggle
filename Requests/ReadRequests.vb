@@ -1031,6 +1031,9 @@ Namespace Requests
             '    Then Config.WhitelistTimestamps(Name) = Date.UtcNow.ToString _
             '    Else Config.WhitelistTimestamps.Add(Name, Date.UtcNow.ToString)
             Whitelist.AddRange(Split(Result, "|"))
+            If (Whitelist.Contains("")) Then
+                Whitelist.Remove("")
+            End If
             'Whitelist.AddRange(Split(GetTextFromRev(Page), LF))
             'Next Page
 

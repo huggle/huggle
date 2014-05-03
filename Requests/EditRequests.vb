@@ -267,20 +267,6 @@ Namespace Requests
                 Exit Sub
             End If
 
-            Dim Whitelist_Older As String
-            Whitelist_Older = DoWebRequest(Config.WhitelistUrl, "action=read&wp=" & UrlEncode(Config.Project))
-            If Whitelist_Older.Contains("<!-- failed") Or Whitelist_Older.Contains("<!-- list -->") = False Then
-                Exit Sub
-            End If
-
-            Whitelist_Older = Whitelist_Older.Replace("<!-- list -->", "")
-
-            Dim Whitelist_List As New List(Of String)
-            Whitelist_List.AddRange(Split(Whitelist_Older, "|"))
-
-            Whitelist.Clear()
-            Whitelist.AddRange(Whitelist_List)
-
             Dim W_List As String = ""
 
             For Each Item As String In WhitelistAutoChanges
@@ -299,9 +285,9 @@ Namespace Requests
             For Each i As String In Whitelist
                 W_List = W_List & i & "|"
             Next i
-
+            W_List += "||EOW||"
             Dim Result As String
-            Result = DoWebRequest(Config.WhitelistUrl, "action=edit&wl=" & UrlEncode(W_List) & "&wp=" & UrlEncode(Config.Project))
+            Result = DoWebRequest(Config.WhitelistUrl, "action=edit&wl=" & UrlEncode(W_List) & "&user=huggle2_" & UrlEncode(Config.Username) & "&wp=" & UrlEncode(Config.Project))
 
             'If Result.Error Then
             'Fail(, Result.ErrorMessage)
