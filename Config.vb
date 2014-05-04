@@ -1,7 +1,6 @@
 ﻿'This is a source code or part of Huggle project
 'Edit.vb
 'This file contains code for configuration actions
-'last modified by Addshore
 
 'Copyright (C) 2011 Huggle team
 

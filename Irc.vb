@@ -1,7 +1,4 @@
 'This is a source code or part of Huggle project
-'irc.vb
-'This file contains code of irc sub system
-'last modified by Petrb
 
 'Copyright (C) 2011 Huggle team
 

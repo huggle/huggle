@@ -1,7 +1,4 @@
 'This is a source code or part of Huggle project
-'Requests - ActionRequests.vb
-'This file contains code for request actions
-'last modified by Petrb
 
 'Copyright (C) 2011 Huggle team
 

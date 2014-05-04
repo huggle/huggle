@@ -1,7 +1,6 @@
 'This is a source code or part of Huggle project
 'requests / configrequests.vb
 'This file contains code for config requests
-'last modified by Petrb
 
 'Copyright (C) 2011 Huggle team
 

@@ -1,7 +1,6 @@
 'This is a source code or part of Huggle project
 'EditInfoPanel.vb
 'This file contains code for Edit info form
-'last modified by Petrb
 
 'Copyright (C) 2011 Huggle team
 

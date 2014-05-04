@@ -1,7 +1,4 @@
 ﻿'This is a source code or part of Huggle project
-'Stats.vb
-'This file contains code for stats actions
-'last modified by Petrb
 
 'Copyright (C) 2011 Huggle team
 

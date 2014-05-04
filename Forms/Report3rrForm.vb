@@ -1,6 +1,4 @@
 'This is a source code or part of Huggle project
-'This file contains code for report3rr form
-'last modified by Petrb
 
 'Copyright (C) 2011 Huggle team
 

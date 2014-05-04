@@ -1,7 +1,4 @@
 ﻿'This is a source code or part of Huggle project
-'page.vb
-'This file contains code of page class
-'last modified by Petrb
 
 'Copyright (C) 2011 Huggle team
 

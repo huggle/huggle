@@ -1,7 +1,4 @@
 'This is a source code or part of Huggle project
-'Login.vb
-'This file contains code of login form
-'last modified by Petrb
 
 
 'Copyright (C) 2011 Huggle team

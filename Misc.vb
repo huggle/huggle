@@ -1,7 +1,4 @@
 'This is a source code or part of Huggle project
-'Misc.vb
-'This file contains code of many parts of the app
-'last modified by Petrb
 
 'Copyright (C) 2011 Huggle team
 

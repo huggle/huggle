@@ -1,7 +1,5 @@
 ﻿'This is a source code or part of Huggle project
-'inputbox.vb
-'This file contains code for
-'last modified by Petrb
+'InputBox.vb
 
 'Copyright (C) 2011 Huggle team
 
