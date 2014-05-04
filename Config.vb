@@ -47,6 +47,7 @@ Class Configuration
         {"blocknote", "deletenote", "deletetag", "deletereq", "manual", "message", "note", "prodtag", _
          "protectreq", "report", "revert", "speedytag", "tag", "warning"}
 
+    'When True huggle skips various restriction checks (should never be True for releases)
     Public Devs As Boolean = False
 
     'Values only used at runtime
