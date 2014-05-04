@@ -662,8 +662,19 @@ Module Misc
         End If
 
         For Each Item As String In Url.Split("&"c)
-            If Item.Contains("=") Then Params.Add(Item.Substring(0, Item.IndexOf("=")), _
-                UrlDecode(Item.Substring(Item.IndexOf("=") + 1)))
+            If Item.Contains("=") Then
+                Dim ParamKey As String = Item.Substring(0, Item.IndexOf("="))
+
+                'Only add keys if they do not already exist
+                'This should avoid unexpected "ArgumentException: An item with the same key has already been added."
+                If Not Params.ContainsKey(ParamKey) Then
+                    Params.Add(
+                        ParamKey,
+                        UrlDecode(Item.Substring(Item.IndexOf("=") + 1))
+                        )
+                End If
+
+            End If
         Next Item
 
         Return Params
