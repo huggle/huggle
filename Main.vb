@@ -1453,7 +1453,7 @@ Class Main
         End If
 
         If e.KeyCode = Keys.OemOpenBrackets OrElse e.KeyCode = Keys.OemCloseBrackets _
-            OrElse (e.Shift AndAlso (e.KeyCode = Keys.Oemcomma OrElse e.KeyCode = Keys.OemPeriod)) _
+            OrElse (e.Shift AndAlso e.KeyCode = Keys.Oemcomma) _
             Then e.SuppressKeyPress = True
     End Sub
 
