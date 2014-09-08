@@ -398,9 +398,9 @@ Namespace Requests
                 While Token Is Nothing And BreakA < Misc.GlExcess
                     BreakA = BreakA + 1
                     If Section IsNot Nothing OrElse EditToken Is Nothing Then
-                        Result = DoApiRequest("action=query&prop=info&intoken=edit&titles=" & UrlEncode(Page.Name))
+                        Result = DoApiRequest("action=query&meta=tokens")
                         If Result.Error Then Return Result
-                        Token = GetParameter(Result.Text, "edittoken")
+                        Token = GetParameter(Result.Text, "csrftoken")
                         If Section Is Nothing Then EditToken = Token
                     Else
                         Token = EditToken

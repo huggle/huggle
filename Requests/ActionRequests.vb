@@ -62,14 +62,14 @@ Namespace Requests
             End If
 
             'Get token
-            Result = DoApiRequest("action=query&prop=info&titles=-&intoken=block")
+            Result = DoApiRequest("action=query&meta=tokens")
 
             If Result.Error Then
                 Fail(Msg("block-fail", User.Name), Result.ErrorMessage)
                 Exit Sub
             End If
 
-            Dim Token As String = GetParameter(Result.Text, "blocktoken")
+            Dim Token As String = GetParameter(Result.Text, "csrftoken")
 
             'Block user
             Dim PostString As String = "user=" & UrlEncode(User.Name) & _
@@ -119,14 +119,14 @@ Namespace Requests
             If String.IsNullOrEmpty(Summary) Then Summary = "-"
 
             'Get token
-            Dim Result As ApiResult = DoApiRequest("action=query&prop=info&intoken=delete&titles=" & UrlEncode(Page.Name))
+            Dim Result As ApiResult = DoApiRequest("action=query&meta=tokens")
 
             If Result.Error Then
                 Fail(Msg("delete-fail", Page.Name), Result.ErrorMessage)
                 Exit Sub
             End If
 
-            Dim Token As String = GetParameter(Result.Text, "deletetoken")
+            Dim Token As String = GetParameter(Result.Text, "csrftoken")
 
             'Delete the page
             Dim PostString As String = "title=" & UrlEncode(Page.Name) & _
@@ -172,14 +172,14 @@ Namespace Requests
             LogProgress(Msg("email-progress", User.Name))
 
             'Get token
-            Dim Result As ApiResult = DoApiRequest("action=query&prop=info&titles=-&intoken=email")
+            Dim Result As ApiResult = DoApiRequest("action=query&meta=tokens")
 
             If Result.Error Then
                 Fail(Msg("email-fail", User.Name), Result.ErrorMessage)
                 Exit Sub
             End If
 
-            Dim Token As String = GetParameter(Result.Text, "emailtoken")
+            Dim Token As String = GetParameter(Result.Text, "csrftoken")
 
             'Send e-mail
             Dim PostString As String = "target=" & UrlEncode(User.Name) & _
@@ -206,14 +206,14 @@ Namespace Requests
             LogProgress(Msg("move-progress", Page.Name, Target))
 
             'Get token
-            Dim Result As ApiResult = DoApiRequest("action=query&prop=info&intoken=move&titles=" & UrlEncode(Page.Name))
+            Dim Result As ApiResult = DoApiRequest("action=query&meta=tokens")
 
             If Result.Error Then
                 Fail(Msg("move-fail", Page.Name, Target), Result.ErrorMessage)
                 Exit Sub
             End If
 
-            Dim Token As String = GetParameter(Result.Text, "movetoken")
+            Dim Token As String = GetParameter(Result.Text, "csrftoken")
 
             'Move the page
             Dim PostString As String = "from=" & UrlEncode(Page.Name) & "&to=" & UrlEncode(Target) & _
@@ -307,14 +307,14 @@ Namespace Requests
         Protected Overrides Sub Process()
             LogProgress(Msg("protect-progress", Page.Name))
             'Get token
-            Dim Result As ApiResult = DoApiRequest("action=query&prop=info&intoken=protect&titles=" & UrlEncode(Page.Name))
+            Dim Result As ApiResult = DoApiRequest("action=query&meta=tokens")
 
             If Result.Error Then
                 Fail(Msg("protect-fail", Page.Name), Result.ErrorMessage)
                 Exit Sub
             End If
 
-            Dim Token As String = GetParameter(Result.Text, "protecttoken")
+            Dim Token As String = GetParameter(Result.Text, "csrftoken")
 
             'Protect the page
             Dim PostString As String = "title=" & UrlEncode(Page.Name) & _
