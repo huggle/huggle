@@ -23,7 +23,7 @@ Namespace Requests
         'Process global configuration page
 
         Protected Overrides Sub Process()
-            Dim Result As ApiResult = DoApiRequest("action=query&prop=revisions&rvlimit=1&rvprop=content&titles=" & _
+            Dim Result As ApiResult = DoApiRequest("action=query&prop=revisions&rawcontinue=1&rvlimit=1&rvprop=content&titles=" & _
                 Config.GlobalConfigLocation, Project:="meta")
 
             If Result.Error Then
