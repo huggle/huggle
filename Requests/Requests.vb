@@ -324,6 +324,12 @@ Namespace Requests
                 Query = QueryString
                 If PostString Is Nothing Then Mode = Modes.Get Else Mode = Modes.Post
 
+            ' The default behavior for continuation for action=query will be changing/has changed. Use old behavior.
+            ' reference: https://gerrit.wikimedia.org/r/160222 and comments there
+            If QueryString.Contains("action=query") Then
+                QueryString = "rawcontinue=1&" & QueryString
+            End If
+
             Dim Retries As Integer = Config.RequestAttempts, Result As String = ""
 
             While Retries > 0 And (Result = "" Or Result Is Nothing) And Break < Misc.GlExcess
