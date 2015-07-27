@@ -197,7 +197,7 @@ Module Misc
         Config.FeedbackLocation = "Project:Huggle"
         Config.IfdLocation = "Wikipedia:IFD"
         Config.IrcChannel = ""
-        Config.IrcServer = "irc.pmtpta.wikimedia.org"
+        Config.IrcServer = "irc.wikimedia.org"
         Config.MfdLocation = "Wikipedia:MFD"
         Config.MonthHeadings = True
         Config.OpenInBrowser = True
