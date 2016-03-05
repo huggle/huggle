@@ -59,6 +59,7 @@ Module Processing
         Next Item
 
         If Edit.User IsNot Nothing AndAlso Edit.Page IsNot Nothing Then
+
             If Edit.NewPage Then
                 Edit.Page.FirstEdit = Edit
                 Edit.Prev = NullEdit
@@ -80,7 +81,7 @@ Module Processing
                 Next Item
             End If
 
-            If ( Edit.Summary = Config.UndoSummary & " " & Config.Summary ) Then Edit.Type = EditType.Revert
+            If (Edit.Summary = Config.UndoSummary & " " & Config.Summary) Then Edit.Type = EditType.Revert
 
             'Reverted users
             If (Edit.Type = EditType.Revert AndAlso Edit.Summary.ToLower.Contains("[[special:contributions/")) Then
@@ -162,7 +163,7 @@ Module Processing
 
                             Dim ReportedUser As User = GetUser(Summary)
 
-                            If ReportedUser IsNot Nothing AndAlso ReportedUser.Anonymous AndAlso _
+                            If ReportedUser IsNot Nothing AndAlso ReportedUser.Anonymous AndAlso
                                 ReportedUser.Level < UserLevel.ReportedUAA AndAlso Not ReportedUser.Ignored Then
 
                                 If Edit.Page.Name = Config.AIVLocation Then ReportedUser.Level = UserLevel.ReportedAIV _
@@ -256,6 +257,7 @@ Module Processing
             End If
 
             'Tagging
+            'If IsTagFromSummary(Edit) AndAlso Edit.Type = EditType.None Then Edit.Type = EditType.Tag
             If IsTagFromSummary(Edit) AndAlso Edit.Type = EditType.None Then Edit.Type = EditType.Tag
         End If
 
@@ -336,7 +338,7 @@ Module Processing
                         'Do nothing if there is a very recent warning to try to compensate for
                         'stupid broken tools that warn for other people's reverts *cough* vandalproof *cough*
 
-                        Log(Msg("warn-fail", PendingWarnings(i).User.Name) & ": " & Msg("warn-recent", _
+                        Log(Msg("warn-fail", PendingWarnings(i).User.Name) & ": " & Msg("warn-recent",
                             CStr(Config.MinWarningWait)))
                     Else
 
@@ -473,7 +475,7 @@ Module Processing
 
         'Refresh the interface
         If MainForm IsNot Nothing AndAlso MainForm.Visible Then
-            If CurrentEdit IsNot Nothing AndAlso CurrentPage IsNot Nothing AndAlso CurrentUser IsNot Nothing AndAlso _
+            If CurrentEdit IsNot Nothing AndAlso CurrentPage IsNot Nothing AndAlso CurrentUser IsNot Nothing AndAlso
                 (Edit.Page Is CurrentPage OrElse Edit.User Is CurrentUser OrElse Edit.Page Is CurrentUser.TalkPage) Then
 
                 MainForm.DrawHistory()
@@ -481,8 +483,6 @@ Module Processing
             End If
 
             If Config.ShowQueue AndAlso Redraw Then MainForm.DrawQueues()
-
-
 
             For Each Item As TabPage In MainForm.Tabs.TabPages
                 Dim ThisTab As BrowserTab = CType(Item.Controls(0), BrowserTab)
@@ -518,6 +518,7 @@ Module Processing
                 End If
             Next Item
         End If
+
     End Sub
 
     Sub UserDeleteRequest(ByVal Page As Page)
@@ -536,8 +537,8 @@ Module Processing
         End If
     End Sub
 
-    Function DoRevert(ByVal Edit As Edit, Optional ByVal Summary As String = Nothing, _
-        Optional ByVal Rollback As Boolean = True, Optional ByVal Undoing As Boolean = False, _
+    Function DoRevert(ByVal Edit As Edit, Optional ByVal Summary As String = Nothing,
+        Optional ByVal Rollback As Boolean = True, Optional ByVal Undoing As Boolean = False,
         Optional ByVal CurrentOnly As Boolean = False) As Boolean
         If Edit Is Nothing OrElse Edit.Page Is Nothing OrElse Edit.User Is Nothing Then Return False
 
@@ -547,17 +548,17 @@ Module Processing
         'Confirm self-reversion
         If Config.ConfirmSelfRevert AndAlso Not Undoing AndAlso Edit.User.IsMe _
             AndAlso (Edit.Page.FirstEdit Is Nothing OrElse Edit.Id <> Edit.Page.FirstEdit.Id) _
-            AndAlso MessageBox.Show(Msg("revert-confirm-self"), "Huggle", MessageBoxButtons.YesNo, _
+            AndAlso MessageBox.Show(Msg("revert-confirm-self"), "Huggle", MessageBoxButtons.YesNo,
             MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = DialogResult.No Then Return False
 
         'Confirm reversion of whitelisted user
-        If Config.ConfirmIgnored AndAlso Edit.User.Ignored AndAlso Not Edit.User.IsMe AndAlso _
-            MessageBox.Show(Msg("revert-confirm-ignored", Edit.User.Name), "Huggle", MessageBoxButtons.YesNo, _
+        If Config.ConfirmIgnored AndAlso Edit.User.Ignored AndAlso Not Edit.User.IsMe AndAlso
+            MessageBox.Show(Msg("revert-confirm-ignored", Edit.User.Name), "Huggle", MessageBoxButtons.YesNo,
             MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = DialogResult.No Then Return False
 
         'Confirm reversion of multiple edits
         If Config.ConfirmMultiple AndAlso Edit.Prev IsNot Nothing AndAlso Edit.User Is Edit.Prev.User _
-            AndAlso MessageBox.Show(Msg("revert-confirm-multiple", Edit.User.Name), "Huggle", _
+            AndAlso MessageBox.Show(Msg("revert-confirm-multiple", Edit.User.Name), "Huggle",
             MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.No Then Return False
 
         If Not Undoing AndAlso Edit.User.Level = UserLevel.None Then Edit.User.Level = UserLevel.Reverted
@@ -572,7 +573,7 @@ Module Processing
             NewRequest.Page = Edit.Page
             NewRequest.Minor = Config.Minor("revert")
             NewRequest.Watch = Config.Watch("revert")
-            If Undoing Then NewRequest.Summary = Config.UndoSummary Else NewRequest.Summary = _
+            If Undoing Then NewRequest.Summary = Config.UndoSummary Else NewRequest.Summary =
                 "Revert edit by [[Special:Contributions/" & Config.Username & "|" & Config.Username & "]]"
             NewRequest.Start()
             Return False
@@ -615,20 +616,20 @@ Module Processing
 
         'Confirm revert to revision by a warned user
         If Config.ConfirmWarned AndAlso Not Undoing AndAlso Edit.Prev IsNot Nothing AndAlso Edit.Prev.User IsNot Nothing _
-            AndAlso Edit.Prev.User IsNot Edit.User AndAlso Edit.Prev.User.Level >= UserLevel.Warn1 AndAlso _
-            MessageBox.Show(Msg("revert-confirm-warned", Edit.User.Name), "Huggle", MessageBoxButtons.YesNo, _
+            AndAlso Edit.Prev.User IsNot Edit.User AndAlso Edit.Prev.User.Level >= UserLevel.Warn1 AndAlso
+            MessageBox.Show(Msg("revert-confirm-warned", Edit.User.Name), "Huggle", MessageBoxButtons.YesNo,
             MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = DialogResult.No Then Return False
 
         'Confirm revert to revision by anonymous user in same /16 block as user being reverted
         If Config.ConfirmRange AndAlso Not Undoing AndAlso Edit.Prev IsNot Nothing AndAlso Edit.Prev.User IsNot Nothing _
-            AndAlso Edit.Prev.User.Anonymous AndAlso Edit.User.Anonymous AndAlso Edit.Prev.User IsNot Edit.User AndAlso _
-            Edit.Prev.User.Range = Edit.User.Range AndAlso MessageBox.Show(Msg("revert-confirm-range", _
-            Edit.User.Name, Edit.Prev.User.Name), "Huggle", MessageBoxButtons.YesNo, MessageBoxIcon.Question, _
+            AndAlso Edit.Prev.User.Anonymous AndAlso Edit.User.Anonymous AndAlso Edit.Prev.User IsNot Edit.User AndAlso
+            Edit.Prev.User.Range = Edit.User.Range AndAlso MessageBox.Show(Msg("revert-confirm-range",
+            Edit.User.Name, Edit.Prev.User.Name), "Huggle", MessageBoxButtons.YesNo, MessageBoxIcon.Question,
             MessageBoxDefaultButton.Button2) = DialogResult.No Then Return False
 
         'Confirm revert of ignored page
-        If Config.ConfirmPage AndAlso Not Undoing AndAlso Config.IgnoredPages.Contains(Edit.Page.Name) AndAlso _
-            MessageBox.Show(Msg("revert-confirm-page", Edit.Page.Name), "Huggle", MessageBoxButtons.YesNo, _
+        If Config.ConfirmPage AndAlso Not Undoing AndAlso Config.IgnoredPages.Contains(Edit.Page.Name) AndAlso
+            MessageBox.Show(Msg("revert-confirm-page", Edit.Page.Name), "Huggle", MessageBoxButtons.YesNo,
             MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = DialogResult.No Then Return False
 
         If Not Edit.User.Ignored AndAlso Not Edit.User.IsMe AndAlso Not Edit.User.RecentContribsRetrieved Then
@@ -671,8 +672,8 @@ Module Processing
 
         'Confirm revert to another revision by the same user
         If Not Undoing AndAlso Edit.Prev IsNot Nothing AndAlso Edit.Prev.User Is Edit.User _
-            AndAlso Config.ConfirmSame AndAlso Edit.User IsNot User.Me AndAlso _
-            MessageBox.Show(Msg("revert-confirm-same", Edit.User.Name), "Huggle", MessageBoxButtons.YesNo, _
+            AndAlso Config.ConfirmSame AndAlso Edit.User IsNot User.Me AndAlso
+            MessageBox.Show(Msg("revert-confirm-same", Edit.User.Name), "Huggle", MessageBoxButtons.YesNo,
             MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = DialogResult.No Then Return False
 
         If Edit Is CurrentEdit Then MainForm.StartRevert()
@@ -963,7 +964,7 @@ Module Processing
         On Error Resume Next
         If Result Is Nothing Then Return
 
-        Dim History As MatchCollection = New Regex("<rev revid=""([^""]+)"" parentid=""([^""]+)"" user=""([^""]+)"" (anon="""" )" & _
+        Dim History As MatchCollection = New Regex("<rev revid=""([^""]+)"" parentid=""([^""]+)"" user=""([^""]+)"" (anon="""" )" &
             "?timestamp=""([^""]+)""( comment=""([^""]+)"")?(>([^<]*)</)?", RegexOptions.Compiled).Matches(Result)
 
         If History.Count = 0 Then
@@ -1013,8 +1014,8 @@ Module Processing
     End Sub
 
     Private ContribsRegex As New Regex _
-        ("<item user=""[^""]+"" pageid=""[^""]+"" revid=""([^""]+)"" ns=""([^""]+)"" title=""([^""]+)"" " & _
-         "timestamp=""([^""]+)"" (new="""" )?(minor="""" )?(top="""" )?(comment=""([^""]+)"" )?/>", _
+        ("<item user=""[^""]+"" pageid=""[^""]+"" revid=""([^""]+)"" ns=""([^""]+)"" title=""([^""]+)"" " &
+         "timestamp=""([^""]+)"" (new="""" )?(minor="""" )?(top="""" )?(comment=""([^""]+)"" )?/>",
          RegexOptions.Compiled)
 
     Sub ProcessContribs(ByVal Result As String, ByVal User As User)
@@ -1096,7 +1097,7 @@ Module Processing
                 Dim Item As String = RcEntries(i)
                 Dim Match As Match = RcLineRegex.Match(Item)
 
-                If Match.Success AndAlso LastRcTime <= _
+                If Match.Success AndAlso LastRcTime <=
                     Date.SpecifyKind(CDate(Match.Groups(13).Value).ToUniversalTime, DateTimeKind.Utc) Then
 
                     Select Case Match.Groups(1).Value
@@ -1238,7 +1239,7 @@ Module Processing
         End Select
     End Sub
 
-    Sub DisplayEdit(ByVal Edit As Edit, Optional ByVal InBrowsingHistory As Boolean = False, _
+    Sub DisplayEdit(ByVal Edit As Edit, Optional ByVal InBrowsingHistory As Boolean = False,
         Optional ByVal Tab As BrowserTab = Nothing, Optional ByVal ChangeCurrentEdit As Boolean = True)
         Try
             If Tab Is Nothing Then Tab = CurrentTab
@@ -1290,19 +1291,38 @@ Module Processing
 
                             DocumentText = MakeHtmlWikiPage(Edit.Page.Name, DiffText)
 
-                            Tab.CurrentUrl = SitePath() & "index.php?title=" & UrlEncode(Edit.Page.Name) & _
+                            ' DVdm 10/02/2016 - Strip bare diff (In order to make this work, we have to import the namespace Microsoft.VisualBasic in the Project References)
+                            '       NOT NEEDED ANYMORE: bug was caught and killed in ReadRequest.vb
+                            ' ===============================================================================================================================================
+                            'Dim pos1 As Long
+                            'Dim pos2 As Long
+
+                            'pos1 = InStr(1, DocumentText, "<body>", CompareMethod.Text)
+                            'pos2 = InStr(pos1 + 6, DocumentText, "<body", CompareMethod.Text)
+                            'If (0 < pos1) And (pos1 < pos2) And (pos2 < Len(DocumentText)) Then
+                            '    DocumentText = Left(DocumentText, pos1 - 1) & Right(DocumentText, Len(DocumentText) - pos2 + 1)
+                            'End If
+
+                            'pos1 = InStr(1, DocumentText, "</table></div>", CompareMethod.Text)
+                            'pos2 = InStr(pos1 + 6, DocumentText, "</body>", CompareMethod.Text)
+                            'If (0 < pos1) And (pos1 < pos2) And (pos2 < Len(DocumentText)) Then
+                            '    DocumentText = Left(DocumentText, pos1 + 14) & Right(DocumentText, Len(DocumentText) - pos2 - 6)
+                            'End If
+                            ' ===============================================================================================================================================
+
+                            Tab.CurrentUrl = SitePath() & "index.php?title=" & UrlEncode(Edit.Page.Name) &
                                 "&diff=" & Edit.Id & "&oldid=" & Edit.Oldid
 
-                            Try
-                                Tab.Browser.DocumentText = DocumentText
+                                Try
+                                    Tab.Browser.DocumentText = DocumentText
 
-                            Catch ex As System.Runtime.InteropServices.COMException
-                                'If an attempt is made to set the DocumentText property while it is 
-                                'still being  set from a previous call, it seems to throw a COMException
-                                'just swallow it for now
-                            End Try
-                        End If
-                        Edit.DiffCacheState = Edit.CacheState.Viewed
+                                Catch ex As System.Runtime.InteropServices.COMException
+                                    'If an attempt is made to set the DocumentText property while it is 
+                                    'still being  set from a previous call, it seems to throw a COMException
+                                    'just swallow it for now
+                                End Try
+                            End If
+                            Edit.DiffCacheState = Edit.CacheState.Viewed
 
                         MainForm.PageB.ForeColor = Color.Black
                         MainForm.RevertTimer.Stop()
@@ -1312,9 +1332,9 @@ Module Processing
                     ElseIf Edit.DiffCacheState = Edit.CacheState.Uncached Then
                         If Tab Is CurrentTab Then
                             For Each Item As ToolStripItem In New ToolStripItem() _
-                                {MainForm.RevertWarnB, MainForm.RevertB, MainForm.WarnB, _
-                                MainForm.UserReportB, MainForm.PageDeleteB, MainForm.PageTagB, MainForm.ContribsPrevB, _
-                                MainForm.ContribsNextB, MainForm.ContribsLastB, MainForm.HistoryPrevB, MainForm.HistoryNextB, _
+                                {MainForm.RevertWarnB, MainForm.RevertB, MainForm.WarnB,
+                                MainForm.UserReportB, MainForm.PageDeleteB, MainForm.PageTagB, MainForm.ContribsPrevB,
+                                MainForm.ContribsNextB, MainForm.ContribsLastB, MainForm.HistoryPrevB, MainForm.HistoryNextB,
                                 MainForm.HistoryLastB, MainForm.HistoryDiffToCurB, MainForm.PageWatchB}
 
                                 Item.Enabled = False
@@ -1360,7 +1380,7 @@ Module Processing
         End If
     End Sub
 
-    Sub DisplayUrl(ByVal Url As String, Optional ByVal InBrowsingHistory As Boolean = False, _
+    Sub DisplayUrl(ByVal Url As String, Optional ByVal InBrowsingHistory As Boolean = False,
         Optional ByVal Tab As BrowserTab = Nothing)
 
         If Tab Is Nothing Then Tab = CurrentTab
@@ -1402,10 +1422,10 @@ Module Processing
     Sub DisplayHistoryItem(ByVal Index As Integer)
         If CurrentEdit IsNot Nothing AndAlso CurrentEdit.Page IsNot Nothing Then
             Dim ThisEdit As Edit = CurrentEdit.Page.LastEdit
-                For i As Integer = 0 To Index - 1
-                    If ThisEdit Is Nothing OrElse ThisEdit.Prev Is Nothing OrElse ThisEdit.Prev Is NullEdit Then Exit Sub
-                    ThisEdit = ThisEdit.Prev
-                Next i
+            For i As Integer = 0 To Index - 1
+                If ThisEdit Is Nothing OrElse ThisEdit.Prev Is Nothing OrElse ThisEdit.Prev Is NullEdit Then Exit Sub
+                ThisEdit = ThisEdit.Prev
+            Next i
 
             DisplayEdit(ThisEdit)
         End If
@@ -1482,8 +1502,8 @@ Module Processing
         Dim Warnings As New List(Of Warning)
 
         'Find standard warnings
-        For Each Item As Match In Regex.Matches(Text, _
-            "<!-- Template:[Uu]w-([a-z]*)(\d)?(im)?(?:}})? -->.*\[\[User(?: talk)?:([^|]*).*(\d{2}:\d{2}, " & _
+        For Each Item As Match In Regex.Matches(Text,
+            "<!-- Template:[Uu]w-([a-z]*)(\d)?(im)?(?:}})? -->.*\[\[User(?: talk)?:([^|]*).*(\d{2}:\d{2}, " &
             "\d+ [a-zA-Z]+ \d{4}) \(UTC\)", RegexOptions.Compiled)
 
             Dim NewWarning As New Warning
@@ -1509,8 +1529,8 @@ Module Processing
         Next Item
 
         'Sometimes the comment comes after the signature
-        For Each Item As Match In Regex.Matches(Text, _
-            "\[\[User(?: talk)?:([^|]*).*(\d{2}:\d{2}, \d+ [a-zA-Z]+ \d{4}) \(UTC\).*" & _
+        For Each Item As Match In Regex.Matches(Text,
+            "\[\[User(?: talk)?:([^|]*).*(\d{2}:\d{2}, \d+ [a-zA-Z]+ \d{4}) \(UTC\).*" &
             "<!-- Template:uw-([a-z]*)(\d)?(im)? -->", RegexOptions.Compiled)
 
             Dim NewWarning As New Warning
@@ -1535,8 +1555,8 @@ Module Processing
         Next Item
 
         'Find un-substituted standard warnings
-        For Each Item As Match In Regex.Matches(Text, _
-            "{{uw-([a-z]*)(\d)?(im)?(\|.*)?}}.*\[\[User( talk)?:([^|]*).*(\d{2}:\d{2}, \d+ [a-zA-Z]+ \d{4}) \(UTC\)", _
+        For Each Item As Match In Regex.Matches(Text,
+            "{{uw-([a-z]*)(\d)?(im)?(\|.*)?}}.*\[\[User( talk)?:([^|]*).*(\d{2}:\d{2}, \d+ [a-zA-Z]+ \d{4}) \(UTC\)",
             RegexOptions.Compiled)
 
             Dim NewWarning As New Warning
@@ -1559,9 +1579,9 @@ Module Processing
         Next Item
 
         'Find old warning templates
-        For Each Item As Match In Regex.Matches(Text, _
-            "<!-- Template:(.+block[^>]*|[Ss]pam[^>]*|[Vv]w[^>]*|[Tt]est[^>]*|[Aa]non vandal[^>]*|" & _
-            "[Ww]elcome-anon-vandal[^>]*|[Ww]elcomevandal[^>]*|[Bb]latantvandal[^>]*|[Aa]ttack[^>]*) -->" & _
+        For Each Item As Match In Regex.Matches(Text,
+            "<!-- Template:(.+block[^>]*|[Ss]pam[^>]*|[Vv]w[^>]*|[Tt]est[^>]*|[Aa]non vandal[^>]*|" &
+            "[Ww]elcome-anon-vandal[^>]*|[Ww]elcomevandal[^>]*|[Bb]latantvandal[^>]*|[Aa]ttack[^>]*) -->" &
             ".*\[\[User(?: talk)?:([^|]*).*(\d{2}:\d{2}, \d+ [a-zA-Z]+ \d{4}) \(UTC\)", RegexOptions.Compiled)
 
             Dim NewWarning As New Warning
@@ -1584,10 +1604,10 @@ Module Processing
         Next Item
 
         'Find old warning templates with signature first
-        For Each Item As Match In Regex.Matches(Text, _
-            "\[\[User(?: talk)?:([^|]*).*(\d{2}:\d{2}, \d+ [a-zA-Z]+ \d{4}) \(UTC\).*" & _
-            "<!-- Template:(.+block[^>]*|[Ss]pam[^>]*|[Vv]w[^>]*|[Tt]est[^>]*|[Aa]non vandal[^>]*|" & _
-            "[Ww]elcome-anon-vandal[^>]*|[Ww]elcomevandal[^>]*|[Bb]latantvandal[^>]*|[Aa]ttack[^>]*) -->", _
+        For Each Item As Match In Regex.Matches(Text,
+            "\[\[User(?: talk)?:([^|]*).*(\d{2}:\d{2}, \d+ [a-zA-Z]+ \d{4}) \(UTC\).*" &
+            "<!-- Template:(.+block[^>]*|[Ss]pam[^>]*|[Vv]w[^>]*|[Tt]est[^>]*|[Aa]non vandal[^>]*|" &
+            "[Ww]elcome-anon-vandal[^>]*|[Ww]elcomevandal[^>]*|[Bb]latantvandal[^>]*|[Aa]ttack[^>]*) -->",
             RegexOptions.Compiled)
 
             Dim NewWarning As New Warning
@@ -1611,8 +1631,8 @@ Module Processing
         Next Item
 
         'Find un-substituted non-standard warnings
-        For Each Item As Match In Regex.Matches(Text, _
-            "{{(test|attack)(\d)?(im)?}}.*\[\[User( talk)?:([^|]*).*(\d{2}:\d{2}, \d+ [a-zA-Z]+ \d{4}) \(UTC\)", _
+        For Each Item As Match In Regex.Matches(Text,
+            "{{(test|attack)(\d)?(im)?}}.*\[\[User( talk)?:([^|]*).*(\d{2}:\d{2}, \d+ [a-zA-Z]+ \d{4}) \(UTC\)",
             RegexOptions.Compiled)
 
             Dim NewWarning As New Warning
@@ -1635,8 +1655,8 @@ Module Processing
         Next Item
 
         'Find old AntiVandalBot/MartinBot warnings, and older VoaBot II warnings
-        For Each Item As Match In Regex.Matches(Text, _
-            "(! // \[\[User:VoABot II\]\]|// \[\[User:(MartinBot|AntiVandalBot)\|(MartinBot|AntiVandalBot)\]\]) " & _
+        For Each Item As Match In Regex.Matches(Text,
+            "(! // \[\[User:VoABot II\]\]|// \[\[User:(MartinBot|AntiVandalBot)\|(MartinBot|AntiVandalBot)\]\]) " &
             "(\d{2}:\d{2}, \d+ [a-zA-Z]+ \d{4}) \(UTC\)", RegexOptions.Compiled)
 
             Dim NewWarning As New Warning

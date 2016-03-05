@@ -26,7 +26,7 @@ Module Login
     'Origionaly made by schallot here http://schallot.googlepages.com/huggle
     'Developed by the huggle team for use in huggle
     '--------------------
-    Public Sub ConfigureProxy(ByVal Enabled As Boolean, ByVal Address As String, ByVal Port As Integer, _
+    Public Sub ConfigureProxy(ByVal Enabled As Boolean, ByVal Address As String, ByVal Port As Integer,
         ByVal Username As String, ByVal Password As String, ByVal Domain As String)
 
         Dim Wp As WebProxy
@@ -165,9 +165,13 @@ Namespace Requests
 
             Dim ConfigResult As RequestResult = (New ConfigRequest).Invoke
 
+            ' DVdm 10/02/2016 - Catch error
+            ' =============================
             If ConfigResult.Error Then
-                Abort(ConfigResult.ErrorMessage)
-                Exit Sub
+                If Not ConfigResult.ErrorMessage.Contains("HTTPS was expected") Then
+                    Abort(ConfigResult.ErrorMessage)
+                    Exit Sub
+                End If
             End If
 
             'If the project config is set to not enabled then show relevant error
@@ -218,7 +222,7 @@ Namespace Requests
                     ' concerning HTML entities
                     ' in the username
                     ' ---------------------
-                    Dim Matches As MatchCollection = _
+                    Dim Matches As MatchCollection =
                         New Regex("\* \[\[Special:Contributions/([^\|]+)\|[^\|]+\]\]").Matches(UserlistResult.Text)
                     Dim ListedUsers As New List(Of String)
 
@@ -235,7 +239,7 @@ Namespace Requests
                         Text &= "* [[Special:Contributions/" & Item & "|" & Item & "]]" & LF
                     Next Item
 
-                    PostEdit(Config.UserListLocation, Text, _
+                    PostEdit(Config.UserListLocation, Text,
                         Config.UserListUpdateSummary.Replace("$1", Config.Username), Minor:=True)
                 End If
 
