@@ -47,7 +47,7 @@ Class Main
         SecondQueue = Queue.SecondDefault
 
         Location = New Point(Math.Max(32, Config.WindowPosition.X), Math.Max(32, Config.WindowPosition.Y))
-        Size = New Size(Math.Max(Config.WindowSize.Width, MinimumSize.Width), _
+        Size = New Size(Math.Max(Config.WindowSize.Width, MinimumSize.Width),
             Math.Max(Config.WindowSize.Height, MinimumSize.Height))
         If Config.WindowMaximize Then WindowState = FormWindowState.Maximized Else WindowState = FormWindowState.Normal
 
@@ -695,8 +695,8 @@ Class Main
         RevertAndWarn()
     End Sub
 
-    Public Sub RevertAndWarn(Optional ByVal WarnType As String = "warning", _
-        Optional ByVal Level As UserLevel = UserLevel.None, Optional ByVal Summary As String = Nothing, _
+    Public Sub RevertAndWarn(Optional ByVal WarnType As String = "warning",
+        Optional ByVal Level As UserLevel = UserLevel.None, Optional ByVal Summary As String = Nothing,
         Optional ByVal CurrentOnly As Boolean = False)
         Try
             Dim summ2 As String = "_"
@@ -718,7 +718,7 @@ Class Main
                 'Get confirmation if needed
                 If Config.ConfirmMultiple AndAlso CurrentEdit.User IsNot Nothing _
                     AndAlso CurrentEdit.User Is CurrentEdit.Prev.User _
-                    AndAlso MessageBox.Show("This will revert multiple edits by '" & CurrentEdit.User.Name & "'. Continue?", _
+                    AndAlso MessageBox.Show("This will revert multiple edits by '" & CurrentEdit.User.Name & "'. Continue?",
                     "Huggle", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.No Then Exit Sub
                 If DoRevert(CurrentEdit, Summary, CurrentOnly:=CurrentOnly) Then
                     'Be sure not to warn twice for the same edit
@@ -798,7 +798,7 @@ Class Main
         End If
     End Sub
 
-    Sub Log(ByVal Message As String, Optional ByVal Tag As Object = Nothing, _
+    Sub Log(ByVal Message As String, Optional ByVal Tag As Object = Nothing,
         Optional ByVal InProgress As Boolean = False)
 
         Dim NewItem As New ListViewItem
@@ -1074,8 +1074,8 @@ Class Main
         Dim Break As Integer = 0
         If e.Bounds.Width > 100 Then
             If CBool(e.State And DrawItemState.Selected) _
-                Then e.Graphics.FillRectangle(New Pen(Color.FromKnownColor(KnownColor.ControlLightLight), 1).Brush, _
-                e.Bounds) Else e.Graphics.DrawImage(My.Resources.gradient, e.Bounds.Left, e.Bounds.Top + 2, _
+                Then e.Graphics.FillRectangle(New Pen(Color.FromKnownColor(KnownColor.ControlLightLight), 1).Brush,
+                e.Bounds) Else e.Graphics.DrawImage(My.Resources.gradient, e.Bounds.Left, e.Bounds.Top + 2,
                 e.Bounds.Width, e.Bounds.Height)
 
             Dim ThisTab As BrowserTab = CType(Tabs.TabPages(e.Index).Controls(0), BrowserTab)
@@ -1147,7 +1147,7 @@ Class Main
         Dim RevC As Integer
         If Edits > 0 AndAlso (Date.UtcNow - FirstTime).TotalMinutes > 0 Then
             RevC = CInt(Reverts / (Date.UtcNow - FirstTime).TotalMinutes)
-            MenuStats.Text = Msg("main-stats", CStr(CInt(Edits / (Date.UtcNow - FirstTime).TotalMinutes)), _
+            MenuStats.Text = Msg("main-stats", CStr(CInt(Edits / (Date.UtcNow - FirstTime).TotalMinutes)),
             CStr(CInt(Reverts / (Date.UtcNow - FirstTime).TotalMinutes)))
             If RevC > 5 Then MenuStats.ForeColor = Color.Black
             If RevC > 10 Then
@@ -1317,12 +1317,12 @@ Class Main
     End Sub
 
     Private Sub PageB_SelectedIndexChanged() Handles PageB.SelectedIndexChanged
-        If Not DisplayingEdit AndAlso _
+        If Not DisplayingEdit AndAlso
             (CurrentPage Is Nothing OrElse PageB.Text <> CurrentPage.Name) Then SetCurrentPage(GetPage(PageB.Text), True)
     End Sub
 
     Private Sub UserB_SelectedIndexChanged() Handles UserB.SelectedIndexChanged
-        If Not DisplayingEdit AndAlso _
+        If Not DisplayingEdit AndAlso
             (CurrentUser Is Nothing OrElse UserB.Text <> CurrentUser.Name) Then SetCurrentUser(GetUser(UserB.Text), True)
     End Sub
 
@@ -1487,11 +1487,19 @@ Class Main
     Private Sub PageB_TextChanged() Handles PageB.TextChanged
         PageB.ForeColor = Color.Black
         History.Offset = 0
+        ' DVdm - 19/02/2016 - Show page history
+        ' =====================================
+        ViewHistory_Click()
+        ' =====================================
     End Sub
 
     Private Sub UserB_TextChanged() Handles UserB.TextChanged
         UserB.ForeColor = Color.Black
         Contribs.Offset = 0
+        ' DVdm - 19/02/2016 - Show user history
+        ' =====================================
+        UserContribs_Click()
+        ' =====================================
     End Sub
 
     Private Sub PageMarkPatrolled_Click() Handles PagePatrol.Click
@@ -1832,6 +1840,10 @@ Class Main
     End Sub
 
     Private Sub Status_ItemActivate(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Status.ItemActivate
+
+    End Sub
+
+    Private Sub Main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
     End Sub
 

@@ -569,7 +569,11 @@ Module ConfigIO
 
         Items.Add("queue-right-align:" & CStr(Config.RightAlignQueue).ToLower)
         Items.Add("show-two-queues:" & CStr(Config.ShowTwoQueues).ToLower)
-        Items.Add("show-new-messages" & CStr(Config.ShowNewMessages).ToLower)
+        ' DVdm - 13/02/2016 - Bug: forgot a colon
+        ' =======================================
+        'Items.Add("show-new-messages" & CStr(Config.ShowNewMessages).ToLower)
+        Items.Add("show-new-messages:" & CStr(Config.ShowNewMessages).ToLower)
+        ' =======================================
         If Config.RememberMe Then Items.Add("username:" & Config.Username)
         Items.Add("whitelist-timestamps:")
 
@@ -965,7 +969,21 @@ Module ConfigIO
     Public Sub SetUserTalkSummaries(ByVal Text As String)
         Config.UserTalkSummaries.Clear()
 
-        For Each Item As String In Split(Text, CRLF)
+        ' DVdm - 02/03/2016 - Bug: only one item got read from the text file. We MIGHT need to split with vbLf in stead, so let's try both
+        ' ================================================================================================================================
+        'For Each Item As String In Split(Text, CRLF)
+
+        Dim separator As String = CRLF
+        Dim separateditems As Long = 0
+        For Each Item As String In Split(Text, separator)
+            separateditems += 1
+        Next
+        If separateditems <= 3 Then
+            separator = vbLf
+        End If
+
+        For Each Item As String In Split(Text, separator)
+            ' =================================================================================================================================
             If Item.Contains(Tab) Then
                 Dim LevelName As String = Item.Substring(0, Item.IndexOf(Tab))
                 Dim Value As String = Item.Substring(Item.IndexOf(Tab) + 1)
@@ -988,6 +1006,7 @@ Module ConfigIO
                 End If
             End If
         Next Item
+
     End Sub
 
 End Module

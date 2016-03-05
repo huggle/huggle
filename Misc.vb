@@ -377,26 +377,32 @@ Module Misc
         'Extract the actual page content and then put some headers back so that it renders properly.
         'No, you can't have your non-monobook skin. So what? It doesn't show the site interface anyway.
 
-        If Text.Contains("<!-- start content -->") AndAlso Text.Contains("<!-- end content -->") Then
-            Text = Text.Substring(Text.IndexOf("<!-- start content -->"))
-            Text = Text.Substring(0, Text.IndexOf("<!-- end content -->"))
+        ' DVdm - 04/02/2016 - Sometimes Text is Nothing. If it is, then trap it and just return Nothing
+        ' =============================================================================================
+        If Text IsNot Nothing Then
+            If Text.Contains("<!-- start content -->") AndAlso Text.Contains("<!-- end content -->") Then
+                Text = Text.Substring(Text.IndexOf("<!-- start content -->"))
+                Text = Text.Substring(0, Text.IndexOf("<!-- end content -->"))
 
-        ElseIf Text.Contains("<!-- content -->") AndAlso Text.Contains("<!-- mw_content -->") Then
-            Text = Text.Substring(Text.IndexOf("<!-- content -->"))
-            Text = Text.Substring(0, Text.IndexOf("<!-- mw_content -->"))
+            ElseIf Text.Contains("<!-- content -->") AndAlso Text.Contains("<!-- mw_content -->") Then
+                Text = Text.Substring(Text.IndexOf("<!-- content -->"))
+                Text = Text.Substring(0, Text.IndexOf("<!-- mw_content -->"))
 
-        ElseIf Text.Contains("</h1>") AndAlso Text.Contains("<div class=""printfooter"">") Then
-            Text = Text.Substring(Text.IndexOf("</h1>") + 5)
-            Text = Text.Substring(0, Text.IndexOf("<div class=""printfooter"">"))
-        End If
+            ElseIf Text.Contains("</h1>") AndAlso Text.Contains("<div class=""printfooter"">") Then
+                Text = Text.Substring(Text.IndexOf("</h1>") + 5)
+                Text = Text.Substring(0, Text.IndexOf("<div class=""printfooter"">"))
+            End If
 
-        'Modern skin puts scripts in the middle of the page for some reason
-        If Text.Contains("<script ") AndAlso Text.Contains("</script>") _
+            'Modern skin puts scripts in the middle of the page for some reason
+            If Text.Contains("<script ") AndAlso Text.Contains("</script>") _
             Then Text = Text.Substring(0, Text.IndexOf("<script ")) & Text.Substring(Text.IndexOf("</script>") + 9)
 
-        Text = "<h1>" & Page.Name & "</h1>" & Text
-        Text = MakeHtmlWikiPage(Page.Name, Text)
-        Return Text
+            Text = "<h1>" & Page.Name & "</h1>" & Text
+            Text = MakeHtmlWikiPage(Page.Name, Text)
+            Return Text
+        Else
+            Return Nothing
+        End If
     End Function
 
     Function GetParameter(ByVal Source As String, ByVal Parameter As String) As String
@@ -429,7 +435,7 @@ Module Misc
         End If
     End Function
 
-    Function FindString(ByVal Source As String, ByVal From1 As String, ByVal From2 As String, _
+    Function FindString(ByVal Source As String, ByVal From1 As String, ByVal From2 As String,
         ByVal [To] As String) As String
 
         If Not Source.Contains(From1) Then Return Nothing
@@ -440,7 +446,7 @@ Module Misc
         Return Source.Substring(0, Source.IndexOf([To]))
     End Function
 
-    Function FindString(ByVal Source As String, ByVal From1 As String, ByVal From2 As String, _
+    Function FindString(ByVal Source As String, ByVal From1 As String, ByVal From2 As String,
         ByVal From3 As String, ByVal [To] As String) As String
 
         If Not Source.Contains(From1) Then Return Nothing
@@ -465,7 +471,7 @@ Module Misc
 
     Function GetPage(ByVal Name As String) As Page
         'Get pointer to page
-            Return Page.GetPage(Name)
+        Return Page.GetPage(Name)
     End Function
 
     Function GetUser(ByVal Name As String) As User
@@ -487,10 +493,10 @@ Module Misc
             Dim LinkText As String = HtmlDecode(FindString(Text, "<a href=", ">", "</a>"))
 
             If LinkTarget = LinkText Then
-                Text = Text.Substring(0, Text.IndexOf("<a href=")) & "[[" & LinkText & "]]" & _
+                Text = Text.Substring(0, Text.IndexOf("<a href=")) & "[[" & LinkText & "]]" &
                 FindString(Text, "</a>")
             Else
-                Text = Text.Substring(0, Text.IndexOf("<a href=")) & "[[" & LinkTarget & "|" & LinkText & "]]" & _
+                Text = Text.Substring(0, Text.IndexOf("<a href=")) & "[[" & LinkTarget & "|" & LinkText & "]]" &
                 FindString(Text, "</a>")
             End If
             Break = Break + 1
@@ -515,7 +521,7 @@ Module Misc
     Sub Localize(ByVal Control As Control, ByVal Prefix As String)
         'Use localized string for a control's text where necessary; recurse through all child controls
         For Each Item As Control In Control.Controls
-            If TypeOf Item Is Label OrElse TypeOf Item Is CheckBox OrElse TypeOf Item Is RadioButton OrElse _
+            If TypeOf Item Is Label OrElse TypeOf Item Is CheckBox OrElse TypeOf Item Is RadioButton OrElse
                 TypeOf Item Is Button OrElse TypeOf Item Is GroupBox OrElse TypeOf Item Is Huggle.TriState Then
 
                 If Config.Language IsNot Nothing And Config.Messages(Config.Language).ContainsKey _
@@ -539,6 +545,7 @@ Module Misc
     Sub LogCallback(ByVal ArgsObject As Object)
         'Add log
         Dim Args As LogArgs = CType(ArgsObject, LogArgs)
+
         If MainForm Is Nothing Then LogBuffer.Add(Args.Message) Else MainForm.Log(Args.Message, Args.Tag)
     End Sub
 
@@ -551,7 +558,7 @@ Module Misc
     Function MakeHtmlWikiPage(ByVal Page As String, ByVal Text As String) As String
         'Convert to html
         Return My.Resources.WikiPageHtml.Replace("$PATH", Config.Projects(Config.Project)).Replace("$PAGE", Page) _
-            .Replace("$USER", Config.Username).Replace("$FONTSIZE", CStr(CInt((CInt(Config.DiffFontSize) * 1.2)))) & _
+            .Replace("$USER", Config.Username).Replace("$FONTSIZE", CStr(CInt((CInt(Config.DiffFontSize) * 1.2)))) &
             "<body>" & Text & "</body></html>"
     End Function
 
@@ -705,7 +712,7 @@ Module Misc
     End Function
 
     Function Timestamp(ByVal Time As Date) As String
-        Return Time.Year & CStr(Time.Month).PadLeft(2, "0"c) & CStr(Time.Day).PadLeft(2, "0"c) & _
+        Return Time.Year & CStr(Time.Month).PadLeft(2, "0"c) & CStr(Time.Day).PadLeft(2, "0"c) &
             CStr(Time.Hour).PadLeft(2, "0"c) & CStr(Time.Minute).PadLeft(2, "0"c) & CStr(Time.Second).PadLeft(2, "0"c)
     End Function
 
@@ -738,7 +745,7 @@ Module Misc
     End Function
 
     Function WikiTimestamp(ByVal Time As Date) As String
-        Return CStr(Time.Hour).PadLeft(2, "0"c) & ":" & CStr(Time.Minute).PadLeft(2, "0"c) & ", " & CStr(Time.Day) & _
+        Return CStr(Time.Hour).PadLeft(2, "0"c) & ":" & CStr(Time.Minute).PadLeft(2, "0"c) & ", " & CStr(Time.Day) &
             " " & GetMonthName(Time.Month) & " " & CStr(Time.Year) & " (UTC)"
     End Function
 
